@@ -3260,6 +3260,10 @@
 <dd>
 <div class="block">Returns the <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util"><code>Comparator</code></a> used.</div>
 </dd>
+<dt><a href="com/google/common/collect/Comparators.html" title="class in com.google.common.collect"><span class="typeNameLink">Comparators</span></a> - Class in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
+<dd>
+<div class="block">Provides static methods for working with <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util"><code>Comparator</code></a> instances.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ComparisonChain.html#compare-java.lang.Comparable-java.lang.Comparable-">compare(Comparable&lt;?&gt;, Comparable&lt;?&gt;)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></dt>
 <dd>
 <div class="block">Compares two comparable objects as specified by <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html?is-external=true#compareTo-T-" title="class or interface in java.lang"><code>Comparable.compareTo(T)</code></a>, <i>if</i> the result of this comparison chain
@@ -9297,6 +9301,16 @@
 <div class="block">Returns <code>true</code> if the supplied string is a valid IP string literal, <code>false</code>
  otherwise.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Comparators.html#isInOrder-java.lang.Iterable-java.util.Comparator-">isInOrder(Iterable&lt;? extends T&gt;, Comparator&lt;T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Comparators.html" title="class in com.google.common.collect">Comparators</a></dt>
+<dd>
+<div class="block">Returns <code>true</code> if each element in <code>iterable</code> after the first is greater than or
+ equal to the element that preceded it, according to the specified comparator.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Comparators.html#isInStrictOrder-java.lang.Iterable-java.util.Comparator-">isInStrictOrder(Iterable&lt;? extends T&gt;, Comparator&lt;T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Comparators.html" title="class in com.google.common.collect">Comparators</a></dt>
+<dd>
+<div class="block">Returns <code>true</code> if each element in <code>iterable</code> after the first is <i>strictly</i>
+ greater than the element that preceded it, according to the specified comparator.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/InetAddresses.html#isIsatapAddress-java.net.Inet6Address-">isIsatapAddress(Inet6Address)</a></span> - Static method in class com.google.common.net.<a href="com/google/common/net/InetAddresses.html" title="class in com.google.common.net">InetAddresses</a></dt>
 <dd>
 <div class="block">Evaluates whether the argument is an ISATAP address.</div>
@@ -9993,6 +10007,12 @@
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Range.html#lessThan-C-">lessThan(C)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a></dt>
 <dd>
 <div class="block">Returns a range that contains all values strictly less than <code>endpoint</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Comparators.html#lexicographical-java.util.Comparator-">lexicographical(Comparator&lt;T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Comparators.html" title="class in com.google.common.collect">Comparators</a></dt>
+<dd>
+<div class="block">Returns a new comparator which sorts iterables by comparing corresponding elements pairwise
+ until a nonzero result is found; imposes "dictionary order." If the end of one iterable is
+ reached, but not the other, the shorter iterable is considered to be less than the longer one.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Ordering.html#lexicographical--">lexicographical()</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a></dt>
 <dd>

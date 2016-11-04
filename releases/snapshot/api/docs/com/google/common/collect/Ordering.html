@@ -198,7 +198,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparato
  <h3>For Java 8 users</h3>
 
  <p>If you are using Java 8, this class is now obsolete <i>(pending a few August 2016
- updates)</i>. Most of its functionality is now provided by <code>Stream</code> and by <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util"><code>Comparator</code></a> itself, and the rest can now be found as static methods in our new <code>Comparators</code> class. See each method below for further instructions. Whenever possible, you should
+ updates)</i>. Most of its functionality is now provided by <code>Stream</code> and by <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util"><code>Comparator</code></a> itself, and the rest can now be found as static methods in our new <a href="../../../../com/google/common/collect/Comparators.html" title="class in com.google.common.collect"><code>Comparators</code></a> class. See each method below for further instructions. Whenever possible, you should
  change any references of type <code>Ordering</code> to be of type <code>Comparator</code> instead. However,
  at this time we have no plan to <i>deprecate</i> this class.
 
@@ -855,7 +855,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
  <p>Note that <code>ordering.lexicographical().reverse()</code> is not equivalent to <code>ordering.reverse().lexicographical()</code> (consider how each would order <code>[1]</code> and <code>[1,
  1]</code>).
 
- <p><b>Java 8 users:</b> Use <code>Comparators#lexicographical(Comparator)</code> instead.</div>
+ <p><b>Java 8 users:</b> Use <a href="../../../../com/google/common/collect/Comparators.html#lexicographical-java.util.Comparator-"><code>Comparators.lexicographical(Comparator)</code></a> instead.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
