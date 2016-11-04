@@ -119,6 +119,39 @@ public class BytesTest extends TestCase {
         (byte) 3));
   }
 
+  public void testLastIndexOf_arrayTarget() {
+    assertEquals(-1, Bytes.lastIndexOf(EMPTY, EMPTY));
+    assertEquals(ARRAY234.length - 1, Bytes.lastIndexOf(ARRAY234, EMPTY));
+    assertEquals(-1, Bytes.lastIndexOf(EMPTY, ARRAY234));
+    assertEquals(-1, Bytes.lastIndexOf(ARRAY234, ARRAY1));
+    assertEquals(-1, Bytes.lastIndexOf(ARRAY1, ARRAY234));
+    assertEquals(0, Bytes.lastIndexOf(ARRAY1, ARRAY1));
+    assertEquals(0, Bytes.lastIndexOf(ARRAY234, ARRAY234));
+    assertEquals(0, Bytes.lastIndexOf(
+            ARRAY234, new byte[] { (byte) 2, (byte) 3 }));
+    assertEquals(1, Bytes.lastIndexOf(
+            ARRAY234, new byte[] { (byte) 3, (byte) 4 }));
+    assertEquals(1, Bytes.lastIndexOf(ARRAY234, new byte[] { (byte) 3 }));
+    assertEquals(2, Bytes.lastIndexOf(ARRAY234, new byte[] { (byte) 4 }));
+    assertEquals(4, Bytes.lastIndexOf(
+            new byte[] { (byte) 2, (byte) 3, (byte) 3, (byte) 3, (byte) 3 },
+            new byte[] { (byte) 3 }
+    ));
+    assertEquals(2, Bytes.lastIndexOf(
+            new byte[] { (byte) 2, (byte) 3, (byte) 2, (byte) 3, (byte) 4, (byte) 2, (byte) 3},
+            new byte[] { (byte) 2, (byte) 3, (byte) 4}
+    ));
+    assertEquals(4, Bytes.lastIndexOf(
+            new byte[] { (byte) 2, (byte) 2, (byte) 3, (byte) 4, (byte) 2, (byte) 3, (byte) 4},
+            new byte[] { (byte) 2, (byte) 3, (byte) 4}
+    ));
+    assertEquals(-1, Bytes.lastIndexOf(
+            new byte[] { (byte) 4, (byte) 3, (byte) 2},
+            new byte[] { (byte) 2, (byte) 3, (byte) 4}
+    ));
+  }
+
+
   public void testConcat() {
     assertTrue(Arrays.equals(EMPTY, Bytes.concat()));
     assertTrue(Arrays.equals(EMPTY, Bytes.concat(EMPTY)));
