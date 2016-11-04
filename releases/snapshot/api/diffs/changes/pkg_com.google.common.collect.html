@@ -30,8 +30,8 @@ com.google.common.collect
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="pkg_com.google.common.cache.html"><B>PREV PACKAGE</B></A>
-&nbsp;<A HREF="pkg_com.google.common.eventbus.html"><B>NEXT PACKAGE</B></A>
+&nbsp;<A HREF="pkg_com.google.common.base.html"><B>PREV PACKAGE</B></A>
+&nbsp;<A HREF="pkg_com.google.common.io.html"><B>NEXT PACKAGE</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="pkg_com.google.common.collect.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
@@ -71,9 +71,9 @@ Package <A HREF="../../docs/com/google/common/collect/package-summary.html" targ
 &nbsp;
 <p>
 <a NAME="Added"></a>
-<TABLE summary="Added Classes" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<TABLE summary="Added Classes and Interfaces" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Added Classes</B></FONT></TD>
+  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Added Classes and Interfaces</B></FONT></TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -81,6 +81,28 @@ Package <A HREF="../../docs/com/google/common/collect/package-summary.html" targ
   <nobr><A HREF="../../docs/com/google/common/collect/Interners.InternerBuilder.html" target="_top"><tt>Interners.InternerBuilder</tt></A></nobr>
   </TD>
   <TD VALIGN="TOP">Builder for <A HREF="../../docs/com/google/common/collect/Interners/InternerBuilder/Interner.html"><TT>Interner</TT></A> instances.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="MoreCollectors"></A>
+  <nobr><A HREF="../../docs/com/google/common/collect/MoreCollectors.html" target="_top"><tt>MoreCollectors</tt></A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Collectors not present in {@code java.util.stream.Collectors} that are not otherwise associated
+ with a {@code com.google.common} type.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="Streams"></A>
+  <nobr><A HREF="../../docs/com/google/common/collect/Streams.html" target="_top"><tt>Streams</tt></A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Static utility methods related to {@code Stream} instances.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="Streams.FunctionWithIndex"></A>
+  <nobr><A HREF="../../docs/com/google/common/collect/Streams.FunctionWithIndex.html" target="_top"><tt><I>Streams.FunctionWithIndex</I></tt></A></nobr>
+  </TD>
+  <TD VALIGN="TOP">An analogue of <A HREF="../../docs/com/google/common/collect/Streams/FunctionWithIndex/java/util/function/Function.html"><TT>java.util.function.Function</TT></A> also accepting an index.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -92,19 +114,10 @@ Package <A HREF="../../docs/com/google/common/collect/package-summary.html" targ
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="BiMap"></A>
-  <nobr><A HREF="com.google.common.collect.BiMap.html"><I>BiMap</I></A></nobr>
+  <A NAME="FluentIterable"></A>
+  <nobr><A HREF="com.google.common.collect.FluentIterable.html">FluentIterable</A></nobr>
   </TD>
-  <TD VALIGN="TOP">A bimap (or "bidirectional map") is a map that preserves the uniqueness of
- its values as well as that of its keys.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="ClassToInstanceMap"></A>
-  <nobr><A HREF="com.google.common.collect.ClassToInstanceMap.html"><I>ClassToInstanceMap</I></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">A map, each entry of which maps a Java
- <a href="http://tinyurl.com/2cmwkz">raw type</a> to an instance of that type.</TD>
+  <TD VALIGN="TOP">A discouraged (but not deprecated) precursor to Java's superior <A HREF="../../docs/com/google/common/collect/FluentIterable/Stream.html"><TT>Stream</TT></A> library.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -115,11 +128,74 @@ Package <A HREF="../../docs/com/google/common/collect/package-summary.html" targ
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ForwardingNavigableMap.StandardDescendingMap"></A>
+  <nobr><A HREF="com.google.common.collect.ForwardingNavigableMap.StandardDescendingMap.html">ForwardingNavigableMap.<br>StandardDescendingMap</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A sensible implementation of <A HREF="../../docs/com/google/common/collect/ForwardingNavigableMap/StandardDescendingMap/NavigableMap.html#descendingMap"><TT>NavigableMap.descendingMap</TT></A> in terms of the methods of
+ this {@code NavigableMap}.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="HashBiMap"></A>
+  <nobr><A HREF="com.google.common.collect.HashBiMap.html">HashBiMap</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/collect/HashBiMap/BiMap.html"><TT>BiMap</TT></A> backed by two hash tables.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ImmutableBiMap"></A>
+  <nobr><A HREF="com.google.common.collect.ImmutableBiMap.html">ImmutableBiMap</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/collect/ImmutableBiMap/BiMap.html"><TT>BiMap</TT></A> whose contents will never change, with many other important properties detailed
+ at <A HREF="../../docs/com/google/common/collect/ImmutableBiMap/ImmutableCollection.html"><TT>ImmutableCollection</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ImmutableCollection"></A>
+  <nobr><A HREF="com.google.common.collect.ImmutableCollection.html">ImmutableCollection</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/collect/ImmutableCollection/Collection.html"><TT>Collection</TT></A> whose contents will never change, and which offers a few additional
+ guarantees detailed below.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="ImmutableList"></A>
   <nobr><A HREF="com.google.common.collect.ImmutableList.html">ImmutableList</A></nobr>
   </TD>
   <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/collect/ImmutableList/List.html"><TT>List</TT></A> whose contents will never change, with many other important properties detailed at
  <A HREF="../../docs/com/google/common/collect/ImmutableList/ImmutableCollection.html"><TT>ImmutableCollection</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ImmutableListMultimap"></A>
+  <nobr><A HREF="com.google.common.collect.ImmutableListMultimap.html">ImmutableListMultimap</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/collect/ImmutableListMultimap/ListMultimap.html"><TT>ListMultimap</TT></A> whose contents will never change, with many other important properties
+ detailed at <A HREF="../../docs/com/google/common/collect/ImmutableListMultimap/ImmutableCollection.html"><TT>ImmutableCollection</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ImmutableMap"></A>
+  <nobr><A HREF="com.google.common.collect.ImmutableMap.html">ImmutableMap</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/collect/ImmutableMap/Map.html"><TT>Map</TT></A> whose contents will never change, with many other important properties detailed at
+ <A HREF="../../docs/com/google/common/collect/ImmutableMap/ImmutableCollection.html"><TT>ImmutableCollection</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ImmutableMultimap"></A>
+  <nobr><A HREF="com.google.common.collect.ImmutableMultimap.html">ImmutableMultimap</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/collect/ImmutableMultimap/Multimap.html"><TT>Multimap</TT></A> whose contents will never change, with many other important properties
+ detailed at <A HREF="../../docs/com/google/common/collect/ImmutableMultimap/ImmutableCollection.html"><TT>ImmutableCollection</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ImmutableMultiset"></A>
+  <nobr><A HREF="com.google.common.collect.ImmutableMultiset.html">ImmutableMultiset</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/collect/ImmutableMultiset/Multiset.html"><TT>Multiset</TT></A> whose contents will never change, with many other important properties
+ detailed at <A HREF="../../docs/com/google/common/collect/ImmutableMultiset/ImmutableCollection.html"><TT>ImmutableCollection</TT></A>.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -138,11 +214,51 @@ Package <A HREF="../../docs/com/google/common/collect/package-summary.html" targ
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="Interner"></A>
-  <nobr><A HREF="com.google.common.collect.Interner.html"><I>Interner</I></A></nobr>
+  <A NAME="ImmutableSet"></A>
+  <nobr><A HREF="com.google.common.collect.ImmutableSet.html">ImmutableSet</A></nobr>
   </TD>
-  <TD VALIGN="TOP">Provides equivalent behavior to <A HREF="../../docs/com/google/common/collect/Interner/String.html#intern"><TT>String.intern</TT></A> for other immutable
- types.</TD>
+  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/collect/ImmutableSet/Set.html"><TT>Set</TT></A> whose contents will never change, with many other important properties detailed at
+ <A HREF="../../docs/com/google/common/collect/ImmutableSet/ImmutableCollection.html"><TT>ImmutableCollection</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ImmutableSetMultimap"></A>
+  <nobr><A HREF="com.google.common.collect.ImmutableSetMultimap.html">ImmutableSetMultimap</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/collect/ImmutableSetMultimap/SetMultimap.html"><TT>SetMultimap</TT></A> whose contents will never change, with many other important properties
+ detailed at <A HREF="../../docs/com/google/common/collect/ImmutableSetMultimap/ImmutableCollection.html"><TT>ImmutableCollection</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ImmutableSortedMap"></A>
+  <nobr><A HREF="com.google.common.collect.ImmutableSortedMap.html">ImmutableSortedMap</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/collect/ImmutableSortedMap/NavigableMap.html"><TT>NavigableMap</TT></A> whose contents will never change, with many other important properties
+ detailed at <A HREF="../../docs/com/google/common/collect/ImmutableSortedMap/ImmutableCollection.html"><TT>ImmutableCollection</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ImmutableSortedMultiset"></A>
+  <nobr><A HREF="com.google.common.collect.ImmutableSortedMultiset.html">ImmutableSortedMultiset</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/collect/ImmutableSortedMultiset/SortedMultiset.html"><TT>SortedMultiset</TT></A> whose contents will never change, with many other important properties
+ detailed at <A HREF="../../docs/com/google/common/collect/ImmutableSortedMultiset/ImmutableCollection.html"><TT>ImmutableCollection</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ImmutableSortedSet"></A>
+  <nobr><A HREF="com.google.common.collect.ImmutableSortedSet.html">ImmutableSortedSet</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/collect/ImmutableSortedSet/NavigableSet.html"><TT>NavigableSet</TT></A> whose contents will never change, with many other important properties
+ detailed at <A HREF="../../docs/com/google/common/collect/ImmutableSortedSet/ImmutableCollection.html"><TT>ImmutableCollection</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ImmutableTable"></A>
+  <nobr><A HREF="com.google.common.collect.ImmutableTable.html">ImmutableTable</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/collect/ImmutableTable/Table.html"><TT>Table</TT></A> whose contents will never change, with many other important
+ properties detailed at <A HREF="../../docs/com/google/common/collect/ImmutableTable/ImmutableCollection.html"><TT>ImmutableCollection</TT></A>.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -150,36 +266,6 @@ Package <A HREF="../../docs/com/google/common/collect/package-summary.html" targ
   <nobr><A HREF="com.google.common.collect.Interners.html">Interners</A></nobr>
   </TD>
   <TD VALIGN="TOP">Contains static methods pertaining to instances of <A HREF="../../docs/com/google/common/collect/Interners/Interner.html"><TT>Interner</TT></A>.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="ListMultimap"></A>
-  <nobr><A HREF="com.google.common.collect.ListMultimap.html"><I>ListMultimap</I></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">A {@code Multimap} that can hold duplicate key-value pairs and that maintains
- the insertion ordering of values for a given key.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="MapDifference"></A>
-  <nobr><A HREF="com.google.common.collect.MapDifference.html"><I>MapDifference</I></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">An object representing the differences between two maps.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="MapDifference.ValueDifference"></A>
-  <nobr><A HREF="com.google.common.collect.MapDifference.ValueDifference.html"><I>MapDifference.ValueDifference</I></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">A difference between the mappings from two maps with the same key.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="Maps.EntryTransformer"></A>
-  <nobr><A HREF="com.google.common.collect.Maps.EntryTransformer.html"><I>Maps.EntryTransformer</I></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">A transformation of the value of a key-value pair, using both key and value
- as inputs.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -191,18 +277,18 @@ Package <A HREF="../../docs/com/google/common/collect/package-summary.html" targ
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="Multimaps"></A>
+  <nobr><A HREF="com.google.common.collect.Multimaps.html">Multimaps</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Provides static methods acting on or generating a {@code Multimap}.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="Multiset"></A>
   <nobr><A HREF="com.google.common.collect.Multiset.html"><I>Multiset</I></A></nobr>
   </TD>
   <TD VALIGN="TOP">A collection that supports order-independent equality, like <A HREF="../../docs/com/google/common/collect/Multiset/Set.html"><TT>Set</TT></A>, but
  may have duplicate elements.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="Multiset.Entry"></A>
-  <nobr><A HREF="com.google.common.collect.Multiset.Entry.html"><I>Multiset.Entry</I></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">An unmodifiable element-count pair for a multiset.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -213,77 +299,11 @@ Package <A HREF="../../docs/com/google/common/collect/package-summary.html" targ
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="PeekingIterator"></A>
-  <nobr><A HREF="com.google.common.collect.PeekingIterator.html"><I>PeekingIterator</I></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">An iterator that supports a one-element lookahead while iterating.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="RangeMap"></A>
-  <nobr><A HREF="com.google.common.collect.RangeMap.html"><I>RangeMap</I></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">A mapping from disjoint nonempty ranges to non-null values.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="RangeSet"></A>
   <nobr><A HREF="com.google.common.collect.RangeSet.html"><I>RangeSet</I></A></nobr>
   </TD>
   <TD VALIGN="TOP">A set comprising zero or more <A HREF="../../docs/com/google/common/collect/RangeSet/lain.html"><TT>Range#isEmpty nonempty</TT></A>,
  <A HREF="../../docs/com/google/common/collect/RangeSet/lain.html"><TT>Range#isConnected(Range) disconnected</TT></A> ranges of type {@code C}.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="RowSortedTable"></A>
-  <nobr><A HREF="com.google.common.collect.RowSortedTable.html"><I>RowSortedTable</I></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">Interface that extends {@code Table} and whose rows are sorted.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="SetMultimap"></A>
-  <nobr><A HREF="com.google.common.collect.SetMultimap.html"><I>SetMultimap</I></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">A {@code Multimap} that cannot hold duplicate key-value pairs.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="SortedMapDifference"></A>
-  <nobr><A HREF="com.google.common.collect.SortedMapDifference.html"><I>SortedMapDifference</I></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">An object representing the differences between two sorted maps.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="SortedMultiset"></A>
-  <nobr><A HREF="com.google.common.collect.SortedMultiset.html"><I>SortedMultiset</I></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/collect/SortedMultiset/Multiset.html"><TT>Multiset</TT></A> which maintains the ordering of its elements, according to
- either their natural order or an explicit <A HREF="../../docs/com/google/common/collect/SortedMultiset/Comparator.html"><TT>Comparator</TT></A>.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="SortedSetMultimap"></A>
-  <nobr><A HREF="com.google.common.collect.SortedSetMultimap.html"><I>SortedSetMultimap</I></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">A {@code SetMultimap} whose set of values for a given key are kept sorted;
- that is, they comprise a <A HREF="../../docs/com/google/common/collect/SortedSetMultimap/SortedSet.html"><TT>SortedSet</TT></A>.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="Table"></A>
-  <nobr><A HREF="com.google.common.collect.Table.html"><I>Table</I></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">A collection that associates an ordered pair of keys, called a row key and a
- column key, with a single value.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="Table.Cell"></A>
-  <nobr><A HREF="com.google.common.collect.Table.Cell.html"><I>Table.Cell</I></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">Row key / column key / value triplet corresponding to a mapping in a table.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -313,8 +333,8 @@ Package <A HREF="../../docs/com/google/common/collect/package-summary.html" targ
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="pkg_com.google.common.cache.html"><B>PREV PACKAGE</B></A>
-&nbsp;<A HREF="pkg_com.google.common.eventbus.html"><B>NEXT PACKAGE</B></A>
+&nbsp;<A HREF="pkg_com.google.common.base.html"><B>PREV PACKAGE</B></A>
+&nbsp;<A HREF="pkg_com.google.common.io.html"><B>NEXT PACKAGE</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="pkg_com.google.common.collect.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>

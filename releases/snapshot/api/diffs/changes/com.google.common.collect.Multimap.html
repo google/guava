@@ -30,8 +30,8 @@ com.google.common.collect.Multimap
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.collect.Maps.EntryTransformer.html"><B>PREV CLASS</B></A>
-&nbsp;<A HREF="com.google.common.collect.Multiset.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.collect.Interners.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.collect.Multimaps.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.collect.Multimap.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
@@ -50,224 +50,17 @@ Interface com.google.common.collect.<A HREF="../../docs/com/google/common/collec
 <a NAME="constructors"></a>
 <a NAME="methods"></a>
 <p>
-<a NAME="Changed"></a>
-<TABLE summary="Changed Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<a NAME="Added"></a>
+<TABLE summary="Added Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=3><FONT SIZE="+1"><B>Changed Methods</B></FONT></TD>
+  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Added Methods</B></FONT></TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.Multimap.asMap_changed()"></A>
-  <nobr><code>Map&lt;K, Collection&lt;V&gt;&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Multimap.html#asMap()" target="_top"><tt>asMap</tt></A>()  </nobr>
+  <A NAME="com.google.common.collect.Multimap.forEach_added(java.util.function.BiConsumer<? super K, ? super V>)"></A>
+  <nobr><code>void</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Multimap.html#forEach(java.util.function.BiConsumer<? super K, ? super V>)" target="_top"><tt>forEach</tt></A>(<code>BiConsumer&lt;?,</nobr> super<nobr>,</nobr> K<nobr>,</nobr> ?<nobr>,</nobr> super<nobr>,</nobr> V&gt;<nobr><nobr></code>)</nobr>
   </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns a view of this multimap as a {@code Map} from each distinct key
- to the nonempty collection of that key's associated values.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.Multimap.clear_changed()"></A>
-  <nobr><code>void</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Multimap.html#clear()" target="_top"><tt>clear</tt></A>()  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Removes all key-value pairs from the multimap, leaving it <A HREF="../../docs/lain.html"><TT> #isEmpty empty</TT></A>.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.Multimap.containsEntry_changed(java.lang.Object, java.lang.Object)"></A>
-  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Multimap.html#containsEntry(java.lang.Object, java.lang.Object)" target="_top"><tt>containsEntry</tt></A>(<code>Object,</nobr> Object<nobr><nobr></code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns {@code true} if this multimap contains at least one key-value pair
- with the key {@code key} and the value {@code value}.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.Multimap.containsKey_changed(java.lang.Object)"></A>
-  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Multimap.html#containsKey(java.lang.Object)" target="_top"><tt>containsKey</tt></A>(<code>Object</code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns {@code true} if this multimap contains at least one key-value pair
- with the key {@code key}.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.Multimap.containsValue_changed(java.lang.Object)"></A>
-  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Multimap.html#containsValue(java.lang.Object)" target="_top"><tt>containsValue</tt></A>(<code>Object</code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns {@code true} if this multimap contains at least one key-value pair
- with the value {@code value}.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.Multimap.entries_changed()"></A>
-  <nobr><code>Collection&lt;Entry&lt;K, V&gt;&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Multimap.html#entries()" target="_top"><tt>entries</tt></A>()  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns a view collection of all key-value pairs contained in this
- multimap, as <A HREF="../../docs/Map/Entry.html"><TT>Map.Entry</TT></A> instances.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.Multimap.equals_changed(java.lang.Object)"></A>
-  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Multimap.html#equals(java.lang.Object)" target="_top"><tt>equals</tt></A>(<code>Object</code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Compares the specified object with this multimap for equality.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.Multimap.get_changed(K)"></A>
-  <nobr><code>Collection&lt;V&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Multimap.html#get(K)" target="_top"><tt>get</tt></A>(<code>K</code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns a view collection of the values associated with {@code key} in this
- multimap, if any.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.Multimap.hashCode_changed()"></A>
-  <nobr><code>int</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Multimap.html#hashCode()" target="_top"><tt>hashCode</tt></A>()  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns the hash code for this multimap.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.Multimap.isEmpty_changed()"></A>
-  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Multimap.html#isEmpty()" target="_top"><tt>isEmpty</tt></A>()  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns {@code true} if this multimap contains no key-value pairs.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.Multimap.keySet_changed()"></A>
-  <nobr><code>Set&lt;K&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Multimap.html#keySet()" target="_top"><tt>keySet</tt></A>()  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns a view collection of all <i>distinct</i> keys contained in this
- multimap.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.Multimap.keys_changed()"></A>
-  <nobr><code>Multiset&lt;K&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Multimap.html#keys()" target="_top"><tt>keys</tt></A>()  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns a view collection containing the key from each key-value pair in
- this multimap, <i>without</i> collapsing duplicates.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.Multimap.put_changed(K, V)"></A>
-  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Multimap.html#put(K, V)" target="_top"><tt>put</tt></A>(<code>K,</nobr> V<nobr><nobr></code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Stores a key-value pair in this multimap.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.Multimap.remove_changed(java.lang.Object, java.lang.Object)"></A>
-  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Multimap.html#remove(java.lang.Object, java.lang.Object)" target="_top"><tt>remove</tt></A>(<code>Object,</nobr> Object<nobr><nobr></code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Removes a single key-value pair with the key {@code key} and the value
- {@code value} from this multimap, if such exists.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.Multimap.removeAll_changed(java.lang.Object)"></A>
-  <nobr><code>Collection&lt;V&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Multimap.html#removeAll(java.lang.Object)" target="_top"><tt>removeAll</tt></A>(<code>Object</code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Removes all values associated with the key {@code key}.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.Multimap.replaceValues_changed(K, java.lang.Iterable<? extends V>)"></A>
-  <nobr><code>Collection&lt;V&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Multimap.html#replaceValues(K, java.lang.Iterable<? extends V>)" target="_top"><tt>replaceValues</tt></A>(<code>K,</nobr> Iterable&lt;?<nobr>,</nobr> extends<nobr>,</nobr> V&gt;<nobr><nobr></code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Stores a collection of values with the same key, replacing any existing
- values for that key.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.Multimap.size_changed()"></A>
-  <nobr><code>int</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Multimap.html#size()" target="_top"><tt>size</tt></A>()  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns the number of key-value pairs in this multimap.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.Multimap.values_changed()"></A>
-  <nobr><code>Collection&lt;V&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Multimap.html#values()" target="_top"><tt>values</tt></A>()  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns a view collection containing the <i>value</i> from each key-value
- pair contained in this multimap, without collapsing duplicates (so {@code
- values().size() == size()}).</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.Multimap.putAll_changed(K, java.lang.Iterable<? extends V>)"></A>
-  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Multimap.html#putAll(K, java.lang.Iterable<? extends V>)" target="_top"><tt>putAll</tt></A>(<code>K,</nobr> Iterable&lt;?<nobr>,</nobr> extends<nobr>,</nobr> V&gt;<nobr><nobr></code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Stores a key-value pair in this multimap for each of {@code values}, all
- using the same key, {@code key}.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.Multimap.putAll_changed(com.google.common.collect.Multimap<? extends K, ? extends V>)"></A>
-  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Multimap.html#putAll(com.google.common.collect.Multimap<? extends K, ? extends V>)" target="_top"><tt>putAll</tt></A>(<code>Multimap&lt;?,</nobr> extends<nobr>,</nobr> K<nobr>,</nobr> ?<nobr>,</nobr> extends<nobr>,</nobr> V&gt;<nobr><nobr></code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Stores all key-value pairs of {@code multimap} in this multimap, in the
- order returned by {@code multimap.entries()}.</TD>
+  <TD VALIGN="TOP">Performs the given action for all key-value pairs contained in this multimap.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -291,8 +84,8 @@ Changed from abstract to non-abstract.
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.collect.Maps.EntryTransformer.html"><B>PREV CLASS</B></A>
-&nbsp;<A HREF="com.google.common.collect.Multiset.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.collect.Interners.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.collect.Multimaps.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.collect.Multimap.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>

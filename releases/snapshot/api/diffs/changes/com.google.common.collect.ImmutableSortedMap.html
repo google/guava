@@ -18,7 +18,7 @@ com.google.common.collect.ImmutableSortedMap
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/ImmutableSortedMap.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 19.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/ImmutableSortedMap.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 21.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.collect.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -30,8 +30,8 @@ com.google.common.collect.ImmutableSortedMap
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.collect.ImmutableSetMultimap.Builder.html"><B>PREV CLASS</B></A>
-&nbsp;<A HREF="com.google.common.collect.ImmutableSortedMap.Builder.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.collect.ImmutableSetMultimap.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.collect.ImmutableSortedMultiset.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.collect.ImmutableSortedMap.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
@@ -47,24 +47,8 @@ FIELDS
 <H2>
 Class com.google.common.collect.<A HREF="../../docs/com/google/common/collect/ImmutableSortedMap.html" target="_top"><tt>ImmutableSortedMap</tt></A>
 </H2>
-<p><font size="+1">Changed from abstract to non-abstract. Change from non-final to final.<br></font>
 <a NAME="constructors"></a>
 <a NAME="methods"></a>
-<p>
-<a NAME="Removed"></a>
-<TABLE summary="Removed Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
-<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Removed Methods</B></FONT></TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.ImmutableSortedMap.containsValue_removed(java.lang.Object)"></A>
-  <nobr><code>boolean</code>&nbsp;<A HREF="../../../../18.0/api/docs/com/google/common/collect/ImmutableSortedMap.html#containsValue(java.lang.Object)" target="_top"><tt>containsValue</tt></A>(<code>Object</code>)</nobr>
-  </TD>
-  <TD>&nbsp;</TD>
-</TR>
-</TABLE>
-&nbsp;
 <p>
 <a NAME="Added"></a>
 <TABLE summary="Added Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
@@ -73,78 +57,28 @@ Class com.google.common.collect.<A HREF="../../docs/com/google/common/collect/Im
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.ImmutableSortedMap.copyOf_added(java.lang.Iterable<? extends java.util.Map.Entry<? extends K, ? extends V>>)"></A>
-  <nobr>(<code>ImmutableSortedMap&lt;K, V&gt;</code>)&nbsp;<A HREF="../../docs/com/google/common/collect/ImmutableSortedMap.html#copyOf(java.lang.Iterable<? extends java.util.Map.Entry<? extends K, ? extends V>>)" target="_top"><tt>copyOf</tt></A>(<code>Iterable&lt;?,</nobr> extends<nobr>,</nobr> Entry&lt;?<nobr>,</nobr> extends<nobr>,</nobr> K<nobr>,</nobr> ?<nobr>,</nobr> extends<nobr>,</nobr> V&gt;&gt;<nobr><nobr></code>)</nobr>
-  </TD>
-  <TD VALIGN="TOP">Returns an immutable map containing the given entries, with keys sorted
- by the provided comparator.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.ImmutableSortedMap.copyOf_added(java.lang.Iterable<? extends java.util.Map.Entry<? extends K, ? extends V>>, java.util.Comparator<? super K>)"></A>
-  <nobr>(<code>ImmutableSortedMap&lt;K, V&gt;</code>)&nbsp;<A HREF="../../docs/com/google/common/collect/ImmutableSortedMap.html#copyOf(java.lang.Iterable<? extends java.util.Map.Entry<? extends K, ? extends V>>, java.util.Comparator<? super K>)" target="_top"><tt>copyOf</tt></A>(<code>Iterable&lt;?,</nobr> extends<nobr>,</nobr> Entry&lt;?<nobr>,</nobr> extends<nobr>,</nobr> K<nobr>,</nobr> ?<nobr>,</nobr> extends<nobr>,</nobr> V&gt;&gt;<nobr>,</nobr> Comparator&lt;?<nobr>,</nobr> super<nobr>,</nobr> K&gt;<nobr><nobr></code>)</nobr>
-  </TD>
-  <TD VALIGN="TOP">Returns an immutable map containing the given entries, with keys sorted
- by the provided comparator.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.ImmutableSortedMap.get_added(java.lang.Object)"></A>
-  <nobr><code>V</code>&nbsp;<A HREF="../../docs/com/google/common/collect/ImmutableSortedMap.html#get(java.lang.Object)" target="_top"><tt>get</tt></A>(<code>Object</code>)</nobr>
+  <A NAME="com.google.common.collect.ImmutableSortedMap.forEach_added(java.util.function.BiConsumer<? super K, ? super V>)"></A>
+  <nobr><code>void</code>&nbsp;<A HREF="../../docs/com/google/common/collect/ImmutableSortedMap.html#forEach(java.util.function.BiConsumer<? super K, ? super V>)" target="_top"><tt>forEach</tt></A>(<code>BiConsumer&lt;?,</nobr> super<nobr>,</nobr> K<nobr>,</nobr> ?<nobr>,</nobr> super<nobr>,</nobr> V&gt;<nobr><nobr></code>)</nobr>
   </TD>
   <TD>&nbsp;</TD>
 </TR>
-</TABLE>
-&nbsp;
-<p>
-<a NAME="Changed"></a>
-<TABLE summary="Changed Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
-<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=3><FONT SIZE="+1"><B>Changed Methods</B></FONT></TD>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.collect.ImmutableSortedMap.toImmutableSortedMap_added(java.util.Comparator<? super K>, java.util.function.Function<? super T, ? extends K>, java.util.function.Function<? super T, ? extends V>)"></A>
+  <nobr>(<code>Collector&lt;T, ?, ImmutableSortedMap&lt;K, V&gt;&gt;</code>)&nbsp;<A HREF="../../docs/com/google/common/collect/ImmutableSortedMap.html#toImmutableSortedMap(java.util.Comparator<? super K>, java.util.function.Function<? super T, ? extends K>, java.util.function.Function<? super T, ? extends V>)" target="_top"><tt>toImmutableSortedMap</tt></A>(<code>Comparator&lt;?,</nobr> super<nobr>,</nobr> K&gt;<nobr>,</nobr> Function&lt;?<nobr>,</nobr> super<nobr>,</nobr> T<nobr>,</nobr> ?<nobr>,</nobr> extends<nobr>,</nobr> K&gt;<nobr>,</nobr> Function&lt;?<nobr>,</nobr> super<nobr>,</nobr> T<nobr>,</nobr> ?<nobr>,</nobr> extends<nobr>,</nobr> V&gt;<nobr><nobr></code>)</nobr>
+  </TD>
+  <TD VALIGN="TOP">Returns a <A HREF="../../docs/Collector.html"><TT>Collector</TT></A> that accumulates elements into an {@code ImmutableSortedMap}
+ whose keys and values are the result of applying the provided mapping functions to the input
+ elements.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.ImmutableSortedMap.keySet_changed()"></A>
-  <nobr><code>ImmutableSortedSet&lt;K&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/collect/ImmutableSortedMap.html#keySet()" target="_top"><tt>keySet</tt></A>()  </nobr>
+  <A NAME="com.google.common.collect.ImmutableSortedMap.toImmutableSortedMap_added(java.util.Comparator<? super K>, java.util.function.Function<? super T, ? extends K>, java.util.function.Function<? super T, ? extends V>, java.util.function.BinaryOperator<V>)"></A>
+  <nobr>(<code>Collector&lt;T, ?, ImmutableSortedMap&lt;K, V&gt;&gt;</code>)&nbsp;<A HREF="../../docs/com/google/common/collect/ImmutableSortedMap.html#toImmutableSortedMap(java.util.Comparator<? super K>, java.util.function.Function<? super T, ? extends K>, java.util.function.Function<? super T, ? extends V>, java.util.function.BinaryOperator<V>)" target="_top"><tt>toImmutableSortedMap</tt></A>(<code>Comparator&lt;?,</nobr> super<nobr>,</nobr> K&gt;<nobr>,</nobr> Function&lt;?<nobr>,</nobr> super<nobr>,</nobr> T<nobr>,</nobr> ?<nobr>,</nobr> extends<nobr>,</nobr> K&gt;<nobr>,</nobr> Function&lt;?<nobr>,</nobr> super<nobr>,</nobr> T<nobr>,</nobr> ?<nobr>,</nobr> extends<nobr>,</nobr> V&gt;<nobr>,</nobr> BinaryOperator&lt;V&gt;<nobr><nobr></code>)</nobr>
   </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns an immutable sorted set of the keys in this map.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.ImmutableSortedMap.values_changed()"></A>
-  <nobr><code>ImmutableCollection&lt;V&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/collect/ImmutableSortedMap.html#values()" target="_top"><tt>values</tt></A>()  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns an immutable collection of the values in this map, sorted by the
- ordering of the corresponding keys.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.ImmutableSortedMap.headMap_changed(K, boolean)"></A>
-  <nobr><code>ImmutableSortedMap&lt;K, V&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/collect/ImmutableSortedMap.html#headMap(K, boolean)" target="_top"><tt>headMap</tt></A>(<code>K,</nobr> boolean<nobr><nobr></code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">This method returns a {@code ImmutableSortedMap}, consisting of the entries
- whose keys are less than (or equal to, if {@code inclusive}) {@code toKey}.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.ImmutableSortedMap.tailMap_changed(K, boolean)"></A>
-  <nobr><code>ImmutableSortedMap&lt;K, V&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/collect/ImmutableSortedMap.html#tailMap(K, boolean)" target="_top"><tt>tailMap</tt></A>(<code>K,</nobr> boolean<nobr><nobr></code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">This method returns a {@code ImmutableSortedMap}, consisting of the entries
- whose keys are greater than (or equal to, if {@code inclusive})
- {@code fromKey}.</TD>
+  <TD VALIGN="TOP">Returns a <A HREF="../../docs/Collector.html"><TT>Collector</TT></A> that accumulates elements into an {@code ImmutableSortedMap} whose
+ keys and values are the result of applying the provided mapping functions to the input
+ elements.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -156,7 +90,7 @@ Changed from abstract to non-abstract.
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/ImmutableSortedMap.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 19.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/ImmutableSortedMap.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 21.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.collect.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -168,8 +102,8 @@ Changed from abstract to non-abstract.
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.collect.ImmutableSetMultimap.Builder.html"><B>PREV CLASS</B></A>
-&nbsp;<A HREF="com.google.common.collect.ImmutableSortedMap.Builder.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.collect.ImmutableSetMultimap.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.collect.ImmutableSortedMultiset.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.collect.ImmutableSortedMap.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>

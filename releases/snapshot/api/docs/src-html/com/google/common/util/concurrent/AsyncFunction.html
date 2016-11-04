@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <title>Source code</title>
-<link rel="stylesheet" type="text/css" href="../../../../../../javadoc-stylesheet.css" title="Style">
+<link rel="stylesheet" type="text/css" href="../../../../../../stylesheet.css" title="Style">
 </head>
 <body>
 <div class="sourceContainer">
@@ -34,16 +34,17 @@
 <span class="sourceLineNo">026</span> * @since 11.0<a name="line.26"></a>
 <span class="sourceLineNo">027</span> */<a name="line.27"></a>
 <span class="sourceLineNo">028</span>@GwtCompatible<a name="line.28"></a>
-<span class="sourceLineNo">029</span>public interface AsyncFunction&lt;I, O&gt; {<a name="line.29"></a>
-<span class="sourceLineNo">030</span>  /**<a name="line.30"></a>
-<span class="sourceLineNo">031</span>   * Returns an output {@code Future} to use in place of the given {@code input}. The output {@code<a name="line.31"></a>
-<span class="sourceLineNo">032</span>   * Future} need not be {@linkplain Future#isDone done}, making {@code AsyncFunction} suitable for<a name="line.32"></a>
-<span class="sourceLineNo">033</span>   * asynchronous derivations.<a name="line.33"></a>
-<span class="sourceLineNo">034</span>   *<a name="line.34"></a>
-<span class="sourceLineNo">035</span>   * &lt;p&gt;Throwing an exception from this method is equivalent to returning a failing {@code Future}.<a name="line.35"></a>
-<span class="sourceLineNo">036</span>   */<a name="line.36"></a>
-<span class="sourceLineNo">037</span>  ListenableFuture&lt;O&gt; apply(@Nullable I input) throws Exception;<a name="line.37"></a>
-<span class="sourceLineNo">038</span>}<a name="line.38"></a>
+<span class="sourceLineNo">029</span>@FunctionalInterface<a name="line.29"></a>
+<span class="sourceLineNo">030</span>public interface AsyncFunction&lt;I, O&gt; {<a name="line.30"></a>
+<span class="sourceLineNo">031</span>  /**<a name="line.31"></a>
+<span class="sourceLineNo">032</span>   * Returns an output {@code Future} to use in place of the given {@code input}. The output {@code<a name="line.32"></a>
+<span class="sourceLineNo">033</span>   * Future} need not be {@linkplain Future#isDone done}, making {@code AsyncFunction} suitable for<a name="line.33"></a>
+<span class="sourceLineNo">034</span>   * asynchronous derivations.<a name="line.34"></a>
+<span class="sourceLineNo">035</span>   *<a name="line.35"></a>
+<span class="sourceLineNo">036</span>   * &lt;p&gt;Throwing an exception from this method is equivalent to returning a failing {@code Future}.<a name="line.36"></a>
+<span class="sourceLineNo">037</span>   */<a name="line.37"></a>
+<span class="sourceLineNo">038</span>  ListenableFuture&lt;O&gt; apply(@Nullable I input) throws Exception;<a name="line.38"></a>
+<span class="sourceLineNo">039</span>}<a name="line.39"></a>
 
 
 
