@@ -4,8 +4,12 @@ language: java
 
 jdk:
   - oraclejdk8
-  - oraclejdk7
-  - openjdk7
+
+# https://github.com/travis-ci/travis-ci/issues/3259#issuecomment-130860338
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
 
 install: mvn -B install -U -DskipTests=true
 
