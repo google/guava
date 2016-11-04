@@ -4,8 +4,11 @@ language: java
 
 jdk:
   - oraclejdk8
-  - oraclejdk7
-  - openjdk7
+
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
 
 install: mvn -B install -U -DskipTests=true
 
