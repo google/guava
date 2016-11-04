@@ -200,7 +200,6 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
             rangeToRemove.upperBound,
             rangeMapEntry.getUpperBound(),
             mapEntryAboveToTruncate.getValue().getValue());
-        entriesByLowerBound.remove(rangeToRemove.lowerBound);
       }
     }
     entriesByLowerBound.subMap(rangeToRemove.lowerBound, rangeToRemove.upperBound).clear();
