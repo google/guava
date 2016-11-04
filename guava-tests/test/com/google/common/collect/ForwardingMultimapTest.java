@@ -65,7 +65,7 @@ public class ForwardingMultimapTest extends ForwardingTestCase {
   }
 
   public void testContainsValue_Object() {
-    boolean unused = forward.containsValue("asdf");
+    boolean unused = forward.containsValue(false);
     assertEquals("[containsValue(Object)]", getCalls());
   }
 
@@ -85,8 +85,8 @@ public class ForwardingMultimapTest extends ForwardingTestCase {
   }
 
   public void testPutAll_Key_Iterable() {
-    forward.remove("asfd", Collections.<Boolean>emptyList());
-    assertEquals("[remove(Object,Object)]", getCalls());
+    forward.putAll("asfd", Collections.<Boolean>emptyList());
+    assertEquals("[putAll(Object,Iterable)]", getCalls());
   }
 
   public void testPutAll_Multimap() {
