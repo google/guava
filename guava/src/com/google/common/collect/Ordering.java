@@ -777,7 +777,7 @@ public abstract class Ordering<T> implements Comparator<T> {
     } else if (k >= Integer.MAX_VALUE / 2) {
       // k is really large; just do a straightforward sorted-copy-and-sublist
       ArrayList<E> list = Lists.newArrayList(iterator);
-      list.sort(this);
+      Collections.sort(list, this);
       if (list.size() > k) {
         list.subList(k, list.size()).clear();
       }

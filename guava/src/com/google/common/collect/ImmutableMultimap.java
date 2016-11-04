@@ -28,6 +28,7 @@ import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -278,7 +279,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
       if (valueComparator != null) {
         for (Collection<V> values : builderMultimap.asMap().values()) {
           List<V> list = (List<V>) values;
-          list.sort(valueComparator);
+          Collections.sort(list, valueComparator);
         }
       }
       if (keyComparator != null) {
