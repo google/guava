@@ -9,7 +9,8 @@ multimap and multiset), immutable collections, a graph library, functional
 types, an in-memory cache, and APIs/utilities for concurrency, I/O, hashing,
 primitives, reflection, string processing, and much more!
 
-Requires JDK 1.6 or higher (as of 12.0).
+Requires JDK 1.6 or higher. The coming release (21.0) will require JDK 1.8, but
+we will begin providing a backport soon thereafter.
 
 Latest release
 --------------
