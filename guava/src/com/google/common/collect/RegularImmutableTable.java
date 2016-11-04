@@ -17,12 +17,14 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.Table.Cell;
 import com.google.j2objc.annotations.WeakOuter;
+
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+
 import javax.annotation.Nullable;
 
 /**
@@ -124,7 +126,7 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
                   : columnComparator.compare(cell1.getColumnKey(), cell2.getColumnKey());
             }
           };
-      cells.sort(comparator);
+      Collections.sort(cells, comparator);
     }
     return forCellsInternal(cells, rowComparator, columnComparator);
   }
@@ -148,13 +150,11 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
     ImmutableSet<R> rowSpace =
         (rowComparator == null)
             ? ImmutableSet.copyOf(rowSpaceBuilder)
-            : ImmutableSet.copyOf(
-                Ordering.from(rowComparator).immutableSortedCopy(rowSpaceBuilder));
+            : ImmutableSet.copyOf(ImmutableList.sortedCopyOf(rowComparator, rowSpaceBuilder));
     ImmutableSet<C> columnSpace =
         (columnComparator == null)
             ? ImmutableSet.copyOf(columnSpaceBuilder)
-            : ImmutableSet.copyOf(
-                Ordering.from(columnComparator).immutableSortedCopy(columnSpaceBuilder));
+            : ImmutableSet.copyOf(ImmutableList.sortedCopyOf(columnComparator, columnSpaceBuilder));
 
     return forOrderedComponents(cellList, rowSpace, columnSpace);
   }

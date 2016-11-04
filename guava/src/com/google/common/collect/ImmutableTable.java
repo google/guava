@@ -101,29 +101,17 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
       ImmutableTable<R, C, V> parameterizedTable = (ImmutableTable<R, C, V>) table;
       return parameterizedTable;
     } else {
-      int size = table.size();
-      switch (size) {
-        case 0:
-          return of();
-        case 1:
-          Cell<? extends R, ? extends C, ? extends V> onlyCell =
-              Iterables.getOnlyElement(table.cellSet());
-          return ImmutableTable.<R, C, V>of(
-              onlyCell.getRowKey(), onlyCell.getColumnKey(), onlyCell.getValue());
-        default:
-          ImmutableSet.Builder<Cell<R, C, V>> cellSetBuilder =
-              new ImmutableSet.Builder<Cell<R, C, V>>(size);
-          for (Cell<? extends R, ? extends C, ? extends V> cell : table.cellSet()) {
-            /*
-             * Must cast to be able to create a Cell<R, C, V> rather than a
-             * Cell<? extends R, ? extends C, ? extends V>
-             */
-            cellSetBuilder.add(
-                cellOf((R) cell.getRowKey(), (C) cell.getColumnKey(), (V) cell.getValue()));
-          }
-          return RegularImmutableTable.forCells(cellSetBuilder.build());
-      }
+      return copyOf(table.cellSet());
     }
+  }
+  
+  private static <R, C, V> ImmutableTable<R, C, V> copyOf(
+      Iterable<? extends Cell<? extends R, ? extends C, ? extends V>> cells) {
+    ImmutableTable.Builder<R, C, V> builder = ImmutableTable.builder();
+    for (Cell<? extends R, ? extends C, ? extends V> cell : cells) {
+      builder.put(cell);
+    }
+    return builder.build();
   }
 
   /**

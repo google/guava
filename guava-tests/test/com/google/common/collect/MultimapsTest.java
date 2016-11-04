@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Sets.newHashSet;
+import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.Helpers.nefariousMapEntry;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static com.google.common.truth.Truth.assertThat;
@@ -26,6 +27,7 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.base.Predicates;
@@ -33,6 +35,7 @@ import com.google.common.base.Supplier;
 import com.google.common.collect.Maps.EntryTransformer;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
+import com.google.common.testing.CollectorTester;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
@@ -54,6 +57,9 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.function.BiPredicate;
+import java.util.stream.Collector;
+import java.util.stream.Stream;
 import javax.annotation.Nullable;
 import junit.framework.TestCase;
 
@@ -67,6 +73,33 @@ public class MultimapsTest extends TestCase {
 
   private static final Comparator<Integer> INT_COMPARATOR =
       Ordering.<Integer>natural().reverse().nullsFirst();
+  
+  public void testMultimapCollectorGenerics() {
+    ListMultimap<Integer, String> unused =
+        Stream.of("foo", "bar", "quux")
+            .collect(
+                Multimaps.toMultimap(
+                    String::length, s -> s, MultimapBuilder.treeKeys().arrayListValues()::build));
+  }
+
+  public void testToMultimap() {
+    Collector<Entry<String, Integer>, ?, TreeMultimap<String, Integer>> collector =
+        Multimaps.toMultimap(Entry::getKey, Entry::getValue, TreeMultimap::create);
+    BiPredicate<Multimap<?, ?>, Multimap<?, ?>> equivalence =
+        Equivalence.equals()
+            .onResultOf((Multimap<?, ?> mm) -> ImmutableList.copyOf(mm.asMap().entrySet()))
+            .and(Equivalence.equals());
+    TreeMultimap<String, Integer> empty = TreeMultimap.create();
+    TreeMultimap<String, Integer> filled = TreeMultimap.create();
+    filled.put("a", 1);
+    filled.put("a", 2);
+    filled.put("b", 2);
+    filled.put("c", 3);
+    CollectorTester.of(collector, equivalence)
+        .expectCollects(empty)
+        .expectCollects(
+            filled, mapEntry("a", 1), mapEntry("a", 2), mapEntry("b", 2), mapEntry("c", 3));
+  }
 
   @SuppressWarnings("deprecation")
   public void testUnmodifiableListMultimapShortCircuit() {
