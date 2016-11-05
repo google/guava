@@ -166,26 +166,19 @@ public final class Bytes {
     checkNotNull(array, "array");
     checkNotNull(target, "target");
     if (target.length == 0) {
-      return array.length - 1;
-    } else if (target.length > array.length) {
-      return -1;
+      return array.length;
     }
 
-    int lastIndexOf = -1;
-    boolean differentValue;
-    for (int i = 0; i <= array.length - target.length; i++) {
-      differentValue = false;
+    outer:
+    for (int i = array.length - target.length; i >= 0; i--) {
       for (int j = 0; j < target.length; j++) {
         if (array[i + j] != target[j]) {
-          differentValue = true;
-          break;
+          continue outer;
         }
       }
-      if (!differentValue) {
-        lastIndexOf = i;
-      }
+      return i;
     }
-    return lastIndexOf;
+    return -1;
   }
 
   /**

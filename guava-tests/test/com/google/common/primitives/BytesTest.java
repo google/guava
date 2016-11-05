@@ -120,8 +120,8 @@ public class BytesTest extends TestCase {
   }
 
   public void testLastIndexOf_arrayTarget() {
-    assertEquals(-1, Bytes.lastIndexOf(EMPTY, EMPTY));
-    assertEquals(ARRAY234.length - 1, Bytes.lastIndexOf(ARRAY234, EMPTY));
+    assertEquals(0, Bytes.lastIndexOf(EMPTY, EMPTY));
+    assertEquals(ARRAY234.length, Bytes.lastIndexOf(ARRAY234, EMPTY));
     assertEquals(-1, Bytes.lastIndexOf(EMPTY, ARRAY234));
     assertEquals(-1, Bytes.lastIndexOf(ARRAY234, ARRAY1));
     assertEquals(-1, Bytes.lastIndexOf(ARRAY1, ARRAY234));
@@ -150,7 +150,6 @@ public class BytesTest extends TestCase {
             new byte[] { (byte) 2, (byte) 3, (byte) 4}
     ));
   }
-
 
   public void testConcat() {
     assertTrue(Arrays.equals(EMPTY, Bytes.concat()));
