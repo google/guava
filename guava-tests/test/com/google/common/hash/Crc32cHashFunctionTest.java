@@ -86,7 +86,7 @@ public class Crc32cHashFunctionTest extends TestCase {
   }
 
   /**
-   * Verfies that the crc of an array of byte data matches the expected value.
+   * Verifies that the crc of an array of byte data matches the expected value.
    *
    * @param expectedCrc the expected crc value.
    * @param data the data to run the checksum on.
