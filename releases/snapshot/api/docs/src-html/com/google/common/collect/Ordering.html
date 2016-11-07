@@ -785,7 +785,7 @@
 <span class="sourceLineNo">777</span>    } else if (k &gt;= Integer.MAX_VALUE / 2) {<a name="line.777"></a>
 <span class="sourceLineNo">778</span>      // k is really large; just do a straightforward sorted-copy-and-sublist<a name="line.778"></a>
 <span class="sourceLineNo">779</span>      ArrayList&lt;E&gt; list = Lists.newArrayList(iterator);<a name="line.779"></a>
-<span class="sourceLineNo">780</span>      list.sort(this);<a name="line.780"></a>
+<span class="sourceLineNo">780</span>      Collections.sort(list, this);<a name="line.780"></a>
 <span class="sourceLineNo">781</span>      if (list.size() &gt; k) {<a name="line.781"></a>
 <span class="sourceLineNo">782</span>        list.subList(k, list.size()).clear();<a name="line.782"></a>
 <span class="sourceLineNo">783</span>      }<a name="line.783"></a>
