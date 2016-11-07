@@ -372,7 +372,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
         Range.closedOpen(1, 3),
         Range.openClosed(5, 7),
         Range.open(3, 4));
-    for (Set<Range<Integer>> subset : Sets.powerSet(ranges)) {
+    subsets: for (Set<Range<Integer>> subset : Sets.powerSet(ranges)) {
       assertEquals(TreeRangeSet.create(subset), ImmutableRangeSet.unionOf(subset));
 
       RangeSet<Integer> mutable = TreeRangeSet.create();
@@ -390,11 +390,12 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
         }
 
         try {
-          builder.add(range);
+          ImmutableRangeSet<Integer> unused = builder.add(range).build();
           assertFalse(overlaps);
           mutable.add(range);
         } catch (IllegalArgumentException e) {
           assertTrue(overlaps);
+          continue subsets;
         }
       }
 

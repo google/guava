@@ -85,9 +85,9 @@ public class ImmutableRangeMapTest extends TestCase {
         boolean expectRejection =
             range1.isConnected(range2) && !range1.intersection(range2).isEmpty();
         ImmutableRangeMap.Builder<Integer, Integer> builder = ImmutableRangeMap.builder();
-        builder.put(range1, 1);
+        builder.put(range1, 1).put(range2, 2);
         try {
-          builder.put(range2, 2);
+          ImmutableRangeMap<Integer, Integer> unused = builder.build();
           assertFalse(expectRejection);
         } catch (IllegalArgumentException e) {
           assertTrue(expectRejection);
