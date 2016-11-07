@@ -357,7 +357,7 @@ public class EqualsTesterTest extends TestCase {
     }
   }
 
-  /** Test class that violates reflexitivity.  It is not equal to itself */
+  /** Test class that violates reflexivity.  It is not equal to itself */
   private static class NonReflexiveObject {
 
     @Override public boolean equals(Object o) {
