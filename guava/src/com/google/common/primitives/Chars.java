@@ -172,15 +172,23 @@ public final class Chars {
     if (target.length == 0) {
       return 0;
     }
-
-    outer:
-    for (int i = 0; i < array.length - target.length + 1; i++) {
-      for (int j = 0; j < target.length; j++) {
-        if (array[i + j] != target[j]) {
-          continue outer;
+    int i = 0;
+    while (i < array.length) {
+      int j = 0;
+      while (j < target.length && i + j < array.length && array[i + j] == target[j]) {
+        j++;
+      }
+      if (j == target.length) {
+        return i;
+      }
+      if (i + target.length < array.length) {
+        for (j = target.length - 1; j >= 0; j--) {
+          if (array[i + target.length] == target[j]) {
+            break;
+          }
         }
       }
-      return i;
+      i += target.length - j;
     }
     return -1;
   }
