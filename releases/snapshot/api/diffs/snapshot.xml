@@ -1785,7 +1785,9 @@
       <![CDATA[Returns the reversed view of this converter, which converts {@code this.convert(a)} back to a
  value roughly equivalent to {@code a}.
 
- <p>The returned converter is serializable if {@code this} converter is.]]>
+ <p>The returned converter is serializable if {@code this} converter is.
+
+ <p><b>Note:</b> you should not override this method. It is non-final for legacy reasons.]]>
       </doc>
     </method>
     <method name="andThen" return="com.google.common.base.Converter&lt;A, C&gt;"
