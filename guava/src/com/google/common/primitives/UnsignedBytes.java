@@ -81,10 +81,7 @@ public final class UnsignedBytes {
    */
   @CanIgnoreReturnValue
   public static byte checkedCast(long value) {
-    if ((value >> Byte.SIZE) != 0) {
-      // don't use checkArgument here, to avoid boxing
-      throw new IllegalArgumentException("Out of range: " + value);
-    }
+    checkArgument(value >> Byte.SIZE == 0, "out of range: %s", value);
     return (byte) value;
   }
 

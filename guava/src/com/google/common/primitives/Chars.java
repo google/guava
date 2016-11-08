@@ -78,10 +78,7 @@ public final class Chars {
    */
   public static char checkedCast(long value) {
     char result = (char) value;
-    if (result != value) {
-      // don't use checkArgument here, to avoid boxing
-      throw new IllegalArgumentException("Out of range: " + value);
-    }
+    checkArgument(result == value, "Out of range: %s", value);
     return result;
   }
 

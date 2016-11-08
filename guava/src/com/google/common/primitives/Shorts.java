@@ -83,10 +83,7 @@ public final class Shorts {
    */
   public static short checkedCast(long value) {
     short result = (short) value;
-    if (result != value) {
-      // don't use checkArgument here, to avoid boxing
-      throw new IllegalArgumentException("Out of range: " + value);
-    }
+    checkArgument(result == value, "Out of range: %s", value);
     return result;
   }
 

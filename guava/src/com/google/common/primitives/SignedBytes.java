@@ -54,10 +54,7 @@ public final class SignedBytes {
    */
   public static byte checkedCast(long value) {
     byte result = (byte) value;
-    if (result != value) {
-      // don't use checkArgument here, to avoid boxing
-      throw new IllegalArgumentException("Out of range: " + value);
-    }
+    checkArgument(result == value, "Out of range: %s", value);
     return result;
   }
 
