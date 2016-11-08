@@ -456,6 +456,12 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
       refreshIfEmpty();
       return new WrappedIterator();
     }
+    
+    @Override
+    public Spliterator<V> spliterator() {
+      refreshIfEmpty();
+      return delegate.spliterator();
+    }
 
     /** Collection iterator for {@code WrappedCollection}. */
     class WrappedIterator implements Iterator<V> {
