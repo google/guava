@@ -235,7 +235,7 @@ final class HashTestUtils {
    * bit(j) about half the time
    *
    * <p>Funneling is pretty simple to detect. The key idea is to find example keys which
-   * unequivocably demonstrate that funneling cannot be occuring. This is done bit-by-bit. For
+   * unequivocally demonstrate that funneling cannot be occurring. This is done bit-by-bit. For
    * each input bit(i) and output bit(j), two pairs of keys must be found with all bits identical
    * except bit(i). One pair must differ in output bit(j), and one pair must not. This proves that
    * input bit(i) can alter output bit(j).

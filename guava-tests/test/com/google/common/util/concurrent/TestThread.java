@@ -182,7 +182,7 @@ public final class TestThread<L> extends Thread implements TearDown {
   /**
    * Sends the given method call to this thread.
    *
-   * @throws TimeoutException if this thread does not accept the request within a resonable amount
+   * @throws TimeoutException if this thread does not accept the request within a reasonable amount
    *         of time
    */
   private void sendRequest(String methodName, Object... arguments) throws Exception {
@@ -195,7 +195,7 @@ public final class TestThread<L> extends Thread implements TearDown {
   /**
    * Receives a response from this thread.
    *
-   * @throws TimeoutException if this thread does not offer a response within a resonable amount of
+   * @throws TimeoutException if this thread does not offer a response within a reasonable amount of
    *         time
    * @throws AssertionFailedError if the given method name does not match the name of the method
    *         this thread has called most recently

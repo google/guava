@@ -678,7 +678,7 @@ public class QuantilesTest extends TestCase {
   }
 
   /**
-   * Assests that the actual quantile value returned matches the expected value, allowing
+   * Asserts that the actual quantile value returned matches the expected value, allowing
    * the margin of error {@link #ALLOWED_ERROR}. The assertion passes when the expected and actual
    * values are the same non-finite value.
    */
@@ -695,7 +695,7 @@ public class QuantilesTest extends TestCase {
   }
 
   /**
-   * Assests that the actual map of quantile values returned matches the expected map, allowing
+   * Asserts that the actual map of quantile values returned matches the expected map, allowing
    * the margin of error {@link #ALLOWED_ERROR} on the values. The assertion passes when the
    * expected and actual values are the same non-finite value.
    */
