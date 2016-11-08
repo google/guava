@@ -19582,8 +19582,7 @@
       <doc>
       <![CDATA[Associates the specified range with the specified value.
 
- @throws IllegalArgumentException if {@code range} overlaps with any other ranges inserted
-         into this builder, or if {@code range} is empty]]>
+ @throws IllegalArgumentException if {@code range} is empty]]>
       </doc>
     </method>
     <method name="putAll" return="com.google.common.collect.ImmutableRangeMap.Builder&lt;K, V&gt;"
@@ -19592,10 +19591,7 @@
       deprecated="not deprecated">
       <param name="rangeMap" type="com.google.common.collect.RangeMap&lt;K, ? extends V&gt;"/>
       <doc>
-      <![CDATA[Copies all associations from the specified range map into this builder.
-
- @throws IllegalArgumentException if any of the ranges in {@code rangeMap} overlap with ranges
-         already in this builder]]>
+      <![CDATA[Copies all associations from the specified range map into this builder.]]>
       </doc>
     </method>
     <method name="build" return="com.google.common.collect.ImmutableRangeMap&lt;K, V&gt;"
@@ -19604,7 +19600,9 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns an {@code ImmutableRangeMap} containing the associations previously added to this
- builder.]]>
+ builder.
+
+ @throws IllegalArgumentException if any two ranges inserted into this builder overlap]]>
       </doc>
     </method>
     <doc>
@@ -19854,11 +19852,10 @@
       deprecated="not deprecated">
       <param name="range" type="com.google.common.collect.Range&lt;C&gt;"/>
       <doc>
-      <![CDATA[Add the specified range to this builder. Adjacent/abutting ranges are permitted, but empty
- ranges, or ranges with nonempty overlap, are forbidden.
+      <![CDATA[Add the specified range to this builder. Adjacent ranges are permitted and will be merged,
+ but overlapping ranges will cause an exception when {@link #build()} is called.
 
- @throws IllegalArgumentException if {@code range} is empty or has nonempty intersection with
-     any ranges already added to the builder]]>
+ @throws IllegalArgumentException if {@code range} is empty]]>
       </doc>
     </method>
     <method name="addAll" return="com.google.common.collect.ImmutableRangeSet.Builder&lt;C&gt;"
@@ -19867,8 +19864,9 @@
       deprecated="not deprecated">
       <param name="ranges" type="com.google.common.collect.RangeSet&lt;C&gt;"/>
       <doc>
-      <![CDATA[Add all ranges from the specified range set to this builder. Duplicate or connected ranges
- are permitted, and will be merged in the resulting immutable range set.]]>
+      <![CDATA[Add all ranges from the specified range set to this builder. Adjacent ranges are permitted
+ and will be merged, but overlapping ranges will cause an exception when {@link #build()} is
+ called.]]>
       </doc>
     </method>
     <method name="addAll" return="com.google.common.collect.ImmutableRangeSet.Builder&lt;C&gt;"
@@ -19877,9 +19875,10 @@
       deprecated="not deprecated">
       <param name="ranges" type="java.lang.Iterable&lt;com.google.common.collect.Range&lt;C&gt;&gt;"/>
       <doc>
-      <![CDATA[Add all of the specified ranges to this builder. Duplicate or connected ranges are permitted,
- and will be merged in the resulting immutable range set.
+      <![CDATA[Add all of the specified ranges to this builder. Adjacent ranges are permitted and will be
+ merged, but overlapping ranges will cause an exception when {@link #build()} is called.
 
+ @throws IllegalArgumentException if any inserted ranges are empty
  @since 21.0]]>
       </doc>
     </method>
@@ -19888,7 +19887,9 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns an {@code ImmutableRangeSet} containing the ranges added to this builder.]]>
+      <![CDATA[Returns an {@code ImmutableRangeSet} containing the ranges added to this builder.
+
+ @throws IllegalArgumentException if any input ranges have nonempty overlap]]>
       </doc>
     </method>
     <doc>
