@@ -229,8 +229,9 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * value roughly equivalent to {@code a}.
    *
    * <p>The returned converter is serializable if {@code this} converter is.
+   *
+   * <p><b>Note:</b> you should not override this method. It is non-final for legacy reasons.
    */
-  // TODO(kak): Make this method final
   @CanIgnoreReturnValue
   public Converter<B, A> reverse() {
     Converter<B, A> result = reverse;
