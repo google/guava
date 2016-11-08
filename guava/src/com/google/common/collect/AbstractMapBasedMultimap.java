@@ -271,15 +271,15 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     return unmodifiableCollectionSubclass(output);
   }
 
-  Collection<V> unmodifiableCollectionSubclass(Collection<V> collection) {
-    // We don't deal with NavigableSet here yet for GWT reasons -- instead,
-    // non-GWT TreeMultimap explicitly overrides this and uses NavigableSet.
-    if (collection instanceof SortedSet) {
-      return Collections.unmodifiableSortedSet((SortedSet<V>) collection);
+  static <E> Collection<E> unmodifiableCollectionSubclass(Collection<E> collection) {
+    if (collection instanceof NavigableSet) {
+      return Sets.unmodifiableNavigableSet((NavigableSet<E>) collection);
+    } else if (collection instanceof SortedSet) {
+      return Collections.unmodifiableSortedSet((SortedSet<E>) collection);
     } else if (collection instanceof Set) {
-      return Collections.unmodifiableSet((Set<V>) collection);
+      return Collections.unmodifiableSet((Set<E>) collection);
     } else if (collection instanceof List) {
-      return Collections.unmodifiableList((List<V>) collection);
+      return Collections.unmodifiableList((List<E>) collection);
     } else {
       return Collections.unmodifiableCollection(collection);
     }
@@ -606,9 +606,9 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     }
   }
 
-  private Iterator<V> iteratorOrListIterator(Collection<V> collection) {
+  private static <E> Iterator<E> iteratorOrListIterator(Collection<E> collection) {
     return (collection instanceof List)
-        ? ((List<V>) collection).listIterator()
+        ? ((List<E>) collection).listIterator()
         : collection.iterator();
   }
 

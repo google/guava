@@ -180,12 +180,6 @@ public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V>
 
   @Override
   @GwtIncompatible // NavigableSet
-  Collection<V> unmodifiableCollectionSubclass(Collection<V> collection) {
-    return Sets.unmodifiableNavigableSet((NavigableSet<V>) collection);
-  }
-
-  @Override
-  @GwtIncompatible // NavigableSet
   Collection<V> wrapCollection(K key, Collection<V> collection) {
     return new WrappedNavigableSet(key, (NavigableSet<V>) collection, null);
   }

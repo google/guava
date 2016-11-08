@@ -1477,7 +1477,6 @@ public final class Sets {
    * @return an unmodifiable view of the specified navigable set
    * @since 12.0
    */
-  @GwtIncompatible // NavigableSet
   public static <E> NavigableSet<E> unmodifiableNavigableSet(NavigableSet<E> set) {
     if (set instanceof ImmutableSortedSet || set instanceof UnmodifiableNavigableSet) {
       return set;
@@ -1485,7 +1484,6 @@ public final class Sets {
     return new UnmodifiableNavigableSet<E>(set);
   }
 
-  @GwtIncompatible // NavigableSet
   static final class UnmodifiableNavigableSet<E> extends ForwardingSortedSet<E>
       implements NavigableSet<E>, Serializable {
     private final NavigableSet<E> delegate;
