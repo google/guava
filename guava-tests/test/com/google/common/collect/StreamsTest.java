@@ -209,6 +209,25 @@ public class StreamsTest extends TestCase {
         elems -> Stream.of((Object) null).flatMap(unused -> ImmutableList.copyOf(elems).stream()));
   }
 
+  public void testMapWithIndex_intStream() {
+    SpliteratorTester.of(
+            () -> Streams.mapWithIndex(IntStream.of(0, 1, 2), (x, i) -> x + ":" + i).spliterator())
+        .expect("0:0", "1:1", "2:2");
+  }
+
+  public void testMapWithIndex_longStream() {
+    SpliteratorTester.of(
+            () -> Streams.mapWithIndex(LongStream.of(0, 1, 2), (x, i) -> x + ":" + i).spliterator())
+        .expect("0:0", "1:1", "2:2");
+  }
+
+  public void testMapWithIndex_doubleStream() {
+    SpliteratorTester.of(
+            () ->
+                Streams.mapWithIndex(DoubleStream.of(0, 1, 2), (x, i) -> x + ":" + i).spliterator())
+        .expect("0.0:0", "1.0:1", "2.0:2");
+  }
+
   public void testZip() {
     assertThat(Streams.zip(Stream.of("a", "b", "c"), Stream.of(1, 2, 3), (a, b) -> a + ":" + b))
         .containsExactly("a:1", "b:2", "c:3")

@@ -29,11 +29,15 @@ import java.util.Iterator;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.PrimitiveIterator;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.Spliterators.AbstractSpliterator;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
+import java.util.function.DoubleConsumer;
+import java.util.function.IntConsumer;
+import java.util.function.LongConsumer;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -381,15 +385,6 @@ public final class Streams {
         },
         isParallel);
   }
-  /**
-   * An analogue of {@link java.util.function.Function} also accepting an index.
-   *
-   * <p>This interface is only intended for use by callers of {@link #mapWithIndex}.
-   */
-  public interface FunctionWithIndex<T, R> {
-    /** Applies this function to the given argument and its index within a stream. */
-    R apply(T from, long index);
-  }
 
   /**
    * Returns a stream consisting of the results of applying the given function to the elements of
@@ -439,14 +434,11 @@ public final class Streams {
           },
           isParallel);
     }
-    class Splitr implements Spliterator<R>, Consumer<T> {
-      final Spliterator<T> splitr;
-      long index;
-      T holder = null;
+    class Splitr extends MapWithIndexSpliterator<Spliterator<T>, R, Splitr> implements Consumer<T> {
+      T holder;
 
       Splitr(Spliterator<T> splitr, long index) {
-        this.splitr = splitr;
-        this.index = index;
+        super(splitr, index);
       }
 
       @Override
@@ -456,7 +448,7 @@ public final class Streams {
 
       @Override
       public boolean tryAdvance(Consumer<? super R> action) {
-        if (splitr.tryAdvance(this)) {
+        if (fromSpliterator.tryAdvance(this)) {
           try {
             action.accept(function.apply(holder, index++));
             return true;
@@ -468,28 +460,336 @@ public final class Streams {
       }
 
       @Override
-      public Spliterator<R> trySplit() {
-        Spliterator<T> split = splitr.trySplit();
-        if (split == null) {
-          return null;
-        }
-        Spliterator<R> result = new Splitr(split, index);
-        this.index += split.getExactSizeIfKnown();
-        return result;
-      }
-
-      @Override
-      public long estimateSize() {
-        return splitr.estimateSize();
-      }
-
-      @Override
-      public int characteristics() {
-        return splitr.characteristics()
-            & (Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED);
+      Splitr createSplit(Spliterator<T> from, long i) {
+        return new Splitr(from, i);
       }
     }
     return StreamSupport.stream(new Splitr(fromSpliterator, 0), isParallel);
+  }
+
+  /**
+   * An analogue of {@link java.util.function.Function} also accepting an index.
+   *
+   * <p>This interface is only intended for use by callers of {@link #mapWithIndex(Stream,
+   * FunctionWithIndex)}.
+   *
+   * @since 21.0
+   */
+  @Beta
+  public interface FunctionWithIndex<T, R> {
+    /** Applies this function to the given argument and its index within a stream. */
+    R apply(T from, long index);
+  }
+
+  private abstract static class MapWithIndexSpliterator<
+          F extends Spliterator<?>, R, S extends MapWithIndexSpliterator<F, R, S>>
+      implements Spliterator<R> {
+    final F fromSpliterator;
+    long index;
+
+    MapWithIndexSpliterator(F fromSpliterator, long index) {
+      this.fromSpliterator = fromSpliterator;
+      this.index = index;
+    }
+
+    abstract S createSplit(F from, long i);
+
+    @Override
+    public S trySplit() {
+      @SuppressWarnings("unchecked")
+      F split = (F) fromSpliterator.trySplit();
+      if (split == null) {
+        return null;
+      }
+      S result = createSplit(split, index);
+      this.index += split.getExactSizeIfKnown();
+      return result;
+    }
+
+    @Override
+    public long estimateSize() {
+      return fromSpliterator.estimateSize();
+    }
+
+    @Override
+    public int characteristics() {
+      return fromSpliterator.characteristics()
+          & (Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED);
+    }
+  }
+
+  /**
+   * Returns a stream consisting of the results of applying the given function to the elements of
+   * {@code stream} and their indexes in the stream. For example,
+   *
+   * <pre>{@code
+   * mapWithIndex(
+   *     IntStream.of(0, 1, 2),
+   *     (i, index) -> i + ":" + index)
+   * }</pre>
+   *
+   * <p>...would return {@code Stream.of("0:0", "1:1", "2:2")}.
+   *
+   * <p>The resulting stream is <a
+   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
+   * if and only if {@code stream} was efficiently splittable and its underlying spliterator
+   * reported {@link Spliterator#SUBSIZED}. This is generally the case if the underlying stream
+   * comes from a data structure supporting efficient indexed random access, typically an array or
+   * list.
+   *
+   * <p>The order of the resulting stream is defined if and only if the order of the original stream
+   * was defined.
+   */
+  public static <R> Stream<R> mapWithIndex(IntStream stream, IntFunctionWithIndex<R> function) {
+    checkNotNull(stream);
+    checkNotNull(function);
+    boolean isParallel = stream.isParallel();
+    Spliterator.OfInt fromSpliterator = stream.spliterator();
+
+    if (!fromSpliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
+      PrimitiveIterator.OfInt fromIterator = Spliterators.iterator(fromSpliterator);
+      return StreamSupport.stream(
+          new AbstractSpliterator<R>(
+              fromSpliterator.estimateSize(),
+              fromSpliterator.characteristics() & (Spliterator.ORDERED | Spliterator.SIZED)) {
+            long index = 0;
+
+            @Override
+            public boolean tryAdvance(Consumer<? super R> action) {
+              if (fromIterator.hasNext()) {
+                action.accept(function.apply(fromIterator.nextInt(), index++));
+                return true;
+              }
+              return false;
+            }
+          },
+          isParallel);
+    }
+    class Splitr extends MapWithIndexSpliterator<Spliterator.OfInt, R, Splitr>
+        implements IntConsumer, Spliterator<R> {
+      int holder;
+
+      Splitr(Spliterator.OfInt splitr, long index) {
+        super(splitr, index);
+      }
+
+      @Override
+      public void accept(int t) {
+        this.holder = t;
+      }
+
+      @Override
+      public boolean tryAdvance(Consumer<? super R> action) {
+        if (fromSpliterator.tryAdvance(this)) {
+          action.accept(function.apply(holder, index++));
+          return true;
+        }
+        return false;
+      }
+
+      @Override
+      Splitr createSplit(Spliterator.OfInt from, long i) {
+        return new Splitr(from, i);
+      }
+    }
+    return StreamSupport.stream(new Splitr(fromSpliterator, 0), isParallel);
+  }
+
+  /**
+   * An analogue of {@link java.util.function.IntFunction} also accepting an index.
+   *
+   * <p>This interface is only intended for use by callers of {@link #mapWithIndex(IntStream,
+   * IntFunctionWithIndex)}.
+   *
+   * @since 21.0
+   */
+  @Beta
+  public interface IntFunctionWithIndex<R> {
+    /** Applies this function to the given argument and its index within a stream. */
+    R apply(int from, long index);
+  }
+
+  /**
+   * Returns a stream consisting of the results of applying the given function to the elements of
+   * {@code stream} and their indexes in the stream. For example,
+   *
+   * <pre>{@code
+   * mapWithIndex(
+   *     LongStream.of(0, 1, 2),
+   *     (i, index) -> i + ":" + index)
+   * }</pre>
+   *
+   * <p>...would return {@code Stream.of("0:0", "1:1", "2:2")}.
+   *
+   * <p>The resulting stream is <a
+   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
+   * if and only if {@code stream} was efficiently splittable and its underlying spliterator
+   * reported {@link Spliterator#SUBSIZED}. This is generally the case if the underlying stream
+   * comes from a data structure supporting efficient indexed random access, typically an array or
+   * list.
+   *
+   * <p>The order of the resulting stream is defined if and only if the order of the original stream
+   * was defined.
+   */
+  public static <R> Stream<R> mapWithIndex(LongStream stream, LongFunctionWithIndex<R> function) {
+    checkNotNull(stream);
+    checkNotNull(function);
+    boolean isParallel = stream.isParallel();
+    Spliterator.OfLong fromSpliterator = stream.spliterator();
+
+    if (!fromSpliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
+      PrimitiveIterator.OfLong fromIterator = Spliterators.iterator(fromSpliterator);
+      return StreamSupport.stream(
+          new AbstractSpliterator<R>(
+              fromSpliterator.estimateSize(),
+              fromSpliterator.characteristics() & (Spliterator.ORDERED | Spliterator.SIZED)) {
+            long index = 0;
+
+            @Override
+            public boolean tryAdvance(Consumer<? super R> action) {
+              if (fromIterator.hasNext()) {
+                action.accept(function.apply(fromIterator.nextLong(), index++));
+                return true;
+              }
+              return false;
+            }
+          },
+          isParallel);
+    }
+    class Splitr extends MapWithIndexSpliterator<Spliterator.OfLong, R, Splitr>
+        implements LongConsumer, Spliterator<R> {
+      long holder;
+
+      Splitr(Spliterator.OfLong splitr, long index) {
+        super(splitr, index);
+      }
+
+      @Override
+      public void accept(long t) {
+        this.holder = t;
+      }
+
+      @Override
+      public boolean tryAdvance(Consumer<? super R> action) {
+        if (fromSpliterator.tryAdvance(this)) {
+          action.accept(function.apply(holder, index++));
+          return true;
+        }
+        return false;
+      }
+
+      @Override
+      Splitr createSplit(Spliterator.OfLong from, long i) {
+        return new Splitr(from, i);
+      }
+    }
+    return StreamSupport.stream(new Splitr(fromSpliterator, 0), isParallel);
+  }
+
+  /**
+   * An analogue of {@link java.util.function.LongFunction} also accepting an index.
+   *
+   * <p>This interface is only intended for use by callers of {@link #mapWithIndex(LongStream,
+   * LongFunctionWithIndex)}.
+   *
+   * @since 21.0
+   */
+  @Beta
+  public interface LongFunctionWithIndex<R> {
+    /** Applies this function to the given argument and its index within a stream. */
+    R apply(long from, long index);
+  }
+
+  /**
+   * Returns a stream consisting of the results of applying the given function to the elements of
+   * {@code stream} and their indexes in the stream. For example,
+   *
+   * <pre>{@code
+   * mapWithIndex(
+   *     DoubleStream.of(0, 1, 2),
+   *     (x, index) -> x + ":" + index)
+   * }</pre>
+   *
+   * <p>...would return {@code Stream.of("0.0:0", "1.0:1", "2.0:2")}.
+   *
+   * <p>The resulting stream is <a
+   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
+   * if and only if {@code stream} was efficiently splittable and its underlying spliterator
+   * reported {@link Spliterator#SUBSIZED}. This is generally the case if the underlying stream
+   * comes from a data structure supporting efficient indexed random access, typically an array or
+   * list.
+   *
+   * <p>The order of the resulting stream is defined if and only if the order of the original stream
+   * was defined.
+   */
+  public static <R> Stream<R> mapWithIndex(
+      DoubleStream stream, DoubleFunctionWithIndex<R> function) {
+    checkNotNull(stream);
+    checkNotNull(function);
+    boolean isParallel = stream.isParallel();
+    Spliterator.OfDouble fromSpliterator = stream.spliterator();
+
+    if (!fromSpliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
+      PrimitiveIterator.OfDouble fromIterator = Spliterators.iterator(fromSpliterator);
+      return StreamSupport.stream(
+          new AbstractSpliterator<R>(
+              fromSpliterator.estimateSize(),
+              fromSpliterator.characteristics() & (Spliterator.ORDERED | Spliterator.SIZED)) {
+            long index = 0;
+
+            @Override
+            public boolean tryAdvance(Consumer<? super R> action) {
+              if (fromIterator.hasNext()) {
+                action.accept(function.apply(fromIterator.nextDouble(), index++));
+                return true;
+              }
+              return false;
+            }
+          },
+          isParallel);
+    }
+    class Splitr extends MapWithIndexSpliterator<Spliterator.OfDouble, R, Splitr>
+        implements DoubleConsumer, Spliterator<R> {
+      double holder;
+
+      Splitr(Spliterator.OfDouble splitr, long index) {
+        super(splitr, index);
+      }
+
+      @Override
+      public void accept(double t) {
+        this.holder = t;
+      }
+
+      @Override
+      public boolean tryAdvance(Consumer<? super R> action) {
+        if (fromSpliterator.tryAdvance(this)) {
+          action.accept(function.apply(holder, index++));
+          return true;
+        }
+        return false;
+      }
+
+      @Override
+      Splitr createSplit(Spliterator.OfDouble from, long i) {
+        return new Splitr(from, i);
+      }
+    }
+    return StreamSupport.stream(new Splitr(fromSpliterator, 0), isParallel);
+  }
+
+  /**
+   * An analogue of {@link java.util.function.DoubleFunction} also accepting an index.
+   *
+   * <p>This interface is only intended for use by callers of {@link #mapWithIndex(DoubleStream,
+   * DoubleFunctionWithIndex)}.
+   *
+   * @since 21.0
+   */
+  @Beta
+  public interface DoubleFunctionWithIndex<R> {
+    /** Applies this function to the given argument and its index within a stream. */
+    R apply(double from, long index);
   }
 
   private Streams() {}
