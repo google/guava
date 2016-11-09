@@ -264,6 +264,60 @@ public void testToImmutableTable() throws Exception {
   testCase.testToImmutableTable();
 }
 
+public void testToImmutableTableConflict() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testToImmutableTableConflict();
+}
+
+public void testToImmutableTableMerging() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testToImmutableTableMerging();
+}
+
+public void testToImmutableTableMergingNullColumnKey() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testToImmutableTableMergingNullColumnKey();
+}
+
+public void testToImmutableTableMergingNullMerge() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testToImmutableTableMergingNullMerge();
+}
+
+public void testToImmutableTableMergingNullRowKey() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testToImmutableTableMergingNullRowKey();
+}
+
+public void testToImmutableTableMergingNullValue() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testToImmutableTableMergingNullValue();
+}
+
+public void testToImmutableTableNullColumnKey() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testToImmutableTableNullColumnKey();
+}
+
+public void testToImmutableTableNullRowKey() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testToImmutableTableNullRowKey();
+}
+
+public void testToImmutableTableNullValue() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testToImmutableTableNullValue();
+}
+
 public void testToStringSize1() throws Exception {
   com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
   testCase.setUp();
