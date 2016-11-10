@@ -232,7 +232,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     private void ensureCapacity(int minCapacity) {
       if (minCapacity > entries.length) {
         entries =
-            ObjectArrays.arraysCopyOf(
+            Arrays.copyOf(
                 entries, ImmutableCollection.Builder.expandedCapacity(entries.length, minCapacity));
         entriesUsed = false;
       }
@@ -347,7 +347,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
            */
           if (valueComparator != null) {
             if (entriesUsed) {
-              entries = ObjectArrays.arraysCopyOf(entries, size);
+              entries = Arrays.copyOf(entries, size);
             }
             Arrays.sort(
                 entries,

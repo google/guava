@@ -22,6 +22,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Collection;
 import javax.annotation.Nullable;
 
@@ -101,16 +102,9 @@ public final class ObjectArrays {
    *     last position.
    */
   public static <T> T[] concat(T[] array, @Nullable T element) {
-    T[] result = arraysCopyOf(array, array.length + 1);
+    T[] result = Arrays.copyOf(array, array.length + 1);
     result[array.length] = element;
     return result;
-  }
-
-  /** GWT safe version of Arrays.copyOf. */
-  static <T> T[] arraysCopyOf(T[] original, int newLength) {
-    T[] copy = newArray(original, newLength);
-    System.arraycopy(original, 0, copy, 0, Math.min(original.length, newLength));
-    return copy;
   }
 
   /**

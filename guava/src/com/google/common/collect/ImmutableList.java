@@ -19,7 +19,6 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
-import static com.google.common.collect.ObjectArrays.arraysCopyOf;
 import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 import static com.google.common.collect.RegularImmutableList.EMPTY;
 
@@ -371,7 +370,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
         return list;
       default:
         if (length < elements.length) {
-          elements = arraysCopyOf(elements, length);
+          elements = Arrays.copyOf(elements, length);
         }
         return new RegularImmutableList<E>(elements);
     }

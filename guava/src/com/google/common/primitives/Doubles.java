@@ -555,11 +555,7 @@ public final class Doubles {
     }
 
     double[] toDoubleArray() {
-      // Arrays.copyOfRange() is not available under GWT
-      int size = size();
-      double[] result = new double[size];
-      System.arraycopy(array, start, result, 0, size);
-      return result;
+      return Arrays.copyOfRange(array, start, end);
     }
 
     private static final long serialVersionUID = 0;
