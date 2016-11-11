@@ -744,7 +744,7 @@ public abstract class Ordering<T> implements Comparator<T> {
         E[] array = (E[]) collection.toArray();
         Arrays.sort(array, this);
         if (array.length > k) {
-          array = ObjectArrays.arraysCopyOf(array, k);
+          array = Arrays.copyOf(array, k);
         }
         return Collections.unmodifiableList(Arrays.asList(array));
       }

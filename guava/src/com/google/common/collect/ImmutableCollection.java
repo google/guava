@@ -25,6 +25,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -465,7 +466,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     private void ensureCapacity(int minCapacity) {
       if (contents.length < minCapacity) {
         this.contents =
-            ObjectArrays.arraysCopyOf(
+            Arrays.copyOf(
                 this.contents, expandedCapacity(contents.length, minCapacity));
       }
     }

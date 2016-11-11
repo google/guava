@@ -254,7 +254,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
            */
           if (valueComparator != null) {
             if (entriesUsed) {
-              entries = ObjectArrays.arraysCopyOf(entries, size);
+              entries = Arrays.copyOf(entries, size);
             }
             Arrays.sort(
                 entries,
