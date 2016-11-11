@@ -1136,7 +1136,19 @@
      instead.</span></div>
 </div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.DoubleFunctionWithIndex.html#apply-double-long-">apply(double, long)</a></span> - Method in interface com.google.common.collect.<a href="com/google/common/collect/Streams.DoubleFunctionWithIndex.html" title="interface in com.google.common.collect">Streams.DoubleFunctionWithIndex</a></dt>
+<dd>
+<div class="block">Applies this function to the given argument and its index within a stream.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.FunctionWithIndex.html#apply-T-long-">apply(T, long)</a></span> - Method in interface com.google.common.collect.<a href="com/google/common/collect/Streams.FunctionWithIndex.html" title="interface in com.google.common.collect">Streams.FunctionWithIndex</a></dt>
+<dd>
+<div class="block">Applies this function to the given argument and its index within a stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.IntFunctionWithIndex.html#apply-int-long-">apply(int, long)</a></span> - Method in interface com.google.common.collect.<a href="com/google/common/collect/Streams.IntFunctionWithIndex.html" title="interface in com.google.common.collect">Streams.IntFunctionWithIndex</a></dt>
+<dd>
+<div class="block">Applies this function to the given argument and its index within a stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.LongFunctionWithIndex.html#apply-long-long-">apply(long, long)</a></span> - Method in interface com.google.common.collect.<a href="com/google/common/collect/Streams.LongFunctionWithIndex.html" title="interface in com.google.common.collect">Streams.LongFunctionWithIndex</a></dt>
 <dd>
 <div class="block">Applies this function to the given argument and its index within a stream.</div>
 </dd>
@@ -10453,6 +10465,21 @@
 <div class="block">Returns a stream consisting of the results of applying the given function to the elements of
  <code>stream</code> and their indices in the stream.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.html#mapWithIndex-java.util.stream.IntStream-com.google.common.collect.Streams.IntFunctionWithIndex-">mapWithIndex(IntStream, Streams.IntFunctionWithIndex&lt;R&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect">Streams</a></dt>
+<dd>
+<div class="block">Returns a stream consisting of the results of applying the given function to the elements of
+ <code>stream</code> and their indexes in the stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.html#mapWithIndex-java.util.stream.LongStream-com.google.common.collect.Streams.LongFunctionWithIndex-">mapWithIndex(LongStream, Streams.LongFunctionWithIndex&lt;R&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect">Streams</a></dt>
+<dd>
+<div class="block">Returns a stream consisting of the results of applying the given function to the elements of
+ <code>stream</code> and their indexes in the stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Streams.html#mapWithIndex-java.util.stream.DoubleStream-com.google.common.collect.Streams.DoubleFunctionWithIndex-">mapWithIndex(DoubleStream, Streams.DoubleFunctionWithIndex&lt;R&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect">Streams</a></dt>
+<dd>
+<div class="block">Returns a stream consisting of the results of applying the given function to the elements of
+ <code>stream</code> and their indexes in the stream.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/hash/HashingInputStream.html#mark-int-">mark(int)</a></span> - Method in class com.google.common.hash.<a href="com/google/common/hash/HashingInputStream.html" title="class in com.google.common.hash">HashingInputStream</a></dt>
 <dd>
 <div class="block">mark() is not supported for HashingInputStream</div>
@@ -15884,9 +15911,21 @@
 <dd>
 <div class="block">Static utility methods related to <code>Stream</code> instances.</div>
 </dd>
+<dt><a href="com/google/common/collect/Streams.DoubleFunctionWithIndex.html" title="interface in com.google.common.collect"><span class="typeNameLink">Streams.DoubleFunctionWithIndex</span></a>&lt;<a href="com/google/common/collect/Streams.DoubleFunctionWithIndex.html" title="type parameter in Streams.DoubleFunctionWithIndex">R</a>&gt; - Interface in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
+<dd>
+<div class="block">An analogue of <a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/DoubleFunction.html?is-external=true" title="class or interface in java.util.function"><code>DoubleFunction</code></a> also accepting an index.</div>
+</dd>
 <dt><a href="com/google/common/collect/Streams.FunctionWithIndex.html" title="interface in com.google.common.collect"><span class="typeNameLink">Streams.FunctionWithIndex</span></a>&lt;<a href="com/google/common/collect/Streams.FunctionWithIndex.html" title="type parameter in Streams.FunctionWithIndex">T</a>,<a href="com/google/common/collect/Streams.FunctionWithIndex.html" title="type parameter in Streams.FunctionWithIndex">R</a>&gt; - Interface in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
 <div class="block">An analogue of <a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function"><code>Function</code></a> also accepting an index.</div>
+</dd>
+<dt><a href="com/google/common/collect/Streams.IntFunctionWithIndex.html" title="interface in com.google.common.collect"><span class="typeNameLink">Streams.IntFunctionWithIndex</span></a>&lt;<a href="com/google/common/collect/Streams.IntFunctionWithIndex.html" title="type parameter in Streams.IntFunctionWithIndex">R</a>&gt; - Interface in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
+<dd>
+<div class="block">An analogue of <a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/IntFunction.html?is-external=true" title="class or interface in java.util.function"><code>IntFunction</code></a> also accepting an index.</div>
+</dd>
+<dt><a href="com/google/common/collect/Streams.LongFunctionWithIndex.html" title="interface in com.google.common.collect"><span class="typeNameLink">Streams.LongFunctionWithIndex</span></a>&lt;<a href="com/google/common/collect/Streams.LongFunctionWithIndex.html" title="type parameter in Streams.LongFunctionWithIndex">R</a>&gt; - Interface in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
+<dd>
+<div class="block">An analogue of <a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/LongFunction.html?is-external=true" title="class or interface in java.util.function"><code>LongFunction</code></a> also accepting an index.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/HttpHeaders.html#STRICT_TRANSPORT_SECURITY">STRICT_TRANSPORT_SECURITY</a></span> - Static variable in class com.google.common.net.<a href="com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
 <dd>

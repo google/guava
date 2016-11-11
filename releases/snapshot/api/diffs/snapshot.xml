@@ -34377,6 +34377,93 @@
  was defined.]]>
       </doc>
     </method>
+    <method name="mapWithIndex" return="java.util.stream.Stream&lt;R&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="stream" type="java.util.stream.IntStream"/>
+      <param name="function" type="com.google.common.collect.Streams.IntFunctionWithIndex&lt;R&gt;"/>
+      <doc>
+      <![CDATA[Returns a stream consisting of the results of applying the given function to the elements of
+ {@code stream} and their indexes in the stream. For example,
+
+ <pre>{@code
+ mapWithIndex(
+     IntStream.of(0, 1, 2),
+     (i, index) -> i + ":" + index)
+ }</pre>
+
+ <p>...would return {@code Stream.of("0:0", "1:1", "2:2")}.
+
+ <p>The resulting stream is <a
+ href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
+ if and only if {@code stream} was efficiently splittable and its underlying spliterator
+ reported {@link Spliterator#SUBSIZED}. This is generally the case if the underlying stream
+ comes from a data structure supporting efficient indexed random access, typically an array or
+ list.
+
+ <p>The order of the resulting stream is defined if and only if the order of the original stream
+ was defined.]]>
+      </doc>
+    </method>
+    <method name="mapWithIndex" return="java.util.stream.Stream&lt;R&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="stream" type="java.util.stream.LongStream"/>
+      <param name="function" type="com.google.common.collect.Streams.LongFunctionWithIndex&lt;R&gt;"/>
+      <doc>
+      <![CDATA[Returns a stream consisting of the results of applying the given function to the elements of
+ {@code stream} and their indexes in the stream. For example,
+
+ <pre>{@code
+ mapWithIndex(
+     LongStream.of(0, 1, 2),
+     (i, index) -> i + ":" + index)
+ }</pre>
+
+ <p>...would return {@code Stream.of("0:0", "1:1", "2:2")}.
+
+ <p>The resulting stream is <a
+ href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
+ if and only if {@code stream} was efficiently splittable and its underlying spliterator
+ reported {@link Spliterator#SUBSIZED}. This is generally the case if the underlying stream
+ comes from a data structure supporting efficient indexed random access, typically an array or
+ list.
+
+ <p>The order of the resulting stream is defined if and only if the order of the original stream
+ was defined.]]>
+      </doc>
+    </method>
+    <method name="mapWithIndex" return="java.util.stream.Stream&lt;R&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="stream" type="java.util.stream.DoubleStream"/>
+      <param name="function" type="com.google.common.collect.Streams.DoubleFunctionWithIndex&lt;R&gt;"/>
+      <doc>
+      <![CDATA[Returns a stream consisting of the results of applying the given function to the elements of
+ {@code stream} and their indexes in the stream. For example,
+
+ <pre>{@code
+ mapWithIndex(
+     DoubleStream.of(0, 1, 2),
+     (x, index) -> x + ":" + index)
+ }</pre>
+
+ <p>...would return {@code Stream.of("0.0:0", "1.0:1", "2.0:2")}.
+
+ <p>The resulting stream is <a
+ href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
+ if and only if {@code stream} was efficiently splittable and its underlying spliterator
+ reported {@link Spliterator#SUBSIZED}. This is generally the case if the underlying stream
+ comes from a data structure supporting efficient indexed random access, typically an array or
+ list.
+
+ <p>The order of the resulting stream is defined if and only if the order of the original stream
+ was defined.]]>
+      </doc>
+    </method>
     <doc>
     <![CDATA[Static utility methods related to {@code Stream} instances.
 
@@ -34384,6 +34471,30 @@
     </doc>
   </class>
   <!-- end class com.google.common.collect.Streams -->
+  <!-- start interface com.google.common.collect.Streams.DoubleFunctionWithIndex -->
+  <interface name="Streams.DoubleFunctionWithIndex"    abstract="true"
+    static="true" final="false" visibility="public"
+    deprecated="not deprecated">
+    <method name="apply" return="R"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="from" type="double"/>
+      <param name="index" type="long"/>
+      <doc>
+      <![CDATA[Applies this function to the given argument and its index within a stream.]]>
+      </doc>
+    </method>
+    <doc>
+    <![CDATA[An analogue of {@link java.util.function.DoubleFunction} also accepting an index.
+
+ <p>This interface is only intended for use by callers of {@link #mapWithIndex(DoubleStream,
+ DoubleFunctionWithIndex)}.
+
+ @since 21.0]]>
+    </doc>
+  </interface>
+  <!-- end interface com.google.common.collect.Streams.DoubleFunctionWithIndex -->
   <!-- start interface com.google.common.collect.Streams.FunctionWithIndex -->
   <interface name="Streams.FunctionWithIndex"    abstract="true"
     static="true" final="false" visibility="public"
@@ -34401,10 +34512,61 @@
     <doc>
     <![CDATA[An analogue of {@link java.util.function.Function} also accepting an index.
 
- <p>This interface is only intended for use by callers of {@link #mapWithIndex}.]]>
+ <p>This interface is only intended for use by callers of {@link #mapWithIndex(Stream,
+ FunctionWithIndex)}.
+
+ @since 21.0]]>
     </doc>
   </interface>
   <!-- end interface com.google.common.collect.Streams.FunctionWithIndex -->
+  <!-- start interface com.google.common.collect.Streams.IntFunctionWithIndex -->
+  <interface name="Streams.IntFunctionWithIndex"    abstract="true"
+    static="true" final="false" visibility="public"
+    deprecated="not deprecated">
+    <method name="apply" return="R"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="from" type="int"/>
+      <param name="index" type="long"/>
+      <doc>
+      <![CDATA[Applies this function to the given argument and its index within a stream.]]>
+      </doc>
+    </method>
+    <doc>
+    <![CDATA[An analogue of {@link java.util.function.IntFunction} also accepting an index.
+
+ <p>This interface is only intended for use by callers of {@link #mapWithIndex(IntStream,
+ IntFunctionWithIndex)}.
+
+ @since 21.0]]>
+    </doc>
+  </interface>
+  <!-- end interface com.google.common.collect.Streams.IntFunctionWithIndex -->
+  <!-- start interface com.google.common.collect.Streams.LongFunctionWithIndex -->
+  <interface name="Streams.LongFunctionWithIndex"    abstract="true"
+    static="true" final="false" visibility="public"
+    deprecated="not deprecated">
+    <method name="apply" return="R"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="from" type="long"/>
+      <param name="index" type="long"/>
+      <doc>
+      <![CDATA[Applies this function to the given argument and its index within a stream.]]>
+      </doc>
+    </method>
+    <doc>
+    <![CDATA[An analogue of {@link java.util.function.LongFunction} also accepting an index.
+
+ <p>This interface is only intended for use by callers of {@link #mapWithIndex(LongStream,
+ LongFunctionWithIndex)}.
+
+ @since 21.0]]>
+    </doc>
+  </interface>
+  <!-- end interface com.google.common.collect.Streams.LongFunctionWithIndex -->
   <!-- start interface com.google.common.collect.Table -->
   <interface name="Table"    abstract="true"
     static="false" final="false" visibility="public"

@@ -6,7 +6,10 @@ OK: com.google.common.collect.MoreCollectors Class
 OK: com.google.common.io.MoreFiles Class
 OK: com.google.common.io.RecursiveDeleteOption Class
 OK: com.google.common.collect.Streams Class
-MISSING @SINCE TAG: com.google.common.collect.Streams.FunctionWithIndex Interface
+OK: com.google.common.collect.Streams.DoubleFunctionWithIndex Interface
+OK: com.google.common.collect.Streams.FunctionWithIndex Interface
+OK: com.google.common.collect.Streams.IntFunctionWithIndex Interface
+OK: com.google.common.collect.Streams.LongFunctionWithIndex Interface
 OK: com.google.common.util.concurrent.AtomicLongMap Method accumulateAndGet(K, long, java.util.function.LongBinaryOperator)
 MISSING @SINCE TAG: com.google.common.collect.ImmutableRangeSet Method addAll(java.lang.Iterable<com.google.common.collect.Range<C>>)
 OK: com.google.common.collect.ImmutableRangeSet.Builder Method addAll(java.lang.Iterable<com.google.common.collect.Range<C>>)
