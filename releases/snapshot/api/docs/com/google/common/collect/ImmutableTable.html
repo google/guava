@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":10,"i2":42,"i3":10,"i4":10,"i5":6,"i6":10,"i7":10,"i8":10,"i9":10,"i10":9,"i11":10,"i12":10,"i13":10,"i14":10,"i15":9,"i16":9,"i17":42,"i18":42,"i19":42,"i20":10,"i21":10,"i22":6,"i23":9,"i24":10,"i25":10};
+var methods = {"i0":9,"i1":10,"i2":42,"i3":10,"i4":10,"i5":6,"i6":10,"i7":10,"i8":10,"i9":10,"i10":9,"i11":10,"i12":10,"i13":10,"i14":10,"i15":9,"i16":9,"i17":42,"i18":42,"i19":42,"i20":10,"i21":10,"i22":6,"i23":9,"i24":9,"i25":10,"i26":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -114,7 +114,7 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.47">ImmutableTable</a>&lt;R,C,V&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.50">ImmutableTable</a>&lt;R,C,V&gt;
 extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</a></pre>
 <div class="block">A <a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect"><code>Table</code></a> whose contents will never change, with many other important
@@ -347,12 +347,21 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 </td>
 </tr>
 <tr id="i24" class="altColor">
+<td class="colFirst"><code>static &lt;T,R,C,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream">Collector</a>&lt;T,?,<a href="../../../../com/google/common/collect/ImmutableTable.html" title="class in com.google.common.collect">ImmutableTable</a>&lt;R,C,V&gt;&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableTable.html#toImmutableTable-java.util.function.Function-java.util.function.Function-java.util.function.Function-java.util.function.BinaryOperator-">toImmutableTable</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends R&gt;&nbsp;rowFunction,
+                <a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends C&gt;&nbsp;columnFunction,
+                <a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends V&gt;&nbsp;valueFunction,
+                <a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/BinaryOperator.html?is-external=true" title="class or interface in java.util.function">BinaryOperator</a>&lt;V&gt;&nbsp;mergeFunction)</code>
+<div class="block">Returns a <code>Collector</code> that accumulates elements into an <code>ImmutableTable</code>.</div>
+</td>
+</tr>
+<tr id="i25" class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableTable.html#toString--">toString</a></span>()</code>
 <div class="block">Returns the string representation <code>rowMap().toString()</code>.</div>
 </td>
 </tr>
-<tr id="i25" class="rowColor">
+<tr id="i26" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">V</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableTable.html#values--">values</a></span>()</code>
 <div class="block">Returns a collection of all values, which may contain duplicates.</div>
@@ -393,12 +402,39 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>toImmutableTable</h4>
-<pre>public static&nbsp;&lt;T,R,C,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream">Collector</a>&lt;T,?,<a href="../../../../com/google/common/collect/ImmutableTable.html" title="class in com.google.common.collect">ImmutableTable</a>&lt;R,C,V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.57">toImmutableTable</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends R&gt;&nbsp;rowFunction,
-                                                                              <a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends C&gt;&nbsp;columnFunction,
-                                                                              <a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends V&gt;&nbsp;valueFunction)</pre>
+<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+public static&nbsp;&lt;T,R,C,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream">Collector</a>&lt;T,?,<a href="../../../../com/google/common/collect/ImmutableTable.html" title="class in com.google.common.collect">ImmutableTable</a>&lt;R,C,V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.64">toImmutableTable</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends R&gt;&nbsp;rowFunction,
+                                                                                    <a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends C&gt;&nbsp;columnFunction,
+                                                                                    <a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends V&gt;&nbsp;valueFunction)</pre>
 <div class="block">Returns a <code>Collector</code> that accumulates elements into an <code>ImmutableTable</code>. Each
  input element is mapped to one cell in the returned table, with the rows, columns, and values
- generated by applying the specified functions.</div>
+ generated by applying the specified functions.
+
+ <p>The returned <code>Collector</code> will throw a <code>NullPointerException</code> at collection time
+ if the row, column, or value functions return null on any input.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>21.0</dd>
+</dl>
+</li>
+</ul>
+<a name="toImmutableTable-java.util.function.Function-java.util.function.Function-java.util.function.Function-java.util.function.BinaryOperator-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>toImmutableTable</h4>
+<pre>public static&nbsp;&lt;T,R,C,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream">Collector</a>&lt;T,?,<a href="../../../../com/google/common/collect/ImmutableTable.html" title="class in com.google.common.collect">ImmutableTable</a>&lt;R,C,V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.90">toImmutableTable</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends R&gt;&nbsp;rowFunction,
+                                                                              <a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends C&gt;&nbsp;columnFunction,
+                                                                              <a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends V&gt;&nbsp;valueFunction,
+                                                                              <a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/BinaryOperator.html?is-external=true" title="class or interface in java.util.function">BinaryOperator</a>&lt;V&gt;&nbsp;mergeFunction)</pre>
+<div class="block">Returns a <code>Collector</code> that accumulates elements into an <code>ImmutableTable</code>. Each
+ input element is mapped to one cell in the returned table, with the rows, columns, and values
+ generated by applying the specified functions. If multiple inputs are mapped to the same row
+ and column pair, they will be combined with the specified merging function in encounter order.
+
+ <p>The returned <code>Collector</code> will throw a <code>NullPointerException</code> at collection time
+ if the row, column, value, or merging functions return null on any input.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>21.0</dd>
@@ -411,7 +447,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="class in com.google.common.collect">ImmutableTable</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.74">of</a>()</pre>
+<pre>public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="class in com.google.common.collect">ImmutableTable</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.181">of</a>()</pre>
 <div class="block">Returns an empty immutable table.</div>
 </li>
 </ul>
@@ -423,7 +459,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="class in com.google.common.collect">ImmutableTable</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.79">of</a>(R&nbsp;rowKey,
+<pre>public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="class in com.google.common.collect">ImmutableTable</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.186">of</a>(R&nbsp;rowKey,
                                                C&nbsp;columnKey,
                                                V&nbsp;value)</pre>
 <div class="block">Returns an immutable table containing a single cell.</div>
@@ -435,7 +471,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="class in com.google.common.collect">ImmutableTable</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.97">copyOf</a>(<a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;? extends R,? extends C,? extends V&gt;&nbsp;table)</pre>
+<pre>public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="class in com.google.common.collect">ImmutableTable</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.204">copyOf</a>(<a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;? extends R,? extends C,? extends V&gt;&nbsp;table)</pre>
 <div class="block">Returns an immutable copy of the provided table.
 
  <p>The <a href="../../../../com/google/common/collect/Table.html#cellSet--"><code>Table.cellSet()</code></a> iteration order of the provided table
@@ -456,7 +492,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>builder</h4>
-<pre>public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableTable.Builder.html" title="class in com.google.common.collect">ImmutableTable.Builder</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.121">builder</a>()</pre>
+<pre>public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableTable.Builder.html" title="class in com.google.common.collect">ImmutableTable.Builder</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.228">builder</a>()</pre>
 <div class="block">Returns a new builder. The generated builder is equivalent to the builder created by the <code>ImmutableTable.Builder()</code> constructor.</div>
 </li>
 </ul>
@@ -466,7 +502,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>cellSet</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="../../../../com/google/common/collect/Table.Cell.html" title="interface in com.google.common.collect">Table.Cell</a>&lt;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">R</a>,<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">C</a>,<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.260">cellSet</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="../../../../com/google/common/collect/Table.Cell.html" title="interface in com.google.common.collect">Table.Cell</a>&lt;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">R</a>,<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">C</a>,<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.367">cellSet</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Table.html#cellSet--">Table</a></code></span></div>
 <div class="block">Returns a set of all row key / column key / value triplets. Changes to the
  returned set will update the underlying table, and vice versa. The cell set
@@ -486,7 +522,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>values</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.278">values</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.385">values</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Table.html#values--">Table</a></code></span></div>
 <div class="block">Returns a collection of all values, which may contain duplicates. Changes
  to the returned collection will update the underlying table, and vice
@@ -507,7 +543,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>column</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">R</a>,<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.296">column</a>(<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">C</a>&nbsp;columnKey)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">R</a>,<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.403">column</a>(<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">C</a>&nbsp;columnKey)</pre>
 <div class="block">Returns a view of all mappings that have the given column key. For each row
  key / column key / value mapping in the table with that column key, the
  returned map associates the row key with the value. If no mappings in the
@@ -533,7 +569,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>columnKeySet</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.303">columnKeySet</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.410">columnKeySet</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Table.html#columnKeySet--">Table</a></code></span></div>
 <div class="block">Returns a set of column keys that have one or more values in the table.
  Changes to the set will update the underlying table, and vice versa.</div>
@@ -551,7 +587,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>columnMap</h4>
-<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">C</a>,<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">R</a>,<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.314">columnMap</a>()</pre>
+<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">C</a>,<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">R</a>,<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.421">columnMap</a>()</pre>
 <div class="block">Returns a view that associates each column key with the corresponding map
  from row keys to values. Changes to the returned map will update this
  table. The returned map does not support <code>put()</code> or <code>putAll()</code>,
@@ -580,7 +616,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>row</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">C</a>,<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.322">row</a>(<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">R</a>&nbsp;rowKey)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">C</a>,<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.429">row</a>(<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">R</a>&nbsp;rowKey)</pre>
 <div class="block">Returns a view of all mappings that have the given row key. For each row
  key / column key / value mapping in the table with that row key, the
  returned map associates the column key with the value. If no mappings in
@@ -606,7 +642,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>rowKeySet</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">R</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.329">rowKeySet</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">R</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.436">rowKeySet</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Table.html#rowKeySet--">Table</a></code></span></div>
 <div class="block">Returns a set of row keys that have one or more values in the table.
  Changes to the set will update the underlying table, and vice versa.</div>
@@ -624,7 +660,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>rowMap</h4>
-<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">R</a>,<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">C</a>,<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.340">rowMap</a>()</pre>
+<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">R</a>,<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">C</a>,<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.447">rowMap</a>()</pre>
 <div class="block">Returns a view that associates each row key with the corresponding map from
  column keys to values. Changes to the returned map will update this table.
  The returned map does not support <code>put()</code> or <code>putAll()</code>, or
@@ -650,7 +686,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.343">contains</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.450">contains</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                         <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;rowKey,
                         <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                         <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;columnKey)</pre>
@@ -672,7 +708,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>containsValue</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.348">containsValue</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.455">containsValue</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                              <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Table.html#containsValue-java.lang.Object-">Table</a></code></span></div>
 <div class="block">Returns <code>true</code> if the table contains a mapping with the specified
@@ -692,7 +728,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <li class="blockList">
 <h4>clear</h4>
 <pre><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.360">clear</a>()</pre>
+public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.467">clear</a>()</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the table unmodified.</div>
 <dl>
@@ -712,7 +748,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <li class="blockList">
 <h4>put</h4>
 <pre><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.373">put</a>(<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">R</a>&nbsp;rowKey,
+public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.480">put</a>(<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">R</a>&nbsp;rowKey,
                                <a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">C</a>&nbsp;columnKey,
                                <a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">V</a>&nbsp;value)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
@@ -739,7 +775,7 @@ public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableTable.
 <li class="blockList">
 <h4>putAll</h4>
 <pre><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.385">putAll</a>(<a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;? extends <a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">R</a>,? extends <a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">C</a>,? extends <a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">V</a>&gt;&nbsp;table)</pre>
+public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.492">putAll</a>(<a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;? extends <a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">R</a>,? extends <a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">C</a>,? extends <a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">V</a>&gt;&nbsp;table)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the table unmodified.</div>
 <dl>
@@ -759,7 +795,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <li class="blockList">
 <h4>remove</h4>
 <pre><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.398">remove</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;rowKey,
+public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableTable.html" title="type parameter in ImmutableTable">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.html#line.505">remove</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;rowKey,
                                   <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;columnKey)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the table unmodified.</div>
