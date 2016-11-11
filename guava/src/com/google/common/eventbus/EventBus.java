@@ -192,6 +192,16 @@ public class EventBus {
   }
 
   /**
+   * Registers all subscriber methods on {@code object} to receive events.
+   *
+   * @param object object whose subscriber methods should be registered.
+   * @param executor specify executor to execute subscriber's methods
+   */
+  public void register(Object object, Executor executor) {
+    subscribers.register(object, executor);
+  }
+
+  /**
    * Unregisters all subscriber methods on a registered {@code object}.
    *
    * @param object object whose subscriber methods should be unregistered.
