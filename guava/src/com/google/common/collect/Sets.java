@@ -575,6 +575,96 @@ public final class Sets {
     }
 
     /**
+     * Guaranteed to throw an exception and leave the collection unmodified.
+     *
+     * @throws UnsupportedOperationException always
+     * @deprecated Unsupported operation.
+     */
+    @CanIgnoreReturnValue
+    @Deprecated
+    @Override
+    public final boolean add(E e) {
+      throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Guaranteed to throw an exception and leave the collection unmodified.
+     *
+     * @throws UnsupportedOperationException always
+     * @deprecated Unsupported operation.
+     */
+    @CanIgnoreReturnValue
+    @Deprecated
+    @Override
+    public final boolean remove(Object object) {
+      throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Guaranteed to throw an exception and leave the collection unmodified.
+     *
+     * @throws UnsupportedOperationException always
+     * @deprecated Unsupported operation.
+     */
+    @CanIgnoreReturnValue
+    @Deprecated
+    @Override
+    public final boolean addAll(Collection<? extends E> newElements) {
+      throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Guaranteed to throw an exception and leave the collection unmodified.
+     *
+     * @throws UnsupportedOperationException always
+     * @deprecated Unsupported operation.
+     */
+    @CanIgnoreReturnValue
+    @Deprecated
+    @Override
+    public final boolean removeAll(Collection<?> oldElements) {
+      throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Guaranteed to throw an exception and leave the collection unmodified.
+     *
+     * @throws UnsupportedOperationException always
+     * @deprecated Unsupported operation.
+     */
+    @CanIgnoreReturnValue
+    @Deprecated
+    @Override
+    public final boolean removeIf(java.util.function.Predicate<? super E> filter) {
+      throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Guaranteed to throw an exception and leave the collection unmodified.
+     *
+     * @throws UnsupportedOperationException always
+     * @deprecated Unsupported operation.
+     */
+    @CanIgnoreReturnValue
+    @Deprecated
+    @Override
+    public final boolean retainAll(Collection<?> elementsToKeep) {
+      throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Guaranteed to throw an exception and leave the collection unmodified.
+     *
+     * @throws UnsupportedOperationException always
+     * @deprecated Unsupported operation.
+     */
+    @Deprecated
+    @Override
+    public final void clear() {
+      throw new UnsupportedOperationException();
+    }
+
+    /**
      * Scope the return type to {@link UnmodifiableIterator} to ensure this is an unmodifiable view.
      *
      * @since 20.0 (present with return type {@link Iterator} since 2.0)
