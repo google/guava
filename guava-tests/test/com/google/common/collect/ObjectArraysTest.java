@@ -217,6 +217,204 @@ public class ObjectArraysTest extends TestCase {
         ObjectArrays.newArray(new String[] { "a", "b", "c", "d", "e" }, 10));
   }
 
+  public void testIndexOf() {
+    String[] testArray = new String[] {"a", "fr", "fe", "a", "e"};
+    assertEquals(ObjectArrays.indexOf(testArray, "a"), 0);
+  }
+
+  public void testIndexOf_NullArg() {
+    String[] testArray = new String[] {null, "fr", "fe", null, "e"};
+    assertEquals(ObjectArrays.indexOf(testArray, (String)null), 0);
+  }
+
+  public void testIndexOfDeep() {
+    String[] a0 = new String[] {"a", "fr", "fe", "ape", "e"};
+    String[] a1 = new String[] {"a", "fr", "fe", "a", "e"};
+    String[] a2 = new String[] {"a", "fe", "a", "e"};
+    String[] a3 = new String[] {"a", "fr", "fe", "a", "e"};
+    String[] a4 = new String[] {"e", "fr", "fe", "aa", "e"};
+    String[][] testArray = new String[][] {a0, a1, a2, a3, a4};
+    assertNotSame(a1, a3);
+    assertEquals(ObjectArrays.<String[]>indexOf(testArray, a3), 1);
+  }
+
+  public void testIndexOfDeep_containsNull() {
+    String[] a0 = new String[] {"a", "fr", "fe", "ape", "e"};
+    String[] a1 = new String[] {"a", "fr", "fe", null, "e"};
+    String[] a2 = new String[] {"a", "fe", "a", "e"};
+    String[] a3 = new String[] {"a", "fr", "fe", null, "e"};
+    String[] a4 = new String[] {"e", "fr", "fe", "aa", "e"};
+    String[][] testArray = new String[][] {a0, a1, a2, a3, a4};
+    assertNotSame(a1, a3);
+    assertEquals(ObjectArrays.<String[]>indexOf(testArray, a3), 1);
+  }
+
+  public void testLastIndexOf() {
+    String[] testArray = new String[] {"a", "fr", "fe", "a", "e"};
+    assertEquals(ObjectArrays.lastIndexOf(testArray, "a"), 3);
+  }
+
+  public void testLastIndexOf_NullArg() {
+    String[] testArray = new String[] {null, "fr", "fe", null, "e"};
+    assertEquals(ObjectArrays.lastIndexOf(testArray, (String) null), 3);
+  }
+
+  public void testLastIndexOfDeep() {
+    String[] a0 = new String[] {"a", "fr", "fe", "ape", "e"};
+    String[] a1 = new String[] {"a", "fr", "fe", "a", "e"};
+    String[] a2 = new String[] {"a", "fe", "a", "e"};
+    String[] a3 = new String[] {"a", "fr", "fe", "a", "e"};
+    String[] a4 = new String[] {"e", "fr", "fe", "aa", "e"};
+    String[][] testArray = new String[][] {a0, a1, a2, a3, a4};
+    assertNotSame(a1, a3);
+    assertEquals(ObjectArrays.<String[]>lastIndexOf(testArray, a1), 3);
+  }
+
+  public void testLastIndexOfDeep_containsNull() {
+    String[] a0 = new String[] {"a", "fr", "fe", "ape", "e"};
+    String[] a1 = new String[] {"a", "fr", "fe", null, "e"};
+    String[] a2 = new String[] {"a", "fe", "a", "e"};
+    String[] a3 = new String[] {"a", "fr", "fe", null, "e"};
+    String[] a4 = new String[] {"e", "fr", "fe", "aa", "e"};
+    String[][] testArray = new String[][] {a0, a1, a2, a3, a4};
+    assertNotSame(a1, a3);
+    assertEquals(ObjectArrays.<String[]>lastIndexOf(testArray, a1), 3);
+  }
+
+  public void testIndexOf_Arrays() {
+    String[] array = new String[] {"apple", "pear", "mango", "apple", "pear"};
+    assertEquals(ObjectArrays.indexOf(array, new String[] {"apple", "pear"}), 0);
+  }
+
+  public void testIndexOf_Arrays_Empty() {
+    String[] array = new String[] {"apple", "pear", "mango", "apple", "pear"};
+    assertEquals(ObjectArrays.indexOf(array, new String[] {}), 0);
+  }
+
+  public void testIndexOf_Arrays_NonExist() {
+    String[] array = new String[] {"apple", "pear", "mango", "apple", "pear"};
+    assertEquals(ObjectArrays.indexOf(array, new String[] {"tiger"}), -1);
+  }
+
+  public void testIndexOfDeep_Arrays() {
+    String[] a0 = new String[] {"a", "fr", "fe", "a", "e"};
+    String[] a1 = new String[] {"e", "fr", "fe", "aa", "e"};
+    String[] a2 = new String[] {"a", "fe", "a", "e"};
+    String[] a3 = new String[] {"a", "fr", "fe", "a", "e"};
+    String[] a4 = new String[] {"e", "fr", "fe", "aa", "e"};
+    String[][] testArray = new String[][] {a0, a1, a2, a3, a4};
+    String[] a5 = new String[] {"a", "fr", "fe", "a", "e"};
+    String[] a6 = new String[] {"e", "fr", "fe", "aa", "e"};
+    String[][] target = new String[][] {a5, a6};
+    assertEquals(ObjectArrays.indexOf(testArray, target), 0);
+  }
+
+  public void testIndexOfDeep_Arrays_NonExist() {
+    String[] a0 = new String[] {"a", "fr", "fe", "a", "e"};
+    String[] a1 = new String[] {"e", "fr", "fe", "ae", "e"};
+    String[] a2 = new String[] {"a", "fe", "a", "e"};
+    String[] a3 = new String[] {"a", "fr", "fe", "a", "e"};
+    String[] a4 = new String[] {"e", "fr", "fe", "af", "e"};
+    String[][] testArray = new String[][] {a0, a1, a2, a3, a4};
+    String[] a5 = new String[] {"a", "fr", "fe", "a", "e"};
+    String[] a6 = new String[] {"e", "fr", "fe", "aa", "e"};
+    String[][] target = new String[][] {a5, a6};
+    assertEquals(ObjectArrays.indexOf(testArray, target), -1);
+  }
+
+  public void testIndexOfDeep_Arrays_containsNull() {
+    String[] a0 = new String[] {"a", null, "fe", "a", "e"};
+    String[] a1 = new String[] {"e", "fr", "fe", null, "e"};
+    String[] a2 = new String[] {"a", "fe", "a", "e"};
+    String[] a3 = new String[] {"a", null, "fe", "a", "e"};
+    String[] a4 = new String[] {"e", "fr", "fe", null, "e"};
+    String[][] testArray = new String[][] {a0, a1, a2, a3, a4};
+    String[] a5 = new String[] {"a", null, "fe", "a", "e"};
+    String[] a6 = new String[] {"e", "fr", "fe", null, "e"};
+    String[][] target = new String[][] {a5, a6};
+    assertEquals(ObjectArrays.indexOf(testArray, target), 0);
+  }
+
+  public void testIndexOfDeep_Arrays_containsNull_NonExist() {
+    String[] a0 = new String[] {"a", null, "fe", "a", "e"};
+    String[] a1 = new String[] {"e", "", "fe", null, "e"};
+    String[] a2 = new String[] {"a", "fe", "a", "e"};
+    String[] a3 = new String[] {"a", null, "fe", null, "e"};
+    String[] a4 = new String[] {"e", "fr", "fe", null, "e"};
+    String[][] testArray = new String[][] {a0, a1, a2, a3, a4};
+    String[] a5 = new String[] {"a", null, "fe", "a", "e"};
+    String[] a6 = new String[] {"e", "fr", "fe", null, "e"};
+    String[][] target = new String[][] {a5, a6};
+    assertEquals(ObjectArrays.indexOf(testArray, target), -1);
+  }
+
+  public void testLastIndexOf_Arrays() {
+    String[] array = new String[] {"apple", "pear", "mango", "apple", "pear"};
+    assertEquals(ObjectArrays.lastIndexOf(array, new String[] {"apple", "pear"}), 3);
+  }
+
+  public void testLastIndexOf_Arrays_Empty() {
+    String[] array = new String[] {"apple", "pear", "mango", "apple", "pear"};
+    assertEquals(ObjectArrays.lastIndexOf(array, new String[] {}), 5);
+  }
+
+  public void testLastIndexOf_Arrays_NonExist() {
+    String[] array = new String[] {"apple", "pear", "mango", "apple", "pear"};
+    assertEquals(ObjectArrays.lastIndexOf(array, new String[] {"smash", "pear"}), -1);
+  }
+
+  public void testLastIndexOfDeep_Arrays() {
+    String[] a0 = new String[] {"a", "fr", "fe", "a", "e"};
+    String[] a1 = new String[] {"e", "fr", "fe", "aa", "e"};
+    String[] a2 = new String[] {"a", "fe", "a", "e"};
+    String[] a3 = new String[] {"a", "fr", "fe", "a", "e"};
+    String[] a4 = new String[] {"e", "fr", "fe", "aa", "e"};
+    String[][] testArray = new String[][] {a0, a1, a2, a3, a4};
+    String[] a5 = new String[] {"a", "fr", "fe", "a", "e"};
+    String[] a6 = new String[] {"e", "fr", "fe", "aa", "e"};
+    String[][] target = new String[][] {a5, a6};
+    assertEquals(ObjectArrays.lastIndexOf(testArray, target), 3);
+  }
+
+  public void testLastIndexOfDeep_Arrays_NonExist() {
+    String[] a0 = new String[] {"a", "fr", "fe", "ape", "e"};
+    String[] a1 = new String[] {"e", "fr", "fe", "aa", "e"};
+    String[] a2 = new String[] {"a", "fe", "a", "e"};
+    String[] a3 = new String[] {"a", "french", "fe", "a", "e"};
+    String[] a4 = new String[] {"e", "fr", "fe", "aa", "e"};
+    String[][] testArray = new String[][] {a0, a1, a2, a3, a4};
+    String[] a5 = new String[] {"a", "fr", "fe", "a", "e"};
+    String[] a6 = new String[] {"e", "fr", "fe", "aa", "e"};
+    String[][] target = new String[][] {a5, a6};
+    assertEquals(ObjectArrays.lastIndexOf(testArray, target), -1);
+  }
+
+  public void testLastIndexOfDeep_Arrays_containsNull() {
+    String[] a0 = new String[] {"a", null, "fe", "a", "e"};
+    String[] a1 = new String[] {"e", "fr", "fe", null, "e"};
+    String[] a2 = new String[] {"a", "fe", "a", "e"};
+    String[] a3 = new String[] {"a", null, "fe", "a", "e"};
+    String[] a4 = new String[] {"e", "fr", "fe", null, "e"};
+    String[][] testArray = new String[][] {a0, a1, a2, a3, a4};
+    String[] a5 = new String[] {"a", null, "fe", "a", "e"};
+    String[] a6 = new String[] {"e", "fr", "fe", null, "e"};
+    String[][] target = new String[][] {a5, a6};
+    assertEquals(ObjectArrays.lastIndexOf(testArray, target), 3);
+  }
+
+  public void testLastIndexOfDeep_Arrays_containsNull_NonExist() {
+    String[] a0 = new String[] {"a", null, "fe", "a", "e"};
+    String[] a1 = new String[] {null, "fr", "fe", null, "e"};
+    String[] a2 = new String[] {"a", "fe", "a", "e"};
+    String[] a3 = new String[] {"a", null, "fe", "a", "e"};
+    String[] a4 = new String[] {"e", "fr", "fe", null, "e"};
+    String[][] testArray = new String[][] {a0, a1, a2, a3, a4};
+    String[] a5 = new String[] {"a", null, "fe", "a", null};
+    String[] a6 = new String[] {"e", "fr", "fe", null, "e"};
+    String[][] target = new String[][] {a5, a6};
+    assertEquals(ObjectArrays.lastIndexOf(testArray, target), -1);
+  }
+
   private static void checkArrayEquals(Object[] expected, Object[] actual) {
     assertTrue("expected(" + expected.getClass() + "): " + Arrays.toString(expected)
         + " actual(" + actual.getClass() + "): " + Arrays.toString(actual),

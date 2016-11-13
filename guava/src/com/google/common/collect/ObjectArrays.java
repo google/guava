@@ -17,12 +17,14 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkPositionIndexes;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.Array;
 import java.util.Collection;
+import java.util.Objects;
 import javax.annotation.Nullable;
 
 /**
@@ -104,6 +106,110 @@ public final class ObjectArrays {
     T[] result = arraysCopyOf(array, array.length + 1);
     result[array.length] = element;
     return result;
+  }
+
+  /**
+   * Returns the index of the first appearance of the value {@code target} in {@code array}.
+   *
+   * <p>More formally, returns the lowest index {@code i} such that
+   * {@code Objects.deepEquals(array[i], element)} returns true.
+   *
+   * @param array an array of elements
+   * @param element a nullable value
+   */
+  public static <T> int indexOf(T[] array, @Nullable T element) {
+    return indexOf(array, element, 0, array.length);
+  }
+
+  private static <T> int indexOf(T[] array, @Nullable T element, int start, int end) {
+    checkNotNull(array, "array");
+    for (int i = start; i < end; i++) {
+      if (Objects.deepEquals(array[i], element)) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  /**
+   * Returns the index of the last appearance of the value {@code target} in {@code array}.
+   *
+   * <p>More formally, returns the highest index {@code i} such that
+   * {@code Objects.deepEquals(array[i], element)} returns true.
+   *
+   * @param array an array of elements
+   * @param element a nullable value
+   */
+  public static <T> int lastIndexOf(T[] array, @Nullable T element) {
+    return lastIndexOf(array, element, 0, array.length);
+  }
+
+  private static <T> int lastIndexOf(T[] array, @Nullable T element, int start, int end) {
+    checkNotNull(array, "array");
+    for (int i = end - 1; i >= start; i--) {
+      if (Objects.deepEquals(array[i], element)) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  /**
+   * Returns the start position of the first occurrence of the specified {@code
+   * target} within {@code array}, or {@code -1} if there is no such occurrence.
+   *
+   * <p>More formally, returns the lowest index {@code i} such that at every position
+   * {@code i} in {@code target}, {@code Objects.deepEquals(Arrays.copyOfRange(array,
+   * i, i + target.length)[i], target[i])} returns true.
+   *
+   * @param array the array to search for the sequence {@code target}
+   * @param target the array to search for as a sub-sequence of {@code array}
+   */
+  public static <T> int indexOf(T[] array, T[] target) {
+    checkNotNull(array, "array");
+    if (checkNotNull(target, "target").length == 0) {
+      return 0;
+    }
+
+    outer:
+    for (int i = 0; i <= array.length - target.length; i++) {
+      for (int j = 0; j < target.length; j++) {
+        if (!Objects.deepEquals(array[i + j], target[j])) {
+          continue outer;
+        }
+      }
+      return i;
+    }
+    return -1;
+  }
+
+  /**
+   * Returns the start position of the last occurrence of the specified {@code
+   * target} within {@code array}, or {@code -1} if there is no such occurrence.
+   *
+   * <p>More formally, returns the highest index {@code i} such that at every position
+   * {@code i} in {@code target}, {@code Objects.deepEquals(Arrays.copyOfRange(array,
+   * i, i + target.length)[i], target[i])} returns true.
+   *
+   * @param array the array to search for the sequence {@code target}
+   * @param target the array to search for as a sub-sequence of {@code array}
+   */
+  public static <T> int lastIndexOf(T[] array, T[] target) {
+    checkNotNull(array, "array");
+    if (checkNotNull(target, "target").length == 0) {
+      return array.length;
+    }
+
+    outer:
+    for (int i = array.length - target.length; i >= 0; i--) {
+      for (int j = 0; j < target.length; j++) {
+        if (!Objects.deepEquals(array[i + j], target[j])) {
+          continue outer;
+        }
+      }
+      return i;
+    }
+    return -1;
   }
 
   /** GWT safe version of Arrays.copyOf. */
