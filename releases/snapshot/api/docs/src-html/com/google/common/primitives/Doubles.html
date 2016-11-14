@@ -563,68 +563,64 @@
 <span class="sourceLineNo">555</span>    }<a name="line.555"></a>
 <span class="sourceLineNo">556</span><a name="line.556"></a>
 <span class="sourceLineNo">557</span>    double[] toDoubleArray() {<a name="line.557"></a>
-<span class="sourceLineNo">558</span>      // Arrays.copyOfRange() is not available under GWT<a name="line.558"></a>
-<span class="sourceLineNo">559</span>      int size = size();<a name="line.559"></a>
-<span class="sourceLineNo">560</span>      double[] result = new double[size];<a name="line.560"></a>
-<span class="sourceLineNo">561</span>      System.arraycopy(array, start, result, 0, size);<a name="line.561"></a>
-<span class="sourceLineNo">562</span>      return result;<a name="line.562"></a>
-<span class="sourceLineNo">563</span>    }<a name="line.563"></a>
-<span class="sourceLineNo">564</span><a name="line.564"></a>
-<span class="sourceLineNo">565</span>    private static final long serialVersionUID = 0;<a name="line.565"></a>
-<span class="sourceLineNo">566</span>  }<a name="line.566"></a>
-<span class="sourceLineNo">567</span><a name="line.567"></a>
-<span class="sourceLineNo">568</span>  /**<a name="line.568"></a>
-<span class="sourceLineNo">569</span>   * This is adapted from the regex suggested by {@link Double#valueOf(String)} for prevalidating<a name="line.569"></a>
-<span class="sourceLineNo">570</span>   * inputs. All valid inputs must pass this regex, but it's semantically fine if not all inputs<a name="line.570"></a>
-<span class="sourceLineNo">571</span>   * that pass this regex are valid -- only a performance hit is incurred, not a semantics bug.<a name="line.571"></a>
-<span class="sourceLineNo">572</span>   */<a name="line.572"></a>
-<span class="sourceLineNo">573</span>  @GwtIncompatible // regular expressions<a name="line.573"></a>
-<span class="sourceLineNo">574</span>  static final Pattern FLOATING_POINT_PATTERN = fpPattern();<a name="line.574"></a>
-<span class="sourceLineNo">575</span><a name="line.575"></a>
-<span class="sourceLineNo">576</span>  @GwtIncompatible // regular expressions<a name="line.576"></a>
-<span class="sourceLineNo">577</span>  private static Pattern fpPattern() {<a name="line.577"></a>
-<span class="sourceLineNo">578</span>    String decimal = "(?:\\d++(?:\\.\\d*+)?|\\.\\d++)";<a name="line.578"></a>
-<span class="sourceLineNo">579</span>    String completeDec = decimal + "(?:[eE][+-]?\\d++)?[fFdD]?";<a name="line.579"></a>
-<span class="sourceLineNo">580</span>    String hex = "(?:\\p{XDigit}++(?:\\.\\p{XDigit}*+)?|\\.\\p{XDigit}++)";<a name="line.580"></a>
-<span class="sourceLineNo">581</span>    String completeHex = "0[xX]" + hex + "[pP][+-]?\\d++[fFdD]?";<a name="line.581"></a>
-<span class="sourceLineNo">582</span>    String fpPattern = "[+-]?(?:NaN|Infinity|" + completeDec + "|" + completeHex + ")";<a name="line.582"></a>
-<span class="sourceLineNo">583</span>    return Pattern.compile(fpPattern);<a name="line.583"></a>
-<span class="sourceLineNo">584</span>  }<a name="line.584"></a>
-<span class="sourceLineNo">585</span><a name="line.585"></a>
-<span class="sourceLineNo">586</span>  /**<a name="line.586"></a>
-<span class="sourceLineNo">587</span>   * Parses the specified string as a double-precision floating point value. The ASCII character<a name="line.587"></a>
-<span class="sourceLineNo">588</span>   * {@code '-'} (&lt;code&gt;'&amp;#92;u002D'&lt;/code&gt;) is recognized as the minus sign.<a name="line.588"></a>
+<span class="sourceLineNo">558</span>      return Arrays.copyOfRange(array, start, end);<a name="line.558"></a>
+<span class="sourceLineNo">559</span>    }<a name="line.559"></a>
+<span class="sourceLineNo">560</span><a name="line.560"></a>
+<span class="sourceLineNo">561</span>    private static final long serialVersionUID = 0;<a name="line.561"></a>
+<span class="sourceLineNo">562</span>  }<a name="line.562"></a>
+<span class="sourceLineNo">563</span><a name="line.563"></a>
+<span class="sourceLineNo">564</span>  /**<a name="line.564"></a>
+<span class="sourceLineNo">565</span>   * This is adapted from the regex suggested by {@link Double#valueOf(String)} for prevalidating<a name="line.565"></a>
+<span class="sourceLineNo">566</span>   * inputs. All valid inputs must pass this regex, but it's semantically fine if not all inputs<a name="line.566"></a>
+<span class="sourceLineNo">567</span>   * that pass this regex are valid -- only a performance hit is incurred, not a semantics bug.<a name="line.567"></a>
+<span class="sourceLineNo">568</span>   */<a name="line.568"></a>
+<span class="sourceLineNo">569</span>  @GwtIncompatible // regular expressions<a name="line.569"></a>
+<span class="sourceLineNo">570</span>  static final Pattern FLOATING_POINT_PATTERN = fpPattern();<a name="line.570"></a>
+<span class="sourceLineNo">571</span><a name="line.571"></a>
+<span class="sourceLineNo">572</span>  @GwtIncompatible // regular expressions<a name="line.572"></a>
+<span class="sourceLineNo">573</span>  private static Pattern fpPattern() {<a name="line.573"></a>
+<span class="sourceLineNo">574</span>    String decimal = "(?:\\d++(?:\\.\\d*+)?|\\.\\d++)";<a name="line.574"></a>
+<span class="sourceLineNo">575</span>    String completeDec = decimal + "(?:[eE][+-]?\\d++)?[fFdD]?";<a name="line.575"></a>
+<span class="sourceLineNo">576</span>    String hex = "(?:\\p{XDigit}++(?:\\.\\p{XDigit}*+)?|\\.\\p{XDigit}++)";<a name="line.576"></a>
+<span class="sourceLineNo">577</span>    String completeHex = "0[xX]" + hex + "[pP][+-]?\\d++[fFdD]?";<a name="line.577"></a>
+<span class="sourceLineNo">578</span>    String fpPattern = "[+-]?(?:NaN|Infinity|" + completeDec + "|" + completeHex + ")";<a name="line.578"></a>
+<span class="sourceLineNo">579</span>    return Pattern.compile(fpPattern);<a name="line.579"></a>
+<span class="sourceLineNo">580</span>  }<a name="line.580"></a>
+<span class="sourceLineNo">581</span><a name="line.581"></a>
+<span class="sourceLineNo">582</span>  /**<a name="line.582"></a>
+<span class="sourceLineNo">583</span>   * Parses the specified string as a double-precision floating point value. The ASCII character<a name="line.583"></a>
+<span class="sourceLineNo">584</span>   * {@code '-'} (&lt;code&gt;'&amp;#92;u002D'&lt;/code&gt;) is recognized as the minus sign.<a name="line.584"></a>
+<span class="sourceLineNo">585</span>   *<a name="line.585"></a>
+<span class="sourceLineNo">586</span>   * &lt;p&gt;Unlike {@link Double#parseDouble(String)}, this method returns {@code null} instead of<a name="line.586"></a>
+<span class="sourceLineNo">587</span>   * throwing an exception if parsing fails. Valid inputs are exactly those accepted by<a name="line.587"></a>
+<span class="sourceLineNo">588</span>   * {@link Double#valueOf(String)}, except that leading and trailing whitespace is not permitted.<a name="line.588"></a>
 <span class="sourceLineNo">589</span>   *<a name="line.589"></a>
-<span class="sourceLineNo">590</span>   * &lt;p&gt;Unlike {@link Double#parseDouble(String)}, this method returns {@code null} instead of<a name="line.590"></a>
-<span class="sourceLineNo">591</span>   * throwing an exception if parsing fails. Valid inputs are exactly those accepted by<a name="line.591"></a>
-<span class="sourceLineNo">592</span>   * {@link Double#valueOf(String)}, except that leading and trailing whitespace is not permitted.<a name="line.592"></a>
-<span class="sourceLineNo">593</span>   *<a name="line.593"></a>
-<span class="sourceLineNo">594</span>   * &lt;p&gt;This implementation is likely to be faster than {@code<a name="line.594"></a>
-<span class="sourceLineNo">595</span>   * Double.parseDouble} if many failures are expected.<a name="line.595"></a>
-<span class="sourceLineNo">596</span>   *<a name="line.596"></a>
-<span class="sourceLineNo">597</span>   * @param string the string representation of a {@code double} value<a name="line.597"></a>
-<span class="sourceLineNo">598</span>   * @return the floating point value represented by {@code string}, or {@code null} if<a name="line.598"></a>
-<span class="sourceLineNo">599</span>   *     {@code string} has a length of zero or cannot be parsed as a {@code double} value<a name="line.599"></a>
-<span class="sourceLineNo">600</span>   * @since 14.0<a name="line.600"></a>
-<span class="sourceLineNo">601</span>   */<a name="line.601"></a>
-<span class="sourceLineNo">602</span>  @Beta<a name="line.602"></a>
-<span class="sourceLineNo">603</span>  @Nullable<a name="line.603"></a>
-<span class="sourceLineNo">604</span>  @CheckForNull<a name="line.604"></a>
-<span class="sourceLineNo">605</span>  @GwtIncompatible // regular expressions<a name="line.605"></a>
-<span class="sourceLineNo">606</span>  public static Double tryParse(String string) {<a name="line.606"></a>
-<span class="sourceLineNo">607</span>    if (FLOATING_POINT_PATTERN.matcher(string).matches()) {<a name="line.607"></a>
-<span class="sourceLineNo">608</span>      // TODO(lowasser): could be potentially optimized, but only with<a name="line.608"></a>
-<span class="sourceLineNo">609</span>      // extensive testing<a name="line.609"></a>
-<span class="sourceLineNo">610</span>      try {<a name="line.610"></a>
-<span class="sourceLineNo">611</span>        return Double.parseDouble(string);<a name="line.611"></a>
-<span class="sourceLineNo">612</span>      } catch (NumberFormatException e) {<a name="line.612"></a>
-<span class="sourceLineNo">613</span>        // Double.parseDouble has changed specs several times, so fall through<a name="line.613"></a>
-<span class="sourceLineNo">614</span>        // gracefully<a name="line.614"></a>
-<span class="sourceLineNo">615</span>      }<a name="line.615"></a>
-<span class="sourceLineNo">616</span>    }<a name="line.616"></a>
-<span class="sourceLineNo">617</span>    return null;<a name="line.617"></a>
-<span class="sourceLineNo">618</span>  }<a name="line.618"></a>
-<span class="sourceLineNo">619</span>}<a name="line.619"></a>
+<span class="sourceLineNo">590</span>   * &lt;p&gt;This implementation is likely to be faster than {@code<a name="line.590"></a>
+<span class="sourceLineNo">591</span>   * Double.parseDouble} if many failures are expected.<a name="line.591"></a>
+<span class="sourceLineNo">592</span>   *<a name="line.592"></a>
+<span class="sourceLineNo">593</span>   * @param string the string representation of a {@code double} value<a name="line.593"></a>
+<span class="sourceLineNo">594</span>   * @return the floating point value represented by {@code string}, or {@code null} if<a name="line.594"></a>
+<span class="sourceLineNo">595</span>   *     {@code string} has a length of zero or cannot be parsed as a {@code double} value<a name="line.595"></a>
+<span class="sourceLineNo">596</span>   * @since 14.0<a name="line.596"></a>
+<span class="sourceLineNo">597</span>   */<a name="line.597"></a>
+<span class="sourceLineNo">598</span>  @Beta<a name="line.598"></a>
+<span class="sourceLineNo">599</span>  @Nullable<a name="line.599"></a>
+<span class="sourceLineNo">600</span>  @CheckForNull<a name="line.600"></a>
+<span class="sourceLineNo">601</span>  @GwtIncompatible // regular expressions<a name="line.601"></a>
+<span class="sourceLineNo">602</span>  public static Double tryParse(String string) {<a name="line.602"></a>
+<span class="sourceLineNo">603</span>    if (FLOATING_POINT_PATTERN.matcher(string).matches()) {<a name="line.603"></a>
+<span class="sourceLineNo">604</span>      // TODO(lowasser): could be potentially optimized, but only with<a name="line.604"></a>
+<span class="sourceLineNo">605</span>      // extensive testing<a name="line.605"></a>
+<span class="sourceLineNo">606</span>      try {<a name="line.606"></a>
+<span class="sourceLineNo">607</span>        return Double.parseDouble(string);<a name="line.607"></a>
+<span class="sourceLineNo">608</span>      } catch (NumberFormatException e) {<a name="line.608"></a>
+<span class="sourceLineNo">609</span>        // Double.parseDouble has changed specs several times, so fall through<a name="line.609"></a>
+<span class="sourceLineNo">610</span>        // gracefully<a name="line.610"></a>
+<span class="sourceLineNo">611</span>      }<a name="line.611"></a>
+<span class="sourceLineNo">612</span>    }<a name="line.612"></a>
+<span class="sourceLineNo">613</span>    return null;<a name="line.613"></a>
+<span class="sourceLineNo">614</span>  }<a name="line.614"></a>
+<span class="sourceLineNo">615</span>}<a name="line.615"></a>
 
 
 

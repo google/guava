@@ -33780,6 +33780,89 @@
  @return a reference to {@code set}, for convenience]]>
       </doc>
     </method>
+    <method name="add" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="Unsupported operation.">
+      <param name="e" type="E"/>
+      <doc>
+      <![CDATA[Guaranteed to throw an exception and leave the collection unmodified.
+
+ @throws UnsupportedOperationException always
+ @deprecated Unsupported operation.]]>
+      </doc>
+    </method>
+    <method name="remove" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="Unsupported operation.">
+      <param name="object" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Guaranteed to throw an exception and leave the collection unmodified.
+
+ @throws UnsupportedOperationException always
+ @deprecated Unsupported operation.]]>
+      </doc>
+    </method>
+    <method name="addAll" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="Unsupported operation.">
+      <param name="newElements" type="java.util.Collection&lt;? extends E&gt;"/>
+      <doc>
+      <![CDATA[Guaranteed to throw an exception and leave the collection unmodified.
+
+ @throws UnsupportedOperationException always
+ @deprecated Unsupported operation.]]>
+      </doc>
+    </method>
+    <method name="removeAll" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="Unsupported operation.">
+      <param name="oldElements" type="java.util.Collection&lt;?&gt;"/>
+      <doc>
+      <![CDATA[Guaranteed to throw an exception and leave the collection unmodified.
+
+ @throws UnsupportedOperationException always
+ @deprecated Unsupported operation.]]>
+      </doc>
+    </method>
+    <method name="removeIf" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="Unsupported operation.">
+      <param name="filter" type="java.util.function.Predicate&lt;? super E&gt;"/>
+      <doc>
+      <![CDATA[Guaranteed to throw an exception and leave the collection unmodified.
+
+ @throws UnsupportedOperationException always
+ @deprecated Unsupported operation.]]>
+      </doc>
+    </method>
+    <method name="retainAll" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="Unsupported operation.">
+      <param name="elementsToKeep" type="java.util.Collection&lt;?&gt;"/>
+      <doc>
+      <![CDATA[Guaranteed to throw an exception and leave the collection unmodified.
+
+ @throws UnsupportedOperationException always
+ @deprecated Unsupported operation.]]>
+      </doc>
+    </method>
+    <method name="clear"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="Unsupported operation.">
+      <doc>
+      <![CDATA[Guaranteed to throw an exception and leave the collection unmodified.
+
+ @throws UnsupportedOperationException always
+ @deprecated Unsupported operation.]]>
+      </doc>
+    </method>
     <method name="iterator" return="com.google.common.collect.UnmodifiableIterator&lt;E&gt;"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"

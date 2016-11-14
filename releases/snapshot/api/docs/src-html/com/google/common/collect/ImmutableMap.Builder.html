@@ -85,7 +85,7 @@
 <span class="sourceLineNo">077</span>      Function&lt;? super T, ? extends V&gt; valueFunction) {<a name="line.77"></a>
 <span class="sourceLineNo">078</span>    return CollectCollectors.toImmutableMap(keyFunction, valueFunction);<a name="line.78"></a>
 <span class="sourceLineNo">079</span>  }<a name="line.79"></a>
-<span class="sourceLineNo">080</span>  <a name="line.80"></a>
+<span class="sourceLineNo">080</span><a name="line.80"></a>
 <span class="sourceLineNo">081</span>  /**<a name="line.81"></a>
 <span class="sourceLineNo">082</span>   * Returns a {@link Collector} that accumulates elements into an {@code ImmutableMap} whose keys<a name="line.82"></a>
 <span class="sourceLineNo">083</span>   * and values are the result of applying the provided mapping functions to the input elements.<a name="line.83"></a>
@@ -240,7 +240,7 @@
 <span class="sourceLineNo">232</span>    private void ensureCapacity(int minCapacity) {<a name="line.232"></a>
 <span class="sourceLineNo">233</span>      if (minCapacity &gt; entries.length) {<a name="line.233"></a>
 <span class="sourceLineNo">234</span>        entries =<a name="line.234"></a>
-<span class="sourceLineNo">235</span>            ObjectArrays.arraysCopyOf(<a name="line.235"></a>
+<span class="sourceLineNo">235</span>            Arrays.copyOf(<a name="line.235"></a>
 <span class="sourceLineNo">236</span>                entries, ImmutableCollection.Builder.expandedCapacity(entries.length, minCapacity));<a name="line.236"></a>
 <span class="sourceLineNo">237</span>        entriesUsed = false;<a name="line.237"></a>
 <span class="sourceLineNo">238</span>      }<a name="line.238"></a>
@@ -355,7 +355,7 @@
 <span class="sourceLineNo">347</span>           */<a name="line.347"></a>
 <span class="sourceLineNo">348</span>          if (valueComparator != null) {<a name="line.348"></a>
 <span class="sourceLineNo">349</span>            if (entriesUsed) {<a name="line.349"></a>
-<span class="sourceLineNo">350</span>              entries = ObjectArrays.arraysCopyOf(entries, size);<a name="line.350"></a>
+<span class="sourceLineNo">350</span>              entries = Arrays.copyOf(entries, size);<a name="line.350"></a>
 <span class="sourceLineNo">351</span>            }<a name="line.351"></a>
 <span class="sourceLineNo">352</span>            Arrays.sort(<a name="line.352"></a>
 <span class="sourceLineNo">353</span>                entries,<a name="line.353"></a>

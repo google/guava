@@ -560,50 +560,46 @@
 <span class="sourceLineNo">552</span>    }<a name="line.552"></a>
 <span class="sourceLineNo">553</span><a name="line.553"></a>
 <span class="sourceLineNo">554</span>    float[] toFloatArray() {<a name="line.554"></a>
-<span class="sourceLineNo">555</span>      // Arrays.copyOfRange() is not available under GWT<a name="line.555"></a>
-<span class="sourceLineNo">556</span>      int size = size();<a name="line.556"></a>
-<span class="sourceLineNo">557</span>      float[] result = new float[size];<a name="line.557"></a>
-<span class="sourceLineNo">558</span>      System.arraycopy(array, start, result, 0, size);<a name="line.558"></a>
-<span class="sourceLineNo">559</span>      return result;<a name="line.559"></a>
-<span class="sourceLineNo">560</span>    }<a name="line.560"></a>
-<span class="sourceLineNo">561</span><a name="line.561"></a>
-<span class="sourceLineNo">562</span>    private static final long serialVersionUID = 0;<a name="line.562"></a>
-<span class="sourceLineNo">563</span>  }<a name="line.563"></a>
-<span class="sourceLineNo">564</span><a name="line.564"></a>
-<span class="sourceLineNo">565</span>  /**<a name="line.565"></a>
-<span class="sourceLineNo">566</span>   * Parses the specified string as a single-precision floating point value. The ASCII character<a name="line.566"></a>
-<span class="sourceLineNo">567</span>   * {@code '-'} (&lt;code&gt;'&amp;#92;u002D'&lt;/code&gt;) is recognized as the minus sign.<a name="line.567"></a>
+<span class="sourceLineNo">555</span>      return Arrays.copyOfRange(array, start, end);<a name="line.555"></a>
+<span class="sourceLineNo">556</span>    }<a name="line.556"></a>
+<span class="sourceLineNo">557</span><a name="line.557"></a>
+<span class="sourceLineNo">558</span>    private static final long serialVersionUID = 0;<a name="line.558"></a>
+<span class="sourceLineNo">559</span>  }<a name="line.559"></a>
+<span class="sourceLineNo">560</span><a name="line.560"></a>
+<span class="sourceLineNo">561</span>  /**<a name="line.561"></a>
+<span class="sourceLineNo">562</span>   * Parses the specified string as a single-precision floating point value. The ASCII character<a name="line.562"></a>
+<span class="sourceLineNo">563</span>   * {@code '-'} (&lt;code&gt;'&amp;#92;u002D'&lt;/code&gt;) is recognized as the minus sign.<a name="line.563"></a>
+<span class="sourceLineNo">564</span>   *<a name="line.564"></a>
+<span class="sourceLineNo">565</span>   * &lt;p&gt;Unlike {@link Float#parseFloat(String)}, this method returns {@code null} instead of<a name="line.565"></a>
+<span class="sourceLineNo">566</span>   * throwing an exception if parsing fails. Valid inputs are exactly those accepted by<a name="line.566"></a>
+<span class="sourceLineNo">567</span>   * {@link Float#valueOf(String)}, except that leading and trailing whitespace is not permitted.<a name="line.567"></a>
 <span class="sourceLineNo">568</span>   *<a name="line.568"></a>
-<span class="sourceLineNo">569</span>   * &lt;p&gt;Unlike {@link Float#parseFloat(String)}, this method returns {@code null} instead of<a name="line.569"></a>
-<span class="sourceLineNo">570</span>   * throwing an exception if parsing fails. Valid inputs are exactly those accepted by<a name="line.570"></a>
-<span class="sourceLineNo">571</span>   * {@link Float#valueOf(String)}, except that leading and trailing whitespace is not permitted.<a name="line.571"></a>
-<span class="sourceLineNo">572</span>   *<a name="line.572"></a>
-<span class="sourceLineNo">573</span>   * &lt;p&gt;This implementation is likely to be faster than {@code<a name="line.573"></a>
-<span class="sourceLineNo">574</span>   * Float.parseFloat} if many failures are expected.<a name="line.574"></a>
-<span class="sourceLineNo">575</span>   *<a name="line.575"></a>
-<span class="sourceLineNo">576</span>   * @param string the string representation of a {@code float} value<a name="line.576"></a>
-<span class="sourceLineNo">577</span>   * @return the floating point value represented by {@code string}, or {@code null} if<a name="line.577"></a>
-<span class="sourceLineNo">578</span>   *     {@code string} has a length of zero or cannot be parsed as a {@code float} value<a name="line.578"></a>
-<span class="sourceLineNo">579</span>   * @since 14.0<a name="line.579"></a>
-<span class="sourceLineNo">580</span>   */<a name="line.580"></a>
-<span class="sourceLineNo">581</span>  @Beta<a name="line.581"></a>
-<span class="sourceLineNo">582</span>  @Nullable<a name="line.582"></a>
-<span class="sourceLineNo">583</span>  @CheckForNull<a name="line.583"></a>
-<span class="sourceLineNo">584</span>  @GwtIncompatible // regular expressions<a name="line.584"></a>
-<span class="sourceLineNo">585</span>  public static Float tryParse(String string) {<a name="line.585"></a>
-<span class="sourceLineNo">586</span>    if (Doubles.FLOATING_POINT_PATTERN.matcher(string).matches()) {<a name="line.586"></a>
-<span class="sourceLineNo">587</span>      // TODO(lowasser): could be potentially optimized, but only with<a name="line.587"></a>
-<span class="sourceLineNo">588</span>      // extensive testing<a name="line.588"></a>
-<span class="sourceLineNo">589</span>      try {<a name="line.589"></a>
-<span class="sourceLineNo">590</span>        return Float.parseFloat(string);<a name="line.590"></a>
-<span class="sourceLineNo">591</span>      } catch (NumberFormatException e) {<a name="line.591"></a>
-<span class="sourceLineNo">592</span>        // Float.parseFloat has changed specs several times, so fall through<a name="line.592"></a>
-<span class="sourceLineNo">593</span>        // gracefully<a name="line.593"></a>
-<span class="sourceLineNo">594</span>      }<a name="line.594"></a>
-<span class="sourceLineNo">595</span>    }<a name="line.595"></a>
-<span class="sourceLineNo">596</span>    return null;<a name="line.596"></a>
-<span class="sourceLineNo">597</span>  }<a name="line.597"></a>
-<span class="sourceLineNo">598</span>}<a name="line.598"></a>
+<span class="sourceLineNo">569</span>   * &lt;p&gt;This implementation is likely to be faster than {@code<a name="line.569"></a>
+<span class="sourceLineNo">570</span>   * Float.parseFloat} if many failures are expected.<a name="line.570"></a>
+<span class="sourceLineNo">571</span>   *<a name="line.571"></a>
+<span class="sourceLineNo">572</span>   * @param string the string representation of a {@code float} value<a name="line.572"></a>
+<span class="sourceLineNo">573</span>   * @return the floating point value represented by {@code string}, or {@code null} if<a name="line.573"></a>
+<span class="sourceLineNo">574</span>   *     {@code string} has a length of zero or cannot be parsed as a {@code float} value<a name="line.574"></a>
+<span class="sourceLineNo">575</span>   * @since 14.0<a name="line.575"></a>
+<span class="sourceLineNo">576</span>   */<a name="line.576"></a>
+<span class="sourceLineNo">577</span>  @Beta<a name="line.577"></a>
+<span class="sourceLineNo">578</span>  @Nullable<a name="line.578"></a>
+<span class="sourceLineNo">579</span>  @CheckForNull<a name="line.579"></a>
+<span class="sourceLineNo">580</span>  @GwtIncompatible // regular expressions<a name="line.580"></a>
+<span class="sourceLineNo">581</span>  public static Float tryParse(String string) {<a name="line.581"></a>
+<span class="sourceLineNo">582</span>    if (Doubles.FLOATING_POINT_PATTERN.matcher(string).matches()) {<a name="line.582"></a>
+<span class="sourceLineNo">583</span>      // TODO(lowasser): could be potentially optimized, but only with<a name="line.583"></a>
+<span class="sourceLineNo">584</span>      // extensive testing<a name="line.584"></a>
+<span class="sourceLineNo">585</span>      try {<a name="line.585"></a>
+<span class="sourceLineNo">586</span>        return Float.parseFloat(string);<a name="line.586"></a>
+<span class="sourceLineNo">587</span>      } catch (NumberFormatException e) {<a name="line.587"></a>
+<span class="sourceLineNo">588</span>        // Float.parseFloat has changed specs several times, so fall through<a name="line.588"></a>
+<span class="sourceLineNo">589</span>        // gracefully<a name="line.589"></a>
+<span class="sourceLineNo">590</span>      }<a name="line.590"></a>
+<span class="sourceLineNo">591</span>    }<a name="line.591"></a>
+<span class="sourceLineNo">592</span>    return null;<a name="line.592"></a>
+<span class="sourceLineNo">593</span>  }<a name="line.593"></a>
+<span class="sourceLineNo">594</span>}<a name="line.594"></a>
 
 
 

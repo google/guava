@@ -752,7 +752,7 @@
 <span class="sourceLineNo">744</span>        E[] array = (E[]) collection.toArray();<a name="line.744"></a>
 <span class="sourceLineNo">745</span>        Arrays.sort(array, this);<a name="line.745"></a>
 <span class="sourceLineNo">746</span>        if (array.length &gt; k) {<a name="line.746"></a>
-<span class="sourceLineNo">747</span>          array = ObjectArrays.arraysCopyOf(array, k);<a name="line.747"></a>
+<span class="sourceLineNo">747</span>          array = Arrays.copyOf(array, k);<a name="line.747"></a>
 <span class="sourceLineNo">748</span>        }<a name="line.748"></a>
 <span class="sourceLineNo">749</span>        return Collections.unmodifiableList(Arrays.asList(array));<a name="line.749"></a>
 <span class="sourceLineNo">750</span>      }<a name="line.750"></a>

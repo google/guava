@@ -706,16 +706,12 @@
 <span class="sourceLineNo">698</span>    }<a name="line.698"></a>
 <span class="sourceLineNo">699</span><a name="line.699"></a>
 <span class="sourceLineNo">700</span>    long[] toLongArray() {<a name="line.700"></a>
-<span class="sourceLineNo">701</span>      // Arrays.copyOfRange() is not available under GWT<a name="line.701"></a>
-<span class="sourceLineNo">702</span>      int size = size();<a name="line.702"></a>
-<span class="sourceLineNo">703</span>      long[] result = new long[size];<a name="line.703"></a>
-<span class="sourceLineNo">704</span>      System.arraycopy(array, start, result, 0, size);<a name="line.704"></a>
-<span class="sourceLineNo">705</span>      return result;<a name="line.705"></a>
-<span class="sourceLineNo">706</span>    }<a name="line.706"></a>
-<span class="sourceLineNo">707</span><a name="line.707"></a>
-<span class="sourceLineNo">708</span>    private static final long serialVersionUID = 0;<a name="line.708"></a>
-<span class="sourceLineNo">709</span>  }<a name="line.709"></a>
-<span class="sourceLineNo">710</span>}<a name="line.710"></a>
+<span class="sourceLineNo">701</span>      return Arrays.copyOfRange(array, start, end);<a name="line.701"></a>
+<span class="sourceLineNo">702</span>    }<a name="line.702"></a>
+<span class="sourceLineNo">703</span><a name="line.703"></a>
+<span class="sourceLineNo">704</span>    private static final long serialVersionUID = 0;<a name="line.704"></a>
+<span class="sourceLineNo">705</span>  }<a name="line.705"></a>
+<span class="sourceLineNo">706</span>}<a name="line.706"></a>
 
 
 

@@ -18,7 +18,7 @@ com.google.common.collect.Sets.SetView
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/Sets.SetView.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/Sets.SetView.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 21.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.collect.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -30,8 +30,8 @@ com.google.common.collect.Sets.SetView
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.collect.Sets.html"><B>PREV CLASS</B></A>
-&nbsp;<A HREF="com.google.common.collect.SortedMapDifference.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.collect.RangeSet.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.collect.Tables.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.collect.Sets.SetView.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
@@ -57,10 +57,52 @@ Class com.google.common.collect.<A HREF="../../docs/com/google/common/collect/Se
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.Sets.SetView.iterator_added()"></A>
-  <nobr><code>UnmodifiableIterator&lt;E&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Sets.SetView.html#iterator()" target="_top"><tt>iterator</tt></A>()</nobr>
+  <A NAME="com.google.common.collect.Sets.SetView.add_added(E)"></A>
+  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Sets.SetView.html#add(E)" target="_top"><tt>add</tt></A>(<code>E</code>)</nobr>
   </TD>
-  <TD VALIGN="TOP">Scope the return type to <A HREF="../../docs/UnmodifiableIterator.html"><TT>UnmodifiableIterator</TT></A> to ensure this is an unmodifiable view.</TD>
+  <TD VALIGN="TOP">Guaranteed to throw an exception and leave the collection unmodified.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.collect.Sets.SetView.addAll_added(java.util.Collection<? extends E>)"></A>
+  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Sets.SetView.html#addAll(java.util.Collection<? extends E>)" target="_top"><tt>addAll</tt></A>(<code>Collection&lt;? extends E&gt;</code>)</nobr>
+  </TD>
+  <TD VALIGN="TOP">Guaranteed to throw an exception and leave the collection unmodified.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.collect.Sets.SetView.clear_added()"></A>
+  <nobr><code>void</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Sets.SetView.html#clear()" target="_top"><tt>clear</tt></A>()</nobr>
+  </TD>
+  <TD VALIGN="TOP">Guaranteed to throw an exception and leave the collection unmodified.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.collect.Sets.SetView.remove_added(java.lang.Object)"></A>
+  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Sets.SetView.html#remove(java.lang.Object)" target="_top"><tt>remove</tt></A>(<code>Object</code>)</nobr>
+  </TD>
+  <TD VALIGN="TOP">Guaranteed to throw an exception and leave the collection unmodified.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.collect.Sets.SetView.removeAll_added(java.util.Collection<?>)"></A>
+  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Sets.SetView.html#removeAll(java.util.Collection<?>)" target="_top"><tt>removeAll</tt></A>(<code>Collection&lt;?&gt;</code>)</nobr>
+  </TD>
+  <TD VALIGN="TOP">Guaranteed to throw an exception and leave the collection unmodified.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.collect.Sets.SetView.removeIf_added(java.util.function.Predicate<? super E>)"></A>
+  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Sets.SetView.html#removeIf(java.util.function.Predicate<? super E>)" target="_top"><tt>removeIf</tt></A>(<code>Predicate&lt;? super E&gt;</code>)</nobr>
+  </TD>
+  <TD VALIGN="TOP">Guaranteed to throw an exception and leave the collection unmodified.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.collect.Sets.SetView.retainAll_added(java.util.Collection<?>)"></A>
+  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Sets.SetView.html#retainAll(java.util.Collection<?>)" target="_top"><tt>retainAll</tt></A>(<code>Collection&lt;?&gt;</code>)</nobr>
+  </TD>
+  <TD VALIGN="TOP">Guaranteed to throw an exception and leave the collection unmodified.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -72,7 +114,7 @@ Class com.google.common.collect.<A HREF="../../docs/com/google/common/collect/Se
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/Sets.SetView.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/Sets.SetView.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 21.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.collect.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -84,8 +126,8 @@ Class com.google.common.collect.<A HREF="../../docs/com/google/common/collect/Se
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.collect.Sets.html"><B>PREV CLASS</B></A>
-&nbsp;<A HREF="com.google.common.collect.SortedMapDifference.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.collect.RangeSet.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.collect.Tables.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.collect.Sets.SetView.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
