@@ -95,6 +95,15 @@ public interface Multiset<E> extends Collection<E> {
   // Query Operations
 
   /**
+   * Returns the total number of all occurrences of all elements in this multiset.
+   *
+   * <p><b>Note:</b> this method does not return the number of <i>distinct elements</i> in the
+   * multiset, which is given by {@code entrySet().size()}.
+   */
+  @Override
+  int size();
+
+  /**
    * Returns the number of occurrences of an element in this multiset (the
    * <i>count</i> of the element). Note that for an {@link Object#equals}-based
    * multiset, this gives the same result as {@link Collections#frequency}

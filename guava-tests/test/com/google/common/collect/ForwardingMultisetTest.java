@@ -330,7 +330,7 @@ public class ForwardingMultisetTest extends ForwardingTestCase {
   }
 
   public void testSize() {
-    forward().size();
+    int unused = forward().size();
     assertEquals("[size]", getCalls());
   }
 
