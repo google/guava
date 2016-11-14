@@ -16,140 +16,42 @@
 
 package com.google.common.collect;
 
-import com.google.common.collect.Table.Cell;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
+import com.google.common.base.Function;
+import com.google.common.testing.EqualsTester;
+import com.google.common.testing.ForwardingWrapperTester;
+import junit.framework.TestCase;
 
 /**
  * Tests {@link ForwardingTable}.
  *
  * @author Gregory Kick
  */
-public class ForwardingTableTest extends ForwardingTestCase {
+public class ForwardingTableTest extends TestCase {
 
-  private Table<String, Integer, Boolean> forward;
+  @SuppressWarnings("rawtypes")
+  public void testForwarding() {
+    new ForwardingWrapperTester()
+        .testForwarding(Table.class, new Function<Table, Table>() {
+          @Override public Table apply(Table delegate) {
+            return wrap(delegate);
+          }
+        });
+  }
 
-  @Override public void setUp() throws Exception {
-    super.setUp();
-    /*
-     * Class parameters must be raw, so we can't create a proxy with generic
-     * type arguments. The created proxy only records calls and returns null, so
-     * the type is irrelevant at runtime.
-     */
-    @SuppressWarnings("unchecked")
-    final Table<String, Integer, Boolean> table =
-        createProxyInstance(Table.class);
-    forward = new ForwardingTable<String, Integer, Boolean>() {
-      @Override protected Table<String, Integer, Boolean> delegate() {
-        return table;
+  public void testEquals() {
+    Table<Integer, Integer, String> table1 = ImmutableTable.of(1, 1, "one");
+    Table<Integer, Integer, String> table2 = ImmutableTable.of(2, 2, "two");
+    new EqualsTester()
+        .addEqualityGroup(table1, wrap(table1), wrap(table1))
+        .addEqualityGroup(table2, wrap(table2))
+        .testEquals();
+  }
+
+  private static <R, C, V> Table<R, C, V> wrap(final Table<R, C, V> delegate) {
+    return new ForwardingTable<R, C, V>() {
+      @Override protected Table<R, C, V> delegate() {
+        return delegate;
       }
     };
   }
-
-  public void testHashCode() {
-    int unused = forward.hashCode();
-    assertEquals("[hashCode]", getCalls());
-  }
-
-  public void testCellSet() {
-    Set<Cell<String, Integer, Boolean>> unused = forward.cellSet();
-    assertEquals("[cellSet]", getCalls());
-  }
-
-  public void testClear() {
-    forward.clear();
-    assertEquals("[clear]", getCalls());
-  }
-
-  public void testColumn() {
-    Map<String, Boolean> unused = forward.column(1);
-    assertEquals("[column(Object)]", getCalls());
-  }
-
-  public void testColumnKeySet() {
-    Set<Integer> unused = forward.columnKeySet();
-    assertEquals("[columnKeySet]", getCalls());
-  }
-
-  public void testColumnMap() {
-    Map<Integer, Map<String, Boolean>> unused = forward.columnMap();
-    assertEquals("[columnMap]", getCalls());
-  }
-
-  public void testContains() {
-    boolean unused = forward.contains("blah", 1);
-    assertEquals("[contains(Object,Object)]", getCalls());
-  }
-
-  public void testContainsColumn() {
-    boolean unused = forward.containsColumn(1);
-    assertEquals("[containsColumn(Object)]", getCalls());
-  }
-
-  public void testContainsRow() {
-    boolean unused = forward.containsRow("blah");
-    assertEquals("[containsRow(Object)]", getCalls());
-  }
-
-  public void testContainsValue() {
-    boolean unused = forward.containsValue(false);
-    assertEquals("[containsValue(Object)]", getCalls());
-  }
-
-  public void testGet() {
-    Boolean unused = forward.get("blah", 1);
-    assertEquals("[get(Object,Object)]", getCalls());
-  }
-
-  public void testIsEmpty() {
-    boolean unused = forward.isEmpty();
-    assertEquals("[isEmpty]", getCalls());
-  }
-
-  public void testPut() {
-    forward.put("blah", 1, false);
-    assertEquals("[put(Object,Object,Object)]", getCalls());
-  }
-
-  public void testPutAll() {
-    forward.putAll(HashBasedTable.<String, Integer, Boolean>create());
-    assertEquals("[putAll(Table)]", getCalls());
-  }
-
-  public void testRemove() {
-    forward.remove("blah", 1);
-    assertEquals("[remove(Object,Object)]", getCalls());
-  }
-
-  public void testRow() {
-    Map<Integer, Boolean> unused = forward.row("String");
-    assertEquals("[row(Object)]", getCalls());
-  }
-
-  public void testRowKeySet() {
-    Set<String> unused = forward.rowKeySet();
-    assertEquals("[rowKeySet]", getCalls());
-  }
-
-  public void testRowMap() {
-    Map<String, Map<Integer, Boolean>> unused = forward.rowMap();
-    assertEquals("[rowMap]", getCalls());
-  }
-
-  public void testSize() {
-    int unused = forward.size();
-    assertEquals("[size]", getCalls());
-  }
-
-  public void testValues() {
-    Collection<Boolean> unused = forward.values();
-    assertEquals("[values]", getCalls());
-  }
-
-  public void testEqualsObject() {
-    boolean unused = forward.equals(null);
-    assertEquals("[equals(Object)]", getCalls());
-  }
-
 }

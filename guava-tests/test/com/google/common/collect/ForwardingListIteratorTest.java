@@ -16,75 +16,33 @@
 
 package com.google.common.collect;
 
+import com.google.common.base.Function;
+import com.google.common.testing.ForwardingWrapperTester;
 import java.util.ListIterator;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@code ForwardingListIterator}.
  *
  * @author Robert Konigsberg
  */
-public class ForwardingListIteratorTest extends ForwardingTestCase {
+public class ForwardingListIteratorTest extends TestCase {
 
-  private ForwardingListIterator<String> forward;
+  @SuppressWarnings("rawtypes")
+  public void testForwarding() {
+    new ForwardingWrapperTester()
+        .testForwarding(ListIterator.class, new Function<ListIterator, ListIterator>() {
+          @Override public ListIterator apply(ListIterator delegate) {
+            return wrap(delegate);
+          }
+        });
+  }
 
-  @Override public void setUp() throws Exception {
-    super.setUp();
-    /*
-     * Class parameters must be raw, so we can't create a proxy with generic
-     * type arguments. The created proxy only records calls and returns null, so
-     * the type is irrelevant at runtime.
-     */
-    @SuppressWarnings("unchecked")
-    final ListIterator<String> li = createProxyInstance(ListIterator.class);
-    forward = new ForwardingListIterator<String>() {
-      @Override protected ListIterator<String> delegate() {
-        return li;
+  private static <T> ListIterator<T> wrap(final ListIterator<T> delegate) {
+    return new ForwardingListIterator<T>() {
+      @Override protected ListIterator<T> delegate() {
+        return delegate;
       }
     };
-  }
-
-  public void testAdd_T() {
-    forward.add("asdf");
-    assertEquals("[add(Object)]", getCalls());
-  }
-
-  public void testHasNext() {
-    boolean unused = forward.hasNext();
-    assertEquals("[hasNext]", getCalls());
-  }
-
-  public void testHasPrevious() {
-    boolean unused = forward.hasPrevious();
-    assertEquals("[hasPrevious]", getCalls());
-  }
-
-  public void testNext() {
-    String unused = forward.next();
-    assertEquals("[next]", getCalls());
-  }
-
-  public void testNextIndex() {
-    int unused = forward.nextIndex();
-    assertEquals("[nextIndex]", getCalls());
-  }
-
-  public void testPrevious() {
-    String unused = forward.previous();
-    assertEquals("[previous]", getCalls());
-  }
-
-  public void testPreviousIndex() {
-    int unused = forward.previousIndex();
-    assertEquals("[previousIndex]", getCalls());
-  }
-
-  public void testRemove() {
-    forward.remove();
-    assertEquals("[remove]", getCalls());
-  }
-
-  public void testSet_T() {
-    forward.set("asdf");
-    assertEquals("[set(Object)]", getCalls());
   }
 }
