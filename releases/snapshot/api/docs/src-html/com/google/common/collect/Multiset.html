@@ -103,407 +103,416 @@
 <span class="sourceLineNo">095</span>  // Query Operations<a name="line.95"></a>
 <span class="sourceLineNo">096</span><a name="line.96"></a>
 <span class="sourceLineNo">097</span>  /**<a name="line.97"></a>
-<span class="sourceLineNo">098</span>   * Returns the number of occurrences of an element in this multiset (the<a name="line.98"></a>
-<span class="sourceLineNo">099</span>   * &lt;i&gt;count&lt;/i&gt; of the element). Note that for an {@link Object#equals}-based<a name="line.99"></a>
-<span class="sourceLineNo">100</span>   * multiset, this gives the same result as {@link Collections#frequency}<a name="line.100"></a>
-<span class="sourceLineNo">101</span>   * (which would presumably perform more poorly).<a name="line.101"></a>
-<span class="sourceLineNo">102</span>   *<a name="line.102"></a>
-<span class="sourceLineNo">103</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; the utility method {@link Iterables#frequency} generalizes<a name="line.103"></a>
-<span class="sourceLineNo">104</span>   * this operation; it correctly delegates to this method when dealing with a<a name="line.104"></a>
-<span class="sourceLineNo">105</span>   * multiset, but it can also accept any other iterable type.<a name="line.105"></a>
-<span class="sourceLineNo">106</span>   *<a name="line.106"></a>
-<span class="sourceLineNo">107</span>   * @param element the element to count occurrences of<a name="line.107"></a>
-<span class="sourceLineNo">108</span>   * @return the number of occurrences of the element in this multiset; possibly<a name="line.108"></a>
-<span class="sourceLineNo">109</span>   *     zero but never negative<a name="line.109"></a>
-<span class="sourceLineNo">110</span>   */<a name="line.110"></a>
-<span class="sourceLineNo">111</span>  int count(@Nullable Object element);<a name="line.111"></a>
-<span class="sourceLineNo">112</span><a name="line.112"></a>
-<span class="sourceLineNo">113</span>  // Bulk Operations<a name="line.113"></a>
-<span class="sourceLineNo">114</span><a name="line.114"></a>
-<span class="sourceLineNo">115</span>  /**<a name="line.115"></a>
-<span class="sourceLineNo">116</span>   * Adds a number of occurrences of an element to this multiset. Note that if<a name="line.116"></a>
-<span class="sourceLineNo">117</span>   * {@code occurrences == 1}, this method has the identical effect to {@link<a name="line.117"></a>
-<span class="sourceLineNo">118</span>   * #add(Object)}. This method is functionally equivalent (except in the case<a name="line.118"></a>
-<span class="sourceLineNo">119</span>   * of overflow) to the call {@code addAll(Collections.nCopies(element,<a name="line.119"></a>
-<span class="sourceLineNo">120</span>   * occurrences))}, which would presumably perform much more poorly.<a name="line.120"></a>
-<span class="sourceLineNo">121</span>   *<a name="line.121"></a>
-<span class="sourceLineNo">122</span>   * @param element the element to add occurrences of; may be null only if<a name="line.122"></a>
-<span class="sourceLineNo">123</span>   *     explicitly allowed by the implementation<a name="line.123"></a>
-<span class="sourceLineNo">124</span>   * @param occurrences the number of occurrences of the element to add. May be<a name="line.124"></a>
-<span class="sourceLineNo">125</span>   *     zero, in which case no change will be made.<a name="line.125"></a>
-<span class="sourceLineNo">126</span>   * @return the count of the element before the operation; possibly zero<a name="line.126"></a>
-<span class="sourceLineNo">127</span>   * @throws IllegalArgumentException if {@code occurrences} is negative, or if<a name="line.127"></a>
-<span class="sourceLineNo">128</span>   *     this operation would result in more than {@link Integer#MAX_VALUE}<a name="line.128"></a>
-<span class="sourceLineNo">129</span>   *     occurrences of the element<a name="line.129"></a>
-<span class="sourceLineNo">130</span>   * @throws NullPointerException if {@code element} is null and this<a name="line.130"></a>
-<span class="sourceLineNo">131</span>   *     implementation does not permit null elements. Note that if {@code<a name="line.131"></a>
-<span class="sourceLineNo">132</span>   *     occurrences} is zero, the implementation may opt to return normally.<a name="line.132"></a>
-<span class="sourceLineNo">133</span>   */<a name="line.133"></a>
-<span class="sourceLineNo">134</span>  @CanIgnoreReturnValue<a name="line.134"></a>
-<span class="sourceLineNo">135</span>  int add(@Nullable E element, int occurrences);<a name="line.135"></a>
-<span class="sourceLineNo">136</span><a name="line.136"></a>
-<span class="sourceLineNo">137</span>  /**<a name="line.137"></a>
-<span class="sourceLineNo">138</span>   * Removes a number of occurrences of the specified element from this<a name="line.138"></a>
-<span class="sourceLineNo">139</span>   * multiset. If the multiset contains fewer than this number of occurrences to<a name="line.139"></a>
-<span class="sourceLineNo">140</span>   * begin with, all occurrences will be removed.  Note that if<a name="line.140"></a>
-<span class="sourceLineNo">141</span>   * {@code occurrences == 1}, this is functionally equivalent to the call<a name="line.141"></a>
-<span class="sourceLineNo">142</span>   * {@code remove(element)}.<a name="line.142"></a>
-<span class="sourceLineNo">143</span>   *<a name="line.143"></a>
-<span class="sourceLineNo">144</span>   * @param element the element to conditionally remove occurrences of<a name="line.144"></a>
-<span class="sourceLineNo">145</span>   * @param occurrences the number of occurrences of the element to remove. May<a name="line.145"></a>
-<span class="sourceLineNo">146</span>   *     be zero, in which case no change will be made.<a name="line.146"></a>
-<span class="sourceLineNo">147</span>   * @return the count of the element before the operation; possibly zero<a name="line.147"></a>
-<span class="sourceLineNo">148</span>   * @throws IllegalArgumentException if {@code occurrences} is negative<a name="line.148"></a>
-<span class="sourceLineNo">149</span>   */<a name="line.149"></a>
-<span class="sourceLineNo">150</span>  @CanIgnoreReturnValue<a name="line.150"></a>
-<span class="sourceLineNo">151</span>  int remove(@Nullable Object element, int occurrences);<a name="line.151"></a>
-<span class="sourceLineNo">152</span><a name="line.152"></a>
-<span class="sourceLineNo">153</span>  /**<a name="line.153"></a>
-<span class="sourceLineNo">154</span>   * Adds or removes the necessary occurrences of an element such that the<a name="line.154"></a>
-<span class="sourceLineNo">155</span>   * element attains the desired count.<a name="line.155"></a>
-<span class="sourceLineNo">156</span>   *<a name="line.156"></a>
-<span class="sourceLineNo">157</span>   * @param element the element to add or remove occurrences of; may be null<a name="line.157"></a>
-<span class="sourceLineNo">158</span>   *     only if explicitly allowed by the implementation<a name="line.158"></a>
-<span class="sourceLineNo">159</span>   * @param count the desired count of the element in this multiset<a name="line.159"></a>
-<span class="sourceLineNo">160</span>   * @return the count of the element before the operation; possibly zero<a name="line.160"></a>
-<span class="sourceLineNo">161</span>   * @throws IllegalArgumentException if {@code count} is negative<a name="line.161"></a>
-<span class="sourceLineNo">162</span>   * @throws NullPointerException if {@code element} is null and this<a name="line.162"></a>
-<span class="sourceLineNo">163</span>   *     implementation does not permit null elements. Note that if {@code<a name="line.163"></a>
-<span class="sourceLineNo">164</span>   *     count} is zero, the implementor may optionally return zero instead.<a name="line.164"></a>
-<span class="sourceLineNo">165</span>   */<a name="line.165"></a>
-<span class="sourceLineNo">166</span>  @CanIgnoreReturnValue<a name="line.166"></a>
-<span class="sourceLineNo">167</span>  int setCount(E element, int count);<a name="line.167"></a>
-<span class="sourceLineNo">168</span><a name="line.168"></a>
-<span class="sourceLineNo">169</span>  /**<a name="line.169"></a>
-<span class="sourceLineNo">170</span>   * Conditionally sets the count of an element to a new value, as described in<a name="line.170"></a>
-<span class="sourceLineNo">171</span>   * {@link #setCount(Object, int)}, provided that the element has the expected<a name="line.171"></a>
-<span class="sourceLineNo">172</span>   * current count. If the current count is not {@code oldCount}, no change is<a name="line.172"></a>
-<span class="sourceLineNo">173</span>   * made.<a name="line.173"></a>
-<span class="sourceLineNo">174</span>   *<a name="line.174"></a>
-<span class="sourceLineNo">175</span>   * @param element the element to conditionally set the count of; may be null<a name="line.175"></a>
-<span class="sourceLineNo">176</span>   *     only if explicitly allowed by the implementation<a name="line.176"></a>
-<span class="sourceLineNo">177</span>   * @param oldCount the expected present count of the element in this multiset<a name="line.177"></a>
-<span class="sourceLineNo">178</span>   * @param newCount the desired count of the element in this multiset<a name="line.178"></a>
-<span class="sourceLineNo">179</span>   * @return {@code true} if the condition for modification was met. This<a name="line.179"></a>
-<span class="sourceLineNo">180</span>   *     implies that the multiset was indeed modified, unless<a name="line.180"></a>
-<span class="sourceLineNo">181</span>   *     {@code oldCount == newCount}.<a name="line.181"></a>
-<span class="sourceLineNo">182</span>   * @throws IllegalArgumentException if {@code oldCount} or {@code newCount} is<a name="line.182"></a>
-<span class="sourceLineNo">183</span>   *     negative<a name="line.183"></a>
-<span class="sourceLineNo">184</span>   * @throws NullPointerException if {@code element} is null and the<a name="line.184"></a>
-<span class="sourceLineNo">185</span>   *     implementation does not permit null elements. Note that if {@code<a name="line.185"></a>
-<span class="sourceLineNo">186</span>   *     oldCount} and {@code newCount} are both zero, the implementor may<a name="line.186"></a>
-<span class="sourceLineNo">187</span>   *     optionally return {@code true} instead.<a name="line.187"></a>
-<span class="sourceLineNo">188</span>   */<a name="line.188"></a>
-<span class="sourceLineNo">189</span>  @CanIgnoreReturnValue<a name="line.189"></a>
-<span class="sourceLineNo">190</span>  boolean setCount(E element, int oldCount, int newCount);<a name="line.190"></a>
-<span class="sourceLineNo">191</span><a name="line.191"></a>
-<span class="sourceLineNo">192</span>  // Views<a name="line.192"></a>
-<span class="sourceLineNo">193</span><a name="line.193"></a>
-<span class="sourceLineNo">194</span>  /**<a name="line.194"></a>
-<span class="sourceLineNo">195</span>   * Returns the set of distinct elements contained in this multiset. The<a name="line.195"></a>
-<span class="sourceLineNo">196</span>   * element set is backed by the same data as the multiset, so any change to<a name="line.196"></a>
-<span class="sourceLineNo">197</span>   * either is immediately reflected in the other. The order of the elements in<a name="line.197"></a>
-<span class="sourceLineNo">198</span>   * the element set is unspecified.<a name="line.198"></a>
-<span class="sourceLineNo">199</span>   *<a name="line.199"></a>
-<span class="sourceLineNo">200</span>   * &lt;p&gt;If the element set supports any removal operations, these necessarily<a name="line.200"></a>
-<span class="sourceLineNo">201</span>   * cause &lt;b&gt;all&lt;/b&gt; occurrences of the removed element(s) to be removed from<a name="line.201"></a>
-<span class="sourceLineNo">202</span>   * the multiset. Implementations are not expected to support the add<a name="line.202"></a>
-<span class="sourceLineNo">203</span>   * operations, although this is possible.<a name="line.203"></a>
-<span class="sourceLineNo">204</span>   *<a name="line.204"></a>
-<span class="sourceLineNo">205</span>   * &lt;p&gt;A common use for the element set is to find the number of distinct<a name="line.205"></a>
-<span class="sourceLineNo">206</span>   * elements in the multiset: {@code elementSet().size()}.<a name="line.206"></a>
-<span class="sourceLineNo">207</span>   *<a name="line.207"></a>
-<span class="sourceLineNo">208</span>   * @return a view of the set of distinct elements in this multiset<a name="line.208"></a>
-<span class="sourceLineNo">209</span>   */<a name="line.209"></a>
-<span class="sourceLineNo">210</span>  Set&lt;E&gt; elementSet();<a name="line.210"></a>
-<span class="sourceLineNo">211</span><a name="line.211"></a>
-<span class="sourceLineNo">212</span>  /**<a name="line.212"></a>
-<span class="sourceLineNo">213</span>   * Returns a view of the contents of this multiset, grouped into {@code<a name="line.213"></a>
-<span class="sourceLineNo">214</span>   * Multiset.Entry} instances, each providing an element of the multiset and<a name="line.214"></a>
-<span class="sourceLineNo">215</span>   * the count of that element. This set contains exactly one entry for each<a name="line.215"></a>
-<span class="sourceLineNo">216</span>   * distinct element in the multiset (thus it always has the same size as the<a name="line.216"></a>
-<span class="sourceLineNo">217</span>   * {@link #elementSet}). The order of the elements in the element set is<a name="line.217"></a>
-<span class="sourceLineNo">218</span>   * unspecified.<a name="line.218"></a>
-<span class="sourceLineNo">219</span>   *<a name="line.219"></a>
-<span class="sourceLineNo">220</span>   * &lt;p&gt;The entry set is backed by the same data as the multiset, so any change<a name="line.220"></a>
-<span class="sourceLineNo">221</span>   * to either is immediately reflected in the other. However, multiset changes<a name="line.221"></a>
-<span class="sourceLineNo">222</span>   * may or may not be reflected in any {@code Entry} instances already<a name="line.222"></a>
-<span class="sourceLineNo">223</span>   * retrieved from the entry set (this is implementation-dependent).<a name="line.223"></a>
-<span class="sourceLineNo">224</span>   * Furthermore, implementations are not required to support modifications to<a name="line.224"></a>
-<span class="sourceLineNo">225</span>   * the entry set at all, and the {@code Entry} instances themselves don't<a name="line.225"></a>
-<span class="sourceLineNo">226</span>   * even have methods for modification. See the specific implementation class<a name="line.226"></a>
-<span class="sourceLineNo">227</span>   * for more details on how its entry set handles modifications.<a name="line.227"></a>
+<span class="sourceLineNo">098</span>   * Returns the total number of all occurrences of all elements in this multiset.<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   *<a name="line.99"></a>
+<span class="sourceLineNo">100</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; this method does not return the number of &lt;i&gt;distinct elements&lt;/i&gt; in the<a name="line.100"></a>
+<span class="sourceLineNo">101</span>   * multiset, which is given by {@code entrySet().size()}.<a name="line.101"></a>
+<span class="sourceLineNo">102</span>   */<a name="line.102"></a>
+<span class="sourceLineNo">103</span>  @Override<a name="line.103"></a>
+<span class="sourceLineNo">104</span>  int size();<a name="line.104"></a>
+<span class="sourceLineNo">105</span><a name="line.105"></a>
+<span class="sourceLineNo">106</span>  /**<a name="line.106"></a>
+<span class="sourceLineNo">107</span>   * Returns the number of occurrences of an element in this multiset (the<a name="line.107"></a>
+<span class="sourceLineNo">108</span>   * &lt;i&gt;count&lt;/i&gt; of the element). Note that for an {@link Object#equals}-based<a name="line.108"></a>
+<span class="sourceLineNo">109</span>   * multiset, this gives the same result as {@link Collections#frequency}<a name="line.109"></a>
+<span class="sourceLineNo">110</span>   * (which would presumably perform more poorly).<a name="line.110"></a>
+<span class="sourceLineNo">111</span>   *<a name="line.111"></a>
+<span class="sourceLineNo">112</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; the utility method {@link Iterables#frequency} generalizes<a name="line.112"></a>
+<span class="sourceLineNo">113</span>   * this operation; it correctly delegates to this method when dealing with a<a name="line.113"></a>
+<span class="sourceLineNo">114</span>   * multiset, but it can also accept any other iterable type.<a name="line.114"></a>
+<span class="sourceLineNo">115</span>   *<a name="line.115"></a>
+<span class="sourceLineNo">116</span>   * @param element the element to count occurrences of<a name="line.116"></a>
+<span class="sourceLineNo">117</span>   * @return the number of occurrences of the element in this multiset; possibly<a name="line.117"></a>
+<span class="sourceLineNo">118</span>   *     zero but never negative<a name="line.118"></a>
+<span class="sourceLineNo">119</span>   */<a name="line.119"></a>
+<span class="sourceLineNo">120</span>  int count(@Nullable Object element);<a name="line.120"></a>
+<span class="sourceLineNo">121</span><a name="line.121"></a>
+<span class="sourceLineNo">122</span>  // Bulk Operations<a name="line.122"></a>
+<span class="sourceLineNo">123</span><a name="line.123"></a>
+<span class="sourceLineNo">124</span>  /**<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   * Adds a number of occurrences of an element to this multiset. Note that if<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   * {@code occurrences == 1}, this method has the identical effect to {@link<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   * #add(Object)}. This method is functionally equivalent (except in the case<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   * of overflow) to the call {@code addAll(Collections.nCopies(element,<a name="line.128"></a>
+<span class="sourceLineNo">129</span>   * occurrences))}, which would presumably perform much more poorly.<a name="line.129"></a>
+<span class="sourceLineNo">130</span>   *<a name="line.130"></a>
+<span class="sourceLineNo">131</span>   * @param element the element to add occurrences of; may be null only if<a name="line.131"></a>
+<span class="sourceLineNo">132</span>   *     explicitly allowed by the implementation<a name="line.132"></a>
+<span class="sourceLineNo">133</span>   * @param occurrences the number of occurrences of the element to add. May be<a name="line.133"></a>
+<span class="sourceLineNo">134</span>   *     zero, in which case no change will be made.<a name="line.134"></a>
+<span class="sourceLineNo">135</span>   * @return the count of the element before the operation; possibly zero<a name="line.135"></a>
+<span class="sourceLineNo">136</span>   * @throws IllegalArgumentException if {@code occurrences} is negative, or if<a name="line.136"></a>
+<span class="sourceLineNo">137</span>   *     this operation would result in more than {@link Integer#MAX_VALUE}<a name="line.137"></a>
+<span class="sourceLineNo">138</span>   *     occurrences of the element<a name="line.138"></a>
+<span class="sourceLineNo">139</span>   * @throws NullPointerException if {@code element} is null and this<a name="line.139"></a>
+<span class="sourceLineNo">140</span>   *     implementation does not permit null elements. Note that if {@code<a name="line.140"></a>
+<span class="sourceLineNo">141</span>   *     occurrences} is zero, the implementation may opt to return normally.<a name="line.141"></a>
+<span class="sourceLineNo">142</span>   */<a name="line.142"></a>
+<span class="sourceLineNo">143</span>  @CanIgnoreReturnValue<a name="line.143"></a>
+<span class="sourceLineNo">144</span>  int add(@Nullable E element, int occurrences);<a name="line.144"></a>
+<span class="sourceLineNo">145</span><a name="line.145"></a>
+<span class="sourceLineNo">146</span>  /**<a name="line.146"></a>
+<span class="sourceLineNo">147</span>   * Removes a number of occurrences of the specified element from this<a name="line.147"></a>
+<span class="sourceLineNo">148</span>   * multiset. If the multiset contains fewer than this number of occurrences to<a name="line.148"></a>
+<span class="sourceLineNo">149</span>   * begin with, all occurrences will be removed.  Note that if<a name="line.149"></a>
+<span class="sourceLineNo">150</span>   * {@code occurrences == 1}, this is functionally equivalent to the call<a name="line.150"></a>
+<span class="sourceLineNo">151</span>   * {@code remove(element)}.<a name="line.151"></a>
+<span class="sourceLineNo">152</span>   *<a name="line.152"></a>
+<span class="sourceLineNo">153</span>   * @param element the element to conditionally remove occurrences of<a name="line.153"></a>
+<span class="sourceLineNo">154</span>   * @param occurrences the number of occurrences of the element to remove. May<a name="line.154"></a>
+<span class="sourceLineNo">155</span>   *     be zero, in which case no change will be made.<a name="line.155"></a>
+<span class="sourceLineNo">156</span>   * @return the count of the element before the operation; possibly zero<a name="line.156"></a>
+<span class="sourceLineNo">157</span>   * @throws IllegalArgumentException if {@code occurrences} is negative<a name="line.157"></a>
+<span class="sourceLineNo">158</span>   */<a name="line.158"></a>
+<span class="sourceLineNo">159</span>  @CanIgnoreReturnValue<a name="line.159"></a>
+<span class="sourceLineNo">160</span>  int remove(@Nullable Object element, int occurrences);<a name="line.160"></a>
+<span class="sourceLineNo">161</span><a name="line.161"></a>
+<span class="sourceLineNo">162</span>  /**<a name="line.162"></a>
+<span class="sourceLineNo">163</span>   * Adds or removes the necessary occurrences of an element such that the<a name="line.163"></a>
+<span class="sourceLineNo">164</span>   * element attains the desired count.<a name="line.164"></a>
+<span class="sourceLineNo">165</span>   *<a name="line.165"></a>
+<span class="sourceLineNo">166</span>   * @param element the element to add or remove occurrences of; may be null<a name="line.166"></a>
+<span class="sourceLineNo">167</span>   *     only if explicitly allowed by the implementation<a name="line.167"></a>
+<span class="sourceLineNo">168</span>   * @param count the desired count of the element in this multiset<a name="line.168"></a>
+<span class="sourceLineNo">169</span>   * @return the count of the element before the operation; possibly zero<a name="line.169"></a>
+<span class="sourceLineNo">170</span>   * @throws IllegalArgumentException if {@code count} is negative<a name="line.170"></a>
+<span class="sourceLineNo">171</span>   * @throws NullPointerException if {@code element} is null and this<a name="line.171"></a>
+<span class="sourceLineNo">172</span>   *     implementation does not permit null elements. Note that if {@code<a name="line.172"></a>
+<span class="sourceLineNo">173</span>   *     count} is zero, the implementor may optionally return zero instead.<a name="line.173"></a>
+<span class="sourceLineNo">174</span>   */<a name="line.174"></a>
+<span class="sourceLineNo">175</span>  @CanIgnoreReturnValue<a name="line.175"></a>
+<span class="sourceLineNo">176</span>  int setCount(E element, int count);<a name="line.176"></a>
+<span class="sourceLineNo">177</span><a name="line.177"></a>
+<span class="sourceLineNo">178</span>  /**<a name="line.178"></a>
+<span class="sourceLineNo">179</span>   * Conditionally sets the count of an element to a new value, as described in<a name="line.179"></a>
+<span class="sourceLineNo">180</span>   * {@link #setCount(Object, int)}, provided that the element has the expected<a name="line.180"></a>
+<span class="sourceLineNo">181</span>   * current count. If the current count is not {@code oldCount}, no change is<a name="line.181"></a>
+<span class="sourceLineNo">182</span>   * made.<a name="line.182"></a>
+<span class="sourceLineNo">183</span>   *<a name="line.183"></a>
+<span class="sourceLineNo">184</span>   * @param element the element to conditionally set the count of; may be null<a name="line.184"></a>
+<span class="sourceLineNo">185</span>   *     only if explicitly allowed by the implementation<a name="line.185"></a>
+<span class="sourceLineNo">186</span>   * @param oldCount the expected present count of the element in this multiset<a name="line.186"></a>
+<span class="sourceLineNo">187</span>   * @param newCount the desired count of the element in this multiset<a name="line.187"></a>
+<span class="sourceLineNo">188</span>   * @return {@code true} if the condition for modification was met. This<a name="line.188"></a>
+<span class="sourceLineNo">189</span>   *     implies that the multiset was indeed modified, unless<a name="line.189"></a>
+<span class="sourceLineNo">190</span>   *     {@code oldCount == newCount}.<a name="line.190"></a>
+<span class="sourceLineNo">191</span>   * @throws IllegalArgumentException if {@code oldCount} or {@code newCount} is<a name="line.191"></a>
+<span class="sourceLineNo">192</span>   *     negative<a name="line.192"></a>
+<span class="sourceLineNo">193</span>   * @throws NullPointerException if {@code element} is null and the<a name="line.193"></a>
+<span class="sourceLineNo">194</span>   *     implementation does not permit null elements. Note that if {@code<a name="line.194"></a>
+<span class="sourceLineNo">195</span>   *     oldCount} and {@code newCount} are both zero, the implementor may<a name="line.195"></a>
+<span class="sourceLineNo">196</span>   *     optionally return {@code true} instead.<a name="line.196"></a>
+<span class="sourceLineNo">197</span>   */<a name="line.197"></a>
+<span class="sourceLineNo">198</span>  @CanIgnoreReturnValue<a name="line.198"></a>
+<span class="sourceLineNo">199</span>  boolean setCount(E element, int oldCount, int newCount);<a name="line.199"></a>
+<span class="sourceLineNo">200</span><a name="line.200"></a>
+<span class="sourceLineNo">201</span>  // Views<a name="line.201"></a>
+<span class="sourceLineNo">202</span><a name="line.202"></a>
+<span class="sourceLineNo">203</span>  /**<a name="line.203"></a>
+<span class="sourceLineNo">204</span>   * Returns the set of distinct elements contained in this multiset. The<a name="line.204"></a>
+<span class="sourceLineNo">205</span>   * element set is backed by the same data as the multiset, so any change to<a name="line.205"></a>
+<span class="sourceLineNo">206</span>   * either is immediately reflected in the other. The order of the elements in<a name="line.206"></a>
+<span class="sourceLineNo">207</span>   * the element set is unspecified.<a name="line.207"></a>
+<span class="sourceLineNo">208</span>   *<a name="line.208"></a>
+<span class="sourceLineNo">209</span>   * &lt;p&gt;If the element set supports any removal operations, these necessarily<a name="line.209"></a>
+<span class="sourceLineNo">210</span>   * cause &lt;b&gt;all&lt;/b&gt; occurrences of the removed element(s) to be removed from<a name="line.210"></a>
+<span class="sourceLineNo">211</span>   * the multiset. Implementations are not expected to support the add<a name="line.211"></a>
+<span class="sourceLineNo">212</span>   * operations, although this is possible.<a name="line.212"></a>
+<span class="sourceLineNo">213</span>   *<a name="line.213"></a>
+<span class="sourceLineNo">214</span>   * &lt;p&gt;A common use for the element set is to find the number of distinct<a name="line.214"></a>
+<span class="sourceLineNo">215</span>   * elements in the multiset: {@code elementSet().size()}.<a name="line.215"></a>
+<span class="sourceLineNo">216</span>   *<a name="line.216"></a>
+<span class="sourceLineNo">217</span>   * @return a view of the set of distinct elements in this multiset<a name="line.217"></a>
+<span class="sourceLineNo">218</span>   */<a name="line.218"></a>
+<span class="sourceLineNo">219</span>  Set&lt;E&gt; elementSet();<a name="line.219"></a>
+<span class="sourceLineNo">220</span><a name="line.220"></a>
+<span class="sourceLineNo">221</span>  /**<a name="line.221"></a>
+<span class="sourceLineNo">222</span>   * Returns a view of the contents of this multiset, grouped into {@code<a name="line.222"></a>
+<span class="sourceLineNo">223</span>   * Multiset.Entry} instances, each providing an element of the multiset and<a name="line.223"></a>
+<span class="sourceLineNo">224</span>   * the count of that element. This set contains exactly one entry for each<a name="line.224"></a>
+<span class="sourceLineNo">225</span>   * distinct element in the multiset (thus it always has the same size as the<a name="line.225"></a>
+<span class="sourceLineNo">226</span>   * {@link #elementSet}). The order of the elements in the element set is<a name="line.226"></a>
+<span class="sourceLineNo">227</span>   * unspecified.<a name="line.227"></a>
 <span class="sourceLineNo">228</span>   *<a name="line.228"></a>
-<span class="sourceLineNo">229</span>   * @return a set of entries representing the data of this multiset<a name="line.229"></a>
-<span class="sourceLineNo">230</span>   */<a name="line.230"></a>
-<span class="sourceLineNo">231</span>  Set&lt;Entry&lt;E&gt;&gt; entrySet();<a name="line.231"></a>
-<span class="sourceLineNo">232</span><a name="line.232"></a>
-<span class="sourceLineNo">233</span>  /**<a name="line.233"></a>
-<span class="sourceLineNo">234</span>   * An unmodifiable element-count pair for a multiset. The {@link<a name="line.234"></a>
-<span class="sourceLineNo">235</span>   * Multiset#entrySet} method returns a view of the multiset whose elements<a name="line.235"></a>
-<span class="sourceLineNo">236</span>   * are of this class. A multiset implementation may return Entry instances<a name="line.236"></a>
-<span class="sourceLineNo">237</span>   * that are either live "read-through" views to the Multiset, or immutable<a name="line.237"></a>
-<span class="sourceLineNo">238</span>   * snapshots. Note that this type is unrelated to the similarly-named type<a name="line.238"></a>
-<span class="sourceLineNo">239</span>   * {@code Map.Entry}.<a name="line.239"></a>
-<span class="sourceLineNo">240</span>   *<a name="line.240"></a>
-<span class="sourceLineNo">241</span>   * @since 2.0<a name="line.241"></a>
-<span class="sourceLineNo">242</span>   */<a name="line.242"></a>
-<span class="sourceLineNo">243</span>  interface Entry&lt;E&gt; {<a name="line.243"></a>
-<span class="sourceLineNo">244</span><a name="line.244"></a>
-<span class="sourceLineNo">245</span>    /**<a name="line.245"></a>
-<span class="sourceLineNo">246</span>     * Returns the multiset element corresponding to this entry. Multiple calls<a name="line.246"></a>
-<span class="sourceLineNo">247</span>     * to this method always return the same instance.<a name="line.247"></a>
-<span class="sourceLineNo">248</span>     *<a name="line.248"></a>
-<span class="sourceLineNo">249</span>     * @return the element corresponding to this entry<a name="line.249"></a>
-<span class="sourceLineNo">250</span>     */<a name="line.250"></a>
-<span class="sourceLineNo">251</span>    E getElement();<a name="line.251"></a>
-<span class="sourceLineNo">252</span><a name="line.252"></a>
-<span class="sourceLineNo">253</span>    /**<a name="line.253"></a>
-<span class="sourceLineNo">254</span>     * Returns the count of the associated element in the underlying multiset.<a name="line.254"></a>
-<span class="sourceLineNo">255</span>     * This count may either be an unchanging snapshot of the count at the time<a name="line.255"></a>
-<span class="sourceLineNo">256</span>     * the entry was retrieved, or a live view of the current count of the<a name="line.256"></a>
-<span class="sourceLineNo">257</span>     * element in the multiset, depending on the implementation. Note that in<a name="line.257"></a>
-<span class="sourceLineNo">258</span>     * the former case, this method can never return zero, while in the latter,<a name="line.258"></a>
-<span class="sourceLineNo">259</span>     * it will return zero if all occurrences of the element were since removed<a name="line.259"></a>
-<span class="sourceLineNo">260</span>     * from the multiset.<a name="line.260"></a>
-<span class="sourceLineNo">261</span>     *<a name="line.261"></a>
-<span class="sourceLineNo">262</span>     * @return the count of the element; never negative<a name="line.262"></a>
-<span class="sourceLineNo">263</span>     */<a name="line.263"></a>
-<span class="sourceLineNo">264</span>    int getCount();<a name="line.264"></a>
-<span class="sourceLineNo">265</span><a name="line.265"></a>
-<span class="sourceLineNo">266</span>    /**<a name="line.266"></a>
-<span class="sourceLineNo">267</span>     * {@inheritDoc}<a name="line.267"></a>
-<span class="sourceLineNo">268</span>     *<a name="line.268"></a>
-<span class="sourceLineNo">269</span>     * &lt;p&gt;Returns {@code true} if the given object is also a multiset entry and<a name="line.269"></a>
-<span class="sourceLineNo">270</span>     * the two entries represent the same element and count. That is, two<a name="line.270"></a>
-<span class="sourceLineNo">271</span>     * entries {@code a} and {@code b} are equal if: &lt;pre&gt;   {@code<a name="line.271"></a>
-<span class="sourceLineNo">272</span>     *<a name="line.272"></a>
-<span class="sourceLineNo">273</span>     *   Objects.equal(a.getElement(), b.getElement())<a name="line.273"></a>
-<span class="sourceLineNo">274</span>     *       &amp;&amp; a.getCount() == b.getCount()}&lt;/pre&gt;<a name="line.274"></a>
-<span class="sourceLineNo">275</span>     */<a name="line.275"></a>
-<span class="sourceLineNo">276</span>    @Override<a name="line.276"></a>
-<span class="sourceLineNo">277</span>    // TODO(kevinb): check this wrt TreeMultiset?<a name="line.277"></a>
-<span class="sourceLineNo">278</span>    boolean equals(Object o);<a name="line.278"></a>
-<span class="sourceLineNo">279</span><a name="line.279"></a>
-<span class="sourceLineNo">280</span>    /**<a name="line.280"></a>
-<span class="sourceLineNo">281</span>     * {@inheritDoc}<a name="line.281"></a>
-<span class="sourceLineNo">282</span>     *<a name="line.282"></a>
-<span class="sourceLineNo">283</span>     * &lt;p&gt;The hash code of a multiset entry for element {@code element} and<a name="line.283"></a>
-<span class="sourceLineNo">284</span>     * count {@code count} is defined as: &lt;pre&gt;   {@code<a name="line.284"></a>
-<span class="sourceLineNo">285</span>     *<a name="line.285"></a>
-<span class="sourceLineNo">286</span>     *   ((element == null) ? 0 : element.hashCode()) ^ count}&lt;/pre&gt;<a name="line.286"></a>
-<span class="sourceLineNo">287</span>     */<a name="line.287"></a>
-<span class="sourceLineNo">288</span>    @Override<a name="line.288"></a>
-<span class="sourceLineNo">289</span>    int hashCode();<a name="line.289"></a>
-<span class="sourceLineNo">290</span><a name="line.290"></a>
-<span class="sourceLineNo">291</span>    /**<a name="line.291"></a>
-<span class="sourceLineNo">292</span>     * Returns the canonical string representation of this entry, defined as<a name="line.292"></a>
-<span class="sourceLineNo">293</span>     * follows. If the count for this entry is one, this is simply the string<a name="line.293"></a>
-<span class="sourceLineNo">294</span>     * representation of the corresponding element. Otherwise, it is the string<a name="line.294"></a>
-<span class="sourceLineNo">295</span>     * representation of the element, followed by the three characters {@code<a name="line.295"></a>
-<span class="sourceLineNo">296</span>     * " x "} (space, letter x, space), followed by the count.<a name="line.296"></a>
-<span class="sourceLineNo">297</span>     */<a name="line.297"></a>
-<span class="sourceLineNo">298</span>    @Override<a name="line.298"></a>
-<span class="sourceLineNo">299</span>    String toString();<a name="line.299"></a>
-<span class="sourceLineNo">300</span>  }<a name="line.300"></a>
-<span class="sourceLineNo">301</span><a name="line.301"></a>
-<span class="sourceLineNo">302</span>  /**<a name="line.302"></a>
-<span class="sourceLineNo">303</span>   * Runs the specified action for each distinct element in this multiset, and the number of<a name="line.303"></a>
-<span class="sourceLineNo">304</span>   * occurrences of that element. For some {@code Multiset} implementations, this may be more<a name="line.304"></a>
-<span class="sourceLineNo">305</span>   * efficient than iterating over the {@link #entrySet()} either explicitly or with {@code<a name="line.305"></a>
-<span class="sourceLineNo">306</span>   * entrySet().forEach(action)}.<a name="line.306"></a>
-<span class="sourceLineNo">307</span>   *<a name="line.307"></a>
-<span class="sourceLineNo">308</span>   * @since 21.0<a name="line.308"></a>
-<span class="sourceLineNo">309</span>   */<a name="line.309"></a>
-<span class="sourceLineNo">310</span>  @Beta<a name="line.310"></a>
-<span class="sourceLineNo">311</span>  default void forEachEntry(ObjIntConsumer&lt;? super E&gt; action) {<a name="line.311"></a>
-<span class="sourceLineNo">312</span>    checkNotNull(action);<a name="line.312"></a>
-<span class="sourceLineNo">313</span>    entrySet().forEach(entry -&gt; action.accept(entry.getElement(), entry.getCount()));<a name="line.313"></a>
-<span class="sourceLineNo">314</span>  }<a name="line.314"></a>
-<span class="sourceLineNo">315</span><a name="line.315"></a>
-<span class="sourceLineNo">316</span>  // Comparison and hashing<a name="line.316"></a>
-<span class="sourceLineNo">317</span><a name="line.317"></a>
-<span class="sourceLineNo">318</span>  /**<a name="line.318"></a>
-<span class="sourceLineNo">319</span>   * Compares the specified object with this multiset for equality. Returns {@code true} if the<a name="line.319"></a>
-<span class="sourceLineNo">320</span>   * given object is also a multiset and contains equal elements with equal counts, regardless of<a name="line.320"></a>
-<span class="sourceLineNo">321</span>   * order.<a name="line.321"></a>
-<span class="sourceLineNo">322</span>   */<a name="line.322"></a>
-<span class="sourceLineNo">323</span>  @Override<a name="line.323"></a>
-<span class="sourceLineNo">324</span>  // TODO(kevinb): caveats about equivalence-relation?<a name="line.324"></a>
-<span class="sourceLineNo">325</span>  boolean equals(@Nullable Object object);<a name="line.325"></a>
+<span class="sourceLineNo">229</span>   * &lt;p&gt;The entry set is backed by the same data as the multiset, so any change<a name="line.229"></a>
+<span class="sourceLineNo">230</span>   * to either is immediately reflected in the other. However, multiset changes<a name="line.230"></a>
+<span class="sourceLineNo">231</span>   * may or may not be reflected in any {@code Entry} instances already<a name="line.231"></a>
+<span class="sourceLineNo">232</span>   * retrieved from the entry set (this is implementation-dependent).<a name="line.232"></a>
+<span class="sourceLineNo">233</span>   * Furthermore, implementations are not required to support modifications to<a name="line.233"></a>
+<span class="sourceLineNo">234</span>   * the entry set at all, and the {@code Entry} instances themselves don't<a name="line.234"></a>
+<span class="sourceLineNo">235</span>   * even have methods for modification. See the specific implementation class<a name="line.235"></a>
+<span class="sourceLineNo">236</span>   * for more details on how its entry set handles modifications.<a name="line.236"></a>
+<span class="sourceLineNo">237</span>   *<a name="line.237"></a>
+<span class="sourceLineNo">238</span>   * @return a set of entries representing the data of this multiset<a name="line.238"></a>
+<span class="sourceLineNo">239</span>   */<a name="line.239"></a>
+<span class="sourceLineNo">240</span>  Set&lt;Entry&lt;E&gt;&gt; entrySet();<a name="line.240"></a>
+<span class="sourceLineNo">241</span><a name="line.241"></a>
+<span class="sourceLineNo">242</span>  /**<a name="line.242"></a>
+<span class="sourceLineNo">243</span>   * An unmodifiable element-count pair for a multiset. The {@link<a name="line.243"></a>
+<span class="sourceLineNo">244</span>   * Multiset#entrySet} method returns a view of the multiset whose elements<a name="line.244"></a>
+<span class="sourceLineNo">245</span>   * are of this class. A multiset implementation may return Entry instances<a name="line.245"></a>
+<span class="sourceLineNo">246</span>   * that are either live "read-through" views to the Multiset, or immutable<a name="line.246"></a>
+<span class="sourceLineNo">247</span>   * snapshots. Note that this type is unrelated to the similarly-named type<a name="line.247"></a>
+<span class="sourceLineNo">248</span>   * {@code Map.Entry}.<a name="line.248"></a>
+<span class="sourceLineNo">249</span>   *<a name="line.249"></a>
+<span class="sourceLineNo">250</span>   * @since 2.0<a name="line.250"></a>
+<span class="sourceLineNo">251</span>   */<a name="line.251"></a>
+<span class="sourceLineNo">252</span>  interface Entry&lt;E&gt; {<a name="line.252"></a>
+<span class="sourceLineNo">253</span><a name="line.253"></a>
+<span class="sourceLineNo">254</span>    /**<a name="line.254"></a>
+<span class="sourceLineNo">255</span>     * Returns the multiset element corresponding to this entry. Multiple calls<a name="line.255"></a>
+<span class="sourceLineNo">256</span>     * to this method always return the same instance.<a name="line.256"></a>
+<span class="sourceLineNo">257</span>     *<a name="line.257"></a>
+<span class="sourceLineNo">258</span>     * @return the element corresponding to this entry<a name="line.258"></a>
+<span class="sourceLineNo">259</span>     */<a name="line.259"></a>
+<span class="sourceLineNo">260</span>    E getElement();<a name="line.260"></a>
+<span class="sourceLineNo">261</span><a name="line.261"></a>
+<span class="sourceLineNo">262</span>    /**<a name="line.262"></a>
+<span class="sourceLineNo">263</span>     * Returns the count of the associated element in the underlying multiset.<a name="line.263"></a>
+<span class="sourceLineNo">264</span>     * This count may either be an unchanging snapshot of the count at the time<a name="line.264"></a>
+<span class="sourceLineNo">265</span>     * the entry was retrieved, or a live view of the current count of the<a name="line.265"></a>
+<span class="sourceLineNo">266</span>     * element in the multiset, depending on the implementation. Note that in<a name="line.266"></a>
+<span class="sourceLineNo">267</span>     * the former case, this method can never return zero, while in the latter,<a name="line.267"></a>
+<span class="sourceLineNo">268</span>     * it will return zero if all occurrences of the element were since removed<a name="line.268"></a>
+<span class="sourceLineNo">269</span>     * from the multiset.<a name="line.269"></a>
+<span class="sourceLineNo">270</span>     *<a name="line.270"></a>
+<span class="sourceLineNo">271</span>     * @return the count of the element; never negative<a name="line.271"></a>
+<span class="sourceLineNo">272</span>     */<a name="line.272"></a>
+<span class="sourceLineNo">273</span>    int getCount();<a name="line.273"></a>
+<span class="sourceLineNo">274</span><a name="line.274"></a>
+<span class="sourceLineNo">275</span>    /**<a name="line.275"></a>
+<span class="sourceLineNo">276</span>     * {@inheritDoc}<a name="line.276"></a>
+<span class="sourceLineNo">277</span>     *<a name="line.277"></a>
+<span class="sourceLineNo">278</span>     * &lt;p&gt;Returns {@code true} if the given object is also a multiset entry and<a name="line.278"></a>
+<span class="sourceLineNo">279</span>     * the two entries represent the same element and count. That is, two<a name="line.279"></a>
+<span class="sourceLineNo">280</span>     * entries {@code a} and {@code b} are equal if: &lt;pre&gt;   {@code<a name="line.280"></a>
+<span class="sourceLineNo">281</span>     *<a name="line.281"></a>
+<span class="sourceLineNo">282</span>     *   Objects.equal(a.getElement(), b.getElement())<a name="line.282"></a>
+<span class="sourceLineNo">283</span>     *       &amp;&amp; a.getCount() == b.getCount()}&lt;/pre&gt;<a name="line.283"></a>
+<span class="sourceLineNo">284</span>     */<a name="line.284"></a>
+<span class="sourceLineNo">285</span>    @Override<a name="line.285"></a>
+<span class="sourceLineNo">286</span>    // TODO(kevinb): check this wrt TreeMultiset?<a name="line.286"></a>
+<span class="sourceLineNo">287</span>    boolean equals(Object o);<a name="line.287"></a>
+<span class="sourceLineNo">288</span><a name="line.288"></a>
+<span class="sourceLineNo">289</span>    /**<a name="line.289"></a>
+<span class="sourceLineNo">290</span>     * {@inheritDoc}<a name="line.290"></a>
+<span class="sourceLineNo">291</span>     *<a name="line.291"></a>
+<span class="sourceLineNo">292</span>     * &lt;p&gt;The hash code of a multiset entry for element {@code element} and<a name="line.292"></a>
+<span class="sourceLineNo">293</span>     * count {@code count} is defined as: &lt;pre&gt;   {@code<a name="line.293"></a>
+<span class="sourceLineNo">294</span>     *<a name="line.294"></a>
+<span class="sourceLineNo">295</span>     *   ((element == null) ? 0 : element.hashCode()) ^ count}&lt;/pre&gt;<a name="line.295"></a>
+<span class="sourceLineNo">296</span>     */<a name="line.296"></a>
+<span class="sourceLineNo">297</span>    @Override<a name="line.297"></a>
+<span class="sourceLineNo">298</span>    int hashCode();<a name="line.298"></a>
+<span class="sourceLineNo">299</span><a name="line.299"></a>
+<span class="sourceLineNo">300</span>    /**<a name="line.300"></a>
+<span class="sourceLineNo">301</span>     * Returns the canonical string representation of this entry, defined as<a name="line.301"></a>
+<span class="sourceLineNo">302</span>     * follows. If the count for this entry is one, this is simply the string<a name="line.302"></a>
+<span class="sourceLineNo">303</span>     * representation of the corresponding element. Otherwise, it is the string<a name="line.303"></a>
+<span class="sourceLineNo">304</span>     * representation of the element, followed by the three characters {@code<a name="line.304"></a>
+<span class="sourceLineNo">305</span>     * " x "} (space, letter x, space), followed by the count.<a name="line.305"></a>
+<span class="sourceLineNo">306</span>     */<a name="line.306"></a>
+<span class="sourceLineNo">307</span>    @Override<a name="line.307"></a>
+<span class="sourceLineNo">308</span>    String toString();<a name="line.308"></a>
+<span class="sourceLineNo">309</span>  }<a name="line.309"></a>
+<span class="sourceLineNo">310</span><a name="line.310"></a>
+<span class="sourceLineNo">311</span>  /**<a name="line.311"></a>
+<span class="sourceLineNo">312</span>   * Runs the specified action for each distinct element in this multiset, and the number of<a name="line.312"></a>
+<span class="sourceLineNo">313</span>   * occurrences of that element. For some {@code Multiset} implementations, this may be more<a name="line.313"></a>
+<span class="sourceLineNo">314</span>   * efficient than iterating over the {@link #entrySet()} either explicitly or with {@code<a name="line.314"></a>
+<span class="sourceLineNo">315</span>   * entrySet().forEach(action)}.<a name="line.315"></a>
+<span class="sourceLineNo">316</span>   *<a name="line.316"></a>
+<span class="sourceLineNo">317</span>   * @since 21.0<a name="line.317"></a>
+<span class="sourceLineNo">318</span>   */<a name="line.318"></a>
+<span class="sourceLineNo">319</span>  @Beta<a name="line.319"></a>
+<span class="sourceLineNo">320</span>  default void forEachEntry(ObjIntConsumer&lt;? super E&gt; action) {<a name="line.320"></a>
+<span class="sourceLineNo">321</span>    checkNotNull(action);<a name="line.321"></a>
+<span class="sourceLineNo">322</span>    entrySet().forEach(entry -&gt; action.accept(entry.getElement(), entry.getCount()));<a name="line.322"></a>
+<span class="sourceLineNo">323</span>  }<a name="line.323"></a>
+<span class="sourceLineNo">324</span><a name="line.324"></a>
+<span class="sourceLineNo">325</span>  // Comparison and hashing<a name="line.325"></a>
 <span class="sourceLineNo">326</span><a name="line.326"></a>
 <span class="sourceLineNo">327</span>  /**<a name="line.327"></a>
-<span class="sourceLineNo">328</span>   * Returns the hash code for this multiset. This is defined as the sum of<a name="line.328"></a>
-<span class="sourceLineNo">329</span>   * &lt;pre&gt;   {@code<a name="line.329"></a>
-<span class="sourceLineNo">330</span>   *<a name="line.330"></a>
-<span class="sourceLineNo">331</span>   *   ((element == null) ? 0 : element.hashCode()) ^ count(element)}&lt;/pre&gt;<a name="line.331"></a>
-<span class="sourceLineNo">332</span>   *<a name="line.332"></a>
-<span class="sourceLineNo">333</span>   * &lt;p&gt;over all distinct elements in the multiset. It follows that a multiset and<a name="line.333"></a>
-<span class="sourceLineNo">334</span>   * its entry set always have the same hash code.<a name="line.334"></a>
-<span class="sourceLineNo">335</span>   */<a name="line.335"></a>
-<span class="sourceLineNo">336</span>  @Override<a name="line.336"></a>
-<span class="sourceLineNo">337</span>  int hashCode();<a name="line.337"></a>
-<span class="sourceLineNo">338</span><a name="line.338"></a>
-<span class="sourceLineNo">339</span>  /**<a name="line.339"></a>
-<span class="sourceLineNo">340</span>   * {@inheritDoc}<a name="line.340"></a>
+<span class="sourceLineNo">328</span>   * Compares the specified object with this multiset for equality. Returns {@code true} if the<a name="line.328"></a>
+<span class="sourceLineNo">329</span>   * given object is also a multiset and contains equal elements with equal counts, regardless of<a name="line.329"></a>
+<span class="sourceLineNo">330</span>   * order.<a name="line.330"></a>
+<span class="sourceLineNo">331</span>   */<a name="line.331"></a>
+<span class="sourceLineNo">332</span>  @Override<a name="line.332"></a>
+<span class="sourceLineNo">333</span>  // TODO(kevinb): caveats about equivalence-relation?<a name="line.333"></a>
+<span class="sourceLineNo">334</span>  boolean equals(@Nullable Object object);<a name="line.334"></a>
+<span class="sourceLineNo">335</span><a name="line.335"></a>
+<span class="sourceLineNo">336</span>  /**<a name="line.336"></a>
+<span class="sourceLineNo">337</span>   * Returns the hash code for this multiset. This is defined as the sum of<a name="line.337"></a>
+<span class="sourceLineNo">338</span>   * &lt;pre&gt;   {@code<a name="line.338"></a>
+<span class="sourceLineNo">339</span>   *<a name="line.339"></a>
+<span class="sourceLineNo">340</span>   *   ((element == null) ? 0 : element.hashCode()) ^ count(element)}&lt;/pre&gt;<a name="line.340"></a>
 <span class="sourceLineNo">341</span>   *<a name="line.341"></a>
-<span class="sourceLineNo">342</span>   * &lt;p&gt;It is recommended, though not mandatory, that this method return the<a name="line.342"></a>
-<span class="sourceLineNo">343</span>   * result of invoking {@link #toString} on the {@link #entrySet}, yielding a<a name="line.343"></a>
-<span class="sourceLineNo">344</span>   * result such as {@code [a x 3, c, d x 2, e]}.<a name="line.344"></a>
-<span class="sourceLineNo">345</span>   */<a name="line.345"></a>
-<span class="sourceLineNo">346</span>  @Override<a name="line.346"></a>
-<span class="sourceLineNo">347</span>  String toString();<a name="line.347"></a>
-<span class="sourceLineNo">348</span><a name="line.348"></a>
-<span class="sourceLineNo">349</span>  // Refined Collection Methods<a name="line.349"></a>
-<span class="sourceLineNo">350</span><a name="line.350"></a>
-<span class="sourceLineNo">351</span>  /**<a name="line.351"></a>
-<span class="sourceLineNo">352</span>   * {@inheritDoc}<a name="line.352"></a>
-<span class="sourceLineNo">353</span>   *<a name="line.353"></a>
-<span class="sourceLineNo">354</span>   * &lt;p&gt;Elements that occur multiple times in the multiset will appear<a name="line.354"></a>
-<span class="sourceLineNo">355</span>   * multiple times in this iterator, though not necessarily sequentially.<a name="line.355"></a>
-<span class="sourceLineNo">356</span>   */<a name="line.356"></a>
-<span class="sourceLineNo">357</span>  @Override<a name="line.357"></a>
-<span class="sourceLineNo">358</span>  Iterator&lt;E&gt; iterator();<a name="line.358"></a>
+<span class="sourceLineNo">342</span>   * &lt;p&gt;over all distinct elements in the multiset. It follows that a multiset and<a name="line.342"></a>
+<span class="sourceLineNo">343</span>   * its entry set always have the same hash code.<a name="line.343"></a>
+<span class="sourceLineNo">344</span>   */<a name="line.344"></a>
+<span class="sourceLineNo">345</span>  @Override<a name="line.345"></a>
+<span class="sourceLineNo">346</span>  int hashCode();<a name="line.346"></a>
+<span class="sourceLineNo">347</span><a name="line.347"></a>
+<span class="sourceLineNo">348</span>  /**<a name="line.348"></a>
+<span class="sourceLineNo">349</span>   * {@inheritDoc}<a name="line.349"></a>
+<span class="sourceLineNo">350</span>   *<a name="line.350"></a>
+<span class="sourceLineNo">351</span>   * &lt;p&gt;It is recommended, though not mandatory, that this method return the<a name="line.351"></a>
+<span class="sourceLineNo">352</span>   * result of invoking {@link #toString} on the {@link #entrySet}, yielding a<a name="line.352"></a>
+<span class="sourceLineNo">353</span>   * result such as {@code [a x 3, c, d x 2, e]}.<a name="line.353"></a>
+<span class="sourceLineNo">354</span>   */<a name="line.354"></a>
+<span class="sourceLineNo">355</span>  @Override<a name="line.355"></a>
+<span class="sourceLineNo">356</span>  String toString();<a name="line.356"></a>
+<span class="sourceLineNo">357</span><a name="line.357"></a>
+<span class="sourceLineNo">358</span>  // Refined Collection Methods<a name="line.358"></a>
 <span class="sourceLineNo">359</span><a name="line.359"></a>
 <span class="sourceLineNo">360</span>  /**<a name="line.360"></a>
-<span class="sourceLineNo">361</span>   * Determines whether this multiset contains the specified element.<a name="line.361"></a>
+<span class="sourceLineNo">361</span>   * {@inheritDoc}<a name="line.361"></a>
 <span class="sourceLineNo">362</span>   *<a name="line.362"></a>
-<span class="sourceLineNo">363</span>   * &lt;p&gt;This method refines {@link Collection#contains} to further specify that<a name="line.363"></a>
-<span class="sourceLineNo">364</span>   * it &lt;b&gt;may not&lt;/b&gt; throw an exception in response to {@code element} being<a name="line.364"></a>
-<span class="sourceLineNo">365</span>   * null or of the wrong type.<a name="line.365"></a>
-<span class="sourceLineNo">366</span>   *<a name="line.366"></a>
-<span class="sourceLineNo">367</span>   * @param element the element to check for<a name="line.367"></a>
-<span class="sourceLineNo">368</span>   * @return {@code true} if this multiset contains at least one occurrence of<a name="line.368"></a>
-<span class="sourceLineNo">369</span>   *     the element<a name="line.369"></a>
-<span class="sourceLineNo">370</span>   */<a name="line.370"></a>
-<span class="sourceLineNo">371</span>  @Override<a name="line.371"></a>
-<span class="sourceLineNo">372</span>  boolean contains(@Nullable Object element);<a name="line.372"></a>
-<span class="sourceLineNo">373</span><a name="line.373"></a>
-<span class="sourceLineNo">374</span>  /**<a name="line.374"></a>
-<span class="sourceLineNo">375</span>   * Returns {@code true} if this multiset contains at least one occurrence of<a name="line.375"></a>
-<span class="sourceLineNo">376</span>   * each element in the specified collection.<a name="line.376"></a>
-<span class="sourceLineNo">377</span>   *<a name="line.377"></a>
-<span class="sourceLineNo">378</span>   * &lt;p&gt;This method refines {@link Collection#containsAll} to further specify<a name="line.378"></a>
-<span class="sourceLineNo">379</span>   * that it &lt;b&gt;may not&lt;/b&gt; throw an exception in response to any of {@code<a name="line.379"></a>
-<span class="sourceLineNo">380</span>   * elements} being null or of the wrong type.<a name="line.380"></a>
-<span class="sourceLineNo">381</span>   *<a name="line.381"></a>
-<span class="sourceLineNo">382</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; this method does not take into account the occurrence<a name="line.382"></a>
-<span class="sourceLineNo">383</span>   * count of an element in the two collections; it may still return {@code<a name="line.383"></a>
-<span class="sourceLineNo">384</span>   * true} even if {@code elements} contains several occurrences of an element<a name="line.384"></a>
-<span class="sourceLineNo">385</span>   * and this multiset contains only one. This is no different than any other<a name="line.385"></a>
-<span class="sourceLineNo">386</span>   * collection type like {@link List}, but it may be unexpected to the user of<a name="line.386"></a>
-<span class="sourceLineNo">387</span>   * a multiset.<a name="line.387"></a>
-<span class="sourceLineNo">388</span>   *<a name="line.388"></a>
-<span class="sourceLineNo">389</span>   * @param elements the collection of elements to be checked for containment in<a name="line.389"></a>
-<span class="sourceLineNo">390</span>   *     this multiset<a name="line.390"></a>
-<span class="sourceLineNo">391</span>   * @return {@code true} if this multiset contains at least one occurrence of<a name="line.391"></a>
-<span class="sourceLineNo">392</span>   *     each element contained in {@code elements}<a name="line.392"></a>
-<span class="sourceLineNo">393</span>   * @throws NullPointerException if {@code elements} is null<a name="line.393"></a>
-<span class="sourceLineNo">394</span>   */<a name="line.394"></a>
-<span class="sourceLineNo">395</span>  @Override<a name="line.395"></a>
-<span class="sourceLineNo">396</span>  boolean containsAll(Collection&lt;?&gt; elements);<a name="line.396"></a>
-<span class="sourceLineNo">397</span><a name="line.397"></a>
-<span class="sourceLineNo">398</span>  /**<a name="line.398"></a>
-<span class="sourceLineNo">399</span>   * Adds a single occurrence of the specified element to this multiset.<a name="line.399"></a>
-<span class="sourceLineNo">400</span>   *<a name="line.400"></a>
-<span class="sourceLineNo">401</span>   * &lt;p&gt;This method refines {@link Collection#add}, which only &lt;i&gt;ensures&lt;/i&gt;<a name="line.401"></a>
-<span class="sourceLineNo">402</span>   * the presence of the element, to further specify that a successful call must<a name="line.402"></a>
-<span class="sourceLineNo">403</span>   * always increment the count of the element, and the overall size of the<a name="line.403"></a>
-<span class="sourceLineNo">404</span>   * collection, by one.<a name="line.404"></a>
-<span class="sourceLineNo">405</span>   *<a name="line.405"></a>
-<span class="sourceLineNo">406</span>   * &lt;p&gt;To both add the element and obtain the previous count of that element,<a name="line.406"></a>
-<span class="sourceLineNo">407</span>   * use {@link #add(E, int) add}{@code (element, 1)} instead.<a name="line.407"></a>
-<span class="sourceLineNo">408</span>   *<a name="line.408"></a>
-<span class="sourceLineNo">409</span>   * @param element the element to add one occurrence of; may be null only if<a name="line.409"></a>
-<span class="sourceLineNo">410</span>   *     explicitly allowed by the implementation<a name="line.410"></a>
-<span class="sourceLineNo">411</span>   * @return {@code true} always, since this call is required to modify the<a name="line.411"></a>
-<span class="sourceLineNo">412</span>   *     multiset, unlike other {@link Collection} types<a name="line.412"></a>
-<span class="sourceLineNo">413</span>   * @throws NullPointerException if {@code element} is null and this<a name="line.413"></a>
-<span class="sourceLineNo">414</span>   *     implementation does not permit null elements<a name="line.414"></a>
-<span class="sourceLineNo">415</span>   * @throws IllegalArgumentException if {@link Integer#MAX_VALUE} occurrences<a name="line.415"></a>
-<span class="sourceLineNo">416</span>   *     of {@code element} are already contained in this multiset<a name="line.416"></a>
-<span class="sourceLineNo">417</span>   */<a name="line.417"></a>
-<span class="sourceLineNo">418</span>  @CanIgnoreReturnValue<a name="line.418"></a>
-<span class="sourceLineNo">419</span>  @Override<a name="line.419"></a>
-<span class="sourceLineNo">420</span>  boolean add(E element);<a name="line.420"></a>
-<span class="sourceLineNo">421</span><a name="line.421"></a>
-<span class="sourceLineNo">422</span>  /**<a name="line.422"></a>
-<span class="sourceLineNo">423</span>   * Removes a &lt;i&gt;single&lt;/i&gt; occurrence of the specified element from this<a name="line.423"></a>
-<span class="sourceLineNo">424</span>   * multiset, if present.<a name="line.424"></a>
-<span class="sourceLineNo">425</span>   *<a name="line.425"></a>
-<span class="sourceLineNo">426</span>   * &lt;p&gt;This method refines {@link Collection#remove} to further specify that it<a name="line.426"></a>
-<span class="sourceLineNo">427</span>   * &lt;b&gt;may not&lt;/b&gt; throw an exception in response to {@code element} being null<a name="line.427"></a>
-<span class="sourceLineNo">428</span>   * or of the wrong type.<a name="line.428"></a>
-<span class="sourceLineNo">429</span>   *<a name="line.429"></a>
-<span class="sourceLineNo">430</span>   * &lt;p&gt;To both remove the element and obtain the previous count of that element,<a name="line.430"></a>
-<span class="sourceLineNo">431</span>   * use {@link #remove(E, int) remove}{@code (element, 1)} instead.<a name="line.431"></a>
-<span class="sourceLineNo">432</span>   *<a name="line.432"></a>
-<span class="sourceLineNo">433</span>   * @param element the element to remove one occurrence of<a name="line.433"></a>
-<span class="sourceLineNo">434</span>   * @return {@code true} if an occurrence was found and removed<a name="line.434"></a>
-<span class="sourceLineNo">435</span>   */<a name="line.435"></a>
-<span class="sourceLineNo">436</span>  @CanIgnoreReturnValue<a name="line.436"></a>
-<span class="sourceLineNo">437</span>  @Override<a name="line.437"></a>
-<span class="sourceLineNo">438</span>  boolean remove(@Nullable Object element);<a name="line.438"></a>
-<span class="sourceLineNo">439</span><a name="line.439"></a>
-<span class="sourceLineNo">440</span>  /**<a name="line.440"></a>
-<span class="sourceLineNo">441</span>   * {@inheritDoc}<a name="line.441"></a>
-<span class="sourceLineNo">442</span>   *<a name="line.442"></a>
-<span class="sourceLineNo">443</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This method ignores how often any element might appear in<a name="line.443"></a>
-<span class="sourceLineNo">444</span>   * {@code c}, and only cares whether or not an element appears at all.<a name="line.444"></a>
-<span class="sourceLineNo">445</span>   * If you wish to remove one occurrence in this multiset for every occurrence<a name="line.445"></a>
-<span class="sourceLineNo">446</span>   * in {@code c}, see {@link Multisets#removeOccurrences(Multiset, Multiset)}.<a name="line.446"></a>
-<span class="sourceLineNo">447</span>   *<a name="line.447"></a>
-<span class="sourceLineNo">448</span>   * &lt;p&gt;This method refines {@link Collection#removeAll} to further specify that<a name="line.448"></a>
-<span class="sourceLineNo">449</span>   * it &lt;b&gt;may not&lt;/b&gt; throw an exception in response to any of {@code elements}<a name="line.449"></a>
-<span class="sourceLineNo">450</span>   * being null or of the wrong type.<a name="line.450"></a>
-<span class="sourceLineNo">451</span>   */<a name="line.451"></a>
-<span class="sourceLineNo">452</span>  @CanIgnoreReturnValue<a name="line.452"></a>
-<span class="sourceLineNo">453</span>  @Override<a name="line.453"></a>
-<span class="sourceLineNo">454</span>  boolean removeAll(Collection&lt;?&gt; c);<a name="line.454"></a>
-<span class="sourceLineNo">455</span><a name="line.455"></a>
-<span class="sourceLineNo">456</span>  /**<a name="line.456"></a>
-<span class="sourceLineNo">457</span>   * {@inheritDoc}<a name="line.457"></a>
-<span class="sourceLineNo">458</span>   *<a name="line.458"></a>
-<span class="sourceLineNo">459</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This method ignores how often any element might appear in<a name="line.459"></a>
-<span class="sourceLineNo">460</span>   * {@code c}, and only cares whether or not an element appears at all.<a name="line.460"></a>
-<span class="sourceLineNo">461</span>   * If you wish to remove one occurrence in this multiset for every occurrence<a name="line.461"></a>
-<span class="sourceLineNo">462</span>   * in {@code c}, see {@link Multisets#retainOccurrences(Multiset, Multiset)}.<a name="line.462"></a>
-<span class="sourceLineNo">463</span>   *<a name="line.463"></a>
-<span class="sourceLineNo">464</span>   * &lt;p&gt;This method refines {@link Collection#retainAll} to further specify that<a name="line.464"></a>
-<span class="sourceLineNo">465</span>   * it &lt;b&gt;may not&lt;/b&gt; throw an exception in response to any of {@code elements}<a name="line.465"></a>
-<span class="sourceLineNo">466</span>   * being null or of the wrong type.<a name="line.466"></a>
+<span class="sourceLineNo">363</span>   * &lt;p&gt;Elements that occur multiple times in the multiset will appear<a name="line.363"></a>
+<span class="sourceLineNo">364</span>   * multiple times in this iterator, though not necessarily sequentially.<a name="line.364"></a>
+<span class="sourceLineNo">365</span>   */<a name="line.365"></a>
+<span class="sourceLineNo">366</span>  @Override<a name="line.366"></a>
+<span class="sourceLineNo">367</span>  Iterator&lt;E&gt; iterator();<a name="line.367"></a>
+<span class="sourceLineNo">368</span><a name="line.368"></a>
+<span class="sourceLineNo">369</span>  /**<a name="line.369"></a>
+<span class="sourceLineNo">370</span>   * Determines whether this multiset contains the specified element.<a name="line.370"></a>
+<span class="sourceLineNo">371</span>   *<a name="line.371"></a>
+<span class="sourceLineNo">372</span>   * &lt;p&gt;This method refines {@link Collection#contains} to further specify that<a name="line.372"></a>
+<span class="sourceLineNo">373</span>   * it &lt;b&gt;may not&lt;/b&gt; throw an exception in response to {@code element} being<a name="line.373"></a>
+<span class="sourceLineNo">374</span>   * null or of the wrong type.<a name="line.374"></a>
+<span class="sourceLineNo">375</span>   *<a name="line.375"></a>
+<span class="sourceLineNo">376</span>   * @param element the element to check for<a name="line.376"></a>
+<span class="sourceLineNo">377</span>   * @return {@code true} if this multiset contains at least one occurrence of<a name="line.377"></a>
+<span class="sourceLineNo">378</span>   *     the element<a name="line.378"></a>
+<span class="sourceLineNo">379</span>   */<a name="line.379"></a>
+<span class="sourceLineNo">380</span>  @Override<a name="line.380"></a>
+<span class="sourceLineNo">381</span>  boolean contains(@Nullable Object element);<a name="line.381"></a>
+<span class="sourceLineNo">382</span><a name="line.382"></a>
+<span class="sourceLineNo">383</span>  /**<a name="line.383"></a>
+<span class="sourceLineNo">384</span>   * Returns {@code true} if this multiset contains at least one occurrence of<a name="line.384"></a>
+<span class="sourceLineNo">385</span>   * each element in the specified collection.<a name="line.385"></a>
+<span class="sourceLineNo">386</span>   *<a name="line.386"></a>
+<span class="sourceLineNo">387</span>   * &lt;p&gt;This method refines {@link Collection#containsAll} to further specify<a name="line.387"></a>
+<span class="sourceLineNo">388</span>   * that it &lt;b&gt;may not&lt;/b&gt; throw an exception in response to any of {@code<a name="line.388"></a>
+<span class="sourceLineNo">389</span>   * elements} being null or of the wrong type.<a name="line.389"></a>
+<span class="sourceLineNo">390</span>   *<a name="line.390"></a>
+<span class="sourceLineNo">391</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; this method does not take into account the occurrence<a name="line.391"></a>
+<span class="sourceLineNo">392</span>   * count of an element in the two collections; it may still return {@code<a name="line.392"></a>
+<span class="sourceLineNo">393</span>   * true} even if {@code elements} contains several occurrences of an element<a name="line.393"></a>
+<span class="sourceLineNo">394</span>   * and this multiset contains only one. This is no different than any other<a name="line.394"></a>
+<span class="sourceLineNo">395</span>   * collection type like {@link List}, but it may be unexpected to the user of<a name="line.395"></a>
+<span class="sourceLineNo">396</span>   * a multiset.<a name="line.396"></a>
+<span class="sourceLineNo">397</span>   *<a name="line.397"></a>
+<span class="sourceLineNo">398</span>   * @param elements the collection of elements to be checked for containment in<a name="line.398"></a>
+<span class="sourceLineNo">399</span>   *     this multiset<a name="line.399"></a>
+<span class="sourceLineNo">400</span>   * @return {@code true} if this multiset contains at least one occurrence of<a name="line.400"></a>
+<span class="sourceLineNo">401</span>   *     each element contained in {@code elements}<a name="line.401"></a>
+<span class="sourceLineNo">402</span>   * @throws NullPointerException if {@code elements} is null<a name="line.402"></a>
+<span class="sourceLineNo">403</span>   */<a name="line.403"></a>
+<span class="sourceLineNo">404</span>  @Override<a name="line.404"></a>
+<span class="sourceLineNo">405</span>  boolean containsAll(Collection&lt;?&gt; elements);<a name="line.405"></a>
+<span class="sourceLineNo">406</span><a name="line.406"></a>
+<span class="sourceLineNo">407</span>  /**<a name="line.407"></a>
+<span class="sourceLineNo">408</span>   * Adds a single occurrence of the specified element to this multiset.<a name="line.408"></a>
+<span class="sourceLineNo">409</span>   *<a name="line.409"></a>
+<span class="sourceLineNo">410</span>   * &lt;p&gt;This method refines {@link Collection#add}, which only &lt;i&gt;ensures&lt;/i&gt;<a name="line.410"></a>
+<span class="sourceLineNo">411</span>   * the presence of the element, to further specify that a successful call must<a name="line.411"></a>
+<span class="sourceLineNo">412</span>   * always increment the count of the element, and the overall size of the<a name="line.412"></a>
+<span class="sourceLineNo">413</span>   * collection, by one.<a name="line.413"></a>
+<span class="sourceLineNo">414</span>   *<a name="line.414"></a>
+<span class="sourceLineNo">415</span>   * &lt;p&gt;To both add the element and obtain the previous count of that element,<a name="line.415"></a>
+<span class="sourceLineNo">416</span>   * use {@link #add(E, int) add}{@code (element, 1)} instead.<a name="line.416"></a>
+<span class="sourceLineNo">417</span>   *<a name="line.417"></a>
+<span class="sourceLineNo">418</span>   * @param element the element to add one occurrence of; may be null only if<a name="line.418"></a>
+<span class="sourceLineNo">419</span>   *     explicitly allowed by the implementation<a name="line.419"></a>
+<span class="sourceLineNo">420</span>   * @return {@code true} always, since this call is required to modify the<a name="line.420"></a>
+<span class="sourceLineNo">421</span>   *     multiset, unlike other {@link Collection} types<a name="line.421"></a>
+<span class="sourceLineNo">422</span>   * @throws NullPointerException if {@code element} is null and this<a name="line.422"></a>
+<span class="sourceLineNo">423</span>   *     implementation does not permit null elements<a name="line.423"></a>
+<span class="sourceLineNo">424</span>   * @throws IllegalArgumentException if {@link Integer#MAX_VALUE} occurrences<a name="line.424"></a>
+<span class="sourceLineNo">425</span>   *     of {@code element} are already contained in this multiset<a name="line.425"></a>
+<span class="sourceLineNo">426</span>   */<a name="line.426"></a>
+<span class="sourceLineNo">427</span>  @CanIgnoreReturnValue<a name="line.427"></a>
+<span class="sourceLineNo">428</span>  @Override<a name="line.428"></a>
+<span class="sourceLineNo">429</span>  boolean add(E element);<a name="line.429"></a>
+<span class="sourceLineNo">430</span><a name="line.430"></a>
+<span class="sourceLineNo">431</span>  /**<a name="line.431"></a>
+<span class="sourceLineNo">432</span>   * Removes a &lt;i&gt;single&lt;/i&gt; occurrence of the specified element from this<a name="line.432"></a>
+<span class="sourceLineNo">433</span>   * multiset, if present.<a name="line.433"></a>
+<span class="sourceLineNo">434</span>   *<a name="line.434"></a>
+<span class="sourceLineNo">435</span>   * &lt;p&gt;This method refines {@link Collection#remove} to further specify that it<a name="line.435"></a>
+<span class="sourceLineNo">436</span>   * &lt;b&gt;may not&lt;/b&gt; throw an exception in response to {@code element} being null<a name="line.436"></a>
+<span class="sourceLineNo">437</span>   * or of the wrong type.<a name="line.437"></a>
+<span class="sourceLineNo">438</span>   *<a name="line.438"></a>
+<span class="sourceLineNo">439</span>   * &lt;p&gt;To both remove the element and obtain the previous count of that element,<a name="line.439"></a>
+<span class="sourceLineNo">440</span>   * use {@link #remove(E, int) remove}{@code (element, 1)} instead.<a name="line.440"></a>
+<span class="sourceLineNo">441</span>   *<a name="line.441"></a>
+<span class="sourceLineNo">442</span>   * @param element the element to remove one occurrence of<a name="line.442"></a>
+<span class="sourceLineNo">443</span>   * @return {@code true} if an occurrence was found and removed<a name="line.443"></a>
+<span class="sourceLineNo">444</span>   */<a name="line.444"></a>
+<span class="sourceLineNo">445</span>  @CanIgnoreReturnValue<a name="line.445"></a>
+<span class="sourceLineNo">446</span>  @Override<a name="line.446"></a>
+<span class="sourceLineNo">447</span>  boolean remove(@Nullable Object element);<a name="line.447"></a>
+<span class="sourceLineNo">448</span><a name="line.448"></a>
+<span class="sourceLineNo">449</span>  /**<a name="line.449"></a>
+<span class="sourceLineNo">450</span>   * {@inheritDoc}<a name="line.450"></a>
+<span class="sourceLineNo">451</span>   *<a name="line.451"></a>
+<span class="sourceLineNo">452</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This method ignores how often any element might appear in<a name="line.452"></a>
+<span class="sourceLineNo">453</span>   * {@code c}, and only cares whether or not an element appears at all.<a name="line.453"></a>
+<span class="sourceLineNo">454</span>   * If you wish to remove one occurrence in this multiset for every occurrence<a name="line.454"></a>
+<span class="sourceLineNo">455</span>   * in {@code c}, see {@link Multisets#removeOccurrences(Multiset, Multiset)}.<a name="line.455"></a>
+<span class="sourceLineNo">456</span>   *<a name="line.456"></a>
+<span class="sourceLineNo">457</span>   * &lt;p&gt;This method refines {@link Collection#removeAll} to further specify that<a name="line.457"></a>
+<span class="sourceLineNo">458</span>   * it &lt;b&gt;may not&lt;/b&gt; throw an exception in response to any of {@code elements}<a name="line.458"></a>
+<span class="sourceLineNo">459</span>   * being null or of the wrong type.<a name="line.459"></a>
+<span class="sourceLineNo">460</span>   */<a name="line.460"></a>
+<span class="sourceLineNo">461</span>  @CanIgnoreReturnValue<a name="line.461"></a>
+<span class="sourceLineNo">462</span>  @Override<a name="line.462"></a>
+<span class="sourceLineNo">463</span>  boolean removeAll(Collection&lt;?&gt; c);<a name="line.463"></a>
+<span class="sourceLineNo">464</span><a name="line.464"></a>
+<span class="sourceLineNo">465</span>  /**<a name="line.465"></a>
+<span class="sourceLineNo">466</span>   * {@inheritDoc}<a name="line.466"></a>
 <span class="sourceLineNo">467</span>   *<a name="line.467"></a>
-<span class="sourceLineNo">468</span>   * @see Multisets#retainOccurrences(Multiset, Multiset)<a name="line.468"></a>
-<span class="sourceLineNo">469</span>   */<a name="line.469"></a>
-<span class="sourceLineNo">470</span>  @CanIgnoreReturnValue<a name="line.470"></a>
-<span class="sourceLineNo">471</span>  @Override<a name="line.471"></a>
-<span class="sourceLineNo">472</span>  boolean retainAll(Collection&lt;?&gt; c);<a name="line.472"></a>
-<span class="sourceLineNo">473</span><a name="line.473"></a>
-<span class="sourceLineNo">474</span>  /**<a name="line.474"></a>
-<span class="sourceLineNo">475</span>   * {@inheritDoc}<a name="line.475"></a>
+<span class="sourceLineNo">468</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This method ignores how often any element might appear in<a name="line.468"></a>
+<span class="sourceLineNo">469</span>   * {@code c}, and only cares whether or not an element appears at all.<a name="line.469"></a>
+<span class="sourceLineNo">470</span>   * If you wish to remove one occurrence in this multiset for every occurrence<a name="line.470"></a>
+<span class="sourceLineNo">471</span>   * in {@code c}, see {@link Multisets#retainOccurrences(Multiset, Multiset)}.<a name="line.471"></a>
+<span class="sourceLineNo">472</span>   *<a name="line.472"></a>
+<span class="sourceLineNo">473</span>   * &lt;p&gt;This method refines {@link Collection#retainAll} to further specify that<a name="line.473"></a>
+<span class="sourceLineNo">474</span>   * it &lt;b&gt;may not&lt;/b&gt; throw an exception in response to any of {@code elements}<a name="line.474"></a>
+<span class="sourceLineNo">475</span>   * being null or of the wrong type.<a name="line.475"></a>
 <span class="sourceLineNo">476</span>   *<a name="line.476"></a>
-<span class="sourceLineNo">477</span>   * &lt;p&gt;Elements that occur multiple times in the multiset will be passed to the {@code Consumer}<a name="line.477"></a>
-<span class="sourceLineNo">478</span>   * correspondingly many times, though not necessarily sequentially.<a name="line.478"></a>
-<span class="sourceLineNo">479</span>   */<a name="line.479"></a>
+<span class="sourceLineNo">477</span>   * @see Multisets#retainOccurrences(Multiset, Multiset)<a name="line.477"></a>
+<span class="sourceLineNo">478</span>   */<a name="line.478"></a>
+<span class="sourceLineNo">479</span>  @CanIgnoreReturnValue<a name="line.479"></a>
 <span class="sourceLineNo">480</span>  @Override<a name="line.480"></a>
-<span class="sourceLineNo">481</span>  default void forEach(Consumer&lt;? super E&gt; action) {<a name="line.481"></a>
-<span class="sourceLineNo">482</span>    checkNotNull(action);<a name="line.482"></a>
-<span class="sourceLineNo">483</span>    entrySet()<a name="line.483"></a>
-<span class="sourceLineNo">484</span>        .forEach(<a name="line.484"></a>
-<span class="sourceLineNo">485</span>            entry -&gt; {<a name="line.485"></a>
-<span class="sourceLineNo">486</span>              E elem = entry.getElement();<a name="line.486"></a>
-<span class="sourceLineNo">487</span>              int count = entry.getCount();<a name="line.487"></a>
-<span class="sourceLineNo">488</span>              for (int i = 0; i &lt; count; i++) {<a name="line.488"></a>
-<span class="sourceLineNo">489</span>                action.accept(elem);<a name="line.489"></a>
-<span class="sourceLineNo">490</span>              }<a name="line.490"></a>
-<span class="sourceLineNo">491</span>            });<a name="line.491"></a>
-<span class="sourceLineNo">492</span>  }<a name="line.492"></a>
-<span class="sourceLineNo">493</span><a name="line.493"></a>
-<span class="sourceLineNo">494</span>  @Override<a name="line.494"></a>
-<span class="sourceLineNo">495</span>  default Spliterator&lt;E&gt; spliterator() {<a name="line.495"></a>
-<span class="sourceLineNo">496</span>    return Multisets.spliteratorImpl(this);<a name="line.496"></a>
-<span class="sourceLineNo">497</span>  }<a name="line.497"></a>
-<span class="sourceLineNo">498</span>}<a name="line.498"></a>
+<span class="sourceLineNo">481</span>  boolean retainAll(Collection&lt;?&gt; c);<a name="line.481"></a>
+<span class="sourceLineNo">482</span><a name="line.482"></a>
+<span class="sourceLineNo">483</span>  /**<a name="line.483"></a>
+<span class="sourceLineNo">484</span>   * {@inheritDoc}<a name="line.484"></a>
+<span class="sourceLineNo">485</span>   *<a name="line.485"></a>
+<span class="sourceLineNo">486</span>   * &lt;p&gt;Elements that occur multiple times in the multiset will be passed to the {@code Consumer}<a name="line.486"></a>
+<span class="sourceLineNo">487</span>   * correspondingly many times, though not necessarily sequentially.<a name="line.487"></a>
+<span class="sourceLineNo">488</span>   */<a name="line.488"></a>
+<span class="sourceLineNo">489</span>  @Override<a name="line.489"></a>
+<span class="sourceLineNo">490</span>  default void forEach(Consumer&lt;? super E&gt; action) {<a name="line.490"></a>
+<span class="sourceLineNo">491</span>    checkNotNull(action);<a name="line.491"></a>
+<span class="sourceLineNo">492</span>    entrySet()<a name="line.492"></a>
+<span class="sourceLineNo">493</span>        .forEach(<a name="line.493"></a>
+<span class="sourceLineNo">494</span>            entry -&gt; {<a name="line.494"></a>
+<span class="sourceLineNo">495</span>              E elem = entry.getElement();<a name="line.495"></a>
+<span class="sourceLineNo">496</span>              int count = entry.getCount();<a name="line.496"></a>
+<span class="sourceLineNo">497</span>              for (int i = 0; i &lt; count; i++) {<a name="line.497"></a>
+<span class="sourceLineNo">498</span>                action.accept(elem);<a name="line.498"></a>
+<span class="sourceLineNo">499</span>              }<a name="line.499"></a>
+<span class="sourceLineNo">500</span>            });<a name="line.500"></a>
+<span class="sourceLineNo">501</span>  }<a name="line.501"></a>
+<span class="sourceLineNo">502</span><a name="line.502"></a>
+<span class="sourceLineNo">503</span>  @Override<a name="line.503"></a>
+<span class="sourceLineNo">504</span>  default Spliterator&lt;E&gt; spliterator() {<a name="line.504"></a>
+<span class="sourceLineNo">505</span>    return Multisets.spliteratorImpl(this);<a name="line.505"></a>
+<span class="sourceLineNo">506</span>  }<a name="line.506"></a>
+<span class="sourceLineNo">507</span>}<a name="line.507"></a>
 
 
 

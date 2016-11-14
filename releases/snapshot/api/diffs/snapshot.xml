@@ -29559,6 +29559,17 @@
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
     <implements name="java.util.Collection&lt;E&gt;"/>
+    <method name="size" return="int"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns the total number of all occurrences of all elements in this multiset.
+
+ <p><b>Note:</b> this method does not return the number of <i>distinct elements</i> in the
+ multiset, which is given by {@code entrySet().size()}.]]>
+      </doc>
+    </method>
     <method name="count" return="int"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
