@@ -54,7 +54,7 @@ public abstract class ForwardingSortedMultiset<E> extends ForwardingMultiset<E>
 
   @Override
   public NavigableSet<E> elementSet() {
-    return (NavigableSet<E>) super.elementSet();
+    return delegate().elementSet();
   }
 
   /**

@@ -22,14 +22,16 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
+import com.google.common.base.Function;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringMapGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.testing.EqualsTester;
+import com.google.common.testing.ForwardingWrapperTester;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -111,8 +113,6 @@ public class ForwardingMapTest extends ForwardingTestCase {
     }
   }
 
-  Map<String, Boolean> forward;
-
   public static Test suite() {
     TestSuite suite = new TestSuite();
 
@@ -155,95 +155,23 @@ public class ForwardingMapTest extends ForwardingTestCase {
     return suite;
   }
 
-  @Override public void setUp() throws Exception {
-    super.setUp();
-    /*
-     * Class parameters must be raw, so we can't create a proxy with generic
-     * type arguments. The created proxy only records calls and returns null, so
-     * the type is irrelevant at runtime.
-     */
-    @SuppressWarnings("unchecked")
-    final Map<String, Boolean> map = createProxyInstance(Map.class);
-    forward = new ForwardingMap<String, Boolean>() {
-      @Override protected Map<String, Boolean> delegate() {
-        return map;
-      }
-    };
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  public void testForwarding() {
+    new ForwardingWrapperTester()
+        .testForwarding(Map.class, new Function<Map, Map>() {
+          @Override public Map apply(Map delegate) {
+            return wrap(delegate);
+          }
+        });
   }
 
-  public void testSize() {
-    forward().size();
-    assertEquals("[size]", getCalls());
-  }
-
-  public void testIsEmpty() {
-    forward().isEmpty();
-    assertEquals("[isEmpty]", getCalls());
-  }
-
-  public void testRemove() {
-    forward().remove(null);
-    assertEquals("[remove(Object)]", getCalls());
-  }
-
-  public void testClear() {
-    forward().clear();
-    assertEquals("[clear]", getCalls());
-  }
-
-  public void testContainsKey() {
-    forward().containsKey("asdf");
-    assertEquals("[containsKey(Object)]", getCalls());
-  }
-
-  public void testContainsValue() {
-    forward().containsValue(false);
-    assertEquals("[containsValue(Object)]", getCalls());
-  }
-
-  public void testGet_Object() {
-    forward().get("asdf");
-    assertEquals("[get(Object)]", getCalls());
-  }
-
-  public void testPut_Key_Value() {
-    forward().put("key", false);
-    assertEquals("[put(Object,Object)]", getCalls());
-  }
-
-  public void testPutAll_Map() {
-    forward().putAll(new HashMap<String, Boolean>());
-    assertEquals("[putAll(Map)]", getCalls());
-  }
-
-  public void testKeySet() {
-    forward().keySet();
-    assertEquals("[keySet]", getCalls());
-  }
-
-  public void testValues() {
-    forward().values();
-    assertEquals("[values]", getCalls());
-  }
-
-  public void testEntrySet() {
-    forward().entrySet();
-    assertEquals("[entrySet]", getCalls());
-  }
-
-  public void testToString() {
-    forward().toString();
-    assertEquals("[toString]", getCalls());
-  }
-
-  public void testEquals_Object() {
-    forward().equals("asdf");
-    assertEquals("[equals(Object)]", getCalls());
-  }
-
-  public void testHashCode() {
-    forward().hashCode();
-    assertEquals("[hashCode]", getCalls());
+  public void testEquals() {
+    Map<Integer, String> map1 = ImmutableMap.of(1, "one");
+    Map<Integer, String> map2 = ImmutableMap.of(2, "two");
+    new EqualsTester()
+        .addEqualityGroup(map1, wrap(map1), wrap(map1))
+        .addEqualityGroup(map2, wrap(map2))
+        .testEquals();
   }
 
   public void testStandardEntrySet() throws InvocationTargetException {
@@ -356,7 +284,11 @@ public class ForwardingMapTest extends ForwardingTestCase {
     assertEquals(hashmap.toString(), forwardingMap.toString());
   }
 
-  Map<String, Boolean> forward() {
-    return forward;
+  private static <K, V> Map<K, V> wrap(final Map<K, V> delegate) {
+    return new ForwardingMap<K, V>() {
+      @Override protected Map<K, V> delegate() {
+        return delegate;
+      }
+    };
   }
 }

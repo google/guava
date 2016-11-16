@@ -14,22 +14,22 @@
 
 package com.google.common.collect;
 
-import static com.google.common.collect.BoundType.CLOSED;
-import static com.google.common.collect.BoundType.OPEN;
-
+import com.google.common.base.Function;
 import com.google.common.collect.Multiset.Entry;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.SortedMultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
+import com.google.common.testing.EqualsTester;
+import com.google.common.testing.ForwardingWrapperTester;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NavigableSet;
 import javax.annotation.Nullable;
 import junit.framework.Test;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
@@ -37,7 +37,7 @@ import junit.framework.TestSuite;
  *
  * @author Louis Wasserman
  */
-public class ForwardingSortedMultisetTest extends ForwardingMultisetTest {
+public class ForwardingSortedMultisetTest extends TestCase {
   static class StandardImplForwardingSortedMultiset<E> extends ForwardingSortedMultiset<E> {
     private final SortedMultiset<E> backingMultiset;
 
@@ -202,70 +202,30 @@ public class ForwardingSortedMultisetTest extends ForwardingMultisetTest {
     return suite;
   }
 
-  @Override
-  public void setUp() throws Exception {
-    super.setUp();
-    /*
-     * Class parameters must be raw, so we can't create a proxy with generic type arguments. The
-     * created proxy only records calls and returns null, so the type is irrelevant at runtime.
-     */
-    @SuppressWarnings("unchecked")
-    final SortedMultiset<String> sortedMultiset = createProxyInstance(SortedMultiset.class);
-    forward = new ForwardingSortedMultiset<String>() {
-      @Override
-      protected SortedMultiset<String> delegate() {
-        return sortedMultiset;
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  public void testForwarding() {
+    new ForwardingWrapperTester()
+        .testForwarding(SortedMultiset.class, new Function<SortedMultiset, SortedMultiset>() {
+          @Override public SortedMultiset apply(SortedMultiset delegate) {
+            return wrap(delegate);
+          }
+        });
+  }
+
+  public void testEquals() {
+    SortedMultiset<String> set1 = ImmutableSortedMultiset.of("one");
+    SortedMultiset<String> set2 = ImmutableSortedMultiset.of("two");
+    new EqualsTester()
+        .addEqualityGroup(set1, wrap(set1), wrap(set1))
+        .addEqualityGroup(set2, wrap(set2))
+        .testEquals();
+  }
+
+  private static <T> SortedMultiset<T> wrap(final SortedMultiset<T> delegate) {
+    return new ForwardingSortedMultiset<T>() {
+      @Override protected SortedMultiset<T> delegate() {
+        return delegate;
       }
     };
-  }
-
-  public void testComparator() {
-    Comparator<?> unused = forward().comparator();
-    assertEquals("[comparator]", getCalls());
-  }
-
-  public void testFirstEntry() {
-    Entry<String> unused = forward().firstEntry();
-    assertEquals("[firstEntry]", getCalls());
-  }
-
-  public void testLastEntry() {
-    Entry<String> unused = forward().lastEntry();
-    assertEquals("[lastEntry]", getCalls());
-  }
-
-  public void testPollFirstEntry() {
-    Entry<String> unused = forward().pollFirstEntry();
-    assertEquals("[pollFirstEntry]", getCalls());
-  }
-
-  public void testPollLastEntry() {
-    Entry<String> unused = forward().pollLastEntry();
-    assertEquals("[pollLastEntry]", getCalls());
-  }
-
-  public void testDescendingMultiset() {
-    Multiset<String> unused = forward().descendingMultiset();
-    assertEquals("[descendingMultiset]", getCalls());
-  }
-
-  public void testHeadMultiset() {
-    Multiset<String> unused = forward().headMultiset("abcd", CLOSED);
-    assertEquals("[headMultiset(Object,BoundType)]", getCalls());
-  }
-
-  public void testSubMultiset() {
-    Multiset<String> unused = forward().subMultiset("abcd", CLOSED, "dcba", OPEN);
-    assertEquals("[subMultiset(Object,BoundType,Object,BoundType)]", getCalls());
-  }
-
-  public void testTailMultiset() {
-    Multiset<String> unused = forward().tailMultiset("last", OPEN);
-    assertEquals("[tailMultiset(Object,BoundType)]", getCalls());
-  }
-
-  @Override
-  protected SortedMultiset<String> forward() {
-    return (SortedMultiset<String>) super.forward();
   }
 }

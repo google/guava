@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.collect.Maps.immutableEntry;
 
+import com.google.common.base.Function;
 import com.google.common.collect.testing.NavigableMapTestSuiteBuilder;
 import com.google.common.collect.testing.SafeTreeMap;
 import com.google.common.collect.testing.TestStringSortedMapGenerator;
@@ -25,6 +26,8 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.testers.MapEntrySetTester;
+import com.google.common.testing.EqualsTester;
+import com.google.common.testing.ForwardingWrapperTester;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -34,6 +37,7 @@ import java.util.NavigableSet;
 import java.util.Set;
 import java.util.SortedMap;
 import junit.framework.Test;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
@@ -42,7 +46,7 @@ import junit.framework.TestSuite;
  * @author Robert Konigsberg
  * @author Louis Wasserman
  */
-public class ForwardingNavigableMapTest extends ForwardingSortedMapTest {
+public class ForwardingNavigableMapTest extends TestCase {
   static class StandardImplForwardingNavigableMap<K, V>
       extends ForwardingNavigableMap<K, V> {
     private final NavigableMap<K, V> backingMap;
@@ -268,23 +272,6 @@ public class ForwardingNavigableMapTest extends ForwardingSortedMapTest {
     return suite;
   }
 
-  @Override public void setUp() throws Exception {
-    super.setUp();
-    /*
-     * Class parameters must be raw, so we can't create a proxy with generic
-     * type arguments. The created proxy only records calls and returns null, so
-     * the type is irrelevant at runtime.
-     */
-    @SuppressWarnings("unchecked")
-    final NavigableMap<String, Boolean> sortedMap =
-        createProxyInstance(NavigableMap.class);
-    forward = new ForwardingNavigableMap<String, Boolean>() {
-      @Override protected NavigableMap<String, Boolean> delegate() {
-        return sortedMap;
-      }
-    };
-  }
-
   public void testStandardLastEntry() {
     NavigableMap<String, Integer> forwarding =
         new StandardLastEntryForwardingNavigableMap<String, Integer>(
@@ -300,97 +287,30 @@ public class ForwardingNavigableMapTest extends ForwardingSortedMapTest {
     assertEquals(immutableEntry("b", 2), forwarding.lastEntry());
   }
 
-  public void testLowerEntry() {
-    forward().lowerEntry("key");
-    assertEquals("[lowerEntry(Object)]", getCalls());
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  public void testForwarding() {
+    new ForwardingWrapperTester()
+        .testForwarding(NavigableMap.class, new Function<NavigableMap, NavigableMap>() {
+          @Override public NavigableMap apply(NavigableMap delegate) {
+            return wrap(delegate);
+          }
+        });
   }
 
-  public void testLowerKey() {
-    forward().lowerKey("key");
-    assertEquals("[lowerKey(Object)]", getCalls());
+   public void testEquals() {
+    NavigableMap<Integer, String> map1 = ImmutableSortedMap.of(1, "one");
+    NavigableMap<Integer, String> map2 = ImmutableSortedMap.of(2, "two");
+    new EqualsTester()
+        .addEqualityGroup(map1, wrap(map1), wrap(map1))
+        .addEqualityGroup(map2, wrap(map2))
+        .testEquals();
   }
 
-  public void testFloorEntry() {
-    forward().floorEntry("key");
-    assertEquals("[floorEntry(Object)]", getCalls());
-  }
-
-  public void testFloorKey() {
-    forward().floorKey("key");
-    assertEquals("[floorKey(Object)]", getCalls());
-  }
-
-  public void testCeilingEntry() {
-    forward().ceilingEntry("key");
-    assertEquals("[ceilingEntry(Object)]", getCalls());
-  }
-
-  public void testCeilingKey() {
-    forward().ceilingKey("key");
-    assertEquals("[ceilingKey(Object)]", getCalls());
-  }
-
-  public void testHigherEntry() {
-    forward().higherEntry("key");
-    assertEquals("[higherEntry(Object)]", getCalls());
-  }
-
-  public void testHigherKey() {
-    forward().higherKey("key");
-    assertEquals("[higherKey(Object)]", getCalls());
-  }
-
-  public void testPollFirstEntry() {
-    forward().pollFirstEntry();
-    assertEquals("[pollFirstEntry]", getCalls());
-  }
-
-  public void testPollLastEntry() {
-    forward().pollLastEntry();
-    assertEquals("[pollLastEntry]", getCalls());
-  }
-
-  public void testFirstEntry() {
-    forward().firstEntry();
-    assertEquals("[firstEntry]", getCalls());
-  }
-
-  public void testLastEntry() {
-    forward().lastEntry();
-    assertEquals("[lastEntry]", getCalls());
-  }
-
-  public void testDescendingMap() {
-    forward().descendingMap();
-    assertEquals("[descendingMap]", getCalls());
-  }
-
-  public void testNavigableKeySet() {
-    forward().navigableKeySet();
-    assertEquals("[navigableKeySet]", getCalls());
-  }
-
-  public void testDescendingKeySet() {
-    forward().descendingKeySet();
-    assertEquals("[descendingKeySet]", getCalls());
-  }
-
-  public void testSubMap_K_Bool_K_Bool() {
-    forward().subMap("a", false, "b", true);
-    assertEquals("[subMap(Object,boolean,Object,boolean)]", getCalls());
-  }
-
-  public void testHeadMap_K_Bool() {
-    forward().headMap("a", false);
-    assertEquals("[headMap(Object,boolean)]", getCalls());
-  }
-
-  public void testTailMap_K_Bool() {
-    forward().tailMap("a", false);
-    assertEquals("[tailMap(Object,boolean)]", getCalls());
-  }
-
-  @Override NavigableMap<String, Boolean> forward() {
-    return (NavigableMap<String, Boolean>) super.forward();
+  private static <K, V> NavigableMap<K, V> wrap(final NavigableMap<K, V> delegate) {
+    return new ForwardingNavigableMap<K, V>() {
+      @Override protected NavigableMap<K, V> delegate() {
+        return delegate;
+      }
+    };
   }
 }

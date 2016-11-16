@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import com.google.common.base.Function;
 import com.google.common.collect.Multiset.Entry;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringSetGenerator;
@@ -23,12 +24,14 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
+import com.google.common.testing.EqualsTester;
+import com.google.common.testing.ForwardingWrapperTester;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 import junit.framework.Test;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
@@ -37,7 +40,7 @@ import junit.framework.TestSuite;
  * @author Hayward Chan
  * @author Louis Wasserman
  */
-public class ForwardingMultisetTest extends ForwardingTestCase {
+public class ForwardingMultisetTest extends TestCase {
 
   static final class StandardImplForwardingMultiset<T>
       extends ForwardingMultiset<T> {
@@ -131,11 +134,6 @@ public class ForwardingMultisetTest extends ForwardingTestCase {
       return standardSize();
     }
   }
-
-  private static final Collection<String> EMPTY_COLLECTION =
-      Collections.emptyList();
-
-  protected Multiset<String> forward;
 
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -263,139 +261,30 @@ public class ForwardingMultisetTest extends ForwardingTestCase {
     return suite;
   }
 
-  @Override public void setUp() throws Exception {
-    super.setUp();
-    /*
-     * Class parameters must be raw, so we can't create a proxy with generic
-     * type arguments. The created proxy only records calls and returns null, so
-     * the type is irrelevant at runtime.
-     */
-    @SuppressWarnings("unchecked")
-    final Multiset<String> multiset = createProxyInstance(Multiset.class);
-    forward = new ForwardingMultiset<String>() {
-      @Override protected Multiset<String> delegate() {
-        return multiset;
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  public void testForwarding() {
+    new ForwardingWrapperTester()
+        .testForwarding(Multiset.class, new Function<Multiset, Multiset>() {
+          @Override public Multiset apply(Multiset delegate) {
+            return wrap(delegate);
+          }
+        });
+  }
+
+  public void testEquals() {
+    Multiset<String> set1 = ImmutableMultiset.of("one");
+    Multiset<String> set2 = ImmutableMultiset.of("two");
+    new EqualsTester()
+        .addEqualityGroup(set1, wrap(set1), wrap(set1))
+        .addEqualityGroup(set2, wrap(set2))
+        .testEquals();
+  }
+
+  private static <T> Multiset<T> wrap(final Multiset<T> delegate) {
+    return new ForwardingMultiset<T>() {
+      @Override protected Multiset<T> delegate() {
+        return delegate;
       }
     };
-  }
-
-  public void testAdd_T() {
-    forward().add("asdf");
-    assertEquals("[add(Object)]", getCalls());
-  }
-
-  public void testAddAll_Collection() {
-    forward().addAll(EMPTY_COLLECTION);
-    assertEquals("[addAll(Collection)]", getCalls());
-  }
-
-  public void testClear() {
-    forward().clear();
-    assertEquals("[clear]", getCalls());
-  }
-
-  public void testContains_Object() {
-    boolean unused = forward().contains(null);
-    assertEquals("[contains(Object)]", getCalls());
-  }
-
-  public void testContainsAll_Collection() {
-    boolean unused = forward().containsAll(EMPTY_COLLECTION);
-    assertEquals("[containsAll(Collection)]", getCalls());
-  }
-
-  public void testIsEmpty() {
-    boolean unused = forward().isEmpty();
-    assertEquals("[isEmpty]", getCalls());
-  }
-
-  public void testIterator() {
-    Iterator<String> unused = forward().iterator();
-    assertEquals("[iterator]", getCalls());
-  }
-
-  public void testRemove_Object() {
-    forward().remove(null);
-    assertEquals("[remove(Object)]", getCalls());
-  }
-
-  public void testRemoveAll_Collection() {
-    forward().removeAll(EMPTY_COLLECTION);
-    assertEquals("[removeAll(Collection)]", getCalls());
-  }
-
-  public void testRetainAll_Collection() {
-    forward().retainAll(EMPTY_COLLECTION);
-    assertEquals("[retainAll(Collection)]", getCalls());
-  }
-
-  public void testSize() {
-    int unused = forward().size();
-    assertEquals("[size]", getCalls());
-  }
-
-  public void testToArray() {
-    forward().toArray();
-    assertEquals("[toArray]", getCalls());
-  }
-
-  public void testToArray_TArray() {
-    forward().toArray(new String[0]);
-    assertEquals("[toArray(Object[])]", getCalls());
-  }
-
-  public void testToString() {
-    String unused = forward().toString();
-    assertEquals("[toString]", getCalls());
-  }
-
-  public void testEquals_Object() {
-    boolean unused = forward().equals("asdf");
-    assertEquals("[equals(Object)]", getCalls());
-  }
-
-  public void testHashCode() {
-    int unused = forward().hashCode();
-    assertEquals("[hashCode]", getCalls());
-  }
-
-  public void testCount_Object() {
-    int unused = forward().count(null);
-    assertEquals("[count(Object)]", getCalls());
-  }
-
-  public void testAdd_Object_int() {
-    forward().add("asd", 23);
-    assertEquals("[add(Object,int)]", getCalls());
-  }
-
-  public void testRemove_Object_int() {
-    forward().remove("asd", 23);
-    assertEquals("[remove(Object,int)]", getCalls());
-  }
-
-  public void testSetCount_Object_int() {
-    forward().setCount("asdf", 233);
-    assertEquals("[setCount(Object,int)]", getCalls());
-  }
-
-  public void testSetCount_Object_oldCount_newCount() {
-    forward().setCount("asdf", 4552, 1233);
-    assertEquals("[setCount(Object,int,int)]", getCalls());
-  }
-
-  @AndroidIncompatible // Proxy problem, perhaps around SortedMultisetBridge?
-  public void testElementSet() {
-    Set<String> unused = forward().elementSet();
-    assertEquals("[elementSet]", getCalls());
-  }
-
-  public void testEntrySet() {
-    Set<Entry<String>> unused = forward().entrySet();
-    assertEquals("[entrySet]", getCalls());
-  }
-
-  protected Multiset<String> forward() {
-    return forward;
   }
 }
