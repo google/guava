@@ -133,6 +133,11 @@ public void testEmptyMultimapWrites() throws Exception {
   testCase.testEmptyMultimapWrites();
 }
 
+public void testFlatteningToImmutableSetMultimap() throws Exception {
+  com.google.common.collect.ImmutableSetMultimapTest testCase = new com.google.common.collect.ImmutableSetMultimapTest();
+  testCase.testFlatteningToImmutableSetMultimap();
+}
+
 public void testInverse() throws Exception {
   com.google.common.collect.ImmutableSetMultimapTest testCase = new com.google.common.collect.ImmutableSetMultimapTest();
   testCase.testInverse();

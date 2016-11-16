@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
@@ -33,6 +34,8 @@ import java.util.Comparator;
 import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.annotation.Nullable;
 
 /**
@@ -86,6 +89,52 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
         (builder, t) -> builder.put(keyFunction.apply(t), valueFunction.apply(t)),
         ImmutableListMultimap.Builder::combine,
         ImmutableListMultimap.Builder::build);
+  }
+  
+  /**
+   * Returns a {@code Collector} accumulating entries into an {@code ImmutableListMultimap}. Each
+   * input element is mapped to a key and a stream of values, each of which are put into the
+   * resulting {@code Multimap}, in the encounter order of the stream and the encounter order of the
+   * streams of values.
+   *
+   * <p>Example:
+   *
+   * <pre>{@code
+   * static final ImmutableListMultimap<Character, Character> FIRST_LETTER_MULTIMAP =
+   *     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
+   *         .collect(
+   *             flatteningToImmutableListMultimap(
+   *                  str -> str.charAt(0),
+   *                  str -> str.substring(1).chars().mapToObj(c -> (char) c));
+   *
+   * // is equivalent to
+   *
+   * static final ImmutableListMultimap<Character, Character> FIRST_LETTER_MULTIMAP =
+   *     ImmutableListMultimap.<Character, Character>builder()
+   *         .putAll('b', Arrays.asList('a', 'n', 'a', 'n', 'a'))
+   *         .putAll('a', Arrays.asList('p', 'p', 'l', 'e'))
+   *         .putAll('c', Arrays.asList('a', 'r', 'r', 'o', 't'))
+   *         .putAll('a', Arrays.asList('s', 'p', 'a', 'r', 'a', 'g', 'u', 's'))
+   *         .putAll('c', Arrays.asList('h', 'e', 'r', 'r', 'y'))
+   *         .build();
+   * }
+   * }</pre>
+   *
+   * @since 21.0
+   */
+  @Beta
+  public static <T, K, V>
+      Collector<T, ?, ImmutableListMultimap<K, V>> flatteningToImmutableListMultimap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends Stream<? extends V>> valuesFunction) {
+    checkNotNull(keyFunction);
+    checkNotNull(valuesFunction);
+    return Collectors.collectingAndThen(
+        Multimaps.flatteningToMultimap(
+            input -> checkNotNull(keyFunction.apply(input)),
+            input -> valuesFunction.apply(input).peek(Preconditions::checkNotNull),
+            MultimapBuilder.linkedHashKeys().arrayListValues()::<K, V>build),
+        ImmutableListMultimap::copyOf);
   }
 
   /** Returns the empty multimap. */

@@ -53,6 +53,11 @@ public void testFilteredKeysSetMultimapReplaceValues() throws Exception {
   testCase.testFilteredKeysSetMultimapReplaceValues();
 }
 
+public void testFlatteningToMultimap() throws Exception {
+  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
+  testCase.testFlatteningToMultimap();
+}
+
 public void testForMap() throws Exception {
   com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
   testCase.testForMap();

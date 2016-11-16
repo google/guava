@@ -430,6 +430,28 @@ public class ImmutableSetMultimapTest extends TestCase {
             mapEntry("c", 4));
   }
 
+  public void testFlatteningToImmutableSetMultimap() {
+    Collector<String, ?, ImmutableSetMultimap<Character, Character>> collector =
+        ImmutableSetMultimap.flatteningToImmutableSetMultimap(
+            str -> str.charAt(0), str -> str.substring(1).chars().mapToObj(c -> (char) c));
+    BiPredicate<Multimap<?, ?>, Multimap<?, ?>> equivalence =
+        Equivalence.equals()
+            .onResultOf((Multimap<?, ?> mm) -> ImmutableList.copyOf(mm.asMap().entrySet()))
+            .and(Equivalence.equals());
+    ImmutableSetMultimap<Character, Character> empty = ImmutableSetMultimap.of();
+    ImmutableSetMultimap<Character, Character> filled =
+        ImmutableSetMultimap.<Character, Character>builder()
+            .putAll('b', Arrays.asList('a', 'n', 'a', 'n', 'a'))
+            .putAll('a', Arrays.asList('p', 'p', 'l', 'e'))
+            .putAll('c', Arrays.asList('a', 'r', 'r', 'o', 't'))
+            .putAll('a', Arrays.asList('s', 'p', 'a', 'r', 'a', 'g', 'u', 's'))
+            .putAll('c', Arrays.asList('h', 'e', 'r', 'r', 'y'))
+            .build();
+    CollectorTester.of(collector, equivalence)
+        .expectCollects(empty)
+        .expectCollects(filled, "banana", "apple", "carrot", "asparagus", "cherry");
+  }
+
   public void testEmptyMultimapReads() {
     Multimap<String, Integer> multimap = ImmutableSetMultimap.of();
     assertFalse(multimap.containsKey("foo"));

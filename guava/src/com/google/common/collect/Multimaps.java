@@ -50,6 +50,7 @@ import java.util.SortedSet;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.stream.Collector;
+import java.util.stream.Stream;
 import javax.annotation.Nullable;
 
 /**
@@ -112,6 +113,60 @@ public final class Multimaps {
     return Collector.of(
         multimapSupplier,
         (multimap, input) -> multimap.put(keyFunction.apply(input), valueFunction.apply(input)),
+        (multimap1, multimap2) -> {
+          multimap1.putAll(multimap2);
+          return multimap1;
+        });
+  }
+  
+  /**
+   * Returns a {@code Collector} accumulating entries into a {@code Multimap} generated from the
+   * specified supplier. Each input element is mapped to a key and a stream of values, each of which
+   * are put into the resulting {@code Multimap}, in the encounter order of the stream and the
+   * encounter order of the streams of values.
+   *
+   * <p>Example:
+   *
+   * <pre>{@code
+   * static final ListMultimap<Character, Character> FIRST_LETTER_MULTIMAP =
+   *     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
+   *         .collect(
+   *             flatteningToMultimap(
+   *                  str -> str.charAt(0),
+   *                  str -> str.substring(1).chars().mapToObj(c -> (char) c),
+   *                  MultimapBuilder.linkedHashKeys().arrayListValues()::build));
+   *
+   * // is equivalent to
+   *
+   * static final ListMultimap<Character, Character> FIRST_LETTER_MULTIMAP;
+   *
+   * static {
+   *     FIRST_LETTER_MULTIMAP = MultimapBuilder.linkedHashKeys().arrayListValues().build();
+   *     FIRST_LETTER_MULTIMAP.putAll('b', Arrays.asList('a', 'n', 'a', 'n', 'a'));
+   *     FIRST_LETTER_MULTIMAP.putAll('a', Arrays.asList('p', 'p', 'l', 'e'));
+   *     FIRST_LETTER_MULTIMAP.putAll('c', Arrays.asList('a', 'r', 'r', 'o', 't'));
+   *     FIRST_LETTER_MULTIMAP.putAll('a', Arrays.asList('s', 'p', 'a', 'r', 'a', 'g', 'u', 's'));
+   *     FIRST_LETTER_MULTIMAP.putAll('c', Arrays.asList('h', 'e', 'r', 'r', 'y'));
+   * }
+   * }</pre>
+   *
+   * @since 21.0
+   */
+  @Beta
+  public static <T, K, V, M extends Multimap<K, V>> Collector<T, ?, M> flatteningToMultimap(
+      Function<? super T, ? extends K> keyFunction,
+      Function<? super T, ? extends Stream<? extends V>> valueFunction,
+      Supplier<M> multimapSupplier) {
+    checkNotNull(keyFunction);
+    checkNotNull(valueFunction);
+    checkNotNull(multimapSupplier);
+    return Collector.of(
+        multimapSupplier,
+        (multimap, input) -> {
+          K key = keyFunction.apply(input);
+          Collection<V> valuesForKey = multimap.get(key);
+          valueFunction.apply(input).forEachOrdered(valuesForKey::add);
+        },
         (multimap1, multimap2) -> {
           multimap1.putAll(multimap2);
           return multimap1;

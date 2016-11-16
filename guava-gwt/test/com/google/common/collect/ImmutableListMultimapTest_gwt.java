@@ -133,6 +133,11 @@ public void testEmptyMultimapWrites() throws Exception {
   testCase.testEmptyMultimapWrites();
 }
 
+public void testFlatteningToImmutableListMultimap() throws Exception {
+  com.google.common.collect.ImmutableListMultimapTest testCase = new com.google.common.collect.ImmutableListMultimapTest();
+  testCase.testFlatteningToImmutableListMultimap();
+}
+
 public void testInverse() throws Exception {
   com.google.common.collect.ImmutableListMultimapTest testCase = new com.google.common.collect.ImmutableListMultimapTest();
   testCase.testInverse();
