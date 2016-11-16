@@ -62,7 +62,7 @@
 <span class="sourceLineNo">054</span><a name="line.54"></a>
 <span class="sourceLineNo">055</span>  @Override<a name="line.55"></a>
 <span class="sourceLineNo">056</span>  public NavigableSet&lt;E&gt; elementSet() {<a name="line.56"></a>
-<span class="sourceLineNo">057</span>    return (NavigableSet&lt;E&gt;) super.elementSet();<a name="line.57"></a>
+<span class="sourceLineNo">057</span>    return delegate().elementSet();<a name="line.57"></a>
 <span class="sourceLineNo">058</span>  }<a name="line.58"></a>
 <span class="sourceLineNo">059</span><a name="line.59"></a>
 <span class="sourceLineNo">060</span>  /**<a name="line.60"></a>
