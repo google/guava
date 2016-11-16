@@ -28,15 +28,21 @@ import com.google.common.collect.testing.TestStringMapGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.reflect.AbstractInvocationHandler;
+import com.google.common.reflect.Reflection;
+import com.google.common.testing.ArbitraryInstances;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.ForwardingWrapperTester;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import junit.framework.Test;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
@@ -45,7 +51,7 @@ import junit.framework.TestSuite;
  * @author Hayward Chan
  * @author Louis Wasserman
  */
-public class ForwardingMapTest extends ForwardingTestCase {
+public class ForwardingMapTest extends TestCase {
   static class StandardImplForwardingMap<K, V> extends ForwardingMap<K, V> {
     private final Map<K, V> backingMap;
 
@@ -290,5 +296,56 @@ public class ForwardingMapTest extends ForwardingTestCase {
         return delegate;
       }
     };
+  }
+
+  private static Object getDefaultValue(Class<?> returnType) {
+    Object defaultValue = ArbitraryInstances.get(returnType);
+    if (defaultValue != null) {
+      return defaultValue;
+    }
+    if ("java.util.function.Predicate".equals(returnType.getCanonicalName())
+        || ("java.util.function.Consumer".equals(returnType.getCanonicalName()))) {
+      // Generally, methods that accept java.util.function.* instances
+      // don't like to get null values.  We generate them dynamically
+      // using Proxy so that we can have Java 7 compliant code.
+      return Reflection.newProxy(returnType, new AbstractInvocationHandler() {
+        @Override public Object handleInvocation(Object proxy, Method method, Object[] args) {
+          // Crude, but acceptable until we can use Java 8.  Other
+          // methods have default implementations, and it is hard to
+          // distinguish.
+          if ("test".equals(method.getName()) || "accept".equals(method.getName())) {
+            return getDefaultValue(method.getReturnType());
+          }
+          throw new IllegalStateException("Unexpected " + method + " invoked on " + proxy);
+        }
+      });
+    } else {
+      return null;
+    }
+  }
+
+  private static <T> void callAllPublicMethods(Class<T> theClass, T object)
+      throws InvocationTargetException {
+    for (Method method : theClass.getMethods()) {
+      Class<?>[] parameterTypes = method.getParameterTypes();
+      Object[] parameters = new Object[parameterTypes.length];
+      for (int i = 0; i < parameterTypes.length; i++) {
+        parameters[i] = getDefaultValue(parameterTypes[i]);
+      }
+      try {
+        try {
+          method.invoke(object, parameters);
+        } catch (InvocationTargetException ex) {
+          try {
+            throw ex.getCause();
+          } catch (UnsupportedOperationException unsupported) {
+            // this is a legit exception
+          }
+        }
+      } catch (Throwable cause) {
+        throw new InvocationTargetException(cause,
+            method + " with args: " + Arrays.toString(parameters));
+      }
+    }
   }
 }
