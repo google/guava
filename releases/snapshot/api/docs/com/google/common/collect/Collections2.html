@@ -110,9 +110,14 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/collect/Collections2.html#line.53">Collections2</a>
+public final class <a href="../../../../src-html/com/google/common/collect/Collections2.html#line.58">Collections2</a>
 extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
-<div class="block">Provides static methods for working with <code>Collection</code> instances.</div>
+<div class="block">Provides static methods for working with <code>Collection</code> instances.
+
+ <p><b>Java 8 users:</b> several common uses for this class are now more comprehensively addressed
+ by the new <a href="http://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream"><code>Stream</code></a> library. Read the method documentation below for
+ comparisons. These methods are not being deprecated, but we gently encourage you to migrate to
+ streams.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
@@ -203,7 +208,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>filter</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.86">filter</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;E&gt;&nbsp;unfiltered,
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.93">filter</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;E&gt;&nbsp;unfiltered,
                                        <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;predicate)</pre>
 <div class="block">Returns the elements of <code>unfiltered</code> that satisfy a predicate. The
  returned collection is a live view of <code>unfiltered</code>; changes to one
@@ -229,7 +234,9 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
  as documented at <a href="../../../../com/google/common/base/Predicate.html#apply-T-"><code>Predicate.apply(T)</code></a>. Do not provide a predicate such
  as <code>Predicates.instanceOf(ArrayList.class)</code>, which is inconsistent
  with equals. (See <a href="../../../../com/google/common/collect/Iterables.html#filter-java.lang.Iterable-java.lang.Class-"><code>Iterables.filter(Iterable, Class)</code></a> for related
- functionality.)</div>
+ functionality.)
+
+ <p><b><code>Stream</code> equivalent:</b> <code>Stream#filter</code>.</div>
 </li>
 </ul>
 <a name="transform-java.util.Collection-com.google.common.base.Function-">
@@ -238,7 +245,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>transform</h4>
-<pre>public static&nbsp;&lt;F,T&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.259">transform</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;F&gt;&nbsp;fromCollection,
+<pre>public static&nbsp;&lt;F,T&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.268">transform</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;F&gt;&nbsp;fromCollection,
                                             <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super F,T&gt;&nbsp;function)</pre>
 <div class="block">Returns a collection that applies <code>function</code> to each element of
  <code>fromCollection</code>. The returned collection is a live view of <code>fromCollection</code>; changes to one affect the other.
@@ -255,7 +262,9 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 
  <p>If the input <code>Collection</code> is known to be a <code>List</code>, consider
  <a href="../../../../com/google/common/collect/Lists.html#transform-java.util.List-com.google.common.base.Function-"><code>Lists.transform(java.util.List&lt;F&gt;, com.google.common.base.Function&lt;? super F, ? extends T&gt;)</code></a>. If only an <code>Iterable</code> is available, use
- <a href="../../../../com/google/common/collect/Iterables.html#transform-java.lang.Iterable-com.google.common.base.Function-"><code>Iterables.transform(java.lang.Iterable&lt;F&gt;, com.google.common.base.Function&lt;? super F, ? extends T&gt;)</code></a>.</div>
+ <a href="../../../../com/google/common/collect/Iterables.html#transform-java.lang.Iterable-com.google.common.base.Function-"><code>Iterables.transform(java.lang.Iterable&lt;F&gt;, com.google.common.base.Function&lt;? super F, ? extends T&gt;)</code></a>.
+
+ <p><b><code>Stream</code> equivalent:</b> <code>Stream#map</code>.</div>
 </li>
 </ul>
 <a name="orderedPermutations-java.lang.Iterable-">
@@ -265,7 +274,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>orderedPermutations</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;? super E&gt;&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.390">orderedPermutations</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;elements)</pre>
+public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;? super E&gt;&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.399">orderedPermutations</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;elements)</pre>
 <div class="block">Returns a <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a> of all the permutations of the specified
  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang"><code>Iterable</code></a>.
 
@@ -305,7 +314,7 @@ public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/a
 <li class="blockList">
 <h4>orderedPermutations</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.443">orderedPermutations</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;elements,
+public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.452">orderedPermutations</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;elements,
                                                                 <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super E&gt;&nbsp;comparator)</pre>
 <div class="block">Returns a <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a> of all the permutations of the specified
  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang"><code>Iterable</code></a> using the specified <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util"><code>Comparator</code></a> for establishing
@@ -366,7 +375,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/
 <li class="blockList">
 <h4>permutations</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.597">permutations</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;E&gt;&nbsp;elements)</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.606">permutations</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;E&gt;&nbsp;elements)</pre>
 <div class="block">Returns a <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a> of all the permutations of the specified
  <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a>.
 

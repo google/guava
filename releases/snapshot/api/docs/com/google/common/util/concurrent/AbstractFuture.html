@@ -474,7 +474,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListenableF
  set (including <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#setFuture-com.google.common.util.concurrent.ListenableFuture-">set asynchronously</a>). When a call to this method returns,
  the <code>Future</code> is guaranteed to be <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#isDone--">done</a> <b>only if</b> the call was
  accepted (in which case it returns <code>true</code>). If it returns <code>false</code>, the <code>Future</code> may have previously been set asynchronously, in which case its result may not be known
- yet. That result, though not yet known, cannot by overridden by a call to a <code>set*</code>
+ yet. That result, though not yet known, cannot be overridden by a call to a <code>set*</code>
  method, only by a call to <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#cancel-boolean-"><code>cancel(boolean)</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -496,7 +496,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListenableF
  method returns, the <code>Future</code> is guaranteed to be <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#isDone--">done</a> <b>only if</b>
  the call was accepted (in which case it returns <code>true</code>). If it returns <code>false</code>, the
  <code>Future</code> may have previously been set asynchronously, in which case its result may not be
- known yet. That result, though not yet known, cannot by overridden by a call to a <code>set*</code>
+ known yet. That result, though not yet known, cannot be overridden by a call to a <code>set*</code>
  method, only by a call to <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#cancel-boolean-"><code>cancel(boolean)</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -522,7 +522,7 @@ protected&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/u
  is accepted, then this future is guaranteed to have been completed with the supplied future by
  the time this method returns. If the supplied future is not done and the call is accepted, then
  the future will be <i>set asynchronously</i>. Note that such a result, though not yet known,
- cannot by overridden by a call to a <code>set*</code> method, only by a call to <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#cancel-boolean-"><code>cancel(boolean)</code></a>.
+ cannot be overridden by a call to a <code>set*</code> method, only by a call to <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#cancel-boolean-"><code>cancel(boolean)</code></a>.
 
  <p>If the call <code>setFuture(delegate)</code> is accepted and this <code>Future</code> is later
  cancelled, cancellation will be propagated to <code>delegate</code>. Additionally, any call to

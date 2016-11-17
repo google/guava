@@ -648,7 +648,7 @@
 <span class="sourceLineNo">640</span>   * the {@code Future} is guaranteed to be {@linkplain #isDone done} &lt;b&gt;only if&lt;/b&gt; the call was<a name="line.640"></a>
 <span class="sourceLineNo">641</span>   * accepted (in which case it returns {@code true}). If it returns {@code false}, the {@code<a name="line.641"></a>
 <span class="sourceLineNo">642</span>   * Future} may have previously been set asynchronously, in which case its result may not be known<a name="line.642"></a>
-<span class="sourceLineNo">643</span>   * yet. That result, though not yet known, cannot by overridden by a call to a {@code set*}<a name="line.643"></a>
+<span class="sourceLineNo">643</span>   * yet. That result, though not yet known, cannot be overridden by a call to a {@code set*}<a name="line.643"></a>
 <span class="sourceLineNo">644</span>   * method, only by a call to {@link #cancel}.<a name="line.644"></a>
 <span class="sourceLineNo">645</span>   *<a name="line.645"></a>
 <span class="sourceLineNo">646</span>   * @param value the value to be used as the result<a name="line.646"></a>
@@ -670,7 +670,7 @@
 <span class="sourceLineNo">662</span>   * method returns, the {@code Future} is guaranteed to be {@linkplain #isDone done} &lt;b&gt;only if&lt;/b&gt;<a name="line.662"></a>
 <span class="sourceLineNo">663</span>   * the call was accepted (in which case it returns {@code true}). If it returns {@code false}, the<a name="line.663"></a>
 <span class="sourceLineNo">664</span>   * {@code Future} may have previously been set asynchronously, in which case its result may not be<a name="line.664"></a>
-<span class="sourceLineNo">665</span>   * known yet. That result, though not yet known, cannot by overridden by a call to a {@code set*}<a name="line.665"></a>
+<span class="sourceLineNo">665</span>   * known yet. That result, though not yet known, cannot be overridden by a call to a {@code set*}<a name="line.665"></a>
 <span class="sourceLineNo">666</span>   * method, only by a call to {@link #cancel}.<a name="line.666"></a>
 <span class="sourceLineNo">667</span>   *<a name="line.667"></a>
 <span class="sourceLineNo">668</span>   * @param throwable the exception to be used as the failed result<a name="line.668"></a>
@@ -695,7 +695,7 @@
 <span class="sourceLineNo">687</span>   * is accepted, then this future is guaranteed to have been completed with the supplied future by<a name="line.687"></a>
 <span class="sourceLineNo">688</span>   * the time this method returns. If the supplied future is not done and the call is accepted, then<a name="line.688"></a>
 <span class="sourceLineNo">689</span>   * the future will be &lt;i&gt;set asynchronously&lt;/i&gt;. Note that such a result, though not yet known,<a name="line.689"></a>
-<span class="sourceLineNo">690</span>   * cannot by overridden by a call to a {@code set*} method, only by a call to {@link #cancel}.<a name="line.690"></a>
+<span class="sourceLineNo">690</span>   * cannot be overridden by a call to a {@code set*} method, only by a call to {@link #cancel}.<a name="line.690"></a>
 <span class="sourceLineNo">691</span>   *<a name="line.691"></a>
 <span class="sourceLineNo">692</span>   * &lt;p&gt;If the call {@code setFuture(delegate)} is accepted and this {@code Future} is later<a name="line.692"></a>
 <span class="sourceLineNo">693</span>   * cancelled, cancellation will be propagated to {@code delegate}. Additionally, any call to<a name="line.693"></a>

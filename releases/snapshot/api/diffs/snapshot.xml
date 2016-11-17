@@ -10251,7 +10251,9 @@
  as documented at {@link Predicate#apply}. Do not provide a predicate such
  as {@code Predicates.instanceOf(ArrayList.class)}, which is inconsistent
  with equals. (See {@link Iterables#filter(Iterable, Class)} for related
- functionality.)]]>
+ functionality.)
+
+ <p><b>{@code Stream} equivalent:</b> {@link Stream#filter}.]]>
       </doc>
     </method>
     <method name="transform" return="java.util.Collection&lt;T&gt;"
@@ -10277,7 +10279,9 @@
 
  <p>If the input {@code Collection} is known to be a {@code List}, consider
  {@link Lists#transform}. If only an {@code Iterable} is available, use
- {@link Iterables#transform}.]]>
+ {@link Iterables#transform}.
+
+ <p><b>{@code Stream} equivalent:</b> {@link Stream#map}.]]>
       </doc>
     </method>
     <method name="orderedPermutations" return="java.util.Collection&lt;java.util.List&lt;E&gt;&gt;"
@@ -10395,6 +10399,11 @@
     </method>
     <doc>
     <![CDATA[Provides static methods for working with {@code Collection} instances.
+
+ <p><b>Java 8 users:</b> several common uses for this class are now more comprehensively addressed
+ by the new {@link java.util.stream.Stream} library. Read the method documentation below for
+ comparisons. These methods are not being deprecated, but we gently encourage you to migrate to
+ streams.
 
  @author Chris Povirk
  @author Mike Bostock
@@ -23343,7 +23352,7 @@
       <![CDATA[Returns a view of {@code unfiltered} containing all elements that satisfy the input predicate
  {@code retainIfTrue}. The returned iterable's iterator does not support {@code remove()}.
 
- <p><b>{@code Stream} equivalent:</b> {@code stream.filter()}.]]>
+ <p><b>{@code Stream} equivalent:</b> {@link Stream#filter}.]]>
       </doc>
     </method>
     <method name="filter" return="java.lang.Iterable&lt;T&gt;"
@@ -23404,6 +23413,8 @@
  it is possible that <i>no</i> element will match, use {@link #tryFind} or
  {@link #find(Iterable, Predicate, Object)} instead.
 
+ <p><b>{@code Stream} equivalent:</b> {@code stream.filter(predicate).findFirst().get()}
+
  @throws NoSuchElementException if no element in {@code iterable} matches
      the given predicate]]>
       </doc>
@@ -23421,6 +23432,9 @@
  usually be handled more naturally using {@code
  tryFind(iterable, predicate).or(defaultValue)}.
 
+ <p><b>{@code Stream} equivalent:</b>
+ {@code stream.filter(predicate).findFirst().orElse(defaultValue)}
+
  @since 7.0]]>
       </doc>
     </method>
@@ -23437,6 +23451,9 @@
  <p><b>Warning:</b> avoid using a {@code predicate} that matches {@code
  null}. If {@code null} is matched in {@code iterable}, a
  NullPointerException will be thrown.
+
+ <p><b>{@code Stream} equivalent:</b>
+ {@code stream.filter(predicate).findFirst()}
 
  @since 11.0]]>
       </doc>
@@ -23475,7 +23492,9 @@
 
  <p>If the input {@code Iterable} is known to be a {@code List} or other
  {@code Collection}, consider {@link Lists#transform} and {@link
- Collections2#transform}.]]>
+ Collections2#transform}.
+
+ <p><b>{@code Stream} equivalent:</b> {@link Stream#map}]]>
       </doc>
     </method>
     <method name="get" return="T"
@@ -23486,6 +23505,9 @@
       <param name="position" type="int"/>
       <doc>
       <![CDATA[Returns the element at the specified position in an iterable.
+
+ <p><b>{@code Stream} equivalent:</b> {@code stream.skip(position).findFirst().get()}
+ (throws {@code NoSuchElementException} if out of bounds)
 
  @param position position of the element to return
  @return the element at the specified position in {@code iterable}
@@ -23503,6 +23525,10 @@
       <doc>
       <![CDATA[Returns the element at the specified position in an iterable or a default
  value otherwise.
+
+ <p><b>{@code Stream} equivalent:</b>
+ {@code stream.skip(position).findFirst().orElse(defaultValue)}
+ (returns the default value if the index is out of bounds)
 
  @param position position of the element to return
  @param defaultValue the default value to return if {@code position} is
@@ -23531,6 +23557,8 @@
  <p>To get the only element in a single-element {@code Iterable}, consider using {@link
  #getOnlyElement(Iterable)} or {@link #getOnlyElement(Iterable, Object)} instead.
 
+ <p><b>{@code Stream} equivalent:</b> {@code stream.findFirst().orElse(defaultValue)}
+
  @param defaultValue the default value to return if the iterable is empty
  @return the first element of {@code iterable} or the default value
  @since 7.0]]>
@@ -23544,6 +23572,8 @@
       <doc>
       <![CDATA[Returns the last element of {@code iterable}. If {@code iterable} is a {@link List} with
  {@link RandomAccess} support, then this operation is guaranteed to be {@code O(1)}.
+
+ <p><b>{@code Stream} equivalent:</b> {@link Streams#findLast Streams.findLast(stream).get()}
 
  @return the last element of {@code iterable}
  @throws NoSuchElementException if the iterable is empty]]>
@@ -23559,6 +23589,8 @@
       <![CDATA[Returns the last element of {@code iterable} or {@code defaultValue} if
  the iterable is empty. If {@code iterable} is a {@link List} with
  {@link RandomAccess} support, then this operation is guaranteed to be {@code O(1)}.
+
+ <p><b>{@code Stream} equivalent:</b> {@code Streams.findLast(stream).orElse(defaultValue)}
 
  @param defaultValue the value to return if {@code iterable} is empty
  @return the last element of {@code iterable} or the default value
@@ -23589,6 +23621,8 @@
  contract states that a call to {@code remove()} before a call to
  {@code next()} will throw an {@link IllegalStateException}.
 
+ <p><b>{@code Stream} equivalent:</b> {@link Stream#skip}
+
  @since 3.0]]>
       </doc>
     </method>
@@ -23604,6 +23638,8 @@
  elements, the returned view contains all of its elements. The returned
  iterable's iterator supports {@code remove()} if {@code iterable}'s
  iterator does.
+
+ <p><b>{@code Stream} equivalent:</b> {@link Stream#limit}
 
  @param iterable the iterable to limit
  @param limitSize the maximum number of elements in the returned iterable
@@ -23647,6 +23683,8 @@
  <p>There is no precise {@link Iterator} equivalent to this method, since
  one can only ask an iterator whether it has any elements <i>remaining</i>
  (which one does using {@link Iterator#hasNext}).
+
+ <p><b>{@code Stream} equivalent:</b> {@code !stream.findAny().isPresent()}
 
  @return {@code true} if the iterable contains no elements]]>
       </doc>
@@ -25418,7 +25456,11 @@
  so serializing the returned list is <b>not recommended</b>. Instead,
  copy the list using {@link ImmutableList#copyOf(Collection)} (for example),
  then serialize the copy. Other methods similar to this do not implement
- serialization at all for this reason.]]>
+ serialization at all for this reason.
+
+ <p><b>Java 8 users:</b> many use cases for this method are better addressed
+  by {@link java.util.stream.Stream#map}. This method is not being
+ deprecated, but we gently encourage you to migrate to streams.]]>
       </doc>
     </method>
     <method name="partition" return="java.util.List&lt;java.util.List&lt;T&gt;&gt;"
@@ -33543,7 +33585,11 @@
  as documented at {@link Predicate#apply}. Do not provide a predicate such
  as {@code Predicates.instanceOf(ArrayList.class)}, which is inconsistent
  with equals. (See {@link Iterables#filter(Iterable, Class)} for related
- functionality.)]]>
+ functionality.)
+
+ <p><b>Java 8 users:</b> many use cases for this method are better
+ addressed by {@link java.util.stream.Stream#filter}. This method is not
+ being deprecated, but we gently encourage you to migrate to streams.]]>
       </doc>
     </method>
     <method name="filter" return="java.util.SortedSet&lt;E&gt;"
@@ -56684,7 +56730,7 @@
  the {@code Future} is guaranteed to be {@linkplain #isDone done} <b>only if</b> the call was
  accepted (in which case it returns {@code true}). If it returns {@code false}, the {@code
  Future} may have previously been set asynchronously, in which case its result may not be known
- yet. That result, though not yet known, cannot by overridden by a call to a {@code set*}
+ yet. That result, though not yet known, cannot be overridden by a call to a {@code set*}
  method, only by a call to {@link #cancel}.
 
  @param value the value to be used as the result
@@ -56702,7 +56748,7 @@
  method returns, the {@code Future} is guaranteed to be {@linkplain #isDone done} <b>only if</b>
  the call was accepted (in which case it returns {@code true}). If it returns {@code false}, the
  {@code Future} may have previously been set asynchronously, in which case its result may not be
- known yet. That result, though not yet known, cannot by overridden by a call to a {@code set*}
+ known yet. That result, though not yet known, cannot be overridden by a call to a {@code set*}
  method, only by a call to {@link #cancel}.
 
  @param throwable the exception to be used as the failed result
@@ -56723,7 +56769,7 @@
  is accepted, then this future is guaranteed to have been completed with the supplied future by
  the time this method returns. If the supplied future is not done and the call is accepted, then
  the future will be <i>set asynchronously</i>. Note that such a result, though not yet known,
- cannot by overridden by a call to a {@code set*} method, only by a call to {@link #cancel}.
+ cannot be overridden by a call to a {@code set*} method, only by a call to {@link #cancel}.
 
  <p>If the call {@code setFuture(delegate)} is accepted and this {@code Future} is later
  cancelled, cancellation will be propagated to {@code delegate}. Additionally, any call to
