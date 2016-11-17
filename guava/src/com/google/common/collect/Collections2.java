@@ -44,6 +44,11 @@ import javax.annotation.Nullable;
 /**
  * Provides static methods for working with {@code Collection} instances.
  *
+ * <p><b>Java 8 users:</b> several common uses for this class are now more comprehensively addressed
+ * by the new {@link java.util.stream.Stream} library. Read the method documentation below for
+ * comparisons. These methods are not being deprecated, but we gently encourage you to migrate to
+ * streams.
+ *
  * @author Chris Povirk
  * @author Mike Bostock
  * @author Jared Levy
@@ -80,6 +85,8 @@ public final class Collections2 {
    * as {@code Predicates.instanceOf(ArrayList.class)}, which is inconsistent
    * with equals. (See {@link Iterables#filter(Iterable, Class)} for related
    * functionality.)
+   *
+   * <p><b>{@code Stream} equivalent:</b> {@link Stream#filter}.
    */
   // TODO(kevinb): how can we omit that Iterables link when building gwt
   // javadoc?
@@ -255,6 +262,8 @@ public final class Collections2 {
    * <p>If the input {@code Collection} is known to be a {@code List}, consider
    * {@link Lists#transform}. If only an {@code Iterable} is available, use
    * {@link Iterables#transform}.
+   *
+   * <p><b>{@code Stream} equivalent:</b> {@link Stream#map}.
    */
   public static <F, T> Collection<T> transform(
       Collection<F> fromCollection, Function<? super F, T> function) {

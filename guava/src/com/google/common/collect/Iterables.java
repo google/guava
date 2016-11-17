@@ -560,7 +560,7 @@ public final class Iterables {
    * Returns a view of {@code unfiltered} containing all elements that satisfy the input predicate
    * {@code retainIfTrue}. The returned iterable's iterator does not support {@code remove()}.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@code stream.filter()}.
+   * <p><b>{@code Stream} equivalent:</b> {@link Stream#filter}.
    */
   public static <T> Iterable<T> filter(
       final Iterable<T> unfiltered, final Predicate<? super T> retainIfTrue) {
@@ -660,6 +660,8 @@ public final class Iterables {
    * it is possible that <i>no</i> element will match, use {@link #tryFind} or
    * {@link #find(Iterable, Predicate, Object)} instead.
    *
+   * <p><b>{@code Stream} equivalent:</b> {@code stream.filter(predicate).findFirst().get()}
+   *
    * @throws NoSuchElementException if no element in {@code iterable} matches
    *     the given predicate
    */
@@ -672,6 +674,9 @@ public final class Iterables {
    * predicate, or {@code defaultValue} if none found. Note that this can
    * usually be handled more naturally using {@code
    * tryFind(iterable, predicate).or(defaultValue)}.
+   *
+   * <p><b>{@code Stream} equivalent:</b>
+   * {@code stream.filter(predicate).findFirst().orElse(defaultValue)}
    *
    * @since 7.0
    */
@@ -688,6 +693,9 @@ public final class Iterables {
    * <p><b>Warning:</b> avoid using a {@code predicate} that matches {@code
    * null}. If {@code null} is matched in {@code iterable}, a
    * NullPointerException will be thrown.
+   *
+   * <p><b>{@code Stream} equivalent:</b>
+   * {@code stream.filter(predicate).findFirst()}
    *
    * @since 11.0
    */
@@ -721,6 +729,8 @@ public final class Iterables {
    * <p>If the input {@code Iterable} is known to be a {@code List} or other
    * {@code Collection}, consider {@link Lists#transform} and {@link
    * Collections2#transform}.
+   *
+   * <p><b>{@code Stream} equivalent:</b> {@link Stream#map}
    */
   public static <F, T> Iterable<T> transform(
       final Iterable<F> fromIterable, final Function<? super F, ? extends T> function) {
@@ -748,6 +758,9 @@ public final class Iterables {
   /**
    * Returns the element at the specified position in an iterable.
    *
+   * <p><b>{@code Stream} equivalent:</b> {@code stream.skip(position).findFirst().get()}
+   * (throws {@code NoSuchElementException} if out of bounds)
+   *
    * @param position position of the element to return
    * @return the element at the specified position in {@code iterable}
    * @throws IndexOutOfBoundsException if {@code position} is negative or
@@ -763,6 +776,10 @@ public final class Iterables {
   /**
    * Returns the element at the specified position in an iterable or a default
    * value otherwise.
+   *
+   * <p><b>{@code Stream} equivalent:</b>
+   * {@code stream.skip(position).findFirst().orElse(defaultValue)}
+   * (returns the default value if the index is out of bounds)
    *
    * @param position position of the element to return
    * @param defaultValue the default value to return if {@code position} is
@@ -798,6 +815,8 @@ public final class Iterables {
    * <p>To get the only element in a single-element {@code Iterable}, consider using {@link
    * #getOnlyElement(Iterable)} or {@link #getOnlyElement(Iterable, Object)} instead.
    *
+   * <p><b>{@code Stream} equivalent:</b> {@code stream.findFirst().orElse(defaultValue)}
+   *
    * @param defaultValue the default value to return if the iterable is empty
    * @return the first element of {@code iterable} or the default value
    * @since 7.0
@@ -810,6 +829,8 @@ public final class Iterables {
   /**
    * Returns the last element of {@code iterable}. If {@code iterable} is a {@link List} with
    * {@link RandomAccess} support, then this operation is guaranteed to be {@code O(1)}.
+   *
+   * <p><b>{@code Stream} equivalent:</b> {@link Streams#findLast Streams.findLast(stream).get()}
    *
    * @return the last element of {@code iterable}
    * @throws NoSuchElementException if the iterable is empty
@@ -831,6 +852,8 @@ public final class Iterables {
    * Returns the last element of {@code iterable} or {@code defaultValue} if
    * the iterable is empty. If {@code iterable} is a {@link List} with
    * {@link RandomAccess} support, then this operation is guaranteed to be {@code O(1)}.
+   *
+   * <p><b>{@code Stream} equivalent:</b> {@code Streams.findLast(stream).orElse(defaultValue)}
    *
    * @param defaultValue the value to return if {@code iterable} is empty
    * @return the last element of {@code iterable} or the default value
@@ -871,6 +894,8 @@ public final class Iterables {
    * calling {@code remove()} on that iterator, as the {@code Iterator}
    * contract states that a call to {@code remove()} before a call to
    * {@code next()} will throw an {@link IllegalStateException}.
+   *
+   * <p><b>{@code Stream} equivalent:</b> {@link Stream#skip}
    *
    * @since 3.0
    */
@@ -938,6 +963,8 @@ public final class Iterables {
    * elements, the returned view contains all of its elements. The returned
    * iterable's iterator supports {@code remove()} if {@code iterable}'s
    * iterator does.
+   *
+   * <p><b>{@code Stream} equivalent:</b> {@link Stream#limit}
    *
    * @param iterable the iterable to limit
    * @param limitSize the maximum number of elements in the returned iterable
@@ -1017,6 +1044,8 @@ public final class Iterables {
    * <p>There is no precise {@link Iterator} equivalent to this method, since
    * one can only ask an iterator whether it has any elements <i>remaining</i>
    * (which one does using {@link Iterator#hasNext}).
+   *
+   * <p><b>{@code Stream} equivalent:</b> {@code !stream.findAny().isPresent()}
    *
    * @return {@code true} if the iterable contains no elements
    */

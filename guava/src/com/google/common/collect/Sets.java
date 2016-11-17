@@ -938,6 +938,10 @@ public final class Sets {
    * as {@code Predicates.instanceOf(ArrayList.class)}, which is inconsistent
    * with equals. (See {@link Iterables#filter(Iterable, Class)} for related
    * functionality.)
+   *
+   * <p><b>Java 8 users:</b> many use cases for this method are better
+   * addressed by {@link java.util.stream.Stream#filter}. This method is not
+   * being deprecated, but we gently encourage you to migrate to streams.
    */
   // TODO(kevinb): how to omit that last sentence when building GWT javadoc?
   public static <E> Set<E> filter(Set<E> unfiltered, Predicate<? super E> predicate) {
