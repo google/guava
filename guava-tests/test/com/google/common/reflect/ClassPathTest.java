@@ -16,12 +16,17 @@
 
 package com.google.common.reflect;
 
-import static com.google.common.base.Charsets.US_ASCII;
+import static com.google.common.io.MoreFiles.deleteRecursively;
 import static com.google.common.truth.Truth.assertThat;
+import static java.nio.file.Files.createDirectory;
+import static java.nio.file.Files.createFile;
+import static java.nio.file.Files.createSymbolicLink;
+import static java.nio.file.Files.createTempDirectory;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.io.Closer;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
@@ -40,6 +45,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Path;
 import java.security.Permission;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -50,6 +56,7 @@ import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
+
 import junit.framework.TestCase;
 import org.junit.Test;
 
@@ -150,6 +157,41 @@ public class ClassPathTest extends TestCase {
       assertEquals(1, scanner.getResources().size());
     } finally {
       jarFile.delete();
+    }
+  }
+
+  public void testScanDirectory_symlinkCycle() throws IOException {
+    ClassLoader loader = ClassPathTest.class.getClassLoader();
+    // directory with a cycle,
+    // /root
+    //    /left
+    //       /[sibling -> right]
+    //    /right
+    //       /[sibling -> left]
+    Path root = createTempDirectory("ClassPathTest");
+    try {
+      Path left = createDirectory(root.resolve("left"));
+      createFile(left.resolve("some.txt"));
+
+      Path right = createDirectory(root.resolve("right"));
+      createFile(right.resolve("another.txt"));
+
+      createSymbolicLink(left.resolve("sibling"), right);
+      createSymbolicLink(right.resolve("sibling"), left);
+
+      ClassPath.DefaultScanner scanner = new ClassPath.DefaultScanner();
+      scanner.scan(root.toFile(), loader);
+
+      assertEquals(ImmutableSet.of(
+          new ResourceInfo("left/some.txt", loader),
+          new ResourceInfo("left/sibling/another.txt", loader),
+          new ResourceInfo("right/another.txt", loader),
+          new ResourceInfo("right/sibling/some.txt", loader)
+        ),
+        scanner.getResources()
+      );
+    } finally {
+      deleteRecursively(root);
     }
   }
 
