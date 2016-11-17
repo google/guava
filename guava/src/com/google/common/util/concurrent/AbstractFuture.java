@@ -640,7 +640,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    * the {@code Future} is guaranteed to be {@linkplain #isDone done} <b>only if</b> the call was
    * accepted (in which case it returns {@code true}). If it returns {@code false}, the {@code
    * Future} may have previously been set asynchronously, in which case its result may not be known
-   * yet. That result, though not yet known, cannot by overridden by a call to a {@code set*}
+   * yet. That result, though not yet known, cannot be overridden by a call to a {@code set*}
    * method, only by a call to {@link #cancel}.
    *
    * @param value the value to be used as the result
@@ -662,7 +662,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    * method returns, the {@code Future} is guaranteed to be {@linkplain #isDone done} <b>only if</b>
    * the call was accepted (in which case it returns {@code true}). If it returns {@code false}, the
    * {@code Future} may have previously been set asynchronously, in which case its result may not be
-   * known yet. That result, though not yet known, cannot by overridden by a call to a {@code set*}
+   * known yet. That result, though not yet known, cannot be overridden by a call to a {@code set*}
    * method, only by a call to {@link #cancel}.
    *
    * @param throwable the exception to be used as the failed result
@@ -687,7 +687,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    * is accepted, then this future is guaranteed to have been completed with the supplied future by
    * the time this method returns. If the supplied future is not done and the call is accepted, then
    * the future will be <i>set asynchronously</i>. Note that such a result, though not yet known,
-   * cannot by overridden by a call to a {@code set*} method, only by a call to {@link #cancel}.
+   * cannot be overridden by a call to a {@code set*} method, only by a call to {@link #cancel}.
    *
    * <p>If the call {@code setFuture(delegate)} is accepted and this {@code Future} is later
    * cancelled, cancellation will be propagated to {@code delegate}. Additionally, any call to
