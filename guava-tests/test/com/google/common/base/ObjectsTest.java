@@ -16,8 +16,6 @@
 
 package com.google.common.base;
 
-import static com.google.common.base.Objects.firstNonNull;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.NullPointerTester;
@@ -59,24 +57,6 @@ public class ObjectsTest extends TestCase {
     assertTrue(Objects.hashCode(1, null, 2) != Objects.hashCode(1, 2));
     assertTrue(Objects.hashCode(1, 2, 3) != Objects.hashCode(3, 2, 1));
     assertTrue(Objects.hashCode(1, 2, 3) != Objects.hashCode(2, 3, 1));
-  }
-
-  public void testFirstNonNull_withNonNull() throws Exception {
-    String s1 = "foo";
-    String s2 = firstNonNull(s1, "bar");
-    assertSame(s1, s2);
-
-    Long n1 = new Long(42);
-    Long n2 = firstNonNull(null, n1);
-    assertSame(n1, n2);
-  }
-
-  public void testFirstNonNull_throwsNullPointerException() throws Exception {
-    try {
-      firstNonNull(null, null);
-      fail("expected NullPointerException");
-    } catch (NullPointerException expected) {
-    }
   }
 
   @GwtIncompatible // NullPointerTester

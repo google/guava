@@ -23,16 +23,6 @@ public void testEqual() throws Exception {
   testCase.testEqual();
 }
 
-public void testFirstNonNull_throwsNullPointerException() throws Exception {
-  com.google.common.base.ObjectsTest testCase = new com.google.common.base.ObjectsTest();
-  testCase.testFirstNonNull_throwsNullPointerException();
-}
-
-public void testFirstNonNull_withNonNull() throws Exception {
-  com.google.common.base.ObjectsTest testCase = new com.google.common.base.ObjectsTest();
-  testCase.testFirstNonNull_withNonNull();
-}
-
 public void testHashCode() throws Exception {
   com.google.common.base.ObjectsTest testCase = new com.google.common.base.ObjectsTest();
   testCase.testHashCode();

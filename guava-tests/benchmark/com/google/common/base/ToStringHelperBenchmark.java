@@ -20,7 +20,7 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 
 /**
- * Some microbenchmarks for the {@link Objects.ToStringHelper} class.
+ * Some microbenchmarks for the {@link MoreObjects.ToStringHelper} class.
  *
  * @author Osvaldo Doederlein
  */
