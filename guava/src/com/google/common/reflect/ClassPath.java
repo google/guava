@@ -56,8 +56,8 @@ import javax.annotation.Nullable;
  * <p><b>Warning:</b> Currently only {@link URLClassLoader} and only {@code file://} urls are
  * supported.
  *
- * In the case of directory classloaders, symlinks are supported but cycles are not traversed.
- * This guarantees discovery of each <em>unique</em> loadable resource.  However, not all possible
+ * <p>In the case of directory classloaders, symlinks are supported but cycles are not traversed.
+ * This guarantees discovery of each <em>unique</em> loadable resource. However, not all possible
  * aliases for resources on cyclic paths will be listed.
  *
  * @author Ben Yu
@@ -488,14 +488,19 @@ public final class ClassPath {
     }
 
     /**
-     * Recursively scan the given directory, adding resources for each file encountered.  Symlinks which have already
-     * been traversed in the current tree path will be skipped to eliminate cycles; otherwise symlinks are traversed.
+     * Recursively scan the given directory, adding resources for each file encountered. Symlinks
+     * which have already been traversed in the current tree path will be skipped to eliminate
+     * cycles; otherwise symlinks are traversed.
+     *
      * @param directory the root of the directory to scan
      * @param classloader the classloader that includes resources found in {@code directory}
-     * @param packagePrefix resource path prefix inside {@code classloader} for any files found under {@code directory}
-     * @param currentPath canonical files already visited in the current directory tree path, for cycle elimination
+     * @param packagePrefix resource path prefix inside {@code classloader} for any files found
+     *     under {@code directory}
+     * @param currentPath canonical files already visited in the current directory tree path, for
+     *     cycle elimination
      */
-    private void scanDirectory(File directory, ClassLoader classloader, String packagePrefix, Set<File> currentPath)
+    private void scanDirectory(
+        File directory, ClassLoader classloader, String packagePrefix, Set<File> currentPath)
         throws IOException {
       File[] files = directory.listFiles();
       if (files == null) {

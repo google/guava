@@ -182,14 +182,13 @@ public class ClassPathTest extends TestCase {
       ClassPath.DefaultScanner scanner = new ClassPath.DefaultScanner();
       scanner.scan(root.toFile(), loader);
 
-      assertEquals(ImmutableSet.of(
-          new ResourceInfo("left/some.txt", loader),
-          new ResourceInfo("left/sibling/another.txt", loader),
-          new ResourceInfo("right/another.txt", loader),
-          new ResourceInfo("right/sibling/some.txt", loader)
-        ),
-        scanner.getResources()
-      );
+      assertEquals(
+          ImmutableSet.of(
+              new ResourceInfo("left/some.txt", loader),
+              new ResourceInfo("left/sibling/another.txt", loader),
+              new ResourceInfo("right/another.txt", loader),
+              new ResourceInfo("right/sibling/some.txt", loader)),
+          scanner.getResources());
     } finally {
       deleteRecursively(root);
     }
