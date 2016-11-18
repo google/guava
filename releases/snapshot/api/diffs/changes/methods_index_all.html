@@ -22,7 +22,7 @@ Method Differences Index
   <tr>
   <td bgcolor="#FFFFFF">
   <FONT SIZE="-1">
-<font color="#999999">Removals</font>
+<A HREF="methods_index_removals.html" class="hiddenlink">Removals</A>
   </FONT>
   </td>
   </tr>
@@ -105,8 +105,13 @@ Method Differences Index
 (<code>K, BiFunction&lt;? super K, ? super V, ? extends V&gt;</code>)</A></nobr><br>
 <nobr><A HREF="com.google.common.collect.ImmutableRangeSet.html#com.google.common.collect.ImmutableRangeSet.copyOf_added(java.lang.Iterable<com.google.common.collect.Range<C>>)" class="hiddenlink" target="rightframe"><b>copyOf</b>
 (<code>Iterable&lt;Range&lt;C&gt;&gt;</code>)</A></nobr><br>
-<nobr><A HREF="com.google.common.collect.TreeRangeSet.html#com.google.common.collect.TreeRangeSet.create_added(java.lang.Iterable<com.google.common.collect.Range<C>>)" class="hiddenlink" target="rightframe"><b>create</b>
-(<code>Iterable&lt;Range&lt;C&gt;&gt;</code>)</A></nobr><br>
+<i>create</i><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.ConcurrentHashMultiset.html#com.google.common.collect.ConcurrentHashMultiset.create_removed(com.google.common.collect.MapMaker)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>MapMaker</code>)</strike>&nbsp;in&nbsp;com.google.common.collect.ConcurrentHashMultiset
+</A></nobr><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.TreeRangeSet.html#com.google.common.collect.TreeRangeSet.create_added(java.lang.Iterable<com.google.common.collect.Range<C>>)" class="hiddenlink" target="rightframe">type&nbsp;<b>
+(<code>Iterable&lt;Range&lt;C&gt;&gt;</code>)</b>&nbsp;in&nbsp;com.google.common.collect.TreeRangeSet
+</A></nobr><br>
 <A NAME="D"></A>
 <br><font size="+2">D</font>&nbsp;
 <a href="#A"><font size="-2">A</font></a> 
@@ -161,6 +166,8 @@ Method Differences Index
 <a href="#U"><font size="-2">U</font></a> 
  <a href="#topheader"><font size="-2">TOP</font></a>
 <br>
+<nobr><A HREF="com.google.common.base.Objects.html#com.google.common.base.Objects.firstNonNull_removed(T, T)" class="hiddenlink" target="rightframe"><strike>firstNonNull</strike>
+(<code>T, T</code>)</A></nobr><br>
 <nobr><A HREF="com.google.common.collect.ImmutableListMultimap.html#com.google.common.collect.ImmutableListMultimap.flatteningToImmutableListMultimap_added(java.util.function.Function<? super T, ? extends K>, java.util.function.Function<? super T, ? extends java.util.stream.Stream<? extends V>>)" class="hiddenlink" target="rightframe"><b>flatteningToImmutableListMultimap</b>
 (<code>Function&lt;? super T, ? extends K&gt;, Function&lt;? super T, ? extends Stream&lt;? extends V&gt;&gt;</code>)</A></nobr><br>
 <nobr><A HREF="com.google.common.collect.ImmutableSetMultimap.html#com.google.common.collect.ImmutableSetMultimap.flatteningToImmutableSetMultimap_added(java.util.function.Function<? super T, ? extends K>, java.util.function.Function<? super T, ? extends java.util.stream.Stream<? extends V>>)" class="hiddenlink" target="rightframe"><b>flatteningToImmutableSetMultimap</b>
@@ -350,6 +357,8 @@ Method Differences Index
 <a href="#U"><font size="-2">U</font></a> 
  <a href="#topheader"><font size="-2">TOP</font></a>
 <br>
+<nobr><A HREF="com.google.common.util.concurrent.MoreExecutors.html#com.google.common.util.concurrent.MoreExecutors.sameThreadExecutor_removed()" class="hiddenlink" target="rightframe"><strike>sameThreadExecutor</strike>
+()</A></nobr><br>
 <nobr><A HREF="com.google.common.collect.Multiset.html#com.google.common.collect.Multiset.size_added()" class="hiddenlink" target="rightframe"><b>size</b>
 ()</A></nobr><br>
 <nobr><A HREF="com.google.common.collect.ImmutableList.html#com.google.common.collect.ImmutableList.sort_added(java.util.Comparator<? super E>)" class="hiddenlink" target="rightframe"><b>sort</b>
@@ -440,6 +449,16 @@ Method Differences Index
 (<code>Optional&lt;T&gt;</code>)</A></nobr><br>
 <nobr><A HREF="com.google.common.collect.Multimaps.html#com.google.common.collect.Multimaps.toMultimap_added(com.google.common.base.Function<? super T, ? extends K>, com.google.common.base.Function<? super T, ? extends V>, com.google.common.base.Supplier<M>)" class="hiddenlink" target="rightframe"><b>toMultimap</b>
 (<code>Function&lt;? super T, ? extends K&gt;, Function&lt;? super T, ? extends V&gt;, Supplier&lt;M&gt;</code>)</A></nobr><br>
+<i>toStringHelper</i><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.base.Objects.html#com.google.common.base.Objects.toStringHelper_removed(java.lang.Class<?>)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>Class&lt;?&gt;</code>)</strike>&nbsp;in&nbsp;com.google.common.base.Objects
+</A></nobr><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.base.Objects.html#com.google.common.base.Objects.toStringHelper_removed(java.lang.Object)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>Object</code>)</strike>&nbsp;in&nbsp;com.google.common.base.Objects
+</A></nobr><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.base.Objects.html#com.google.common.base.Objects.toStringHelper_removed(java.lang.String)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>String</code>)</strike>&nbsp;in&nbsp;com.google.common.base.Objects
+</A></nobr><br>
 <i>toTable</i><br>
 &nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.Tables.html#com.google.common.collect.Tables.toTable_added(java.util.function.Function<? super T, ? extends R>, java.util.function.Function<? super T, ? extends C>, java.util.function.Function<? super T, ? extends V>, com.google.common.base.Supplier<I>)" class="hiddenlink" target="rightframe">type&nbsp;<b>
 (<code>Function&lt;? super T, ? extends R&gt;, Function&lt;? super T, ? extends C&gt;, Function&lt;? super T, ? extends V&gt;, Supplier&lt;I&gt;</code>)</b>&nbsp;in&nbsp;com.google.common.collect.Tables

@@ -131,12 +131,20 @@ All Differences Index
 <!-- Method computeIfPresent -->
 <nobr><A HREF="com.google.common.collect.ImmutableMap.html#com.google.common.collect.ImmutableMap.computeIfPresent_added(K, java.util.function.BiFunction<? super K, ? super V, ? extends V>)" class="hiddenlink" target="rightframe"><b>computeIfPresent</b>
 (<code>K, BiFunction&lt;? super K, ? super V, ? extends V&gt;</code>)</A></nobr><br>
+<!-- Class ConcurrentHashMultiset -->
+<A HREF="com.google.common.collect.ConcurrentHashMultiset.html" class="hiddenlink" target="rightframe">ConcurrentHashMultiset</A><br>
 <!-- Method copyOf -->
 <nobr><A HREF="com.google.common.collect.ImmutableRangeSet.html#com.google.common.collect.ImmutableRangeSet.copyOf_added(java.lang.Iterable<com.google.common.collect.Range<C>>)" class="hiddenlink" target="rightframe"><b>copyOf</b>
 (<code>Iterable&lt;Range&lt;C&gt;&gt;</code>)</A></nobr><br>
 <!-- Method create -->
-<nobr><A HREF="com.google.common.collect.TreeRangeSet.html#com.google.common.collect.TreeRangeSet.create_added(java.lang.Iterable<com.google.common.collect.Range<C>>)" class="hiddenlink" target="rightframe"><b>create</b>
-(<code>Iterable&lt;Range&lt;C&gt;&gt;</code>)</A></nobr><br>
+<i>create</i><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.ConcurrentHashMultiset.html#com.google.common.collect.ConcurrentHashMultiset.create_removed(com.google.common.collect.MapMaker)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>MapMaker</code>)</strike>&nbsp;in&nbsp;com.google.common.collect.ConcurrentHashMultiset
+</A></nobr><br>
+<!-- Method create -->
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.TreeRangeSet.html#com.google.common.collect.TreeRangeSet.create_added(java.lang.Iterable<com.google.common.collect.Range<C>>)" class="hiddenlink" target="rightframe">type&nbsp;<b>
+(<code>Iterable&lt;Range&lt;C&gt;&gt;</code>)</b>&nbsp;in&nbsp;com.google.common.collect.TreeRangeSet
+</A></nobr><br>
 <!-- Method delegate -->
 <A NAME="D"></A>
 <br><font size="+2">D</font>&nbsp;
@@ -186,7 +194,7 @@ All Differences Index
 ()</A></nobr><br>
 <!-- Class Equivalence -->
 <A HREF="com.google.common.base.Equivalence.html" class="hiddenlink" target="rightframe">Equivalence</A><br>
-<!-- Method flatteningToImmutableListMultimap -->
+<!-- Method firstNonNull -->
 <A NAME="F"></A>
 <br><font size="+2">F</font>&nbsp;
 <a href="#A"><font size="-2">A</font></a> 
@@ -206,6 +214,9 @@ All Differences Index
 <a href="#U"><font size="-2">U</font></a> 
  <a href="#topheader"><font size="-2">TOP</font></a>
 <br>
+<nobr><A HREF="com.google.common.base.Objects.html#com.google.common.base.Objects.firstNonNull_removed(T, T)" class="hiddenlink" target="rightframe"><strike>firstNonNull</strike>
+(<code>T, T</code>)</A></nobr><br>
+<!-- Method flatteningToImmutableListMultimap -->
 <nobr><A HREF="com.google.common.collect.ImmutableListMultimap.html#com.google.common.collect.ImmutableListMultimap.flatteningToImmutableListMultimap_added(java.util.function.Function<? super T, ? extends K>, java.util.function.Function<? super T, ? extends java.util.stream.Stream<? extends V>>)" class="hiddenlink" target="rightframe"><b>flatteningToImmutableListMultimap</b>
 (<code>Function&lt;? super T, ? extends K&gt;, Function&lt;? super T, ? extends Stream&lt;? extends V&gt;&gt;</code>)</A></nobr><br>
 <!-- Method flatteningToImmutableSetMultimap -->
@@ -390,6 +401,8 @@ All Differences Index
 <A HREF="com.google.common.util.concurrent.Monitor.html" class="hiddenlink" target="rightframe">Monitor</A><br>
 <!-- Class MoreCollectors -->
 <A HREF="pkg_com.google.common.collect.html#MoreCollectors" class="hiddenlink" target="rightframe"><b>MoreCollectors</b></A><br>
+<!-- Class MoreExecutors -->
+<A HREF="com.google.common.util.concurrent.MoreExecutors.html" class="hiddenlink" target="rightframe">MoreExecutors</A><br>
 <!-- Class MoreFiles -->
 <A HREF="pkg_com.google.common.io.html#MoreFiles" class="hiddenlink" target="rightframe"><b>MoreFiles</b></A><br>
 <!-- Class Multimap -->
@@ -425,7 +438,7 @@ All Differences Index
 <!-- Method newGuard -->
 <nobr><A HREF="com.google.common.util.concurrent.Monitor.html#com.google.common.util.concurrent.Monitor.newGuard_added(java.util.function.BooleanSupplier)" class="hiddenlink" target="rightframe"><b>newGuard</b>
 (<code>BooleanSupplier</code>)</A></nobr><br>
-<!-- Class Optional -->
+<!-- Class Objects -->
 <A NAME="O"></A>
 <br><font size="+2">O</font>&nbsp;
 <a href="#A"><font size="-2">A</font></a> 
@@ -445,6 +458,10 @@ All Differences Index
 <a href="#U"><font size="-2">U</font></a> 
  <a href="#topheader"><font size="-2">TOP</font></a>
 <br>
+<A HREF="com.google.common.base.Objects.html" class="hiddenlink" target="rightframe">Objects</A><br>
+<!-- Class Objects.ToStringHelper -->
+<A HREF="pkg_com.google.common.base.html#Objects.ToStringHelper" class="hiddenlink" target="rightframe"><strike>Objects.ToStringHelper</strike></A><br>
+<!-- Class Optional -->
 <A HREF="com.google.common.base.Optional.html" class="hiddenlink" target="rightframe">Optional</A><br>
 <!-- Class Predicate -->
 <A NAME="P"></A>
@@ -559,7 +576,7 @@ All Differences Index
 <!-- Method retainAll -->
 <nobr><A HREF="com.google.common.collect.Sets.SetView.html#com.google.common.collect.Sets.SetView.retainAll_added(java.util.Collection<?>)" class="hiddenlink" target="rightframe"><b>retainAll</b>
 (<code>Collection&lt;?&gt;</code>)</A></nobr><br>
-<!-- Class Sets.SetView -->
+<!-- Method sameThreadExecutor -->
 <A NAME="S"></A>
 <br><font size="+2">S</font>&nbsp;
 <a href="#A"><font size="-2">A</font></a> 
@@ -579,6 +596,9 @@ All Differences Index
 <a href="#U"><font size="-2">U</font></a> 
  <a href="#topheader"><font size="-2">TOP</font></a>
 <br>
+<nobr><A HREF="com.google.common.util.concurrent.MoreExecutors.html#com.google.common.util.concurrent.MoreExecutors.sameThreadExecutor_removed()" class="hiddenlink" target="rightframe"><strike>sameThreadExecutor</strike>
+()</A></nobr><br>
+<!-- Class Sets.SetView -->
 <A HREF="com.google.common.collect.Sets.SetView.html" class="hiddenlink" target="rightframe">Sets.SetView</A><br>
 <!-- Method size -->
 <nobr><A HREF="com.google.common.collect.Multiset.html#com.google.common.collect.Multiset.size_added()" class="hiddenlink" target="rightframe"><b>size</b>
@@ -714,6 +734,19 @@ All Differences Index
 <!-- Method toMultimap -->
 <nobr><A HREF="com.google.common.collect.Multimaps.html#com.google.common.collect.Multimaps.toMultimap_added(com.google.common.base.Function<? super T, ? extends K>, com.google.common.base.Function<? super T, ? extends V>, com.google.common.base.Supplier<M>)" class="hiddenlink" target="rightframe"><b>toMultimap</b>
 (<code>Function&lt;? super T, ? extends K&gt;, Function&lt;? super T, ? extends V&gt;, Supplier&lt;M&gt;</code>)</A></nobr><br>
+<!-- Method toStringHelper -->
+<i>toStringHelper</i><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.base.Objects.html#com.google.common.base.Objects.toStringHelper_removed(java.lang.Class<?>)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>Class&lt;?&gt;</code>)</strike>&nbsp;in&nbsp;com.google.common.base.Objects
+</A></nobr><br>
+<!-- Method toStringHelper -->
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.base.Objects.html#com.google.common.base.Objects.toStringHelper_removed(java.lang.Object)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>Object</code>)</strike>&nbsp;in&nbsp;com.google.common.base.Objects
+</A></nobr><br>
+<!-- Method toStringHelper -->
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.base.Objects.html#com.google.common.base.Objects.toStringHelper_removed(java.lang.String)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>String</code>)</strike>&nbsp;in&nbsp;com.google.common.base.Objects
+</A></nobr><br>
 <!-- Method toTable -->
 <i>toTable</i><br>
 &nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.Tables.html#com.google.common.collect.Tables.toTable_added(java.util.function.Function<? super T, ? extends R>, java.util.function.Function<? super T, ? extends C>, java.util.function.Function<? super T, ? extends V>, com.google.common.base.Supplier<I>)" class="hiddenlink" target="rightframe">type&nbsp;<b>
