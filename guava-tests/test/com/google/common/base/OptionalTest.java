@@ -16,18 +16,19 @@
 
 package com.google.common.base;
 
-import static com.google.common.truth.Truth.assertThat;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
+import junit.framework.TestCase;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import junit.framework.TestCase;
+
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * Unit test for {@link Optional}.
@@ -223,6 +224,98 @@ public final class OptionalTest extends TestCase {
     assertFalse(Optional.of("a").equals(Optional.of("b")));
     assertFalse(Optional.of("a").equals(Optional.absent()));
     assertEquals(Optional.of("training").hashCode(), Optional.of("training").hashCode());
+  }
+
+  public void testObjectArrayEquals_present() {
+    assertEquals(
+        Optional.of(new Object[] {1, 2, new long[] {1, 2, 3}}),
+        Optional.of(new Object[] {1, 2, new long[] {1, 2, 3}}));
+    assertEquals(
+        Optional.of(new Object[] {1, 2, new long[] {1, 2, 3}}).hashCode(),
+        Optional.of(new Object[] {1, 2, new long[] {1, 2, 3}}).hashCode());
+
+    assertFalse(Optional.of(new Object[] {1, 2, 3}).equals(Optional.of(new long[] {1, 2, 3})));
+    assertFalse(Optional.of(new Object[] {1, 2, 3}).equals(Optional.absent()));
+  }
+
+  public void testBooleanArrayEquals_present() {
+    assertEquals(
+        Optional.of(new boolean[] {true, false, true}),
+        Optional.of(new boolean[] {true, false, true}));
+    assertEquals(
+        Optional.of(new boolean[] {true, false, true}).hashCode(),
+        Optional.of(new boolean[] {true, false, true}).hashCode());
+
+    assertFalse(
+        Optional.of(new boolean[] {true, false, true})
+            .equals(Optional.of(new Object[] {true, false, true})));
+    assertFalse(Optional.of(new boolean[] {true, false, true}).equals(Optional.absent()));
+  }
+
+  public void testByteArrayEquals_present() {
+    assertEquals(Optional.of(new byte[] {1, 2, 3}), Optional.of(new byte[] {1, 2, 3}));
+    assertEquals(
+        Optional.of(new byte[] {1, 2, 3}).hashCode(), Optional.of(new byte[] {1, 2, 3}).hashCode());
+
+    assertFalse(Optional.of(new byte[] {1, 2, 3}).equals(Optional.of(new long[] {1, 2, 3})));
+    assertFalse(Optional.of(new byte[] {1, 2, 3}).equals(Optional.absent()));
+  }
+
+  public void testCharArrayEquals_present() {
+    assertEquals(Optional.of(new char[] {1, 2, 3}), Optional.of(new char[] {1, 2, 3}));
+    assertEquals(
+        Optional.of(new char[] {1, 2, 3}).hashCode(), Optional.of(new char[] {1, 2, 3}).hashCode());
+
+    assertFalse(Optional.of(new char[] {1, 2, 3}).equals(Optional.of(new long[] {1, 2, 3})));
+    assertFalse(Optional.of(new char[] {1, 2, 3}).equals(Optional.absent()));
+  }
+
+  public void testDoubleArrayEquals_resent() {
+    assertEquals(Optional.of(new double[] {1, 2, 3}), Optional.of(new double[] {1, 2, 3}));
+    assertEquals(
+        Optional.of(new double[] {1, 2, 3}).hashCode(),
+        Optional.of(new double[] {1, 2, 3}).hashCode());
+
+    assertFalse(Optional.of(new double[] {1, 2, 3}).equals(Optional.of(new long[] {1, 2, 3})));
+    assertFalse(Optional.of(new double[] {1, 2, 3}).equals(Optional.absent()));
+  }
+
+  public void testFloatArrayEquals_present() {
+    assertEquals(Optional.of(new float[] {1, 2, 3}), Optional.of(new float[] {1, 2, 3}));
+    assertEquals(
+        Optional.of(new float[] {1, 2, 3}).hashCode(),
+        Optional.of(new float[] {1, 2, 3}).hashCode());
+
+    assertFalse(Optional.of(new float[] {1, 2, 3}).equals(Optional.of(new long[] {1, 2, 3})));
+    assertFalse(Optional.of(new float[] {1, 2, 3}).equals(Optional.absent()));
+  }
+
+  public void testIntArrayEquals_present() {
+    assertEquals(Optional.of(new int[] {1, 2, 3}), Optional.of(new int[] {1, 2, 3}));
+    assertEquals(
+        Optional.of(new int[] {1, 2, 3}).hashCode(), Optional.of(new int[] {1, 2, 3}).hashCode());
+
+    assertFalse(Optional.of(new int[] {1, 2, 3}).equals(Optional.of(new long[] {1, 2, 3})));
+    assertFalse(Optional.of(new int[] {1, 2, 3}).equals(Optional.absent()));
+  }
+
+  public void testLongArrayEquals_present() {
+    assertEquals(Optional.of(new long[] {1, 2, 3}), Optional.of(new long[] {1, 2, 3}));
+    assertEquals(
+        Optional.of(new long[] {1, 2, 3}).hashCode(), Optional.of(new long[] {1, 2, 3}).hashCode());
+
+    assertFalse(Optional.of(new long[] {1, 2, 3}).equals(Optional.of(new int[] {1, 2, 3})));
+    assertFalse(Optional.of(new long[] {1, 2, 3}).equals(Optional.absent()));
+  }
+
+  public void testShortArrayEquals_present() {
+    assertEquals(Optional.of(new short[] {1, 2, 3}), Optional.of(new short[] {1, 2, 3}));
+    assertEquals(
+        Optional.of(new short[] {1, 2, 3}).hashCode(),
+        Optional.of(new short[] {1, 2, 3}).hashCode());
+
+    assertFalse(Optional.of(new short[] {1, 2, 3}).equals(Optional.of(new int[] {1, 2, 3})));
+    assertFalse(Optional.of(new short[] {1, 2, 3}).equals(Optional.absent()));
   }
 
   public void testToString_absent() {
