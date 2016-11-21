@@ -50596,6 +50596,32 @@
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
+    <method name="trueFirst" return="java.util.Comparator&lt;java.lang.Boolean&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a {@code Comparator<Boolean>} that sorts {@code true} before {@code false}.
+
+ <p>This is particularly useful in Java 8+ in combination with {@code Comparators.comparing},
+ e.g. {@code Comparators.comparing(Foo::hasBar, trueFirst())}.
+
+ @since 21.0]]>
+      </doc>
+    </method>
+    <method name="falseFirst" return="java.util.Comparator&lt;java.lang.Boolean&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a {@code Comparator<Boolean>} that sorts {@code false} before {@code true}.
+
+ <p>This is particularly useful in Java 8+ in combination with {@code Comparators.comparing},
+ e.g. {@code Comparators.comparing(Foo::hasBar, falseFirst())}.
+
+ @since 21.0]]>
+      </doc>
+    </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"

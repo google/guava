@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9};
+var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -185,52 +185,64 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 </td>
 </tr>
 <tr id="i6" class="altColor">
+<td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Booleans.html#falseFirst--">falseFirst</a></span>()</code>
+<div class="block">Returns a <code>Comparator&lt;Boolean&gt;</code> that sorts <code>false</code> before <code>true</code>.</div>
+</td>
+</tr>
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>static int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Booleans.html#hashCode-boolean-">hashCode</a></span>(boolean&nbsp;value)</code>
 <div class="block">Returns a hash code for <code>value</code>; equal to the result of invoking
  <code>((Boolean) value).hashCode()</code>.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>static int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Booleans.html#indexOf-boolean:A-boolean-">indexOf</a></span>(boolean[]&nbsp;array,
        boolean&nbsp;target)</code>
 <div class="block">Returns the index of the first appearance of the value <code>target</code> in <code>array</code>.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>static int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Booleans.html#indexOf-boolean:A-boolean:A-">indexOf</a></span>(boolean[]&nbsp;array,
        boolean[]&nbsp;target)</code>
 <div class="block">Returns the start position of the first occurrence of the specified <code>target</code> within <code>array</code>, or <code>-1</code> if there is no such occurrence.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Booleans.html#join-java.lang.String-boolean...-">join</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator,
     boolean...&nbsp;array)</code>
 <div class="block">Returns a string containing the supplied <code>boolean</code> values separated by <code>separator</code>.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>static int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Booleans.html#lastIndexOf-boolean:A-boolean-">lastIndexOf</a></span>(boolean[]&nbsp;array,
            boolean&nbsp;target)</code>
 <div class="block">Returns the index of the last appearance of the value <code>target</code> in <code>array</code>.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;boolean[]&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Booleans.html#lexicographicalComparator--">lexicographicalComparator</a></span>()</code>
 <div class="block">Returns a comparator that compares two <code>boolean</code> arrays <a
  href="http://en.wikipedia.org/wiki/Lexicographical_order">lexicographically</a>.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>static boolean[]</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Booleans.html#toArray-java.util.Collection-">toArray</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&gt;&nbsp;collection)</code>
 <div class="block">Copies a collection of <code>Boolean</code> instances into a new array of primitive <code>boolean</code>
  values.</div>
+</td>
+</tr>
+<tr id="i14" class="altColor">
+<td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Booleans.html#trueFirst--">trueFirst</a></span>()</code>
+<div class="block">Returns a <code>Comparator&lt;Boolean&gt;</code> that sorts <code>true</code> before <code>false</code>.</div>
 </td>
 </tr>
 </table>
@@ -255,13 +267,49 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a name="trueFirst--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>trueFirst</h4>
+<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.85">trueFirst</a>()</pre>
+<div class="block">Returns a <code>Comparator&lt;Boolean&gt;</code> that sorts <code>true</code> before <code>false</code>.
+
+ <p>This is particularly useful in Java 8+ in combination with <code>Comparators.comparing</code>,
+ e.g. <code>Comparators.comparing(Foo::hasBar, trueFirst())</code>.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>21.0</dd>
+</dl>
+</li>
+</ul>
+<a name="falseFirst--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>falseFirst</h4>
+<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.98">falseFirst</a>()</pre>
+<div class="block">Returns a <code>Comparator&lt;Boolean&gt;</code> that sorts <code>false</code> before <code>true</code>.
+
+ <p>This is particularly useful in Java 8+ in combination with <code>Comparators.comparing</code>,
+ e.g. <code>Comparators.comparing(Foo::hasBar, falseFirst())</code>.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>21.0</dd>
+</dl>
+</li>
+</ul>
 <a name="hashCode-boolean-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.57">hashCode</a>(boolean&nbsp;value)</pre>
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.111">hashCode</a>(boolean&nbsp;value)</pre>
 <div class="block">Returns a hash code for <code>value</code>; equal to the result of invoking
  <code>((Boolean) value).hashCode()</code>.
 
@@ -280,7 +328,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>compare</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.74">compare</a>(boolean&nbsp;a,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.128">compare</a>(boolean&nbsp;a,
                           boolean&nbsp;b)</pre>
 <div class="block">Compares the two specified <code>boolean</code> values in the standard way (<code>false</code> is
  considered less than <code>true</code>). The sign of the value returned is the same as that of
@@ -304,7 +352,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
-<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.90">contains</a>(boolean[]&nbsp;array,
+<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.144">contains</a>(boolean[]&nbsp;array,
                                boolean&nbsp;target)</pre>
 <div class="block">Returns <code>true</code> if <code>target</code> is present as an element anywhere in <code>array</code>.
 
@@ -326,7 +374,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>indexOf</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.110">indexOf</a>(boolean[]&nbsp;array,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.164">indexOf</a>(boolean[]&nbsp;array,
                           boolean&nbsp;target)</pre>
 <div class="block">Returns the index of the first appearance of the value <code>target</code> in <code>array</code>.
 
@@ -348,7 +396,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>indexOf</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.135">indexOf</a>(boolean[]&nbsp;array,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.189">indexOf</a>(boolean[]&nbsp;array,
                           boolean[]&nbsp;target)</pre>
 <div class="block">Returns the start position of the first occurrence of the specified <code>target</code> within <code>array</code>, or <code>-1</code> if there is no such occurrence.
 
@@ -367,7 +415,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>lastIndexOf</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.162">lastIndexOf</a>(boolean[]&nbsp;array,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.216">lastIndexOf</a>(boolean[]&nbsp;array,
                               boolean&nbsp;target)</pre>
 <div class="block">Returns the index of the last appearance of the value <code>target</code> in <code>array</code>.</div>
 <dl>
@@ -386,7 +434,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre>public static&nbsp;boolean[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.184">concat</a>(boolean[]...&nbsp;arrays)</pre>
+<pre>public static&nbsp;boolean[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.238">concat</a>(boolean[]...&nbsp;arrays)</pre>
 <div class="block">Returns the values from each provided array combined into a single array. For example,
  <code>concat(new boolean[] {a, b}, new boolean[] {}, new boolean[] {c}</code> returns the array
  <code>{a, b, c}</code>.</div>
@@ -404,7 +452,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>ensureCapacity</h4>
-<pre>public static&nbsp;boolean[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.211">ensureCapacity</a>(boolean[]&nbsp;array,
+<pre>public static&nbsp;boolean[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.265">ensureCapacity</a>(boolean[]&nbsp;array,
                                        int&nbsp;minLength,
                                        int&nbsp;padding)</pre>
 <div class="block">Returns an array containing the same values as <code>array</code>, but guaranteed to be of a
@@ -430,7 +478,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>join</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.226">join</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator,
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.280">join</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator,
                           boolean...&nbsp;array)</pre>
 <div class="block">Returns a string containing the supplied <code>boolean</code> values separated by <code>separator</code>.
  For example, <code>join("-", false, true, false)</code> returns the string
@@ -449,7 +497,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>lexicographicalComparator</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;boolean[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.254">lexicographicalComparator</a>()</pre>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;boolean[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.308">lexicographicalComparator</a>()</pre>
 <div class="block">Returns a comparator that compares two <code>boolean</code> arrays <a
  href="http://en.wikipedia.org/wiki/Lexicographical_order">lexicographically</a>. That is, it
  compares, using <a href="../../../../com/google/common/primitives/Booleans.html#compare-boolean-boolean-"><code>compare(boolean, boolean)</code></a>), the first pair of values that follow any
@@ -471,7 +519,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre>public static&nbsp;boolean[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.293">toArray</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&gt;&nbsp;collection)</pre>
+<pre>public static&nbsp;boolean[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.347">toArray</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&gt;&nbsp;collection)</pre>
 <div class="block">Copies a collection of <code>Boolean</code> instances into a new array of primitive <code>boolean</code>
  values.
 
@@ -495,7 +543,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>asList</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.320">asList</a>(boolean...&nbsp;backingArray)</pre>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.374">asList</a>(boolean...&nbsp;backingArray)</pre>
 <div class="block">Returns a fixed-size list backed by the specified array, similar to
  <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Arrays.html?is-external=true#asList-T...-" title="class or interface in java.util"><code>Arrays.asList(Object[])</code></a>. The list supports <a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true#set-int-E-" title="class or interface in java.util"><code>List.set(int, Object)</code></a>, but any
  attempt to set a value to <code>null</code> will result in a <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang"><code>NullPointerException</code></a>.
@@ -518,7 +566,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>countTrue</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.463">countTrue</a>(boolean...&nbsp;values)</pre>
+public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.517">countTrue</a>(boolean...&nbsp;values)</pre>
 <div class="block">Returns the number of <code>values</code> that are <code>true</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
