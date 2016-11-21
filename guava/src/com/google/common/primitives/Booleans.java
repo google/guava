@@ -46,6 +46,60 @@ public final class Booleans {
   private Booleans() {}
 
   /**
+   * Comparators for {@code Boolean} values.
+   */
+  private enum BooleanComparator implements Comparator<Boolean> {
+    TRUE_FIRST(1, "Booleans.trueFirst()"),
+    FALSE_FIRST(-1, "Booleans.falseFirst()");
+
+    private final int trueValue;
+    private final String toString;
+
+    BooleanComparator(int trueValue, String toString) {
+      this.trueValue = trueValue;
+      this.toString = toString;
+    }
+
+    @Override
+    public int compare(Boolean a, Boolean b) {
+      int aVal = a ? trueValue : 0;
+      int bVal = b ? trueValue : 0;
+      return bVal - aVal;
+    }
+
+    @Override
+    public String toString() {
+      return toString;
+    }
+  }
+
+  /**
+   * Returns a {@code Comparator<Boolean>} that sorts {@code true} before {@code false}.
+   *
+   * <p>This is particularly useful in Java 8+ in combination with {@code Comparators.comparing},
+   * e.g. {@code Comparators.comparing(Foo::hasBar, trueFirst())}.
+   *
+   * @since 21.0
+   */
+  @Beta
+  public static Comparator<Boolean> trueFirst() {
+    return BooleanComparator.TRUE_FIRST;
+  }
+
+  /**
+   * Returns a {@code Comparator<Boolean>} that sorts {@code false} before {@code true}.
+   *
+   * <p>This is particularly useful in Java 8+ in combination with {@code Comparators.comparing},
+   * e.g. {@code Comparators.comparing(Foo::hasBar, falseFirst())}.
+   *
+   * @since 21.0
+   */
+  @Beta
+  public static Comparator<Boolean> falseFirst() {
+    return BooleanComparator.FALSE_FIRST;
+  }
+
+  /**
    * Returns a hash code for {@code value}; equal to the result of invoking
    * {@code ((Boolean) value).hashCode()}.
    *
