@@ -418,7 +418,14 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
       return null;
     }
     E actualLastElement = elementData(size);
-    int lastElementAt = heapForIndex(size).getCorrectLastElement(actualLastElement);
+    int lastElementAt = heapForIndex(size).swapWithConceptuallyLastElement(actualLastElement);
+    if (lastElementAt == index) {
+      // 'actualLastElement' is now at 'lastElementAt', and the element that was at 'lastElementAt'
+      // is now at the end of queue. If that's the element we wanted to remove in the first place,
+      // don't try to (incorrectly) trickle it. Instead, just delete it and we're done.
+      queue[size] = null;
+      return null;
+    }
     E toTrickle = elementData(size);
     queue[size] = null;
     MoveDesc<E> changes = fillHole(index, toTrickle);
@@ -669,7 +676,8 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     }
 
     /**
-     * Returns the conceptually correct last element of the heap.
+     * Swap {@code actualLastElement} with the conceptually correct last element of the heap.
+     * Returns the index that {@code actualLastElement} now resides in.
      *
      * <p>Since the last element of the array is actually in the
      * middle of the sorted structure, a childless uncle node could be
@@ -677,7 +685,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
      * becomes the new parent of the uncle. In that case, we first
      * switch the last element with its uncle, before returning.
      */
-    int getCorrectLastElement(E actualLastElement) {
+    int swapWithConceptuallyLastElement(E actualLastElement) {
       int parentIndex = getParentIndex(size);
       if (parentIndex != 0) {
         int grandparentIndex = getParentIndex(parentIndex);
@@ -817,7 +825,9 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
             forgetMeNot = new ArrayDeque<E>();
             skipMe = new ArrayList<E>(3);
           }
-          forgetMeNot.add(moved.toTrickle);
+          if (!containsExact(skipMe, moved.toTrickle)) {
+            forgetMeNot.add(moved.toTrickle);
+          }
           skipMe.add(moved.replaced);
         }
         cursor--;

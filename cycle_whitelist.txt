@@ -36,7 +36,7 @@ FIELD com.google.common.collect.Maps.FilteredMapValues.unfiltered
 FIELD com.google.common.collect.Sets.SubSet.inputSet
 FIELD com.google.common.collect.TreeTraverser.PostOrderNode.childIterator
 FIELD com.google.common.collect.TreeTraverser.PreOrderIterator.stack
-FIELD com.google.common.util.concurrent.AbstractFuture.Listener.task
+FIELD com.google.common.util.concurrent.AbstractFuture.Listener.executor com.google.common.util.concurrent.MoreExecutors.rejectionPropagatingExecutor.$
 FIELD com.google.common.util.concurrent.AbstractService.listeners
 # Real cycle, but the runningState field is null'ed on completion of the future.
 FIELD com.google.common.util.concurrent.AggregateFuture.runningState
