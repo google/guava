@@ -160,6 +160,9 @@ public abstract class CharEscaper extends Escaper {
    * ok if it's in a method call. If the index passed in is 0 then no copying will be done.
    */
   private static char[] growBuffer(char[] dest, int index, int size) {
+    if (size < 0) { // overflow - should be OutOfMemoryError but GWT/j2cl don't support it
+      throw new AssertionError("Cannot increase internal buffer any further");
+    }
     char[] copy = new char[size];
     if (index > 0) {
       System.arraycopy(dest, 0, copy, 0, index);
