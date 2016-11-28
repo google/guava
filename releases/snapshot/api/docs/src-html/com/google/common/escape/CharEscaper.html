@@ -168,18 +168,21 @@
 <span class="sourceLineNo">160</span>   * ok if it's in a method call. If the index passed in is 0 then no copying will be done.<a name="line.160"></a>
 <span class="sourceLineNo">161</span>   */<a name="line.161"></a>
 <span class="sourceLineNo">162</span>  private static char[] growBuffer(char[] dest, int index, int size) {<a name="line.162"></a>
-<span class="sourceLineNo">163</span>    char[] copy = new char[size];<a name="line.163"></a>
-<span class="sourceLineNo">164</span>    if (index &gt; 0) {<a name="line.164"></a>
-<span class="sourceLineNo">165</span>      System.arraycopy(dest, 0, copy, 0, index);<a name="line.165"></a>
-<span class="sourceLineNo">166</span>    }<a name="line.166"></a>
-<span class="sourceLineNo">167</span>    return copy;<a name="line.167"></a>
-<span class="sourceLineNo">168</span>  }<a name="line.168"></a>
-<span class="sourceLineNo">169</span><a name="line.169"></a>
-<span class="sourceLineNo">170</span>  /**<a name="line.170"></a>
-<span class="sourceLineNo">171</span>   * The multiplier for padding to use when growing the escape buffer.<a name="line.171"></a>
-<span class="sourceLineNo">172</span>   */<a name="line.172"></a>
-<span class="sourceLineNo">173</span>  private static final int DEST_PAD_MULTIPLIER = 2;<a name="line.173"></a>
-<span class="sourceLineNo">174</span>}<a name="line.174"></a>
+<span class="sourceLineNo">163</span>    if (size &lt; 0) { // overflow - should be OutOfMemoryError but GWT/j2cl don't support it<a name="line.163"></a>
+<span class="sourceLineNo">164</span>      throw new AssertionError("Cannot increase internal buffer any further");<a name="line.164"></a>
+<span class="sourceLineNo">165</span>    }<a name="line.165"></a>
+<span class="sourceLineNo">166</span>    char[] copy = new char[size];<a name="line.166"></a>
+<span class="sourceLineNo">167</span>    if (index &gt; 0) {<a name="line.167"></a>
+<span class="sourceLineNo">168</span>      System.arraycopy(dest, 0, copy, 0, index);<a name="line.168"></a>
+<span class="sourceLineNo">169</span>    }<a name="line.169"></a>
+<span class="sourceLineNo">170</span>    return copy;<a name="line.170"></a>
+<span class="sourceLineNo">171</span>  }<a name="line.171"></a>
+<span class="sourceLineNo">172</span><a name="line.172"></a>
+<span class="sourceLineNo">173</span>  /**<a name="line.173"></a>
+<span class="sourceLineNo">174</span>   * The multiplier for padding to use when growing the escape buffer.<a name="line.174"></a>
+<span class="sourceLineNo">175</span>   */<a name="line.175"></a>
+<span class="sourceLineNo">176</span>  private static final int DEST_PAD_MULTIPLIER = 2;<a name="line.176"></a>
+<span class="sourceLineNo">177</span>}<a name="line.177"></a>
 
 
 

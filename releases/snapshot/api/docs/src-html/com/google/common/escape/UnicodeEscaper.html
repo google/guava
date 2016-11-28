@@ -298,13 +298,16 @@
 <span class="sourceLineNo">290</span>   * ok if it's in a method call. If the index passed in is 0 then no copying will be done.<a name="line.290"></a>
 <span class="sourceLineNo">291</span>   */<a name="line.291"></a>
 <span class="sourceLineNo">292</span>  private static char[] growBuffer(char[] dest, int index, int size) {<a name="line.292"></a>
-<span class="sourceLineNo">293</span>    char[] copy = new char[size];<a name="line.293"></a>
-<span class="sourceLineNo">294</span>    if (index &gt; 0) {<a name="line.294"></a>
-<span class="sourceLineNo">295</span>      System.arraycopy(dest, 0, copy, 0, index);<a name="line.295"></a>
-<span class="sourceLineNo">296</span>    }<a name="line.296"></a>
-<span class="sourceLineNo">297</span>    return copy;<a name="line.297"></a>
-<span class="sourceLineNo">298</span>  }<a name="line.298"></a>
-<span class="sourceLineNo">299</span>}<a name="line.299"></a>
+<span class="sourceLineNo">293</span>    if (size &lt; 0) { // overflow - should be OutOfMemoryError but GWT/j2cl don't support it<a name="line.293"></a>
+<span class="sourceLineNo">294</span>      throw new AssertionError("Cannot increase internal buffer any further");<a name="line.294"></a>
+<span class="sourceLineNo">295</span>    }<a name="line.295"></a>
+<span class="sourceLineNo">296</span>    char[] copy = new char[size];<a name="line.296"></a>
+<span class="sourceLineNo">297</span>    if (index &gt; 0) {<a name="line.297"></a>
+<span class="sourceLineNo">298</span>      System.arraycopy(dest, 0, copy, 0, index);<a name="line.298"></a>
+<span class="sourceLineNo">299</span>    }<a name="line.299"></a>
+<span class="sourceLineNo">300</span>    return copy;<a name="line.300"></a>
+<span class="sourceLineNo">301</span>  }<a name="line.301"></a>
+<span class="sourceLineNo">302</span>}<a name="line.302"></a>
 
 
 
