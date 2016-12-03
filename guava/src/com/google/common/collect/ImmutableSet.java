@@ -37,6 +37,7 @@ import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 
 /**
@@ -62,6 +63,15 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   @Beta
   public static <E> Collector<E, ?, ImmutableSet<E>> toImmutableSet() {
     return CollectCollectors.toImmutableSet();
+  }
+
+  /**
+   * Convenient method for {@code toImmutableSet} that works specifically for enum types.
+   */
+  public static <E extends Enum<E>> Collector<E, ?, ImmutableSet<E>> toImmutableEnumSet() {
+    return Collectors.collectingAndThen(
+        toImmutableSet(),
+        Sets::immutableEnumSet);
   }
 
   /**

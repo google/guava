@@ -646,6 +646,47 @@ public class ImmutableMapTest extends TestCase {
               mapEntry("three", 3),
               mapEntry("two", 2));
     }
+
+    public void testToImmutableEnumMap() {
+      Collector<Entry<AnEnum, Integer>, ?, ImmutableMap<AnEnum, Integer>> collector =
+          ImmutableMap.toImmutableEnumMap(Entry::getKey, Entry::getValue);
+      Equivalence<ImmutableMap<AnEnum, Integer>> equivalence =
+          Equivalence.equals()
+              .<Entry<AnEnum, Integer>>pairwise()
+              .onResultOf(ImmutableMap::entrySet);
+      CollectorTester.of(collector, equivalence)
+          .expectCollects(
+              ImmutableMap.of(AnEnum.A, 1, AnEnum.B, 2, AnEnum.C, 3),
+              mapEntry(AnEnum.A, 1),
+              mapEntry(AnEnum.B, 2),
+              mapEntry(AnEnum.C, 3));
+    }
+
+    public void testToImmutableEnumMap_exceptionOnDuplicateKey() {
+      Collector<Entry<AnEnum, Integer>, ?, ImmutableMap<AnEnum, Integer>> collector =
+          ImmutableMap.toImmutableEnumMap(Entry::getKey, Entry::getValue);
+      try {
+        Stream.of(mapEntry(AnEnum.A, 1), mapEntry(AnEnum.A, 11)).collect(collector);
+        fail("Expected IllegalArgumentException");
+      } catch (IllegalArgumentException expected) {
+      }
+    }
+
+    public void testToImmutableEnumMapMerging() {
+      Collector<Entry<AnEnum, Integer>, ?, ImmutableMap<AnEnum, Integer>> collector =
+          ImmutableMap.toImmutableEnumMap(Entry::getKey, Entry::getValue, Integer::sum);
+      Equivalence<ImmutableMap<AnEnum, Integer>> equivalence =
+          Equivalence.equals()
+              .<Entry<AnEnum, Integer>>pairwise()
+              .onResultOf(ImmutableMap::entrySet);
+      CollectorTester.of(collector, equivalence)
+          .expectCollects(
+              ImmutableMap.of(AnEnum.A, 1, AnEnum.B, 4, AnEnum.C, 3),
+              mapEntry(AnEnum.A, 1),
+              mapEntry(AnEnum.B, 2),
+              mapEntry(AnEnum.C, 3),
+              mapEntry(AnEnum.B, 2));
+    }
   }
 
   public void testNullGet() {
