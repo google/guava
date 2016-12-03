@@ -193,9 +193,14 @@ public void testSampleCodeFine2() throws Exception {
   testCase.testSampleCodeFine2();
 }
 
-public void testToJavaUtil() throws Exception {
+public void testToJavaUtil_instance() throws Exception {
   com.google.common.base.OptionalTest testCase = new com.google.common.base.OptionalTest();
-  testCase.testToJavaUtil();
+  testCase.testToJavaUtil_instance();
+}
+
+public void testToJavaUtil_static() throws Exception {
+  com.google.common.base.OptionalTest testCase = new com.google.common.base.OptionalTest();
+  testCase.testToJavaUtil_static();
 }
 
 public void testToString_absent() throws Exception {
