@@ -23,6 +23,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
@@ -91,7 +92,6 @@ public class ByteStreamsTest extends IoTestCase {
     WritableByteChannel outChannel = Channels.newChannel(out);
     ByteStreams.copy(in, outChannel);
     in.close();
-    byte[] output = out.toByteArray();
     assertEquals(out.toByteArray(), expected);
   }
 
