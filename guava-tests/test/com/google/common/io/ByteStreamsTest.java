@@ -79,6 +79,22 @@ public class ByteStreamsTest extends IoTestCase {
     }
   }
 
+  public void testCopyStreamChannel() throws Exception {
+    File test = createTempFile();
+    FileOutputStream fos = new FileOutputStream(test);
+    byte[] expected = newPreFilledByteArray(500);
+    fos.write(expected);
+    fos.close();
+    InputStream in = new FileInputStream(test);
+
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    WritableByteChannel outChannel = Channels.newChannel(out);
+    ByteStreams.copy(in, outChannel);
+    in.close();
+    byte[] output = out.toByteArray();
+    assertEquals(out.toByteArray(), expected);
+  }
+
   public void testReadFully() throws IOException {
     byte[] b = new byte[10];
 

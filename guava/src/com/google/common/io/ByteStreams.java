@@ -152,6 +152,34 @@ public final class ByteStreams {
   }
 
   /**
+   * Copies all bytes from the input stream to the writable channel. Does not close or flush
+   * either channel.
+   *
+   * @param from the input stream to read from
+   * @param to the writable channel to write to
+   * @return the number of bytes copied
+   * @throws IOException if an I/O error occurs
+   */
+  @CanIgnoreReturnValue
+  public static long copy(InputStream from, WritableByteChannel to) throws IOException {
+    checkNotNull(from);
+    checkNotNull(to);
+    byte[] bufferArray = createBuffer();
+    ByteBuffer buf = ByteBuffer.wrap(bufferArray);
+    long total = 0;
+    int c;
+    while ((c = from.read(bufferArray)) != -1) {
+      buf.put(bufferArray, 0, c);
+      buf.flip();
+      while (buf.hasRemaining()) {
+        total += to.write(buf);
+      }
+      buf.clear();
+    }
+    return total;
+  }
+
+  /**
    * Reads all bytes from an input stream into a byte array. Does not close the stream.
    *
    * @param in the input stream to read from
