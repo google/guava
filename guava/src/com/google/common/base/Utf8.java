@@ -40,6 +40,62 @@ import com.google.common.annotations.GwtCompatible;
 @GwtCompatible(emulated = true)
 public final class Utf8 {
   /**
+   * Returns truncated {@code sequence} so that it fits the number of bytes
+   * specified by {@code lengthInBytes} once UTF-8 encoded.
+   *
+   * <p>
+   * <b>Does not check the input sequence for validity.</b>
+   * </p>
+   *
+   * @param sequence      Valid utf-16 sequence to truncate.
+   * @param lengthInBytes Desired number of bytes
+   * @return
+   */
+  public static CharSequence truncateToBytes(CharSequence sequence, int lengthInBytes) {
+    int utf16Length = sequence.length();
+
+    int bytes;
+    int i = 0;
+
+    // This loop optimizes for pure ASCII.
+    while (i < utf16Length && sequence.charAt(i) < 0x80) {
+      if (i >= lengthInBytes) {
+        return sequence.subSequence(0, i);
+      }
+      i++;
+    }
+
+    int skip = 0;
+    //This loop counts utf-8 bytes for each char
+    //until it goes through the whole sequence
+    //or until the lengthInBytes is reached
+    for (lengthInBytes -= i; i < utf16Length; i++) {
+      char c = sequence.charAt(i);
+
+      //bitwise operations to minimize number of branches
+      if (c < 0x800) {
+        bytes = ((0x7f - c) >>> 31) + 1;
+      } else if (c < 0xE000) {
+        skip = (0xD7FF - c) >>> 31;
+        bytes = 3 + skip;
+      } else {
+        bytes = 3;
+      }
+
+      lengthInBytes -= bytes;
+
+      if (lengthInBytes < 0) {
+        break;
+      }
+
+      i += skip; //in case of 4 utf16 bytes
+      skip = 0;
+    }
+
+    return sequence.subSequence(0, i);
+  }
+
+  /**
    * Returns the number of bytes in the UTF-8-encoded form of {@code sequence}. For a string, this
    * method is equivalent to {@code string.getBytes(UTF_8).length}, but is more efficient in both
    * time and space.

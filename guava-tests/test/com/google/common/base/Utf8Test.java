@@ -61,6 +61,60 @@ public class Utf8Test extends TestCase {
     ILL_FORMED_STRINGS = builder.build();
   }
 
+  public void testTruncateToBytes() {
+    assertEquals("Resume", Utf8.truncateToBytes("Resume", 50));
+    assertEquals("Resu", Utf8.truncateToBytes("Resume", 4));
+    assertEquals("Résumé", Utf8.truncateToBytes("Résumé", 8));
+    assertEquals("Résum", Utf8.truncateToBytes("Résumé", 7));
+    assertEquals("Résum", Utf8.truncateToBytes("Résumé", 6));
+    assertEquals("", Utf8.truncateToBytes("Résumé", 0));
+
+    assertEquals("威廉·莎士比", Utf8.truncateToBytes("威廉·莎士比亞（William Shakespeare)", 19));
+    assertEquals("威廉·莎士比亞（William Shakespeare，"
+                    + "1564年4月26號—1616年4月23號[1]）係隻英國嗰演員、劇作家同詩人，"
+                    + "有時間佢簡稱莎翁；中國清末民初哈拕翻譯做舌克斯毕、沙斯皮耳、筛斯比耳、"
+                    + "莎基斯庇尔、索士比尔、夏克思芘尔、希哀苦皮阿、叶斯壁、沙克皮尔、"
+                    + "狹斯丕爾。[2]莎士比亞編寫過好多作品，佢嗰劇作響西洋文學好有影響，",
+            Utf8.truncateToBytes("威廉·莎士比亞（William Shakespeare，"
+                    + "1564年4月26號—1616年4月23號[1]）係隻英國嗰演員、劇作家同詩人，"
+                    + "有時間佢簡稱莎翁；中國清末民初哈拕翻譯做舌克斯毕、沙斯皮耳、筛斯比耳、"
+                    + "莎基斯庇尔、索士比尔、夏克思芘尔、希哀苦皮阿、叶斯壁、沙克皮尔、"
+                    + "狹斯丕爾。[2]莎士比亞編寫過好多作品，佢嗰劇作響西洋文學好有影響，"
+                    + "哈都拕人翻譯做好多話。", 428));
+    assertEquals("威廉·莎士比亞", Utf8.truncateToBytes("威廉·莎士比亞", 21));
+
+    assertEquals("",
+            Utf8.truncateToBytes(newString(MIN_HIGH_SURROGATE, MIN_LOW_SURROGATE), 1));
+    assertEquals("",
+            Utf8.truncateToBytes(newString(MIN_HIGH_SURROGATE, MIN_LOW_SURROGATE), 2));
+    assertEquals("",
+            Utf8.truncateToBytes(newString(MIN_HIGH_SURROGATE, MIN_LOW_SURROGATE), 3));
+    assertEquals(newString(MIN_HIGH_SURROGATE, MIN_LOW_SURROGATE),
+            Utf8.truncateToBytes(newString(MIN_HIGH_SURROGATE, MIN_LOW_SURROGATE), 4));
+
+    assertEquals("", Utf8.truncateToBytes("a\u0080b", 0));
+    assertEquals("a", Utf8.truncateToBytes("a\u0080b", 1));
+    assertEquals("a", Utf8.truncateToBytes("a\u0080b", 2));
+    assertEquals("a\u0080", Utf8.truncateToBytes("a\u0080b", 3));
+    assertEquals("a\u0080b", Utf8.truncateToBytes("a\u0080b", 4));
+    assertEquals("a\u0080b", Utf8.truncateToBytes("a\u0080b", 5));
+
+    assertEquals("", Utf8.truncateToBytes("a\u0800b", 0));
+    assertEquals("a", Utf8.truncateToBytes("a\u0800b", 1));
+    assertEquals("a", Utf8.truncateToBytes("a\u0800b", 2));
+    assertEquals("a", Utf8.truncateToBytes("a\u0800b", 3));
+    assertEquals("a\u0800", Utf8.truncateToBytes("a\u0800b", 4));
+    assertEquals("a\u0800b", Utf8.truncateToBytes("a\u0800b", 5));
+    assertEquals("a\u0800b", Utf8.truncateToBytes("a\u0800b", 6));
+
+    assertEquals("", Utf8.truncateToBytes("\uD834\uDD1E", 0));
+    assertEquals("", Utf8.truncateToBytes("\uD834\uDD1E", 1));
+    assertEquals("", Utf8.truncateToBytes("\uD834\uDD1E", 2));
+    assertEquals("", Utf8.truncateToBytes("\uD834\uDD1E", 3));
+    assertEquals("\uD834\uDD1E", Utf8.truncateToBytes("\uD834\uDD1E", 4));
+    assertEquals("\uD834\uDD1Ea", Utf8.truncateToBytes("\uD834\uDD1Ea", 5));
+  }
+
   public void testEncodedLength_validStrings() {
     assertEquals(0, Utf8.encodedLength(""));
     assertEquals(11, Utf8.encodedLength("Hello world"));
