@@ -18,6 +18,9 @@ package com.google.common.collect;
 
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 import static com.google.common.collect.Iterators.advance;
+import static com.google.common.collect.Iterators.toIntIterator;
+import static com.google.common.collect.Iterators.toLongIterator;
+import static com.google.common.collect.Iterators.toDoubleIterator;
 import static com.google.common.collect.Iterators.get;
 import static com.google.common.collect.Iterators.getLast;
 import static com.google.common.collect.Lists.newArrayList;
@@ -50,6 +53,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+import java.util.PrimitiveIterator;
+import java.util.PrimitiveIterator.OfDouble;
+import java.util.PrimitiveIterator.OfInt;
+import java.util.PrimitiveIterator.OfLong;
 import java.util.RandomAccess;
 import java.util.Set;
 import java.util.Vector;
@@ -1648,6 +1655,39 @@ public class IteratorsTest extends TestCase {
         Lists.newArrayList("manny", "mo", "mo", "jack").iterator();
     assertEquals(-1, Iterators.indexOf(iterator, Predicates.equalTo("bob")));
     assertFalse(iterator.hasNext());
+  }
+  
+  public void testPrimitiveIntIterator() {
+	  Iterator<Integer> iterator = Lists.newArrayList(1,2,3).iterator();
+	  OfInt primIterator = toIntIterator(iterator);
+	  assertEquals(1, primIterator.nextInt());
+	  assertEquals(2, primIterator.nextInt());
+	  assertTrue(primIterator.hasNext());
+	  assertEquals(3, primIterator.nextInt());
+	  assertFalse(primIterator.hasNext());
+  }
+  
+  public void testPrimitiveLongIterator() {
+	  long a = 1;
+	  long b = 2;
+	  long c = 3;
+	  Iterator<Long> iterator = Lists.newArrayList(a,b,c).iterator();
+	  OfLong primIterator = toLongIterator(iterator);
+	  assertEquals(1, primIterator.nextLong());
+	  assertEquals(2, primIterator.nextLong());
+	  assertTrue(primIterator.hasNext());
+	  assertEquals(3, primIterator.nextLong());
+	  assertFalse(primIterator.hasNext());
+  }
+  
+  public void testPrimitiveDoubleIterator() {
+	  Iterator<Double> iterator = Lists.newArrayList(1.0,2.0,3.0).iterator();
+	  OfDouble primIterator = toDoubleIterator(iterator);
+	  assertEquals(1.0, primIterator.nextDouble());
+	  assertEquals(2.0, primIterator.nextDouble());
+	  assertTrue(primIterator.hasNext());
+	  assertEquals(3.0, primIterator.nextDouble());
+	  assertFalse(primIterator.hasNext());
   }
 
   @SuppressWarnings("deprecation")
