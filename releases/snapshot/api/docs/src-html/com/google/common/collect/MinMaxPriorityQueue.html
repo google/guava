@@ -788,207 +788,218 @@
 <span class="sourceLineNo">780</span>   */<a name="line.780"></a>
 <span class="sourceLineNo">781</span>  private class QueueIterator implements Iterator&lt;E&gt; {<a name="line.781"></a>
 <span class="sourceLineNo">782</span>    private int cursor = -1;<a name="line.782"></a>
-<span class="sourceLineNo">783</span>    private int expectedModCount = modCount;<a name="line.783"></a>
-<span class="sourceLineNo">784</span>    private Queue&lt;E&gt; forgetMeNot;<a name="line.784"></a>
-<span class="sourceLineNo">785</span>    private List&lt;E&gt; skipMe;<a name="line.785"></a>
-<span class="sourceLineNo">786</span>    private E lastFromForgetMeNot;<a name="line.786"></a>
-<span class="sourceLineNo">787</span>    private boolean canRemove;<a name="line.787"></a>
-<span class="sourceLineNo">788</span><a name="line.788"></a>
-<span class="sourceLineNo">789</span>    @Override<a name="line.789"></a>
-<span class="sourceLineNo">790</span>    public boolean hasNext() {<a name="line.790"></a>
-<span class="sourceLineNo">791</span>      checkModCount();<a name="line.791"></a>
-<span class="sourceLineNo">792</span>      return (nextNotInSkipMe(cursor + 1) &lt; size())<a name="line.792"></a>
-<span class="sourceLineNo">793</span>          || ((forgetMeNot != null) &amp;&amp; !forgetMeNot.isEmpty());<a name="line.793"></a>
-<span class="sourceLineNo">794</span>    }<a name="line.794"></a>
-<span class="sourceLineNo">795</span><a name="line.795"></a>
-<span class="sourceLineNo">796</span>    @Override<a name="line.796"></a>
-<span class="sourceLineNo">797</span>    public E next() {<a name="line.797"></a>
-<span class="sourceLineNo">798</span>      checkModCount();<a name="line.798"></a>
-<span class="sourceLineNo">799</span>      int tempCursor = nextNotInSkipMe(cursor + 1);<a name="line.799"></a>
-<span class="sourceLineNo">800</span>      if (tempCursor &lt; size()) {<a name="line.800"></a>
-<span class="sourceLineNo">801</span>        cursor = tempCursor;<a name="line.801"></a>
-<span class="sourceLineNo">802</span>        canRemove = true;<a name="line.802"></a>
-<span class="sourceLineNo">803</span>        return elementData(cursor);<a name="line.803"></a>
-<span class="sourceLineNo">804</span>      } else if (forgetMeNot != null) {<a name="line.804"></a>
-<span class="sourceLineNo">805</span>        cursor = size();<a name="line.805"></a>
-<span class="sourceLineNo">806</span>        lastFromForgetMeNot = forgetMeNot.poll();<a name="line.806"></a>
-<span class="sourceLineNo">807</span>        if (lastFromForgetMeNot != null) {<a name="line.807"></a>
-<span class="sourceLineNo">808</span>          canRemove = true;<a name="line.808"></a>
-<span class="sourceLineNo">809</span>          return lastFromForgetMeNot;<a name="line.809"></a>
-<span class="sourceLineNo">810</span>        }<a name="line.810"></a>
-<span class="sourceLineNo">811</span>      }<a name="line.811"></a>
-<span class="sourceLineNo">812</span>      throw new NoSuchElementException("iterator moved past last element in queue.");<a name="line.812"></a>
-<span class="sourceLineNo">813</span>    }<a name="line.813"></a>
-<span class="sourceLineNo">814</span><a name="line.814"></a>
-<span class="sourceLineNo">815</span>    @Override<a name="line.815"></a>
-<span class="sourceLineNo">816</span>    public void remove() {<a name="line.816"></a>
-<span class="sourceLineNo">817</span>      checkRemove(canRemove);<a name="line.817"></a>
-<span class="sourceLineNo">818</span>      checkModCount();<a name="line.818"></a>
-<span class="sourceLineNo">819</span>      canRemove = false;<a name="line.819"></a>
-<span class="sourceLineNo">820</span>      expectedModCount++;<a name="line.820"></a>
-<span class="sourceLineNo">821</span>      if (cursor &lt; size()) {<a name="line.821"></a>
-<span class="sourceLineNo">822</span>        MoveDesc&lt;E&gt; moved = removeAt(cursor);<a name="line.822"></a>
-<span class="sourceLineNo">823</span>        if (moved != null) {<a name="line.823"></a>
-<span class="sourceLineNo">824</span>          if (forgetMeNot == null) {<a name="line.824"></a>
-<span class="sourceLineNo">825</span>            forgetMeNot = new ArrayDeque&lt;E&gt;();<a name="line.825"></a>
-<span class="sourceLineNo">826</span>            skipMe = new ArrayList&lt;E&gt;(3);<a name="line.826"></a>
-<span class="sourceLineNo">827</span>          }<a name="line.827"></a>
-<span class="sourceLineNo">828</span>          if (!containsExact(skipMe, moved.toTrickle)) {<a name="line.828"></a>
-<span class="sourceLineNo">829</span>            forgetMeNot.add(moved.toTrickle);<a name="line.829"></a>
-<span class="sourceLineNo">830</span>          }<a name="line.830"></a>
-<span class="sourceLineNo">831</span>          skipMe.add(moved.replaced);<a name="line.831"></a>
-<span class="sourceLineNo">832</span>        }<a name="line.832"></a>
-<span class="sourceLineNo">833</span>        cursor--;<a name="line.833"></a>
-<span class="sourceLineNo">834</span>      } else { // we must have set lastFromForgetMeNot in next()<a name="line.834"></a>
-<span class="sourceLineNo">835</span>        checkState(removeExact(lastFromForgetMeNot));<a name="line.835"></a>
-<span class="sourceLineNo">836</span>        lastFromForgetMeNot = null;<a name="line.836"></a>
-<span class="sourceLineNo">837</span>      }<a name="line.837"></a>
-<span class="sourceLineNo">838</span>    }<a name="line.838"></a>
-<span class="sourceLineNo">839</span><a name="line.839"></a>
-<span class="sourceLineNo">840</span>    // Finds only this exact instance, not others that are equals()<a name="line.840"></a>
-<span class="sourceLineNo">841</span>    private boolean containsExact(Iterable&lt;E&gt; elements, E target) {<a name="line.841"></a>
-<span class="sourceLineNo">842</span>      for (E element : elements) {<a name="line.842"></a>
-<span class="sourceLineNo">843</span>        if (element == target) {<a name="line.843"></a>
-<span class="sourceLineNo">844</span>          return true;<a name="line.844"></a>
-<span class="sourceLineNo">845</span>        }<a name="line.845"></a>
-<span class="sourceLineNo">846</span>      }<a name="line.846"></a>
-<span class="sourceLineNo">847</span>      return false;<a name="line.847"></a>
-<span class="sourceLineNo">848</span>    }<a name="line.848"></a>
-<span class="sourceLineNo">849</span><a name="line.849"></a>
-<span class="sourceLineNo">850</span>    // Removes only this exact instance, not others that are equals()<a name="line.850"></a>
-<span class="sourceLineNo">851</span>    boolean removeExact(Object target) {<a name="line.851"></a>
-<span class="sourceLineNo">852</span>      for (int i = 0; i &lt; size; i++) {<a name="line.852"></a>
-<span class="sourceLineNo">853</span>        if (queue[i] == target) {<a name="line.853"></a>
-<span class="sourceLineNo">854</span>          removeAt(i);<a name="line.854"></a>
-<span class="sourceLineNo">855</span>          return true;<a name="line.855"></a>
-<span class="sourceLineNo">856</span>        }<a name="line.856"></a>
-<span class="sourceLineNo">857</span>      }<a name="line.857"></a>
-<span class="sourceLineNo">858</span>      return false;<a name="line.858"></a>
-<span class="sourceLineNo">859</span>    }<a name="line.859"></a>
-<span class="sourceLineNo">860</span><a name="line.860"></a>
-<span class="sourceLineNo">861</span>    void checkModCount() {<a name="line.861"></a>
-<span class="sourceLineNo">862</span>      if (modCount != expectedModCount) {<a name="line.862"></a>
-<span class="sourceLineNo">863</span>        throw new ConcurrentModificationException();<a name="line.863"></a>
-<span class="sourceLineNo">864</span>      }<a name="line.864"></a>
-<span class="sourceLineNo">865</span>    }<a name="line.865"></a>
-<span class="sourceLineNo">866</span><a name="line.866"></a>
-<span class="sourceLineNo">867</span>    /**<a name="line.867"></a>
-<span class="sourceLineNo">868</span>     * Returns the index of the first element after {@code c} that is not in<a name="line.868"></a>
-<span class="sourceLineNo">869</span>     * {@code skipMe} and returns {@code size()} if there is no such element.<a name="line.869"></a>
-<span class="sourceLineNo">870</span>     */<a name="line.870"></a>
-<span class="sourceLineNo">871</span>    private int nextNotInSkipMe(int c) {<a name="line.871"></a>
-<span class="sourceLineNo">872</span>      if (skipMe != null) {<a name="line.872"></a>
-<span class="sourceLineNo">873</span>        while (c &lt; size() &amp;&amp; containsExact(skipMe, elementData(c))) {<a name="line.873"></a>
-<span class="sourceLineNo">874</span>          c++;<a name="line.874"></a>
-<span class="sourceLineNo">875</span>        }<a name="line.875"></a>
-<span class="sourceLineNo">876</span>      }<a name="line.876"></a>
-<span class="sourceLineNo">877</span>      return c;<a name="line.877"></a>
-<span class="sourceLineNo">878</span>    }<a name="line.878"></a>
-<span class="sourceLineNo">879</span>  }<a name="line.879"></a>
-<span class="sourceLineNo">880</span><a name="line.880"></a>
-<span class="sourceLineNo">881</span>  /**<a name="line.881"></a>
-<span class="sourceLineNo">882</span>   * Returns an iterator over the elements contained in this collection,<a name="line.882"></a>
-<span class="sourceLineNo">883</span>   * &lt;i&gt;in no particular order&lt;/i&gt;.<a name="line.883"></a>
-<span class="sourceLineNo">884</span>   *<a name="line.884"></a>
-<span class="sourceLineNo">885</span>   * &lt;p&gt;The iterator is &lt;i&gt;fail-fast&lt;/i&gt;: If the MinMaxPriorityQueue is modified<a name="line.885"></a>
-<span class="sourceLineNo">886</span>   * at any time after the iterator is created, in any way except through the<a name="line.886"></a>
-<span class="sourceLineNo">887</span>   * iterator's own remove method, the iterator will generally throw a<a name="line.887"></a>
-<span class="sourceLineNo">888</span>   * {@link ConcurrentModificationException}. Thus, in the face of concurrent<a name="line.888"></a>
-<span class="sourceLineNo">889</span>   * modification, the iterator fails quickly and cleanly, rather than risking<a name="line.889"></a>
-<span class="sourceLineNo">890</span>   * arbitrary, non-deterministic behavior at an undetermined time in the<a name="line.890"></a>
-<span class="sourceLineNo">891</span>   * future.<a name="line.891"></a>
-<span class="sourceLineNo">892</span>   *<a name="line.892"></a>
-<span class="sourceLineNo">893</span>   * &lt;p&gt;Note that the fail-fast behavior of an iterator cannot be guaranteed<a name="line.893"></a>
-<span class="sourceLineNo">894</span>   * as it is, generally speaking, impossible to make any hard guarantees in the<a name="line.894"></a>
-<span class="sourceLineNo">895</span>   * presence of unsynchronized concurrent modification.  Fail-fast iterators<a name="line.895"></a>
-<span class="sourceLineNo">896</span>   * throw {@code ConcurrentModificationException} on a best-effort basis.<a name="line.896"></a>
-<span class="sourceLineNo">897</span>   * Therefore, it would be wrong to write a program that depended on this<a name="line.897"></a>
-<span class="sourceLineNo">898</span>   * exception for its correctness: &lt;i&gt;the fail-fast behavior of iterators<a name="line.898"></a>
-<span class="sourceLineNo">899</span>   * should be used only to detect bugs.&lt;/i&gt;<a name="line.899"></a>
-<span class="sourceLineNo">900</span>   *<a name="line.900"></a>
-<span class="sourceLineNo">901</span>   * @return an iterator over the elements contained in this collection<a name="line.901"></a>
-<span class="sourceLineNo">902</span>   */<a name="line.902"></a>
-<span class="sourceLineNo">903</span>  @Override<a name="line.903"></a>
-<span class="sourceLineNo">904</span>  public Iterator&lt;E&gt; iterator() {<a name="line.904"></a>
-<span class="sourceLineNo">905</span>    return new QueueIterator();<a name="line.905"></a>
-<span class="sourceLineNo">906</span>  }<a name="line.906"></a>
-<span class="sourceLineNo">907</span><a name="line.907"></a>
-<span class="sourceLineNo">908</span>  @Override<a name="line.908"></a>
-<span class="sourceLineNo">909</span>  public void clear() {<a name="line.909"></a>
-<span class="sourceLineNo">910</span>    for (int i = 0; i &lt; size; i++) {<a name="line.910"></a>
-<span class="sourceLineNo">911</span>      queue[i] = null;<a name="line.911"></a>
-<span class="sourceLineNo">912</span>    }<a name="line.912"></a>
-<span class="sourceLineNo">913</span>    size = 0;<a name="line.913"></a>
-<span class="sourceLineNo">914</span>  }<a name="line.914"></a>
-<span class="sourceLineNo">915</span><a name="line.915"></a>
-<span class="sourceLineNo">916</span>  @Override<a name="line.916"></a>
-<span class="sourceLineNo">917</span>  public Object[] toArray() {<a name="line.917"></a>
-<span class="sourceLineNo">918</span>    Object[] copyTo = new Object[size];<a name="line.918"></a>
-<span class="sourceLineNo">919</span>    System.arraycopy(queue, 0, copyTo, 0, size);<a name="line.919"></a>
-<span class="sourceLineNo">920</span>    return copyTo;<a name="line.920"></a>
-<span class="sourceLineNo">921</span>  }<a name="line.921"></a>
-<span class="sourceLineNo">922</span><a name="line.922"></a>
-<span class="sourceLineNo">923</span>  /**<a name="line.923"></a>
-<span class="sourceLineNo">924</span>   * Returns the comparator used to order the elements in this queue. Obeys the<a name="line.924"></a>
-<span class="sourceLineNo">925</span>   * general contract of {@link PriorityQueue#comparator}, but returns {@link<a name="line.925"></a>
-<span class="sourceLineNo">926</span>   * Ordering#natural} instead of {@code null} to indicate natural ordering.<a name="line.926"></a>
-<span class="sourceLineNo">927</span>   */<a name="line.927"></a>
-<span class="sourceLineNo">928</span>  public Comparator&lt;? super E&gt; comparator() {<a name="line.928"></a>
-<span class="sourceLineNo">929</span>    return minHeap.ordering;<a name="line.929"></a>
-<span class="sourceLineNo">930</span>  }<a name="line.930"></a>
-<span class="sourceLineNo">931</span><a name="line.931"></a>
-<span class="sourceLineNo">932</span>  @VisibleForTesting<a name="line.932"></a>
-<span class="sourceLineNo">933</span>  int capacity() {<a name="line.933"></a>
-<span class="sourceLineNo">934</span>    return queue.length;<a name="line.934"></a>
-<span class="sourceLineNo">935</span>  }<a name="line.935"></a>
-<span class="sourceLineNo">936</span><a name="line.936"></a>
-<span class="sourceLineNo">937</span>  // Size/capacity-related methods<a name="line.937"></a>
-<span class="sourceLineNo">938</span><a name="line.938"></a>
-<span class="sourceLineNo">939</span>  private static final int DEFAULT_CAPACITY = 11;<a name="line.939"></a>
-<span class="sourceLineNo">940</span><a name="line.940"></a>
-<span class="sourceLineNo">941</span>  @VisibleForTesting<a name="line.941"></a>
-<span class="sourceLineNo">942</span>  static int initialQueueSize(<a name="line.942"></a>
-<span class="sourceLineNo">943</span>      int configuredExpectedSize, int maximumSize, Iterable&lt;?&gt; initialContents) {<a name="line.943"></a>
-<span class="sourceLineNo">944</span>    // Start with what they said, if they said it, otherwise DEFAULT_CAPACITY<a name="line.944"></a>
-<span class="sourceLineNo">945</span>    int result =<a name="line.945"></a>
-<span class="sourceLineNo">946</span>        (configuredExpectedSize == Builder.UNSET_EXPECTED_SIZE)<a name="line.946"></a>
-<span class="sourceLineNo">947</span>            ? DEFAULT_CAPACITY<a name="line.947"></a>
-<span class="sourceLineNo">948</span>            : configuredExpectedSize;<a name="line.948"></a>
+<span class="sourceLineNo">783</span>    private int nextCursor = -1;<a name="line.783"></a>
+<span class="sourceLineNo">784</span>    private int expectedModCount = modCount;<a name="line.784"></a>
+<span class="sourceLineNo">785</span>    // The same element is not allowed in both forgetMeNot and skipMe, but duplicates are allowed in<a name="line.785"></a>
+<span class="sourceLineNo">786</span>    // either of them, up to the same multiplicity as the queue.<a name="line.786"></a>
+<span class="sourceLineNo">787</span>    private Queue&lt;E&gt; forgetMeNot;<a name="line.787"></a>
+<span class="sourceLineNo">788</span>    private List&lt;E&gt; skipMe;<a name="line.788"></a>
+<span class="sourceLineNo">789</span>    private E lastFromForgetMeNot;<a name="line.789"></a>
+<span class="sourceLineNo">790</span>    private boolean canRemove;<a name="line.790"></a>
+<span class="sourceLineNo">791</span><a name="line.791"></a>
+<span class="sourceLineNo">792</span>    @Override<a name="line.792"></a>
+<span class="sourceLineNo">793</span>    public boolean hasNext() {<a name="line.793"></a>
+<span class="sourceLineNo">794</span>      checkModCount();<a name="line.794"></a>
+<span class="sourceLineNo">795</span>      nextNotInSkipMe(cursor + 1);<a name="line.795"></a>
+<span class="sourceLineNo">796</span>      return (nextCursor &lt; size())<a name="line.796"></a>
+<span class="sourceLineNo">797</span>          || ((forgetMeNot != null) &amp;&amp; !forgetMeNot.isEmpty());<a name="line.797"></a>
+<span class="sourceLineNo">798</span>    }<a name="line.798"></a>
+<span class="sourceLineNo">799</span><a name="line.799"></a>
+<span class="sourceLineNo">800</span>    @Override<a name="line.800"></a>
+<span class="sourceLineNo">801</span>    public E next() {<a name="line.801"></a>
+<span class="sourceLineNo">802</span>      checkModCount();<a name="line.802"></a>
+<span class="sourceLineNo">803</span>      nextNotInSkipMe(cursor + 1);<a name="line.803"></a>
+<span class="sourceLineNo">804</span>      if (nextCursor &lt; size()) {<a name="line.804"></a>
+<span class="sourceLineNo">805</span>        cursor = nextCursor;<a name="line.805"></a>
+<span class="sourceLineNo">806</span>        canRemove = true;<a name="line.806"></a>
+<span class="sourceLineNo">807</span>        return elementData(cursor);<a name="line.807"></a>
+<span class="sourceLineNo">808</span>      } else if (forgetMeNot != null) {<a name="line.808"></a>
+<span class="sourceLineNo">809</span>        cursor = size();<a name="line.809"></a>
+<span class="sourceLineNo">810</span>        lastFromForgetMeNot = forgetMeNot.poll();<a name="line.810"></a>
+<span class="sourceLineNo">811</span>        if (lastFromForgetMeNot != null) {<a name="line.811"></a>
+<span class="sourceLineNo">812</span>          canRemove = true;<a name="line.812"></a>
+<span class="sourceLineNo">813</span>          return lastFromForgetMeNot;<a name="line.813"></a>
+<span class="sourceLineNo">814</span>        }<a name="line.814"></a>
+<span class="sourceLineNo">815</span>      }<a name="line.815"></a>
+<span class="sourceLineNo">816</span>      throw new NoSuchElementException("iterator moved past last element in queue.");<a name="line.816"></a>
+<span class="sourceLineNo">817</span>    }<a name="line.817"></a>
+<span class="sourceLineNo">818</span><a name="line.818"></a>
+<span class="sourceLineNo">819</span>    @Override<a name="line.819"></a>
+<span class="sourceLineNo">820</span>    public void remove() {<a name="line.820"></a>
+<span class="sourceLineNo">821</span>      checkRemove(canRemove);<a name="line.821"></a>
+<span class="sourceLineNo">822</span>      checkModCount();<a name="line.822"></a>
+<span class="sourceLineNo">823</span>      canRemove = false;<a name="line.823"></a>
+<span class="sourceLineNo">824</span>      expectedModCount++;<a name="line.824"></a>
+<span class="sourceLineNo">825</span>      if (cursor &lt; size()) {<a name="line.825"></a>
+<span class="sourceLineNo">826</span>        MoveDesc&lt;E&gt; moved = removeAt(cursor);<a name="line.826"></a>
+<span class="sourceLineNo">827</span>        if (moved != null) {<a name="line.827"></a>
+<span class="sourceLineNo">828</span>          if (forgetMeNot == null) {<a name="line.828"></a>
+<span class="sourceLineNo">829</span>            forgetMeNot = new ArrayDeque&lt;E&gt;();<a name="line.829"></a>
+<span class="sourceLineNo">830</span>            skipMe = new ArrayList&lt;E&gt;(3);<a name="line.830"></a>
+<span class="sourceLineNo">831</span>          }<a name="line.831"></a>
+<span class="sourceLineNo">832</span>          if (!foundAndRemovedExactReference(skipMe, moved.toTrickle)) {<a name="line.832"></a>
+<span class="sourceLineNo">833</span>            forgetMeNot.add(moved.toTrickle);<a name="line.833"></a>
+<span class="sourceLineNo">834</span>          }<a name="line.834"></a>
+<span class="sourceLineNo">835</span>          if (!foundAndRemovedExactReference(forgetMeNot, moved.replaced)) {<a name="line.835"></a>
+<span class="sourceLineNo">836</span>            skipMe.add(moved.replaced);<a name="line.836"></a>
+<span class="sourceLineNo">837</span>          }<a name="line.837"></a>
+<span class="sourceLineNo">838</span>        }<a name="line.838"></a>
+<span class="sourceLineNo">839</span>        cursor--;<a name="line.839"></a>
+<span class="sourceLineNo">840</span>        nextCursor--;<a name="line.840"></a>
+<span class="sourceLineNo">841</span>      } else { // we must have set lastFromForgetMeNot in next()<a name="line.841"></a>
+<span class="sourceLineNo">842</span>        checkState(removeExact(lastFromForgetMeNot));<a name="line.842"></a>
+<span class="sourceLineNo">843</span>        lastFromForgetMeNot = null;<a name="line.843"></a>
+<span class="sourceLineNo">844</span>      }<a name="line.844"></a>
+<span class="sourceLineNo">845</span>    }<a name="line.845"></a>
+<span class="sourceLineNo">846</span><a name="line.846"></a>
+<span class="sourceLineNo">847</span>    /** Returns true if an exact reference (==) was found and removed from the supplied iterable. */<a name="line.847"></a>
+<span class="sourceLineNo">848</span>    private boolean foundAndRemovedExactReference(Iterable&lt;E&gt; elements, E target) {<a name="line.848"></a>
+<span class="sourceLineNo">849</span>      for (Iterator&lt;E&gt; it = elements.iterator(); it.hasNext();) {<a name="line.849"></a>
+<span class="sourceLineNo">850</span>        E element = it.next();<a name="line.850"></a>
+<span class="sourceLineNo">851</span>        if (element == target) {<a name="line.851"></a>
+<span class="sourceLineNo">852</span>          it.remove();<a name="line.852"></a>
+<span class="sourceLineNo">853</span>          return true;<a name="line.853"></a>
+<span class="sourceLineNo">854</span>        }<a name="line.854"></a>
+<span class="sourceLineNo">855</span>      }<a name="line.855"></a>
+<span class="sourceLineNo">856</span>      return false;<a name="line.856"></a>
+<span class="sourceLineNo">857</span>    }<a name="line.857"></a>
+<span class="sourceLineNo">858</span><a name="line.858"></a>
+<span class="sourceLineNo">859</span>    /** Removes only this exact instance, not others that are equals() */<a name="line.859"></a>
+<span class="sourceLineNo">860</span>    private boolean removeExact(Object target) {<a name="line.860"></a>
+<span class="sourceLineNo">861</span>      for (int i = 0; i &lt; size; i++) {<a name="line.861"></a>
+<span class="sourceLineNo">862</span>        if (queue[i] == target) {<a name="line.862"></a>
+<span class="sourceLineNo">863</span>          removeAt(i);<a name="line.863"></a>
+<span class="sourceLineNo">864</span>          return true;<a name="line.864"></a>
+<span class="sourceLineNo">865</span>        }<a name="line.865"></a>
+<span class="sourceLineNo">866</span>      }<a name="line.866"></a>
+<span class="sourceLineNo">867</span>      return false;<a name="line.867"></a>
+<span class="sourceLineNo">868</span>    }<a name="line.868"></a>
+<span class="sourceLineNo">869</span><a name="line.869"></a>
+<span class="sourceLineNo">870</span>    private void checkModCount() {<a name="line.870"></a>
+<span class="sourceLineNo">871</span>      if (modCount != expectedModCount) {<a name="line.871"></a>
+<span class="sourceLineNo">872</span>        throw new ConcurrentModificationException();<a name="line.872"></a>
+<span class="sourceLineNo">873</span>      }<a name="line.873"></a>
+<span class="sourceLineNo">874</span>    }<a name="line.874"></a>
+<span class="sourceLineNo">875</span><a name="line.875"></a>
+<span class="sourceLineNo">876</span>    /**<a name="line.876"></a>
+<span class="sourceLineNo">877</span>     * Advances nextCursor to the index of the first element after {@code c} that is not in<a name="line.877"></a>
+<span class="sourceLineNo">878</span>     * {@code skipMe} and returns {@code size()} if there is no such element.<a name="line.878"></a>
+<span class="sourceLineNo">879</span>     */<a name="line.879"></a>
+<span class="sourceLineNo">880</span>    private void nextNotInSkipMe(int c) {<a name="line.880"></a>
+<span class="sourceLineNo">881</span>      if (nextCursor &lt; c) {<a name="line.881"></a>
+<span class="sourceLineNo">882</span>        if (skipMe != null) {<a name="line.882"></a>
+<span class="sourceLineNo">883</span>          while (c &lt; size() &amp;&amp; foundAndRemovedExactReference(skipMe, elementData(c))) {<a name="line.883"></a>
+<span class="sourceLineNo">884</span>            c++;<a name="line.884"></a>
+<span class="sourceLineNo">885</span>          }<a name="line.885"></a>
+<span class="sourceLineNo">886</span>        }<a name="line.886"></a>
+<span class="sourceLineNo">887</span>        nextCursor = c;<a name="line.887"></a>
+<span class="sourceLineNo">888</span>      }<a name="line.888"></a>
+<span class="sourceLineNo">889</span>    }<a name="line.889"></a>
+<span class="sourceLineNo">890</span>  }<a name="line.890"></a>
+<span class="sourceLineNo">891</span><a name="line.891"></a>
+<span class="sourceLineNo">892</span>  /**<a name="line.892"></a>
+<span class="sourceLineNo">893</span>   * Returns an iterator over the elements contained in this collection,<a name="line.893"></a>
+<span class="sourceLineNo">894</span>   * &lt;i&gt;in no particular order&lt;/i&gt;.<a name="line.894"></a>
+<span class="sourceLineNo">895</span>   *<a name="line.895"></a>
+<span class="sourceLineNo">896</span>   * &lt;p&gt;The iterator is &lt;i&gt;fail-fast&lt;/i&gt;: If the MinMaxPriorityQueue is modified<a name="line.896"></a>
+<span class="sourceLineNo">897</span>   * at any time after the iterator is created, in any way except through the<a name="line.897"></a>
+<span class="sourceLineNo">898</span>   * iterator's own remove method, the iterator will generally throw a<a name="line.898"></a>
+<span class="sourceLineNo">899</span>   * {@link ConcurrentModificationException}. Thus, in the face of concurrent<a name="line.899"></a>
+<span class="sourceLineNo">900</span>   * modification, the iterator fails quickly and cleanly, rather than risking<a name="line.900"></a>
+<span class="sourceLineNo">901</span>   * arbitrary, non-deterministic behavior at an undetermined time in the<a name="line.901"></a>
+<span class="sourceLineNo">902</span>   * future.<a name="line.902"></a>
+<span class="sourceLineNo">903</span>   *<a name="line.903"></a>
+<span class="sourceLineNo">904</span>   * &lt;p&gt;Note that the fail-fast behavior of an iterator cannot be guaranteed<a name="line.904"></a>
+<span class="sourceLineNo">905</span>   * as it is, generally speaking, impossible to make any hard guarantees in the<a name="line.905"></a>
+<span class="sourceLineNo">906</span>   * presence of unsynchronized concurrent modification.  Fail-fast iterators<a name="line.906"></a>
+<span class="sourceLineNo">907</span>   * throw {@code ConcurrentModificationException} on a best-effort basis.<a name="line.907"></a>
+<span class="sourceLineNo">908</span>   * Therefore, it would be wrong to write a program that depended on this<a name="line.908"></a>
+<span class="sourceLineNo">909</span>   * exception for its correctness: &lt;i&gt;the fail-fast behavior of iterators<a name="line.909"></a>
+<span class="sourceLineNo">910</span>   * should be used only to detect bugs.&lt;/i&gt;<a name="line.910"></a>
+<span class="sourceLineNo">911</span>   *<a name="line.911"></a>
+<span class="sourceLineNo">912</span>   * @return an iterator over the elements contained in this collection<a name="line.912"></a>
+<span class="sourceLineNo">913</span>   */<a name="line.913"></a>
+<span class="sourceLineNo">914</span>  @Override<a name="line.914"></a>
+<span class="sourceLineNo">915</span>  public Iterator&lt;E&gt; iterator() {<a name="line.915"></a>
+<span class="sourceLineNo">916</span>    return new QueueIterator();<a name="line.916"></a>
+<span class="sourceLineNo">917</span>  }<a name="line.917"></a>
+<span class="sourceLineNo">918</span><a name="line.918"></a>
+<span class="sourceLineNo">919</span>  @Override<a name="line.919"></a>
+<span class="sourceLineNo">920</span>  public void clear() {<a name="line.920"></a>
+<span class="sourceLineNo">921</span>    for (int i = 0; i &lt; size; i++) {<a name="line.921"></a>
+<span class="sourceLineNo">922</span>      queue[i] = null;<a name="line.922"></a>
+<span class="sourceLineNo">923</span>    }<a name="line.923"></a>
+<span class="sourceLineNo">924</span>    size = 0;<a name="line.924"></a>
+<span class="sourceLineNo">925</span>  }<a name="line.925"></a>
+<span class="sourceLineNo">926</span><a name="line.926"></a>
+<span class="sourceLineNo">927</span>  @Override<a name="line.927"></a>
+<span class="sourceLineNo">928</span>  public Object[] toArray() {<a name="line.928"></a>
+<span class="sourceLineNo">929</span>    Object[] copyTo = new Object[size];<a name="line.929"></a>
+<span class="sourceLineNo">930</span>    System.arraycopy(queue, 0, copyTo, 0, size);<a name="line.930"></a>
+<span class="sourceLineNo">931</span>    return copyTo;<a name="line.931"></a>
+<span class="sourceLineNo">932</span>  }<a name="line.932"></a>
+<span class="sourceLineNo">933</span><a name="line.933"></a>
+<span class="sourceLineNo">934</span>  /**<a name="line.934"></a>
+<span class="sourceLineNo">935</span>   * Returns the comparator used to order the elements in this queue. Obeys the<a name="line.935"></a>
+<span class="sourceLineNo">936</span>   * general contract of {@link PriorityQueue#comparator}, but returns {@link<a name="line.936"></a>
+<span class="sourceLineNo">937</span>   * Ordering#natural} instead of {@code null} to indicate natural ordering.<a name="line.937"></a>
+<span class="sourceLineNo">938</span>   */<a name="line.938"></a>
+<span class="sourceLineNo">939</span>  public Comparator&lt;? super E&gt; comparator() {<a name="line.939"></a>
+<span class="sourceLineNo">940</span>    return minHeap.ordering;<a name="line.940"></a>
+<span class="sourceLineNo">941</span>  }<a name="line.941"></a>
+<span class="sourceLineNo">942</span><a name="line.942"></a>
+<span class="sourceLineNo">943</span>  @VisibleForTesting<a name="line.943"></a>
+<span class="sourceLineNo">944</span>  int capacity() {<a name="line.944"></a>
+<span class="sourceLineNo">945</span>    return queue.length;<a name="line.945"></a>
+<span class="sourceLineNo">946</span>  }<a name="line.946"></a>
+<span class="sourceLineNo">947</span><a name="line.947"></a>
+<span class="sourceLineNo">948</span>  // Size/capacity-related methods<a name="line.948"></a>
 <span class="sourceLineNo">949</span><a name="line.949"></a>
-<span class="sourceLineNo">950</span>    // Enlarge to contain initial contents<a name="line.950"></a>
-<span class="sourceLineNo">951</span>    if (initialContents instanceof Collection) {<a name="line.951"></a>
-<span class="sourceLineNo">952</span>      int initialSize = ((Collection&lt;?&gt;) initialContents).size();<a name="line.952"></a>
-<span class="sourceLineNo">953</span>      result = Math.max(result, initialSize);<a name="line.953"></a>
-<span class="sourceLineNo">954</span>    }<a name="line.954"></a>
-<span class="sourceLineNo">955</span><a name="line.955"></a>
-<span class="sourceLineNo">956</span>    // Now cap it at maxSize + 1<a name="line.956"></a>
-<span class="sourceLineNo">957</span>    return capAtMaximumSize(result, maximumSize);<a name="line.957"></a>
-<span class="sourceLineNo">958</span>  }<a name="line.958"></a>
-<span class="sourceLineNo">959</span><a name="line.959"></a>
-<span class="sourceLineNo">960</span>  private void growIfNeeded() {<a name="line.960"></a>
-<span class="sourceLineNo">961</span>    if (size &gt; queue.length) {<a name="line.961"></a>
-<span class="sourceLineNo">962</span>      int newCapacity = calculateNewCapacity();<a name="line.962"></a>
-<span class="sourceLineNo">963</span>      Object[] newQueue = new Object[newCapacity];<a name="line.963"></a>
-<span class="sourceLineNo">964</span>      System.arraycopy(queue, 0, newQueue, 0, queue.length);<a name="line.964"></a>
-<span class="sourceLineNo">965</span>      queue = newQueue;<a name="line.965"></a>
-<span class="sourceLineNo">966</span>    }<a name="line.966"></a>
-<span class="sourceLineNo">967</span>  }<a name="line.967"></a>
-<span class="sourceLineNo">968</span><a name="line.968"></a>
-<span class="sourceLineNo">969</span>  /** Returns ~2x the old capacity if small; ~1.5x otherwise. */<a name="line.969"></a>
-<span class="sourceLineNo">970</span>  private int calculateNewCapacity() {<a name="line.970"></a>
-<span class="sourceLineNo">971</span>    int oldCapacity = queue.length;<a name="line.971"></a>
-<span class="sourceLineNo">972</span>    int newCapacity =<a name="line.972"></a>
-<span class="sourceLineNo">973</span>        (oldCapacity &lt; 64)<a name="line.973"></a>
-<span class="sourceLineNo">974</span>            ? (oldCapacity + 1) * 2<a name="line.974"></a>
-<span class="sourceLineNo">975</span>            : IntMath.checkedMultiply(oldCapacity / 2, 3);<a name="line.975"></a>
-<span class="sourceLineNo">976</span>    return capAtMaximumSize(newCapacity, maximumSize);<a name="line.976"></a>
-<span class="sourceLineNo">977</span>  }<a name="line.977"></a>
-<span class="sourceLineNo">978</span><a name="line.978"></a>
-<span class="sourceLineNo">979</span>  /** There's no reason for the queueSize to ever be more than maxSize + 1 */<a name="line.979"></a>
-<span class="sourceLineNo">980</span>  private static int capAtMaximumSize(int queueSize, int maximumSize) {<a name="line.980"></a>
-<span class="sourceLineNo">981</span>    return Math.min(queueSize - 1, maximumSize) + 1; // don't overflow<a name="line.981"></a>
-<span class="sourceLineNo">982</span>  }<a name="line.982"></a>
-<span class="sourceLineNo">983</span>}<a name="line.983"></a>
+<span class="sourceLineNo">950</span>  private static final int DEFAULT_CAPACITY = 11;<a name="line.950"></a>
+<span class="sourceLineNo">951</span><a name="line.951"></a>
+<span class="sourceLineNo">952</span>  @VisibleForTesting<a name="line.952"></a>
+<span class="sourceLineNo">953</span>  static int initialQueueSize(<a name="line.953"></a>
+<span class="sourceLineNo">954</span>      int configuredExpectedSize, int maximumSize, Iterable&lt;?&gt; initialContents) {<a name="line.954"></a>
+<span class="sourceLineNo">955</span>    // Start with what they said, if they said it, otherwise DEFAULT_CAPACITY<a name="line.955"></a>
+<span class="sourceLineNo">956</span>    int result =<a name="line.956"></a>
+<span class="sourceLineNo">957</span>        (configuredExpectedSize == Builder.UNSET_EXPECTED_SIZE)<a name="line.957"></a>
+<span class="sourceLineNo">958</span>            ? DEFAULT_CAPACITY<a name="line.958"></a>
+<span class="sourceLineNo">959</span>            : configuredExpectedSize;<a name="line.959"></a>
+<span class="sourceLineNo">960</span><a name="line.960"></a>
+<span class="sourceLineNo">961</span>    // Enlarge to contain initial contents<a name="line.961"></a>
+<span class="sourceLineNo">962</span>    if (initialContents instanceof Collection) {<a name="line.962"></a>
+<span class="sourceLineNo">963</span>      int initialSize = ((Collection&lt;?&gt;) initialContents).size();<a name="line.963"></a>
+<span class="sourceLineNo">964</span>      result = Math.max(result, initialSize);<a name="line.964"></a>
+<span class="sourceLineNo">965</span>    }<a name="line.965"></a>
+<span class="sourceLineNo">966</span><a name="line.966"></a>
+<span class="sourceLineNo">967</span>    // Now cap it at maxSize + 1<a name="line.967"></a>
+<span class="sourceLineNo">968</span>    return capAtMaximumSize(result, maximumSize);<a name="line.968"></a>
+<span class="sourceLineNo">969</span>  }<a name="line.969"></a>
+<span class="sourceLineNo">970</span><a name="line.970"></a>
+<span class="sourceLineNo">971</span>  private void growIfNeeded() {<a name="line.971"></a>
+<span class="sourceLineNo">972</span>    if (size &gt; queue.length) {<a name="line.972"></a>
+<span class="sourceLineNo">973</span>      int newCapacity = calculateNewCapacity();<a name="line.973"></a>
+<span class="sourceLineNo">974</span>      Object[] newQueue = new Object[newCapacity];<a name="line.974"></a>
+<span class="sourceLineNo">975</span>      System.arraycopy(queue, 0, newQueue, 0, queue.length);<a name="line.975"></a>
+<span class="sourceLineNo">976</span>      queue = newQueue;<a name="line.976"></a>
+<span class="sourceLineNo">977</span>    }<a name="line.977"></a>
+<span class="sourceLineNo">978</span>  }<a name="line.978"></a>
+<span class="sourceLineNo">979</span><a name="line.979"></a>
+<span class="sourceLineNo">980</span>  /** Returns ~2x the old capacity if small; ~1.5x otherwise. */<a name="line.980"></a>
+<span class="sourceLineNo">981</span>  private int calculateNewCapacity() {<a name="line.981"></a>
+<span class="sourceLineNo">982</span>    int oldCapacity = queue.length;<a name="line.982"></a>
+<span class="sourceLineNo">983</span>    int newCapacity =<a name="line.983"></a>
+<span class="sourceLineNo">984</span>        (oldCapacity &lt; 64)<a name="line.984"></a>
+<span class="sourceLineNo">985</span>            ? (oldCapacity + 1) * 2<a name="line.985"></a>
+<span class="sourceLineNo">986</span>            : IntMath.checkedMultiply(oldCapacity / 2, 3);<a name="line.986"></a>
+<span class="sourceLineNo">987</span>    return capAtMaximumSize(newCapacity, maximumSize);<a name="line.987"></a>
+<span class="sourceLineNo">988</span>  }<a name="line.988"></a>
+<span class="sourceLineNo">989</span><a name="line.989"></a>
+<span class="sourceLineNo">990</span>  /** There's no reason for the queueSize to ever be more than maxSize + 1 */<a name="line.990"></a>
+<span class="sourceLineNo">991</span>  private static int capAtMaximumSize(int queueSize, int maximumSize) {<a name="line.991"></a>
+<span class="sourceLineNo">992</span>    return Math.min(queueSize - 1, maximumSize) + 1; // don't overflow<a name="line.992"></a>
+<span class="sourceLineNo">993</span>  }<a name="line.993"></a>
+<span class="sourceLineNo">994</span>}<a name="line.994"></a>
 
 
 
