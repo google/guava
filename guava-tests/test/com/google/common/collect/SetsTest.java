@@ -31,6 +31,7 @@ import static java.util.Collections.singleton;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Equivalence;
 import com.google.common.collect.testing.AnEnum;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.MinimalIterable;
@@ -42,6 +43,7 @@ import com.google.common.collect.testing.TestStringSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.SetFeature;
+import com.google.common.testing.CollectorTester;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
@@ -71,6 +73,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.stream.Collector;
 import javax.annotation.Nullable;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -348,6 +351,16 @@ public class SetsTest extends TestCase {
     assertTrue(delegate.remove(SomeEnum.A));
     assertTrue(deserialized.contains(SomeEnum.A));
   }
+
+  public void testToImmutableEnumSet() {
+    Collector<AnEnum, ?, ImmutableSet<AnEnum>> collector = Sets.toImmutableEnumSet();
+    Equivalence<ImmutableSet<AnEnum>> equivalence =
+        Equivalence.equals().onResultOf(ImmutableSet::asList);
+    CollectorTester.of(collector, equivalence)
+        .expectCollects(ImmutableSet.of(AnEnum.A, AnEnum.B, AnEnum.C, AnEnum.D),
+            AnEnum.A, AnEnum.B, AnEnum.A, AnEnum.C, AnEnum.B, AnEnum.B, AnEnum.D);
+  }
+
 
   @GwtIncompatible // java serialization not supported in GWT.
   private static byte[] serializeWithBackReference(Object original, int handleOffset)

@@ -70,7 +70,10 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 
 /**
@@ -155,6 +158,34 @@ public final class Maps {
       }
       return ImmutableEnumMap.asImmutable(new EnumMap<K, V>(map));
     }
+  }
+
+  /**
+   * Convenient method for {@code ImmutableMap.toImmutableMap} that works specifically for enum types.
+   */
+  public static <T, K extends Enum<K>, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
+      java.util.function.Function<? super T, K> keyFunction,
+      java.util.function.Function<? super T, ? extends V> valueFunction) {
+    checkNotNull(keyFunction);
+    checkNotNull(valueFunction);
+    return Collectors.collectingAndThen(
+        Collectors.toMap(keyFunction, valueFunction),
+        Maps::immutableEnumMap);
+  }
+
+  /**
+   * Convenient method for {@code ImmutableMap.toImmutableMap} that works specifically for enum types.
+   */
+  public static <T, K extends Enum<K>, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
+      java.util.function.Function<? super T, K> keyFunction,
+      java.util.function.Function<? super T, ? extends V> valueFunction,
+      BinaryOperator<V> mergeFunction) {
+    checkNotNull(keyFunction);
+    checkNotNull(valueFunction);
+    checkNotNull(mergeFunction);
+    return Collectors.collectingAndThen(
+        Collectors.toMap(keyFunction, valueFunction, mergeFunction, LinkedHashMap::new),
+        Maps::immutableEnumMap);
   }
 
   /**
