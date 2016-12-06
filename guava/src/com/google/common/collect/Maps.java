@@ -169,7 +169,7 @@ public final class Maps {
     checkNotNull(keyFunction);
     checkNotNull(valueFunction);
     return Collectors.collectingAndThen(
-        Collectors.toMap(keyFunction, valueFunction),
+        ImmutableMap.toImmutableMap(keyFunction, valueFunction),
         Maps::immutableEnumMap);
   }
 
@@ -184,7 +184,7 @@ public final class Maps {
     checkNotNull(valueFunction);
     checkNotNull(mergeFunction);
     return Collectors.collectingAndThen(
-        Collectors.toMap(keyFunction, valueFunction, mergeFunction, LinkedHashMap::new),
+        ImmutableMap.toImmutableMap(keyFunction, valueFunction, mergeFunction),
         Maps::immutableEnumMap);
   }
 
