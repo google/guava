@@ -136,17 +136,27 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   // TODO(jlevy): Move to StandardRowSortedTable?
 
   /**
-   * Returns the comparator that orders the rows. With natural ordering,
-   * {@link Ordering#natural()} is returned.
+   * Returns the comparator that orders the rows. With natural ordering, {@link Ordering#natural()}
+   * is returned.
+   *
+   * @deprecated Use {@code table.rowKeySet().comparator()} instead. This method is scheduled for
+   *     removal in April 2019.
    */
+  @Deprecated
   public Comparator<? super R> rowComparator() {
     return rowKeySet().comparator();
   }
 
   /**
-   * Returns the comparator that orders the columns. With natural ordering,
-   * {@link Ordering#natural()} is returned.
+   * Returns the comparator that orders the columns. With natural ordering, {@link
+   * Ordering#natural()} is returned.
+   *
+   * @deprecated Store the {@link Comparator} alongside the {@link Table}. Or, if you know that the
+   *     {@link Table} contains at least one value, you can retrieve the {@link Comparator} with:
+   *     {@code ((SortedMap<C, V>) table.rowMap().values().iterator().next()).comparator();}. This
+   *     method is scheduled for removal in April 2019.
    */
+  @Deprecated
   public Comparator<? super C> columnComparator() {
     return columnComparator;
   }
