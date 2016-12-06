@@ -23,6 +23,7 @@ import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.j2objc.annotations.ReflectionSupport;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
@@ -58,6 +59,7 @@ import javax.annotation.Nullable;
  * @since 1.0
  */
 @GwtCompatible(emulated = true)
+@ReflectionSupport(value = ReflectionSupport.Level.FULL)
 public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   // NOTE: Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
 
