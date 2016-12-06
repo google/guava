@@ -345,67 +345,81 @@
 </td>
 </tr>
 <tr class="altColor">
+<td class="colOne"><a href="com/google/common/collect/TreeBasedTable.html#columnComparator--">com.google.common.collect.TreeBasedTable.columnComparator()</a>
+<div class="block"><span class="deprecationComment">Store the <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util"><code>Comparator</code></a> alongside the <a href="com/google/common/collect/Table.html" title="interface in com.google.common.collect"><code>Table</code></a>. Or, if you know that the
+     <a href="com/google/common/collect/Table.html" title="interface in com.google.common.collect"><code>Table</code></a> contains at least one value, you can retrieve the <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util"><code>Comparator</code></a> with:
+     <code>((SortedMap&lt;C, V&gt;) table.rowMap().values().iterator().next()).comparator();</code>. This
+     method is scheduled for removal in April 2019.</span></div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ComparisonChain.html#compare-java.lang.Boolean-java.lang.Boolean-">com.google.common.collect.ComparisonChain.compare(Boolean, Boolean)</a>
 <div class="block"><span class="deprecationComment">Use <a href="com/google/common/collect/ComparisonChain.html#compareFalseFirst-boolean-boolean-"><code>ComparisonChain.compareFalseFirst(boolean, boolean)</code></a>; or, if the parameters passed
      are being either negated or reversed, undo the negation or reversal and
      use <a href="com/google/common/collect/ComparisonChain.html#compareTrueFirst-boolean-boolean-"><code>ComparisonChain.compareTrueFirst(boolean, boolean)</code></a>.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMap.html#compute-K-java.util.function.BiFunction-">com.google.common.collect.ImmutableMap.compute(K, BiFunction&lt;? super K, ? super V, ? extends V&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMap.html#computeIfAbsent-K-java.util.function.Function-">com.google.common.collect.ImmutableMap.computeIfAbsent(K, Function&lt;? super K, ? extends V&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMap.html#computeIfPresent-K-java.util.function.BiFunction-">com.google.common.collect.ImmutableMap.computeIfPresent(K, BiFunction&lt;? super K, ? super V, ? extends V&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/graph/ImmutableGraph.html#copyOf-com.google.common.graph.ImmutableGraph-">com.google.common.graph.ImmutableGraph.copyOf(ImmutableGraph&lt;N&gt;)</a>
 <div class="block"><span class="deprecationComment">no need to use this</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/graph/ImmutableNetwork.html#copyOf-com.google.common.graph.ImmutableNetwork-">com.google.common.graph.ImmutableNetwork.copyOf(ImmutableNetwork&lt;N, E&gt;)</a>
 <div class="block"><span class="deprecationComment">no need to use this</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/graph/ImmutableValueGraph.html#copyOf-com.google.common.graph.ImmutableValueGraph-">com.google.common.graph.ImmutableValueGraph.copyOf(ImmutableValueGraph&lt;N, V&gt;)</a>
 <div class="block"><span class="deprecationComment">no need to use this</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableBiMap.html#forcePut-K-V-">com.google.common.collect.ImmutableBiMap.forcePut(K, V)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/FluentIterable.html#from-com.google.common.collect.FluentIterable-">com.google.common.collect.FluentIterable.from(FluentIterable&lt;E&gt;)</a>
 <div class="block"><span class="deprecationComment">instances of <code>FluentIterable</code> don't need to be converted to
      <code>FluentIterable</code></span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/Ordering.html#from-com.google.common.collect.Ordering-">com.google.common.collect.Ordering.from(Ordering&lt;T&gt;)</a>
 <div class="block"><span class="deprecationComment">no need to use this</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/net/HostAndPort.html#getHostText--">com.google.common.net.HostAndPort.getHostText()</a>
 <div class="block"><span class="deprecationComment">Use <a href="com/google/common/net/HostAndPort.html#getHost--"><code>HostAndPort.getHost()</code></a> instead. This method is scheduled for removal in Guava 22.0.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/hash/Hasher.html#hashCode--">com.google.common.hash.Hasher.hashCode()</a>
 <div class="block"><span class="deprecationComment">This returns <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang"><code>Object.hashCode()</code></a>; you almost certainly mean to call
      <code>hash().asInt()</code>.</span></div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colOne"><a href="com/google/common/collect/TreeMultimap.html#keyComparator--">com.google.common.collect.TreeMultimap.keyComparator()</a>
+<div class="block"><span class="deprecationComment">Use <code>((NavigableSet&lt;K&gt;) multimap.keySet()).comparator()</code> instead. This method
+     is scheduled for removal in April 2019.</span></div>
 </td>
 </tr>
 <tr class="altColor">
@@ -750,39 +764,52 @@
 </td>
 </tr>
 <tr class="altColor">
+<td class="colOne"><a href="com/google/common/collect/TreeBasedTable.html#rowComparator--">com.google.common.collect.TreeBasedTable.rowComparator()</a>
+<div class="block"><span class="deprecationComment">Use <code>table.rowKeySet().comparator()</code> instead. This method is scheduled for
+     removal in April 2019.</span></div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/UnmodifiableListIterator.html#set-E-">com.google.common.collect.UnmodifiableListIterator.set(E)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableList.html#set-int-E-">com.google.common.collect.ImmutableList.set(int, E)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMultiset.html#setCount-E-int-">com.google.common.collect.ImmutableMultiset.setCount(E, int)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMultiset.html#setCount-E-int-int-">com.google.common.collect.ImmutableMultiset.setCount(E, int, int)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableList.html#sort-java.util.Comparator-">com.google.common.collect.ImmutableList.sort(Comparator&lt;? super E&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/Streams.html#stream-java.util.Collection-">com.google.common.collect.Streams.stream(Collection&lt;T&gt;)</a>
 <div class="block"><span class="deprecationComment">There is no reason to use this; just invoke <code>collection.stream()</code> directly.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/base/Equivalence.html#test-T-T-">com.google.common.base.Equivalence.test(T, T)</a>
 <div class="block"><span class="deprecationComment">Provided only to satisfy the <a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/BiPredicate.html?is-external=true" title="class or interface in java.util.function"><code>BiPredicate</code></a> interface; use
      <a href="com/google/common/base/Equivalence.html#equivalent-T-T-"><code>Equivalence.equivalent(T, T)</code></a> instead.</span></div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colOne"><a href="com/google/common/collect/ArrayListMultimap.html#trimToSize--">com.google.common.collect.ArrayListMultimap.trimToSize()</a>
+<div class="block"><span class="deprecationComment">For a <a href="com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect"><code>ListMultimap</code></a> that automatically trims to size, use <a href="com/google/common/collect/ImmutableListMultimap.html" title="class in com.google.common.collect"><code>ImmutableListMultimap</code></a>. If you need a mutable collection, remove the <code>trimToSize</code>
+     call, or switch to a <code>HashMap&lt;K, ArrayList&lt;V&gt;&gt;</code>. This method is scheduled for removal
+     in April 2019.</span></div>
 </td>
 </tr>
 <tr class="rowColor">

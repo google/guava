@@ -3059,7 +3059,12 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/TreeBasedTable.html#columnComparator--">columnComparator()</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/TreeBasedTable.html" title="class in com.google.common.collect">TreeBasedTable</a></dt>
 <dd>
-<div class="block">Returns the comparator that orders the columns.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment">Store the <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util"><code>Comparator</code></a> alongside the <a href="com/google/common/collect/Table.html" title="interface in com.google.common.collect"><code>Table</code></a>. Or, if you know that the
+     <a href="com/google/common/collect/Table.html" title="interface in com.google.common.collect"><code>Table</code></a> contains at least one value, you can retrieve the <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util"><code>Comparator</code></a> with:
+     <code>((SortedMap&lt;C, V&gt;) table.rowMap().values().iterator().next()).comparator();</code>. This
+     method is scheduled for removal in April 2019.</span></div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ArrayTable.html#columnKeyList--">columnKeyList()</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ArrayTable.html" title="class in com.google.common.collect">ArrayTable</a></dt>
 <dd>
@@ -9738,7 +9743,10 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/TreeMultimap.html#keyComparator--">keyComparator()</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/TreeMultimap.html" title="class in com.google.common.collect">TreeMultimap</a></dt>
 <dd>
-<div class="block">Returns the comparator that orders the multimap keys.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment">Use <code>((NavigableSet&lt;K&gt;) multimap.keySet()).comparator()</code> instead. This method
+     is scheduled for removal in April 2019.</span></div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ForwardingMultimap.html#keys--">keys()</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ForwardingMultimap.html" title="class in com.google.common.collect">ForwardingMultimap</a></dt>
 <dd>&nbsp;</dd>
@@ -14421,7 +14429,10 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/TreeBasedTable.html#rowComparator--">rowComparator()</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/TreeBasedTable.html" title="class in com.google.common.collect">TreeBasedTable</a></dt>
 <dd>
-<div class="block">Returns the comparator that orders the rows.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment">Use <code>table.rowKeySet().comparator()</code> instead. This method is scheduled for
+     removal in April 2019.</span></div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ArrayTable.html#rowKeyList--">rowKeyList()</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ArrayTable.html" title="class in com.google.common.collect">ArrayTable</a></dt>
 <dd>
@@ -17160,7 +17171,11 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ArrayListMultimap.html#trimToSize--">trimToSize()</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ArrayListMultimap.html" title="class in com.google.common.collect">ArrayListMultimap</a></dt>
 <dd>
-<div class="block">Reduces the memory used by this <code>ArrayListMultimap</code>, if feasible.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment">For a <a href="com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect"><code>ListMultimap</code></a> that automatically trims to size, use <a href="com/google/common/collect/ImmutableListMultimap.html" title="class in com.google.common.collect"><code>ImmutableListMultimap</code></a>. If you need a mutable collection, remove the <code>trimToSize</code>
+     call, or switch to a <code>HashMap&lt;K, ArrayList&lt;V&gt;&gt;</code>. This method is scheduled for removal
+     in April 2019.</span></div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#trimTrailingFrom-java.lang.CharSequence-">trimTrailingFrom(CharSequence)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>

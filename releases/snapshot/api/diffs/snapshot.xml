@@ -9219,9 +9219,17 @@
     <method name="trimToSize"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="For a {@link ListMultimap} that automatically trims to size, use {@link
+     ImmutableListMultimap}. If you need a mutable collection, remove the {@code trimToSize}
+     call, or switch to a {@code HashMaplEsS_tHaNK, ArrayListlEsS_tHaNV>>}. This method is scheduled for removal
+     in April 2019.">
       <doc>
-      <![CDATA[Reduces the memory used by this {@code ArrayListMultimap}, if feasible.]]>
+      <![CDATA[Reduces the memory used by this {@code ArrayListMultimap}, if feasible.
+
+ @deprecated For a {@link ListMultimap} that automatically trims to size, use {@link
+     ImmutableListMultimap}. If you need a mutable collection, remove the {@code trimToSize}
+     call, or switch to a {@code HashMap<K, ArrayList<V>>}. This method is scheduled for removal
+     in April 2019.]]>
       </doc>
     </method>
     <doc>
@@ -35147,19 +35155,31 @@
     <method name="rowComparator" return="java.util.Comparator&lt;? super R&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@code table.rowKeySet().comparator()} instead. This method is scheduled for
+     removal in April 2019.">
       <doc>
-      <![CDATA[Returns the comparator that orders the rows. With natural ordering,
- {@link Ordering#natural()} is returned.]]>
+      <![CDATA[Returns the comparator that orders the rows. With natural ordering, {@link Ordering#natural()}
+ is returned.
+
+ @deprecated Use {@code table.rowKeySet().comparator()} instead. This method is scheduled for
+     removal in April 2019.]]>
       </doc>
     </method>
     <method name="columnComparator" return="java.util.Comparator&lt;? super C&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Store the {@link Comparator} alongside the {@link Table}. Or, if you know that the
+     {@link Table} contains at least one value, you can retrieve the {@link Comparator} with:
+     {@code ((SortedMaplEsS_tHaNC, V>) table.rowMap().values().iterator().next()).comparator();}. This
+     method is scheduled for removal in April 2019.">
       <doc>
-      <![CDATA[Returns the comparator that orders the columns. With natural ordering,
- {@link Ordering#natural()} is returned.]]>
+      <![CDATA[Returns the comparator that orders the columns. With natural ordering, {@link
+ Ordering#natural()} is returned.
+
+ @deprecated Store the {@link Comparator} alongside the {@link Table}. Or, if you know that the
+     {@link Table} contains at least one value, you can retrieve the {@link Comparator} with:
+     {@code ((SortedMap<C, V>) table.rowMap().values().iterator().next()).comparator();}. This
+     method is scheduled for removal in April 2019.]]>
       </doc>
     </method>
     <method name="row" return="java.util.SortedMap&lt;C, V&gt;"
@@ -35272,9 +35292,13 @@
     <method name="keyComparator" return="java.util.Comparator&lt;? super K&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@code ((NavigableSetlEsS_tHaNK>) multimap.keySet()).comparator()} instead. This method
+     is scheduled for removal in April 2019.">
       <doc>
-      <![CDATA[Returns the comparator that orders the multimap keys.]]>
+      <![CDATA[Returns the comparator that orders the multimap keys.
+
+ @deprecated Use {@code ((NavigableSet<K>) multimap.keySet()).comparator()} instead. This method
+     is scheduled for removal in April 2019.]]>
       </doc>
     </method>
     <method name="valueComparator" return="java.util.Comparator&lt;? super V&gt;"

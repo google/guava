@@ -18,8 +18,8 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":9,"i6":9,"i7":9,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10};
-var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":9,"i6":9,"i7":9,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":42,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10};
+var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
 var tableTab = "tableTab";
@@ -169,7 +169,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 </a>
 <h3>Method Summary</h3>
 <table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
-<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t1" class="tableTab"><span><a href="javascript:show(1);">Static Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t1" class="tableTab"><span><a href="javascript:show(1);">Static Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t6" class="tableTab"><span><a href="javascript:show(32);">Deprecated Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colLast" scope="col">Method and Description</th>
@@ -270,7 +270,10 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <tr id="i14" class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/TreeMultimap.html" title="type parameter in TreeMultimap">K</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/TreeMultimap.html#keyComparator--">keyComparator</a></span>()</code>
-<div class="block">Returns the comparator that orders the multimap keys.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
+<div class="block"><span class="deprecationComment">Use <code>((NavigableSet&lt;K&gt;) multimap.keySet()).comparator()</code> instead. This method
+     is scheduled for removal in April 2019.</span></div>
+</div>
 </td>
 </tr>
 <tr id="i15" class="rowColor">
@@ -444,7 +447,10 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>keyComparator</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/TreeMultimap.html" title="type parameter in TreeMultimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.151">keyComparator</a>()</pre>
+<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
+public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/TreeMultimap.html" title="type parameter in TreeMultimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.155">keyComparator</a>()</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Use <code>((NavigableSet&lt;K&gt;) multimap.keySet()).comparator()</code> instead. This method
+     is scheduled for removal in April 2019.</span></div>
 <div class="block">Returns the comparator that orders the multimap keys.</div>
 </li>
 </ul>
@@ -454,7 +460,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>valueComparator</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/TreeMultimap.html" title="type parameter in TreeMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.156">valueComparator</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/TreeMultimap.html" title="type parameter in TreeMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.160">valueComparator</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/SortedSetMultimap.html#valueComparator--">SortedSetMultimap</a></code></span></div>
 <div class="block">Returns the comparator that orders the multimap values, with <code>null</code>
  indicating that natural ordering is used.</div>
@@ -469,7 +475,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>get</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../com/google/common/collect/TreeMultimap.html" title="type parameter in TreeMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.165">get</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../com/google/common/collect/TreeMultimap.html" title="type parameter in TreeMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.169">get</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                             <a href="../../../../com/google/common/collect/TreeMultimap.html" title="type parameter in TreeMultimap">K</a>&nbsp;key)</pre>
 <div class="block">Returns a collection view of all values associated with a key. If no
  mappings in the multimap have the provided key, an empty collection is
@@ -499,7 +505,7 @@ public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Navigabl
 <ul class="blockList">
 <li class="blockList">
 <h4>keySet</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../com/google/common/collect/TreeMultimap.html" title="type parameter in TreeMultimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.179">keySet</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../com/google/common/collect/TreeMultimap.html" title="type parameter in TreeMultimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.183">keySet</a>()</pre>
 <div class="block">Returns a view collection of all <i>distinct</i> keys contained in this
  multimap. Note that the key set contains a key if and only if this multimap
  maps that key to at least one value.
@@ -524,7 +530,7 @@ public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Navigabl
 <ul class="blockList">
 <li class="blockList">
 <h4>asMap</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/TreeMultimap.html" title="type parameter in TreeMultimap">K</a>,<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/TreeMultimap.html" title="type parameter in TreeMultimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.193">asMap</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/TreeMultimap.html" title="type parameter in TreeMultimap">K</a>,<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/TreeMultimap.html" title="type parameter in TreeMultimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.197">asMap</a>()</pre>
 <div class="block">Returns a map view that associates each key with the corresponding values
  in the multimap. Changes to the returned map, such as element removal, will
  update the underlying multimap. The map does not support <code>setValue</code>
