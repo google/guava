@@ -17,6 +17,7 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
+import com.google.errorprone.annotations.CompatibleWith;
 import javax.annotation.Nullable;
 
 /**
@@ -115,7 +116,7 @@ public interface ValueGraph<N, V> extends Graph<N> {
    *
    * @throws IllegalArgumentException if there is no edge connecting {@code nodeU} to {@code nodeV}.
    */
-  V edgeValue(Object nodeU, Object nodeV);
+  V edgeValue(@CompatibleWith("N") Object nodeU, @CompatibleWith("N") Object nodeV);
 
   /**
    * If there is an edge connecting {@code nodeU} to {@code nodeV}, returns the non-null value
@@ -124,7 +125,8 @@ public interface ValueGraph<N, V> extends Graph<N> {
    * <p>In an undirected graph, this is equal to {@code edgeValueOrDefault(nodeV, nodeU,
    * defaultValue)}.
    */
-  V edgeValueOrDefault(Object nodeU, Object nodeV, @Nullable V defaultValue);
+  V edgeValueOrDefault(@CompatibleWith("N") Object nodeU, @CompatibleWith("N") Object nodeV,
+      @Nullable V defaultValue);
 
   //
   // ValueGraph identity

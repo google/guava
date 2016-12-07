@@ -17,6 +17,7 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
+import com.google.errorprone.annotations.CompatibleWith;
 import java.util.Set;
 import javax.annotation.Nullable;
 
@@ -161,7 +162,7 @@ public interface Network<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  Set<N> adjacentNodes(Object node);
+  Set<N> adjacentNodes(@CompatibleWith("N") Object node);
 
   /**
    * Returns all nodes in this network adjacent to {@code node} which can be reached by traversing
@@ -171,7 +172,7 @@ public interface Network<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  Set<N> predecessors(Object node);
+  Set<N> predecessors(@CompatibleWith("N") Object node);
 
   /**
    * Returns all nodes in this network adjacent to {@code node} which can be reached by traversing
@@ -184,7 +185,7 @@ public interface Network<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  Set<N> successors(Object node);
+  Set<N> successors(@CompatibleWith("N") Object node);
 
   /**
    * Returns the edges whose {@link #incidentNodes(Object) incident nodes} in this network include
@@ -192,7 +193,7 @@ public interface Network<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  Set<E> incidentEdges(Object node);
+  Set<E> incidentEdges(@CompatibleWith("N") Object node);
 
   /**
    * Returns all edges in this network which can be traversed in the direction (if any) of the edge
@@ -204,7 +205,7 @@ public interface Network<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  Set<E> inEdges(Object node);
+  Set<E> inEdges(@CompatibleWith("N") Object node);
 
   /**
    * Returns all edges in this network which can be traversed in the direction (if any) of the edge
@@ -216,7 +217,7 @@ public interface Network<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  Set<E> outEdges(Object node);
+  Set<E> outEdges(@CompatibleWith("N") Object node);
 
   /**
    * Returns the count of {@code node}'s {@link #incidentEdges(Object) incident edges}, counting
@@ -231,7 +232,7 @@ public interface Network<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  int degree(Object node);
+  int degree(@CompatibleWith("N") Object node);
 
   /**
    * Returns the count of {@code node}'s {@link #inEdges(Object) incoming edges} in a directed
@@ -241,7 +242,7 @@ public interface Network<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  int inDegree(Object node);
+  int inDegree(@CompatibleWith("N") Object node);
 
   /**
    * Returns the count of {@code node}'s {@link #outEdges(Object) outgoing edges} in a directed
@@ -251,14 +252,14 @@ public interface Network<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  int outDegree(Object node);
+  int outDegree(@CompatibleWith("N") Object node);
 
   /**
    * Returns the nodes which are the endpoints of {@code edge} in this network.
    *
    * @throws IllegalArgumentException if {@code edge} is not an element of this network
    */
-  EndpointPair<N> incidentNodes(Object edge);
+  EndpointPair<N> incidentNodes(@CompatibleWith("E") Object edge);
 
   /**
    * Returns the edges which have an {@link #incidentNodes(Object) incident node} in common with
@@ -266,7 +267,7 @@ public interface Network<N, E> {
    *
    * @throws IllegalArgumentException if {@code edge} is not an element of this network
    */
-  Set<E> adjacentEdges(Object edge);
+  Set<E> adjacentEdges(@CompatibleWith("E") Object edge);
 
   /**
    * Returns the set of edges directly connecting {@code nodeU} to {@code nodeV}.
@@ -280,7 +281,7 @@ public interface Network<N, E> {
    * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
    *     network
    */
-  Set<E> edgesConnecting(Object nodeU, Object nodeV);
+  Set<E> edgesConnecting(@CompatibleWith("N") Object nodeU, @CompatibleWith("N") Object nodeV);
 
   //
   // Network identity

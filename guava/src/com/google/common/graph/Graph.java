@@ -17,6 +17,7 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
+import com.google.errorprone.annotations.CompatibleWith;
 import java.util.Set;
 import javax.annotation.Nullable;
 
@@ -141,7 +142,7 @@ public interface Graph<N> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  Set<N> adjacentNodes(Object node);
+  Set<N> adjacentNodes(@CompatibleWith("N") Object node);
 
   /**
    * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
@@ -151,7 +152,7 @@ public interface Graph<N> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  Set<N> predecessors(Object node);
+  Set<N> predecessors(@CompatibleWith("N") Object node);
 
   /**
    * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
@@ -164,7 +165,7 @@ public interface Graph<N> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  Set<N> successors(Object node);
+  Set<N> successors(@CompatibleWith("N") Object node);
 
   /**
    * Returns the count of {@code node}'s incident edges, counting self-loops twice (equivalently,
@@ -179,7 +180,7 @@ public interface Graph<N> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  int degree(Object node);
+  int degree(@CompatibleWith("N") Object node);
 
   /**
    * Returns the count of {@code node}'s incoming edges (equal to {@code predecessors(node).size()})
@@ -189,7 +190,7 @@ public interface Graph<N> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  int inDegree(Object node);
+  int inDegree(@CompatibleWith("N") Object node);
 
   /**
    * Returns the count of {@code node}'s outgoing edges (equal to {@code successors(node).size()})
@@ -199,7 +200,7 @@ public interface Graph<N> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  int outDegree(Object node);
+  int outDegree(@CompatibleWith("N") Object node);
 
   //
   // Graph identity
