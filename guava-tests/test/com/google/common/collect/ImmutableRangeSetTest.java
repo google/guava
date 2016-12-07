@@ -436,15 +436,60 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
     }
   }
 
+  private static final ImmutableRangeSet<Integer> RANGE_SET_ONE =
+      ImmutableRangeSet.<Integer>builder()
+          .add(Range.closed(2, 4))
+          .add(Range.open(6, 7))
+          .add(Range.closedOpen(8, 10))
+          .add(Range.openClosed(15, 17))
+          .build();
+
+  private static final ImmutableRangeSet<Integer> RANGE_SET_TWO =
+      ImmutableRangeSet.<Integer>builder()
+          .add(Range.openClosed(0, 3))
+          .add(Range.closed(5, 8))
+          .add(Range.closedOpen(12, 15))
+          .add(Range.open(19, 20))
+          .build();
+
+  public void testUnion() {
+    RangeSet<Integer> expected =
+        ImmutableRangeSet.<Integer>builder()
+            .add(Range.openClosed(0, 4))
+            .add(Range.closedOpen(5, 10))
+            .add(Range.closedOpen(12, 15))
+            .add(Range.openClosed(15, 17))
+            .add(Range.open(19, 20))
+            .build();
+
+    assertThat(RANGE_SET_ONE.union(RANGE_SET_TWO)).isEqualTo(expected);
+  }
+
+  public void testIntersection() {
+    RangeSet<Integer> expected =
+        ImmutableRangeSet.<Integer>builder()
+            .add(Range.closed(2, 3))
+            .add(Range.open(6, 7))
+            .add(Range.singleton(8))
+            .build();
+
+    assertThat(RANGE_SET_ONE.intersection(RANGE_SET_TWO)).isEqualTo(expected);
+  }
+
+  public void testDifference() {
+    RangeSet<Integer> expected =
+        ImmutableRangeSet.<Integer>builder()
+            .add(Range.openClosed(3, 4))
+            .add(Range.open(8, 10))
+            .add(Range.openClosed(15, 17))
+            .build();
+
+    assertThat(RANGE_SET_ONE.difference(RANGE_SET_TWO)).isEqualTo(expected);
+  }
+
   public void testAsSet() {
-    ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.<Integer>builder()
-        .add(Range.closed(2, 4))
-        .add(Range.open(6, 7))
-        .add(Range.closedOpen(8, 10))
-        .add(Range.openClosed(15, 17))
-        .build();
     ImmutableSortedSet<Integer> expectedSet = ImmutableSortedSet.of(2, 3, 4, 8, 9, 16, 17);
-    ImmutableSortedSet<Integer> asSet = rangeSet.asSet(DiscreteDomain.integers());
+    ImmutableSortedSet<Integer> asSet = RANGE_SET_ONE.asSet(DiscreteDomain.integers());
     assertEquals(expectedSet, asSet);
     assertThat(asSet).containsExactlyElementsIn(expectedSet).inOrder();
     assertTrue(asSet.containsAll(expectedSet));
@@ -452,15 +497,8 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
   }
 
   public void testAsSetHeadSet() {
-    ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.<Integer>builder()
-        .add(Range.closed(2, 4))
-        .add(Range.open(6, 7))
-        .add(Range.closedOpen(8, 10))
-        .add(Range.openClosed(15, 17))
-        .build();
-
     ImmutableSortedSet<Integer> expectedSet = ImmutableSortedSet.of(2, 3, 4, 8, 9, 16, 17);
-    ImmutableSortedSet<Integer> asSet = rangeSet.asSet(DiscreteDomain.integers());
+    ImmutableSortedSet<Integer> asSet = RANGE_SET_ONE.asSet(DiscreteDomain.integers());
 
     for (int i = 0; i <= 20; i++) {
       assertEquals(asSet.headSet(i, false), expectedSet.headSet(i, false));
@@ -469,15 +507,8 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
   }
 
   public void testAsSetTailSet() {
-    ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.<Integer>builder()
-        .add(Range.closed(2, 4))
-        .add(Range.open(6, 7))
-        .add(Range.closedOpen(8, 10))
-        .add(Range.openClosed(15, 17))
-        .build();
-
     ImmutableSortedSet<Integer> expectedSet = ImmutableSortedSet.of(2, 3, 4, 8, 9, 16, 17);
-    ImmutableSortedSet<Integer> asSet = rangeSet.asSet(DiscreteDomain.integers());
+    ImmutableSortedSet<Integer> asSet = RANGE_SET_ONE.asSet(DiscreteDomain.integers());
 
     for (int i = 0; i <= 20; i++) {
       assertEquals(asSet.tailSet(i, false), expectedSet.tailSet(i, false));
@@ -486,15 +517,8 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
   }
 
   public void testAsSetSubSet() {
-    ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.<Integer>builder()
-        .add(Range.closed(2, 4))
-        .add(Range.open(6, 7))
-        .add(Range.closedOpen(8, 10))
-        .add(Range.openClosed(15, 17))
-        .build();
-
     ImmutableSortedSet<Integer> expectedSet = ImmutableSortedSet.of(2, 3, 4, 8, 9, 16, 17);
-    ImmutableSortedSet<Integer> asSet = rangeSet.asSet(DiscreteDomain.integers());
+    ImmutableSortedSet<Integer> asSet = RANGE_SET_ONE.asSet(DiscreteDomain.integers());
 
     for (int i = 0; i <= 20; i++) {
       for (int j = i + 1; j <= 20; j++) {
