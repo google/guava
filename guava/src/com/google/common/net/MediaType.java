@@ -419,6 +419,16 @@ public final class MediaType {
   public static final MediaType MICROSOFT_WORD = createConstant(APPLICATION_TYPE, "msword");
 
   /**
+   * Media type for the <a href="https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP">
+   * Media Presentation Description</a>. This is
+   * <a href="https://www.iana.org/assignments/media-types/application/dash+xml">registered</a> with
+   * the IANA.
+   *
+   * @since 21.0
+   */
+  public static final MediaType MEDIA_PRESENTATION_DESCRIPTION = createConstant(APPLICATION_TYPE, "dash+xml");
+
+  /**
    * Media type for NaCl applications. For more information see
    * <a href="https://developer.chrome.com/native-client/devguide/coding/application-structure">
    * the Developer Guide for Native Client Application Structure</a>.
