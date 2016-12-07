@@ -19508,6 +19508,49 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
+    <method name="union" return="com.google.common.collect.ImmutableRangeSet&lt;C&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="other" type="com.google.common.collect.RangeSet&lt;C&gt;"/>
+      <doc>
+      <![CDATA[Returns a new range set consisting of the union of this range set and {@code other}.
+
+ <p>This is essentially the same as {@code TreeRangeSet.create(this).addAll(other)} except it
+ returns an {@code ImmutableRangeSet}.
+
+ @since 21.0]]>
+      </doc>
+    </method>
+    <method name="intersection" return="com.google.common.collect.ImmutableRangeSet&lt;C&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="other" type="com.google.common.collect.RangeSet&lt;C&gt;"/>
+      <doc>
+      <![CDATA[Returns a new range set consisting of the intersection of this range set and {@code other}.
+
+ <p>This is essentially the same as {@code
+ TreeRangeSet.create(this).removeAll(other.complement())} except it returns an {@code
+ ImmutableRangeSet}.
+
+ @since 21.0]]>
+      </doc>
+    </method>
+    <method name="difference" return="com.google.common.collect.ImmutableRangeSet&lt;C&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="other" type="com.google.common.collect.RangeSet&lt;C&gt;"/>
+      <doc>
+      <![CDATA[Returns a new range set consisting of the difference of this range set and {@code other}.
+
+ <p>This is essentially the same as {@code TreeRangeSet.create(this).removeAll(other)} except it
+ returns an {@code ImmutableRangeSet}.
+
+ @since 21.0]]>
+      </doc>
+    </method>
     <method name="subRangeSet" return="com.google.common.collect.ImmutableRangeSet&lt;C&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
