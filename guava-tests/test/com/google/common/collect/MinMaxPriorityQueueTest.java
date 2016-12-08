@@ -471,22 +471,24 @@ public class MinMaxPriorityQueueTest extends TestCase {
     assertEquals((Integer) 1000, it.next());
     assertEquals((Integer) 2, it.next());
     it.remove();
+    // After this remove, 400 has moved up and 20 down past cursor
     assertTrue("Heap is not intact after remove", mmHeap.isIntact());
     assertEquals((Integer) 10, it.next());
     assertEquals((Integer) 3, it.next());
     it.remove();
+    // After this remove, 400 moved down again and 500 up past the cursor
     assertTrue("Heap is not intact after remove", mmHeap.isIntact());
     assertEquals((Integer) 12, it.next());
     assertEquals((Integer) 30, it.next());
     assertEquals((Integer) 40, it.next());
     // Skipping 20
     assertEquals((Integer) 11, it.next());
-    // Skipping 400
+    // Not skipping 400, because it moved back down
+    assertEquals((Integer) 400, it.next());
     assertEquals((Integer) 13, it.next());
     assertEquals((Integer) 200, it.next());
     assertEquals((Integer) 300, it.next());
-    // Last two from forgetMeNot.
-    assertEquals((Integer) 400, it.next());
+    // Last from forgetMeNot.
     assertEquals((Integer) 500, it.next());
   }
 
@@ -804,14 +806,49 @@ public class MinMaxPriorityQueueTest extends TestCase {
         queue.add(element);
       }
       Iterator<Integer> queueIterator = queue.iterator();
+      int remaining = queue.size();
       while (queueIterator.hasNext()) {
         Integer element = queueIterator.next();
+        remaining--;
         assertThat(elements).contains(element);
         if (random.nextBoolean()) {
           elements.remove(element);
           queueIterator.remove();
         }
       }
+      assertThat(remaining).isEqualTo(0);
+      assertThat(queue.isIntact()).isTrue();
+      assertThat(queue).containsExactlyElementsIn(elements);
+    }
+  }
+
+  private enum Element {
+    ONE, TWO, THREE, FOUR, FIVE;
+  }
+
+  public void testRandomAddsAndRemoves_duplicateElements() {
+    Random random = new Random(0);
+    Multiset<Element> elements = HashMultiset.create();
+    MinMaxPriorityQueue<Element> queue = MinMaxPriorityQueue.create();
+    int range = Element.values().length;
+    for (int iter = 0; iter < 1000; iter++) {
+      for (int i = 0; i < 100; i++) {
+        Element element = Element.values()[random.nextInt(range)];
+        elements.add(element);
+        queue.add(element);
+      }
+      Iterator<Element> queueIterator = queue.iterator();
+      int remaining = queue.size();
+      while (queueIterator.hasNext()) {
+        Element element = queueIterator.next();
+        remaining--;
+        assertThat(elements).contains(element);
+        if (random.nextBoolean()) {
+          elements.remove(element);
+          queueIterator.remove();
+        }
+      }
+      assertThat(remaining).isEqualTo(0);
       assertThat(queue.isIntact()).isTrue();
       assertThat(queue).containsExactlyElementsIn(elements);
     }

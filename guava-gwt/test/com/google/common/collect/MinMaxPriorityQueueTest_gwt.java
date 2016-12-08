@@ -193,6 +193,11 @@ public void testRandomAddsAndRemoves() throws Exception {
   testCase.testRandomAddsAndRemoves();
 }
 
+public void testRandomAddsAndRemoves_duplicateElements() throws Exception {
+  com.google.common.collect.MinMaxPriorityQueueTest testCase = new com.google.common.collect.MinMaxPriorityQueueTest();
+  testCase.testRandomAddsAndRemoves_duplicateElements();
+}
+
 public void testRandomRemoves() throws Exception {
   com.google.common.collect.MinMaxPriorityQueueTest testCase = new com.google.common.collect.MinMaxPriorityQueueTest();
   testCase.testRandomRemoves();
