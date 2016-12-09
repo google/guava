@@ -744,6 +744,13 @@ public final class Files {
    * the given file name, or the empty string if the file has no extension. The result does not
    * include the '{@code .}'.
    *
+   * <p><b>Note:</b> This method simply returns everything after the last '{@code .}' in the file's
+   * name as determined by {@link File#getName}. It does not account for any filesystem-specific
+   * behavior that the {@link File} API does not already account for. For example, on NTFS it will
+   * report {@code "txt"} as the extension for the filename {@code "foo.exe:.txt"} even though NTFS
+   * will drop the {@code ":.txt"} part of the name when the file is actually created on the
+   * filesystem due to NTFS's <a href="https://goo.gl/vTpJi4">Alternate Data Streams</a>.
+   *
    * @since 11.0
    */
   public static String getFileExtension(String fullName) {

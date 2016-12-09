@@ -380,6 +380,13 @@ public final class MoreFiles {
    * Returns the <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> for
    * the file at the given path, or the empty string if the file has no extension. The result does
    * not include the '{@code .}'.
+   *
+   * <p><b>Note:</b> This method simply returns everything after the last '{@code .}' in the file's
+   * name as determined by {@link Path#getFileName}. It does not account for any filesystem-specific
+   * behavior that the {@link Path} API does not already account for. For example, on NTFS it will
+   * report {@code "txt"} as the extension for the filename {@code "foo.exe:.txt"} even though NTFS
+   * will drop the {@code ":.txt"} part of the name when the file is actually created on the
+   * filesystem due to NTFS's <a href="https://goo.gl/vTpJi4">Alternate Data Streams</a>.
    */
   public static String getFileExtension(Path path) {
     Path name = path.getFileName();
