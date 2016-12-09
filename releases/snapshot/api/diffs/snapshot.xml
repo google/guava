@@ -7387,12 +7387,7 @@
 
  <p>Iterators from the returned map are at least <i>weakly consistent</i>: they are safe for
  concurrent use, but if the cache is modified (including by eviction) after the iterator is
- created, it is undefined which of the changes (if any) will be reflected in that iterator.
-
- <p><b>Warning to users of Java 8+:</b> do not call any of the new <i>default methods</i> that
- have been newly added to {@link ConcurrentMap}! These are marked with "Since: 1.8" in the
- {@code ConcurrentMap} documentation. They will not function correctly and it is impossible for
- Guava to fix them until Guava is ready to <i>require</i> Java 8 for all users.]]>
+ created, it is undefined which of the changes (if any) will be reflected in that iterator.]]>
       </doc>
     </method>
     <method name="cleanUp"
@@ -43920,6 +43915,13 @@
  the given file name, or the empty string if the file has no extension. The result does not
  include the '{@code .}'.
 
+ <p><b>Note:</b> This method simply returns everything after the last '{@code .}' in the file's
+ name as determined by {@link File#getName}. It does not account for any filesystem-specific
+ behavior that the {@link File} API does not already account for. For example, on NTFS it will
+ report {@code "txt"} as the extension for the filename {@code "foo.exe:.txt"} even though NTFS
+ will drop the {@code ":.txt"} part of the name when the file is actually created on the
+ filesystem due to NTFS's <a href="https://goo.gl/vTpJi4">Alternate Data Streams</a>.
+
  @since 11.0]]>
       </doc>
     </method>
@@ -44662,7 +44664,14 @@
       <doc>
       <![CDATA[Returns the <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> for
  the file at the given path, or the empty string if the file has no extension. The result does
- not include the '{@code .}'.]]>
+ not include the '{@code .}'.
+
+ <p><b>Note:</b> This method simply returns everything after the last '{@code .}' in the file's
+ name as determined by {@link Path#getFileName}. It does not account for any filesystem-specific
+ behavior that the {@link Path} API does not already account for. For example, on NTFS it will
+ report {@code "txt"} as the extension for the filename {@code "foo.exe:.txt"} even though NTFS
+ will drop the {@code ":.txt"} part of the name when the file is actually created on the
+ filesystem due to NTFS's <a href="https://goo.gl/vTpJi4">Alternate Data Streams</a>.]]>
       </doc>
     </method>
     <method name="getNameWithoutExtension" return="java.lang.String"

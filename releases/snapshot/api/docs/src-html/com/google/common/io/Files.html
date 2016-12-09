@@ -752,111 +752,118 @@
 <span class="sourceLineNo">744</span>   * the given file name, or the empty string if the file has no extension. The result does not<a name="line.744"></a>
 <span class="sourceLineNo">745</span>   * include the '{@code .}'.<a name="line.745"></a>
 <span class="sourceLineNo">746</span>   *<a name="line.746"></a>
-<span class="sourceLineNo">747</span>   * @since 11.0<a name="line.747"></a>
-<span class="sourceLineNo">748</span>   */<a name="line.748"></a>
-<span class="sourceLineNo">749</span>  public static String getFileExtension(String fullName) {<a name="line.749"></a>
-<span class="sourceLineNo">750</span>    checkNotNull(fullName);<a name="line.750"></a>
-<span class="sourceLineNo">751</span>    String fileName = new File(fullName).getName();<a name="line.751"></a>
-<span class="sourceLineNo">752</span>    int dotIndex = fileName.lastIndexOf('.');<a name="line.752"></a>
-<span class="sourceLineNo">753</span>    return (dotIndex == -1) ? "" : fileName.substring(dotIndex + 1);<a name="line.753"></a>
-<span class="sourceLineNo">754</span>  }<a name="line.754"></a>
-<span class="sourceLineNo">755</span><a name="line.755"></a>
-<span class="sourceLineNo">756</span>  /**<a name="line.756"></a>
-<span class="sourceLineNo">757</span>   * Returns the file name without its<a name="line.757"></a>
-<span class="sourceLineNo">758</span>   * &lt;a href="http://en.wikipedia.org/wiki/Filename_extension"&gt;file extension&lt;/a&gt; or path. This is<a name="line.758"></a>
-<span class="sourceLineNo">759</span>   * similar to the {@code basename} unix command. The result does not include the '{@code .}'.<a name="line.759"></a>
-<span class="sourceLineNo">760</span>   *<a name="line.760"></a>
-<span class="sourceLineNo">761</span>   * @param file The name of the file to trim the extension from. This can be either a fully<a name="line.761"></a>
-<span class="sourceLineNo">762</span>   *     qualified file name (including a path) or just a file name.<a name="line.762"></a>
-<span class="sourceLineNo">763</span>   * @return The file name without its path or extension.<a name="line.763"></a>
-<span class="sourceLineNo">764</span>   * @since 14.0<a name="line.764"></a>
-<span class="sourceLineNo">765</span>   */<a name="line.765"></a>
-<span class="sourceLineNo">766</span>  public static String getNameWithoutExtension(String file) {<a name="line.766"></a>
-<span class="sourceLineNo">767</span>    checkNotNull(file);<a name="line.767"></a>
-<span class="sourceLineNo">768</span>    String fileName = new File(file).getName();<a name="line.768"></a>
-<span class="sourceLineNo">769</span>    int dotIndex = fileName.lastIndexOf('.');<a name="line.769"></a>
-<span class="sourceLineNo">770</span>    return (dotIndex == -1) ? fileName : fileName.substring(0, dotIndex);<a name="line.770"></a>
-<span class="sourceLineNo">771</span>  }<a name="line.771"></a>
-<span class="sourceLineNo">772</span><a name="line.772"></a>
-<span class="sourceLineNo">773</span>  /**<a name="line.773"></a>
-<span class="sourceLineNo">774</span>   * Returns a {@link TreeTraverser} instance for {@link File} trees.<a name="line.774"></a>
-<span class="sourceLineNo">775</span>   *<a name="line.775"></a>
-<span class="sourceLineNo">776</span>   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code File} provides no support for symbolic links, and as such there is no<a name="line.776"></a>
-<span class="sourceLineNo">777</span>   * way to ensure that a symbolic link to a directory is not followed when traversing the tree. In<a name="line.777"></a>
-<span class="sourceLineNo">778</span>   * this case, iterables created by this traverser could contain files that are outside of the<a name="line.778"></a>
-<span class="sourceLineNo">779</span>   * given directory or even be infinite if there is a symbolic link loop.<a name="line.779"></a>
-<span class="sourceLineNo">780</span>   *<a name="line.780"></a>
-<span class="sourceLineNo">781</span>   * @since 15.0<a name="line.781"></a>
-<span class="sourceLineNo">782</span>   */<a name="line.782"></a>
-<span class="sourceLineNo">783</span>  public static TreeTraverser&lt;File&gt; fileTreeTraverser() {<a name="line.783"></a>
-<span class="sourceLineNo">784</span>    return FILE_TREE_TRAVERSER;<a name="line.784"></a>
-<span class="sourceLineNo">785</span>  }<a name="line.785"></a>
-<span class="sourceLineNo">786</span><a name="line.786"></a>
-<span class="sourceLineNo">787</span>  private static final TreeTraverser&lt;File&gt; FILE_TREE_TRAVERSER =<a name="line.787"></a>
-<span class="sourceLineNo">788</span>      new TreeTraverser&lt;File&gt;() {<a name="line.788"></a>
-<span class="sourceLineNo">789</span>        @Override<a name="line.789"></a>
-<span class="sourceLineNo">790</span>        public Iterable&lt;File&gt; children(File file) {<a name="line.790"></a>
-<span class="sourceLineNo">791</span>          // check isDirectory() just because it may be faster than listFiles() on a non-directory<a name="line.791"></a>
-<span class="sourceLineNo">792</span>          if (file.isDirectory()) {<a name="line.792"></a>
-<span class="sourceLineNo">793</span>            File[] files = file.listFiles();<a name="line.793"></a>
-<span class="sourceLineNo">794</span>            if (files != null) {<a name="line.794"></a>
-<span class="sourceLineNo">795</span>              return Collections.unmodifiableList(Arrays.asList(files));<a name="line.795"></a>
-<span class="sourceLineNo">796</span>            }<a name="line.796"></a>
-<span class="sourceLineNo">797</span>          }<a name="line.797"></a>
-<span class="sourceLineNo">798</span><a name="line.798"></a>
-<span class="sourceLineNo">799</span>          return Collections.emptyList();<a name="line.799"></a>
-<span class="sourceLineNo">800</span>        }<a name="line.800"></a>
-<span class="sourceLineNo">801</span><a name="line.801"></a>
-<span class="sourceLineNo">802</span>        @Override<a name="line.802"></a>
-<span class="sourceLineNo">803</span>        public String toString() {<a name="line.803"></a>
-<span class="sourceLineNo">804</span>          return "Files.fileTreeTraverser()";<a name="line.804"></a>
-<span class="sourceLineNo">805</span>        }<a name="line.805"></a>
-<span class="sourceLineNo">806</span>      };<a name="line.806"></a>
-<span class="sourceLineNo">807</span><a name="line.807"></a>
-<span class="sourceLineNo">808</span>  /**<a name="line.808"></a>
-<span class="sourceLineNo">809</span>   * Returns a predicate that returns the result of {@link File#isDirectory} on input files.<a name="line.809"></a>
-<span class="sourceLineNo">810</span>   *<a name="line.810"></a>
-<span class="sourceLineNo">811</span>   * @since 15.0<a name="line.811"></a>
-<span class="sourceLineNo">812</span>   */<a name="line.812"></a>
-<span class="sourceLineNo">813</span>  public static Predicate&lt;File&gt; isDirectory() {<a name="line.813"></a>
-<span class="sourceLineNo">814</span>    return FilePredicate.IS_DIRECTORY;<a name="line.814"></a>
-<span class="sourceLineNo">815</span>  }<a name="line.815"></a>
-<span class="sourceLineNo">816</span><a name="line.816"></a>
-<span class="sourceLineNo">817</span>  /**<a name="line.817"></a>
-<span class="sourceLineNo">818</span>   * Returns a predicate that returns the result of {@link File#isFile} on input files.<a name="line.818"></a>
-<span class="sourceLineNo">819</span>   *<a name="line.819"></a>
-<span class="sourceLineNo">820</span>   * @since 15.0<a name="line.820"></a>
-<span class="sourceLineNo">821</span>   */<a name="line.821"></a>
-<span class="sourceLineNo">822</span>  public static Predicate&lt;File&gt; isFile() {<a name="line.822"></a>
-<span class="sourceLineNo">823</span>    return FilePredicate.IS_FILE;<a name="line.823"></a>
-<span class="sourceLineNo">824</span>  }<a name="line.824"></a>
-<span class="sourceLineNo">825</span><a name="line.825"></a>
-<span class="sourceLineNo">826</span>  private enum FilePredicate implements Predicate&lt;File&gt; {<a name="line.826"></a>
-<span class="sourceLineNo">827</span>    IS_DIRECTORY {<a name="line.827"></a>
-<span class="sourceLineNo">828</span>      @Override<a name="line.828"></a>
-<span class="sourceLineNo">829</span>      public boolean apply(File file) {<a name="line.829"></a>
-<span class="sourceLineNo">830</span>        return file.isDirectory();<a name="line.830"></a>
-<span class="sourceLineNo">831</span>      }<a name="line.831"></a>
+<span class="sourceLineNo">747</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This method simply returns everything after the last '{@code .}' in the file's<a name="line.747"></a>
+<span class="sourceLineNo">748</span>   * name as determined by {@link File#getName}. It does not account for any filesystem-specific<a name="line.748"></a>
+<span class="sourceLineNo">749</span>   * behavior that the {@link File} API does not already account for. For example, on NTFS it will<a name="line.749"></a>
+<span class="sourceLineNo">750</span>   * report {@code "txt"} as the extension for the filename {@code "foo.exe:.txt"} even though NTFS<a name="line.750"></a>
+<span class="sourceLineNo">751</span>   * will drop the {@code ":.txt"} part of the name when the file is actually created on the<a name="line.751"></a>
+<span class="sourceLineNo">752</span>   * filesystem due to NTFS's &lt;a href="https://goo.gl/vTpJi4"&gt;Alternate Data Streams&lt;/a&gt;.<a name="line.752"></a>
+<span class="sourceLineNo">753</span>   *<a name="line.753"></a>
+<span class="sourceLineNo">754</span>   * @since 11.0<a name="line.754"></a>
+<span class="sourceLineNo">755</span>   */<a name="line.755"></a>
+<span class="sourceLineNo">756</span>  public static String getFileExtension(String fullName) {<a name="line.756"></a>
+<span class="sourceLineNo">757</span>    checkNotNull(fullName);<a name="line.757"></a>
+<span class="sourceLineNo">758</span>    String fileName = new File(fullName).getName();<a name="line.758"></a>
+<span class="sourceLineNo">759</span>    int dotIndex = fileName.lastIndexOf('.');<a name="line.759"></a>
+<span class="sourceLineNo">760</span>    return (dotIndex == -1) ? "" : fileName.substring(dotIndex + 1);<a name="line.760"></a>
+<span class="sourceLineNo">761</span>  }<a name="line.761"></a>
+<span class="sourceLineNo">762</span><a name="line.762"></a>
+<span class="sourceLineNo">763</span>  /**<a name="line.763"></a>
+<span class="sourceLineNo">764</span>   * Returns the file name without its<a name="line.764"></a>
+<span class="sourceLineNo">765</span>   * &lt;a href="http://en.wikipedia.org/wiki/Filename_extension"&gt;file extension&lt;/a&gt; or path. This is<a name="line.765"></a>
+<span class="sourceLineNo">766</span>   * similar to the {@code basename} unix command. The result does not include the '{@code .}'.<a name="line.766"></a>
+<span class="sourceLineNo">767</span>   *<a name="line.767"></a>
+<span class="sourceLineNo">768</span>   * @param file The name of the file to trim the extension from. This can be either a fully<a name="line.768"></a>
+<span class="sourceLineNo">769</span>   *     qualified file name (including a path) or just a file name.<a name="line.769"></a>
+<span class="sourceLineNo">770</span>   * @return The file name without its path or extension.<a name="line.770"></a>
+<span class="sourceLineNo">771</span>   * @since 14.0<a name="line.771"></a>
+<span class="sourceLineNo">772</span>   */<a name="line.772"></a>
+<span class="sourceLineNo">773</span>  public static String getNameWithoutExtension(String file) {<a name="line.773"></a>
+<span class="sourceLineNo">774</span>    checkNotNull(file);<a name="line.774"></a>
+<span class="sourceLineNo">775</span>    String fileName = new File(file).getName();<a name="line.775"></a>
+<span class="sourceLineNo">776</span>    int dotIndex = fileName.lastIndexOf('.');<a name="line.776"></a>
+<span class="sourceLineNo">777</span>    return (dotIndex == -1) ? fileName : fileName.substring(0, dotIndex);<a name="line.777"></a>
+<span class="sourceLineNo">778</span>  }<a name="line.778"></a>
+<span class="sourceLineNo">779</span><a name="line.779"></a>
+<span class="sourceLineNo">780</span>  /**<a name="line.780"></a>
+<span class="sourceLineNo">781</span>   * Returns a {@link TreeTraverser} instance for {@link File} trees.<a name="line.781"></a>
+<span class="sourceLineNo">782</span>   *<a name="line.782"></a>
+<span class="sourceLineNo">783</span>   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code File} provides no support for symbolic links, and as such there is no<a name="line.783"></a>
+<span class="sourceLineNo">784</span>   * way to ensure that a symbolic link to a directory is not followed when traversing the tree. In<a name="line.784"></a>
+<span class="sourceLineNo">785</span>   * this case, iterables created by this traverser could contain files that are outside of the<a name="line.785"></a>
+<span class="sourceLineNo">786</span>   * given directory or even be infinite if there is a symbolic link loop.<a name="line.786"></a>
+<span class="sourceLineNo">787</span>   *<a name="line.787"></a>
+<span class="sourceLineNo">788</span>   * @since 15.0<a name="line.788"></a>
+<span class="sourceLineNo">789</span>   */<a name="line.789"></a>
+<span class="sourceLineNo">790</span>  public static TreeTraverser&lt;File&gt; fileTreeTraverser() {<a name="line.790"></a>
+<span class="sourceLineNo">791</span>    return FILE_TREE_TRAVERSER;<a name="line.791"></a>
+<span class="sourceLineNo">792</span>  }<a name="line.792"></a>
+<span class="sourceLineNo">793</span><a name="line.793"></a>
+<span class="sourceLineNo">794</span>  private static final TreeTraverser&lt;File&gt; FILE_TREE_TRAVERSER =<a name="line.794"></a>
+<span class="sourceLineNo">795</span>      new TreeTraverser&lt;File&gt;() {<a name="line.795"></a>
+<span class="sourceLineNo">796</span>        @Override<a name="line.796"></a>
+<span class="sourceLineNo">797</span>        public Iterable&lt;File&gt; children(File file) {<a name="line.797"></a>
+<span class="sourceLineNo">798</span>          // check isDirectory() just because it may be faster than listFiles() on a non-directory<a name="line.798"></a>
+<span class="sourceLineNo">799</span>          if (file.isDirectory()) {<a name="line.799"></a>
+<span class="sourceLineNo">800</span>            File[] files = file.listFiles();<a name="line.800"></a>
+<span class="sourceLineNo">801</span>            if (files != null) {<a name="line.801"></a>
+<span class="sourceLineNo">802</span>              return Collections.unmodifiableList(Arrays.asList(files));<a name="line.802"></a>
+<span class="sourceLineNo">803</span>            }<a name="line.803"></a>
+<span class="sourceLineNo">804</span>          }<a name="line.804"></a>
+<span class="sourceLineNo">805</span><a name="line.805"></a>
+<span class="sourceLineNo">806</span>          return Collections.emptyList();<a name="line.806"></a>
+<span class="sourceLineNo">807</span>        }<a name="line.807"></a>
+<span class="sourceLineNo">808</span><a name="line.808"></a>
+<span class="sourceLineNo">809</span>        @Override<a name="line.809"></a>
+<span class="sourceLineNo">810</span>        public String toString() {<a name="line.810"></a>
+<span class="sourceLineNo">811</span>          return "Files.fileTreeTraverser()";<a name="line.811"></a>
+<span class="sourceLineNo">812</span>        }<a name="line.812"></a>
+<span class="sourceLineNo">813</span>      };<a name="line.813"></a>
+<span class="sourceLineNo">814</span><a name="line.814"></a>
+<span class="sourceLineNo">815</span>  /**<a name="line.815"></a>
+<span class="sourceLineNo">816</span>   * Returns a predicate that returns the result of {@link File#isDirectory} on input files.<a name="line.816"></a>
+<span class="sourceLineNo">817</span>   *<a name="line.817"></a>
+<span class="sourceLineNo">818</span>   * @since 15.0<a name="line.818"></a>
+<span class="sourceLineNo">819</span>   */<a name="line.819"></a>
+<span class="sourceLineNo">820</span>  public static Predicate&lt;File&gt; isDirectory() {<a name="line.820"></a>
+<span class="sourceLineNo">821</span>    return FilePredicate.IS_DIRECTORY;<a name="line.821"></a>
+<span class="sourceLineNo">822</span>  }<a name="line.822"></a>
+<span class="sourceLineNo">823</span><a name="line.823"></a>
+<span class="sourceLineNo">824</span>  /**<a name="line.824"></a>
+<span class="sourceLineNo">825</span>   * Returns a predicate that returns the result of {@link File#isFile} on input files.<a name="line.825"></a>
+<span class="sourceLineNo">826</span>   *<a name="line.826"></a>
+<span class="sourceLineNo">827</span>   * @since 15.0<a name="line.827"></a>
+<span class="sourceLineNo">828</span>   */<a name="line.828"></a>
+<span class="sourceLineNo">829</span>  public static Predicate&lt;File&gt; isFile() {<a name="line.829"></a>
+<span class="sourceLineNo">830</span>    return FilePredicate.IS_FILE;<a name="line.830"></a>
+<span class="sourceLineNo">831</span>  }<a name="line.831"></a>
 <span class="sourceLineNo">832</span><a name="line.832"></a>
-<span class="sourceLineNo">833</span>      @Override<a name="line.833"></a>
-<span class="sourceLineNo">834</span>      public String toString() {<a name="line.834"></a>
-<span class="sourceLineNo">835</span>        return "Files.isDirectory()";<a name="line.835"></a>
-<span class="sourceLineNo">836</span>      }<a name="line.836"></a>
-<span class="sourceLineNo">837</span>    },<a name="line.837"></a>
-<span class="sourceLineNo">838</span><a name="line.838"></a>
-<span class="sourceLineNo">839</span>    IS_FILE {<a name="line.839"></a>
+<span class="sourceLineNo">833</span>  private enum FilePredicate implements Predicate&lt;File&gt; {<a name="line.833"></a>
+<span class="sourceLineNo">834</span>    IS_DIRECTORY {<a name="line.834"></a>
+<span class="sourceLineNo">835</span>      @Override<a name="line.835"></a>
+<span class="sourceLineNo">836</span>      public boolean apply(File file) {<a name="line.836"></a>
+<span class="sourceLineNo">837</span>        return file.isDirectory();<a name="line.837"></a>
+<span class="sourceLineNo">838</span>      }<a name="line.838"></a>
+<span class="sourceLineNo">839</span><a name="line.839"></a>
 <span class="sourceLineNo">840</span>      @Override<a name="line.840"></a>
-<span class="sourceLineNo">841</span>      public boolean apply(File file) {<a name="line.841"></a>
-<span class="sourceLineNo">842</span>        return file.isFile();<a name="line.842"></a>
+<span class="sourceLineNo">841</span>      public String toString() {<a name="line.841"></a>
+<span class="sourceLineNo">842</span>        return "Files.isDirectory()";<a name="line.842"></a>
 <span class="sourceLineNo">843</span>      }<a name="line.843"></a>
-<span class="sourceLineNo">844</span><a name="line.844"></a>
-<span class="sourceLineNo">845</span>      @Override<a name="line.845"></a>
-<span class="sourceLineNo">846</span>      public String toString() {<a name="line.846"></a>
-<span class="sourceLineNo">847</span>        return "Files.isFile()";<a name="line.847"></a>
-<span class="sourceLineNo">848</span>      }<a name="line.848"></a>
-<span class="sourceLineNo">849</span>    };<a name="line.849"></a>
-<span class="sourceLineNo">850</span>  }<a name="line.850"></a>
-<span class="sourceLineNo">851</span>}<a name="line.851"></a>
+<span class="sourceLineNo">844</span>    },<a name="line.844"></a>
+<span class="sourceLineNo">845</span><a name="line.845"></a>
+<span class="sourceLineNo">846</span>    IS_FILE {<a name="line.846"></a>
+<span class="sourceLineNo">847</span>      @Override<a name="line.847"></a>
+<span class="sourceLineNo">848</span>      public boolean apply(File file) {<a name="line.848"></a>
+<span class="sourceLineNo">849</span>        return file.isFile();<a name="line.849"></a>
+<span class="sourceLineNo">850</span>      }<a name="line.850"></a>
+<span class="sourceLineNo">851</span><a name="line.851"></a>
+<span class="sourceLineNo">852</span>      @Override<a name="line.852"></a>
+<span class="sourceLineNo">853</span>      public String toString() {<a name="line.853"></a>
+<span class="sourceLineNo">854</span>        return "Files.isFile()";<a name="line.854"></a>
+<span class="sourceLineNo">855</span>      }<a name="line.855"></a>
+<span class="sourceLineNo">856</span>    };<a name="line.856"></a>
+<span class="sourceLineNo">857</span>  }<a name="line.857"></a>
+<span class="sourceLineNo">858</span>}<a name="line.858"></a>
 
 
 
