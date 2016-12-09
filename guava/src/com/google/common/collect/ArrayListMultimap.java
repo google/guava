@@ -70,29 +70,36 @@ public final class ArrayListMultimap<K, V> extends AbstractListMultimap<K, V> {
   @VisibleForTesting transient int expectedValuesPerKey;
 
   /**
-   * Creates a new, empty {@code ArrayListMultimap} with the default initial
-   * capacities.
+   * Creates a new, empty {@code ArrayListMultimap} with the default initial capacities.
+   *
+   * <p>This method will soon be deprecated in favor of {@code
+   * MultimapBuilder.hashKeys().arrayListValues().build()}.
    */
   public static <K, V> ArrayListMultimap<K, V> create() {
     return new ArrayListMultimap<K, V>();
   }
 
   /**
-   * Constructs an empty {@code ArrayListMultimap} with enough capacity to hold
-   * the specified numbers of keys and values without resizing.
+   * Constructs an empty {@code ArrayListMultimap} with enough capacity to hold the specified
+   * numbers of keys and values without resizing.
+   *
+   * <p>This method will soon be deprecated in favor of {@code
+   * MultimapBuilder.hashKeys(expectedKeys).arrayListValues(expectedValuesPerKey).build()}.
    *
    * @param expectedKeys the expected number of distinct keys
    * @param expectedValuesPerKey the expected average number of values per key
-   * @throws IllegalArgumentException if {@code expectedKeys} or {@code
-   *      expectedValuesPerKey} is negative
+   * @throws IllegalArgumentException if {@code expectedKeys} or {@code expectedValuesPerKey} is
+   *     negative
    */
   public static <K, V> ArrayListMultimap<K, V> create(int expectedKeys, int expectedValuesPerKey) {
     return new ArrayListMultimap<K, V>(expectedKeys, expectedValuesPerKey);
   }
 
   /**
-   * Constructs an {@code ArrayListMultimap} with the same mappings as the
-   * specified multimap.
+   * Constructs an {@code ArrayListMultimap} with the same mappings as the specified multimap.
+   *
+   * <p>This method will soon be deprecated in favor of {@code
+   * MultimapBuilder.hashKeys().arrayListValues().build(multimap)}.
    *
    * @param multimap the multimap whose contents are copied to this multimap
    */
