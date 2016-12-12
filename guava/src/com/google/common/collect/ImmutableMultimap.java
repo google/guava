@@ -34,7 +34,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.BiConsumer;
 import javax.annotation.Nullable;
@@ -614,7 +613,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
         Spliterator.SIZED | (this instanceof SetMultimap ? Spliterator.DISTINCT : 0),
         size());
   }
-  
+
   @Override
   public void forEach(BiConsumer<? super K, ? super V> action) {
     checkNotNull(action);
@@ -653,7 +652,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
     }
 
     @Override
-    public Set<K> elementSet() {
+    public ImmutableSet<K> elementSet() {
       return keySet();
     }
 
