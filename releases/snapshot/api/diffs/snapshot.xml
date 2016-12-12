@@ -18984,6 +18984,14 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
+    <method name="elementSet" return="com.google.common.collect.ImmutableSet&lt;E&gt;"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[@since 21.0 (present with return type {@code Set} since 2.0)]]>
+      </doc>
+    </method>
     <method name="entrySet" return="com.google.common.collect.ImmutableSet&lt;com.google.common.collect.Multiset.Entry&lt;E&gt;&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -53983,6 +53991,36 @@
       <param name="value" type="int"/>
       <doc>
       <![CDATA[Returns the value of the given {@code int} as a {@code long}, when treated as unsigned.]]>
+      </doc>
+    </method>
+    <method name="checkedCast" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="value" type="long"/>
+      <doc>
+      <![CDATA[Returns the {@code int} value that, when treated as unsigned, is equal to {@code value}, if
+ possible.
+
+ @param value a value between 0 and 2<sup>32</sup>-1 inclusive
+ @return the {@code byte} value that, when treated as unsigned, equals {@code value}
+ @throws IllegalArgumentException if {@code value} is negative or greater than 255
+ @since 21.0]]>
+      </doc>
+    </method>
+    <method name="saturatedCast" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="value" type="long"/>
+      <doc>
+      <![CDATA[Returns the {@code int} value that, when treated as unsigned, is nearest in value to
+ {@code value}.
+
+ @param value any {@code long} value
+ @return {@code 2^32 - 1} if {@code value >= 2^32}, {@code 0} if {@code value <= 0}, and
+     {@code value} cast to {@code int} otherwise
+ @since 21.0]]>
       </doc>
     </method>
     <method name="min" return="int"

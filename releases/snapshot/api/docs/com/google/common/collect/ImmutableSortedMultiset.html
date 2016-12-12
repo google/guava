@@ -264,7 +264,7 @@ implements <a href="../../../../com/google/common/collect/SortedMultiset.html" t
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>abstract <a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedMultiset.html#elementSet--">elementSet</a></span>()</code>
-<div class="block">Returns a <a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util"><code>NavigableSet</code></a> view of the distinct elements in this multiset.</div>
+<div class="block">Returns the set of distinct elements contained in this multiset.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
@@ -758,13 +758,26 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/
 <li class="blockList">
 <h4>elementSet</h4>
 <pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.335">elementSet</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/SortedMultiset.html#elementSet--">SortedMultiset</a></code></span></div>
-<div class="block">Returns a <a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util"><code>NavigableSet</code></a> view of the distinct elements in this multiset.</div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#elementSet--">Multiset</a></code></span></div>
+<div class="block">Returns the set of distinct elements contained in this multiset. The
+ element set is backed by the same data as the multiset, so any change to
+ either is immediately reflected in the other. The order of the elements in
+ the element set is unspecified.
+
+ <p>If the element set supports any removal operations, these necessarily
+ cause <b>all</b> occurrences of the removed element(s) to be removed from
+ the multiset. Implementations are not expected to support the add
+ operations, although this is possible.
+
+ <p>A common use for the element set is to find the number of distinct
+ elements in the multiset: <code>elementSet().size()</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/Multiset.html#elementSet--">elementSet</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/SortedMultiset.html#elementSet--">elementSet</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;</code></dd>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../com/google/common/collect/ImmutableMultiset.html#elementSet--">elementSet</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a view of the set of distinct elements in this multiset</dd>
 </dl>
