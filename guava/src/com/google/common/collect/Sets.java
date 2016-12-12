@@ -46,6 +46,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.annotation.Nullable;
 
@@ -134,6 +136,16 @@ public final class Sets {
       }
     }
   }
+
+  /**
+   * Convenient method for {@code ImmutableSet.toImmutableSet} that works specifically for enum types.
+   */
+  public static <E extends Enum<E>> Collector<E, ?, ImmutableSet<E>> toImmutableEnumSet() {
+    return Collectors.collectingAndThen(
+        ImmutableSet.toImmutableSet(),
+        Sets::immutableEnumSet);
+  }
+
 
   /**
    * Returns a new, <i>mutable</i> {@code EnumSet} instance containing the given elements in their
