@@ -46,6 +46,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.stream.Collector;
 import java.util.stream.Stream;
 import javax.annotation.Nullable;
 
@@ -133,6 +134,55 @@ public final class Sets {
         return ImmutableSet.of();
       }
     }
+  }
+
+  private static final class Accumulator<E extends Enum<E>> {
+    static final Collector<Enum<?>, ?, ImmutableSet<? extends Enum<?>>>
+      TO_IMMUTABLE_ENUM_SET =
+          (Collector)
+              Collector.<Enum, Accumulator, ImmutableSet<?>>of(
+                  Accumulator::new,
+                  Accumulator::add,
+                  Accumulator::combine,
+                  Accumulator::toImmutableSet,
+                  Collector.Characteristics.UNORDERED);
+
+    private EnumSet<E> set;
+
+    void add(E e) {
+      if (set == null) {
+        set = EnumSet.of(e);
+      } else {
+        set.add(e);
+      }
+    }
+
+    Accumulator<E> combine(Accumulator<E> other) {
+      if (this.set == null) {
+        return other;
+      } else if (other.set == null) {
+        return this;
+      } else {
+        this.set.addAll(other.set);
+        return this;
+      }
+    }
+
+    ImmutableSet<E> toImmutableSet() {
+      return (set == null) ? ImmutableSet.<E>of() : ImmutableEnumSet.asImmutable(set);
+    }
+  }
+
+  /**
+   * Returns a {@code Collector} that accumulates the input elements into a new {@code ImmutableSet}
+   * with an implementation specialized for enums. Unlike {@link ImmutableSet#toImmutableSet}, the
+   * resulting set will iterate over elements in their enum definition order, not encounter order.
+   *
+   * @since 21.0
+   */
+  @Beta
+  public static <E extends Enum<E>> Collector<E, ?, ImmutableSet<E>> toImmutableEnumSet() {
+    return (Collector) Accumulator.TO_IMMUTABLE_ENUM_SET;
   }
 
   /**
