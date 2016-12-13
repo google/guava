@@ -80,8 +80,9 @@ public final class UnsignedInts {
    * possible.
    *
    * @param value a value between 0 and 2<sup>32</sup>-1 inclusive
-   * @return the {@code byte} value that, when treated as unsigned, equals {@code value}
-   * @throws IllegalArgumentException if {@code value} is negative or greater than 255
+   * @return the {@code int} value that, when treated as unsigned, equals {@code value}
+   * @throws IllegalArgumentException if {@code value} is negative or greater than or equal to
+   *     2<sup>32</sup>
    * @since 21.0
    */
   public static int checkedCast(long value) {
