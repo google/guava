@@ -208,6 +208,19 @@ public class ShortsTest extends TestCase {
         (short) 5, (short) 3, (short) 0, (short) 9));
   }
 
+  public void testConstrainToRange() {
+    assertEquals((short) 1, Shorts.constrainToRange((short) 1, (short) 0, (short) 5));
+    assertEquals((short) 1, Shorts.constrainToRange((short) 1, (short) 1, (short) 5));
+    assertEquals((short) 3, Shorts.constrainToRange((short) 1, (short) 3, (short) 5));
+    assertEquals((short) -1, Shorts.constrainToRange((short) 0, (short) -5, (short) -1));
+    assertEquals((short) 2, Shorts.constrainToRange((short) 5, (short) 2, (short) 2));
+    try {
+      Shorts.constrainToRange((short) 1, (short) 3, (short) 2);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
   public void testConcat() {
     assertTrue(Arrays.equals(EMPTY, Shorts.concat()));
     assertTrue(Arrays.equals(EMPTY, Shorts.concat(EMPTY)));

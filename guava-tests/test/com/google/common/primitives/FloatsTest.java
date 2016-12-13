@@ -219,6 +219,25 @@ public class FloatsTest extends TestCase {
     assertTrue(Float.isNaN(Floats.min(VALUES)));
   }
 
+  public void testConstrainToRange() {
+    float tolerance = 1e-10f;
+    assertEquals(
+        (float) 1, Floats.constrainToRange((float) 1, (float) 0, (float) 5), tolerance);
+    assertEquals(
+        (float) 1, Floats.constrainToRange((float) 1, (float) 1, (float) 5), tolerance);
+    assertEquals(
+        (float) 3, Floats.constrainToRange((float) 1, (float) 3, (float) 5), tolerance);
+    assertEquals(
+        (float) -1, Floats.constrainToRange((float) 0, (float) -5, (float) -1), tolerance);
+    assertEquals(
+        (float) 2, Floats.constrainToRange((float) 5, (float) 2, (float) 2), tolerance);
+    try {
+      Floats.constrainToRange((float) 1, (float) 3, (float) 2);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
   public void testConcat() {
     assertTrue(Arrays.equals(EMPTY, Floats.concat()));
     assertTrue(Arrays.equals(EMPTY, Floats.concat(EMPTY)));

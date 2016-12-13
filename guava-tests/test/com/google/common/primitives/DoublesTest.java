@@ -221,6 +221,25 @@ public class DoublesTest extends TestCase {
     assertTrue(Double.isNaN(Doubles.min(VALUES)));
   }
 
+  public void testConstrainToRange() {
+    double tolerance = 1e-10;
+    assertEquals(
+        (double) 1, Doubles.constrainToRange((double) 1, (double) 0, (double) 5), tolerance);
+    assertEquals(
+        (double) 1, Doubles.constrainToRange((double) 1, (double) 1, (double) 5), tolerance);
+    assertEquals(
+        (double) 3, Doubles.constrainToRange((double) 1, (double) 3, (double) 5), tolerance);
+    assertEquals(
+        (double) -1, Doubles.constrainToRange((double) 0, (double) -5, (double) -1), tolerance);
+    assertEquals(
+        (double) 2, Doubles.constrainToRange((double) 5, (double) 2, (double) 2), tolerance);
+    try {
+      Doubles.constrainToRange((double) 1, (double) 3, (double) 2);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
   public void testConcat() {
     assertTrue(Arrays.equals(EMPTY, Doubles.concat()));
     assertTrue(Arrays.equals(EMPTY, Doubles.concat(EMPTY)));
