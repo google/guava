@@ -25606,6 +25606,44 @@
  @since 14.0]]>
       </doc>
     </method>
+    <method name="toImmutableEnumMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableMap&lt;K, V&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="keyFunction" type="com.google.common.base.Function&lt;? super T, ? extends K&gt;"/>
+      <param name="valueFunction" type="com.google.common.base.Function&lt;? super T, ? extends V&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@link Collector} that accumulates elements into an {@code ImmutableMap} whose keys
+ and values are the result of applying the provided mapping functions to the input elements. The
+ resulting implementation is specialized for enum key types. The returned map and its views will
+ iterate over keys in their enum definition order, not encounter order.
+
+ <p>If the mapped keys contain duplicates, an {@code IllegalArgumentException} is thrown when
+ the collection operation is performed. (This differs from the {@code Collector} returned by
+ {@link Collectors#toMap(Function, Function)}, which throws an {@code IllegalStateException}.)
+
+ @since 21.0]]>
+      </doc>
+    </method>
+    <method name="toImmutableEnumMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableMap&lt;K, V&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="keyFunction" type="com.google.common.base.Function&lt;? super T, ? extends K&gt;"/>
+      <param name="valueFunction" type="com.google.common.base.Function&lt;? super T, ? extends V&gt;"/>
+      <param name="mergeFunction" type="java.util.function.BinaryOperator&lt;V&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@link Collector} that accumulates elements into an {@code ImmutableMap} whose keys
+ and values are the result of applying the provided mapping functions to the input elements. The
+ resulting implementation is specialized for enum key types. The returned map and its views will
+ iterate over keys in their enum definition order, not encounter order.
+
+ <p>If the mapped keys contain duplicates, the values are merged using the specified merging
+ function.
+
+ @since 21.0]]>
+      </doc>
+    </method>
     <method name="newHashMap" return="java.util.HashMap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -32814,6 +32852,18 @@
  @param elements the elements, all of the same {@code enum} type, that the
      set should contain
  @return an immutable set containing those elements, minus duplicates]]>
+      </doc>
+    </method>
+    <method name="toImmutableEnumSet" return="java.util.stream.Collector&lt;E, ?, com.google.common.collect.ImmutableSet&lt;E&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a {@code Collector} that accumulates the input elements into a new {@code ImmutableSet}
+ with an implementation specialized for enums. Unlike {@link ImmutableSet#toImmutableSet}, the
+ resulting set will iterate over elements in their enum definition order, not encounter order.
+
+ @since 21.0]]>
       </doc>
     </method>
     <method name="newEnumSet" return="java.util.EnumSet&lt;E&gt;"
@@ -51308,6 +51358,27 @@
  @throws IllegalArgumentException if {@code array} is empty]]>
       </doc>
     </method>
+    <method name="constrainToRange" return="char"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="value" type="char"/>
+      <param name="min" type="char"/>
+      <param name="max" type="char"/>
+      <doc>
+      <![CDATA[Returns the value nearest to {@code value} which is within the closed range {@code [min..max]}.
+
+ <p>If {@code value} is within the range {@code [min..max]}, {@code value} is returned
+ unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if
+ {@code value} is greater than {@code max}, {@code max} is returned.
+
+ @param value the {@code char} value to constrain
+ @param min the lower bound (inclusive) of the range to constrain {@code value} to
+ @param max the upper bound (inclusive) of the range to constrain {@code value} to
+ @throws IllegalArgumentException if {@code min > max}
+ @since 21.0]]>
+      </doc>
+    </method>
     <method name="concat" return="char[]"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -51634,6 +51705,27 @@
  @throws IllegalArgumentException if {@code array} is empty]]>
       </doc>
     </method>
+    <method name="constrainToRange" return="double"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="value" type="double"/>
+      <param name="min" type="double"/>
+      <param name="max" type="double"/>
+      <doc>
+      <![CDATA[Returns the value nearest to {@code value} which is within the closed range {@code [min..max]}.
+
+ <p>If {@code value} is within the range {@code [min..max]}, {@code value} is returned
+ unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if
+ {@code value} is greater than {@code max}, {@code max} is returned.
+
+ @param value the {@code double} value to constrain
+ @param min the lower bound (inclusive) of the range to constrain {@code value} to
+ @param max the upper bound (inclusive) of the range to constrain {@code value} to
+ @throws IllegalArgumentException if {@code min > max}
+ @since 21.0]]>
+      </doc>
+    </method>
     <method name="concat" return="double[]"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -51954,6 +52046,27 @@
  @return the value present in {@code array} that is greater than or equal to every other value
      in the array
  @throws IllegalArgumentException if {@code array} is empty]]>
+      </doc>
+    </method>
+    <method name="constrainToRange" return="float"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="value" type="float"/>
+      <param name="min" type="float"/>
+      <param name="max" type="float"/>
+      <doc>
+      <![CDATA[Returns the value nearest to {@code value} which is within the closed range {@code [min..max]}.
+
+ <p>If {@code value} is within the range {@code [min..max]}, {@code value} is returned
+ unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if
+ {@code value} is greater than {@code max}, {@code max} is returned.
+
+ @param value the {@code float} value to constrain
+ @param min the lower bound (inclusive) of the range to constrain {@code value} to
+ @param max the upper bound (inclusive) of the range to constrain {@code value} to
+ @throws IllegalArgumentException if {@code min > max}
+ @since 21.0]]>
       </doc>
     </method>
     <method name="concat" return="float[]"
@@ -52282,6 +52395,27 @@
  @return the value present in {@code array} that is greater than or equal to every other value
      in the array
  @throws IllegalArgumentException if {@code array} is empty]]>
+      </doc>
+    </method>
+    <method name="constrainToRange" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="value" type="int"/>
+      <param name="min" type="int"/>
+      <param name="max" type="int"/>
+      <doc>
+      <![CDATA[Returns the value nearest to {@code value} which is within the closed range {@code [min..max]}.
+
+ <p>If {@code value} is within the range {@code [min..max]}, {@code value} is returned
+ unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if
+ {@code value} is greater than {@code max}, {@code max} is returned.
+
+ @param value the {@code int} value to constrain
+ @param min the lower bound (inclusive) of the range to constrain {@code value} to
+ @param max the upper bound (inclusive) of the range to constrain {@code value} to
+ @throws IllegalArgumentException if {@code min > max}
+ @since 21.0]]>
       </doc>
     </method>
     <method name="concat" return="int[]"
@@ -52663,6 +52797,27 @@
  @return the value present in {@code array} that is greater than or equal to every other value
      in the array
  @throws IllegalArgumentException if {@code array} is empty]]>
+      </doc>
+    </method>
+    <method name="constrainToRange" return="long"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="value" type="long"/>
+      <param name="min" type="long"/>
+      <param name="max" type="long"/>
+      <doc>
+      <![CDATA[Returns the value nearest to {@code value} which is within the closed range {@code [min..max]}.
+
+ <p>If {@code value} is within the range {@code [min..max]}, {@code value} is returned
+ unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if
+ {@code value} is greater than {@code max}, {@code max} is returned.
+
+ @param value the {@code long} value to constrain
+ @param min the lower bound (inclusive) of the range to constrain {@code value} to
+ @param max the upper bound (inclusive) of the range to constrain {@code value} to
+ @throws IllegalArgumentException if {@code min > max}
+ @since 21.0]]>
       </doc>
     </method>
     <method name="concat" return="long[]"
@@ -53153,6 +53308,27 @@
  @return the value present in {@code array} that is greater than or equal to every other value
      in the array
  @throws IllegalArgumentException if {@code array} is empty]]>
+      </doc>
+    </method>
+    <method name="constrainToRange" return="short"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="value" type="short"/>
+      <param name="min" type="short"/>
+      <param name="max" type="short"/>
+      <doc>
+      <![CDATA[Returns the value nearest to {@code value} which is within the closed range {@code [min..max]}.
+
+ <p>If {@code value} is within the range {@code [min..max]}, {@code value} is returned
+ unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if
+ {@code value} is greater than {@code max}, {@code max} is returned.
+
+ @param value the {@code short} value to constrain
+ @param min the lower bound (inclusive) of the range to constrain {@code value} to
+ @param max the upper bound (inclusive) of the range to constrain {@code value} to
+ @throws IllegalArgumentException if {@code min > max}
+ @since 21.0]]>
       </doc>
     </method>
     <method name="concat" return="short[]"
@@ -54003,8 +54179,9 @@
  possible.
 
  @param value a value between 0 and 2<sup>32</sup>-1 inclusive
- @return the {@code byte} value that, when treated as unsigned, equals {@code value}
- @throws IllegalArgumentException if {@code value} is negative or greater than 255
+ @return the {@code int} value that, when treated as unsigned, equals {@code value}
+ @throws IllegalArgumentException if {@code value} is negative or greater than or equal to
+     2<sup>32</sup>
  @since 21.0]]>
       </doc>
     </method>

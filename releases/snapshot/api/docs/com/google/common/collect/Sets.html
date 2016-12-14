@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9,"i15":9,"i16":9,"i17":9,"i18":9,"i19":9,"i20":9,"i21":9,"i22":9,"i23":9,"i24":9,"i25":41,"i26":9,"i27":9,"i28":9,"i29":9,"i30":9,"i31":9,"i32":9,"i33":9,"i34":9};
+var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9,"i15":9,"i16":9,"i17":9,"i18":9,"i19":9,"i20":9,"i21":9,"i22":9,"i23":9,"i24":9,"i25":41,"i26":9,"i27":9,"i28":9,"i29":9,"i30":9,"i31":9,"i32":9,"i33":9,"i34":9,"i35":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -110,7 +110,7 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#emulated--">emulated</a>=true)
-public final class <a href="../../../../src-html/com/google/common/collect/Sets.html#line.66">Sets</a>
+public final class <a href="../../../../src-html/com/google/common/collect/Sets.html#line.67">Sets</a>
 extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">Static utility methods pertaining to <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util"><code>Set</code></a> instances. Also see this
  class's counterparts <a href="../../../../com/google/common/collect/Lists.html" title="class in com.google.common.collect"><code>Lists</code></a>, <a href="../../../../com/google/common/collect/Maps.html" title="class in com.google.common.collect"><code>Maps</code></a> and <a href="../../../../com/google/common/collect/Queues.html" title="class in com.google.common.collect"><code>Queues</code></a>.
@@ -394,13 +394,20 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 </td>
 </tr>
 <tr id="i33" class="rowColor">
+<td class="colFirst"><code>static &lt;E extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;E&gt;&gt;<br><a href="http://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream">Collector</a>&lt;E,?,<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;E&gt;&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Sets.html#toImmutableEnumSet--">toImmutableEnumSet</a></span>()</code>
+<div class="block">Returns a <code>Collector</code> that accumulates the input elements into a new <code>ImmutableSet</code>
+ with an implementation specialized for enums.</div>
+</td>
+</tr>
+<tr id="i34" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Sets.html#union-java.util.Set-java.util.Set-">union</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;? extends E&gt;&nbsp;set1,
      <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;? extends E&gt;&nbsp;set2)</code>
 <div class="block">Returns an unmodifiable <b>view</b> of the union of two sets.</div>
 </td>
 </tr>
-<tr id="i34" class="altColor">
+<tr id="i35" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Sets.html#unmodifiableNavigableSet-java.util.NavigableSet-">unmodifiableNavigableSet</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;E&gt;&nbsp;set)</code>
 <div class="block">Returns an unmodifiable view of the specified navigable set.</div>
@@ -437,7 +444,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>immutableEnumSet</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable--">serializable</a>=true)
-public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.98">immutableEnumSet</a>(E&nbsp;anElement,
+public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.99">immutableEnumSet</a>(E&nbsp;anElement,
                                                                                                      E...&nbsp;otherElements)</pre>
 <div class="block">Returns an immutable set instance containing the given enum elements.
  Internally, the returned set will be backed by an <a href="http://docs.oracle.com/javase/8/docs/api/java/util/EnumSet.html?is-external=true" title="class or interface in java.util"><code>EnumSet</code></a>.
@@ -460,7 +467,7 @@ public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/a
 <li class="blockList">
 <h4>immutableEnumSet</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable--">serializable</a>=true)
-public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.116">immutableEnumSet</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;elements)</pre>
+public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.117">immutableEnumSet</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable set instance containing the given enum elements.
  Internally, the returned set will be backed by an <a href="http://docs.oracle.com/javase/8/docs/api/java/util/EnumSet.html?is-external=true" title="class or interface in java.util"><code>EnumSet</code></a>.
 
@@ -475,13 +482,30 @@ public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/a
 </dl>
 </li>
 </ul>
+<a name="toImmutableEnumSet--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>toImmutableEnumSet</h4>
+<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;E&gt;&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream">Collector</a>&lt;E,?,<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.184">toImmutableEnumSet</a>()</pre>
+<div class="block">Returns a <code>Collector</code> that accumulates the input elements into a new <code>ImmutableSet</code>
+ with an implementation specialized for enums. Unlike <a href="../../../../com/google/common/collect/ImmutableSet.html#toImmutableSet--"><code>ImmutableSet.toImmutableSet()</code></a>, the
+ resulting set will iterate over elements in their enum definition order, not encounter order.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>21.0</dd>
+</dl>
+</li>
+</ul>
 <a name="newEnumSet-java.lang.Iterable-java.lang.Class-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>newEnumSet</h4>
-<pre>public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;E&gt;&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/EnumSet.html?is-external=true" title="class or interface in java.util">EnumSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.143">newEnumSet</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;iterable,
+<pre>public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;E&gt;&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/EnumSet.html?is-external=true" title="class or interface in java.util">EnumSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.193">newEnumSet</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;iterable,
                                                         <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;E&gt;&nbsp;elementType)</pre>
 <div class="block">Returns a new, <i>mutable</i> <code>EnumSet</code> instance containing the given elements in their
  natural order. This method behaves identically to <a href="http://docs.oracle.com/javase/8/docs/api/java/util/EnumSet.html?is-external=true#copyOf-java.util.Collection-" title="class or interface in java.util"><code>EnumSet.copyOf(Collection)</code></a>, but also
@@ -494,7 +518,7 @@ public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/a
 <ul class="blockList">
 <li class="blockList">
 <h4>newHashSet</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util">HashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.164">newHashSet</a>()</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util">HashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.214">newHashSet</a>()</pre>
 <div class="block">Creates a <i>mutable</i>, initially empty <code>HashSet</code> instance.
 
  <p><b>Note:</b> if mutability is not required, use <a href="../../../../com/google/common/collect/ImmutableSet.html#of--"><code>ImmutableSet.of()</code></a> instead. If
@@ -515,7 +539,7 @@ public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/a
 <ul class="blockList">
 <li class="blockList">
 <h4>newHashSet</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util">HashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.181">newHashSet</a>(E...&nbsp;elements)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util">HashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.231">newHashSet</a>(E...&nbsp;elements)</pre>
 <div class="block">Creates a <i>mutable</i> <code>HashSet</code> instance initially containing the given elements.
 
  <p><b>Note:</b> if elements are non-null and won't be added or removed after this point, use
@@ -534,7 +558,7 @@ public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/a
 <ul class="blockList">
 <li class="blockList">
 <h4>newHashSetWithExpectedSize</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util">HashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.199">newHashSetWithExpectedSize</a>(int&nbsp;expectedSize)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util">HashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.249">newHashSetWithExpectedSize</a>(int&nbsp;expectedSize)</pre>
 <div class="block">Returns a new hash set using the smallest initial table size that can hold <code>expectedSize</code>
  elements without resizing. Note that this is not what <a href="http://docs.oracle.com/javase/8/docs/api/java/util/HashSet.html?is-external=true#HashSet-int-" title="class or interface in java.util"><code>HashSet.HashSet(int)</code></a> does, but it
  is what most users want and expect it to do.
@@ -557,7 +581,7 @@ public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/a
 <ul class="blockList">
 <li class="blockList">
 <h4>newHashSet</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util">HashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.221">newHashSet</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util">HashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.271">newHashSet</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Creates a <i>mutable</i> <code>HashSet</code> instance containing the given elements. A very thin
  convenience for creating an empty set then calling <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true#addAll-java.util.Collection-" title="class or interface in java.util"><code>Collection.addAll(java.util.Collection&lt;? extends E&gt;)</code></a> or <a href="../../../../com/google/common/collect/Iterables.html#addAll-java.util.Collection-java.lang.Iterable-"><code>Iterables.addAll(java.util.Collection&lt;T&gt;, java.lang.Iterable&lt;? extends T&gt;)</code></a>.
 
@@ -579,7 +603,7 @@ public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/a
 <ul class="blockList">
 <li class="blockList">
 <h4>newHashSet</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util">HashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.239">newHashSet</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util">HashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.289">newHashSet</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Creates a <i>mutable</i> <code>HashSet</code> instance containing the given elements. A very thin
  convenience for creating an empty set and then calling <a href="../../../../com/google/common/collect/Iterators.html#addAll-java.util.Collection-java.util.Iterator-"><code>Iterators.addAll(java.util.Collection&lt;T&gt;, java.util.Iterator&lt;? extends T&gt;)</code></a>.
 
@@ -597,7 +621,7 @@ public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/a
 <ul class="blockList">
 <li class="blockList">
 <h4>newConcurrentHashSet</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.256">newConcurrentHashSet</a>()</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.306">newConcurrentHashSet</a>()</pre>
 <div class="block">Creates a thread-safe set backed by a hash map. The set is backed by a
  <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentHashMap.html?is-external=true" title="class or interface in java.util.concurrent"><code>ConcurrentHashMap</code></a> instance, and thus carries the same concurrency
  guarantees.
@@ -618,7 +642,7 @@ public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/a
 <ul class="blockList">
 <li class="blockList">
 <h4>newConcurrentHashSet</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.274">newConcurrentHashSet</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.324">newConcurrentHashSet</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Creates a thread-safe set backed by a hash map and containing the given
  elements. The set is backed by a <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentHashMap.html?is-external=true" title="class or interface in java.util.concurrent"><code>ConcurrentHashMap</code></a> instance, and
  thus carries the same concurrency guarantees.
@@ -644,7 +668,7 @@ public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/a
 <ul class="blockList">
 <li class="blockList">
 <h4>newLinkedHashSet</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashSet.html?is-external=true" title="class or interface in java.util">LinkedHashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.293">newLinkedHashSet</a>()</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashSet.html?is-external=true" title="class or interface in java.util">LinkedHashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.343">newLinkedHashSet</a>()</pre>
 <div class="block">Creates a <i>mutable</i>, empty <code>LinkedHashSet</code> instance.
 
  <p><b>Note:</b> if mutability is not required, use <a href="../../../../com/google/common/collect/ImmutableSet.html#of--"><code>ImmutableSet.of()</code></a> instead.
@@ -664,7 +688,7 @@ public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/a
 <ul class="blockList">
 <li class="blockList">
 <h4>newLinkedHashSetWithExpectedSize</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashSet.html?is-external=true" title="class or interface in java.util">LinkedHashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.309">newLinkedHashSetWithExpectedSize</a>(int&nbsp;expectedSize)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashSet.html?is-external=true" title="class or interface in java.util">LinkedHashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.359">newLinkedHashSetWithExpectedSize</a>(int&nbsp;expectedSize)</pre>
 <div class="block">Creates a <code>LinkedHashSet</code> instance, with a high enough "initial capacity" that it
  <i>should</i> hold <code>expectedSize</code> elements without growth. This behavior cannot be
  broadly guaranteed, but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed
@@ -688,7 +712,7 @@ public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/a
 <ul class="blockList">
 <li class="blockList">
 <h4>newLinkedHashSet</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashSet.html?is-external=true" title="class or interface in java.util">LinkedHashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.328">newLinkedHashSet</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashSet.html?is-external=true" title="class or interface in java.util">LinkedHashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.378">newLinkedHashSet</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Creates a <i>mutable</i> <code>LinkedHashSet</code> instance containing the given elements in order.
 
  <p><b>Note:</b> if mutability is not required and the elements are non-null, use <a href="../../../../com/google/common/collect/ImmutableSet.html#copyOf-java.lang.Iterable-"><code>ImmutableSet.copyOf(Iterable)</code></a> instead.
@@ -712,7 +736,7 @@ public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/a
 <ul class="blockList">
 <li class="blockList">
 <h4>newTreeSet</h4>
-<pre>public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/TreeSet.html?is-external=true" title="class or interface in java.util">TreeSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.351">newTreeSet</a>()</pre>
+<pre>public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/TreeSet.html?is-external=true" title="class or interface in java.util">TreeSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.401">newTreeSet</a>()</pre>
 <div class="block">Creates a <i>mutable</i>, empty <code>TreeSet</code> instance sorted by the natural sort ordering of
  its elements.
 
@@ -733,7 +757,7 @@ public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/a
 <ul class="blockList">
 <li class="blockList">
 <h4>newTreeSet</h4>
-<pre>public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/TreeSet.html?is-external=true" title="class or interface in java.util">TreeSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.376">newTreeSet</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre>public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/TreeSet.html?is-external=true" title="class or interface in java.util">TreeSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.426">newTreeSet</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Creates a <i>mutable</i> <code>TreeSet</code> instance containing the given elements sorted by their
  natural ordering.
 
@@ -762,7 +786,7 @@ public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/a
 <ul class="blockList">
 <li class="blockList">
 <h4>newTreeSet</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/TreeSet.html?is-external=true" title="class or interface in java.util">TreeSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.398">newTreeSet</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super E&gt;&nbsp;comparator)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/TreeSet.html?is-external=true" title="class or interface in java.util">TreeSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.448">newTreeSet</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super E&gt;&nbsp;comparator)</pre>
 <div class="block">Creates a <i>mutable</i>, empty <code>TreeSet</code> instance with the given comparator.
 
  <p><b>Note:</b> if mutability is not required, use <code>ImmutableSortedSet.orderedBy(comparator).build()</code> instead.
@@ -787,7 +811,7 @@ public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/a
 <ul class="blockList">
 <li class="blockList">
 <h4>newIdentityHashSet</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.412">newIdentityHashSet</a>()</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.462">newIdentityHashSet</a>()</pre>
 <div class="block">Creates an empty <code>Set</code> that uses identity to determine equality. It
  compares object references, instead of calling <code>equals</code>, to
  determine whether a provided object matches an element in the set. For
@@ -807,7 +831,7 @@ public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/a
 <li class="blockList">
 <h4>newCopyOnWriteArraySet</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CopyOnWriteArraySet.html?is-external=true" title="class or interface in java.util.concurrent">CopyOnWriteArraySet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.426">newCopyOnWriteArraySet</a>()</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CopyOnWriteArraySet.html?is-external=true" title="class or interface in java.util.concurrent">CopyOnWriteArraySet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.476">newCopyOnWriteArraySet</a>()</pre>
 <div class="block">Creates an empty <code>CopyOnWriteArraySet</code> instance.
 
  <p><b>Note:</b> if you need an immutable empty <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util"><code>Set</code></a>, use
@@ -827,7 +851,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/
 <li class="blockList">
 <h4>newCopyOnWriteArraySet</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CopyOnWriteArraySet.html?is-external=true" title="class or interface in java.util.concurrent">CopyOnWriteArraySet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.438">newCopyOnWriteArraySet</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CopyOnWriteArraySet.html?is-external=true" title="class or interface in java.util.concurrent">CopyOnWriteArraySet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.488">newCopyOnWriteArraySet</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Creates a <code>CopyOnWriteArraySet</code> instance containing the given elements.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -845,7 +869,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>complementOf</h4>
-<pre>public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;E&gt;&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/EnumSet.html?is-external=true" title="class or interface in java.util">EnumSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.463">complementOf</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;E&gt;&nbsp;collection)</pre>
+<pre>public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;E&gt;&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/EnumSet.html?is-external=true" title="class or interface in java.util">EnumSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.513">complementOf</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;E&gt;&nbsp;collection)</pre>
 <div class="block">Creates an <code>EnumSet</code> consisting of all enum values that are not in
  the specified collection. If the collection is an <a href="http://docs.oracle.com/javase/8/docs/api/java/util/EnumSet.html?is-external=true" title="class or interface in java.util"><code>EnumSet</code></a>, this
  method has the same behavior as <a href="http://docs.oracle.com/javase/8/docs/api/java/util/EnumSet.html?is-external=true#complementOf-java.util.EnumSet-" title="class or interface in java.util"><code>EnumSet.complementOf(java.util.EnumSet&lt;E&gt;)</code></a>. Otherwise,
@@ -871,7 +895,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>complementOf</h4>
-<pre>public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;E&gt;&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/EnumSet.html?is-external=true" title="class or interface in java.util">EnumSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.485">complementOf</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;E&gt;&nbsp;collection,
+<pre>public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;E&gt;&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/EnumSet.html?is-external=true" title="class or interface in java.util">EnumSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.535">complementOf</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;E&gt;&nbsp;collection,
                                                           <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;E&gt;&nbsp;type)</pre>
 <div class="block">Creates an <code>EnumSet</code> consisting of all enum values that are not in
  the specified collection. This is equivalent to
@@ -895,7 +919,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/
 <li class="blockList">
 <h4>newSetFromMap</h4>
 <pre><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.532">newSetFromMap</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;E,<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&gt;&nbsp;map)</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.582">newSetFromMap</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;E,<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&gt;&nbsp;map)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Use <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collections.html?is-external=true#newSetFromMap-java.util.Map-" title="class or interface in java.util"><code>Collections.newSetFromMap(java.util.Map&lt;E, java.lang.Boolean&gt;)</code></a> instead. This method
      will be removed in December 2017.</span></div>
 <div class="block">Returns a set backed by the specified map. The resulting set displays
@@ -937,7 +961,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>union</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.687">union</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;? extends E&gt;&nbsp;set1,
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.737">union</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;? extends E&gt;&nbsp;set1,
                                         <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;? extends E&gt;&nbsp;set2)</pre>
 <div class="block">Returns an unmodifiable <b>view</b> of the union of two sets. The returned
  set contains all elements that are contained in either backing set.
@@ -956,7 +980,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>intersection</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.765">intersection</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;set1,
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.815">intersection</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;set1,
                                                <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;?&gt;&nbsp;set2)</pre>
 <div class="block">Returns an unmodifiable <b>view</b> of the intersection of two sets. The
  returned set contains all elements that are contained by both backing sets.
@@ -989,7 +1013,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>difference</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.819">difference</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;set1,
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.869">difference</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;set1,
                                              <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;?&gt;&nbsp;set2)</pre>
 <div class="block">Returns an unmodifiable <b>view</b> of the difference of two sets. The
  returned set contains all elements that are contained by <code>set1</code> and
@@ -1008,7 +1032,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>symmetricDifference</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.869">symmetricDifference</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;? extends E&gt;&nbsp;set1,
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.919">symmetricDifference</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;? extends E&gt;&nbsp;set1,
                                                       <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;? extends E&gt;&nbsp;set2)</pre>
 <div class="block">Returns an unmodifiable <b>view</b> of the symmetric difference of two
  sets. The returned set contains all elements that are contained in either
@@ -1030,7 +1054,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>filter</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.947">filter</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;unfiltered,
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.997">filter</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;unfiltered,
                                 <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;predicate)</pre>
 <div class="block">Returns the elements of <code>unfiltered</code> that satisfy a predicate. The
  returned set is a live view of <code>unfiltered</code>; changes to one affect
@@ -1067,7 +1091,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>filter</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1007">filter</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;E&gt;&nbsp;unfiltered,
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1057">filter</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;E&gt;&nbsp;unfiltered,
                                       <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;predicate)</pre>
 <div class="block">Returns the elements of a <code>SortedSet</code>, <code>unfiltered</code>, that
  satisfy a predicate. The returned set is a live view of <code>unfiltered</code>;
@@ -1107,7 +1131,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/
 <li class="blockList">
 <h4>filter</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1095">filter</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;E&gt;&nbsp;unfiltered,
+public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1145">filter</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;E&gt;&nbsp;unfiltered,
                                                           <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;predicate)</pre>
 <div class="block">Returns the elements of a <code>NavigableSet</code>, <code>unfiltered</code>, that
  satisfy a predicate. The returned set is a live view of <code>unfiltered</code>;
@@ -1146,7 +1170,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>cartesianProduct</h4>
-<pre>public static&nbsp;&lt;B&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;B&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1239">cartesianProduct</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;? extends <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;? extends B&gt;&gt;&nbsp;sets)</pre>
+<pre>public static&nbsp;&lt;B&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;B&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1289">cartesianProduct</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;? extends <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;? extends B&gt;&gt;&nbsp;sets)</pre>
 <div class="block">Returns every possible list that can be formed by choosing one element
  from each of the given sets in order; the "n-ary
  <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
@@ -1213,7 +1237,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>cartesianProduct</h4>
-<pre>public static&nbsp;&lt;B&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;B&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1298">cartesianProduct</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;? extends B&gt;...&nbsp;sets)</pre>
+<pre>public static&nbsp;&lt;B&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;B&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1348">cartesianProduct</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;? extends B&gt;...&nbsp;sets)</pre>
 <div class="block">Returns every possible list that can be formed by choosing one element
  from each of the given sets in order; the "n-ary
  <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
@@ -1281,7 +1305,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/
 <li class="blockList">
 <h4>powerSet</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable--">serializable</a>=false)
-public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1412">powerSet</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;set)</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1462">powerSet</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;set)</pre>
 <div class="block">Returns the set of all possible subsets of <code>set</code>. For example,
  <code>powerSet(ImmutableSet.of(1, 2))</code> returns the set <code>{{},
  {1}, {2}, {1, 2}}</code>.
@@ -1322,7 +1346,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>unmodifiableNavigableSet</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1574">unmodifiableNavigableSet</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;E&gt;&nbsp;set)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1624">unmodifiableNavigableSet</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;E&gt;&nbsp;set)</pre>
 <div class="block">Returns an unmodifiable view of the specified navigable set. This method
  allows modules to provide users with "read-only" access to internal
  navigable sets. Query operations on the returned set "read through" to the
@@ -1350,7 +1374,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/
 <li class="blockList">
 <h4>synchronizedNavigableSet</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1705">synchronizedNavigableSet</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;E&gt;&nbsp;navigableSet)</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1755">synchronizedNavigableSet</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;E&gt;&nbsp;navigableSet)</pre>
 <div class="block">Returns a synchronized (thread-safe) navigable set backed by the specified
  navigable set.  In order to guarantee serial access, it is critical that
  <b>all</b> access to the backing navigable set is accomplished
@@ -1406,7 +1430,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/
 <h4>subSet</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;K extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;? super K&gt;&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;K&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1889">subSet</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;K&gt;&nbsp;set,
+public static&nbsp;&lt;K extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;? super K&gt;&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;K&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1939">subSet</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;K&gt;&nbsp;set,
                                                                                                <a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;K&gt;&nbsp;range)</pre>
 <div class="block">Returns a view of the portion of <code>set</code> whose elements are contained by <code>range</code>.
 

@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9,"i15":9,"i16":9,"i17":9,"i18":9};
+var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9,"i15":9,"i16":9,"i17":9,"i18":9,"i19":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -110,7 +110,7 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#emulated--">emulated</a>=true)
-public final class <a href="../../../../src-html/com/google/common/primitives/Chars.html#line.48">Chars</a>
+public final class <a href="../../../../src-html/com/google/common/primitives/Chars.html#line.49">Chars</a>
 extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">Static utility methods pertaining to <code>char</code> primitives, that are not already found in
  either <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang"><code>Character</code></a> or <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Arrays.html?is-external=true" title="class or interface in java.util"><code>Arrays</code></a>.
@@ -192,13 +192,21 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 </td>
 </tr>
 <tr id="i4" class="altColor">
+<td class="colFirst"><code>static char</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Chars.html#constrainToRange-char-char-char-">constrainToRange</a></span>(char&nbsp;value,
+                char&nbsp;min,
+                char&nbsp;max)</code>
+<div class="block">Returns the value nearest to <code>value</code> which is within the closed range <code>[min..max]</code>.</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Chars.html#contains-char:A-char-">contains</a></span>(char[]&nbsp;array,
         char&nbsp;target)</code>
 <div class="block">Returns <code>true</code> if <code>target</code> is present as an element anywhere in <code>array</code>.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>static char[]</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Chars.html#ensureCapacity-char:A-int-int-">ensureCapacity</a></span>(char[]&nbsp;array,
               int&nbsp;minLength,
@@ -207,14 +215,14 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
  specified minimum length.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>static char</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Chars.html#fromByteArray-byte:A-">fromByteArray</a></span>(byte[]&nbsp;bytes)</code>
 <div class="block">Returns the <code>char</code> value whose big-endian representation is stored in the first 2 bytes
  of <code>bytes</code>; equivalent to <code>ByteBuffer.wrap(bytes).getChar()</code>.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>static char</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Chars.html#fromBytes-byte-byte-">fromBytes</a></span>(byte&nbsp;b1,
          byte&nbsp;b2)</code>
@@ -222,74 +230,74 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
  order; equivalent to <code>Chars.fromByteArray(new byte[] {b1, b2})</code>.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>static int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Chars.html#hashCode-char-">hashCode</a></span>(char&nbsp;value)</code>
 <div class="block">Returns a hash code for <code>value</code>; equal to the result of invoking
  <code>((Character) value).hashCode()</code>.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>static int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Chars.html#indexOf-char:A-char-">indexOf</a></span>(char[]&nbsp;array,
        char&nbsp;target)</code>
 <div class="block">Returns the index of the first appearance of the value <code>target</code> in <code>array</code>.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>static int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Chars.html#indexOf-char:A-char:A-">indexOf</a></span>(char[]&nbsp;array,
        char[]&nbsp;target)</code>
 <div class="block">Returns the start position of the first occurrence of the specified <code>target</code> within <code>array</code>, or <code>-1</code> if there is no such occurrence.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Chars.html#join-java.lang.String-char...-">join</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator,
     char...&nbsp;array)</code>
 <div class="block">Returns a string containing the supplied <code>char</code> values separated by <code>separator</code>.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>static int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Chars.html#lastIndexOf-char:A-char-">lastIndexOf</a></span>(char[]&nbsp;array,
            char&nbsp;target)</code>
 <div class="block">Returns the index of the last appearance of the value <code>target</code> in <code>array</code>.</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;char[]&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Chars.html#lexicographicalComparator--">lexicographicalComparator</a></span>()</code>
 <div class="block">Returns a comparator that compares two <code>char</code> arrays <a
  href="http://en.wikipedia.org/wiki/Lexicographical_order">lexicographically</a>.</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>static char</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Chars.html#max-char...-">max</a></span>(char...&nbsp;array)</code>
 <div class="block">Returns the greatest value present in <code>array</code>.</div>
 </td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>static char</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Chars.html#min-char...-">min</a></span>(char...&nbsp;array)</code>
 <div class="block">Returns the least value present in <code>array</code>.</div>
 </td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>static char</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Chars.html#saturatedCast-long-">saturatedCast</a></span>(long&nbsp;value)</code>
 <div class="block">Returns the <code>char</code> nearest in value to <code>value</code>.</div>
 </td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>static char[]</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Chars.html#toArray-java.util.Collection-">toArray</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang">Character</a>&gt;&nbsp;collection)</code>
 <div class="block">Copies a collection of <code>Character</code> instances into a new array of primitive <code>char</code>
  values.</div>
 </td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code>static byte[]</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Chars.html#toByteArray-char-">toByteArray</a></span>(char&nbsp;value)</code>
 <div class="block">Returns a big-endian representation of <code>value</code> in a 2-element byte array; equivalent to
@@ -324,7 +332,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>BYTES</h4>
-<pre>public static final&nbsp;int <a href="../../../../src-html/com/google/common/primitives/Chars.html#line.56">BYTES</a></pre>
+<pre>public static final&nbsp;int <a href="../../../../src-html/com/google/common/primitives/Chars.html#line.57">BYTES</a></pre>
 <div class="block">The number of bytes required to represent a primitive <code>char</code> value.
 
  <p><b>Java 8 users:</b> use <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Character.html?is-external=true#BYTES" title="class or interface in java.lang"><code>Character.BYTES</code></a> instead.</div>
@@ -348,7 +356,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.67">hashCode</a>(char&nbsp;value)</pre>
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.68">hashCode</a>(char&nbsp;value)</pre>
 <div class="block">Returns a hash code for <code>value</code>; equal to the result of invoking
  <code>((Character) value).hashCode()</code>.
 
@@ -367,7 +375,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkedCast</h4>
-<pre>public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.79">checkedCast</a>(long&nbsp;value)</pre>
+<pre>public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.80">checkedCast</a>(long&nbsp;value)</pre>
 <div class="block">Returns the <code>char</code> value that is equal to <code>value</code>, if possible.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -386,7 +394,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>saturatedCast</h4>
-<pre>public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.93">saturatedCast</a>(long&nbsp;value)</pre>
+<pre>public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.94">saturatedCast</a>(long&nbsp;value)</pre>
 <div class="block">Returns the <code>char</code> nearest in value to <code>value</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -404,7 +412,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>compare</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.115">compare</a>(char&nbsp;a,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.116">compare</a>(char&nbsp;a,
                           char&nbsp;b)</pre>
 <div class="block">Compares the two specified <code>char</code> values. The sign of the value returned is the same as
  that of <code>((Character) a).compareTo(b)</code>.
@@ -427,7 +435,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
-<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.127">contains</a>(char[]&nbsp;array,
+<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.128">contains</a>(char[]&nbsp;array,
                                char&nbsp;target)</pre>
 <div class="block">Returns <code>true</code> if <code>target</code> is present as an element anywhere in <code>array</code>.</div>
 <dl>
@@ -445,7 +453,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>indexOf</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.144">indexOf</a>(char[]&nbsp;array,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.145">indexOf</a>(char[]&nbsp;array,
                           char&nbsp;target)</pre>
 <div class="block">Returns the index of the first appearance of the value <code>target</code> in <code>array</code>.</div>
 <dl>
@@ -464,7 +472,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>indexOf</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.169">indexOf</a>(char[]&nbsp;array,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.170">indexOf</a>(char[]&nbsp;array,
                           char[]&nbsp;target)</pre>
 <div class="block">Returns the start position of the first occurrence of the specified <code>target</code> within <code>array</code>, or <code>-1</code> if there is no such occurrence.
 
@@ -484,7 +492,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>lastIndexOf</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.196">lastIndexOf</a>(char[]&nbsp;array,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.197">lastIndexOf</a>(char[]&nbsp;array,
                               char&nbsp;target)</pre>
 <div class="block">Returns the index of the last appearance of the value <code>target</code> in <code>array</code>.</div>
 <dl>
@@ -503,7 +511,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>min</h4>
-<pre>public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.218">min</a>(char...&nbsp;array)</pre>
+<pre>public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.219">min</a>(char...&nbsp;array)</pre>
 <div class="block">Returns the least value present in <code>array</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -522,7 +530,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>max</h4>
-<pre>public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.237">max</a>(char...&nbsp;array)</pre>
+<pre>public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.238">max</a>(char...&nbsp;array)</pre>
 <div class="block">Returns the greatest value present in <code>array</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -535,13 +543,40 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 </dl>
 </li>
 </ul>
+<a name="constrainToRange-char-char-char-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>constrainToRange</h4>
+<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.263">constrainToRange</a>(char&nbsp;value,
+                                          char&nbsp;min,
+                                          char&nbsp;max)</pre>
+<div class="block">Returns the value nearest to <code>value</code> which is within the closed range <code>[min..max]</code>.
+
+ <p>If <code>value</code> is within the range <code>[min..max]</code>, <code>value</code> is returned
+ unchanged. If <code>value</code> is less than <code>min</code>, <code>min</code> is returned, and if
+ <code>value</code> is greater than <code>max</code>, <code>max</code> is returned.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>value</code> - the <code>char</code> value to constrain</dd>
+<dd><code>min</code> - the lower bound (inclusive) of the range to constrain <code>value</code> to</dd>
+<dd><code>max</code> - the upper bound (inclusive) of the range to constrain <code>value</code> to</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>min &gt; max</code></dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>21.0</dd>
+</dl>
+</li>
+</ul>
 <a name="concat-char:A...-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre>public static&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.256">concat</a>(char[]...&nbsp;arrays)</pre>
+<pre>public static&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.276">concat</a>(char[]...&nbsp;arrays)</pre>
 <div class="block">Returns the values from each provided array combined into a single array. For example,
  <code>concat(new char[] {a, b}, new char[] {}, new char[] {c}</code> returns the array
  <code>{a, b, c}</code>.</div>
@@ -560,7 +595,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>toByteArray</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.280">toByteArray</a>(char&nbsp;value)</pre>
+public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.300">toByteArray</a>(char&nbsp;value)</pre>
 <div class="block">Returns a big-endian representation of <code>value</code> in a 2-element byte array; equivalent to
  <code>ByteBuffer.allocate(2).putChar(value).array()</code>. For example, the input value
  <code>'\\u5432'</code> would yield the byte array <code>{0x54, 0x32}</code>.
@@ -577,7 +612,7 @@ public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/p
 <li class="blockList">
 <h4>fromByteArray</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.295">fromByteArray</a>(byte[]&nbsp;bytes)</pre>
+public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.315">fromByteArray</a>(byte[]&nbsp;bytes)</pre>
 <div class="block">Returns the <code>char</code> value whose big-endian representation is stored in the first 2 bytes
  of <code>bytes</code>; equivalent to <code>ByteBuffer.wrap(bytes).getChar()</code>. For example, the
  input byte array <code>{0x54, 0x32}</code> would yield the <code>char</code> value <code>'\\u5432'</code>.
@@ -597,7 +632,7 @@ public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/pri
 <li class="blockList">
 <h4>fromBytes</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.307">fromBytes</a>(byte&nbsp;b1,
+public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.327">fromBytes</a>(byte&nbsp;b1,
                                               byte&nbsp;b2)</pre>
 <div class="block">Returns the <code>char</code> value whose byte representation is the given 2 bytes, in big-endian
  order; equivalent to <code>Chars.fromByteArray(new byte[] {b1, b2})</code>.</div>
@@ -613,7 +648,7 @@ public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>ensureCapacity</h4>
-<pre>public static&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.324">ensureCapacity</a>(char[]&nbsp;array,
+<pre>public static&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.344">ensureCapacity</a>(char[]&nbsp;array,
                                     int&nbsp;minLength,
                                     int&nbsp;padding)</pre>
 <div class="block">Returns an array containing the same values as <code>array</code>, but guaranteed to be of a
@@ -639,7 +674,7 @@ public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>join</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.338">join</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator,
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.358">join</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator,
                           char...&nbsp;array)</pre>
 <div class="block">Returns a string containing the supplied <code>char</code> values separated by <code>separator</code>.
  For example, <code>join("-", '1', '2', '3')</code> returns the string <code>"1-2-3"</code>.</div>
@@ -657,7 +692,7 @@ public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>lexicographicalComparator</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;char[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.366">lexicographicalComparator</a>()</pre>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;char[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.386">lexicographicalComparator</a>()</pre>
 <div class="block">Returns a comparator that compares two <code>char</code> arrays <a
  href="http://en.wikipedia.org/wiki/Lexicographical_order">lexicographically</a>. That is, it
  compares, using <a href="../../../../com/google/common/primitives/Chars.html#compare-char-char-"><code>compare(char, char)</code></a>), the first pair of values that follow any common
@@ -679,7 +714,7 @@ public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre>public static&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.403">toArray</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang">Character</a>&gt;&nbsp;collection)</pre>
+<pre>public static&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.423">toArray</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang">Character</a>&gt;&nbsp;collection)</pre>
 <div class="block">Copies a collection of <code>Character</code> instances into a new array of primitive <code>char</code>
  values.
 
@@ -701,7 +736,7 @@ public static&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockListLast">
 <li class="blockList">
 <h4>asList</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang">Character</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.430">asList</a>(char...&nbsp;backingArray)</pre>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang">Character</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Chars.html#line.450">asList</a>(char...&nbsp;backingArray)</pre>
 <div class="block">Returns a fixed-size list backed by the specified array, similar to
  <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Arrays.html?is-external=true#asList-T...-" title="class or interface in java.util"><code>Arrays.asList(Object[])</code></a>. The list supports <a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true#set-int-E-" title="class or interface in java.util"><code>List.set(int, Object)</code></a>, but any
  attempt to set a value to <code>null</code> will result in a <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang"><code>NullPointerException</code></a>.

@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9,"i15":9,"i16":9};
+var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9,"i15":9,"i16":9,"i17":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -183,13 +183,21 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 </td>
 </tr>
 <tr id="i3" class="rowColor">
+<td class="colFirst"><code>static double</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Doubles.html#constrainToRange-double-double-double-">constrainToRange</a></span>(double&nbsp;value,
+                double&nbsp;min,
+                double&nbsp;max)</code>
+<div class="block">Returns the value nearest to <code>value</code> which is within the closed range <code>[min..max]</code>.</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Doubles.html#contains-double:A-double-">contains</a></span>(double[]&nbsp;array,
         double&nbsp;target)</code>
 <div class="block">Returns <code>true</code> if <code>target</code> is present as an element anywhere in <code>array</code>.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>static double[]</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Doubles.html#ensureCapacity-double:A-int-int-">ensureCapacity</a></span>(double[]&nbsp;array,
               int&nbsp;minLength,
@@ -198,34 +206,34 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
  specified minimum length.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>static int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Doubles.html#hashCode-double-">hashCode</a></span>(double&nbsp;value)</code>
 <div class="block">Returns a hash code for <code>value</code>; equal to the result of invoking
  <code>((Double) value).hashCode()</code>.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>static int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Doubles.html#indexOf-double:A-double-">indexOf</a></span>(double[]&nbsp;array,
        double&nbsp;target)</code>
 <div class="block">Returns the index of the first appearance of the value <code>target</code> in <code>array</code>.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>static int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Doubles.html#indexOf-double:A-double:A-">indexOf</a></span>(double[]&nbsp;array,
        double[]&nbsp;target)</code>
 <div class="block">Returns the start position of the first occurrence of the specified <code>target</code> within <code>array</code>, or <code>-1</code> if there is no such occurrence.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Doubles.html#isFinite-double-">isFinite</a></span>(double&nbsp;value)</code>
 <div class="block">Returns <code>true</code> if <code>value</code> represents a real number.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Doubles.html#join-java.lang.String-double...-">join</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator,
     double...&nbsp;array)</code>
@@ -233,49 +241,49 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
  specified by <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Double.html?is-external=true#toString-double-" title="class or interface in java.lang"><code>Double.toString(double)</code></a>, and separated by <code>separator</code>.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>static int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Doubles.html#lastIndexOf-double:A-double-">lastIndexOf</a></span>(double[]&nbsp;array,
            double&nbsp;target)</code>
 <div class="block">Returns the index of the last appearance of the value <code>target</code> in <code>array</code>.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;double[]&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Doubles.html#lexicographicalComparator--">lexicographicalComparator</a></span>()</code>
 <div class="block">Returns a comparator that compares two <code>double</code> arrays <a
  href="http://en.wikipedia.org/wiki/Lexicographical_order">lexicographically</a>.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>static double</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Doubles.html#max-double...-">max</a></span>(double...&nbsp;array)</code>
 <div class="block">Returns the greatest value present in <code>array</code>, using the same rules of comparison as
  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Math.html?is-external=true#max-double-double-" title="class or interface in java.lang"><code>Math.max(double, double)</code></a>.</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>static double</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Doubles.html#min-double...-">min</a></span>(double...&nbsp;array)</code>
 <div class="block">Returns the least value present in <code>array</code>, using the same rules of comparison as
  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Math.html?is-external=true#min-double-double-" title="class or interface in java.lang"><code>Math.min(double, double)</code></a>.</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>,<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Doubles.html#stringConverter--">stringConverter</a></span>()</code>
 <div class="block">Returns a serializable converter object that converts between strings and doubles using
  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Double.html?is-external=true#valueOf-java.lang.String-" title="class or interface in java.lang"><code>Double.valueOf(java.lang.String)</code></a> and <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Double.html?is-external=true#toString--" title="class or interface in java.lang"><code>Double.toString()</code></a>.</div>
 </td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>static double[]</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Doubles.html#toArray-java.util.Collection-">toArray</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&gt;&nbsp;collection)</code>
 <div class="block">Returns an array containing each value of <code>collection</code>, converted to a <code>double</code>
  value in the manner of <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Number.html?is-external=true#doubleValue--" title="class or interface in java.lang"><code>Number.doubleValue()</code></a>.</div>
 </td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Doubles.html#tryParse-java.lang.String-">tryParse</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string)</code>
 <div class="block">Parses the specified string as a double-precision floating point value.</div>
@@ -511,13 +519,40 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 </dl>
 </li>
 </ul>
+<a name="constrainToRange-double-double-double-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>constrainToRange</h4>
+<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/primitives/Doubles.html#line.255">constrainToRange</a>(double&nbsp;value,
+                                            double&nbsp;min,
+                                            double&nbsp;max)</pre>
+<div class="block">Returns the value nearest to <code>value</code> which is within the closed range <code>[min..max]</code>.
+
+ <p>If <code>value</code> is within the range <code>[min..max]</code>, <code>value</code> is returned
+ unchanged. If <code>value</code> is less than <code>min</code>, <code>min</code> is returned, and if
+ <code>value</code> is greater than <code>max</code>, <code>max</code> is returned.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>value</code> - the <code>double</code> value to constrain</dd>
+<dd><code>min</code> - the lower bound (inclusive) of the range to constrain <code>value</code> to</dd>
+<dd><code>max</code> - the upper bound (inclusive) of the range to constrain <code>value</code> to</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>min &gt; max</code></dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>21.0</dd>
+</dl>
+</li>
+</ul>
 <a name="concat-double:A...-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre>public static&nbsp;double[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Doubles.html#line.249">concat</a>(double[]...&nbsp;arrays)</pre>
+<pre>public static&nbsp;double[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Doubles.html#line.268">concat</a>(double[]...&nbsp;arrays)</pre>
 <div class="block">Returns the values from each provided array combined into a single array. For example,
  <code>concat(new double[] {a, b}, new double[] {}, new double[] {c}</code> returns the array
  <code>{a, b, c}</code>.</div>
@@ -536,7 +571,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>stringConverter</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>,<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Doubles.html#line.296">stringConverter</a>()</pre>
+public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>,<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Doubles.html#line.315">stringConverter</a>()</pre>
 <div class="block">Returns a serializable converter object that converts between strings and doubles using
  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Double.html?is-external=true#valueOf-java.lang.String-" title="class or interface in java.lang"><code>Double.valueOf(java.lang.String)</code></a> and <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Double.html?is-external=true#toString--" title="class or interface in java.lang"><code>Double.toString()</code></a>.</div>
 <dl>
@@ -551,7 +586,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>ensureCapacity</h4>
-<pre>public static&nbsp;double[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Doubles.html#line.313">ensureCapacity</a>(double[]&nbsp;array,
+<pre>public static&nbsp;double[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Doubles.html#line.332">ensureCapacity</a>(double[]&nbsp;array,
                                       int&nbsp;minLength,
                                       int&nbsp;padding)</pre>
 <div class="block">Returns an array containing the same values as <code>array</code>, but guaranteed to be of a
@@ -577,7 +612,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>join</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Doubles.html#line.331">join</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator,
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Doubles.html#line.350">join</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator,
                           double...&nbsp;array)</pre>
 <div class="block">Returns a string containing the supplied <code>double</code> values, converted to strings as
  specified by <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Double.html?is-external=true#toString-double-" title="class or interface in java.lang"><code>Double.toString(double)</code></a>, and separated by <code>separator</code>. For example,
@@ -599,7 +634,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>lexicographicalComparator</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;double[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Doubles.html#line.359">lexicographicalComparator</a>()</pre>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;double[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Doubles.html#line.378">lexicographicalComparator</a>()</pre>
 <div class="block">Returns a comparator that compares two <code>double</code> arrays <a
  href="http://en.wikipedia.org/wiki/Lexicographical_order">lexicographically</a>. That is, it
  compares, using <a href="../../../../com/google/common/primitives/Doubles.html#compare-double-double-"><code>compare(double, double)</code></a>), the first pair of values that follow any
@@ -621,7 +656,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre>public static&nbsp;double[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Doubles.html#line.397">toArray</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&gt;&nbsp;collection)</pre>
+<pre>public static&nbsp;double[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Doubles.html#line.416">toArray</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&gt;&nbsp;collection)</pre>
 <div class="block">Returns an array containing each value of <code>collection</code>, converted to a <code>double</code>
  value in the manner of <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Number.html?is-external=true#doubleValue--" title="class or interface in java.lang"><code>Number.doubleValue()</code></a>.
 
@@ -645,7 +680,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>asList</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Doubles.html#line.427">asList</a>(double...&nbsp;backingArray)</pre>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Doubles.html#line.446">asList</a>(double...&nbsp;backingArray)</pre>
 <div class="block">Returns a fixed-size list backed by the specified array, similar to
  <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Arrays.html?is-external=true#asList-T...-" title="class or interface in java.util"><code>Arrays.asList(Object[])</code></a>. The list supports <a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true#set-int-E-" title="class or interface in java.util"><code>List.set(int, Object)</code></a>, but any
  attempt to set a value to <code>null</code> will result in a <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang"><code>NullPointerException</code></a>.
@@ -673,7 +708,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" t
  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation">@CheckForNull</a>
  <a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Doubles.html#line.602">tryParse</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string)</pre>
+public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Doubles.html#line.621">tryParse</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string)</pre>
 <div class="block">Parses the specified string as a double-precision floating point value. The ASCII character
  <code>'-'</code> (<code>'&#92;u002D'</code>) is recognized as the minus sign.
 
