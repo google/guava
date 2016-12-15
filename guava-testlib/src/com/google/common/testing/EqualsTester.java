@@ -31,9 +31,18 @@ import java.util.List;
 /**
  * Tester for equals() and hashCode() methods of a class.
  *
- * <p>To use, create a new EqualsTester and add equality groups where each group
- * contains objects that are supposed to be equal to each other, and objects of
- * different groups are expected to be unequal. For example:
+ * <p>The simplest use case is:
+ *
+ * <pre>
+ * new EqualsTester().addEqualityGroup(foo).testEquals();
+ * </pre>
+ *
+ * <p>This tests {@code foo.equals(foo)}, {@code foo.equals(null)}, and a few
+ * other operations.
+ *
+ * <p>For more extensive testing, add multiple equality groups. Each group
+ * should contain objects that are equal to each other but unequal to the
+ * objects in any other group. For example:
  * <pre>
  * new EqualsTester()
  *     .addEqualityGroup(new User("page"), new User("page"))
