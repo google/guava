@@ -29516,18 +29516,17 @@
       deprecated="not deprecated">
       <param name="element" type="java.lang.Object"/>
       <doc>
-      <![CDATA[Returns the number of occurrences of an element in this multiset (the
- <i>count</i> of the element). Note that for an {@link Object#equals}-based
- multiset, this gives the same result as {@link Collections#frequency}
- (which would presumably perform more poorly).
+      <![CDATA[Returns the number of occurrences of an element in this multiset (the <i>count</i> of the
+ element). Note that for an {@link Object#equals}-based multiset, this gives the same result as
+ {@link Collections#frequency} (which would presumably perform more poorly).
 
- <p><b>Note:</b> the utility method {@link Iterables#frequency} generalizes
- this operation; it correctly delegates to this method when dealing with a
- multiset, but it can also accept any other iterable type.
+ <p><b>Note:</b> the utility method {@link Iterables#frequency} generalizes this operation; it
+ correctly delegates to this method when dealing with a multiset, but it can also accept any
+ other iterable type.
 
  @param element the element to count occurrences of
- @return the number of occurrences of the element in this multiset; possibly
-     zero but never negative]]>
+ @return the number of occurrences of the element in this multiset; possibly zero but never
+     negative]]>
       </doc>
     </method>
     <method name="add" return="int"
@@ -29563,15 +29562,14 @@
       <param name="element" type="java.lang.Object"/>
       <param name="occurrences" type="int"/>
       <doc>
-      <![CDATA[Removes a number of occurrences of the specified element from this
- multiset. If the multiset contains fewer than this number of occurrences to
- begin with, all occurrences will be removed.  Note that if
- {@code occurrences == 1}, this is functionally equivalent to the call
- {@code remove(element)}.
+      <![CDATA[Removes a number of occurrences of the specified element from this multiset. If the multiset
+ contains fewer than this number of occurrences to begin with, all occurrences will be removed.
+ Note that if {@code occurrences == 1}, this is functionally equivalent to the call {@code
+ remove(element)}.
 
  @param element the element to conditionally remove occurrences of
- @param occurrences the number of occurrences of the element to remove. May
-     be zero, in which case no change will be made.
+ @param occurrences the number of occurrences of the element to remove. May be zero, in which
+     case no change will be made.
  @return the count of the element before the operation; possibly zero
  @throws IllegalArgumentException if {@code occurrences} is negative]]>
       </doc>
@@ -34650,8 +34648,7 @@
       <param name="rowKey" type="java.lang.Object"/>
       <param name="columnKey" type="java.lang.Object"/>
       <doc>
-      <![CDATA[Returns {@code true} if the table contains a mapping with the specified
- row and column keys.
+      <![CDATA[Returns {@code true} if the table contains a mapping with the specified row and column keys.
 
  @param rowKey key of row to search for
  @param columnKey key of column to search for]]>
@@ -34663,8 +34660,7 @@
       deprecated="not deprecated">
       <param name="rowKey" type="java.lang.Object"/>
       <doc>
-      <![CDATA[Returns {@code true} if the table contains a mapping with the specified
- row key.
+      <![CDATA[Returns {@code true} if the table contains a mapping with the specified row key.
 
  @param rowKey key of row to search for]]>
       </doc>
@@ -34675,8 +34671,7 @@
       deprecated="not deprecated">
       <param name="columnKey" type="java.lang.Object"/>
       <doc>
-      <![CDATA[Returns {@code true} if the table contains a mapping with the specified
- column.
+      <![CDATA[Returns {@code true} if the table contains a mapping with the specified column.
 
  @param columnKey key of column to search for]]>
       </doc>
@@ -34687,8 +34682,7 @@
       deprecated="not deprecated">
       <param name="value" type="java.lang.Object"/>
       <doc>
-      <![CDATA[Returns {@code true} if the table contains a mapping with the specified
- value.
+      <![CDATA[Returns {@code true} if the table contains a mapping with the specified value.
 
  @param value value to search for]]>
       </doc>
@@ -34700,8 +34694,8 @@
       <param name="rowKey" type="java.lang.Object"/>
       <param name="columnKey" type="java.lang.Object"/>
       <doc>
-      <![CDATA[Returns the value corresponding to the given row and column keys, or
- {@code null} if no such mapping exists.
+      <![CDATA[Returns the value corresponding to the given row and column keys, or {@code null} if no such
+ mapping exists.
 
  @param rowKey key of row to search for
  @param columnKey key of column to search for]]>
@@ -34793,8 +34787,7 @@
 
  @param rowKey row key of mapping to be removed
  @param columnKey column key of mapping to be removed
- @return the value previously associated with the keys, or {@code null} if
-     no such value existed]]>
+ @return the value previously associated with the keys, or {@code null} if no such value existed]]>
       </doc>
     </method>
     <method name="row" return="java.util.Map&lt;C, V&gt;"

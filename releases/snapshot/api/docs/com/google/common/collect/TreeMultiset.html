@@ -212,8 +212,8 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/TreeMultiset.html#count-java.lang.Object-">count</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element)</code>
-<div class="block">Returns the number of occurrences of an element in this multiset (the
- <i>count</i> of the element).</div>
+<div class="block">Returns the number of occurrences of an element in this multiset (the <i>count</i> of the
+ element).</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
@@ -321,8 +321,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/TreeMultiset.html#remove-java.lang.Object-int-">remove</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element,
       int&nbsp;occurrences)</code>
-<div class="block">Removes a number of occurrences of the specified element from this
- multiset.</div>
+<div class="block">Removes a number of occurrences of the specified element from this multiset.</div>
 </td>
 </tr>
 <tr id="i24" class="altColor">
@@ -513,22 +512,21 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.229">count</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#count-java.lang.Object-">Multiset</a></code></span></div>
-<div class="block">Returns the number of occurrences of an element in this multiset (the
- <i>count</i> of the element). Note that for an <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a>-based
- multiset, this gives the same result as <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collections.html?is-external=true#frequency-java.util.Collection-java.lang.Object-" title="class or interface in java.util"><code>Collections.frequency(java.util.Collection&lt;?&gt;, java.lang.Object)</code></a>
- (which would presumably perform more poorly).
+<div class="block">Returns the number of occurrences of an element in this multiset (the <i>count</i> of the
+ element). Note that for an <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a>-based multiset, this gives the same result as
+ <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collections.html?is-external=true#frequency-java.util.Collection-java.lang.Object-" title="class or interface in java.util"><code>Collections.frequency(java.util.Collection&lt;?&gt;, java.lang.Object)</code></a> (which would presumably perform more poorly).
 
- <p><b>Note:</b> the utility method <a href="../../../../com/google/common/collect/Iterables.html#frequency-java.lang.Iterable-java.lang.Object-"><code>Iterables.frequency(java.lang.Iterable&lt;?&gt;, java.lang.Object)</code></a> generalizes
- this operation; it correctly delegates to this method when dealing with a
- multiset, but it can also accept any other iterable type.</div>
+ <p><b>Note:</b> the utility method <a href="../../../../com/google/common/collect/Iterables.html#frequency-java.lang.Iterable-java.lang.Object-"><code>Iterables.frequency(java.lang.Iterable&lt;?&gt;, java.lang.Object)</code></a> generalizes this operation; it
+ correctly delegates to this method when dealing with a multiset, but it can also accept any
+ other iterable type.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/Multiset.html#count-java.lang.Object-">count</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>element</code> - the element to count occurrences of</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the number of occurrences of the element in this multiset; possibly
-     zero but never negative</dd>
+<dd>the number of occurrences of the element in this multiset; possibly zero but never
+     negative</dd>
 </dl>
 </li>
 </ul>
@@ -571,18 +569,16 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
                   <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element,
                   int&nbsp;occurrences)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#remove-java.lang.Object-int-">Multiset</a></code></span></div>
-<div class="block">Removes a number of occurrences of the specified element from this
- multiset. If the multiset contains fewer than this number of occurrences to
- begin with, all occurrences will be removed.  Note that if
- <code>occurrences == 1</code>, this is functionally equivalent to the call
- <code>remove(element)</code>.</div>
+<div class="block">Removes a number of occurrences of the specified element from this multiset. If the multiset
+ contains fewer than this number of occurrences to begin with, all occurrences will be removed.
+ Note that if <code>occurrences == 1</code>, this is functionally equivalent to the call <code>remove(element)</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/Multiset.html#remove-java.lang.Object-int-">remove</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>element</code> - the element to conditionally remove occurrences of</dd>
-<dd><code>occurrences</code> - the number of occurrences of the element to remove. May
-     be zero, in which case no change will be made.</dd>
+<dd><code>occurrences</code> - the number of occurrences of the element to remove. May be zero, in which
+     case no change will be made.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the count of the element before the operation; possibly zero</dd>
 </dl>
