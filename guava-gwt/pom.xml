@@ -106,6 +106,13 @@
       <classifier>gwt</classifier>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.google.truth.extensions</groupId>
+      <artifactId>truth-java8-extension</artifactId>
+      <version>${truth.version}</version>
+      <classifier>gwt</classifier>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
