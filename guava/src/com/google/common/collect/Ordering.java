@@ -586,7 +586,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * other {@code min} overloads, so overriding it will affect their behavior.
    *
    * <p><b>Java 8 users:</b> Use {@code Collections.min(Arrays.asList(a, b), thisComparator)}
-   * instead (but note that it does not guarantee which tied maximum element is returned).
+   * instead (but note that it does not guarantee which tied minimum element is returned).
    *
    * @param a value to compare, returned if less than or equal to b.
    * @param b value to compare.
@@ -603,7 +603,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * least values, the first of those is returned.
    *
    * <p><b>Java 8 users:</b> Use {@code Collections.min(Arrays.asList(a, b, c...), thisComparator)}
-   * instead (but note that it does not guarantee which tied maximum element is returned).
+   * instead (but note that it does not guarantee which tied minimum element is returned).
    *
    * @param a value to compare, returned if less than or equal to the rest.
    * @param b value to compare
