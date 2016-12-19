@@ -229,12 +229,6 @@ public final class Files {
     return asByteSink(file, modes).asCharSink(charset);
   }
 
-  private static FileWriteMode[] modes(boolean append) {
-    return append
-        ? new FileWriteMode[]{ FileWriteMode.APPEND }
-        : new FileWriteMode[0];
-  }
-
   /**
    * Reads all bytes from a file into a byte array.
    *
@@ -327,22 +321,7 @@ public final class Files {
    * @throws IOException if an I/O error occurs
    */
   public static void append(CharSequence from, File to, Charset charset) throws IOException {
-    write(from, to, charset, true);
-  }
-
-  /**
-   * Private helper method. Writes a character sequence to a file, optionally appending.
-   *
-   * @param from the character sequence to append
-   * @param to the destination file
-   * @param charset the charset used to encode the output stream; see {@link StandardCharsets} for
-   *     helpful predefined constants
-   * @param append true to append, false to overwrite
-   * @throws IOException if an I/O error occurs
-   */
-  private static void write(CharSequence from, File to, Charset charset, boolean append)
-      throws IOException {
-    asCharSink(to, charset, modes(append)).write(from);
+    asCharSink(to, charset, new FileWriteMode[]{ FileWriteMode.APPEND }).write(from);
   }
 
   /**
