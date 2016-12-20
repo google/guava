@@ -6518,6 +6518,21 @@
  @return an unmodifiable list containing the cause chain starting with {@code throwable}]]>
       </doc>
     </method>
+    <method name="getCauseAs" return="X extends java.lang.Throwable"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="throwable" type="java.lang.Throwable"/>
+      <param name="expectedCauseType" type="java.lang.Class&lt;X&gt;"/>
+      <exception name="ClassCastException" type="java.lang.ClassCastException"/>
+      <doc>
+      <![CDATA[Returns {@code throwable}'s cause, cast to {@code expectedCauseType}.
+
+ @throws ClassCastException if the cause cannot be cast to the expected type. The {@link
+     ClassCastException}'s cause is {@code throwable}.
+ @since 22.0]]>
+      </doc>
+    </method>
     <method name="getStackTraceAsString" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"

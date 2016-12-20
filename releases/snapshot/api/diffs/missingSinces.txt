@@ -48,6 +48,7 @@ OK: com.google.common.collect.Multiset Method forEachEntry(java.util.function.Ob
 OK: com.google.common.base.Optional Method fromJavaUtil(java.util.Optional<T>)
 OK: com.google.common.util.concurrent.AtomicLongMap Method getAndAccumulate(K, long, java.util.function.LongBinaryOperator)
 OK: com.google.common.util.concurrent.AtomicLongMap Method getAndUpdate(K, java.util.function.LongUnaryOperator)
+OK: com.google.common.base.Throwables Method getCauseAs(java.lang.Throwable, java.lang.Class<X>)
 NO DOC BLOCK: com.google.common.collect.ImmutableMap Method getOrDefault(java.lang.Object, V)
 OK: com.google.common.collect.ImmutableRangeSet Method intersection(com.google.common.collect.RangeSet<C>)
 MISSING @SINCE TAG: com.google.common.collect.ImmutableMap Method merge(K, V, java.util.function.BiFunction<? super V, ? super V, ? extends V>)
