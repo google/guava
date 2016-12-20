@@ -621,6 +621,23 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
+  @GwtIncompatible // Throwables.getCauseAs(Throwable, Class)
+  public void testGetCauseAs() {
+    SomeCheckedException cause = new SomeCheckedException();
+    SomeChainingException thrown = new SomeChainingException(cause);
+
+    assertThat(thrown.getCause()).isSameAs(cause);
+    assertThat(Throwables.getCauseAs(thrown, SomeCheckedException.class)).isSameAs(cause);
+    assertThat(Throwables.getCauseAs(thrown, Exception.class)).isSameAs(cause);
+
+    try {
+      Throwables.getCauseAs(thrown, IllegalStateException.class);
+      fail("Should have thrown CCE");
+    } catch (ClassCastException expected) {
+      assertThat(expected.getCause()).isSameAs(thrown);
+    }
+  }
+
   @AndroidIncompatible // No getJavaLangAccess in Android (at least not in the version we use).
   @GwtIncompatible // lazyStackTraceIsLazy()
   public void testLazyStackTraceWorksInProd() {

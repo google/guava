@@ -281,6 +281,25 @@ public final class Throwables {
     }
     return Collections.unmodifiableList(causes);
   }
+  
+  /**
+   * Returns {@code throwable}'s cause, cast to {@code expectedCauseType}.
+   *
+   * @throws ClassCastException if the cause cannot be cast to the expected type. The {@link
+   *     ClassCastException}'s cause is {@code throwable}.
+   * @since 22.0
+   */
+  @Beta
+  @GwtIncompatible // Class.cast(Object)
+  public static <X extends Throwable> X getCauseAs(Throwable throwable, Class<X> expectedCauseType)
+      throws ClassCastException {
+    try {
+      return expectedCauseType.cast(throwable.getCause());
+    } catch (ClassCastException e) {
+      e.initCause(throwable);
+      throw e;
+    }
+  }
 
   /**
    * Returns a string containing the result of {@link Throwable#toString() toString()}, followed by
