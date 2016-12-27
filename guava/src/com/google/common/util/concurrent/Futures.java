@@ -23,6 +23,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Queues;
@@ -1115,27 +1116,41 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
       final FutureCallback<? super V> callback,
       Executor executor) {
     Preconditions.checkNotNull(callback);
-    Runnable callbackListener =
-        new Runnable() {
-          @Override
-          public void run() {
-            final V value;
-            try {
-              value = getDone(future);
-            } catch (ExecutionException e) {
-              callback.onFailure(e.getCause());
-              return;
-            } catch (RuntimeException e) {
-              callback.onFailure(e);
-              return;
-            } catch (Error e) {
-              callback.onFailure(e);
-              return;
-            }
-            callback.onSuccess(value);
-          }
-        };
-    future.addListener(callbackListener, executor);
+    future.addListener(new CallbackListener<V>(future, callback), executor);
+  }
+
+  /** See {@link #addCallback(ListenableFuture, FutureCallback)} for behavioral notes. */
+  private static final class CallbackListener<V> implements Runnable {
+    final Future<V> future;
+    final FutureCallback<? super V> callback;
+
+    CallbackListener(Future<V> future, FutureCallback<? super V> callback) {
+      this.future = future;
+      this.callback = callback;
+    }
+
+    @Override
+    public void run() {
+      final V value;
+      try {
+        value = getDone(future);
+      } catch (ExecutionException e) {
+        callback.onFailure(e.getCause());
+        return;
+      } catch (RuntimeException e) {
+        callback.onFailure(e);
+        return;
+      } catch (Error e) {
+        callback.onFailure(e);
+        return;
+      }
+      callback.onSuccess(value);
+    }
+
+    @Override
+    public String toString() {
+      return MoreObjects.toStringHelper(this).addValue(callback).toString();
+    }
   }
 
   /**
