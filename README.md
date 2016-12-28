@@ -1,5 +1,4 @@
-Guava: Google Core Libraries for Java
-=====================================
+# Guava: Google Core Libraries for Java
 
 [![Build Status](https://travis-ci.org/google/guava.svg?branch=master)](https://travis-ci.org/google/guava)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.google.guava/guava/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.google.guava/guava)
@@ -12,8 +11,7 @@ primitives, reflection, string processing, and much more!
 Requires JDK 1.6 or higher. The coming release (21.0) will require JDK 1.8, but
 we will begin providing a backport soon thereafter.
 
-Latest release
---------------
+## Latest release
 
 The most recent release is [Guava 20.0][], released October 28, 2016.
 
@@ -38,8 +36,11 @@ dependencies {
 }
 ```
 
-Snapshots
----------
+## Upcoming release
+
+[Guava 21.0-rc1][] was released December 19, 2016. This release requires Java 8.
+
+## Snapshots
 
 Snapshots of Guava built from the `master` branch are available through Maven
 using version `21.0-SNAPSHOT`. API documentation and diffs from version 20.0
@@ -48,22 +49,19 @@ are available here:
 - Snapshot API Docs: [guava][guava-snapshot-api-docs]
 - Snapshot API Diffs from 20.0: [guava][guava-snapshot-api-diffs]
 
-Learn about Guava
-------------------
+## Learn about Guava
 
 - Our users' guide, [Guava Explained][]
 - [A nice collection](http://www.tfnico.com/presentations/google-guava) of other helpful links
 
-Links
------
+## Links
 
 - [GitHub project](https://github.com/google/guava)
 - [Issue tracker: Report a defect or feature request](https://github.com/google/guava/issues/new)
 - [StackOverflow: Ask "how-to" and "why-didn't-it-work" questions](https://stackoverflow.com/questions/ask?tags=guava+java)
 - [guava-discuss: For open-ended questions and discussion](http://groups.google.com/group/guava-discuss)
 
-IMPORTANT WARNINGS
-------------------
+## IMPORTANT WARNINGS
 
 1. APIs marked with the `@Beta` annotation at the class or method level
 are subject to change. They can be modified in any way, or even
@@ -89,6 +87,7 @@ Linux. Some features, especially in `com.google.common.io`, may not work
 correctly in other environments.
 
 [Guava 20.0]: https://github.com/google/guava/wiki/Release20
+[Guava 21.0-rc1]: https://github.com/google/guava/wiki/Release21
 [guava-release-api-docs]: http://google.github.io/guava/releases/20.0/api/docs/
 [testlib-release-api-docs]: http://www.javadoc.io/doc/com.google.guava/guava-testlib/20.0
 [guava-release-api-diffs]: http://google.github.io/guava/releases/20.0/api/diffs/
