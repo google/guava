@@ -204,8 +204,8 @@ public final class Maps {
    */
   @Beta
   public static <T, K extends Enum<K>, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
-      Function<? super T, ? extends K> keyFunction,
-      Function<? super T, ? extends V> valueFunction) {
+      java.util.function.Function<? super T, ? extends K> keyFunction,
+      java.util.function.Function<? super T, ? extends V> valueFunction) {
     checkNotNull(keyFunction);
     checkNotNull(valueFunction);
     return Collector.of(
@@ -237,8 +237,8 @@ public final class Maps {
    */
   @Beta
   public static <T, K extends Enum<K>, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
-      Function<? super T, ? extends K> keyFunction,
-      Function<? super T, ? extends V> valueFunction,
+      java.util.function.Function<? super T, ? extends K> keyFunction,
+      java.util.function.Function<? super T, ? extends V> valueFunction,
       BinaryOperator<V> mergeFunction) {
     checkNotNull(keyFunction);
     checkNotNull(valueFunction);
