@@ -212,8 +212,8 @@
 <span class="sourceLineNo">204</span>   */<a name="line.204"></a>
 <span class="sourceLineNo">205</span>  @Beta<a name="line.205"></a>
 <span class="sourceLineNo">206</span>  public static &lt;T, K extends Enum&lt;K&gt;, V&gt; Collector&lt;T, ?, ImmutableMap&lt;K, V&gt;&gt; toImmutableEnumMap(<a name="line.206"></a>
-<span class="sourceLineNo">207</span>      Function&lt;? super T, ? extends K&gt; keyFunction,<a name="line.207"></a>
-<span class="sourceLineNo">208</span>      Function&lt;? super T, ? extends V&gt; valueFunction) {<a name="line.208"></a>
+<span class="sourceLineNo">207</span>      java.util.function.Function&lt;? super T, ? extends K&gt; keyFunction,<a name="line.207"></a>
+<span class="sourceLineNo">208</span>      java.util.function.Function&lt;? super T, ? extends V&gt; valueFunction) {<a name="line.208"></a>
 <span class="sourceLineNo">209</span>    checkNotNull(keyFunction);<a name="line.209"></a>
 <span class="sourceLineNo">210</span>    checkNotNull(valueFunction);<a name="line.210"></a>
 <span class="sourceLineNo">211</span>    return Collector.of(<a name="line.211"></a>
@@ -245,8 +245,8 @@
 <span class="sourceLineNo">237</span>   */<a name="line.237"></a>
 <span class="sourceLineNo">238</span>  @Beta<a name="line.238"></a>
 <span class="sourceLineNo">239</span>  public static &lt;T, K extends Enum&lt;K&gt;, V&gt; Collector&lt;T, ?, ImmutableMap&lt;K, V&gt;&gt; toImmutableEnumMap(<a name="line.239"></a>
-<span class="sourceLineNo">240</span>      Function&lt;? super T, ? extends K&gt; keyFunction,<a name="line.240"></a>
-<span class="sourceLineNo">241</span>      Function&lt;? super T, ? extends V&gt; valueFunction,<a name="line.241"></a>
+<span class="sourceLineNo">240</span>      java.util.function.Function&lt;? super T, ? extends K&gt; keyFunction,<a name="line.240"></a>
+<span class="sourceLineNo">241</span>      java.util.function.Function&lt;? super T, ? extends V&gt; valueFunction,<a name="line.241"></a>
 <span class="sourceLineNo">242</span>      BinaryOperator&lt;V&gt; mergeFunction) {<a name="line.242"></a>
 <span class="sourceLineNo">243</span>    checkNotNull(keyFunction);<a name="line.243"></a>
 <span class="sourceLineNo">244</span>    checkNotNull(valueFunction);<a name="line.244"></a>
