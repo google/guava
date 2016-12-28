@@ -68,7 +68,7 @@ public final class Tables {
       java.util.function.Function<? super T, ? extends R> rowFunction,
       java.util.function.Function<? super T, ? extends C> columnFunction,
       java.util.function.Function<? super T, ? extends V> valueFunction,
-      Supplier<I> tableSupplier) {
+      java.util.function.Supplier<I> tableSupplier) {
     return toTable(
         rowFunction,
         columnFunction,
