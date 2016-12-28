@@ -385,7 +385,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListenableF
 <ul class="blockList">
 <li class="blockList">
 <h4>interruptTask</h4>
-<pre>protected&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.601">interruptTask</a>()</pre>
+<pre>protected&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.600">interruptTask</a>()</pre>
 <div class="block">Subclasses can override this method to implement interruption of the future's computation. The
  method is invoked automatically by a successful call to <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#cancel-boolean-"><code>cancel(true)</code></a>.
 
@@ -402,7 +402,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListenableF
 <ul class="blockList">
 <li class="blockList">
 <h4>wasInterrupted</h4>
-<pre>protected final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.609">wasInterrupted</a>()</pre>
+<pre>protected final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.608">wasInterrupted</a>()</pre>
 <div class="block">Returns true if this future was cancelled with <code>mayInterruptIfRunning</code> set to <code>true</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -416,7 +416,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListenableF
 <ul class="blockList">
 <li class="blockList">
 <h4>addListener</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.620">addListener</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;listener,
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.619">addListener</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;listener,
                         <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block">Registers a listener to be <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html?is-external=true#execute-java.lang.Runnable-" title="class or interface in java.util.concurrent">run</a> on the given executor.
  The listener will run when the <code>Future</code>'s computation is <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html?is-external=true#isDone--" title="class or interface in java.util.concurrent">complete</a> or, if the computation is already complete, immediately.
@@ -468,7 +468,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListenableF
 <ul class="blockList">
 <li class="blockList">
 <h4>set</h4>
-<pre>protected&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.652">set</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>protected&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.651">set</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                       <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="type parameter in AbstractFuture">V</a>&nbsp;value)</pre>
 <div class="block">Sets the result of this <code>Future</code> unless this <code>Future</code> has already been cancelled or
  set (including <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#setFuture-com.google.common.util.concurrent.ListenableFuture-">set asynchronously</a>). When a call to this method returns,
@@ -490,7 +490,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListenableF
 <ul class="blockList">
 <li class="blockList">
 <h4>setException</h4>
-<pre>protected&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.674">setException</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</pre>
+<pre>protected&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.673">setException</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</pre>
 <div class="block">Sets the failed result of this <code>Future</code> unless this <code>Future</code> has already been
  cancelled or set (including <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#setFuture-com.google.common.util.concurrent.ListenableFuture-">set asynchronously</a>). When a call to this
  method returns, the <code>Future</code> is guaranteed to be <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#isDone--">done</a> <b>only if</b>
@@ -513,7 +513,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListenableF
 <li class="blockList">
 <h4>setFuture</h4>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-protected&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.706">setFuture</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="type parameter in AbstractFuture">V</a>&gt;&nbsp;future)</pre>
+protected&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.705">setFuture</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="type parameter in AbstractFuture">V</a>&gt;&nbsp;future)</pre>
 <div class="block">Sets the result of this <code>Future</code> to match the supplied input <code>Future</code> once the
  supplied <code>Future</code> is done, unless this <code>Future</code> has already been cancelled or set
  (including "set asynchronously," defined below).
@@ -545,7 +545,7 @@ protected&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/u
 <li class="blockList">
 <h4>afterDone</h4>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-protected&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.833">afterDone</a>()</pre>
+protected&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.832">afterDone</a>()</pre>
 <div class="block">Callback method that is called exactly once after the future is completed.
 
  <p>If <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#interruptTask--"><code>interruptTask()</code></a> is also run during completion, <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#afterDone--"><code>afterDone()</code></a> runs after it.

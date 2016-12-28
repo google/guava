@@ -112,9 +112,9 @@
 <span class="sourceLineNo">104</span>   */<a name="line.104"></a>
 <span class="sourceLineNo">105</span>  @Beta<a name="line.105"></a>
 <span class="sourceLineNo">106</span>  public static &lt;T, K, V, M extends Multimap&lt;K, V&gt;&gt; Collector&lt;T, ?, M&gt; toMultimap(<a name="line.106"></a>
-<span class="sourceLineNo">107</span>      Function&lt;? super T, ? extends K&gt; keyFunction,<a name="line.107"></a>
-<span class="sourceLineNo">108</span>      Function&lt;? super T, ? extends V&gt; valueFunction,<a name="line.108"></a>
-<span class="sourceLineNo">109</span>      Supplier&lt;M&gt; multimapSupplier) {<a name="line.109"></a>
+<span class="sourceLineNo">107</span>      java.util.function.Function&lt;? super T, ? extends K&gt; keyFunction,<a name="line.107"></a>
+<span class="sourceLineNo">108</span>      java.util.function.Function&lt;? super T, ? extends V&gt; valueFunction,<a name="line.108"></a>
+<span class="sourceLineNo">109</span>      java.util.function.Supplier&lt;M&gt; multimapSupplier) {<a name="line.109"></a>
 <span class="sourceLineNo">110</span>    checkNotNull(keyFunction);<a name="line.110"></a>
 <span class="sourceLineNo">111</span>    checkNotNull(valueFunction);<a name="line.111"></a>
 <span class="sourceLineNo">112</span>    checkNotNull(multimapSupplier);<a name="line.112"></a>
@@ -162,9 +162,9 @@
 <span class="sourceLineNo">154</span>   */<a name="line.154"></a>
 <span class="sourceLineNo">155</span>  @Beta<a name="line.155"></a>
 <span class="sourceLineNo">156</span>  public static &lt;T, K, V, M extends Multimap&lt;K, V&gt;&gt; Collector&lt;T, ?, M&gt; flatteningToMultimap(<a name="line.156"></a>
-<span class="sourceLineNo">157</span>      Function&lt;? super T, ? extends K&gt; keyFunction,<a name="line.157"></a>
-<span class="sourceLineNo">158</span>      Function&lt;? super T, ? extends Stream&lt;? extends V&gt;&gt; valueFunction,<a name="line.158"></a>
-<span class="sourceLineNo">159</span>      Supplier&lt;M&gt; multimapSupplier) {<a name="line.159"></a>
+<span class="sourceLineNo">157</span>      java.util.function.Function&lt;? super T, ? extends K&gt; keyFunction,<a name="line.157"></a>
+<span class="sourceLineNo">158</span>      java.util.function.Function&lt;? super T, ? extends Stream&lt;? extends V&gt;&gt; valueFunction,<a name="line.158"></a>
+<span class="sourceLineNo">159</span>      java.util.function.Supplier&lt;M&gt; multimapSupplier) {<a name="line.159"></a>
 <span class="sourceLineNo">160</span>    checkNotNull(keyFunction);<a name="line.160"></a>
 <span class="sourceLineNo">161</span>    checkNotNull(valueFunction);<a name="line.161"></a>
 <span class="sourceLineNo">162</span>    checkNotNull(multimapSupplier);<a name="line.162"></a>
