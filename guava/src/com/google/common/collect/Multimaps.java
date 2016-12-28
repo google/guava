@@ -104,9 +104,9 @@ public final class Multimaps {
    */
   @Beta
   public static <T, K, V, M extends Multimap<K, V>> Collector<T, ?, M> toMultimap(
-      Function<? super T, ? extends K> keyFunction,
-      Function<? super T, ? extends V> valueFunction,
-      Supplier<M> multimapSupplier) {
+      java.util.function.Function<? super T, ? extends K> keyFunction,
+      java.util.function.Function<? super T, ? extends V> valueFunction,
+      java.util.function.Supplier<M> multimapSupplier) {
     checkNotNull(keyFunction);
     checkNotNull(valueFunction);
     checkNotNull(multimapSupplier);
@@ -154,9 +154,9 @@ public final class Multimaps {
    */
   @Beta
   public static <T, K, V, M extends Multimap<K, V>> Collector<T, ?, M> flatteningToMultimap(
-      Function<? super T, ? extends K> keyFunction,
-      Function<? super T, ? extends Stream<? extends V>> valueFunction,
-      Supplier<M> multimapSupplier) {
+      java.util.function.Function<? super T, ? extends K> keyFunction,
+      java.util.function.Function<? super T, ? extends Stream<? extends V>> valueFunction,
+      java.util.function.Supplier<M> multimapSupplier) {
     checkNotNull(keyFunction);
     checkNotNull(valueFunction);
     checkNotNull(multimapSupplier);
