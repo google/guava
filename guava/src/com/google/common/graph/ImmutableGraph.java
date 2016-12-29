@@ -24,7 +24,6 @@ import com.google.common.base.Functions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.graph.GraphConstants.Presence;
-import com.google.errorprone.annotations.Immutable;
 
 /**
  * A {@link Graph} whose elements and structural relationships will never change. Instances of this
