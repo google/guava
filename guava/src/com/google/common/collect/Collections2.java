@@ -86,7 +86,7 @@ public final class Collections2 {
    * with equals. (See {@link Iterables#filter(Iterable, Class)} for related
    * functionality.)
    *
-   * <p><b>{@code Stream} equivalent:</b> {@link Stream#filter}.
+   * <p><b>{@code Stream} equivalent:</b> {@link java.util.stream.Stream#filter Stream.filter}.
    */
   // TODO(kevinb): how can we omit that Iterables link when building gwt
   // javadoc?
@@ -263,7 +263,7 @@ public final class Collections2 {
    * {@link Lists#transform}. If only an {@code Iterable} is available, use
    * {@link Iterables#transform}.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@link Stream#map}.
+   * <p><b>{@code Stream} equivalent:</b> {@link java.util.stream.Stream#map Stream.map}.
    */
   public static <F, T> Collection<T> transform(
       Collection<F> fromCollection, Function<? super F, T> function) {

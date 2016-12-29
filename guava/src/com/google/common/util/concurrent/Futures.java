@@ -1159,7 +1159,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * <p>The benefits of this method are twofold. First, the name "getDone" suggests to readers that
    * the {@code Future} is already done. Second, if buggy code calls {@code getDone} on a {@code
    * Future} that is still pending, the program will throw instead of block. This can be important
-   * for APIs like {@link whenAllComplete whenAllComplete(...)}{@code .}{@link
+   * for APIs like {@link #whenAllComplete whenAllComplete(...)}{@code .}{@link
    * FutureCombiner#call(Callable) call(...)}, where it is easy to use a new input from the {@code
    * call} implementation but forget to add it to the arguments of {@code whenAllComplete}.
    *
