@@ -786,7 +786,7 @@ class MapMakerInternalMap<
     /** Returns the entry which contains this {@link WeakValueReference}. */
     E getEntry();
 
-    /** Unsets the referenced value. Subsequent calls to {@link get} will return {@code null}. */
+    /** Unsets the referenced value. Subsequent calls to {@link #get} will return {@code null}. */
     void clear();
 
     /**
@@ -1119,7 +1119,7 @@ class MapMakerInternalMap<
     }
 
     /**
-     * Unsafely sets the weak value reference inside the given {@code entry} to be the given {@link
+     * Unsafely sets the weak value reference inside the given {@code entry} to be the given {@code
      * valueReference}
      */
     void setWeakValueReferenceForTesting(

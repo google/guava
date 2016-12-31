@@ -150,7 +150,8 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *
    * <p>The returned iterable is an unmodifiable view of the input array.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@link Stream#of(T...)}.
+   * <p><b>{@code Stream} equivalent:</b> {@link java.util.stream.Stream#of(Object[])
+   * Stream.of(T...)}.
    *
    * @since 20.0 (since 18.0 as an overload of {@code of})
    */
@@ -294,7 +295,8 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *
    * <p>The returned iterable is modifiable, but modifications do not affect the input array.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@link Stream#of(T...)}.
+   * <p><b>{@code Stream} equivalent:</b> {@link java.util.stream.Stream#of(Object[])
+   * Stream.of(T...)}.
    *
    * @deprecated Use {@link #from(E[])} instead (but note the differences in mutability). This
    *     method will be removed in Guava release 21.0.
@@ -309,7 +311,8 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   /**
    * Returns a fluent iterable containing the specified elements in order.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@link Stream#of(T...)}.
+   * <p><b>{@code Stream} equivalent:</b> {@link java.util.stream.Stream#of(Object[])
+   * Stream.of(T...)}.
    *
    * @since 20.0
    */

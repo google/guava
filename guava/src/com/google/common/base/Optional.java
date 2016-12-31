@@ -162,7 +162,7 @@ public abstract class Optional<T> implements Serializable {
    *
    * <p><b>Comparison to {@code java.util.Optional}:</b> when the value is absent, this method
    * throws {@link IllegalStateException}, whereas the Java 8 counterpart throws
-   * {@link NoSuchElementException}.
+   * {@link java.util.NoSuchElementException NoSuchElementException}.
    *
    * @throws IllegalStateException if the instance is absent ({@link #isPresent} returns
    *     {@code false}); depending on this <i>specific</i> exception type (over the more general

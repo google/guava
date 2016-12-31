@@ -195,7 +195,9 @@ public final class Maps {
    *
    * <p>If the mapped keys contain duplicates, an {@code IllegalArgumentException} is thrown when
    * the collection operation is performed. (This differs from the {@code Collector} returned by
-   * {@link Collectors#toMap(Function, Function)}, which throws an {@code IllegalStateException}.)
+   * {@link java.util.stream.Collectors#toMap(java.util.function.Function,
+   * java.util.function.Function) Collectors.toMap(Function, Function)}, which throws an
+   * {@code IllegalStateException}.)
    *
    * @since 21.0
    */

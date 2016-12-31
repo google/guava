@@ -123,11 +123,11 @@ import javax.annotation.Nullable;
  * <h3>For Java 8 users</h3>
  *
  * <p>If you are using Java 8, this class is now obsolete <i>(pending a few August 2016
- * updates)</i>. Most of its functionality is now provided by {@link Stream} and by {@link
- * Comparator} itself, and the rest can now be found as static methods in our new {@link
- * Comparators} class. See each method below for further instructions. Whenever possible, you should
- * change any references of type {@code Ordering} to be of type {@code Comparator} instead. However,
- * at this time we have no plan to <i>deprecate</i> this class.
+ * updates)</i>. Most of its functionality is now provided by {@link java.util.stream.Stream Stream}
+ * and by {@link Comparator} itself, and the rest can now be found as static methods in our new
+ * {@link Comparators} class. See each method below for further instructions. Whenever possible, you
+ * should change any references of type {@code Ordering} to be of type {@code Comparator} instead.
+ * However, at this time we have no plan to <i>deprecate</i> this class.
  *
  * <p>Many replacements involve adopting {@code Stream}, and these changes can sometimes make your
  * code verbose. Whenever following this advice, you should check whether {@code Stream} could be
@@ -881,8 +881,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * equal to the element that preceded it, according to this ordering. Note that this is always
    * true when the iterable has fewer than two elements.
    *
-   * <p><b>Java 8 users:</b> Use the equivalent {@link Comparators#isInOrder(Iterable)} instead,
-   * since the rest of {@code Ordering} is mostly obsolete (as explained in the class
+   * <p><b>Java 8 users:</b> Use the equivalent {@link Comparators#isInOrder(Iterable, Comparator)}
+   * instead, since the rest of {@code Ordering} is mostly obsolete (as explained in the class
    * documentation).
    */
   public boolean isOrdered(Iterable<? extends T> iterable) {
@@ -905,9 +905,9 @@ public abstract class Ordering<T> implements Comparator<T> {
    * greater than the element that preceded it, according to this ordering. Note that this is always
    * true when the iterable has fewer than two elements.
    *
-   * <p><b>Java 8 users:</b> Use the equivalent {@link Comparators#isInStrictOrder(Iterable)}
-   * instead, since the rest of {@code Ordering} is mostly obsolete (as explained in the class
-   * documentation).
+   * <p><b>Java 8 users:</b> Use the equivalent {@link Comparators#isInStrictOrder(Iterable,
+   * Comparator)} instead, since the rest of {@code Ordering} is mostly obsolete (as explained in
+   * the class documentation).
    */
   public boolean isStrictlyOrdered(Iterable<? extends T> iterable) {
     Iterator<? extends T> it = iterable.iterator();
