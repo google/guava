@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 The Guava Authors
+ * Copyright (C) 2011 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -488,10 +488,13 @@ public class HashingTest extends TestCase {
           .build();
 
   public void testAllHashFunctionsHaveKnownHashes() throws Exception {
+    // The following legacy hashing function methods have been covered by unit testing already.
+    List<String> legacyHashingMethodNames = ImmutableList.of("murmur2_64", "fprint96");
     for (Method method : Hashing.class.getDeclaredMethods()) {
       if (method.getReturnType().equals(HashFunction.class) // must return HashFunction
           && Modifier.isPublic(method.getModifiers()) // only the public methods
-          && method.getParameterTypes().length == 0) { // only the seed-less grapes^W hash functions
+          && method.getParameterTypes().length == 0 // only the seed-less grapes^W hash functions
+          && !legacyHashingMethodNames.contains(method.getName())) {
         HashFunction hashFunction = (HashFunction) method.invoke(Hashing.class);
         assertTrue("There should be at least 3 entries in KNOWN_HASHES for " + hashFunction,
             KNOWN_HASHES.row(hashFunction).size() >= 3);
@@ -611,4 +614,6 @@ public class HashingTest extends TestCase {
       }
     }
   }
+
+  // Parity tests taken from //util/hash/hash_unittest.cc
 }
