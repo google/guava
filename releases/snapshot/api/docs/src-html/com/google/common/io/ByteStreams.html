@@ -799,9 +799,9 @@
 <span class="sourceLineNo">791</span>  /**<a name="line.791"></a>
 <span class="sourceLineNo">792</span>   * Attempts to skip up to {@code n} bytes from the given input stream, but not more than<a name="line.792"></a>
 <span class="sourceLineNo">793</span>   * {@code in.available()} bytes. This prevents {@code FileInputStream} from skipping more bytes<a name="line.793"></a>
-<span class="sourceLineNo">794</span>   * than actually remain in the file, something that it {@linkplain FileInputStream#skip(long)<a name="line.794"></a>
-<span class="sourceLineNo">795</span>   * specifies} it can do in its Javadoc despite the fact that it is violating the contract of<a name="line.795"></a>
-<span class="sourceLineNo">796</span>   * {@code InputStream.skip()}.<a name="line.796"></a>
+<span class="sourceLineNo">794</span>   * than actually remain in the file, something that it {@linkplain<a name="line.794"></a>
+<span class="sourceLineNo">795</span>   * java.io.FileInputStream#skip(long) specifies} it can do in its Javadoc despite the fact that<a name="line.795"></a>
+<span class="sourceLineNo">796</span>   * it is violating the contract of {@code InputStream.skip()}.<a name="line.796"></a>
 <span class="sourceLineNo">797</span>   */<a name="line.797"></a>
 <span class="sourceLineNo">798</span>  private static long skipSafely(InputStream in, long n) throws IOException {<a name="line.798"></a>
 <span class="sourceLineNo">799</span>    int available = in.available();<a name="line.799"></a>

@@ -198,9 +198,11 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparato
  <h3>For Java 8 users</h3>
 
  <p>If you are using Java 8, this class is now obsolete <i>(pending a few August 2016
- updates)</i>. Most of its functionality is now provided by <code>Stream</code> and by <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util"><code>Comparator</code></a> itself, and the rest can now be found as static methods in our new <a href="../../../../com/google/common/collect/Comparators.html" title="class in com.google.common.collect"><code>Comparators</code></a> class. See each method below for further instructions. Whenever possible, you should
- change any references of type <code>Ordering</code> to be of type <code>Comparator</code> instead. However,
- at this time we have no plan to <i>deprecate</i> this class.
+ updates)</i>. Most of its functionality is now provided by <a href="http://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream"><code>Stream</code></a>
+ and by <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util"><code>Comparator</code></a> itself, and the rest can now be found as static methods in our new
+ <a href="../../../../com/google/common/collect/Comparators.html" title="class in com.google.common.collect"><code>Comparators</code></a> class. See each method below for further instructions. Whenever possible, you
+ should change any references of type <code>Ordering</code> to be of type <code>Comparator</code> instead.
+ However, at this time we have no plan to <i>deprecate</i> this class.
 
  <p>Many replacements involve adopting <code>Stream</code>, and these changes can sometimes make your
  code verbose. Whenever following this advice, you should check whether <code>Stream</code> could be
@@ -1271,8 +1273,8 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
  equal to the element that preceded it, according to this ordering. Note that this is always
  true when the iterable has fewer than two elements.
 
- <p><b>Java 8 users:</b> Use the equivalent <code>Comparators#isInOrder(Iterable)</code> instead,
- since the rest of <code>Ordering</code> is mostly obsolete (as explained in the class
+ <p><b>Java 8 users:</b> Use the equivalent <a href="../../../../com/google/common/collect/Comparators.html#isInOrder-java.lang.Iterable-java.util.Comparator-"><code>Comparators.isInOrder(Iterable, Comparator)</code></a>
+ instead, since the rest of <code>Ordering</code> is mostly obsolete (as explained in the class
  documentation).</div>
 </li>
 </ul>
@@ -1287,9 +1289,9 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
  greater than the element that preceded it, according to this ordering. Note that this is always
  true when the iterable has fewer than two elements.
 
- <p><b>Java 8 users:</b> Use the equivalent <code>Comparators#isInStrictOrder(Iterable)</code>
- instead, since the rest of <code>Ordering</code> is mostly obsolete (as explained in the class
- documentation).</div>
+ <p><b>Java 8 users:</b> Use the equivalent <a href="../../../../com/google/common/collect/Comparators.html#isInStrictOrder-java.lang.Iterable-java.util.Comparator-"><code>Comparators.isInStrictOrder(Iterable,
+ Comparator)</code></a> instead, since the rest of <code>Ordering</code> is mostly obsolete (as explained in
+ the class documentation).</div>
 </li>
 </ul>
 <a name="binarySearch-java.util.List-java.lang.Object-">
@@ -1385,6 +1387,6 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Ord
 <!--   -->
 </a></div>
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
-<p class="legalCopy"><small>Copyright &#169; 2010-2016. All Rights Reserved.</small></p>
+<p class="legalCopy"><small>Copyright &#169; 2010-2017. All Rights Reserved.</small></p>
 </body>
 </html>

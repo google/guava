@@ -114,7 +114,7 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public interface <a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFuture.html#line.98">ListenableFuture</a>&lt;V&gt;
+public interface <a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFuture.html#line.99">ListenableFuture</a>&lt;V&gt;
 extends <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;</pre>
 <div class="block">A <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent"><code>Future</code></a> that accepts completion listeners. Each listener has an associated executor, and
  it is invoked using this executor once the future's computation is <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html?is-external=true#isDone--" title="class or interface in java.util.concurrent">complete</a>. If the computation has already completed when the listener is added, the listener will
@@ -128,9 +128,9 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/F
 
  <p>The main purpose of <code>ListenableFuture</code> is to help you chain together a graph of
  asynchronous operations. You can chain them together manually with calls to methods like
- <a href="../../../../../com/google/common/util/concurrent/Futures.html#transform-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-java.util.concurrent.Executor-"><code>Futures.transform</code></a>, but you will
- often find it easier to use a framework. Frameworks automate the process, often adding features
- like monitoring, debugging, and cancellation. Examples of frameworks include:
+ <a href="../../../../../com/google/common/util/concurrent/Futures.html#transform-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-java.util.concurrent.Executor-"><code>Futures.transform</code></a>, but you will often find it easier to use a framework. Frameworks automate the
+ process, often adding features like monitoring, debugging, and cancellation. Examples of
+ frameworks include:
 
  <ul>
  <li><a href="http://google.github.io/dagger/producers.html">Dagger Producers</a>
@@ -238,7 +238,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/F
 <ul class="blockListLast">
 <li class="blockList">
 <h4>addListener</h4>
-<pre>void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFuture.html#line.140">addListener</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;listener,
+<pre>void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFuture.html#line.141">addListener</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;listener,
                  <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block">Registers a listener to be <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html?is-external=true#execute-java.lang.Runnable-" title="class or interface in java.util.concurrent">run</a> on the given executor.
  The listener will run when the <code>Future</code>'s computation is <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html?is-external=true#isDone--" title="class or interface in java.util.concurrent">complete</a> or, if the computation is already complete, immediately.
@@ -350,6 +350,6 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/F
 <!--   -->
 </a></div>
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
-<p class="legalCopy"><small>Copyright &#169; 2010-2016. All Rights Reserved.</small></p>
+<p class="legalCopy"><small>Copyright &#169; 2010-2017. All Rights Reserved.</small></p>
 </body>
 </html>

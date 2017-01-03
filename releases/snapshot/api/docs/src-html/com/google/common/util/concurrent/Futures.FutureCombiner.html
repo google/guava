@@ -1167,7 +1167,7 @@
 <span class="sourceLineNo">1159</span>   * &lt;p&gt;The benefits of this method are twofold. First, the name "getDone" suggests to readers that<a name="line.1159"></a>
 <span class="sourceLineNo">1160</span>   * the {@code Future} is already done. Second, if buggy code calls {@code getDone} on a {@code<a name="line.1160"></a>
 <span class="sourceLineNo">1161</span>   * Future} that is still pending, the program will throw instead of block. This can be important<a name="line.1161"></a>
-<span class="sourceLineNo">1162</span>   * for APIs like {@link whenAllComplete whenAllComplete(...)}{@code .}{@link<a name="line.1162"></a>
+<span class="sourceLineNo">1162</span>   * for APIs like {@link #whenAllComplete whenAllComplete(...)}{@code .}{@link<a name="line.1162"></a>
 <span class="sourceLineNo">1163</span>   * FutureCombiner#call(Callable) call(...)}, where it is easy to use a new input from the {@code<a name="line.1163"></a>
 <span class="sourceLineNo">1164</span>   * call} implementation but forget to add it to the arguments of {@code whenAllComplete}.<a name="line.1164"></a>
 <span class="sourceLineNo">1165</span>   *<a name="line.1165"></a>

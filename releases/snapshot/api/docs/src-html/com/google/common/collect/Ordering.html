@@ -131,11 +131,11 @@
 <span class="sourceLineNo">123</span> * &lt;h3&gt;For Java 8 users&lt;/h3&gt;<a name="line.123"></a>
 <span class="sourceLineNo">124</span> *<a name="line.124"></a>
 <span class="sourceLineNo">125</span> * &lt;p&gt;If you are using Java 8, this class is now obsolete &lt;i&gt;(pending a few August 2016<a name="line.125"></a>
-<span class="sourceLineNo">126</span> * updates)&lt;/i&gt;. Most of its functionality is now provided by {@link Stream} and by {@link<a name="line.126"></a>
-<span class="sourceLineNo">127</span> * Comparator} itself, and the rest can now be found as static methods in our new {@link<a name="line.127"></a>
-<span class="sourceLineNo">128</span> * Comparators} class. See each method below for further instructions. Whenever possible, you should<a name="line.128"></a>
-<span class="sourceLineNo">129</span> * change any references of type {@code Ordering} to be of type {@code Comparator} instead. However,<a name="line.129"></a>
-<span class="sourceLineNo">130</span> * at this time we have no plan to &lt;i&gt;deprecate&lt;/i&gt; this class.<a name="line.130"></a>
+<span class="sourceLineNo">126</span> * updates)&lt;/i&gt;. Most of its functionality is now provided by {@link java.util.stream.Stream Stream}<a name="line.126"></a>
+<span class="sourceLineNo">127</span> * and by {@link Comparator} itself, and the rest can now be found as static methods in our new<a name="line.127"></a>
+<span class="sourceLineNo">128</span> * {@link Comparators} class. See each method below for further instructions. Whenever possible, you<a name="line.128"></a>
+<span class="sourceLineNo">129</span> * should change any references of type {@code Ordering} to be of type {@code Comparator} instead.<a name="line.129"></a>
+<span class="sourceLineNo">130</span> * However, at this time we have no plan to &lt;i&gt;deprecate&lt;/i&gt; this class.<a name="line.130"></a>
 <span class="sourceLineNo">131</span> *<a name="line.131"></a>
 <span class="sourceLineNo">132</span> * &lt;p&gt;Many replacements involve adopting {@code Stream}, and these changes can sometimes make your<a name="line.132"></a>
 <span class="sourceLineNo">133</span> * code verbose. Whenever following this advice, you should check whether {@code Stream} could be<a name="line.133"></a>
@@ -889,8 +889,8 @@
 <span class="sourceLineNo">881</span>   * equal to the element that preceded it, according to this ordering. Note that this is always<a name="line.881"></a>
 <span class="sourceLineNo">882</span>   * true when the iterable has fewer than two elements.<a name="line.882"></a>
 <span class="sourceLineNo">883</span>   *<a name="line.883"></a>
-<span class="sourceLineNo">884</span>   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; Use the equivalent {@link Comparators#isInOrder(Iterable)} instead,<a name="line.884"></a>
-<span class="sourceLineNo">885</span>   * since the rest of {@code Ordering} is mostly obsolete (as explained in the class<a name="line.885"></a>
+<span class="sourceLineNo">884</span>   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; Use the equivalent {@link Comparators#isInOrder(Iterable, Comparator)}<a name="line.884"></a>
+<span class="sourceLineNo">885</span>   * instead, since the rest of {@code Ordering} is mostly obsolete (as explained in the class<a name="line.885"></a>
 <span class="sourceLineNo">886</span>   * documentation).<a name="line.886"></a>
 <span class="sourceLineNo">887</span>   */<a name="line.887"></a>
 <span class="sourceLineNo">888</span>  public boolean isOrdered(Iterable&lt;? extends T&gt; iterable) {<a name="line.888"></a>
@@ -913,9 +913,9 @@
 <span class="sourceLineNo">905</span>   * greater than the element that preceded it, according to this ordering. Note that this is always<a name="line.905"></a>
 <span class="sourceLineNo">906</span>   * true when the iterable has fewer than two elements.<a name="line.906"></a>
 <span class="sourceLineNo">907</span>   *<a name="line.907"></a>
-<span class="sourceLineNo">908</span>   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; Use the equivalent {@link Comparators#isInStrictOrder(Iterable)}<a name="line.908"></a>
-<span class="sourceLineNo">909</span>   * instead, since the rest of {@code Ordering} is mostly obsolete (as explained in the class<a name="line.909"></a>
-<span class="sourceLineNo">910</span>   * documentation).<a name="line.910"></a>
+<span class="sourceLineNo">908</span>   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; Use the equivalent {@link Comparators#isInStrictOrder(Iterable,<a name="line.908"></a>
+<span class="sourceLineNo">909</span>   * Comparator)} instead, since the rest of {@code Ordering} is mostly obsolete (as explained in<a name="line.909"></a>
+<span class="sourceLineNo">910</span>   * the class documentation).<a name="line.910"></a>
 <span class="sourceLineNo">911</span>   */<a name="line.911"></a>
 <span class="sourceLineNo">912</span>  public boolean isStrictlyOrdered(Iterable&lt;? extends T&gt; iterable) {<a name="line.912"></a>
 <span class="sourceLineNo">913</span>    Iterator&lt;? extends T&gt; it = iterable.iterator();<a name="line.913"></a>
