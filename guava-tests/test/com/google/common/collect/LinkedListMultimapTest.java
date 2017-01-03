@@ -96,8 +96,8 @@ public class LinkedListMultimapTest extends TestCase {
     Multimap<String, Integer> multimap = create();
     multimap.put("foo", 1);
     multimap.put("foo", 3);
-    assertThat(multimap.get("foo")).isNotInstanceOf(RandomAccess.class);
-    assertThat(multimap.get("bar")).isNotInstanceOf(RandomAccess.class);
+    assertFalse(multimap.get("foo") instanceof RandomAccess);
+    assertFalse(multimap.get("bar") instanceof RandomAccess);
   }
 
   /**

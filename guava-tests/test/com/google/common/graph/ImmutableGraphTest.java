@@ -32,7 +32,7 @@ public class ImmutableGraphTest {
     mutableGraph.addNode("A");
     Graph<String> immutableGraph = ImmutableGraph.copyOf(mutableGraph);
 
-    assertThat(immutableGraph).isNotInstanceOf(MutableGraph.class);
+    assertThat(immutableGraph instanceof MutableGraph).isFalse();
     assertThat(Graphs.equivalent(immutableGraph, mutableGraph)).isTrue();
 
     mutableGraph.addNode("B");
@@ -46,7 +46,7 @@ public class ImmutableGraphTest {
     ValueGraph<String, Integer> immutableGraph = ImmutableValueGraph.copyOf(mutableGraph);
 
     assertThat(immutableGraph).isInstanceOf(ImmutableGraph.class);
-    assertThat(immutableGraph).isNotInstanceOf(MutableValueGraph.class);
+    assertThat(immutableGraph instanceof MutableValueGraph).isFalse();
     assertThat(Graphs.equivalent(immutableGraph, mutableGraph)).isTrue();
 
     mutableGraph.addNode("B");

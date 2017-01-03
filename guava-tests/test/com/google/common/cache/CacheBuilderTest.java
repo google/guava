@@ -359,8 +359,7 @@ public class CacheBuilderTest extends TestCase {
   }
 
   public void testValuesIsNotASet() {
-    assertThat(new CacheBuilder<Object, Object>().build().asMap().values())
-        .isNotInstanceOf(Set.class);
+    assertFalse(new CacheBuilder<Object, Object>().build().asMap().values() instanceof Set);
   }
 
   @GwtIncompatible // CacheTesting

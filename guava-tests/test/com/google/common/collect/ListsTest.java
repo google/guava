@@ -665,7 +665,7 @@ public class ListsTest extends TestCase {
 
   public void testTransformSequential() {
     List<String> list = Lists.transform(SOME_SEQUENTIAL_LIST, SOME_FUNCTION);
-    assertThat(list).isNotInstanceOf(RandomAccess.class);
+    assertFalse(list instanceof RandomAccess);
   }
 
   public void testTransformListIteratorRandomAccess() {
@@ -853,9 +853,9 @@ public class ListsTest extends TestCase {
   public void testPartitionRandomAccessFalse() {
     List<Integer> source = Lists.newLinkedList(asList(1, 2, 3));
     List<List<Integer>> partitions = Lists.partition(source, 2);
-    assertThat(partitions).isNotInstanceOf(RandomAccess.class);
-    assertThat(partitions.get(0)).isNotInstanceOf(RandomAccess.class);
-    assertThat(partitions.get(1)).isNotInstanceOf(RandomAccess.class);
+    assertFalse(partitions instanceof RandomAccess);
+    assertFalse(partitions.get(0) instanceof RandomAccess);
+    assertFalse(partitions.get(1) instanceof RandomAccess);
   }
 
   // TODO: use the ListTestSuiteBuilder

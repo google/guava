@@ -33,7 +33,7 @@ public class ImmutableNetworkTest {
     Network<String, Integer> immutableNetwork = ImmutableNetwork.copyOf(mutableNetwork);
 
     assertThat(immutableNetwork.asGraph()).isInstanceOf(ImmutableGraph.class);
-    assertThat(immutableNetwork).isNotInstanceOf(MutableNetwork.class);
+    assertThat(immutableNetwork instanceof MutableNetwork).isFalse();
     assertThat(Graphs.equivalent(immutableNetwork, mutableNetwork)).isTrue();
 
     mutableNetwork.addNode("B");

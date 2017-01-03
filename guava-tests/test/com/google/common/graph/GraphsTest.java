@@ -586,10 +586,10 @@ public class GraphsTest {
 
   @Test
   public void defaultImplementations_notValueGraph() {
-    assertThat(buildDirectedGraph()).isNotInstanceOf(ValueGraph.class);
-    assertThat(buildUndirectedGraph()).isNotInstanceOf(ValueGraph.class);
-    assertThat(ImmutableGraph.copyOf(buildDirectedGraph())).isNotInstanceOf(ValueGraph.class);
-    assertThat(ImmutableGraph.copyOf(buildUndirectedGraph())).isNotInstanceOf(ValueGraph.class);
+    assertThat(buildDirectedGraph() instanceof ValueGraph).isFalse();
+    assertThat(buildUndirectedGraph() instanceof ValueGraph).isFalse();
+    assertThat(ImmutableGraph.copyOf(buildDirectedGraph()) instanceof ValueGraph).isFalse();
+    assertThat(ImmutableGraph.copyOf(buildUndirectedGraph()) instanceof ValueGraph).isFalse();
   }
 
   private static <N> void checkTransitiveClosure(Graph<N> originalGraph, Graph<N> expectedClosure) {
