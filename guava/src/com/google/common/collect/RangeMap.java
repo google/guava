@@ -87,6 +87,8 @@ public interface RangeMap<K extends Comparable, V> {
    * <p><b>Note:</b> coalescing requires calling {@code .equals()} on any connected values, which
    * may be expensive depending on the value type. Using this method on range maps with large values
    * such as {@link Collection} types is discouraged.
+   *
+   * @since 22.0
    */
   void putCoalescing(Range<K> range, V value);
 
