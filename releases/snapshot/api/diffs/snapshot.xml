@@ -6326,8 +6326,8 @@
     <method name="propagateIfInstanceOf"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Use {@link #throwIfInstanceOf}, which has the same behavior
-     but rejects {@code null}. This method is scheduled to be removed in July 2018.">
+      deprecated="Use {@link #throwIfInstanceOf}, which has the same behavior but rejects {@code
+     null}. This method is scheduled to be removed in July 2018.">
       <param name="throwable" type="java.lang.Throwable"/>
       <param name="declaredType" type="java.lang.Class&lt;X&gt;"/>
       <exception name="Throwable" type="java.lang.Throwable"/>
@@ -6347,8 +6347,8 @@
  }
  </pre>
 
- @deprecated Use {@link #throwIfInstanceOf}, which has the same behavior
-     but rejects {@code null}. This method is scheduled to be removed in July 2018.]]>
+ @deprecated Use {@link #throwIfInstanceOf}, which has the same behavior but rejects {@code
+     null}. This method is scheduled to be removed in July 2018.]]>
       </doc>
     </method>
     <method name="throwIfUnchecked"
@@ -6379,12 +6379,12 @@
     <method name="propagateIfPossible"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Use {@link #throwIfUnchecked}, which has the same behavior but rejects
-     {@code null}. This method is scheduled to be removed in July 2018.">
+      deprecated="Use {@link #throwIfUnchecked}, which has the same behavior but rejects {@code
+     null}. This method is scheduled to be removed in July 2018.">
       <param name="throwable" type="java.lang.Throwable"/>
       <doc>
-      <![CDATA[Propagates {@code throwable} exactly as-is, if and only if it is an instance of
- {@link RuntimeException} or {@link Error}. Example usage:
+      <![CDATA[Propagates {@code throwable} exactly as-is, if and only if it is an instance of {@link
+ RuntimeException} or {@link Error}. Example usage:
 
  <pre>
  try {
@@ -6397,8 +6397,8 @@
  }
  </pre>
 
- @deprecated Use {@link #throwIfUnchecked}, which has the same behavior but rejects
-     {@code null}. This method is scheduled to be removed in July 2018.]]>
+ @deprecated Use {@link #throwIfUnchecked}, which has the same behavior but rejects {@code
+     null}. This method is scheduled to be removed in July 2018.]]>
       </doc>
     </method>
     <method name="propagateIfPossible"
@@ -6409,8 +6409,8 @@
       <param name="declaredType" type="java.lang.Class&lt;X&gt;"/>
       <exception name="Throwable" type="java.lang.Throwable"/>
       <doc>
-      <![CDATA[Propagates {@code throwable} exactly as-is, if and only if it is an instance of
- {@link RuntimeException}, {@link Error}, or {@code declaredType}. Example usage:
+      <![CDATA[Propagates {@code throwable} exactly as-is, if and only if it is an instance of {@link
+ RuntimeException}, {@link Error}, or {@code declaredType}. Example usage:
 
  <pre>
  try {
@@ -6437,11 +6437,11 @@
       <exception name="Throwable" type="java.lang.Throwable"/>
       <exception name="Throwable" type="java.lang.Throwable"/>
       <doc>
-      <![CDATA[Propagates {@code throwable} exactly as-is, if and only if it is an instance of
- {@link RuntimeException}, {@link Error}, {@code declaredType1}, or {@code declaredType2}. In
- the unlikely case that you have three or more declared checked exception types, you can handle
- them all by invoking these methods repeatedly. See usage example in
- {@link #propagateIfPossible(Throwable, Class)}.
+      <![CDATA[Propagates {@code throwable} exactly as-is, if and only if it is an instance of {@link
+ RuntimeException}, {@link Error}, {@code declaredType1}, or {@code declaredType2}. In the
+ unlikely case that you have three or more declared checked exception types, you can handle them
+ all by invoking these methods repeatedly. See usage example in {@link
+ #propagateIfPossible(Throwable, Class)}.
 
  @param throwable the Throwable to possibly propagate
  @param declaredType1 any checked exception type declared by the calling method
@@ -6456,9 +6456,8 @@
      method is scheduled to be removed in July 2018.">
       <param name="throwable" type="java.lang.Throwable"/>
       <doc>
-      <![CDATA[<p>Propagates {@code throwable} as-is if it is an instance of {@link RuntimeException} or
- {@link Error}, or else as a last resort, wraps it in a {@code RuntimeException} and then
- propagates.
+      <![CDATA[Propagates {@code throwable} as-is if it is an instance of {@link RuntimeException} or {@link
+ Error}, or else as a last resort, wraps it in a {@code RuntimeException} and then propagates.
 
  <p>This method always throws an exception. The {@code RuntimeException} return type allows
  client code to signal to the compiler that statements after the call are unreachable. Example
@@ -6525,11 +6524,14 @@
       deprecated="not deprecated">
       <param name="throwable" type="java.lang.Throwable"/>
       <param name="expectedCauseType" type="java.lang.Class&lt;X&gt;"/>
-      <exception name="ClassCastException" type="java.lang.ClassCastException"/>
       <doc>
       <![CDATA[Returns {@code throwable}'s cause, cast to {@code expectedCauseType}.
 
- @throws ClassCastException if the cause cannot be cast to the expected type. The {@link
+ <p>Prefer this method instead of manually casting an exception's cause, for example This is
+ preferable to manually casting (e.g. {@code (IOException) e.getCause()}) because if a {@link
+ ClassCastException} results {@code throwable} will be preserved as that exception's cause.
+
+ @throws ClassCastException if the cause cannot be cast to the expected type. The {@code
      ClassCastException}'s cause is {@code throwable}.
  @since 22.0]]>
       </doc>
@@ -6565,10 +6567,11 @@
  by delaying the per-stack-frame work until each element is accessed. Roughly speaking:
 
  <ul>
- <li>{@code getStackTrace} takes {@code stackSize} time to return but then negligible time to
- retrieve each element of the returned list.
- <li>{@code lazyStackTrace} takes negligible time to return but then {@code 1/stackSize} time to
- retrieve each element of the returned list (probably slightly more than {@code 1/stackSize}).
+   <li>{@code getStackTrace} takes {@code stackSize} time to return but then negligible time to
+       retrieve each element of the returned list.
+   <li>{@code lazyStackTrace} takes negligible time to return but then {@code 1/stackSize} time
+       to retrieve each element of the returned list (probably slightly more than {@code
+       1/stackSize}).
  </ul>
 
  <p>Note: The special implementation does not respect calls to {@link Throwable#setStackTrace
@@ -6592,8 +6595,8 @@
     <doc>
     <![CDATA[Static utility methods pertaining to instances of {@link Throwable}.
 
- <p>See the Guava User Guide entry on
- <a href="https://github.com/google/guava/wiki/ThrowablesExplained">Throwables</a>.
+ <p>See the Guava User Guide entry on <a
+ href="https://github.com/google/guava/wiki/ThrowablesExplained">Throwables</a>.
 
  @author Kevin Bourrillion
  @author Ben Yu
@@ -19236,6 +19239,19 @@
       deprecated="not deprecated">
     </method>
     <method name="put"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="Unsupported operation.">
+      <param name="range" type="com.google.common.collect.Range&lt;K&gt;"/>
+      <param name="value" type="V"/>
+      <doc>
+      <![CDATA[Guaranteed to throw an exception and leave the {@code RangeMap} unmodified.
+
+ @throws UnsupportedOperationException always
+ @deprecated Unsupported operation.]]>
+      </doc>
+    </method>
+    <method name="putCoalescing"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="Unsupported operation.">
@@ -32249,6 +32265,29 @@
  <p>If {@code range} {@linkplain Range#isEmpty() is empty}, then this is a no-op.]]>
       </doc>
     </method>
+    <method name="putCoalescing"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="range" type="com.google.common.collect.Range&lt;K&gt;"/>
+      <param name="value" type="V"/>
+      <doc>
+      <![CDATA[Maps a range to a specified value, coalescing this range with any existing ranges with the same
+ value that are {@linkplain Range#isConnected connected} to this range.
+
+ <p>The behavior of {@link #get(Comparable) get(k)} after calling this method is identical to
+ the behavior described in {@link #put(Range, Object) put(range, value)}, however the ranges
+ returned from {@link #asMapOfRanges} will be different if there were existing entries which
+ connect to the given range and value.
+
+ <p>Even if the input range is empty, if it is connected on both sides by ranges mapped to the
+ same value those two ranges will be coalesced.
+
+ <p><b>Note:</b> coalescing requires calling {@code .equals()} on any connected values, which
+ may be expensive depending on the value type. Using this method on range maps with large values
+ such as {@link Collection} types is discouraged.]]>
+      </doc>
+    </method>
     <method name="putAll"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -35668,6 +35707,13 @@
       <param name="key" type="K extends java.lang.Comparable"/>
     </method>
     <method name="put"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="range" type="com.google.common.collect.Range&lt;K&gt;"/>
+      <param name="value" type="V"/>
+    </method>
+    <method name="putCoalescing"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
