@@ -396,7 +396,7 @@ public class ThrowablesTest extends TestCase {
       sample.noneDeclared();
       fail();
     } catch (RuntimeException expected) {
-      assertTrue(expected.getCause() instanceof SomeCheckedException);
+      assertThat(expected.getCause()).isInstanceOf(SomeCheckedException.class);
     }
   }
 
