@@ -284,9 +284,11 @@ public final class Throwables {
   /**
    * Returns {@code throwable}'s cause, cast to {@code expectedCauseType}.
    *
-   * <p>Prefer this method instead of manually casting an exception's cause, for example This is
-   * preferable to manually casting (e.g. {@code (IOException) e.getCause()}) because if a {@link
-   * ClassCastException} results {@code throwable} will be preserved as that exception's cause.
+   * <p>Prefer this method instead of manually casting an exception's cause. For example, {@code
+   * (IOException) e.getCause()} throws a {@link ClassCastException} that discards the original
+   * exception {@code e} if the cause is not an {@link IOException}, but {@code
+   * Throwables.getCauseAs(e, IOException.class)} keeps {@code e} as the {@link
+   * ClassCastException}'s cause.
    *
    * @throws ClassCastException if the cause cannot be cast to the expected type. The {@code
    *     ClassCastException}'s cause is {@code throwable}.
