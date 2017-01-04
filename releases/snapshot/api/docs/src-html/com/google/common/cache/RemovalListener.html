@@ -41,17 +41,18 @@
 <span class="sourceLineNo">033</span> * @since 10.0<a name="line.33"></a>
 <span class="sourceLineNo">034</span> */<a name="line.34"></a>
 <span class="sourceLineNo">035</span>@GwtCompatible<a name="line.35"></a>
-<span class="sourceLineNo">036</span>public interface RemovalListener&lt;K, V&gt; {<a name="line.36"></a>
-<span class="sourceLineNo">037</span>  /**<a name="line.37"></a>
-<span class="sourceLineNo">038</span>   * Notifies the listener that a removal occurred at some point in the past.<a name="line.38"></a>
-<span class="sourceLineNo">039</span>   *<a name="line.39"></a>
-<span class="sourceLineNo">040</span>   * &lt;p&gt;This does not always signify that the key is now absent from the cache, as it may have<a name="line.40"></a>
-<span class="sourceLineNo">041</span>   * already been re-added.<a name="line.41"></a>
-<span class="sourceLineNo">042</span>   */<a name="line.42"></a>
-<span class="sourceLineNo">043</span>  // Technically should accept RemovalNotification&lt;? extends K, ? extends V&gt;, but because<a name="line.43"></a>
-<span class="sourceLineNo">044</span>  // RemovalNotification is guaranteed covariant, let's make users' lives simpler.<a name="line.44"></a>
-<span class="sourceLineNo">045</span>  void onRemoval(RemovalNotification&lt;K, V&gt; notification);<a name="line.45"></a>
-<span class="sourceLineNo">046</span>}<a name="line.46"></a>
+<span class="sourceLineNo">036</span>@FunctionalInterface<a name="line.36"></a>
+<span class="sourceLineNo">037</span>public interface RemovalListener&lt;K, V&gt; {<a name="line.37"></a>
+<span class="sourceLineNo">038</span>  /**<a name="line.38"></a>
+<span class="sourceLineNo">039</span>   * Notifies the listener that a removal occurred at some point in the past.<a name="line.39"></a>
+<span class="sourceLineNo">040</span>   *<a name="line.40"></a>
+<span class="sourceLineNo">041</span>   * &lt;p&gt;This does not always signify that the key is now absent from the cache, as it may have<a name="line.41"></a>
+<span class="sourceLineNo">042</span>   * already been re-added.<a name="line.42"></a>
+<span class="sourceLineNo">043</span>   */<a name="line.43"></a>
+<span class="sourceLineNo">044</span>  // Technically should accept RemovalNotification&lt;? extends K, ? extends V&gt;, but because<a name="line.44"></a>
+<span class="sourceLineNo">045</span>  // RemovalNotification is guaranteed covariant, let's make users' lives simpler.<a name="line.45"></a>
+<span class="sourceLineNo">046</span>  void onRemoval(RemovalNotification&lt;K, V&gt; notification);<a name="line.46"></a>
+<span class="sourceLineNo">047</span>}<a name="line.47"></a>
 
 
 
