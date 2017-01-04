@@ -338,7 +338,7 @@ public final class Files {
   }
 
   /**
-   * Returns true if the files contains the same bytes.
+   * Returns true if the given files exist, are not directories, and contain the same bytes.
    *
    * @throws IOException if an I/O error occurs
    */

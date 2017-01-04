@@ -318,6 +318,35 @@ public final class MoreFiles {
   }
 
   /**
+   * Returns true if the files located by the given paths exist, are not directories, and contain
+   * the same bytes.
+   *
+   * @throws IOException if an I/O error occurs
+   * @since 22.0
+   */
+  public static boolean equal(Path path1, Path path2) throws IOException {
+    checkNotNull(path1);
+    checkNotNull(path2);
+    if (Files.isSameFile(path1, path2)) {
+      return true;
+    }
+
+    /*
+     * Some operating systems may return zero as the length for files denoting system-dependent
+     * entities such as devices or pipes, in which case we must fall back on comparing the bytes
+     * directly.
+     */
+    ByteSource source1 = asByteSource(path1);
+    ByteSource source2 = asByteSource(path2);
+    long len1 = source1.sizeIfKnown().or(0L);
+    long len2 = source2.sizeIfKnown().or(0L);
+    if (len1 != 0 && len2 != 0 && len1 != len2) {
+      return false;
+    }
+    return source1.contentEquals(source2);
+  }
+
+  /**
    * Like the unix command of the same name, creates an empty file or updates the last modified
    * timestamp of the existing file at the given path to the current system time.
    */

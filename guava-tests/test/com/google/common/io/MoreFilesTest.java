@@ -20,6 +20,7 @@ import static com.google.common.io.RecursiveDeleteOption.ALLOW_INSECURE;
 import static com.google.common.jimfs.Feature.SECURE_DIRECTORY_STREAM;
 import static com.google.common.jimfs.Feature.SYMBOLIC_LINKS;
 import static com.google.common.truth.Truth.assertThat;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.LinkOption.NOFOLLOW_LINKS;
 
 import com.google.common.collect.ObjectArrays;
@@ -176,6 +177,49 @@ public class MoreFilesTest extends TestCase {
         fail();
       } catch (IOException expected) {
       }
+    }
+  }
+
+  public void testEqual() throws IOException {
+    try (FileSystem fs = Jimfs.newFileSystem(Configuration.unix())) {
+      Path fooPath = fs.getPath("foo");
+      Path barPath = fs.getPath("bar");
+      MoreFiles.asCharSink(fooPath, UTF_8).write("foo");
+      MoreFiles.asCharSink(barPath, UTF_8).write("barbar");
+
+      assertThat(MoreFiles.equal(fooPath, barPath)).isFalse();
+      assertThat(MoreFiles.equal(fooPath, fooPath)).isTrue();
+      assertThat(MoreFiles.asByteSource(fooPath).contentEquals(MoreFiles.asByteSource(fooPath)))
+          .isTrue();
+
+      Path fooCopy = Files.copy(fooPath, fs.getPath("fooCopy"));
+      assertThat(Files.isSameFile(fooPath, fooCopy)).isFalse();
+      assertThat(MoreFiles.equal(fooPath, fooCopy)).isTrue();
+
+      MoreFiles.asCharSink(fooCopy, UTF_8).write("boo");
+      assertThat(MoreFiles.asByteSource(fooPath).size())
+          .isEqualTo(MoreFiles.asByteSource(fooCopy).size());
+      assertThat(MoreFiles.equal(fooPath, fooCopy)).isFalse();
+
+      // should also assert that a Path that erroneously reports a size 0 can still be compared,
+      // not sure how to do that with the Path API
+    }
+  }
+
+  public void testEqual_links() throws IOException {
+    try (FileSystem fs = Jimfs.newFileSystem(Configuration.unix())) {
+      Path fooPath = fs.getPath("foo");
+      MoreFiles.asCharSink(fooPath, UTF_8).write("foo");
+
+      Path fooSymlink = fs.getPath("symlink");
+      Files.createSymbolicLink(fooSymlink, fooPath);
+
+      Path fooHardlink = fs.getPath("hardlink");
+      Files.createLink(fooHardlink, fooPath);
+
+      assertThat(MoreFiles.equal(fooPath, fooSymlink)).isTrue();
+      assertThat(MoreFiles.equal(fooPath, fooHardlink)).isTrue();
+      assertThat(MoreFiles.equal(fooSymlink, fooHardlink)).isTrue();
     }
   }
 
