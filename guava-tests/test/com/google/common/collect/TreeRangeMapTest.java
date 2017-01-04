@@ -435,6 +435,85 @@ public class TreeRangeMapTest extends TestCase {
     }
   }
 
+  // identical to testPutTwoAndRemove,
+  // verifies that putCoalescing() doesn't cause any mappings to change relative to put()
+  public void testPutCoalescingTwoAndRemove() {
+    for (Range<Integer> rangeToPut1 : RANGES) {
+      for (Range<Integer> rangeToPut2 : RANGES) {
+        for (Range<Integer> rangeToRemove : RANGES) {
+          Map<Integer, Integer> model = Maps.newHashMap();
+          putModel(model, rangeToPut1, 1);
+          putModel(model, rangeToPut2, 2);
+          removeModel(model, rangeToRemove);
+          RangeMap<Integer, Integer> test = TreeRangeMap.create();
+          test.putCoalescing(rangeToPut1, 1);
+          test.putCoalescing(rangeToPut2, 2);
+          test.remove(rangeToRemove);
+          verify(model, test);
+        }
+      }
+    }
+  }
+
+  public void testPutCoalescing() {
+    // {[0..1): 1, [1..2): 1, [2..3): 2} -> {[0..2): 1, [2..3): 2}
+    RangeMap<Integer, Integer> rangeMap = TreeRangeMap.create();
+    rangeMap.putCoalescing(Range.closedOpen(0, 1), 1);
+    rangeMap.putCoalescing(Range.closedOpen(1, 2), 1);
+    rangeMap.putCoalescing(Range.closedOpen(2, 3), 2);
+    assertEquals(
+        ImmutableMap.of(Range.closedOpen(0, 2), 1, Range.closedOpen(2, 3), 2),
+        rangeMap.asMapOfRanges());
+  }
+
+  public void testPutCoalescingEmpty() {
+    RangeMap<Integer, Integer> rangeMap = TreeRangeMap.create();
+    rangeMap.put(Range.closedOpen(0, 1), 1);
+    rangeMap.put(Range.closedOpen(1, 2), 1);
+    assertEquals(
+        ImmutableMap.of(Range.closedOpen(0, 1), 1, Range.closedOpen(1, 2), 1),
+        rangeMap.asMapOfRanges());
+
+    rangeMap.putCoalescing(Range.closedOpen(1, 1), 1); // empty range coalesces connected ranges
+    assertEquals(ImmutableMap.of(Range.closedOpen(0, 2), 1), rangeMap.asMapOfRanges());
+  }
+
+  public void testPutCoalescingComplex() {
+    // {[0..1): 1, [1..3): 1, [3..5): 1, [7..10): 2, [12..15): 2, [18..19): 3}
+    RangeMap<Integer, Integer> rangeMap = TreeRangeMap.create();
+    rangeMap.put(Range.closedOpen(0, 1), 1);
+    rangeMap.put(Range.closedOpen(1, 3), 1);
+    rangeMap.put(Range.closedOpen(3, 5), 1);
+    rangeMap.put(Range.closedOpen(7, 10), 2);
+    rangeMap.put(Range.closedOpen(12, 15), 2);
+    rangeMap.put(Range.closedOpen(18, 19), 3);
+
+    rangeMap.putCoalescing(Range.closedOpen(-5, -4), 0); // disconnected
+    rangeMap.putCoalescing(Range.closedOpen(-6, -5), 0); // lower than minimum
+
+    rangeMap.putCoalescing(Range.closedOpen(2, 4), 1); // between
+    rangeMap.putCoalescing(Range.closedOpen(9, 14), 0); // different value
+    rangeMap.putCoalescing(Range.closedOpen(17, 20), 3); // enclosing
+
+    rangeMap.putCoalescing(Range.closedOpen(22, 23), 4); // disconnected
+    rangeMap.putCoalescing(Range.closedOpen(23, 25), 4); // greater than minimum
+
+    // {[-6..-4): 0, [0..1): 1, [1..5): 1, [7..9): 2,
+    //  [9..14): 0, [14..15): 2, [17..20): 3, [22..25): 4}
+    assertEquals(
+        new ImmutableMap.Builder<>()
+            .put(Range.closedOpen(-6, -4), 0)
+            .put(Range.closedOpen(0, 1), 1) // not coalesced
+            .put(Range.closedOpen(1, 5), 1)
+            .put(Range.closedOpen(7, 9), 2)
+            .put(Range.closedOpen(9, 14), 0)
+            .put(Range.closedOpen(14, 15), 2)
+            .put(Range.closedOpen(17, 20), 3)
+            .put(Range.closedOpen(22, 25), 4)
+            .build(),
+        rangeMap.asMapOfRanges());
+  }
+
   public void testSubRangeMapExhaustive() {
     for (Range<Integer> range1 : RANGES) {
       for (Range<Integer> range2 : RANGES) {
@@ -517,6 +596,43 @@ public class TreeRangeMapTest extends TestCase {
         ImmutableMap.of(Range.open(3, 7), 1, Range.closed(7, 9), 4, Range.openClosed(9, 10), 2,
             Range.closed(12, 16), 3),
         rangeMap.asMapOfRanges());
+  }
+
+  public void testSubRangeMapPutCoalescing() {
+    RangeMap<Integer, Integer> rangeMap = TreeRangeMap.create();
+    rangeMap.put(Range.open(3, 7), 1);
+    rangeMap.put(Range.closed(9, 10), 2);
+    rangeMap.put(Range.closed(12, 16), 3);
+    RangeMap<Integer, Integer> sub = rangeMap.subRangeMap(Range.closed(5, 11));
+    assertEquals(
+        ImmutableMap.of(Range.closedOpen(5, 7), 1, Range.closed(9, 10), 2), sub.asMapOfRanges());
+    sub.putCoalescing(Range.closed(7, 9), 2);
+    assertEquals(
+        ImmutableMap.of(Range.closedOpen(5, 7), 1, Range.closed(7, 10), 2), sub.asMapOfRanges());
+    assertEquals(
+        ImmutableMap.of(Range.open(3, 7), 1, Range.closed(7, 10), 2, Range.closed(12, 16), 3),
+        rangeMap.asMapOfRanges());
+
+    sub.putCoalescing(Range.singleton(7), 1);
+    assertEquals(
+        ImmutableMap.of(Range.closed(5, 7), 1, Range.openClosed(7, 10), 2), sub.asMapOfRanges());
+    assertEquals(
+        ImmutableMap.of(
+            Range.open(3, 5),
+            1,
+            Range.closed(5, 7),
+            1,
+            Range.openClosed(7, 10),
+            2,
+            Range.closed(12, 16),
+            3),
+        rangeMap.asMapOfRanges());
+
+    try {
+      sub.putCoalescing(Range.open(9, 12), 5);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testSubRangeMapRemove() {

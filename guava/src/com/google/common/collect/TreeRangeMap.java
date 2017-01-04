@@ -121,11 +121,48 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
 
   @Override
   public void put(Range<K> range, V value) {
+    // don't short-circuit if the range is empty - it may be between two ranges we can coalesce.
     if (!range.isEmpty()) {
       checkNotNull(value);
       remove(range);
       entriesByLowerBound.put(range.lowerBound, new RangeMapEntry<K, V>(range, value));
     }
+  }
+
+  @Override
+  public void putCoalescing(Range<K> range, V value) {
+    if (entriesByLowerBound.isEmpty()) {
+      put(range, value);
+      return;
+    }
+
+    Range<K> coalescedRange = coalescedRange(range, checkNotNull(value));
+    put(coalescedRange, value);
+  }
+
+  /** Computes the coalesced range for the given range+value - does not mutate the map. */
+  private Range<K> coalescedRange(Range<K> range, V value) {
+    Range<K> coalescedRange = range;
+    Map.Entry<Cut<K>, RangeMapEntry<K, V>> lowerEntry =
+        entriesByLowerBound.lowerEntry(range.lowerBound);
+    coalescedRange = coalesce(coalescedRange, value, lowerEntry);
+
+    Map.Entry<Cut<K>, RangeMapEntry<K, V>> higherEntry =
+        entriesByLowerBound.floorEntry(range.upperBound);
+    coalescedRange = coalesce(coalescedRange, value, higherEntry);
+
+    return coalescedRange;
+  }
+
+  /** Returns the range that spans the given range and entry, if the entry can be coalesced. */
+  private static <K extends Comparable, V> Range<K> coalesce(
+      Range<K> range, V value, @Nullable Map.Entry<Cut<K>, RangeMapEntry<K, V>> entry) {
+    if (entry != null
+        && entry.getValue().getKey().isConnected(range)
+        && entry.getValue().getValue().equals(value)) {
+      return range.span(entry.getValue().getKey());
+    }
+    return range;
   }
 
   @Override
@@ -293,6 +330,13 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
         }
 
         @Override
+        public void putCoalescing(Range range, Object value) {
+          checkNotNull(range);
+          throw new IllegalArgumentException(
+              "Cannot insert range " + range + " into an empty subRangeMap");
+        }
+
+        @Override
         public void putAll(RangeMap rangeMap) {
           if (!rangeMap.asMapOfRanges().isEmpty()) {
             throw new IllegalArgumentException(
@@ -384,6 +428,18 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
       checkArgument(
           subRange.encloses(range), "Cannot put range %s into a subRangeMap(%s)", range, subRange);
       TreeRangeMap.this.put(range, value);
+    }
+
+    @Override
+    public void putCoalescing(Range<K> range, V value) {
+      if (entriesByLowerBound.isEmpty() || range.isEmpty() || !subRange.encloses(range)) {
+        put(range, value);
+        return;
+      }
+
+      Range<K> coalescedRange = coalescedRange(range, checkNotNull(value));
+      // only coalesce ranges within the subRange
+      put(coalescedRange.intersection(subRange), value);
     }
 
     @Override
