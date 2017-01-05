@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9};
+var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -197,40 +197,48 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 </td>
 </tr>
 <tr id="i8" class="altColor">
+<td class="colFirst"><code>static boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/io/MoreFiles.html#equal-java.nio.file.Path-java.nio.file.Path-">equal</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file">Path</a>&nbsp;path1,
+     <a href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file">Path</a>&nbsp;path2)</code>
+<div class="block">Returns true if the files located by the given paths exist, are not directories, and contain
+ the same bytes.</div>
+</td>
+</tr>
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/io/MoreFiles.html#getFileExtension-java.nio.file.Path-">getFileExtension</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file">Path</a>&nbsp;path)</code>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> for
  the file at the given path, or the empty string if the file has no extension.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/io/MoreFiles.html#getNameWithoutExtension-java.nio.file.Path-">getNameWithoutExtension</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file">Path</a>&nbsp;path)</code>
 <div class="block">Returns the file name without its
  <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> or path.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file">Path</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/io/MoreFiles.html#isDirectory-java.nio.file.LinkOption...-">isDirectory</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/LinkOption.html?is-external=true" title="class or interface in java.nio.file">LinkOption</a>...&nbsp;options)</code>
 <div class="block">Returns a predicate that returns the result of <code>Files#isDirectory(Path, LinkOption...)</code>
  on input paths with the given link options.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file">Path</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/io/MoreFiles.html#isRegularFile-java.nio.file.LinkOption...-">isRegularFile</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/LinkOption.html?is-external=true" title="class or interface in java.nio.file">LinkOption</a>...&nbsp;options)</code>
 <div class="block">Returns a predicate that returns the result of
  <code>Files#isRegularFile(Path, LinkOption...)</code> on input paths with the given link options.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file">Path</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/io/MoreFiles.html#listFiles-java.nio.file.Path-">listFiles</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file">Path</a>&nbsp;dir)</code>
 <div class="block">Returns an immutable list of paths to the files contained in the given directory.</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>static void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/io/MoreFiles.html#touch-java.nio.file.Path-">touch</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file">Path</a>&nbsp;path)</code>
 <div class="block">Like the unix command of the same name, creates an empty file or updates the last modified
@@ -383,13 +391,32 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
  <code>Files#isRegularFile(Path, LinkOption...)</code> on input paths with the given link options.</div>
 </li>
 </ul>
+<a name="equal-java.nio.file.Path-java.nio.file.Path-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>equal</h4>
+<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/io/MoreFiles.html#line.327">equal</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file">Path</a>&nbsp;path1,
+                            <a href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file">Path</a>&nbsp;path2)
+                     throws <a href="http://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
+<div class="block">Returns true if the files located by the given paths exist, are not directories, and contain
+ the same bytes.</div>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if an I/O error occurs</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>22.0</dd>
+</dl>
+</li>
+</ul>
 <a name="touch-java.nio.file.Path-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>touch</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/MoreFiles.html#line.324">touch</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file">Path</a>&nbsp;path)
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/MoreFiles.html#line.353">touch</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file">Path</a>&nbsp;path)
                   throws <a href="http://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Like the unix command of the same name, creates an empty file or updates the last modified
  timestamp of the existing file at the given path to the current system time.</div>
@@ -405,7 +432,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>createParentDirectories</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/MoreFiles.html#line.351">createParentDirectories</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file">Path</a>&nbsp;path,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/MoreFiles.html#line.380">createParentDirectories</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file">Path</a>&nbsp;path,
                                            <a href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/attribute/FileAttribute.html?is-external=true" title="class or interface in java.nio.file.attribute">FileAttribute</a>&lt;?&gt;...&nbsp;attrs)
                                     throws <a href="http://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Creates any necessary but nonexistent parent directories of the specified path. Note that if
@@ -424,7 +451,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>getFileExtension</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/MoreFiles.html#line.391">getFileExtension</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file">Path</a>&nbsp;path)</pre>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/MoreFiles.html#line.420">getFileExtension</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file">Path</a>&nbsp;path)</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> for
  the file at the given path, or the empty string if the file has no extension. The result does
  not include the '<code>.</code>'.
@@ -443,7 +470,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>getNameWithoutExtension</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/MoreFiles.html#line.409">getNameWithoutExtension</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file">Path</a>&nbsp;path)</pre>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/MoreFiles.html#line.438">getNameWithoutExtension</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file">Path</a>&nbsp;path)</pre>
 <div class="block">Returns the file name without its
  <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> or path. This is
  similar to the <code>basename</code> unix command. The result does not include the '<code>.</code>'.</div>
@@ -455,7 +482,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>deleteRecursively</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/MoreFiles.html#line.453">deleteRecursively</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file">Path</a>&nbsp;path,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/MoreFiles.html#line.482">deleteRecursively</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file">Path</a>&nbsp;path,
                                      <a href="../../../../com/google/common/io/RecursiveDeleteOption.html" title="enum in com.google.common.io">RecursiveDeleteOption</a>...&nbsp;options)
                               throws <a href="http://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Deletes the file or directory at the given <code>path</code> recursively. Deletes symbolic links,
@@ -497,7 +524,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>deleteDirectoryContents</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/MoreFiles.html#line.523">deleteDirectoryContents</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file">Path</a>&nbsp;path,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/MoreFiles.html#line.552">deleteDirectoryContents</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file">Path</a>&nbsp;path,
                                            <a href="../../../../com/google/common/io/RecursiveDeleteOption.html" title="enum in com.google.common.io">RecursiveDeleteOption</a>...&nbsp;options)
                                     throws <a href="http://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Deletes all files within the directory at the given <code>path</code>

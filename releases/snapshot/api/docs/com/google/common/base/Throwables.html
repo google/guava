@@ -520,12 +520,12 @@ public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/L
 <h4>getCauseAs</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;X extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;X&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.297">getCauseAs</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable,
+public static&nbsp;&lt;X extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;X&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.299">getCauseAs</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable,
                                                                          <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;expectedCauseType)</pre>
 <div class="block">Returns <code>throwable</code>'s cause, cast to <code>expectedCauseType</code>.
 
- <p>Prefer this method instead of manually casting an exception's cause, for example This is
- preferable to manually casting (e.g. <code>(IOException) e.getCause()</code>) because if a <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang"><code>ClassCastException</code></a> results <code>throwable</code> will be preserved as that exception's cause.</div>
+ <p>Prefer this method instead of manually casting an exception's cause. For example, <code>(IOException) e.getCause()</code> throws a <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang"><code>ClassCastException</code></a> that discards the original
+ exception <code>e</code> if the cause is not an <code>IOException</code>, but <code>Throwables.getCauseAs(e, IOException.class)</code> keeps <code>e</code> as the <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang"><code>ClassCastException</code></a>'s cause.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang">ClassCastException</a></code> - if the cause cannot be cast to the expected type. The <code>ClassCastException</code>'s cause is <code>throwable</code>.</dd>
@@ -541,7 +541,7 @@ public static&nbsp;&lt;X extends <a href="http://docs.oracle.com/javase/8/docs/a
 <li class="blockList">
 <h4>getStackTraceAsString</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.314">getStackTraceAsString</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</pre>
+public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.316">getStackTraceAsString</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</pre>
 <div class="block">Returns a string containing the result of <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true#toString--" title="class or interface in java.lang"><code>toString()</code></a>, followed by
  the full, recursive stack trace of <code>throwable</code>. Note that you probably should not be
  parsing the resulting string; if you need programmatic access to the stack frames, you can call
@@ -556,7 +556,7 @@ public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/S
 <h4>lazyStackTrace</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/StackTraceElement.html?is-external=true" title="class or interface in java.lang">StackTraceElement</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.351">lazyStackTrace</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</pre>
+public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/StackTraceElement.html?is-external=true" title="class or interface in java.lang">StackTraceElement</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.353">lazyStackTrace</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</pre>
 <div class="block">Returns the stack trace of <code>throwable</code>, possibly providing slower iteration over the full
  trace but faster iteration over parts of the trace. Here, "slower" and "faster" are defined in
  comparison to the normal way to access the stack trace, <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true#getStackTrace--" title="class or interface in java.lang"><code>throwable.getStackTrace()</code></a>. Note, however, that this method's special implementation is not
@@ -591,7 +591,7 @@ public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/L
 <h4>lazyStackTraceIsLazy</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.365">lazyStackTraceIsLazy</a>()</pre>
+public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.367">lazyStackTraceIsLazy</a>()</pre>
 <div class="block">Returns whether <a href="../../../../com/google/common/base/Throwables.html#lazyStackTrace-java.lang.Throwable-"><code>lazyStackTrace(java.lang.Throwable)</code></a> will use the special implementation described in its
  documentation.</div>
 <dl>
