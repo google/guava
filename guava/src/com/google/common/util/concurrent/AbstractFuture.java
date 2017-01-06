@@ -23,6 +23,7 @@ import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotMock;
 import com.google.j2objc.annotations.ReflectionSupport;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
@@ -58,6 +59,7 @@ import javax.annotation.Nullable;
  * @author Luke Sandberg
  * @since 1.0
  */
+@DoNotMock("Use Futures.immediate*Future or SettableFuture")
 @GwtCompatible(emulated = true)
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)
 public abstract class AbstractFuture<V> implements ListenableFuture<V> {
