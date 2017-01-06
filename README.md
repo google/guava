@@ -38,7 +38,7 @@ dependencies {
 
 ## Upcoming release
 
-[Guava 21.0-rc1][] was released December 19, 2016. This release requires Java 8.
+[Guava 21.0-rc2][] was released January 3, 2017. This release requires Java 8.
 
 ## Snapshots
 
@@ -87,7 +87,7 @@ Linux. Some features, especially in `com.google.common.io`, may not work
 correctly in other environments.
 
 [Guava 20.0]: https://github.com/google/guava/wiki/Release20
-[Guava 21.0-rc1]: https://github.com/google/guava/wiki/Release21
+[Guava 21.0-rc2]: https://github.com/google/guava/wiki/Release21
 [guava-release-api-docs]: http://google.github.io/guava/releases/20.0/api/docs/
 [testlib-release-api-docs]: http://www.javadoc.io/doc/com.google.guava/guava-testlib/20.0
 [guava-release-api-diffs]: http://google.github.io/guava/releases/20.0/api/diffs/
