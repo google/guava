@@ -33,7 +33,13 @@ import java.util.function.Consumer;
  *
  * @author Louis Wasserman
  * @since 15.0
+ * @deprecated Use {@link com.google.common.graph.Traverser} instead. All instance methods except
+ *     for {@link #inOrderTraversal} have their equivalent on the result of {@code
+ *     Traverser.forTree(tree)} where {@code tree} implements {@code SuccessorsFunction}, which has
+ *     a similar API as {@link #children}.
+ *     <p>This class is scheduled to be removed in January 2018.
  */
+@Deprecated
 @Beta
 @GwtCompatible
 public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
