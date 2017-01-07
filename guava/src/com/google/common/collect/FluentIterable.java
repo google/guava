@@ -847,7 +847,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
 
   /**
    * Returns a stream of this fluent iterable's contents (similar to calling {@link
-   * Collection#stream} on a collecion).
+   * Collection#stream} on a collection).
    *
    * <p><b>Note:</b> the earlier in the chain you can switch to {@code Stream} usage (ideally not
    * going through {@code FluentIterable} at all), the more performant and idiomatic your code will
