@@ -125,7 +125,16 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * on the exceptions thrown.
    *
    * @since 9.0 (source-compatible since 1.0)
+   * @deprecated {@link CheckedFuture} cannot properly support the chained operations that are the
+   *     primary goal of {@link ListenableFuture}. {@code CheckedFuture} also encourages users to
+   *     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+   *     Additionally, it has a surprising policy about which exceptions to map and which to leave
+   *     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
+   *     use, possibly specializing them to the particular exception type they use. We recommend
+   *     that most people use {@code ListenableFuture} and perform any exception wrapping
+   *     themselves. This method is scheduled for removal from Guava in Feburary 2018.
    */
+  @Deprecated
   @GwtIncompatible // TODO
   public static <V, X extends Exception> CheckedFuture<V, X> makeChecked(
       ListenableFuture<V> future, Function<? super Exception, X> mapper) {
@@ -153,7 +162,17 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * <p>The returned {@code Future} can't be cancelled, and its {@code isDone()} method always
    * returns {@code true}. Calling {@code get()} or {@code checkedGet()} will immediately return the
    * provided value.
+   *
+   * @deprecated {@link CheckedFuture} cannot properly support the chained operations that are the
+   *     primary goal of {@link ListenableFuture}. {@code CheckedFuture} also encourages users to
+   *     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+   *     Additionally, it has a surprising policy about which exceptions to map and which to leave
+   *     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
+   *     use, possibly specializing them to the particular exception type they use. We recommend
+   *     that most people use {@code ListenableFuture} and perform any exception wrapping
+   *     themselves. This method is scheduled for removal from Guava in Feburary 2018.
    */
+  @Deprecated
   @GwtIncompatible // TODO
   public static <V, X extends Exception> CheckedFuture<V, X> immediateCheckedFuture(
       @Nullable V value) {
@@ -189,7 +208,17 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * returns {@code true}. Calling {@code get()} will immediately throw the provided {@code
    * Exception} wrapped in an {@code ExecutionException}, and calling {@code checkedGet()} will
    * throw the provided exception itself.
+   *
+   * @deprecated {@link CheckedFuture} cannot properly support the chained operations that are the
+   *     primary goal of {@link ListenableFuture}. {@code CheckedFuture} also encourages users to
+   *     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+   *     Additionally, it has a surprising policy about which exceptions to map and which to leave
+   *     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
+   *     use, possibly specializing them to the particular exception type they use. We recommend
+   *     that most people use {@code ListenableFuture} and perform any exception wrapping
+   *     themselves. This method is scheduled for removal from Guava in Feburary 2018.
    */
+  @Deprecated
   @GwtIncompatible // TODO
   public static <V, X extends Exception> CheckedFuture<V, X> immediateFailedCheckedFuture(
       X exception) {
