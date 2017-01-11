@@ -132,7 +132,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
    *     use, possibly specializing them to the particular exception type they use. We recommend
    *     that most people use {@code ListenableFuture} and perform any exception wrapping
-   *     themselves. This method is scheduled for removal from Guava in Feburary 2018.
+   *     themselves. This method is scheduled for removal from Guava in February 2018.
    */
   @Deprecated
   @GwtIncompatible // TODO
@@ -170,7 +170,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
    *     use, possibly specializing them to the particular exception type they use. We recommend
    *     that most people use {@code ListenableFuture} and perform any exception wrapping
-   *     themselves. This method is scheduled for removal from Guava in Feburary 2018.
+   *     themselves. This method is scheduled for removal from Guava in February 2018.
    */
   @Deprecated
   @GwtIncompatible // TODO
@@ -216,7 +216,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
    *     use, possibly specializing them to the particular exception type they use. We recommend
    *     that most people use {@code ListenableFuture} and perform any exception wrapping
-   *     themselves. This method is scheduled for removal from Guava in Feburary 2018.
+   *     themselves. This method is scheduled for removal from Guava in February 2018.
    */
   @Deprecated
   @GwtIncompatible // TODO
