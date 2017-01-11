@@ -46,7 +46,7 @@ All Differences Index
   </td>
   </tr>
 </table><br>
-<!-- Method accumulateAndGet -->
+<!-- Class AbstractCheckedFuture -->
 <A NAME="A"></A>
 <br><font size="+2">A</font>&nbsp;
 <a href="#B"><font size="-2">B</font></a> 
@@ -69,6 +69,8 @@ All Differences Index
 <a href="#U"><font size="-2">U</font></a> 
  <a href="#topheader"><font size="-2">TOP</font></a>
 <br>
+<A HREF="com.google.common.util.concurrent.AbstractCheckedFuture.html" class="hiddenlink" target="rightframe">AbstractCheckedFuture</A><br>
+<!-- Method accumulateAndGet -->
 <nobr><A HREF="com.google.common.util.concurrent.AtomicLongMap.html#com.google.common.util.concurrent.AtomicLongMap.accumulateAndGet_added(K, long, java.util.function.LongBinaryOperator)" class="hiddenlink" target="rightframe"><b>accumulateAndGet</b>
 (<code>K, long, LongBinaryOperator</code>)</A></nobr><br>
 <!-- Method add -->
@@ -146,6 +148,8 @@ All Differences Index
 <!-- Method checkedCast -->
 <nobr><A HREF="com.google.common.primitives.UnsignedInts.html#com.google.common.primitives.UnsignedInts.checkedCast_added(long)" class="hiddenlink" target="rightframe"><b>checkedCast</b>
 (<code>long</code>)</A></nobr><br>
+<!-- Class CheckedFuture -->
+<A HREF="com.google.common.util.concurrent.CheckedFuture.html" class="hiddenlink" target="rightframe"><i>CheckedFuture</i></A><br>
 <!-- Method clear -->
 <nobr><A HREF="com.google.common.collect.Sets.SetView.html#com.google.common.collect.Sets.SetView.clear_added()" class="hiddenlink" target="rightframe"><b>clear</b>
 ()</A></nobr><br>
@@ -349,6 +353,10 @@ All Differences Index
 &nbsp;&nbsp;<A HREF="com.google.common.collect.ForwardingBlockingDeque.html" class="hiddenlink" target="rightframe">com.google.common.collect</A><br>
 <!-- Class ForwardingBlockingDeque -->
 &nbsp;&nbsp;<A HREF="pkg_com.google.common.util.concurrent.html#ForwardingBlockingDeque" class="hiddenlink" target="rightframe"><b>com.google.common.util.concurrent</b></A><br>
+<!-- Class ForwardingCheckedFuture -->
+<A HREF="com.google.common.util.concurrent.ForwardingCheckedFuture.html" class="hiddenlink" target="rightframe">ForwardingCheckedFuture</A><br>
+<!-- Class ForwardingCheckedFuture.SimpleForwardingCheckedFuture -->
+<A HREF="com.google.common.util.concurrent.ForwardingCheckedFuture.SimpleForwardingCheckedFuture.html" class="hiddenlink" target="rightframe">ForwardingCheckedFuture.SimpleForwardingCheckedFuture</A><br>
 <!-- Class ForwardingNavigableMap.StandardDescendingMap -->
 <A HREF="com.google.common.collect.ForwardingNavigableMap.StandardDescendingMap.html" class="hiddenlink" target="rightframe">ForwardingNavigableMap.StandardDescendingMap</A><br>
 <!-- Method fromJavaUtil -->
@@ -356,6 +364,8 @@ All Differences Index
 (<code>Optional&lt;T&gt;</code>)</A></nobr><br>
 <!-- Class Function -->
 <A HREF="com.google.common.base.Function.html" class="hiddenlink" target="rightframe"><i>Function</i></A><br>
+<!-- Class Futures -->
+<A HREF="com.google.common.util.concurrent.Futures.html" class="hiddenlink" target="rightframe">Futures</A><br>
 <!-- Method getAndAccumulate -->
 <A NAME="G"></A>
 <br><font size="+2">G</font>&nbsp;
@@ -414,7 +424,7 @@ All Differences Index
  <a href="#topheader"><font size="-2">TOP</font></a>
 <br>
 <A HREF="com.google.common.collect.HashBiMap.html" class="hiddenlink" target="rightframe">HashBiMap</A><br>
-<!-- Class ImmutableBiMap -->
+<!-- Method immediateCheckedFuture -->
 <A NAME="I"></A>
 <br><font size="+2">I</font>&nbsp;
 <a href="#A"><font size="-2">A</font></a> 
@@ -437,6 +447,12 @@ All Differences Index
 <a href="#U"><font size="-2">U</font></a> 
  <a href="#topheader"><font size="-2">TOP</font></a>
 <br>
+<nobr><A HREF="com.google.common.util.concurrent.Futures.html#com.google.common.util.concurrent.Futures.immediateCheckedFuture_changed(V)" class="hiddenlink" target="rightframe">immediateCheckedFuture
+(<code>V</code>)</A></nobr><br>
+<!-- Method immediateFailedCheckedFuture -->
+<nobr><A HREF="com.google.common.util.concurrent.Futures.html#com.google.common.util.concurrent.Futures.immediateFailedCheckedFuture_changed(X extends java.lang.Exception)" class="hiddenlink" target="rightframe">immediateFailedCheckedFuture
+(<code>X extends Exception</code>)</A></nobr><br>
+<!-- Class ImmutableBiMap -->
 <A HREF="com.google.common.collect.ImmutableBiMap.html" class="hiddenlink" target="rightframe">ImmutableBiMap</A><br>
 <!-- Class ImmutableCollection -->
 <A HREF="com.google.common.collect.ImmutableCollection.html" class="hiddenlink" target="rightframe">ImmutableCollection</A><br>
@@ -528,7 +544,7 @@ All Differences Index
  <a href="#topheader"><font size="-2">TOP</font></a>
 <br>
 <A HREF="com.google.common.primitives.Longs.html" class="hiddenlink" target="rightframe">Longs</A><br>
-<!-- Class MapConstraint -->
+<!-- Method makeChecked -->
 <A NAME="M"></A>
 <br><font size="+2">M</font>&nbsp;
 <a href="#A"><font size="-2">A</font></a> 
@@ -551,6 +567,9 @@ All Differences Index
 <a href="#U"><font size="-2">U</font></a> 
  <a href="#topheader"><font size="-2">TOP</font></a>
 <br>
+<nobr><A HREF="com.google.common.util.concurrent.Futures.html#com.google.common.util.concurrent.Futures.makeChecked_changed(com.google.common.util.concurrent.ListenableFuture<V>, com.google.common.base.Function<? super java.lang.Exception, X>)" class="hiddenlink" target="rightframe">makeChecked
+(<code>ListenableFuture&lt;V&gt;, Function&lt;? super Exception, X&gt;</code>)</A></nobr><br>
+<!-- Class MapConstraint -->
 <A HREF="pkg_com.google.common.collect.html#MapConstraint" class="hiddenlink" target="rightframe"><strike>MapConstraint</strike></A><br>
 <!-- Class MapConstraints -->
 <A HREF="pkg_com.google.common.collect.html#MapConstraints" class="hiddenlink" target="rightframe"><strike>MapConstraints</strike></A><br>

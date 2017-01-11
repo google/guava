@@ -18,8 +18,8 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":6};
-var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"]};
+var methods = {"i0":42,"i1":42,"i2":38};
+var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
 var tableTab = "tableTab";
@@ -132,10 +132,21 @@ var activeTableTab = "activeTableTab";
 <dd><a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent">CheckedFuture</a>&lt;V,X&gt;, <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;, <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;</dd>
 </dl>
 <hr>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
+<div class="block"><span class="deprecationComment"><a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent"><code>CheckedFuture</code></a> cannot properly support the chained operations that are the
+     primary goal of <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>. <code>CheckedFuture</code> also encourages users to
+     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+     Additionally, it has a surprising policy about which exceptions to map and which to leave
+     untouched. Guava users who want a <code>CheckedFuture</code> can fork the classes for their own
+     use, possibly specializing them to the particular exception type they use. We recommend that
+     most people use <code>ListenableFuture</code> and perform any exception wrapping themselves. This
+     class is scheduled for removal from Guava in Feburary 2018.</span></div>
+</div>
 <br>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+ <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/AbstractCheckedFuture.html#line.34">AbstractCheckedFuture</a>&lt;V,X extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;
+public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/AbstractCheckedFuture.html#line.43">AbstractCheckedFuture</a>&lt;V,X extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;
 extends <a href="../../../../../com/google/common/util/concurrent/ForwardingListenableFuture.SimpleForwardingListenableFuture.html" title="class in com.google.common.util.concurrent">ForwardingListenableFuture.SimpleForwardingListenableFuture</a>&lt;V&gt;
 implements <a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent">CheckedFuture</a>&lt;V,X&gt;</pre>
 <div class="block">A delegating wrapper around a <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> that adds support for the <a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html#checkedGet--"><code>checkedGet()</code></a> and <a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html#checkedGet-long-java.util.concurrent.TimeUnit-"><code>checkedGet(long, TimeUnit)</code></a> methods.</div>
@@ -188,6 +199,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/CheckedFutu
 <tr class="altColor">
 <td class="colFirst"><code>protected </code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html#AbstractCheckedFuture-com.google.common.util.concurrent.ListenableFuture-">AbstractCheckedFuture</a></span>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="type parameter in AbstractCheckedFuture">V</a>&gt;&nbsp;delegate)</code>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 <div class="block">Constructs an <code>AbstractCheckedFuture</code> that wraps a delegate.</div>
 </td>
 </tr>
@@ -201,7 +213,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/CheckedFutu
 </a>
 <h3>Method Summary</h3>
 <table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
-<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Abstract Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Abstract Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t6" class="tableTab"><span><a href="javascript:show(32);">Deprecated Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colLast" scope="col">Method and Description</th>
@@ -209,6 +221,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/CheckedFutu
 <tr id="i0" class="altColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="type parameter in AbstractCheckedFuture">V</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html#checkedGet--">checkedGet</a></span>()</code>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 <div class="block">Exception checking version of <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html?is-external=true#get--" title="class or interface in java.util.concurrent"><code>Future.get()</code></a> that will translate <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang"><code>InterruptedException</code></a>, <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CancellationException.html?is-external=true" title="class or interface in java.util.concurrent"><code>CancellationException</code></a> and <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a> into
  application-specific exceptions.</div>
 </td>
@@ -217,6 +230,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/CheckedFutu
 <td class="colFirst"><code><a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="type parameter in AbstractCheckedFuture">V</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html#checkedGet-long-java.util.concurrent.TimeUnit-">checkedGet</a></span>(long&nbsp;timeout,
           <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 <div class="block">Exception checking version of <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html?is-external=true#get-long-java.util.concurrent.TimeUnit-" title="class or interface in java.util.concurrent"><code>Future.get(long, TimeUnit)</code></a> that will translate <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang"><code>InterruptedException</code></a>, <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CancellationException.html?is-external=true" title="class or interface in java.util.concurrent"><code>CancellationException</code></a> and <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a> into
  application-specific exceptions.</div>
 </td>
@@ -224,6 +238,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/CheckedFutu
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>protected abstract <a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="type parameter in AbstractCheckedFuture">X</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html#mapException-java.lang.Exception-">mapException</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&nbsp;e)</code>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 <div class="block">Translates from an <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang"><code>InterruptedException</code></a>, <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CancellationException.html?is-external=true" title="class or interface in java.util.concurrent"><code>CancellationException</code></a> or <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a> thrown by <code>get</code> to an exception of type <code>X</code> to be thrown by
  <code>checkedGet</code>.</div>
 </td>
@@ -298,7 +313,8 @@ implements <a href="../../../../../com/google/common/util/concurrent/CheckedFutu
 <ul class="blockListLast">
 <li class="blockList">
 <h4>AbstractCheckedFuture</h4>
-<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractCheckedFuture.html#line.40">AbstractCheckedFuture</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="type parameter in AbstractCheckedFuture">V</a>&gt;&nbsp;delegate)</pre>
+<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractCheckedFuture.html#line.49">AbstractCheckedFuture</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="type parameter in AbstractCheckedFuture">V</a>&gt;&nbsp;delegate)</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 <div class="block">Constructs an <code>AbstractCheckedFuture</code> that wraps a delegate.</div>
 </li>
 </ul>
@@ -316,7 +332,8 @@ implements <a href="../../../../../com/google/common/util/concurrent/CheckedFutu
 <ul class="blockList">
 <li class="blockList">
 <h4>mapException</h4>
-<pre>protected abstract&nbsp;<a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="type parameter in AbstractCheckedFuture">X</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractCheckedFuture.html#line.58">mapException</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&nbsp;e)</pre>
+<pre>protected abstract&nbsp;<a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="type parameter in AbstractCheckedFuture">X</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractCheckedFuture.html#line.67">mapException</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&nbsp;e)</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 <div class="block">Translates from an <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang"><code>InterruptedException</code></a>, <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CancellationException.html?is-external=true" title="class or interface in java.util.concurrent"><code>CancellationException</code></a> or <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a> thrown by <code>get</code> to an exception of type <code>X</code> to be thrown by
  <code>checkedGet</code>. Subclasses must implement this method.
 
@@ -333,8 +350,9 @@ implements <a href="../../../../../com/google/common/util/concurrent/CheckedFutu
 <ul class="blockList">
 <li class="blockList">
 <h4>checkedGet</h4>
-<pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="type parameter in AbstractCheckedFuture">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractCheckedFuture.html#line.74">checkedGet</a>()
+<pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="type parameter in AbstractCheckedFuture">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractCheckedFuture.html#line.83">checkedGet</a>()
              throws <a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="type parameter in AbstractCheckedFuture">X</a> extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 <div class="block">Exception checking version of <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html?is-external=true#get--" title="class or interface in java.util.concurrent"><code>Future.get()</code></a> that will translate <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang"><code>InterruptedException</code></a>, <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CancellationException.html?is-external=true" title="class or interface in java.util.concurrent"><code>CancellationException</code></a> and <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a> into
  application-specific exceptions.
 
@@ -360,10 +378,11 @@ implements <a href="../../../../../com/google/common/util/concurrent/CheckedFutu
 <ul class="blockListLast">
 <li class="blockList">
 <h4>checkedGet</h4>
-<pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="type parameter in AbstractCheckedFuture">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractCheckedFuture.html#line.102">checkedGet</a>(long&nbsp;timeout,
+<pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="type parameter in AbstractCheckedFuture">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractCheckedFuture.html#line.111">checkedGet</a>(long&nbsp;timeout,
                     <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
              throws <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent">TimeoutException</a>,
                     <a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="type parameter in AbstractCheckedFuture">X</a> extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 <div class="block">Exception checking version of <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html?is-external=true#get-long-java.util.concurrent.TimeUnit-" title="class or interface in java.util.concurrent"><code>Future.get(long, TimeUnit)</code></a> that will translate <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang"><code>InterruptedException</code></a>, <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CancellationException.html?is-external=true" title="class or interface in java.util.concurrent"><code>CancellationException</code></a> and <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a> into
  application-specific exceptions.  On timeout this method throws a normal <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent"><code>TimeoutException</code></a>.
 

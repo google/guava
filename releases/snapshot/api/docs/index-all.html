@@ -102,10 +102,20 @@
 </dd>
 <dt><a href="com/google/common/util/concurrent/AbstractCheckedFuture.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">AbstractCheckedFuture</span></a>&lt;<a href="com/google/common/util/concurrent/AbstractCheckedFuture.html" title="type parameter in AbstractCheckedFuture">V</a>,<a href="com/google/common/util/concurrent/AbstractCheckedFuture.html" title="type parameter in AbstractCheckedFuture">X</a> extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt; - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
 <dd>
-<div class="block">A delegating wrapper around a <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> that adds support for the <a href="com/google/common/util/concurrent/AbstractCheckedFuture.html#checkedGet--"><code>AbstractCheckedFuture.checkedGet()</code></a> and <a href="com/google/common/util/concurrent/AbstractCheckedFuture.html#checkedGet-long-java.util.concurrent.TimeUnit-"><code>AbstractCheckedFuture.checkedGet(long, TimeUnit)</code></a> methods.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment"><a href="com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent"><code>CheckedFuture</code></a> cannot properly support the chained operations that are the
+     primary goal of <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>. <code>CheckedFuture</code> also encourages users to
+     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+     Additionally, it has a surprising policy about which exceptions to map and which to leave
+     untouched. Guava users who want a <code>CheckedFuture</code> can fork the classes for their own
+     use, possibly specializing them to the particular exception type they use. We recommend that
+     most people use <code>ListenableFuture</code> and perform any exception wrapping themselves. This
+     class is scheduled for removal from Guava in Feburary 2018.</span></div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AbstractCheckedFuture.html#AbstractCheckedFuture-com.google.common.util.concurrent.ListenableFuture-">AbstractCheckedFuture(ListenableFuture&lt;V&gt;)</a></span> - Constructor for class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AbstractCheckedFuture.html" title="class in com.google.common.util.concurrent">AbstractCheckedFuture</a></dt>
 <dd>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span></div>
 <div class="block">Constructs an <code>AbstractCheckedFuture</code> that wraps a delegate.</div>
 </dd>
 <dt><a href="com/google/common/util/concurrent/AbstractExecutionThreadService.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">AbstractExecutionThreadService</span></a> - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
@@ -2557,33 +2567,49 @@
 </dd>
 <dt><a href="com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">CheckedFuture</span></a>&lt;<a href="com/google/common/util/concurrent/CheckedFuture.html" title="type parameter in CheckedFuture">V</a>,<a href="com/google/common/util/concurrent/CheckedFuture.html" title="type parameter in CheckedFuture">X</a> extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt; - Interface in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
 <dd>
-<div class="block">A <code>CheckedFuture</code> is a <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> that includes versions of the <code>get</code>
- methods that can throw a checked exception.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment"><a href="com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent"><code>CheckedFuture</code></a> cannot properly support the chained operations that are the
+     primary goal of <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>. <code>CheckedFuture</code> also encourages users to
+     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+     Additionally, it has a surprising policy about which exceptions to map and which to leave
+     untouched. Guava users who want a <code>CheckedFuture</code> can fork the classes for their own
+     use, possibly specializing them to the particular exception type they use. We recommend that
+     most people use <code>ListenableFuture</code> and perform any exception wrapping themselves. This
+     class is scheduled for removal from Guava in Feburary 2018.</span></div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AbstractCheckedFuture.html#checkedGet--">checkedGet()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AbstractCheckedFuture.html" title="class in com.google.common.util.concurrent">AbstractCheckedFuture</a></dt>
 <dd>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span></div>
 <div class="block">Exception checking version of <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html?is-external=true#get--" title="class or interface in java.util.concurrent"><code>Future.get()</code></a> that will translate <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang"><code>InterruptedException</code></a>, <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CancellationException.html?is-external=true" title="class or interface in java.util.concurrent"><code>CancellationException</code></a> and <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a> into
  application-specific exceptions.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AbstractCheckedFuture.html#checkedGet-long-java.util.concurrent.TimeUnit-">checkedGet(long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AbstractCheckedFuture.html" title="class in com.google.common.util.concurrent">AbstractCheckedFuture</a></dt>
 <dd>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span></div>
 <div class="block">Exception checking version of <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html?is-external=true#get-long-java.util.concurrent.TimeUnit-" title="class or interface in java.util.concurrent"><code>Future.get(long, TimeUnit)</code></a> that will translate <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang"><code>InterruptedException</code></a>, <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CancellationException.html?is-external=true" title="class or interface in java.util.concurrent"><code>CancellationException</code></a> and <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a> into
  application-specific exceptions.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/CheckedFuture.html#checkedGet--">checkedGet()</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent">CheckedFuture</a></dt>
 <dd>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span></div>
 <div class="block">Exception checking version of <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html?is-external=true#get--" title="class or interface in java.util.concurrent"><code>Future.get()</code></a> that will translate <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang"><code>InterruptedException</code></a>, <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CancellationException.html?is-external=true" title="class or interface in java.util.concurrent"><code>CancellationException</code></a> and <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a> into
  application-specific exceptions.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/CheckedFuture.html#checkedGet-long-java.util.concurrent.TimeUnit-">checkedGet(long, TimeUnit)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent">CheckedFuture</a></dt>
 <dd>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span></div>
 <div class="block">Exception checking version of <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html?is-external=true#get-long-java.util.concurrent.TimeUnit-" title="class or interface in java.util.concurrent"><code>Future.get(long, TimeUnit)</code></a> that will translate <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang"><code>InterruptedException</code></a>, <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CancellationException.html?is-external=true" title="class or interface in java.util.concurrent"><code>CancellationException</code></a> and <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a> into
  application-specific exceptions.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ForwardingCheckedFuture.html#checkedGet--">checkedGet()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ForwardingCheckedFuture.html" title="class in com.google.common.util.concurrent">ForwardingCheckedFuture</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ForwardingCheckedFuture.html#checkedGet-long-java.util.concurrent.TimeUnit-">checkedGet(long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ForwardingCheckedFuture.html" title="class in com.google.common.util.concurrent">ForwardingCheckedFuture</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/math/IntMath.html#checkedMultiply-int-int-">checkedMultiply(int, int)</a></span> - Static method in class com.google.common.math.<a href="com/google/common/math/IntMath.html" title="class in com.google.common.math">IntMath</a></dt>
 <dd>
 <div class="block">Returns the product of <code>a</code> and <code>b</code>, provided it does not overflow.</div>
@@ -4942,9 +4968,13 @@
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ForwardingBlockingQueue.html#delegate--">delegate()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="class in com.google.common.util.concurrent">ForwardingBlockingQueue</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ForwardingCheckedFuture.html#delegate--">delegate()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ForwardingCheckedFuture.html" title="class in com.google.common.util.concurrent">ForwardingCheckedFuture</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ForwardingCheckedFuture.SimpleForwardingCheckedFuture.html#delegate--">delegate()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ForwardingCheckedFuture.SimpleForwardingCheckedFuture.html" title="class in com.google.common.util.concurrent">ForwardingCheckedFuture.SimpleForwardingCheckedFuture</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ForwardingExecutorService.html#delegate--">delegate()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ForwardingExecutorService.html" title="class in com.google.common.util.concurrent">ForwardingExecutorService</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ForwardingFuture.html#delegate--">delegate()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ForwardingFuture.html" title="class in com.google.common.util.concurrent">ForwardingFuture</a></dt>
@@ -6647,14 +6677,33 @@
 </dd>
 <dt><a href="com/google/common/util/concurrent/ForwardingCheckedFuture.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">ForwardingCheckedFuture</span></a>&lt;<a href="com/google/common/util/concurrent/ForwardingCheckedFuture.html" title="type parameter in ForwardingCheckedFuture">V</a>,<a href="com/google/common/util/concurrent/ForwardingCheckedFuture.html" title="type parameter in ForwardingCheckedFuture">X</a> extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt; - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
 <dd>
-<div class="block">A future which forwards all its method calls to another future.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment"><a href="com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent"><code>CheckedFuture</code></a> cannot properly support the chained operations that are the
+     primary goal of <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>. <code>CheckedFuture</code> also encourages users to
+     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+     Additionally, it has a surprising policy about which exceptions to map and which to leave
+     untouched. Guava users who want a <code>CheckedFuture</code> can fork the classes for their own
+     use, possibly specializing them to the particular exception type they use. We recommend that
+     most people use <code>ListenableFuture</code> and perform any exception wrapping themselves. This
+     class is scheduled for removal from Guava in Feburary 2018.</span></div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ForwardingCheckedFuture.html#ForwardingCheckedFuture--">ForwardingCheckedFuture()</a></span> - Constructor for class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ForwardingCheckedFuture.html" title="class in com.google.common.util.concurrent">ForwardingCheckedFuture</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><a href="com/google/common/util/concurrent/ForwardingCheckedFuture.SimpleForwardingCheckedFuture.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">ForwardingCheckedFuture.SimpleForwardingCheckedFuture</span></a>&lt;<a href="com/google/common/util/concurrent/ForwardingCheckedFuture.SimpleForwardingCheckedFuture.html" title="type parameter in ForwardingCheckedFuture.SimpleForwardingCheckedFuture">V</a>,<a href="com/google/common/util/concurrent/ForwardingCheckedFuture.SimpleForwardingCheckedFuture.html" title="type parameter in ForwardingCheckedFuture.SimpleForwardingCheckedFuture">X</a> extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt; - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
 <dd>
-<div class="block">A simplified version of <a href="com/google/common/util/concurrent/ForwardingCheckedFuture.html" title="class in com.google.common.util.concurrent"><code>ForwardingCheckedFuture</code></a> where subclasses can pass in an already
- constructed <a href="com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent"><code>CheckedFuture</code></a> as the delegate.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment"><a href="com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent"><code>CheckedFuture</code></a> cannot properly support the chained operations that are the
+     primary goal of <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>. <code>CheckedFuture</code> also encourages users to
+     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+     Additionally, it has a surprising policy about which exceptions to map and which to leave
+     untouched. Guava users who want a <code>CheckedFuture</code> can fork the classes for their own
+     use, possibly specializing them to the particular exception type they use. We recommend
+     that most people use <code>ListenableFuture</code> and perform any exception wrapping
+     themselves. This class is scheduled for removal from Guava in Feburary 2018.</span></div>
+</div>
 </dd>
 <dt><a href="com/google/common/collect/ForwardingCollection.html" title="class in com.google.common.collect"><span class="typeNameLink">ForwardingCollection</span></a>&lt;<a href="com/google/common/collect/ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&gt; - Class in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
@@ -8518,11 +8567,29 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#immediateCheckedFuture-V-">immediateCheckedFuture(V)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>
-<div class="block">Returns a <code>CheckedFuture</code> which has its value set immediately upon construction.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment"><a href="com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent"><code>CheckedFuture</code></a> cannot properly support the chained operations that are the
+     primary goal of <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>. <code>CheckedFuture</code> also encourages users to
+     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+     Additionally, it has a surprising policy about which exceptions to map and which to leave
+     untouched. Guava users who want a <code>CheckedFuture</code> can fork the classes for their own
+     use, possibly specializing them to the particular exception type they use. We recommend
+     that most people use <code>ListenableFuture</code> and perform any exception wrapping
+     themselves. This method is scheduled for removal from Guava in Feburary 2018.</span></div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#immediateFailedCheckedFuture-X-">immediateFailedCheckedFuture(X)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>
-<div class="block">Returns a <code>CheckedFuture</code> which has an exception set immediately upon construction.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment"><a href="com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent"><code>CheckedFuture</code></a> cannot properly support the chained operations that are the
+     primary goal of <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>. <code>CheckedFuture</code> also encourages users to
+     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+     Additionally, it has a surprising policy about which exceptions to map and which to leave
+     untouched. Guava users who want a <code>CheckedFuture</code> can fork the classes for their own
+     use, possibly specializing them to the particular exception type they use. We recommend
+     that most people use <code>ListenableFuture</code> and perform any exception wrapping
+     themselves. This method is scheduled for removal from Guava in Feburary 2018.</span></div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#immediateFailedFuture-java.lang.Throwable-">immediateFailedFuture(Throwable)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>
@@ -10397,8 +10464,16 @@
 <dl>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#makeChecked-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-">makeChecked(ListenableFuture&lt;V&gt;, Function&lt;? super Exception, X&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>
-<div class="block">Creates a <a href="com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent"><code>CheckedFuture</code></a> out of a normal <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> and a <a href="com/google/common/base/Function.html" title="interface in com.google.common.base"><code>Function</code></a>
- that maps from <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang"><code>Exception</code></a> instances into the appropriate checked type.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment"><a href="com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent"><code>CheckedFuture</code></a> cannot properly support the chained operations that are the
+     primary goal of <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>. <code>CheckedFuture</code> also encourages users to
+     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+     Additionally, it has a surprising policy about which exceptions to map and which to leave
+     untouched. Guava users who want a <code>CheckedFuture</code> can fork the classes for their own
+     use, possibly specializing them to the particular exception type they use. We recommend
+     that most people use <code>ListenableFuture</code> and perform any exception wrapping
+     themselves. This method is scheduled for removal from Guava in Feburary 2018.</span></div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/MapMaker.html#makeMap--">makeMap()</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/MapMaker.html" title="class in com.google.common.collect">MapMaker</a></dt>
 <dd>
@@ -10432,6 +10507,7 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AbstractCheckedFuture.html#mapException-java.lang.Exception-">mapException(Exception)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AbstractCheckedFuture.html" title="class in com.google.common.util.concurrent">AbstractCheckedFuture</a></dt>
 <dd>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span></div>
 <div class="block">Translates from an <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang"><code>InterruptedException</code></a>, <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CancellationException.html?is-external=true" title="class or interface in java.util.concurrent"><code>CancellationException</code></a> or <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a> thrown by <code>get</code> to an exception of type <code>X</code> to be thrown by
  <code>checkedGet</code>.</div>
 </dd>
@@ -14970,7 +15046,9 @@
 <dt><span class="memberNameLink"><a href="com/google/common/cache/ForwardingCache.SimpleForwardingCache.html#SimpleForwardingCache-com.google.common.cache.Cache-">SimpleForwardingCache(Cache&lt;K, V&gt;)</a></span> - Constructor for class com.google.common.cache.<a href="com/google/common/cache/ForwardingCache.SimpleForwardingCache.html" title="class in com.google.common.cache">ForwardingCache.SimpleForwardingCache</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ForwardingCheckedFuture.SimpleForwardingCheckedFuture.html#SimpleForwardingCheckedFuture-com.google.common.util.concurrent.CheckedFuture-">SimpleForwardingCheckedFuture(CheckedFuture&lt;V, X&gt;)</a></span> - Constructor for class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ForwardingCheckedFuture.SimpleForwardingCheckedFuture.html" title="class in com.google.common.util.concurrent">ForwardingCheckedFuture.SimpleForwardingCheckedFuture</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ForwardingFuture.SimpleForwardingFuture.html#SimpleForwardingFuture-java.util.concurrent.Future-">SimpleForwardingFuture(Future&lt;V&gt;)</a></span> - Constructor for class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ForwardingFuture.SimpleForwardingFuture.html" title="class in com.google.common.util.concurrent">ForwardingFuture.SimpleForwardingFuture</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ForwardingListenableFuture.SimpleForwardingListenableFuture.html#SimpleForwardingListenableFuture-com.google.common.util.concurrent.ListenableFuture-">SimpleForwardingListenableFuture(ListenableFuture&lt;V&gt;)</a></span> - Constructor for class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ForwardingListenableFuture.SimpleForwardingListenableFuture.html" title="class in com.google.common.util.concurrent">ForwardingListenableFuture.SimpleForwardingListenableFuture</a></dt>

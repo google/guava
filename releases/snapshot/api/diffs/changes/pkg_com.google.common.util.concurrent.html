@@ -64,9 +64,16 @@ Package <A HREF="../../docs/com/google/common/util/concurrent/package-summary.ht
 &nbsp;
 <p>
 <a NAME="Changed"></a>
-<TABLE summary="Changed Classes" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<TABLE summary="Changed Classes and Interfaces" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Changed Classes</B></FONT></TD>
+  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Changed Classes and Interfaces</B></FONT></TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="AbstractCheckedFuture"></A>
+  <nobr><A HREF="com.google.common.util.concurrent.AbstractCheckedFuture.html">AbstractCheckedFuture</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A delegating wrapper around a <A HREF="../../docs/com/google/common/util/concurrent/AbstractCheckedFuture/ListenableFuture.html"><TT>ListenableFuture</TT></A> that adds support for the <A HREF="../../docs/com/google/common/util/concurrent/AbstractCheckedFuture/.html#checkedGet()"><TT>.checkedGet()</TT></A> and <A HREF="../../docs/com/google/common/util/concurrent/AbstractCheckedFuture/.html#checkedGet(long, TimeUnit)"><TT>.checkedGet(long, TimeUnit)</TT></A> methods.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -74,6 +81,36 @@ Package <A HREF="../../docs/com/google/common/util/concurrent/package-summary.ht
   <nobr><A HREF="com.google.common.util.concurrent.AtomicLongMap.html">AtomicLongMap</A></nobr>
   </TD>
   <TD VALIGN="TOP">A map containing {@code long} values that can be atomically updated.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="CheckedFuture"></A>
+  <nobr><A HREF="com.google.common.util.concurrent.CheckedFuture.html"><I>CheckedFuture</I></A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A {@code CheckedFuture} is a <A HREF="../../docs/com/google/common/util/concurrent/CheckedFuture/ListenableFuture.html"><TT>ListenableFuture</TT></A> that includes versions of the {@code get}
+ methods that can throw a checked exception.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ForwardingCheckedFuture"></A>
+  <nobr><A HREF="com.google.common.util.concurrent.ForwardingCheckedFuture.html">ForwardingCheckedFuture</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A future which forwards all its method calls to another future.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ForwardingCheckedFuture.SimpleForwardingCheckedFuture"></A>
+  <nobr><A HREF="com.google.common.util.concurrent.ForwardingCheckedFuture.SimpleForwardingCheckedFuture.html">ForwardingCheckedFuture.<br>SimpleForwardingCheckedFuture</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A simplified version of <A HREF="../../docs/com/google/common/util/concurrent/ForwardingCheckedFuture/SimpleForwardingCheckedFuture/ForwardingCheckedFuture.html"><TT>ForwardingCheckedFuture</TT></A> where subclasses can pass in an already
+ constructed <A HREF="../../docs/com/google/common/util/concurrent/ForwardingCheckedFuture/SimpleForwardingCheckedFuture/CheckedFuture.html"><TT>CheckedFuture</TT></A> as the delegate.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="Futures"></A>
+  <nobr><A HREF="com.google.common.util.concurrent.Futures.html">Futures</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Static utility methods pertaining to the <A HREF="../../docs/com/google/common/util/concurrent/Futures/Future.html"><TT>Future</TT></A> interface.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">

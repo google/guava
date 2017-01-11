@@ -18,7 +18,7 @@ com.google.common.util.concurrent.Futures
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/Futures.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/Futures.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 21.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.util.concurrent.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -30,8 +30,8 @@ com.google.common.util.concurrent.Futures
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.util.concurrent.FutureCallback.html"><B>PREV CLASS</B></A>
-&nbsp;<A HREF="com.google.common.util.concurrent.ListenableFuture.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.util.concurrent.ForwardingCheckedFuture.SimpleForwardingCheckedFuture.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.util.concurrent.Monitor.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.util.concurrent.Futures.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
@@ -50,105 +50,40 @@ Class com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/ut
 <a NAME="constructors"></a>
 <a NAME="methods"></a>
 <p>
-<a NAME="Removed"></a>
-<TABLE summary="Removed Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<a NAME="Changed"></a>
+<TABLE summary="Changed Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Removed Methods</B></FONT></TD>
+  <TD VALIGN="TOP" COLSPAN=3><FONT SIZE="+1"><B>Changed Methods</B></FONT></TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.Futures.get_removed(java.util.concurrent.Future<V>, java.lang.Class<X>)"></A>
-  <nobr><code>V</code>&nbsp;<A HREF="../../../../19.0/api/docs/com/google/common/util/concurrent/Futures.html#get(java.util.concurrent.Future<V>, java.lang.Class<X>)" target="_top"><tt>get</tt></A>(<code>Future&lt;V&gt;,</nobr> Class&lt;X&gt;<nobr><nobr></code>)</nobr>
+  <A NAME="com.google.common.util.concurrent.Futures.immediateCheckedFuture_changed(V)"></A>
+  <nobr><code>CheckedFuture&lt;V, X&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#immediateCheckedFuture(V)" target="_top"><tt>immediateCheckedFuture</tt></A>(<code>V</code>)  </nobr>
   </TD>
-  <TD VALIGN="TOP">Returns the result of <A HREF="../../docs/Future.html#get()"><TT>Future.get()</TT></A>, converting most exceptions to a
- new instance of the given checked exception type.</TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+<b>Now deprecated</b>.<br>
+  </TD>
+  <TD VALIGN="TOP">{@link CheckedFuture} cannot properly support the chained operations that are the      primary goal of {@link ListenableFuture}.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.Futures.get_removed(java.util.concurrent.Future<V>, long, java.util.concurrent.TimeUnit, java.lang.Class<X>)"></A>
-  <nobr><code>V</code>&nbsp;<A HREF="../../../../19.0/api/docs/com/google/common/util/concurrent/Futures.html#get(java.util.concurrent.Future<V>, long, java.util.concurrent.TimeUnit, java.lang.Class<X>)" target="_top"><tt>get</tt></A>(<code>Future&lt;V&gt;,</nobr> long<nobr>,</nobr> TimeUnit<nobr>,</nobr> Class&lt;X&gt;<nobr><nobr></code>)</nobr>
+  <A NAME="com.google.common.util.concurrent.Futures.immediateFailedCheckedFuture_changed(X extends java.lang.Exception)"></A>
+  <nobr><code>CheckedFuture&lt;V, X&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#immediateFailedCheckedFuture(X extends java.lang.Exception)" target="_top"><tt>immediateFailedCheckedFuture</tt></A>(<code>X extends Exception</code>)  </nobr>
   </TD>
-  <TD VALIGN="TOP">Returns the result of <A HREF="../../docs/Future.html#get(long, TimeUnit)"><TT>Future.get(long, TimeUnit)</TT></A>, converting most
- exceptions to a new instance of the given checked exception type.</TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+<b>Now deprecated</b>.<br>
+  </TD>
+  <TD VALIGN="TOP">{@link CheckedFuture} cannot properly support the chained operations that are the      primary goal of {@link ListenableFuture}.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.Futures.transform_removed(com.google.common.util.concurrent.ListenableFuture<I>, com.google.common.util.concurrent.AsyncFunction<? super I, ? extends O>)"></A>
-  <nobr><code>ListenableFuture&lt;O&gt;</code>&nbsp;<A HREF="../../../../19.0/api/docs/com/google/common/util/concurrent/Futures.html#transform(com.google.common.util.concurrent.ListenableFuture<I>, com.google.common.util.concurrent.AsyncFunction<? super I, ? extends O>)" target="_top"><tt>transform</tt></A>(<code>ListenableFuture&lt;I&gt;,</nobr> AsyncFunction&lt;?<nobr>,</nobr> super<nobr>,</nobr> I<nobr>,</nobr> ?<nobr>,</nobr> extends<nobr>,</nobr> O&gt;<nobr><nobr></code>)</nobr>
+  <A NAME="com.google.common.util.concurrent.Futures.makeChecked_changed(com.google.common.util.concurrent.ListenableFuture<V>, com.google.common.base.Function<? super java.lang.Exception, X>)"></A>
+  <nobr><code>CheckedFuture&lt;V, X&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#makeChecked(com.google.common.util.concurrent.ListenableFuture<V>, com.google.common.base.Function<? super java.lang.Exception, X>)" target="_top"><tt>makeChecked</tt></A>(<code>ListenableFuture&lt;V&gt;,</nobr> Function&lt;?<nobr>,</nobr> super<nobr>,</nobr> Exception<nobr>,</nobr> X&gt;<nobr><nobr></code>)  </nobr>
   </TD>
-  <TD VALIGN="TOP">Returns a new {@code ListenableFuture} whose result is asynchronously
- derived from the result of the given {@code Future}.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.Futures.transform_removed(com.google.common.util.concurrent.ListenableFuture<I>, com.google.common.util.concurrent.AsyncFunction<? super I, ? extends O>, java.util.concurrent.Executor)"></A>
-  <nobr><code>ListenableFuture&lt;O&gt;</code>&nbsp;<A HREF="../../../../19.0/api/docs/com/google/common/util/concurrent/Futures.html#transform(com.google.common.util.concurrent.ListenableFuture<I>, com.google.common.util.concurrent.AsyncFunction<? super I, ? extends O>, java.util.concurrent.Executor)" target="_top"><tt>transform</tt></A>(<code>ListenableFuture&lt;I&gt;,</nobr> AsyncFunction&lt;?<nobr>,</nobr> super<nobr>,</nobr> I<nobr>,</nobr> ?<nobr>,</nobr> extends<nobr>,</nobr> O&gt;<nobr>,</nobr> Executor<nobr><nobr></code>)</nobr>
+  <TD VALIGN="TOP" WIDTH="30%">
+<b>Now deprecated</b>.<br>
   </TD>
-  <TD VALIGN="TOP">Returns a new {@code ListenableFuture} whose result is asynchronously
- derived from the result of the given {@code Future}.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.Futures.withFallback_removed(com.google.common.util.concurrent.ListenableFuture<? extends V>, com.google.common.util.concurrent.FutureFallback<? extends V>)"></A>
-  <nobr><code>ListenableFuture&lt;V&gt;</code>&nbsp;<A HREF="../../../../19.0/api/docs/com/google/common/util/concurrent/Futures.html#withFallback(com.google.common.util.concurrent.ListenableFuture<? extends V>, com.google.common.util.concurrent.FutureFallback<? extends V>)" target="_top"><tt>withFallback</tt></A>(<code>ListenableFuture&lt;?,</nobr> extends<nobr>,</nobr> V&gt;<nobr>,</nobr> FutureFallback&lt;?<nobr>,</nobr> extends<nobr>,</nobr> V&gt;<nobr><nobr></code>)</nobr>
-  </TD>
-  <TD VALIGN="TOP">Returns a {@code Future} whose result is taken from the given primary
- {@code input} or, if the primary input fails, from the {@code Future}
- provided by the {@code fallback}.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.Futures.withFallback_removed(com.google.common.util.concurrent.ListenableFuture<? extends V>, com.google.common.util.concurrent.FutureFallback<? extends V>, java.util.concurrent.Executor)"></A>
-  <nobr><code>ListenableFuture&lt;V&gt;</code>&nbsp;<A HREF="../../../../19.0/api/docs/com/google/common/util/concurrent/Futures.html#withFallback(com.google.common.util.concurrent.ListenableFuture<? extends V>, com.google.common.util.concurrent.FutureFallback<? extends V>, java.util.concurrent.Executor)" target="_top"><tt>withFallback</tt></A>(<code>ListenableFuture&lt;?,</nobr> extends<nobr>,</nobr> V&gt;<nobr>,</nobr> FutureFallback&lt;?<nobr>,</nobr> extends<nobr>,</nobr> V&gt;<nobr>,</nobr> Executor<nobr><nobr></code>)</nobr>
-  </TD>
-  <TD VALIGN="TOP">Returns a {@code Future} whose result is taken from the given primary
- {@code input} or, if the primary input fails, from the {@code Future}
- provided by the {@code fallback}.</TD>
-</TR>
-</TABLE>
-&nbsp;
-<p>
-<a NAME="Added"></a>
-<TABLE summary="Added Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
-<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Added Methods</B></FONT></TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.Futures.getDone_added(java.util.concurrent.Future<V>)"></A>
-  <nobr><code>V</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#getDone(java.util.concurrent.Future<V>)" target="_top"><tt>getDone</tt></A>(<code>Future&lt;V&gt;</code>)</nobr>
-  </TD>
-  <TD VALIGN="TOP">Returns the result of the input {@code Future}, which must have already completed.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.Futures.whenAllComplete_added(com.google.common.util.concurrent.ListenableFuture[])"></A>
-  <nobr><code>FutureCombiner&lt;V&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#whenAllComplete(com.google.common.util.concurrent.ListenableFuture[])" target="_top"><tt>whenAllComplete</tt></A>(<code>ListenableFuture[]</code>)</nobr>
-  </TD>
-  <TD VALIGN="TOP">Creates a <A HREF="../../docs/FutureCombiner.html"><TT>FutureCombiner</TT></A> that processes the completed futures whether or not they're
- successful.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.Futures.whenAllComplete_added(java.lang.Iterable<? extends com.google.common.util.concurrent.ListenableFuture<? extends V>>)"></A>
-  <nobr><code>FutureCombiner&lt;V&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#whenAllComplete(java.lang.Iterable<? extends com.google.common.util.concurrent.ListenableFuture<? extends V>>)" target="_top"><tt>whenAllComplete</tt></A>(<code>Iterable&lt;? extends ListenableFuture&lt;? extends V&gt;&gt;</code>)</nobr>
-  </TD>
-  <TD VALIGN="TOP">Creates a <A HREF="../../docs/FutureCombiner.html"><TT>FutureCombiner</TT></A> that processes the completed futures whether or not they're
- successful.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.Futures.whenAllSucceed_added(com.google.common.util.concurrent.ListenableFuture[])"></A>
-  <nobr><code>FutureCombiner&lt;V&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#whenAllSucceed(com.google.common.util.concurrent.ListenableFuture[])" target="_top"><tt>whenAllSucceed</tt></A>(<code>ListenableFuture[]</code>)</nobr>
-  </TD>
-  <TD VALIGN="TOP">Creates a <A HREF="../../docs/FutureCombiner.html"><TT>FutureCombiner</TT></A> requiring that all passed in futures are successful.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.Futures.whenAllSucceed_added(java.lang.Iterable<? extends com.google.common.util.concurrent.ListenableFuture<? extends V>>)"></A>
-  <nobr><code>FutureCombiner&lt;V&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#whenAllSucceed(java.lang.Iterable<? extends com.google.common.util.concurrent.ListenableFuture<? extends V>>)" target="_top"><tt>whenAllSucceed</tt></A>(<code>Iterable&lt;? extends ListenableFuture&lt;? extends V&gt;&gt;</code>)</nobr>
-  </TD>
-  <TD VALIGN="TOP">Creates a <A HREF="../../docs/FutureCombiner.html"><TT>FutureCombiner</TT></A> requiring that all passed in futures are successful.</TD>
+  <TD VALIGN="TOP">{@link CheckedFuture} cannot properly support the chained operations that are the      primary goal of {@link ListenableFuture}.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -160,7 +95,7 @@ Class com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/ut
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/Futures.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/Futures.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 21.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.util.concurrent.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -172,8 +107,8 @@ Class com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/ut
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.util.concurrent.FutureCallback.html"><B>PREV CLASS</B></A>
-&nbsp;<A HREF="com.google.common.util.concurrent.ListenableFuture.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.util.concurrent.ForwardingCheckedFuture.SimpleForwardingCheckedFuture.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.util.concurrent.Monitor.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.util.concurrent.Futures.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>

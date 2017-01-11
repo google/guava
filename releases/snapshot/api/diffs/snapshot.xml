@@ -56420,7 +56420,14 @@
   <class name="AbstractCheckedFuture" extends="com.google.common.util.concurrent.ForwardingListenableFuture.SimpleForwardingListenableFuture&lt;V&gt;"
     abstract="true"
     static="false" final="false" visibility="public"
-    deprecated="not deprecated">
+    deprecated="{@link CheckedFuture} cannot properly support the chained operations that are the
+     primary goal of {@link ListenableFuture}. {@code CheckedFuture} also encourages users to
+     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+     Additionally, it has a surprising policy about which exceptions to map and which to leave
+     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
+     use, possibly specializing them to the particular exception type they use. We recommend that
+     most people use {@code ListenableFuture} and perform any exception wrapping themselves. This
+     class is scheduled for removal from Guava in Feburary 2018.">
     <implements name="com.google.common.util.concurrent.CheckedFuture&lt;V, X&gt;"/>
     <constructor name="AbstractCheckedFuture" type="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
       static="false" final="false" visibility="protected"
@@ -56493,7 +56500,15 @@
  #checkedGet()} and {@link #checkedGet(long, TimeUnit)} methods.
 
  @author Sven Mawson
- @since 1.0]]>
+ @since 1.0
+ @deprecated {@link CheckedFuture} cannot properly support the chained operations that are the
+     primary goal of {@link ListenableFuture}. {@code CheckedFuture} also encourages users to
+     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+     Additionally, it has a surprising policy about which exceptions to map and which to leave
+     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
+     use, possibly specializing them to the particular exception type they use. We recommend that
+     most people use {@code ListenableFuture} and perform any exception wrapping themselves. This
+     class is scheduled for removal from Guava in Feburary 2018.]]>
     </doc>
   </class>
   <!-- end class com.google.common.util.concurrent.AbstractCheckedFuture -->
@@ -58452,7 +58467,14 @@
   <!-- start interface com.google.common.util.concurrent.CheckedFuture -->
   <interface name="CheckedFuture"    abstract="true"
     static="false" final="false" visibility="public"
-    deprecated="not deprecated">
+    deprecated="{@link CheckedFuture} cannot properly support the chained operations that are the
+     primary goal of {@link ListenableFuture}. {@code CheckedFuture} also encourages users to
+     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+     Additionally, it has a surprising policy about which exceptions to map and which to leave
+     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
+     use, possibly specializing them to the particular exception type they use. We recommend that
+     most people use {@code ListenableFuture} and perform any exception wrapping themselves. This
+     class is scheduled for removal from Guava in Feburary 2018.">
     <implements name="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"/>
     <method name="checkedGet" return="V"
       abstract="true" native="false" synchronized="false"
@@ -58514,7 +58536,15 @@
  Futures#getChecked(Future, Class) Futures.getChecked()}.
 
  @author Sven Mawson
- @since 1.0]]>
+ @since 1.0
+ @deprecated {@link CheckedFuture} cannot properly support the chained operations that are the
+     primary goal of {@link ListenableFuture}. {@code CheckedFuture} also encourages users to
+     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+     Additionally, it has a surprising policy about which exceptions to map and which to leave
+     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
+     use, possibly specializing them to the particular exception type they use. We recommend that
+     most people use {@code ListenableFuture} and perform any exception wrapping themselves. This
+     class is scheduled for removal from Guava in Feburary 2018.]]>
     </doc>
   </interface>
   <!-- end interface com.google.common.util.concurrent.CheckedFuture -->
@@ -59285,7 +59315,14 @@
   <class name="ForwardingCheckedFuture" extends="com.google.common.util.concurrent.ForwardingListenableFuture&lt;V&gt;"
     abstract="true"
     static="false" final="false" visibility="public"
-    deprecated="not deprecated">
+    deprecated="{@link CheckedFuture} cannot properly support the chained operations that are the
+     primary goal of {@link ListenableFuture}. {@code CheckedFuture} also encourages users to
+     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+     Additionally, it has a surprising policy about which exceptions to map and which to leave
+     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
+     use, possibly specializing them to the particular exception type they use. We recommend that
+     most people use {@code ListenableFuture} and perform any exception wrapping themselves. This
+     class is scheduled for removal from Guava in Feburary 2018.">
     <implements name="com.google.common.util.concurrent.CheckedFuture&lt;V, X&gt;"/>
     <constructor name="ForwardingCheckedFuture"
       static="false" final="false" visibility="public"
@@ -59320,9 +59357,16 @@
 
  @param <V> The result type returned by this Future's {@code get} method
  @param <X> The type of the Exception thrown by the Future's {@code checkedGet} method
-
  @author Anthony Zana
- @since 9.0]]>
+ @since 9.0
+ @deprecated {@link CheckedFuture} cannot properly support the chained operations that are the
+     primary goal of {@link ListenableFuture}. {@code CheckedFuture} also encourages users to
+     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+     Additionally, it has a surprising policy about which exceptions to map and which to leave
+     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
+     use, possibly specializing them to the particular exception type they use. We recommend that
+     most people use {@code ListenableFuture} and perform any exception wrapping themselves. This
+     class is scheduled for removal from Guava in Feburary 2018.]]>
     </doc>
   </class>
   <!-- end class com.google.common.util.concurrent.ForwardingCheckedFuture -->
@@ -59330,7 +59374,14 @@
   <class name="ForwardingCheckedFuture.SimpleForwardingCheckedFuture" extends="com.google.common.util.concurrent.ForwardingCheckedFuture&lt;V, X&gt;"
     abstract="true"
     static="true" final="false" visibility="public"
-    deprecated="not deprecated">
+    deprecated="{@link CheckedFuture} cannot properly support the chained operations that are the
+     primary goal of {@link ListenableFuture}. {@code CheckedFuture} also encourages users to
+     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+     Additionally, it has a surprising policy about which exceptions to map and which to leave
+     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
+     use, possibly specializing them to the particular exception type they use. We recommend
+     that most people use {@code ListenableFuture} and perform any exception wrapping
+     themselves. This class is scheduled for removal from Guava in Feburary 2018.">
     <constructor name="SimpleForwardingCheckedFuture" type="com.google.common.util.concurrent.CheckedFuture&lt;V, X&gt;"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
@@ -59344,7 +59395,15 @@
     <![CDATA[A simplified version of {@link ForwardingCheckedFuture} where subclasses can pass in an already
  constructed {@link CheckedFuture} as the delegate.
 
- @since 9.0]]>
+ @since 9.0
+ @deprecated {@link CheckedFuture} cannot properly support the chained operations that are the
+     primary goal of {@link ListenableFuture}. {@code CheckedFuture} also encourages users to
+     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+     Additionally, it has a surprising policy about which exceptions to map and which to leave
+     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
+     use, possibly specializing them to the particular exception type they use. We recommend
+     that most people use {@code ListenableFuture} and perform any exception wrapping
+     themselves. This class is scheduled for removal from Guava in Feburary 2018.]]>
     </doc>
   </class>
   <!-- end class com.google.common.util.concurrent.ForwardingCheckedFuture.SimpleForwardingCheckedFuture -->
@@ -59700,7 +59759,14 @@
     <method name="makeChecked" return="com.google.common.util.concurrent.CheckedFuture&lt;V, X&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="{@link CheckedFuture} cannot properly support the chained operations that are the
+     primary goal of {@link ListenableFuture}. {@code CheckedFuture} also encourages users to
+     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+     Additionally, it has a surprising policy about which exceptions to map and which to leave
+     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
+     use, possibly specializing them to the particular exception type they use. We recommend
+     that most people use {@code ListenableFuture} and perform any exception wrapping
+     themselves. This method is scheduled for removal from Guava in Feburary 2018.">
       <param name="future" type="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"/>
       <param name="mapper" type="com.google.common.base.Function&lt;? super java.lang.Exception, X&gt;"/>
       <doc>
@@ -59718,7 +59784,15 @@
  CancellationException}, or an {@link ExecutionException}. See {@link Future#get()} for details
  on the exceptions thrown.
 
- @since 9.0 (source-compatible since 1.0)]]>
+ @since 9.0 (source-compatible since 1.0)
+ @deprecated {@link CheckedFuture} cannot properly support the chained operations that are the
+     primary goal of {@link ListenableFuture}. {@code CheckedFuture} also encourages users to
+     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+     Additionally, it has a surprising policy about which exceptions to map and which to leave
+     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
+     use, possibly specializing them to the particular exception type they use. We recommend
+     that most people use {@code ListenableFuture} and perform any exception wrapping
+     themselves. This method is scheduled for removal from Guava in Feburary 2018.]]>
       </doc>
     </method>
     <method name="immediateFuture" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
@@ -59735,14 +59809,30 @@
     <method name="immediateCheckedFuture" return="com.google.common.util.concurrent.CheckedFuture&lt;V, X&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="{@link CheckedFuture} cannot properly support the chained operations that are the
+     primary goal of {@link ListenableFuture}. {@code CheckedFuture} also encourages users to
+     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+     Additionally, it has a surprising policy about which exceptions to map and which to leave
+     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
+     use, possibly specializing them to the particular exception type they use. We recommend
+     that most people use {@code ListenableFuture} and perform any exception wrapping
+     themselves. This method is scheduled for removal from Guava in Feburary 2018.">
       <param name="value" type="V"/>
       <doc>
       <![CDATA[Returns a {@code CheckedFuture} which has its value set immediately upon construction.
 
  <p>The returned {@code Future} can't be cancelled, and its {@code isDone()} method always
  returns {@code true}. Calling {@code get()} or {@code checkedGet()} will immediately return the
- provided value.]]>
+ provided value.
+
+ @deprecated {@link CheckedFuture} cannot properly support the chained operations that are the
+     primary goal of {@link ListenableFuture}. {@code CheckedFuture} also encourages users to
+     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+     Additionally, it has a surprising policy about which exceptions to map and which to leave
+     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
+     use, possibly specializing them to the particular exception type they use. We recommend
+     that most people use {@code ListenableFuture} and perform any exception wrapping
+     themselves. This method is scheduled for removal from Guava in Feburary 2018.]]>
       </doc>
     </method>
     <method name="immediateFailedFuture" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
@@ -59772,7 +59862,14 @@
     <method name="immediateFailedCheckedFuture" return="com.google.common.util.concurrent.CheckedFuture&lt;V, X&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="{@link CheckedFuture} cannot properly support the chained operations that are the
+     primary goal of {@link ListenableFuture}. {@code CheckedFuture} also encourages users to
+     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+     Additionally, it has a surprising policy about which exceptions to map and which to leave
+     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
+     use, possibly specializing them to the particular exception type they use. We recommend
+     that most people use {@code ListenableFuture} and perform any exception wrapping
+     themselves. This method is scheduled for removal from Guava in Feburary 2018.">
       <param name="exception" type="X extends java.lang.Exception"/>
       <doc>
       <![CDATA[Returns a {@code CheckedFuture} which has an exception set immediately upon construction.
@@ -59780,7 +59877,16 @@
  <p>The returned {@code Future} can't be cancelled, and its {@code isDone()} method always
  returns {@code true}. Calling {@code get()} will immediately throw the provided {@code
  Exception} wrapped in an {@code ExecutionException}, and calling {@code checkedGet()} will
- throw the provided exception itself.]]>
+ throw the provided exception itself.
+
+ @deprecated {@link CheckedFuture} cannot properly support the chained operations that are the
+     primary goal of {@link ListenableFuture}. {@code CheckedFuture} also encourages users to
+     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+     Additionally, it has a surprising policy about which exceptions to map and which to leave
+     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
+     use, possibly specializing them to the particular exception type they use. We recommend
+     that most people use {@code ListenableFuture} and perform any exception wrapping
+     themselves. This method is scheduled for removal from Guava in Feburary 2018.]]>
       </doc>
     </method>
     <method name="catching" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
