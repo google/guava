@@ -21,10 +21,12 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.DerivedComparable;
+import com.google.common.testing.CollectorTester;
 import com.google.common.testing.NullPointerTester;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.BiPredicate;
 import junit.framework.TestCase;
 
 /**
@@ -277,6 +279,25 @@ public class MultisetsTest extends TestCase {
         "b").inOrder();
 
     assertThat(Multisets.copyHighestCountFirst(ImmutableMultiset.of())).isEmpty();
+  }
+
+  public void testToMultisetCountFunction() {
+    BiPredicate<Multiset<String>, Multiset<String>> equivalence =
+        (ms1, ms2) ->
+            ms1.equals(ms2)
+                && ImmutableList.copyOf(ms1.entrySet())
+                    .equals(ImmutableList.copyOf(ms2.entrySet()));
+    CollectorTester.of(
+            Multisets.<Multiset.Entry<String>, String, Multiset<String>>toMultiset(
+                Multiset.Entry::getElement, Multiset.Entry::getCount, LinkedHashMultiset::create),
+            equivalence)
+        .expectCollects(ImmutableMultiset.<String>of())
+        .expectCollects(
+            ImmutableMultiset.of("a", "a", "b", "c", "c", "c"),
+            Multisets.immutableEntry("a", 1),
+            Multisets.immutableEntry("b", 1),
+            Multisets.immutableEntry("a", 1),
+            Multisets.immutableEntry("c", 3));
   }
 
   @GwtIncompatible // NullPointerTester

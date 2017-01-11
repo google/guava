@@ -435,6 +435,31 @@ public class ImmutableSortedMultisetTest extends TestCase {
             "C");
   }
 
+  public void testToImmutableSortedMultisetCountFunction() {
+    BiPredicate<ImmutableSortedMultiset<String>, ImmutableSortedMultiset<String>> equivalence =
+        (ms1, ms2) ->
+            ms1.equals(ms2)
+                && ms1.entrySet().asList().equals(ms2.entrySet().asList())
+                && ms1.comparator().equals(ms2.comparator());
+    CollectorTester.of(
+            ImmutableSortedMultiset.<String, String>toImmutableSortedMultiset(
+                String.CASE_INSENSITIVE_ORDER, e -> e, e -> 1),
+            equivalence)
+        .expectCollects(ImmutableSortedMultiset.emptyMultiset(String.CASE_INSENSITIVE_ORDER))
+        .expectCollects(
+            ImmutableSortedMultiset.orderedBy(String.CASE_INSENSITIVE_ORDER)
+                .addCopies("a", 2)
+                .addCopies("b", 1)
+                .addCopies("c", 3)
+                .build(),
+            "a",
+            "c",
+            "b",
+            "c",
+            "A",
+            "C");
+  }
+
   public void testNullPointers() {
     new NullPointerTester().testAllPublicStaticMethods(ImmutableSortedMultiset.class);
   }
