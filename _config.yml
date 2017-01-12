@@ -38,7 +38,7 @@ gist:
 
 # Release data
 # Do not change! updaterelease.sh automatically updates these fields
-latest_release: 20.0
+latest_release: 21.0
 latest_snapshot: 21.0-SNAPSHOT
 
 # Miscellaneous data
