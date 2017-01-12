@@ -18787,6 +18787,24 @@
  @since 21.0]]>
       </doc>
     </method>
+    <method name="toImmutableMultiset" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableMultiset&lt;E&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="elementFunction" type="java.util.function.Function&lt;? super T, ? extends E&gt;"/>
+      <param name="countFunction" type="java.util.function.ToIntFunction&lt;? super T&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@code Collector} that accumulates elements into an {@code ImmutableMultiset} whose
+ elements are the result of applying {@code elementFunction} to the inputs, with counts equal to
+ the result of applying {@code countFunction} to the inputs.
+
+ <p>If the mapped elements contain duplicates (according to {@link Object#equals}), the first
+ occurrence in encounter order appears in the resulting multiset, with count equal to the sum of
+ the outputs of {@code countFunction.applyAsInt(t)} for each {@code t} mapped to that element.
+
+ @since 22.0]]>
+      </doc>
+    </method>
     <method name="of" return="com.google.common.collect.ImmutableMultiset&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -21128,6 +21146,25 @@
  equals}</i> as explained in the {@link Comparator} documentation.
 
  @since 21.0]]>
+      </doc>
+    </method>
+    <method name="toImmutableSortedMultiset" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableSortedMultiset&lt;E&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="comparator" type="java.util.Comparator&lt;? super E&gt;"/>
+      <param name="elementFunction" type="java.util.function.Function&lt;? super T, ? extends E&gt;"/>
+      <param name="countFunction" type="java.util.function.ToIntFunction&lt;? super T&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@code Collector} that accumulates elements into an {@code ImmutableSortedMultiset}
+ whose elements are the result of applying {@code elementFunction} to the inputs, with counts
+ equal to the result of applying {@code countFunction} to the inputs.
+
+ <p>If the mapped elements contain duplicates (according to {@code comparator}), the first
+ occurrence in encounter order appears in the resulting multiset, with count equal to the sum of
+ the outputs of {@code countFunction.applyAsInt(t)} for each {@code t} mapped to that element.
+
+ @since 22.0]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableSortedMultiset&lt;E&gt;"
@@ -30065,6 +30102,28 @@
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
+    <method name="toMultiset" return="java.util.stream.Collector&lt;T, ?, M&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="elemFunction" type="java.util.function.Function&lt;T, E&gt;"/>
+      <param name="countFunction" type="java.util.function.ToIntFunction&lt;T&gt;"/>
+      <param name="implSupplier" type="java.util.function.Supplier&lt;M&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@code Collector} that accumulates elements into a multiset created via the specified
+ {@code Supplier}, whose elements are the result of applying {@code elementFunction} to the
+ inputs, with counts equal to the result of applying {@code countFunction} to the inputs.
+ Elements are added in encounter order.
+
+ <p>If the mapped elements contain duplicates (according to {@link Object#equals}), the element
+ will be added more than once, with the count summed over all appearances of the element.
+
+ <p>Note that {@code stream.collect(toMultiset(function, e -> 1, supplier))} is equivalent to
+ {@code stream.map(function).collect(Collectors.toCollection(supplier))}.
+
+ @since 22.0]]>
+      </doc>
+    </method>
     <method name="unmodifiableMultiset" return="com.google.common.collect.Multiset&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -56427,7 +56486,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend that
      most people use {@code ListenableFuture} and perform any exception wrapping themselves. This
-     class is scheduled for removal from Guava in Feburary 2018.">
+     class is scheduled for removal from Guava in February 2018.">
     <implements name="com.google.common.util.concurrent.CheckedFuture&lt;V, X&gt;"/>
     <constructor name="AbstractCheckedFuture" type="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
       static="false" final="false" visibility="protected"
@@ -56508,7 +56567,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend that
      most people use {@code ListenableFuture} and perform any exception wrapping themselves. This
-     class is scheduled for removal from Guava in Feburary 2018.]]>
+     class is scheduled for removal from Guava in February 2018.]]>
     </doc>
   </class>
   <!-- end class com.google.common.util.concurrent.AbstractCheckedFuture -->
@@ -58474,7 +58533,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend that
      most people use {@code ListenableFuture} and perform any exception wrapping themselves. This
-     class is scheduled for removal from Guava in Feburary 2018.">
+     class is scheduled for removal from Guava in February 2018.">
     <implements name="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"/>
     <method name="checkedGet" return="V"
       abstract="true" native="false" synchronized="false"
@@ -58544,7 +58603,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend that
      most people use {@code ListenableFuture} and perform any exception wrapping themselves. This
-     class is scheduled for removal from Guava in Feburary 2018.]]>
+     class is scheduled for removal from Guava in February 2018.]]>
     </doc>
   </interface>
   <!-- end interface com.google.common.util.concurrent.CheckedFuture -->
@@ -59322,7 +59381,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend that
      most people use {@code ListenableFuture} and perform any exception wrapping themselves. This
-     class is scheduled for removal from Guava in Feburary 2018.">
+     class is scheduled for removal from Guava in February 2018.">
     <implements name="com.google.common.util.concurrent.CheckedFuture&lt;V, X&gt;"/>
     <constructor name="ForwardingCheckedFuture"
       static="false" final="false" visibility="public"
@@ -59366,7 +59425,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend that
      most people use {@code ListenableFuture} and perform any exception wrapping themselves. This
-     class is scheduled for removal from Guava in Feburary 2018.]]>
+     class is scheduled for removal from Guava in February 2018.]]>
     </doc>
   </class>
   <!-- end class com.google.common.util.concurrent.ForwardingCheckedFuture -->
@@ -59381,7 +59440,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use {@code ListenableFuture} and perform any exception wrapping
-     themselves. This class is scheduled for removal from Guava in Feburary 2018.">
+     themselves. This class is scheduled for removal from Guava in February 2018.">
     <constructor name="SimpleForwardingCheckedFuture" type="com.google.common.util.concurrent.CheckedFuture&lt;V, X&gt;"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
@@ -59403,7 +59462,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use {@code ListenableFuture} and perform any exception wrapping
-     themselves. This class is scheduled for removal from Guava in Feburary 2018.]]>
+     themselves. This class is scheduled for removal from Guava in February 2018.]]>
     </doc>
   </class>
   <!-- end class com.google.common.util.concurrent.ForwardingCheckedFuture.SimpleForwardingCheckedFuture -->
@@ -59766,7 +59825,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use {@code ListenableFuture} and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in Feburary 2018.">
+     themselves. This method is scheduled for removal from Guava in February 2018.">
       <param name="future" type="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"/>
       <param name="mapper" type="com.google.common.base.Function&lt;? super java.lang.Exception, X&gt;"/>
       <doc>
@@ -59792,7 +59851,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use {@code ListenableFuture} and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in Feburary 2018.]]>
+     themselves. This method is scheduled for removal from Guava in February 2018.]]>
       </doc>
     </method>
     <method name="immediateFuture" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
@@ -59816,7 +59875,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use {@code ListenableFuture} and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in Feburary 2018.">
+     themselves. This method is scheduled for removal from Guava in February 2018.">
       <param name="value" type="V"/>
       <doc>
       <![CDATA[Returns a {@code CheckedFuture} which has its value set immediately upon construction.
@@ -59832,7 +59891,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use {@code ListenableFuture} and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in Feburary 2018.]]>
+     themselves. This method is scheduled for removal from Guava in February 2018.]]>
       </doc>
     </method>
     <method name="immediateFailedFuture" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
@@ -59869,7 +59928,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use {@code ListenableFuture} and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in Feburary 2018.">
+     themselves. This method is scheduled for removal from Guava in February 2018.">
       <param name="exception" type="X extends java.lang.Exception"/>
       <doc>
       <![CDATA[Returns a {@code CheckedFuture} which has an exception set immediately upon construction.
@@ -59886,7 +59945,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use {@code ListenableFuture} and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in Feburary 2018.]]>
+     themselves. This method is scheduled for removal from Guava in February 2018.]]>
       </doc>
     </method>
     <method name="catching" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
