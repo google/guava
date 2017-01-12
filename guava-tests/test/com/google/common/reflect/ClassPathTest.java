@@ -21,7 +21,6 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Closer;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
@@ -81,9 +80,8 @@ public class ClassPathTest extends TestCase {
     URL url1 = new URL("file:/a");
     URL url2 = new URL("file:/b");
     URLClassLoader classloader = new URLClassLoader(new URL[] {url1, url2}, null);
-    assertEquals(
-        ImmutableMap.of(new File("/a"), classloader, new File("/b"), classloader),
-        ClassPath.Scanner.getClassPathEntries(classloader));
+    assertThat(ClassPath.Scanner.getClassPathEntries(classloader))
+        .containsExactly(new File("/a"), classloader, new File("/b"), classloader);
   }
 
   @AndroidIncompatible // Android forbids null parent ClassLoader
@@ -92,9 +90,9 @@ public class ClassPathTest extends TestCase {
     URL url2 = new URL("file:/b");
     URLClassLoader parent = new URLClassLoader(new URL[] {url1}, null);
     URLClassLoader child = new URLClassLoader(new URL[] {url2}, parent) {};
-    ImmutableMap<File, ClassLoader> classPathEntries = ClassPath.Scanner.getClassPathEntries(child);
-    assertEquals(ImmutableMap.of(new File("/a"), parent, new File("/b"), child),  classPathEntries);
-    assertThat(classPathEntries.keySet()).containsExactly(new File("/a"), new File("/b")).inOrder();
+    assertThat(ClassPath.Scanner.getClassPathEntries(child))
+        .containsExactly(new File("/a"), parent, new File("/b"), child)
+        .inOrder();
   }
 
   @AndroidIncompatible // Android forbids null parent ClassLoader
@@ -102,22 +100,21 @@ public class ClassPathTest extends TestCase {
     URL url = new URL("file:/a");
     URLClassLoader parent = new URLClassLoader(new URL[] {url}, null);
     URLClassLoader child = new URLClassLoader(new URL[] {url}, parent) {};
-    assertEquals(ImmutableMap.of(new File("/a"), parent),
-        ClassPath.Scanner.getClassPathEntries(child));
+    assertThat(ClassPath.Scanner.getClassPathEntries(child))
+        .containsExactly(new File("/a"), parent);
   }
 
   @AndroidIncompatible // Android forbids null parent ClassLoader
   public void testClassPathEntries_notURLClassLoader_noParent() {
-    assertThat(ClassPath.Scanner.getClassPathEntries(new ClassLoader(null) {}).keySet()).isEmpty();
+    assertThat(ClassPath.Scanner.getClassPathEntries(new ClassLoader(null) {})).isEmpty();
   }
 
   @AndroidIncompatible // Android forbids null parent ClassLoader
   public void testClassPathEntries_notURLClassLoader_withParent() throws Exception {
     URL url = new URL("file:/a");
     URLClassLoader parent = new URLClassLoader(new URL[] {url}, null);
-    assertEquals(
-        ImmutableMap.of(new File("/a"), parent),
-        ClassPath.Scanner.getClassPathEntries(new ClassLoader(parent) {}));
+    assertThat(ClassPath.Scanner.getClassPathEntries(new ClassLoader(parent) {}))
+        .containsExactly(new File("/a"), parent);
   }
 
   @AndroidIncompatible // Android forbids null parent ClassLoader
@@ -126,9 +123,8 @@ public class ClassPathTest extends TestCase {
     URL url2 = new URL("file:/b");
     URLClassLoader grandParent = new URLClassLoader(new URL[] {url1}, null);
     URLClassLoader parent = new URLClassLoader(new URL[] {url2}, grandParent);
-    assertEquals(
-        ImmutableMap.of(new File("/a"), grandParent, new File("/b"), parent),
-        ClassPath.Scanner.getClassPathEntries(new ClassLoader(parent) {}));
+    assertThat(ClassPath.Scanner.getClassPathEntries(new ClassLoader(parent) {}))
+        .containsExactly(new File("/a"), grandParent, new File("/b"), parent);
   }
 
   @AndroidIncompatible // Android forbids null parent ClassLoader
@@ -136,9 +132,53 @@ public class ClassPathTest extends TestCase {
     URL url = new URL("file:/a");
     URLClassLoader grandParent = new URLClassLoader(new URL[] {url}, null);
     ClassLoader parent = new ClassLoader(grandParent) {};
-    assertEquals(
-        ImmutableMap.of(new File("/a"), grandParent),
-        ClassPath.Scanner.getClassPathEntries(new ClassLoader(parent) {}));
+    assertThat(ClassPath.Scanner.getClassPathEntries(new ClassLoader(parent) {}))
+        .containsExactly(new File("/a"), grandParent);
+  }
+
+  @AndroidIncompatible // Android forbids null parent ClassLoader
+  // https://github.com/google/guava/issues/2152
+  public void testClassPathEntries_URLClassLoader_pathWithSpace() throws Exception {
+    URL url = new URL("file:///c:/Documents and Settings/");
+    URLClassLoader classloader = new URLClassLoader(new URL[] {url}, null);
+    assertThat(ClassPath.Scanner.getClassPathEntries(classloader))
+        .containsExactly(new File("/c:/Documents and Settings/"), classloader);
+  }
+
+  @AndroidIncompatible // Android forbids null parent ClassLoader
+  // https://github.com/google/guava/issues/2152
+  public void testClassPathEntries_URLClassLoader_pathWithEscapedSpace() throws Exception {
+    URL url = new URL("file:///c:/Documents%20and%20Settings/");
+    URLClassLoader classloader = new URLClassLoader(new URL[] {url}, null);
+    assertThat(ClassPath.Scanner.getClassPathEntries(classloader))
+        .containsExactly(new File("/c:/Documents and Settings/"), classloader);
+  }
+
+  // https://github.com/google/guava/issues/2152
+  public void testToFile() throws Exception {
+    assertThat(ClassPath.toFile(new URL("file:///c:/Documents%20and%20Settings/")))
+        .isEqualTo(new File("/c:/Documents and Settings/"));
+    assertThat(ClassPath.toFile(new URL("file:///c:/Documents ~ Settings, or not/11-12 12:05")))
+        .isEqualTo(new File("/c:/Documents ~ Settings, or not/11-12 12:05"));
+  }
+
+  // https://github.com/google/guava/issues/2152
+  @AndroidIncompatible // works in newer Android versions but fails at the version we test with
+  public void testToFile_AndroidIncompatible() throws Exception {
+    assertThat(ClassPath.toFile(new URL("file:///c:\\Documents ~ Settings, or not\\11-12 12:05")))
+        .isEqualTo(new File("/c:\\Documents ~ Settings, or not\\11-12 12:05"));
+    assertThat(ClassPath.toFile(new URL("file:///C:\\Program Files\\Apache Software Foundation")))
+        .isEqualTo(new File("/C:\\Program Files\\Apache Software Foundation/"));
+    assertThat(ClassPath.toFile(new URL("file:///C:\\\u20320 \u22909")))  // Chinese Ni Hao
+        .isEqualTo(new File("/C:\\\u20320 \u22909"));
+  }
+
+  @AndroidIncompatible // Android forbids null parent ClassLoader
+  // https://github.com/google/guava/issues/2152
+  public void testJarFileWithSpaces() throws Exception {
+    URL url = makeJarUrlWithName("To test unescaped spaces in jar file name.jar");
+    URLClassLoader classloader = new URLClassLoader(new URL[] {url}, null);
+    assertThat(ClassPath.from(classloader).getTopLevelClasses()).isNotEmpty();
   }
 
   public void testScan_classPathCycle() throws IOException {
@@ -147,7 +187,7 @@ public class ClassPathTest extends TestCase {
       writeSelfReferencingJarFile(jarFile, "test.txt");
       ClassPath.DefaultScanner scanner = new ClassPath.DefaultScanner();
       scanner.scan(jarFile, ClassPathTest.class.getClassLoader());
-      assertEquals(1, scanner.getResources().size());
+      assertThat(scanner.getResources()).hasSize(1);
     } finally {
       jarFile.delete();
     }
@@ -454,5 +494,37 @@ public class ClassPathTest extends TestCase {
         resources.add(entries.nextElement().getName());
       }
     }
+  }
+
+  private static URL makeJarUrlWithName(String name) throws IOException {
+    File fullPath = new File(Files.createTempDir(), name);
+    File jarFile = JarFileFinder.pickAnyJarFile();
+    Files.copy(jarFile, fullPath);
+    return fullPath.toURI().toURL();
+  }
+
+  private static final class JarFileFinder extends ClassPath.Scanner {
+
+    private File found;
+
+    static File pickAnyJarFile() throws IOException {
+      JarFileFinder finder = new JarFileFinder();
+      try {
+        finder.scan(JarFileFinder.class.getClassLoader());
+        throw new IllegalStateException("No jar file found!");
+      } catch (StopScanningException expected) {
+        return finder.found;
+      }
+    }
+
+    @Override protected void scanJarFile(ClassLoader loader, JarFile file) throws IOException {
+      this.found = new File(file.getName());
+      throw new StopScanningException();
+    }
+
+    @Override protected void scanDirectory(ClassLoader loader, File root) {}
+
+    // Special exception just to terminate the scanning when we get any jar file to use.
+    private static final class StopScanningException extends RuntimeException {}
   }
 }

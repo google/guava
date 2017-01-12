@@ -14,6 +14,7 @@
 
 package com.google.common.reflect;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
@@ -34,6 +35,7 @@ import com.google.common.io.Resources;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.charset.Charset;
@@ -410,7 +412,7 @@ public final class ClassPath {
             continue;
           }
           if (url.getProtocol().equals("file")) {
-            builder.add(new File(url.getFile()));
+            builder.add(toFile(url));
           }
         }
       }
@@ -429,7 +431,7 @@ public final class ClassPath {
         URLClassLoader urlClassLoader = (URLClassLoader) classloader;
         for (URL entry : urlClassLoader.getURLs()) {
           if (entry.getProtocol().equals("file")) {
-            File file = new File(entry.getFile());
+            File file = toFile(entry);
             if (!entries.containsKey(file)) {
               entries.put(file, classloader);
             }
@@ -507,5 +509,16 @@ public final class ClassPath {
   static String getClassName(String filename) {
     int classNameEnd = filename.length() - CLASS_FILE_NAME_EXTENSION.length();
     return filename.substring(0, classNameEnd).replace('/', '.');
+  }
+
+  // TODO(benyu): Try java.nio.file.Paths#get() when Guava drops JDK 6 support.
+  @VisibleForTesting
+  static File toFile(URL url) {
+    checkArgument(url.getProtocol().equals("file"));
+    try {
+      return new File(url.toURI());  // Accepts escaped characters like %20.
+    } catch (URISyntaxException e) {  // URL.toURI() doesn't escape chars.
+      return new File(url.getPath());  // Accepts non-escaped chars like space.
+    }
   }
 }
