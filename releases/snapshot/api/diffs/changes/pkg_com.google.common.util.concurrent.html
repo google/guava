@@ -18,7 +18,7 @@ com.google.common.util.concurrent
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 21.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 22.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1"> &nbsp;<FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
@@ -30,14 +30,14 @@ com.google.common.util.concurrent
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="pkg_com.google.common.primitives.html"><B>PREV PACKAGE</B></A>
+&nbsp;<A HREF="pkg_com.google.common.io.html"><B>PREV PACKAGE</B></A>
 &nbsp;<B>NEXT PACKAGE</B>&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="pkg_com.google.common.util.concurrent.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell3"><FONT SIZE="-2"> DETAIL: &nbsp;
 REMOVED&nbsp;|&nbsp;
-<a href="#Added">ADDED</a>&nbsp;|&nbsp;
+ADDED&nbsp;|&nbsp;
 <a href="#Changed">CHANGED</a>
   </FONT></TD>
 </TR>
@@ -47,21 +47,6 @@ REMOVED&nbsp;|&nbsp;
 <H2>
 Package <A HREF="../../docs/com/google/common/util/concurrent/package-summary.html" target="_top"><tt>com.google.common.util.concurrent</tt></A>
 </H2>
-<p>
-<a NAME="Added"></a>
-<TABLE summary="Added Classes" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
-<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Added Classes</B></FONT></TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="ForwardingBlockingDeque"></A>
-  <nobr><A HREF="../../docs/com/google/common/util/concurrent/ForwardingBlockingDeque.html" target="_top"><tt>ForwardingBlockingDeque</tt></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/util/concurrent/ForwardingBlockingDeque/BlockingDeque.html"><TT>BlockingDeque</TT></A> which forwards all its method calls to another {@code BlockingDeque}.</TD>
-</TR>
-</TABLE>
-&nbsp;
 <p>
 <a NAME="Changed"></a>
 <TABLE summary="Changed Classes and Interfaces" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
@@ -74,13 +59,6 @@ Package <A HREF="../../docs/com/google/common/util/concurrent/package-summary.ht
   <nobr><A HREF="com.google.common.util.concurrent.AbstractCheckedFuture.html">AbstractCheckedFuture</A></nobr>
   </TD>
   <TD VALIGN="TOP">A delegating wrapper around a <A HREF="../../docs/com/google/common/util/concurrent/AbstractCheckedFuture/ListenableFuture.html"><TT>ListenableFuture</TT></A> that adds support for the <A HREF="../../docs/com/google/common/util/concurrent/AbstractCheckedFuture/.html#checkedGet()"><TT>.checkedGet()</TT></A> and <A HREF="../../docs/com/google/common/util/concurrent/AbstractCheckedFuture/.html#checkedGet(long, TimeUnit)"><TT>.checkedGet(long, TimeUnit)</TT></A> methods.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="AtomicLongMap"></A>
-  <nobr><A HREF="com.google.common.util.concurrent.AtomicLongMap.html">AtomicLongMap</A></nobr>
-  </TD>
-  <TD VALIGN="TOP">A map containing {@code long} values that can be atomically updated.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -112,21 +90,6 @@ Package <A HREF="../../docs/com/google/common/util/concurrent/package-summary.ht
   </TD>
   <TD VALIGN="TOP">Static utility methods pertaining to the <A HREF="../../docs/com/google/common/util/concurrent/Futures/Future.html"><TT>Future</TT></A> interface.</TD>
 </TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="Monitor"></A>
-  <nobr><A HREF="com.google.common.util.concurrent.Monitor.html">Monitor</A></nobr>
-  </TD>
-  <TD VALIGN="TOP">A synchronization abstraction supporting waiting on arbitrary boolean conditions.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="MoreExecutors"></A>
-  <nobr><A HREF="com.google.common.util.concurrent.MoreExecutors.html">MoreExecutors</A></nobr>
-  </TD>
-  <TD VALIGN="TOP">Factory and utility methods for <A HREF="../../docs/com/google/common/util/concurrent/MoreExecutors/java/util/concurrent/Executor.html"><TT>java.util.concurrent.Executor</TT></A>, <A HREF="../../docs/com/google/common/util/concurrent/MoreExecutors/ExecutorService.html"><TT>ExecutorService</TT></A>,
- and <A HREF="../../docs/com/google/common/util/concurrent/MoreExecutors/ThreadFactory.html"><TT>ThreadFactory</TT></A>.</TD>
-</TR>
 </TABLE>
 &nbsp;
 <HR>
@@ -136,7 +99,7 @@ Package <A HREF="../../docs/com/google/common/util/concurrent/package-summary.ht
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 21.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 22.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1"> &nbsp;<FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
@@ -148,7 +111,7 @@ Package <A HREF="../../docs/com/google/common/util/concurrent/package-summary.ht
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="pkg_com.google.common.primitives.html"><B>PREV PACKAGE</B></A>
+&nbsp;<A HREF="pkg_com.google.common.io.html"><B>PREV PACKAGE</B></A>
 &nbsp;<B>NEXT PACKAGE</B>&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
