@@ -241,7 +241,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
 
   private static final class ReverseConverter<A, B> extends Converter<B, A>
       implements Serializable {
-    final Converter<A, B> original;
+    final transient Converter<A, B> original;
 
     ReverseConverter(Converter<A, B> original) {
       this.original = original;
@@ -323,8 +323,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
 
   private static final class ConverterComposition<A, B, C> extends Converter<A, C>
       implements Serializable {
-    final Converter<A, B> first;
-    final Converter<B, C> second;
+    final transient Converter<A, B> first;
+    final transient Converter<B, C> second;
 
     ConverterComposition(Converter<A, B> first, Converter<B, C> second) {
       this.first = first;
@@ -433,8 +433,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
 
   private static final class FunctionBasedConverter<A, B> extends Converter<A, B>
       implements Serializable {
-    private final Function<? super A, ? extends B> forwardFunction;
-    private final Function<? super B, ? extends A> backwardFunction;
+    private final transient Function<? super A, ? extends B> forwardFunction;
+    private final transient Function<? super B, ? extends A> backwardFunction;
 
     private FunctionBasedConverter(
         Function<? super A, ? extends B> forwardFunction,
