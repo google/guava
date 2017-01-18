@@ -18,6 +18,7 @@ package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.CompatibleWith;
+import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
@@ -106,7 +107,112 @@ import javax.annotation.Nullable;
  * @since 20.0
  */
 @Beta
-public interface ValueGraph<N, V> extends Graph<N> {
+public interface ValueGraph<N, V> {
+  //
+  // ValueGraph-level accessors
+  //
+
+  /** Returns all nodes in this graph, in the order specified by {@link #nodeOrder()}. */
+  Set<N> nodes();
+
+  /** Returns all edges in this graph. */
+  Set<EndpointPair<N>> edges();
+
+  /**
+   * Returns a live view of this graph as a {@link Graph}. The resulting {@link Graph} will have an
+   * edge connecting node A to node B if this {@link ValueGraph} has an edge connecting A to B.
+   */
+  Graph<N> asGraph();
+
+  //
+  // ValueGraph properties
+  //
+
+  /**
+   * Returns true if the edges in this graph are directed. Directed edges connect a {@link
+   * EndpointPair#source() source node} to a {@link EndpointPair#target() target node}, while
+   * undirected edges connect a pair of nodes to each other.
+   */
+  boolean isDirected();
+
+  /**
+   * Returns true if this graph allows self-loops (edges that connect a node to itself). Attempting
+   * to add a self-loop to a graph that does not allow them will throw an {@link
+   * UnsupportedOperationException}.
+   */
+  boolean allowsSelfLoops();
+
+  /** Returns the order of iteration for the elements of {@link #nodes()}. */
+  ElementOrder<N> nodeOrder();
+
+  //
+  // Element-level accessors
+  //
+
+  /**
+   * Returns the nodes which have an incident edge in common with {@code node} in this graph.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
+  Set<N> adjacentNodes(@CompatibleWith("N") Object node);
+
+  /**
+   * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
+   * {@code node}'s incoming edges <i>against</i> the direction (if any) of the edge.
+   *
+   * <p>In an undirected graph, this is equivalent to {@link #adjacentNodes(Object)}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
+  Set<N> predecessors(@CompatibleWith("N") Object node);
+
+  /**
+   * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
+   * {@code node}'s outgoing edges in the direction (if any) of the edge.
+   *
+   * <p>In an undirected graph, this is equivalent to {@link #adjacentNodes(Object)}.
+   *
+   * <p>This is <i>not</i> the same as "all nodes reachable from {@code node} by following outgoing
+   * edges". For that functionality, see {@link Graphs#reachableNodes(Graph, Object)}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
+  Set<N> successors(@CompatibleWith("N") Object node);
+
+  /**
+   * Returns the count of {@code node}'s incident edges, counting self-loops twice (equivalently,
+   * the number of times an edge touches {@code node}).
+   *
+   * <p>For directed graphs, this is equal to {@code inDegree(node) + outDegree(node)}.
+   *
+   * <p>For undirected graphs, this is equal to {@code adjacentNodes(node).size()} + (1 if {@code
+   * node} has an incident self-loop, 0 otherwise).
+   *
+   * <p>If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
+  int degree(@CompatibleWith("N") Object node);
+
+  /**
+   * Returns the count of {@code node}'s incoming edges (equal to {@code predecessors(node).size()})
+   * in a directed graph. In an undirected graph, returns the {@link #degree(Object)}.
+   *
+   * <p>If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
+  int inDegree(@CompatibleWith("N") Object node);
+
+  /**
+   * Returns the count of {@code node}'s outgoing edges (equal to {@code successors(node).size()})
+   * in a directed graph. In an undirected graph, returns the {@link #degree(Object)}.
+   *
+   * <p>If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
+  int outDegree(@CompatibleWith("N") Object node);
 
   /**
    * If there is an edge connecting {@code nodeU} to {@code nodeV}, returns the non-null value

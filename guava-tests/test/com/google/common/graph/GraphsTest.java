@@ -266,13 +266,13 @@ public class GraphsTest {
     ValueGraph<Integer, String> transpose = Graphs.transpose(directedGraph);
     assertThat(Graphs.equivalent(transpose, expectedTranspose)).isTrue();
     assertThat(transpose(transpose)).isSameAs(directedGraph);
-    AbstractGraphTest.validateGraph(transpose);
+    AbstractGraphTest.validateGraph(transpose.asGraph());
 
     assertThat(transpose.edgeValueOrDefault(N1, N2, null)).isNull();
     directedGraph.putEdgeValue(N2, N1, E21);
     // View should be updated.
     assertThat(transpose.edgeValueOrDefault(N1, N2, null)).isEqualTo(E21);
-    AbstractGraphTest.validateGraph(transpose);
+    AbstractGraphTest.validateGraph(transpose.asGraph());
   }
 
   @Test
@@ -582,14 +582,6 @@ public class GraphsTest {
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_NEGATIVE_COUNT);
     }
-  }
-
-  @Test
-  public void defaultImplementations_notValueGraph() {
-    assertThat(buildDirectedGraph() instanceof ValueGraph).isFalse();
-    assertThat(buildUndirectedGraph() instanceof ValueGraph).isFalse();
-    assertThat(ImmutableGraph.copyOf(buildDirectedGraph()) instanceof ValueGraph).isFalse();
-    assertThat(ImmutableGraph.copyOf(buildUndirectedGraph()) instanceof ValueGraph).isFalse();
   }
 
   private static <N> void checkTransitiveClosure(Graph<N> originalGraph, Graph<N> expectedClosure) {

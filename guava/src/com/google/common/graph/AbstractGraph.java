@@ -39,9 +39,9 @@ import javax.annotation.Nullable;
 public abstract class AbstractGraph<N> implements Graph<N> {
 
   /**
-   * Returns the number of edges in this graph; used to calculate the size of {@link #edges()}. The
-   * default implementation is O(|N|). You can manually keep track of the number of edges and
-   * override this method for better performance.
+   * Returns the number of edges in this graph; used to calculate the size of {@link #edges()}. This
+   * implementation requires O(|N|) time. Classes extending this one may manually keep track of the
+   * number of edges as the graph is updated, and override this method for better performance.
    */
   protected long edgeCount() {
     long degreeSum = 0L;
@@ -54,8 +54,8 @@ public abstract class AbstractGraph<N> implements Graph<N> {
   }
 
   /**
-   * A reasonable default implementation of {@link Graph#edges()} defined in terms of {@link
-   * #nodes()} and {@link #successors(Object)}.
+   * An implementation of {@link Graph#edges()} defined in terms of {@link #nodes()} and {@link
+   * #successors(Object)}.
    */
   @Override
   public Set<EndpointPair<N>> edges() {

@@ -43,7 +43,7 @@ public final class ValueGraphTest {
       }
     }
 
-    AbstractGraphTest.validateGraph(graph);
+    AbstractGraphTest.validateGraph(graph.asGraph());
   }
 
   @Test
@@ -187,13 +187,9 @@ public final class ValueGraphTest {
 
     MutableValueGraph<Integer, String> otherGraph = ValueGraphBuilder.undirected().build();
     otherGraph.putEdgeValue(1, 2, "valueA");
-
     assertThat(Graphs.equivalent(graph, otherGraph)).isTrue();
-    assertThat(Graphs.equivalent((Graph<Integer>) graph, otherGraph)).isTrue();
 
     otherGraph.putEdgeValue(1, 2, "valueB");
-
     assertThat(Graphs.equivalent(graph, otherGraph)).isFalse(); // values differ
-    assertThat(Graphs.equivalent((Graph<Integer>) graph, otherGraph)).isTrue();
   }
 }

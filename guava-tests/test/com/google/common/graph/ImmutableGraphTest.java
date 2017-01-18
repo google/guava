@@ -30,9 +30,9 @@ public class ImmutableGraphTest {
   public void immutableGraph() {
     MutableGraph<String> mutableGraph = GraphBuilder.directed().build();
     mutableGraph.addNode("A");
-    Graph<String> immutableGraph = ImmutableGraph.copyOf(mutableGraph);
+    ImmutableGraph<String> immutableGraph = ImmutableGraph.copyOf(mutableGraph);
 
-    assertThat(immutableGraph instanceof MutableGraph).isFalse();
+    assertThat(immutableGraph).isNotInstanceOf(MutableValueGraph.class);
     assertThat(Graphs.equivalent(immutableGraph, mutableGraph)).isTrue();
 
     mutableGraph.addNode("B");
@@ -41,16 +41,17 @@ public class ImmutableGraphTest {
 
   @Test
   public void immutableValueGraph() {
-    MutableValueGraph<String, Integer> mutableGraph = ValueGraphBuilder.directed().build();
-    mutableGraph.addNode("A");
-    ValueGraph<String, Integer> immutableGraph = ImmutableValueGraph.copyOf(mutableGraph);
+    MutableValueGraph<String, Integer> mutableValueGraph = ValueGraphBuilder.directed().build();
+    mutableValueGraph.addNode("A");
+    ImmutableValueGraph<String, Integer> immutableValueGraph =
+        ImmutableValueGraph.copyOf(mutableValueGraph);
 
-    assertThat(immutableGraph).isInstanceOf(ImmutableGraph.class);
-    assertThat(immutableGraph instanceof MutableValueGraph).isFalse();
-    assertThat(Graphs.equivalent(immutableGraph, mutableGraph)).isTrue();
+    assertThat(immutableValueGraph.asGraph()).isInstanceOf(ImmutableGraph.class);
+    assertThat(immutableValueGraph).isNotInstanceOf(MutableValueGraph.class);
+    assertThat(Graphs.equivalent(immutableValueGraph, mutableValueGraph)).isTrue();
 
-    mutableGraph.addNode("B");
-    assertThat(Graphs.equivalent(immutableGraph, mutableGraph)).isFalse();
+    mutableValueGraph.addNode("B");
+    assertThat(Graphs.equivalent(immutableValueGraph, mutableValueGraph)).isFalse();
   }
 
   @Test

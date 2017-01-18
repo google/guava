@@ -19,7 +19,7 @@ package com.google.common.graph;
 import java.util.Set;
 
 /**
- * A class to allow {@link Graph} implementations to be backed by {@link ValueGraph}s. This is not
+ * A class to allow {@link Graph} implementations to be backed by another {@link Graph}. This is not
  * currently planned to be released as a general-purpose forwarding class.
  *
  * @author James Sexton

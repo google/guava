@@ -34,7 +34,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * Static utility methods for {@link Graph} and {@link Network} instances.
+ * Static utility methods for {@link Graph}, {@link ValueGraph}, and {@link Network} instances.
  *
  * @author James Sexton
  * @author Joshua O'Madadhain
