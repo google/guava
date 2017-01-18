@@ -187,9 +187,9 @@ public final class ValueGraphTest {
 
     MutableValueGraph<Integer, String> otherGraph = ValueGraphBuilder.undirected().build();
     otherGraph.putEdgeValue(1, 2, "valueA");
-    assertThat(Graphs.equivalent(graph, otherGraph)).isTrue();
+    assertThat(graph).isEqualTo(otherGraph);
 
     otherGraph.putEdgeValue(1, 2, "valueB");
-    assertThat(Graphs.equivalent(graph, otherGraph)).isFalse(); // values differ
+    assertThat(graph).isNotEqualTo(otherGraph); // values differ
   }
 }

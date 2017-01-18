@@ -182,22 +182,42 @@ public abstract class AbstractValueGraph<N, V> implements ValueGraph<N, V> {
     return value;
   }
 
+  @Override
+  public final boolean equals(@Nullable Object obj) {
+    if (obj == this) {
+      return true;
+    }
+    if (!(obj instanceof ValueGraph)) {
+      return false;
+    }
+    ValueGraph<?, ?> other = (ValueGraph<?, ?>) obj;
+
+    return isDirected() == other.isDirected()
+        && nodes().equals(other.nodes())
+        && edgeValueMap(this).equals(edgeValueMap(other));
+  }
+
+  @Override
+  public final int hashCode() {
+    return edgeValueMap(this).hashCode();
+  }
+
   /** Returns a string representation of this graph. */
   @Override
   public String toString() {
     String propertiesString =
         String.format("isDirected: %s, allowsSelfLoops: %s", isDirected(), allowsSelfLoops());
-    return String.format(GRAPH_STRING_FORMAT, propertiesString, nodes(), edgeValueMap());
+    return String.format(GRAPH_STRING_FORMAT, propertiesString, nodes(), edgeValueMap(this));
   }
 
-  private Map<EndpointPair<N>, V> edgeValueMap() {
+  private static <N, V> Map<EndpointPair<N>, V> edgeValueMap(final ValueGraph<N, V> graph) {
     Function<EndpointPair<N>, V> edgeToValueFn =
         new Function<EndpointPair<N>, V>() {
           @Override
           public V apply(EndpointPair<N> edge) {
-            return edgeValue(edge.nodeU(), edge.nodeV());
+            return graph.edgeValue(edge.nodeU(), edge.nodeV());
           }
         };
-    return Maps.asMap(edges(), edgeToValueFn);
+    return Maps.asMap(graph.edges(), edgeToValueFn);
   }
 }

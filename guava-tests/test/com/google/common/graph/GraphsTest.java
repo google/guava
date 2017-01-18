@@ -226,7 +226,7 @@ public class GraphsTest {
     expectedTranspose.putEdge(N4, N3);
 
     Graph<Integer> transpose = Graphs.transpose(directedGraph);
-    assertThat(Graphs.equivalent(transpose, expectedTranspose)).isTrue();
+    assertThat(transpose).isEqualTo(expectedTranspose);
     assertThat(transpose(transpose)).isSameAs(directedGraph);
     AbstractGraphTest.validateGraph(transpose);
 
@@ -264,7 +264,7 @@ public class GraphsTest {
     expectedTranspose.putEdgeValue(N4, N3, E34);
 
     ValueGraph<Integer, String> transpose = Graphs.transpose(directedGraph);
-    assertThat(Graphs.equivalent(transpose, expectedTranspose)).isTrue();
+    assertThat(transpose).isEqualTo(expectedTranspose);
     assertThat(transpose(transpose)).isSameAs(directedGraph);
     AbstractGraphTest.validateGraph(transpose.asGraph());
 
@@ -304,7 +304,7 @@ public class GraphsTest {
     expectedTranspose.addEdge(N4, N3, E34);
 
     Network<Integer, String> transpose = Graphs.transpose(directedGraph);
-    assertThat(Graphs.equivalent(transpose, expectedTranspose)).isTrue();
+    assertThat(transpose).isEqualTo(expectedTranspose);
     assertThat(transpose(transpose)).isSameAs(directedGraph);
     AbstractNetworkTest.validateNetwork(transpose);
 
@@ -331,8 +331,7 @@ public class GraphsTest {
     expectedSubgraph.putEdge(N2, N1);
     expectedSubgraph.putEdge(N4, N4);
 
-    assertThat(Graphs.equivalent(inducedSubgraph(directedGraph, nodeSubset), expectedSubgraph))
-        .isTrue();
+    assertThat(inducedSubgraph(directedGraph, nodeSubset)).isEqualTo(expectedSubgraph);
   }
 
   @Test
@@ -353,8 +352,7 @@ public class GraphsTest {
     expectedSubgraph.putEdgeValue(N2, N1, E21);
     expectedSubgraph.putEdgeValue(N4, N4, E44);
 
-    assertThat(Graphs.equivalent(inducedSubgraph(directedGraph, nodeSubset), expectedSubgraph))
-        .isTrue();
+    assertThat(inducedSubgraph(directedGraph, nodeSubset)).isEqualTo(expectedSubgraph);
   }
 
   @Test
@@ -375,8 +373,7 @@ public class GraphsTest {
     expectedSubgraph.addEdge(N2, N1, E21);
     expectedSubgraph.addEdge(N4, N4, E44);
 
-    assertThat(Graphs.equivalent(inducedSubgraph(directedGraph, nodeSubset), expectedSubgraph))
-        .isTrue();
+    assertThat(inducedSubgraph(directedGraph, nodeSubset)).isEqualTo(expectedSubgraph);
   }
 
   @Test
@@ -404,7 +401,7 @@ public class GraphsTest {
     Graph<Integer> directedGraph = buildDirectedGraph();
 
     Graph<Integer> copy = copyOf(directedGraph);
-    assertThat(Graphs.equivalent(copy, directedGraph)).isTrue();
+    assertThat(copy).isEqualTo(directedGraph);
   }
 
   @Test
@@ -412,7 +409,7 @@ public class GraphsTest {
     Graph<Integer> undirectedGraph = buildUndirectedGraph();
 
     Graph<Integer> copy = copyOf(undirectedGraph);
-    assertThat(Graphs.equivalent(copy, undirectedGraph)).isTrue();
+    assertThat(copy).isEqualTo(undirectedGraph);
   }
 
   @Test
@@ -420,7 +417,7 @@ public class GraphsTest {
     ValueGraph<Integer, String> directedGraph = buildDirectedValueGraph();
 
     ValueGraph<Integer, String> copy = copyOf(directedGraph);
-    assertThat(Graphs.equivalent(copy, directedGraph)).isTrue();
+    assertThat(copy).isEqualTo(directedGraph);
   }
 
   @Test
@@ -428,7 +425,7 @@ public class GraphsTest {
     ValueGraph<Integer, String> undirectedGraph = buildUndirectedValueGraph();
 
     ValueGraph<Integer, String> copy = copyOf(undirectedGraph);
-    assertThat(Graphs.equivalent(copy, undirectedGraph)).isTrue();
+    assertThat(copy).isEqualTo(undirectedGraph);
   }
 
   @Test
@@ -436,7 +433,7 @@ public class GraphsTest {
     Network<Integer, String> directedGraph = buildDirectedNetwork();
 
     Network<Integer, String> copy = copyOf(directedGraph);
-    assertThat(Graphs.equivalent(copy, directedGraph)).isTrue();
+    assertThat(copy).isEqualTo(directedGraph);
   }
 
   @Test
@@ -444,7 +441,7 @@ public class GraphsTest {
     Network<Integer, String> undirectedGraph = buildUndirectedNetwork();
 
     Network<Integer, String> copy = copyOf(undirectedGraph);
-    assertThat(Graphs.equivalent(copy, undirectedGraph)).isTrue();
+    assertThat(copy).isEqualTo(undirectedGraph);
   }
 
   // Graph creation tests
@@ -588,7 +585,7 @@ public class GraphsTest {
     for (N node : originalGraph.nodes()) {
       assertThat(reachableNodes(originalGraph, node)).isEqualTo(expectedClosure.successors(node));
     }
-    assertThat(Graphs.equivalent(transitiveClosure(originalGraph), expectedClosure)).isTrue();
+    assertThat(transitiveClosure(originalGraph)).isEqualTo(expectedClosure);
   }
 
   private static MutableGraph<Integer> buildDirectedGraph() {

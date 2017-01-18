@@ -104,6 +104,26 @@ public abstract class AbstractGraph<N> implements Graph<N> {
     return isDirected() ? successors(node).size() : degree(node);
   }
 
+  @Override
+  public final boolean equals(@Nullable Object obj) {
+    if (obj == this) {
+      return true;
+    }
+    if (!(obj instanceof Graph)) {
+      return false;
+    }
+    Graph<?> other = (Graph<?>) obj;
+
+    return isDirected() == other.isDirected()
+        && nodes().equals(other.nodes())
+        && edges().equals(other.edges());
+  }
+
+  @Override
+  public final int hashCode() {
+    return edges().hashCode();
+  }
+
   /** Returns a string representation of this graph. */
   @Override
   public String toString() {
