@@ -701,6 +701,39 @@ public final class Tables {
           return Collections.unmodifiableMap(input);
         }
       };
+      
+  /**
+   * Returns a synchronized (thread-safe) table backed by the specified table. In order to guarantee
+   * serial access, it is critical that <b>all</b> access to the backing table is accomplished
+   * through the returned table.
+   *
+   * <p>It is imperative that the user manually synchronize on the returned table when accessing any
+   * of its collection views:
+   *
+   * <pre>{@code
+   * Table<R, C, V> table = Tables.synchronizedTable(HashBasedTable.<R, C, V>create());
+   * ...
+   * Map<C, V> row = table.row(rowKey);  // Needn't be in synchronized block
+   * ...
+   * synchronized (table) {  // Synchronizing on table, not row!
+   *   Iterator<Map.Entry<C, V>> i = row.entrySet().iterator(); // Must be in synchronized block
+   *   while (i.hasNext()) {
+   *     foo(i.next());
+   *   }
+   * }
+   * }</pre>
+   *
+   * <p>Failure to follow this advice may result in non-deterministic behavior.
+   *
+   * <p>The returned table will be serializable if the specified table is serializable.
+   *
+   * @param table the table to be wrapped in a synchronized view
+   * @return a synchronized view of the specified table
+   * @since 22.0
+   */
+  public static <R, C, V> Table<R, C, V> synchronizedTable(Table<R, C, V> table) {
+    return Synchronized.table(table, null);
+  }
 
   static boolean equalsImpl(Table<?, ?, ?> table, @Nullable Object obj) {
     if (obj == table) {
