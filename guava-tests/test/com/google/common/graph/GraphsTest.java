@@ -225,7 +225,7 @@ public class GraphsTest {
     expectedTranspose.putEdge(N1, N1);
     expectedTranspose.putEdge(N4, N3);
 
-    Graph<Integer> transpose = Graphs.transpose(directedGraph);
+    Graph<Integer> transpose = transpose(directedGraph);
     assertThat(transpose).isEqualTo(expectedTranspose);
     assertThat(transpose(transpose)).isSameAs(directedGraph);
     AbstractGraphTest.validateGraph(transpose);
@@ -263,7 +263,7 @@ public class GraphsTest {
     expectedTranspose.putEdgeValue(N1, N1, E11);
     expectedTranspose.putEdgeValue(N4, N3, E34);
 
-    ValueGraph<Integer, String> transpose = Graphs.transpose(directedGraph);
+    ValueGraph<Integer, String> transpose = transpose(directedGraph);
     assertThat(transpose).isEqualTo(expectedTranspose);
     assertThat(transpose(transpose)).isSameAs(directedGraph);
     AbstractGraphTest.validateGraph(transpose.asGraph());
@@ -303,7 +303,7 @@ public class GraphsTest {
     expectedTranspose.addEdge(N1, N1, E11);
     expectedTranspose.addEdge(N4, N3, E34);
 
-    Network<Integer, String> transpose = Graphs.transpose(directedGraph);
+    Network<Integer, String> transpose = transpose(directedGraph);
     assertThat(transpose).isEqualTo(expectedTranspose);
     assertThat(transpose(transpose)).isSameAs(directedGraph);
     AbstractNetworkTest.validateNetwork(transpose);
