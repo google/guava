@@ -30,17 +30,15 @@ import com.google.common.graph.GraphConstants.Presence;
  */
 final class ConfigurableMutableGraph<N> extends ForwardingGraph<N> implements MutableGraph<N> {
   private final MutableValueGraph<N, Presence> backingValueGraph;
-  private final Graph<N> backingGraph; // cache of backingValueGraph.asGraph()
 
   /** Constructs a {@link MutableGraph} with the properties specified in {@code builder}. */
   ConfigurableMutableGraph(AbstractGraphBuilder<? super N> builder) {
     this.backingValueGraph = new ConfigurableMutableValueGraph<N, Presence>(builder);
-    this.backingGraph = backingValueGraph.asGraph();
   }
 
   @Override
-  protected Graph<N> delegate() {
-    return backingGraph;
+  protected BaseGraph<N> delegate() {
+    return backingValueGraph;
   }
 
   @Override
