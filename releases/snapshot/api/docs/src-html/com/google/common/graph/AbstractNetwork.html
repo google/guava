@@ -158,27 +158,48 @@
 <span class="sourceLineNo">150</span>    return Sets.difference(endpointPairIncidentEdges, ImmutableSet.of(edge));<a name="line.150"></a>
 <span class="sourceLineNo">151</span>  }<a name="line.151"></a>
 <span class="sourceLineNo">152</span><a name="line.152"></a>
-<span class="sourceLineNo">153</span>  /** Returns a string representation of this network. */<a name="line.153"></a>
-<span class="sourceLineNo">154</span>  @Override<a name="line.154"></a>
-<span class="sourceLineNo">155</span>  public String toString() {<a name="line.155"></a>
-<span class="sourceLineNo">156</span>    String propertiesString =<a name="line.156"></a>
-<span class="sourceLineNo">157</span>        String.format(<a name="line.157"></a>
-<span class="sourceLineNo">158</span>            "isDirected: %s, allowsParallelEdges: %s, allowsSelfLoops: %s",<a name="line.158"></a>
-<span class="sourceLineNo">159</span>            isDirected(), allowsParallelEdges(), allowsSelfLoops());<a name="line.159"></a>
-<span class="sourceLineNo">160</span>    return String.format(GRAPH_STRING_FORMAT, propertiesString, nodes(), edgeIncidentNodesMap());<a name="line.160"></a>
-<span class="sourceLineNo">161</span>  }<a name="line.161"></a>
+<span class="sourceLineNo">153</span>  @Override<a name="line.153"></a>
+<span class="sourceLineNo">154</span>  public final boolean equals(@Nullable Object obj) {<a name="line.154"></a>
+<span class="sourceLineNo">155</span>    if (obj == this) {<a name="line.155"></a>
+<span class="sourceLineNo">156</span>      return true;<a name="line.156"></a>
+<span class="sourceLineNo">157</span>    }<a name="line.157"></a>
+<span class="sourceLineNo">158</span>    if (!(obj instanceof Network)) {<a name="line.158"></a>
+<span class="sourceLineNo">159</span>      return false;<a name="line.159"></a>
+<span class="sourceLineNo">160</span>    }<a name="line.160"></a>
+<span class="sourceLineNo">161</span>    Network&lt;?, ?&gt; other = (Network&lt;?, ?&gt;) obj;<a name="line.161"></a>
 <span class="sourceLineNo">162</span><a name="line.162"></a>
-<span class="sourceLineNo">163</span>  private Map&lt;E, EndpointPair&lt;N&gt;&gt; edgeIncidentNodesMap() {<a name="line.163"></a>
-<span class="sourceLineNo">164</span>    Function&lt;E, EndpointPair&lt;N&gt;&gt; edgeToIncidentNodesFn =<a name="line.164"></a>
-<span class="sourceLineNo">165</span>        new Function&lt;E, EndpointPair&lt;N&gt;&gt;() {<a name="line.165"></a>
-<span class="sourceLineNo">166</span>          @Override<a name="line.166"></a>
-<span class="sourceLineNo">167</span>          public EndpointPair&lt;N&gt; apply(E edge) {<a name="line.167"></a>
-<span class="sourceLineNo">168</span>            return incidentNodes(edge);<a name="line.168"></a>
-<span class="sourceLineNo">169</span>          }<a name="line.169"></a>
-<span class="sourceLineNo">170</span>        };<a name="line.170"></a>
-<span class="sourceLineNo">171</span>    return Maps.asMap(edges(), edgeToIncidentNodesFn);<a name="line.171"></a>
-<span class="sourceLineNo">172</span>  }<a name="line.172"></a>
-<span class="sourceLineNo">173</span>}<a name="line.173"></a>
+<span class="sourceLineNo">163</span>    return isDirected() == other.isDirected()<a name="line.163"></a>
+<span class="sourceLineNo">164</span>        &amp;&amp; nodes().equals(other.nodes())<a name="line.164"></a>
+<span class="sourceLineNo">165</span>        &amp;&amp; edgeIncidentNodesMap(this).equals(edgeIncidentNodesMap(other));<a name="line.165"></a>
+<span class="sourceLineNo">166</span>  }<a name="line.166"></a>
+<span class="sourceLineNo">167</span><a name="line.167"></a>
+<span class="sourceLineNo">168</span>  @Override<a name="line.168"></a>
+<span class="sourceLineNo">169</span>  public final int hashCode() {<a name="line.169"></a>
+<span class="sourceLineNo">170</span>    return edgeIncidentNodesMap(this).hashCode();<a name="line.170"></a>
+<span class="sourceLineNo">171</span>  }<a name="line.171"></a>
+<span class="sourceLineNo">172</span><a name="line.172"></a>
+<span class="sourceLineNo">173</span>  /** Returns a string representation of this network. */<a name="line.173"></a>
+<span class="sourceLineNo">174</span>  @Override<a name="line.174"></a>
+<span class="sourceLineNo">175</span>  public String toString() {<a name="line.175"></a>
+<span class="sourceLineNo">176</span>    String propertiesString =<a name="line.176"></a>
+<span class="sourceLineNo">177</span>        String.format(<a name="line.177"></a>
+<span class="sourceLineNo">178</span>            "isDirected: %s, allowsParallelEdges: %s, allowsSelfLoops: %s",<a name="line.178"></a>
+<span class="sourceLineNo">179</span>            isDirected(), allowsParallelEdges(), allowsSelfLoops());<a name="line.179"></a>
+<span class="sourceLineNo">180</span>    return String.format(<a name="line.180"></a>
+<span class="sourceLineNo">181</span>        GRAPH_STRING_FORMAT, propertiesString, nodes(), edgeIncidentNodesMap(this));<a name="line.181"></a>
+<span class="sourceLineNo">182</span>  }<a name="line.182"></a>
+<span class="sourceLineNo">183</span><a name="line.183"></a>
+<span class="sourceLineNo">184</span>  private static &lt;N, E&gt; Map&lt;E, EndpointPair&lt;N&gt;&gt; edgeIncidentNodesMap(final Network&lt;N, E&gt; network) {<a name="line.184"></a>
+<span class="sourceLineNo">185</span>    Function&lt;E, EndpointPair&lt;N&gt;&gt; edgeToIncidentNodesFn =<a name="line.185"></a>
+<span class="sourceLineNo">186</span>        new Function&lt;E, EndpointPair&lt;N&gt;&gt;() {<a name="line.186"></a>
+<span class="sourceLineNo">187</span>          @Override<a name="line.187"></a>
+<span class="sourceLineNo">188</span>          public EndpointPair&lt;N&gt; apply(E edge) {<a name="line.188"></a>
+<span class="sourceLineNo">189</span>            return network.incidentNodes(edge);<a name="line.189"></a>
+<span class="sourceLineNo">190</span>          }<a name="line.190"></a>
+<span class="sourceLineNo">191</span>        };<a name="line.191"></a>
+<span class="sourceLineNo">192</span>    return Maps.asMap(network.edges(), edgeToIncidentNodesFn);<a name="line.192"></a>
+<span class="sourceLineNo">193</span>  }<a name="line.193"></a>
+<span class="sourceLineNo">194</span>}<a name="line.194"></a>
 
 
 

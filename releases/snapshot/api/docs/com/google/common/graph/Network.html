@@ -269,14 +269,14 @@ public interface <a href="../../../../src-html/com/google/common/graph/Network.h
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#equals-java.lang.Object-">equals</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</code>
-<div class="block">For the default <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> implementations, returns true if <code>this == object</code>
- (reference equality).</div>
+<div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> that has the same elements and the
+ same structural relationships as those in this network.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#hashCode--">hashCode</a></span>()</code>
-<div class="block">For the default <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> implementations, returns <code>System.identityHashCode(this)</code>.</div>
+<div class="block">Returns the hash code for this network.</div>
 </td>
 </tr>
 <tr id="i11" class="rowColor">
@@ -685,14 +685,26 @@ public interface <a href="../../../../src-html/com/google/common/graph/Network.h
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.299">equals</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.311">equals</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
-<div class="block">For the default <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> implementations, returns true if <code>this == object</code>
- (reference equality). External implementations are free to define this method as they see fit,
- as long as they satisfy the <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang"><code>Object.equals(Object)</code></a> contract.
+<div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> that has the same elements and the
+ same structural relationships as those in this network.
 
- <p>To compare two <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a>s based on their contents rather than their references, see
- <a href="../../../../com/google/common/graph/Graphs.html#equivalent-com.google.common.graph.Network-com.google.common.graph.Network-"><code>Graphs.equivalent(Network, Network)</code></a>.</div>
+ <p>Thus, two networks A and B are equal if <b>all</b> of the following are true:
+
+ <ul>
+ <li>A and B have equal <a href="../../../../com/google/common/graph/Network.html#isDirected--"><code>directedness</code></a>.
+ <li>A and B have equal <a href="../../../../com/google/common/graph/Network.html#nodes--"><code>node sets</code></a>.
+ <li>A and B have equal <a href="../../../../com/google/common/graph/Network.html#edges--"><code>edge sets</code></a>.
+ <li>Every edge in A and B connects the same nodes in the same direction (if any).
+ </ul>
+
+ <p>Network properties besides <a href="../../../../com/google/common/graph/Network.html#isDirected--"><code>directedness</code></a> do <b>not</b> affect equality.
+ For example, two networks may be considered equal even if one allows parallel edges and the
+ other doesn't. Additionally, the order in which nodes or edges are added to the network, and
+ the order in which they are iterated over, are irrelevant.
+
+ <p>A reference implementation of this is provided by <a href="../../../../com/google/common/graph/AbstractNetwork.html#equals-java.lang.Object-"><code>AbstractNetwork.equals(Object)</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">equals</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
@@ -705,10 +717,11 @@ public interface <a href="../../../../src-html/com/google/common/graph/Network.h
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.307">hashCode</a>()</pre>
-<div class="block">For the default <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> implementations, returns <code>System.identityHashCode(this)</code>.
- External implementations are free to define this method as they see fit, as long as they
- satisfy the <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang"><code>Object.hashCode()</code></a> contract.</div>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.321">hashCode</a>()</pre>
+<div class="block">Returns the hash code for this network. The hash code of a network is defined as the hash code
+ of a map from each of its <a href="../../../../com/google/common/graph/Network.html#edges--"><code>edges</code></a> to their <a href="../../../../com/google/common/graph/Network.html#incidentNodes-java.lang.Object-"><code>incident nodes</code></a>.
+
+ <p>A reference implementation of this is provided by <a href="../../../../com/google/common/graph/AbstractNetwork.html#hashCode--"><code>AbstractNetwork.hashCode()</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>

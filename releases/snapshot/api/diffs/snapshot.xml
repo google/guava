@@ -37308,7 +37308,7 @@
 </package>
 <package name="com.google.common.graph">
   <!-- start class com.google.common.graph.AbstractGraph -->
-  <class name="AbstractGraph" extends="java.lang.Object"
+  <class name="AbstractGraph" extends="com.google.common.graph.AbstractBaseGraph&lt;N&gt;"
     abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
@@ -37317,42 +37317,16 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </constructor>
-    <method name="edgeCount" return="long"
+    <method name="equals" return="boolean"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="protected"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns the number of edges in this graph; used to calculate the size of {@link #edges()}. The
- default implementation is O(|N|). You can manually keep track of the number of edges and
- override this method for better performance.]]>
-      </doc>
+      <param name="obj" type="java.lang.Object"/>
     </method>
-    <method name="edges" return="java.util.Set&lt;com.google.common.graph.EndpointPair&lt;N&gt;&gt;"
+    <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
-      <doc>
-      <![CDATA[A reasonable default implementation of {@link Graph#edges()} defined in terms of {@link
- #nodes()} and {@link #successors(Object)}.]]>
-      </doc>
-    </method>
-    <method name="degree" return="int"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
-    </method>
-    <method name="inDegree" return="int"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
-    </method>
-    <method name="outDegree" return="int"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
     </method>
     <method name="toString" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
@@ -37411,6 +37385,17 @@
       deprecated="not deprecated">
       <param name="edge" type="java.lang.Object"/>
     </method>
+    <method name="equals" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="java.lang.Object"/>
+    </method>
+    <method name="hashCode" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+    </method>
     <method name="toString" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -37431,7 +37416,7 @@
   </class>
   <!-- end class com.google.common.graph.AbstractNetwork -->
   <!-- start class com.google.common.graph.AbstractValueGraph -->
-  <class name="AbstractValueGraph" extends="com.google.common.graph.AbstractGraph&lt;N&gt;"
+  <class name="AbstractValueGraph" extends="com.google.common.graph.AbstractBaseGraph&lt;N&gt;"
     abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
@@ -37440,12 +37425,28 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </constructor>
+    <method name="asGraph" return="com.google.common.graph.Graph&lt;N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+    </method>
     <method name="edgeValue" return="V"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="nodeU" type="java.lang.Object"/>
       <param name="nodeV" type="java.lang.Object"/>
+    </method>
+    <method name="equals" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="java.lang.Object"/>
+    </method>
+    <method name="hashCode" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
     </method>
     <method name="toString" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
@@ -37712,12 +37713,13 @@
   <interface name="Graph"    abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
+    <implements name="com.google.common.graph.BaseGraph&lt;N&gt;"/>
     <method name="nodes" return="java.util.Set&lt;N&gt;"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns all nodes in this graph, in the order specified by {@link #nodeOrder()}.]]>
+      <![CDATA[{@inheritDoc}]]>
       </doc>
     </method>
     <method name="edges" return="java.util.Set&lt;com.google.common.graph.EndpointPair&lt;N&gt;&gt;"
@@ -37725,7 +37727,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns all edges in this graph.]]>
+      <![CDATA[{@inheritDoc}]]>
       </doc>
     </method>
     <method name="isDirected" return="boolean"
@@ -37733,9 +37735,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns true if the edges in this graph are directed. Directed edges connect a {@link
- EndpointPair#source() source node} to a {@link EndpointPair#target() target node}, while
- undirected edges connect a pair of nodes to each other.]]>
+      <![CDATA[{@inheritDoc}]]>
       </doc>
     </method>
     <method name="allowsSelfLoops" return="boolean"
@@ -37743,9 +37743,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns true if this graph allows self-loops (edges that connect a node to itself). Attempting
- to add a self-loop to a graph that does not allow them will throw an {@link
- UnsupportedOperationException}.]]>
+      <![CDATA[{@inheritDoc}]]>
       </doc>
     </method>
     <method name="nodeOrder" return="com.google.common.graph.ElementOrder&lt;N&gt;"
@@ -37753,7 +37751,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns the order of iteration for the elements of {@link #nodes()}.]]>
+      <![CDATA[{@inheritDoc}]]>
       </doc>
     </method>
     <method name="adjacentNodes" return="java.util.Set&lt;N&gt;"
@@ -37762,9 +37760,7 @@
       deprecated="not deprecated">
       <param name="node" type="java.lang.Object"/>
       <doc>
-      <![CDATA[Returns the nodes which have an incident edge in common with {@code node} in this graph.
-
- @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
+      <![CDATA[{@inheritDoc}]]>
       </doc>
     </method>
     <method name="predecessors" return="java.util.Set&lt;N&gt;"
@@ -37773,12 +37769,7 @@
       deprecated="not deprecated">
       <param name="node" type="java.lang.Object"/>
       <doc>
-      <![CDATA[Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
- {@code node}'s incoming edges <i>against</i> the direction (if any) of the edge.
-
- <p>In an undirected graph, this is equivalent to {@link #adjacentNodes(Object)}.
-
- @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
+      <![CDATA[{@inheritDoc}]]>
       </doc>
     </method>
     <method name="successors" return="java.util.Set&lt;N&gt;"
@@ -37787,15 +37778,7 @@
       deprecated="not deprecated">
       <param name="node" type="java.lang.Object"/>
       <doc>
-      <![CDATA[Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
- {@code node}'s outgoing edges in the direction (if any) of the edge.
-
- <p>In an undirected graph, this is equivalent to {@link #adjacentNodes(Object)}.
-
- <p>This is <i>not</i> the same as "all nodes reachable from {@code node} by following outgoing
- edges". For that functionality, see {@link Graphs#reachableNodes(Graph, Object)}.
-
- @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
+      <![CDATA[{@inheritDoc}]]>
       </doc>
     </method>
     <method name="degree" return="int"
@@ -37804,17 +37787,7 @@
       deprecated="not deprecated">
       <param name="node" type="java.lang.Object"/>
       <doc>
-      <![CDATA[Returns the count of {@code node}'s incident edges, counting self-loops twice (equivalently,
- the number of times an edge touches {@code node}).
-
- <p>For directed graphs, this is equal to {@code inDegree(node) + outDegree(node)}.
-
- <p>For undirected graphs, this is equal to {@code adjacentNodes(node).size()} + (1 if {@code
- node} has an incident self-loop, 0 otherwise).
-
- <p>If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.
-
- @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
+      <![CDATA[{@inheritDoc}]]>
       </doc>
     </method>
     <method name="inDegree" return="int"
@@ -37823,12 +37796,7 @@
       deprecated="not deprecated">
       <param name="node" type="java.lang.Object"/>
       <doc>
-      <![CDATA[Returns the count of {@code node}'s incoming edges (equal to {@code predecessors(node).size()})
- in a directed graph. In an undirected graph, returns the {@link #degree(Object)}.
-
- <p>If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.
-
- @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
+      <![CDATA[{@inheritDoc}]]>
       </doc>
     </method>
     <method name="outDegree" return="int"
@@ -37837,12 +37805,7 @@
       deprecated="not deprecated">
       <param name="node" type="java.lang.Object"/>
       <doc>
-      <![CDATA[Returns the count of {@code node}'s outgoing edges (equal to {@code successors(node).size()})
- in a directed graph. In an undirected graph, returns the {@link #degree(Object)}.
-
- <p>If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.
-
- @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
+      <![CDATA[{@inheritDoc}]]>
       </doc>
     </method>
     <method name="equals" return="boolean"
@@ -37851,12 +37814,23 @@
       deprecated="not deprecated">
       <param name="object" type="java.lang.Object"/>
       <doc>
-      <![CDATA[For the default {@link Graph} implementations, returns true if {@code this == object}
- (reference equality). External implementations are free to define this method as they see fit,
- as long as they satisfy the {@link Object#equals(Object)} contract.
+      <![CDATA[Returns {@code true} iff {@code object} is a {@link Graph} that has the same elements and the
+ same structural relationships as those in this graph.
 
- <p>To compare two {@link Graph}s based on their contents rather than their references, see
- {@link Graphs#equivalent(Graph, Graph)}.]]>
+ <p>Thus, two graphs A and B are equal if <b>all</b> of the following are true:
+
+ <ul>
+ <li>A and B have equal {@link #isDirected() directedness}.
+ <li>A and B have equal {@link #nodes() node sets}.
+ <li>A and B have equal {@link #edges() edge sets}.
+ </ul>
+
+ <p>Graph properties besides {@link #isDirected() directedness} do <b>not</b> affect equality.
+ For example, two graphs may be considered equal even if one allows self-loops and the other
+ doesn't. Additionally, the order in which nodes or edges are added to the graph, and the order
+ in which they are iterated over, are irrelevant.
+
+ <p>A reference implementation of this is provided by {@link AbstractGraph#equals(Object)}.]]>
       </doc>
     </method>
     <method name="hashCode" return="int"
@@ -37864,9 +37838,10 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[For the default {@link Graph} implementations, returns {@code System.identityHashCode(this)}.
- External implementations are free to define this method as they see fit, as long as they
- satisfy the {@link Object#hashCode()} contract.]]>
+      <![CDATA[Returns the hash code for this graph. The hash code of a graph is defined as the hash code of
+ the set returned by {@link #edges()}.
+
+ <p>A reference implementation of this is provided by {@link AbstractGraph#hashCode()}.]]>
       </doc>
     </method>
     <doc>
@@ -38115,81 +38090,35 @@
     <method name="equivalent" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link Graph#equals(Object)} instead. This method will be removed in late 2017.">
       <param name="graphA" type="com.google.common.graph.Graph&lt;?&gt;"/>
       <param name="graphB" type="com.google.common.graph.Graph&lt;?&gt;"/>
       <doc>
-      <![CDATA[Returns {@code true} if {@code graphA} and {@code graphB} have the same elements and the same
- relationships between elements, as exposed via the {@link Graph} interface.
-
- <p>Thus, two graphs A and B are equivalent if both are null or <b>all</b> of the following are
- true:
-
- <ul>
- <li>A and B have equal {@link Graph#isDirected() directedness}.
- <li>A and B have equal {@link Graph#nodes() node sets}.
- <li>A and B have equal {@link Graph#edges() edge sets}.
- </ul>
-
- <p>Graph properties besides {@link Graph#isDirected() directedness} do <b>not</b> affect
- equivalence. For example, two graphs may be considered equivalent even if one allows self-loops
- and the other doesn't. Additionally, the order in which nodes or edges are added to the graph,
- and the order in which they are iterated over, are irrelevant.]]>
+      <![CDATA[@deprecated Use {@link Graph#equals(Object)} instead. This method will be removed in late 2017.]]>
       </doc>
     </method>
     <method name="equivalent" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link ValueGraph#equals(Object)} instead. This method will be removed in late
+ 2017.">
       <param name="graphA" type="com.google.common.graph.ValueGraph&lt;?, ?&gt;"/>
       <param name="graphB" type="com.google.common.graph.ValueGraph&lt;?, ?&gt;"/>
       <doc>
-      <![CDATA[Returns {@code true} if {@code graphA} and {@code graphB} have the same elements (including
- edge values) and the same relationships between elements, as exposed via the {@link ValueGraph}
- interface.
-
- <p>Thus, two value graphs A and B are equivalent if both are null or <b>all</b> of the
- following are true:
-
- <ul>
- <li>A and B have equal {@link Graph#isDirected() directedness}.
- <li>A and B have equal {@link Graph#nodes() node sets}.
- <li>A and B have equal {@link Graph#edges() edge sets}.
- <li>Each edge in A has a {@link ValueGraph#edgeValue(Object, Object) value} equal to the {@link
-     ValueGraph#edgeValue(Object, Object) value} of the corresponding edge in B.
- </ul>
-
- <p>Graph properties besides {@link Graph#isDirected() directedness} do <b>not</b> affect
- equivalence. For example, two graphs may be considered equivalent even if one allows self-loops
- and the other doesn't. Additionally, the order in which nodes or edges are added to the graph,
- and the order in which they are iterated over, are irrelevant.]]>
+      <![CDATA[@deprecated Use {@link ValueGraph#equals(Object)} instead. This method will be removed in late
+ 2017.]]>
       </doc>
     </method>
     <method name="equivalent" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link Network#equals(Object)} instead. This method will be removed in late
+ 2017.">
       <param name="networkA" type="com.google.common.graph.Network&lt;?, ?&gt;"/>
       <param name="networkB" type="com.google.common.graph.Network&lt;?, ?&gt;"/>
       <doc>
-      <![CDATA[Returns {@code true} if {@code networkA} and {@code networkB} have the same elements and the
- same relationships between elements, as exposed via the {@link Network} interface.
-
- <p>Thus, two networks A and B are equivalent if both are null or <b>all</b> of the following
- are true:
-
- <ul>
- <li>A and B have equal {@link Network#isDirected() directedness}.
- <li>A and B have equal {@link Network#nodes() node sets}.
- <li>A and B have equal {@link Network#edges() edge sets}.
- <li>Each edge in A connects the same nodes in the same direction (if any) as the corresponding
-     edge in B.
- </ul>
-
- <p>Network properties besides {@link Network#isDirected() directedness} do <b>not</b> affect
- equivalence. For example, two networks may be considered equal even if one allows parallel
- edges and the other doesn't. Additionally, the order in which nodes or edges are added to the
- network, and the order in which they are iterated over, are irrelevant.]]>
+      <![CDATA[@deprecated Use {@link Network#equals(Object)} instead. This method will be removed in late
+ 2017.]]>
       </doc>
     </method>
     <method name="transpose" return="com.google.common.graph.Graph&lt;N&gt;"
@@ -38294,7 +38223,7 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[Static utility methods for {@link Graph} and {@link Network} instances.
+    <![CDATA[Static utility methods for {@link Graph}, {@link ValueGraph}, and {@link Network} instances.
 
  @author James Sexton
  @author Joshua O'Madadhain
@@ -38304,7 +38233,7 @@
   <!-- end class com.google.common.graph.Graphs -->
   <!-- start class com.google.common.graph.ImmutableGraph -->
   <class name="ImmutableGraph" extends="com.google.common.graph.ForwardingGraph&lt;N&gt;"
-    abstract="true"
+    abstract="false"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
     <method name="copyOf" return="com.google.common.graph.ImmutableGraph&lt;N&gt;"
@@ -38326,6 +38255,11 @@
 
  @deprecated no need to use this]]>
       </doc>
+    </method>
+    <method name="delegate" return="com.google.common.graph.BaseGraph&lt;N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="protected"
+      deprecated="not deprecated">
     </method>
     <doc>
     <![CDATA[A {@link Graph} whose elements and structural relationships will never change. Instances of this
@@ -38393,11 +38327,10 @@
   </class>
   <!-- end class com.google.common.graph.ImmutableNetwork -->
   <!-- start class com.google.common.graph.ImmutableValueGraph -->
-  <class name="ImmutableValueGraph" extends="com.google.common.graph.ImmutableGraph.ValueBackedImpl&lt;N, V&gt;"
+  <class name="ImmutableValueGraph" extends="com.google.common.graph.ConfigurableValueGraph&lt;N, V&gt;"
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
-    <implements name="com.google.common.graph.ValueGraph&lt;N, V&gt;"/>
     <method name="copyOf" return="com.google.common.graph.ImmutableValueGraph&lt;N, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -38418,22 +38351,7 @@
  @deprecated no need to use this]]>
       </doc>
     </method>
-    <method name="edgeValue" return="V"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="nodeU" type="java.lang.Object"/>
-      <param name="nodeV" type="java.lang.Object"/>
-    </method>
-    <method name="edgeValueOrDefault" return="V"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="nodeU" type="java.lang.Object"/>
-      <param name="nodeV" type="java.lang.Object"/>
-      <param name="defaultValue" type="V"/>
-    </method>
-    <method name="toString" return="java.lang.String"
+    <method name="asGraph" return="com.google.common.graph.ImmutableGraph&lt;N&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -38942,12 +38860,24 @@
       deprecated="not deprecated">
       <param name="object" type="java.lang.Object"/>
       <doc>
-      <![CDATA[For the default {@link Network} implementations, returns true if {@code this == object}
- (reference equality). External implementations are free to define this method as they see fit,
- as long as they satisfy the {@link Object#equals(Object)} contract.
+      <![CDATA[Returns {@code true} iff {@code object} is a {@link Network} that has the same elements and the
+ same structural relationships as those in this network.
 
- <p>To compare two {@link Network}s based on their contents rather than their references, see
- {@link Graphs#equivalent(Network, Network)}.]]>
+ <p>Thus, two networks A and B are equal if <b>all</b> of the following are true:
+
+ <ul>
+ <li>A and B have equal {@link #isDirected() directedness}.
+ <li>A and B have equal {@link #nodes() node sets}.
+ <li>A and B have equal {@link #edges() edge sets}.
+ <li>Every edge in A and B connects the same nodes in the same direction (if any).
+ </ul>
+
+ <p>Network properties besides {@link #isDirected() directedness} do <b>not</b> affect equality.
+ For example, two networks may be considered equal even if one allows parallel edges and the
+ other doesn't. Additionally, the order in which nodes or edges are added to the network, and
+ the order in which they are iterated over, are irrelevant.
+
+ <p>A reference implementation of this is provided by {@link AbstractNetwork#equals(Object)}.]]>
       </doc>
     </method>
     <method name="hashCode" return="int"
@@ -38955,9 +38885,11 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[For the default {@link Network} implementations, returns {@code System.identityHashCode(this)}.
- External implementations are free to define this method as they see fit, as long as they
- satisfy the {@link Object#hashCode()} contract.]]>
+      <![CDATA[Returns the hash code for this network. The hash code of a network is defined as the hash code
+ of a map from each of its {@link #edges() edges} to their {@link #incidentNodes(Object)
+ incident nodes}.
+
+ <p>A reference implementation of this is provided by {@link AbstractNetwork#hashCode()}.]]>
       </doc>
     </method>
     <doc>
@@ -39178,7 +39110,110 @@
   <interface name="ValueGraph"    abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
-    <implements name="com.google.common.graph.Graph&lt;N&gt;"/>
+    <implements name="com.google.common.graph.BaseGraph&lt;N&gt;"/>
+    <method name="nodes" return="java.util.Set&lt;N&gt;"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[{@inheritDoc}]]>
+      </doc>
+    </method>
+    <method name="edges" return="java.util.Set&lt;com.google.common.graph.EndpointPair&lt;N&gt;&gt;"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[{@inheritDoc}]]>
+      </doc>
+    </method>
+    <method name="asGraph" return="com.google.common.graph.Graph&lt;N&gt;"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a live view of this graph as a {@link Graph}. The resulting {@link Graph} will have an
+ edge connecting node A to node B if this {@link ValueGraph} has an edge connecting A to B.]]>
+      </doc>
+    </method>
+    <method name="isDirected" return="boolean"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[{@inheritDoc}]]>
+      </doc>
+    </method>
+    <method name="allowsSelfLoops" return="boolean"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[{@inheritDoc}]]>
+      </doc>
+    </method>
+    <method name="nodeOrder" return="com.google.common.graph.ElementOrder&lt;N&gt;"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[{@inheritDoc}]]>
+      </doc>
+    </method>
+    <method name="adjacentNodes" return="java.util.Set&lt;N&gt;"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="node" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[{@inheritDoc}]]>
+      </doc>
+    </method>
+    <method name="predecessors" return="java.util.Set&lt;N&gt;"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="node" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[{@inheritDoc}]]>
+      </doc>
+    </method>
+    <method name="successors" return="java.util.Set&lt;N&gt;"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="node" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[{@inheritDoc}]]>
+      </doc>
+    </method>
+    <method name="degree" return="int"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="node" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[{@inheritDoc}]]>
+      </doc>
+    </method>
+    <method name="inDegree" return="int"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="node" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[{@inheritDoc}]]>
+      </doc>
+    </method>
+    <method name="outDegree" return="int"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="node" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[{@inheritDoc}]]>
+      </doc>
+    </method>
     <method name="edgeValue" return="V"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -39215,12 +39250,24 @@
       deprecated="not deprecated">
       <param name="object" type="java.lang.Object"/>
       <doc>
-      <![CDATA[For the default {@link ValueGraph} implementations, returns true if {@code this == object}
- (reference equality). External implementations are free to define this method as they see fit,
- as long as they satisfy the {@link Object#equals(Object)} contract.
+      <![CDATA[Returns {@code true} iff {@code object} is a {@link ValueGraph} that has the same elements and
+ the same structural relationships as those in this graph.
 
- <p>To compare two {@link ValueGraph}s based on their contents rather than their references, see
- {@link Graphs#equivalent(ValueGraph, ValueGraph)}.]]>
+ <p>Thus, two value graphs A and B are equal if <b>all</b> of the following are true:
+
+ <ul>
+ <li>A and B have equal {@link #isDirected() directedness}.
+ <li>A and B have equal {@link #nodes() node sets}.
+ <li>A and B have equal {@link #edges() edge sets}.
+ <li>Every edge in A and B are associated with equal {@link #edgeValue(Object, Object) values}.
+ </ul>
+
+ <p>Graph properties besides {@link #isDirected() directedness} do <b>not</b> affect equality.
+ For example, two graphs may be considered equal even if one allows self-loops and the other
+ doesn't. Additionally, the order in which nodes or edges are added to the graph, and the order
+ in which they are iterated over, are irrelevant.
+
+ <p>A reference implementation of this is provided by {@link AbstractValueGraph#equals(Object)}.]]>
       </doc>
     </method>
     <method name="hashCode" return="int"
@@ -39228,9 +39275,11 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[For the default {@link ValueGraph} implementations, returns {@code
- System.identityHashCode(this)}. External implementations are free to define this method as they
- see fit, as long as they satisfy the {@link Object#hashCode()} contract.]]>
+      <![CDATA[Returns the hash code for this graph. The hash code of a graph is defined as the hash code of a
+ map from each of its {@link #edges() edges} to the associated {@link #edgeValue(Object, Object)
+ edge value}.
+
+ <p>A reference implementation of this is provided by {@link AbstractValueGraph#hashCode()}.]]>
       </doc>
     </method>
     <doc>
@@ -39345,14 +39394,14 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.Graph&lt;N&gt;"/>
+      <param name="graph" type="com.google.common.graph.ValueGraph&lt;N, ?&gt;"/>
       <doc>
       <![CDATA[Returns a {@link ValueGraphBuilder} initialized with all properties queryable from {@code
  graph}.
 
- <p>The "queryable" properties are those that are exposed through the {@link Graph} interface,
- such as {@link Graph#isDirected()}. Other properties, such as {@link #expectedNodeCount(int)},
- are not set in the new builder.]]>
+ <p>The "queryable" properties are those that are exposed through the {@link ValueGraph}
+ interface, such as {@link ValueGraph#isDirected()}. Other properties, such as {@link
+ #expectedNodeCount(int)}, are not set in the new builder.]]>
       </doc>
     </method>
     <method name="allowsSelfLoops" return="com.google.common.graph.ValueGraphBuilder&lt;N, V&gt;"

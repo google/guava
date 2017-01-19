@@ -18,8 +18,8 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9,"i15":9};
-var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
+var methods = {"i0":9,"i1":9,"i2":9,"i3":41,"i4":41,"i5":41,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9,"i15":9};
+var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
 var tableTab = "tableTab";
@@ -112,7 +112,7 @@ var activeTableTab = "activeTableTab";
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 public final class <a href="../../../../src-html/com/google/common/graph/Graphs.html#line.44">Graphs</a>
 extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
-<div class="block">Static utility methods for <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> and <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> instances.</div>
+<div class="block">Static utility methods for <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>, <a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a>, and <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> instances.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>20.0</dd>
@@ -132,7 +132,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 </a>
 <h3>Method Summary</h3>
 <table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
-<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t1" class="tableTab"><span><a href="javascript:show(1);">Static Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t1" class="tableTab"><span><a href="javascript:show(1);">Static Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t6" class="tableTab"><span><a href="javascript:show(32);">Deprecated Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colLast" scope="col">Method and Description</th>
@@ -159,25 +159,29 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <td class="colFirst"><code>static boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Graphs.html#equivalent-com.google.common.graph.Graph-com.google.common.graph.Graph-">equivalent</a></span>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;?&gt;&nbsp;graphA,
           <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;?&gt;&nbsp;graphB)</code>
-<div class="block">Returns <code>true</code> if <code>graphA</code> and <code>graphB</code> have the same elements and the same
- relationships between elements, as exposed via the <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> interface.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
+<div class="block"><span class="deprecationComment">Use <a href="../../../../com/google/common/graph/Graph.html#equals-java.lang.Object-"><code>Graph.equals(Object)</code></a> instead. This method will be removed in late 2017.</span></div>
+</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Graphs.html#equivalent-com.google.common.graph.Network-com.google.common.graph.Network-">equivalent</a></span>(<a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;?,?&gt;&nbsp;networkA,
           <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;?,?&gt;&nbsp;networkB)</code>
-<div class="block">Returns <code>true</code> if <code>networkA</code> and <code>networkB</code> have the same elements and the
- same relationships between elements, as exposed via the <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> interface.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
+<div class="block"><span class="deprecationComment">Use <a href="../../../../com/google/common/graph/Network.html#equals-java.lang.Object-"><code>Network.equals(Object)</code></a> instead. This method will be removed in late
+ 2017.</span></div>
+</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Graphs.html#equivalent-com.google.common.graph.ValueGraph-com.google.common.graph.ValueGraph-">equivalent</a></span>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;?,?&gt;&nbsp;graphA,
           <a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;?,?&gt;&nbsp;graphB)</code>
-<div class="block">Returns <code>true</code> if <code>graphA</code> and <code>graphB</code> have the same elements (including
- edge values) and the same relationships between elements, as exposed via the <a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a>
- interface.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
+<div class="block"><span class="deprecationComment">Use <a href="../../../../com/google/common/graph/ValueGraph.html#equals-java.lang.Object-"><code>ValueGraph.equals(Object)</code></a> instead. This method will be removed in late
+ 2017.</span></div>
+</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
@@ -336,26 +340,12 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>equivalent</h4>
-<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.230">equivalent</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-                                 <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;?&gt;&nbsp;graphA,
-                                 <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-                                 <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;?&gt;&nbsp;graphB)</pre>
-<div class="block">Returns <code>true</code> if <code>graphA</code> and <code>graphB</code> have the same elements and the same
- relationships between elements, as exposed via the <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> interface.
-
- <p>Thus, two graphs A and B are equivalent if both are null or <b>all</b> of the following are
- true:
-
- <ul>
- <li>A and B have equal <a href="../../../../com/google/common/graph/Graph.html#isDirected--"><code>directedness</code></a>.
- <li>A and B have equal <a href="../../../../com/google/common/graph/Graph.html#nodes--"><code>node sets</code></a>.
- <li>A and B have equal <a href="../../../../com/google/common/graph/Graph.html#edges--"><code>edge sets</code></a>.
- </ul>
-
- <p>Graph properties besides <a href="../../../../com/google/common/graph/Graph.html#isDirected--"><code>directedness</code></a> do <b>not</b> affect
- equivalence. For example, two graphs may be considered equivalent even if one allows self-loops
- and the other doesn't. Additionally, the order in which nodes or edges are added to the graph,
- and the order in which they are iterated over, are irrelevant.</div>
+<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
+public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.217">equivalent</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+                                             <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;?&gt;&nbsp;graphA,
+                                             <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+                                             <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;?&gt;&nbsp;graphB)</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Use <a href="../../../../com/google/common/graph/Graph.html#equals-java.lang.Object-"><code>Graph.equals(Object)</code></a> instead. This method will be removed in late 2017.</span></div>
 </li>
 </ul>
 <a name="equivalent-com.google.common.graph.ValueGraph-com.google.common.graph.ValueGraph-">
@@ -364,28 +354,13 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>equivalent</h4>
-<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.264">equivalent</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-                                 <a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;?,?&gt;&nbsp;graphA,
-                                 <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-                                 <a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;?,?&gt;&nbsp;graphB)</pre>
-<div class="block">Returns <code>true</code> if <code>graphA</code> and <code>graphB</code> have the same elements (including
- edge values) and the same relationships between elements, as exposed via the <a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a>
- interface.
-
- <p>Thus, two value graphs A and B are equivalent if both are null or <b>all</b> of the
- following are true:
-
- <ul>
- <li>A and B have equal <a href="../../../../com/google/common/graph/Graph.html#isDirected--"><code>directedness</code></a>.
- <li>A and B have equal <a href="../../../../com/google/common/graph/Graph.html#nodes--"><code>node sets</code></a>.
- <li>A and B have equal <a href="../../../../com/google/common/graph/Graph.html#edges--"><code>edge sets</code></a>.
- <li>Each edge in A has a <a href="../../../../com/google/common/graph/ValueGraph.html#edgeValue-java.lang.Object-java.lang.Object-"><code>value</code></a> equal to the <a href="../../../../com/google/common/graph/ValueGraph.html#edgeValue-java.lang.Object-java.lang.Object-"><code>value</code></a> of the corresponding edge in B.
- </ul>
-
- <p>Graph properties besides <a href="../../../../com/google/common/graph/Graph.html#isDirected--"><code>directedness</code></a> do <b>not</b> affect
- equivalence. For example, two graphs may be considered equivalent even if one allows self-loops
- and the other doesn't. Additionally, the order in which nodes or edges are added to the graph,
- and the order in which they are iterated over, are irrelevant.</div>
+<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
+public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.227">equivalent</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+                                             <a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;?,?&gt;&nbsp;graphA,
+                                             <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+                                             <a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;?,?&gt;&nbsp;graphB)</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Use <a href="../../../../com/google/common/graph/ValueGraph.html#equals-java.lang.Object-"><code>ValueGraph.equals(Object)</code></a> instead. This method will be removed in late
+ 2017.</span></div>
 </li>
 </ul>
 <a name="equivalent-com.google.common.graph.Network-com.google.common.graph.Network-">
@@ -394,28 +369,13 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>equivalent</h4>
-<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.310">equivalent</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-                                 <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;?,?&gt;&nbsp;networkA,
-                                 <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-                                 <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;?,?&gt;&nbsp;networkB)</pre>
-<div class="block">Returns <code>true</code> if <code>networkA</code> and <code>networkB</code> have the same elements and the
- same relationships between elements, as exposed via the <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> interface.
-
- <p>Thus, two networks A and B are equivalent if both are null or <b>all</b> of the following
- are true:
-
- <ul>
- <li>A and B have equal <a href="../../../../com/google/common/graph/Network.html#isDirected--"><code>directedness</code></a>.
- <li>A and B have equal <a href="../../../../com/google/common/graph/Network.html#nodes--"><code>node sets</code></a>.
- <li>A and B have equal <a href="../../../../com/google/common/graph/Network.html#edges--"><code>edge sets</code></a>.
- <li>Each edge in A connects the same nodes in the same direction (if any) as the corresponding
-     edge in B.
- </ul>
-
- <p>Network properties besides <a href="../../../../com/google/common/graph/Network.html#isDirected--"><code>directedness</code></a> do <b>not</b> affect
- equivalence. For example, two networks may be considered equal even if one allows parallel
- edges and the other doesn't. Additionally, the order in which nodes or edges are added to the
- network, and the order in which they are iterated over, are irrelevant.</div>
+<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
+public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.238">equivalent</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+                                             <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;?,?&gt;&nbsp;networkA,
+                                             <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+                                             <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;?,?&gt;&nbsp;networkB)</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Use <a href="../../../../com/google/common/graph/Network.html#equals-java.lang.Object-"><code>Network.equals(Object)</code></a> instead. This method will be removed in late
+ 2017.</span></div>
 </li>
 </ul>
 <a name="transpose-com.google.common.graph.Graph-">
@@ -424,7 +384,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>transpose</h4>
-<pre>public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.342">transpose</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</pre>
+<pre>public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.251">transpose</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</pre>
 <div class="block">Returns a view of <code>graph</code> with the direction (if any) of every edge reversed. All other
  properties remain intact, and further updates to <code>graph</code> will be reflected in the view.</div>
 </li>
@@ -435,7 +395,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>transpose</h4>
-<pre>public static&nbsp;&lt;N,V&gt;&nbsp;<a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.410">transpose</a>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,V&gt;&nbsp;graph)</pre>
+<pre>public static&nbsp;&lt;N,V&gt;&nbsp;<a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.319">transpose</a>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,V&gt;&nbsp;graph)</pre>
 <div class="block">Returns a view of <code>graph</code> with the direction (if any) of every edge reversed. All other
  properties remain intact, and further updates to <code>graph</code> will be reflected in the view.</div>
 </li>
@@ -446,7 +406,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>transpose</h4>
-<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.488">transpose</a>(<a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,E&gt;&nbsp;network)</pre>
+<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.397">transpose</a>(<a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,E&gt;&nbsp;network)</pre>
 <div class="block">Returns a view of <code>network</code> with the direction (if any) of every edge reversed. All other
  properties remain intact, and further updates to <code>network</code> will be reflected in the view.</div>
 </li>
@@ -457,7 +417,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>inducedSubgraph</h4>
-<pre>public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.598">inducedSubgraph</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph,
+<pre>public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.507">inducedSubgraph</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph,
                                                   <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends N&gt;&nbsp;nodes)</pre>
 <div class="block">Returns the subgraph of <code>graph</code> induced by <code>nodes</code>. This subgraph is a new graph
  that contains all of the nodes in <code>nodes</code>, and all of the <a href="../../../../com/google/common/graph/Graph.html#edges--"><code>edges</code></a>
@@ -474,7 +434,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>inducedSubgraph</h4>
-<pre>public static&nbsp;&lt;N,V&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a>&lt;N,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.621">inducedSubgraph</a>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,V&gt;&nbsp;graph,
+<pre>public static&nbsp;&lt;N,V&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a>&lt;N,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.530">inducedSubgraph</a>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,V&gt;&nbsp;graph,
                                                            <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends N&gt;&nbsp;nodes)</pre>
 <div class="block">Returns the subgraph of <code>graph</code> induced by <code>nodes</code>. This subgraph is a new graph
  that contains all of the nodes in <code>nodes</code>, and all of the <a href="../../../../com/google/common/graph/Graph.html#edges--"><code>edges</code></a>
@@ -491,7 +451,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>inducedSubgraph</h4>
-<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.645">inducedSubgraph</a>(<a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,E&gt;&nbsp;network,
+<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.554">inducedSubgraph</a>(<a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,E&gt;&nbsp;network,
                                                         <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends N&gt;&nbsp;nodes)</pre>
 <div class="block">Returns the subgraph of <code>network</code> induced by <code>nodes</code>. This subgraph is a new graph
  that contains all of the nodes in <code>nodes</code>, and all of the <a href="../../../../com/google/common/graph/Network.html#edges--"><code>edges</code></a>
@@ -509,7 +469,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.663">copyOf</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</pre>
+<pre>public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.572">copyOf</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</pre>
 <div class="block">Creates a mutable copy of <code>graph</code> with the same nodes and edges.</div>
 </li>
 </ul>
@@ -519,7 +479,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;&lt;N,V&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a>&lt;N,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.675">copyOf</a>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,V&gt;&nbsp;graph)</pre>
+<pre>public static&nbsp;&lt;N,V&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a>&lt;N,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.584">copyOf</a>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,V&gt;&nbsp;graph)</pre>
 <div class="block">Creates a mutable copy of <code>graph</code> with the same nodes, edges, and edge values.</div>
 </li>
 </ul>
@@ -529,7 +489,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.688">copyOf</a>(<a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,E&gt;&nbsp;network)</pre>
+<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.597">copyOf</a>(<a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,E&gt;&nbsp;network)</pre>
 <div class="block">Creates a mutable copy of <code>network</code> with the same nodes and edges.</div>
 </li>
 </ul>

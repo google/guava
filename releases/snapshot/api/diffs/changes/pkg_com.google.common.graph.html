@@ -18,7 +18,7 @@ com.google.common.graph
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/graph/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 21.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/graph/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 22.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1"> &nbsp;<FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
@@ -30,8 +30,8 @@ com.google.common.graph
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="pkg_com.google.common.eventbus.html"><B>PREV PACKAGE</B></A>
-&nbsp;<A HREF="pkg_com.google.common.hash.html"><B>NEXT PACKAGE</B></A>
+&nbsp;<A HREF="pkg_com.google.common.collect.html"><B>PREV PACKAGE</B></A>
+&nbsp;<A HREF="pkg_com.google.common.io.html"><B>NEXT PACKAGE</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="pkg_com.google.common.graph.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
@@ -49,9 +49,30 @@ Package <A HREF="../../docs/com/google/common/graph/package-summary.html" target
 </H2>
 <p>
 <a NAME="Changed"></a>
-<TABLE summary="Changed Interfaces" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<TABLE summary="Changed Classes and Interfaces" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Changed Interfaces</B></FONT></TD>
+  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Changed Classes and Interfaces</B></FONT></TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="AbstractGraph"></A>
+  <nobr><A HREF="com.google.common.graph.AbstractGraph.html">AbstractGraph</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">This class provides a skeletal implementation of <A HREF="../../docs/com/google/common/graph/AbstractGraph/Graph.html"><TT>Graph</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="AbstractNetwork"></A>
+  <nobr><A HREF="com.google.common.graph.AbstractNetwork.html">AbstractNetwork</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">This class provides a skeletal implementation of <A HREF="../../docs/com/google/common/graph/AbstractNetwork/Network.html"><TT>Network</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="AbstractValueGraph"></A>
+  <nobr><A HREF="com.google.common.graph.AbstractValueGraph.html">AbstractValueGraph</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">This class provides a skeletal implementation of <A HREF="../../docs/com/google/common/graph/AbstractValueGraph/ValueGraph.html"><TT>ValueGraph</TT></A>.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -64,33 +85,24 @@ Package <A HREF="../../docs/com/google/common/graph/package-summary.html" target
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="MutableGraph"></A>
-  <nobr><A HREF="com.google.common.graph.MutableGraph.html"><I>MutableGraph</I></A></nobr>
+  <A NAME="Graphs"></A>
+  <nobr><A HREF="com.google.common.graph.Graphs.html">Graphs</A></nobr>
   </TD>
-  <TD VALIGN="TOP">A subinterface of <A HREF="../../docs/com/google/common/graph/MutableGraph/Graph.html"><TT>Graph</TT></A> which adds mutation methods.</TD>
+  <TD VALIGN="TOP">Static utility methods for <A HREF="../../docs/com/google/common/graph/Graphs/Graph.html"><TT>Graph</TT></A>, <A HREF="../../docs/com/google/common/graph/Graphs/ValueGraph.html"><TT>ValueGraph</TT></A>, and <A HREF="../../docs/com/google/common/graph/Graphs/Network.html"><TT>Network</TT></A> instances.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="MutableNetwork"></A>
-  <nobr><A HREF="com.google.common.graph.MutableNetwork.html"><I>MutableNetwork</I></A></nobr>
+  <A NAME="ImmutableGraph"></A>
+  <nobr><A HREF="com.google.common.graph.ImmutableGraph.html">ImmutableGraph</A></nobr>
   </TD>
-  <TD VALIGN="TOP">A subinterface of <A HREF="../../docs/com/google/common/graph/MutableNetwork/Network.html"><TT>Network</TT></A> which adds mutation methods.</TD>
+  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/graph/ImmutableGraph/Graph.html"><TT>Graph</TT></A> whose elements and structural relationships will never change.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="MutableValueGraph"></A>
-  <nobr><A HREF="com.google.common.graph.MutableValueGraph.html"><I>MutableValueGraph</I></A></nobr>
+  <A NAME="ImmutableValueGraph"></A>
+  <nobr><A HREF="com.google.common.graph.ImmutableValueGraph.html">ImmutableValueGraph</A></nobr>
   </TD>
-  <TD VALIGN="TOP">A subinterface of <A HREF="../../docs/com/google/common/graph/MutableValueGraph/ValueGraph.html"><TT>ValueGraph</TT></A> which adds mutation methods.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="Network"></A>
-  <nobr><A HREF="com.google.common.graph.Network.html"><I>Network</I></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">An interface for <a
- href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-structured data,
- whose edges are unique objects.</TD>
+  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/graph/ImmutableValueGraph/ValueGraph.html"><TT>ValueGraph</TT></A> whose elements and structural relationships will never change.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -101,6 +113,13 @@ Package <A HREF="../../docs/com/google/common/graph/package-summary.html" target
  href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-structured data,
  whose edges have associated non-unique values.</TD>
 </TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ValueGraphBuilder"></A>
+  <nobr><A HREF="com.google.common.graph.ValueGraphBuilder.html">ValueGraphBuilder</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A builder for constructing instances of <A HREF="../../docs/com/google/common/graph/ValueGraphBuilder/MutableValueGraph.html"><TT>MutableValueGraph</TT></A> with user-defined properties.</TD>
+</TR>
 </TABLE>
 &nbsp;
 <HR>
@@ -110,7 +129,7 @@ Package <A HREF="../../docs/com/google/common/graph/package-summary.html" target
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/graph/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 21.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/graph/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 22.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1"> &nbsp;<FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
@@ -122,8 +141,8 @@ Package <A HREF="../../docs/com/google/common/graph/package-summary.html" target
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="pkg_com.google.common.eventbus.html"><B>PREV PACKAGE</B></A>
-&nbsp;<A HREF="pkg_com.google.common.hash.html"><B>NEXT PACKAGE</B></A>
+&nbsp;<A HREF="pkg_com.google.common.collect.html"><B>PREV PACKAGE</B></A>
+&nbsp;<A HREF="pkg_com.google.common.io.html"><B>NEXT PACKAGE</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="pkg_com.google.common.graph.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
