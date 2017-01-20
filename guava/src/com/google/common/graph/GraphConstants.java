@@ -38,6 +38,9 @@ final class GraphConstants {
   static final String REUSING_EDGE =
       "Edge %s already exists between the following nodes: %s, "
           + "so it cannot be reused to connect the following nodes: %s.";
+  static final String MULTIPLE_EDGES_CONNECTING =
+      "Cannot call edgeConnecting() when parallel edges exist between %s and %s. Consider calling "
+          + "edgesConnecting() instead.";
   static final String PARALLEL_EDGES_NOT_ALLOWED =
       "Nodes %s and %s are already connected by a different edge. To construct a graph "
           + "that allows parallel edges, call allowsParallelEdges(true) on the Builder.";
