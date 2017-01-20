@@ -155,6 +155,58 @@ public class NullPointerTesterTest extends TestCase {
     }
   }
 
+  private interface InterfaceStaticMethodFailsToCheckNull {
+    static String create(String s) {
+      return "I don't check";
+    }
+  }
+
+  private interface InterfaceStaticMethodChecksNull {
+    static String create(String s) {
+      return checkNotNull(s);
+    }
+  }
+
+  private interface InterfaceDefaultMethodFailsToCheckNull {
+    static InterfaceDefaultMethodFailsToCheckNull create() {
+      return new InterfaceDefaultMethodFailsToCheckNull() {};
+    }
+
+    default void doNotCheckNull(String s) {}
+  }
+
+  private interface InterfaceDefaultMethodChecksNull {
+    static InterfaceDefaultMethodChecksNull create() {
+      return new InterfaceDefaultMethodChecksNull() {};
+    }
+
+    default void checksNull(String s) {
+      checkNotNull(s);
+    }
+  }
+
+  public void testInterfaceStaticMethod() {
+    NullPointerTester tester = new NullPointerTester();
+    tester.testAllPublicStaticMethods(InterfaceStaticMethodChecksNull.class);
+    try {
+      tester.testAllPublicStaticMethods(InterfaceStaticMethodFailsToCheckNull.class);
+    } catch (AssertionError expected) {
+      return;
+    }
+    fail();
+  }
+
+  public void testInterfaceDefaultMethod() {
+    NullPointerTester tester = new NullPointerTester();
+    tester.testAllPublicInstanceMethods(InterfaceDefaultMethodChecksNull.create());
+    try {
+      tester.testAllPublicInstanceMethods(InterfaceDefaultMethodFailsToCheckNull.create());
+    } catch (AssertionError expected) {
+      return;
+    }
+    fail();
+  }
+
   public void testDontAcceptIae() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(ThrowsNpe.class);

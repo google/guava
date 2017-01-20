@@ -276,7 +276,7 @@ public final class NullPointerTester {
       // a file.
       String visiblePackage = Reflection.getPackageName(cls);
       ImmutableList.Builder<Method> builder = ImmutableList.builder();
-      for (Class<?> type : TypeToken.of(cls).getTypes().classes().rawTypes()) {
+      for (Class<?> type : TypeToken.of(cls).getTypes().rawTypes()) {
         if (!Reflection.getPackageName(type).equals(visiblePackage)) {
           break;
         }
