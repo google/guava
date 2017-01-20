@@ -228,8 +228,9 @@ public final class Throwables {
    * @return nothing will ever be returned; this return type is only for your convenience, as
    *     illustrated in the example above
    * @deprecated Use {@code throw e} or {@code throw new RuntimeException(e)} directly, or use a
-   *     combination of {@link #throwIfUnchecked} and {@code throw new RuntimeException(e)}. This
-   *     method is scheduled to be removed in July 2018.
+   *     combination of {@link #throwIfUnchecked} and {@code throw new RuntimeException(e)}. For
+   *     background on the deprecation, read <a href="https://goo.gl/Ivn2kc">Why we deprecated
+   *     {@code Throwables.propagate}</a>. This method is scheduled to be removed in July 2018.
    */
   @CanIgnoreReturnValue
   @GwtIncompatible
