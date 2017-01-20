@@ -157,6 +157,10 @@ public interface Graph<N> extends BaseGraph<N> {
   @Override
   int outDegree(Object node);
 
+  /** {@inheritDoc} */
+  @Override
+  boolean hasEdge(Object nodeU, Object nodeV);
+
   //
   // Graph identity
   //

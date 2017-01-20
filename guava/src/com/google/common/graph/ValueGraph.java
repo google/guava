@@ -170,6 +170,10 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
   @Override
   int outDegree(Object node);
 
+  /** {@inheritDoc} */
+  @Override
+  boolean hasEdge(Object nodeU, Object nodeV);
+
   /**
    * If there is an edge connecting {@code nodeU} to {@code nodeV}, returns the non-null value
    * associated with that edge.

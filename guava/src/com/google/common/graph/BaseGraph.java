@@ -125,4 +125,12 @@ interface BaseGraph<N> {
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
   int outDegree(@CompatibleWith("N") Object node);
+
+  /**
+   * Returns true if there is an edge directly connecting {@code nodeU} to {@code nodeV}. This is
+   * equivalent to {@code return nodes().contains(nodeU) && successors(nodeU).contains(nodeV)}.
+   *
+   * <p>In an undirected graph, this is equal to {@code hasEdge(nodeV, nodeU)}.
+   */
+  boolean hasEdge(@CompatibleWith("N") Object nodeU, @CompatibleWith("N") Object nodeV);
 }
