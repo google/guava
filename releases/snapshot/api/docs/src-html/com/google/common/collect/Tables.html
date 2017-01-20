@@ -709,18 +709,51 @@
 <span class="sourceLineNo">701</span>          return Collections.unmodifiableMap(input);<a name="line.701"></a>
 <span class="sourceLineNo">702</span>        }<a name="line.702"></a>
 <span class="sourceLineNo">703</span>      };<a name="line.703"></a>
-<span class="sourceLineNo">704</span><a name="line.704"></a>
-<span class="sourceLineNo">705</span>  static boolean equalsImpl(Table&lt;?, ?, ?&gt; table, @Nullable Object obj) {<a name="line.705"></a>
-<span class="sourceLineNo">706</span>    if (obj == table) {<a name="line.706"></a>
-<span class="sourceLineNo">707</span>      return true;<a name="line.707"></a>
-<span class="sourceLineNo">708</span>    } else if (obj instanceof Table) {<a name="line.708"></a>
-<span class="sourceLineNo">709</span>      Table&lt;?, ?, ?&gt; that = (Table&lt;?, ?, ?&gt;) obj;<a name="line.709"></a>
-<span class="sourceLineNo">710</span>      return table.cellSet().equals(that.cellSet());<a name="line.710"></a>
-<span class="sourceLineNo">711</span>    } else {<a name="line.711"></a>
-<span class="sourceLineNo">712</span>      return false;<a name="line.712"></a>
-<span class="sourceLineNo">713</span>    }<a name="line.713"></a>
-<span class="sourceLineNo">714</span>  }<a name="line.714"></a>
-<span class="sourceLineNo">715</span>}<a name="line.715"></a>
+<span class="sourceLineNo">704</span>      <a name="line.704"></a>
+<span class="sourceLineNo">705</span>  /**<a name="line.705"></a>
+<span class="sourceLineNo">706</span>   * Returns a synchronized (thread-safe) table backed by the specified table. In order to guarantee<a name="line.706"></a>
+<span class="sourceLineNo">707</span>   * serial access, it is critical that &lt;b&gt;all&lt;/b&gt; access to the backing table is accomplished<a name="line.707"></a>
+<span class="sourceLineNo">708</span>   * through the returned table.<a name="line.708"></a>
+<span class="sourceLineNo">709</span>   *<a name="line.709"></a>
+<span class="sourceLineNo">710</span>   * &lt;p&gt;It is imperative that the user manually synchronize on the returned table when accessing any<a name="line.710"></a>
+<span class="sourceLineNo">711</span>   * of its collection views:<a name="line.711"></a>
+<span class="sourceLineNo">712</span>   *<a name="line.712"></a>
+<span class="sourceLineNo">713</span>   * &lt;pre&gt;{@code<a name="line.713"></a>
+<span class="sourceLineNo">714</span>   * Table&lt;R, C, V&gt; table = Tables.synchronizedTable(HashBasedTable.&lt;R, C, V&gt;create());<a name="line.714"></a>
+<span class="sourceLineNo">715</span>   * ...<a name="line.715"></a>
+<span class="sourceLineNo">716</span>   * Map&lt;C, V&gt; row = table.row(rowKey);  // Needn't be in synchronized block<a name="line.716"></a>
+<span class="sourceLineNo">717</span>   * ...<a name="line.717"></a>
+<span class="sourceLineNo">718</span>   * synchronized (table) {  // Synchronizing on table, not row!<a name="line.718"></a>
+<span class="sourceLineNo">719</span>   *   Iterator&lt;Map.Entry&lt;C, V&gt;&gt; i = row.entrySet().iterator(); // Must be in synchronized block<a name="line.719"></a>
+<span class="sourceLineNo">720</span>   *   while (i.hasNext()) {<a name="line.720"></a>
+<span class="sourceLineNo">721</span>   *     foo(i.next());<a name="line.721"></a>
+<span class="sourceLineNo">722</span>   *   }<a name="line.722"></a>
+<span class="sourceLineNo">723</span>   * }<a name="line.723"></a>
+<span class="sourceLineNo">724</span>   * }&lt;/pre&gt;<a name="line.724"></a>
+<span class="sourceLineNo">725</span>   *<a name="line.725"></a>
+<span class="sourceLineNo">726</span>   * &lt;p&gt;Failure to follow this advice may result in non-deterministic behavior.<a name="line.726"></a>
+<span class="sourceLineNo">727</span>   *<a name="line.727"></a>
+<span class="sourceLineNo">728</span>   * &lt;p&gt;The returned table will be serializable if the specified table is serializable.<a name="line.728"></a>
+<span class="sourceLineNo">729</span>   *<a name="line.729"></a>
+<span class="sourceLineNo">730</span>   * @param table the table to be wrapped in a synchronized view<a name="line.730"></a>
+<span class="sourceLineNo">731</span>   * @return a synchronized view of the specified table<a name="line.731"></a>
+<span class="sourceLineNo">732</span>   * @since 22.0<a name="line.732"></a>
+<span class="sourceLineNo">733</span>   */<a name="line.733"></a>
+<span class="sourceLineNo">734</span>  public static &lt;R, C, V&gt; Table&lt;R, C, V&gt; synchronizedTable(Table&lt;R, C, V&gt; table) {<a name="line.734"></a>
+<span class="sourceLineNo">735</span>    return Synchronized.table(table, null);<a name="line.735"></a>
+<span class="sourceLineNo">736</span>  }<a name="line.736"></a>
+<span class="sourceLineNo">737</span><a name="line.737"></a>
+<span class="sourceLineNo">738</span>  static boolean equalsImpl(Table&lt;?, ?, ?&gt; table, @Nullable Object obj) {<a name="line.738"></a>
+<span class="sourceLineNo">739</span>    if (obj == table) {<a name="line.739"></a>
+<span class="sourceLineNo">740</span>      return true;<a name="line.740"></a>
+<span class="sourceLineNo">741</span>    } else if (obj instanceof Table) {<a name="line.741"></a>
+<span class="sourceLineNo">742</span>      Table&lt;?, ?, ?&gt; that = (Table&lt;?, ?, ?&gt;) obj;<a name="line.742"></a>
+<span class="sourceLineNo">743</span>      return table.cellSet().equals(that.cellSet());<a name="line.743"></a>
+<span class="sourceLineNo">744</span>    } else {<a name="line.744"></a>
+<span class="sourceLineNo">745</span>      return false;<a name="line.745"></a>
+<span class="sourceLineNo">746</span>    }<a name="line.746"></a>
+<span class="sourceLineNo">747</span>  }<a name="line.747"></a>
+<span class="sourceLineNo">748</span>}<a name="line.748"></a>
 
 
 
