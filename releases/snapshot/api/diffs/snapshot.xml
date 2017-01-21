@@ -6452,8 +6452,9 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Use {@code throw e} or {@code throw new RuntimeException(e)} directly, or use a
-     combination of {@link #throwIfUnchecked} and {@code throw new RuntimeException(e)}. This
-     method is scheduled to be removed in July 2018.">
+     combination of {@link #throwIfUnchecked} and {@code throw new RuntimeException(e)}. For
+     background on the deprecation, read lEsS_tHaNa href=quote_cHaRhttps://goo.gl/Ivn2kcquote_cHaR>Why we deprecated
+     {@code Throwables.propagate}lEsS_tHaN/a>. This method is scheduled to be removed in July 2018.">
       <param name="throwable" type="java.lang.Throwable"/>
       <doc>
       <![CDATA[Propagates {@code throwable} as-is if it is an instance of {@link RuntimeException} or {@link
@@ -6479,8 +6480,9 @@
  @return nothing will ever be returned; this return type is only for your convenience, as
      illustrated in the example above
  @deprecated Use {@code throw e} or {@code throw new RuntimeException(e)} directly, or use a
-     combination of {@link #throwIfUnchecked} and {@code throw new RuntimeException(e)}. This
-     method is scheduled to be removed in July 2018.]]>
+     combination of {@link #throwIfUnchecked} and {@code throw new RuntimeException(e)}. For
+     background on the deprecation, read <a href="https://goo.gl/Ivn2kc">Why we deprecated
+     {@code Throwables.propagate}</a>. This method is scheduled to be removed in July 2018.]]>
       </doc>
     </method>
     <method name="getRootCause" return="java.lang.Throwable"
@@ -37843,6 +37845,16 @@
       <![CDATA[{@inheritDoc}]]>
       </doc>
     </method>
+    <method name="hasEdge" return="boolean"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="nodeU" type="java.lang.Object"/>
+      <param name="nodeV" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[{@inheritDoc}]]>
+      </doc>
+    </method>
     <method name="equals" return="boolean"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -39245,6 +39257,16 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="node" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[{@inheritDoc}]]>
+      </doc>
+    </method>
+    <method name="hasEdge" return="boolean"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="nodeU" type="java.lang.Object"/>
+      <param name="nodeV" type="java.lang.Object"/>
       <doc>
       <![CDATA[{@inheritDoc}]]>
       </doc>
