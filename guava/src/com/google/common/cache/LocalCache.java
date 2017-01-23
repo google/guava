@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.cache.CacheBuilder.NULL_TICKER;
 import static com.google.common.cache.CacheBuilder.UNSET_INT;
+import static com.google.common.util.concurrent.Futures.transform;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
@@ -3722,7 +3723,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
         }
         // To avoid a race, make sure the refreshed value is set into loadingValueReference
         // *before* returning newValue from the cache query.
-        return Futures.transform(
+        return transform(
             newValue,
             new com.google.common.base.Function<V, V>() {
               @Override
@@ -3730,7 +3731,8 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
                 LoadingValueReference.this.set(newValue);
                 return newValue;
               }
-            });
+            },
+            directExecutor());
       } catch (Throwable t) {
         ListenableFuture<V> result = setException(t) ? futureValue : fullyFailedFuture(t);
         if (t instanceof InterruptedException) {
