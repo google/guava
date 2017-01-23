@@ -18,7 +18,7 @@ com.google.common.graph.Network
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/graph/Network.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 21.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/graph/Network.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 22.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.graph.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -30,7 +30,7 @@ com.google.common.graph.Network
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.graph.MutableValueGraph.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.graph.ImmutableValueGraph.html"><B>PREV CLASS</B></A>
 &nbsp;<A HREF="com.google.common.graph.ValueGraph.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
@@ -50,240 +50,17 @@ Interface com.google.common.graph.<A HREF="../../docs/com/google/common/graph/Ne
 <a NAME="constructors"></a>
 <a NAME="methods"></a>
 <p>
-<a NAME="Changed"></a>
-<TABLE summary="Changed Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<a NAME="Added"></a>
+<TABLE summary="Added Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=3><FONT SIZE="+1"><B>Changed Methods</B></FONT></TD>
+  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Added Methods</B></FONT></TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.Network.adjacentEdges_changed(java.lang.Object)"></A>
-  <nobr><code>Set&lt;E&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#adjacentEdges(java.lang.Object)" target="_top"><tt>adjacentEdges</tt></A>(<code>Object</code>)  </nobr>
+  <A NAME="com.google.common.graph.Network.edgeConnecting_added(java.lang.Object, java.lang.Object)"></A>
+  <nobr><code>Optional&lt;E&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#edgeConnecting(java.lang.Object, java.lang.Object)" target="_top"><tt>edgeConnecting</tt></A>(<code>Object,</nobr> Object<nobr><nobr></code>)</nobr>
   </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns the edges which have an <A HREF="../../docs/.html#incidentNodes(Object)"><TT>incident node</TT></A> in common with
- {@code edge}.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.Network.adjacentNodes_changed(java.lang.Object)"></A>
-  <nobr><code>Set&lt;N&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#adjacentNodes(java.lang.Object)" target="_top"><tt>adjacentNodes</tt></A>(<code>Object</code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns the nodes which have an incident edge in common with {@code node} in this network.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.Network.allowsParallelEdges_changed()"></A>
-  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#allowsParallelEdges()" target="_top"><tt>allowsParallelEdges</tt></A>()  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns true if this network allows parallel edges.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.Network.allowsSelfLoops_changed()"></A>
-  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#allowsSelfLoops()" target="_top"><tt>allowsSelfLoops</tt></A>()  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns true if this network allows self-loops (edges that connect a node to itself).</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.Network.asGraph_changed()"></A>
-  <nobr><code>Graph&lt;N&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#asGraph()" target="_top"><tt>asGraph</tt></A>()  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns a live view of this network as a <A HREF="../../docs/Graph.html"><TT>Graph</TT></A>.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.Network.degree_changed(java.lang.Object)"></A>
-  <nobr><code>int</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#degree(java.lang.Object)" target="_top"><tt>degree</tt></A>(<code>Object</code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns the count of {@code node}'s <A HREF="../../docs/.html#incidentEdges(Object)"><TT>incident edges</TT></A>, counting
- self-loops twice (equivalently, the number of times an edge touches {@code node}).</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.Network.edgeOrder_changed()"></A>
-  <nobr><code>ElementOrder&lt;E&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#edgeOrder()" target="_top"><tt>edgeOrder</tt></A>()  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns the order of iteration for the elements of <A HREF="../../docs/.html#edges()"><TT>.edges()</TT></A>.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.Network.edges_changed()"></A>
-  <nobr><code>Set&lt;E&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#edges()" target="_top"><tt>edges</tt></A>()  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns all edges in this network, in the order specified by <A HREF="../../docs/.html#edgeOrder()"><TT>.edgeOrder()</TT></A>.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.Network.edgesConnecting_changed(java.lang.Object, java.lang.Object)"></A>
-  <nobr><code>Set&lt;E&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#edgesConnecting(java.lang.Object, java.lang.Object)" target="_top"><tt>edgesConnecting</tt></A>(<code>Object,</nobr> Object<nobr><nobr></code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns the set of edges directly connecting {@code nodeU} to {@code nodeV}.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.Network.equals_changed(java.lang.Object)"></A>
-  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#equals(java.lang.Object)" target="_top"><tt>equals</tt></A>(<code>Object</code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">For the default <A HREF="../../docs/Network.html"><TT>Network</TT></A> implementations, returns true if {@code this == object}
- (reference equality).</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.Network.hashCode_changed()"></A>
-  <nobr><code>int</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#hashCode()" target="_top"><tt>hashCode</tt></A>()  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">For the default <A HREF="../../docs/Network.html"><TT>Network</TT></A> implementations, returns {@code System.identityHashCode(this)}.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.Network.inDegree_changed(java.lang.Object)"></A>
-  <nobr><code>int</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#inDegree(java.lang.Object)" target="_top"><tt>inDegree</tt></A>(<code>Object</code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns the count of {@code node}'s <A HREF="../../docs/.html#inEdges(Object)"><TT>incoming edges</TT></A> in a directed
- network.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.Network.inEdges_changed(java.lang.Object)"></A>
-  <nobr><code>Set&lt;E&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#inEdges(java.lang.Object)" target="_top"><tt>inEdges</tt></A>(<code>Object</code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns all edges in this network which can be traversed in the direction (if any) of the edge
- to end at {@code node}.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.Network.incidentEdges_changed(java.lang.Object)"></A>
-  <nobr><code>Set&lt;E&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#incidentEdges(java.lang.Object)" target="_top"><tt>incidentEdges</tt></A>(<code>Object</code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns the edges whose <A HREF="../../docs/.html#incidentNodes(Object)"><TT>incident nodes</TT></A> in this network include
- {@code node}.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.Network.incidentNodes_changed(java.lang.Object)"></A>
-  <nobr><code>EndpointPair&lt;N&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#incidentNodes(java.lang.Object)" target="_top"><tt>incidentNodes</tt></A>(<code>Object</code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns the nodes which are the endpoints of {@code edge} in this network.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.Network.isDirected_changed()"></A>
-  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#isDirected()" target="_top"><tt>isDirected</tt></A>()  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns true if the edges in this network are directed.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.Network.nodeOrder_changed()"></A>
-  <nobr><code>ElementOrder&lt;N&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#nodeOrder()" target="_top"><tt>nodeOrder</tt></A>()  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns the order of iteration for the elements of <A HREF="../../docs/.html#nodes()"><TT>.nodes()</TT></A>.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.Network.nodes_changed()"></A>
-  <nobr><code>Set&lt;N&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#nodes()" target="_top"><tt>nodes</tt></A>()  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns all nodes in this network, in the order specified by <A HREF="../../docs/.html#nodeOrder()"><TT>.nodeOrder()</TT></A>.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.Network.outDegree_changed(java.lang.Object)"></A>
-  <nobr><code>int</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#outDegree(java.lang.Object)" target="_top"><tt>outDegree</tt></A>(<code>Object</code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns the count of {@code node}'s <A HREF="../../docs/.html#outEdges(Object)"><TT>outgoing edges</TT></A> in a directed
- network.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.Network.outEdges_changed(java.lang.Object)"></A>
-  <nobr><code>Set&lt;E&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#outEdges(java.lang.Object)" target="_top"><tt>outEdges</tt></A>(<code>Object</code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns all edges in this network which can be traversed in the direction (if any) of the edge
- starting from {@code node}.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.Network.predecessors_changed(java.lang.Object)"></A>
-  <nobr><code>Set&lt;N&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#predecessors(java.lang.Object)" target="_top"><tt>predecessors</tt></A>(<code>Object</code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns all nodes in this network adjacent to {@code node} which can be reached by traversing
- {@code node}'s incoming edges <i>against</i> the direction (if any) of the edge.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.Network.successors_changed(java.lang.Object)"></A>
-  <nobr><code>Set&lt;N&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#successors(java.lang.Object)" target="_top"><tt>successors</tt></A>(<code>Object</code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns all nodes in this network adjacent to {@code node} which can be reached by traversing
- {@code node}'s outgoing edges in the direction (if any) of the edge.</TD>
+  <TD VALIGN="TOP">Returns the single edge directly connecting {@code nodeU} to {@code nodeV}, if one is present.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -295,7 +72,7 @@ Changed from abstract to non-abstract.
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/graph/Network.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 21.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/graph/Network.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 22.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.graph.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -307,7 +84,7 @@ Changed from abstract to non-abstract.
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.graph.MutableValueGraph.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.graph.ImmutableValueGraph.html"><B>PREV CLASS</B></A>
 &nbsp;<A HREF="com.google.common.graph.ValueGraph.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
