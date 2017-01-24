@@ -16,6 +16,8 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.util.concurrent.Futures.catchingAsync;
+import static com.google.common.util.concurrent.Futures.transformAsync;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 
@@ -752,7 +754,8 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @SuppressWarnings({"rawtypes", "unchecked"})
   public static <V> ListenableFuture<V> dereference(
       ListenableFuture<? extends ListenableFuture<? extends V>> nested) {
-    return transformAsync((ListenableFuture) nested, (AsyncFunction) DEREFERENCER);
+    return transformAsync(
+        (ListenableFuture) nested, (AsyncFunction) DEREFERENCER, directExecutor());
   }
 
   /**
