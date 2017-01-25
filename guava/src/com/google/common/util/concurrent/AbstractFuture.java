@@ -46,7 +46,7 @@ import javax.annotation.Nullable;
  * submitting a task to a {@link ListeningExecutorService}, and deriving a {@code Future} from an
  * existing one, typically using methods like {@link Futures#transform(ListenableFuture,
  * com.google.common.base.Function) Futures.transform} and {@link Futures#catching(ListenableFuture,
- * Class, com.google.common.base.Function) Futures.catching}.
+ * Class, com.google.common.base.Function, java.util.concurrent.Executor) Futures.catching}.
  *
  * <p>This class implements all methods in {@code ListenableFuture}. Subclasses should provide a way
  * to set the result of the computation through the protected methods {@link #set(Object)}, {@link
