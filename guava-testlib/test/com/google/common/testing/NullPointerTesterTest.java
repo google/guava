@@ -1370,4 +1370,29 @@ public class NullPointerTesterTest extends TestCase {
     shouldPass(new OverridesEquals());
     shouldFail(new DoesNotOverrideEquals());
   }
+
+  private static final class FailOnOneOfTwoConstructors {
+    @SuppressWarnings("unused") // Called by reflection
+    public FailOnOneOfTwoConstructors(String s) {}
+
+    @SuppressWarnings("unused") // Called by reflection
+    public FailOnOneOfTwoConstructors(Object o) {
+      checkNotNull(o);
+    }
+  }
+
+  public void testConstructor_Ignored_ShouldPass() throws Exception {
+    new NullPointerTester()
+        .ignore(FailOnOneOfTwoConstructors.class.getDeclaredConstructor(String.class))
+        .testAllPublicConstructors(FailOnOneOfTwoConstructors.class);
+  }
+
+  public void testConstructor_ShouldFail() throws Exception {
+    try {
+      new NullPointerTester().testAllPublicConstructors(FailOnOneOfTwoConstructors.class);
+    } catch (AssertionFailedError expected) {
+      return;
+    }
+    fail("Should detect problem in " + FailOnOneOfTwoConstructors.class.getSimpleName());
+  }
 }
