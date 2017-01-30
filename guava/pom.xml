@@ -27,7 +27,7 @@
     <dependency>
       <groupId>com.google.errorprone</groupId>
       <artifactId>error_prone_annotations</artifactId>
-      <optional>true</optional><!-- needed only for annotations -->
+      <optional>false</optional>
     </dependency>
     <dependency>
       <groupId>com.google.j2objc</groupId>
