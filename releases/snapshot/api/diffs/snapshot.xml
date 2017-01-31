@@ -43739,6 +43739,9 @@
       <doc>
       <![CDATA[Returns a buffered reader that reads from a file using the given character set.
 
+ <p><b>{@link java.nio.file.Path} equivalent:</b> {@link
+ java.nio.file.Files#newBufferedReader(java.nio.file.Path, Charset)}.
+
  @param file the file to read from
  @param charset the charset used to decode the input stream; see {@link StandardCharsets} for
      helpful predefined constants
@@ -43754,6 +43757,10 @@
       <exception name="FileNotFoundException" type="java.io.FileNotFoundException"/>
       <doc>
       <![CDATA[Returns a buffered writer that writes to a file using the given character set.
+
+ <p><b>{@link java.nio.file.Path} equivalent:</b> {@link
+ java.nio.file.Files#newBufferedWriter(java.nio.file.Path, Charset,
+ java.nio.file.OpenOption...)}.
 
  @param file the file to write to
  @param charset the charset used to encode the output stream; see {@link StandardCharsets} for
@@ -43825,6 +43832,8 @@
       <doc>
       <![CDATA[Reads all bytes from a file into a byte array.
 
+ <p><b>{@link java.nio.file.Path} equivalent:</b> {@link java.nio.file.Files#readAllBytes}.
+
  @param file the file to read from
  @return a byte array containing all the bytes from file
  @throws IllegalArgumentException if the file is bigger than the largest possible byte array
@@ -43835,7 +43844,8 @@
     <method name="toString" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Prefer {@code asCharSource(file, charset).read()}. This method is scheduled to be
+     removed in January 2019.">
       <param name="file" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
       <exception name="IOException" type="java.io.IOException"/>
@@ -43846,7 +43856,9 @@
  @param charset the charset used to decode the input stream; see {@link StandardCharsets} for
      helpful predefined constants
  @return a string containing all the characters from the file
- @throws IOException if an I/O error occurs]]>
+ @throws IOException if an I/O error occurs
+ @deprecated Prefer {@code asCharSource(file, charset).read()}. This method is scheduled to be
+     removed in January 2019.]]>
       </doc>
     </method>
     <method name="write"
@@ -43858,6 +43870,9 @@
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
       <![CDATA[Overwrites a file with the contents of a byte array.
+
+ <p><b>{@link java.nio.file.Path} equivalent:</b> {@link
+ java.nio.file.Files#write(java.nio.file.Path, byte[], java.nio.file.OpenOption...)}.
 
  @param from the bytes to write
  @param to the destination file
@@ -43873,6 +43888,9 @@
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
       <![CDATA[Copies all bytes from a file to an output stream.
+
+ <p><b>{@link java.nio.file.Path} equivalent:</b> {@link
+ java.nio.file.Files#copy(java.nio.file.Path, OutputStream)}.
 
  @param from the source file
  @param to the output stream
@@ -43897,6 +43915,9 @@
  with the contents of {@code from}. If {@code to} and {@code from} refer to the <i>same</i>
  file, the contents of that file will be deleted.
 
+ <p><b>{@link java.nio.file.Path} equivalent:</b> {@link
+ java.nio.file.Files#copy(java.nio.file.Path, java.nio.file.Path, java.nio.file.CopyOption...)}.
+
  @param from the source file
  @param to the destination file
  @throws IOException if an I/O error occurs
@@ -43906,7 +43927,8 @@
     <method name="write"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Prefer {@code asCharSink(to, charset).write(from)}. This method is scheduled to be
+     removed in January 2019.">
       <param name="from" type="java.lang.CharSequence"/>
       <param name="to" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
@@ -43918,13 +43940,16 @@
  @param to the destination file
  @param charset the charset used to encode the output stream; see {@link StandardCharsets} for
      helpful predefined constants
- @throws IOException if an I/O error occurs]]>
+ @throws IOException if an I/O error occurs
+ @deprecated Prefer {@code asCharSink(to, charset).write(from)}. This method is scheduled to be
+     removed in January 2019.]]>
       </doc>
     </method>
     <method name="append"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Prefer {@code asCharSink(to, charset, FileWriteMode.APPEND).write(from)}. This
+     method is scheduled to be removed in January 2019.">
       <param name="from" type="java.lang.CharSequence"/>
       <param name="to" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
@@ -43936,13 +43961,16 @@
  @param to the destination file
  @param charset the charset used to encode the output stream; see {@link StandardCharsets} for
      helpful predefined constants
- @throws IOException if an I/O error occurs]]>
+ @throws IOException if an I/O error occurs
+ @deprecated Prefer {@code asCharSink(to, charset, FileWriteMode.APPEND).write(from)}. This
+     method is scheduled to be removed in January 2019.]]>
       </doc>
     </method>
     <method name="copy"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Prefer {@code asCharSource(from, charset).copyTo(to)}. This method is scheduled to
+     be removed in January 2019.">
       <param name="from" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
       <param name="to" type="java.lang.Appendable"/>
@@ -43954,7 +43982,9 @@
  @param charset the charset used to decode the input stream; see {@link StandardCharsets} for
      helpful predefined constants
  @param to the appendable object
- @throws IOException if an I/O error occurs]]>
+ @throws IOException if an I/O error occurs
+ @deprecated Prefer {@code asCharSource(from, charset).copyTo(to)}. This method is scheduled to
+     be removed in January 2019.]]>
       </doc>
     </method>
     <method name="equal" return="boolean"
@@ -43986,6 +44016,9 @@
 
  <p>This method assumes that the temporary volume is writable, has free inodes and free blocks,
  and that it will not be called thousands of times per second.
+
+ <p><b>{@link java.nio.file.Path} equivalent:</b> {@link
+ java.nio.file.Files#createTempDirectory}.
 
  @return the newly-created directory
  @throws IllegalStateException if the directory could not be created]]>
@@ -44033,6 +44066,8 @@
  different directory. In either case {@code to} must be the target path for the file itself; not
  just the new name for the file or the path to the new parent directory.
 
+ <p><b>{@link java.nio.file.Path} equivalent:</b> {@link java.nio.file.Files#move}.
+
  @param from the source file
  @param to the destination file
  @throws IOException if an I/O error occurs
@@ -44042,7 +44077,8 @@
     <method name="readFirstLine" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Prefer {@code asCharSource(file, charset).readFirstLine()}. This method is
+     scheduled to be removed in January 2019.">
       <param name="file" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
       <exception name="IOException" type="java.io.IOException"/>
@@ -44054,7 +44090,9 @@
  @param charset the charset used to decode the input stream; see {@link StandardCharsets} for
      helpful predefined constants
  @return the first line, or null if the file is empty
- @throws IOException if an I/O error occurs]]>
+ @throws IOException if an I/O error occurs
+ @deprecated Prefer {@code asCharSource(file, charset).readFirstLine()}. This method is
+     scheduled to be removed in January 2019.]]>
       </doc>
     </method>
     <method name="readLines" return="java.util.List&lt;java.lang.String&gt;"
@@ -44068,8 +44106,11 @@
       <![CDATA[Reads all of the lines from a file. The lines do not include line-termination characters, but
  do include other leading and trailing whitespace.
 
- <p>This method returns a mutable {@code List}. For an {@code ImmutableList}, use
- {@code Files.asCharSource(file, charset).readLines()}.
+ <p>This method returns a mutable {@code List}. For an {@code ImmutableList}, use {@code
+ Files.asCharSource(file, charset).readLines()}.
+
+ <p><b>{@link java.nio.file.Path} equivalent:</b> {@link
+ java.nio.file.Files#readAllLines(java.nio.file.Path, Charset)}.
 
  @param file the file to read from
  @param charset the charset used to decode the input stream; see {@link StandardCharsets} for
@@ -44081,7 +44122,8 @@
     <method name="readLines" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Prefer {@code asCharSource(file, charset).readLines(callback)}. This method is
+     scheduled to be removed in January 2019.">
       <param name="file" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
       <param name="callback" type="com.google.common.io.LineProcessor&lt;T&gt;"/>
@@ -44095,13 +44137,16 @@
      helpful predefined constants
  @param callback the {@link LineProcessor} to use to handle the lines
  @return the output of processing the lines
- @throws IOException if an I/O error occurs]]>
+ @throws IOException if an I/O error occurs
+ @deprecated Prefer {@code asCharSource(file, charset).readLines(callback)}. This method is
+     scheduled to be removed in January 2019.]]>
       </doc>
     </method>
     <method name="readBytes" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Prefer {@code asByteSource(file).read(processor)}. This method is scheduled to be
+     removed in January 2019.">
       <param name="file" type="java.io.File"/>
       <param name="processor" type="com.google.common.io.ByteProcessor&lt;T&gt;"/>
       <exception name="IOException" type="java.io.IOException"/>
@@ -44113,13 +44158,16 @@
  @param file the file to read
  @param processor the object to which the bytes of the file are passed.
  @return the result of the byte processor
- @throws IOException if an I/O error occurs]]>
+ @throws IOException if an I/O error occurs
+ @deprecated Prefer {@code asByteSource(file).read(processor)}. This method is scheduled to be
+     removed in January 2019.]]>
       </doc>
     </method>
     <method name="hash" return="com.google.common.hash.HashCode"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Prefer {@code asByteSource(file).hash(hashFunction)}. This method is scheduled to
+     be removed in January 2019.">
       <param name="file" type="java.io.File"/>
       <param name="hashFunction" type="com.google.common.hash.HashFunction"/>
       <exception name="IOException" type="java.io.IOException"/>
@@ -44130,7 +44178,9 @@
  @param hashFunction the hash function to use to hash the data
  @return the {@link HashCode} of all of the bytes in the file
  @throws IOException if an I/O error occurs
- @since 12.0]]>
+ @since 12.0
+ @deprecated Prefer {@code asByteSource(file).hash(hashFunction)}. This method is scheduled to
+     be removed in January 2019.]]>
       </doc>
     </method>
     <method name="map" return="java.nio.MappedByteBuffer"
@@ -44307,9 +44357,10 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[Provides utility methods for working with files.
+    <![CDATA[Provides utility methods for working with {@linkplain File files}.
 
- <p>All method parameters must be non-null unless documented otherwise.
+ <p>{@link java.nio.file.Path} users will find similar utilities in {@link MoreFiles} and the
+ JDK's {@link java.nio.file.Files} class.
 
  @author Chris Nokleberg
  @author Colin Decker
@@ -45114,6 +45165,10 @@
     </method>
     <doc>
     <![CDATA[Static utilities for use with {@link Path} instances, intended to complement {@link Files}.
+
+ <p>Many methods provided by Guava's {@code Files} class for {@link java.io.File} instances are
+ now available via the JDK's {@link java.nio.file.Files} class for {@code Path} - check the JDK's
+ class if a sibling method from {@code Files} appears to be missing from this class.
 
  @since 21.0
  @author Colin Decker]]>
