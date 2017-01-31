@@ -43,25 +43,6 @@
     </pluginRepository>
   </pluginRepositories>
   <dependencies>
-    <!-- GWT requires a library's transitive dependencies to be present when
-         compiling a project that uses that library, thanks to its full-program
-         compilation, so we don't use optional=true. -->
-    <dependency>
-      <groupId>com.google.code.findbugs</groupId>
-      <artifactId>jsr305</artifactId>
-      <optional>false</optional>
-    </dependency>
-    <dependency>
-      <groupId>com.google.errorprone</groupId>
-      <artifactId>error_prone_annotations</artifactId>
-      <optional>false</optional>
-    </dependency>
-    <dependency>
-      <groupId>com.google.j2objc</groupId>
-      <artifactId>j2objc-annotations</artifactId>
-      <optional>false</optional>
-    </dependency>
-
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
