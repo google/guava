@@ -56,6 +56,10 @@ import javax.annotation.Nullable;
 /**
  * Static utilities for use with {@link Path} instances, intended to complement {@link Files}.
  *
+ * <p>Many methods provided by Guava's {@code Files} class for {@link java.io.File} instances are
+ * now available via the JDK's {@link java.nio.file.Files} class for {@code Path} - check the JDK's
+ * class if a sibling method from {@code Files} appears to be missing from this class.
+ *
  * @since 21.0
  * @author Colin Decker
  */
@@ -673,7 +677,7 @@ public final class MoreFiles {
    * is a root or is the empty path.
    */
   @Nullable
-  private static Path getParentPath(Path path) throws IOException {
+  private static Path getParentPath(Path path) {
     Path parent = path.getParent();
 
     // Paths that have a parent:
