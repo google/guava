@@ -167,11 +167,6 @@ public interface Cache<K, V> {
    * <p>Iterators from the returned map are at least <i>weakly consistent</i>: they are safe for
    * concurrent use, but if the cache is modified (including by eviction) after the iterator is
    * created, it is undefined which of the changes (if any) will be reflected in that iterator.
-   *
-   * <p><b>Warning to users of Java 8+:</b> do not call any of the new <i>default methods</i> that
-   * have been newly added to {@link ConcurrentMap}! These are marked with "Since: 1.8" in the
-   * {@code ConcurrentMap} documentation. They will not function correctly and it is impossible for
-   * Guava to fix them until Guava is ready to <i>require</i> Java 8 for all users.
    */
   ConcurrentMap<K, V> asMap();
 

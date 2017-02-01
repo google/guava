@@ -1974,4 +1974,190 @@ final class Synchronized {
 
     private static final long serialVersionUID = 0;
   }
+  
+  static <R, C, V> Table<R, C, V> table(Table<R, C, V> table, Object mutex) {
+    return new SynchronizedTable<R, C, V>(table, mutex);
+  }
+
+  private static final class SynchronizedTable<R, C, V> extends SynchronizedObject
+      implements Table<R, C, V> {
+
+    SynchronizedTable(Table<R, C, V> delegate, Object mutex) {
+      super(delegate, mutex);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    Table<R, C, V> delegate() {
+      return (Table<R, C, V>) super.delegate();
+    }
+
+    @Override
+    public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
+      synchronized (mutex) {
+        return delegate().contains(rowKey, columnKey);
+      }
+    }
+
+    @Override
+    public boolean containsRow(@Nullable Object rowKey) {
+      synchronized (mutex) {
+        return delegate().containsRow(rowKey);
+      }
+    }
+
+    @Override
+    public boolean containsColumn(@Nullable Object columnKey) {
+      synchronized (mutex) {
+        return delegate().containsColumn(columnKey);
+      }
+    }
+
+    @Override
+    public boolean containsValue(@Nullable Object value) {
+      synchronized (mutex) {
+        return delegate().containsValue(value);
+      }
+    }
+
+    @Override
+    public V get(@Nullable Object rowKey, @Nullable Object columnKey) {
+      synchronized (mutex) {
+        return delegate().get(rowKey, columnKey);
+      }
+    }
+
+    @Override
+    public boolean isEmpty() {
+      synchronized (mutex) {
+        return delegate().isEmpty();
+      }
+    }
+
+    @Override
+    public int size() {
+      synchronized (mutex) {
+        return delegate().size();
+      }
+    }
+
+    @Override
+    public void clear() {
+      synchronized (mutex) {
+        delegate().clear();
+      }
+    }
+
+    @Override
+    public V put(@Nullable R rowKey, @Nullable C columnKey, @Nullable V value) {
+      synchronized (mutex) {
+        return delegate().put(rowKey, columnKey, value);
+      }
+    }
+
+    @Override
+    public void putAll(Table<? extends R, ? extends C, ? extends V> table) {
+      synchronized (mutex) {
+        delegate().putAll(table);
+      }
+    }
+
+    @Override
+    public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
+      synchronized (mutex) {
+        return delegate().remove(rowKey, columnKey);
+      }
+    }
+
+    @Override
+    public Map<C, V> row(@Nullable R rowKey) {
+      synchronized (mutex) {
+        return map(delegate().row(rowKey), mutex);
+      }
+    }
+
+    @Override
+    public Map<R, V> column(@Nullable C columnKey) {
+      synchronized (mutex) {
+        return map(delegate().column(columnKey), mutex);
+      }
+    }
+
+    @Override
+    public Set<Cell<R, C, V>> cellSet() {
+      synchronized (mutex) {
+        return set(delegate().cellSet(), mutex);
+      }
+    }
+
+    @Override
+    public Set<R> rowKeySet() {
+      synchronized (mutex) {
+        return set(delegate().rowKeySet(), mutex);
+      }
+    }
+
+    @Override
+    public Set<C> columnKeySet() {
+      synchronized (mutex) {
+        return set(delegate().columnKeySet(), mutex);
+      }
+    }
+
+    @Override
+    public Collection<V> values() {
+      synchronized (mutex) {
+        return collection(delegate().values(), mutex);
+      }
+    }
+
+    @Override
+    public Map<R, Map<C, V>> rowMap() {
+      synchronized (mutex) {
+        return map(
+            Maps.transformValues(
+                delegate().rowMap(),
+                new com.google.common.base.Function<Map<C, V>, Map<C, V>>() {
+                  @Override
+                  public Map<C, V> apply(Map<C, V> t) {
+                    return map(t, mutex);
+                  }
+                }),
+            mutex);
+      }
+    }
+
+    @Override
+    public Map<C, Map<R, V>> columnMap() {
+      synchronized (mutex) {
+        return map(
+            Maps.transformValues(
+                delegate().columnMap(),
+                new com.google.common.base.Function<Map<R, V>, Map<R, V>>() {
+                  @Override
+                  public Map<R, V> apply(Map<R, V> t) {
+                    return map(t, mutex);
+                  }
+                }),
+            mutex);
+      }
+    }
+
+    @Override
+    public int hashCode() {
+      synchronized (mutex) {
+        return delegate().hashCode();
+      }
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+      if (this == obj) {
+        return true;
+      }
+      synchronized (mutex) {
+        return delegate().equals(obj);
+      }
+    }
+  }
 }

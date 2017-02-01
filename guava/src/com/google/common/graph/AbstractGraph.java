@@ -16,15 +16,9 @@
 
 package com.google.common.graph;
 
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.graph.GraphConstants.GRAPH_STRING_FORMAT;
 
 import com.google.common.annotations.Beta;
-import com.google.common.collect.UnmodifiableIterator;
-import com.google.common.math.IntMath;
-import com.google.common.primitives.Ints;
-import java.util.AbstractSet;
-import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
@@ -36,72 +30,26 @@ import javax.annotation.Nullable;
  * @since 20.0
  */
 @Beta
-public abstract class AbstractGraph<N> implements Graph<N> {
+public abstract class AbstractGraph<N> extends AbstractBaseGraph<N> implements Graph<N> {
 
-  /**
-   * Returns the number of edges in this graph; used to calculate the size of {@link #edges()}. The
-   * default implementation is O(|N|). You can manually keep track of the number of edges and
-   * override this method for better performance.
-   */
-  protected long edgeCount() {
-    long degreeSum = 0L;
-    for (N node : nodes()) {
-      degreeSum += degree(node);
+  @Override
+  public final boolean equals(@Nullable Object obj) {
+    if (obj == this) {
+      return true;
     }
-    // According to the degree sum formula, this is equal to twice the number of edges.
-    checkState((degreeSum & 1) == 0);
-    return degreeSum >>> 1;
-  }
-
-  /**
-   * A reasonable default implementation of {@link Graph#edges()} defined in terms of {@link
-   * #nodes()} and {@link #successors(Object)}.
-   */
-  @Override
-  public Set<EndpointPair<N>> edges() {
-    return new AbstractSet<EndpointPair<N>>() {
-      @Override
-      public UnmodifiableIterator<EndpointPair<N>> iterator() {
-        return EndpointPairIterator.of(AbstractGraph.this);
-      }
-
-      @Override
-      public int size() {
-        return Ints.saturatedCast(edgeCount());
-      }
-
-      @Override
-      public boolean contains(@Nullable Object obj) {
-        if (!(obj instanceof EndpointPair)) {
-          return false;
-        }
-        EndpointPair<?> endpointPair = (EndpointPair<?>) obj;
-        return isDirected() == endpointPair.isOrdered()
-            && nodes().contains(endpointPair.nodeU())
-            && successors(endpointPair.nodeU()).contains(endpointPair.nodeV());
-      }
-    };
-  }
-
-  @Override
-  public int degree(Object node) {
-    if (isDirected()) {
-      return IntMath.saturatedAdd(predecessors(node).size(), successors(node).size());
-    } else {
-      Set<N> neighbors = adjacentNodes(node);
-      int selfLoopCount = (allowsSelfLoops() && neighbors.contains(node)) ? 1 : 0;
-      return IntMath.saturatedAdd(neighbors.size(), selfLoopCount);
+    if (!(obj instanceof Graph)) {
+      return false;
     }
+    Graph<?> other = (Graph<?>) obj;
+
+    return isDirected() == other.isDirected()
+        && nodes().equals(other.nodes())
+        && edges().equals(other.edges());
   }
 
   @Override
-  public int inDegree(Object node) {
-    return isDirected() ? predecessors(node).size() : degree(node);
-  }
-
-  @Override
-  public int outDegree(Object node) {
-    return isDirected() ? successors(node).size() : degree(node);
+  public final int hashCode() {
+    return edges().hashCode();
   }
 
   /** Returns a string representation of this graph. */

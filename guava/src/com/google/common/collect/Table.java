@@ -19,6 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.CompatibleWith;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -60,46 +61,46 @@ public interface Table<R, C, V> {
   // Accessors
 
   /**
-   * Returns {@code true} if the table contains a mapping with the specified
-   * row and column keys.
+   * Returns {@code true} if the table contains a mapping with the specified row and column keys.
    *
    * @param rowKey key of row to search for
    * @param columnKey key of column to search for
    */
-  boolean contains(@Nullable Object rowKey, @Nullable Object columnKey);
+  boolean contains(
+      @Nullable @CompatibleWith("R") Object rowKey,
+      @Nullable @CompatibleWith("C") Object columnKey);
 
   /**
-   * Returns {@code true} if the table contains a mapping with the specified
-   * row key.
+   * Returns {@code true} if the table contains a mapping with the specified row key.
    *
    * @param rowKey key of row to search for
    */
-  boolean containsRow(@Nullable Object rowKey);
+  boolean containsRow(@Nullable @CompatibleWith("R") Object rowKey);
 
   /**
-   * Returns {@code true} if the table contains a mapping with the specified
-   * column.
+   * Returns {@code true} if the table contains a mapping with the specified column.
    *
    * @param columnKey key of column to search for
    */
-  boolean containsColumn(@Nullable Object columnKey);
+  boolean containsColumn(@Nullable @CompatibleWith("C") Object columnKey);
 
   /**
-   * Returns {@code true} if the table contains a mapping with the specified
-   * value.
+   * Returns {@code true} if the table contains a mapping with the specified value.
    *
    * @param value value to search for
    */
-  boolean containsValue(@Nullable Object value);
+  boolean containsValue(@Nullable @CompatibleWith("V") Object value);
 
   /**
-   * Returns the value corresponding to the given row and column keys, or
-   * {@code null} if no such mapping exists.
+   * Returns the value corresponding to the given row and column keys, or {@code null} if no such
+   * mapping exists.
    *
    * @param rowKey key of row to search for
    * @param columnKey key of column to search for
    */
-  V get(@Nullable Object rowKey, @Nullable Object columnKey);
+  V get(
+      @Nullable @CompatibleWith("R") Object rowKey,
+      @Nullable @CompatibleWith("C") Object columnKey);
 
   /** Returns {@code true} if the table contains no mappings. */
   boolean isEmpty();
@@ -157,12 +158,13 @@ public interface Table<R, C, V> {
    *
    * @param rowKey row key of mapping to be removed
    * @param columnKey column key of mapping to be removed
-   * @return the value previously associated with the keys, or {@code null} if
-   *     no such value existed
+   * @return the value previously associated with the keys, or {@code null} if no such value existed
    */
   @CanIgnoreReturnValue
   @Nullable
-  V remove(@Nullable Object rowKey, @Nullable Object columnKey);
+  V remove(
+      @Nullable @CompatibleWith("R") Object rowKey,
+      @Nullable @CompatibleWith("C") Object columnKey);
 
   // Views
 

@@ -190,8 +190,8 @@ public class MultimapsTest extends TestCase {
     delegate.put("foo", 1);
     delegate.put("foo", 3);
     ListMultimap<String, Integer> multimap = Multimaps.unmodifiableListMultimap(delegate);
-    assertThat(multimap.get("foo")).isNotInstanceOf(RandomAccess.class);
-    assertThat(multimap.get("bar")).isNotInstanceOf(RandomAccess.class);
+    assertFalse(multimap.get("foo") instanceof RandomAccess);
+    assertFalse(multimap.get("bar") instanceof RandomAccess);
   }
 
   @GwtIncompatible // slow (~10s)
@@ -346,7 +346,7 @@ public class MultimapsTest extends TestCase {
     assertThat(unmodifiable.asMap().get("bar")).containsExactly(5, -1);
     assertNull(unmodifiable.asMap().get("missing"));
 
-    assertThat(unmodifiable.entries()).isNotInstanceOf(Serializable.class);
+    assertFalse(unmodifiable.entries() instanceof Serializable);
   }
 
   /**
@@ -684,8 +684,8 @@ public class MultimapsTest extends TestCase {
     Collection<Integer> collection = multimap.get(Color.BLUE);
     assertEquals(collection, collection);
 
-    assertThat(multimap.keySet()).isNotInstanceOf(SortedSet.class);
-    assertThat(multimap.asMap()).isNotInstanceOf(SortedMap.class);
+    assertFalse(multimap.keySet() instanceof SortedSet);
+    assertFalse(multimap.asMap() instanceof SortedMap);
   }
 
   @GwtIncompatible // SerializableTester
@@ -717,7 +717,7 @@ public class MultimapsTest extends TestCase {
     multimap.putAll(Color.RED, asList(2, 7, 1, 8));
     assertEquals(2, factory.count);
     assertEquals("{BLUE=[3, 1, 4, 1], RED=[2, 7, 1, 8]}", multimap.toString());
-    assertThat(multimap.get(Color.BLUE)).isNotInstanceOf(RandomAccess.class);
+    assertFalse(multimap.get(Color.BLUE) instanceof RandomAccess);
 
     assertTrue(multimap.keySet() instanceof SortedSet);
     assertTrue(multimap.asMap() instanceof SortedMap);

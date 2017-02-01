@@ -208,11 +208,21 @@ public class TreeBasedTableTest extends AbstractTableTest {
 
   public void testColumnComparator() {
     sortedTable = TreeBasedTable.create();
+    sortedTable.put("", 42, 'x');
     assertSame(Ordering.natural(), sortedTable.columnComparator());
+    assertSame(
+        Ordering.natural(),
+        ((SortedMap<Integer, Character>) sortedTable.rowMap().values().iterator().next())
+            .comparator());
 
     sortedTable = TreeBasedTable.create(
         Collections.reverseOrder(), Ordering.usingToString());
+    sortedTable.put("", 42, 'x');
     assertSame(Ordering.usingToString(), sortedTable.columnComparator());
+    assertSame(
+        Ordering.usingToString(),
+        ((SortedMap<Integer, Character>) sortedTable.rowMap().values().iterator().next())
+            .comparator());
   }
 
   public void testRowKeySetComparator() {

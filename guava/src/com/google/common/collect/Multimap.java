@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.CompatibleWith;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -186,19 +187,21 @@ public interface Multimap<K, V> {
    * Returns {@code true} if this multimap contains at least one key-value pair
    * with the key {@code key}.
    */
-  boolean containsKey(@Nullable Object key);
+  boolean containsKey(@CompatibleWith("K") @Nullable Object key);
 
   /**
    * Returns {@code true} if this multimap contains at least one key-value pair
    * with the value {@code value}.
    */
-  boolean containsValue(@Nullable Object value);
+  boolean containsValue(@CompatibleWith("V") @Nullable Object value);
 
   /**
    * Returns {@code true} if this multimap contains at least one key-value pair
    * with the key {@code key} and the value {@code value}.
    */
-  boolean containsEntry(@Nullable Object key, @Nullable Object value);
+  boolean containsEntry(
+      @CompatibleWith("K") @Nullable Object key,
+      @CompatibleWith("V") @Nullable Object value);
 
   // Modification Operations
 
@@ -226,7 +229,9 @@ public interface Multimap<K, V> {
    * @return {@code true} if the multimap changed
    */
   @CanIgnoreReturnValue
-  boolean remove(@Nullable Object key, @Nullable Object value);
+  boolean remove(
+      @CompatibleWith("K") @Nullable Object key,
+      @CompatibleWith("V") @Nullable Object value);
 
   // Bulk Operations
 
@@ -282,7 +287,7 @@ public interface Multimap<K, V> {
    *     effect on the multimap.
    */
   @CanIgnoreReturnValue
-  Collection<V> removeAll(@Nullable Object key);
+  Collection<V> removeAll(@CompatibleWith("K") @Nullable Object key);
 
   /**
    * Removes all key-value pairs from the multimap, leaving it {@linkplain

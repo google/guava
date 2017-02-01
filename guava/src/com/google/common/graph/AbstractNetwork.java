@@ -17,9 +17,11 @@
 package com.google.common.graph;
 
 import static com.google.common.graph.GraphConstants.GRAPH_STRING_FORMAT;
+import static com.google.common.graph.GraphConstants.MULTIPLE_EDGES_CONNECTING;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
@@ -150,6 +152,39 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
     return Sets.difference(endpointPairIncidentEdges, ImmutableSet.of(edge));
   }
 
+  @Override
+  public Optional<E> edgeConnecting(Object nodeU, Object nodeV) {
+    Set<E> edgesConnecting = edgesConnecting(nodeU, nodeV);
+    switch (edgesConnecting.size()) {
+      case 0:
+        return Optional.absent();
+      case 1:
+        return Optional.of(edgesConnecting.iterator().next());
+      default:
+        throw new IllegalArgumentException(String.format(MULTIPLE_EDGES_CONNECTING, nodeU, nodeV));
+    }
+  }
+
+  @Override
+  public final boolean equals(@Nullable Object obj) {
+    if (obj == this) {
+      return true;
+    }
+    if (!(obj instanceof Network)) {
+      return false;
+    }
+    Network<?, ?> other = (Network<?, ?>) obj;
+
+    return isDirected() == other.isDirected()
+        && nodes().equals(other.nodes())
+        && edgeIncidentNodesMap(this).equals(edgeIncidentNodesMap(other));
+  }
+
+  @Override
+  public final int hashCode() {
+    return edgeIncidentNodesMap(this).hashCode();
+  }
+
   /** Returns a string representation of this network. */
   @Override
   public String toString() {
@@ -157,17 +192,18 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
         String.format(
             "isDirected: %s, allowsParallelEdges: %s, allowsSelfLoops: %s",
             isDirected(), allowsParallelEdges(), allowsSelfLoops());
-    return String.format(GRAPH_STRING_FORMAT, propertiesString, nodes(), edgeIncidentNodesMap());
+    return String.format(
+        GRAPH_STRING_FORMAT, propertiesString, nodes(), edgeIncidentNodesMap(this));
   }
 
-  private Map<E, EndpointPair<N>> edgeIncidentNodesMap() {
+  private static <N, E> Map<E, EndpointPair<N>> edgeIncidentNodesMap(final Network<N, E> network) {
     Function<E, EndpointPair<N>> edgeToIncidentNodesFn =
         new Function<E, EndpointPair<N>>() {
           @Override
           public EndpointPair<N> apply(E edge) {
-            return incidentNodes(edge);
+            return network.incidentNodes(edge);
           }
         };
-    return Maps.asMap(edges(), edgeToIncidentNodesFn);
+    return Maps.asMap(network.edges(), edgeToIncidentNodesFn);
   }
 }

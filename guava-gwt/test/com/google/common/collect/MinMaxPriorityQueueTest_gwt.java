@@ -188,6 +188,21 @@ public void testIteratorTesterLarger() throws Exception {
   testCase.testIteratorTesterLarger();
 }
 
+public void testRandomAddsAndRemoves() throws Exception {
+  com.google.common.collect.MinMaxPriorityQueueTest testCase = new com.google.common.collect.MinMaxPriorityQueueTest();
+  testCase.testRandomAddsAndRemoves();
+}
+
+public void testRandomAddsAndRemoves_duplicateElements() throws Exception {
+  com.google.common.collect.MinMaxPriorityQueueTest testCase = new com.google.common.collect.MinMaxPriorityQueueTest();
+  testCase.testRandomAddsAndRemoves_duplicateElements();
+}
+
+public void testRandomRemoves() throws Exception {
+  com.google.common.collect.MinMaxPriorityQueueTest testCase = new com.google.common.collect.MinMaxPriorityQueueTest();
+  testCase.testRandomRemoves();
+}
+
 public void testRegression_dataCorruption() throws Exception {
   com.google.common.collect.MinMaxPriorityQueueTest testCase = new com.google.common.collect.MinMaxPriorityQueueTest();
   testCase.testRegression_dataCorruption();
@@ -211,6 +226,11 @@ public void testRemoveAt_exhaustive() throws Exception {
 public void testRemoveFromStringHeap() throws Exception {
   com.google.common.collect.MinMaxPriorityQueueTest testCase = new com.google.common.collect.MinMaxPriorityQueueTest();
   testCase.testRemoveFromStringHeap();
+}
+
+public void testRemoveRegression() throws Exception {
+  com.google.common.collect.MinMaxPriorityQueueTest testCase = new com.google.common.collect.MinMaxPriorityQueueTest();
+  testCase.testRemoveRegression();
 }
 
 public void testSmall() throws Exception {

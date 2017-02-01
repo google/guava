@@ -53,9 +53,10 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Provides utility methods for working with files.
+ * Provides utility methods for working with {@linkplain File files}.
  *
- * <p>All method parameters must be non-null unless documented otherwise.
+ * <p>{@link java.nio.file.Path} users will find similar utilities in {@link MoreFiles} and the
+ * JDK's {@link java.nio.file.Files} class.
  *
  * @author Chris Nokleberg
  * @author Colin Decker
@@ -73,6 +74,9 @@ public final class Files {
   /**
    * Returns a buffered reader that reads from a file using the given character set.
    *
+   * <p><b>{@link java.nio.file.Path} equivalent:</b> {@link
+   * java.nio.file.Files#newBufferedReader(java.nio.file.Path, Charset)}.
+   *
    * @param file the file to read from
    * @param charset the charset used to decode the input stream; see {@link StandardCharsets} for
    *     helpful predefined constants
@@ -86,6 +90,10 @@ public final class Files {
 
   /**
    * Returns a buffered writer that writes to a file using the given character set.
+   *
+   * <p><b>{@link java.nio.file.Path} equivalent:</b> {@link
+   * java.nio.file.Files#newBufferedWriter(java.nio.file.Path, Charset,
+   * java.nio.file.OpenOption...)}.
    *
    * @param file the file to write to
    * @param charset the charset used to encode the output stream; see {@link StandardCharsets} for
@@ -229,14 +237,10 @@ public final class Files {
     return asByteSink(file, modes).asCharSink(charset);
   }
 
-  private static FileWriteMode[] modes(boolean append) {
-    return append
-        ? new FileWriteMode[]{ FileWriteMode.APPEND }
-        : new FileWriteMode[0];
-  }
-
   /**
    * Reads all bytes from a file into a byte array.
+   *
+   * <p><b>{@link java.nio.file.Path} equivalent:</b> {@link java.nio.file.Files#readAllBytes}.
    *
    * @param file the file to read from
    * @return a byte array containing all the bytes from file
@@ -256,13 +260,19 @@ public final class Files {
    *     helpful predefined constants
    * @return a string containing all the characters from the file
    * @throws IOException if an I/O error occurs
+   * @deprecated Prefer {@code asCharSource(file, charset).read()}. This method is scheduled to be
+   *     removed in January 2019.
    */
+  @Deprecated
   public static String toString(File file, Charset charset) throws IOException {
     return asCharSource(file, charset).read();
   }
 
   /**
    * Overwrites a file with the contents of a byte array.
+   *
+   * <p><b>{@link java.nio.file.Path} equivalent:</b> {@link
+   * java.nio.file.Files#write(java.nio.file.Path, byte[], java.nio.file.OpenOption...)}.
    *
    * @param from the bytes to write
    * @param to the destination file
@@ -274,6 +284,9 @@ public final class Files {
 
   /**
    * Copies all bytes from a file to an output stream.
+   *
+   * <p><b>{@link java.nio.file.Path} equivalent:</b> {@link
+   * java.nio.file.Files#copy(java.nio.file.Path, OutputStream)}.
    *
    * @param from the source file
    * @param to the output stream
@@ -294,6 +307,9 @@ public final class Files {
    * with the contents of {@code from}. If {@code to} and {@code from} refer to the <i>same</i>
    * file, the contents of that file will be deleted.
    *
+   * <p><b>{@link java.nio.file.Path} equivalent:</b> {@link
+   * java.nio.file.Files#copy(java.nio.file.Path, java.nio.file.Path, java.nio.file.CopyOption...)}.
+   *
    * @param from the source file
    * @param to the destination file
    * @throws IOException if an I/O error occurs
@@ -312,7 +328,10 @@ public final class Files {
    * @param charset the charset used to encode the output stream; see {@link StandardCharsets} for
    *     helpful predefined constants
    * @throws IOException if an I/O error occurs
+   * @deprecated Prefer {@code asCharSink(to, charset).write(from)}. This method is scheduled to be
+   *     removed in January 2019.
    */
+  @Deprecated
   public static void write(CharSequence from, File to, Charset charset) throws IOException {
     asCharSink(to, charset).write(from);
   }
@@ -325,24 +344,12 @@ public final class Files {
    * @param charset the charset used to encode the output stream; see {@link StandardCharsets} for
    *     helpful predefined constants
    * @throws IOException if an I/O error occurs
+   * @deprecated Prefer {@code asCharSink(to, charset, FileWriteMode.APPEND).write(from)}. This
+   *     method is scheduled to be removed in January 2019.
    */
+  @Deprecated
   public static void append(CharSequence from, File to, Charset charset) throws IOException {
-    write(from, to, charset, true);
-  }
-
-  /**
-   * Private helper method. Writes a character sequence to a file, optionally appending.
-   *
-   * @param from the character sequence to append
-   * @param to the destination file
-   * @param charset the charset used to encode the output stream; see {@link StandardCharsets} for
-   *     helpful predefined constants
-   * @param append true to append, false to overwrite
-   * @throws IOException if an I/O error occurs
-   */
-  private static void write(CharSequence from, File to, Charset charset, boolean append)
-      throws IOException {
-    asCharSink(to, charset, modes(append)).write(from);
+    asCharSink(to, charset, FileWriteMode.APPEND).write(from);
   }
 
   /**
@@ -353,13 +360,16 @@ public final class Files {
    *     helpful predefined constants
    * @param to the appendable object
    * @throws IOException if an I/O error occurs
+   * @deprecated Prefer {@code asCharSource(from, charset).copyTo(to)}. This method is scheduled to
+   *     be removed in January 2019.
    */
+  @Deprecated
   public static void copy(File from, Charset charset, Appendable to) throws IOException {
     asCharSource(from, charset).copyTo(to);
   }
 
   /**
-   * Returns true if the files contains the same bytes.
+   * Returns true if the given files exist, are not directories, and contain the same bytes.
    *
    * @throws IOException if an I/O error occurs
    */
@@ -395,6 +405,9 @@ public final class Files {
    *
    * <p>This method assumes that the temporary volume is writable, has free inodes and free blocks,
    * and that it will not be called thousands of times per second.
+   *
+   * <p><b>{@link java.nio.file.Path} equivalent:</b> {@link
+   * java.nio.file.Files#createTempDirectory}.
    *
    * @return the newly-created directory
    * @throws IllegalStateException if the directory could not be created
@@ -466,6 +479,8 @@ public final class Files {
    * different directory. In either case {@code to} must be the target path for the file itself; not
    * just the new name for the file or the path to the new parent directory.
    *
+   * <p><b>{@link java.nio.file.Path} equivalent:</b> {@link java.nio.file.Files#move}.
+   *
    * @param from the source file
    * @param to the destination file
    * @throws IOException if an I/O error occurs
@@ -496,7 +511,10 @@ public final class Files {
    *     helpful predefined constants
    * @return the first line, or null if the file is empty
    * @throws IOException if an I/O error occurs
+   * @deprecated Prefer {@code asCharSource(file, charset).readFirstLine()}. This method is
+   *     scheduled to be removed in January 2019.
    */
+  @Deprecated
   public static String readFirstLine(File file, Charset charset) throws IOException {
     return asCharSource(file, charset).readFirstLine();
   }
@@ -505,8 +523,11 @@ public final class Files {
    * Reads all of the lines from a file. The lines do not include line-termination characters, but
    * do include other leading and trailing whitespace.
    *
-   * <p>This method returns a mutable {@code List}. For an {@code ImmutableList}, use
-   * {@code Files.asCharSource(file, charset).readLines()}.
+   * <p>This method returns a mutable {@code List}. For an {@code ImmutableList}, use {@code
+   * Files.asCharSource(file, charset).readLines()}.
+   *
+   * <p><b>{@link java.nio.file.Path} equivalent:</b> {@link
+   * java.nio.file.Files#readAllLines(java.nio.file.Path, Charset)}.
    *
    * @param file the file to read from
    * @param charset the charset used to decode the input stream; see {@link StandardCharsets} for
@@ -517,23 +538,22 @@ public final class Files {
   public static List<String> readLines(File file, Charset charset) throws IOException {
     // don't use asCharSource(file, charset).readLines() because that returns
     // an immutable list, which would change the behavior of this method
-    return readLines(
-        file,
-        charset,
-        new LineProcessor<List<String>>() {
-          final List<String> result = Lists.newArrayList();
+    return asCharSource(file, charset)
+        .readLines(
+            new LineProcessor<List<String>>() {
+              final List<String> result = Lists.newArrayList();
 
-          @Override
-          public boolean processLine(String line) {
-            result.add(line);
-            return true;
-          }
+              @Override
+              public boolean processLine(String line) {
+                result.add(line);
+                return true;
+              }
 
-          @Override
-          public List<String> getResult() {
-            return result;
-          }
-        });
+              @Override
+              public List<String> getResult() {
+                return result;
+              }
+            });
   }
 
   /**
@@ -546,7 +566,10 @@ public final class Files {
    * @param callback the {@link LineProcessor} to use to handle the lines
    * @return the output of processing the lines
    * @throws IOException if an I/O error occurs
+   * @deprecated Prefer {@code asCharSource(file, charset).readLines(callback)}. This method is
+   *     scheduled to be removed in January 2019.
    */
+  @Deprecated
   @CanIgnoreReturnValue // some processors won't return a useful result
   public static <T> T readLines(File file, Charset charset, LineProcessor<T> callback)
       throws IOException {
@@ -562,7 +585,10 @@ public final class Files {
    * @param processor the object to which the bytes of the file are passed.
    * @return the result of the byte processor
    * @throws IOException if an I/O error occurs
+   * @deprecated Prefer {@code asByteSource(file).read(processor)}. This method is scheduled to be
+   *     removed in January 2019.
    */
+  @Deprecated
   @CanIgnoreReturnValue // some processors won't return a useful result
   public static <T> T readBytes(File file, ByteProcessor<T> processor) throws IOException {
     return asByteSource(file).read(processor);
@@ -576,7 +602,10 @@ public final class Files {
    * @return the {@link HashCode} of all of the bytes in the file
    * @throws IOException if an I/O error occurs
    * @since 12.0
+   * @deprecated Prefer {@code asByteSource(file).hash(hashFunction)}. This method is scheduled to
+   *     be removed in January 2019.
    */
+  @Deprecated
   public static HashCode hash(File file, HashFunction hashFunction) throws IOException {
     return asByteSource(file).hash(hashFunction);
   }
@@ -743,6 +772,13 @@ public final class Files {
    * Returns the <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> for
    * the given file name, or the empty string if the file has no extension. The result does not
    * include the '{@code .}'.
+   *
+   * <p><b>Note:</b> This method simply returns everything after the last '{@code .}' in the file's
+   * name as determined by {@link File#getName}. It does not account for any filesystem-specific
+   * behavior that the {@link File} API does not already account for. For example, on NTFS it will
+   * report {@code "txt"} as the extension for the filename {@code "foo.exe:.txt"} even though NTFS
+   * will drop the {@code ":.txt"} part of the name when the file is actually created on the
+   * filesystem due to NTFS's <a href="https://goo.gl/vTpJi4">Alternate Data Streams</a>.
    *
    * @since 11.0
    */

@@ -93,6 +93,16 @@ public final class NullPointerTester {
   }
 
   /**
+   * Ignore {@code constructor} in the tests that follow. Returns this object.
+   *
+   * @since 22.0
+   */
+  public NullPointerTester ignore(Constructor<?> constructor) {
+    ignoredMembers.add(checkNotNull(constructor));
+    return this;
+  }
+
+  /**
    * Runs {@link #testConstructor} on every constructor in class {@code c} that
    * has at least {@code minimalVisibility}.
    */
@@ -276,7 +286,7 @@ public final class NullPointerTester {
       // a file.
       String visiblePackage = Reflection.getPackageName(cls);
       ImmutableList.Builder<Method> builder = ImmutableList.builder();
-      for (Class<?> type : TypeToken.of(cls).getTypes().classes().rawTypes()) {
+      for (Class<?> type : TypeToken.of(cls).getTypes().rawTypes()) {
         if (!Reflection.getPackageName(type).equals(visiblePackage)) {
           break;
         }

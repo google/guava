@@ -85,7 +85,7 @@ final class LittleEndianByteArray {
   /**
    * Load 4 bytes from the provided array at the indicated offset.
    *
-   * @param input the input bytes
+   * @param source the input bytes
    * @param offset the offset into the array at which to start
    * @return the value found in the array in the form of a long
    */

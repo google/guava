@@ -68,6 +68,7 @@ public class TestsForMapsInJavaUtil {
     suite.addTest(testsForHashMap());
     suite.addTest(testsForHashtable());
     suite.addTest(testsForLinkedHashMap());
+    suite.addTest(testsForSynchronizedNavigableMap());
     suite.addTest(testsForTreeMapNatural());
     suite.addTest(testsForTreeMapWithComparator());
     suite.addTest(testsForUnmodifiableMap());
@@ -117,6 +118,10 @@ public class TestsForMapsInJavaUtil {
   }
 
   protected Collection<Method> suppressForLinkedHashMap() {
+    return Collections.emptySet();
+  }
+
+  protected Collection<Method> suppressForSynchronizedNavigableMap() {
     return Collections.emptySet();
   }
 
@@ -354,6 +359,32 @@ public class TestsForMapsInJavaUtil {
             CollectionFeature.SERIALIZABLE,
             CollectionSize.ANY)
         .suppressing(suppressForLinkedHashMap())
+        .createTestSuite();
+  }
+
+  /**
+   * Tests regular NavigableMap behavior of synchronizedNavigableMap(treeMap);
+   * does not test the fact that it's synchronized.
+   */
+  public Test testsForSynchronizedNavigableMap() {
+    return NavigableMapTestSuiteBuilder.using(
+            new TestStringSortedMapGenerator() {
+              @Override
+              protected SortedMap<String, String> create(Entry<String, String>[] entries) {
+                NavigableMap<String, String> delegate = populate(new TreeMap<>(), entries);
+                return Collections.synchronizedNavigableMap(delegate);
+              }
+            })
+        .named("synchronizedNavigableMap/TreeMap, natural")
+        .withFeatures(
+            MapFeature.GENERAL_PURPOSE,
+            MapFeature.ALLOWS_NULL_VALUES,
+            MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+            CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.SERIALIZABLE,
+            CollectionSize.ANY)
+        .suppressing(suppressForSynchronizedNavigableMap())
         .createTestSuite();
   }
 

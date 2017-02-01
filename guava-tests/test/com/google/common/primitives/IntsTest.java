@@ -200,6 +200,19 @@ public class IntsTest extends TestCase {
         (int) 5, (int) 3, (int) 0, (int) 9));
   }
 
+  public void testConstrainToRange() {
+    assertEquals((int) 1, Ints.constrainToRange((int) 1, (int) 0, (int) 5));
+    assertEquals((int) 1, Ints.constrainToRange((int) 1, (int) 1, (int) 5));
+    assertEquals((int) 3, Ints.constrainToRange((int) 1, (int) 3, (int) 5));
+    assertEquals((int) -1, Ints.constrainToRange((int) 0, (int) -5, (int) -1));
+    assertEquals((int) 2, Ints.constrainToRange((int) 5, (int) 2, (int) 2));
+    try {
+      Ints.constrainToRange((int) 1, (int) 3, (int) 2);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
   public void testConcat() {
     assertTrue(Arrays.equals(EMPTY, Ints.concat()));
     assertTrue(Arrays.equals(EMPTY, Ints.concat(EMPTY)));

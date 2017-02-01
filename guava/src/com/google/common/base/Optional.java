@@ -121,6 +121,8 @@ public abstract class Optional<T> implements Serializable {
   /**
    * Returns the equivalent {@code com.google.common.base.Optional} value to the given {@code
    * java.util.Optional}, or {@code null} if the argument is null.
+   *
+   * @since 21.0
    */
   @Nullable
   public static <T> Optional<T> fromJavaUtil(@Nullable java.util.Optional<T> javaUtilOptional) {
@@ -130,12 +132,19 @@ public abstract class Optional<T> implements Serializable {
   /**
    * Returns the equivalent {@code java.util.Optional} value to the given {@code
    * com.google.common.base.Optional}, or {@code null} if the argument is null.
+   *
+   * <p>If {@code googleOptional} is known to be non-null, use {@code googleOptional.toJavaUtil()}
+   * instead.
+   *
+   * <p>Unfortunately, the method reference {@code Optional::toJavaUtil} will not work, because it
+   * could refer to either the static or instance version of this method. Write out the lambda
+   * expression {@code o -> Optional.toJavaUtil(o)} instead.
+   *
+   * @since 21.0
    */
   @Nullable
   public static <T> java.util.Optional<T> toJavaUtil(@Nullable Optional<T> googleOptional) {
-    return (googleOptional == null)
-        ? null
-        : java.util.Optional.ofNullable(googleOptional.orNull());
+    return googleOptional == null ? null : googleOptional.toJavaUtil();
   }
 
   Optional() {}
@@ -153,7 +162,7 @@ public abstract class Optional<T> implements Serializable {
    *
    * <p><b>Comparison to {@code java.util.Optional}:</b> when the value is absent, this method
    * throws {@link IllegalStateException}, whereas the Java 8 counterpart throws
-   * {@link NoSuchElementException}.
+   * {@link java.util.NoSuchElementException NoSuchElementException}.
    *
    * @throws IllegalStateException if the instance is absent ({@link #isPresent} returns
    *     {@code false}); depending on this <i>specific</i> exception type (over the more general
@@ -261,6 +270,19 @@ public abstract class Optional<T> implements Serializable {
    * @since 12.0
    */
   public abstract <V> Optional<V> transform(Function<? super T, V> function);
+
+  /**
+   * Returns the equivalent {@code java.util.Optional} value to this optional.
+   *
+   * <p>Unfortunately, the method reference {@code Optional::toJavaUtil} will not work, because it
+   * could refer to either the static or instance version of this method. Write out the lambda
+   * expression {@code o -> o.toJavaUtil()} instead.
+   *
+   * @since 21.0
+   */
+  public java.util.Optional<T> toJavaUtil() {
+    return java.util.Optional.ofNullable(orNull());
+  }
 
   /**
    * Returns {@code true} if {@code object} is an {@code Optional} instance, and either the

@@ -36,8 +36,8 @@ import javax.annotation.Nullable;
 /**
  * Static utility methods pertaining to instances of {@link Throwable}.
  *
- * <p>See the Guava User Guide entry on
- * <a href="https://github.com/google/guava/wiki/ThrowablesExplained">Throwables</a>.
+ * <p>See the Guava User Guide entry on <a
+ * href="https://github.com/google/guava/wiki/ThrowablesExplained">Throwables</a>.
  *
  * @author Kevin Bourrillion
  * @author Ben Yu
@@ -92,8 +92,8 @@ public final class Throwables {
    * }
    * </pre>
    *
-   * @deprecated Use {@link #throwIfInstanceOf}, which has the same behavior
-   *     but rejects {@code null}. This method is scheduled to be removed in July 2018.
+   * @deprecated Use {@link #throwIfInstanceOf}, which has the same behavior but rejects {@code
+   *     null}. This method is scheduled to be removed in July 2018.
    */
   @Deprecated
   @GwtIncompatible // throwIfInstanceOf
@@ -134,8 +134,8 @@ public final class Throwables {
   }
 
   /**
-   * Propagates {@code throwable} exactly as-is, if and only if it is an instance of
-   * {@link RuntimeException} or {@link Error}. Example usage:
+   * Propagates {@code throwable} exactly as-is, if and only if it is an instance of {@link
+   * RuntimeException} or {@link Error}. Example usage:
    *
    * <pre>
    * try {
@@ -148,8 +148,8 @@ public final class Throwables {
    * }
    * </pre>
    *
-   * @deprecated Use {@link #throwIfUnchecked}, which has the same behavior but rejects
-   *     {@code null}. This method is scheduled to be removed in July 2018.
+   * @deprecated Use {@link #throwIfUnchecked}, which has the same behavior but rejects {@code
+   *     null}. This method is scheduled to be removed in July 2018.
    */
   @Deprecated
   @GwtIncompatible
@@ -160,8 +160,8 @@ public final class Throwables {
   }
 
   /**
-   * Propagates {@code throwable} exactly as-is, if and only if it is an instance of
-   * {@link RuntimeException}, {@link Error}, or {@code declaredType}. Example usage:
+   * Propagates {@code throwable} exactly as-is, if and only if it is an instance of {@link
+   * RuntimeException}, {@link Error}, or {@code declaredType}. Example usage:
    *
    * <pre>
    * try {
@@ -185,11 +185,11 @@ public final class Throwables {
   }
 
   /**
-   * Propagates {@code throwable} exactly as-is, if and only if it is an instance of
-   * {@link RuntimeException}, {@link Error}, {@code declaredType1}, or {@code declaredType2}. In
-   * the unlikely case that you have three or more declared checked exception types, you can handle
-   * them all by invoking these methods repeatedly. See usage example in
-   * {@link #propagateIfPossible(Throwable, Class)}.
+   * Propagates {@code throwable} exactly as-is, if and only if it is an instance of {@link
+   * RuntimeException}, {@link Error}, {@code declaredType1}, or {@code declaredType2}. In the
+   * unlikely case that you have three or more declared checked exception types, you can handle them
+   * all by invoking these methods repeatedly. See usage example in {@link
+   * #propagateIfPossible(Throwable, Class)}.
    *
    * @param throwable the Throwable to possibly propagate
    * @param declaredType1 any checked exception type declared by the calling method
@@ -205,9 +205,8 @@ public final class Throwables {
   }
 
   /**
-   * <p>Propagates {@code throwable} as-is if it is an instance of {@link RuntimeException} or
-   * {@link Error}, or else as a last resort, wraps it in a {@code RuntimeException} and then
-   * propagates.
+   * Propagates {@code throwable} as-is if it is an instance of {@link RuntimeException} or {@link
+   * Error}, or else as a last resort, wraps it in a {@code RuntimeException} and then propagates.
    *
    * <p>This method always throws an exception. The {@code RuntimeException} return type allows
    * client code to signal to the compiler that statements after the call are unreachable. Example
@@ -229,8 +228,9 @@ public final class Throwables {
    * @return nothing will ever be returned; this return type is only for your convenience, as
    *     illustrated in the example above
    * @deprecated Use {@code throw e} or {@code throw new RuntimeException(e)} directly, or use a
-   *     combination of {@link #throwIfUnchecked} and {@code throw new RuntimeException(e)}. This
-   *     method is scheduled to be removed in July 2018.
+   *     combination of {@link #throwIfUnchecked} and {@code throw new RuntimeException(e)}. For
+   *     background on the deprecation, read <a href="https://goo.gl/Ivn2kc">Why we deprecated
+   *     {@code Throwables.propagate}</a>. This method is scheduled to be removed in July 2018.
    */
   @CanIgnoreReturnValue
   @GwtIncompatible
@@ -283,6 +283,31 @@ public final class Throwables {
   }
 
   /**
+   * Returns {@code throwable}'s cause, cast to {@code expectedCauseType}.
+   *
+   * <p>Prefer this method instead of manually casting an exception's cause. For example, {@code
+   * (IOException) e.getCause()} throws a {@link ClassCastException} that discards the original
+   * exception {@code e} if the cause is not an {@link IOException}, but {@code
+   * Throwables.getCauseAs(e, IOException.class)} keeps {@code e} as the {@link
+   * ClassCastException}'s cause.
+   *
+   * @throws ClassCastException if the cause cannot be cast to the expected type. The {@code
+   *     ClassCastException}'s cause is {@code throwable}.
+   * @since 22.0
+   */
+  @Beta
+  @GwtIncompatible // Class.cast(Object)
+  public static <X extends Throwable> X getCauseAs(
+      Throwable throwable, Class<X> expectedCauseType) {
+    try {
+      return expectedCauseType.cast(throwable.getCause());
+    } catch (ClassCastException e) {
+      e.initCause(throwable);
+      throw e;
+    }
+  }
+
+  /**
    * Returns a string containing the result of {@link Throwable#toString() toString()}, followed by
    * the full, recursive stack trace of {@code throwable}. Note that you probably should not be
    * parsing the resulting string; if you need programmatic access to the stack frames, you can call
@@ -309,10 +334,11 @@ public final class Throwables {
    * by delaying the per-stack-frame work until each element is accessed. Roughly speaking:
    *
    * <ul>
-   * <li>{@code getStackTrace} takes {@code stackSize} time to return but then negligible time to
-   * retrieve each element of the returned list.
-   * <li>{@code lazyStackTrace} takes negligible time to return but then {@code 1/stackSize} time to
-   * retrieve each element of the returned list (probably slightly more than {@code 1/stackSize}).
+   *   <li>{@code getStackTrace} takes {@code stackSize} time to return but then negligible time to
+   *       retrieve each element of the returned list.
+   *   <li>{@code lazyStackTrace} takes negligible time to return but then {@code 1/stackSize} time
+   *       to retrieve each element of the returned list (probably slightly more than {@code
+   *       1/stackSize}).
    * </ul>
    *
    * <p>Note: The special implementation does not respect calls to {@link Throwable#setStackTrace

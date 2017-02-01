@@ -19,14 +19,14 @@ package com.google.common.graph;
 import java.util.Set;
 
 /**
- * A class to allow {@link Graph} implementations to be backed by {@link ValueGraph}s. This is not
+ * A class to allow {@link Graph} implementations to be backed by a {@link BaseGraph}. This is not
  * currently planned to be released as a general-purpose forwarding class.
  *
  * @author James Sexton
  */
 abstract class ForwardingGraph<N> extends AbstractGraph<N> {
 
-  protected abstract Graph<N> delegate();
+  protected abstract BaseGraph<N> delegate();
 
   @Override
   public Set<N> nodes() {

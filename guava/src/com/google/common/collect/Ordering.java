@@ -123,11 +123,11 @@ import javax.annotation.Nullable;
  * <h3>For Java 8 users</h3>
  *
  * <p>If you are using Java 8, this class is now obsolete <i>(pending a few August 2016
- * updates)</i>. Most of its functionality is now provided by {@link Stream} and by {@link
- * Comparator} itself, and the rest can now be found as static methods in our new {@link
- * Comparators} class. See each method below for further instructions. Whenever possible, you should
- * change any references of type {@code Ordering} to be of type {@code Comparator} instead. However,
- * at this time we have no plan to <i>deprecate</i> this class.
+ * updates)</i>. Most of its functionality is now provided by {@link java.util.stream.Stream Stream}
+ * and by {@link Comparator} itself, and the rest can now be found as static methods in our new
+ * {@link Comparators} class. See each method below for further instructions. Whenever possible, you
+ * should change any references of type {@code Ordering} to be of type {@code Comparator} instead.
+ * However, at this time we have no plan to <i>deprecate</i> this class.
  *
  * <p>Many replacements involve adopting {@code Stream}, and these changes can sometimes make your
  * code verbose. Whenever following this advice, you should check whether {@code Stream} could be
@@ -585,8 +585,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * <p><b>Implementation note:</b> this method is invoked by the default implementations of the
    * other {@code min} overloads, so overriding it will affect their behavior.
    *
-   * <p><b>Java 8 users:</b> Use {@code Stream.of(a, b).min(thisComparator).get()} instead (but note
-   * that it does not guarantee which tied minimum element is returned).
+   * <p><b>Java 8 users:</b> Use {@code Collections.min(Arrays.asList(a, b), thisComparator)}
+   * instead (but note that it does not guarantee which tied minimum element is returned).
    *
    * @param a value to compare, returned if less than or equal to b.
    * @param b value to compare.
@@ -602,8 +602,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * Returns the least of the specified values according to this ordering. If there are multiple
    * least values, the first of those is returned.
    *
-   * <p><b>Java 8 users:</b> Use {@code Stream.of(a, b, c...).min(thisComparator).get()} instead
-   * (but note that it does not guarantee which tied minimum element is returned).
+   * <p><b>Java 8 users:</b> Use {@code Collections.min(Arrays.asList(a, b, c...), thisComparator)}
+   * instead (but note that it does not guarantee which tied minimum element is returned).
    *
    * @param a value to compare, returned if less than or equal to the rest.
    * @param b value to compare
@@ -671,20 +671,19 @@ public abstract class Ordering<T> implements Comparator<T> {
   }
 
   /**
-   * Returns the greater of the two values according to this ordering. If the
-   * values compare as 0, the first is returned.
+   * Returns the greater of the two values according to this ordering. If the values compare as 0,
+   * the first is returned.
    *
-   * <p><b>Implementation note:</b> this method is invoked by the default
-   * implementations of the other {@code max} overloads, so overriding it will
-   * affect their behavior.
+   * <p><b>Implementation note:</b> this method is invoked by the default implementations of the
+   * other {@code max} overloads, so overriding it will affect their behavior.
    *
-   * <p><b>Java 8 users:</b> Use {@code Stream.of(a, b).max(thisComparator).get()} instead (but note
-   * that it does not guarantee which tied maximum element is returned).
+   * <p><b>Java 8 users:</b> Use {@code Collections.max(Arrays.asList(a, b), thisComparator)}
+   * instead (but note that it does not guarantee which tied maximum element is returned).
    *
    * @param a value to compare, returned if greater than or equal to b.
    * @param b value to compare.
-   * @throws ClassCastException if the parameters are not <i>mutually
-   *     comparable</i> under this ordering.
+   * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
+   *     ordering.
    */
   @CanIgnoreReturnValue // TODO(kak): Consider removing this
   public <E extends T> E max(@Nullable E a, @Nullable E b) {
@@ -692,18 +691,18 @@ public abstract class Ordering<T> implements Comparator<T> {
   }
 
   /**
-   * Returns the greatest of the specified values according to this ordering. If
-   * there are multiple greatest values, the first of those is returned.
+   * Returns the greatest of the specified values according to this ordering. If there are multiple
+   * greatest values, the first of those is returned.
    *
-   * <p><b>Java 8 users:</b> Use {@code Stream.of(a, b, c...).max(thisComparator).get()} instead
-   * (but note that it does not guarantee which tied maximum element is returned).
+   * <p><b>Java 8 users:</b> Use {@code Collections.max(Arrays.asList(a, b, c...), thisComparator)}
+   * instead (but note that it does not guarantee which tied maximum element is returned).
    *
    * @param a value to compare, returned if greater than or equal to the rest.
    * @param b value to compare
    * @param c value to compare
    * @param rest values to compare
-   * @throws ClassCastException if the parameters are not <i>mutually
-   *     comparable</i> under this ordering.
+   * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
+   *     ordering.
    */
   @CanIgnoreReturnValue // TODO(kak): Consider removing this
   public <E extends T> E max(@Nullable E a, @Nullable E b, @Nullable E c, E... rest) {
@@ -882,8 +881,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * equal to the element that preceded it, according to this ordering. Note that this is always
    * true when the iterable has fewer than two elements.
    *
-   * <p><b>Java 8 users:</b> Use the equivalent {@link Comparators#isInOrder(Iterable)} instead,
-   * since the rest of {@code Ordering} is mostly obsolete (as explained in the class
+   * <p><b>Java 8 users:</b> Use the equivalent {@link Comparators#isInOrder(Iterable, Comparator)}
+   * instead, since the rest of {@code Ordering} is mostly obsolete (as explained in the class
    * documentation).
    */
   public boolean isOrdered(Iterable<? extends T> iterable) {
@@ -906,9 +905,9 @@ public abstract class Ordering<T> implements Comparator<T> {
    * greater than the element that preceded it, according to this ordering. Note that this is always
    * true when the iterable has fewer than two elements.
    *
-   * <p><b>Java 8 users:</b> Use the equivalent {@link Comparators#isInStrictOrder(Iterable)}
-   * instead, since the rest of {@code Ordering} is mostly obsolete (as explained in the class
-   * documentation).
+   * <p><b>Java 8 users:</b> Use the equivalent {@link Comparators#isInStrictOrder(Iterable,
+   * Comparator)} instead, since the rest of {@code Ordering} is mostly obsolete (as explained in
+   * the class documentation).
    */
   public boolean isStrictlyOrdered(Iterable<? extends T> iterable) {
     Iterator<? extends T> it = iterable.iterator();

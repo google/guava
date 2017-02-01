@@ -53,6 +53,11 @@ public void testConcat() throws Exception {
   testCase.testConcat();
 }
 
+public void testConstrainToRange() throws Exception {
+  com.google.common.primitives.ShortsTest testCase = new com.google.common.primitives.ShortsTest();
+  testCase.testConstrainToRange();
+}
+
 public void testContains() throws Exception {
   com.google.common.primitives.ShortsTest testCase = new com.google.common.primitives.ShortsTest();
   testCase.testContains();

@@ -36,9 +36,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.MapDifference.ValueDifference;
-import com.google.common.collect.Maps.IteratorBasedAbstractMap;
-import com.google.common.collect.Maps.ViewCachingAbstractMap;
-import com.google.common.collect.Sets.ImprovedAbstractSet;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.RetainedWith;
@@ -70,7 +67,9 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
+import java.util.stream.Collector;
 import javax.annotation.Nullable;
 
 /**
@@ -155,6 +154,104 @@ public final class Maps {
       }
       return ImmutableEnumMap.asImmutable(new EnumMap<K, V>(map));
     }
+  }
+
+  private static class Accumulator<K extends Enum<K>, V> {
+    private final BinaryOperator<V> mergeFunction;
+    private EnumMap<K, V> map = null;
+
+    Accumulator(BinaryOperator<V> mergeFunction) {
+      this.mergeFunction = mergeFunction;
+    }
+
+    void put(K key, V value) {
+      if (map == null) {
+        map = new EnumMap<K, V>(key.getDeclaringClass());
+      }
+      map.merge(key, value, mergeFunction);
+    }
+
+    Accumulator<K, V> combine(Accumulator<K, V> other) {
+      if (this.map == null) {
+        return other;
+      } else if (other.map == null) {
+        return this;
+      } else {
+        other.map.forEach(this::put);
+        return this;
+      }
+    }
+
+    ImmutableMap<K, V> toImmutableMap() {
+      return (map == null) ? ImmutableMap.<K, V>of() : ImmutableEnumMap.asImmutable(map);
+    }
+  }
+
+  /**
+   * Returns a {@link Collector} that accumulates elements into an {@code ImmutableMap} whose keys
+   * and values are the result of applying the provided mapping functions to the input elements. The
+   * resulting implementation is specialized for enum key types. The returned map and its views will
+   * iterate over keys in their enum definition order, not encounter order.
+   *
+   * <p>If the mapped keys contain duplicates, an {@code IllegalArgumentException} is thrown when
+   * the collection operation is performed. (This differs from the {@code Collector} returned by
+   * {@link java.util.stream.Collectors#toMap(java.util.function.Function,
+   * java.util.function.Function) Collectors.toMap(Function, Function)}, which throws an
+   * {@code IllegalStateException}.)
+   *
+   * @since 21.0
+   */
+  @Beta
+  public static <T, K extends Enum<K>, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
+      java.util.function.Function<? super T, ? extends K> keyFunction,
+      java.util.function.Function<? super T, ? extends V> valueFunction) {
+    checkNotNull(keyFunction);
+    checkNotNull(valueFunction);
+    return Collector.of(
+        () ->
+            new Accumulator<K, V>(
+                (v1, v2) -> {
+                  throw new IllegalArgumentException("Multiple values for key: " + v1 + ", " + v2);
+                }),
+        (accum, t) -> {
+          K key = checkNotNull(keyFunction.apply(t), "Null key for input %s", t);
+          V newValue = checkNotNull(valueFunction.apply(t), "Null value for input %s", t);
+          accum.put(key, newValue);
+        },
+        Accumulator::combine,
+        Accumulator::toImmutableMap,
+        Collector.Characteristics.UNORDERED);
+  }
+
+  /**
+   * Returns a {@link Collector} that accumulates elements into an {@code ImmutableMap} whose keys
+   * and values are the result of applying the provided mapping functions to the input elements. The
+   * resulting implementation is specialized for enum key types. The returned map and its views will
+   * iterate over keys in their enum definition order, not encounter order.
+   *
+   * <p>If the mapped keys contain duplicates, the values are merged using the specified merging
+   * function.
+   *
+   * @since 21.0
+   */
+  @Beta
+  public static <T, K extends Enum<K>, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
+      java.util.function.Function<? super T, ? extends K> keyFunction,
+      java.util.function.Function<? super T, ? extends V> valueFunction,
+      BinaryOperator<V> mergeFunction) {
+    checkNotNull(keyFunction);
+    checkNotNull(valueFunction);
+    checkNotNull(mergeFunction);
+    // not UNORDERED because we don't know if mergeFunction is commutative
+    return Collector.of(
+        () -> new Accumulator<K, V>(mergeFunction),
+        (accum, t) -> {
+          K key = checkNotNull(keyFunction.apply(t), "Null key for input %s", t);
+          V newValue = checkNotNull(valueFunction.apply(t), "Null value for input %s", t);
+          accum.put(key, newValue);
+        },
+        Accumulator::combine,
+        Accumulator::toImmutableMap);
   }
 
   /**

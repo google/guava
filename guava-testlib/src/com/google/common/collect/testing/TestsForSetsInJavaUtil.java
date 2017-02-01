@@ -66,6 +66,7 @@ public class TestsForSetsInJavaUtil {
     suite.addTest(testsForHashSet());
     suite.addTest(testsForLinkedHashSet());
     suite.addTest(testsForEnumSet());
+    suite.addTest(testsForSynchronizedNavigableSet());
     suite.addTest(testsForTreeSetNatural());
     suite.addTest(testsForTreeSetWithComparator());
     suite.addTest(testsForCopyOnWriteArraySet());
@@ -110,6 +111,10 @@ public class TestsForSetsInJavaUtil {
   }
 
   protected Collection<Method> suppressForEnumSet() {
+    return Collections.emptySet();
+  }
+
+  protected Collection<Method> suppressForSynchronizedNavigableSet() {
     return Collections.emptySet();
   }
 
@@ -293,6 +298,31 @@ public class TestsForSetsInJavaUtil {
             CollectionSize.ANY)
         .suppressing(suppressForEnumSet())
         .createTestSuite();
+  }
+
+  /**
+   * Tests regular NavigableSet behavior of synchronizedNavigableSet(treeSet);
+   * does not test the fact that it's synchronized.
+   */
+  public Test testsForSynchronizedNavigableSet() {
+    return NavigableSetTestSuiteBuilder.using(
+            new TestStringSortedSetGenerator() {
+              @Override
+              public SortedSet<String> create(String[] elements) {
+                NavigableSet<String> delegate = new TreeSet<>(MinimalCollection.of(elements));
+                return Collections.synchronizedNavigableSet(delegate);
+              }
+            })
+        .named("synchronizedNavigableSet/TreeSet, natural")
+        .withFeatures(
+            SetFeature.GENERAL_PURPOSE,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+            CollectionSize.ANY)
+        .suppressing(suppressForSynchronizedNavigableSet())
+        .createTestSuite();
+
   }
 
   public Test testsForTreeSetNatural() {

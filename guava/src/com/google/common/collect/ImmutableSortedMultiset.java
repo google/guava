@@ -71,25 +71,26 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
 
   /**
    * Returns a {@code Collector} that accumulates elements into an {@code ImmutableSortedMultiset}
-   * whose elements are the result of applying {@code elementFunction} to the inputs,
-   * with counts equal to the result of applying {@code countFunction} to the inputs.
+   * whose elements are the result of applying {@code elementFunction} to the inputs, with counts
+   * equal to the result of applying {@code countFunction} to the inputs.
    *
-   * <p>If the mapped elements contain duplicates (according to {@code comparator}),
-   * the first occurrence in encounter order appears in the resulting multiset, with count
-   * equal to the sum of the outputs of {@code countFunction.applyAsInt(t)} for each {@code t}
-   * mapped to that element.
+   * <p>If the mapped elements contain duplicates (according to {@code comparator}), the first
+   * occurrence in encounter order appears in the resulting multiset, with count equal to the sum of
+   * the outputs of {@code countFunction.applyAsInt(t)} for each {@code t} mapped to that element.
+   *
+   * @since 22.0
    */
-  private static <T, E> Collector<T, ?, ImmutableSortedMultiset<E>> toImmutableSortedMultiset(
+  public static <T, E> Collector<T, ?, ImmutableSortedMultiset<E>> toImmutableSortedMultiset(
       Comparator<? super E> comparator,
       Function<? super T, ? extends E> elementFunction,
       ToIntFunction<? super T> countFunction) {
-    // TODO(lowasser): consider exposing this
     checkNotNull(comparator);
     checkNotNull(elementFunction);
     checkNotNull(countFunction);
     return Collector.of(
         () -> TreeMultiset.create(comparator),
-        (multiset, t) -> multiset.add(elementFunction.apply(t), countFunction.applyAsInt(t)),
+        (multiset, t) ->
+            multiset.add(checkNotNull(elementFunction.apply(t)), countFunction.applyAsInt(t)),
         (multiset1, multiset2) -> {
           multiset1.addAll(multiset2);
           return multiset1;

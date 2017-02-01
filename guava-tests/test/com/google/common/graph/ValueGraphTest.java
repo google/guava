@@ -36,14 +36,28 @@ public final class ValueGraphTest {
     assertStronglyEquivalent(graph, Graphs.copyOf(graph));
     assertStronglyEquivalent(graph, ImmutableValueGraph.copyOf(graph));
 
+    Graph<Integer> asGraph = graph.asGraph();
+    AbstractGraphTest.validateGraph(asGraph);
+    assertThat(graph.nodes()).isEqualTo(asGraph.nodes());
+    assertThat(graph.edges()).isEqualTo(asGraph.edges());
+    assertThat(graph.nodeOrder()).isEqualTo(asGraph.nodeOrder());
+    assertThat(graph.isDirected()).isEqualTo(asGraph.isDirected());
+    assertThat(graph.allowsSelfLoops()).isEqualTo(asGraph.allowsSelfLoops());
+
     for (Integer node : graph.nodes()) {
+      assertThat(graph.adjacentNodes(node)).isEqualTo(asGraph.adjacentNodes(node));
+      assertThat(graph.predecessors(node)).isEqualTo(asGraph.predecessors(node));
+      assertThat(graph.successors(node)).isEqualTo(asGraph.successors(node));
+      assertThat(graph.degree(node)).isEqualTo(asGraph.degree(node));
+      assertThat(graph.inDegree(node)).isEqualTo(asGraph.inDegree(node));
+      assertThat(graph.outDegree(node)).isEqualTo(asGraph.outDegree(node));
+
       for (Integer otherNode : graph.nodes()) {
-        boolean connected = graph.successors(node).contains(otherNode);
-        assertThat(graph.edgeValueOrDefault(node, otherNode, null) != null).isEqualTo(connected);
+        boolean hasEdge = graph.hasEdge(node, otherNode);
+        assertThat(hasEdge).isEqualTo(asGraph.hasEdge(node, otherNode));
+        assertThat(graph.edgeValueOrDefault(node, otherNode, null) != null).isEqualTo(hasEdge);
       }
     }
-
-    AbstractGraphTest.validateGraph(graph);
   }
 
   @Test
@@ -187,13 +201,9 @@ public final class ValueGraphTest {
 
     MutableValueGraph<Integer, String> otherGraph = ValueGraphBuilder.undirected().build();
     otherGraph.putEdgeValue(1, 2, "valueA");
-
-    assertThat(Graphs.equivalent(graph, otherGraph)).isTrue();
-    assertThat(Graphs.equivalent((Graph<Integer>) graph, otherGraph)).isTrue();
+    assertThat(graph).isEqualTo(otherGraph);
 
     otherGraph.putEdgeValue(1, 2, "valueB");
-
-    assertThat(Graphs.equivalent(graph, otherGraph)).isFalse(); // values differ
-    assertThat(Graphs.equivalent((Graph<Integer>) graph, otherGraph)).isTrue();
+    assertThat(graph).isNotEqualTo(otherGraph); // values differ
   }
 }

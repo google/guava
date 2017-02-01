@@ -30,11 +30,19 @@ import java.util.concurrent.TimeoutException;
  *
  * @param <V> The result type returned by this Future's {@code get} method
  * @param <X> The type of the Exception thrown by the Future's {@code checkedGet} method
- *
  * @author Anthony Zana
  * @since 9.0
+ * @deprecated {@link CheckedFuture} cannot properly support the chained operations that are the
+ *     primary goal of {@link ListenableFuture}. {@code CheckedFuture} also encourages users to
+ *     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+ *     Additionally, it has a surprising policy about which exceptions to map and which to leave
+ *     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
+ *     use, possibly specializing them to the particular exception type they use. We recommend that
+ *     most people use {@code ListenableFuture} and perform any exception wrapping themselves. This
+ *     class is scheduled for removal from Guava in February 2018.
  */
 @Beta
+@Deprecated
 @GwtIncompatible
 public abstract class ForwardingCheckedFuture<V, X extends Exception>
     extends ForwardingListenableFuture<V> implements CheckedFuture<V, X> {
@@ -60,8 +68,17 @@ public abstract class ForwardingCheckedFuture<V, X extends Exception>
    * constructed {@link CheckedFuture} as the delegate.
    *
    * @since 9.0
+   * @deprecated {@link CheckedFuture} cannot properly support the chained operations that are the
+   *     primary goal of {@link ListenableFuture}. {@code CheckedFuture} also encourages users to
+   *     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+   *     Additionally, it has a surprising policy about which exceptions to map and which to leave
+   *     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
+   *     use, possibly specializing them to the particular exception type they use. We recommend
+   *     that most people use {@code ListenableFuture} and perform any exception wrapping
+   *     themselves. This class is scheduled for removal from Guava in February 2018.
    */
   @Beta
+  @Deprecated
   public abstract static class SimpleForwardingCheckedFuture<V, X extends Exception>
       extends ForwardingCheckedFuture<V, X> {
     private final CheckedFuture<V, X> delegate;

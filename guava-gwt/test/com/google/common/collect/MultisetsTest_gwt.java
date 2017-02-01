@@ -143,6 +143,11 @@ public void testSumNonemptyEmpty() throws Exception {
   testCase.testSumNonemptyEmpty();
 }
 
+public void testToMultisetCountFunction() throws Exception {
+  com.google.common.collect.MultisetsTest testCase = new com.google.common.collect.MultisetsTest();
+  testCase.testToMultisetCountFunction();
+}
+
 public void testUnion() throws Exception {
   com.google.common.collect.MultisetsTest testCase = new com.google.common.collect.MultisetsTest();
   testCase.testUnion();

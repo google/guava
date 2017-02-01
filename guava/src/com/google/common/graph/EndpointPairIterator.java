@@ -30,17 +30,17 @@ import java.util.Set;
  * @author James Sexton
  */
 abstract class EndpointPairIterator<N> extends AbstractIterator<EndpointPair<N>> {
-  private final Graph<N> graph;
+  private final BaseGraph<N> graph;
   private final Iterator<N> nodeIterator;
 
   protected N node = null; // null is safe as an initial value because graphs don't allow null nodes
   protected Iterator<N> successorIterator = ImmutableSet.<N>of().iterator();
 
-  static <N> EndpointPairIterator<N> of(Graph<N> graph) {
+  static <N> EndpointPairIterator<N> of(BaseGraph<N> graph) {
     return graph.isDirected() ? new Directed<N>(graph) : new Undirected<N>(graph);
   }
 
-  private EndpointPairIterator(Graph<N> graph) {
+  private EndpointPairIterator(BaseGraph<N> graph) {
     this.graph = graph;
     this.nodeIterator = graph.nodes().iterator();
   }
@@ -64,7 +64,7 @@ abstract class EndpointPairIterator<N> extends AbstractIterator<EndpointPair<N>>
    * an edge connecting them.
    */
   private static final class Directed<N> extends EndpointPairIterator<N> {
-    private Directed(Graph<N> graph) {
+    private Directed(BaseGraph<N> graph) {
       super(graph);
     }
 
@@ -110,7 +110,7 @@ abstract class EndpointPairIterator<N> extends AbstractIterator<EndpointPair<N>>
   private static final class Undirected<N> extends EndpointPairIterator<N> {
     private Set<N> visitedNodes;
 
-    private Undirected(Graph<N> graph) {
+    private Undirected(BaseGraph<N> graph) {
       super(graph);
       this.visitedNodes = Sets.newHashSetWithExpectedSize(graph.nodes().size());
     }

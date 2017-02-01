@@ -34,6 +34,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.annotation.Nullable;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -340,6 +342,10 @@ public class ClassSanityTesterTest extends TestCase {
     tester.testEquals(UsesEnum.class);
     tester.testEquals(UsesReferentialEquality.class);
     tester.testEquals(SameListInstance.class);
+  }
+
+  public void testStreamParameterSkippedForNullTesting() throws Exception {
+    tester.testNulls(WithStreamParameter.class);
   }
 
   @AndroidIncompatible // problem with equality of Type objects?
@@ -1020,6 +1026,16 @@ public class ClassSanityTesterTest extends TestCase {
         return s == that.s;
       }
       return false;
+    }
+  }
+
+  static class WithStreamParameter {
+    private final List<?> list;
+
+    // This should be ignored.
+    public WithStreamParameter(Stream<?> s, String str) {
+      this.list = s.collect(Collectors.toList());
+      checkNotNull(str);
     }
   }
 

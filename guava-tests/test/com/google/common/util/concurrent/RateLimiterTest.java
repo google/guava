@@ -500,6 +500,15 @@ public class RateLimiterTest extends TestCase {
     tester.testInstanceMethods(RateLimiter.create(stopwatch, 5.0), Visibility.PACKAGE);
   }
 
+  public void testVerySmallDoubleValues() throws Exception {
+    RateLimiter rateLimiter = RateLimiter.create(stopwatch, Double.MIN_VALUE);
+    assertTrue("Should acquire initial permit", rateLimiter.tryAcquire());
+    assertFalse("Should not acquire additional permit", rateLimiter.tryAcquire());
+    stopwatch.sleepMillis(5000);
+    assertFalse(
+        "Should not acquire additional permit even after sleeping", rateLimiter.tryAcquire());
+  }
+
   private long measureTotalTimeMillis(RateLimiter rateLimiter, int permits, Random random) {
     long startTime = stopwatch.instant;
     while (permits > 0) {

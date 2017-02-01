@@ -56,6 +56,10 @@ import javax.annotation.Nullable;
 /**
  * Static utilities for use with {@link Path} instances, intended to complement {@link Files}.
  *
+ * <p>Many methods provided by Guava's {@code Files} class for {@link java.io.File} instances are
+ * now available via the JDK's {@link java.nio.file.Files} class for {@code Path} - check the JDK's
+ * class if a sibling method from {@code Files} appears to be missing from this class.
+ *
  * @since 21.0
  * @author Colin Decker
  */
@@ -318,6 +322,35 @@ public final class MoreFiles {
   }
 
   /**
+   * Returns true if the files located by the given paths exist, are not directories, and contain
+   * the same bytes.
+   *
+   * @throws IOException if an I/O error occurs
+   * @since 22.0
+   */
+  public static boolean equal(Path path1, Path path2) throws IOException {
+    checkNotNull(path1);
+    checkNotNull(path2);
+    if (Files.isSameFile(path1, path2)) {
+      return true;
+    }
+
+    /*
+     * Some operating systems may return zero as the length for files denoting system-dependent
+     * entities such as devices or pipes, in which case we must fall back on comparing the bytes
+     * directly.
+     */
+    ByteSource source1 = asByteSource(path1);
+    ByteSource source2 = asByteSource(path2);
+    long len1 = source1.sizeIfKnown().or(0L);
+    long len2 = source2.sizeIfKnown().or(0L);
+    if (len1 != 0 && len2 != 0 && len1 != len2) {
+      return false;
+    }
+    return source1.contentEquals(source2);
+  }
+
+  /**
    * Like the unix command of the same name, creates an empty file or updates the last modified
    * timestamp of the existing file at the given path to the current system time.
    */
@@ -380,6 +413,13 @@ public final class MoreFiles {
    * Returns the <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> for
    * the file at the given path, or the empty string if the file has no extension. The result does
    * not include the '{@code .}'.
+   *
+   * <p><b>Note:</b> This method simply returns everything after the last '{@code .}' in the file's
+   * name as determined by {@link Path#getFileName}. It does not account for any filesystem-specific
+   * behavior that the {@link Path} API does not already account for. For example, on NTFS it will
+   * report {@code "txt"} as the extension for the filename {@code "foo.exe:.txt"} even though NTFS
+   * will drop the {@code ":.txt"} part of the name when the file is actually created on the
+   * filesystem due to NTFS's <a href="https://goo.gl/vTpJi4">Alternate Data Streams</a>.
    */
   public static String getFileExtension(Path path) {
     Path name = path.getFileName();
@@ -637,7 +677,7 @@ public final class MoreFiles {
    * is a root or is the empty path.
    */
   @Nullable
-  private static Path getParentPath(Path path) throws IOException {
+  private static Path getParentPath(Path path) {
     Path parent = path.getParent();
 
     // Paths that have a parent:

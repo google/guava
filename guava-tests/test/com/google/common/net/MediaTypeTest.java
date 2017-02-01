@@ -84,6 +84,11 @@ public class MediaTypeTest extends TestCase {
   }
 
   @GwtIncompatible // reflection
+  public void testConstants_areUnique() {
+    assertThat(getConstants()).containsNoDuplicates();
+  }
+
+  @GwtIncompatible // reflection
   private static FluentIterable<Field> getConstantFields() {
     return FluentIterable.from(asList(MediaType.class.getDeclaredFields()))
         .filter(new Predicate<Field>() {

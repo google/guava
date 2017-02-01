@@ -104,35 +104,6 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
   }
 
   /**
-   * Creates a new, empty {@code ConcurrentHashMultiset} using {@code mapMaker} to construct the
-   * internal backing map.
-   *
-   * <p>If this {@link MapMaker} is configured to use entry eviction of any kind, this eviction
-   * applies to all occurrences of a given element as a single unit. However, most updates to the
-   * multiset do not count as map updates at all, since we're usually just mutating the value stored
-   * in the map, so {@link MapMaker#expireAfterAccess} makes sense (evict the entry that was queried
-   * or updated longest ago), but {@link MapMaker#expireAfterWrite} doesn't, because the eviction
-   * time is measured from when we saw the first occurrence of the object.
-   *
-   * <p>The returned multiset is serializable but any serialization caveats given in {@code
-   * MapMaker} apply.
-   *
-   * <p>Finally, soft/weak values can be used but are not very useful: the values are created
-   * internally and not exposed externally, so no one else will have a strong reference to the
-   * values. Weak keys on the other hand can be useful in some scenarios.
-   *
-   * @since 15.0 (source compatible (accepting the since removed {@code GenericMapMaker} class)
-   *     since 7.0)
-   * @deprecated Use {@link #create(ConcurrentMap)} instead. This method is scheduled for deletion
-   *     in Guava 21.0.
-   */
-  @Beta
-  @Deprecated
-  public static <E> ConcurrentHashMultiset<E> create(MapMaker mapMaker) {
-    return create(mapMaker.<E, AtomicInteger>makeMap());
-  }
-
-  /**
    * Creates a new, empty {@code ConcurrentHashMultiset} using {@code countMap} as the internal
    * backing map.
    *

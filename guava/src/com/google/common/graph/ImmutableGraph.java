@@ -42,17 +42,21 @@ import com.google.errorprone.annotations.Immutable;
  * @since 20.0
  */
 @Beta
-public abstract class ImmutableGraph<N> extends ForwardingGraph<N> {
+@Immutable(containerOf = {"N"})
+public class ImmutableGraph<N> extends ForwardingGraph<N> {
+  @SuppressWarnings("Immutable") // The backing graph must be immutable.
+  private final BaseGraph<N> backingGraph;
 
-  /** To ensure the immutability contract is maintained, there must be no public constructors. */
-  ImmutableGraph() {}
+  ImmutableGraph(BaseGraph<N> backingGraph) {
+    this.backingGraph = backingGraph;
+  }
 
   /** Returns an immutable copy of {@code graph}. */
   public static <N> ImmutableGraph<N> copyOf(Graph<N> graph) {
     return (graph instanceof ImmutableGraph)
         ? (ImmutableGraph<N>) graph
-        : new ValueBackedImpl<N, Presence>(
-            GraphBuilder.from(graph), getNodeConnections(graph), graph.edges().size());
+        : new ImmutableGraph<N>(new ConfigurableValueGraph<N, Presence>(
+            GraphBuilder.from(graph), getNodeConnections(graph), graph.edges().size()));
   }
 
   /**
@@ -86,20 +90,8 @@ public abstract class ImmutableGraph<N> extends ForwardingGraph<N> {
             Maps.asMap(graph.adjacentNodes(node), edgeValueFn));
   }
 
-  static class ValueBackedImpl<N, V> extends ImmutableGraph<N> {
-    protected final ValueGraph<N, V> backingValueGraph;
-
-    ValueBackedImpl(
-        AbstractGraphBuilder<? super N> builder,
-        ImmutableMap<N, GraphConnections<N, V>> nodeConnections,
-        long edgeCount) {
-      this.backingValueGraph =
-          new ConfigurableValueGraph<N, V>(builder, nodeConnections, edgeCount);
-    }
-
-    @Override
-    protected Graph<N> delegate() {
-      return backingValueGraph;
-    }
+  @Override
+  protected BaseGraph<N> delegate() {
+    return backingGraph;
   }
 }

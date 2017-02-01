@@ -248,6 +248,11 @@ public void testToImmutableMultiset() throws Exception {
   testCase.testToImmutableMultiset();
 }
 
+public void testToImmutableMultisetCountFunction() throws Exception {
+  com.google.common.collect.ImmutableMultisetTest testCase = new com.google.common.collect.ImmutableMultisetTest();
+  testCase.testToImmutableMultisetCountFunction();
+}
+
 public void testToImmutableMultiset_duplicates() throws Exception {
   com.google.common.collect.ImmutableMultisetTest testCase = new com.google.common.collect.ImmutableMultisetTest();
   testCase.testToImmutableMultiset_duplicates();

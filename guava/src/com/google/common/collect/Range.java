@@ -32,8 +32,8 @@ import javax.annotation.Nullable;
 /**
  * A range (or "interval") defines the <i>boundaries</i> around a contiguous span of values of some
  * {@code Comparable} type; for example, "integers from 1 to 100 inclusive." Note that it is not
- * possible to <i>iterate</i> over these contained values. To do so, pass this range instance and
- * an appropriate {@link DiscreteDomain} to {@link ContiguousSet#create}.
+ * possible to <i>iterate</i> over these contained values. To do so, pass this range instance and an
+ * appropriate {@link DiscreteDomain} to {@link ContiguousSet#create}.
  *
  * <h3>Types of ranges</h3>
  *
@@ -46,6 +46,7 @@ import javax.annotation.Nullable;
  * <i>x</i> such that <i>statement</i>.")
  *
  * <blockquote>
+ *
  * <table>
  * <tr><th>Notation        <th>Definition               <th>Factory method
  * <tr><td>{@code (a..b)}  <td>{@code {x | a < x < b}}  <td>{@link Range#open open}
@@ -58,53 +59,55 @@ import javax.annotation.Nullable;
  * <tr><td>{@code (-∞..b]} <td>{@code {x | x <= b}}     <td>{@link Range#atMost atMost}
  * <tr><td>{@code (-∞..+∞)}<td>{@code {x}}              <td>{@link Range#all all}
  * </table>
+ *
  * </blockquote>
  *
  * <p>When both endpoints exist, the upper endpoint may not be less than the lower. The endpoints
  * may be equal only if at least one of the bounds is closed:
  *
  * <ul>
- * <li>{@code [a..a]} : a singleton range
- * <li>{@code [a..a); (a..a]} : {@linkplain #isEmpty empty} ranges; also valid
- * <li>{@code (a..a)} : <b>invalid</b>; an exception will be thrown
+ *   <li>{@code [a..a]} : a singleton range
+ *   <li>{@code [a..a); (a..a]} : {@linkplain #isEmpty empty} ranges; also valid
+ *   <li>{@code (a..a)} : <b>invalid</b>; an exception will be thrown
  * </ul>
  *
  * <h3>Warnings</h3>
  *
  * <ul>
- * <li>Use immutable value types only, if at all possible. If you must use a mutable type, <b>do
- *     not</b> allow the endpoint instances to mutate after the range is created!
- * <li>Your value type's comparison method should be {@linkplain Comparable consistent with equals}
- *     if at all possible. Otherwise, be aware that concepts used throughout this documentation such
- *     as "equal", "same", "unique" and so on actually refer to whether {@link Comparable#compareTo
- *     compareTo} returns zero, not whether {@link Object#equals equals} returns {@code true}.
- * <li>A class which implements {@code Comparable<UnrelatedType>} is very broken, and will cause
- *     undefined horrible things to happen in {@code Range}. For now, the Range API does not prevent
- *     its use, because this would also rule out all ungenerified (pre-JDK1.5) data types. <b>This
- *     may change in the future.</b>
+ *   <li>Use immutable value types only, if at all possible. If you must use a mutable type, <b>do
+ *       not</b> allow the endpoint instances to mutate after the range is created!
+ *   <li>Your value type's comparison method should be {@linkplain Comparable consistent with
+ *       equals} if at all possible. Otherwise, be aware that concepts used throughout this
+ *       documentation such as "equal", "same", "unique" and so on actually refer to whether {@link
+ *       Comparable#compareTo compareTo} returns zero, not whether {@link Object#equals equals}
+ *       returns {@code true}.
+ *   <li>A class which implements {@code Comparable<UnrelatedType>} is very broken, and will cause
+ *       undefined horrible things to happen in {@code Range}. For now, the Range API does not
+ *       prevent its use, because this would also rule out all ungenerified (pre-JDK1.5) data types.
+ *       <b>This may change in the future.</b>
  * </ul>
  *
  * <h3>Other notes</h3>
  *
  * <ul>
- * <li>Instances of this type are obtained using the static factory methods in this class.
- * <li>Ranges are <i>convex</i>: whenever two values are contained, all values in between them must
- *     also be contained. More formally, for any {@code c1 <= c2 <= c3} of type {@code C}, {@code
- *     r.contains(c1) && r.contains(c3)} implies {@code r.contains(c2)}). This means that a {@code
- *     Range<Integer>} can never be used to represent, say, "all <i>prime</i> numbers from 1 to
- *     100."
- * <li>When evaluated as a {@link Predicate}, a range yields the same result as invoking {@link
- *     #contains}.
- * <li>Terminology note: a range {@code a} is said to be the <i>maximal</i> range having property
- *     <i>P</i> if, for all ranges {@code b} also having property <i>P</i>, {@code a.encloses(b)}.
- *     Likewise, {@code a} is <i>minimal</i> when {@code b.encloses(a)} for all {@code b} having
- *     property <i>P</i>. See, for example, the definition of {@link #intersection intersection}.
+ *   <li>Instances of this type are obtained using the static factory methods in this class.
+ *   <li>Ranges are <i>convex</i>: whenever two values are contained, all values in between them
+ *       must also be contained. More formally, for any {@code c1 <= c2 <= c3} of type {@code C},
+ *       {@code r.contains(c1) && r.contains(c3)} implies {@code r.contains(c2)}). This means that a
+ *       {@code Range<Integer>} can never be used to represent, say, "all <i>prime</i> numbers from
+ *       1 to 100."
+ *   <li>When evaluated as a {@link Predicate}, a range yields the same result as invoking {@link
+ *       #contains}.
+ *   <li>Terminology note: a range {@code a} is said to be the <i>maximal</i> range having property
+ *       <i>P</i> if, for all ranges {@code b} also having property <i>P</i>, {@code a.encloses(b)}.
+ *       Likewise, {@code a} is <i>minimal</i> when {@code b.encloses(a)} for all {@code b} having
+ *       property <i>P</i>. See, for example, the definition of {@link #intersection intersection}.
  * </ul>
  *
  * <h3>Further reading</h3>
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/RangesExplained">{@code Range}</a>.
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/RangesExplained">{@code Range}</a>.
  *
  * @author Kevin Bourrillion
  * @author Gregory Kick
@@ -112,7 +115,8 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 @SuppressWarnings("rawtypes")
-public final class Range<C extends Comparable> implements Predicate<C>, Serializable {
+public final class Range<C extends Comparable> extends RangeGwtSerializationDependencies
+    implements Predicate<C>, Serializable {
 
   private static final Function<Range, Cut> LOWER_BOUND_FN =
       new Function<Range, Cut>() {

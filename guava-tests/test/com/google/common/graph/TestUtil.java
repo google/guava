@@ -29,29 +29,29 @@ final class TestUtil {
   private TestUtil() {}
 
   static void assertStronglyEquivalent(Graph<?> graphA, Graph<?> graphB) {
-    // Properties not covered by Graphs.equivalent()
+    // Properties not covered by equals()
     assertThat(graphA.allowsSelfLoops()).isEqualTo(graphB.allowsSelfLoops());
     assertThat(graphA.nodeOrder()).isEqualTo(graphB.nodeOrder());
 
-    assertThat(Graphs.equivalent(graphA, graphB)).isTrue();
+    assertThat(graphA).isEqualTo(graphB);
   }
 
   static void assertStronglyEquivalent(ValueGraph<?, ?> graphA, ValueGraph<?, ?> graphB) {
-    // Properties not covered by Graphs.equivalent()
+    // Properties not covered by equals()
     assertThat(graphA.allowsSelfLoops()).isEqualTo(graphB.allowsSelfLoops());
     assertThat(graphA.nodeOrder()).isEqualTo(graphB.nodeOrder());
 
-    assertThat(Graphs.equivalent(graphA, graphB)).isTrue();
+    assertThat(graphA).isEqualTo(graphB);
   }
 
   static void assertStronglyEquivalent(Network<?, ?> networkA, Network<?, ?> networkB) {
-    // Properties not covered by Graphs.equivalent()
+    // Properties not covered by equals()
     assertThat(networkA.allowsParallelEdges()).isEqualTo(networkB.allowsParallelEdges());
     assertThat(networkA.allowsSelfLoops()).isEqualTo(networkB.allowsSelfLoops());
     assertThat(networkA.nodeOrder()).isEqualTo(networkB.nodeOrder());
     assertThat(networkA.edgeOrder()).isEqualTo(networkB.edgeOrder());
 
-    assertThat(Graphs.equivalent(networkA, networkB)).isTrue();
+    assertThat(networkA).isEqualTo(networkB);
   }
 
   /**

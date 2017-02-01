@@ -42,6 +42,8 @@ import java.util.Map;
  * @since 20.0
  */
 @Beta
+@Immutable(containerOf = {"N", "E"})
+@SuppressWarnings("Immutable") // Extends ConfigurableNetwork but uses ImmutableMaps.
 public final class ImmutableNetwork<N, E> extends ConfigurableNetwork<N, E> {
 
   private ImmutableNetwork(Network<N, E> network) {
@@ -68,13 +70,7 @@ public final class ImmutableNetwork<N, E> extends ConfigurableNetwork<N, E> {
 
   @Override
   public ImmutableGraph<N> asGraph() {
-    final Graph<N> asGraph = super.asGraph();
-    return new ImmutableGraph<N>() {
-      @Override
-      protected Graph<N> delegate() {
-        return asGraph; // safe because the graph view is effectively immutable
-      }
-    };
+    return new ImmutableGraph<N>(super.asGraph()); // safe because the view is effectively immutable
   }
 
   private static <N, E> Map<N, NetworkConnections<N, E>> getNodeConnections(Network<N, E> network) {

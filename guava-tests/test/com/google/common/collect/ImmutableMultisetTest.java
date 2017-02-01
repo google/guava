@@ -293,6 +293,22 @@ public class ImmutableMultisetTest extends TestCase {
             ImmutableMultiset.of("a", "a", "b", "c", "c", "c"), "a", "a", "b", "c", "c", "c");
   }
 
+  public void testToImmutableMultisetCountFunction() {
+    BiPredicate<ImmutableMultiset<String>, ImmutableMultiset<String>> equivalence =
+        (ms1, ms2) -> ms1.equals(ms2) && ms1.entrySet().asList().equals(ms2.entrySet().asList());
+    CollectorTester.of(
+            ImmutableMultiset.<Multiset.Entry<String>, String>toImmutableMultiset(
+                Multiset.Entry::getElement, Multiset.Entry::getCount),
+            equivalence)
+        .expectCollects(ImmutableMultiset.of())
+        .expectCollects(
+            ImmutableMultiset.of("a", "a", "b", "c", "c", "c"),
+            Multisets.immutableEntry("a", 1),
+            Multisets.immutableEntry("b", 1),
+            Multisets.immutableEntry("a", 1),
+            Multisets.immutableEntry("c", 3));
+  }
+
   public void testToImmutableMultiset_duplicates() {
     class TypeWithDuplicates {
       final int a;
@@ -342,11 +358,15 @@ public class ImmutableMultisetTest extends TestCase {
     TypeWithDuplicates c = new TypeWithDuplicates(3, 1);
     CollectorTester.of(collector, equivalence)
         .expectCollects(
-            ImmutableMultiset.<TypeWithDuplicates>builder()
-                .add(a)
-                .addCopies(b1, 2)
-                .add(c)
-                .build(),
+            ImmutableMultiset.<TypeWithDuplicates>builder().add(a).addCopies(b1, 2).add(c).build(),
+            a,
+            b1,
+            c,
+            b2);
+    collector = ImmutableMultiset.toImmutableMultiset(e -> e, e -> 1);
+    CollectorTester.of(collector, equivalence)
+        .expectCollects(
+            ImmutableMultiset.<TypeWithDuplicates>builder().add(a).addCopies(b1, 2).add(c).build(),
             a,
             b1,
             c,

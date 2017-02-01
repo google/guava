@@ -199,6 +199,19 @@ public class CharsTest extends TestCase {
         (char) 5, (char) 3, (char) 0, (char) 9));
   }
 
+  public void testConstrainToRange() {
+    assertEquals((char) 1, Chars.constrainToRange((char) 1, (char) 0, (char) 5));
+    assertEquals((char) 1, Chars.constrainToRange((char) 1, (char) 1, (char) 5));
+    assertEquals((char) 3, Chars.constrainToRange((char) 1, (char) 3, (char) 5));
+    assertEquals((char) 254, Chars.constrainToRange((char) 255, (char) 250, (char) 254));
+    assertEquals((char) 2, Chars.constrainToRange((char) 5, (char) 2, (char) 2));
+    try {
+      Chars.constrainToRange((char) 1, (char) 3, (char) 2);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
   public void testConcat() {
     assertTrue(Arrays.equals(EMPTY, Chars.concat()));
     assertTrue(Arrays.equals(EMPTY, Chars.concat(EMPTY)));

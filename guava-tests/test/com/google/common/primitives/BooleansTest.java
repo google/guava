@@ -48,6 +48,20 @@ public class BooleansTest extends TestCase {
     assertEquals(Boolean.FALSE.hashCode(), Booleans.hashCode(false));
   }
 
+  public void testTrueFirst() {
+    assertEquals(0, Booleans.trueFirst().compare(true, true));
+    assertEquals(0, Booleans.trueFirst().compare(false, false));
+    assertTrue(Booleans.trueFirst().compare(true, false) < 0);
+    assertTrue(Booleans.trueFirst().compare(false, true) > 0);
+  }
+
+  public void testFalseFirst() {
+    assertEquals(0, Booleans.falseFirst().compare(true, true));
+    assertEquals(0, Booleans.falseFirst().compare(false, false));
+    assertTrue(Booleans.falseFirst().compare(false, true) < 0);
+    assertTrue(Booleans.falseFirst().compare(true, false) > 0);
+  }
+
   public void testCompare() {
     for (boolean x : VALUES) {
       for (boolean y : VALUES) {

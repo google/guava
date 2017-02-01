@@ -340,7 +340,8 @@ public final class Iterables {
    * stream.filter(element::equals).count()}. If {@code element} might be null, use {@code
    * stream.filter(Predicate.isEqual(element)).count()} instead.
    *
-   * @see Collections#frequency
+   * @see java.util.Collections#frequency(Collection, Object) Collections.frequency(Collection,
+   *      Object)
    */
   public static int frequency(Iterable<?> iterable, @Nullable Object element) {
     if ((iterable instanceof Multiset)) {

@@ -37,7 +37,7 @@ final class ConfigurableMutableGraph<N> extends ForwardingGraph<N> implements Mu
   }
 
   @Override
-  protected Graph<N> delegate() {
+  protected BaseGraph<N> delegate() {
     return backingValueGraph;
   }
 

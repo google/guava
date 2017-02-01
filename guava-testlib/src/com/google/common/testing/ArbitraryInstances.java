@@ -142,6 +142,7 @@ import java.util.logging.Logger;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import javax.annotation.Nullable;
 
 /**
@@ -337,6 +338,9 @@ public final class ArbitraryInstances {
     Class<? extends T> implementation = getImplementation(type);
     if (implementation != null) {
       return get(implementation);
+    }
+    if (type == Stream.class) {
+      return type.cast(Stream.empty());
     }
     if (type.isEnum()) {
       T[] enumConstants = type.getEnumConstants();
