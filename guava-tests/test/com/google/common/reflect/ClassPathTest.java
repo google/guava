@@ -56,7 +56,7 @@ import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
 
-import junit.framework.TestCase;ff
+import junit.framework.TestCase;
 import org.junit.Test;
 
 /**
