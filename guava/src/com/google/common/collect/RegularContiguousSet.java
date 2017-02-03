@@ -15,6 +15,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.BoundType.CLOSED;
 
@@ -116,6 +117,26 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   @Override
   public C last() {
     return range.upperBound.greatestValueBelow(domain);
+  }
+
+  @Override
+  ImmutableList<C> createAsList() {
+    if (domain.supportsFastOffset) {
+      return new ImmutableAsList<C>() {
+        @Override
+        ImmutableSortedSet<C> delegateCollection() {
+          return RegularContiguousSet.this;
+        }
+
+        @Override
+        public C get(int i) {
+          checkElementIndex(i, size());
+          return domain.offset(first(), i);
+        }
+      };
+    } else {
+      return super.createAsList();
+    }
   }
 
   @Override

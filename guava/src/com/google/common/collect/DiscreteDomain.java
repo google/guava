@@ -16,7 +16,11 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -54,6 +58,10 @@ public abstract class DiscreteDomain<C extends Comparable> {
 
   private static final class IntegerDomain extends DiscreteDomain<Integer> implements Serializable {
     private static final IntegerDomain INSTANCE = new IntegerDomain();
+    
+    IntegerDomain() {
+      super(true);
+    }
 
     @Override
     public Integer next(Integer value) {
@@ -65,6 +73,12 @@ public abstract class DiscreteDomain<C extends Comparable> {
     public Integer previous(Integer value) {
       int i = value;
       return (i == Integer.MIN_VALUE) ? null : i - 1;
+    }
+    
+    @Override
+    Integer offset(Integer origin, long distance) {
+      checkNonnegative(distance, "distance");
+      return Ints.checkedCast(origin.longValue() + distance);
     }
 
     @Override
@@ -105,6 +119,10 @@ public abstract class DiscreteDomain<C extends Comparable> {
 
   private static final class LongDomain extends DiscreteDomain<Long> implements Serializable {
     private static final LongDomain INSTANCE = new LongDomain();
+    
+    LongDomain() {
+      super(true);
+    }
 
     @Override
     public Long next(Long value) {
@@ -116,6 +134,16 @@ public abstract class DiscreteDomain<C extends Comparable> {
     public Long previous(Long value) {
       long l = value;
       return (l == Long.MIN_VALUE) ? null : l - 1;
+    }
+
+    @Override
+    Long offset(Long origin, long distance) {
+      checkNonnegative(distance, "distance");
+      long result = origin + distance;
+      if (result < 0) {
+        checkArgument(origin < 0, "overflow");
+      }
+      return result;
     }
 
     @Override
@@ -165,6 +193,10 @@ public abstract class DiscreteDomain<C extends Comparable> {
       implements Serializable {
     private static final BigIntegerDomain INSTANCE = new BigIntegerDomain();
 
+    BigIntegerDomain() {
+      super(true);
+    }
+
     private static final BigInteger MIN_LONG = BigInteger.valueOf(Long.MIN_VALUE);
     private static final BigInteger MAX_LONG = BigInteger.valueOf(Long.MAX_VALUE);
 
@@ -176,6 +208,12 @@ public abstract class DiscreteDomain<C extends Comparable> {
     @Override
     public BigInteger previous(BigInteger value) {
       return value.subtract(BigInteger.ONE);
+    }
+
+    @Override
+    BigInteger offset(BigInteger origin, long distance) {
+      checkNonnegative(distance, "distance");
+      return origin.add(BigInteger.valueOf(distance));
     }
 
     @Override
@@ -194,9 +232,30 @@ public abstract class DiscreteDomain<C extends Comparable> {
 
     private static final long serialVersionUID = 0;
   }
+  
+  final boolean supportsFastOffset;
 
   /** Constructor for use by subclasses. */
-  protected DiscreteDomain() {}
+  protected DiscreteDomain() {
+    this(false);
+  }
+
+  /** Private constructor for built-in DiscreteDomains supporting fast offset. */
+  private DiscreteDomain(boolean supportsFastOffset) {
+    this.supportsFastOffset = supportsFastOffset;
+  }
+
+  /**
+   * Returns, conceptually, "origin + distance", or equivalently, the result of calling
+   * {@link #next} on {@code origin} {@code distance} times.
+   */
+  C offset(C origin, long distance) {
+    checkNonnegative(distance, "distance");
+    for (long i = 0; i < distance; i++) {
+      origin = next(origin);
+    }
+    return origin;
+  }
 
   /**
    * Returns the unique least value of type {@code C} that is greater than

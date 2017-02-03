@@ -328,6 +328,15 @@ public class ContiguousSetTest extends TestCase {
         ImmutableSet.of(3), set.intersection(ContiguousSet.create(Range.closed(3, 5), integers())));
   }
 
+  public void testAsList() {
+    ImmutableList<Integer> list = ContiguousSet.create(Range.closed(1, 3), integers()).asList();
+    for (int i = 0; i < 3; i++) {
+      assertEquals(i + 1, list.get(i).intValue());
+    }
+    assertEquals(ImmutableList.of(1, 2, 3), ImmutableList.copyOf(list.iterator()));
+    assertEquals(ImmutableList.of(1, 2, 3), ImmutableList.copyOf(list.toArray(new Integer[0])));
+  }
+
   @GwtIncompatible // suite
   public static class BuiltTests extends TestCase {
     public static Test suite() {
