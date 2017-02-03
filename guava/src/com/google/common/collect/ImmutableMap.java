@@ -34,6 +34,7 @@ import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.BiFunction;
@@ -374,7 +375,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * @throws NullPointerException if any key or value in {@code map} is null
    */
   public static <K, V> ImmutableMap<K, V> copyOf(Map<? extends K, ? extends V> map) {
-    if ((map instanceof ImmutableMap) && !(map instanceof ImmutableSortedMap)) {
+    if ((map instanceof ImmutableMap) && !(map instanceof SortedMap)) {
       // TODO(lowasser): Make ImmutableMap.copyOf(immutableBiMap) call copyOf()
       // on the ImmutableMap delegate(), rather than the bimap itself
 
