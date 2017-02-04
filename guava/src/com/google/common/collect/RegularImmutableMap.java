@@ -38,7 +38,11 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
-
+  @SuppressWarnings("unchecked")
+  static final ImmutableMap<Object, Object> EMPTY =
+      new RegularImmutableMap<Object, Object>(
+          (Entry<Object, Object>[]) ImmutableMap.EMPTY_ENTRY_ARRAY, null, 0);
+  
   // entries in insertion order
   private final transient Entry<K, V>[] entries;
   // array of linked lists of entries
@@ -57,6 +61,9 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
    */
   static <K, V> RegularImmutableMap<K, V> fromEntryArray(int n, Entry<K, V>[] entryArray) {
     checkPositionIndex(n, entryArray.length);
+    if (n == 0) {
+      return (RegularImmutableMap<K, V>) EMPTY;
+    }
     Entry<K, V>[] entries;
     if (n == entryArray.length) {
       entries = entryArray;
@@ -116,8 +123,8 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   @Nullable
-  static <V> V get(@Nullable Object key, ImmutableMapEntry<?, V>[] keyTable, int mask) {
-    if (key == null) {
+  static <V> V get(@Nullable Object key, @Nullable ImmutableMapEntry<?, V>[] keyTable, int mask) {
+    if (key == null || keyTable == null) {
       return null;
     }
     int index = Hashing.smear(key.hashCode()) & mask;

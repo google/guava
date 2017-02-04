@@ -52,6 +52,8 @@ import javax.annotation.Nullable;
  * @author Hayward Chan
  */
 public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
+  static final ImmutableMap<Object, Object> EMPTY = new RegularImmutableMap<Object, Object>();
+
   abstract static class IteratorBasedImmutableMap<K, V> extends ImmutableMap<K, V> {
     abstract UnmodifiableIterator<Entry<K, V>> entryIterator();
 
@@ -94,11 +96,11 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   public static <K, V> ImmutableMap<K, V> of() {
-    return ImmutableBiMap.of();
+    return (ImmutableMap<K, V>) EMPTY;
   }
 
   public static <K, V> ImmutableMap<K, V> of(K k1, V v1) {
-    return ImmutableBiMap.of(k1, v1);
+    return new RegularImmutableMap<K, V>(entryOf(k1, v1));
   }
 
   public static <K, V> ImmutableMap<K, V> of(K k1, V v1, K k2, V v2) {

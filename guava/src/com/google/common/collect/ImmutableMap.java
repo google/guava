@@ -107,8 +107,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * {@link Collections#emptyMap}, and is preferable mainly for consistency
    * and maintainability of your code.
    */
+  @SuppressWarnings("unchecked")
   public static <K, V> ImmutableMap<K, V> of() {
-    return ImmutableBiMap.of();
+    return (ImmutableMap<K, V>) RegularImmutableMap.EMPTY;
   }
 
   /**
@@ -118,7 +119,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * maintainability of your code.
    */
   public static <K, V> ImmutableMap<K, V> of(K k1, V v1) {
-    return ImmutableBiMap.of(k1, v1);
+    return RegularImmutableMap.fromEntries(entryOf(k1, v1));
   }
 
   /**
@@ -333,32 +334,25 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
      * @throws IllegalArgumentException if duplicate keys were added
      */
     public ImmutableMap<K, V> build() {
-      switch (size) {
-        case 0:
-          return of();
-        case 1:
-          return of(entries[0].getKey(), entries[0].getValue());
-        default:
-          /*
-           * If entries is full, then this implementation may end up using the entries array
-           * directly and writing over the entry objects with non-terminal entries, but this is
-           * safe; if this Builder is used further, it will grow the entries array (so it can't
-           * affect the original array), and future build() calls will always copy any entry
-           * objects that cannot be safely reused.
-           */
-          if (valueComparator != null) {
-            if (entriesUsed) {
-              entries = Arrays.copyOf(entries, size);
-            }
-            Arrays.sort(
-                entries,
-                0,
-                size,
-                Ordering.from(valueComparator).onResultOf(Maps.<V>valueFunction()));
-          }
-          entriesUsed = size == entries.length;
-          return RegularImmutableMap.fromEntryArray(size, entries);
+      /*
+       * If entries is full, then this implementation may end up using the entries array
+       * directly and writing over the entry objects with non-terminal entries, but this is
+       * safe; if this Builder is used further, it will grow the entries array (so it can't
+       * affect the original array), and future build() calls will always copy any entry
+       * objects that cannot be safely reused.
+       */
+      if (valueComparator != null) {
+        if (entriesUsed) {
+          entries = Arrays.copyOf(entries, size);
+        }
+        Arrays.sort(
+            entries,
+            0,
+            size,
+            Ordering.from(valueComparator).onResultOf(Maps.<V>valueFunction()));
       }
+      entriesUsed = size == entries.length;
+      return RegularImmutableMap.fromEntryArray(size, entries);
     }
   }
 
