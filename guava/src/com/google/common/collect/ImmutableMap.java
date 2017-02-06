@@ -103,6 +103,18 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   /**
+   * Returns a {@link Collector} that accumulates elements into an {@link ImmutableMap} taking
+   * all the entries of all the encountered {@link Map}.
+   */
+  public static <K, V> Collector<? super Map<K, V>, ?, ImmutableMap<K, V>> mergeMapsCollector() {
+    return Collector.of(
+            ImmutableMap.Builder<K, V>::new,
+            ImmutableMap.Builder::putAll,
+            ImmutableMap.Builder::combine,
+            ImmutableMap.Builder::build);
+  }
+
+  /**
    * Returns the empty map. This map behaves and performs comparably to
    * {@link Collections#emptyMap}, and is preferable mainly for consistency
    * and maintainability of your code.

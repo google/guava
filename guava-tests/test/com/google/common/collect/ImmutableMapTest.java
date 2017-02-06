@@ -646,6 +646,21 @@ public class ImmutableMapTest extends TestCase {
               mapEntry("three", 3),
               mapEntry("two", 2));
     }
+
+    public void testMergeMapsCollector() {
+      Collector<? super Map<String, Integer>, ?, ImmutableMap<String, Integer>> collector =
+          ImmutableMap.mergeMapsCollector();
+      Equivalence<ImmutableMap<String, Integer>> equivalence =
+          Equivalence.equals()
+              .<Entry<String, Integer>>pairwise()
+              .onResultOf(ImmutableMap::entrySet);
+      CollectorTester.of(collector, equivalence)
+          .expectCollects(
+              ImmutableMap.of("one", 1, "two", 2, "three", 3, "four", 4),
+              ImmutableMap.of("one", 1, "two", 2),
+              ImmutableMap.of("three", 3, "four", 4)
+          );
+    }
   }
 
   public void testNullGet() {
