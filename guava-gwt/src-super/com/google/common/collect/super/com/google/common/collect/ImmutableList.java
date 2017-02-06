@@ -57,7 +57,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   public static <E> ImmutableList<E> of(E element) {
-    return new SingletonImmutableList<E>(element);
+    return new RegularImmutableList<E>(
+        ImmutableList.<E>nullCheckedList(element));
   }
 
   public static <E> ImmutableList<E> of(E e1, E e2) {
@@ -161,31 +162,20 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   private static <E> ImmutableList<E> copyFromCollection(
       Collection<? extends E> collection) {
     Object[] elements = collection.toArray();
-    switch (elements.length) {
-      case 0:
-        return of();
-      case 1:
-        @SuppressWarnings("unchecked") // collection had only Es in it
-        ImmutableList<E> list = new SingletonImmutableList<E>((E) elements[0]);
-        return list;
-      default:
-        return new RegularImmutableList<E>(ImmutableList.<E>nullCheckedList(elements));
-    }
+    return (elements.length == 0)
+        ? ImmutableList.<E>of()
+        : new RegularImmutableList<E>(ImmutableList.<E>nullCheckedList(elements));
   }
 
   // Factory method that skips the null checks.  Used only when the elements
   // are guaranteed to be non-null.
   static <E> ImmutableList<E> unsafeDelegateList(List<? extends E> list) {
-    switch (list.size()) {
-      case 0:
-        return of();
-      case 1:
-        return new SingletonImmutableList<E>(list.iterator().next());
-      default:
-        @SuppressWarnings("unchecked")
-        List<E> castedList = (List<E>) list;
-        return new RegularImmutableList<E>(castedList);
+    if (list.isEmpty()) {
+      return of();
     }
+    @SuppressWarnings("unchecked")
+    List<E> castedList = (List<E>) list;
+    return new RegularImmutableList<E>(castedList);
   }
 
   /**
