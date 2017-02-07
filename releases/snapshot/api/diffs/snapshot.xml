@@ -10186,6 +10186,32 @@
  this is always true when the iterable has fewer than two elements.]]>
       </doc>
     </method>
+    <method name="emptiesFirst" return="java.util.Comparator&lt;java.util.Optional&lt;T&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="valueComparator" type="java.util.Comparator&lt;T&gt;"/>
+      <doc>
+      <![CDATA[Returns a comparator of {@link Optional} values which treats {@link Optional#empty} as less
+ than all other values, and orders the rest using {@code valueComparator} on the contained
+ value.
+
+ @since 22.0]]>
+      </doc>
+    </method>
+    <method name="emptiesLast" return="java.util.Comparator&lt;java.util.Optional&lt;T&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="valueComparator" type="java.util.Comparator&lt;T&gt;"/>
+      <doc>
+      <![CDATA[Returns a comparator of {@link Optional} values which treats {@link Optional#empty} as greater
+ than all other values, and orders the rest using {@code valueComparator} on the contained
+ value.
+
+ @since 22.0]]>
+      </doc>
+    </method>
     <doc>
     <![CDATA[Provides static methods for working with {@link Comparator} instances. For many other helpful
  comparator utilities, see either {@code Comparator} itself (for Java 8 or later), or

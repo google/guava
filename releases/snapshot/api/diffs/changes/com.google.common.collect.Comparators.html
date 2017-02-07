@@ -7,7 +7,7 @@
 <meta name="description" content="JDiff is a Javadoc doclet which generates an HTML report of all the packages, classes, constructors, methods, and fields which have been removed, added or changed in any way, including their documentation, when two APIs are compared.">
 <meta name="keywords" content="diff, jdiff, javadiff, java diff, java difference, API difference, difference between two APIs, API diff, Javadoc, doclet">
 <TITLE>
-com.google.common.collect.ImmutableMultiset
+com.google.common.collect.Comparators
 </TITLE>
 <LINK REL="stylesheet" TYPE="text/css" HREF="../stylesheet-jdiff.css" TITLE="Style">
 </HEAD>
@@ -18,7 +18,7 @@ com.google.common.collect.ImmutableMultiset
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/ImmutableMultiset.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 22.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/Comparators.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 22.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.collect.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -30,11 +30,11 @@ com.google.common.collect.ImmutableMultiset
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.collect.Comparators.html"><B>PREV CLASS</B></A>
-&nbsp;<A HREF="com.google.common.collect.ImmutableRangeMap.html"><B>NEXT CLASS</B></A>
+&nbsp;<B>PREV CLASS</B>&nbsp;
+&nbsp;<A HREF="com.google.common.collect.ImmutableMultiset.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
-  &nbsp;<A HREF="com.google.common.collect.ImmutableMultiset.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
+  &nbsp;<A HREF="com.google.common.collect.Comparators.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell3"><FONT SIZE="-2"> DETAIL: &nbsp;
 CONSTRUCTORS&nbsp;|&nbsp;
 <a href="#methods">METHODS</a>&nbsp;|&nbsp;
@@ -45,7 +45,7 @@ FIELDS
 <HR>
 <!-- End of nav bar -->
 <H2>
-Class com.google.common.collect.<A HREF="../../docs/com/google/common/collect/ImmutableMultiset.html" target="_top"><tt>ImmutableMultiset</tt></A>
+Class com.google.common.collect.<A HREF="../../docs/com/google/common/collect/Comparators.html" target="_top"><tt>Comparators</tt></A>
 </H2>
 <a NAME="constructors"></a>
 <a NAME="methods"></a>
@@ -57,12 +57,21 @@ Class com.google.common.collect.<A HREF="../../docs/com/google/common/collect/Im
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.ImmutableMultiset.toImmutableMultiset_added(java.util.function.Function<? super T, ? extends E>, java.util.function.ToIntFunction<? super T>)"></A>
-  <nobr>(<code>Collector&lt;T, ?, ImmutableMultiset&lt;E&gt;&gt;</code>)&nbsp;<A HREF="../../docs/com/google/common/collect/ImmutableMultiset.html#toImmutableMultiset(java.util.function.Function<? super T, ? extends E>, java.util.function.ToIntFunction<? super T>)" target="_top"><tt>toImmutableMultiset</tt></A>(<code>Function&lt;?,</nobr> super<nobr>,</nobr> T<nobr>,</nobr> ?<nobr>,</nobr> extends<nobr>,</nobr> E&gt;<nobr>,</nobr> ToIntFunction&lt;?<nobr>,</nobr> super<nobr>,</nobr> T&gt;<nobr><nobr></code>)</nobr>
+  <A NAME="com.google.common.collect.Comparators.emptiesFirst_added(java.util.Comparator<T>)"></A>
+  <nobr><code>Comparator&lt;Optional&lt;T&gt;&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Comparators.html#emptiesFirst(java.util.Comparator<T>)" target="_top"><tt>emptiesFirst</tt></A>(<code>Comparator&lt;T&gt;</code>)</nobr>
   </TD>
-  <TD VALIGN="TOP">Returns a {@code Collector} that accumulates elements into an {@code ImmutableMultiset} whose
- elements are the result of applying {@code elementFunction} to the inputs, with counts equal to
- the result of applying {@code countFunction} to the inputs.</TD>
+  <TD VALIGN="TOP">Returns a comparator of <A HREF="../../docs/Optional.html"><TT>Optional</TT></A> values which treats <A HREF="../../docs/Optional.html#empty"><TT>Optional.empty</TT></A> as less
+ than all other values, and orders the rest using {@code valueComparator} on the contained
+ value.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.collect.Comparators.emptiesLast_added(java.util.Comparator<T>)"></A>
+  <nobr><code>Comparator&lt;Optional&lt;T&gt;&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Comparators.html#emptiesLast(java.util.Comparator<T>)" target="_top"><tt>emptiesLast</tt></A>(<code>Comparator&lt;T&gt;</code>)</nobr>
+  </TD>
+  <TD VALIGN="TOP">Returns a comparator of <A HREF="../../docs/Optional.html"><TT>Optional</TT></A> values which treats <A HREF="../../docs/Optional.html#empty"><TT>Optional.empty</TT></A> as greater
+ than all other values, and orders the rest using {@code valueComparator} on the contained
+ value.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -74,7 +83,7 @@ Class com.google.common.collect.<A HREF="../../docs/com/google/common/collect/Im
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/ImmutableMultiset.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 22.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/Comparators.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 22.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.collect.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -86,11 +95,11 @@ Class com.google.common.collect.<A HREF="../../docs/com/google/common/collect/Im
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.collect.Comparators.html"><B>PREV CLASS</B></A>
-&nbsp;<A HREF="com.google.common.collect.ImmutableRangeMap.html"><B>NEXT CLASS</B></A>
+&nbsp;<B>PREV CLASS</B>&nbsp;
+&nbsp;<A HREF="com.google.common.collect.ImmutableMultiset.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
-  &nbsp;<A HREF="com.google.common.collect.ImmutableMultiset.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
+  &nbsp;<A HREF="com.google.common.collect.Comparators.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
 <TD BGCOLOR="0xFFFFFF" CLASS="NavBarCell3"></TD>
 </TR>
 </TABLE>

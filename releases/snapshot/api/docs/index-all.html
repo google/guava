@@ -5355,6 +5355,18 @@
  the physical end of the medium, or the end of the used, or wanted, portion of information
  recorded on a medium.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Comparators.html#emptiesFirst-java.util.Comparator-">emptiesFirst(Comparator&lt;T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Comparators.html" title="class in com.google.common.collect">Comparators</a></dt>
+<dd>
+<div class="block">Returns a comparator of <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util"><code>Optional</code></a> values which treats <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true#empty--" title="class or interface in java.util"><code>Optional.empty()</code></a> as less
+ than all other values, and orders the rest using <code>valueComparator</code> on the contained
+ value.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Comparators.html#emptiesLast-java.util.Comparator-">emptiesLast(Comparator&lt;T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Comparators.html" title="class in com.google.common.collect">Comparators</a></dt>
+<dd>
+<div class="block">Returns a comparator of <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util"><code>Optional</code></a> values which treats <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true#empty--" title="class or interface in java.util"><code>Optional.empty()</code></a> as greater
+ than all other values, and orders the rest using <code>valueComparator</code> on the contained
+ value.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/io/ByteSource.html#empty--">empty()</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a></dt>
 <dd>
 <div class="block">Returns an immutable <a href="com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> that contains no bytes.</div>
