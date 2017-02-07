@@ -17,11 +17,13 @@
 package com.google.common.collect;
 
 import static java.util.Arrays.asList;
+import static java.util.Comparator.comparing;
 
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.EqualsTester;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Optional;
 import junit.framework.TestCase;
 
 /**
@@ -68,5 +70,14 @@ public class ComparatorsTest extends TestCase {
     assertTrue(Comparators.isInStrictOrder(asList(0, 3), Ordering.natural()));
     assertTrue(Comparators.isInStrictOrder(Collections.singleton(1), Ordering.natural()));
     assertTrue(Comparators.isInStrictOrder(Collections.<Integer>emptyList(), Ordering.natural()));
+  }
+
+  public void testEmptiesFirst() {
+    Optional<String> empty = Optional.empty();
+    Optional<String> abc = Optional.of("abc");
+    Optional<String> z = Optional.of("z");
+
+    Comparator<Optional<String>> comparator = Comparators.emptiesFirst(comparing(String::length));
+    Helpers.testComparator(comparator, empty, z, abc);
   }
 }

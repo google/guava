@@ -22,6 +22,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Optional;
 
 /**
  * Provides static methods for working with {@link Comparator} instances. For many other helpful
@@ -103,5 +104,31 @@ public final class Comparators {
       }
     }
     return true;
+  }
+
+  /**
+   * Returns a comparator of {@link Optional} values which treats {@link Optional#empty} as less
+   * than all other values, and orders the rest using {@code valueComparator} on the contained
+   * value.
+   *
+   * @since 22.0
+   */
+  @Beta
+  public static <T> Comparator<Optional<T>> emptiesFirst(Comparator<T> valueComparator) {
+    checkNotNull(valueComparator);
+    return Comparator.comparing(o -> o.orElse(null), Comparator.nullsFirst(valueComparator));
+  }
+
+  /**
+   * Returns a comparator of {@link Optional} values which treats {@link Optional#empty} as greater
+   * than all other values, and orders the rest using {@code valueComparator} on the contained
+   * value.
+   *
+   * @since 22.0
+   */
+  @Beta
+  public static <T> Comparator<Optional<T>> emptiesLast(Comparator<T> valueComparator) {
+    checkNotNull(valueComparator);
+    return Comparator.comparing(o -> o.orElse(null), Comparator.nullsLast(valueComparator));
   }
 }
