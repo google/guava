@@ -24,7 +24,6 @@ import static com.google.common.math.LongMath.binomial;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
-import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.math.IntMath;
@@ -338,16 +337,18 @@ public final class Collections2 {
    */
   static String toStringImpl(final Collection<?> collection) {
     StringBuilder sb = newStringBuilderForCollection(collection.size()).append('[');
-    STANDARD_JOINER.appendTo(
-        sb,
-        Iterables.transform(
-            collection,
-            new Function<Object, Object>() {
-              @Override
-              public Object apply(Object input) {
-                return input == collection ? "(this Collection)" : input;
-              }
-            }));
+    boolean first = true;
+    for (Object o : collection) {
+      if (!first) {
+        sb.append(", ");
+      }
+      first = false;
+      if (o == collection) {
+        sb.append("(this Collection)");
+      } else {
+        sb.append(o);
+      }
+    }
     return sb.append(']').toString();
   }
 
@@ -365,8 +366,6 @@ public final class Collections2 {
   static <T> Collection<T> cast(Iterable<T> iterable) {
     return (Collection<T>) iterable;
   }
-
-  static final Joiner STANDARD_JOINER = Joiner.on(", ").useForNull("null");
 
   /**
    * Returns a {@link Collection} of all the permutations of the specified

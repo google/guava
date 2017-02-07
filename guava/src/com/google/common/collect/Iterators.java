@@ -260,10 +260,16 @@ public final class Iterators {
    * {@code hasNext()} method will return {@code false}.
    */
   public static String toString(Iterator<?> iterator) {
-    return Collections2.STANDARD_JOINER
-        .appendTo(new StringBuilder().append('['), iterator)
-        .append(']')
-        .toString();
+    StringBuilder sb = new StringBuilder().append('[');
+    boolean first = true;
+    while (iterator.hasNext()) {
+      if (!first) {
+        sb.append(", ");
+      }
+      first = false;
+      sb.append(iterator.next());
+    }
+    return sb.append(']').toString();
   }
 
   /**

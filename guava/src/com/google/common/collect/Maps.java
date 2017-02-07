@@ -30,7 +30,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Converter;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
-import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
@@ -3778,14 +3777,19 @@ public final class Maps {
     return false;
   }
 
-  static final MapJoiner STANDARD_JOINER = Collections2.STANDARD_JOINER.withKeyValueSeparator("=");
-
   /**
    * An implementation of {@link Map#toString}.
    */
   static String toStringImpl(Map<?, ?> map) {
     StringBuilder sb = Collections2.newStringBuilderForCollection(map.size()).append('{');
-    STANDARD_JOINER.appendTo(sb, map);
+    boolean first = true;
+    for (Map.Entry<?, ?> entry : map.entrySet()) {
+      if (!first) {
+        sb.append(", ");
+      }
+      first = false;
+      sb.append(entry.getKey()).append('=').append(entry.getValue());
+    }
     return sb.append('}').toString();
   }
 
