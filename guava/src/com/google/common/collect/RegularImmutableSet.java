@@ -34,10 +34,15 @@ final class RegularImmutableSet<E> extends ImmutableSet<E> {
       new RegularImmutableSet<Object>(ObjectArrays.EMPTY_ARRAY, 0, null, 0);
 
   private final transient Object[] elements;
-  // the same elements in hashed positions (plus nulls)
+  // the same elements in hashed positions (plus nulls); null if size <= 1
   @VisibleForTesting final transient Object[] table;
   // 'and' with an int to get a valid table index.
   private final transient int mask;
+
+  /*
+   * The hash code of the entire set, equal to the sum of the hash codes of the elements, unless
+   * this is a singleton set which did not precompute the hash code, in which case this is 0.
+   */
   private final transient int hashCode;
 
   RegularImmutableSet(Object[] elements, int hashCode, Object[] table, int mask) {
@@ -47,10 +52,22 @@ final class RegularImmutableSet<E> extends ImmutableSet<E> {
     this.hashCode = hashCode;
   }
 
+  /**
+   * Creates a singleton RegularImmutableSet. If hashCode is 0, then the hash code of the Set as a
+   * whole will be computed on the fly; we won't precompute it just in case hashCode() is called.
+   */
+  RegularImmutableSet(Object element, int hashCode) {
+    this(new Object[] {element}, hashCode, null, 0);
+  }
+
   @Override
   public boolean contains(@Nullable Object target) {
     Object[] table = this.table;
-    if (target == null || table == null) {
+    if (target == null) {
+      return false;
+    } else if (elements.length == 1) {
+      return elements[0].equals(target);
+    } else if (table == null) {
       return false;
     }
     for (int i = Hashing.smearedHash(target); ; i++) {
@@ -87,7 +104,14 @@ final class RegularImmutableSet<E> extends ImmutableSet<E> {
 
   @Override
   ImmutableList<E> createAsList() {
-    return (table == null) ? ImmutableList.<E>of() : new RegularImmutableAsList<E>(this, elements);
+    switch (elements.length) {
+      case 0:
+        return ImmutableList.of();
+      case 1:
+        return ImmutableList.of((E) elements[0]);
+      default:
+        return new RegularImmutableAsList<E>(this, elements);
+    }
   }
 
   @Override
@@ -97,6 +121,9 @@ final class RegularImmutableSet<E> extends ImmutableSet<E> {
 
   @Override
   public int hashCode() {
+    if (hashCode == 0 && elements.length == 1) {
+      return elements[0].hashCode();
+    }
     return hashCode;
   }
 

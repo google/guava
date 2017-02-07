@@ -28,6 +28,8 @@ final class RegularImmutableSet<E> extends ForwardingImmutableSet<E> {
   static final RegularImmutableSet<Object> EMPTY = new RegularImmutableSet<Object>(
       Collections.emptySet());
 
+  private E forSerialization;
+
   RegularImmutableSet(Set<E> delegate) {
     super(delegate);
   }

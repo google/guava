@@ -138,7 +138,6 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
 
   public void testCreation_allDuplicates() {
     ImmutableSet<String> set = ImmutableSet.copyOf(Lists.newArrayList("a", "a"));
-    assertTrue(set instanceof SingletonImmutableSet);
     assertEquals(Lists.newArrayList("a"), Lists.newArrayList(set));
   }
 

@@ -53,7 +53,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   }
 
   public static <E> ImmutableSet<E> of(E element) {
-    return new SingletonImmutableSet<E>(element);
+    return create(element);
   }
 
   @SuppressWarnings("unchecked")
@@ -133,32 +133,22 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   // Factory methods that skips the null checks on elements, only used when
   // the elements are known to be non-null.
   static <E> ImmutableSet<E> unsafeDelegate(Set<E> delegate) {
-    switch (delegate.size()) {
-      case 0:
-        return of();
-      case 1:
-        return new SingletonImmutableSet<E>(delegate.iterator().next());
-      default:
-        return new RegularImmutableSet<E>(delegate);
-    }
+    return delegate.isEmpty()
+        ? ImmutableSet.<E>of()
+        : new RegularImmutableSet<E>(delegate);
   }
 
   private static <E> ImmutableSet<E> create(E... elements) {
+    if (elements.length == 0) {
+      return of();
+    }
     // Create the set first, to remove duplicates if necessary.
     Set<E> set = Sets.newLinkedHashSet();
     Collections.addAll(set, elements);
     for (E element : set) {
       checkNotNull(element);
     }
-
-    switch (set.size()) {
-      case 0:
-        return of();
-      case 1:
-        return new SingletonImmutableSet<E>(set.iterator().next());
-      default:
-        return new RegularImmutableSet<E>(set);
-    }
+    return new RegularImmutableSet<E>(set);
   }
 
   @Override public boolean equals(Object obj) {
