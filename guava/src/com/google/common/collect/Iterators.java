@@ -94,23 +94,28 @@ public final class Iterators {
     return (UnmodifiableListIterator<T>) EMPTY_LIST_ITERATOR;
   }
 
-  private static final Iterator<Object> EMPTY_MODIFIABLE_ITERATOR =
-      new Iterator<Object>() {
-        @Override
-        public boolean hasNext() {
-          return false;
-        }
+  /**
+   * This is an enum singleton rather than an anonymous class so ProGuard can figure out it's only
+   * referenced by emptyModifiableIterator().
+   */
+  private enum EmptyModifiableIterator implements Iterator<Object> {
+    INSTANCE;
 
-        @Override
-        public Object next() {
-          throw new NoSuchElementException();
-        }
+    @Override
+    public boolean hasNext() {
+      return false;
+    }
 
-        @Override
-        public void remove() {
-          checkRemove(false);
-        }
-      };
+    @Override
+    public Object next() {
+      throw new NoSuchElementException();
+    }
+
+    @Override
+    public void remove() {
+      checkRemove(false);
+    }
+  }
 
   /**
    * Returns the empty {@code Iterator} that throws
@@ -121,7 +126,7 @@ public final class Iterators {
   // Casting to any type is safe since there are no actual elements.
   @SuppressWarnings("unchecked")
   static <T> Iterator<T> emptyModifiableIterator() {
-    return (Iterator<T>) EMPTY_MODIFIABLE_ITERATOR;
+    return (Iterator<T>) EmptyModifiableIterator.INSTANCE;
   }
 
   /** Returns an unmodifiable view of {@code iterator}. */
