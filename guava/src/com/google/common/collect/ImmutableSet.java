@@ -80,7 +80,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * type conveys the immutability guarantee.
    */
   public static <E> ImmutableSet<E> of(E element) {
-    return new RegularImmutableSet<E>(checkNotNull(element), 0);
+    return new SingletonImmutableSet<E>(element);
   }
 
   /**
@@ -160,11 +160,11 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       case 0:
         return of();
       case 1:
-        Object e = elements[0];
-        checkNotNull(e);
-        return new RegularImmutableSet<E>(e, 0 /* compute hash code lazily */);
+        @SuppressWarnings("unchecked") // safe; elements contains only E's
+        E elem = (E) elements[0];
+        return of(elem);
       default:
-        // fall through
+        // continue below to handle the general case
     }
     int tableSize = chooseTableSize(n);
     Object[] table = new Object[tableSize];
@@ -193,7 +193,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       // There is only one element or elements are all duplicates
       @SuppressWarnings("unchecked") // we are careful to only pass in E
       E element = (E) elements[0];
-      return new RegularImmutableSet<E>(element, hashCode);
+      return new SingletonImmutableSet<E>(element, hashCode);
     } else if (tableSize != chooseTableSize(uniques)) {
       // Resize the table when the array includes too many duplicates.
       // when this happens, we have already made a copy
@@ -223,7 +223,6 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    */
   @VisibleForTesting
   static int chooseTableSize(int setSize) {
-    setSize = Math.max(setSize, 2);
     // Correct the size for open addressing to match desired load factor.
     if (setSize < CUTOFF) {
       // Round up to the next highest power of 2.
