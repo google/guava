@@ -78,7 +78,7 @@ future version of the library.
 You should not use them for communication between trusted and
 untrusted code.
 
-5. We unit-test and benchmark the libraries using only OpenJDK 1.7 on
+5. We unit-test and benchmark the libraries using only OpenJDK 1.8 on
 Linux. Some features, especially in `com.google.common.io`, may not work
 correctly in other environments.
 
