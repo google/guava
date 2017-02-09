@@ -669,7 +669,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   ImmutableSet<K> createKeySet() {
-    return isEmpty() ? ImmutableSet.<K>of() : new ImmutableMapKeySet<K, V>(this);
+    return new ImmutableMapKeySet<K, V>(this);
   }
 
   UnmodifiableIterator<K> keyIterator() {
