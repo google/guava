@@ -69,9 +69,6 @@ import javax.annotation.Nullable;
 public final class Iterators {
   private Iterators() {}
 
-  static final UnmodifiableListIterator<Object> EMPTY_LIST_ITERATOR =
-      new ArrayItr<Object>(ObjectArrays.EMPTY_ARRAY, 0, 0, 0);
-
   /**
    * Returns the empty iterator.
    *
@@ -91,7 +88,7 @@ public final class Iterators {
   // Casting to any type is safe since there are no actual elements.
   @SuppressWarnings("unchecked")
   static <T> UnmodifiableListIterator<T> emptyListIterator() {
-    return (UnmodifiableListIterator<T>) EMPTY_LIST_ITERATOR;
+    return (UnmodifiableListIterator<T>) ArrayItr.EMPTY;
   }
 
   /**
@@ -979,6 +976,9 @@ public final class Iterators {
   }
 
   private static final class ArrayItr<T> extends AbstractIndexedListIterator<T> {
+    static final UnmodifiableListIterator<Object> EMPTY = new ArrayItr<Object>(
+        new Object[0], 0, 0, 0);
+
     private final T[] array;
     private final int offset;
 
