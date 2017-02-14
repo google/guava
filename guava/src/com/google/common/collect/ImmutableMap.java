@@ -456,6 +456,11 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       }
       return new EntrySetImpl();
     }
+
+    @Override
+    ImmutableCollection<V> createValues() {
+      return new ImmutableMapValues<K, V>(this);
+    }
   }
 
   ImmutableMap() {}
@@ -712,9 +717,12 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     return (result == null) ? values = createValues() : result;
   }
 
-  ImmutableCollection<V> createValues() {
-    return new ImmutableMapValues<K, V>(this);
-  }
+  /*
+   * This could have a good default implementation of {@code return new 
+   * ImmutableMapValues<K, V>(this)}, but ProGuard can't figure out how to eliminate that default
+   * when RegularImmutableMap overrides it.
+   */
+  abstract ImmutableCollection<V> createValues();
 
   // cached so that this.multimapView().inverse() only computes inverse once
   @LazyInit

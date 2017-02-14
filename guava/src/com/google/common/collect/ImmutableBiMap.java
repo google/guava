@@ -226,6 +226,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
       return this;
     }
 
+    @Override
     @CanIgnoreReturnValue
     Builder<K, V> combine(ImmutableMap.Builder<K, V> builder) {
       super.combine(builder);
@@ -340,6 +341,11 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
   @Override
   public ImmutableSet<V> values() {
     return inverse().keySet();
+  }
+
+  @Override
+  final ImmutableSet<V> createValues() {
+    throw new AssertionError("should never be called");
   }
 
   /**

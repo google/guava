@@ -686,6 +686,11 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
     return valueList;
   }
 
+  @Override
+  ImmutableCollection<V> createValues() {
+    throw new AssertionError("should never be called");
+  }
+
   /**
    * Returns the comparator that orders the keys, which is
    * {@link Ordering#natural()} when the natural ordering of the keys is used.
