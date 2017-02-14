@@ -147,6 +147,11 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   }
 
   @Override
+  ImmutableSet<K> createKeySet() {
+    return new ImmutableMapKeySet<K, V>(this);
+  }
+
+  @Override
   public void forEach(BiConsumer<? super K, ? super V> action) {
     checkNotNull(action);
     for (Entry<K, V> entry : entries) {
@@ -219,6 +224,11 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
         }
       }
       return null;
+    }
+
+    @Override
+    ImmutableSet<V> createKeySet() {
+      return new ImmutableMapKeySet<V, K>(this);
     }
 
     @Override

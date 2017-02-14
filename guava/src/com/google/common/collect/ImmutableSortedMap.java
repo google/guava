@@ -672,6 +672,11 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
     return keySet;
   }
 
+  @Override
+  ImmutableSet<K> createKeySet() {
+    throw new AssertionError("should never be called");
+  }
+
   /**
    * Returns an immutable collection of the values in this map, sorted by the
    * ordering of the corresponding keys.

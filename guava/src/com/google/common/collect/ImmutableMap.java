@@ -436,6 +436,11 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
 
     @Override
+    ImmutableSet<K> createKeySet() {
+      return new ImmutableMapKeySet<K, V>(this);
+    }
+
+    @Override
     ImmutableSet<Entry<K, V>> createEntrySet() {
       @WeakOuter
       class EntrySetImpl extends ImmutableMapEntrySet<K, V> {
@@ -668,9 +673,12 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     return (result == null) ? keySet = createKeySet() : result;
   }
 
-  ImmutableSet<K> createKeySet() {
-    return new ImmutableMapKeySet<K, V>(this);
-  }
+  /*
+   * This could have a good default implementation of return new ImmutableKeySet<K, V>(this),
+   * but ProGuard can't figure out how to eliminate that default when RegularImmutableMap 
+   * overrides it.
+   */
+  abstract ImmutableSet<K> createKeySet();
 
   UnmodifiableIterator<K> keyIterator() {
     final UnmodifiableIterator<Entry<K, V>> entryIterator = entrySet().iterator();
@@ -738,7 +746,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
 
     @Override
-    public ImmutableSet<K> keySet() {
+    ImmutableSet<K> createKeySet() {
       return ImmutableMap.this.keySet();
     }
 
