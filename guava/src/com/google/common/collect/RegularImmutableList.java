@@ -29,7 +29,7 @@ import java.util.Spliterators;
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 class RegularImmutableList<E> extends ImmutableList<E> {
   static final ImmutableList<Object> EMPTY =
-      new RegularImmutableList<Object>(ObjectArrays.EMPTY_ARRAY);
+      new RegularImmutableList<Object>(new Object[0]);
 
   private final transient Object[] array;
 

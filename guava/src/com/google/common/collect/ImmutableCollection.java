@@ -176,12 +176,14 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   public Spliterator<E> spliterator() {
     return Spliterators.spliterator(this, SPLITERATOR_CHARACTERISTICS);
   }
+  
+  private static final Object[] EMPTY_ARRAY = {};
 
   @Override
   public final Object[] toArray() {
     int size = size();
     if (size == 0) {
-      return ObjectArrays.EMPTY_ARRAY;
+      return EMPTY_ARRAY;
     }
     Object[] result = new Object[size];
     copyIntoArray(result, 0);
