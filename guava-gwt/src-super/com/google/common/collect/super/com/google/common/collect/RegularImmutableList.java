@@ -27,6 +27,7 @@ import java.util.List;
  */
 class RegularImmutableList<E> extends ForwardingImmutableList<E> {
   private final List<E> delegate;
+  E forSerialization;
 
   RegularImmutableList(List<E> delegate) {
     // TODO(cpovirk): avoid redundant unmodifiableList wrapping
