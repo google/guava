@@ -235,11 +235,6 @@ public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
         : new RegularImmutableSortedSet<E>(delegate, isSubset);
   }
 
-  // This reference is only used by GWT compiler to infer the elements of the
-  // set that needs to be serialized.
-  private Comparator<E> unusedComparatorForSerialization;
-  private E unusedElementForSerialization;
-
   private transient final SortedSet<E> sortedDelegate;
 
   /**

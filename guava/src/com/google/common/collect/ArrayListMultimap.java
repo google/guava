@@ -63,7 +63,8 @@ import java.util.Map;
  * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
-public final class ArrayListMultimap<K, V> extends AbstractListMultimap<K, V> {
+public final class ArrayListMultimap<K, V>
+    extends ArrayListMultimapGwtSerializationDependencies<K, V> {
   // Default from ArrayList
   private static final int DEFAULT_VALUES_PER_KEY = 3;
 

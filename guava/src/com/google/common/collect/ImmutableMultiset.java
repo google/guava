@@ -53,7 +53,8 @@ import javax.annotation.Nullable;
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 // TODO(lowasser): write an efficient asList() implementation
-public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implements Multiset<E> {
+public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializationDependencies<E>
+    implements Multiset<E> {
 
   /**
    * Returns a {@code Collector} that accumulates the input elements into a new
