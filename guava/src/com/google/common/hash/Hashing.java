@@ -259,7 +259,7 @@ public final class Hashing {
 
   /**
    * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
-   * MD5 (128 hash bits) hash function and a {@link SecretSpecKey} created from the given byte array
+   * MD5 (128 hash bits) hash function and a {@link SecretKeySpec} created from the given byte array
    * and the MD5 algorithm.
    *
    *
@@ -285,7 +285,7 @@ public final class Hashing {
 
   /**
    * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
-   * SHA-1 (160 hash bits) hash function and a {@link SecretSpecKey} created from the given byte
+   * SHA-1 (160 hash bits) hash function and a {@link SecretKeySpec} created from the given byte
    * array and the SHA-1 algorithm.
    *
    *
@@ -311,7 +311,7 @@ public final class Hashing {
 
   /**
    * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
-   * SHA-256 (256 hash bits) hash function and a {@link SecretSpecKey} created from the given byte
+   * SHA-256 (256 hash bits) hash function and a {@link SecretKeySpec} created from the given byte
    * array and the SHA-256 algorithm.
    *
    *
@@ -337,7 +337,7 @@ public final class Hashing {
 
   /**
    * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
-   * SHA-512 (512 hash bits) hash function and a {@link SecretSpecKey} created from the given byte
+   * SHA-512 (512 hash bits) hash function and a {@link SecretKeySpec} created from the given byte
    * array and the SHA-512 algorithm.
    *
    *
