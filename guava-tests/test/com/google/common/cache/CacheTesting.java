@@ -52,6 +52,7 @@ import javax.annotation.Nullable;
  *
  * @author mike nonemacher
  */
+@SuppressWarnings("GuardedBy") // TODO(b/35466881): Fix or suppress.
 class CacheTesting {
 
   /**

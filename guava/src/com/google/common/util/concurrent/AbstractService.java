@@ -53,6 +53,7 @@ import javax.annotation.concurrent.Immutable;
  */
 @Beta
 @GwtIncompatible
+@SuppressWarnings("GuardedBy") // TODO(b/35466881): Fix or suppress.
 public abstract class AbstractService implements Service {
   private static final Callback<Listener> STARTING_CALLBACK =
       new Callback<Listener>("starting()") {

@@ -120,6 +120,7 @@ import javax.annotation.concurrent.GuardedBy;
  */
 @Beta
 @GwtIncompatible
+@SuppressWarnings("GuardedBy") // TODO(b/35466881): Fix or suppress.
 public final class ServiceManager {
   private static final Logger logger = Logger.getLogger(ServiceManager.class.getName());
   private static final Callback<Listener> HEALTHY_CALLBACK =

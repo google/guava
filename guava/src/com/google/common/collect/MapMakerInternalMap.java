@@ -64,6 +64,7 @@ import javax.annotation.concurrent.GuardedBy;
  */
 // TODO(kak/cpovirk): Consider removing @CanIgnoreReturnValue from this class.
 @GwtIncompatible
+@SuppressWarnings("GuardedBy") // TODO(b/35466881): Fix or suppress.
 class MapMakerInternalMap<
         K,
         V,
