@@ -25,12 +25,13 @@ import java.util.Set;
  * @author James Sexton
  * @param <N> Node parameter type
  */
-interface BaseGraph<N> {
+interface BaseGraph<N> extends SuccessorGraph<N>, PredecessorGraph<N> {
   //
   // Graph-level accessors
   //
 
   /** Returns all nodes in this graph, in the order specified by {@link #nodeOrder()}. */
+  @Override
   Set<N> nodes();
 
   /** Returns all edges in this graph. */
@@ -76,6 +77,7 @@ interface BaseGraph<N> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
+  @Override
   Set<N> predecessors(@CompatibleWith("N") Object node);
 
   /**
@@ -89,6 +91,7 @@ interface BaseGraph<N> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
+  @Override
   Set<N> successors(@CompatibleWith("N") Object node);
 
   /**

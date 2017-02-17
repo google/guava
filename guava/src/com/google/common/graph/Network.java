@@ -102,13 +102,15 @@ import javax.annotation.Nullable;
  * @param <E> Edge parameter type
  * @since 20.0
  */
+// TODO(b/35456940): Update the documentation to reflect the new interfaces
 @Beta
-public interface Network<N, E> {
+public interface Network<N, E> extends SuccessorGraph<N>, PredecessorGraph<N> {
   //
   // Network-level accessors
   //
 
   /** Returns all nodes in this network, in the order specified by {@link #nodeOrder()}. */
+  @Override
   Set<N> nodes();
 
   /** Returns all edges in this network, in the order specified by {@link #edgeOrder()}. */
@@ -173,6 +175,7 @@ public interface Network<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
+  @Override
   Set<N> predecessors(@CompatibleWith("N") Object node);
 
   /**
@@ -186,6 +189,7 @@ public interface Network<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
+  @Override
   Set<N> successors(@CompatibleWith("N") Object node);
 
   /**
