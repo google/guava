@@ -655,6 +655,11 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     }
 
     @Override
+    ImmutableSortedSet<C> createDescendingSet() {
+      return new DescendingImmutableSortedSet<C>(this);
+    }
+
+    @Override
     boolean isPartialView() {
       return ranges.isPartialView();
     }

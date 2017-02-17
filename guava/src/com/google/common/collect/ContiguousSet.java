@@ -174,6 +174,12 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
    */
   public abstract Range<C> range(BoundType lowerBoundType, BoundType upperBoundType);
 
+  @Override
+  @GwtIncompatible // NavigableSet
+  ImmutableSortedSet<C> createDescendingSet() {
+    return new DescendingImmutableSortedSet<C>(this);
+  }
+
   /** Returns a short-hand representation of the contents such as {@code "[1..100]"}. */
   @Override
   public String toString() {
