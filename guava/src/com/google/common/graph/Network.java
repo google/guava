@@ -176,7 +176,7 @@ public interface Network<N, E> extends SuccessorGraph<N>, PredecessorGraph<N> {
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
   @Override
-  Set<N> predecessors(@CompatibleWith("N") Object node);
+  Set<N> predecessors(Object node);
 
   /**
    * Returns all nodes in this network adjacent to {@code node} which can be reached by traversing
@@ -190,7 +190,7 @@ public interface Network<N, E> extends SuccessorGraph<N>, PredecessorGraph<N> {
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
   @Override
-  Set<N> successors(@CompatibleWith("N") Object node);
+  Set<N> successors(Object node);
 
   /**
    * Returns the edges whose {@link #incidentNodes(Object) incident nodes} in this network include

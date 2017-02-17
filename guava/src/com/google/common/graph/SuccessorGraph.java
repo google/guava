@@ -17,6 +17,7 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
+import com.google.errorprone.annotations.CompatibleWith;
 import java.util.Set;
 
 /**
@@ -67,7 +68,7 @@ public interface SuccessorGraph<N> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  Set<N> successors(N node);
+  Set<N> successors(@CompatibleWith("N") Object node);
 
   /** Returns all nodes in this graph. */
   Set<N> nodes();

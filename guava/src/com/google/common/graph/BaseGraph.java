@@ -78,7 +78,7 @@ interface BaseGraph<N> extends SuccessorGraph<N>, PredecessorGraph<N> {
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
   @Override
-  Set<N> predecessors(@CompatibleWith("N") Object node);
+  Set<N> predecessors(Object node);
 
   /**
    * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
@@ -92,7 +92,7 @@ interface BaseGraph<N> extends SuccessorGraph<N>, PredecessorGraph<N> {
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
   @Override
-  Set<N> successors(@CompatibleWith("N") Object node);
+  Set<N> successors(Object node);
 
   /**
    * Returns the count of {@code node}'s incident edges, counting self-loops twice (equivalently,
