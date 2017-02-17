@@ -663,163 +663,168 @@
 <span class="sourceLineNo">655</span>    }<a name="line.655"></a>
 <span class="sourceLineNo">656</span><a name="line.656"></a>
 <span class="sourceLineNo">657</span>    @Override<a name="line.657"></a>
-<span class="sourceLineNo">658</span>    boolean isPartialView() {<a name="line.658"></a>
-<span class="sourceLineNo">659</span>      return ranges.isPartialView();<a name="line.659"></a>
+<span class="sourceLineNo">658</span>    ImmutableSortedSet&lt;C&gt; createDescendingSet() {<a name="line.658"></a>
+<span class="sourceLineNo">659</span>      return new DescendingImmutableSortedSet&lt;C&gt;(this);<a name="line.659"></a>
 <span class="sourceLineNo">660</span>    }<a name="line.660"></a>
 <span class="sourceLineNo">661</span><a name="line.661"></a>
 <span class="sourceLineNo">662</span>    @Override<a name="line.662"></a>
-<span class="sourceLineNo">663</span>    public String toString() {<a name="line.663"></a>
-<span class="sourceLineNo">664</span>      return ranges.toString();<a name="line.664"></a>
+<span class="sourceLineNo">663</span>    boolean isPartialView() {<a name="line.663"></a>
+<span class="sourceLineNo">664</span>      return ranges.isPartialView();<a name="line.664"></a>
 <span class="sourceLineNo">665</span>    }<a name="line.665"></a>
 <span class="sourceLineNo">666</span><a name="line.666"></a>
 <span class="sourceLineNo">667</span>    @Override<a name="line.667"></a>
-<span class="sourceLineNo">668</span>    Object writeReplace() {<a name="line.668"></a>
-<span class="sourceLineNo">669</span>      return new AsSetSerializedForm&lt;C&gt;(ranges, domain);<a name="line.669"></a>
+<span class="sourceLineNo">668</span>    public String toString() {<a name="line.668"></a>
+<span class="sourceLineNo">669</span>      return ranges.toString();<a name="line.669"></a>
 <span class="sourceLineNo">670</span>    }<a name="line.670"></a>
-<span class="sourceLineNo">671</span>  }<a name="line.671"></a>
-<span class="sourceLineNo">672</span><a name="line.672"></a>
-<span class="sourceLineNo">673</span>  private static class AsSetSerializedForm&lt;C extends Comparable&gt; implements Serializable {<a name="line.673"></a>
-<span class="sourceLineNo">674</span>    private final ImmutableList&lt;Range&lt;C&gt;&gt; ranges;<a name="line.674"></a>
-<span class="sourceLineNo">675</span>    private final DiscreteDomain&lt;C&gt; domain;<a name="line.675"></a>
-<span class="sourceLineNo">676</span><a name="line.676"></a>
-<span class="sourceLineNo">677</span>    AsSetSerializedForm(ImmutableList&lt;Range&lt;C&gt;&gt; ranges, DiscreteDomain&lt;C&gt; domain) {<a name="line.677"></a>
-<span class="sourceLineNo">678</span>      this.ranges = ranges;<a name="line.678"></a>
-<span class="sourceLineNo">679</span>      this.domain = domain;<a name="line.679"></a>
-<span class="sourceLineNo">680</span>    }<a name="line.680"></a>
+<span class="sourceLineNo">671</span><a name="line.671"></a>
+<span class="sourceLineNo">672</span>    @Override<a name="line.672"></a>
+<span class="sourceLineNo">673</span>    Object writeReplace() {<a name="line.673"></a>
+<span class="sourceLineNo">674</span>      return new AsSetSerializedForm&lt;C&gt;(ranges, domain);<a name="line.674"></a>
+<span class="sourceLineNo">675</span>    }<a name="line.675"></a>
+<span class="sourceLineNo">676</span>  }<a name="line.676"></a>
+<span class="sourceLineNo">677</span><a name="line.677"></a>
+<span class="sourceLineNo">678</span>  private static class AsSetSerializedForm&lt;C extends Comparable&gt; implements Serializable {<a name="line.678"></a>
+<span class="sourceLineNo">679</span>    private final ImmutableList&lt;Range&lt;C&gt;&gt; ranges;<a name="line.679"></a>
+<span class="sourceLineNo">680</span>    private final DiscreteDomain&lt;C&gt; domain;<a name="line.680"></a>
 <span class="sourceLineNo">681</span><a name="line.681"></a>
-<span class="sourceLineNo">682</span>    Object readResolve() {<a name="line.682"></a>
-<span class="sourceLineNo">683</span>      return new ImmutableRangeSet&lt;C&gt;(ranges).asSet(domain);<a name="line.683"></a>
-<span class="sourceLineNo">684</span>    }<a name="line.684"></a>
-<span class="sourceLineNo">685</span>  }<a name="line.685"></a>
+<span class="sourceLineNo">682</span>    AsSetSerializedForm(ImmutableList&lt;Range&lt;C&gt;&gt; ranges, DiscreteDomain&lt;C&gt; domain) {<a name="line.682"></a>
+<span class="sourceLineNo">683</span>      this.ranges = ranges;<a name="line.683"></a>
+<span class="sourceLineNo">684</span>      this.domain = domain;<a name="line.684"></a>
+<span class="sourceLineNo">685</span>    }<a name="line.685"></a>
 <span class="sourceLineNo">686</span><a name="line.686"></a>
-<span class="sourceLineNo">687</span>  /**<a name="line.687"></a>
-<span class="sourceLineNo">688</span>   * Returns {@code true} if this immutable range set's implementation contains references to<a name="line.688"></a>
-<span class="sourceLineNo">689</span>   * user-created objects that aren't accessible via this range set's methods. This is generally<a name="line.689"></a>
-<span class="sourceLineNo">690</span>   * used to determine whether {@code copyOf} implementations should make an explicit copy to avoid<a name="line.690"></a>
-<span class="sourceLineNo">691</span>   * memory leaks.<a name="line.691"></a>
-<span class="sourceLineNo">692</span>   */<a name="line.692"></a>
-<span class="sourceLineNo">693</span>  boolean isPartialView() {<a name="line.693"></a>
-<span class="sourceLineNo">694</span>    return ranges.isPartialView();<a name="line.694"></a>
-<span class="sourceLineNo">695</span>  }<a name="line.695"></a>
-<span class="sourceLineNo">696</span><a name="line.696"></a>
-<span class="sourceLineNo">697</span>  /**<a name="line.697"></a>
-<span class="sourceLineNo">698</span>   * Returns a new builder for an immutable range set.<a name="line.698"></a>
-<span class="sourceLineNo">699</span>   */<a name="line.699"></a>
-<span class="sourceLineNo">700</span>  public static &lt;C extends Comparable&lt;?&gt;&gt; Builder&lt;C&gt; builder() {<a name="line.700"></a>
-<span class="sourceLineNo">701</span>    return new Builder&lt;C&gt;();<a name="line.701"></a>
-<span class="sourceLineNo">702</span>  }<a name="line.702"></a>
-<span class="sourceLineNo">703</span><a name="line.703"></a>
-<span class="sourceLineNo">704</span>  /**<a name="line.704"></a>
-<span class="sourceLineNo">705</span>   * A builder for immutable range sets.<a name="line.705"></a>
-<span class="sourceLineNo">706</span>   */<a name="line.706"></a>
-<span class="sourceLineNo">707</span>  public static class Builder&lt;C extends Comparable&lt;?&gt;&gt; {<a name="line.707"></a>
-<span class="sourceLineNo">708</span>    private final List&lt;Range&lt;C&gt;&gt; ranges;<a name="line.708"></a>
-<span class="sourceLineNo">709</span><a name="line.709"></a>
-<span class="sourceLineNo">710</span>    public Builder() {<a name="line.710"></a>
-<span class="sourceLineNo">711</span>      this.ranges = Lists.newArrayList();<a name="line.711"></a>
-<span class="sourceLineNo">712</span>    }<a name="line.712"></a>
-<span class="sourceLineNo">713</span><a name="line.713"></a>
-<span class="sourceLineNo">714</span>    // TODO(lowasser): consider adding union, in addition to add, that does allow overlap<a name="line.714"></a>
-<span class="sourceLineNo">715</span><a name="line.715"></a>
-<span class="sourceLineNo">716</span>    /**<a name="line.716"></a>
-<span class="sourceLineNo">717</span>     * Add the specified range to this builder. Adjacent ranges are permitted and will be merged,<a name="line.717"></a>
-<span class="sourceLineNo">718</span>     * but overlapping ranges will cause an exception when {@link #build()} is called.<a name="line.718"></a>
-<span class="sourceLineNo">719</span>     *<a name="line.719"></a>
-<span class="sourceLineNo">720</span>     * @throws IllegalArgumentException if {@code range} is empty<a name="line.720"></a>
-<span class="sourceLineNo">721</span>     */<a name="line.721"></a>
-<span class="sourceLineNo">722</span>    @CanIgnoreReturnValue<a name="line.722"></a>
-<span class="sourceLineNo">723</span>    public Builder&lt;C&gt; add(Range&lt;C&gt; range) {<a name="line.723"></a>
-<span class="sourceLineNo">724</span>      checkArgument(!range.isEmpty(), "range must not be empty, but was %s", range);<a name="line.724"></a>
-<span class="sourceLineNo">725</span>      ranges.add(range);<a name="line.725"></a>
-<span class="sourceLineNo">726</span>      return this;<a name="line.726"></a>
-<span class="sourceLineNo">727</span>    }<a name="line.727"></a>
-<span class="sourceLineNo">728</span><a name="line.728"></a>
-<span class="sourceLineNo">729</span>    /**<a name="line.729"></a>
-<span class="sourceLineNo">730</span>     * Add all ranges from the specified range set to this builder. Adjacent ranges are permitted<a name="line.730"></a>
-<span class="sourceLineNo">731</span>     * and will be merged, but overlapping ranges will cause an exception when {@link #build()} is<a name="line.731"></a>
-<span class="sourceLineNo">732</span>     * called.<a name="line.732"></a>
-<span class="sourceLineNo">733</span>     */<a name="line.733"></a>
-<span class="sourceLineNo">734</span>    @CanIgnoreReturnValue<a name="line.734"></a>
-<span class="sourceLineNo">735</span>    public Builder&lt;C&gt; addAll(RangeSet&lt;C&gt; ranges) {<a name="line.735"></a>
-<span class="sourceLineNo">736</span>      return addAll(ranges.asRanges());<a name="line.736"></a>
-<span class="sourceLineNo">737</span>    }<a name="line.737"></a>
-<span class="sourceLineNo">738</span><a name="line.738"></a>
-<span class="sourceLineNo">739</span>    /**<a name="line.739"></a>
-<span class="sourceLineNo">740</span>     * Add all of the specified ranges to this builder. Adjacent ranges are permitted and will be<a name="line.740"></a>
-<span class="sourceLineNo">741</span>     * merged, but overlapping ranges will cause an exception when {@link #build()} is called.<a name="line.741"></a>
-<span class="sourceLineNo">742</span>     *<a name="line.742"></a>
-<span class="sourceLineNo">743</span>     * @throws IllegalArgumentException if any inserted ranges are empty<a name="line.743"></a>
-<span class="sourceLineNo">744</span>     * @since 21.0<a name="line.744"></a>
-<span class="sourceLineNo">745</span>     */<a name="line.745"></a>
-<span class="sourceLineNo">746</span>    @CanIgnoreReturnValue<a name="line.746"></a>
-<span class="sourceLineNo">747</span>    public Builder&lt;C&gt; addAll(Iterable&lt;Range&lt;C&gt;&gt; ranges) {<a name="line.747"></a>
-<span class="sourceLineNo">748</span>      for (Range&lt;C&gt; range : ranges) {<a name="line.748"></a>
-<span class="sourceLineNo">749</span>        add(range);<a name="line.749"></a>
-<span class="sourceLineNo">750</span>      }<a name="line.750"></a>
-<span class="sourceLineNo">751</span>      return this;<a name="line.751"></a>
-<span class="sourceLineNo">752</span>    }<a name="line.752"></a>
-<span class="sourceLineNo">753</span><a name="line.753"></a>
-<span class="sourceLineNo">754</span>    /**<a name="line.754"></a>
-<span class="sourceLineNo">755</span>     * Returns an {@code ImmutableRangeSet} containing the ranges added to this builder.<a name="line.755"></a>
-<span class="sourceLineNo">756</span>     *<a name="line.756"></a>
-<span class="sourceLineNo">757</span>     * @throws IllegalArgumentException if any input ranges have nonempty overlap<a name="line.757"></a>
-<span class="sourceLineNo">758</span>     */<a name="line.758"></a>
-<span class="sourceLineNo">759</span>    public ImmutableRangeSet&lt;C&gt; build() {<a name="line.759"></a>
-<span class="sourceLineNo">760</span>      ImmutableList.Builder&lt;Range&lt;C&gt;&gt; mergedRangesBuilder =<a name="line.760"></a>
-<span class="sourceLineNo">761</span>          new ImmutableList.Builder&lt;Range&lt;C&gt;&gt;(ranges.size());<a name="line.761"></a>
-<span class="sourceLineNo">762</span>      Collections.sort(ranges, Range.RANGE_LEX_ORDERING);<a name="line.762"></a>
-<span class="sourceLineNo">763</span>      PeekingIterator&lt;Range&lt;C&gt;&gt; peekingItr = Iterators.peekingIterator(ranges.iterator());<a name="line.763"></a>
-<span class="sourceLineNo">764</span>      while (peekingItr.hasNext()) {<a name="line.764"></a>
-<span class="sourceLineNo">765</span>        Range&lt;C&gt; range = peekingItr.next();<a name="line.765"></a>
-<span class="sourceLineNo">766</span>        while (peekingItr.hasNext()) {<a name="line.766"></a>
-<span class="sourceLineNo">767</span>          Range&lt;C&gt; nextRange = peekingItr.peek();<a name="line.767"></a>
-<span class="sourceLineNo">768</span>          if (range.isConnected(nextRange)) {<a name="line.768"></a>
-<span class="sourceLineNo">769</span>            checkArgument(<a name="line.769"></a>
-<span class="sourceLineNo">770</span>                range.intersection(nextRange).isEmpty(),<a name="line.770"></a>
-<span class="sourceLineNo">771</span>                "Overlapping ranges not permitted but found %s overlapping %s",<a name="line.771"></a>
-<span class="sourceLineNo">772</span>                range,<a name="line.772"></a>
-<span class="sourceLineNo">773</span>                nextRange);<a name="line.773"></a>
-<span class="sourceLineNo">774</span>            range = range.span(peekingItr.next());<a name="line.774"></a>
-<span class="sourceLineNo">775</span>          } else {<a name="line.775"></a>
-<span class="sourceLineNo">776</span>            break;<a name="line.776"></a>
-<span class="sourceLineNo">777</span>          }<a name="line.777"></a>
-<span class="sourceLineNo">778</span>        }<a name="line.778"></a>
-<span class="sourceLineNo">779</span>        mergedRangesBuilder.add(range);<a name="line.779"></a>
-<span class="sourceLineNo">780</span>      }<a name="line.780"></a>
-<span class="sourceLineNo">781</span>      ImmutableList&lt;Range&lt;C&gt;&gt; mergedRanges = mergedRangesBuilder.build();<a name="line.781"></a>
-<span class="sourceLineNo">782</span>      if (mergedRanges.isEmpty()) {<a name="line.782"></a>
-<span class="sourceLineNo">783</span>        return of();<a name="line.783"></a>
-<span class="sourceLineNo">784</span>      } else if (mergedRanges.size() == 1<a name="line.784"></a>
-<span class="sourceLineNo">785</span>          &amp;&amp; Iterables.getOnlyElement(mergedRanges).equals(Range.all())) {<a name="line.785"></a>
-<span class="sourceLineNo">786</span>        return all();<a name="line.786"></a>
-<span class="sourceLineNo">787</span>      } else {<a name="line.787"></a>
-<span class="sourceLineNo">788</span>        return new ImmutableRangeSet&lt;C&gt;(mergedRanges);<a name="line.788"></a>
-<span class="sourceLineNo">789</span>      }<a name="line.789"></a>
-<span class="sourceLineNo">790</span>    }<a name="line.790"></a>
-<span class="sourceLineNo">791</span>  }<a name="line.791"></a>
-<span class="sourceLineNo">792</span><a name="line.792"></a>
-<span class="sourceLineNo">793</span>  private static final class SerializedForm&lt;C extends Comparable&gt; implements Serializable {<a name="line.793"></a>
-<span class="sourceLineNo">794</span>    private final ImmutableList&lt;Range&lt;C&gt;&gt; ranges;<a name="line.794"></a>
-<span class="sourceLineNo">795</span><a name="line.795"></a>
-<span class="sourceLineNo">796</span>    SerializedForm(ImmutableList&lt;Range&lt;C&gt;&gt; ranges) {<a name="line.796"></a>
-<span class="sourceLineNo">797</span>      this.ranges = ranges;<a name="line.797"></a>
-<span class="sourceLineNo">798</span>    }<a name="line.798"></a>
-<span class="sourceLineNo">799</span><a name="line.799"></a>
-<span class="sourceLineNo">800</span>    Object readResolve() {<a name="line.800"></a>
-<span class="sourceLineNo">801</span>      if (ranges.isEmpty()) {<a name="line.801"></a>
-<span class="sourceLineNo">802</span>        return of();<a name="line.802"></a>
-<span class="sourceLineNo">803</span>      } else if (ranges.equals(ImmutableList.of(Range.all()))) {<a name="line.803"></a>
-<span class="sourceLineNo">804</span>        return all();<a name="line.804"></a>
-<span class="sourceLineNo">805</span>      } else {<a name="line.805"></a>
-<span class="sourceLineNo">806</span>        return new ImmutableRangeSet&lt;C&gt;(ranges);<a name="line.806"></a>
-<span class="sourceLineNo">807</span>      }<a name="line.807"></a>
-<span class="sourceLineNo">808</span>    }<a name="line.808"></a>
-<span class="sourceLineNo">809</span>  }<a name="line.809"></a>
-<span class="sourceLineNo">810</span><a name="line.810"></a>
-<span class="sourceLineNo">811</span>  Object writeReplace() {<a name="line.811"></a>
-<span class="sourceLineNo">812</span>    return new SerializedForm&lt;C&gt;(ranges);<a name="line.812"></a>
-<span class="sourceLineNo">813</span>  }<a name="line.813"></a>
-<span class="sourceLineNo">814</span>}<a name="line.814"></a>
+<span class="sourceLineNo">687</span>    Object readResolve() {<a name="line.687"></a>
+<span class="sourceLineNo">688</span>      return new ImmutableRangeSet&lt;C&gt;(ranges).asSet(domain);<a name="line.688"></a>
+<span class="sourceLineNo">689</span>    }<a name="line.689"></a>
+<span class="sourceLineNo">690</span>  }<a name="line.690"></a>
+<span class="sourceLineNo">691</span><a name="line.691"></a>
+<span class="sourceLineNo">692</span>  /**<a name="line.692"></a>
+<span class="sourceLineNo">693</span>   * Returns {@code true} if this immutable range set's implementation contains references to<a name="line.693"></a>
+<span class="sourceLineNo">694</span>   * user-created objects that aren't accessible via this range set's methods. This is generally<a name="line.694"></a>
+<span class="sourceLineNo">695</span>   * used to determine whether {@code copyOf} implementations should make an explicit copy to avoid<a name="line.695"></a>
+<span class="sourceLineNo">696</span>   * memory leaks.<a name="line.696"></a>
+<span class="sourceLineNo">697</span>   */<a name="line.697"></a>
+<span class="sourceLineNo">698</span>  boolean isPartialView() {<a name="line.698"></a>
+<span class="sourceLineNo">699</span>    return ranges.isPartialView();<a name="line.699"></a>
+<span class="sourceLineNo">700</span>  }<a name="line.700"></a>
+<span class="sourceLineNo">701</span><a name="line.701"></a>
+<span class="sourceLineNo">702</span>  /**<a name="line.702"></a>
+<span class="sourceLineNo">703</span>   * Returns a new builder for an immutable range set.<a name="line.703"></a>
+<span class="sourceLineNo">704</span>   */<a name="line.704"></a>
+<span class="sourceLineNo">705</span>  public static &lt;C extends Comparable&lt;?&gt;&gt; Builder&lt;C&gt; builder() {<a name="line.705"></a>
+<span class="sourceLineNo">706</span>    return new Builder&lt;C&gt;();<a name="line.706"></a>
+<span class="sourceLineNo">707</span>  }<a name="line.707"></a>
+<span class="sourceLineNo">708</span><a name="line.708"></a>
+<span class="sourceLineNo">709</span>  /**<a name="line.709"></a>
+<span class="sourceLineNo">710</span>   * A builder for immutable range sets.<a name="line.710"></a>
+<span class="sourceLineNo">711</span>   */<a name="line.711"></a>
+<span class="sourceLineNo">712</span>  public static class Builder&lt;C extends Comparable&lt;?&gt;&gt; {<a name="line.712"></a>
+<span class="sourceLineNo">713</span>    private final List&lt;Range&lt;C&gt;&gt; ranges;<a name="line.713"></a>
+<span class="sourceLineNo">714</span><a name="line.714"></a>
+<span class="sourceLineNo">715</span>    public Builder() {<a name="line.715"></a>
+<span class="sourceLineNo">716</span>      this.ranges = Lists.newArrayList();<a name="line.716"></a>
+<span class="sourceLineNo">717</span>    }<a name="line.717"></a>
+<span class="sourceLineNo">718</span><a name="line.718"></a>
+<span class="sourceLineNo">719</span>    // TODO(lowasser): consider adding union, in addition to add, that does allow overlap<a name="line.719"></a>
+<span class="sourceLineNo">720</span><a name="line.720"></a>
+<span class="sourceLineNo">721</span>    /**<a name="line.721"></a>
+<span class="sourceLineNo">722</span>     * Add the specified range to this builder. Adjacent ranges are permitted and will be merged,<a name="line.722"></a>
+<span class="sourceLineNo">723</span>     * but overlapping ranges will cause an exception when {@link #build()} is called.<a name="line.723"></a>
+<span class="sourceLineNo">724</span>     *<a name="line.724"></a>
+<span class="sourceLineNo">725</span>     * @throws IllegalArgumentException if {@code range} is empty<a name="line.725"></a>
+<span class="sourceLineNo">726</span>     */<a name="line.726"></a>
+<span class="sourceLineNo">727</span>    @CanIgnoreReturnValue<a name="line.727"></a>
+<span class="sourceLineNo">728</span>    public Builder&lt;C&gt; add(Range&lt;C&gt; range) {<a name="line.728"></a>
+<span class="sourceLineNo">729</span>      checkArgument(!range.isEmpty(), "range must not be empty, but was %s", range);<a name="line.729"></a>
+<span class="sourceLineNo">730</span>      ranges.add(range);<a name="line.730"></a>
+<span class="sourceLineNo">731</span>      return this;<a name="line.731"></a>
+<span class="sourceLineNo">732</span>    }<a name="line.732"></a>
+<span class="sourceLineNo">733</span><a name="line.733"></a>
+<span class="sourceLineNo">734</span>    /**<a name="line.734"></a>
+<span class="sourceLineNo">735</span>     * Add all ranges from the specified range set to this builder. Adjacent ranges are permitted<a name="line.735"></a>
+<span class="sourceLineNo">736</span>     * and will be merged, but overlapping ranges will cause an exception when {@link #build()} is<a name="line.736"></a>
+<span class="sourceLineNo">737</span>     * called.<a name="line.737"></a>
+<span class="sourceLineNo">738</span>     */<a name="line.738"></a>
+<span class="sourceLineNo">739</span>    @CanIgnoreReturnValue<a name="line.739"></a>
+<span class="sourceLineNo">740</span>    public Builder&lt;C&gt; addAll(RangeSet&lt;C&gt; ranges) {<a name="line.740"></a>
+<span class="sourceLineNo">741</span>      return addAll(ranges.asRanges());<a name="line.741"></a>
+<span class="sourceLineNo">742</span>    }<a name="line.742"></a>
+<span class="sourceLineNo">743</span><a name="line.743"></a>
+<span class="sourceLineNo">744</span>    /**<a name="line.744"></a>
+<span class="sourceLineNo">745</span>     * Add all of the specified ranges to this builder. Adjacent ranges are permitted and will be<a name="line.745"></a>
+<span class="sourceLineNo">746</span>     * merged, but overlapping ranges will cause an exception when {@link #build()} is called.<a name="line.746"></a>
+<span class="sourceLineNo">747</span>     *<a name="line.747"></a>
+<span class="sourceLineNo">748</span>     * @throws IllegalArgumentException if any inserted ranges are empty<a name="line.748"></a>
+<span class="sourceLineNo">749</span>     * @since 21.0<a name="line.749"></a>
+<span class="sourceLineNo">750</span>     */<a name="line.750"></a>
+<span class="sourceLineNo">751</span>    @CanIgnoreReturnValue<a name="line.751"></a>
+<span class="sourceLineNo">752</span>    public Builder&lt;C&gt; addAll(Iterable&lt;Range&lt;C&gt;&gt; ranges) {<a name="line.752"></a>
+<span class="sourceLineNo">753</span>      for (Range&lt;C&gt; range : ranges) {<a name="line.753"></a>
+<span class="sourceLineNo">754</span>        add(range);<a name="line.754"></a>
+<span class="sourceLineNo">755</span>      }<a name="line.755"></a>
+<span class="sourceLineNo">756</span>      return this;<a name="line.756"></a>
+<span class="sourceLineNo">757</span>    }<a name="line.757"></a>
+<span class="sourceLineNo">758</span><a name="line.758"></a>
+<span class="sourceLineNo">759</span>    /**<a name="line.759"></a>
+<span class="sourceLineNo">760</span>     * Returns an {@code ImmutableRangeSet} containing the ranges added to this builder.<a name="line.760"></a>
+<span class="sourceLineNo">761</span>     *<a name="line.761"></a>
+<span class="sourceLineNo">762</span>     * @throws IllegalArgumentException if any input ranges have nonempty overlap<a name="line.762"></a>
+<span class="sourceLineNo">763</span>     */<a name="line.763"></a>
+<span class="sourceLineNo">764</span>    public ImmutableRangeSet&lt;C&gt; build() {<a name="line.764"></a>
+<span class="sourceLineNo">765</span>      ImmutableList.Builder&lt;Range&lt;C&gt;&gt; mergedRangesBuilder =<a name="line.765"></a>
+<span class="sourceLineNo">766</span>          new ImmutableList.Builder&lt;Range&lt;C&gt;&gt;(ranges.size());<a name="line.766"></a>
+<span class="sourceLineNo">767</span>      Collections.sort(ranges, Range.RANGE_LEX_ORDERING);<a name="line.767"></a>
+<span class="sourceLineNo">768</span>      PeekingIterator&lt;Range&lt;C&gt;&gt; peekingItr = Iterators.peekingIterator(ranges.iterator());<a name="line.768"></a>
+<span class="sourceLineNo">769</span>      while (peekingItr.hasNext()) {<a name="line.769"></a>
+<span class="sourceLineNo">770</span>        Range&lt;C&gt; range = peekingItr.next();<a name="line.770"></a>
+<span class="sourceLineNo">771</span>        while (peekingItr.hasNext()) {<a name="line.771"></a>
+<span class="sourceLineNo">772</span>          Range&lt;C&gt; nextRange = peekingItr.peek();<a name="line.772"></a>
+<span class="sourceLineNo">773</span>          if (range.isConnected(nextRange)) {<a name="line.773"></a>
+<span class="sourceLineNo">774</span>            checkArgument(<a name="line.774"></a>
+<span class="sourceLineNo">775</span>                range.intersection(nextRange).isEmpty(),<a name="line.775"></a>
+<span class="sourceLineNo">776</span>                "Overlapping ranges not permitted but found %s overlapping %s",<a name="line.776"></a>
+<span class="sourceLineNo">777</span>                range,<a name="line.777"></a>
+<span class="sourceLineNo">778</span>                nextRange);<a name="line.778"></a>
+<span class="sourceLineNo">779</span>            range = range.span(peekingItr.next());<a name="line.779"></a>
+<span class="sourceLineNo">780</span>          } else {<a name="line.780"></a>
+<span class="sourceLineNo">781</span>            break;<a name="line.781"></a>
+<span class="sourceLineNo">782</span>          }<a name="line.782"></a>
+<span class="sourceLineNo">783</span>        }<a name="line.783"></a>
+<span class="sourceLineNo">784</span>        mergedRangesBuilder.add(range);<a name="line.784"></a>
+<span class="sourceLineNo">785</span>      }<a name="line.785"></a>
+<span class="sourceLineNo">786</span>      ImmutableList&lt;Range&lt;C&gt;&gt; mergedRanges = mergedRangesBuilder.build();<a name="line.786"></a>
+<span class="sourceLineNo">787</span>      if (mergedRanges.isEmpty()) {<a name="line.787"></a>
+<span class="sourceLineNo">788</span>        return of();<a name="line.788"></a>
+<span class="sourceLineNo">789</span>      } else if (mergedRanges.size() == 1<a name="line.789"></a>
+<span class="sourceLineNo">790</span>          &amp;&amp; Iterables.getOnlyElement(mergedRanges).equals(Range.all())) {<a name="line.790"></a>
+<span class="sourceLineNo">791</span>        return all();<a name="line.791"></a>
+<span class="sourceLineNo">792</span>      } else {<a name="line.792"></a>
+<span class="sourceLineNo">793</span>        return new ImmutableRangeSet&lt;C&gt;(mergedRanges);<a name="line.793"></a>
+<span class="sourceLineNo">794</span>      }<a name="line.794"></a>
+<span class="sourceLineNo">795</span>    }<a name="line.795"></a>
+<span class="sourceLineNo">796</span>  }<a name="line.796"></a>
+<span class="sourceLineNo">797</span><a name="line.797"></a>
+<span class="sourceLineNo">798</span>  private static final class SerializedForm&lt;C extends Comparable&gt; implements Serializable {<a name="line.798"></a>
+<span class="sourceLineNo">799</span>    private final ImmutableList&lt;Range&lt;C&gt;&gt; ranges;<a name="line.799"></a>
+<span class="sourceLineNo">800</span><a name="line.800"></a>
+<span class="sourceLineNo">801</span>    SerializedForm(ImmutableList&lt;Range&lt;C&gt;&gt; ranges) {<a name="line.801"></a>
+<span class="sourceLineNo">802</span>      this.ranges = ranges;<a name="line.802"></a>
+<span class="sourceLineNo">803</span>    }<a name="line.803"></a>
+<span class="sourceLineNo">804</span><a name="line.804"></a>
+<span class="sourceLineNo">805</span>    Object readResolve() {<a name="line.805"></a>
+<span class="sourceLineNo">806</span>      if (ranges.isEmpty()) {<a name="line.806"></a>
+<span class="sourceLineNo">807</span>        return of();<a name="line.807"></a>
+<span class="sourceLineNo">808</span>      } else if (ranges.equals(ImmutableList.of(Range.all()))) {<a name="line.808"></a>
+<span class="sourceLineNo">809</span>        return all();<a name="line.809"></a>
+<span class="sourceLineNo">810</span>      } else {<a name="line.810"></a>
+<span class="sourceLineNo">811</span>        return new ImmutableRangeSet&lt;C&gt;(ranges);<a name="line.811"></a>
+<span class="sourceLineNo">812</span>      }<a name="line.812"></a>
+<span class="sourceLineNo">813</span>    }<a name="line.813"></a>
+<span class="sourceLineNo">814</span>  }<a name="line.814"></a>
+<span class="sourceLineNo">815</span><a name="line.815"></a>
+<span class="sourceLineNo">816</span>  Object writeReplace() {<a name="line.816"></a>
+<span class="sourceLineNo">817</span>    return new SerializedForm&lt;C&gt;(ranges);<a name="line.817"></a>
+<span class="sourceLineNo">818</span>  }<a name="line.818"></a>
+<span class="sourceLineNo">819</span>}<a name="line.819"></a>
 
 
 

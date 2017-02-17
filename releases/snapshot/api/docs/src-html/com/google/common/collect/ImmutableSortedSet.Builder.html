@@ -774,78 +774,79 @@
 <span class="sourceLineNo">766</span>    return result;<a name="line.766"></a>
 <span class="sourceLineNo">767</span>  }<a name="line.767"></a>
 <span class="sourceLineNo">768</span><a name="line.768"></a>
-<span class="sourceLineNo">769</span>  @GwtIncompatible // NavigableSet<a name="line.769"></a>
-<span class="sourceLineNo">770</span>  ImmutableSortedSet&lt;E&gt; createDescendingSet() {<a name="line.770"></a>
-<span class="sourceLineNo">771</span>    return new DescendingImmutableSortedSet&lt;E&gt;(this);<a name="line.771"></a>
-<span class="sourceLineNo">772</span>  }<a name="line.772"></a>
-<span class="sourceLineNo">773</span><a name="line.773"></a>
-<span class="sourceLineNo">774</span>  @Override<a name="line.774"></a>
-<span class="sourceLineNo">775</span>  public Spliterator&lt;E&gt; spliterator() {<a name="line.775"></a>
-<span class="sourceLineNo">776</span>    return new Spliterators.AbstractSpliterator&lt;E&gt;(<a name="line.776"></a>
-<span class="sourceLineNo">777</span>        size(), SPLITERATOR_CHARACTERISTICS | Spliterator.SIZED) {<a name="line.777"></a>
-<span class="sourceLineNo">778</span>      final UnmodifiableIterator&lt;E&gt; iterator = iterator();<a name="line.778"></a>
-<span class="sourceLineNo">779</span><a name="line.779"></a>
-<span class="sourceLineNo">780</span>      @Override<a name="line.780"></a>
-<span class="sourceLineNo">781</span>      public boolean tryAdvance(Consumer&lt;? super E&gt; action) {<a name="line.781"></a>
-<span class="sourceLineNo">782</span>        if (iterator.hasNext()) {<a name="line.782"></a>
-<span class="sourceLineNo">783</span>          action.accept(iterator.next());<a name="line.783"></a>
-<span class="sourceLineNo">784</span>          return true;<a name="line.784"></a>
-<span class="sourceLineNo">785</span>        } else {<a name="line.785"></a>
-<span class="sourceLineNo">786</span>          return false;<a name="line.786"></a>
-<span class="sourceLineNo">787</span>        }<a name="line.787"></a>
-<span class="sourceLineNo">788</span>      }<a name="line.788"></a>
-<span class="sourceLineNo">789</span><a name="line.789"></a>
-<span class="sourceLineNo">790</span>      @Override<a name="line.790"></a>
-<span class="sourceLineNo">791</span>      public Comparator&lt;? super E&gt; getComparator() {<a name="line.791"></a>
-<span class="sourceLineNo">792</span>        return comparator;<a name="line.792"></a>
-<span class="sourceLineNo">793</span>      }<a name="line.793"></a>
-<span class="sourceLineNo">794</span>    };<a name="line.794"></a>
-<span class="sourceLineNo">795</span>  }<a name="line.795"></a>
-<span class="sourceLineNo">796</span><a name="line.796"></a>
-<span class="sourceLineNo">797</span>  /**<a name="line.797"></a>
-<span class="sourceLineNo">798</span>   * @since 12.0<a name="line.798"></a>
-<span class="sourceLineNo">799</span>   */<a name="line.799"></a>
-<span class="sourceLineNo">800</span>  @GwtIncompatible // NavigableSet<a name="line.800"></a>
-<span class="sourceLineNo">801</span>  @Override<a name="line.801"></a>
-<span class="sourceLineNo">802</span>  public abstract UnmodifiableIterator&lt;E&gt; descendingIterator();<a name="line.802"></a>
-<span class="sourceLineNo">803</span><a name="line.803"></a>
-<span class="sourceLineNo">804</span>  /**<a name="line.804"></a>
-<span class="sourceLineNo">805</span>   * Returns the position of an element within the set, or -1 if not present.<a name="line.805"></a>
-<span class="sourceLineNo">806</span>   */<a name="line.806"></a>
-<span class="sourceLineNo">807</span>  abstract int indexOf(@Nullable Object target);<a name="line.807"></a>
-<span class="sourceLineNo">808</span><a name="line.808"></a>
-<span class="sourceLineNo">809</span>  /*<a name="line.809"></a>
-<span class="sourceLineNo">810</span>   * This class is used to serialize all ImmutableSortedSet instances,<a name="line.810"></a>
-<span class="sourceLineNo">811</span>   * regardless of implementation type. It captures their "logical contents"<a name="line.811"></a>
-<span class="sourceLineNo">812</span>   * only. This is necessary to ensure that the existence of a particular<a name="line.812"></a>
-<span class="sourceLineNo">813</span>   * implementation type is an implementation detail.<a name="line.813"></a>
-<span class="sourceLineNo">814</span>   */<a name="line.814"></a>
-<span class="sourceLineNo">815</span>  private static class SerializedForm&lt;E&gt; implements Serializable {<a name="line.815"></a>
-<span class="sourceLineNo">816</span>    final Comparator&lt;? super E&gt; comparator;<a name="line.816"></a>
-<span class="sourceLineNo">817</span>    final Object[] elements;<a name="line.817"></a>
-<span class="sourceLineNo">818</span><a name="line.818"></a>
-<span class="sourceLineNo">819</span>    public SerializedForm(Comparator&lt;? super E&gt; comparator, Object[] elements) {<a name="line.819"></a>
-<span class="sourceLineNo">820</span>      this.comparator = comparator;<a name="line.820"></a>
-<span class="sourceLineNo">821</span>      this.elements = elements;<a name="line.821"></a>
-<span class="sourceLineNo">822</span>    }<a name="line.822"></a>
-<span class="sourceLineNo">823</span><a name="line.823"></a>
-<span class="sourceLineNo">824</span>    @SuppressWarnings("unchecked")<a name="line.824"></a>
-<span class="sourceLineNo">825</span>    Object readResolve() {<a name="line.825"></a>
-<span class="sourceLineNo">826</span>      return new Builder&lt;E&gt;(comparator).add((E[]) elements).build();<a name="line.826"></a>
-<span class="sourceLineNo">827</span>    }<a name="line.827"></a>
-<span class="sourceLineNo">828</span><a name="line.828"></a>
-<span class="sourceLineNo">829</span>    private static final long serialVersionUID = 0;<a name="line.829"></a>
-<span class="sourceLineNo">830</span>  }<a name="line.830"></a>
-<span class="sourceLineNo">831</span><a name="line.831"></a>
-<span class="sourceLineNo">832</span>  private void readObject(ObjectInputStream stream) throws InvalidObjectException {<a name="line.832"></a>
-<span class="sourceLineNo">833</span>    throw new InvalidObjectException("Use SerializedForm");<a name="line.833"></a>
-<span class="sourceLineNo">834</span>  }<a name="line.834"></a>
-<span class="sourceLineNo">835</span><a name="line.835"></a>
-<span class="sourceLineNo">836</span>  @Override<a name="line.836"></a>
-<span class="sourceLineNo">837</span>  Object writeReplace() {<a name="line.837"></a>
-<span class="sourceLineNo">838</span>    return new SerializedForm&lt;E&gt;(comparator, toArray());<a name="line.838"></a>
-<span class="sourceLineNo">839</span>  }<a name="line.839"></a>
-<span class="sourceLineNo">840</span>}<a name="line.840"></a>
+<span class="sourceLineNo">769</span>  // Most classes should implement this as new DescendingImmutableSortedSet&lt;E&gt;(this),<a name="line.769"></a>
+<span class="sourceLineNo">770</span>  // but we push down that implementation because ProGuard can't eliminate it even when it's always<a name="line.770"></a>
+<span class="sourceLineNo">771</span>  // overridden.<a name="line.771"></a>
+<span class="sourceLineNo">772</span>  @GwtIncompatible // NavigableSet<a name="line.772"></a>
+<span class="sourceLineNo">773</span>  abstract ImmutableSortedSet&lt;E&gt; createDescendingSet();<a name="line.773"></a>
+<span class="sourceLineNo">774</span><a name="line.774"></a>
+<span class="sourceLineNo">775</span>  @Override<a name="line.775"></a>
+<span class="sourceLineNo">776</span>  public Spliterator&lt;E&gt; spliterator() {<a name="line.776"></a>
+<span class="sourceLineNo">777</span>    return new Spliterators.AbstractSpliterator&lt;E&gt;(<a name="line.777"></a>
+<span class="sourceLineNo">778</span>        size(), SPLITERATOR_CHARACTERISTICS | Spliterator.SIZED) {<a name="line.778"></a>
+<span class="sourceLineNo">779</span>      final UnmodifiableIterator&lt;E&gt; iterator = iterator();<a name="line.779"></a>
+<span class="sourceLineNo">780</span><a name="line.780"></a>
+<span class="sourceLineNo">781</span>      @Override<a name="line.781"></a>
+<span class="sourceLineNo">782</span>      public boolean tryAdvance(Consumer&lt;? super E&gt; action) {<a name="line.782"></a>
+<span class="sourceLineNo">783</span>        if (iterator.hasNext()) {<a name="line.783"></a>
+<span class="sourceLineNo">784</span>          action.accept(iterator.next());<a name="line.784"></a>
+<span class="sourceLineNo">785</span>          return true;<a name="line.785"></a>
+<span class="sourceLineNo">786</span>        } else {<a name="line.786"></a>
+<span class="sourceLineNo">787</span>          return false;<a name="line.787"></a>
+<span class="sourceLineNo">788</span>        }<a name="line.788"></a>
+<span class="sourceLineNo">789</span>      }<a name="line.789"></a>
+<span class="sourceLineNo">790</span><a name="line.790"></a>
+<span class="sourceLineNo">791</span>      @Override<a name="line.791"></a>
+<span class="sourceLineNo">792</span>      public Comparator&lt;? super E&gt; getComparator() {<a name="line.792"></a>
+<span class="sourceLineNo">793</span>        return comparator;<a name="line.793"></a>
+<span class="sourceLineNo">794</span>      }<a name="line.794"></a>
+<span class="sourceLineNo">795</span>    };<a name="line.795"></a>
+<span class="sourceLineNo">796</span>  }<a name="line.796"></a>
+<span class="sourceLineNo">797</span><a name="line.797"></a>
+<span class="sourceLineNo">798</span>  /**<a name="line.798"></a>
+<span class="sourceLineNo">799</span>   * @since 12.0<a name="line.799"></a>
+<span class="sourceLineNo">800</span>   */<a name="line.800"></a>
+<span class="sourceLineNo">801</span>  @GwtIncompatible // NavigableSet<a name="line.801"></a>
+<span class="sourceLineNo">802</span>  @Override<a name="line.802"></a>
+<span class="sourceLineNo">803</span>  public abstract UnmodifiableIterator&lt;E&gt; descendingIterator();<a name="line.803"></a>
+<span class="sourceLineNo">804</span><a name="line.804"></a>
+<span class="sourceLineNo">805</span>  /**<a name="line.805"></a>
+<span class="sourceLineNo">806</span>   * Returns the position of an element within the set, or -1 if not present.<a name="line.806"></a>
+<span class="sourceLineNo">807</span>   */<a name="line.807"></a>
+<span class="sourceLineNo">808</span>  abstract int indexOf(@Nullable Object target);<a name="line.808"></a>
+<span class="sourceLineNo">809</span><a name="line.809"></a>
+<span class="sourceLineNo">810</span>  /*<a name="line.810"></a>
+<span class="sourceLineNo">811</span>   * This class is used to serialize all ImmutableSortedSet instances,<a name="line.811"></a>
+<span class="sourceLineNo">812</span>   * regardless of implementation type. It captures their "logical contents"<a name="line.812"></a>
+<span class="sourceLineNo">813</span>   * only. This is necessary to ensure that the existence of a particular<a name="line.813"></a>
+<span class="sourceLineNo">814</span>   * implementation type is an implementation detail.<a name="line.814"></a>
+<span class="sourceLineNo">815</span>   */<a name="line.815"></a>
+<span class="sourceLineNo">816</span>  private static class SerializedForm&lt;E&gt; implements Serializable {<a name="line.816"></a>
+<span class="sourceLineNo">817</span>    final Comparator&lt;? super E&gt; comparator;<a name="line.817"></a>
+<span class="sourceLineNo">818</span>    final Object[] elements;<a name="line.818"></a>
+<span class="sourceLineNo">819</span><a name="line.819"></a>
+<span class="sourceLineNo">820</span>    public SerializedForm(Comparator&lt;? super E&gt; comparator, Object[] elements) {<a name="line.820"></a>
+<span class="sourceLineNo">821</span>      this.comparator = comparator;<a name="line.821"></a>
+<span class="sourceLineNo">822</span>      this.elements = elements;<a name="line.822"></a>
+<span class="sourceLineNo">823</span>    }<a name="line.823"></a>
+<span class="sourceLineNo">824</span><a name="line.824"></a>
+<span class="sourceLineNo">825</span>    @SuppressWarnings("unchecked")<a name="line.825"></a>
+<span class="sourceLineNo">826</span>    Object readResolve() {<a name="line.826"></a>
+<span class="sourceLineNo">827</span>      return new Builder&lt;E&gt;(comparator).add((E[]) elements).build();<a name="line.827"></a>
+<span class="sourceLineNo">828</span>    }<a name="line.828"></a>
+<span class="sourceLineNo">829</span><a name="line.829"></a>
+<span class="sourceLineNo">830</span>    private static final long serialVersionUID = 0;<a name="line.830"></a>
+<span class="sourceLineNo">831</span>  }<a name="line.831"></a>
+<span class="sourceLineNo">832</span><a name="line.832"></a>
+<span class="sourceLineNo">833</span>  private void readObject(ObjectInputStream stream) throws InvalidObjectException {<a name="line.833"></a>
+<span class="sourceLineNo">834</span>    throw new InvalidObjectException("Use SerializedForm");<a name="line.834"></a>
+<span class="sourceLineNo">835</span>  }<a name="line.835"></a>
+<span class="sourceLineNo">836</span><a name="line.836"></a>
+<span class="sourceLineNo">837</span>  @Override<a name="line.837"></a>
+<span class="sourceLineNo">838</span>  Object writeReplace() {<a name="line.838"></a>
+<span class="sourceLineNo">839</span>    return new SerializedForm&lt;E&gt;(comparator, toArray());<a name="line.839"></a>
+<span class="sourceLineNo">840</span>  }<a name="line.840"></a>
+<span class="sourceLineNo">841</span>}<a name="line.841"></a>
 
 
 

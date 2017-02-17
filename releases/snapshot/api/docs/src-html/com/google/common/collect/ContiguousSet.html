@@ -182,25 +182,31 @@
 <span class="sourceLineNo">174</span>   */<a name="line.174"></a>
 <span class="sourceLineNo">175</span>  public abstract Range&lt;C&gt; range(BoundType lowerBoundType, BoundType upperBoundType);<a name="line.175"></a>
 <span class="sourceLineNo">176</span><a name="line.176"></a>
-<span class="sourceLineNo">177</span>  /** Returns a short-hand representation of the contents such as {@code "[1..100]"}. */<a name="line.177"></a>
-<span class="sourceLineNo">178</span>  @Override<a name="line.178"></a>
-<span class="sourceLineNo">179</span>  public String toString() {<a name="line.179"></a>
-<span class="sourceLineNo">180</span>    return range().toString();<a name="line.180"></a>
+<span class="sourceLineNo">177</span>  @Override<a name="line.177"></a>
+<span class="sourceLineNo">178</span>  @GwtIncompatible // NavigableSet<a name="line.178"></a>
+<span class="sourceLineNo">179</span>  ImmutableSortedSet&lt;C&gt; createDescendingSet() {<a name="line.179"></a>
+<span class="sourceLineNo">180</span>    return new DescendingImmutableSortedSet&lt;C&gt;(this);<a name="line.180"></a>
 <span class="sourceLineNo">181</span>  }<a name="line.181"></a>
 <span class="sourceLineNo">182</span><a name="line.182"></a>
-<span class="sourceLineNo">183</span>  /**<a name="line.183"></a>
-<span class="sourceLineNo">184</span>   * Not supported. {@code ContiguousSet} instances are constructed with {@link #create}. This<a name="line.184"></a>
-<span class="sourceLineNo">185</span>   * method exists only to hide {@link ImmutableSet#builder} from consumers of {@code<a name="line.185"></a>
-<span class="sourceLineNo">186</span>   * ContiguousSet}.<a name="line.186"></a>
-<span class="sourceLineNo">187</span>   *<a name="line.187"></a>
-<span class="sourceLineNo">188</span>   * @throws UnsupportedOperationException always<a name="line.188"></a>
-<span class="sourceLineNo">189</span>   * @deprecated Use {@link #create}.<a name="line.189"></a>
-<span class="sourceLineNo">190</span>   */<a name="line.190"></a>
-<span class="sourceLineNo">191</span>  @Deprecated<a name="line.191"></a>
-<span class="sourceLineNo">192</span>  public static &lt;E&gt; ImmutableSortedSet.Builder&lt;E&gt; builder() {<a name="line.192"></a>
-<span class="sourceLineNo">193</span>    throw new UnsupportedOperationException();<a name="line.193"></a>
-<span class="sourceLineNo">194</span>  }<a name="line.194"></a>
-<span class="sourceLineNo">195</span>}<a name="line.195"></a>
+<span class="sourceLineNo">183</span>  /** Returns a short-hand representation of the contents such as {@code "[1..100]"}. */<a name="line.183"></a>
+<span class="sourceLineNo">184</span>  @Override<a name="line.184"></a>
+<span class="sourceLineNo">185</span>  public String toString() {<a name="line.185"></a>
+<span class="sourceLineNo">186</span>    return range().toString();<a name="line.186"></a>
+<span class="sourceLineNo">187</span>  }<a name="line.187"></a>
+<span class="sourceLineNo">188</span><a name="line.188"></a>
+<span class="sourceLineNo">189</span>  /**<a name="line.189"></a>
+<span class="sourceLineNo">190</span>   * Not supported. {@code ContiguousSet} instances are constructed with {@link #create}. This<a name="line.190"></a>
+<span class="sourceLineNo">191</span>   * method exists only to hide {@link ImmutableSet#builder} from consumers of {@code<a name="line.191"></a>
+<span class="sourceLineNo">192</span>   * ContiguousSet}.<a name="line.192"></a>
+<span class="sourceLineNo">193</span>   *<a name="line.193"></a>
+<span class="sourceLineNo">194</span>   * @throws UnsupportedOperationException always<a name="line.194"></a>
+<span class="sourceLineNo">195</span>   * @deprecated Use {@link #create}.<a name="line.195"></a>
+<span class="sourceLineNo">196</span>   */<a name="line.196"></a>
+<span class="sourceLineNo">197</span>  @Deprecated<a name="line.197"></a>
+<span class="sourceLineNo">198</span>  public static &lt;E&gt; ImmutableSortedSet.Builder&lt;E&gt; builder() {<a name="line.198"></a>
+<span class="sourceLineNo">199</span>    throw new UnsupportedOperationException();<a name="line.199"></a>
+<span class="sourceLineNo">200</span>  }<a name="line.200"></a>
+<span class="sourceLineNo">201</span>}<a name="line.201"></a>
 
 
 
