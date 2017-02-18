@@ -139,14 +139,14 @@ public interface Network<N, E> extends SuccessorGraph<N>, PredecessorGraph<N> {
 
   /**
    * Returns true if this network allows parallel edges. Attempting to add a parallel edge to a
-   * network that does not allow them will throw an {@link UnsupportedOperationException}.
+   * network that does not allow them will throw an {@link IllegalArgumentException}.
    */
   boolean allowsParallelEdges();
 
   /**
    * Returns true if this network allows self-loops (edges that connect a node to itself).
    * Attempting to add a self-loop to a network that does not allow them will throw an {@link
-   * UnsupportedOperationException}.
+   * IllegalArgumentException}.
    */
   boolean allowsSelfLoops();
 
