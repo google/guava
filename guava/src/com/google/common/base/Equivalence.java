@@ -22,15 +22,9 @@ import java.util.function.BiPredicate;
 import javax.annotation.Nullable;
 
 /**
- * A strategy for determining whether two instances are considered equivalent. Examples of
- * equivalences are the {@linkplain #identity() identity equivalence} and {@linkplain #equals equals
- * equivalence}.
- *
- * <h3>For Java 8+ users</h3>
- *
- * <p>A future version of this class will implement {@code BiPredicate<T, T>}. In the meantime, to
- * use an equivalence (say, named {@code equivalence}) as a bi-predicate, use the method reference
- * {@code equivalence::equivalent}.
+ * A strategy for determining whether two instances are considered equivalent, and for computing
+ * hash codes in a manner consistent with that equivalence. Two examples of equivalences are the
+ * {@linkplain #identity() identity equivalence} and the {@linkplain #equals "equals" equivalence}.
  *
  * @author Bob Lee
  * @author Ben Yu
@@ -48,20 +42,19 @@ public abstract class Equivalence<T> implements BiPredicate<T, T> {
   /**
    * Returns {@code true} if the given objects are considered equivalent.
    *
-   * <p>The {@code equivalent} method implements an equivalence relation on object references:
+   * <p>This method describes an <i>equivalence relation</i> on object references, meaning that for
+   * all references {@code x}, {@code y}, and {@code z} (any of which may be null):
    *
    * <ul>
-   * <li>It is <i>reflexive</i>: for any reference {@code x}, including null, {@code
-   *     equivalent(x, x)} returns {@code true}.
-   * <li>It is <i>symmetric</i>: for any references {@code x} and {@code y}, {@code
-   *     equivalent(x, y) == equivalent(y, x)}.
-   * <li>It is <i>transitive</i>: for any references {@code x}, {@code y}, and {@code z}, if
-   *     {@code equivalent(x, y)} returns {@code true} and {@code equivalent(y, z)} returns {@code
-   *     true}, then {@code equivalent(x, z)} returns {@code true}.
-   * <li>It is <i>consistent</i>: for any references {@code x} and {@code y}, multiple invocations
-   *     of {@code equivalent(x, y)} consistently return {@code true} or consistently return {@code
-   *     false} (provided that neither {@code x} nor {@code y} is modified).
+   * <li>{@code equivalent(x, x)} is true (<i>reflexive</i> property)
+   * <li>{@code equivalent(x, y)} and {@code equivalent(y, x)} each return the same result
+   *     (<i>symmetric</i> property)
+   * <li>If {@code equivalent(x, y)} and {@code equivalent(y, z)} are both true, then
+   *     {@code equivalent(x, z)} is also true (<i>transitive</i> property)
    * </ul>
+   *
+   * <p>Note that all calls to {@code equivalent(x, y)} are expected to return the same result as
+   * long as neither {@code x} nor {@code y} is modified.
    */
   public final boolean equivalent(@Nullable T a, @Nullable T b) {
     if (a == b) {
@@ -85,10 +78,11 @@ public abstract class Equivalence<T> implements BiPredicate<T, T> {
   }
 
   /**
-   * Returns {@code true} if {@code a} and {@code b} are considered equivalent.
+   * Implemented by the user to determine whether {@code a} and {@code b} are considered
+   * equivalent, subject to the requirements specified in {@link #equivalent}.
    *
-   * <p>Called by {@link #equivalent}. {@code a} and {@code b} are not the same object and are not
-   * nulls.
+   * <p>This method should not be called except by {@link #equivalent}. When {@link #equivalent}
+   * calls this method, {@code a} and {@code b} are guaranteed to be distinct, non-null instances.
    *
    * @since 10.0 (previously, subclasses would override equivalent())
    */
@@ -118,9 +112,11 @@ public abstract class Equivalence<T> implements BiPredicate<T, T> {
   }
 
   /**
-   * Returns a hash code for non-null object {@code t}.
+   * Implemented by the user to return a hash code for {@code t}, subject to the requirements
+   * specified in {@link #hash}.
    *
-   * <p>Called by {@link #hash}.
+   * <p>This method should not be called except by {@link #hash}. When {@link #hash} calls this
+   * method, {@code t} is guaranteed to be non-null.
    *
    * @since 10.0 (previously, subclasses would override hash())
    */
