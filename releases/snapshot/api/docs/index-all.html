@@ -11758,6 +11758,14 @@
 <dd>
 <div class="block">Returns all nodes in this network, in the order specified by <a href="com/google/common/graph/Network.html#nodeOrder--"><code>Network.nodeOrder()</code></a>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/PredecessorGraph.html#nodes--">nodes()</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/PredecessorGraph.html" title="interface in com.google.common.graph">PredecessorGraph</a></dt>
+<dd>
+<div class="block">Returns all nodes in this graph.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/SuccessorGraph.html#nodes--">nodes()</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/SuccessorGraph.html" title="interface in com.google.common.graph">SuccessorGraph</a></dt>
+<dd>
+<div class="block">Returns all nodes in this graph.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/ValueGraph.html#nodes--">nodes()</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a></dt>
 <dd>
 <div class="block">Returns all nodes in this graph, in the order specified by <code>BaseGraph.nodeOrder()</code>.</div>
@@ -13003,6 +13011,11 @@
 <div class="block">Static convenience methods that help a method or constructor check whether it was invoked
  correctly (whether its <i>preconditions</i> have been met).</div>
 </dd>
+<dt><a href="com/google/common/graph/PredecessorGraph.html" title="interface in com.google.common.graph"><span class="typeNameLink">PredecessorGraph</span></a>&lt;<a href="com/google/common/graph/PredecessorGraph.html" title="type parameter in PredecessorGraph">N</a>&gt; - Interface in <a href="com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
+<dd>
+<div class="block">An interface for <a
+ href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-structured data.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Graph.html#predecessors-java.lang.Object-">predecessors(Object)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
 <div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
@@ -13011,6 +13024,11 @@
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Network.html#predecessors-java.lang.Object-">predecessors(Object)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
 <div class="block">Returns all nodes in this network adjacent to <code>node</code> which can be reached by traversing
+ <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/PredecessorGraph.html#predecessors-N-">predecessors(N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/PredecessorGraph.html" title="interface in com.google.common.graph">PredecessorGraph</a></dt>
+<dd>
+<div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
  <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/ValueGraph.html#predecessors-java.lang.Object-">predecessors(Object)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a></dt>
@@ -16312,6 +16330,11 @@
 <div class="block">Creates a new <code>ListenableFuture</code> whose value is a list containing the values of all its
  successful input futures.</div>
 </dd>
+<dt><a href="com/google/common/graph/SuccessorGraph.html" title="interface in com.google.common.graph"><span class="typeNameLink">SuccessorGraph</span></a>&lt;<a href="com/google/common/graph/SuccessorGraph.html" title="type parameter in SuccessorGraph">N</a>&gt; - Interface in <a href="com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
+<dd>
+<div class="block">An interface for <a
+ href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-structured data.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Graph.html#successors-java.lang.Object-">successors(Object)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
 <div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
@@ -16320,6 +16343,11 @@
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Network.html#successors-java.lang.Object-">successors(Object)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
 <div class="block">Returns all nodes in this network adjacent to <code>node</code> which can be reached by traversing
+ <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/SuccessorGraph.html#successors-N-">successors(N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/SuccessorGraph.html" title="interface in com.google.common.graph">SuccessorGraph</a></dt>
+<dd>
+<div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
  <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/ValueGraph.html#successors-java.lang.Object-">successors(Object)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a></dt>
