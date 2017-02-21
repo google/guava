@@ -39959,7 +39959,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="in" type="java.io.InputStream"/>
-      <param name="funnel" type="com.google.common.hash.Funnel&lt;T&gt;"/>
+      <param name="funnel" type="com.google.common.hash.Funnel&lt;? super T&gt;"/>
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
       <![CDATA[Reads a byte stream, which was written by {@linkplain #writeTo(OutputStream)}, into a

@@ -500,40 +500,41 @@
 <span class="sourceLineNo">492</span>   * @throws IOException if the InputStream throws an {@code IOException}, or if its data does not<a name="line.492"></a>
 <span class="sourceLineNo">493</span>   *     appear to be a BloomFilter serialized using the {@linkplain #writeTo(OutputStream)} method.<a name="line.493"></a>
 <span class="sourceLineNo">494</span>   */<a name="line.494"></a>
-<span class="sourceLineNo">495</span>  public static &lt;T&gt; BloomFilter&lt;T&gt; readFrom(InputStream in, Funnel&lt;T&gt; funnel) throws IOException {<a name="line.495"></a>
-<span class="sourceLineNo">496</span>    checkNotNull(in, "InputStream");<a name="line.496"></a>
-<span class="sourceLineNo">497</span>    checkNotNull(funnel, "Funnel");<a name="line.497"></a>
-<span class="sourceLineNo">498</span>    int strategyOrdinal = -1;<a name="line.498"></a>
-<span class="sourceLineNo">499</span>    int numHashFunctions = -1;<a name="line.499"></a>
-<span class="sourceLineNo">500</span>    int dataLength = -1;<a name="line.500"></a>
-<span class="sourceLineNo">501</span>    try {<a name="line.501"></a>
-<span class="sourceLineNo">502</span>      DataInputStream din = new DataInputStream(in);<a name="line.502"></a>
-<span class="sourceLineNo">503</span>      // currently this assumes there is no negative ordinal; will have to be updated if we<a name="line.503"></a>
-<span class="sourceLineNo">504</span>      // add non-stateless strategies (for which we've reserved negative ordinals; see<a name="line.504"></a>
-<span class="sourceLineNo">505</span>      // Strategy.ordinal()).<a name="line.505"></a>
-<span class="sourceLineNo">506</span>      strategyOrdinal = din.readByte();<a name="line.506"></a>
-<span class="sourceLineNo">507</span>      numHashFunctions = UnsignedBytes.toInt(din.readByte());<a name="line.507"></a>
-<span class="sourceLineNo">508</span>      dataLength = din.readInt();<a name="line.508"></a>
-<span class="sourceLineNo">509</span><a name="line.509"></a>
-<span class="sourceLineNo">510</span>      Strategy strategy = BloomFilterStrategies.values()[strategyOrdinal];<a name="line.510"></a>
-<span class="sourceLineNo">511</span>      long[] data = new long[dataLength];<a name="line.511"></a>
-<span class="sourceLineNo">512</span>      for (int i = 0; i &lt; data.length; i++) {<a name="line.512"></a>
-<span class="sourceLineNo">513</span>        data[i] = din.readLong();<a name="line.513"></a>
-<span class="sourceLineNo">514</span>      }<a name="line.514"></a>
-<span class="sourceLineNo">515</span>      return new BloomFilter&lt;T&gt;(new BitArray(data), numHashFunctions, funnel, strategy);<a name="line.515"></a>
-<span class="sourceLineNo">516</span>    } catch (RuntimeException e) {<a name="line.516"></a>
-<span class="sourceLineNo">517</span>      String message =<a name="line.517"></a>
-<span class="sourceLineNo">518</span>          "Unable to deserialize BloomFilter from InputStream."<a name="line.518"></a>
-<span class="sourceLineNo">519</span>              + " strategyOrdinal: "<a name="line.519"></a>
-<span class="sourceLineNo">520</span>              + strategyOrdinal<a name="line.520"></a>
-<span class="sourceLineNo">521</span>              + " numHashFunctions: "<a name="line.521"></a>
-<span class="sourceLineNo">522</span>              + numHashFunctions<a name="line.522"></a>
-<span class="sourceLineNo">523</span>              + " dataLength: "<a name="line.523"></a>
-<span class="sourceLineNo">524</span>              + dataLength;<a name="line.524"></a>
-<span class="sourceLineNo">525</span>      throw new IOException(message, e);<a name="line.525"></a>
-<span class="sourceLineNo">526</span>    }<a name="line.526"></a>
-<span class="sourceLineNo">527</span>  }<a name="line.527"></a>
-<span class="sourceLineNo">528</span>}<a name="line.528"></a>
+<span class="sourceLineNo">495</span>  public static &lt;T&gt; BloomFilter&lt;T&gt; readFrom(InputStream in, Funnel&lt;? super T&gt; funnel)<a name="line.495"></a>
+<span class="sourceLineNo">496</span>      throws IOException {<a name="line.496"></a>
+<span class="sourceLineNo">497</span>    checkNotNull(in, "InputStream");<a name="line.497"></a>
+<span class="sourceLineNo">498</span>    checkNotNull(funnel, "Funnel");<a name="line.498"></a>
+<span class="sourceLineNo">499</span>    int strategyOrdinal = -1;<a name="line.499"></a>
+<span class="sourceLineNo">500</span>    int numHashFunctions = -1;<a name="line.500"></a>
+<span class="sourceLineNo">501</span>    int dataLength = -1;<a name="line.501"></a>
+<span class="sourceLineNo">502</span>    try {<a name="line.502"></a>
+<span class="sourceLineNo">503</span>      DataInputStream din = new DataInputStream(in);<a name="line.503"></a>
+<span class="sourceLineNo">504</span>      // currently this assumes there is no negative ordinal; will have to be updated if we<a name="line.504"></a>
+<span class="sourceLineNo">505</span>      // add non-stateless strategies (for which we've reserved negative ordinals; see<a name="line.505"></a>
+<span class="sourceLineNo">506</span>      // Strategy.ordinal()).<a name="line.506"></a>
+<span class="sourceLineNo">507</span>      strategyOrdinal = din.readByte();<a name="line.507"></a>
+<span class="sourceLineNo">508</span>      numHashFunctions = UnsignedBytes.toInt(din.readByte());<a name="line.508"></a>
+<span class="sourceLineNo">509</span>      dataLength = din.readInt();<a name="line.509"></a>
+<span class="sourceLineNo">510</span><a name="line.510"></a>
+<span class="sourceLineNo">511</span>      Strategy strategy = BloomFilterStrategies.values()[strategyOrdinal];<a name="line.511"></a>
+<span class="sourceLineNo">512</span>      long[] data = new long[dataLength];<a name="line.512"></a>
+<span class="sourceLineNo">513</span>      for (int i = 0; i &lt; data.length; i++) {<a name="line.513"></a>
+<span class="sourceLineNo">514</span>        data[i] = din.readLong();<a name="line.514"></a>
+<span class="sourceLineNo">515</span>      }<a name="line.515"></a>
+<span class="sourceLineNo">516</span>      return new BloomFilter&lt;T&gt;(new BitArray(data), numHashFunctions, funnel, strategy);<a name="line.516"></a>
+<span class="sourceLineNo">517</span>    } catch (RuntimeException e) {<a name="line.517"></a>
+<span class="sourceLineNo">518</span>      String message =<a name="line.518"></a>
+<span class="sourceLineNo">519</span>          "Unable to deserialize BloomFilter from InputStream."<a name="line.519"></a>
+<span class="sourceLineNo">520</span>              + " strategyOrdinal: "<a name="line.520"></a>
+<span class="sourceLineNo">521</span>              + strategyOrdinal<a name="line.521"></a>
+<span class="sourceLineNo">522</span>              + " numHashFunctions: "<a name="line.522"></a>
+<span class="sourceLineNo">523</span>              + numHashFunctions<a name="line.523"></a>
+<span class="sourceLineNo">524</span>              + " dataLength: "<a name="line.524"></a>
+<span class="sourceLineNo">525</span>              + dataLength;<a name="line.525"></a>
+<span class="sourceLineNo">526</span>      throw new IOException(message, e);<a name="line.526"></a>
+<span class="sourceLineNo">527</span>    }<a name="line.527"></a>
+<span class="sourceLineNo">528</span>  }<a name="line.528"></a>
+<span class="sourceLineNo">529</span>}<a name="line.529"></a>
 
 
 
