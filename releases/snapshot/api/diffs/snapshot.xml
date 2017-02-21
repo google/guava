@@ -39209,7 +39209,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="N"/>
+      <param name="node" type="java.lang.Object"/>
       <doc>
       <![CDATA[Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
  {@code node}'s incoming edges <i>against</i> the direction (if any) of the edge.
@@ -39270,7 +39270,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="N"/>
+      <param name="node" type="java.lang.Object"/>
       <doc>
       <![CDATA[Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
  {@code node}'s outgoing edges in the direction (if any) of the edge.

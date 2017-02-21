@@ -184,7 +184,7 @@
 <span class="sourceLineNo">176</span>   * @throws IllegalArgumentException if {@code node} is not an element of this network<a name="line.176"></a>
 <span class="sourceLineNo">177</span>   */<a name="line.177"></a>
 <span class="sourceLineNo">178</span>  @Override<a name="line.178"></a>
-<span class="sourceLineNo">179</span>  Set&lt;N&gt; predecessors(@CompatibleWith("N") Object node);<a name="line.179"></a>
+<span class="sourceLineNo">179</span>  Set&lt;N&gt; predecessors(Object node);<a name="line.179"></a>
 <span class="sourceLineNo">180</span><a name="line.180"></a>
 <span class="sourceLineNo">181</span>  /**<a name="line.181"></a>
 <span class="sourceLineNo">182</span>   * Returns all nodes in this network adjacent to {@code node} which can be reached by traversing<a name="line.182"></a>
@@ -198,7 +198,7 @@
 <span class="sourceLineNo">190</span>   * @throws IllegalArgumentException if {@code node} is not an element of this network<a name="line.190"></a>
 <span class="sourceLineNo">191</span>   */<a name="line.191"></a>
 <span class="sourceLineNo">192</span>  @Override<a name="line.192"></a>
-<span class="sourceLineNo">193</span>  Set&lt;N&gt; successors(@CompatibleWith("N") Object node);<a name="line.193"></a>
+<span class="sourceLineNo">193</span>  Set&lt;N&gt; successors(Object node);<a name="line.193"></a>
 <span class="sourceLineNo">194</span><a name="line.194"></a>
 <span class="sourceLineNo">195</span>  /**<a name="line.195"></a>
 <span class="sourceLineNo">196</span>   * Returns the edges whose {@link #incidentNodes(Object) incident nodes} in this network include<a name="line.196"></a>

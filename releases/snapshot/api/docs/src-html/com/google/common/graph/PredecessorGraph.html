@@ -25,58 +25,59 @@
 <span class="sourceLineNo">017</span>package com.google.common.graph;<a name="line.17"></a>
 <span class="sourceLineNo">018</span><a name="line.18"></a>
 <span class="sourceLineNo">019</span>import com.google.common.annotations.Beta;<a name="line.19"></a>
-<span class="sourceLineNo">020</span>import java.util.Set;<a name="line.20"></a>
-<span class="sourceLineNo">021</span><a name="line.21"></a>
-<span class="sourceLineNo">022</span>/**<a name="line.22"></a>
-<span class="sourceLineNo">023</span> * An interface for &lt;a<a name="line.23"></a>
-<span class="sourceLineNo">024</span> * href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)"&gt;graph&lt;/a&gt;-structured data.<a name="line.24"></a>
-<span class="sourceLineNo">025</span> *<a name="line.25"></a>
-<span class="sourceLineNo">026</span> * &lt;p&gt;A graph is composed of a set of nodes and a set of edges connecting pairs of nodes.<a name="line.26"></a>
-<span class="sourceLineNo">027</span> *<a name="line.27"></a>
-<span class="sourceLineNo">028</span> * &lt;p&gt;There are three main interfaces provided to represent graphs. In order of increasing<a name="line.28"></a>
-<span class="sourceLineNo">029</span> * complexity they are: {@link Graph}, {@link ValueGraph}, and {@link Network}. You should generally<a name="line.29"></a>
-<span class="sourceLineNo">030</span> * prefer the simplest interface that satisfies your use case. See the &lt;a<a name="line.30"></a>
-<span class="sourceLineNo">031</span> * href="https://github.com/google/guava/wiki/GraphsExplained#choosing-the-right-graph-type"&gt;<a name="line.31"></a>
-<span class="sourceLineNo">032</span> * "Choosing the right graph type"&lt;/a&gt; section of the Guava User Guide for more details.<a name="line.32"></a>
-<span class="sourceLineNo">033</span> *<a name="line.33"></a>
-<span class="sourceLineNo">034</span> * &lt;h3&gt;Usage&lt;/h3&gt;<a name="line.34"></a>
-<span class="sourceLineNo">035</span> *<a name="line.35"></a>
-<span class="sourceLineNo">036</span> * Some graph algorithms only care about the nodes that are adjacent to a node but not about the<a name="line.36"></a>
-<span class="sourceLineNo">037</span> * type of edges (e.g. topological sort). These algorithms should prefer working with {@code<a name="line.37"></a>
-<span class="sourceLineNo">038</span> * PredecessorGraph} rather than a more specialized type.<a name="line.38"></a>
-<span class="sourceLineNo">039</span> *<a name="line.39"></a>
-<span class="sourceLineNo">040</span> * &lt;p&gt;When calling a method that requires a {@code PredecessorGraph}, you can use {@link Graph},<a name="line.40"></a>
-<span class="sourceLineNo">041</span> * {@link ValueGraph}, {@link Network} or implement this interface for an already existing data<a name="line.41"></a>
-<span class="sourceLineNo">042</span> * structure.<a name="line.42"></a>
-<span class="sourceLineNo">043</span> *<a name="line.43"></a>
-<span class="sourceLineNo">044</span> * &lt;h3&gt;Additional documentation&lt;/h3&gt;<a name="line.44"></a>
-<span class="sourceLineNo">045</span> *<a name="line.45"></a>
-<span class="sourceLineNo">046</span> * &lt;p&gt;See the Guava User Guide for the {@code common.graph} package (&lt;a<a name="line.46"></a>
-<span class="sourceLineNo">047</span> * href="https://github.com/google/guava/wiki/GraphsExplained"&gt;"Graphs Explained"&lt;/a&gt;) for<a name="line.47"></a>
-<span class="sourceLineNo">048</span> * additional documentation, including &lt;a<a name="line.48"></a>
-<span class="sourceLineNo">049</span> * href="https://github.com/google/guava/wiki/GraphsExplained#notes-for-implementors"&gt;notes for<a name="line.49"></a>
-<span class="sourceLineNo">050</span> * implementors&lt;/a&gt;<a name="line.50"></a>
-<span class="sourceLineNo">051</span> *<a name="line.51"></a>
-<span class="sourceLineNo">052</span> * @author Joshua O'Madadhain<a name="line.52"></a>
-<span class="sourceLineNo">053</span> * @author Jens Nyman<a name="line.53"></a>
-<span class="sourceLineNo">054</span> * @param &lt;N&gt; Node parameter type<a name="line.54"></a>
-<span class="sourceLineNo">055</span> * @since 22.0<a name="line.55"></a>
-<span class="sourceLineNo">056</span> */<a name="line.56"></a>
-<span class="sourceLineNo">057</span>// TODO(b/35456940): Update the documentation to reflect the new interfaces<a name="line.57"></a>
-<span class="sourceLineNo">058</span>@Beta<a name="line.58"></a>
-<span class="sourceLineNo">059</span>public interface PredecessorGraph&lt;N&gt; {<a name="line.59"></a>
-<span class="sourceLineNo">060</span><a name="line.60"></a>
-<span class="sourceLineNo">061</span>  /**<a name="line.61"></a>
-<span class="sourceLineNo">062</span>   * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing<a name="line.62"></a>
-<span class="sourceLineNo">063</span>   * {@code node}'s incoming edges &lt;i&gt;against&lt;/i&gt; the direction (if any) of the edge.<a name="line.63"></a>
-<span class="sourceLineNo">064</span>   *<a name="line.64"></a>
-<span class="sourceLineNo">065</span>   * @throws IllegalArgumentException if {@code node} is not an element of this graph<a name="line.65"></a>
-<span class="sourceLineNo">066</span>   */<a name="line.66"></a>
-<span class="sourceLineNo">067</span>  Set&lt;N&gt; predecessors(N node);<a name="line.67"></a>
-<span class="sourceLineNo">068</span><a name="line.68"></a>
-<span class="sourceLineNo">069</span>  /** Returns all nodes in this graph. */<a name="line.69"></a>
-<span class="sourceLineNo">070</span>  Set&lt;N&gt; nodes();<a name="line.70"></a>
-<span class="sourceLineNo">071</span>}<a name="line.71"></a>
+<span class="sourceLineNo">020</span>import com.google.errorprone.annotations.CompatibleWith;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import java.util.Set;<a name="line.21"></a>
+<span class="sourceLineNo">022</span><a name="line.22"></a>
+<span class="sourceLineNo">023</span>/**<a name="line.23"></a>
+<span class="sourceLineNo">024</span> * An interface for &lt;a<a name="line.24"></a>
+<span class="sourceLineNo">025</span> * href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)"&gt;graph&lt;/a&gt;-structured data.<a name="line.25"></a>
+<span class="sourceLineNo">026</span> *<a name="line.26"></a>
+<span class="sourceLineNo">027</span> * &lt;p&gt;A graph is composed of a set of nodes and a set of edges connecting pairs of nodes.<a name="line.27"></a>
+<span class="sourceLineNo">028</span> *<a name="line.28"></a>
+<span class="sourceLineNo">029</span> * &lt;p&gt;There are three main interfaces provided to represent graphs. In order of increasing<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * complexity they are: {@link Graph}, {@link ValueGraph}, and {@link Network}. You should generally<a name="line.30"></a>
+<span class="sourceLineNo">031</span> * prefer the simplest interface that satisfies your use case. See the &lt;a<a name="line.31"></a>
+<span class="sourceLineNo">032</span> * href="https://github.com/google/guava/wiki/GraphsExplained#choosing-the-right-graph-type"&gt;<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * "Choosing the right graph type"&lt;/a&gt; section of the Guava User Guide for more details.<a name="line.33"></a>
+<span class="sourceLineNo">034</span> *<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * &lt;h3&gt;Usage&lt;/h3&gt;<a name="line.35"></a>
+<span class="sourceLineNo">036</span> *<a name="line.36"></a>
+<span class="sourceLineNo">037</span> * Some graph algorithms only care about the nodes that are adjacent to a node but not about the<a name="line.37"></a>
+<span class="sourceLineNo">038</span> * type of edges (e.g. topological sort). These algorithms should prefer working with {@code<a name="line.38"></a>
+<span class="sourceLineNo">039</span> * PredecessorGraph} rather than a more specialized type.<a name="line.39"></a>
+<span class="sourceLineNo">040</span> *<a name="line.40"></a>
+<span class="sourceLineNo">041</span> * &lt;p&gt;When calling a method that requires a {@code PredecessorGraph}, you can use {@link Graph},<a name="line.41"></a>
+<span class="sourceLineNo">042</span> * {@link ValueGraph}, {@link Network} or implement this interface for an already existing data<a name="line.42"></a>
+<span class="sourceLineNo">043</span> * structure.<a name="line.43"></a>
+<span class="sourceLineNo">044</span> *<a name="line.44"></a>
+<span class="sourceLineNo">045</span> * &lt;h3&gt;Additional documentation&lt;/h3&gt;<a name="line.45"></a>
+<span class="sourceLineNo">046</span> *<a name="line.46"></a>
+<span class="sourceLineNo">047</span> * &lt;p&gt;See the Guava User Guide for the {@code common.graph} package (&lt;a<a name="line.47"></a>
+<span class="sourceLineNo">048</span> * href="https://github.com/google/guava/wiki/GraphsExplained"&gt;"Graphs Explained"&lt;/a&gt;) for<a name="line.48"></a>
+<span class="sourceLineNo">049</span> * additional documentation, including &lt;a<a name="line.49"></a>
+<span class="sourceLineNo">050</span> * href="https://github.com/google/guava/wiki/GraphsExplained#notes-for-implementors"&gt;notes for<a name="line.50"></a>
+<span class="sourceLineNo">051</span> * implementors&lt;/a&gt;<a name="line.51"></a>
+<span class="sourceLineNo">052</span> *<a name="line.52"></a>
+<span class="sourceLineNo">053</span> * @author Joshua O'Madadhain<a name="line.53"></a>
+<span class="sourceLineNo">054</span> * @author Jens Nyman<a name="line.54"></a>
+<span class="sourceLineNo">055</span> * @param &lt;N&gt; Node parameter type<a name="line.55"></a>
+<span class="sourceLineNo">056</span> * @since 22.0<a name="line.56"></a>
+<span class="sourceLineNo">057</span> */<a name="line.57"></a>
+<span class="sourceLineNo">058</span>// TODO(b/35456940): Update the documentation to reflect the new interfaces<a name="line.58"></a>
+<span class="sourceLineNo">059</span>@Beta<a name="line.59"></a>
+<span class="sourceLineNo">060</span>public interface PredecessorGraph&lt;N&gt; {<a name="line.60"></a>
+<span class="sourceLineNo">061</span><a name="line.61"></a>
+<span class="sourceLineNo">062</span>  /**<a name="line.62"></a>
+<span class="sourceLineNo">063</span>   * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing<a name="line.63"></a>
+<span class="sourceLineNo">064</span>   * {@code node}'s incoming edges &lt;i&gt;against&lt;/i&gt; the direction (if any) of the edge.<a name="line.64"></a>
+<span class="sourceLineNo">065</span>   *<a name="line.65"></a>
+<span class="sourceLineNo">066</span>   * @throws IllegalArgumentException if {@code node} is not an element of this graph<a name="line.66"></a>
+<span class="sourceLineNo">067</span>   */<a name="line.67"></a>
+<span class="sourceLineNo">068</span>  Set&lt;N&gt; predecessors(@CompatibleWith("N") Object node);<a name="line.68"></a>
+<span class="sourceLineNo">069</span><a name="line.69"></a>
+<span class="sourceLineNo">070</span>  /** Returns all nodes in this graph. */<a name="line.70"></a>
+<span class="sourceLineNo">071</span>  Set&lt;N&gt; nodes();<a name="line.71"></a>
+<span class="sourceLineNo">072</span>}<a name="line.72"></a>
 
 
 
