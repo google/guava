@@ -73,15 +73,15 @@ public final class Multisets {
    * @since 22.0
    */
   public static <T, E, M extends Multiset<E>> Collector<T, ?, M> toMultiset(
-      java.util.function.Function<T, E> elemFunction,
+      java.util.function.Function<T, E> elementFunction,
       java.util.function.ToIntFunction<T> countFunction,
-      java.util.function.Supplier<M> implSupplier) {
-    checkNotNull(elemFunction);
+      java.util.function.Supplier<M> multisetSupplier) {
+    checkNotNull(elementFunction);
     checkNotNull(countFunction);
-    checkNotNull(implSupplier);
+    checkNotNull(multisetSupplier);
     return Collector.of(
-        implSupplier,
-        (ms, t) -> ms.add(elemFunction.apply(t), countFunction.applyAsInt(t)),
+        multisetSupplier,
+        (ms, t) -> ms.add(elementFunction.apply(t), countFunction.applyAsInt(t)),
         (ms1, ms2) -> {
           ms1.addAll(ms2);
           return ms1;
