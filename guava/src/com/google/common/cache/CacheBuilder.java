@@ -388,22 +388,27 @@ public final class CacheBuilder<K, V> {
   }
 
   /**
-   * Specifies the maximum number of entries the cache may contain. Note that the cache <b>may evict
-   * an entry before this limit is exceeded</b>. As the cache size grows close to the maximum, the
-   * cache evicts entries that are less likely to be used again. For example, the cache may evict an
-   * entry because it hasn't been used recently or very often.
+   * Specifies the maximum number of entries the cache may contain.
    *
-   * <p>When {@code size} is zero, elements will be evicted immediately after being loaded into the
-   * cache. This can be useful in testing, or to disable caching temporarily without a code change.
+   * <p>Note that the cache <b>may evict an entry before this limit is exceeded</b>. For example, in
+   * the current implementation, when {@concurrencyLevel} is greater than {@code 1}, each resulting
+   * segment inside the cache <i>independently</i> limits its own size to approximately {@code
+   * maximumSize / concurrencyLevel}.
+   *
+   * <p>When eviction is necessary, the cache evicts entries that are less likely to be used again.
+   * For example, the cache may evict an entry because it hasn't been used recently or very often.
+   *
+   * <p>If {@code maximumSize} is zero, elements will be evicted immediately after being loaded into
+   * cache. This can be useful in testing, or to disable caching temporarily.
    *
    * <p>This feature cannot be used in conjunction with {@link #maximumWeight}.
    *
-   * @param size the maximum size of the cache
+   * @param maximumSize the maximum size of the cache
    * @return this {@code CacheBuilder} instance (for chaining)
-   * @throws IllegalArgumentException if {@code size} is negative
+   * @throws IllegalArgumentException if {@code maximumSize} is negative
    * @throws IllegalStateException if a maximum size or weight was already set
    */
-  public CacheBuilder<K, V> maximumSize(long size) {
+  public CacheBuilder<K, V> maximumSize(long maximumSize) {
     checkState(
         this.maximumSize == UNSET_INT, "maximum size was already set to %s", this.maximumSize);
     checkState(
@@ -411,8 +416,8 @@ public final class CacheBuilder<K, V> {
         "maximum weight was already set to %s",
         this.maximumWeight);
     checkState(this.weigher == null, "maximum size can not be combined with weigher");
-    checkArgument(size >= 0, "maximum size must not be negative");
-    this.maximumSize = size;
+    checkArgument(maximumSize >= 0, "maximum size must not be negative");
+    this.maximumSize = maximumSize;
     return this;
   }
 
@@ -421,35 +426,38 @@ public final class CacheBuilder<K, V> {
    * {@link Weigher} specified with {@link #weigher}, and use of this method requires a
    * corresponding call to {@link #weigher} prior to calling {@link #build}.
    *
-   * <p>Note that the cache <b>may evict an entry before this limit is exceeded</b>. As the cache
-   * size grows close to the maximum, the cache evicts entries that are less likely to be used
-   * again. For example, the cache may evict an entry because it hasn't been used recently or very
-   * often.
+   * <p>Note that the cache <b>may evict an entry before this limit is exceeded</b>. For example, in
+   * the current implementation, when {@concurrencyLevel} is greater than {@code 1}, each resulting
+   * segment inside the cache <i>independently</i> limits its own weight to approximately {@code
+   * maximumWeight / concurrencyLevel}.
    *
-   * <p>When {@code weight} is zero, elements will be evicted immediately after being loaded into
-   * cache. This can be useful in testing, or to disable caching temporarily without a code change.
+   * <p>When eviction is necessary, the cache evicts entries that are less likely to be used again.
+   * For example, the cache may evict an entry because it hasn't been used recently or very often.
+   *
+   * <p>If {@code maximumWeight} is zero, elements will be evicted immediately after being loaded
+   * into cache. This can be useful in testing, or to disable caching temporarily.
    *
    * <p>Note that weight is only used to determine whether the cache is over capacity; it has no
    * effect on selecting which entry should be evicted next.
    *
    * <p>This feature cannot be used in conjunction with {@link #maximumSize}.
    *
-   * @param weight the maximum total weight of entries the cache may contain
+   * @param maximumWeight the maximum total weight of entries the cache may contain
    * @return this {@code CacheBuilder} instance (for chaining)
-   * @throws IllegalArgumentException if {@code weight} is negative
+   * @throws IllegalArgumentException if {@code maximumWeight} is negative
    * @throws IllegalStateException if a maximum weight or size was already set
    * @since 11.0
    */
   @GwtIncompatible // To be supported
-  public CacheBuilder<K, V> maximumWeight(long weight) {
+  public CacheBuilder<K, V> maximumWeight(long maximumWeight) {
     checkState(
         this.maximumWeight == UNSET_INT,
         "maximum weight was already set to %s",
         this.maximumWeight);
     checkState(
         this.maximumSize == UNSET_INT, "maximum size was already set to %s", this.maximumSize);
-    this.maximumWeight = weight;
-    checkArgument(weight >= 0, "maximum weight must not be negative");
+    this.maximumWeight = maximumWeight;
+    checkArgument(maximumWeight >= 0, "maximum weight must not be negative");
     return this;
   }
 
