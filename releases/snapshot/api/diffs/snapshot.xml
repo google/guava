@@ -30138,9 +30138,9 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="elemFunction" type="java.util.function.Function&lt;T, E&gt;"/>
+      <param name="elementFunction" type="java.util.function.Function&lt;T, E&gt;"/>
       <param name="countFunction" type="java.util.function.ToIntFunction&lt;T&gt;"/>
-      <param name="implSupplier" type="java.util.function.Supplier&lt;M&gt;"/>
+      <param name="multisetSupplier" type="java.util.function.Supplier&lt;M&gt;"/>
       <doc>
       <![CDATA[Returns a {@code Collector} that accumulates elements into a multiset created via the specified
  {@code Supplier}, whose elements are the result of applying {@code elementFunction} to the

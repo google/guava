@@ -81,15 +81,15 @@
 <span class="sourceLineNo">073</span>   * @since 22.0<a name="line.73"></a>
 <span class="sourceLineNo">074</span>   */<a name="line.74"></a>
 <span class="sourceLineNo">075</span>  public static &lt;T, E, M extends Multiset&lt;E&gt;&gt; Collector&lt;T, ?, M&gt; toMultiset(<a name="line.75"></a>
-<span class="sourceLineNo">076</span>      java.util.function.Function&lt;T, E&gt; elemFunction,<a name="line.76"></a>
+<span class="sourceLineNo">076</span>      java.util.function.Function&lt;T, E&gt; elementFunction,<a name="line.76"></a>
 <span class="sourceLineNo">077</span>      java.util.function.ToIntFunction&lt;T&gt; countFunction,<a name="line.77"></a>
-<span class="sourceLineNo">078</span>      java.util.function.Supplier&lt;M&gt; implSupplier) {<a name="line.78"></a>
-<span class="sourceLineNo">079</span>    checkNotNull(elemFunction);<a name="line.79"></a>
+<span class="sourceLineNo">078</span>      java.util.function.Supplier&lt;M&gt; multisetSupplier) {<a name="line.78"></a>
+<span class="sourceLineNo">079</span>    checkNotNull(elementFunction);<a name="line.79"></a>
 <span class="sourceLineNo">080</span>    checkNotNull(countFunction);<a name="line.80"></a>
-<span class="sourceLineNo">081</span>    checkNotNull(implSupplier);<a name="line.81"></a>
+<span class="sourceLineNo">081</span>    checkNotNull(multisetSupplier);<a name="line.81"></a>
 <span class="sourceLineNo">082</span>    return Collector.of(<a name="line.82"></a>
-<span class="sourceLineNo">083</span>        implSupplier,<a name="line.83"></a>
-<span class="sourceLineNo">084</span>        (ms, t) -&gt; ms.add(elemFunction.apply(t), countFunction.applyAsInt(t)),<a name="line.84"></a>
+<span class="sourceLineNo">083</span>        multisetSupplier,<a name="line.83"></a>
+<span class="sourceLineNo">084</span>        (ms, t) -&gt; ms.add(elementFunction.apply(t), countFunction.applyAsInt(t)),<a name="line.84"></a>
 <span class="sourceLineNo">085</span>        (ms1, ms2) -&gt; {<a name="line.85"></a>
 <span class="sourceLineNo">086</span>          ms1.addAll(ms2);<a name="line.86"></a>
 <span class="sourceLineNo">087</span>          return ms1;<a name="line.87"></a>
