@@ -17,14 +17,10 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.collect.SortedLists.KeyAbsentBehavior.INVERTED_INSERTION_INDEX;
-import static com.google.common.collect.SortedLists.KeyAbsentBehavior.NEXT_HIGHER;
-import static com.google.common.collect.SortedLists.KeyPresentBehavior.ANY_PRESENT;
-import static com.google.common.collect.SortedLists.KeyPresentBehavior.FIRST_AFTER;
-import static com.google.common.collect.SortedLists.KeyPresentBehavior.FIRST_PRESENT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -238,12 +234,12 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   int headIndex(E toElement, boolean inclusive) {
-    return SortedLists.binarySearch(
-        elements,
-        checkNotNull(toElement),
-        comparator(),
-        inclusive ? FIRST_AFTER : FIRST_PRESENT,
-        NEXT_HIGHER);
+    int index = Collections.binarySearch(elements, checkNotNull(toElement), comparator());
+    if (index >= 0) {
+      return inclusive ? index + 1 : index;
+    } else {
+      return ~index;
+    }
   }
 
   @Override
@@ -258,12 +254,12 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   int tailIndex(E fromElement, boolean inclusive) {
-    return SortedLists.binarySearch(
-        elements,
-        checkNotNull(fromElement),
-        comparator(),
-        inclusive ? FIRST_PRESENT : FIRST_AFTER,
-        NEXT_HIGHER);
+    int index = Collections.binarySearch(elements, checkNotNull(fromElement), comparator());
+    if (index >= 0) {
+      return inclusive ? index : index + 1;
+    } else {
+      return ~index;
+    }
   }
 
   // Pretend the comparator can compare anything. If it turns out it can't
@@ -292,9 +288,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     }
     int position;
     try {
-      position =
-          SortedLists.binarySearch(
-              elements, target, unsafeComparator(), ANY_PRESENT, INVERTED_INSERTION_INDEX);
+      position = Collections.binarySearch(elements, target, unsafeComparator());
     } catch (ClassCastException e) {
       return -1;
     }
