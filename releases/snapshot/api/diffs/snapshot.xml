@@ -2050,20 +2050,19 @@
       <doc>
       <![CDATA[Returns {@code true} if the given objects are considered equivalent.
 
- <p>The {@code equivalent} method implements an equivalence relation on object references:
+ <p>This method describes an <i>equivalence relation</i> on object references, meaning that for
+ all references {@code x}, {@code y}, and {@code z} (any of which may be null):
 
  <ul>
- <li>It is <i>reflexive</i>: for any reference {@code x}, including null, {@code
-     equivalent(x, x)} returns {@code true}.
- <li>It is <i>symmetric</i>: for any references {@code x} and {@code y}, {@code
-     equivalent(x, y) == equivalent(y, x)}.
- <li>It is <i>transitive</i>: for any references {@code x}, {@code y}, and {@code z}, if
-     {@code equivalent(x, y)} returns {@code true} and {@code equivalent(y, z)} returns {@code
-     true}, then {@code equivalent(x, z)} returns {@code true}.
- <li>It is <i>consistent</i>: for any references {@code x} and {@code y}, multiple invocations
-     of {@code equivalent(x, y)} consistently return {@code true} or consistently return {@code
-     false} (provided that neither {@code x} nor {@code y} is modified).
- </ul>]]>
+ <li>{@code equivalent(x, x)} is true (<i>reflexive</i> property)
+ <li>{@code equivalent(x, y)} and {@code equivalent(y, x)} each return the same result
+     (<i>symmetric</i> property)
+ <li>If {@code equivalent(x, y)} and {@code equivalent(y, z)} are both true, then
+     {@code equivalent(x, z)} is also true (<i>transitive</i> property)
+ </ul>
+
+ <p>Note that all calls to {@code equivalent(x, y)} are expected to return the same result as
+ long as neither {@code x} nor {@code y} is modified.]]>
       </doc>
     </method>
     <method name="test" return="boolean"
@@ -2086,10 +2085,11 @@
       <param name="a" type="T"/>
       <param name="b" type="T"/>
       <doc>
-      <![CDATA[Returns {@code true} if {@code a} and {@code b} are considered equivalent.
+      <![CDATA[Implemented by the user to determine whether {@code a} and {@code b} are considered
+ equivalent, subject to the requirements specified in {@link #equivalent}.
 
- <p>Called by {@link #equivalent}. {@code a} and {@code b} are not the same object and are not
- nulls.
+ <p>This method should not be called except by {@link #equivalent}. When {@link #equivalent}
+ calls this method, {@code a} and {@code b} are guaranteed to be distinct, non-null instances.
 
  @since 10.0 (previously, subclasses would override equivalent())]]>
       </doc>
@@ -2122,9 +2122,11 @@
       deprecated="not deprecated">
       <param name="t" type="T"/>
       <doc>
-      <![CDATA[Returns a hash code for non-null object {@code t}.
+      <![CDATA[Implemented by the user to return a hash code for {@code t}, subject to the requirements
+ specified in {@link #hash}.
 
- <p>Called by {@link #hash}.
+ <p>This method should not be called except by {@link #hash}. When {@link #hash} calls this
+ method, {@code t} is guaranteed to be non-null.
 
  @since 10.0 (previously, subclasses would override hash())]]>
       </doc>
@@ -2228,15 +2230,9 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[A strategy for determining whether two instances are considered equivalent. Examples of
- equivalences are the {@linkplain #identity() identity equivalence} and {@linkplain #equals equals
- equivalence}.
-
- <h3>For Java 8+ users</h3>
-
- <p>A future version of this class will implement {@code BiPredicate<T, T>}. In the meantime, to
- use an equivalence (say, named {@code equivalence}) as a bi-predicate, use the method reference
- {@code equivalence::equivalent}.
+    <![CDATA[A strategy for determining whether two instances are considered equivalent, and for computing
+ hash codes in a manner consistent with that equivalence. Two examples of equivalences are the
+ {@linkplain #identity() identity equivalence} and the {@linkplain #equals "equals" equivalence}.
 
  @author Bob Lee
  @author Ben Yu
@@ -38732,7 +38728,7 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns true if this network allows parallel edges. Attempting to add a parallel edge to a
- network that does not allow them will throw an {@link UnsupportedOperationException}.]]>
+ network that does not allow them will throw an {@link IllegalArgumentException}.]]>
       </doc>
     </method>
     <method name="allowsSelfLoops" return="boolean"
@@ -38742,7 +38738,7 @@
       <doc>
       <![CDATA[Returns true if this network allows self-loops (edges that connect a node to itself).
  Attempting to add a self-loop to a network that does not allow them will throw an {@link
- UnsupportedOperationException}.]]>
+ IllegalArgumentException}.]]>
       </doc>
     </method>
     <method name="nodeOrder" return="com.google.common.graph.ElementOrder&lt;N&gt;"

@@ -5180,7 +5180,8 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Equivalence.html#doEquivalent-T-T-">doEquivalent(T, T)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/Equivalence.html" title="class in com.google.common.base">Equivalence</a></dt>
 <dd>
-<div class="block">Returns <code>true</code> if <code>a</code> and <code>b</code> are considered equivalent.</div>
+<div class="block">Implemented by the user to determine whether <code>a</code> and <code>b</code> are considered
+ equivalent, subject to the requirements specified in <a href="com/google/common/base/Equivalence.html#equivalent-T-T-"><code>Equivalence.equivalent(T, T)</code></a>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Converter.html#doForward-A-">doForward(A)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a></dt>
 <dd>
@@ -5188,7 +5189,8 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Equivalence.html#doHash-T-">doHash(T)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/Equivalence.html" title="class in com.google.common.base">Equivalence</a></dt>
 <dd>
-<div class="block">Returns a hash code for non-null object <code>t</code>.</div>
+<div class="block">Implemented by the user to return a hash code for <code>t</code>, subject to the requirements
+ specified in <a href="com/google/common/base/Equivalence.html#hash-T-"><code>Equivalence.hash(T)</code></a>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ListenableFutureTask.html#done--">done()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ListenableFutureTask.html" title="class in com.google.common.util.concurrent">ListenableFutureTask</a></dt>
 <dd>
@@ -5865,7 +5867,8 @@
 </dd>
 <dt><a href="com/google/common/base/Equivalence.html" title="class in com.google.common.base"><span class="typeNameLink">Equivalence</span></a>&lt;<a href="com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&gt; - Class in <a href="com/google/common/base/package-summary.html">com.google.common.base</a></dt>
 <dd>
-<div class="block">A strategy for determining whether two instances are considered equivalent.</div>
+<div class="block">A strategy for determining whether two instances are considered equivalent, and for computing
+ hash codes in a manner consistent with that equivalence.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Equivalence.html#Equivalence--">Equivalence()</a></span> - Constructor for class com.google.common.base.<a href="com/google/common/base/Equivalence.html" title="class in com.google.common.base">Equivalence</a></dt>
 <dd>
