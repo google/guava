@@ -492,7 +492,8 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    * @throws IOException if the InputStream throws an {@code IOException}, or if its data does not
    *     appear to be a BloomFilter serialized using the {@linkplain #writeTo(OutputStream)} method.
    */
-  public static <T> BloomFilter<T> readFrom(InputStream in, Funnel<T> funnel) throws IOException {
+  public static <T> BloomFilter<T> readFrom(InputStream in, Funnel<? super T> funnel)
+      throws IOException {
     checkNotNull(in, "InputStream");
     checkNotNull(funnel, "Funnel");
     int strategyOrdinal = -1;
