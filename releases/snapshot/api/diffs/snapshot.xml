@@ -55521,6 +55521,10 @@
  <p><b>Warning:</b> Currently only {@link URLClassLoader} and only {@code file://} urls are
  supported.
 
+ <p>In the case of directory classloaders, symlinks are supported but cycles are not traversed.
+ This guarantees discovery of each <em>unique</em> loadable resource. However, not all possible
+ aliases for resources on cyclic paths will be listed.
+
  @author Ben Yu
  @since 14.0]]>
     </doc>
