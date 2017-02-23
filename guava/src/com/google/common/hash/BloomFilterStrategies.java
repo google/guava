@@ -21,6 +21,8 @@ import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 import java.math.RoundingMode;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicLongArray;
+import java.util.concurrent.atomic.LongAdder;
 import javax.annotation.Nullable;
 
 /**
@@ -44,7 +46,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
   MURMUR128_MITZ_32() {
     @Override
     public <T> boolean put(
-        T object, Funnel<? super T> funnel, int numHashFunctions, BitArray bits) {
+        T object, Funnel<? super T> funnel, int numHashFunctions, LockFreeBitArray bits) {
       long bitSize = bits.bitSize();
       long hash64 = Hashing.murmur3_128().hashObject(object, funnel).asLong();
       int hash1 = (int) hash64;
@@ -64,7 +66,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
 
     @Override
     public <T> boolean mightContain(
-        T object, Funnel<? super T> funnel, int numHashFunctions, BitArray bits) {
+        T object, Funnel<? super T> funnel, int numHashFunctions, LockFreeBitArray bits) {
       long bitSize = bits.bitSize();
       long hash64 = Hashing.murmur3_128().hashObject(object, funnel).asLong();
       int hash1 = (int) hash64;
@@ -92,7 +94,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
   MURMUR128_MITZ_64() {
     @Override
     public <T> boolean put(
-        T object, Funnel<? super T> funnel, int numHashFunctions, BitArray bits) {
+        T object, Funnel<? super T> funnel, int numHashFunctions, LockFreeBitArray bits) {
       long bitSize = bits.bitSize();
       byte[] bytes = Hashing.murmur3_128().hashObject(object, funnel).getBytesInternal();
       long hash1 = lowerEight(bytes);
@@ -110,7 +112,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
 
     @Override
     public <T> boolean mightContain(
-        T object, Funnel<? super T> funnel, int numHashFunctions, BitArray bits) {
+        T object, Funnel<? super T> funnel, int numHashFunctions, LockFreeBitArray bits) {
       long bitSize = bits.bitSize();
       byte[] bytes = Hashing.murmur3_128().hashObject(object, funnel).getBytesInternal();
       long hash1 = lowerEight(bytes);
@@ -138,80 +140,164 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
     }
   };
 
-  // Note: We use this instead of java.util.BitSet because we need access to the long[] data field
-  static final class BitArray {
-    final long[] data;
-    long bitCount;
+  /**
+   * Models a lock-free array of bits.
+   *
+   * We use this instead of java.util.BitSet because we need access to the
+   * array of longs and we need compare-and-swap.
+   */
+  static final class LockFreeBitArray {
+    private static final int LONG_ADDRESSABLE_BITS = 6;
+    final AtomicLongArray data;
+    private LongAdder bitCount;
 
-    BitArray(long bits) {
+    LockFreeBitArray(long bits) {
       this(new long[Ints.checkedCast(LongMath.divide(bits, 64, RoundingMode.CEILING))]);
     }
 
     // Used by serialization
-    BitArray(long[] data) {
+    LockFreeBitArray(long[] data) {
       checkArgument(data.length > 0, "data length is zero!");
-      this.data = data;
+      this.data = new AtomicLongArray(data);
+      this.bitCount = new LongAdder();
       long bitCount = 0;
       for (long value : data) {
         bitCount += Long.bitCount(value);
       }
-      this.bitCount = bitCount;
+      this.bitCount.add(bitCount);
     }
 
-    /** Returns true if the bit changed value. */
-    boolean set(long index) {
-      if (!get(index)) {
-        data[(int) (index >>> 6)] |= (1L << index);
-        bitCount++;
+    /**
+     * Returns true if the bit changed value.
+     */
+    boolean set(long bitIndex) {
+      if (!get(bitIndex)) {
+        int longIndex = (int) (bitIndex >>> LONG_ADDRESSABLE_BITS);
+        // Note about the 1L << bitIndex part:
+        //
+        // If the promoted type of the left-hand operand is long, then only the
+        // six lowest-order bits of the right-hand operand are used as the shift
+        // distance. It is as if the right-hand operand were subjected to a
+        // bitwise logical AND operator & (§15.22.1) with the mask value 0x3f
+        // (0b111111). The shift distance actually used is therefore always in the
+        // range 0 to 63, inclusive.
+        // More details:
+        //   http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.19
+        long mask = 1L << bitIndex;
+
+        long oldValue, newValue;
+        do {
+          oldValue = data.get(longIndex);
+          newValue = oldValue | mask;
+          if (oldValue == newValue) {
+            return false;
+          }
+        // This performs a compare-and-swap operation using the corresponding
+        // platform CPU instruction. More details:
+        //     https://en.wikipedia.org/wiki/Compare-and-swap
+        } while (!data.compareAndSet(longIndex, oldValue, newValue));
+
+        // Note that if we reached this point, we've *definitely* set the bit
+        // and not a different thread. This is because of the
+        // oldValue == newValue check in the retry loop plus CAS ensuring
+        // oldValue has not changed.
+        bitCount.increment();
         return true;
       }
       return false;
     }
 
-    boolean get(long index) {
-      return (data[(int) (index >>> 6)] & (1L << index)) != 0;
+    boolean get(long bitIndex) {
+      return (data.get((int) (bitIndex >>> 6)) & (1L << bitIndex)) != 0;
+    }
+
+    /**
+     * Careful here: if threads are mutating the atomicLongArray while this
+     * method is executing, the final long[] will be a "rolling snapshot" of the
+     * state of the bit array. This is usually good enough, but should be kept in mind.
+     */
+    public static long[] toPlainArray(AtomicLongArray atomicLongArray) {
+      long[] array = new long[atomicLongArray.length()];
+      for (int i = 0; i < array.length; ++i) {
+        array[i] = atomicLongArray.get(i);
+      }
+      return array;
     }
 
     /** Number of bits */
     long bitSize() {
-      return (long) data.length * Long.SIZE;
+      return (long) data.length() * Long.SIZE;
     }
 
-    /** Number of set bits (1s) */
+    /**
+     * Number of set bits (1s).
+     *
+     * Note that because of concurrent set calls and uses of atomics, this
+     * bitCount is a (very) close *estimate* of the actual number of bits set.
+     * It's not possible to do better than an estimate without locking. Note
+     * that the number, if not exactly accurate, is *always*
+     * underestimating, never overestimating.
+     */
     long bitCount() {
-      return bitCount;
+      return bitCount.longValue();
     }
 
-    BitArray copy() {
-      return new BitArray(data.clone());
+    LockFreeBitArray copy() {
+      return new LockFreeBitArray(toPlainArray(data));
     }
 
-    /** Combines the two BitArrays using bitwise OR. */
-    void putAll(BitArray array) {
+    /**
+     * Combines the two BitArrays using bitwise OR.
+     *
+     * NOTE: Because of the use of atomics, if the other LockFreeBitArray is being
+     * mutated while this operation is executing, not all of those new 1's may be
+     * set in the final state of this LockFreeBitArray. The ONLY guarantee
+     * provided is that all the bits that were set in the other LockFreeBitArray at
+     * the start of this method will be set in this LockFreeBitArray at the end of this method.
+     */
+    void putAll(LockFreeBitArray other) {
       checkArgument(
-          data.length == array.data.length,
+          data.length() == other.data.length(),
           "BitArrays must be of equal length (%s != %s)",
-          data.length,
-          array.data.length);
-      bitCount = 0;
-      for (int i = 0; i < data.length; i++) {
-        data[i] |= array.data[i];
-        bitCount += Long.bitCount(data[i]);
+          data.length(),
+          other.data.length());
+      for (int i = 0; i < data.length(); i++) {
+        long otherLong = other.data.get(i);
+
+        long ourLongOld, ourLongNew;
+        boolean changedAnyBits = true;
+        do {
+          ourLongOld = data.get(i);
+          ourLongNew = ourLongOld | otherLong;
+          if (ourLongOld == ourLongNew) {
+            changedAnyBits = false;
+            break;
+          }
+        // This performs a compare-and-swap operation using the corresponding
+        // platform CPU instruction. More details:
+        //     https://en.wikipedia.org/wiki/Compare-and-swap
+        } while (!data.compareAndSet(i, ourLongOld, ourLongNew));
+
+        if (changedAnyBits) {
+          int bitsAdded = Long.bitCount(ourLongNew) - Long.bitCount(ourLongOld);
+          bitCount.add(bitsAdded);
+        }
       }
     }
 
     @Override
     public boolean equals(@Nullable Object o) {
-      if (o instanceof BitArray) {
-        BitArray bitArray = (BitArray) o;
-        return Arrays.equals(data, bitArray.data);
+      if (o instanceof LockFreeBitArray) {
+        LockFreeBitArray lockFreeBitArray = (LockFreeBitArray) o;
+        return Arrays.equals(toPlainArray(data),
+                             toPlainArray(lockFreeBitArray.data));
       }
       return false;
     }
 
     @Override
     public int hashCode() {
-      return Arrays.hashCode(data);
+      return Arrays.hashCode(toPlainArray(data));
     }
   }
 }

@@ -17,10 +17,10 @@
 package com.google.common.hash;
 
 import static com.google.common.base.Charsets.UTF_8;
-import static com.google.common.hash.BloomFilterStrategies.BitArray;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.hash.BloomFilterStrategies.LockFreeBitArray;
 import com.google.common.math.LongMath;
 import com.google.common.primitives.Ints;
 import com.google.common.testing.EqualsTester;
@@ -29,7 +29,12 @@ import com.google.common.testing.SerializableTester;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.math.RoundingMode;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import javax.annotation.Nullable;
 import junit.framework.TestCase;
 
@@ -39,15 +44,20 @@ import junit.framework.TestCase;
  * @author Dimitris Andreou
  */
 public class BloomFilterTest extends TestCase {
+  private static int NUM_PUTS = 1_000_000;
+  private static int GOLDEN_PRESENT_KEY =
+      ThreadLocalRandom.current().nextInt();
+
   @AndroidIncompatible // OutOfMemoryError
   public void testLargeBloomFilterDoesntOverflow() {
     long numBits = Integer.MAX_VALUE;
     numBits++;
 
-    BitArray bitArray = new BitArray(numBits);
+    LockFreeBitArray lockFreeBitArray = new LockFreeBitArray(numBits);
     assertTrue(
-        "BitArray.bitSize() must return a positive number, but was " + bitArray.bitSize(),
-        bitArray.bitSize() > 0);
+        "LockFreeBitArray.bitSize() must return a positive number, but was " + lockFreeBitArray
+            .bitSize(),
+        lockFreeBitArray.bitSize() > 0);
 
     // Ideally we would also test the bitSize() overflow of this BF, but it runs out of heap space
     // BloomFilter.create(Funnels.unencodedCharsFunnel(), 244412641, 1e-11);
@@ -496,5 +506,86 @@ public class BloomFilterTest extends TestCase {
     assertThat(BloomFilterStrategies.values()).hasLength(2);
     assertEquals(BloomFilterStrategies.MURMUR128_MITZ_32, BloomFilterStrategies.values()[0]);
     assertEquals(BloomFilterStrategies.MURMUR128_MITZ_64, BloomFilterStrategies.values()[1]);
+  }
+
+  public void testNoRaceConditions() throws Exception {
+    // We use a 1s run time for the automated test suite, but if you make
+    // any changes to LockFreeBitArray, you'll probably want to run this
+    // manually for a longer time; leaving it overnight (with different
+    // params so that it doesn't saturate so quickly) is not a bad idea.
+    Duration desiredRunTime = Duration.ofSeconds(1);
+    BloomFilter<Integer> bloomFilter =
+        BloomFilter.create(Funnels.integerFunnel(), 150_000_000, 0.01);
+
+    // This check has to be BEFORE the loop because the random insertions can
+    // flip GOLDEN_PRESENT_KEY to true even if it wasn't explicitly inserted
+    // (false positive).
+    assertThat(bloomFilter.mightContain(GOLDEN_PRESENT_KEY)).isFalse();
+    for (int i = 0; i < NUM_PUTS; i++) {
+      bloomFilter.put(getNonGoldenRandomKey());
+    }
+    bloomFilter.put(GOLDEN_PRESENT_KEY);
+
+    int numThreads = 12;
+    double safetyFalsePositiveRate = 0.1;
+    Instant startTime = Instant.now();
+
+    Runnable task = () -> {
+      do {
+        // We can't have a GOLDEN_NOT_PRESENT_KEY because false positives are
+        // possible! It's false negatives that can't happen.
+        assertThat(bloomFilter.mightContain(GOLDEN_PRESENT_KEY)).isTrue();
+
+        int key = getNonGoldenRandomKey();
+        // We can't check that the key is mightContain() == false before the
+        // put() because the key could have already been generated *or* the
+        // bloom filter might say true even when it's not there (false
+        // positive).
+        bloomFilter.put(key);
+        // False negative should *never* happen.
+        assertThat(bloomFilter.mightContain(key)).isTrue();
+
+        // If this check ever fails, that means we need to either bump the
+        // number of expected insertions or don't run the test for so long.
+        // Don't forget, the bloom filter slowly saturates over time and the
+        // expected false positive probability goes up!
+        assertThat(bloomFilter.expectedFpp()).isLessThan(safetyFalsePositiveRate);
+      } while (Duration.between(startTime, Instant.now())
+                       .compareTo(desiredRunTime) < 0);
+    };
+
+    List<Throwable> exceptions =
+        runThreadsAndReturnExceptions(numThreads, task);
+
+    assertThat(exceptions).isEmpty();
+  }
+
+  private static List<Throwable> runThreadsAndReturnExceptions(int numThreads,
+                                                               Runnable task) {
+    List<Thread> threads = new ArrayList<>(numThreads);
+    List<Throwable> exceptions = new ArrayList<>(numThreads);
+    for (int i = 0; i < numThreads; i++) {
+      Thread thread = new Thread(task);
+      thread.setUncaughtExceptionHandler(
+          (unused, exception) -> exceptions.add(exception));
+      threads.add(thread);
+    }
+    threads.forEach(Thread::start);
+    threads.forEach(thread -> {
+      try {
+        thread.join();
+      } catch (InterruptedException e) {
+        // Do nothing
+      }
+    });
+    return exceptions;
+  }
+
+  private static int getNonGoldenRandomKey() {
+    int key;
+    do {
+      key = ThreadLocalRandom.current().nextInt();
+    } while (key == GOLDEN_PRESENT_KEY);
+    return key;
   }
 }

@@ -21,8 +21,8 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
-import com.google.common.hash.BloomFilterStrategies.BitArray;
 import com.google.common.math.DoubleMath;
+import com.google.common.hash.BloomFilterStrategies.LockFreeBitArray;
 import com.google.common.primitives.SignedBytes;
 import com.google.common.primitives.UnsignedBytes;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -34,6 +34,7 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.math.RoundingMode;
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.ThreadSafe;
 
 /**
  * A Bloom filter for instances of {@code T}. A Bloom filter offers an approximate containment test
@@ -54,12 +55,16 @@ import javax.annotation.Nullable;
  * of the code may not be readable by older versions of the code (e.g., a serialized Bloom filter
  * generated today may <i>not</i> be readable by a binary that was compiled 6 months ago).
  *
+ * <p>This class is thread-safe and lock-free. It internally uses atomics and compare-and-swap to
+ * ensure correctness when multiple threads are used to access it.
+ *
  * @param <T> the type of instances that the {@code BloomFilter} accepts
  * @author Dimitris Andreou
  * @author Kevin Bourrillion
  * @since 11.0
  */
 @Beta
+@ThreadSafe
 public final class BloomFilter<T> implements Predicate<T>, Serializable {
   /**
    * A strategy to translate T instances, to {@code numHashFunctions} bit indexes.
@@ -73,14 +78,14 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
      *
      * <p>Returns whether any bits changed as a result of this operation.
      */
-    <T> boolean put(T object, Funnel<? super T> funnel, int numHashFunctions, BitArray bits);
+    <T> boolean put(T object, Funnel<? super T> funnel, int numHashFunctions, LockFreeBitArray bits);
 
     /**
      * Queries {@code numHashFunctions} bits of the given bit array, by hashing a user element;
      * returns {@code true} if and only if all selected bits are set.
      */
     <T> boolean mightContain(
-        T object, Funnel<? super T> funnel, int numHashFunctions, BitArray bits);
+        T object, Funnel<? super T> funnel, int numHashFunctions, LockFreeBitArray bits);
 
     /**
      * Identifier used to encode this strategy, when marshalled as part of a BloomFilter. Only
@@ -93,7 +98,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   }
 
   /** The bit set of the BloomFilter (not necessarily power of 2!) */
-  private final BitArray bits;
+  private final LockFreeBitArray bits;
 
   /** Number of hashes per element */
   private final int numHashFunctions;
@@ -110,7 +115,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    * Creates a BloomFilter.
    */
   private BloomFilter(
-      BitArray bits, int numHashFunctions, Funnel<? super T> funnel, Strategy strategy) {
+      LockFreeBitArray bits, int numHashFunctions, Funnel<? super T> funnel, Strategy strategy) {
     checkArgument(numHashFunctions > 0, "numHashFunctions (%s) must be > 0", numHashFunctions);
     checkArgument(
         numHashFunctions <= 255, "numHashFunctions (%s) must be <= 255", numHashFunctions);
@@ -361,7 +366,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
     long numBits = optimalNumOfBits(expectedInsertions, fpp);
     int numHashFunctions = optimalNumOfHashFunctions(expectedInsertions, numBits);
     try {
-      return new BloomFilter<T>(new BitArray(numBits), numHashFunctions, funnel, strategy);
+      return new BloomFilter<>(new LockFreeBitArray(numBits), numHashFunctions, funnel, strategy);
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("Could not create BloomFilter of " + numBits + " bits", e);
     }
@@ -469,14 +474,14 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
     final Strategy strategy;
 
     SerialForm(BloomFilter<T> bf) {
-      this.data = bf.bits.data;
+      this.data = LockFreeBitArray.toPlainArray(bf.bits.data);
       this.numHashFunctions = bf.numHashFunctions;
       this.funnel = bf.funnel;
       this.strategy = bf.strategy;
     }
 
     Object readResolve() {
-      return new BloomFilter<T>(new BitArray(data), numHashFunctions, funnel, strategy);
+      return new BloomFilter<T>(new LockFreeBitArray(data), numHashFunctions, funnel, strategy);
     }
 
     private static final long serialVersionUID = 1;
@@ -498,8 +503,8 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
     DataOutputStream dout = new DataOutputStream(out);
     dout.writeByte(SignedBytes.checkedCast(strategy.ordinal()));
     dout.writeByte(UnsignedBytes.checkedCast(numHashFunctions)); // note: checked at the c'tor
-    dout.writeInt(bits.data.length);
-    for (long value : bits.data) {
+    dout.writeInt(bits.data.length());
+    for (long value : LockFreeBitArray.toPlainArray(bits.data)) {
       dout.writeLong(value);
     }
   }
@@ -536,7 +541,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
       for (int i = 0; i < data.length; i++) {
         data[i] = din.readLong();
       }
-      return new BloomFilter<T>(new BitArray(data), numHashFunctions, funnel, strategy);
+      return new BloomFilter<>(new LockFreeBitArray(data), numHashFunctions, funnel, strategy);
     } catch (RuntimeException e) {
       String message =
           "Unable to deserialize BloomFilter from InputStream."
