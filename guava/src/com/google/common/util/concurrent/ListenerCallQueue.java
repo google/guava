@@ -78,14 +78,33 @@ final class ListenerCallQueue<L> {
   }
 
   /**
-   * Enqueues an event to be run on currently known listeners. The events will be dispatched when
-   * {@link #dispatch} is called.
+   * Enqueues an event to be run on currently known listeners.
+   *
+   * <p>The {@code toString} method of the Event itself will be used to describe the event in the
+   * case of an error.
+   *
+   * @param event the callback to execute on {@link #dispatch}
    */
   public void enqueue(Event<L> event) {
-    checkNotNull(event);
+    enqueueHelper(event, event);
+  }
+
+  /**
+   * Enqueues an event to be run on currently known listeners, with a label.
+   *
+   * @param event the callback to execute on {@link #dispatch}
+   * @param label a description of the event to use in the case of an error
+   */
+  public void enqueue(Event<L> event, String label) {
+    enqueueHelper(event, label);
+  }
+
+  private void enqueueHelper(Event<L> event, Object label) {
+    checkNotNull(event, "event");
+    checkNotNull(label, "label");
     synchronized (listeners) {
       for (PerListenerQueue<L> queue : listeners) {
-        queue.add(event);
+        queue.add(event, label);
       }
     }
   }
@@ -117,6 +136,9 @@ final class ListenerCallQueue<L> {
     final Queue<ListenerCallQueue.Event<L>> waitQueue = Queues.newArrayDeque();
 
     @GuardedBy("this")
+    final Queue<Object> labelQueue = Queues.newArrayDeque();
+
+    @GuardedBy("this")
     boolean isThreadScheduled;
 
     PerListenerQueue(L listener, Executor executor) {
@@ -125,8 +147,9 @@ final class ListenerCallQueue<L> {
     }
 
     /** Enqueues a event to be run. */
-    synchronized void add(ListenerCallQueue.Event<L> event) {
+    synchronized void add(ListenerCallQueue.Event<L> event, Object label) {
       waitQueue.add(event);
+      labelQueue.add(label);
     }
 
     /**
@@ -165,9 +188,11 @@ final class ListenerCallQueue<L> {
       try {
         while (true) {
           ListenerCallQueue.Event<L> nextToRun;
+          Object nextLabel;
           synchronized (PerListenerQueue.this) {
             Preconditions.checkState(isThreadScheduled);
             nextToRun = waitQueue.poll();
+            nextLabel = labelQueue.poll();
             if (nextToRun == null) {
               isThreadScheduled = false;
               stillRunning = false;
@@ -182,7 +207,7 @@ final class ListenerCallQueue<L> {
             // Log it and keep going.
             logger.log(
                 Level.SEVERE,
-                "Exception while executing callback: " + listener + " " + nextToRun,
+                "Exception while executing callback: " + listener + " " + nextLabel,
                 e);
           }
         }

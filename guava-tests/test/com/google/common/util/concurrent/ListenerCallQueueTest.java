@@ -22,10 +22,13 @@ import com.google.common.collect.ConcurrentHashMultiset;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultiset;
 import com.google.common.collect.Multiset;
+import com.google.common.testing.TestLogHandler;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import junit.framework.TestCase;
 
 /**
@@ -96,6 +99,35 @@ public class ListenerCallQueueTest extends TestCase {
     assertEquals(0, counters.size());
     queue.dispatch();
     assertEquals(multiset(listener, 4), counters);
+  }
+
+  static final class MyListener {
+    @Override
+    public String toString() {
+      return "MyListener";
+    }
+  }
+
+  public void testEnqueueAndDispatch_withLabeledExceptions() {
+    Object listener = new MyListener();
+    ListenerCallQueue<Object> queue = new ListenerCallQueue<>();
+    queue.addListener(listener, directExecutor());
+    queue.enqueue(THROWING_EVENT, "custom-label");
+
+    Logger logger = Logger.getLogger(ListenerCallQueue.class.getName());
+    logger.setLevel(Level.SEVERE);
+    TestLogHandler logHandler = new TestLogHandler();
+    logger.addHandler(logHandler);
+    try {
+      queue.dispatch();
+    } finally {
+      logger.removeHandler(logHandler);
+    }
+
+    assertEquals(1, logHandler.getStoredLogRecords().size());
+    assertEquals(
+        "Exception while executing callback: MyListener custom-label",
+        logHandler.getStoredLogRecords().get(0).getMessage());
   }
 
   public void testEnqueueAndDispatch_multithreaded() throws InterruptedException {
