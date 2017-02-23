@@ -25,10 +25,10 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
+import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.SortedMap;
 import java.util.Spliterator;
@@ -155,7 +155,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   private static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> ofEntries(
-      ImmutableMapEntry<K, V>... entries) {
+      Entry<K, V>... entries) {
     return fromEntries(Ordering.natural(), false, entries, entries.length);
   }
 
@@ -640,7 +640,8 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
         return new ImmutableAsList<Entry<K, V>>() {
           @Override
           public Entry<K, V> get(int index) {
-            return Maps.immutableEntry(keySet.asList().get(index), valueList.get(index));
+            return new AbstractMap.SimpleImmutableEntry<K, V>(
+                keySet.asList().get(index), valueList.get(index));
           }
 
           @Override

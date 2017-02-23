@@ -26,6 +26,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
+import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -164,14 +165,15 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   // looking for of() with > 5 entries? Use the builder instead.
 
   /**
-   * Verifies that {@code key} and {@code value} are non-null, and returns a new
-   * immutable entry with those values.
+   * Verifies that {@code key} and {@code value} are non-null, and returns a new immutable entry
+   * with those values.
    *
-   * <p>A call to {@link Map.Entry#setValue} on the returned entry will always
-   * throw {@link UnsupportedOperationException}.
+   * <p>A call to {@link Map.Entry#setValue} on the returned entry will always throw {@link
+   * UnsupportedOperationException}.
    */
-  static <K, V> ImmutableMapEntry<K, V> entryOf(K key, V value) {
-    return new ImmutableMapEntry<K, V>(key, value);
+  static <K, V> Entry<K, V> entryOf(K key, V value) {
+    checkEntryNotNull(key, value);
+    return new AbstractMap.SimpleImmutableEntry<K, V>(key, value);
   }
 
   /**
@@ -212,7 +214,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    */
   public static class Builder<K, V> {
     Comparator<? super V> valueComparator;
-    ImmutableMapEntry<K, V>[] entries;
+    Entry<K, V>[] entries;
     int size;
     boolean entriesUsed;
 
@@ -226,7 +228,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
     @SuppressWarnings("unchecked")
     Builder(int initialCapacity) {
-      this.entries = new ImmutableMapEntry[initialCapacity];
+      this.entries = new Entry[initialCapacity];
       this.size = 0;
       this.entriesUsed = false;
     }
@@ -247,7 +249,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     @CanIgnoreReturnValue
     public Builder<K, V> put(K key, V value) {
       ensureCapacity(size + 1);
-      ImmutableMapEntry<K, V> entry = entryOf(key, value);
+      Entry<K, V> entry = entryOf(key, value);
       // don't inline this: we want to fail atomically if key or value is null
       entries[size++] = entry;
       return this;
