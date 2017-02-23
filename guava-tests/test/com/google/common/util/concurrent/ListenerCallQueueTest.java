@@ -18,11 +18,14 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
-import com.google.common.util.concurrent.ListenerCallQueue.Callback;
+import com.google.common.collect.ConcurrentHashMultiset;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMultiset;
+import com.google.common.collect.Multiset;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
 
 /**
@@ -30,106 +33,169 @@ import junit.framework.TestCase;
  */
 public class ListenerCallQueueTest extends TestCase {
 
-  private static final Callback<Object> THROWING_CALLBACK = new Callback<Object>("throwing()") {
-    @Override public void call(Object object) {
-      throw new RuntimeException();
-    }
-  };
+  private static final ListenerCallQueue.Event<Object> THROWING_EVENT =
+      new ListenerCallQueue.Event<Object>() {
+        @Override
+        public void call(Object object) {
+          throw new RuntimeException();
+        }
 
-  public void testAddAndExecute() {
-    Object listenerInstance = new Object();
-    ListenerCallQueue<Object> queue =
-        new ListenerCallQueue<Object>(listenerInstance, directExecutor());
+        @Override
+        public String toString() {
+          return "throwing()";
+        }
+      };
 
-    AtomicInteger counter = new AtomicInteger();
-    queue.add(incrementingCallback(counter, 1));
-    queue.add(incrementingCallback(counter, 2));
-    queue.add(incrementingCallback(counter, 3));
-    queue.add(incrementingCallback(counter, 4));
-    assertEquals(0, counter.get());
-    queue.execute();
-    assertEquals(4, counter.get());
+  public void testEnqueueAndDispatch() {
+    Object listener = new Object();
+    ListenerCallQueue<Object> queue = new ListenerCallQueue<>();
+    queue.addListener(listener, directExecutor());
+
+    Multiset<Object> counters = ConcurrentHashMultiset.create();
+    queue.enqueue(incrementingEvent(counters, listener, 1));
+    queue.enqueue(incrementingEvent(counters, listener, 2));
+    queue.enqueue(incrementingEvent(counters, listener, 3));
+    queue.enqueue(incrementingEvent(counters, listener, 4));
+    assertEquals(0, counters.size());
+    queue.dispatch();
+    assertEquals(multiset(listener, 4), counters);
   }
 
-  public void testAddAndExecute_withExceptions() {
-    Object listenerInstance = new Object();
-    ListenerCallQueue<Object> queue =
-        new ListenerCallQueue<Object>(listenerInstance, directExecutor());
+  public void testEnqueueAndDispatch_multipleListeners() {
+    Object listener1 = new Object();
+    ListenerCallQueue<Object> queue = new ListenerCallQueue<>();
+    queue.addListener(listener1, directExecutor());
 
-    AtomicInteger counter = new AtomicInteger();
-    queue.add(incrementingCallback(counter, 1));
-    queue.add(THROWING_CALLBACK);
-    queue.add(incrementingCallback(counter, 2));
-    queue.add(THROWING_CALLBACK);
-    queue.add(incrementingCallback(counter, 3));
-    queue.add(THROWING_CALLBACK);
-    queue.add(incrementingCallback(counter, 4));
-    queue.add(THROWING_CALLBACK);
-    assertEquals(0, counter.get());
-    queue.execute();
-    assertEquals(4, counter.get());
+    Multiset<Object> counters = ConcurrentHashMultiset.create();
+    queue.enqueue(incrementingEvent(counters, listener1, 1));
+    queue.enqueue(incrementingEvent(counters, listener1, 2));
+
+    Object listener2 = new Object();
+    queue.addListener(listener2, directExecutor());
+    queue.enqueue(incrementingEvent(counters, multiset(listener1, 3, listener2, 1)));
+    queue.enqueue(incrementingEvent(counters, multiset(listener1, 4, listener2, 2)));
+    assertEquals(0, counters.size());
+    queue.dispatch();
+    assertEquals(multiset(listener1, 4, listener2, 2), counters);
   }
 
-  public void testAddAndExecute_multithreaded() throws InterruptedException {
+  public void testEnqueueAndDispatch_withExceptions() {
+    Object listener = new Object();
+    ListenerCallQueue<Object> queue = new ListenerCallQueue<>();
+    queue.addListener(listener, directExecutor());
+
+    Multiset<Object> counters = ConcurrentHashMultiset.create();
+    queue.enqueue(incrementingEvent(counters, listener, 1));
+    queue.enqueue(THROWING_EVENT);
+    queue.enqueue(incrementingEvent(counters, listener, 2));
+    queue.enqueue(THROWING_EVENT);
+    queue.enqueue(incrementingEvent(counters, listener, 3));
+    queue.enqueue(THROWING_EVENT);
+    queue.enqueue(incrementingEvent(counters, listener, 4));
+    queue.enqueue(THROWING_EVENT);
+    assertEquals(0, counters.size());
+    queue.dispatch();
+    assertEquals(multiset(listener, 4), counters);
+  }
+
+  public void testEnqueueAndDispatch_multithreaded() throws InterruptedException {
+    Object listener = new Object();
     ExecutorService service = Executors.newFixedThreadPool(4);
+    ListenerCallQueue<Object> queue = new ListenerCallQueue<>();
     try {
-      ListenerCallQueue<Object> queue =
-          new ListenerCallQueue<Object>(new Object(), service);
+      queue.addListener(listener, service);
 
       final CountDownLatch latch = new CountDownLatch(1);
-      AtomicInteger counter = new AtomicInteger();
-      queue.add(incrementingCallback(counter, 1));
-      queue.add(incrementingCallback(counter, 2));
-      queue.add(incrementingCallback(counter, 3));
-      queue.add(incrementingCallback(counter, 4));
-      queue.add(countDownCallback(latch));
-      assertEquals(0, counter.get());
-      queue.execute();
+      Multiset<Object> counters = ConcurrentHashMultiset.create();
+      queue.enqueue(incrementingEvent(counters, listener, 1));
+      queue.enqueue(incrementingEvent(counters, listener, 2));
+      queue.enqueue(incrementingEvent(counters, listener, 3));
+      queue.enqueue(incrementingEvent(counters, listener, 4));
+      queue.enqueue(countDownEvent(latch));
+      assertEquals(0, counters.size());
+      queue.dispatch();
       latch.await();
-      assertEquals(4, counter.get());
+      assertEquals(multiset(listener, 4), counters);
     } finally {
       service.shutdown();
     }
   }
 
-  public void testAddAndExecute_multithreaded_withThrowingRunnable() throws InterruptedException {
+  public void testEnqueueAndDispatch_multithreaded_withThrowingRunnable()
+      throws InterruptedException {
+    Object listener = new Object();
     ExecutorService service = Executors.newFixedThreadPool(4);
+    ListenerCallQueue<Object> queue = new ListenerCallQueue<>();
     try {
-      ListenerCallQueue<Object> queue =
-          new ListenerCallQueue<Object>(new Object(), service);
+      queue.addListener(listener, service);
 
       final CountDownLatch latch = new CountDownLatch(1);
-      AtomicInteger counter = new AtomicInteger();
-      queue.add(incrementingCallback(counter, 1));
-      queue.add(THROWING_CALLBACK);
-      queue.add(incrementingCallback(counter, 2));
-      queue.add(THROWING_CALLBACK);
-      queue.add(incrementingCallback(counter, 3));
-      queue.add(THROWING_CALLBACK);
-      queue.add(incrementingCallback(counter, 4));
-      queue.add(THROWING_CALLBACK);
-      queue.add(countDownCallback(latch));
-      assertEquals(0, counter.get());
-      queue.execute();
+      Multiset<Object> counters = ConcurrentHashMultiset.create();
+      queue.enqueue(incrementingEvent(counters, listener, 1));
+      queue.enqueue(THROWING_EVENT);
+      queue.enqueue(incrementingEvent(counters, listener, 2));
+      queue.enqueue(THROWING_EVENT);
+      queue.enqueue(incrementingEvent(counters, listener, 3));
+      queue.enqueue(THROWING_EVENT);
+      queue.enqueue(incrementingEvent(counters, listener, 4));
+      queue.enqueue(THROWING_EVENT);
+      queue.enqueue(countDownEvent(latch));
+      assertEquals(0, counters.size());
+      queue.dispatch();
       latch.await();
-      assertEquals(4, counter.get());
+      assertEquals(multiset(listener, 4), counters);
     } finally {
       service.shutdown();
     }
   }
 
-  private Callback<Object> incrementingCallback(final AtomicInteger counter, final int expected) {
-    return new Callback<Object>("incrementing") {
-      @Override void call(Object listener) {
-        assertEquals(expected, counter.incrementAndGet());
+  private ListenerCallQueue.Event<Object> incrementingEvent(
+      Multiset<Object> counters, Object expectedListener, int expectedCount) {
+    return incrementingEvent(counters, multiset(expectedListener, expectedCount));
+  }
+
+  private static <T> ImmutableMultiset<T> multiset(T value, int count) {
+    return multiset(ImmutableMap.of(value, count));
+  }
+
+  private static <T> ImmutableMultiset<T> multiset(T value1, int count1, T value2, int count2) {
+    return multiset(ImmutableMap.of(value1, count1, value2, count2));
+  }
+
+  private static <T> ImmutableMultiset<T> multiset(Map<T, Integer> counts) {
+    ImmutableMultiset.Builder<T> builder = ImmutableMultiset.builder();
+    for (Map.Entry<T, Integer> entry : counts.entrySet()) {
+      builder.addCopies(entry.getKey(), entry.getValue());
+    }
+    return builder.build();
+  }
+
+  private ListenerCallQueue.Event<Object> incrementingEvent(
+      final Multiset<Object> counters, final Multiset<Object> expected) {
+    return new ListenerCallQueue.Event<Object>() {
+      @Override
+      public void call(Object listener) {
+        counters.add(listener);
+        assertEquals(expected.count(listener), counters.count(listener));
+      }
+
+      @Override
+      public String toString() {
+        return "incrementing";
       }
     };
   }
 
-  private Callback<Object> countDownCallback(final CountDownLatch latch) {
-    return new Callback<Object>("countDown") {
-      @Override void call(Object listener) {
+  private ListenerCallQueue.Event<Object> countDownEvent(final CountDownLatch latch) {
+    return new ListenerCallQueue.Event<Object>() {
+      @Override
+      public void call(Object listener) {
         latch.countDown();
+      }
+
+      @Override
+      public String toString() {
+        return "countDown";
       }
     };
   }
