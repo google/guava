@@ -363,7 +363,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   private static <K, V> ImmutableSortedMap<K, V> fromEntries(
-      Comparator<? super K> comparator,
+      final Comparator<? super K> comparator,
       boolean sameComparator,
       Entry<K, V>[] entryArray,
       int size) {
@@ -387,7 +387,14 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
           }
         } else {
           // Need to sort and check for nulls and dupes.
-          Arrays.sort(entryArray, 0, size, Ordering.from(comparator).<K>onKeys());
+          // Inline the Comparator implementation rather than transforming with a Function
+          // to save code size.
+          Arrays.sort(entryArray, 0, size, new Comparator<Entry<K, V>>() {
+            @Override
+            public int compare(Entry<K, V> e1, Entry<K, V> e2) {
+              return comparator.compare(e1.getKey(), e2.getKey());
+            }
+          });
           K prevKey = entryArray[0].getKey();
           keys[0] = prevKey;
           values[0] = entryArray[0].getValue();
