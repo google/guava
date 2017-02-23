@@ -509,6 +509,7 @@ public class QuantilesTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // slow
   public void testPercentiles_index_computeInPlace() {
     // Assert that the computation gives the correct result for all possible percentiles.
     for (int index = 0; index <= 100; index++) {
@@ -557,6 +558,7 @@ public class QuantilesTest extends TestCase {
         .containsExactlyEntriesIn(expectedBuilder.build());
   }
 
+  @AndroidIncompatible // slow
   public void testPercentiles_indexes_varargsAll_computeInPlace() {
     double[] dataset = Doubles.toArray(PSEUDORANDOM_DATASET);
     List<Integer> indexes = new ArrayList<Integer>();
