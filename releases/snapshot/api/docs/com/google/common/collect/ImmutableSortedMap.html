@@ -846,7 +846,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>naturalOrder</h4>
-<pre>public static&nbsp;&lt;K extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.416">naturalOrder</a>()</pre>
+<pre>public static&nbsp;&lt;K extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.423">naturalOrder</a>()</pre>
 <div class="block">Returns a builder that creates immutable sorted maps whose keys are
  ordered by their natural ordering. The sorted maps use <a href="../../../../com/google/common/collect/Ordering.html#natural--"><code>Ordering.natural()</code></a> as the comparator.</div>
 </li>
@@ -857,7 +857,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>orderedBy</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.428">orderedBy</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;K&gt;&nbsp;comparator)</pre>
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.435">orderedBy</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;K&gt;&nbsp;comparator)</pre>
 <div class="block">Returns a builder that creates immutable sorted maps with an explicit
  comparator. If the comparator has a more general type than the map's keys,
  such as creating a <code>SortedMap&lt;Integer, String&gt;</code> with a <code>Comparator&lt;Number&gt;</code>, use the <a href="../../../../com/google/common/collect/ImmutableSortedMap.Builder.html" title="class in com.google.common.collect"><code>ImmutableSortedMap.Builder</code></a> constructor instead.</div>
@@ -873,7 +873,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>reverseOrder</h4>
-<pre>public static&nbsp;&lt;K extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.436">reverseOrder</a>()</pre>
+<pre>public static&nbsp;&lt;K extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.443">reverseOrder</a>()</pre>
 <div class="block">Returns a builder that creates immutable sorted maps whose keys are
  ordered by the reverse of their natural ordering.</div>
 </li>
@@ -884,7 +884,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.586">size</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.593">size</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true#size--" title="class or interface in java.util">size</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></dd>
@@ -897,7 +897,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>forEach</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.591">forEach</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/BiConsumer.html?is-external=true" title="class or interface in java.util.function">BiConsumer</a>&lt;? super <a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,? super <a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;action)</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.598">forEach</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/BiConsumer.html?is-external=true" title="class or interface in java.util.function">BiConsumer</a>&lt;? super <a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,? super <a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;action)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true#forEach-java.util.function.BiConsumer-" title="class or interface in java.util">forEach</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></dd>
@@ -910,7 +910,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.600">get</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.607">get</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -926,7 +926,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>entrySet</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.615">entrySet</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.622">entrySet</a>()</pre>
 <div class="block">Returns an immutable set of the mappings in this map, sorted by the key
  ordering.</div>
 <dl>
@@ -945,7 +945,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>keySet</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.671">keySet</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.679">keySet</a>()</pre>
 <div class="block">Returns an immutable sorted set of the keys in this map.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -963,7 +963,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>values</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.685">values</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.693">values</a>()</pre>
 <div class="block">Returns an immutable collection of the values in this map, sorted by the
  ordering of the corresponding keys.</div>
 <dl>
@@ -982,7 +982,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>comparator</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.701">comparator</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.709">comparator</a>()</pre>
 <div class="block">Returns the comparator that orders the keys, which is
  <a href="../../../../com/google/common/collect/Ordering.html#natural--"><code>Ordering.natural()</code></a> when the natural ordering of the keys is used.
  Note that its behavior is not consistent with <a href="http://docs.oracle.com/javase/8/docs/api/java/util/TreeMap.html?is-external=true#comparator--" title="class or interface in java.util"><code>TreeMap.comparator()</code></a>,
@@ -999,7 +999,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>firstKey</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.706">firstKey</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.714">firstKey</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/SortedMap.html?is-external=true#firstKey--" title="class or interface in java.util">firstKey</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></dd>
@@ -1012,7 +1012,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>lastKey</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.711">lastKey</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.719">lastKey</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/SortedMap.html?is-external=true#lastKey--" title="class or interface in java.util">lastKey</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></dd>
@@ -1027,7 +1027,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>headMap</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.737">headMap</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;toKey)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.745">headMap</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;toKey)</pre>
 <div class="block">This method returns a <code>ImmutableSortedMap</code>, consisting of the entries
  whose keys are less than <code>toKey</code>.
 
@@ -1051,7 +1051,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>headMap</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.754">headMap</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;toKey,
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.762">headMap</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;toKey,
                                        boolean&nbsp;inclusive)</pre>
 <div class="block">This method returns a <code>ImmutableSortedMap</code>, consisting of the entries
  whose keys are less than (or equal to, if <code>inclusive</code>) <code>toKey</code>.
@@ -1076,7 +1076,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>subMap</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.772">subMap</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;fromKey,
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.780">subMap</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;fromKey,
                                       <a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;toKey)</pre>
 <div class="block">This method returns a <code>ImmutableSortedMap</code>, consisting of the entries
  whose keys ranges from <code>fromKey</code>, inclusive, to <code>toKey</code>,
@@ -1103,7 +1103,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>subMap</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.792">subMap</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;fromKey,
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.800">subMap</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;fromKey,
                                       boolean&nbsp;fromInclusive,
                                       <a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;toKey,
                                       boolean&nbsp;toInclusive)</pre>
@@ -1132,7 +1132,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>tailMap</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.815">tailMap</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;fromKey)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.823">tailMap</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;fromKey)</pre>
 <div class="block">This method returns a <code>ImmutableSortedMap</code>, consisting of the entries
  whose keys are greater than or equals to <code>fromKey</code>.
 
@@ -1155,7 +1155,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>tailMap</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.833">tailMap</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;fromKey,
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.841">tailMap</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;fromKey,
                                        boolean&nbsp;inclusive)</pre>
 <div class="block">This method returns a <code>ImmutableSortedMap</code>, consisting of the entries
  whose keys are greater than (or equal to, if <code>inclusive</code>)
@@ -1180,7 +1180,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>lowerEntry</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.838">lowerEntry</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;key)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.846">lowerEntry</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true#lowerEntry-K-" title="class or interface in java.util">lowerEntry</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></dd>
@@ -1195,7 +1195,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>lowerKey</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.843">lowerKey</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;key)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.851">lowerKey</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true#lowerKey-K-" title="class or interface in java.util">lowerKey</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></dd>
@@ -1210,7 +1210,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>floorEntry</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.848">floorEntry</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;key)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.856">floorEntry</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true#floorEntry-K-" title="class or interface in java.util">floorEntry</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></dd>
@@ -1225,7 +1225,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>floorKey</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.853">floorKey</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;key)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.861">floorKey</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true#floorKey-K-" title="class or interface in java.util">floorKey</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></dd>
@@ -1240,7 +1240,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>ceilingEntry</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.858">ceilingEntry</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;key)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.866">ceilingEntry</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true#ceilingEntry-K-" title="class or interface in java.util">ceilingEntry</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></dd>
@@ -1255,7 +1255,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>ceilingKey</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.863">ceilingKey</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;key)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.871">ceilingKey</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true#ceilingKey-K-" title="class or interface in java.util">ceilingKey</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></dd>
@@ -1270,7 +1270,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>higherEntry</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.868">higherEntry</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;key)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.876">higherEntry</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true#higherEntry-K-" title="class or interface in java.util">higherEntry</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></dd>
@@ -1285,7 +1285,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>higherKey</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.873">higherKey</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;key)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.881">higherKey</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true#higherKey-K-" title="class or interface in java.util">higherKey</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></dd>
@@ -1298,7 +1298,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>firstEntry</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.878">firstEntry</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.886">firstEntry</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true#firstEntry--" title="class or interface in java.util">firstEntry</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></dd>
@@ -1311,7 +1311,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>lastEntry</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.883">lastEntry</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.891">lastEntry</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true#lastEntry--" title="class or interface in java.util">lastEntry</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></dd>
@@ -1325,7 +1325,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <li class="blockList">
 <h4>pollFirstEntry</h4>
 <pre><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.896">pollFirstEntry</a>()</pre>
+public final&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.904">pollFirstEntry</a>()</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
 <dl>
@@ -1343,7 +1343,7 @@ public final&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Ma
 <li class="blockList">
 <h4>pollLastEntry</h4>
 <pre><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.909">pollLastEntry</a>()</pre>
+public final&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.917">pollLastEntry</a>()</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
 <dl>
@@ -1360,7 +1360,7 @@ public final&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Ma
 <ul class="blockList">
 <li class="blockList">
 <h4>descendingMap</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.914">descendingMap</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.922">descendingMap</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true#descendingMap--" title="class or interface in java.util">descendingMap</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></dd>
@@ -1373,7 +1373,7 @@ public final&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Ma
 <ul class="blockList">
 <li class="blockList">
 <h4>navigableKeySet</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.931">navigableKeySet</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.939">navigableKeySet</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true#navigableKeySet--" title="class or interface in java.util">navigableKeySet</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></dd>
@@ -1386,7 +1386,7 @@ public final&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Ma
 <ul class="blockList">
 <li class="blockList">
 <h4>descendingKeySet</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.936">descendingKeySet</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.944">descendingKeySet</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true#descendingKeySet--" title="class or interface in java.util">descendingKeySet</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></dd>
