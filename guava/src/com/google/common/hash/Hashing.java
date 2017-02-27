@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Supplier;
 import java.security.Key;
-import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -51,7 +50,9 @@ public final class Hashing {
    *
    * <p><b>Warning:</b> a new random seed for these functions is chosen each time the {@code
    * Hashing} class is loaded. <b>Do not use this method</b> if hash codes may escape the current
-   * process in any way, for example being sent over RPC, or saved to disk.
+   * process in any way, for example being sent over RPC, or saved to disk. For a general-purpose,
+   * non-cryptographic hash function that will never change behavior, we suggest {@link
+   * #murmur3_128}.
    *
    * <p>Repeated calls to this method on the same loaded {@code Hashing} class, using the same value
    * for {@code minimumBits}, will return identically-behaving {@link HashFunction} instances.
@@ -172,13 +173,18 @@ public final class Hashing {
   }
 
   /**
-   * Returns a hash function implementing the MD5 hash algorithm (128 hash bits) by delegating to
-   * the MD5 {@link MessageDigest}.
+   * Returns a hash function implementing the MD5 hash algorithm (128 hash bits).
    *
-   * <p><b>Warning:</b> MD5 is not cryptographically secure or collision-resistant and is not
-   * recommended for use in new code. It should be used for legacy compatibility reasons only.
-   * Please consider using a hash function in the SHA-2 family of functions (e.g., SHA-256).
+   * @deprecated If you must interoperate with a system that requires MD5, then use this method,
+   *     despite its deprecation. But if you can choose your hash function, avoid MD5, which is
+   *     neither fast nor secure. As of January 2017, we suggest:
+   *     <ul>
+   *       <li>For security:
+   *           {@link Hashing#sha256} or a higher-level API.
+   *       <li>For speed: {@link Hashing#goodFastHash}, though see its docs for caveats.
+   *     </ul>
    */
+  @Deprecated
   public static HashFunction md5() {
     return Md5Holder.MD5;
   }
@@ -188,13 +194,18 @@ public final class Hashing {
   }
 
   /**
-   * Returns a hash function implementing the SHA-1 algorithm (160 hash bits) by delegating to the
-   * SHA-1 {@link MessageDigest}.
+   * Returns a hash function implementing the SHA-1 algorithm (160 hash bits).
    *
-   * <p><b>Warning:</b> SHA1 is not cryptographically secure and is not recommended for use in new
-   * code. It should be used for legacy compatibility reasons only. Please consider using a hash
-   * function in the SHA-2 family of functions (e.g., SHA-256).
+   * @deprecated If you must interoperate with a system that requires SHA-1, then use this method,
+   *     despite its deprecation. But if you can choose your hash function, avoid SHA-1, which is
+   *     neither fast nor secure. As of January 2017, we suggest:
+   *     <ul>
+   *       <li>For security:
+   *           {@link Hashing#sha256} or a higher-level API.
+   *       <li>For speed: {@link Hashing#goodFastHash}, though see its docs for caveats.
+   *     </ul>
    */
+  @Deprecated
   public static HashFunction sha1() {
     return Sha1Holder.SHA_1;
   }
@@ -203,10 +214,7 @@ public final class Hashing {
     static final HashFunction SHA_1 = new MessageDigestHashFunction("SHA-1", "Hashing.sha1()");
   }
 
-  /**
-   * Returns a hash function implementing the SHA-256 algorithm (256 hash bits) by delegating to the
-   * SHA-256 {@link MessageDigest}.
-   */
+  /** Returns a hash function implementing the SHA-256 algorithm (256 hash bits). */
   public static HashFunction sha256() {
     return Sha256Holder.SHA_256;
   }
@@ -217,8 +225,7 @@ public final class Hashing {
   }
 
   /**
-   * Returns a hash function implementing the SHA-384 algorithm (384 hash bits) by delegating to the
-   * SHA-384 {@link MessageDigest}.
+   * Returns a hash function implementing the SHA-384 algorithm (384 hash bits).
    *
    * @since 19.0
    */
@@ -231,10 +238,7 @@ public final class Hashing {
         new MessageDigestHashFunction("SHA-384", "Hashing.sha384()");
   }
 
-  /**
-   * Returns a hash function implementing the SHA-512 algorithm (512 hash bits) by delegating to the
-   * SHA-512 {@link MessageDigest}.
-   */
+  /** Returns a hash function implementing the SHA-512 algorithm (512 hash bits). */
   public static HashFunction sha512() {
     return Sha512Holder.SHA_512;
   }
@@ -360,6 +364,10 @@ public final class Hashing {
    * Returns a hash function implementing the CRC32C checksum algorithm (32 hash bits) as described
    * by RFC 3720, Section 12.1.
    *
+   * <p>This function is best understood as a <a
+   * href="https://en.wikipedia.org/wiki/Checksum">checksum</a> rather than a true <a
+   * href="https://en.wikipedia.org/wiki/Hash_function">hash function</a>.
+   *
    * @since 18.0
    */
   public static HashFunction crc32c() {
@@ -371,11 +379,14 @@ public final class Hashing {
   }
 
   /**
-   * Returns a hash function implementing the CRC-32 checksum algorithm (32 hash bits) by delegating
-   * to the {@link CRC32} {@link Checksum}.
+   * Returns a hash function implementing the CRC-32 checksum algorithm (32 hash bits).
    *
-   * <p>To get the {@code long} value equivalent to {@link Checksum#getValue()} for a
-   * {@code HashCode} produced by this function, use {@link HashCode#padToLong()}.
+   * <p>To get the {@code long} value equivalent to {@link Checksum#getValue()} for a {@code
+   * HashCode} produced by this function, use {@link HashCode#padToLong()}.
+   *
+   * <p>This function is best understood as a <a
+   * href="https://en.wikipedia.org/wiki/Checksum">checksum</a> rather than a true <a
+   * href="https://en.wikipedia.org/wiki/Hash_function">hash function</a>.
    *
    * @since 14.0
    */
@@ -388,11 +399,14 @@ public final class Hashing {
   }
 
   /**
-   * Returns a hash function implementing the Adler-32 checksum algorithm (32 hash bits) by
-   * delegating to the {@link Adler32} {@link Checksum}.
+   * Returns a hash function implementing the Adler-32 checksum algorithm (32 hash bits).
    *
-   * <p>To get the {@code long} value equivalent to {@link Checksum#getValue()} for a
-   * {@code HashCode} produced by this function, use {@link HashCode#padToLong()}.
+   * <p>To get the {@code long} value equivalent to {@link Checksum#getValue()} for a {@code
+   * HashCode} produced by this function, use {@link HashCode#padToLong()}.
+   *
+   * <p>This function is best understood as a <a
+   * href="https://en.wikipedia.org/wiki/Checksum">checksum</a> rather than a true <a
+   * href="https://en.wikipedia.org/wiki/Hash_function">hash function</a>.
    *
    * @since 14.0
    */
@@ -442,6 +456,10 @@ public final class Hashing {
    * identical to those created using the C++ version, but note that this uses unsigned integers
    * (see {@link com.google.common.primitives.UnsignedInts}). Comparisons between the two should
    * take this into account.
+   *
+   * <p>This function is best understood as a <a
+   * href="https://en.wikipedia.org/wiki/Fingerprint_(computing)">fingerprint</a> rather than a true
+   * <a href="https://en.wikipedia.org/wiki/Hash_function">hash function</a>.
    *
    * @since 20.0
    */
