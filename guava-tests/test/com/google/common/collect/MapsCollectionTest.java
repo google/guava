@@ -565,7 +565,7 @@ public class MapsCollectionTest extends TestCase {
     }
   };
 
-  static final Map<String, String> ENTRIES_TO_FILTER =
+  static final ImmutableMap<String, String> ENTRIES_TO_FILTER =
       ImmutableMap.of("banana", "toast", "eggplant", "spam");
 
   static final Predicate<Entry<String, String>> NOT_NULL_ENTRY =
