@@ -200,5 +200,4 @@ public class StopwatchTest extends TestCase {
     ticker.advance((long) (7.25 * 24 * 60 * 60 * 1000000000L));
     assertEquals("7.250 d", stopwatch.toString());
   }
-
 }
