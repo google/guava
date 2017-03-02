@@ -25,7 +25,10 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.j2objc.annotations.J2ObjCIncompatible;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -47,7 +50,7 @@ import java.util.concurrent.TimeUnit;
  * doSomething();
  * stopwatch.stop(); // optional
  *
- * long millis = stopwatch.elapsed(MILLISECONDS);
+ * Duration duration = stopwatch.elapsed();
  *
  * log.info("time: " + stopwatch); // formatted string like "12.3 ms"
  * }</pre>
@@ -76,7 +79,7 @@ import java.util.concurrent.TimeUnit;
  * @author Kevin Bourrillion
  * @since 10.0
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public final class Stopwatch {
   private final Ticker ticker;
   private boolean isRunning;
@@ -185,13 +188,29 @@ public final class Stopwatch {
    * Returns the current elapsed time shown on this stopwatch, expressed in the desired time unit,
    * with any fraction rounded down.
    *
-   * <p>Note that the overhead of measurement can be more than a microsecond, so it is generally not
-   * useful to specify {@link TimeUnit#NANOSECONDS} precision here.
+   * <p><b>Note:</b> the overhead of measurement can be more than a microsecond, so it is generally
+   * not useful to specify {@link TimeUnit#NANOSECONDS} precision here.
+   *
+   * <p>It is generally not a good idea to use an ambiguous, unitless {@code long} to represent
+   * elapsed time. Therefore, we recommend using {@link #elapsed()} instead, which returns a
+   * strongly-typed {@link Duration} instance.
    *
    * @since 14.0 (since 10.0 as {@code elapsedTime()})
    */
   public long elapsed(TimeUnit desiredUnit) {
     return desiredUnit.convert(elapsedNanos(), NANOSECONDS);
+  }
+
+  /**
+   * Returns the current elapsed time shown on this stopwatch as a {@link Duration}. Unlike {@link
+   * #elapsed(TimeUnit)}, this method does not lose any precision due to rounding.
+   *
+   * @since 22.0
+   */
+  @GwtIncompatible
+  @J2ObjCIncompatible
+  public Duration elapsed() {
+    return Duration.ofNanos(elapsedNanos());
   }
 
   /** Returns a string representation of the current elapsed time. */
