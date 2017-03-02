@@ -452,7 +452,9 @@ public final class Splitter {
 
   /**
    * An object that splits strings into maps as {@code Splitter} splits iterables and lists. Like
-   * {@code Splitter}, it is thread-safe and immutable.
+   * {@code Splitter}, it is thread-safe and immutable. The common way to build instances is by
+   * providing an additional {@linkplain Splitter#withKeyValueSeparator key-value separator} to
+   * {@link Splitter}.
    *
    * @since 10.0
    */
