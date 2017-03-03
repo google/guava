@@ -80,12 +80,12 @@ public abstract class ByteSource {
   }
 
   /**
-   * Opens a new {@link InputStream} for reading from this source. This method should return a new,
+   * Opens a new {@link InputStream} for reading from this source. This method returns a new,
    * independent stream each time it is called.
    *
    * <p>The caller is responsible for ensuring that the returned stream is closed.
    *
-   * @throws IOException if an I/O error occurs in the process of opening the stream
+   * @throws IOException if an I/O error occurs while opening the stream
    */
   public abstract InputStream openStream() throws IOException;
 
@@ -93,12 +93,12 @@ public abstract class ByteSource {
    * Opens a new buffered {@link InputStream} for reading from this source. The returned stream is
    * not required to be a {@link BufferedInputStream} in order to allow implementations to simply
    * delegate to {@link #openStream()} when the stream returned by that method does not benefit from
-   * additional buffering (for example, a {@code ByteArrayInputStream}). This method should return a
+   * additional buffering (for example, a {@code ByteArrayInputStream}). This method returns a
    * new, independent stream each time it is called.
    *
    * <p>The caller is responsible for ensuring that the returned stream is closed.
    *
-   * @throws IOException if an I/O error occurs in the process of opening the stream
+   * @throws IOException if an I/O error occurs while opening the stream
    * @since 15.0 (in 14.0 with return type {@link BufferedInputStream})
    */
   public InputStream openBufferedStream() throws IOException {
@@ -186,7 +186,7 @@ public abstract class ByteSource {
    * <p>In either case, for mutable sources such as files, a subsequent read may return a different
    * number of bytes if the contents are changed.
    *
-   * @throws IOException if an I/O error occurs in the process of reading the size of this source
+   * @throws IOException if an I/O error occurs while reading the size of this source
    */
   public long size() throws IOException {
     Optional<Long> sizeIfKnown = sizeIfKnown();
@@ -233,8 +233,8 @@ public abstract class ByteSource {
    * {@code output}.
    *
    * @return the number of bytes copied
-   * @throws IOException if an I/O error occurs in the process of reading from this source or
-   *     writing to {@code output}
+   * @throws IOException if an I/O error occurs while reading from this source or writing to
+   *     {@code output}
    */
   @CanIgnoreReturnValue
   public long copyTo(OutputStream output) throws IOException {
@@ -255,8 +255,8 @@ public abstract class ByteSource {
    * Copies the contents of this byte source to the given {@code ByteSink}.
    *
    * @return the number of bytes copied
-   * @throws IOException if an I/O error occurs in the process of reading from this source or
-   *     writing to {@code sink}
+   * @throws IOException if an I/O error occurs while reading from this source or writing to
+   *     {@code sink}
    */
   @CanIgnoreReturnValue
   public long copyTo(ByteSink sink) throws IOException {
@@ -277,7 +277,7 @@ public abstract class ByteSource {
   /**
    * Reads the full contents of this byte source as a byte array.
    *
-   * @throws IOException if an I/O error occurs in the process of reading from this source
+   * @throws IOException if an I/O error occurs while reading from this source
    */
   public byte[] read() throws IOException {
     Closer closer = Closer.create();
@@ -296,7 +296,7 @@ public abstract class ByteSource {
    * they are read. Stops when all bytes have been read or the consumer returns {@code false}.
    * Returns the result produced by the processor.
    *
-   * @throws IOException if an I/O error occurs in the process of reading from this source or if
+   * @throws IOException if an I/O error occurs while reading from this source or if
    *     {@code processor} throws an {@code IOException}
    * @since 16.0
    */
@@ -319,7 +319,7 @@ public abstract class ByteSource {
   /**
    * Hashes the contents of this byte source using the given hash function.
    *
-   * @throws IOException if an I/O error occurs in the process of reading from this source
+   * @throws IOException if an I/O error occurs while reading from this source
    */
   public HashCode hash(HashFunction hashFunction) throws IOException {
     Hasher hasher = hashFunction.newHasher();
@@ -331,8 +331,7 @@ public abstract class ByteSource {
    * Checks that the contents of this byte source are equal to the contents of the given byte
    * source.
    *
-   * @throws IOException if an I/O error occurs in the process of reading from this source or
-   *     {@code other}
+   * @throws IOException if an I/O error occurs while reading from this source or {@code other}
    */
   public boolean contentEquals(ByteSource other) throws IOException {
     checkNotNull(other);
@@ -435,7 +434,7 @@ public abstract class ByteSource {
   /**
    * A char source that reads bytes from this source and decodes them as characters using a charset.
    */
-  private final class AsCharSource extends CharSource {
+  class AsCharSource extends CharSource {
 
     final Charset charset;
 

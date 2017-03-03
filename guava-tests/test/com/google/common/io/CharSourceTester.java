@@ -16,13 +16,14 @@
 
 package com.google.common.io;
 
-import static com.google.common.io.SourceSinkFactory.ByteSourceFactory;
-import static com.google.common.io.SourceSinkFactory.CharSourceFactory;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.io.SourceSinkFactory.ByteSourceFactory;
+import com.google.common.io.SourceSinkFactory.CharSourceFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -30,6 +31,7 @@ import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 import junit.framework.TestSuite;
 
 /**
@@ -120,6 +122,12 @@ public class CharSourceTester extends SourceSinkTester<CharSource, String, CharS
     writer.close();
 
     assertExpectedString(writer.toString());
+  }
+
+  public void testLines() throws IOException {
+    try (Stream<String> lines = source.lines()) {
+      assertExpectedLines(lines.collect(toImmutableList()));
+    }
   }
 
   public void testCopyTo_appendable() throws IOException {
