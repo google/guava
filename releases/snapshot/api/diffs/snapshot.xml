@@ -5778,7 +5778,9 @@
     </method>
     <doc>
     <![CDATA[An object that splits strings into maps as {@code Splitter} splits iterables and lists. Like
- {@code Splitter}, it is thread-safe and immutable.
+ {@code Splitter}, it is thread-safe and immutable. The common way to build instances is by
+ providing an additional {@linkplain Splitter#withKeyValueSeparator key-value separator} to
+ {@link Splitter}.
 
  @since 10.0]]>
     </doc>
@@ -5931,10 +5933,25 @@
       <![CDATA[Returns the current elapsed time shown on this stopwatch, expressed in the desired time unit,
  with any fraction rounded down.
 
- <p>Note that the overhead of measurement can be more than a microsecond, so it is generally not
- useful to specify {@link TimeUnit#NANOSECONDS} precision here.
+ <p><b>Note:</b> the overhead of measurement can be more than a microsecond, so it is generally
+ not useful to specify {@link TimeUnit#NANOSECONDS} precision here.
+
+ <p>It is generally not a good idea to use an ambiguous, unitless {@code long} to represent
+ elapsed time. Therefore, we recommend using {@link #elapsed()} instead, which returns a
+ strongly-typed {@link Duration} instance.
 
  @since 14.0 (since 10.0 as {@code elapsedTime()})]]>
+      </doc>
+    </method>
+    <method name="elapsed" return="java.time.Duration"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns the current elapsed time shown on this stopwatch as a {@link Duration}. Unlike {@link
+ #elapsed(TimeUnit)}, this method does not lose any precision due to rounding.
+
+ @since 22.0]]>
       </doc>
     </method>
     <method name="toString" return="java.lang.String"
@@ -5964,7 +5981,7 @@
  doSomething();
  stopwatch.stop(); // optional
 
- long millis = stopwatch.elapsed(MILLISECONDS);
+ Duration duration = stopwatch.elapsed();
 
  log.info("time: " + stopwatch); // formatted string like "12.3 ms"
  }</pre>
@@ -7424,7 +7441,8 @@
     <doc>
     <![CDATA[A semi-persistent mapping from keys to values. Cache entries are manually added using
  {@link #get(Object, Callable)} or {@link #put(Object, Object)}, and are stored in the cache until
- either evicted or manually invalidated.
+ either evicted or manually invalidated. The common way to build instances is using
+ {@link CacheBuilder}.
 
  <p>Implementations of this interface are expected to be thread-safe, and can be safely accessed
  by multiple concurrent threads.
@@ -8852,7 +8870,8 @@
     </method>
     <doc>
     <![CDATA[A semi-persistent mapping from keys to values. Values are automatically loaded by the cache, and
- are stored in the cache until either evicted or manually invalidated.
+ are stored in the cache until either evicted or manually invalidated. The common way to build
+ instances is using {@link CacheBuilder}.
 
  <p>Implementations of this interface are expected to be thread-safe, and can be safely accessed
  by multiple concurrent threads.
@@ -22669,7 +22688,7 @@
     </method>
     <doc>
     <![CDATA[Provides equivalent behavior to {@link String#intern} for other immutable
- types.
+ types. Common implementations are available from the {@link Interners} class.
 
  @author Kevin Bourrillion
  @since 3.0]]>
