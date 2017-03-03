@@ -122,9 +122,10 @@ public abstract class CharSource {
    * I/O error occurs while the stream is reading from the source or when the stream is closed, an
    * {@link UncheckedIOException} is thrown.
    *
-   * <p>Like {@link BufferedReader#readLine}, this method considers a line to be a sequence of text
-   * that is terminated by (but does not include) one of {@code \r\n}, {@code \r} or {@code \n}. If
-   * the source's content does not end in a line termination sequence, it is treated as if it does.
+   * <p>Like {@link BufferedReader#readLine()}, this method considers a line to be a sequence of
+   * text that is terminated by (but does not include) one of {@code \r\n}, {@code \r} or
+   * {@code \n}. If the source's content does not end in a line termination sequence, it is treated
+   * as if it does.
    *
    * <p>The caller is responsible for ensuring that the returned stream is closed. For example:
    *
@@ -283,9 +284,10 @@ public abstract class CharSource {
   /**
    * Reads the first line of this source as a string. Returns {@code null} if this source is empty.
    *
-   * <p>Like {@link BufferedReader#readLine}, this method considers a line to be a sequence of text
-   * that is terminated by (but does not include) one of {@code \r\n}, {@code \r} or {@code \n}. If
-   * the source's content does not end in a line termination sequence, it is treated as if it does.
+   * <p>Like {@link BufferedReader#readLine()}, this method considers a line to be a sequence of
+   * text that is terminated by (but does not include) one of {@code \r\n}, {@code \r} or
+   * {@code \n}. If the source's content does not end in a line termination sequence, it is treated
+   * as if it does.
    *
    * @throws IOException if an I/O error occurs while reading from this source
    */
@@ -306,9 +308,10 @@ public abstract class CharSource {
    * Reads all the lines of this source as a list of strings. The returned list will be empty if
    * this source is empty.
    *
-   * <p>Like {@link BufferedReader#readLine}, this method considers a line to be a sequence of text
-   * that is terminated by (but does not include) one of {@code \r\n}, {@code \r} or {@code \n}. If
-   * the source's content does not end in a line termination sequence, it is treated as if it does.
+   * <p>Like {@link BufferedReader#readLine()}, this method considers a line to be a sequence of
+   * text that is terminated by (but does not include) one of {@code \r\n}, {@code \r} or
+   * {@code \n}. If the source's content does not end in a line termination sequence, it is treated
+   * as if it does.
    *
    * @throws IOException if an I/O error occurs while reading from this source
    */
@@ -334,9 +337,10 @@ public abstract class CharSource {
    * {@link LineProcessor processor}. Stops when all lines have been processed or the processor
    * returns {@code false} and returns the result produced by the processor.
    *
-   * <p>Like {@link BufferedReader#readLine}, this method considers a line to be a sequence of text
-   * that is terminated by (but does not include) one of {@code \r\n}, {@code \r} or {@code \n}. If
-   * the source's content does not end in a line termination sequence, it is treated as if it does.
+   * <p>Like {@link BufferedReader#readLine()}, this method considers a line to be a sequence of
+   * text that is terminated by (but does not include) one of {@code \r\n}, {@code \r} or
+   * {@code \n}. If the source's content does not end in a line termination sequence, it is treated
+   * as if it does.
    *
    * @throws IOException if an I/O error occurs while reading from this source or if
    *     {@code processor} throws an {@code IOException}
