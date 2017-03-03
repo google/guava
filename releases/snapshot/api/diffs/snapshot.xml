@@ -42213,12 +42213,12 @@
       deprecated="not deprecated">
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
-      <![CDATA[Opens a new {@link OutputStream} for writing to this sink. This method should return a new,
+      <![CDATA[Opens a new {@link OutputStream} for writing to this sink. This method returns a new,
  independent stream each time it is called.
 
  <p>The caller is responsible for ensuring that the returned stream is closed.
 
- @throws IOException if an I/O error occurs in the process of opening the stream]]>
+ @throws IOException if an I/O error occurs while opening the stream]]>
       </doc>
     </method>
     <method name="openBufferedStream" return="java.io.OutputStream"
@@ -42230,12 +42230,12 @@
       <![CDATA[Opens a new buffered {@link OutputStream} for writing to this sink. The returned stream is not
  required to be a {@link BufferedOutputStream} in order to allow implementations to simply
  delegate to {@link #openStream()} when the stream returned by that method does not benefit from
- additional buffering (for example, a {@code ByteArrayOutputStream}). This method should return
- a new, independent stream each time it is called.
+ additional buffering (for example, a {@code ByteArrayOutputStream}). This method returns a new,
+ independent stream each time it is called.
 
  <p>The caller is responsible for ensuring that the returned stream is closed.
 
- @throws IOException if an I/O error occurs in the process of opening the stream
+ @throws IOException if an I/O error occurs while opening the stream
  @since 15.0 (in 14.0 with return type {@link BufferedOutputStream})]]>
       </doc>
     </method>
@@ -42248,7 +42248,7 @@
       <doc>
       <![CDATA[Writes all the given bytes to this sink.
 
- @throws IOException if an I/O occurs in the process of writing to this sink]]>
+ @throws IOException if an I/O occurs while writing to this sink]]>
       </doc>
     </method>
     <method name="writeFrom" return="long"
@@ -42262,8 +42262,7 @@
  {@code input}.
 
  @return the number of bytes written
- @throws IOException if an I/O occurs in the process of reading from {@code input} or writing to
-     this sink]]>
+ @throws IOException if an I/O occurs while reading from {@code input} or writing to this sink]]>
       </doc>
     </method>
     <doc>
@@ -42319,12 +42318,12 @@
       deprecated="not deprecated">
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
-      <![CDATA[Opens a new {@link InputStream} for reading from this source. This method should return a new,
+      <![CDATA[Opens a new {@link InputStream} for reading from this source. This method returns a new,
  independent stream each time it is called.
 
  <p>The caller is responsible for ensuring that the returned stream is closed.
 
- @throws IOException if an I/O error occurs in the process of opening the stream]]>
+ @throws IOException if an I/O error occurs while opening the stream]]>
       </doc>
     </method>
     <method name="openBufferedStream" return="java.io.InputStream"
@@ -42336,12 +42335,12 @@
       <![CDATA[Opens a new buffered {@link InputStream} for reading from this source. The returned stream is
  not required to be a {@link BufferedInputStream} in order to allow implementations to simply
  delegate to {@link #openStream()} when the stream returned by that method does not benefit from
- additional buffering (for example, a {@code ByteArrayInputStream}). This method should return a
+ additional buffering (for example, a {@code ByteArrayInputStream}). This method returns a
  new, independent stream each time it is called.
 
  <p>The caller is responsible for ensuring that the returned stream is closed.
 
- @throws IOException if an I/O error occurs in the process of opening the stream
+ @throws IOException if an I/O error occurs while opening the stream
  @since 15.0 (in 14.0 with return type {@link BufferedInputStream})]]>
       </doc>
     </method>
@@ -42421,7 +42420,7 @@
  <p>In either case, for mutable sources such as files, a subsequent read may return a different
  number of bytes if the contents are changed.
 
- @throws IOException if an I/O error occurs in the process of reading the size of this source]]>
+ @throws IOException if an I/O error occurs while reading the size of this source]]>
       </doc>
     </method>
     <method name="copyTo" return="long"
@@ -42435,8 +42434,8 @@
  {@code output}.
 
  @return the number of bytes copied
- @throws IOException if an I/O error occurs in the process of reading from this source or
-     writing to {@code output}]]>
+ @throws IOException if an I/O error occurs while reading from this source or writing to
+     {@code output}]]>
       </doc>
     </method>
     <method name="copyTo" return="long"
@@ -42449,8 +42448,8 @@
       <![CDATA[Copies the contents of this byte source to the given {@code ByteSink}.
 
  @return the number of bytes copied
- @throws IOException if an I/O error occurs in the process of reading from this source or
-     writing to {@code sink}]]>
+ @throws IOException if an I/O error occurs while reading from this source or writing to
+     {@code sink}]]>
       </doc>
     </method>
     <method name="read" return="byte[]"
@@ -42461,7 +42460,7 @@
       <doc>
       <![CDATA[Reads the full contents of this byte source as a byte array.
 
- @throws IOException if an I/O error occurs in the process of reading from this source]]>
+ @throws IOException if an I/O error occurs while reading from this source]]>
       </doc>
     </method>
     <method name="read" return="T"
@@ -42475,7 +42474,7 @@
  they are read. Stops when all bytes have been read or the consumer returns {@code false}.
  Returns the result produced by the processor.
 
- @throws IOException if an I/O error occurs in the process of reading from this source or if
+ @throws IOException if an I/O error occurs while reading from this source or if
      {@code processor} throws an {@code IOException}
  @since 16.0]]>
       </doc>
@@ -42489,7 +42488,7 @@
       <doc>
       <![CDATA[Hashes the contents of this byte source using the given hash function.
 
- @throws IOException if an I/O error occurs in the process of reading from this source]]>
+ @throws IOException if an I/O error occurs while reading from this source]]>
       </doc>
     </method>
     <method name="contentEquals" return="boolean"
@@ -42502,8 +42501,7 @@
       <![CDATA[Checks that the contents of this byte source are equal to the contents of the given byte
  source.
 
- @throws IOException if an I/O error occurs in the process of reading from this source or
-     {@code other}]]>
+ @throws IOException if an I/O error occurs while reading from this source or {@code other}]]>
       </doc>
     </method>
     <method name="concat" return="com.google.common.io.ByteSource"
@@ -42906,12 +42904,12 @@
       deprecated="not deprecated">
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
-      <![CDATA[Opens a new {@link Writer} for writing to this sink. This method should return a new,
- independent writer each time it is called.
+      <![CDATA[Opens a new {@link Writer} for writing to this sink. This method returns a new, independent
+ writer each time it is called.
 
  <p>The caller is responsible for ensuring that the returned writer is closed.
 
- @throws IOException if an I/O error occurs in the process of opening the writer]]>
+ @throws IOException if an I/O error occurs while opening the writer]]>
       </doc>
     </method>
     <method name="openBufferedStream" return="java.io.Writer"
@@ -42923,11 +42921,11 @@
       <![CDATA[Opens a new buffered {@link Writer} for writing to this sink. The returned stream is not
  required to be a {@link BufferedWriter} in order to allow implementations to simply delegate to
  {@link #openStream()} when the stream returned by that method does not benefit from additional
- buffering. This method should return a new, independent writer each time it is called.
+ buffering. This method returns a new, independent writer each time it is called.
 
  <p>The caller is responsible for ensuring that the returned writer is closed.
 
- @throws IOException if an I/O error occurs in the process of opening the writer
+ @throws IOException if an I/O error occurs while opening the writer
  @since 15.0 (in 14.0 with return type {@link BufferedWriter})]]>
       </doc>
     </method>
@@ -42940,7 +42938,7 @@
       <doc>
       <![CDATA[Writes the given character sequence to this sink.
 
- @throws IOException if an I/O error in the process of writing to this sink]]>
+ @throws IOException if an I/O error while writing to this sink]]>
       </doc>
     </method>
     <method name="writeLines"
@@ -42954,7 +42952,7 @@
  the operating system's default line separator. This method is equivalent to
  {@code writeLines(lines, System.getProperty("line.separator"))}.
 
- @throws IOException if an I/O error occurs in the process of writing to this sink]]>
+ @throws IOException if an I/O error occurs while writing to this sink]]>
       </doc>
     </method>
     <method name="writeLines"
@@ -42968,7 +42966,7 @@
       <![CDATA[Writes the given lines of text to this sink with each line (including the last) terminated with
  the given line separator.
 
- @throws IOException if an I/O error occurs in the process of writing to this sink]]>
+ @throws IOException if an I/O error occurs while writing to this sink]]>
       </doc>
     </method>
     <method name="writeFrom" return="long"
@@ -42982,8 +42980,8 @@
  Does not close {@code readable} if it is {@code Closeable}.
 
  @return the number of characters written
- @throws IOException if an I/O error occurs in the process of reading from {@code readable} or
-     writing to this sink]]>
+ @throws IOException if an I/O error occurs while reading from {@code readable} or writing to
+     this sink]]>
       </doc>
     </method>
     <doc>
@@ -43045,12 +43043,12 @@
       deprecated="not deprecated">
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
-      <![CDATA[Opens a new {@link Reader} for reading from this source. This method should return a new,
- independent reader each time it is called.
+      <![CDATA[Opens a new {@link Reader} for reading from this source. This method returns a new, independent
+ reader each time it is called.
 
  <p>The caller is responsible for ensuring that the returned reader is closed.
 
- @throws IOException if an I/O error occurs in the process of opening the reader]]>
+ @throws IOException if an I/O error occurs while opening the reader]]>
       </doc>
     </method>
     <method name="openBufferedStream" return="java.io.BufferedReader"
@@ -43059,12 +43057,43 @@
       deprecated="not deprecated">
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
-      <![CDATA[Opens a new {@link BufferedReader} for reading from this source. This method should return a
- new, independent reader each time it is called.
+      <![CDATA[Opens a new {@link BufferedReader} for reading from this source. This method returns a new,
+ independent reader each time it is called.
 
  <p>The caller is responsible for ensuring that the returned reader is closed.
 
- @throws IOException if an I/O error occurs in the process of opening the reader]]>
+ @throws IOException if an I/O error occurs while of opening the reader]]>
+      </doc>
+    </method>
+    <method name="lines" return="java.util.stream.Stream&lt;java.lang.String&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <exception name="IOException" type="java.io.IOException"/>
+      <doc>
+      <![CDATA[Opens a new {@link Stream} for reading text one line at a time from this source. This method
+ returns a new, independent stream each time it is called.
+
+ <p>The returned stream is lazy and only reads from the source in the terminal operation. If an
+ I/O error occurs while the stream is reading from the source or when the stream is closed, an
+ {@link UncheckedIOException} is thrown.
+
+ <p>Like {@link BufferedReader#readLine}, this method considers a line to be a sequence of text
+ that is terminated by (but does not include) one of {@code \r\n}, {@code \r} or {@code \n}. If
+ the source's content does not end in a line termination sequence, it is treated as if it does.
+
+ <p>The caller is responsible for ensuring that the returned stream is closed. For example:
+
+ <pre>{@code
+ try (Stream<String> lines = source.lines()) {
+   lines.map(...)
+      .filter(...)
+      .forEach(...);
+ }
+ }</pre>
+
+ @throws IOException if an I/O error occurs while opening the stream
+ @since 22.0]]>
       </doc>
     </method>
     <method name="lengthIfKnown" return="com.google.common.base.Optional&lt;java.lang.Long&gt;"
@@ -43107,7 +43136,7 @@
  <p>In either case, for mutable sources such as files, a subsequent read may return a different
  number of chars if the contents are changed.
 
- @throws IOException if an I/O error occurs in the process of reading the length of this source
+ @throws IOException if an I/O error occurs while reading the length of this source
  @since 19.0]]>
       </doc>
     </method>
@@ -43122,8 +43151,8 @@
  Does not close {@code appendable} if it is {@code Closeable}.
 
  @return the number of characters copied
- @throws IOException if an I/O error occurs in the process of reading from this source or
-     writing to {@code appendable}]]>
+ @throws IOException if an I/O error occurs while reading from this source or writing to
+     {@code appendable}]]>
       </doc>
     </method>
     <method name="copyTo" return="long"
@@ -43136,8 +43165,8 @@
       <![CDATA[Copies the contents of this source to the given sink.
 
  @return the number of characters copied
- @throws IOException if an I/O error occurs in the process of reading from this source or
-     writing to {@code sink}]]>
+ @throws IOException if an I/O error occurs while reading from this source or writing to
+     {@code sink}]]>
       </doc>
     </method>
     <method name="read" return="java.lang.String"
@@ -43148,7 +43177,7 @@
       <doc>
       <![CDATA[Reads the contents of this source as a string.
 
- @throws IOException if an I/O error occurs in the process of reading from this source]]>
+ @throws IOException if an I/O error occurs while reading from this source]]>
       </doc>
     </method>
     <method name="readFirstLine" return="java.lang.String"
@@ -43159,11 +43188,11 @@
       <doc>
       <![CDATA[Reads the first line of this source as a string. Returns {@code null} if this source is empty.
 
- <p>Like {@link BufferedReader}, this method breaks lines on any of {@code \n}, {@code \r} or
- {@code \r\n}, does not include the line separator in the returned line and does not consider
- there to be an extra empty line at the end if the content is terminated with a line separator.
+ <p>Like {@link BufferedReader#readLine}, this method considers a line to be a sequence of text
+ that is terminated by (but does not include) one of {@code \r\n}, {@code \r} or {@code \n}. If
+ the source's content does not end in a line termination sequence, it is treated as if it does.
 
- @throws IOException if an I/O error occurs in the process of reading from this source]]>
+ @throws IOException if an I/O error occurs while reading from this source]]>
       </doc>
     </method>
     <method name="readLines" return="com.google.common.collect.ImmutableList&lt;java.lang.String&gt;"
@@ -43175,11 +43204,11 @@
       <![CDATA[Reads all the lines of this source as a list of strings. The returned list will be empty if
  this source is empty.
 
- <p>Like {@link BufferedReader}, this method breaks lines on any of {@code \n}, {@code \r} or
- {@code \r\n}, does not include the line separator in the returned lines and does not consider
- there to be an extra empty line at the end if the content is terminated with a line separator.
+ <p>Like {@link BufferedReader#readLine}, this method considers a line to be a sequence of text
+ that is terminated by (but does not include) one of {@code \r\n}, {@code \r} or {@code \n}. If
+ the source's content does not end in a line termination sequence, it is treated as if it does.
 
- @throws IOException if an I/O error occurs in the process of reading from this source]]>
+ @throws IOException if an I/O error occurs while reading from this source]]>
       </doc>
     </method>
     <method name="readLines" return="T"
@@ -43193,12 +43222,11 @@
  {@link LineProcessor processor}. Stops when all lines have been processed or the processor
  returns {@code false} and returns the result produced by the processor.
 
- <p>Like {@link BufferedReader}, this method breaks lines on any of {@code \n}, {@code \r} or
- {@code \r\n}, does not include the line separator in the lines passed to the {@code processor}
- and does not consider there to be an extra empty line at the end if the content is terminated
- with a line separator.
+ <p>Like {@link BufferedReader#readLine}, this method considers a line to be a sequence of text
+ that is terminated by (but does not include) one of {@code \r\n}, {@code \r} or {@code \n}. If
+ the source's content does not end in a line termination sequence, it is treated as if it does.
 
- @throws IOException if an I/O error occurs in the process of reading from this source or if
+ @throws IOException if an I/O error occurs while reading from this source or if
      {@code processor} throws an {@code IOException}
  @since 16.0]]>
       </doc>

@@ -260,13 +260,13 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <h4>openStream</h4>
 <pre>public abstract&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io">OutputStream</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.71">openStream</a>()
                                  throws <a href="http://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
-<div class="block">Opens a new <a href="http://docs.oracle.com/javase/8/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io"><code>OutputStream</code></a> for writing to this sink. This method should return a new,
+<div class="block">Opens a new <a href="http://docs.oracle.com/javase/8/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io"><code>OutputStream</code></a> for writing to this sink. This method returns a new,
  independent stream each time it is called.
 
  <p>The caller is responsible for ensuring that the returned stream is closed.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if an I/O error occurs in the process of opening the stream</dd>
+<dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if an I/O error occurs while opening the stream</dd>
 </dl>
 </li>
 </ul>
@@ -281,13 +281,13 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <div class="block">Opens a new buffered <a href="http://docs.oracle.com/javase/8/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io"><code>OutputStream</code></a> for writing to this sink. The returned stream is not
  required to be a <a href="http://docs.oracle.com/javase/8/docs/api/java/io/BufferedOutputStream.html?is-external=true" title="class or interface in java.io"><code>BufferedOutputStream</code></a> in order to allow implementations to simply
  delegate to <a href="../../../../com/google/common/io/ByteSink.html#openStream--"><code>openStream()</code></a> when the stream returned by that method does not benefit from
- additional buffering (for example, a <code>ByteArrayOutputStream</code>). This method should return
- a new, independent stream each time it is called.
+ additional buffering (for example, a <code>ByteArrayOutputStream</code>). This method returns a new,
+ independent stream each time it is called.
 
  <p>The caller is responsible for ensuring that the returned stream is closed.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if an I/O error occurs in the process of opening the stream</dd>
+<dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if an I/O error occurs while opening the stream</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>15.0 (in 14.0 with return type <a href="http://docs.oracle.com/javase/8/docs/api/java/io/BufferedOutputStream.html?is-external=true" title="class or interface in java.io"><code>BufferedOutputStream</code></a>)</dd>
 </dl>
@@ -304,7 +304,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <div class="block">Writes all the given bytes to this sink.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if an I/O occurs in the process of writing to this sink</dd>
+<dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if an I/O occurs while writing to this sink</dd>
 </dl>
 </li>
 </ul>
@@ -314,7 +314,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>writeFrom</h4>
-<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.121">writeFrom</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;input)
+<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.120">writeFrom</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;input)
                throws <a href="http://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Writes all the bytes from the given <code>InputStream</code> to this sink. Does not close
  <code>input</code>.</div>
@@ -322,8 +322,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the number of bytes written</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if an I/O occurs in the process of reading from <code>input</code> or writing to
-     this sink</dd>
+<dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if an I/O occurs while reading from <code>input</code> or writing to this sink</dd>
 </dl>
 </li>
 </ul>

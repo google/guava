@@ -63,12 +63,12 @@
 <span class="sourceLineNo">055</span>  protected CharSink() {}<a name="line.55"></a>
 <span class="sourceLineNo">056</span><a name="line.56"></a>
 <span class="sourceLineNo">057</span>  /**<a name="line.57"></a>
-<span class="sourceLineNo">058</span>   * Opens a new {@link Writer} for writing to this sink. This method should return a new,<a name="line.58"></a>
-<span class="sourceLineNo">059</span>   * independent writer each time it is called.<a name="line.59"></a>
+<span class="sourceLineNo">058</span>   * Opens a new {@link Writer} for writing to this sink. This method returns a new, independent<a name="line.58"></a>
+<span class="sourceLineNo">059</span>   * writer each time it is called.<a name="line.59"></a>
 <span class="sourceLineNo">060</span>   *<a name="line.60"></a>
 <span class="sourceLineNo">061</span>   * &lt;p&gt;The caller is responsible for ensuring that the returned writer is closed.<a name="line.61"></a>
 <span class="sourceLineNo">062</span>   *<a name="line.62"></a>
-<span class="sourceLineNo">063</span>   * @throws IOException if an I/O error occurs in the process of opening the writer<a name="line.63"></a>
+<span class="sourceLineNo">063</span>   * @throws IOException if an I/O error occurs while opening the writer<a name="line.63"></a>
 <span class="sourceLineNo">064</span>   */<a name="line.64"></a>
 <span class="sourceLineNo">065</span>  public abstract Writer openStream() throws IOException;<a name="line.65"></a>
 <span class="sourceLineNo">066</span><a name="line.66"></a>
@@ -76,11 +76,11 @@
 <span class="sourceLineNo">068</span>   * Opens a new buffered {@link Writer} for writing to this sink. The returned stream is not<a name="line.68"></a>
 <span class="sourceLineNo">069</span>   * required to be a {@link BufferedWriter} in order to allow implementations to simply delegate to<a name="line.69"></a>
 <span class="sourceLineNo">070</span>   * {@link #openStream()} when the stream returned by that method does not benefit from additional<a name="line.70"></a>
-<span class="sourceLineNo">071</span>   * buffering. This method should return a new, independent writer each time it is called.<a name="line.71"></a>
+<span class="sourceLineNo">071</span>   * buffering. This method returns a new, independent writer each time it is called.<a name="line.71"></a>
 <span class="sourceLineNo">072</span>   *<a name="line.72"></a>
 <span class="sourceLineNo">073</span>   * &lt;p&gt;The caller is responsible for ensuring that the returned writer is closed.<a name="line.73"></a>
 <span class="sourceLineNo">074</span>   *<a name="line.74"></a>
-<span class="sourceLineNo">075</span>   * @throws IOException if an I/O error occurs in the process of opening the writer<a name="line.75"></a>
+<span class="sourceLineNo">075</span>   * @throws IOException if an I/O error occurs while opening the writer<a name="line.75"></a>
 <span class="sourceLineNo">076</span>   * @since 15.0 (in 14.0 with return type {@link BufferedWriter})<a name="line.76"></a>
 <span class="sourceLineNo">077</span>   */<a name="line.77"></a>
 <span class="sourceLineNo">078</span>  public Writer openBufferedStream() throws IOException {<a name="line.78"></a>
@@ -93,7 +93,7 @@
 <span class="sourceLineNo">085</span>  /**<a name="line.85"></a>
 <span class="sourceLineNo">086</span>   * Writes the given character sequence to this sink.<a name="line.86"></a>
 <span class="sourceLineNo">087</span>   *<a name="line.87"></a>
-<span class="sourceLineNo">088</span>   * @throws IOException if an I/O error in the process of writing to this sink<a name="line.88"></a>
+<span class="sourceLineNo">088</span>   * @throws IOException if an I/O error while writing to this sink<a name="line.88"></a>
 <span class="sourceLineNo">089</span>   */<a name="line.89"></a>
 <span class="sourceLineNo">090</span>  public void write(CharSequence charSequence) throws IOException {<a name="line.90"></a>
 <span class="sourceLineNo">091</span>    checkNotNull(charSequence);<a name="line.91"></a>
@@ -115,7 +115,7 @@
 <span class="sourceLineNo">107</span>   * the operating system's default line separator. This method is equivalent to<a name="line.107"></a>
 <span class="sourceLineNo">108</span>   * {@code writeLines(lines, System.getProperty("line.separator"))}.<a name="line.108"></a>
 <span class="sourceLineNo">109</span>   *<a name="line.109"></a>
-<span class="sourceLineNo">110</span>   * @throws IOException if an I/O error occurs in the process of writing to this sink<a name="line.110"></a>
+<span class="sourceLineNo">110</span>   * @throws IOException if an I/O error occurs while writing to this sink<a name="line.110"></a>
 <span class="sourceLineNo">111</span>   */<a name="line.111"></a>
 <span class="sourceLineNo">112</span>  public void writeLines(Iterable&lt;? extends CharSequence&gt; lines) throws IOException {<a name="line.112"></a>
 <span class="sourceLineNo">113</span>    writeLines(lines, System.getProperty("line.separator"));<a name="line.113"></a>
@@ -125,7 +125,7 @@
 <span class="sourceLineNo">117</span>   * Writes the given lines of text to this sink with each line (including the last) terminated with<a name="line.117"></a>
 <span class="sourceLineNo">118</span>   * the given line separator.<a name="line.118"></a>
 <span class="sourceLineNo">119</span>   *<a name="line.119"></a>
-<span class="sourceLineNo">120</span>   * @throws IOException if an I/O error occurs in the process of writing to this sink<a name="line.120"></a>
+<span class="sourceLineNo">120</span>   * @throws IOException if an I/O error occurs while writing to this sink<a name="line.120"></a>
 <span class="sourceLineNo">121</span>   */<a name="line.121"></a>
 <span class="sourceLineNo">122</span>  public void writeLines(Iterable&lt;? extends CharSequence&gt; lines, String lineSeparator)<a name="line.122"></a>
 <span class="sourceLineNo">123</span>      throws IOException {<a name="line.123"></a>
@@ -151,8 +151,8 @@
 <span class="sourceLineNo">143</span>   * Does not close {@code readable} if it is {@code Closeable}.<a name="line.143"></a>
 <span class="sourceLineNo">144</span>   *<a name="line.144"></a>
 <span class="sourceLineNo">145</span>   * @return the number of characters written<a name="line.145"></a>
-<span class="sourceLineNo">146</span>   * @throws IOException if an I/O error occurs in the process of reading from {@code readable} or<a name="line.146"></a>
-<span class="sourceLineNo">147</span>   *     writing to this sink<a name="line.147"></a>
+<span class="sourceLineNo">146</span>   * @throws IOException if an I/O error occurs while reading from {@code readable} or writing to<a name="line.146"></a>
+<span class="sourceLineNo">147</span>   *     this sink<a name="line.147"></a>
 <span class="sourceLineNo">148</span>   */<a name="line.148"></a>
 <span class="sourceLineNo">149</span>  @CanIgnoreReturnValue<a name="line.149"></a>
 <span class="sourceLineNo">150</span>  public long writeFrom(Readable readable) throws IOException {<a name="line.150"></a>
