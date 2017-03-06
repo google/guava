@@ -1151,7 +1151,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     future.addListener(new CallbackListener<V>(future, callback), executor);
   }
 
-  /** See {@link #addCallback(ListenableFuture, FutureCallback)} for behavioral notes. */
+  /** See {@link #addCallback(ListenableFuture, FutureCallback, Executor)} for behavioral notes. */
   private static final class CallbackListener<V> implements Runnable {
     final Future<V> future;
     final FutureCallback<? super V> callback;
