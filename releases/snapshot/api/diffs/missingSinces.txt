@@ -17,6 +17,7 @@ OK: com.google.common.io.MoreFiles Method equal(java.nio.file.Path, java.nio.fil
 NO DOC BLOCK: com.google.common.graph.AbstractGraph Method equals(java.lang.Object)
 NO DOC BLOCK: com.google.common.graph.AbstractNetwork Method equals(java.lang.Object)
 NO DOC BLOCK: com.google.common.graph.AbstractValueGraph Method equals(java.lang.Object)
+OK: com.google.common.io.CharSource Method forEachLine(java.util.function.Consumer<? super java.lang.String>)
 OK: com.google.common.base.Throwables Method getCauseAs(java.lang.Throwable, java.lang.Class<X>)
 MISSING @SINCE TAG: com.google.common.graph.Graph Method hasEdge(java.lang.Object, java.lang.Object)
 MISSING @SINCE TAG: com.google.common.graph.ValueGraph Method hasEdge(java.lang.Object, java.lang.Object)

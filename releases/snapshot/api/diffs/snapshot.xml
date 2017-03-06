@@ -43235,6 +43235,26 @@
  @since 16.0]]>
       </doc>
     </method>
+    <method name="forEachLine"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="action" type="java.util.function.Consumer&lt;? super java.lang.String&gt;"/>
+      <exception name="IOException" type="java.io.IOException"/>
+      <doc>
+      <![CDATA[Reads all lines of text from this source, running the given {@code action} for each line as
+ it is read.
+
+ <p>Like {@link BufferedReader#readLine()}, this method considers a line to be a sequence of
+ text that is terminated by (but does not include) one of {@code \r\n}, {@code \r} or
+ {@code \n}. If the source's content does not end in a line termination sequence, it is treated
+ as if it does.
+
+ @throws IOException if an I/O error occurs while reading from this source or if
+     {@code action} throws an {@code UncheckedIOException}
+ @since 22.0]]>
+      </doc>
+    </method>
     <method name="isEmpty" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -58161,7 +58181,7 @@
     </method>
     <doc>
     <![CDATA[Transforms a value, possibly asynchronously. For an example usage and more information, see
- {@link Futures#transformAsync(ListenableFuture, AsyncFunction)}.
+ {@link Futures#transformAsync(ListenableFuture, AsyncFunction, Executor)}.
 
  @author Chris Povirk
  @since 11.0]]>
