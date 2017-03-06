@@ -36,6 +36,7 @@ import java.io.Writer;
 import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 import javax.annotation.Nullable;
 
@@ -359,6 +360,29 @@ public abstract class CharSource {
       throw closer.rethrow(e);
     } finally {
       closer.close();
+    }
+  }
+
+  /**
+   * Reads all lines of text from this source, running the given {@code action} for each line as
+   * it is read.
+   *
+   * <p>Like {@link BufferedReader#readLine()}, this method considers a line to be a sequence of
+   * text that is terminated by (but does not include) one of {@code \r\n}, {@code \r} or
+   * {@code \n}. If the source's content does not end in a line termination sequence, it is treated
+   * as if it does.
+   *
+   * @throws IOException if an I/O error occurs while reading from this source or if
+   *     {@code action} throws an {@code UncheckedIOException}
+   * @since 22.0
+   */
+  @Beta
+  public void forEachLine(Consumer<? super String> action) throws IOException {
+    try (Stream<String> lines = lines()) {
+      // The lines should be ordered regardless in most cases, but use forEachOrdered to be sure
+      lines.forEachOrdered(action);
+    } catch (UncheckedIOException e) {
+      throw e.getCause();
     }
   }
 

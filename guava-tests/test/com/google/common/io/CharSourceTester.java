@@ -220,6 +220,12 @@ public class CharSourceTester extends SourceSinkTester<CharSource, String, CharS
     }
   }
 
+  public void testForEachLine() throws IOException {
+    ImmutableList.Builder<String> builder = ImmutableList.builder();
+    source.forEachLine(builder::add);
+    assertExpectedLines(builder.build());
+  }
+
   private void assertExpectedString(String string) {
     assertEquals(expected, string);
   }

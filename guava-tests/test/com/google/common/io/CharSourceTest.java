@@ -180,6 +180,17 @@ public class CharSourceTest extends IoTestCase {
     assertTrue(lines.wasStreamOpened() && lines.wasStreamClosed());
   }
 
+  public void testForEachLine() throws IOException {
+    source = new TestCharSource(LINES);
+
+    ImmutableList.Builder<String> builder = ImmutableList.builder();
+    source.forEachLine(builder::add);
+
+    assertEquals(SPLIT_LINES, builder.build());
+    assertTrue(source.wasStreamOpened());
+    assertTrue(source.wasStreamClosed());
+  }
+
   public void testCopyToAppendable_doesNotCloseIfWriter() throws IOException {
     TestWriter writer = new TestWriter();
     assertFalse(writer.closed());
