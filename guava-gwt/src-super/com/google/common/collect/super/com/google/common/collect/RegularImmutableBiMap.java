@@ -32,7 +32,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   // This reference is used both by the GWT compiler to infer the elements
   // of the lists that needs to be serialized.
   private ImmutableBiMap<V, K> inverse;
-  
+
   RegularImmutableBiMap() {
     super(new RegularImmutableMap<K, V>(new HashMap<K, V>()));
     this.inverse = (ImmutableBiMap<V, K>) this;

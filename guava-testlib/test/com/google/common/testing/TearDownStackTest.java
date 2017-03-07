@@ -19,7 +19,6 @@ package com.google.common.testing;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
-
 import junit.framework.TestCase;
 
 /**
@@ -118,9 +117,11 @@ public class TearDownStackTest extends TestCase {
 
       @Override
       public void tearDown() throws Exception {
-        assertEquals(
-          "The test should have cleared the stack (say, by virtue of running runTearDown)",
-          0, result.stack.size());
+        synchronized (result.stack) {
+          assertEquals(
+            "The test should have cleared the stack (say, by virtue of running runTearDown)",
+            0, result.stack.size());
+        }
       }
     });
     return result;

@@ -19,7 +19,6 @@ package com.google.common.base;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.NullPointerTester;
-
 import junit.framework.TestCase;
 
 /**
@@ -68,7 +67,6 @@ public class StringsTest extends TestCase {
   }
 
   // TODO: could remove if we got NPT working in GWT somehow
-  @SuppressWarnings("CheckReturnValue")
   public void testPadStart_null() {
     try {
       Strings.padStart(null, 5, '0');
@@ -98,7 +96,6 @@ public class StringsTest extends TestCase {
   }
 
   // TODO: could remove if we got NPT working in GWT somehow
-  @SuppressWarnings("CheckReturnValue")
   public void testPadEnd_null() {
     try {
       Strings.padEnd(null, 5, '0');
@@ -107,7 +104,6 @@ public class StringsTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testRepeat() {
     String input = "20";
     assertEquals("", Strings.repeat(input, 0));
@@ -135,7 +131,6 @@ public class StringsTest extends TestCase {
   }
 
   // TODO: could remove if we got NPT working in GWT somehow
-  @SuppressWarnings("CheckReturnValue")
   public void testRepeat_null() {
     try {
       Strings.repeat(null, 5);
@@ -224,7 +219,7 @@ public class StringsTest extends TestCase {
     assertFalse(Strings.validSurrogatePairAt("\uD8ABx", 0));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Strings.class);

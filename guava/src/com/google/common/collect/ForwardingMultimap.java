@@ -21,12 +21,11 @@ import org.checkerframework.dataflow.qual.SideEffectFree;
 import org.checkerframework.framework.qual.AnnotatedFor;
 
 import com.google.common.annotations.GwtCompatible;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
 import javax.annotation.Nullable;
 
 /**
@@ -104,31 +103,37 @@ public abstract class ForwardingMultimap<K extends /*@org.checkerframework.check
     return delegate().keySet();
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean put(K key, V value) {
     return delegate().put(key, value);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean putAll(K key, Iterable<? extends V> values) {
     return delegate().putAll(key, values);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean putAll(Multimap<? extends K, ? extends V> multimap) {
     return delegate().putAll(multimap);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean remove(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key, /*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object value) {
     return delegate().remove(key, value);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public Collection<V> removeAll(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
     return delegate().removeAll(key);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public Collection<V> replaceValues(K key, Iterable<? extends V> values) {
     return delegate().replaceValues(key, values);

@@ -20,10 +20,9 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
 import com.google.common.collect.Multisets.ImmutableEntry;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.util.Collection;
-
 import javax.annotation.Nullable;
 
 /**
@@ -43,6 +42,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   private final transient int size;
   private final transient int hashCode;
 
+  @LazyInit
   private transient ImmutableSet<E> elementSet;
 
   RegularImmutableMultiset(Collection<? extends Entry<? extends E>> entries) {

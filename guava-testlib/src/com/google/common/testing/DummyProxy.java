@@ -18,18 +18,17 @@ package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import com.google.common.reflect.AbstractInvocationHandler;
 import com.google.common.reflect.Invokable;
 import com.google.common.reflect.Parameter;
 import com.google.common.reflect.TypeToken;
-
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Set;
-
 import javax.annotation.Nullable;
 
 /**
@@ -37,6 +36,7 @@ import javax.annotation.Nullable;
  *
  * @author Ben Yu
  */
+@GwtIncompatible
 abstract class DummyProxy {
 
   /**
@@ -66,7 +66,7 @@ abstract class DummyProxy {
     DummyHandler(TypeToken<?> interfaceType) {
       this.interfaceType = interfaceType;
     }
-  
+
     @Override protected Object handleInvocation(
         Object proxy, Method method, Object[] args) {
       Invokable<?, ?> invokable = interfaceType.method(method);

@@ -27,7 +27,6 @@ import com.google.caliper.api.VmOptions;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.AbstractFutureBenchmarks.OldAbstractFuture;
-
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.CountDownLatch;
@@ -37,7 +36,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.GuardedBy;
 
@@ -55,7 +53,7 @@ public class ExecutionListBenchmark {
     /** Returns the underlying implementation, useful for the Footprint benchmark. */
     Object getImpl();
   }
-  
+
   enum Impl {
     NEW {
       @Override ExecutionListWrapper newExecutionList() {
@@ -68,7 +66,7 @@ public class ExecutionListBenchmark {
           @Override public void execute() {
             list.execute();
           }
-          
+
           @Override public Object getImpl() {
             return list;
           }
@@ -86,7 +84,7 @@ public class ExecutionListBenchmark {
           @Override public void execute() {
             list.execute();
           }
-          
+
           @Override public Object getImpl() {
             return list;
           }
@@ -104,7 +102,7 @@ public class ExecutionListBenchmark {
           @Override public void execute() {
             list.execute();
           }
-          
+
           @Override public Object getImpl() {
             return list;
           }
@@ -122,7 +120,7 @@ public class ExecutionListBenchmark {
           @Override public void execute() {
             list.execute();
           }
-          
+
           @Override public Object getImpl() {
             return list;
           }
@@ -140,7 +138,7 @@ public class ExecutionListBenchmark {
           @Override public void execute() {
             list.execute();
           }
-          
+
           @Override public Object getImpl() {
             return list;
           }
@@ -185,29 +183,29 @@ public class ExecutionListBenchmark {
     };
     abstract ExecutionListWrapper newExecutionList();
   }
-  
+
   private ThreadPoolExecutor executorService;
   private CountDownLatch listenerLatch;
   private ExecutionListWrapper list;
-  
+
   @Param Impl impl;
   @Param({"1", "5", "10"}) int numListeners;
-  
+
   private final Runnable listener = new Runnable() {
     @Override public void run() {
       listenerLatch.countDown();
     }
   };
-  
+
   @BeforeExperiment void setUp() throws Exception {
-    executorService = new ThreadPoolExecutor(NUM_THREADS, 
-        NUM_THREADS, 
-        Long.MAX_VALUE, 
-        TimeUnit.SECONDS, 
+    executorService = new ThreadPoolExecutor(NUM_THREADS,
+        NUM_THREADS,
+        Long.MAX_VALUE,
+        TimeUnit.SECONDS,
         new ArrayBlockingQueue<Runnable>(1000));
     executorService.prestartAllCoreThreads();
     final AtomicInteger integer = new AtomicInteger();
-    // Execute a bunch of tasks to ensure that our threads are allocated and hot 
+    // Execute a bunch of tasks to ensure that our threads are allocated and hot
     for (int i = 0; i < NUM_THREADS * 10; i++) {
       executorService.submit(new Runnable() {
         @Override public void run() {
@@ -216,11 +214,11 @@ public class ExecutionListBenchmark {
       });
     }
   }
-  
+
   @AfterExperiment void tearDown() throws Exception {
     executorService.shutdown();
   }
-  
+
   @Footprint(exclude = {Runnable.class, Executor.class})
   public Object measureSize() {
     list = impl.newExecutionList();
@@ -229,7 +227,7 @@ public class ExecutionListBenchmark {
     }
     return list.getImpl();
   }
-  
+
   @Benchmark int addThenExecute_singleThreaded(int reps) {
     int returnValue = 0;
     for (int i = 0; i < reps; i++) {
@@ -244,7 +242,7 @@ public class ExecutionListBenchmark {
     }
     return returnValue;
   }
-  
+
   @Benchmark int executeThenAdd_singleThreaded(int reps) {
     int returnValue = 0;
     for (int i = 0; i < reps; i++) {
@@ -259,13 +257,13 @@ public class ExecutionListBenchmark {
     }
     return returnValue;
   }
-  
+
   private final Runnable executeTask = new Runnable() {
     @Override public void run() {
       list.execute();
     }
   };
-  
+
   @Benchmark int addThenExecute_multiThreaded(final int reps) throws InterruptedException {
     Runnable addTask = new Runnable() {
       @Override public void run() {
@@ -287,7 +285,7 @@ public class ExecutionListBenchmark {
     }
     return returnValue;
   }
-  
+
   @Benchmark int executeThenAdd_multiThreaded(final int reps) throws InterruptedException {
     Runnable addTask = new Runnable() {
       @Override public void run() {
@@ -309,7 +307,7 @@ public class ExecutionListBenchmark {
     }
     return returnValue;
   }
-  
+
   // This is the old implementation of ExecutionList using a LinkedList.
   private static final class OldExecutionList {
     static final Logger log = Logger.getLogger(OldExecutionList.class.getName());
@@ -427,7 +425,7 @@ public class ExecutionListBenchmark {
       }
     }
   }
-  
+
   // A version of the ExecutionList that uses an explicit tail pointer to keep the nodes in order
   // rather than flipping the stack in execute().
   private static final class NewExecutionListQueue {
@@ -497,14 +495,14 @@ public class ExecutionListBenchmark {
       }
     }
   }
-  
+
   // A version of the list that uses compare and swap to manage the stack without locks.
   private static final class ExecutionListCAS {
     static final Logger log = Logger.getLogger(ExecutionListCAS.class.getName());
 
     private static final sun.misc.Unsafe UNSAFE;
     private static final long HEAD_OFFSET;
-    
+
     /**
      * A special instance of {@link RunnableExecutorPair} that is used as a sentinel value for the
      * bottom of the stack.
@@ -515,11 +513,11 @@ public class ExecutionListBenchmark {
       try {
         UNSAFE = getUnsafe();
         HEAD_OFFSET = UNSAFE.objectFieldOffset(ExecutionListCAS.class.getDeclaredField("head"));
-      } catch (Exception ex) { 
-        throw new Error(ex); 
+      } catch (Exception ex) {
+        throw new Error(ex);
       }
     }
-    
+
     /**
      * TODO(lukes):  This was copied verbatim from Striped64.java... standardize this?
      */
@@ -550,13 +548,13 @@ public class ExecutionListBenchmark {
     public void add(Runnable runnable, Executor executor) {
       Preconditions.checkNotNull(runnable, "Runnable was null.");
       Preconditions.checkNotNull(executor, "Executor was null.");
-      
+
       RunnableExecutorPair newHead = new RunnableExecutorPair(runnable, executor);
       RunnableExecutorPair oldHead;
       do {
         oldHead = head;
         if (oldHead == null) {
-          // If runnables == null then execute() has been called so we should just execute our 
+          // If runnables == null then execute() has been called so we should just execute our
           // listener immediately.
           newHead.execute();
           return;
@@ -576,7 +574,7 @@ public class ExecutionListBenchmark {
         }
         // try to swap null into head.
       } while (!UNSAFE.compareAndSwapObject(this, HEAD_OFFSET, stack, null));
-      
+
       RunnableExecutorPair reversedStack = null;
       while (stack != NULL_PAIR) {
         RunnableExecutorPair head = stack;

@@ -23,11 +23,9 @@ import com.google.common.cache.LocalCache.Strength;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
 import javax.annotation.Nullable;
 
 /**
@@ -129,7 +127,7 @@ class CacheBuilderFactory {
    * "don't call the associated CacheBuilder method" - that is, get the default CacheBuilder
    * behavior. This method wraps the elements in the input sets (which may contain null) as
    * Optionals, calls Sets.cartesianProduct with those, then transforms the result to unwrap
-   * the Optionals. 
+   * the Optionals.
    */
   private Iterable<List<Object>> buildCartesianProduct(Set<?>... sets) {
     List<Set<Optional<?>>> optionalSets = Lists.newArrayListWithExpectedSize(sets.length);

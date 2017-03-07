@@ -34,16 +34,16 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Converter;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
-import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.MapDifference.ValueDifference;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.AbstractMap;
@@ -64,10 +64,15 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
-
-import javax.annotation.CheckReturnValue;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
+import java.util.function.Consumer;
+import java.util.stream.Collector;
 import javax.annotation.Nullable;
 
 /**
@@ -155,6 +160,104 @@ public final class Maps {
     }
   }
 
+  private static class Accumulator<K extends Enum<K>, V> {
+    private final BinaryOperator<V> mergeFunction;
+    private EnumMap<K, V> map = null;
+
+    Accumulator(BinaryOperator<V> mergeFunction) {
+      this.mergeFunction = mergeFunction;
+    }
+
+    void put(K key, V value) {
+      if (map == null) {
+        map = new EnumMap<K, V>(key.getDeclaringClass());
+      }
+      map.merge(key, value, mergeFunction);
+    }
+
+    Accumulator<K, V> combine(Accumulator<K, V> other) {
+      if (this.map == null) {
+        return other;
+      } else if (other.map == null) {
+        return this;
+      } else {
+        other.map.forEach(this::put);
+        return this;
+      }
+    }
+
+    ImmutableMap<K, V> toImmutableMap() {
+      return (map == null) ? ImmutableMap.<K, V>of() : ImmutableEnumMap.asImmutable(map);
+    }
+  }
+
+  /**
+   * Returns a {@link Collector} that accumulates elements into an {@code ImmutableMap} whose keys
+   * and values are the result of applying the provided mapping functions to the input elements. The
+   * resulting implementation is specialized for enum key types. The returned map and its views will
+   * iterate over keys in their enum definition order, not encounter order.
+   *
+   * <p>If the mapped keys contain duplicates, an {@code IllegalArgumentException} is thrown when
+   * the collection operation is performed. (This differs from the {@code Collector} returned by
+   * {@link java.util.stream.Collectors#toMap(java.util.function.Function,
+   * java.util.function.Function) Collectors.toMap(Function, Function)}, which throws an
+   * {@code IllegalStateException}.)
+   *
+   * @since 21.0
+   */
+  @Beta
+  public static <T, K extends Enum<K>, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
+      java.util.function.Function<? super T, ? extends K> keyFunction,
+      java.util.function.Function<? super T, ? extends V> valueFunction) {
+    checkNotNull(keyFunction);
+    checkNotNull(valueFunction);
+    return Collector.of(
+        () ->
+            new Accumulator<K, V>(
+                (v1, v2) -> {
+                  throw new IllegalArgumentException("Multiple values for key: " + v1 + ", " + v2);
+                }),
+        (accum, t) -> {
+          K key = checkNotNull(keyFunction.apply(t), "Null key for input %s", t);
+          V newValue = checkNotNull(valueFunction.apply(t), "Null value for input %s", t);
+          accum.put(key, newValue);
+        },
+        Accumulator::combine,
+        Accumulator::toImmutableMap,
+        Collector.Characteristics.UNORDERED);
+  }
+
+  /**
+   * Returns a {@link Collector} that accumulates elements into an {@code ImmutableMap} whose keys
+   * and values are the result of applying the provided mapping functions to the input elements. The
+   * resulting implementation is specialized for enum key types. The returned map and its views will
+   * iterate over keys in their enum definition order, not encounter order.
+   *
+   * <p>If the mapped keys contain duplicates, the values are merged using the specified merging
+   * function.
+   *
+   * @since 21.0
+   */
+  @Beta
+  public static <T, K extends Enum<K>, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
+      java.util.function.Function<? super T, ? extends K> keyFunction,
+      java.util.function.Function<? super T, ? extends V> valueFunction,
+      BinaryOperator<V> mergeFunction) {
+    checkNotNull(keyFunction);
+    checkNotNull(valueFunction);
+    checkNotNull(mergeFunction);
+    // not UNORDERED because we don't know if mergeFunction is commutative
+    return Collector.of(
+        () -> new Accumulator<K, V>(mergeFunction),
+        (accum, t) -> {
+          K key = checkNotNull(keyFunction.apply(t), "Null key for input %s", t);
+          V newValue = checkNotNull(valueFunction.apply(t), "Null value for input %s", t);
+          accum.put(key, newValue);
+        },
+        Accumulator::combine,
+        Accumulator::toImmutableMap);
+  }
+
   /**
    * Creates a <i>mutable</i>, empty {@code HashMap} instance.
    *
@@ -193,9 +296,8 @@ public final class Maps {
   }
 
   /**
-   * Returns a capacity that is sufficient to keep the map from being resized as
-   * long as it grows no larger than expectedSize and the load factor is >= its
-   * default (0.75).
+   * Returns a capacity that is sufficient to keep the map from being resized as long as it grows no
+   * larger than expectedSize and the load factor is ≥ its default (0.75).
    */
   static int capacity(int expectedSize) {
     if (expectedSize < 3) {
@@ -460,7 +562,6 @@ public final class Maps {
    * @return the difference between the two maps
    * @since 10.0
    */
-  @Beta
   public static <K, V> MapDifference<K, V> difference(
       Map<? extends K, ? extends V> left,
       Map<? extends K, ? extends V> right,
@@ -499,7 +600,7 @@ public final class Maps {
     }
   }
 
-  private static <K, V> Map<K, V> unmodifiableMap(Map<K, V> map) {
+  private static <K, V> Map<K, V> unmodifiableMap(Map<K, ? extends V> map) {
     if (map instanceof SortedMap) {
       return Collections.unmodifiableSortedMap((SortedMap<K, ? extends V>) map);
     } else {
@@ -745,11 +846,7 @@ public final class Maps {
    * @since 14.0
    */
   public static <K, V> Map<K, V> asMap(Set<K> set, Function<? super K, V> function) {
-    if (set instanceof SortedSet) {
-      return asMap((SortedSet<K>) set, function);
-    } else {
-      return new AsMapView<K, V>(set, function);
-    }
+    return new AsMapView<K, V>(set, function);
   }
 
   /**
@@ -779,11 +876,6 @@ public final class Maps {
    * @since 14.0
    */
   public static <K, V> SortedMap<K, V> asMap(SortedSet<K> set, Function<? super K, V> function) {
-    return Platform.mapsAsMapSortedSet(set, function);
-  }
-
-  static <K, V> SortedMap<K, V> asMapSortedIgnoreNavigable(
-      SortedSet<K> set, Function<? super K, V> function) {
     return new SortedAsMapView<K, V>(set, function);
   }
 
@@ -813,7 +905,7 @@ public final class Maps {
    *
    * @since 14.0
    */
-  @GwtIncompatible("NavigableMap")
+  @GwtIncompatible // NavigableMap
   public static <K, V> NavigableMap<K, V> asMap(
       NavigableSet<K> set, Function<? super K, V> function) {
     return new NavigableAsMapView<K, V>(set, function);
@@ -854,13 +946,18 @@ public final class Maps {
     }
 
     @Override
-    public V get(/*@Nullable*/ Object key) {
+    public V get(@Nullable Object key) {
+      return getOrDefault(key, null);
+    }
+
+    @Override
+    public V getOrDefault(@Nullable Object key, @Nullable V defaultValue) {
       if (Collections2.safeContains(backingSet(), key)) {
         /*@SuppressWarnings("unchecked")*/ // unsafe, but Javadoc warns about it
         K k = (K) key;
         return function.apply(k);
       } else {
-        return null;
+        return defaultValue;
       }
     }
 
@@ -895,6 +992,13 @@ public final class Maps {
         }
       }
       return new EntrySetImpl();
+    }
+
+    @Override
+    public void forEach(BiConsumer<? super K, ? super V> action) {
+      checkNotNull(action);
+      // avoids allocation of entries
+      backingSet().forEach(k -> action.accept(k, function.apply(k)));
     }
   }
 
@@ -955,7 +1059,7 @@ public final class Maps {
     }
   }
 
-  @GwtIncompatible("NavigableMap")
+  @GwtIncompatible // NavigableMap
   private static final class NavigableAsMapView<K, V> extends AbstractNavigableMap<K, V> {
     /*
      * Using AbstractNavigableMap is simpler than extending SortedAsMapView and rewriting all the
@@ -993,13 +1097,19 @@ public final class Maps {
 
     @Override
     @Nullable
-    public V get(/*@Nullable*/ Object key) {
+    public V get(@Nullable Object key) {
+      return getOrDefault(key, null);
+    }
+
+    @Override
+    @Nullable
+    public V getOrDefault(@Nullable Object key, @Nullable V defaultValue) {
       if (Collections2.safeContains(set, key)) {
         /*@SuppressWarnings("unchecked")*/ // unsafe, but Javadoc warns about it
         K k = (K) key;
         return function.apply(k);
       } else {
-        return null;
+        return defaultValue;
       }
     }
 
@@ -1011,6 +1121,16 @@ public final class Maps {
     @Override
     Iterator<Entry<K, V>> entryIterator() {
       return asMapEntryIterator(set, function);
+    }
+
+    @Override
+    Spliterator<Entry<K, V>> entrySpliterator() {
+      return CollectSpliterators.map(set.spliterator(), e -> immutableEntry(e, function.apply(e)));
+    }
+
+    @Override
+    public void forEach(BiConsumer<? super K, ? super V> action) {
+      set.forEach(k -> action.accept(k, function.apply(k)));
     }
 
     @Override
@@ -1087,7 +1207,7 @@ public final class Maps {
     };
   }
 
-  @GwtIncompatible("NavigableSet")
+  @GwtIncompatible // NavigableSet
   private static <E> NavigableSet<E> removeOnlyNavigableSet(final NavigableSet<E> set) {
     return new ForwardingNavigableSet<E>() {
       @Override
@@ -1223,6 +1343,7 @@ public final class Maps {
    * @throws NullPointerException if any elements of {@code values} is null, or
    *         if {@code keyFunction} produces {@code null} for any value
    */
+  @CanIgnoreReturnValue
   public static <K, V> ImmutableMap<K, V> uniqueIndex(
       Iterable<V> values, Function<? super V, K> keyFunction) {
     // TODO(lowasser): consider presizing the builder if values is a Collection
@@ -1257,6 +1378,7 @@ public final class Maps {
    *         if {@code keyFunction} produces {@code null} for any value
    * @since 10.0
    */
+  @CanIgnoreReturnValue
   public static <K, V> ImmutableMap<K, V> uniqueIndex(
       Iterator<V> values, Function<? super V, K> keyFunction) {
     checkNotNull(keyFunction);
@@ -1287,7 +1409,7 @@ public final class Maps {
    * @throws NullPointerException if any key or value in {@code Properties} is
    *         null
    */
-  @GwtIncompatible("java.util.Properties")
+  @GwtIncompatible // java.util.Properties
   public static ImmutableMap<String, String> fromProperties(Properties properties) {
     ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
 
@@ -1513,7 +1635,7 @@ public final class Maps {
    * serializable.
    *
    * @param bimap the bimap to be wrapped in a synchronized view
-   * @return a sychronized view of the specified bimap
+   * @return a synchronized view of the specified bimap
    */
   public static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> BiMap<K, V> synchronizedBiMap(BiMap<K, V> bimap) {
     return Synchronized.biMap(bimap, null);
@@ -1542,6 +1664,7 @@ public final class Maps {
     final Map<K, V> unmodifiableMap;
     final BiMap<? extends K, ? extends V> delegate;
     /*@org.checkerframework.checker.nullness.qual.Nullable*/
+    @RetainedWith
     BiMap<V, K> inverse;
     transient Set<V> values;
 
@@ -1573,9 +1696,7 @@ public final class Maps {
     @Override
     public Set<V> values() {
       Set<V> result = values;
-      return (result == null)
-          ? values = Collections.unmodifiableSet(delegate.values())
-          : result;
+      return (result == null) ? values = Collections.unmodifiableSet(delegate.values()) : result;
     }
 
     private static final long serialVersionUID = 0;
@@ -1707,7 +1828,7 @@ public final class Maps {
    *
    * @since 13.0
    */
-  @GwtIncompatible("NavigableMap")
+  @GwtIncompatible // NavigableMap
   public static <K, V1, V2> NavigableMap<K, V2> transformValues(
       NavigableMap<K, V1> fromMap, Function<? super V1, V2> function) {
     return transformEntries(fromMap, asEntryTransformer(function));
@@ -1766,9 +1887,6 @@ public final class Maps {
    */
   public static <K, V1, V2> Map<K, V2> transformEntries(
       Map<K, V1> fromMap, EntryTransformer<? super K, ? super V1, V2> transformer) {
-    if (fromMap instanceof SortedMap) {
-      return transformEntries((SortedMap<K, V1>) fromMap, transformer);
-    }
     return new TransformedEntriesMap<K, V1, V2>(fromMap, transformer);
   }
 
@@ -1826,7 +1944,7 @@ public final class Maps {
    */
   public static <K, V1, V2> SortedMap<K, V2> transformEntries(
       SortedMap<K, V1> fromMap, EntryTransformer<? super K, ? super V1, V2> transformer) {
-    return Platform.mapsTransformEntriesSortedMap(fromMap, transformer);
+    return new TransformedEntriesSortedMap<K, V1, V2>(fromMap, transformer);
   }
 
   /**
@@ -1882,15 +2000,10 @@ public final class Maps {
    *
    * @since 13.0
    */
-  @GwtIncompatible("NavigableMap")
+  @GwtIncompatible // NavigableMap
   public static <K, V1, V2> NavigableMap<K, V2> transformEntries(
-      NavigableMap<K, V1> fromMap, EntryTransformer<? super K, ? super V1, V2> transformer) {
+      final NavigableMap<K, V1> fromMap, EntryTransformer<? super K, ? super V1, V2> transformer) {
     return new TransformedEntriesNavigableMap<K, V1, V2>(fromMap, transformer);
-  }
-
-  static <K, V1, V2> SortedMap<K, V2> transformEntriesIgnoreNavigable(
-      SortedMap<K, V1> fromMap, EntryTransformer<? super K, ? super V1, V2> transformer) {
-    return new TransformedEntriesSortedMap<K, V1, V2>(fromMap, transformer);
   }
 
   /**
@@ -1903,6 +2016,7 @@ public final class Maps {
    * @param <V2> the value type of the output entry
    * @since 7.0
    */
+  @FunctionalInterface
   public interface EntryTransformer<K, V1, V2> {
     /**
      * Determines an output value based on a key-value pair. This method is
@@ -2017,14 +2131,21 @@ public final class Maps {
       return fromMap.containsKey(key);
     }
 
+    @Override
+    @Nullable
+    public V2 get(@Nullable Object key) {
+      return getOrDefault(key, null);
+    }
+
     // safe as long as the user followed the <b>Warning</b> in the javadoc
     @SuppressWarnings("unchecked")
     @Override
-    public V2 get(Object key) {
+    @Nullable
+    public V2 getOrDefault(@Nullable Object key, @Nullable V2 defaultValue) {
       V1 value = fromMap.get(key);
       return (value != null || fromMap.containsKey(key))
           ? transformer.transformEntry((K) key, value)
-          : null;
+          : defaultValue;
     }
 
     // safe as long as the user followed the <b>Warning</b> in the javadoc
@@ -2050,6 +2171,19 @@ public final class Maps {
     Iterator<Entry<K, V2>> entryIterator() {
       return Iterators.transform(
           fromMap.entrySet().iterator(), Maps.<K, V1, V2>asEntryToEntryFunction(transformer));
+    }
+
+    @Override
+    Spliterator<Entry<K, V2>> entrySpliterator() {
+      return CollectSpliterators.map(
+          fromMap.entrySet().spliterator(), Maps.<K, V1, V2>asEntryToEntryFunction(transformer));
+    }
+
+    @Override
+    public void forEach(BiConsumer<? super K, ? super V2> action) {
+      checkNotNull(action);
+      // avoids creating new Entry<K, V2> objects
+      fromMap.forEach((k, v1) -> action.accept(k, transformer.transformEntry(k, v1)));
     }
 
     @Override
@@ -2101,7 +2235,7 @@ public final class Maps {
     }
   }
 
-  @GwtIncompatible("NavigableMap")
+  @GwtIncompatible // NavigableMap
   private static class TransformedEntriesNavigableMap<K, V1, V2>
       extends TransformedEntriesSortedMap<K, V1, V2> implements NavigableMap<K, V2> {
 
@@ -2264,14 +2398,8 @@ public final class Maps {
    * predicate such as {@code Predicates.instanceOf(ArrayList.class)}, which is
    * inconsistent with equals.
    */
-  @CheckReturnValue
   public static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Map<K, V> filterKeys(
       Map<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
-    if (unfiltered instanceof SortedMap) {
-      return filterKeys((SortedMap<K, V>) unfiltered, keyPredicate);
-    } else if (unfiltered instanceof BiMap) {
-      return filterKeys((BiMap<K, V>) unfiltered, keyPredicate);
-    }
     checkNotNull(keyPredicate);
     Predicate<Entry<K, ?>> entryPredicate = keyPredicateOnEntries(keyPredicate);
     return (unfiltered instanceof AbstractFilteredMap)
@@ -2309,7 +2437,6 @@ public final class Maps {
    *
    * @since 11.0
    */
-  @CheckReturnValue
   public static <K, V> SortedMap<K, V> filterKeys(
       SortedMap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     // TODO(lowasser): Return a subclass of Maps.FilteredKeyMap for slightly better
@@ -2347,8 +2474,7 @@ public final class Maps {
    *
    * @since 14.0
    */
-  @GwtIncompatible("NavigableMap")
-  @CheckReturnValue
+  @GwtIncompatible // NavigableMap
   public static <K, V> NavigableMap<K, V> filterKeys(
       NavigableMap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     // TODO(lowasser): Return a subclass of Maps.FilteredKeyMap for slightly better
@@ -2381,7 +2507,6 @@ public final class Maps {
    *
    * @since 14.0
    */
-  @CheckReturnValue
   public static <K, V> BiMap<K, V> filterKeys(
       BiMap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     checkNotNull(keyPredicate);
@@ -2417,14 +2542,8 @@ public final class Maps {
    * predicate such as {@code Predicates.instanceOf(ArrayList.class)}, which is
    * inconsistent with equals.
    */
-  @CheckReturnValue
   public static <K, V> Map<K, V> filterValues(
       Map<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
-    if (unfiltered instanceof SortedMap) {
-      return filterValues((SortedMap<K, V>) unfiltered, valuePredicate);
-    } else if (unfiltered instanceof BiMap) {
-      return filterValues((BiMap<K, V>) unfiltered, valuePredicate);
-    }
     return filterEntries(unfiltered, Maps.<V>valuePredicateOnEntries(valuePredicate));
   }
 
@@ -2459,7 +2578,6 @@ public final class Maps {
    *
    * @since 11.0
    */
-  @CheckReturnValue
   public static <K, V> SortedMap<K, V> filterValues(
       SortedMap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     return filterEntries(unfiltered, Maps.<V>valuePredicateOnEntries(valuePredicate));
@@ -2496,8 +2614,7 @@ public final class Maps {
    *
    * @since 14.0
    */
-  @GwtIncompatible("NavigableMap")
-  @CheckReturnValue
+  @GwtIncompatible // NavigableMap
   public static <K, V> NavigableMap<K, V> filterValues(
       NavigableMap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     return filterEntries(unfiltered, Maps.<V>valuePredicateOnEntries(valuePredicate));
@@ -2531,7 +2648,6 @@ public final class Maps {
    *
    * @since 14.0
    */
-  @CheckReturnValue
   public static <K, V> BiMap<K, V> filterValues(
       BiMap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     return filterEntries(unfiltered, Maps.<V>valuePredicateOnEntries(valuePredicate));
@@ -2566,14 +2682,8 @@ public final class Maps {
    * <p><b>Warning:</b> {@code entryPredicate} must be <i>consistent with
    * equals</i>, as documented at {@link Predicate#apply}.
    */
-  @CheckReturnValue
   public static <K, V> Map<K, V> filterEntries(
       Map<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
-    if (unfiltered instanceof SortedMap) {
-      return filterEntries((SortedMap<K, V>) unfiltered, entryPredicate);
-    } else if (unfiltered instanceof BiMap) {
-      return filterEntries((BiMap<K, V>) unfiltered, entryPredicate);
-    }
     checkNotNull(entryPredicate);
     return (unfiltered instanceof AbstractFilteredMap)
         ? filterFiltered((AbstractFilteredMap<K, V>) unfiltered, entryPredicate)
@@ -2611,13 +2721,7 @@ public final class Maps {
    *
    * @since 11.0
    */
-  @CheckReturnValue
   public static <K, V> SortedMap<K, V> filterEntries(
-      SortedMap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
-    return Platform.mapsFilterSortedMap(unfiltered, entryPredicate);
-  }
-
-  static <K, V> SortedMap<K, V> filterSortedIgnoreNavigable(
       SortedMap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
     checkNotNull(entryPredicate);
     return (unfiltered instanceof FilteredEntrySortedMap)
@@ -2656,8 +2760,7 @@ public final class Maps {
    *
    * @since 14.0
    */
-  @GwtIncompatible("NavigableMap")
-  @CheckReturnValue
+  @GwtIncompatible // NavigableMap
   public static <K, V> NavigableMap<K, V> filterEntries(
       NavigableMap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
     checkNotNull(entryPredicate);
@@ -2693,7 +2796,6 @@ public final class Maps {
    *
    * @since 14.0
    */
-  @CheckReturnValue
   public static <K, V> BiMap<K, V> filterEntries(
       BiMap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
     checkNotNull(unfiltered);
@@ -2774,8 +2876,8 @@ public final class Maps {
   }
 
   private static final class FilteredMapValues<K, V> extends Maps.Values<K, V> {
-    Map<K, V> unfiltered;
-    Predicate<? super Entry<K, V>> predicate;
+    final Map<K, V> unfiltered;
+    final Predicate<? super Entry<K, V>> predicate;
 
     FilteredMapValues(
         Map<K, V> filteredMap, Map<K, V> unfiltered, Predicate<? super Entry<K, V>> predicate) {
@@ -2821,7 +2923,7 @@ public final class Maps {
   }
 
   private static class FilteredKeyMap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends AbstractFilteredMap<K, V> {
-    Predicate<? super K> keyPredicate;
+    final Predicate<? super K> keyPredicate;
 
     FilteredKeyMap(
         Map<K, V> unfiltered,
@@ -2956,7 +3058,7 @@ public final class Maps {
    */
   private static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> SortedMap<K, V> filterFiltered(
       FilteredEntrySortedMap<K, V> map, Predicate<? super Entry<K, V>> entryPredicate) {
-    Predicate<Entry<K, V>> predicate = Predicates.and(map.predicate, entryPredicate);
+    Predicate<Entry<K, V>> predicate = Predicates.<Entry<K, V>>and(map.predicate, entryPredicate);
     return new FilteredEntrySortedMap<K, V>(map.sortedMap(), predicate);
   }
 
@@ -3059,14 +3161,15 @@ public final class Maps {
    * Support {@code clear()}, {@code removeAll()}, and {@code retainAll()} when
    * filtering a filtered navigable map.
    */
-  @GwtIncompatible("NavigableMap")
+  @GwtIncompatible // NavigableMap
   private static <K, V> NavigableMap<K, V> filterFiltered(
       FilteredEntryNavigableMap<K, V> map, Predicate<? super Entry<K, V>> entryPredicate) {
-    Predicate<Entry<K, V>> predicate = Predicates.and(map.entryPredicate, entryPredicate);
+    Predicate<Entry<K, V>> predicate =
+        Predicates.<Entry<K, V>>and(map.entryPredicate, entryPredicate);
     return new FilteredEntryNavigableMap<K, V>(map.unfiltered, predicate);
   }
 
-  @GwtIncompatible("NavigableMap")
+  @GwtIncompatible // NavigableMap
   private static class FilteredEntryNavigableMap<K, V> extends AbstractNavigableMap<K, V> {
     /*
      * It's less code to extend AbstractNavigableMap and forward the filtering logic to
@@ -3210,12 +3313,13 @@ public final class Maps {
    */
   private static <K, V> BiMap<K, V> filterFiltered(
       FilteredEntryBiMap<K, V> map, Predicate<? super Entry<K, V>> entryPredicate) {
-    Predicate<Entry<K, V>> predicate = Predicates.and(map.predicate, entryPredicate);
+    Predicate<Entry<K, V>> predicate = Predicates.<Entry<K, V>>and(map.predicate, entryPredicate);
     return new FilteredEntryBiMap<K, V>(map.unfiltered(), predicate);
   }
 
   static final class FilteredEntryBiMap<K, V> extends FilteredEntryMap<K, V>
       implements BiMap<K, V> {
+    @RetainedWith
     private final BiMap<V, K> inverse;
 
     private static <K, V> Predicate<Entry<V, K>> inversePredicate(
@@ -3251,6 +3355,16 @@ public final class Maps {
     }
 
     @Override
+    public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
+      unfiltered()
+          .replaceAll(
+              (key, value) ->
+                  predicate.apply(Maps.immutableEntry(key, value))
+                      ? function.apply(key, value)
+                      : value);
+    }
+
+    @Override
     public BiMap<V, K> inverse() {
       return inverse;
     }
@@ -3269,36 +3383,45 @@ public final class Maps {
    * <p>The returned navigable map will be serializable if the specified navigable map is
    * serializable.
    *
+   * <p>This method's signature will not permit you to convert a {@code NavigableMap<? extends K,
+   * V>} to a {@code NavigableMap<K, V>}. If it permitted this, the returned map's {@code
+   * comparator()} method might return a {@code Comparator<? extends K>}, which works only on a
+   * particular subtype of {@code K}, but promise that it's a {@code Comparator<? super K>}, which
+   * must work on any type of {@code K}.
+   *
    * @param map the navigable map for which an unmodifiable view is to be returned
    * @return an unmodifiable view of the specified navigable map
    * @since 12.0
    */
-  @GwtIncompatible("NavigableMap")
-  public static <K, V> NavigableMap<K, V> unmodifiableNavigableMap(NavigableMap<K, V> map) {
+  @GwtIncompatible // NavigableMap
+  public static <K, V> NavigableMap<K, V> unmodifiableNavigableMap(
+      NavigableMap<K, ? extends V> map) {
     checkNotNull(map);
     if (map instanceof UnmodifiableNavigableMap) {
-      return map;
+      @SuppressWarnings("unchecked") // covariant
+      NavigableMap<K, V> result = (NavigableMap) map;
+      return result;
     } else {
       return new UnmodifiableNavigableMap<K, V>(map);
     }
   }
 
   @Nullable
-  private static <K, V> Entry<K, V> unmodifiableOrNull(/*@Nullable*/ Entry<K, V> entry) {
+  private static <K, V> Entry<K, V> unmodifiableOrNull(@Nullable Entry<K, ? extends V> entry) {
     return (entry == null) ? null : Maps.unmodifiableEntry(entry);
   }
 
-  @GwtIncompatible("NavigableMap")
+  @GwtIncompatible // NavigableMap
   static class UnmodifiableNavigableMap<K, V> extends ForwardingSortedMap<K, V>
       implements NavigableMap<K, V>, Serializable {
-    private final NavigableMap<K, V> delegate;
+    private final NavigableMap<K, ? extends V> delegate;
 
-    UnmodifiableNavigableMap(NavigableMap<K, V> delegate) {
+    UnmodifiableNavigableMap(NavigableMap<K, ? extends V> delegate) {
       this.delegate = delegate;
     }
 
     UnmodifiableNavigableMap(
-        NavigableMap<K, V> delegate, UnmodifiableNavigableMap<K, V> descendingMap) {
+        NavigableMap<K, ? extends V> delegate, UnmodifiableNavigableMap<K, V> descendingMap) {
       this.delegate = delegate;
       this.descendingMap = descendingMap;
     }
@@ -3474,7 +3597,7 @@ public final class Maps {
    * @return a synchronized view of the specified navigable map.
    * @since 13.0
    */
-  @GwtIncompatible("NavigableMap")
+  @GwtIncompatible // NavigableMap
   public static <K, V> NavigableMap<K, V> synchronizedNavigableMap(
       NavigableMap<K, V> navigableMap) {
     return Synchronized.navigableMap(navigableMap);
@@ -3532,6 +3655,11 @@ public final class Maps {
 
     abstract Iterator<Entry<K, V>> entryIterator();
 
+    Spliterator<Entry<K, V>> entrySpliterator() {
+      return Spliterators.spliterator(
+          entryIterator(), size(), Spliterator.SIZED | Spliterator.DISTINCT);
+    }
+
     @Override
     public Set<Entry<K, V>> entrySet() {
       return new EntrySet<K, V>() {
@@ -3544,7 +3672,21 @@ public final class Maps {
         public Iterator<Entry<K, V>> iterator() {
           return entryIterator();
         }
+
+        @Override
+        public Spliterator<Entry<K, V>> spliterator() {
+          return entrySpliterator();
+        }
+
+        @Override
+        public void forEach(Consumer<? super Entry<K, V>> action) {
+          forEachEntry(action);
+        }
       };
+    }
+
+    void forEachEntry(Consumer<? super Entry<K, V>> action) {
+      entryIterator().forEachRemaining(action);
     }
 
     @Override
@@ -3666,14 +3808,19 @@ public final class Maps {
     return false;
   }
 
-  static final MapJoiner STANDARD_JOINER = Collections2.STANDARD_JOINER.withKeyValueSeparator("=");
-
   /**
    * An implementation of {@link Map#toString}.
    */
   static String toStringImpl(Map<?, ?> map) {
     StringBuilder sb = Collections2.newStringBuilderForCollection(map.size()).append('{');
-    STANDARD_JOINER.appendTo(sb, map);
+    boolean first = true;
+    for (Map.Entry<?, ?> entry : map.entrySet()) {
+      if (!first) {
+        sb.append(", ");
+      }
+      first = false;
+      sb.append(entry.getKey()).append('=').append(entry.getValue());
+    }
     return sb.append('}').toString();
   }
 
@@ -3700,6 +3847,13 @@ public final class Maps {
     @Override
     public Iterator<K> iterator() {
       return keyIterator(map().entrySet().iterator());
+    }
+
+    @Override
+    public void forEach(Consumer<? super K> action) {
+      checkNotNull(action);
+      // avoids entry allocation for those maps that allocate entries on iteration
+      map.forEach((k, v) -> action.accept(k));
     }
 
     @Override
@@ -3783,7 +3937,7 @@ public final class Maps {
     }
   }
 
-  @GwtIncompatible("NavigableMap")
+  @GwtIncompatible // NavigableMap
   static class NavigableKeySet<K, V> extends SortedKeySet<K, V> implements NavigableSet<K> {
     NavigableKeySet(NavigableMap<K, V> map) {
       super(map);
@@ -3880,6 +4034,13 @@ public final class Maps {
     @Override
     public Iterator<V> iterator() {
       return valueIterator(map().entrySet().iterator());
+    }
+
+    @Override
+    public void forEach(Consumer<? super V> action) {
+      checkNotNull(action);
+      // avoids allocation of entries for those maps that generate fresh entries on iteration
+      map.forEach((k, v) -> action.accept(v));
     }
 
     @Override
@@ -4014,7 +4175,7 @@ public final class Maps {
     }
   }
 
-  @GwtIncompatible("NavigableMap")
+  @GwtIncompatible // NavigableMap
   abstract static class DescendingMap<K, V> extends ForwardingMap<K, V>
       implements NavigableMap<K, V> {
 
@@ -4237,25 +4398,27 @@ public final class Maps {
    * @since 20.0
    */
   @Beta
-  @GwtIncompatible("NavigableMap")
+  @GwtIncompatible // NavigableMap
   public static <K extends Comparable<? super K>, V> NavigableMap<K, V> subMap(
       NavigableMap<K, V> map, Range<K> range) {
-    if (map.comparator() != null && map.comparator() != Ordering.natural()
-        && range.hasLowerBound() && range.hasUpperBound()) {
-      checkArgument(map.comparator().compare(range.lowerEndpoint(), range.upperEndpoint()) <= 0,
+    if (map.comparator() != null
+        && map.comparator() != Ordering.natural()
+        && range.hasLowerBound()
+        && range.hasUpperBound()) {
+      checkArgument(
+          map.comparator().compare(range.lowerEndpoint(), range.upperEndpoint()) <= 0,
           "map is using a custom comparator which is inconsistent with the natural ordering.");
     }
     if (range.hasLowerBound() && range.hasUpperBound()) {
-      return map.subMap(range.lowerEndpoint(),
-                        range.lowerBoundType() == BoundType.CLOSED,
-                        range.upperEndpoint(),
-                        range.upperBoundType() == BoundType.CLOSED);
+      return map.subMap(
+          range.lowerEndpoint(),
+          range.lowerBoundType() == BoundType.CLOSED,
+          range.upperEndpoint(),
+          range.upperBoundType() == BoundType.CLOSED);
     } else if (range.hasLowerBound()) {
-      return map.tailMap(range.lowerEndpoint(),
-                         range.lowerBoundType() == BoundType.CLOSED);
+      return map.tailMap(range.lowerEndpoint(), range.lowerBoundType() == BoundType.CLOSED);
     } else if (range.hasUpperBound()) {
-      return map.headMap(range.upperEndpoint(),
-                         range.upperBoundType() == BoundType.CLOSED);
+      return map.headMap(range.upperEndpoint(), range.upperBoundType() == BoundType.CLOSED);
     }
     return checkNotNull(map);
   }

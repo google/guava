@@ -53,6 +53,11 @@ public void testConcat() throws Exception {
   testCase.testConcat();
 }
 
+public void testConstrainToRange() throws Exception {
+  com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
+  testCase.testConstrainToRange();
+}
+
 public void testContains() throws Exception {
   com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
   testCase.testContains();
@@ -191,5 +196,10 @@ public void testTryParse_radixTooBig() throws Exception {
 public void testTryParse_radixTooSmall() throws Exception {
   com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
   testCase.testTryParse_radixTooSmall();
+}
+
+public void testTryParse_withNullGwt() throws Exception {
+  com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
+  testCase.testTryParse_withNullGwt();
 }
 }

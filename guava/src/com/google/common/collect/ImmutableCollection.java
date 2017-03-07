@@ -24,15 +24,18 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.function.Predicate;
 import javax.annotation.Nullable;
 
 /**
@@ -157,6 +160,13 @@ import javax.annotation.Nullable;
 // TODO(kevinb): I think we should push everything down to "BaseImmutableCollection" or something,
 // just to do everything we can to emphasize the "practically an interface" nature of this class.
 public abstract class ImmutableCollection<E> extends AbstractCollection<E> implements Serializable {
+  /*
+   * We expect SIZED (and SUBSIZED, if applicable) to be added by the spliterator factory methods.
+   * These are properties of the collection as a whole; SIZED and SUBSIZED are more properties of
+   * the spliterator implementation.
+   */
+  static final int SPLITERATOR_CHARACTERISTICS =
+      Spliterator.IMMUTABLE | Spliterator.NONNULL | Spliterator.ORDERED;
 
   ImmutableCollection() {}
 
@@ -167,16 +177,24 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   public abstract UnmodifiableIterator<E> iterator();
 
   @Override
-  public final /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object[] toArray() {
+  public Spliterator<E> spliterator() {
+    return Spliterators.spliterator(this, SPLITERATOR_CHARACTERISTICS);
+  }
+  
+  private static final Object[] EMPTY_ARRAY = {};
+
+  @Override
+  public final @Nullable Object[] toArray() {
     int size = size();
     if (size == 0) {
-      return ObjectArrays.EMPTY_ARRAY;
+      return EMPTY_ARRAY;
     }
     Object[] result = new Object[size];
     copyIntoArray(result, 0);
     return result;
   }
 
+  @CanIgnoreReturnValue
   @Override
   public final <T> /*@org.checkerframework.checker.nullness.qual.Nullable*/ T[] toArray(T[] other) {
     checkNotNull(other);
@@ -200,6 +218,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final boolean add(E e) {
@@ -212,6 +231,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final boolean remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
@@ -224,6 +244,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final boolean addAll(Collection<? extends E> newElements) {
@@ -236,9 +257,23 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final boolean removeAll(Collection<?> oldElements) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Guaranteed to throw an exception and leave the collection unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @CanIgnoreReturnValue
+  @Deprecated
+  @Override
+  public final boolean removeIf(Predicate<? super E> filter) {
     throw new UnsupportedOperationException();
   }
 
@@ -266,12 +301,6 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     throw new UnsupportedOperationException();
   }
 
-  /*
-   * TODO(kevinb): Restructure code so ImmutableList doesn't contain this
-   * variable, which it doesn't use.
-   */
-  private transient ImmutableList<E> asList;
-
   /**
    * Returns an {@code ImmutableList} containing the same elements, in the same order, as this
    * collection.
@@ -283,11 +312,6 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
    * @since 2.0
    */
   public ImmutableList<E> asList() {
-    ImmutableList<E> list = asList;
-    return (list == null) ? (asList = createAsList()) : list;
-  }
-
-  ImmutableList<E> createAsList() {
     switch (size()) {
       case 0:
         return ImmutableList.of();
@@ -310,6 +334,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
    * Copies the contents of this immutable collection into the specified array at the specified
    * offset.  Returns {@code offset + size()}.
    */
+  @CanIgnoreReturnValue
   int copyIntoArray(Object[] dst, int offset) {
     for (E e : this) {
       dst[offset++] = e;
@@ -358,6 +383,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
      * @return this {@code Builder} instance
      * @throws NullPointerException if {@code element} is null
      */
+    @CanIgnoreReturnValue
     public abstract Builder<E> add(E element);
 
     /**
@@ -372,6 +398,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
      * @throws NullPointerException if {@code elements} is null or contains a
      *     null element
      */
+    @CanIgnoreReturnValue
     public Builder<E> add(E... elements) {
       for (E element : elements) {
         add(element);
@@ -391,6 +418,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
      * @throws NullPointerException if {@code elements} is null or contains a
      *     null element
      */
+    @CanIgnoreReturnValue
     public Builder<E> addAll(Iterable<? extends E> elements) {
       for (E element : elements) {
         add(element);
@@ -410,6 +438,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
      * @throws NullPointerException if {@code elements} is null or contains a
      *     null element
      */
+    @CanIgnoreReturnValue
     public Builder<E> addAll(Iterator<? extends E> elements) {
       while (elements.hasNext()) {
         add(elements.next());
@@ -444,11 +473,12 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     private void ensureCapacity(int minCapacity) {
       if (contents.length < minCapacity) {
         this.contents =
-            ObjectArrays.arraysCopyOf(
+            Arrays.copyOf(
                 this.contents, expandedCapacity(contents.length, minCapacity));
       }
     }
 
+    @CanIgnoreReturnValue
     @Override
     public ArrayBasedBuilder<E> add(E element) {
       checkNotNull(element);
@@ -457,6 +487,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> add(E... elements) {
       checkElementsNotNull(elements);
@@ -466,6 +497,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> addAll(Iterable<? extends E> elements) {
       if (elements instanceof Collection) {
@@ -473,6 +505,15 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
         ensureCapacity(size + collection.size());
       }
       super.addAll(elements);
+      return this;
+    }
+
+    @CanIgnoreReturnValue
+    ArrayBasedBuilder<E> combine(ArrayBasedBuilder<E> builder) {
+      checkNotNull(builder);
+      ensureCapacity(size + builder.size);
+      System.arraycopy(builder.contents, 0, this.contents, size, builder.size);
+      size += builder.size;
       return this;
     }
   }

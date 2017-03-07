@@ -16,10 +16,12 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Equivalence;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableBiMap.Builder;
 import com.google.common.collect.testing.MapInterfaceTest;
@@ -31,17 +33,18 @@ import com.google.common.collect.testing.google.BiMapGenerators.ImmutableBiMapCo
 import com.google.common.collect.testing.google.BiMapGenerators.ImmutableBiMapGenerator;
 import com.google.common.collect.testing.google.BiMapInverseTester;
 import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
+import com.google.common.testing.CollectorTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Stream;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Tests for {@link ImmutableBiMap}.
@@ -53,7 +56,7 @@ public class ImmutableBiMapTest extends TestCase {
 
   // TODO: Reduce duplication of ImmutableMapTest code
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
 
@@ -478,14 +481,37 @@ public class ImmutableBiMapTest extends TestCase {
         assertThat(expected.getMessage()).contains("1");
       }
     }
+
+    public void testToImmutableBiMap() {
+      Collector<Entry<String, Integer>, ?, ImmutableBiMap<String, Integer>> collector =
+          ImmutableBiMap.toImmutableBiMap(Entry::getKey, Entry::getValue);
+      Equivalence<ImmutableBiMap<String, Integer>> equivalence =
+          Equivalence.equals()
+              .<Entry<String, Integer>>pairwise()
+              .onResultOf(ImmutableBiMap::entrySet);
+      CollectorTester.of(collector, equivalence)
+          .expectCollects(
+              ImmutableBiMap.of("one", 1, "two", 2, "three", 3),
+              mapEntry("one", 1),
+              mapEntry("two", 2),
+              mapEntry("three", 3));
+    }
+
+    public void testToImmutableBiMap_exceptionOnDuplicateKey() {
+      Collector<Entry<String, Integer>, ?, ImmutableBiMap<String, Integer>> collector =
+          ImmutableBiMap.toImmutableBiMap(Entry::getKey, Entry::getValue);
+      try {
+        Stream.of(mapEntry("one", 1), mapEntry("one", 11)).collect(collector);
+        fail("Expected IllegalArgumentException");
+      } catch (IllegalArgumentException expected) {
+      }
+    }
   }
 
   public static class BiMapSpecificTests extends TestCase {
 
-    @SuppressWarnings("deprecation")
     public void testForcePut() {
-      ImmutableBiMap<String, Integer> bimap = ImmutableBiMap.copyOf(
-          ImmutableMap.of("one", 1, "two", 2));
+      BiMap<String, Integer> bimap = ImmutableBiMap.copyOf(ImmutableMap.of("one", 1, "two", 2));
       try {
         bimap.forcePut("three", 3);
         fail();
@@ -514,13 +540,13 @@ public class ImmutableBiMapTest extends TestCase {
       assertSame(bimap, bimap.inverse().inverse());
     }
 
-    @GwtIncompatible("SerializableTester")
+    @GwtIncompatible // SerializableTester
     public void testEmptySerialization() {
       ImmutableBiMap<String, Integer> bimap = ImmutableBiMap.of();
       assertSame(bimap, SerializableTester.reserializeAndAssert(bimap));
     }
 
-    @GwtIncompatible("SerializableTester")
+    @GwtIncompatible // SerializableTester
     public void testSerialization() {
       ImmutableBiMap<String, Integer> bimap = ImmutableBiMap.copyOf(
           ImmutableMap.of("one", 1, "two", 2));
@@ -531,7 +557,7 @@ public class ImmutableBiMapTest extends TestCase {
       assertSame(copy, copy.inverse().inverse());
     }
 
-    @GwtIncompatible("SerializableTester")
+    @GwtIncompatible // SerializableTester
     public void testInverseSerialization() {
       ImmutableBiMap<String, Integer> bimap = ImmutableBiMap.copyOf(
           ImmutableMap.of(1, "one", 2, "two")).inverse();

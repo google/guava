@@ -22,21 +22,26 @@ import org.checkerframework.framework.qual.AnnotatedFor;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
-import static com.google.common.collect.ObjectArrays.arraysCopyOf;
 import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 import static com.google.common.collect.RegularImmutableList.EMPTY;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.RandomAccess;
-
+import java.util.Spliterator;
+import java.util.function.Consumer;
+import java.util.function.UnaryOperator;
+import java.util.stream.Collector;
 import javax.annotation.Nullable;
 
 /**
@@ -57,8 +62,20 @@ import javax.annotation.Nullable;
 /*@SuppressWarnings("serial")*/ // we're overriding default serialization
 public abstract class ImmutableList<E> extends ImmutableCollection<E>
     implements List<E>, RandomAccess {
+
   /**
-   * Returns the empty immutable list. This set behaves and performs comparably
+   * Returns a {@code Collector} that accumulates the input elements into a new
+   * {@code ImmutableList}, in encounter order.
+   *
+   * @since 21.0
+   */
+  @Beta
+  public static <E> Collector<E, ?, ImmutableList<E>> toImmutableList() {
+    return CollectCollectors.toImmutableList();
+  }
+
+  /**
+   * Returns the empty immutable list. This list behaves and performs comparably
    * to {@link Collections#emptyList}, and is preferable mainly for consistency
    * and maintainability of your code.
    */
@@ -77,7 +94,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * @throws NullPointerException if {@code element} is null
    */
   public static <E> ImmutableList<E> of(E element) {
-    return new SingletonImmutableList<E>(element);
+    return construct(element);
   }
 
   /**
@@ -181,6 +198,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * @throws NullPointerException if any element is null
    * @since 3.0 (source-compatible since 2.0)
    */
+  @SafeVarargs // For Eclipse. For internal javac we have disabled this pointless type of warning.
   public static <E> ImmutableList<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8, E e9, E e10, E e11, E e12, E... others) {
     Object[] array = new Object[12 + others.length];
@@ -268,14 +286,57 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * @since 3.0
    */
   public static <E> ImmutableList<E> copyOf(E[] elements) {
-    switch (elements.length) {
-      case 0:
-        return ImmutableList.of();
-      case 1:
-        return new SingletonImmutableList<E>(elements[0]);
-      default:
-        return new RegularImmutableList<E>(checkElementsNotNull(elements.clone()));
-    }
+    return (elements.length == 0)
+        ? ImmutableList.<E>of()
+        : construct(elements.clone());
+  }
+
+  /**
+   * Returns an immutable list containing the given elements, sorted according to their natural
+   * order. The sorting algorithm used is stable, so elements that compare as equal will stay in the
+   * order in which they appear in the input.
+   *
+   * <p>If your data has no duplicates, or you wish to deduplicate elements, use {@code
+   * ImmutableSortedSet.copyOf(elements)}; if you want a {@code List} you can use its {@code
+   * asList()} view.
+   *
+   * <p><b>Java 8 users:</b> If you want to convert a {@link java.util.stream.Stream} to a sorted
+   * {@code ImmutableList}, use {@code stream.sorted().collect(toImmutableList())}.
+   *
+   * @throws NullPointerException if any element in the input is null
+   * @since 21.0
+   */
+  public static <E extends Comparable<? super E>> ImmutableList<E> sortedCopyOf(
+      Iterable<? extends E> elements) {
+    Comparable[] array = Iterables.toArray(elements, new Comparable[0]);
+    checkElementsNotNull(array);
+    Arrays.sort(array);
+    return asImmutableList(array);
+  }
+
+  /**
+   * Returns an immutable list containing the given elements, in sorted order relative to the
+   * specified comparator. The sorting algorithm used is stable, so elements that compare as equal
+   * will stay in the order in which they appear in the input.
+   *
+   * <p>If your data has no duplicates, or you wish to deduplicate elements, use {@code
+   * ImmutableSortedSet.copyOf(comparator, elements)}; if you want a {@code List} you can use its
+   * {@code asList()} view.
+   *
+   * <p><b>Java 8 users:</b> If you want to convert a {@link java.util.stream.Stream} to a sorted
+   * {@code ImmutableList}, use {@code stream.sorted(comparator).collect(toImmutableList())}.
+   *
+   * @throws NullPointerException if any element in the input is null
+   * @since 21.0
+   */
+  public static <E> ImmutableList<E> sortedCopyOf(
+      Comparator<? super E> comparator, Iterable<? extends E> elements) {
+    checkNotNull(comparator);
+    @SuppressWarnings("unchecked") // all supported methods are covariant
+    E[] array = (E[]) Iterables.toArray(elements);
+    checkElementsNotNull(array);
+    Arrays.sort(array, comparator);
+    return asImmutableList(array);
   }
 
   /**
@@ -299,19 +360,13 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * array. Does not check for nulls.
    */
   static <E> ImmutableList<E> asImmutableList(Object[] elements, int length) {
-    switch (length) {
-      case 0:
-        return of();
-      case 1:
-        /*@SuppressWarnings("unchecked")*/ // collection had only Es in it
-        ImmutableList<E> list = new SingletonImmutableList<E>((E) elements[0]);
-        return list;
-      default:
-        if (length < elements.length) {
-          elements = arraysCopyOf(elements, length);
-        }
-        return new RegularImmutableList<E>(elements);
+    if (length == 0) {
+      return of();
     }
+    if (length < elements.length) {
+      elements = Arrays.copyOf(elements, length);
+    }
+    return new RegularImmutableList<E>(elements);
   }
 
   ImmutableList() {}
@@ -340,7 +395,16 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
 
   @Pure
   @Override
-  public int indexOf(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
+  public void forEach(Consumer<? super E> consumer) {
+    checkNotNull(consumer);
+    int n = size();
+    for (int i = 0; i < n; i++) {
+      consumer.accept(get(i));
+    }
+  }
+
+  @Override
+  public int indexOf(@Nullable Object object) {
     return (object == null) ? -1 : Lists.indexOfImpl(this, object);
   }
 
@@ -427,6 +491,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final boolean addAll(int index, Collection<? extends E> newElements) {
@@ -439,6 +504,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final E set(int index, E element) {
@@ -463,9 +529,34 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final E remove(int index) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Guaranteed to throw an exception and leave the list unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
+  @Override
+  public final void replaceAll(UnaryOperator<E> operator) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Guaranteed to throw an exception and leave the list unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
+  @Override
+  public final void sort(Comparator<? super E> c) {
     throw new UnsupportedOperationException();
   }
 
@@ -477,6 +568,11 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   @Override
   public final ImmutableList<E> asList() {
     return this;
+  }
+
+  @Override
+  public Spliterator<E> spliterator() {
+    return CollectSpliterators.indexed(size(), SPLITERATOR_CHARACTERISTICS, this::get);
   }
 
   @Override
@@ -651,6 +747,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
      * @return this {@code Builder} object
      * @throws NullPointerException if {@code element} is null
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> add(E element) {
       super.add(element);
@@ -665,6 +762,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
      * @throws NullPointerException if {@code elements} is null or contains a
      *     null element
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> addAll(Iterable<? extends E> elements) {
       super.addAll(elements);
@@ -679,6 +777,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
      * @throws NullPointerException if {@code elements} is null or contains a
      *     null element
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> add(E... elements) {
       super.add(elements);
@@ -693,9 +792,17 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
      * @throws NullPointerException if {@code elements} is null or contains a
      *     null element
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> addAll(Iterator<? extends E> elements) {
       super.addAll(elements);
+      return this;
+    }
+
+    @CanIgnoreReturnValue
+    @Override
+    Builder<E> combine(ArrayBasedBuilder<E> builder) {
+      super.combine(builder);
       return this;
     }
 

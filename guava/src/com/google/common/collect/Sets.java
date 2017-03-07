@@ -28,7 +28,8 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2.FilteredCollection;
-
+import com.google.common.math.IntMath;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.util.AbstractSet;
 import java.util.Arrays;
@@ -48,8 +49,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
-
-import javax.annotation.CheckReturnValue;
+import java.util.stream.Collector;
+import java.util.stream.Stream;
 import javax.annotation.Nullable;
 
 /**
@@ -139,6 +140,55 @@ public final class Sets {
     }
   }
 
+  private static final class Accumulator<E extends Enum<E>> {
+    static final Collector<Enum<?>, ?, ImmutableSet<? extends Enum<?>>>
+      TO_IMMUTABLE_ENUM_SET =
+          (Collector)
+              Collector.<Enum, Accumulator, ImmutableSet<?>>of(
+                  Accumulator::new,
+                  Accumulator::add,
+                  Accumulator::combine,
+                  Accumulator::toImmutableSet,
+                  Collector.Characteristics.UNORDERED);
+
+    private EnumSet<E> set;
+
+    void add(E e) {
+      if (set == null) {
+        set = EnumSet.of(e);
+      } else {
+        set.add(e);
+      }
+    }
+
+    Accumulator<E> combine(Accumulator<E> other) {
+      if (this.set == null) {
+        return other;
+      } else if (other.set == null) {
+        return this;
+      } else {
+        this.set.addAll(other.set);
+        return this;
+      }
+    }
+
+    ImmutableSet<E> toImmutableSet() {
+      return (set == null) ? ImmutableSet.<E>of() : ImmutableEnumSet.asImmutable(set);
+    }
+  }
+
+  /**
+   * Returns a {@code Collector} that accumulates the input elements into a new {@code ImmutableSet}
+   * with an implementation specialized for enums. Unlike {@link ImmutableSet#toImmutableSet}, the
+   * resulting set will iterate over elements in their enum definition order, not encounter order.
+   *
+   * @since 21.0
+   */
+  @Beta
+  public static <E extends Enum<E>> Collector<E, ?, ImmutableSet<E>> toImmutableEnumSet() {
+    return (Collector) Accumulator.TO_IMMUTABLE_ENUM_SET;
+  }
+
   /**
    * Returns a new, <i>mutable</i> {@code EnumSet} instance containing the given elements in their
    * natural order. This method behaves identically to {@link EnumSet#copyOf(Collection)}, but also
@@ -189,15 +239,15 @@ public final class Sets {
   }
 
   /**
-   * Creates a {@code HashSet} instance, with a high enough initial table size that it <i>should</i>
-   * hold {@code expectedSize} elements without resizing. This behavior cannot be broadly
-   * guaranteed, but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed that the
-   * method isn't inadvertently <i>oversizing</i> the returned set.
+   * Returns a new hash set using the smallest initial table size that can hold {@code expectedSize}
+   * elements without resizing. Note that this is not what {@link HashSet#HashSet(int)} does, but it
+   * is what most users want and expect it to do.
    *
-   * @param expectedSize the number of elements you expect to add to the
-   *        returned set
-   * @return a new, empty {@code HashSet} with enough capacity to hold {@code
-   *         expectedSize} elements without resizing
+   * <p>This behavior can't be broadly guaranteed, but has been tested with OpenJDK 1.7 and 1.8.
+   *
+   * @param expectedSize the number of elements you expect to add to the returned set
+   * @return a new, empty hash set with enough capacity to hold {@code expectedSize} elements
+   *     without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
   public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> HashSet<E> newHashSetWithExpectedSize(int expectedSize) {
@@ -258,7 +308,7 @@ public final class Sets {
    * @since 15.0
    */
   public static <E> Set<E> newConcurrentHashSet() {
-    return newSetFromMap(new ConcurrentHashMap<E, Boolean>());
+    return Collections.newSetFromMap(new ConcurrentHashMap<E, Boolean>());
   }
 
   /**
@@ -414,7 +464,7 @@ public final class Sets {
    * @since 8.0
    */
   public static <E> Set<E> newIdentityHashSet() {
-    return Sets.newSetFromMap(Maps.<E, Boolean>newIdentityHashMap());
+    return Collections.newSetFromMap(Maps.<E, Boolean>newIdentityHashMap());
   }
 
   /**
@@ -426,7 +476,7 @@ public final class Sets {
    * @return a new, empty {@code CopyOnWriteArraySet}
    * @since 12.0
    */
-  @GwtIncompatible("CopyOnWriteArraySet")
+  @GwtIncompatible // CopyOnWriteArraySet
   public static <E> CopyOnWriteArraySet<E> newCopyOnWriteArraySet() {
     return new CopyOnWriteArraySet<E>();
   }
@@ -438,7 +488,7 @@ public final class Sets {
    * @return a new {@code CopyOnWriteArraySet} containing those elements
    * @since 12.0
    */
-  @GwtIncompatible("CopyOnWriteArraySet")
+  @GwtIncompatible // CopyOnWriteArraySet
   public static <E> CopyOnWriteArraySet<E> newCopyOnWriteArraySet(Iterable<? extends E> elements) {
     // We copy elements to an ArrayList first, rather than incurring the
     // quadratic cost of adding them to the COWAS directly.
@@ -530,11 +580,11 @@ public final class Sets {
    * @return the set backed by the map
    * @throws IllegalArgumentException if {@code map} is not empty
    * @deprecated Use {@link Collections#newSetFromMap} instead. This method
-   *     will be removed in August 2017.
+   *     will be removed in December 2017.
    */
   @Deprecated
-  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Set<E> newSetFromMap(Map<E, Boolean> map) {
-    return Platform.newSetFromMap(map);
+  public static <E extends @Nullable Object> Set<E> newSetFromMap(Map<E, Boolean> map) {
+    return Collections.newSetFromMap(map);
   }
 
   /**
@@ -572,10 +622,109 @@ public final class Sets {
      */
     // Note: S should logically extend Set<? super E> but can't due to either
     // some javac bug or some weirdness in the spec, not sure which.
+    @CanIgnoreReturnValue
     public <S extends Set<E>> S copyInto(S set) {
       set.addAll(this);
       return set;
     }
+
+    /**
+     * Guaranteed to throw an exception and leave the collection unmodified.
+     *
+     * @throws UnsupportedOperationException always
+     * @deprecated Unsupported operation.
+     */
+    @CanIgnoreReturnValue
+    @Deprecated
+    @Override
+    public final boolean add(E e) {
+      throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Guaranteed to throw an exception and leave the collection unmodified.
+     *
+     * @throws UnsupportedOperationException always
+     * @deprecated Unsupported operation.
+     */
+    @CanIgnoreReturnValue
+    @Deprecated
+    @Override
+    public final boolean remove(Object object) {
+      throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Guaranteed to throw an exception and leave the collection unmodified.
+     *
+     * @throws UnsupportedOperationException always
+     * @deprecated Unsupported operation.
+     */
+    @CanIgnoreReturnValue
+    @Deprecated
+    @Override
+    public final boolean addAll(Collection<? extends E> newElements) {
+      throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Guaranteed to throw an exception and leave the collection unmodified.
+     *
+     * @throws UnsupportedOperationException always
+     * @deprecated Unsupported operation.
+     */
+    @CanIgnoreReturnValue
+    @Deprecated
+    @Override
+    public final boolean removeAll(Collection<?> oldElements) {
+      throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Guaranteed to throw an exception and leave the collection unmodified.
+     *
+     * @throws UnsupportedOperationException always
+     * @deprecated Unsupported operation.
+     */
+    @CanIgnoreReturnValue
+    @Deprecated
+    @Override
+    public final boolean removeIf(java.util.function.Predicate<? super E> filter) {
+      throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Guaranteed to throw an exception and leave the collection unmodified.
+     *
+     * @throws UnsupportedOperationException always
+     * @deprecated Unsupported operation.
+     */
+    @CanIgnoreReturnValue
+    @Deprecated
+    @Override
+    public final boolean retainAll(Collection<?> elementsToKeep) {
+      throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Guaranteed to throw an exception and leave the collection unmodified.
+     *
+     * @throws UnsupportedOperationException always
+     * @deprecated Unsupported operation.
+     */
+    @Deprecated
+    @Override
+    public final void clear() {
+      throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Scope the return type to {@link UnmodifiableIterator} to ensure this is an unmodifiable view.
+     *
+     * @since 20.0 (present with return type {@link Iterator} since 2.0)
+     */
+    @Override
+    public abstract UnmodifiableIterator<E> iterator();
   }
 
   /**
@@ -588,15 +737,6 @@ public final class Sets {
    * <p>Results are undefined if {@code set1} and {@code set2} are sets based on
    * different equivalence relations (as {@link HashSet}, {@link TreeSet}, and
    * the {@link Map#keySet} of an {@code IdentityHashMap} all are).
-   *
-   * <p><b>Note:</b> The returned view performs better when {@code set1} is the
-   * smaller of the two sets. If you have reason to believe one of your sets
-   * will generally be smaller than the other, pass it first.
-   *
-   * <p>Further, note that the current implementation is not suitable for nested
-   * {@code union} views, i.e. the following should be avoided when in a loop:
-   * {@code union = Sets.union(union, anotherSet);}, since iterating over the resulting
-   * set has a cubic complexity to the depth of the nesting.
    */
   public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> SetView<E> union(final Set<? extends E> set1, final Set<? extends E> set2) {
     checkNotNull(set1, "set1");
@@ -608,7 +748,7 @@ public final class Sets {
       @Pure
       @Override
       public int size() {
-        return set1.size() + set2minus1.size();
+        return IntMath.saturatedAdd(set1.size(), set2minus1.size());
       }
 
       @Pure
@@ -618,9 +758,19 @@ public final class Sets {
       }
 
       @Override
-      public Iterator<E> iterator() {
+      public UnmodifiableIterator<E> iterator() {
         return Iterators.unmodifiableIterator(
             Iterators.concat(set1.iterator(), set2minus1.iterator()));
+      }
+
+      @Override
+      public Stream<E> stream() {
+        return Stream.concat(set1.stream(), set2minus1.stream());
+      }
+
+      @Override
+      public Stream<E> parallelStream() {
+        return Stream.concat(set1.parallelStream(), set2minus1.parallelStream());
       }
 
       @Override
@@ -675,8 +825,18 @@ public final class Sets {
     final Predicate<Object> inSet2 = Predicates.in(set2);
     return new SetView<E>() {
       @Override
-      public Iterator<E> iterator() {
+      public UnmodifiableIterator<E> iterator() {
         return Iterators.filter(set1.iterator(), inSet2);
+      }
+
+      @Override
+      public Stream<E> stream() {
+        return set1.stream().filter(inSet2);
+      }
+
+      @Override
+      public Stream<E> parallelStream() {
+        return set1.parallelStream().filter(inSet2);
       }
 
       @Override
@@ -719,8 +879,18 @@ public final class Sets {
     final Predicate<Object> notInSet2 = Predicates.not(Predicates.in(set2));
     return new SetView<E>() {
       @Override
-      public Iterator<E> iterator() {
+      public UnmodifiableIterator<E> iterator() {
         return Iterators.filter(set1.iterator(), notInSet2);
+      }
+
+      @Override
+      public Stream<E> stream() {
+        return set1.stream().filter(notInSet2);
+      }
+
+      @Override
+      public Stream<E> parallelStream() {
+        return set1.parallelStream().filter(notInSet2);
       }
 
       @Override
@@ -759,7 +929,7 @@ public final class Sets {
 
     return new SetView<E>() {
       @Override
-      public Iterator<E> iterator() {
+      public UnmodifiableIterator<E> iterator() {
         final Iterator<? extends E> itr1 = set1.iterator();
         final Iterator<? extends E> itr2 = set2.iterator();
         return new AbstractIterator<E>() {
@@ -824,10 +994,13 @@ public final class Sets {
    * as {@code Predicates.instanceOf(ArrayList.class)}, which is inconsistent
    * with equals. (See {@link Iterables#filter(Iterable, Class)} for related
    * functionality.)
+   *
+   * <p><b>Java 8 users:</b> many use cases for this method are better
+   * addressed by {@link java.util.stream.Stream#filter}. This method is not
+   * being deprecated, but we gently encourage you to migrate to streams.
    */
   // TODO(kevinb): how to omit that last sentence when building GWT javadoc?
-  @CheckReturnValue
-  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Set<E> filter(Set<E> unfiltered, Predicate<? super E> predicate) {
+  public static <E extends @Nullable Object> Set<E> filter(Set<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof SortedSet) {
       return filter((SortedSet<E>) unfiltered, predicate);
     }
@@ -889,13 +1062,7 @@ public final class Sets {
    *
    * @since 11.0
    */
-  @CheckReturnValue
   public static <E> SortedSet<E> filter(SortedSet<E> unfiltered, Predicate<? super E> predicate) {
-    return Platform.setsFilterSortedSet(unfiltered, predicate);
-  }
-
-  static <E> SortedSet<E> filterSortedIgnoreNavigable(
-      SortedSet<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof FilteredSet) {
       // Support clear(), removeAll(), and retainAll() when filtering a filtered
       // collection.
@@ -981,9 +1148,8 @@ public final class Sets {
    *
    * @since 14.0
    */
-  @GwtIncompatible("NavigableSet")
+  @GwtIncompatible // NavigableSet
   @SuppressWarnings("unchecked")
-  @CheckReturnValue
   public static <E> NavigableSet<E> filter(
       NavigableSet<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof FilteredSet) {
@@ -997,7 +1163,7 @@ public final class Sets {
     return new FilteredNavigableSet<E>(checkNotNull(unfiltered), checkNotNull(predicate));
   }
 
-  @GwtIncompatible("NavigableSet")
+  @GwtIncompatible // NavigableSet
   private static class FilteredNavigableSet<E> extends FilteredSortedSet<E>
       implements NavigableSet<E> {
     FilteredNavigableSet(NavigableSet<E> unfiltered, Predicate<? super E> predicate) {
@@ -1193,8 +1359,8 @@ public final class Sets {
 
   private static final class CartesianSet<E> extends ForwardingCollection<List<E>>
       implements Set<List<E>> {
-    private transient final ImmutableList<ImmutableSet<E>> axes;
-    private transient final CartesianList<E> delegate;
+    private final transient ImmutableList<ImmutableSet<E>> axes;
+    private final transient CartesianList<E> delegate;
 
     static <E> Set<List<E>> create(List<? extends Set<? extends E>> sets) {
       ImmutableList.Builder<ImmutableSet<E>> axesBuilder =
@@ -1464,7 +1630,6 @@ public final class Sets {
    * @return an unmodifiable view of the specified navigable set
    * @since 12.0
    */
-  @GwtIncompatible("NavigableSet")
   public static <E> NavigableSet<E> unmodifiableNavigableSet(NavigableSet<E> set) {
     if (set instanceof ImmutableSortedSet || set instanceof UnmodifiableNavigableSet) {
       return set;
@@ -1472,7 +1637,6 @@ public final class Sets {
     return new UnmodifiableNavigableSet<E>(set);
   }
 
-  @GwtIncompatible("NavigableSet")
   static final class UnmodifiableNavigableSet<E> extends ForwardingSortedSet<E>
       implements NavigableSet<E>, Serializable {
     private final NavigableSet<E> delegate;
@@ -1596,7 +1760,7 @@ public final class Sets {
    * @return a synchronized view of the specified navigable set.
    * @since 13.0
    */
-  @GwtIncompatible("NavigableSet")
+  @GwtIncompatible // NavigableSet
   public static <E> NavigableSet<E> synchronizedNavigableSet(NavigableSet<E> navigableSet) {
     return Synchronized.navigableSet(navigableSet);
   }
@@ -1631,7 +1795,7 @@ public final class Sets {
     }
   }
 
-  @GwtIncompatible("NavigableSet")
+  @GwtIncompatible // NavigableSet
   static class DescendingSet<E> extends ForwardingNavigableSet<E> {
     private final NavigableSet<E> forward;
 
@@ -1780,25 +1944,27 @@ public final class Sets {
    * @since 20.0
    */
   @Beta
-  @GwtIncompatible("NavigableSet")
+  @GwtIncompatible // NavigableSet
   public static <K extends Comparable<? super K>> NavigableSet<K> subSet(
       NavigableSet<K> set, Range<K> range) {
-    if (set.comparator() != null && set.comparator() != Ordering.natural()
-        && range.hasLowerBound() && range.hasUpperBound()) {
-      checkArgument(set.comparator().compare(range.lowerEndpoint(), range.upperEndpoint()) <= 0,
+    if (set.comparator() != null
+        && set.comparator() != Ordering.natural()
+        && range.hasLowerBound()
+        && range.hasUpperBound()) {
+      checkArgument(
+          set.comparator().compare(range.lowerEndpoint(), range.upperEndpoint()) <= 0,
           "set is using a custom comparator which is inconsistent with the natural ordering.");
     }
     if (range.hasLowerBound() && range.hasUpperBound()) {
-      return set.subSet(range.lowerEndpoint(),
-                        range.lowerBoundType() == BoundType.CLOSED,
-                        range.upperEndpoint(),
-                        range.upperBoundType() == BoundType.CLOSED);
+      return set.subSet(
+          range.lowerEndpoint(),
+          range.lowerBoundType() == BoundType.CLOSED,
+          range.upperEndpoint(),
+          range.upperBoundType() == BoundType.CLOSED);
     } else if (range.hasLowerBound()) {
-      return set.tailSet(range.lowerEndpoint(),
-                         range.lowerBoundType() == BoundType.CLOSED);
+      return set.tailSet(range.lowerEndpoint(), range.lowerBoundType() == BoundType.CLOSED);
     } else if (range.hasUpperBound()) {
-      return set.headSet(range.upperEndpoint(),
-                         range.upperBoundType() == BoundType.CLOSED);
+      return set.headSet(range.upperEndpoint(), range.upperBoundType() == BoundType.CLOSED);
     }
     return checkNotNull(set);
   }

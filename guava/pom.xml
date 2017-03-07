@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-parent</artifactId>
-    <version>19.0-SNAPSHOT</version>
+    <version>22.0-SNAPSHOT</version>
   </parent>
   <artifactId>guava</artifactId>
   <packaging>bundle</packaging>
@@ -26,45 +26,41 @@
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
-      <optional>true</optional><!-- needed only for annotations -->
     </dependency>
     <dependency>
       <groupId>com.google.errorprone</groupId>
       <artifactId>error_prone_annotations</artifactId>
-      <optional>true</optional><!-- needed only for annotations -->
     </dependency>
     <dependency>
       <groupId>com.google.j2objc</groupId>
       <artifactId>j2objc-annotations</artifactId>
-      <optional>true</optional><!-- needed only for annotations -->
     </dependency>
     <dependency>
       <groupId>org.codehaus.mojo</groupId>
       <artifactId>animal-sniffer-annotations</artifactId>
       <version>${animal.sniffer.version}</version>
-      <optional>true</optional><!-- needed only for annotations -->
     </dependency>
     <!-- TODO(cpovirk): does this comment belong on the <dependency> in <profiles>? -->
     <!-- TODO(cpovirk): want this only for dependency plugin but seems not to work there? Maven runs without failure, but the resulting Javadoc is missing the hoped-for inherited text -->
     <dependency>
       <groupId>org.checkerframework</groupId>
       <artifactId>checker-qual</artifactId>
-      <version>1.9.8</version>
+      <version>2.1.9</version>
     </dependency>
     <dependency>
       <groupId>org.checkerframework</groupId>
       <artifactId>checker</artifactId>
-      <version>1.9.8</version>
+      <version>2.1.9</version>
     </dependency>
     <dependency>
       <groupId>org.checkerframework</groupId>
       <artifactId>compiler</artifactId>
-      <version>1.9.8</version>
+      <version>2.1.9</version>
     </dependency>
     <dependency>
       <groupId>org.checkerframework</groupId>
       <artifactId>jdk8</artifactId>
-      <version>1.9.8</version>
+      <version>2.1.9</version>
     </dependency>
   </dependencies>
   <build>
@@ -73,7 +69,7 @@
         <extensions>true</extensions>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-        <version>2.3.7</version>
+        <version>2.5.0</version>
         <executions>
           <execution>
             <id>bundle-manifest</id>
@@ -91,7 +87,7 @@
               javax.crypto.*;resolution:=optional,
               sun.misc.*;resolution:=optional
             </Import-Package>
-            <Bundle-DocURL>https://guava-libraries.googlecode.com/</Bundle-DocURL>
+            <Bundle-DocURL>https://github.com/google/guava/</Bundle-DocURL>
           </instructions>
         </configuration>
       </plugin>
@@ -99,8 +95,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.3</version>
         <configuration>
-            <source>1.7</source>
-            <target>1.7</target>
+            <source>1.8</source>
+            <target>1.8</target>
             <fork>true</fork>
             <annotationProcessors>
               <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
@@ -152,8 +148,10 @@
           <excludePackageNames>com.google.common.base.internal</excludePackageNames>
           <linksource>true</linksource>
           <links>
-            <link>http://jsr-305.googlecode.com/svn/trunk/javadoc</link>
-            <link>http://docs.oracle.com/javase/7/docs/api/</link>
+            <link>http://docs.oracle.com/javase/8/docs/api/</link>
+            <link>http://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/</link>
+            <link>http://errorprone.info/api/latest/</link>
+            <link>http://static.javadoc.io/com.google.j2objc/j2objc-annotations/1.1/</link>
           </links>
           <!-- TODO(cpovirk): can we use includeDependencySources and a local com.oracle.java:jdk-lib:noversion:sources instead of all this unzipping and manual sourcepath modification? -->
           <sourcepath>${project.build.sourceDirectory}:${project.build.directory}/jdk-sources</sourcepath>
@@ -206,7 +204,7 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
             <configuration>
-              <additionalparam>-XDignore.symbol.file -Xdoclint:none</additionalparam>
+              <additionalparam>-XDignore.symbol.file -Xdoclint:-html</additionalparam>
             </configuration>
           </plugin>
         </plugins>
@@ -217,7 +215,7 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
             <configuration>
-              <additionalparam>-XDignore.symbol.file -Xdoclint:none</additionalparam>
+              <additionalparam>-XDignore.symbol.file -Xdoclint:-html</additionalparam>
             </configuration>
           </plugin>
         </plugins>

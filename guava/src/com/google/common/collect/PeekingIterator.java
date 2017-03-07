@@ -19,7 +19,7 @@ package com.google.common.collect;
 import org.checkerframework.framework.qual.AnnotatedFor;
 
 import com.google.common.annotations.GwtCompatible;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -54,6 +54,7 @@ public interface PeekingIterator<E extends /*@org.checkerframework.checker.nulln
    * <p>The objects returned by consecutive calls to {@link #peek()} then {@link
    * #next()} are guaranteed to be equal to each other.
    */
+  @CanIgnoreReturnValue
   @Override
   E next();
 

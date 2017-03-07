@@ -20,10 +20,11 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
+import com.google.gwt.user.client.rpc.core.java.util.Collection_CustomFieldSerializerBase;
+import java.util.ArrayList;
 
 /**
- * This class implements the server-side GWT serialization of
- * {@link RegularImmutableAsList}.
+ * This class implements the GWT serialization of {@link RegularImmutableAsList}.
  *
  * @author Hayward Chan
  */
@@ -35,15 +36,14 @@ public class RegularImmutableAsList_CustomFieldSerializer {
 
   public static RegularImmutableAsList<Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
-    @SuppressWarnings("unchecked") // serialization is necessarily type unsafe
-    ImmutableCollection<Object> delegateCollection = (ImmutableCollection) reader.readObject();
-    ImmutableList<?> delegateList = (ImmutableList<?>) reader.readObject();
-    return new RegularImmutableAsList<Object>(delegateCollection, delegateList);
+    ArrayList<Object> elements = new ArrayList<Object>();
+    Collection_CustomFieldSerializerBase.deserialize(reader, elements);
+    ImmutableList<Object> delegate = ImmutableList.copyOf(elements);
+    return new RegularImmutableAsList<Object>(delegate, delegate);
   }
 
   public static void serialize(SerializationStreamWriter writer, RegularImmutableAsList<?> instance)
       throws SerializationException {
-    writer.writeObject(instance.delegateCollection());
-    writer.writeObject(instance.delegateList());
+    Collection_CustomFieldSerializerBase.serialize(writer, instance);
   }
 }

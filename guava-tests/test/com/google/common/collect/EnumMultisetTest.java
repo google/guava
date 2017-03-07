@@ -29,14 +29,12 @@ import com.google.common.collect.testing.google.TestEnumMultisetGenerator;
 import com.google.common.testing.ClassSanityTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Set;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Tests for an {@link EnumMultiset}.
@@ -46,7 +44,7 @@ import java.util.Set;
 @GwtCompatible(emulated = true)
 public class EnumMultisetTest extends TestCase {
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(MultisetTestSuiteBuilder.using(enumMultisetGenerator())
@@ -105,12 +103,12 @@ public class EnumMultisetTest extends TestCase {
       fail();
     } catch (IllegalArgumentException expected) {}
   }
-  
+
   public void testCreateEmptyWithClass() {
     Multiset<Color> ms = EnumMultiset.create(ImmutableList.<Color>of(), Color.class);
     ms.add(Color.RED);
   }
-  
+
   public void testCreateEmptyWithoutClassFails() {
     try {
       EnumMultiset.create(ImmutableList.<Color> of());
@@ -127,7 +125,7 @@ public class EnumMultisetTest extends TestCase {
     assertEquals("[BLUE x 3, RED x 2, YELLOW]", ms.toString());
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerializable() {
     Multiset<Color> ms = EnumMultiset.create(
         asList(Color.RED, Color.YELLOW, Color.RED));
@@ -154,7 +152,7 @@ public class EnumMultisetTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public void testEquals() throws Exception {
     new ClassSanityTester()
         .setDistinctValues(Class.class, Color.class, Gender.class)
@@ -163,7 +161,7 @@ public class EnumMultisetTest extends TestCase {
         .testEquals();
   }
 
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public void testNulls() throws Exception {
     new NullPointerTester()
         .setDefault(Class.class, Color.class)

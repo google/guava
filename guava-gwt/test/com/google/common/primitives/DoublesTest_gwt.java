@@ -48,6 +48,11 @@ public void testConcat() throws Exception {
   testCase.testConcat();
 }
 
+public void testConstrainToRange() throws Exception {
+  com.google.common.primitives.DoublesTest testCase = new com.google.common.primitives.DoublesTest();
+  testCase.testConstrainToRange();
+}
+
 public void testContains() throws Exception {
   com.google.common.primitives.DoublesTest testCase = new com.google.common.primitives.DoublesTest();
   testCase.testContains();

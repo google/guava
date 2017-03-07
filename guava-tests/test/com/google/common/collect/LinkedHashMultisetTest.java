@@ -26,13 +26,11 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.MultisetFeature;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
-
+import java.util.Arrays;
+import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Unit test for {@link LinkedHashMultiset}.
@@ -42,7 +40,7 @@ import java.util.List;
 @GwtCompatible(emulated = true)
 public class LinkedHashMultisetTest extends TestCase {
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(MultisetTestSuiteBuilder.using(linkedHashMultisetGenerator())

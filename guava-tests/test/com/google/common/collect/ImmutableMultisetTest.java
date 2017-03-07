@@ -32,20 +32,21 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
+import com.google.common.testing.CollectorTester;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BiPredicate;
+import java.util.stream.Collector;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Tests for {@link ImmutableMultiset}.
@@ -55,7 +56,7 @@ import java.util.Set;
 @GwtCompatible(emulated = true)
 public class ImmutableMultisetTest extends TestCase {
 
-  @GwtIncompatible("suite") // TODO(cpovirk): add to collect/gwt/suites
+  @GwtIncompatible // suite // TODO(cpovirk): add to collect/gwt/suites
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableMultisetTest.class);
@@ -283,6 +284,95 @@ public class ImmutableMultisetTest extends TestCase {
     } catch (NullPointerException expected) {}
   }
 
+  public void testToImmutableMultiset() {
+    BiPredicate<ImmutableMultiset<String>, ImmutableMultiset<String>> equivalence =
+        (ms1, ms2) -> ms1.equals(ms2) && ms1.entrySet().asList().equals(ms2.entrySet().asList());
+    CollectorTester.of(ImmutableMultiset.<String>toImmutableMultiset(), equivalence)
+        .expectCollects(ImmutableMultiset.of())
+        .expectCollects(
+            ImmutableMultiset.of("a", "a", "b", "c", "c", "c"), "a", "a", "b", "c", "c", "c");
+  }
+
+  public void testToImmutableMultisetCountFunction() {
+    BiPredicate<ImmutableMultiset<String>, ImmutableMultiset<String>> equivalence =
+        (ms1, ms2) -> ms1.equals(ms2) && ms1.entrySet().asList().equals(ms2.entrySet().asList());
+    CollectorTester.of(
+            ImmutableMultiset.<Multiset.Entry<String>, String>toImmutableMultiset(
+                Multiset.Entry::getElement, Multiset.Entry::getCount),
+            equivalence)
+        .expectCollects(ImmutableMultiset.of())
+        .expectCollects(
+            ImmutableMultiset.of("a", "a", "b", "c", "c", "c"),
+            Multisets.immutableEntry("a", 1),
+            Multisets.immutableEntry("b", 1),
+            Multisets.immutableEntry("a", 1),
+            Multisets.immutableEntry("c", 3));
+  }
+
+  public void testToImmutableMultiset_duplicates() {
+    class TypeWithDuplicates {
+      final int a;
+      final int b;
+
+      TypeWithDuplicates(int a, int b) {
+        this.a = a;
+        this.b = b;
+      }
+
+      @Override
+      public int hashCode() {
+        return a;
+      }
+
+      @Override
+      public boolean equals(Object obj) {
+        return obj instanceof TypeWithDuplicates && ((TypeWithDuplicates) obj).a == a;
+      }
+
+      public boolean fullEquals(TypeWithDuplicates other) {
+        return other != null && a == other.a && b == other.b;
+      }
+    }
+
+    Collector<TypeWithDuplicates, ?, ImmutableMultiset<TypeWithDuplicates>> collector =
+        ImmutableMultiset.toImmutableMultiset();
+    BiPredicate<ImmutableMultiset<TypeWithDuplicates>, ImmutableMultiset<TypeWithDuplicates>>
+        equivalence =
+            (ms1, ms2)
+                -> {
+                  if (!ms1.equals(ms2)) {
+                    return false;
+                  }
+                  List<TypeWithDuplicates> elements1 = ImmutableList.copyOf(ms1.elementSet());
+                  List<TypeWithDuplicates> elements2 = ImmutableList.copyOf(ms2.elementSet());
+                  for (int i = 0; i < ms1.elementSet().size(); i++) {
+                    if (!elements1.get(i).fullEquals(elements2.get(i))) {
+                      return false;
+                    }
+                  }
+                  return true;
+                };
+    TypeWithDuplicates a = new TypeWithDuplicates(1, 1);
+    TypeWithDuplicates b1 = new TypeWithDuplicates(2, 1);
+    TypeWithDuplicates b2 = new TypeWithDuplicates(2, 2);
+    TypeWithDuplicates c = new TypeWithDuplicates(3, 1);
+    CollectorTester.of(collector, equivalence)
+        .expectCollects(
+            ImmutableMultiset.<TypeWithDuplicates>builder().add(a).addCopies(b1, 2).add(c).build(),
+            a,
+            b1,
+            c,
+            b2);
+    collector = ImmutableMultiset.toImmutableMultiset(e -> e, e -> 1);
+    CollectorTester.of(collector, equivalence)
+        .expectCollects(
+            ImmutableMultiset.<TypeWithDuplicates>builder().add(a).addCopies(b1, 2).add(c).build(),
+            a,
+            b1,
+            c,
+            b2);
+  }
+
   private static class CountingIterable implements Iterable<String> {
     int count = 0;
     @Override
@@ -436,26 +526,26 @@ public class ImmutableMultisetTest extends TestCase {
     } catch (IllegalArgumentException expected) {}
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(ImmutableMultiset.class);
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerialization_empty() {
     Collection<String> c = ImmutableMultiset.of();
     assertSame(c, SerializableTester.reserialize(c));
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerialization_multiple() {
     Collection<String> c = ImmutableMultiset.of("a", "b", "a");
     Collection<String> copy = SerializableTester.reserializeAndAssert(c);
     assertThat(copy).containsExactly("a", "a", "b").inOrder();
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerialization_elementSet() {
     Multiset<String> c = ImmutableMultiset.of("a", "b", "a");
     Collection<String> copy =
@@ -463,7 +553,7 @@ public class ImmutableMultisetTest extends TestCase {
     assertThat(copy).containsExactly("a", "b").inOrder();
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerialization_entrySet() {
     Multiset<String> c = ImmutableMultiset.of("a", "b", "c");
     SerializableTester.reserializeAndAssert(c.entrySet());
@@ -496,7 +586,7 @@ public class ImmutableMultisetTest extends TestCase {
     assertEquals(4, list.lastIndexOf("b"));
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerialization_asList() {
     ImmutableMultiset<String> multiset
         = ImmutableMultiset.of("a", "a", "b", "b", "b");

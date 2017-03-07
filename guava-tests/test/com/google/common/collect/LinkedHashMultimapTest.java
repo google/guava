@@ -34,11 +34,7 @@ import com.google.common.collect.testing.google.SetMultimapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringSetMultimapGenerator;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -46,6 +42,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Unit tests for {@code LinkedHashMultimap}.
@@ -55,7 +54,7 @@ import java.util.Set;
 @GwtCompatible(emulated = true)
 public class LinkedHashMultimapTest extends TestCase {
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(SetMultimapTestSuiteBuilder.using(new TestStringSetMultimapGenerator() {
@@ -134,7 +133,7 @@ public class LinkedHashMultimapTest extends TestCase {
     assertOrderingReadOnly(Multimaps.synchronizedMultimap(multimap));
   }
 
-  @GwtIncompatible("SeriazableTester")
+  @GwtIncompatible // SeriazableTester
   public void testSerializationOrdering() {
     Multimap<String, Integer> multimap = initializeMultimap5();
     Multimap<String, Integer> copy
@@ -142,7 +141,7 @@ public class LinkedHashMultimapTest extends TestCase {
     assertOrderingReadOnly(copy);
   }
 
-  @GwtIncompatible("SeriazableTester")
+  @GwtIncompatible // SeriazableTester
   public void testSerializationOrderingKeysAndEntries() {
     Multimap<String, Integer> multimap = LinkedHashMultimap.create();
     multimap.put("a", 1);
@@ -279,7 +278,7 @@ public class LinkedHashMultimapTest extends TestCase {
     } catch (IllegalArgumentException expected) {}
   }
 
-  @GwtIncompatible("unreasonably slow")
+  @GwtIncompatible // unreasonably slow
   public void testGetIteration() {
     new IteratorTester<Integer>(6, MODIFIABLE,
         newLinkedHashSet(asList(2, 3, 4, 7, 8)),
@@ -300,7 +299,7 @@ public class LinkedHashMultimapTest extends TestCase {
     }.test();
   }
 
-  @GwtIncompatible("unreasonably slow")
+  @GwtIncompatible // unreasonably slow
   public void testEntriesIteration() {
     @SuppressWarnings("unchecked")
     Set<Entry<String, Integer>> set = Sets.newLinkedHashSet(asList(
@@ -328,7 +327,7 @@ public class LinkedHashMultimapTest extends TestCase {
     }.test();
   }
 
-  @GwtIncompatible("unreasonably slow")
+  @GwtIncompatible // unreasonably slow
   public void testKeysIteration() {
     new IteratorTester<String>(6, MODIFIABLE, newArrayList("foo", "foo", "bar",
         "bar", "foo"), IteratorTester.KnownOrder.KNOWN_ORDER) {
@@ -348,7 +347,7 @@ public class LinkedHashMultimapTest extends TestCase {
     }.test();
   }
 
-  @GwtIncompatible("unreasonably slow")
+  @GwtIncompatible // unreasonably slow
   public void testValuesIteration() {
     new IteratorTester<Integer>(6, MODIFIABLE, newArrayList(2, 3, 4, 5, 6),
         IteratorTester.KnownOrder.KNOWN_ORDER) {
@@ -368,7 +367,7 @@ public class LinkedHashMultimapTest extends TestCase {
     }.test();
   }
 
-  @GwtIncompatible("unreasonably slow")
+  @GwtIncompatible // unreasonably slow
   public void testKeySetIteration() {
     new IteratorTester<String>(6, MODIFIABLE,
         newLinkedHashSet(asList("foo", "bar", "baz", "dog", "cat")),
@@ -393,7 +392,7 @@ public class LinkedHashMultimapTest extends TestCase {
     }.test();
   }
 
-  @GwtIncompatible("unreasonably slow")
+  @GwtIncompatible // unreasonably slow
   public void testAsSetIteration() {
     @SuppressWarnings("unchecked")
     Set<Entry<String, Collection<Integer>>> set = newLinkedHashSet(asList(
@@ -430,5 +429,60 @@ public class LinkedHashMultimapTest extends TestCase {
         assertEquals(newHashSet(elements), multimap.asMap().entrySet());
       }
     }.test();
+  }
+
+  public void testKeysSpliterator() {
+    List<Entry<String, Integer>> expectedEntries =
+        asList(
+            Maps.immutableEntry("foo", 2),
+            Maps.immutableEntry("foo", 3),
+            Maps.immutableEntry("bar", 4),
+            Maps.immutableEntry("bar", 5),
+            Maps.immutableEntry("foo", 6));
+    Multimap<String, Integer> multimap = LinkedHashMultimap.create();
+    for (Entry<String, Integer> entry : expectedEntries) {
+      multimap.put(entry.getKey(), entry.getValue());
+    }
+    List<String> actualKeys = new ArrayList<>();
+    multimap.keys().spliterator().forEachRemaining(actualKeys::add);
+    assertThat(actualKeys)
+        .containsExactlyElementsIn(Lists.transform(expectedEntries, Entry::getKey))
+        .inOrder();
+  }
+
+  public void testEntriesSpliterator() {
+    List<Entry<String, Integer>> expectedEntries =
+        asList(
+            Maps.immutableEntry("foo", 2),
+            Maps.immutableEntry("foo", 3),
+            Maps.immutableEntry("bar", 4),
+            Maps.immutableEntry("bar", 5),
+            Maps.immutableEntry("foo", 6));
+    Multimap<String, Integer> multimap = LinkedHashMultimap.create();
+    for (Entry<String, Integer> entry : expectedEntries) {
+      multimap.put(entry.getKey(), entry.getValue());
+    }
+    List<Entry<String, Integer>> actualEntries = new ArrayList<>();
+    multimap.entries().spliterator().forEachRemaining(actualEntries::add);
+    assertThat(actualEntries).containsExactlyElementsIn(expectedEntries).inOrder();
+  }
+
+  public void testValuesSpliterator() {
+    List<Entry<String, Integer>> expectedEntries =
+        asList(
+            Maps.immutableEntry("foo", 2),
+            Maps.immutableEntry("foo", 3),
+            Maps.immutableEntry("bar", 4),
+            Maps.immutableEntry("bar", 5),
+            Maps.immutableEntry("foo", 6));
+    Multimap<String, Integer> multimap = LinkedHashMultimap.create();
+    for (Entry<String, Integer> entry : expectedEntries) {
+      multimap.put(entry.getKey(), entry.getValue());
+    }
+    List<Integer> actualValues = new ArrayList<>();
+    multimap.values().spliterator().forEachRemaining(actualValues::add);
+    assertThat(actualValues)
+        .containsExactlyElementsIn(Lists.transform(expectedEntries, Entry::getValue))
+        .inOrder();
   }
 }

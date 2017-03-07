@@ -19,7 +19,6 @@ package com.google.common.hash;
 import static com.google.common.hash.Hashing.murmur3_32;
 
 import com.google.common.hash.HashTestUtils.HashFn;
-
 import junit.framework.TestCase;
 
 /**
@@ -48,7 +47,7 @@ public class Murmur3Hash32Test extends TestCase {
     assertHash(1510782915, murmur3_32().hashUnencodedChars("hell"));
     assertHash(-675079799, murmur3_32().hashUnencodedChars("hello"));
     assertHash(1935035788, murmur3_32().hashUnencodedChars("http://www.google.com/"));
-    assertHash(-528633700, 
+    assertHash(-528633700,
         murmur3_32().hashUnencodedChars("The quick brown fox jumps over the lazy dog"));
   }
 

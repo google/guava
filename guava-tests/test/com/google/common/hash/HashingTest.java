@@ -27,9 +27,6 @@ import com.google.common.primitives.Ints;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.util.concurrent.AtomicLongMap;
-
-import junit.framework.TestCase;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.nio.ByteBuffer;
@@ -37,9 +34,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link Hashing}.
+ *
+ * <p>TODO(b/33919189): Migrate repeated testing methods to {@link #HashTestUtils} and tweak unit
+ * tests to reference them from there.
  *
  * @author Dimitris Andreou
  * @author Kurt Alfred Kluever
@@ -104,7 +105,6 @@ public class HashingTest extends TestCase {
     assertEquals("Hashing.murmur3_128(0)", Hashing.murmur3_128().toString());
   }
 
-  @AndroidIncompatible // TODO(cpovirk): Surprisingly often has more then 5% collisions there.
   public void testMurmur3_32() {
     HashTestUtils.check2BitAvalanche(Hashing.murmur3_32(), 250, 0.20);
     HashTestUtils.checkAvalanche(Hashing.murmur3_32(), 250, 0.17);
@@ -114,7 +114,6 @@ public class HashingTest extends TestCase {
     assertEquals("Hashing.murmur3_32(0)", Hashing.murmur3_32().toString());
   }
 
-  @AndroidIncompatible // TODO(cpovirk): Surprisingly often has more then 5% collisions there.
   public void testSipHash24() {
     HashTestUtils.check2BitAvalanche(Hashing.sipHash24(), 250, 0.14);
     HashTestUtils.checkAvalanche(Hashing.sipHash24(), 250, 0.10);
@@ -209,7 +208,6 @@ public class HashingTest extends TestCase {
   private static final int ITERS = 10000;
   private static final int MAX_SHARDS = 500;
 
-  @SuppressWarnings("CheckReturnValue")
   public void testConsistentHash_outOfRange() {
     try {
       Hashing.consistentHash(5L, 0);
@@ -250,7 +248,6 @@ public class HashingTest extends TestCase {
   private static final double MAX_PERCENT_SPREAD = 0.5;
   private static final long RANDOM_SEED = 177L;
 
-  @SuppressWarnings("CheckReturnValue")
   public void testCombineOrdered_empty() {
     try {
       Hashing.combineOrdered(Collections.<HashCode>emptySet());
@@ -259,10 +256,10 @@ public class HashingTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testCombineOrdered_differentBitLengths() {
     try {
-      Hashing.combineOrdered(ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
+      HashCode unused =
+          Hashing.combineOrdered(ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -294,7 +291,6 @@ public class HashingTest extends TestCase {
     assertFalse(hashCode1.equals(hashCode2));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testCombineUnordered_empty() {
     try {
       Hashing.combineUnordered(Collections.<HashCode>emptySet());
@@ -303,10 +299,10 @@ public class HashingTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testCombineUnordered_differentBitLengths() {
     try {
-      Hashing.combineUnordered(ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
+      HashCode unused =
+          Hashing.combineUnordered(ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -492,10 +488,13 @@ public class HashingTest extends TestCase {
           .build();
 
   public void testAllHashFunctionsHaveKnownHashes() throws Exception {
+    // The following legacy hashing function methods have been covered by unit testing already.
+    List<String> legacyHashingMethodNames = ImmutableList.of("murmur2_64", "fprint96");
     for (Method method : Hashing.class.getDeclaredMethods()) {
       if (method.getReturnType().equals(HashFunction.class) // must return HashFunction
           && Modifier.isPublic(method.getModifiers()) // only the public methods
-          && method.getParameterTypes().length == 0) { // only the seed-less grapes^W hash functions
+          && method.getParameterTypes().length == 0 // only the seed-less grapes^W hash functions
+          && !legacyHashingMethodNames.contains(method.getName())) {
         HashFunction hashFunction = (HashFunction) method.invoke(Hashing.class);
         assertTrue("There should be at least 3 entries in KNOWN_HASHES for " + hashFunction,
             KNOWN_HASHES.row(hashFunction).size() >= 3);
@@ -615,4 +614,6 @@ public class HashingTest extends TestCase {
       }
     }
   }
+
+  // Parity tests taken from //util/hash/hash_unittest.cc
 }

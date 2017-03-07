@@ -34,9 +34,6 @@ import com.google.common.cache.TestingRemovalListeners.QueuingRemovalListener;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -46,6 +43,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for CacheBuilder.
@@ -81,7 +79,7 @@ public class CacheBuilderTest extends TestCase {
     } catch (IllegalStateException expected) {}
   }
 
-  @GwtIncompatible("CacheTesting")
+  @GwtIncompatible // CacheTesting
   public void testInitialCapacity_small() {
     LoadingCache<?, ?> cache = CacheBuilder.newBuilder()
         .initialCapacity(5)
@@ -95,7 +93,7 @@ public class CacheBuilderTest extends TestCase {
     assertEquals(2, map.segments[3].table.length());
   }
 
-  @GwtIncompatible("CacheTesting")
+  @GwtIncompatible // CacheTesting
   public void testInitialCapacity_smallest() {
     LoadingCache<?, ?> cache = CacheBuilder.newBuilder()
         .initialCapacity(0)
@@ -133,7 +131,7 @@ public class CacheBuilderTest extends TestCase {
     } catch (IllegalStateException expected) {}
   }
 
-  @GwtIncompatible("CacheTesting")
+  @GwtIncompatible // CacheTesting
   public void testConcurrencyLevel_small() {
     LoadingCache<?, ?> cache = CacheBuilder.newBuilder()
         .concurrencyLevel(1)
@@ -164,7 +162,7 @@ public class CacheBuilderTest extends TestCase {
     } catch (IllegalStateException expected) {}
   }
 
-  @GwtIncompatible("maximumWeight")
+  @GwtIncompatible // maximumWeight
   public void testMaximumSize_andWeight() {
     CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>().maximumSize(16);
     try {
@@ -173,7 +171,7 @@ public class CacheBuilderTest extends TestCase {
     } catch (IllegalStateException expected) {}
   }
 
-  @GwtIncompatible("maximumWeight")
+  @GwtIncompatible // maximumWeight
   public void testMaximumWeight_negative() {
     CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>();
     try {
@@ -182,7 +180,7 @@ public class CacheBuilderTest extends TestCase {
     } catch (IllegalArgumentException expected) {}
   }
 
-  @GwtIncompatible("maximumWeight")
+  @GwtIncompatible // maximumWeight
   public void testMaximumWeight_setTwice() {
     CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>().maximumWeight(16);
     try {
@@ -196,7 +194,7 @@ public class CacheBuilderTest extends TestCase {
     } catch (IllegalStateException expected) {}
   }
 
-  @GwtIncompatible("maximumWeight")
+  @GwtIncompatible // maximumWeight
   public void testMaximumWeight_withoutWeigher() {
     CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>()
         .maximumWeight(1);
@@ -206,7 +204,7 @@ public class CacheBuilderTest extends TestCase {
     } catch (IllegalStateException expected) {}
   }
 
-  @GwtIncompatible("weigher")
+  @GwtIncompatible // weigher
   public void testWeigher_withoutMaximumWeight() {
     CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>()
         .weigher(constantWeigher(42));
@@ -216,7 +214,7 @@ public class CacheBuilderTest extends TestCase {
     } catch (IllegalStateException expected) {}
   }
 
-  @GwtIncompatible("weigher")
+  @GwtIncompatible // weigher
   public void testWeigher_withMaximumSize() {
     try {
       new CacheBuilder<Object, Object>().weigher(constantWeigher(42)).maximumSize(1);
@@ -228,7 +226,7 @@ public class CacheBuilderTest extends TestCase {
     } catch (IllegalStateException expected) {}
   }
 
-  @GwtIncompatible("weakKeys")
+  @GwtIncompatible // weakKeys
   public void testKeyStrengthSetTwice() {
     CacheBuilder<Object, Object> builder1 = new CacheBuilder<Object, Object>().weakKeys();
     try {
@@ -237,7 +235,7 @@ public class CacheBuilderTest extends TestCase {
     } catch (IllegalStateException expected) {}
   }
 
-  @GwtIncompatible("weakValues")
+  @GwtIncompatible // weakValues
   public void testValueStrengthSetTwice() {
     CacheBuilder<Object, Object> builder1 = new CacheBuilder<Object, Object>().weakValues();
     try {
@@ -318,7 +316,7 @@ public class CacheBuilderTest extends TestCase {
     // well, it didn't blow up.
   }
 
-  @GwtIncompatible("refreshAfterWrite")
+  @GwtIncompatible // refreshAfterWrite
   public void testRefresh_zero() {
     CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>();
     try {
@@ -327,7 +325,7 @@ public class CacheBuilderTest extends TestCase {
     } catch (IllegalArgumentException expected) {}
   }
 
-  @GwtIncompatible("refreshAfterWrite")
+  @GwtIncompatible // refreshAfterWrite
   public void testRefresh_setTwice() {
     CacheBuilder<Object, Object> builder =
         new CacheBuilder<Object, Object>().refreshAfterWrite(3600, SECONDS);
@@ -361,11 +359,10 @@ public class CacheBuilderTest extends TestCase {
   }
 
   public void testValuesIsNotASet() {
-    assertThat(new CacheBuilder<Object, Object>().build().asMap().values())
-        .isNotInstanceOf(Set.class);
+    assertFalse(new CacheBuilder<Object, Object>().build().asMap().values() instanceof Set);
   }
 
-  @GwtIncompatible("CacheTesting")
+  @GwtIncompatible // CacheTesting
   public void testNullCache() {
     CountingRemovalListener<Object, Object> listener = countingRemovalListener();
     LoadingCache<Object, Object> nullCache = new CacheBuilder<Object, Object>()
@@ -380,7 +377,7 @@ public class CacheBuilderTest extends TestCase {
     CacheTesting.checkEmpty(nullCache.asMap());
   }
 
-  @GwtIncompatible("QueuingRemovalListener")
+  @GwtIncompatible // QueuingRemovalListener
 
   public void testRemovalNotification_clear() throws InterruptedException {
     // If a clear() happens while a computation is pending, we should not get a removal
@@ -445,7 +442,7 @@ public class CacheBuilderTest extends TestCase {
    * removal listener), or else is not affected by the {@code clear()} (and therefore exists in the
    * cache afterward).
    */
-  @GwtIncompatible("QueuingRemovalListener")
+  @GwtIncompatible // QueuingRemovalListener
 
   public void testRemovalNotification_clear_basher() throws InterruptedException {
     // If a clear() happens close to the end of computation, one of two things should happen:
@@ -523,7 +520,7 @@ public class CacheBuilderTest extends TestCase {
    * Calls get() repeatedly from many different threads, and tests that all of the removed entries
    * (removed because of size limits or expiration) trigger appropriate removal notifications.
    */
-  @GwtIncompatible("QueuingRemovalListener")
+  @GwtIncompatible // QueuingRemovalListener
 
   public void testRemovalNotification_get_basher() throws InterruptedException {
     int nTasks = 1000;
@@ -597,14 +594,14 @@ public class CacheBuilderTest extends TestCase {
     assertEquals(computeCount.get(), cache.size() + removalListener.size());
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullParameters() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>();
     tester.testAllPublicInstanceMethods(builder);
   }
 
-  @GwtIncompatible("CacheTesting")
+  @GwtIncompatible // CacheTesting
   public void testSizingDefaults() {
     LoadingCache<?, ?> cache = CacheBuilder.newBuilder().build(identityLoader());
     LocalCache<?, ?> map = CacheTesting.toLocalCache(cache);
@@ -612,7 +609,7 @@ public class CacheBuilderTest extends TestCase {
     assertEquals(4, map.segments[0].table.length()); // capacity / conc level
   }
 
-  @GwtIncompatible("CountDownLatch")
+  @GwtIncompatible // CountDownLatch
   static final class DelayingIdentityLoader<T> extends CacheLoader<T, T> {
     private final AtomicBoolean shouldWait;
     private final CountDownLatch delayLatch;

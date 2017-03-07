@@ -22,15 +22,13 @@ import com.google.common.base.Converter;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link Ints}.
@@ -77,7 +75,6 @@ public class IntsTest extends TestCase {
     assertEquals(LEAST, Ints.saturatedCast(Long.MIN_VALUE));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   private static void assertCastFails(long value) {
     try {
       Ints.checkedCast(value);
@@ -171,7 +168,6 @@ public class IntsTest extends TestCase {
         (int) 3));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMax_noArgs() {
     try {
       Ints.max();
@@ -188,7 +184,6 @@ public class IntsTest extends TestCase {
         (int) 5, (int) 3, (int) 0, (int) 9));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMin_noArgs() {
     try {
       Ints.min();
@@ -203,6 +198,19 @@ public class IntsTest extends TestCase {
     assertEquals((int) 0, Ints.min(
         (int) 8, (int) 6, (int) 7,
         (int) 5, (int) 3, (int) 0, (int) 9));
+  }
+
+  public void testConstrainToRange() {
+    assertEquals((int) 1, Ints.constrainToRange((int) 1, (int) 0, (int) 5));
+    assertEquals((int) 1, Ints.constrainToRange((int) 1, (int) 1, (int) 5));
+    assertEquals((int) 3, Ints.constrainToRange((int) 1, (int) 3, (int) 5));
+    assertEquals((int) -1, Ints.constrainToRange((int) 0, (int) -5, (int) -1));
+    assertEquals((int) 2, Ints.constrainToRange((int) 5, (int) 2, (int) 2));
+    try {
+      Ints.constrainToRange((int) 1, (int) 3, (int) 2);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testConcat() {
@@ -220,7 +228,6 @@ public class IntsTest extends TestCase {
         Ints.concat(ARRAY1, ARRAY234)));
   }
 
-  @GwtIncompatible("Ints.toByteArray")
   public void testToByteArray() {
     assertTrue(Arrays.equals(
         new byte[] {0x12, 0x13, 0x14, 0x15}, Ints.toByteArray(0x12131415)));
@@ -229,7 +236,6 @@ public class IntsTest extends TestCase {
         Ints.toByteArray(0xFFEEDDCC)));
   }
 
-  @GwtIncompatible("Ints.fromByteArray")
   public void testFromByteArray() {
     assertEquals(0x12131415,
         Ints.fromByteArray(new byte[] {0x12, 0x13, 0x14, 0x15, 0x33}));
@@ -237,8 +243,6 @@ public class IntsTest extends TestCase {
         new byte[] {(byte) 0xFF, (byte) 0xEE, (byte) 0xDD, (byte) 0xCC}));
   }
 
-  @SuppressWarnings("CheckReturnValue")
-  @GwtIncompatible("Ints.fromByteArray")
   public void testFromByteArrayFails() {
     try {
       Ints.fromByteArray(new byte[Ints.BYTES - 1]);
@@ -247,7 +251,6 @@ public class IntsTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("Ints.fromBytes")
   public void testFromBytes() {
     assertEquals(0x12131415, Ints.fromBytes(
         (byte) 0x12, (byte) 0x13, (byte) 0x14, (byte) 0x15));
@@ -255,7 +258,6 @@ public class IntsTest extends TestCase {
         (byte) 0xFF, (byte) 0xEE, (byte) 0xDD, (byte) 0xCC));
   }
 
-  @GwtIncompatible("Ints.fromByteArray, Ints.toByteArray")
   public void testByteArrayRoundTrips() {
     Random r = new Random(5);
     byte[] b = new byte[Ints.BYTES];
@@ -279,7 +281,6 @@ public class IntsTest extends TestCase {
         Ints.ensureCapacity(ARRAY1, 2, 1)));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testEnsureCapacity_fail() {
     try {
       Ints.ensureCapacity(ARRAY1, -1, 1);
@@ -318,13 +319,13 @@ public class IntsTest extends TestCase {
     Helpers.testComparator(comparator, ordered);
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testLexicographicalComparatorSerializable() {
     Comparator<int[]> comparator = Ints.lexicographicalComparator();
     assertSame(comparator, SerializableTester.reserialize(comparator));
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testStringConverterSerialization() {
     SerializableTester.reserializeAndAssert(Ints.stringConverter());
   }
@@ -361,7 +362,6 @@ public class IntsTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testToArray_withNull() {
     List<Integer> list = Arrays.asList((int) 0, (int) 1, null);
     try {
@@ -425,7 +425,7 @@ public class IntsTest extends TestCase {
     assertSame(Collections.emptyList(), Ints.asList(EMPTY));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Ints.class);
   }
@@ -442,7 +442,6 @@ public class IntsTest extends TestCase {
     assertEquals((Integer) 438, converter.convert("0666"));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testStringConverter_convertError() {
     try {
       Ints.stringConverter().convert("notanumber");
@@ -467,7 +466,7 @@ public class IntsTest extends TestCase {
     assertEquals("438", converter.reverse().convert(0666));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testStringConverter_nullPointerTester() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(Ints.stringConverter());
@@ -536,7 +535,6 @@ public class IntsTest extends TestCase {
         Ints.tryParse(Integer.toString(value, radix), radix));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testTryParse_radixTooBig() {
     try {
       Ints.tryParse("0", Character.MAX_RADIX + 1);
@@ -545,12 +543,20 @@ public class IntsTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testTryParse_radixTooSmall() {
     try {
       Ints.tryParse("0", Character.MIN_RADIX - 1);
       fail();
     } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testTryParse_withNullGwt() {
+    assertNull(Ints.tryParse("null"));
+    try {
+      Ints.tryParse(null);
+      fail("Expected NPE");
+    } catch (NullPointerException expected) {
     }
   }
 }

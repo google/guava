@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import java.util.Comparator;
 import java.util.SortedSet;
 
 /**
@@ -27,6 +28,9 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
 
   /** true if this set is a subset of another immutable sorted set. */
   final boolean isSubset;
+
+  private Comparator<E> unusedComparatorForSerialization;
+  private E unusedElementForSerialization;
 
   RegularImmutableSortedSet(SortedSet<E> delegate, boolean isSubset) {
     super(delegate);

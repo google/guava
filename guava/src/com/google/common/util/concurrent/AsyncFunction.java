@@ -15,9 +15,7 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.util.concurrent.Future;
-
 import javax.annotation.Nullable;
 
 /**
@@ -28,6 +26,7 @@ import javax.annotation.Nullable;
  * @since 11.0
  */
 @GwtCompatible
+@FunctionalInterface
 public interface AsyncFunction<I, O> {
   /**
    * Returns an output {@code Future} to use in place of the given {@code input}. The output {@code

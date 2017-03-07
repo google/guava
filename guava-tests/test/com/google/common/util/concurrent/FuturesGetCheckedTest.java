@@ -19,6 +19,7 @@ import static com.google.common.util.concurrent.Futures.getChecked;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.CHECKED_EXCEPTION;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.ERROR;
+import static com.google.common.util.concurrent.FuturesGetCheckedInputs.ERROR_FUTURE;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.FAILED_FUTURE_CHECKED_EXCEPTION;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.FAILED_FUTURE_ERROR;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.FAILED_FUTURE_OTHER_THROWABLE;
@@ -39,15 +40,13 @@ import com.google.common.util.concurrent.FuturesGetCheckedInputs.ExceptionWithWr
 import com.google.common.util.concurrent.FuturesGetCheckedInputs.ExceptionWithoutThrowableConstructor;
 import com.google.common.util.concurrent.FuturesGetCheckedInputs.TwoArgConstructorException;
 import com.google.common.util.concurrent.FuturesGetCheckedInputs.TwoArgConstructorRuntimeException;
-
-import junit.framework.TestCase;
-
 import java.lang.ref.WeakReference;
 import java.net.URLClassLoader;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link Futures#getChecked(Future, Class)}.
@@ -127,6 +126,16 @@ public class FuturesGetCheckedTest extends TestCase {
     } catch (RuntimeException expected) {
       assertEquals(RUNTIME_EXCEPTION, expected);
     }
+  }
+
+  public void testGetCheckedUntimed_Error() throws TwoArgConstructorException {
+    try {
+      getChecked(ERROR_FUTURE, TwoArgConstructorException.class);
+    } catch (Error expected) {
+      assertEquals(ERROR, expected);
+      return;
+    }
+    fail();
   }
 
   public void testGetCheckedUntimed_badExceptionConstructor_failsEvenForSuccessfulInput()
@@ -230,6 +239,16 @@ public class FuturesGetCheckedTest extends TestCase {
     } catch (RuntimeException expected) {
       assertEquals(RUNTIME_EXCEPTION, expected);
     }
+  }
+
+  public void testGetCheckedTimed_Error() throws TwoArgConstructorException {
+    try {
+      getChecked(ERROR_FUTURE, TwoArgConstructorException.class, 0, SECONDS);
+    } catch (Error expected) {
+      assertEquals(ERROR, expected);
+      return;
+    }
+    fail();
   }
 
   public void testGetCheckedTimed_TimeoutException() {

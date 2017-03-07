@@ -26,13 +26,11 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Predicate;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.EqualsTester;
-
-import junit.framework.TestCase;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link Range}.
@@ -51,7 +49,7 @@ public class RangeTest extends TestCase {
     assertEquals(8, (int) range.upperEndpoint());
     assertEquals(OPEN, range.upperBoundType());
     assertFalse(range.isEmpty());
-    assertEquals("(4\u20258)", range.toString());
+    assertEquals("(4..8)", range.toString());
     reserializeAndAssert(range);
   }
 
@@ -78,7 +76,7 @@ public class RangeTest extends TestCase {
     assertEquals(7, (int) range.upperEndpoint());
     assertEquals(CLOSED, range.upperBoundType());
     assertFalse(range.isEmpty());
-    assertEquals("[5\u20257]", range.toString());
+    assertEquals("[5..7]", range.toString());
     reserializeAndAssert(range);
   }
 
@@ -100,7 +98,7 @@ public class RangeTest extends TestCase {
     assertEquals(7, (int) range.upperEndpoint());
     assertEquals(CLOSED, range.upperBoundType());
     assertFalse(range.isEmpty());
-    assertEquals("(4\u20257]", range.toString());
+    assertEquals("(4..7]", range.toString());
     reserializeAndAssert(range);
   }
 
@@ -114,7 +112,7 @@ public class RangeTest extends TestCase {
     assertEquals(8, (int) range.upperEndpoint());
     assertEquals(OPEN, range.upperBoundType());
     assertFalse(range.isEmpty());
-    assertEquals("[5\u20258)", range.toString());
+    assertEquals("[5..8)", range.toString());
     reserializeAndAssert(range);
   }
 
@@ -147,7 +145,7 @@ public class RangeTest extends TestCase {
     assertEquals(4, (int) range.upperEndpoint());
     assertEquals(CLOSED, range.upperBoundType());
     assertFalse(range.isEmpty());
-    assertEquals("[4\u20254]", range.toString());
+    assertEquals("[4..4]", range.toString());
     reserializeAndAssert(range);
   }
 
@@ -163,7 +161,7 @@ public class RangeTest extends TestCase {
     assertEquals(4, (int) range.upperEndpoint());
     assertEquals(OPEN, range.upperBoundType());
     assertTrue(range.isEmpty());
-    assertEquals("[4\u20254)", range.toString());
+    assertEquals("[4..4)", range.toString());
     reserializeAndAssert(range);
   }
 
@@ -179,7 +177,7 @@ public class RangeTest extends TestCase {
     assertEquals(4, (int) range.upperEndpoint());
     assertEquals(CLOSED, range.upperBoundType());
     assertTrue(range.isEmpty());
-    assertEquals("(4\u20254]", range.toString());
+    assertEquals("(4..4]", range.toString());
     reserializeAndAssert(range);
   }
 
@@ -193,7 +191,7 @@ public class RangeTest extends TestCase {
     assertEquals(5, (int) range.upperEndpoint());
     assertEquals(OPEN, range.upperBoundType());
     assertFalse(range.isEmpty());
-    assertEquals("(-\u221e\u20255)", range.toString());
+    assertEquals("(-\u221e..5)", range.toString());
     reserializeAndAssert(range);
   }
 
@@ -207,7 +205,7 @@ public class RangeTest extends TestCase {
     assertEquals(OPEN, range.lowerBoundType());
     assertUnboundedAbove(range);
     assertFalse(range.isEmpty());
-    assertEquals("(5\u2025+\u221e)", range.toString());
+    assertEquals("(5..+\u221e)", range.toString());
     reserializeAndAssert(range);
   }
 
@@ -221,7 +219,7 @@ public class RangeTest extends TestCase {
     assertEquals(CLOSED, range.lowerBoundType());
     assertUnboundedAbove(range);
     assertFalse(range.isEmpty());
-    assertEquals("[6\u2025+\u221e)", range.toString());
+    assertEquals("[6..+\u221e)", range.toString());
     reserializeAndAssert(range);
   }
 
@@ -235,7 +233,7 @@ public class RangeTest extends TestCase {
     assertEquals(4, (int) range.upperEndpoint());
     assertEquals(CLOSED, range.upperBoundType());
     assertFalse(range.isEmpty());
-    assertEquals("(-\u221e\u20254]", range.toString());
+    assertEquals("(-\u221e..4]", range.toString());
     reserializeAndAssert(range);
   }
 
@@ -246,7 +244,7 @@ public class RangeTest extends TestCase {
     assertUnboundedBelow(range);
     assertUnboundedAbove(range);
     assertFalse(range.isEmpty());
-    assertEquals("(-\u221e\u2025+\u221e)", range.toString());
+    assertEquals("(-\u221e..+\u221e)", range.toString());
     assertSame(range, reserializeAndAssert(range));
     assertSame(range, Range.all());
   }

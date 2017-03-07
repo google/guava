@@ -17,11 +17,9 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-
-import junit.framework.TestCase;
-
 import java.util.Collections;
 import java.util.Map.Entry;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@code AbstractMapEntry}.

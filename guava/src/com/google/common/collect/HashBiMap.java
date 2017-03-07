@@ -19,6 +19,7 @@ import org.checkerframework.dataflow.qual.SideEffectFree;
 import org.checkerframework.framework.qual.AnnotatedFor;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 import static com.google.common.collect.Hashing.smearedHash;
@@ -27,29 +28,31 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps.IteratorBasedAbstractMap;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
-
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import javax.annotation.Nullable;
 
 /**
  * A {@link BiMap} backed by two hash tables. This implementation allows null keys and values. A
  * {@code HashBiMap} and its inverse are both serializable.
  *
+ * <p>This implementation guarantees insertion-based iteration order of its keys.
+ *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap"> {@code BiMap}
- * </a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap"> {@code BiMap} </a>.
  *
  * @author Louis Wasserman
  * @author Mike Bostock
@@ -259,11 +262,13 @@ public final class HashBiMap<K extends /*@org.checkerframework.checker.nullness.
     return Maps.valueOrNull(seekByKey(key, smearedHash(key)));
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V put(/*@Nullable*/ K key, /*@Nullable*/ V value) {
     return put(key, value, false);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V forcePut(/*@Nullable*/ K key, /*@Nullable*/ V value) {
     return put(key, value, true);
@@ -362,6 +367,7 @@ public final class HashBiMap<K extends /*@org.checkerframework.checker.nullness.
     return new BiEntry[length];
   }
 
+  @CanIgnoreReturnValue
   @Override
   public /*@org.checkerframework.checker.nullness.qual.Nullable*/ V remove(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
     BiEntry<K, V> entry = seekByKey(key, smearedHash(key));
@@ -519,6 +525,27 @@ public final class HashBiMap<K extends /*@org.checkerframework.checker.nullness.
     };
   }
 
+  @Override
+  public void forEach(BiConsumer<? super K, ? super V> action) {
+    checkNotNull(action);
+    for (BiEntry<K, V> entry = firstInKeyInsertionOrder;
+        entry != null;
+        entry = entry.nextInKeyInsertionOrder) {
+      action.accept(entry.key, entry.value);
+    }
+  }
+
+  @Override
+  public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
+    checkNotNull(function);
+    BiEntry<K, V> oldFirst = firstInKeyInsertionOrder;
+    clear();
+    for (BiEntry<K, V> entry = oldFirst; entry != null; entry = entry.nextInKeyInsertionOrder) {
+      put(entry.key, function.apply(entry.key, entry.value));
+    }
+  }
+
+  @RetainedWith
   private transient BiMap<V, K> inverse;
 
   @Override
@@ -526,7 +553,8 @@ public final class HashBiMap<K extends /*@org.checkerframework.checker.nullness.
     return (inverse == null) ? inverse = new Inverse() : inverse;
   }
 
-  private final class Inverse extends AbstractMap<V, K> implements BiMap<V, K>, Serializable {
+  private final class Inverse extends IteratorBasedAbstractMap<V, K>
+      implements BiMap<V, K>, Serializable {
     BiMap<K, V> forward() {
       return HashBiMap.this;
     }
@@ -551,6 +579,7 @@ public final class HashBiMap<K extends /*@org.checkerframework.checker.nullness.
       return Maps.keyOrNull(seekByValue(value, smearedHash(value)));
     }
 
+    @CanIgnoreReturnValue
     @Override
     public K put(/*@Nullable*/ V value, /*@Nullable*/ K key) {
       return putInverse(value, key, false);
@@ -618,61 +647,66 @@ public final class HashBiMap<K extends /*@org.checkerframework.checker.nullness.
     }
 
     @Override
-    public Set<Entry<V, K>> entrySet() {
-      return new Maps.EntrySet<V, K>() {
-
+    Iterator<Entry<V, K>> entryIterator() {
+      return new Itr<Entry<V, K>>() {
         @Override
-        Map<V, K> map() {
-          return Inverse.this;
+        Entry<V, K> output(BiEntry<K, V> entry) {
+          return new InverseEntry(entry);
         }
 
-        @Override
-        public Iterator<Entry<V, K>> iterator() {
-          return new Itr<Entry<V, K>>() {
-            @Override
-            Entry<V, K> output(BiEntry<K, V> entry) {
-              return new InverseEntry(entry);
+        class InverseEntry extends AbstractMapEntry<V, K> {
+          BiEntry<K, V> delegate;
+
+          InverseEntry(BiEntry<K, V> entry) {
+            this.delegate = entry;
+          }
+
+          @Override
+          public V getKey() {
+            return delegate.value;
+          }
+
+          @Override
+          public K getValue() {
+            return delegate.key;
+          }
+
+          @Override
+          public K setValue(K key) {
+            K oldKey = delegate.key;
+            int keyHash = smearedHash(key);
+            if (keyHash == delegate.keyHash && Objects.equal(key, oldKey)) {
+              return key;
             }
-
-            class InverseEntry extends AbstractMapEntry<V, K> {
-              BiEntry<K, V> delegate;
-
-              InverseEntry(BiEntry<K, V> entry) {
-                this.delegate = entry;
-              }
-
-              @Override
-              public V getKey() {
-                return delegate.value;
-              }
-
-              @Override
-              public K getValue() {
-                return delegate.key;
-              }
-
-              @Override
-              public K setValue(K key) {
-                K oldKey = delegate.key;
-                int keyHash = smearedHash(key);
-                if (keyHash == delegate.keyHash && Objects.equal(key, oldKey)) {
-                  return key;
-                }
-                checkArgument(seekByKey(key, keyHash) == null, "value already present: %s", key);
-                delete(delegate);
-                BiEntry<K, V> newEntry =
-                    new BiEntry<K, V>(key, keyHash, delegate.value, delegate.valueHash);
-                delegate = newEntry;
-                insert(newEntry, null);
-                expectedModCount = modCount;
-                // This is safe because entries can only get bumped up to earlier in the iteration,
-                // so they can't get revisited.
-                return oldKey;
-              }
-            }
-          };
+            checkArgument(seekByKey(key, keyHash) == null, "value already present: %s", key);
+            delete(delegate);
+            BiEntry<K, V> newEntry =
+                new BiEntry<K, V>(key, keyHash, delegate.value, delegate.valueHash);
+            delegate = newEntry;
+            insert(newEntry, null);
+            expectedModCount = modCount;
+            // This is safe because entries can only get bumped up to earlier in the iteration,
+            // so they can't get revisited.
+            return oldKey;
+          }
         }
       };
+    }
+
+    @Override
+    public void forEach(BiConsumer<? super V, ? super K> action) {
+      checkNotNull(action);
+      HashBiMap.this.forEach((k, v) -> action.accept(v, k));
+    }
+
+    @Override
+    public void replaceAll(BiFunction<? super V, ? super K, ? extends K> function) {
+      checkNotNull(function);
+      BiEntry<K, V> oldFirst = firstInKeyInsertionOrder;
+      clear();
+      for (BiEntry<K, V> entry = oldFirst; entry != null; entry = entry.nextInKeyInsertionOrder) {
+        put(entry.value, function.apply(entry.value, entry.key));
+      }
     }
 
     Object writeReplace() {
@@ -695,13 +729,13 @@ public final class HashBiMap<K extends /*@org.checkerframework.checker.nullness.
   /**
    * @serialData the number of entries, first key, first value, second key, second value, and so on.
    */
-  @GwtIncompatible("java.io.ObjectOutputStream")
+  @GwtIncompatible // java.io.ObjectOutputStream
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     Serialization.writeMap(this, stream);
   }
 
-  @GwtIncompatible("java.io.ObjectInputStream")
+  @GwtIncompatible // java.io.ObjectInputStream
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     init(16);
@@ -709,7 +743,7 @@ public final class HashBiMap<K extends /*@org.checkerframework.checker.nullness.
     Serialization.populateMap(this, stream, size);
   }
 
-  @GwtIncompatible("Not needed in emulated source")
+  @GwtIncompatible // Not needed in emulated source
   private static final long serialVersionUID = 0;
 
 @SideEffectFree

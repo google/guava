@@ -21,10 +21,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Optional;
-
+import java.util.ArrayDeque;
 import java.util.BitSet;
 import java.util.Deque;
 import java.util.Iterator;
+import java.util.function.Consumer;
 
 /**
  * A variant of {@link TreeTraverser} for binary trees, providing additional traversals specific to
@@ -34,9 +35,8 @@ import java.util.Iterator;
  * @since 15.0
  */
 @Beta
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
-  // TODO(lowasser): make this GWT-compatible when we've checked in BitSet emulation
 
   /**
    * Returns the left child of the specified node, or {@link Optional#absent()} if the specified
@@ -83,6 +83,12 @@ public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
           }
         };
       }
+
+      @Override
+      public void forEach(Consumer<? super T> action) {
+        acceptIfPresent(action, leftChild(root));
+        acceptIfPresent(action, rightChild(root));
+      }
     };
   }
 
@@ -99,7 +105,7 @@ public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
     private final Deque<T> stack;
 
     PreOrderIterator(T root) {
-      this.stack = Platform.newFastestDeque(8);
+      this.stack = new ArrayDeque<T>(8);
       stack.addLast(root);
     }
 
@@ -135,7 +141,7 @@ public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
     private final BitSet hasExpanded;
 
     PostOrderIterator(T root) {
-      this.stack = Platform.newFastestDeque(8);
+      this.stack = new ArrayDeque<T>(8);
       stack.addLast(root);
       this.hasExpanded = new BitSet();
     }
@@ -172,6 +178,19 @@ public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
       public UnmodifiableIterator<T> iterator() {
         return new InOrderIterator(root);
       }
+
+      @Override
+      public void forEach(Consumer<? super T> action) {
+        checkNotNull(action);
+        new Consumer<T>() {
+          @Override
+          public void accept(T t) {
+            acceptIfPresent(this, leftChild(t));
+            action.accept(t);
+            acceptIfPresent(this, rightChild(t));
+          }
+        }.accept(root);
+      }
     };
   }
 
@@ -180,7 +199,7 @@ public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
     private final BitSet hasExpandedLeft;
 
     InOrderIterator(T root) {
-      this.stack = Platform.newFastestDeque(8);
+      this.stack = new ArrayDeque<T>(8);
       this.hasExpandedLeft = new BitSet();
       stack.addLast(root);
     }
@@ -206,6 +225,12 @@ public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
   private static <T> void pushIfPresent(Deque<T> stack, Optional<T> node) {
     if (node.isPresent()) {
       stack.addLast(node.get());
+    }
+  }
+
+  private static <T> void acceptIfPresent(Consumer<? super T> action, Optional<T> node) {
+    if (node.isPresent()) {
+      action.accept(node.get());
     }
   }
 }

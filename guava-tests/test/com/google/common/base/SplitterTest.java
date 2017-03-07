@@ -22,13 +22,11 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import junit.framework.TestCase;
 
 /**
  * @author Julien Silland
@@ -38,7 +36,6 @@ public class SplitterTest extends TestCase {
 
   private static final Splitter COMMA_SPLITTER = Splitter.on(',');
 
-  @SuppressWarnings("CheckReturnValue")
   public void testSplitNullString() {
     try {
       COMMA_SPLITTER.split(null);
@@ -113,7 +110,7 @@ public class SplitterTest extends TestCase {
 
   public void testCharacterSplitWithMatcherDelimiter() {
     Iterable<String> testCharacteringMotto = Splitter
-        .on(CharMatcher.WHITESPACE)
+        .on(CharMatcher.whitespace())
         .split("Testing\nrocks\tDebugging sucks");
     assertThat(testCharacteringMotto)
         .containsExactly("Testing", "rocks", "Debugging", "sucks")
@@ -164,7 +161,7 @@ public class SplitterTest extends TestCase {
     String jacksons = "arfo(Marlon)aorf, (Michael)orfa, afro(Jackie)orfa, "
         + "ofar(Jemaine), aff(Tito)";
     Iterable<String> family = COMMA_SPLITTER
-        .trimResults(CharMatcher.anyOf("afro").or(CharMatcher.WHITESPACE))
+        .trimResults(CharMatcher.anyOf("afro").or(CharMatcher.whitespace()))
         .split(jacksons);
     assertThat(family)
         .containsExactly("(Marlon)", "(Michael)", "(Jackie)", "(Jemaine)", "(Tito)")
@@ -261,7 +258,6 @@ public class SplitterTest extends TestCase {
     assertThat(threeCommasThenThreeSpaces).containsExactly(",,,", "   ").inOrder();
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testStringSplitWithEmptyString() {
     try {
       Splitter.on("");
@@ -293,49 +289,49 @@ public class SplitterTest extends TestCase {
     String jacksons = "arfo(Marlon)aorf, (Michael)orfa, afro(Jackie)orfa, "
         + "ofar(Jemaine), aff(Tito)";
     Iterable<String> family = Splitter.on(',')
-        .trimResults(CharMatcher.anyOf("afro").or(CharMatcher.WHITESPACE))
+        .trimResults(CharMatcher.anyOf("afro").or(CharMatcher.whitespace()))
         .split(jacksons);
     assertThat(family)
         .containsExactly("(Marlon)", "(Michael)", "(Jackie)", "(Jemaine)", "(Tito)")
         .inOrder();
   }
 
-  @GwtIncompatible("Splitter.onPattern")
+  @GwtIncompatible // Splitter.onPattern
   public void testPatternSimpleSplit() {
     String simple = "a,b,c";
     Iterable<String> letters = Splitter.onPattern(",").split(simple);
     assertThat(letters).containsExactly("a", "b", "c").inOrder();
   }
 
-  @GwtIncompatible("Splitter.onPattern")
+  @GwtIncompatible // Splitter.onPattern
   public void testPatternSimpleSplitWithNoDelimiter() {
     String simple = "a,b,c";
     Iterable<String> letters = Splitter.onPattern("foo").split(simple);
     assertThat(letters).containsExactly("a,b,c").inOrder();
   }
 
-  @GwtIncompatible("Splitter.onPattern")
+  @GwtIncompatible // Splitter.onPattern
   public void testPatternSplitWithDoubleDelimiter() {
     String doubled = "a,,b,c";
     Iterable<String> letters = Splitter.onPattern(",").split(doubled);
     assertThat(letters).containsExactly("a", "", "b", "c").inOrder();
   }
 
-  @GwtIncompatible("Splitter.onPattern")
+  @GwtIncompatible // Splitter.onPattern
   public void testPatternSplitWithDoubleDelimiterAndSpace() {
     String doubled = "a,, b,c";
     Iterable<String> letters = Splitter.onPattern(",").split(doubled);
     assertThat(letters).containsExactly("a", "", " b", "c").inOrder();
   }
 
-  @GwtIncompatible("Splitter.onPattern")
+  @GwtIncompatible // Splitter.onPattern
   public void testPatternSplitWithTrailingDelimiter() {
     String trailing = "a,b,c,";
     Iterable<String> letters = Splitter.onPattern(",").split(trailing);
     assertThat(letters).containsExactly("a", "b", "c", "").inOrder();
   }
 
-  @GwtIncompatible("Splitter.onPattern")
+  @GwtIncompatible // Splitter.onPattern
   public void testPatternSplitWithLeadingDelimiter() {
     String leading = ",a,b,c";
     Iterable<String> letters = Splitter.onPattern(",").split(leading);
@@ -344,7 +340,7 @@ public class SplitterTest extends TestCase {
 
   // TODO(kevinb): the name of this method suggests it might not actually be testing what it
   // intends to be testing?
-  @GwtIncompatible("Splitter.onPattern")
+  @GwtIncompatible // Splitter.onPattern
   public void testPatternSplitWithMultipleLetters() {
     Iterable<String> testPatterningMotto = Splitter.onPattern("-").split(
         "Testing-rocks-Debugging-sucks");
@@ -352,12 +348,12 @@ public class SplitterTest extends TestCase {
         .inOrder();
   }
 
-  @GwtIncompatible("java.util.regex.Pattern")
+  @GwtIncompatible // java.util.regex.Pattern
   private static Pattern literalDotPattern() {
     return Pattern.compile("\\.");
   }
 
-  @GwtIncompatible("java.util.regex.Pattern")
+  @GwtIncompatible // java.util.regex.Pattern
   public void testPatternSplitWithDoubleDelimiterOmitEmptyStrings() {
     String doubled = "a..b.c";
     Iterable<String> letters = Splitter.on(literalDotPattern())
@@ -365,9 +361,12 @@ public class SplitterTest extends TestCase {
     assertThat(letters).containsExactly("a", "b", "c").inOrder();
   }
 
-  @GwtIncompatible("java.util.regex.Pattern")
+  @GwtIncompatible // java.util.regex.Pattern
   @AndroidIncompatible // Bug in older versions of Android we test against, since fixed.
   public void testPatternSplitLookBehind() {
+    if (!Platform.usingJdkPatternCompiler()) {
+      return;
+    }
     String toSplit = ":foo::barbaz:";
     String regexPattern = "(?<=:)";
     Iterable<String> split = Splitter.onPattern(regexPattern).split(toSplit);
@@ -375,7 +374,7 @@ public class SplitterTest extends TestCase {
     // splits into chunks ending in :
   }
 
-  @GwtIncompatible("java.util.regex.Pattern")
+  @GwtIncompatible // java.util.regex.Pattern
   @AndroidIncompatible // Bug in older versions of Android we test against, since fixed.
   public void testPatternSplitWordBoundary() {
     String string = "foo<bar>bletch";
@@ -383,14 +382,29 @@ public class SplitterTest extends TestCase {
     assertThat(words).containsExactly("foo", "<", "bar", ">", "bletch").inOrder();
   }
 
-  @GwtIncompatible("java.util.regex.Pattern")
+  @GwtIncompatible // java.util.regex.Pattern
+  public void testPatternSplitWordBoundary_singleCharInput() {
+    String string = "f";
+    Iterable<String> words = Splitter.on(Pattern.compile("\\b")).split(string);
+    assertThat(words).containsExactly("f").inOrder();
+  }
+
+  @AndroidIncompatible // Apparently Gingerbread's regex API is buggy.
+  @GwtIncompatible // java.util.regex.Pattern
+  public void testPatternSplitWordBoundary_singleWordInput() {
+    String string = "foo";
+    Iterable<String> words = Splitter.on(Pattern.compile("\\b")).split(string);
+    assertThat(words).containsExactly("foo").inOrder();
+  }
+
+  @GwtIncompatible // java.util.regex.Pattern
   public void testPatternSplitEmptyToken() {
     String emptyToken = "a. .c";
     Iterable<String> letters = Splitter.on(literalDotPattern()).trimResults().split(emptyToken);
     assertThat(letters).containsExactly("a", "", "c").inOrder();
   }
 
-  @GwtIncompatible("java.util.regex.Pattern")
+  @GwtIncompatible // java.util.regex.Pattern
   public void testPatternSplitEmptyTokenOmitEmptyStrings() {
     String emptyToken = "a. .c";
     Iterable<String> letters = Splitter.on(literalDotPattern())
@@ -398,21 +412,21 @@ public class SplitterTest extends TestCase {
     assertThat(letters).containsExactly("a", "c").inOrder();
   }
 
-  @GwtIncompatible("java.util.regex.Pattern")
+  @GwtIncompatible // java.util.regex.Pattern
   public void testPatternSplitOnOnlyDelimiter() {
     Iterable<String> blankblank = Splitter.on(literalDotPattern()).split(".");
 
     assertThat(blankblank).containsExactly("", "").inOrder();
   }
 
-  @GwtIncompatible("java.util.regex.Pattern")
+  @GwtIncompatible // java.util.regex.Pattern
   public void testPatternSplitOnOnlyDelimitersOmitEmptyStrings() {
     Iterable<String> empty = Splitter.on(literalDotPattern()).omitEmptyStrings()
         .split("...");
     assertThat(empty).isEmpty();
   }
 
-  @GwtIncompatible("java.util.regex.Pattern")
+  @GwtIncompatible // java.util.regex.Pattern
   public void testPatternSplitMatchingIsGreedy() {
     String longDelimiter = "a, b,   c";
     Iterable<String> letters = Splitter.on(Pattern.compile(",\\s*"))
@@ -420,7 +434,7 @@ public class SplitterTest extends TestCase {
     assertThat(letters).containsExactly("a", "b", "c").inOrder();
   }
 
-  @GwtIncompatible("java.util.regex.Pattern")
+  @GwtIncompatible // java.util.regex.Pattern
   public void testPatternSplitWithLongLeadingDelimiter() {
     String longDelimiter = ", a, b, c";
     Iterable<String> letters = Splitter.on(Pattern.compile(", "))
@@ -428,7 +442,7 @@ public class SplitterTest extends TestCase {
     assertThat(letters).containsExactly("", "a", "b", "c").inOrder();
   }
 
-  @GwtIncompatible("java.util.regex.Pattern")
+  @GwtIncompatible // java.util.regex.Pattern
   public void testPatternSplitWithLongTrailingDelimiter() {
     String longDelimiter = "a, b, c/ ";
     Iterable<String> letters = Splitter.on(Pattern.compile("[,/]\\s"))
@@ -436,8 +450,7 @@ public class SplitterTest extends TestCase {
     assertThat(letters).containsExactly("a", "b", "c", "").inOrder();
   }
 
-  @SuppressWarnings("CheckReturnValue")
-  @GwtIncompatible("java.util.regex.Pattern")
+  @GwtIncompatible // java.util.regex.Pattern
   public void testPatternSplitInvalidPattern() {
     try {
       Splitter.on(Pattern.compile("a*"));
@@ -446,12 +459,12 @@ public class SplitterTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("java.util.regex.Pattern")
+  @GwtIncompatible // java.util.regex.Pattern
   public void testPatternSplitWithTrim() {
     String jacksons = "arfo(Marlon)aorf, (Michael)orfa, afro(Jackie)orfa, "
         + "ofar(Jemaine), aff(Tito)";
     Iterable<String> family = Splitter.on(Pattern.compile(","))
-        .trimResults(CharMatcher.anyOf("afro").or(CharMatcher.WHITESPACE))
+        .trimResults(CharMatcher.anyOf("afro").or(CharMatcher.whitespace()))
         .split(jacksons);
     assertThat(family)
         .containsExactly("(Marlon)", "(Michael)", "(Jackie)", "(Jemaine)", "(Tito)")
@@ -466,7 +479,7 @@ public class SplitterTest extends TestCase {
     assertIteratorIsUnmodifiable(Splitter.on(',').split("a,b").iterator());
   }
 
-  @GwtIncompatible("java.util.regex.Pattern")
+  @GwtIncompatible // java.util.regex.Pattern
   public void testSplitterIterableIsUnmodifiable_pattern() {
     assertIteratorIsUnmodifiable(
         Splitter.on(Pattern.compile(",")).split("a,b").iterator());
@@ -489,16 +502,18 @@ public class SplitterTest extends TestCase {
     assertSplitterIterableIsLazy(Splitter.on(','));
   }
 
-  @GwtIncompatible("java.util.regex.Pattern")
+  @GwtIncompatible // java.util.regex.Pattern
   @AndroidIncompatible // not clear that j.u.r.Matcher promises to handle mutations during use
   public void testSplitterIterableIsLazy_pattern() {
+    if (!Platform.usingJdkPatternCompiler()) {
+      return;
+    }
     assertSplitterIterableIsLazy(Splitter.onPattern(","));
   }
 
   /**
-   * This test really pushes the boundaries of what we support. In general the
-   * splitter's behaviour is not well defined if the char sequence it's
-   * splitting is mutated during iteration.
+   * This test really pushes the boundaries of what we support. In general the splitter's behaviour
+   * is not well defined if the char sequence it's splitting is mutated during iteration.
    */
   private void assertSplitterIterableIsLazy(Splitter splitter) {
     StringBuilder builder = new StringBuilder();
@@ -553,7 +568,6 @@ public class SplitterTest extends TestCase {
     assertThat(letters).containsExactly("a", "b", "c", "d").inOrder();
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testFixedLengthSplitZeroChunkLen() {
     try {
       Splitter.fixedLength(0);
@@ -562,7 +576,6 @@ public class SplitterTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testFixedLengthSplitNegativeChunkLen() {
     try {
       Splitter.fixedLength(-1);
@@ -649,7 +662,6 @@ public class SplitterTest extends TestCase {
     assertThat(items).isEmpty();
   }
 
-  @SuppressWarnings("ReturnValueIgnored") // testing for exception
   public void testInvalidZeroLimit() {
     try {
       COMMA_SPLITTER.limit(0);
@@ -658,7 +670,7 @@ public class SplitterTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Splitter.class);
@@ -734,7 +746,6 @@ public class SplitterTest extends TestCase {
     assertThat(m.entrySet()).containsExactlyElementsIn(expected.entrySet()).inOrder();
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMapSplitter_emptySeparator() {
     try {
       COMMA_SPLITTER.withKeyValueSeparator("");
@@ -743,7 +754,6 @@ public class SplitterTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMapSplitter_malformedEntry() {
     try {
       COMMA_SPLITTER.withKeyValueSeparator("=").split("a=1,b,c=2");
@@ -771,7 +781,6 @@ public class SplitterTest extends TestCase {
         ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy"));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMapSplitter_duplicateKeys() {
     try {
       Splitter.on(',').withKeyValueSeparator(":").split("a:1,b:2,a:3");

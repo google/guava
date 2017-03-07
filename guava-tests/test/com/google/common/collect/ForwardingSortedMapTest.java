@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import com.google.common.base.Function;
 import com.google.common.collect.testing.Helpers.NullsBeforeTwo;
 import com.google.common.collect.testing.SafeTreeMap;
 import com.google.common.collect.testing.SortedMapTestSuiteBuilder;
@@ -23,10 +24,8 @@ import com.google.common.collect.testing.TestStringSortedMapGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
+import com.google.common.testing.EqualsTester;
+import com.google.common.testing.ForwardingWrapperTester;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -34,23 +33,26 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedMap;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Tests for {@code ForwardingSortedMap}.
  *
- * @author Robert Konigsberg
+ * @author Robert KonigsbergSortedMapFeature
  */
-public class ForwardingSortedMapTest extends ForwardingMapTest {
+public class ForwardingSortedMapTest extends TestCase {
   static class StandardImplForwardingSortedMap<K, V>
       extends ForwardingSortedMap<K, V> {
-    private final SortedMap<K, V> backingMap;
+    private final SortedMap<K, V> backingSortedMap;
 
-    StandardImplForwardingSortedMap(SortedMap<K, V> backingMap) {
-      this.backingMap = backingMap;
+    StandardImplForwardingSortedMap(SortedMap<K, V> backingSortedMap) {
+      this.backingSortedMap = backingSortedMap;
     }
 
     @Override protected SortedMap<K, V> delegate() {
-      return backingMap;
+      return backingSortedMap;
     }
 
     @Override public boolean containsKey(Object key) {
@@ -93,7 +95,7 @@ public class ForwardingSortedMapTest extends ForwardingMapTest {
       return new StandardEntrySet() {
         @Override
         public Iterator<Entry<K, V>> iterator() {
-          return backingMap.entrySet().iterator();
+          return backingSortedMap.entrySet().iterator();
         }
       };
     }
@@ -167,54 +169,30 @@ public class ForwardingSortedMapTest extends ForwardingMapTest {
     return suite;
   }
 
-  @Override public void setUp() throws Exception {
-    super.setUp();
-    /*
-     * Class parameters must be raw, so we can't create a proxy with generic
-     * type arguments. The created proxy only records calls and returns null, so
-     * the type is irrelevant at runtime.
-     */
-    @SuppressWarnings("unchecked")
-    final SortedMap<String, Boolean> sortedMap =
-        createProxyInstance(SortedMap.class);
-    forward = new ForwardingSortedMap<String, Boolean>() {
-      @Override protected SortedMap<String, Boolean> delegate() {
-        return sortedMap;
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  public void testForwarding() {
+    new ForwardingWrapperTester()
+        .testForwarding(SortedMap.class, new Function<SortedMap, SortedMap>() {
+          @Override public SortedMap apply(SortedMap delegate) {
+            return wrap(delegate);
+          }
+        });
+  }
+
+  public void testEquals() {
+    SortedMap<Integer, String> map1 = ImmutableSortedMap.of(1, "one");
+    SortedMap<Integer, String> map2 = ImmutableSortedMap.of(2, "two");
+    new EqualsTester()
+        .addEqualityGroup(map1, wrap(map1), wrap(map1))
+        .addEqualityGroup(map2, wrap(map2))
+        .testEquals();
+  }
+
+  private static <K, V> SortedMap<K, V> wrap(final SortedMap<K, V> delegate) {
+    return new ForwardingSortedMap<K, V>() {
+      @Override protected SortedMap<K, V> delegate() {
+        return delegate;
       }
     };
-  }
-
-  public void testComparator() {
-    forward().comparator();
-    assertEquals("[comparator]", getCalls());
-  }
-
-  public void testFirstKey() {
-    forward().firstKey();
-    assertEquals("[firstKey]", getCalls());
-  }
-
-  public void testHeadMap_K() {
-    forward().headMap("asdf");
-    assertEquals("[headMap(Object)]", getCalls());
-  }
-
-  public void testLastKey() {
-    forward().lastKey();
-    assertEquals("[lastKey]", getCalls());
-  }
-
-  public void testSubMap_K_K() {
-    forward().subMap("first", "last");
-    assertEquals("[subMap(Object,Object)]", getCalls());
-  }
-
-  public void testTailMap_K() {
-    forward().tailMap("last");
-    assertEquals("[tailMap(Object)]", getCalls());
-  }
-
-  @Override SortedMap<String, Boolean> forward() {
-    return (SortedMap<String, Boolean>) super.forward();
   }
 }

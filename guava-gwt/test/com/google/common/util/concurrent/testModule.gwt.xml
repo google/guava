@@ -11,7 +11,7 @@
   <entry-point class="com.google.common.util.concurrent.TestModuleEntryPoint"/>
    
   <source path=""/>
-   
+    
   <super-source path="super"/>
    
 </module>

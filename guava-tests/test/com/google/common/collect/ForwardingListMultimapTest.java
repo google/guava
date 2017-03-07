@@ -16,26 +16,41 @@
 
 package com.google.common.collect;
 
+import com.google.common.base.Function;
+import com.google.common.testing.EqualsTester;
+import com.google.common.testing.ForwardingWrapperTester;
+import junit.framework.TestCase;
+
 /**
  * Unit test for {@link ForwardingListMultimap}.
  *
  * @author Kurt Alfred Kluever
  */
-public class ForwardingListMultimapTest extends ForwardingMultimapTest {
+public class ForwardingListMultimapTest extends TestCase {
 
-  @Override public void setUp() throws Exception {
-    super.setUp();
-    /*
-     * Class parameters must be raw, so we can't create a proxy with generic
-     * type arguments. The created proxy only records calls and returns null, so
-     * the type is irrelevant at runtime.
-     */
-    @SuppressWarnings("unchecked")
-    final ListMultimap<String, Boolean> multimap =
-        createProxyInstance(ListMultimap.class);
-    forward = new ForwardingListMultimap<String, Boolean>() {
-      @Override protected ListMultimap<String, Boolean> delegate() {
-        return multimap;
+  @SuppressWarnings("rawtypes")
+  public void testForwarding() {
+    new ForwardingWrapperTester()
+        .testForwarding(ListMultimap.class, new Function<ListMultimap, ListMultimap>() {
+          @Override public ListMultimap apply(ListMultimap delegate) {
+            return wrap(delegate);
+          }
+        });
+  }
+
+  public void testEquals() {
+    ListMultimap<Integer, String> map1 = ImmutableListMultimap.of(1, "one");
+    ListMultimap<Integer, String> map2 = ImmutableListMultimap.of(2, "two");
+    new EqualsTester()
+        .addEqualityGroup(map1, wrap(map1), wrap(map1))
+        .addEqualityGroup(map2, wrap(map2))
+        .testEquals();
+  }
+
+  private static <K, V> ListMultimap<K, V> wrap(final ListMultimap<K, V> delegate) {
+    return new ForwardingListMultimap<K, V>() {
+      @Override protected ListMultimap<K, V> delegate() {
+        return delegate;
       }
     };
   }

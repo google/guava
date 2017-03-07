@@ -23,6 +23,11 @@ public void testAddAll() throws Exception {
   testCase.testAddAll();
 }
 
+public void testAddAll_largeList() throws Exception {
+  com.google.common.collect.EvictingQueueTest testCase = new com.google.common.collect.EvictingQueueTest();
+  testCase.testAddAll_largeList();
+}
+
 public void testCreateWithNegativeSize() throws Exception {
   com.google.common.collect.EvictingQueueTest testCase = new com.google.common.collect.EvictingQueueTest();
   testCase.testCreateWithNegativeSize();

@@ -34,8 +34,7 @@ import com.google.common.collect.testing.features.CollectionFeature;
 public class QueueOfferTester<E> extends AbstractQueueTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testOffer_supportedNotPresent() {
-    assertTrue("offer(notPresent) should return true",
-        getQueue().offer(e3()));
+    assertTrue("offer(notPresent) should return true", getQueue().offer(e3()));
     expectAdded(e3());
   }
 
@@ -53,7 +52,6 @@ public class QueueOfferTester<E> extends AbstractQueueTester<E> {
     } catch (NullPointerException expected) {
     }
     expectUnchanged();
-    expectNullMissingWhenNullUnsupported(
-        "Should not contain null after unsupported offer(null)");
+    expectNullMissingWhenNullUnsupported("Should not contain null after unsupported offer(null)");
   }
 }

@@ -16,9 +16,9 @@
 
 package com.google.common.collect;
 
-import junit.framework.TestCase;
-
+import com.google.common.testing.EqualsTester;
 import java.util.Set;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@code ForwardingObject}.
@@ -34,7 +34,7 @@ public class ForwardingObjectTest extends TestCase {
         return delegate;
       }
     };
-    assertTrue(forward.equals(forward));
+    new EqualsTester().addEqualityGroup(forward).testEquals();
   }
 
   public void testEqualsSymmetric() {

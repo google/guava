@@ -17,9 +17,10 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.Beta;
-
+import com.google.common.annotations.GwtIncompatible;
+import java.util.Collection;
 import java.util.Map;
-
+import java.util.NoSuchElementException;
 import javax.annotation.Nullable;
 
 /**
@@ -33,6 +34,7 @@ import javax.annotation.Nullable;
  * @since 14.0
  */
 @Beta
+@GwtIncompatible
 public interface RangeMap<K extends Comparable, V> {
   /**
    * Returns the value associated with the specified key, or {@code null} if there is no
@@ -69,6 +71,26 @@ public interface RangeMap<K extends Comparable, V> {
    * <p>If {@code range} {@linkplain Range#isEmpty() is empty}, then this is a no-op.
    */
   void put(Range<K> range, V value);
+
+  /**
+   * Maps a range to a specified value, coalescing this range with any existing ranges with the same
+   * value that are {@linkplain Range#isConnected connected} to this range.
+   *
+   * <p>The behavior of {@link #get(Comparable) get(k)} after calling this method is identical to
+   * the behavior described in {@link #put(Range, Object) put(range, value)}, however the ranges
+   * returned from {@link #asMapOfRanges} will be different if there were existing entries which
+   * connect to the given range and value.
+   *
+   * <p>Even if the input range is empty, if it is connected on both sides by ranges mapped to the
+   * same value those two ranges will be coalesced.
+   *
+   * <p><b>Note:</b> coalescing requires calling {@code .equals()} on any connected values, which
+   * may be expensive depending on the value type. Using this method on range maps with large values
+   * such as {@link Collection} types is discouraged.
+   *
+   * @since 22.0
+   */
+  void putCoalescing(Range<K> range, V value);
 
   /**
    * Puts all the associations from {@code rangeMap} into this range map (optional operation).
@@ -117,7 +139,7 @@ public interface RangeMap<K extends Comparable, V> {
    * Returns a view of the part of this range map that intersects with {@code range}.
    *
    * <p>For example, if {@code rangeMap} had the entries
-   * {@code [1, 5] => "foo", (6, 8) => "bar", (10, \u2025) => "baz"}
+   * {@code [1, 5] => "foo", (6, 8) => "bar", (10, ∞) => "baz"}
    * then {@code rangeMap.subRangeMap(Range.open(3, 12))} would return a range map
    * with the entries {@code (3, 5) => "foo", (6, 8) => "bar", (10, 12) => "baz"}.
    *

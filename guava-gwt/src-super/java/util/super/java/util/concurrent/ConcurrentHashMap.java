@@ -25,7 +25,7 @@ import java.util.Set;
 
 /**
  * Minimal emulation of {@link java.util.concurrent.ConcurrentHashMap}.
- * Note that javascript intepreter is <a
+ * Note that the javascript interpreter is <a
  * href="http://code.google.com/docreader/#p=google-web-toolkit-doc-1-5&t=DevGuideJavaCompatibility">
  * single-threaded</a>, it is essentially a {@link java.util.HashMap},
  * implementing the new methods introduced by {@link ConcurrentMap}.

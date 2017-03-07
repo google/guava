@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing;
 
+import com.google.common.annotations.GwtIncompatible;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -31,8 +32,8 @@ import java.util.List;
  *
  * @author Jesse Wilson
  */
-public class ReserializingTestCollectionGenerator<E>
-    implements TestCollectionGenerator<E> {
+@GwtIncompatible
+public class ReserializingTestCollectionGenerator<E> implements TestCollectionGenerator<E> {
   private final TestCollectionGenerator<E> delegate;
 
   ReserializingTestCollectionGenerator(TestCollectionGenerator<E> delegate) {
@@ -55,8 +56,7 @@ public class ReserializingTestCollectionGenerator<E>
       ByteArrayOutputStream bytes = new ByteArrayOutputStream();
       ObjectOutputStream out = new ObjectOutputStream(bytes);
       out.writeObject(object);
-      ObjectInputStream in = new ObjectInputStream(
-          new ByteArrayInputStream(bytes.toByteArray()));
+      ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bytes.toByteArray()));
       return (T) in.readObject();
     } catch (IOException e) {
       Helpers.fail(e, e.getMessage());

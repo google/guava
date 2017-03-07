@@ -20,31 +20,25 @@ import static com.google.common.collect.MapMakerInternalMap.Strength.STRONG;
 import static com.google.common.collect.MapMakerInternalMap.Strength.WEAK;
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static java.util.Arrays.asList;
-import static org.easymock.EasyMock.eq;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.isA;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.isA;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.google.common.base.Equivalence;
-import com.google.common.collect.MapMaker.RemovalListener;
-import com.google.common.collect.MapMaker.RemovalNotification;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-import org.easymock.EasyMock;
-
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Test case for {@link ConcurrentHashMultiset}.
@@ -106,50 +100,39 @@ public class ConcurrentHashMultisetTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   @Override protected void setUp() {
-    backingMap = EasyMock.createMock(ConcurrentMap.class);
-    expect(backingMap.isEmpty()).andReturn(true);
-    replay();
+    backingMap = mock(ConcurrentMap.class);
+    when(backingMap.isEmpty()).thenReturn(true);
 
     multiset = new ConcurrentHashMultiset<String>(backingMap);
-    verify();
-    reset();
   }
 
   public void testCount_elementPresent() {
     final int COUNT = 12;
-    expect(backingMap.get(KEY)).andReturn(new AtomicInteger(COUNT));
-    replay();
+    when(backingMap.get(KEY)).thenReturn(new AtomicInteger(COUNT));
 
     assertEquals(COUNT, multiset.count(KEY));
-    verify();
   }
 
   public void testCount_elementAbsent() {
-    expect(backingMap.get(KEY)).andReturn(null);
-    replay();
+    when(backingMap.get(KEY)).thenReturn(null);
 
     assertEquals(0, multiset.count(KEY));
-    verify();
   }
 
   public void testAdd_zero() {
     final int INITIAL_COUNT = 32;
 
-    expect(backingMap.get(KEY)).andReturn(new AtomicInteger(INITIAL_COUNT));
-    replay();
+    when(backingMap.get(KEY)).thenReturn(new AtomicInteger(INITIAL_COUNT));
     assertEquals(INITIAL_COUNT, multiset.add(KEY, 0));
-    verify();
   }
 
   public void testAdd_firstFewWithSuccess() {
     final int COUNT = 400;
 
-    expect(backingMap.get(KEY)).andReturn(null);
-    expect(backingMap.putIfAbsent(eq(KEY), isA(AtomicInteger.class))).andReturn(null);
-    replay();
+    when(backingMap.get(KEY)).thenReturn(null);
+    when(backingMap.putIfAbsent(eq(KEY), isA(AtomicInteger.class))).thenReturn(null);
 
     assertEquals(0, multiset.add(KEY, COUNT));
-    verify();
   }
 
   public void testAdd_laterFewWithSuccess() {
@@ -157,28 +140,23 @@ public class ConcurrentHashMultisetTest extends TestCase {
     int COUNT_TO_ADD = 400;
 
     AtomicInteger initial = new AtomicInteger(INITIAL_COUNT);
-    expect(backingMap.get(KEY)).andReturn(initial);
-    replay();
+    when(backingMap.get(KEY)).thenReturn(initial);
 
     assertEquals(INITIAL_COUNT, multiset.add(KEY, COUNT_TO_ADD));
     assertEquals(INITIAL_COUNT + COUNT_TO_ADD, initial.get());
-    verify();
   }
 
   public void testAdd_laterFewWithOverflow() {
     final int INITIAL_COUNT = 92384930;
     final int COUNT_TO_ADD = Integer.MAX_VALUE - INITIAL_COUNT + 1;
 
-    expect(backingMap.get(KEY)).andReturn(new AtomicInteger(INITIAL_COUNT));
-    replay();
+    when(backingMap.get(KEY)).thenReturn(new AtomicInteger(INITIAL_COUNT));
 
     try {
       multiset.add(KEY, COUNT_TO_ADD);
       fail("Must reject arguments that would cause counter overflow.");
-    } catch (IllegalArgumentException e) {
-      // Expected.
+    } catch (IllegalArgumentException expected) {
     }
-    verify();
   }
 
   /**
@@ -192,57 +170,45 @@ public class ConcurrentHashMultisetTest extends TestCase {
     AtomicInteger existingZero = new AtomicInteger(0);
 
     // initial map.get()
-    expect(backingMap.get(KEY)).andReturn(null);
+    when(backingMap.get(KEY)).thenReturn(null);
     // since get returned null, try a putIfAbsent; that fails due to a simulated race
-    expect(backingMap.putIfAbsent(eq(KEY), isA(AtomicInteger.class))).andReturn(existingZero);
+    when(backingMap.putIfAbsent(eq(KEY), isA(AtomicInteger.class))).thenReturn(existingZero);
     // since the putIfAbsent returned a zero, we'll try to replace...
-    expect(backingMap.replace(eq(KEY), eq(existingZero), isA(AtomicInteger.class)))
-        .andReturn(false);
+    when(backingMap.replace(eq(KEY), eq(existingZero), isA(AtomicInteger.class))).thenReturn(false);
     // ...and then putIfAbsent. Simulate failure on both
-    expect(backingMap.putIfAbsent(eq(KEY), isA(AtomicInteger.class))).andReturn(existing);
+    when(backingMap.putIfAbsent(eq(KEY), isA(AtomicInteger.class))).thenReturn(existing);
 
     // next map.get()
-    expect(backingMap.get(KEY)).andReturn(existingZero);
+    when(backingMap.get(KEY)).thenReturn(existingZero);
     // since get returned zero, try a replace; that fails due to a simulated race
-    expect(backingMap.replace(eq(KEY), eq(existingZero), isA(AtomicInteger.class)))
-        .andReturn(false);
-    expect(backingMap.putIfAbsent(eq(KEY), isA(AtomicInteger.class))).andReturn(existing);
+    when(backingMap.replace(eq(KEY), eq(existingZero), isA(AtomicInteger.class))).thenReturn(false);
+    when(backingMap.putIfAbsent(eq(KEY), isA(AtomicInteger.class))).thenReturn(existing);
 
     // another map.get()
-    expect(backingMap.get(KEY)).andReturn(existing);
+    when(backingMap.get(KEY)).thenReturn(existing);
     // we shouldn't see any more map operations; CHM will now just update the AtomicInteger
-
-    replay();
 
     assertEquals(multiset.add(KEY, 3), 12);
     assertEquals(15, existing.get());
-
-    verify();
   }
 
   public void testRemove_zeroFromSome() {
     final int INITIAL_COUNT = 14;
-    expect(backingMap.get(KEY)).andReturn(new AtomicInteger(INITIAL_COUNT));
-    replay();
+    when(backingMap.get(KEY)).thenReturn(new AtomicInteger(INITIAL_COUNT));
 
     assertEquals(INITIAL_COUNT, multiset.remove(KEY, 0));
-    verify();
   }
 
   public void testRemove_zeroFromNone() {
-    expect(backingMap.get(KEY)).andReturn(null);
-    replay();
+    when(backingMap.get(KEY)).thenReturn(null);
 
     assertEquals(0, multiset.remove(KEY, 0));
-    verify();
   }
 
   public void testRemove_nonePresent() {
-    expect(backingMap.get(KEY)).andReturn(null);
-    replay();
+    when(backingMap.get(KEY)).thenReturn(null);
 
     assertEquals(0, multiset.remove(KEY, 400));
-    verify();
   }
 
   public void testRemove_someRemaining() {
@@ -250,26 +216,22 @@ public class ConcurrentHashMultisetTest extends TestCase {
     int countRemaining = 1;
     AtomicInteger current = new AtomicInteger(countToRemove + countRemaining);
 
-    expect(backingMap.get(KEY)).andReturn(current);
-    replay();
+    when(backingMap.get(KEY)).thenReturn(current);
 
     assertEquals(countToRemove + countRemaining, multiset.remove(KEY, countToRemove));
     assertEquals(countRemaining, current.get());
-    verify();
   }
 
   public void testRemove_noneRemaining() {
     int countToRemove = 30;
     AtomicInteger current = new AtomicInteger(countToRemove);
 
-    expect(backingMap.get(KEY)).andReturn(current);
+    when(backingMap.get(KEY)).thenReturn(current);
     // it's ok if removal fails: another thread may have done the remove
-    expect(backingMap.remove(KEY, current)).andReturn(false);
-    replay();
+    when(backingMap.remove(KEY, current)).thenReturn(false);
 
     assertEquals(countToRemove, multiset.remove(KEY, countToRemove));
     assertEquals(0, current.get());
-    verify();
   }
 
   public void testRemoveExactly() {
@@ -279,6 +241,7 @@ public class ConcurrentHashMultisetTest extends TestCase {
 
     try {
       cms.removeExactly("a", -2);
+      fail();
     } catch (IllegalArgumentException expected) {}
 
     assertTrue(cms.removeExactly("a", 0));
@@ -317,33 +280,27 @@ public class ConcurrentHashMultisetTest extends TestCase {
     int countToSet = 40;
     AtomicInteger current = new AtomicInteger(initialCount);
 
-    expect(backingMap.get(KEY)).andReturn(current);
-    replay();
+    when(backingMap.get(KEY)).thenReturn(current);
 
     assertEquals(initialCount, multiset.setCount(KEY, countToSet));
     assertEquals(countToSet, current.get());
-    verify();
   }
 
   public void testSetCount_asRemove() {
     int countToRemove = 40;
     AtomicInteger current = new AtomicInteger(countToRemove);
 
-    expect(backingMap.get(KEY)).andReturn(current);
-    expect(backingMap.remove(KEY, current)).andReturn(true);
-    replay();
+    when(backingMap.get(KEY)).thenReturn(current);
+    when(backingMap.remove(KEY, current)).thenReturn(true);
 
     assertEquals(countToRemove, multiset.setCount(KEY, 0));
     assertEquals(0, current.get());
-    verify();
   }
 
   public void testSetCount_0_nonePresent() {
-    expect(backingMap.get(KEY)).andReturn(null);
-    replay();
+    when(backingMap.get(KEY)).thenReturn(null);
 
     assertEquals(0, multiset.setCount(KEY, 0));
-    verify();
   }
 
   public void testCreate() {
@@ -371,12 +328,10 @@ public class ConcurrentHashMultisetTest extends TestCase {
   private void testIdentityKeyEquality(
       MapMakerInternalMap.Strength keyStrength) {
 
-    MapMaker mapMaker = new MapMaker()
-        .setKeyStrength(keyStrength)
-        .keyEquivalence(Equivalence.identity());
+    ConcurrentMap<String, AtomicInteger> map =
+        new MapMaker().setKeyStrength(keyStrength).keyEquivalence(Equivalence.identity()).makeMap();
 
-    ConcurrentHashMultiset<String> multiset =
-        ConcurrentHashMultiset.create(mapMaker);
+    ConcurrentHashMultiset<String> multiset = ConcurrentHashMultiset.create(map);
 
     String s1 = new String("a");
     String s2 = new String("a");
@@ -410,12 +365,10 @@ public class ConcurrentHashMultisetTest extends TestCase {
   private void testLogicalKeyEquality(
       MapMakerInternalMap.Strength keyStrength) {
 
-    MapMaker mapMaker = new MapMaker()
-        .setKeyStrength(keyStrength)
-        .keyEquivalence(Equivalence.equals());
+    ConcurrentMap<String, AtomicInteger> map =
+        new MapMaker().setKeyStrength(keyStrength).keyEquivalence(Equivalence.equals()).makeMap();
 
-    ConcurrentHashMultiset<String> multiset =
-        ConcurrentHashMultiset.create(mapMaker);
+    ConcurrentHashMultiset<String> multiset = ConcurrentHashMultiset.create(map);
 
     String s1 = new String("a");
     String s2 = new String("a");
@@ -437,31 +390,30 @@ public class ConcurrentHashMultisetTest extends TestCase {
   }
 
   public void testSerializationWithMapMaker1() {
-    MapMaker mapMaker = new MapMaker();
-    multiset = ConcurrentHashMultiset.create(mapMaker);
+    ConcurrentMap<String, AtomicInteger> map = new MapMaker().makeMap();
+    multiset = ConcurrentHashMultiset.create(map);
     reserializeAndAssert(multiset);
   }
 
   public void testSerializationWithMapMaker2() {
-    MapMaker mapMaker = new MapMaker();
-    multiset = ConcurrentHashMultiset.create(mapMaker);
+    ConcurrentMap<String, AtomicInteger> map = new MapMaker().makeMap();
+    multiset = ConcurrentHashMultiset.create(map);
     multiset.addAll(ImmutableList.of("a", "a", "b", "c", "d", "b"));
     reserializeAndAssert(multiset);
   }
 
   public void testSerializationWithMapMaker3() {
-    MapMaker mapMaker = new MapMaker().expireAfterWrite(1, TimeUnit.SECONDS);
-    multiset = ConcurrentHashMultiset.create(mapMaker);
+    ConcurrentMap<String, AtomicInteger> map = new MapMaker().makeMap();
+    multiset = ConcurrentHashMultiset.create(map);
     multiset.addAll(ImmutableList.of("a", "a", "b", "c", "d", "b"));
     reserializeAndAssert(multiset);
   }
 
   public void testSerializationWithMapMaker_preservesIdentityKeyEquivalence() {
-    MapMaker mapMaker = new MapMaker()
-        .keyEquivalence(Equivalence.identity());
+    ConcurrentMap<String, AtomicInteger> map =
+        new MapMaker().keyEquivalence(Equivalence.identity()).makeMap();
 
-    ConcurrentHashMultiset<String> multiset =
-        ConcurrentHashMultiset.create(mapMaker);
+    ConcurrentHashMultiset<String> multiset = ConcurrentHashMultiset.create(map);
     multiset = reserializeAndAssert(multiset);
 
     String s1 = new String("a");
@@ -474,108 +426,5 @@ public class ConcurrentHashMultisetTest extends TestCase {
     assertFalse(multiset.contains(s2));
     assertEquals(1, multiset.count(s1));
     assertEquals(0, multiset.count(s2));
-  }
-
-//  @Suppress(owner = "bmanes", detail = "Does not call the eviction listener")
-//  public void testWithMapMakerEvictionListener_BROKEN1()
-//      throws InterruptedException {
-//    MapEvictionListener<String, Number> evictionListener =
-//        mockEvictionListener();
-//    evictionListener.onEviction("a", 5);
-//    EasyMock.replay(evictionListener);
-//
-//    GenericMapMaker<String, Number> mapMaker = new MapMaker()
-//        .expireAfterWrite(100, TimeUnit.MILLISECONDS)
-//        .evictionListener(evictionListener);
-//
-//    ConcurrentHashMultiset<String> multiset =
-//        ConcurrentHashMultiset.create(mapMaker);
-//
-//    multiset.add("a", 5);
-//
-//    assertTrue(multiset.contains("a"));
-//    assertEquals(5, multiset.count("a"));
-//
-//    Thread.sleep(2000);
-//
-//    EasyMock.verify(evictionListener);
-//  }
-
-//  @Suppress(owner = "bmanes", detail = "Does not call the eviction listener")
-//  public void testWithMapMakerEvictionListener_BROKEN2()
-//      throws InterruptedException {
-//    MapEvictionListener<String, Number> evictionListener =
-//        mockEvictionListener();
-//    evictionListener.onEviction("a", 5);
-//    EasyMock.replay(evictionListener);
-//
-//    GenericMapMaker<String, Number> mapMaker = new MapMaker()
-//        .expireAfterWrite(100, TimeUnit.MILLISECONDS)
-//        .evictionListener(evictionListener);
-//
-//    ConcurrentHashMultiset<String> multiset =
-//        ConcurrentHashMultiset.create(mapMaker);
-//
-//    multiset.add("a", 5);
-//
-//    assertTrue(multiset.contains("a"));
-//    assertEquals(5, multiset.count("a"));
-//
-//    Thread.sleep(2000);
-//
-//    // This call should have the side-effect of calling the
-//    // eviction listener, but it does not.
-//    assertFalse(multiset.contains("a"));
-//
-//    EasyMock.verify(evictionListener);
-//  }
-
-  public void testWithMapMakerEvictionListener() {
-    final List<RemovalNotification<String, Number>> notificationQueue = Lists.newArrayList();
-    RemovalListener<String, Number> removalListener =
-        new RemovalListener<String, Number>() {
-          @Override public void onRemoval(RemovalNotification<String, Number> notification) {
-            notificationQueue.add(notification);
-          }
-        };
-
-    @SuppressWarnings("deprecation") // TODO(kevinb): what to do?
-    MapMaker mapMaker = new MapMaker()
-        .concurrencyLevel(1)
-        .maximumSize(1);
-    /*
-     * Cleverly ignore the return type now that ConcurrentHashMultiset accepts only MapMaker and not
-     * the deprecated GenericMapMaker. We know that a RemovalListener<String, Number> is a type that
-     * will work with ConcurrentHashMultiset.
-     */
-    mapMaker.removalListener(removalListener);
-
-    ConcurrentHashMultiset<String> multiset = ConcurrentHashMultiset.create(mapMaker);
-
-    multiset.add("a", 5);
-    assertTrue(multiset.contains("a"));
-    assertEquals(5, multiset.count("a"));
-
-    multiset.add("b", 3);
-
-    assertFalse(multiset.contains("a"));
-    assertTrue(multiset.contains("b"));
-    assertEquals(3, multiset.count("b"));
-    RemovalNotification<String, Number> notification = Iterables.getOnlyElement(notificationQueue);
-    assertEquals("a", notification.getKey());
-    // The map evicted this entry, so CHM didn't have a chance to zero it.
-    assertEquals(5, notification.getValue().intValue());
-  }
-
-  private void replay() {
-    EasyMock.replay(backingMap);
-  }
-
-  private void verify() {
-    EasyMock.verify(backingMap);
-  }
-
-  private void reset() {
-    EasyMock.reset(backingMap);
   }
 }

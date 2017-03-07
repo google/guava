@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing.google;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.testing.AbstractTester;
 import com.google.common.collect.testing.FeatureSpecificTestSuiteBuilder;
@@ -27,14 +28,12 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.features.ListFeature;
-
-import junit.framework.TestSuite;
-
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+import junit.framework.TestSuite;
 
 /**
  * Creates, based on your criteria, a JUnit test suite that exhaustively tests
@@ -42,8 +41,9 @@ import java.util.Set;
  *
  * @author Louis Wasserman
  */
-public class ListMultimapTestSuiteBuilder<K, V> extends
-    MultimapTestSuiteBuilder<K, V, ListMultimap<K, V>> {
+@GwtIncompatible
+public class ListMultimapTestSuiteBuilder<K, V>
+    extends MultimapTestSuiteBuilder<K, V, ListMultimap<K, V>> {
 
   public static <K, V> ListMultimapTestSuiteBuilder<K, V> using(
       TestListMultimapGenerator<K, V> generator) {
@@ -52,7 +52,8 @@ public class ListMultimapTestSuiteBuilder<K, V> extends
     return result;
   }
 
-  @Override protected List<Class<? extends AbstractTester>> getTesters() {
+  @Override
+  protected List<Class<? extends AbstractTester>> getTesters() {
     List<Class<? extends AbstractTester>> testers = Helpers.copyToList(super.getTesters());
     testers.add(ListMultimapAsMapTester.class);
     testers.add(ListMultimapEqualsTester.class);
@@ -65,10 +66,11 @@ public class ListMultimapTestSuiteBuilder<K, V> extends
 
   @Override
   TestSuite computeMultimapGetTestSuite(
-      FeatureSpecificTestSuiteBuilder<?, ? extends
-      OneSizeTestContainerGenerator<ListMultimap<K, V>, Entry<K, V>>> parentBuilder) {
+      FeatureSpecificTestSuiteBuilder<
+              ?, ? extends OneSizeTestContainerGenerator<ListMultimap<K, V>, Entry<K, V>>>
+          parentBuilder) {
     return ListTestSuiteBuilder.using(
-        new MultimapGetGenerator<K, V>(parentBuilder.getSubjectGenerator()))
+            new MultimapGetGenerator<K, V>(parentBuilder.getSubjectGenerator()))
         .withFeatures(computeMultimapGetFeatures(parentBuilder.getFeatures()))
         .named(parentBuilder.getName() + ".get[key]")
         .suppressing(parentBuilder.getSuppressedTests())
@@ -77,14 +79,15 @@ public class ListMultimapTestSuiteBuilder<K, V> extends
 
   @Override
   TestSuite computeMultimapAsMapGetTestSuite(
-      FeatureSpecificTestSuiteBuilder<?, ? extends
-      OneSizeTestContainerGenerator<ListMultimap<K, V>, Entry<K, V>>> parentBuilder) {
+      FeatureSpecificTestSuiteBuilder<
+              ?, ? extends OneSizeTestContainerGenerator<ListMultimap<K, V>, Entry<K, V>>>
+          parentBuilder) {
     Set<Feature<?>> features = computeMultimapAsMapGetFeatures(parentBuilder.getFeatures());
     if (Collections.disjoint(features, EnumSet.allOf(CollectionSize.class))) {
       return new TestSuite();
     } else {
       return ListTestSuiteBuilder.using(
-          new MultimapAsMapGetGenerator<K, V>(parentBuilder.getSubjectGenerator()))
+              new MultimapAsMapGetGenerator<K, V>(parentBuilder.getSubjectGenerator()))
           .withFeatures(features)
           .named(parentBuilder.getName() + ".asMap[].get[key]")
           .suppressing(parentBuilder.getSuppressedTests())
@@ -93,8 +96,7 @@ public class ListMultimapTestSuiteBuilder<K, V> extends
   }
 
   @Override
-  Set<Feature<?>> computeMultimapGetFeatures(
-      Set<Feature<?>> multimapFeatures) {
+  Set<Feature<?>> computeMultimapGetFeatures(Set<Feature<?>> multimapFeatures) {
     Set<Feature<?>> derivedFeatures = super.computeMultimapGetFeatures(multimapFeatures);
     if (derivedFeatures.contains(CollectionFeature.SUPPORTS_ADD)) {
       derivedFeatures.add(ListFeature.SUPPORTS_ADD_WITH_INDEX);
@@ -117,7 +119,6 @@ public class ListMultimapTestSuiteBuilder<K, V> extends
     public List<V> create(Object... elements) {
       return (List<V>) super.create(elements);
     }
-
   }
 
   private static class MultimapAsMapGetGenerator<K, V>

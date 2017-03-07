@@ -21,11 +21,9 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
 import com.google.common.base.Function;
-import com.google.common.base.Throwables;
 import com.google.common.collect.ForwardingObject;
 import com.google.common.collect.Iterables;
 import com.google.common.testing.ForwardingWrapperTester;
-
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
@@ -57,17 +55,21 @@ final class ForwardingObjectTester {
     @SuppressWarnings("unchecked") // super interface type of T
     Class<? super T> interfaceType = (Class<? super T>)
         Iterables.getOnlyElement(Arrays.asList(forwarderClass.getInterfaces()));
-    new ForwardingWrapperTester().testForwarding(interfaceType, new Function<Object, T>() {
-      @Override public T apply(Object delegate) {
-        T mock = mock(forwarderClass, CALLS_REAL_METHODS.get());
-        try {
-          T stubber = doReturn(delegate).when(mock);
-          DELEGATE_METHOD.invoke(stubber);
-        } catch (Exception e) {
-          throw Throwables.propagate(e);
-        }
-        return mock;
-      }
-    });
+    new ForwardingWrapperTester()
+        .testForwarding(
+            interfaceType,
+            new Function<Object, T>() {
+              @Override
+              public T apply(Object delegate) {
+                T mock = mock(forwarderClass, CALLS_REAL_METHODS.get());
+                try {
+                  T stubber = doReturn(delegate).when(mock);
+                  DELEGATE_METHOD.invoke(stubber);
+                } catch (Exception e) {
+                  throw new RuntimeException(e);
+                }
+                return mock;
+              }
+            });
   }
 }

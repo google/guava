@@ -19,7 +19,6 @@ package com.google.common.hash;
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-
 import java.util.Random;
 import java.util.zip.Adler32;
 import java.util.zip.CRC32;

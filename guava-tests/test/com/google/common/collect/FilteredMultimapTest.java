@@ -18,19 +18,17 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Predicate;
-
-import junit.framework.TestCase;
-
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Map.Entry;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link Multimaps} filtering methods.
  *
  * @author Jared Levy
  */
-@GwtIncompatible("nottested")
+@GwtIncompatible // nottested
 public class FilteredMultimapTest extends TestCase {
 
   private static final Predicate<Map.Entry<String, Integer>> ENTRY_PREDICATE

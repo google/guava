@@ -27,12 +27,10 @@ import com.google.common.collect.testing.TestListGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.ListFeature;
-
+import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
-import java.util.List;
 
 /**
  * Test suite covering {@link Chars#asList(char[])}.
@@ -50,7 +48,7 @@ public class CharArrayAsListTest extends TestCase {
     return Chars.asList(temp);
   }
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     List<ListTestSuiteBuilder<Character>> builders =
         ImmutableList.of(

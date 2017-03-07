@@ -23,14 +23,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.annotation.Nullable;
 
 /**
@@ -90,11 +89,13 @@ public final class EnumHashBiMap<K extends Enum<K>, V extends /*@org.checkerfram
     return checkNotNull(key);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V put(K key, /*@Nullable*/ V value) {
     return super.put(key, value);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V forcePut(K key, /*@Nullable*/ V value) {
     return super.forcePut(key, value);
@@ -109,15 +110,15 @@ public final class EnumHashBiMap<K extends Enum<K>, V extends /*@org.checkerfram
    * @serialData the key class, number of entries, first key, first value,
    *     second key, second value, and so on.
    */
-  @GwtIncompatible("java.io.ObjectOutputStream")
+  @GwtIncompatible // java.io.ObjectOutputStream
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeObject(keyType);
     Serialization.writeMap(this, stream);
   }
 
-  /*@SuppressWarnings("unchecked")*/ // reading field populated by writeObject
-  @GwtIncompatible("java.io.ObjectInputStream")
+  @SuppressWarnings("unchecked") // reading field populated by writeObject
+  @GwtIncompatible // java.io.ObjectInputStream
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     keyType = (Class<K>) stream.readObject();
@@ -127,7 +128,7 @@ public final class EnumHashBiMap<K extends Enum<K>, V extends /*@org.checkerfram
     Serialization.populateMap(this, stream);
   }
 
-  @GwtIncompatible("only needed in emulated source.")
+  @GwtIncompatible // only needed in emulated source.
   private static final long serialVersionUID = 0;
 
 @Pure

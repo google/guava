@@ -16,23 +16,18 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.common.collect.testing.SetTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.annotation.Nullable;
+import junit.framework.Test;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@code Synchronized#set}.
@@ -40,21 +35,24 @@ import javax.annotation.Nullable;
  * @author Mike Bostock
  */
 public class SynchronizedSetTest extends TestCase {
-  
+
   public static final Object MUTEX = new Integer(1); // something Serializable
-  
+
   public static Test suite() {
-    return SetTestSuiteBuilder.using(new TestStringSetGenerator() {
-          @Override
-          protected Set<String> create(String[] elements) {
-            TestSet<String> inner = new TestSet<String>(new HashSet<String>(), MUTEX);
-            Set<String> outer = Synchronized.set(inner, inner.mutex);
-            Collections.addAll(outer, elements);
-            return outer;
-          }
-        })
+    return SetTestSuiteBuilder.using(
+            new TestStringSetGenerator() {
+              @Override
+              protected Set<String> create(String[] elements) {
+                TestSet<String> inner = new TestSet<String>(new HashSet<String>(), null);
+                Set<String> outer = Synchronized.set(inner, null);
+                inner.mutex = outer;
+                Collections.addAll(outer, elements);
+                return outer;
+              }
+            })
         .named("Synchronized.set")
-        .withFeatures(CollectionFeature.GENERAL_PURPOSE,
+        .withFeatures(
+            CollectionFeature.GENERAL_PURPOSE,
             CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionSize.ANY,
             CollectionFeature.SERIALIZABLE)
@@ -63,10 +61,9 @@ public class SynchronizedSetTest extends TestCase {
 
   static class TestSet<E> extends ForwardingSet<E> implements Serializable {
     final Set<E> delegate;
-    public final Object mutex;
+    public Object mutex;
 
     public TestSet(Set<E> delegate, Object mutex) {
-      checkNotNull(mutex);
       this.delegate = delegate;
       this.mutex = mutex;
     }

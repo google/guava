@@ -20,10 +20,8 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.math.BigInteger;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@code UnsignedLong}.
@@ -75,7 +73,7 @@ public class UnsignedLongTest extends TestCase {
           UnsignedLong.fromLongBits(value).bigIntegerValue());
     }
   }
-  
+
   public void testValueOfLong() {
     for (long value : TEST_LONGS) {
       boolean expectSuccess = value >= 0;
@@ -87,7 +85,7 @@ public class UnsignedLongTest extends TestCase {
       }
     }
   }
-  
+
   public void testValueOfBigInteger() {
     BigInteger min = BigInteger.ZERO;
     BigInteger max = UnsignedLong.MAX_VALUE.bigIntegerValue();
@@ -110,7 +108,7 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("too slow")
+  @GwtIncompatible // too slow
   public void testToStringRadix() {
     for (int radix = Character.MIN_RADIX; radix <= Character.MAX_RADIX; radix++) {
       for (long l : TEST_LONGS) {
@@ -206,7 +204,6 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("ReturnValueIgnored")
   public void testDivideByZeroThrows() {
     for (long a : TEST_LONGS) {
       try {
@@ -233,7 +230,6 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testModByZero() {
     for (long a : TEST_LONGS) {
       try {
@@ -254,7 +250,7 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("too slow")
+  @GwtIncompatible // too slow
   public void testEquals() {
     EqualsTester equalsTester = new EqualsTester();
     for (long a : TEST_LONGS) {
@@ -274,14 +270,14 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("serialization")
+  @GwtIncompatible // serialization
   public void testSerialization() {
     for (long a : TEST_LONGS) {
       SerializableTester.reserializeAndAssert(UnsignedLong.fromLongBits(a));
     }
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(UnsignedLong.class);
   }

@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent.testing;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Longs;
 import com.google.common.util.concurrent.AbstractFuture;
@@ -24,7 +25,6 @@ import com.google.common.util.concurrent.AbstractListeningExecutorService;
 import com.google.common.util.concurrent.ListenableScheduledFuture;
 import com.google.common.util.concurrent.ListeningScheduledExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
-
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Delayed;
@@ -38,6 +38,7 @@ import java.util.concurrent.TimeUnit;
  * @since 14.0
  */
 @Beta
+@GwtIncompatible
 public final class TestingExecutors {
   private TestingExecutors() {}
 

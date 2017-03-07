@@ -1,29 +1,26 @@
 /*
  * Copyright (C) 2008 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.Iterator;
-
 import javax.annotation.Nullable;
 
 /**
@@ -34,9 +31,9 @@ import javax.annotation.Nullable;
  * <h3>Invertibility</h3>
  *
  * <p>The reverse operation <b>may</b> be a strict <i>inverse</i> (meaning that {@code
- * converter.reverse().convert(converter.convert(a)).equals(a)} is always true). However, it is
- * very common (perhaps <i>more</i> common) for round-trip conversion to be <i>lossy</i>. Consider
- * an example round-trip using {@link com.google.common.primitives.Doubles#stringConverter}:
+ * converter.reverse().convert(converter.convert(a)).equals(a)} is always true). However, it is very
+ * common (perhaps <i>more</i> common) for round-trip conversion to be <i>lossy</i>. Consider an
+ * example round-trip using {@link com.google.common.primitives.Doubles#stringConverter}:
  *
  * <ol>
  * <li>{@code stringConverter().convert("1.00")} returns the {@code Double} value {@code 1.0}
@@ -56,7 +53,7 @@ import javax.annotation.Nullable;
  * behavior for all converters; implementations of {@link #doForward} and {@link #doBackward} are
  * guaranteed to never be passed {@code null}, and must never return {@code null}.
  *
-
+ *
  * <h3>Common ways to use</h3>
  *
  * <p>Getting a converter:
@@ -70,8 +67,8 @@ import javax.annotation.Nullable;
  *     a "fake" converter for a unit test. It is unnecessary (and confusing) to <i>mock</i> the
  *     {@code Converter} type using a mocking framework.
  * <li>Extend this class and implement its {@link #doForward} and {@link #doBackward} methods.
- * <li>If using Java 8, you may prefer to pass two lambda expressions or method references to the
- *     {@link #from from} factory method.
+ * <li><b>Java 8 users:</b> you may prefer to pass two lambda expressions or method references to
+ *     the {@link #from from} factory method.
  * </ul>
  *
  * <p>Using a converter:
@@ -81,7 +78,9 @@ import javax.annotation.Nullable;
  * <li>Convert multiple instances "forward" using {@code converter.convertAll(as)}.
  * <li>Convert in the "backward" direction using {@code converter.reverse().convert(b)} or {@code
  *     converter.reverse().convertAll(bs)}.
- * <li>Use {@code converter} or {@code converter.reverse()} anywhere a {@link Function} is accepted
+ * <li>Use {@code converter} or {@code converter.reverse()} anywhere a {@link
+ *     java.util.function.Function} is accepted (for example {@link java.util.stream.Stream#map
+ *     Stream.map}).
  * <li><b>Do not</b> call {@link #doForward} or {@link #doBackward} directly; these exist only to be
  *     overridden.
  * </ul>
@@ -90,33 +89,34 @@ import javax.annotation.Nullable;
  *
  * <pre>
  *   return new Converter&lt;Integer, String&gt;() {
- *     &#64;Override
  *     protected String doForward(Integer i) {
  *       return Integer.toHexString(i);
  *     }
  *
- *     &#64;Override
  *     protected Integer doBackward(String s) {
  *       return parseUnsignedInt(s, 16);
  *     }
  *   };</pre>
  *
- * <p>An alternative using Java 8:<pre>   {@code
- *   return Converter.from(
- *       Integer::toHexString,
- *       s -> parseUnsignedInt(s, 16));}</pre>
+ * <p>An alternative using Java 8:
+ *
+ * <pre>{@code
+ * return Converter.from(
+ *     Integer::toHexString,
+ *     s -> parseUnsignedInt(s, 16));
+ * }</pre>
  *
  * @author Mike Ward
  * @author Kurt Alfred Kluever
  * @author Gregory Kick
  * @since 16.0
  */
-@Beta
 @GwtCompatible
 public abstract class Converter<A, B> implements Function<A, B> {
   private final boolean handleNullAutomatically;
 
   // We lazily cache the reverse view to avoid allocating on every call to reverse().
+  @LazyInit
   private transient Converter<B, A> reverse;
 
   /** Constructor for use by subclasses. */
@@ -164,7 +164,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * @return the converted value; is null <i>if and only if</i> {@code a} is null
    */
   @Nullable
-  public final B convert(/*@Nullable*/ A a) {
+  @CanIgnoreReturnValue
+  public final B convert(@Nullable A a) {
     return correctedDoForward(a);
   }
 
@@ -196,6 +197,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * a successful {@code remove()} call, {@code fromIterable} no longer contains the corresponding
    * element.
    */
+  @CanIgnoreReturnValue
   public Iterable<B> convertAll(final Iterable<? extends A> fromIterable) {
     checkNotNull(fromIterable, "fromIterable");
     return new Iterable<B>() {
@@ -228,8 +230,10 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * value roughly equivalent to {@code a}.
    *
    * <p>The returned converter is serializable if {@code this} converter is.
+   *
+   * <p><b>Note:</b> you should not override this method. It is non-final for legacy reasons.
    */
-  // TODO(kak): Make this method final
+  @CanIgnoreReturnValue
   public Converter<B, A> reverse() {
     Converter<B, A> result = reverse;
     return (result == null) ? reverse = new ReverseConverter<A, B>(this) : result;
@@ -384,7 +388,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
   @Deprecated
   @Override
   @Nullable
-  public final B apply(/*@Nullable*/ A a) {
+  @CanIgnoreReturnValue
+  public final B apply(@Nullable A a) {
     return convert(a);
   }
 
@@ -407,10 +412,10 @@ public abstract class Converter<A, B> implements Function<A, B> {
   // Static converters
 
   /**
-   * Returns a converter based on <i>existing</i> forward and backward functions. Note that it is
-   * unnecessary to create <i>new</i> classes implementing {@code Function} just to pass them in
-   * here. Instead, simply subclass {@code Converter} and implement its {@link #doForward} and
-   * {@link #doBackward} methods directly.
+   * Returns a converter based on separate forward and backward functions. This is useful if the
+   * function instances already exist, or so that you can supply lambda expressions. If those
+   * circumstances don't apply, you probably don't need to use this; subclass {@code Converter} and
+   * implement its {@link #doForward} and {@link #doBackward} methods directly.
    *
    * <p>These functions will never be passed {@code null} and must not under any circumstances
    * return {@code null}. If a value cannot be converted, the function should throw an unchecked

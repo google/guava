@@ -22,7 +22,6 @@ import org.checkerframework.framework.qual.AnnotatedFor;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.io.Serializable;
 
 /** An ordering that uses the natural order of the values. */
@@ -31,7 +30,7 @@ import java.io.Serializable;
 /*@SuppressWarnings("unchecked")*/ // TODO(kevinb): the right way to explain this??
 final class NaturalOrdering extends Ordering<Comparable> implements Serializable {
   static final NaturalOrdering INSTANCE = new NaturalOrdering();
-  
+
   private transient Ordering<Comparable> nullsFirst;
   private transient Ordering<Comparable> nullsLast;
 

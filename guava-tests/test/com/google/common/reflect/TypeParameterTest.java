@@ -18,11 +18,9 @@ package com.google.common.reflect;
 
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.TypeVariable;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link TypeParameter}.

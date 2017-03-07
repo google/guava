@@ -20,11 +20,10 @@ import org.checkerframework.dataflow.qual.Pure;
 import org.checkerframework.framework.qual.AnnotatedFor;
 
 import com.google.common.annotations.GwtCompatible;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-
 import javax.annotation.Nullable;
 
 /**
@@ -74,6 +73,7 @@ public interface SetMultimap<K extends /*@org.checkerframework.checker.nullness.
    * method returns a {@link Set}, instead of the {@link java.util.Collection}
    * specified in the {@link Multimap} interface.
    */
+  @CanIgnoreReturnValue
   @Override
   Set<V> removeAll(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key);
 
@@ -86,6 +86,7 @@ public interface SetMultimap<K extends /*@org.checkerframework.checker.nullness.
    *
    * <p>Any duplicates in {@code values} will be stored in the multimap once.
    */
+  @CanIgnoreReturnValue
   @Override
   Set<V> replaceValues(K key, Iterable<? extends V> values);
 

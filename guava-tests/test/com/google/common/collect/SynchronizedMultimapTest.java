@@ -23,11 +23,6 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.SetMultimapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringSetMultimapGenerator;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -35,8 +30,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.RandomAccess;
 import java.util.Set;
-
 import javax.annotation.Nullable;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Tests for {@code Synchronized#multimap}.
@@ -44,7 +41,7 @@ import javax.annotation.Nullable;
  * @author Mike Bostock
  */
 public class SynchronizedMultimapTest extends TestCase {
-  
+
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(SynchronizedMultimapTest.class);
@@ -239,7 +236,7 @@ public class SynchronizedMultimapTest extends TestCase {
     delegate.put("foo", 1);
     delegate.put("foo", 3);
     ListMultimap<String, Integer> multimap = Multimaps.synchronizedListMultimap(delegate);
-    assertThat(multimap.get("foo")).isNotInstanceOf(RandomAccess.class);
-    assertThat(multimap.get("bar")).isNotInstanceOf(RandomAccess.class);
+    assertFalse(multimap.get("foo") instanceof RandomAccess);
+    assertFalse(multimap.get("bar") instanceof RandomAccess);
   }
 }

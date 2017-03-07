@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Predicate;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;

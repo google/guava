@@ -17,16 +17,14 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-
-import junit.framework.TestCase;
-
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+import junit.framework.TestCase;
 
 /**
  * Tests for UnmodifiableListIterator.
- * 
+ *
  * @author Louis Wasserman
  */
 @GwtCompatible
@@ -41,7 +39,7 @@ public class UnmodifiableListIteratorTest extends TestCase {
       fail();
     } catch (UnsupportedOperationException expected) {}
   }
-  
+
   public void testAdd() {
     ListIterator<String> iterator = create();
 
@@ -54,7 +52,7 @@ public class UnmodifiableListIteratorTest extends TestCase {
       fail();
     } catch (UnsupportedOperationException expected) {}
   }
-  
+
   public void testSet() {
     ListIterator<String> iterator = create();
 

@@ -19,9 +19,8 @@ package com.google.common.collect;
 import org.checkerframework.framework.qual.AnnotatedFor;
 
 import com.google.common.annotations.GwtCompatible;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Map;
-
 import javax.annotation.Nullable;
 
 /**
@@ -56,6 +55,7 @@ public interface ClassToInstanceMap<B extends /*@org.checkerframework.checker.nu
    * bound to this specific class, not a value that may have been bound to a
    * subtype.
    */
+  @CanIgnoreReturnValue // TODO(kak): Consider removing this?
   <T extends B> T getInstance(Class<T> type);
 
   /**
@@ -65,5 +65,6 @@ public interface ClassToInstanceMap<B extends /*@org.checkerframework.checker.nu
    * @return the value previously associated with this class (possibly {@code
    *     null}), or {@code null} if there was no previous entry.
    */
-  <T extends B> T putInstance(Class<T> type, /*@Nullable*/ T value);
+  @CanIgnoreReturnValue
+  <T extends B> T putInstance(Class<T> type, @Nullable T value);
 }

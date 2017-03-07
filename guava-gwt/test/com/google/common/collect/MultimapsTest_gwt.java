@@ -53,6 +53,11 @@ public void testFilteredKeysSetMultimapReplaceValues() throws Exception {
   testCase.testFilteredKeysSetMultimapReplaceValues();
 }
 
+public void testFlatteningToMultimap() throws Exception {
+  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
+  testCase.testFlatteningToMultimap();
+}
+
 public void testForMap() throws Exception {
   com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
   testCase.testForMap();
@@ -103,6 +108,11 @@ public void testInvertFrom() throws Exception {
   testCase.testInvertFrom();
 }
 
+public void testMultimapCollectorGenerics() throws Exception {
+  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
+  testCase.testMultimapCollectorGenerics();
+}
+
 public void testNewListMultimap() throws Exception {
   com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
   testCase.testNewListMultimap();
@@ -131,6 +141,11 @@ public void testNewSortedSetMultimap() throws Exception {
 public void testSynchronizedMultimapSampleCodeCompilation() throws Exception {
   com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
   testCase.testSynchronizedMultimapSampleCodeCompilation();
+}
+
+public void testToMultimap() throws Exception {
+  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
+  testCase.testToMultimap();
 }
 
 public void testUnmodifiableArrayListMultimapRandomAccess() throws Exception {

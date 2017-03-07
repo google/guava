@@ -16,37 +16,38 @@
 
 package com.google.common.collect;
 
+import com.google.common.base.Function;
 import com.google.common.collect.testing.SafeTreeSet;
-import com.google.common.collect.testing.SetTestSuiteBuilder;
-import com.google.common.collect.testing.TestStringSetGenerator;
+import com.google.common.collect.testing.SortedSetTestSuiteBuilder;
+import com.google.common.collect.testing.TestStringSortedSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
+import com.google.common.testing.EqualsTester;
+import com.google.common.testing.ForwardingWrapperTester;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.SortedSet;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Tests for {@code ForwardingSortedSet}.
  *
  * @author Louis Wasserman
  */
-public class ForwardingSortedSetTest extends ForwardingSetTest {
+public class ForwardingSortedSetTest extends TestCase {
   static class StandardImplForwardingSortedSet<T>
       extends ForwardingSortedSet<T> {
-    private final SortedSet<T> backingSet;
+    private final SortedSet<T> backingSortedSet;
 
-    StandardImplForwardingSortedSet(SortedSet<T> backingSet) {
-      this.backingSet = backingSet;
+    StandardImplForwardingSortedSet(SortedSet<T> backingSortedSet) {
+      this.backingSortedSet = backingSortedSet;
     }
 
     @Override protected SortedSet<T> delegate() {
-      return backingSet;
+      return backingSortedSet;
     }
 
     @Override public boolean equals(Object object) {
@@ -101,14 +102,14 @@ public class ForwardingSortedSetTest extends ForwardingSetTest {
       return standardSubSet(fromElement, toElement);
     }
   }
-  
+
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    
+
     suite.addTestSuite(ForwardingSortedSetTest.class);
     suite.addTest(
-        SetTestSuiteBuilder.using(new TestStringSetGenerator() {
-          @Override protected Set<String> create(String[] elements) {
+        SortedSetTestSuiteBuilder.using(new TestStringSortedSetGenerator() {
+          @Override protected SortedSet<String> create(String[] elements) {
             return new StandardImplForwardingSortedSet<String>(
                 new SafeTreeSet<String>(Arrays.asList(elements)));
           }
@@ -120,58 +121,34 @@ public class ForwardingSortedSetTest extends ForwardingSetTest {
             "ForwardingSortedSet[SafeTreeSet] with standard implementations")
             .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
                 CollectionFeature.GENERAL_PURPOSE).createTestSuite());
-    
+
     return suite;
   }
-  
-  @Override public void setUp() throws Exception {
-    super.setUp();
-    /*
-     * Class parameters must be raw, so we can't create a proxy with generic
-     * type arguments. The created proxy only records calls and returns null, so
-     * the type is irrelevant at runtime.
-     */
-    @SuppressWarnings("unchecked")
-    final SortedSet<String> sortedSet
-        = createProxyInstance(SortedSet.class);
-    forward = new ForwardingSortedSet<String>() {
-      @Override protected SortedSet<String> delegate() {
-        return sortedSet;
+
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  public void testForwarding() {
+    new ForwardingWrapperTester()
+        .testForwarding(SortedSet.class, new Function<SortedSet, SortedSet>() {
+          @Override public SortedSet apply(SortedSet delegate) {
+            return wrap(delegate);
+          }
+        });
+  }
+
+  public void testEquals() {
+    SortedSet<String> set1 = ImmutableSortedSet.of("one");
+    SortedSet<String> set2 = ImmutableSortedSet.of("two");
+    new EqualsTester()
+        .addEqualityGroup(set1, wrap(set1), wrap(set1))
+        .addEqualityGroup(set2, wrap(set2))
+        .testEquals();
+  }
+
+  private static <T> SortedSet<T> wrap(final SortedSet<T> delegate) {
+    return new ForwardingSortedSet<T>() {
+      @Override protected SortedSet<T> delegate() {
+        return delegate;
       }
     };
-  }
-
-  public void testComparator() {
-    forward().comparator();
-    assertEquals("[comparator]", getCalls());
-  }
-
-  public void testFirst() {
-    forward().first();
-    assertEquals("[first]", getCalls());
-  }
-
-  public void testHeadSet_K() {
-    forward().headSet("asdf");
-    assertEquals("[headSet(Object)]", getCalls());
-  }
-
-  public void testLast() {
-    forward().last();
-    assertEquals("[last]", getCalls());
-  }
-
-  public void testSubSet_K_K() {
-    forward().subSet("first", "last");
-    assertEquals("[subSet(Object,Object)]", getCalls());
-  }
-
-  public void testTailSet_K() {
-    forward().tailSet("last");
-    assertEquals("[tailSet(Object)]", getCalls());
-  }
-
-  @Override SortedSet<String> forward() {
-    return (SortedSet<String>) super.forward();
   }
 }

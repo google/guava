@@ -20,11 +20,9 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
-
+import java.util.Set;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
-
-import java.util.Set;
 
 /**
  * Unit tests for {@link EqualsTester}.
@@ -359,7 +357,7 @@ public class EqualsTesterTest extends TestCase {
     }
   }
 
-  /** Test class that violates reflexitivity.  It is not equal to itself */
+  /** Test class that violates reflexivity.  It is not equal to itself */
   private static class NonReflexiveObject {
 
     @Override public boolean equals(Object o) {

@@ -413,6 +413,11 @@ public void testRemoveAll_iterable() throws Exception {
   testCase.testRemoveAll_iterable();
 }
 
+public void testRemoveIf_iterable() throws Exception {
+  com.google.common.collect.IterablesTest testCase = new com.google.common.collect.IterablesTest();
+  testCase.testRemoveIf_iterable();
+}
+
 public void testRemoveIf_noRandomAccess() throws Exception {
   com.google.common.collect.IterablesTest testCase = new com.google.common.collect.IterablesTest();
   testCase.testRemoveIf_noRandomAccess();

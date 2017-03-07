@@ -24,11 +24,6 @@ import com.google.common.collect.Sets;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -36,6 +31,9 @@ import java.util.Map;
 import java.util.NavigableSet;
 import java.util.Set;
 import java.util.SortedSet;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 public class SafeTreeSetTest extends TestCase {
   public static Test suite() {
@@ -70,7 +68,7 @@ public class SafeTreeSetTest extends TestCase {
     return suite;
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testViewSerialization() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3);
@@ -80,14 +78,14 @@ public class SafeTreeSetTest extends TestCase {
         Lists.newArrayList(SerializableTester.reserialize(map.values())));
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testEmpty_serialization() {
     SortedSet<String> set = new SafeTreeSet<String>();
     SortedSet<String> copy = SerializableTester.reserializeAndAssert(set);
     assertEquals(set.comparator(), copy.comparator());
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSingle_serialization() {
     SortedSet<String> set = new SafeTreeSet<String>();
     set.add("e");
@@ -95,7 +93,7 @@ public class SafeTreeSetTest extends TestCase {
     assertEquals(set.comparator(), copy.comparator());
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSeveral_serialization() {
     SortedSet<String> set = new SafeTreeSet<String>();
     set.add("a");

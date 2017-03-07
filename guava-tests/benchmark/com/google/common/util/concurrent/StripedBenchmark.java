@@ -27,7 +27,6 @@ import com.google.caliper.api.VmOptions;
 import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Ints;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -65,14 +64,14 @@ public class StripedBenchmark {
         return new Striped.LargeLazyStriped<Lock>(stripes, LOCK_SUPPLIER);
       }
     };
-    
+
     abstract Striped<Lock> get(int stripes);
   }
 
   private Striped<Lock> striped;
   private int[] stripes;
   private List<Integer> bulkGetSet;
-  
+
   @BeforeExperiment void setUp() {
     this.striped = impl.get(numStripes);
     stripes = new int[numStripes];

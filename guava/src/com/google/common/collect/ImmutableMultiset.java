@@ -22,16 +22,20 @@ import org.checkerframework.framework.qual.AnnotatedFor;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
-
+import java.util.function.Function;
+import java.util.function.ToIntFunction;
+import java.util.stream.Collector;
 import javax.annotation.Nullable;
 
 /**
@@ -54,7 +58,47 @@ import javax.annotation.Nullable;
 @GwtCompatible(serializable = true, emulated = true)
 /*@SuppressWarnings("serial")*/ // we're overriding default serialization
 // TODO(lowasser): write an efficient asList() implementation
-public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implements Multiset<E> {
+public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializationDependencies<E>
+    implements Multiset<E> {
+
+  /**
+   * Returns a {@code Collector} that accumulates the input elements into a new
+   * {@code ImmutableMultiset}.  Elements iterate in order by the <i>first</i> appearance of that
+   * element in encounter order.
+   *
+   * @since 21.0
+   */
+  @Beta
+  public static <E> Collector<E, ?, ImmutableMultiset<E>> toImmutableMultiset() {
+    return toImmutableMultiset(Function.identity(), e -> 1);
+  }
+
+  /**
+   * Returns a {@code Collector} that accumulates elements into an {@code ImmutableMultiset} whose
+   * elements are the result of applying {@code elementFunction} to the inputs, with counts equal to
+   * the result of applying {@code countFunction} to the inputs.
+   *
+   * <p>If the mapped elements contain duplicates (according to {@link Object#equals}), the first
+   * occurrence in encounter order appears in the resulting multiset, with count equal to the sum of
+   * the outputs of {@code countFunction.applyAsInt(t)} for each {@code t} mapped to that element.
+   *
+   * @since 22.0
+   */
+  public static <T, E> Collector<T, ?, ImmutableMultiset<E>> toImmutableMultiset(
+      Function<? super T, ? extends E> elementFunction, ToIntFunction<? super T> countFunction) {
+    checkNotNull(elementFunction);
+    checkNotNull(countFunction);
+    return Collector.of(
+        LinkedHashMultiset::create,
+        (multiset, t) ->
+            multiset.add(checkNotNull(elementFunction.apply(t)), countFunction.applyAsInt(t)),
+        (multiset1, multiset2) -> {
+          multiset1.addAll(multiset2);
+          return multiset1;
+        },
+        (Multiset<E> multiset) -> copyFromEntries(multiset.entrySet()));
+  }
+
   /**
    * Returns the empty immutable multiset.
    */
@@ -130,15 +174,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
    */
   /*@SuppressWarnings("unchecked")*/ //
   public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E... others) {
-    return new Builder<E>()
-        .add(e1)
-        .add(e2)
-        .add(e3)
-        .add(e4)
-        .add(e5)
-        .add(e6)
-        .add(others)
-        .build();
+    return new Builder<E>().add(e1).add(e2).add(e3).add(e4).add(e5).add(e6).add(others).build();
   }
 
   /**
@@ -230,6 +266,22 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
   }
 
   @Pure
+  @LazyInit
+  private transient ImmutableList<E> asList;
+
+  @Override
+  public ImmutableList<E> asList() {
+    ImmutableList<E> result = asList;
+    return (result == null) ? asList = createAsList() : result;
+  }
+
+  ImmutableList<E> createAsList() {
+    if (isEmpty()) {
+      return ImmutableList.of();
+    }
+    return new RegularImmutableAsList<E>(this, toArray());
+  }
+
   @Override
   public boolean contains(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
     return count(object) > 0;
@@ -241,6 +293,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final int add(E element, int occurrences) {
@@ -253,6 +306,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final int remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element, int occurrences) {
@@ -265,6 +319,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final int setCount(E element, int count) {
@@ -277,13 +332,14 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final boolean setCount(E element, int oldCount, int newCount) {
     throw new UnsupportedOperationException();
   }
 
-  @GwtIncompatible("not present in emulated superclass")
+  @GwtIncompatible // not present in emulated superclass
   @Override
   int copyIntoArray(Object[] dst, int offset) {
     for (Multiset.Entry<E> entry : entrySet()) {
@@ -311,6 +367,11 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
     return entrySet().toString();
   }
 
+  /** @since 21.0 (present with return type {@code Set} since 2.0) */
+  @Override
+  public abstract ImmutableSet<E> elementSet();
+
+  @LazyInit
   private transient ImmutableSet<Entry<E>> entrySet;
 
   @SideEffectFree
@@ -467,6 +528,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
      * @return this {@code Builder} object
      * @throws NullPointerException if {@code element} is null
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> add(E element) {
       contents.add(checkNotNull(element));
@@ -486,6 +548,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
      *     if this operation would result in more than {@link Integer#MAX_VALUE}
      *     occurrences of the element
      */
+    @CanIgnoreReturnValue
     public Builder<E> addCopies(E element, int occurrences) {
       contents.add(checkNotNull(element), occurrences);
       return this;
@@ -501,6 +564,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
      * @throws NullPointerException if {@code element} is null
      * @throws IllegalArgumentException if {@code count} is negative
      */
+    @CanIgnoreReturnValue
     public Builder<E> setCount(E element, int count) {
       contents.setCount(checkNotNull(element), count);
       return this;
@@ -514,6 +578,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
      * @throws NullPointerException if {@code elements} is null or contains a
      *     null element
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> add(E... elements) {
       super.add(elements);
@@ -529,6 +594,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
      * @throws NullPointerException if {@code elements} is null or contains a
      *     null element
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> addAll(Iterable<? extends E> elements) {
       if (elements instanceof Multiset) {
@@ -550,6 +616,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
      * @throws NullPointerException if {@code elements} is null or contains a
      *     null element
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> addAll(Iterator<? extends E> elements) {
       super.addAll(elements);

@@ -26,7 +26,6 @@ import com.google.common.collect.Table.Cell;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
 import java.util.Arrays;
 import java.util.Map;
 
@@ -242,7 +241,7 @@ public class ArrayTableTest extends AbstractTableTest {
     SerializableTester.reserializeAndAssert(table);
   }
 
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public void testNullPointerStatic() {
     new NullPointerTester().testAllPublicStaticMethods(ArrayTable.class);
   }
@@ -394,7 +393,7 @@ public class ArrayTableTest extends AbstractTableTest {
     assertNull(table.erase("bar", null));
   }
 
-  @GwtIncompatible("ArrayTable.toArray(Class)")
+  @GwtIncompatible // ArrayTable.toArray(Class)
   public void testToArray() {
     ArrayTable<String, Integer, Character> table
         = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
@@ -459,12 +458,12 @@ public class ArrayTableTest extends AbstractTableTest {
     }
   }
 
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public void testNulls() {
     new NullPointerTester().testAllPublicInstanceMethods(create());
   }
 
-  @GwtIncompatible("serialize")
+  @GwtIncompatible // serialize
   public void testSerializable() {
     SerializableTester.reserializeAndAssert(create());
   }

@@ -18,10 +18,8 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multiset.Entry;
-
-import junit.framework.TestCase;
-
 import java.util.Collections;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link Multisets#immutableEntry}.

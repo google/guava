@@ -18,10 +18,8 @@ package com.google.common.escape;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
-
-import junit.framework.TestCase;
-
 import java.util.Map;
+import junit.framework.TestCase;
 
 /**
  * @author David Beaumont

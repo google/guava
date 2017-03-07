@@ -22,10 +22,10 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Collection;
-
 import javax.annotation.Nullable;
 
 /**
@@ -37,7 +37,6 @@ import javax.annotation.Nullable;
 @AnnotatedFor({"nullness"})
 @GwtCompatible(emulated = true)
 public final class ObjectArrays {
-  static final Object[] EMPTY_ARRAY = new Object[0];
 
   private ObjectArrays() {}
 
@@ -47,7 +46,7 @@ public final class ObjectArrays {
    * @param type the component type
    * @param length the length of the new array
    */
-  /*@GwtIncompatible("Array.newInstance(Class, int)")*/
+  @GwtIncompatible // Array.newInstance(Class, int)
   @SuppressWarnings("unchecked")
   public static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> T[] newArray(Class<T> type, int length) {
     return (T[]) Array.newInstance(type, length);
@@ -71,7 +70,7 @@ public final class ObjectArrays {
    * @param second the second array of elements to concatenate
    * @param type the component type of the returned array
    */
-  /*@GwtIncompatible("Array.newInstance(Class, int)")*/
+  @GwtIncompatible // Array.newInstance(Class, int)
   public static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> T[] concat(T[] first, T[] second, Class<T> type) {
     T[] result = newArray(type, first.length + second.length);
     System.arraycopy(first, 0, result, 0, first.length);
@@ -105,16 +104,9 @@ public final class ObjectArrays {
    *     last position.
    */
   public static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> T[] concat(T[] array, /*@Nullable*/ T element) {
-    T[] result = arraysCopyOf(array, array.length + 1);
+    T[] result = Arrays.copyOf(array, array.length + 1);
     result[array.length] = element;
     return result;
-  }
-
-  /** GWT safe version of Arrays.copyOf. */
-  static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> T[] arraysCopyOf(T[] original, int newLength) {
-    T[] copy = newArray(original, newLength);
-    System.arraycopy(original, 0, copy, 0, Math.min(original.length, newLength));
-    return copy;
   }
 
   /**
@@ -201,13 +193,14 @@ public final class ObjectArrays {
   static Object[] copyAsObjectArray(Object[] elements, int offset, int length) {
     checkPositionIndexes(offset, offset + length, elements.length);
     if (length == 0) {
-      return EMPTY_ARRAY;
+      return new Object[0];
     }
     Object[] result = new Object[length];
     System.arraycopy(elements, offset, result, 0, length);
     return result;
   }
 
+  @CanIgnoreReturnValue
   private static /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object[] fillArray(Iterable<?> elements, /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object[] array) {
     int i = 0;
     for (Object element : elements) {
@@ -225,10 +218,12 @@ public final class ObjectArrays {
     array[j] = temp;
   }
 
+  @CanIgnoreReturnValue
   static Object[] checkElementsNotNull(Object... array) {
     return checkElementsNotNull(array, array.length);
   }
 
+  @CanIgnoreReturnValue
   static Object[] checkElementsNotNull(Object[] array, int length) {
     for (int i = 0; i < length; i++) {
       checkElementNotNull(array[i], i);
@@ -238,6 +233,7 @@ public final class ObjectArrays {
 
   // We do this instead of Preconditions.checkNotNull to save boxing and array
   // creation cost.
+  @CanIgnoreReturnValue
   static Object checkElementNotNull(Object element, int index) {
     if (element == null) {
       throw new NullPointerException("at index " + index);

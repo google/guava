@@ -14,9 +14,10 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ForwardingObject;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -32,12 +33,14 @@ import java.util.concurrent.TimeoutException;
  * @author Sven Mawson
  * @since 1.0
  */
+@CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
+@GwtCompatible
 public abstract class ForwardingFuture<V> extends ForwardingObject implements Future<V> {
   /** Constructor for use by subclasses. */
   protected ForwardingFuture() {}
 
   @Override
-  protected abstract Future<V> delegate();
+  protected abstract Future<? extends V> delegate();
 
   @Override
   public boolean cancel(boolean mayInterruptIfRunning) {

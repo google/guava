@@ -40,9 +40,6 @@ import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.UncheckedExecutionException;
-
-import junit.framework.TestCase;
-
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -55,6 +52,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.logging.LogRecord;
+import junit.framework.TestCase;
 
 /**
  * Tests relating to cache loading: concurrent loading, exceptions during loading, etc.

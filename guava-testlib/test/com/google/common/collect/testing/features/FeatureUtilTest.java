@@ -20,15 +20,13 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-
-import junit.framework.TestCase;
-
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Set;
+import junit.framework.TestCase;
 
 /**
  * @author George van den Driessche

@@ -21,6 +21,9 @@ import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -36,13 +39,6 @@ import com.google.common.collect.testing.google.ListGenerators.CharactersOfCharS
 import com.google.common.collect.testing.google.ListGenerators.CharactersOfStringGenerator;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-import org.easymock.EasyMock;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -54,6 +50,9 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
 import java.util.concurrent.CopyOnWriteArrayList;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Unit test for {@code Lists}.
@@ -107,7 +106,7 @@ public class ListsTest extends TestCase {
     private static final long serialVersionUID = 0;
   }
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ListsTest.class);
@@ -352,20 +351,20 @@ public class ListsTest extends TestCase {
     assertEquals(SOME_COLLECTION, list);
   }
 
-  @GwtIncompatible("CopyOnWriteArrayList")
+  @GwtIncompatible // CopyOnWriteArrayList
   public void testNewCOWALEmpty() {
     CopyOnWriteArrayList<Integer> list = Lists.newCopyOnWriteArrayList();
     assertEquals(Collections.emptyList(), list);
   }
 
-  @GwtIncompatible("CopyOnWriteArrayList")
+  @GwtIncompatible // CopyOnWriteArrayList
   public void testNewCOWALFromIterable() {
     CopyOnWriteArrayList<Integer> list = Lists.newCopyOnWriteArrayList(
         SOME_ITERABLE);
     assertEquals(SOME_COLLECTION, list);
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Lists.class);
@@ -401,7 +400,7 @@ public class ListsTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testAsList1() {
     List<String> list = Lists.asList("foo", new String[] { "bar", "baz" });
     checkFooBarBazList(list);
@@ -457,7 +456,7 @@ public class ListsTest extends TestCase {
     }.test();
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testAsList2Small() {
     List<String> list = Lists.asList("foo", "bar", new String[0]);
     assertThat(list).containsExactly("foo", "bar").inOrder();
@@ -666,7 +665,7 @@ public class ListsTest extends TestCase {
 
   public void testTransformSequential() {
     List<String> list = Lists.transform(SOME_SEQUENTIAL_LIST, SOME_FUNCTION);
-    assertThat(list).isNotInstanceOf(RandomAccess.class);
+    assertFalse(list instanceof RandomAccess);
   }
 
   public void testTransformListIteratorRandomAccess() {
@@ -748,30 +747,23 @@ public class ListsTest extends TestCase {
   }
 
   /**
-   * We use this class to avoid the need to suppress generics checks with
-   * easy mock.
+   * This test depends on the fact that {@code AbstractSequentialList.iterator} transforms the
+   * {@code iterator()} call into a call on {@code listIterator(int)}. This is fine because the
+   * behavior is clearly documented so it's not expected to change.
    */
-  private interface IntegerList extends List<Integer> {}
-
-  /**
-   * This test depends on the fact that {@code AbstractSequentialList.iterator}
-   * transforms the {@code iterator()} call into a call on {@code
-   * listIterator(int)}. This is fine because the behavior is clearly
-   * documented so it's not expected to change.
-   */
-  @GwtIncompatible("EsayMock")
+  @GwtIncompatible // Mockito TODO(kak): Can we remove this?
   public void testTransformedSequentialIterationUsesBackingListIterationOnly() {
     List<Integer> randomAccessList = Lists.newArrayList(SOME_SEQUENTIAL_LIST);
     ListIterator<Integer> sampleListIterator =
         SOME_SEQUENTIAL_LIST.listIterator();
-    List<Integer> listMock = EasyMock.createMock(IntegerList.class);
-    EasyMock.expect(listMock.size()).andReturn(SOME_SEQUENTIAL_LIST.size());
-    EasyMock.expect(listMock.listIterator(0)).andReturn(sampleListIterator);
-    EasyMock.replay(listMock);
+    @SuppressWarnings("unchecked")
+    List<Integer> listMock = mock(List.class);
+    when(listMock.size()).thenReturn(SOME_SEQUENTIAL_LIST.size());
+    when(listMock.listIterator(0)).thenReturn(sampleListIterator);
+    verifyNoMoreInteractions(listMock);
     List<String> transform = Lists.transform(listMock, SOME_FUNCTION);
     assertTrue(Iterables.elementsEqual(
         transform, Lists.transform(randomAccessList, SOME_FUNCTION)));
-    EasyMock.verify(listMock);
   }
 
   private static void assertTransformIterator(List<String> list) {
@@ -840,7 +832,7 @@ public class ListsTest extends TestCase {
     assertEquals(asList(3), partitions.get(1));
   }
 
-  @GwtIncompatible("ArrayList.subList doesn't implement RandomAccess in GWT.")
+  @GwtIncompatible // ArrayList.subList doesn't implement RandomAccess in GWT.
   public void testPartitionRandomAccessTrue() {
     List<Integer> source = asList(1, 2, 3);
     List<List<Integer>> partitions = Lists.partition(source, 2);
@@ -861,9 +853,9 @@ public class ListsTest extends TestCase {
   public void testPartitionRandomAccessFalse() {
     List<Integer> source = Lists.newLinkedList(asList(1, 2, 3));
     List<List<Integer>> partitions = Lists.partition(source, 2);
-    assertThat(partitions).isNotInstanceOf(RandomAccess.class);
-    assertThat(partitions.get(0)).isNotInstanceOf(RandomAccess.class);
-    assertThat(partitions.get(1)).isNotInstanceOf(RandomAccess.class);
+    assertFalse(partitions instanceof RandomAccess);
+    assertFalse(partitions.get(0) instanceof RandomAccess);
+    assertFalse(partitions.get(1) instanceof RandomAccess);
   }
 
   // TODO: use the ListTestSuiteBuilder
@@ -898,7 +890,7 @@ public class ListsTest extends TestCase {
     assertEquals(1, Lists.partition(list, Integer.MAX_VALUE - 1).size());
   }
 
-  @GwtIncompatible("cannot do such a big explicit copy")
+  @GwtIncompatible // cannot do such a big explicit copy
   public void testPartitionSize_2() {
     assertEquals(2, Lists.partition(Collections.nCopies(0x40000001, 1), 0x40000000).size());
   }

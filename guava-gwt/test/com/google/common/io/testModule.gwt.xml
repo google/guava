@@ -7,6 +7,7 @@
   <inherits name="com.google.common.collect.Collect"/>
   <inherits name="com.google.common.io.Io"/>
   <inherits name="com.google.common.math.Math"/>
+  <inherits name="com.google.common.testing.Testing"/>
   <inherits name="com.google.common.truth.Truth"/>
   <entry-point class="com.google.common.io.TestModuleEntryPoint"/>
    

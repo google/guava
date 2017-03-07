@@ -18,10 +18,9 @@ package com.google.common.collect;
 
 import org.checkerframework.framework.qual.AnnotatedFor;
 import com.google.common.annotations.GwtCompatible;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Map;
 import java.util.Set;
-
 import javax.annotation.Nullable;
 
 /**
@@ -49,6 +48,7 @@ public interface BiMap<K extends /*@org.checkerframework.checker.nullness.qual.N
    *     different key in this bimap. The bimap will remain unmodified in this
    *     event. To avoid this exception, call {@link #forcePut} instead.
    */
+  @CanIgnoreReturnValue
   @Override
   @Nullable
   V put(/*@Nullable*/ K key, /*@Nullable*/ V value);
@@ -70,6 +70,7 @@ public interface BiMap<K extends /*@org.checkerframework.checker.nullness.qual.N
    * @return the value which was previously associated with the key, which may
    *     be {@code null}, or {@code null} if there was no previous entry
    */
+  @CanIgnoreReturnValue
   @Nullable
   V forcePut(/*@Nullable*/ K key, /*@Nullable*/ V value);
 

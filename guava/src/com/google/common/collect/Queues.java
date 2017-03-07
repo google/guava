@@ -15,8 +15,10 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
@@ -38,6 +40,7 @@ import java.util.concurrent.TimeUnit;
  * @author Kurt Alfred Kluever
  * @since 11.0
  */
+@GwtCompatible(emulated = true)
 public final class Queues {
   private Queues() {}
 
@@ -47,6 +50,7 @@ public final class Queues {
    * Creates an empty {@code ArrayBlockingQueue} with the given (fixed) capacity
    * and nonfair access policy.
    */
+  @GwtIncompatible // ArrayBlockingQueue
   public static <E> ArrayBlockingQueue<E> newArrayBlockingQueue(int capacity) {
     return new ArrayBlockingQueue<E>(capacity);
   }
@@ -82,6 +86,7 @@ public final class Queues {
   /**
    * Creates an empty {@code ConcurrentLinkedQueue}.
    */
+  @GwtIncompatible // ConcurrentLinkedQueue
   public static <E> ConcurrentLinkedQueue<E> newConcurrentLinkedQueue() {
     return new ConcurrentLinkedQueue<E>();
   }
@@ -90,6 +95,7 @@ public final class Queues {
    * Creates a {@code ConcurrentLinkedQueue} containing the elements of the specified iterable,
    * in the order they are returned by the iterable's iterator.
    */
+  @GwtIncompatible // ConcurrentLinkedQueue
   public static <E> ConcurrentLinkedQueue<E> newConcurrentLinkedQueue(
       Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
@@ -107,6 +113,7 @@ public final class Queues {
    *
    * @since 12.0
    */
+  @GwtIncompatible // LinkedBlockingDeque
   public static <E> LinkedBlockingDeque<E> newLinkedBlockingDeque() {
     return new LinkedBlockingDeque<E>();
   }
@@ -117,6 +124,7 @@ public final class Queues {
    * @throws IllegalArgumentException if {@code capacity} is less than 1
    * @since 12.0
    */
+  @GwtIncompatible // LinkedBlockingDeque
   public static <E> LinkedBlockingDeque<E> newLinkedBlockingDeque(int capacity) {
     return new LinkedBlockingDeque<E>(capacity);
   }
@@ -128,6 +136,7 @@ public final class Queues {
    *
    * @since 12.0
    */
+  @GwtIncompatible // LinkedBlockingDeque
   public static <E> LinkedBlockingDeque<E> newLinkedBlockingDeque(Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
       return new LinkedBlockingDeque<E>(Collections2.cast(elements));
@@ -142,6 +151,7 @@ public final class Queues {
   /**
    * Creates an empty {@code LinkedBlockingQueue} with a capacity of {@link Integer#MAX_VALUE}.
    */
+  @GwtIncompatible // LinkedBlockingQueue
   public static <E> LinkedBlockingQueue<E> newLinkedBlockingQueue() {
     return new LinkedBlockingQueue<E>();
   }
@@ -151,6 +161,7 @@ public final class Queues {
    *
    * @throws IllegalArgumentException if {@code capacity} is less than 1
    */
+  @GwtIncompatible // LinkedBlockingQueue
   public static <E> LinkedBlockingQueue<E> newLinkedBlockingQueue(int capacity) {
     return new LinkedBlockingQueue<E>(capacity);
   }
@@ -163,6 +174,7 @@ public final class Queues {
    * @param elements the elements that the queue should contain, in order
    * @return a new {@code LinkedBlockingQueue} containing those elements
    */
+  @GwtIncompatible // LinkedBlockingQueue
   public static <E> LinkedBlockingQueue<E> newLinkedBlockingQueue(Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
       return new LinkedBlockingQueue<E>(Collections2.cast(elements));
@@ -182,6 +194,7 @@ public final class Queues {
    *
    * @since 11.0 (requires that {@code E} be {@code Comparable} since 15.0).
    */
+  @GwtIncompatible // PriorityBlockingQueue
   public static <E extends Comparable> PriorityBlockingQueue<E> newPriorityBlockingQueue() {
     return new PriorityBlockingQueue<E>();
   }
@@ -194,6 +207,7 @@ public final class Queues {
    *
    * @since 11.0 (requires that {@code E} be {@code Comparable} since 15.0).
    */
+  @GwtIncompatible // PriorityBlockingQueue
   public static <E extends Comparable> PriorityBlockingQueue<E> newPriorityBlockingQueue(
       Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
@@ -239,6 +253,7 @@ public final class Queues {
   /**
    * Creates an empty {@code SynchronousQueue} with nonfair access policy.
    */
+  @GwtIncompatible // SynchronousQueue
   public static <E> SynchronousQueue<E> newSynchronousQueue() {
     return new SynchronousQueue<E>();
   }
@@ -257,6 +272,8 @@ public final class Queues {
    * @throws InterruptedException if interrupted while waiting
    */
   @Beta
+  @CanIgnoreReturnValue
+  @GwtIncompatible // BlockingQueue
   public static <E> int drain(
       BlockingQueue<E> q,
       Collection<? super E> buffer,
@@ -302,6 +319,8 @@ public final class Queues {
    * @return the number of elements transferred
    */
   @Beta
+  @CanIgnoreReturnValue
+  @GwtIncompatible // BlockingQueue
   public static <E> int drainUninterruptibly(
       BlockingQueue<E> q,
       Collection<? super E> buffer,

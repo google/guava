@@ -60,9 +60,6 @@ import com.google.common.collect.TreeMultiset;
 import com.google.common.primitives.UnsignedInteger;
 import com.google.common.primitives.UnsignedLong;
 import com.google.common.reflect.TypeToken;
-
-import junit.framework.TestCase;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -108,6 +105,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link FreshValueGenerator}.

@@ -23,18 +23,14 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
-import sun.security.jca.ProviderList;
-import sun.security.jca.Providers;
-
 import java.security.Key;
 import java.util.Arrays;
-
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import junit.framework.TestCase;
+import sun.security.jca.ProviderList;
+import sun.security.jca.Providers;
 
 /**
  * Tests for the MacHashFunction.
@@ -82,7 +78,6 @@ public class MacHashFunctionTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   @AndroidIncompatible // sun.security
   public void testNoProviders() {
     ProviderList providers = Providers.getProviderList();
@@ -125,7 +120,6 @@ public class MacHashFunctionTest extends TestCase {
             .hash());
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testCustomKey() throws Exception {
     SecretKey customKey = new SecretKey() {
       @Override public String getAlgorithm() {
@@ -144,7 +138,6 @@ public class MacHashFunctionTest extends TestCase {
             .toString());
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testBadKey_emptyKey() throws Exception {
     SecretKey badKey = new SecretKey() {
       @Override public String getAlgorithm() {
@@ -223,7 +216,6 @@ public class MacHashFunctionTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testHashTwice() {
     Hasher hasher = Hashing.hmacMd5(MD5_KEY).newHasher();
 

@@ -31,7 +31,6 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -49,7 +48,8 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
     try {
       multimap().put(k3(), v3());
       fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {}
+    } catch (UnsupportedOperationException expected) {
+    }
   }
 
   @MapFeature.Require(SUPPORTS_PUT)

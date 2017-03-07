@@ -21,6 +21,7 @@ import static com.google.common.base.Predicates.not;
 import static com.google.common.testing.AbstractPackageSanityTests.Chopper.suffix;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
@@ -34,12 +35,6 @@ import com.google.common.collect.Sets;
 import com.google.common.reflect.ClassPath;
 import com.google.common.testing.NullPointerTester.Visibility;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
-
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
-
-import org.junit.Test;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.LinkedHashSet;
@@ -48,6 +43,9 @@ import java.util.Locale;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * Automatically runs sanity checks against top level classes in the same package of the test that
@@ -99,6 +97,8 @@ import java.util.logging.Logger;
  */
 @Beta
 // TODO: Switch to JUnit 4 and use @Parameterized and @BeforeClass
+// Note: @Test annotations are deliberate, as some subclasses specify @RunWith(JUnit4).
+@GwtIncompatible
 @J2ObjCIncompatible // com.google.common.reflect.ClassPath
 public abstract class AbstractPackageSanityTests extends TestCase {
 
@@ -349,7 +349,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
   private List<Class<?>> loadClassesInPackage() throws IOException {
     List<Class<?>> classes = Lists.newArrayList();
     String packageName = getClass().getPackage().getName();
-    for (ClassPath.ClassInfo classInfo 
+    for (ClassPath.ClassInfo classInfo
         : ClassPath.from(getClass().getClassLoader()).getTopLevelClasses(packageName)) {
       Class<?> cls;
       try {

@@ -46,16 +46,14 @@ public class QueuePollTester<E> extends AbstractQueueTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(ONE)
   public void testPoll_size1() {
-    assertEquals("size1Queue.poll() should return first element",
-        e0(), getQueue().poll());
+    assertEquals("size1Queue.poll() should return first element", e0(), getQueue().poll());
     expectMissing(e0());
   }
 
   @CollectionFeature.Require({KNOWN_ORDER, SUPPORTS_REMOVE})
   @CollectionSize.Require(SEVERAL)
   public void testPoll_sizeMany() {
-    assertEquals("sizeManyQueue.poll() should return first element",
-        e0(), getQueue().poll());
+    assertEquals("sizeManyQueue.poll() should return first element", e0(), getQueue().poll());
     expectMissing(e0());
   }
 }

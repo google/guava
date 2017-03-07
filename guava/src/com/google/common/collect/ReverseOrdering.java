@@ -22,10 +22,8 @@ import org.checkerframework.framework.qual.AnnotatedFor;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.io.Serializable;
 import java.util.Iterator;
-
 import javax.annotation.Nullable;
 
 /** An ordering that uses the reverse of a given order. */

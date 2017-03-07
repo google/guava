@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Set;
@@ -26,7 +25,7 @@ import java.util.SortedSet;
 /**
  * A skeleton implementation of a descending multiset.  Only needs
  * {@code forwardMultiset()} and {@code entryIterator()}.
- * 
+ *
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)

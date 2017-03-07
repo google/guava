@@ -18,17 +18,17 @@ package com.google.common.collect;
 
 import static java.util.Arrays.asList;
 
+import com.google.common.base.Function;
 import com.google.common.collect.testing.CollectionTestSuiteBuilder;
 import com.google.common.collect.testing.MinimalCollection;
 import com.google.common.collect.testing.TestStringCollectionGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
+import com.google.common.testing.ForwardingWrapperTester;
 import java.util.Collection;
-import java.util.Collections;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Tests for {@link ForwardingCollection}.
@@ -37,7 +37,7 @@ import java.util.Collections;
  * @author Hayward Chan
  * @author Louis Wasserman
  */
-public class ForwardingCollectionTest extends ForwardingTestCase {
+public class ForwardingCollectionTest extends TestCase {
   static final class StandardImplForwardingCollection<T>
       extends ForwardingCollection<T> {
     private final Collection<T> backingCollection;
@@ -91,14 +91,9 @@ public class ForwardingCollectionTest extends ForwardingTestCase {
     }
   }
 
-  private static final Collection<String> EMPTY_COLLECTION =
-      Collections.emptyList();
-
-  private Collection<String> forward;
-
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    
+
     suite.addTestSuite(ForwardingCollectionTest.class);
     suite.addTest(
         CollectionTestSuiteBuilder.using(new TestStringCollectionGenerator() {
@@ -120,105 +115,27 @@ public class ForwardingCollectionTest extends ForwardingTestCase {
         }).named(
             "ForwardingCollection[MinimalCollection] with standard"
             + " implementations")
-            .withFeatures(CollectionSize.ANY, 
+            .withFeatures(CollectionSize.ANY,
                 CollectionFeature.ALLOWS_NULL_VALUES).createTestSuite());
-    
+
     return suite;
   }
-  
-  @Override public void setUp() throws Exception {
-    super.setUp();
-    /*
-     * Class parameters must be raw, so we can't create a proxy with generic
-     * type arguments. The created proxy only records calls and returns null, so
-     * the type is irrelevant at runtime.
-     */
-    @SuppressWarnings("unchecked")
-    final Collection<String> list = createProxyInstance(Collection.class);
-    forward = new ForwardingCollection<String>() {
-      @Override protected Collection<String> delegate() {
-        return list;
+
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  public void testForwarding() {
+    new ForwardingWrapperTester()
+        .testForwarding(Collection.class, new Function<Collection, Collection>() {
+          @Override public Collection apply(Collection delegate) {
+            return wrap(delegate);
+          }
+        });
+  }
+
+  private static <T> Collection<T> wrap(final Collection<T> delegate) {
+    return new ForwardingCollection<T>() {
+      @Override protected Collection<T> delegate() {
+        return delegate;
       }
     };
-  }
-
-  public void testAdd_T() {
-    forward.add("asdf");
-    assertEquals("[add(Object)]", getCalls());
-  }
-
-  public void testAddAll_Collection() {
-    forward.addAll(EMPTY_COLLECTION);
-    assertEquals("[addAll(Collection)]", getCalls());
-  }
-
-  public void testClear() {
-    forward.clear();
-    assertEquals("[clear]", getCalls());
-  }
-
-  public void testContains_Object() {
-    forward.contains(null);
-    assertEquals("[contains(Object)]", getCalls());
-  }
-
-  public void testContainsAll_Collection() {
-    forward.containsAll(EMPTY_COLLECTION);
-    assertEquals("[containsAll(Collection)]", getCalls());
-  }
-
-  public void testIsEmpty() {
-    forward.isEmpty();
-    assertEquals("[isEmpty]", getCalls());
-  }
-
-  public void testIterator() {
-    forward.iterator();
-    assertEquals("[iterator]", getCalls());
-  }
-
-  public void testRemove_Object() {
-    forward.remove(null);
-    assertEquals("[remove(Object)]", getCalls());
-  }
-
-  public void testRemoveAll_Collection() {
-    forward.removeAll(EMPTY_COLLECTION);
-    assertEquals("[removeAll(Collection)]", getCalls());
-  }
-
-  public void testRetainAll_Collection() {
-    forward.retainAll(EMPTY_COLLECTION);
-    assertEquals("[retainAll(Collection)]", getCalls());
-  }
-
-  public void testSize() {
-    forward.size();
-    assertEquals("[size]", getCalls());
-  }
-
-  public void testToArray() {
-    forward.toArray();
-    assertEquals("[toArray]", getCalls());
-  }
-
-  public void testToArray_TArray() {
-    forward.toArray(new String[0]);
-    assertEquals("[toArray(Object[])]", getCalls());
-  }
-
-  public void testToString() {
-    forward.toString();
-    assertEquals("[toString]", getCalls());
-  }
-
-  public void testEquals_Object() {
-    forward.equals("asdf");
-    assertFalse("equals() should not be forwarded.", isCalled());
-  }
-
-  public void testHashCode() {
-    forward.hashCode();
-    assertFalse("hashCode() should not be forwarded.", isCalled());
   }
 }

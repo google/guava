@@ -27,9 +27,6 @@ import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.testing.GcFinalization;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
 import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +36,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import junit.framework.TestCase;
 
 /**
  * Tests for Striped.
@@ -201,7 +199,7 @@ public class StripedTest extends TestCase {
         Striped.lazyWeakReadWriteLock(Integer.MAX_VALUE))) {
       for (int i = 0; i < 3; i++) {
         // doesn't throw exception
-        striped.getAt(Integer.MAX_VALUE - i);
+        Object unused = striped.getAt(Integer.MAX_VALUE - i);
       }
     }
   }

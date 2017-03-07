@@ -23,13 +23,11 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
 import com.google.common.testing.EqualsTester;
-
-import org.junit.Assert;
-
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Set;
+import org.junit.Assert;
 
 /**
  * Various utilities for testing {@link HashFunction}s.
@@ -227,7 +225,7 @@ final class HashTestUtils {
       return actions[random.nextInt(actions.length)];
     }
   }
-  
+
   /**
    * Test that the hash function contains no funnels. A funnel is a situation where a set of input
    * (key) bits 'affects' a strictly smaller set of output bits. Funneling is bad because it can
@@ -237,7 +235,7 @@ final class HashTestUtils {
    * bit(j) about half the time
    *
    * <p>Funneling is pretty simple to detect. The key idea is to find example keys which
-   * unequivocably demonstrate that funneling cannot be occuring. This is done bit-by-bit. For
+   * unequivocally demonstrate that funneling cannot be occurring. This is done bit-by-bit. For
    * each input bit(i) and output bit(j), two pairs of keys must be found with all bits identical
    * except bit(i). One pair must differ in output bit(j), and one pair must not. This proves that
    * input bit(i) can alter output bit(j).
@@ -414,10 +412,11 @@ final class HashTestUtils {
   static void assertInvariants(HashFunction hashFunction) {
     int objects = 100;
     Set<HashCode> hashcodes = Sets.newHashSetWithExpectedSize(objects);
+    Random random = new Random(314159);
     for (int i = 0; i < objects; i++) {
-      Object o = new Object();
-      HashCode hashcode1 = hashFunction.hashObject(o, HashTestUtils.BAD_FUNNEL);
-      HashCode hashcode2 = hashFunction.hashObject(o, HashTestUtils.BAD_FUNNEL);
+      int value = random.nextInt();
+      HashCode hashcode1 = hashFunction.hashInt(value);
+      HashCode hashcode2 = hashFunction.hashInt(value);
       Assert.assertEquals(hashcode1, hashcode2); // idempotent
       Assert.assertEquals(hashFunction.bits(), hashcode1.bits());
       Assert.assertEquals(hashFunction.bits(), hashcode1.asBytes().length * 8);
@@ -431,7 +430,9 @@ final class HashTestUtils {
   }
 
   static void assertHashBytesThrowsCorrectExceptions(HashFunction hashFunction) {
-    hashFunction.hashBytes(new byte[64], 0, 0);
+    {
+      HashCode unused = hashFunction.hashBytes(new byte[64], 0, 0);
+    }
 
     try {
       hashFunction.hashBytes(new byte[128], -1, 128);

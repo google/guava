@@ -19,12 +19,10 @@ package com.google.common.hash;
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-
-import junit.framework.TestCase;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import junit.framework.TestCase;
 
 /**
  * Tests for the MessageDigestHashFunction.
@@ -73,7 +71,6 @@ public class MessageDigestHashFunctionTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testHashTwice() {
     Hasher sha1 = Hashing.sha1().newHasher();
 

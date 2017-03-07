@@ -28,7 +28,6 @@ import com.google.common.collect.testing.AbstractCollectionTester;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-
 import java.lang.reflect.Method;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
@@ -46,8 +45,7 @@ import java.util.Iterator;
 public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAdd_supportedNotPresent() {
-    assertTrue("add(notPresent) should return true",
-        collection.add(e3()));
+    assertTrue("add(notPresent) should return true", collection.add(e3()));
     expectAdded(e3());
   }
 
@@ -66,23 +64,22 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
   @CollectionSize.Require(absent = ZERO)
   public void testAdd_unsupportedPresent() {
     try {
-      assertFalse("add(present) should return false or throw",
-          collection.add(e0()));
+      assertFalse("add(present) should return false or throw", collection.add(e0()));
     } catch (UnsupportedOperationException tolerated) {
     }
     expectUnchanged();
   }
 
   @CollectionFeature.Require(
-      value = {SUPPORTS_ADD, ALLOWS_NULL_VALUES},
-      absent = RESTRICTS_ELEMENTS)
+    value = {SUPPORTS_ADD, ALLOWS_NULL_VALUES},
+    absent = RESTRICTS_ELEMENTS
+  )
   public void testAdd_nullSupported() {
     assertTrue("add(null) should return true", collection.add(null));
     expectAdded((E) null);
   }
 
-  @CollectionFeature.Require(value = SUPPORTS_ADD,
-      absent = ALLOWS_NULL_VALUES)
+  @CollectionFeature.Require(value = SUPPORTS_ADD, absent = ALLOWS_NULL_VALUES)
   public void testAdd_nullUnsupported() {
     try {
       collection.add(null);
@@ -90,12 +87,10 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
     } catch (NullPointerException expected) {
     }
     expectUnchanged();
-    expectNullMissingWhenNullUnsupported(
-        "Should not contain null after unsupported add(null)");
+    expectNullMissingWhenNullUnsupported("Should not contain null after unsupported add(null)");
   }
 
-  @CollectionFeature.Require({SUPPORTS_ADD,
-      FAILS_FAST_ON_CONCURRENT_MODIFICATION})
+  @CollectionFeature.Require({SUPPORTS_ADD, FAILS_FAST_ON_CONCURRENT_MODIFICATION})
   @CollectionSize.Require(absent = ZERO)
   public void testAddConcurrentWithIteration() {
     try {
@@ -120,7 +115,7 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
    * seems more likely that code would depend on that behavior than on the
    * other. Thus, we say the bug is in add(), which fails to support null.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method getAddNullSupportedMethod() {
     return Helpers.getMethod(CollectionAddTester.class, "testAdd_nullSupported");
   }
@@ -132,7 +127,7 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045147">Sun bug
    * 5045147</a> is fixed.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method getAddNullUnsupportedMethod() {
     return Helpers.getMethod(CollectionAddTester.class, "testAdd_nullUnsupported");
   }
@@ -144,7 +139,7 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
    * what to do with <a href="http://goo.gl/qJBruX">{@code ConcurrentHashMap}
    * support for {@code entrySet().add()}</a>.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method getAddUnsupportedNotPresentMethod() {
     return Helpers.getMethod(CollectionAddTester.class, "testAdd_unsupportedNotPresent");
   }

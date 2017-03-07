@@ -15,9 +15,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.io.Serializable;
-
 import javax.annotation.Nullable;
 
 /**
@@ -37,10 +35,8 @@ final class Count implements Serializable {
     return value;
   }
 
-  public int getAndAdd(int delta) {
-    int result = value;
-    value = result + delta;
-    return result;
+  public void add(int delta) {
+    value += delta;
   }
 
   public int addAndGet(int delta) {

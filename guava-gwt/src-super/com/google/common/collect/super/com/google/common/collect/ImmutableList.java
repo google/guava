@@ -17,32 +17,38 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 
-import com.google.common.collect.Lists;
-
+import com.google.common.annotations.Beta;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.RandomAccess;
-
+import java.util.stream.Collector;
 import javax.annotation.Nullable;
 
 /**
- * GWT emulated version of {@link ImmutableList}.
- * TODO(cpovirk): more doc
+ * GWT emulated version of {@link com.google.common.collect.ImmutableList}. TODO(cpovirk): more doc
  *
  * @author Hayward Chan
  */
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableList<E> extends ImmutableCollection<E>
     implements List<E>, RandomAccess {
-  static final ImmutableList<Object> EMPTY = 
+  static final ImmutableList<Object> EMPTY =
       new RegularImmutableList<Object>(Collections.emptyList());
-  
+
   ImmutableList() {}
+
+  @Beta
+  public static <E> Collector<E, ?, ImmutableList<E>> toImmutableList() {
+    return CollectCollectors.toImmutableList();
+  }
 
   // Casting to any type is safe because the list will never hold any elements.
   @SuppressWarnings("unchecked")
@@ -51,7 +57,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   public static <E> ImmutableList<E> of(E element) {
-    return new SingletonImmutableList<E>(element);
+    return new RegularImmutableList<E>(
+        ImmutableList.<E>nullCheckedList(element));
   }
 
   public static <E> ImmutableList<E> of(E e1, E e2) {
@@ -155,31 +162,20 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   private static <E> ImmutableList<E> copyFromCollection(
       Collection<? extends E> collection) {
     Object[] elements = collection.toArray();
-    switch (elements.length) {
-      case 0:
-        return of();
-      case 1:
-        @SuppressWarnings("unchecked") // collection had only Es in it
-        ImmutableList<E> list = new SingletonImmutableList<E>((E) elements[0]);
-        return list;
-      default:
-        return new RegularImmutableList<E>(ImmutableList.<E>nullCheckedList(elements));
-    }
+    return (elements.length == 0)
+        ? ImmutableList.<E>of()
+        : new RegularImmutableList<E>(ImmutableList.<E>nullCheckedList(elements));
   }
 
   // Factory method that skips the null checks.  Used only when the elements
   // are guaranteed to be non-null.
   static <E> ImmutableList<E> unsafeDelegateList(List<? extends E> list) {
-    switch (list.size()) {
-      case 0:
-        return of();
-      case 1:
-        return new SingletonImmutableList<E>(list.iterator().next());
-      default:
-        @SuppressWarnings("unchecked")
-        List<E> castedList = (List<E>) list;
-        return new RegularImmutableList<E>(castedList);
+    if (list.isEmpty()) {
+      return of();
     }
+    @SuppressWarnings("unchecked")
+    List<E> castedList = (List<E>) list;
+    return new RegularImmutableList<E>(castedList);
   }
 
   /**
@@ -190,6 +186,24 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   @SuppressWarnings("unchecked") // caller is reponsible for getting this right
   static <E> ImmutableList<E> asImmutableList(Object[] elements) {
     return unsafeDelegateList((List) Arrays.asList(elements));
+  }
+
+  public static <E extends Comparable<? super E>> ImmutableList<E> sortedCopyOf(
+      Iterable<? extends E> elements) {
+    Comparable[] array = Iterables.toArray(elements, new Comparable[0]);
+    checkElementsNotNull(array);
+    Arrays.sort(array);
+    return asImmutableList(array);
+  }
+
+  public static <E> ImmutableList<E> sortedCopyOf(
+      Comparator<? super E> comparator, Iterable<? extends E> elements) {
+    checkNotNull(comparator);
+    @SuppressWarnings("unchecked") // all supported methods are covariant
+    E[] array = (E[]) Iterables.toArray(elements);
+    checkElementsNotNull(array);
+    Arrays.sort(array, comparator);
+    return asImmutableList(array);
   }
 
   private static <E> List<E> nullCheckedList(Object... array) {
@@ -285,24 +299,35 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       contents = Lists.newArrayListWithCapacity(capacity);
     }
 
+    @CanIgnoreReturnValue
     @Override public Builder<E> add(E element) {
       contents.add(checkNotNull(element));
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override public Builder<E> addAll(Iterable<? extends E> elements) {
       super.addAll(elements);
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override public Builder<E> add(E... elements) {
       checkNotNull(elements);  // for GWT
       super.add(elements);
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override public Builder<E> addAll(Iterator<? extends E> elements) {
       super.addAll(elements);
+      return this;
+    }
+
+    @CanIgnoreReturnValue
+    Builder<E> combine(Builder<E> builder) {
+      checkNotNull(builder);
+      contents.addAll(builder.contents);
       return this;
     }
 

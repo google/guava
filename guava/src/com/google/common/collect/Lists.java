@@ -36,7 +36,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.math.RoundingMode;
 import java.util.AbstractList;
@@ -52,8 +52,7 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
 import java.util.concurrent.CopyOnWriteArrayList;
-
-import javax.annotation.CheckReturnValue;
+import java.util.function.Predicate;
 import javax.annotation.Nullable;
 
 /**
@@ -110,6 +109,8 @@ public final class Lists {
    * calling {@link Collections#addAll}. This method is not actually very useful
    * and will likely be deprecated in the future.
    */
+  @SafeVarargs
+  @CanIgnoreReturnValue // TODO(kak): Remove this
   @GwtCompatible(serializable = true)
   public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> ArrayList<E> newArrayList(E... elements) {
     checkNotNull(elements); // for GWT
@@ -143,6 +144,7 @@ public final class Lists {
    * {@linkplain ArrayList#ArrayList(Collection) constructor} directly, taking
    * advantage of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    */
+  @CanIgnoreReturnValue // TODO(kak): Remove this
   @GwtCompatible(serializable = true)
   public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> ArrayList<E> newArrayList(Iterable<? extends E> elements) {
     checkNotNull(elements); // for GWT
@@ -160,6 +162,7 @@ public final class Lists {
    * <p><b>Note:</b> if mutability is not required and the elements are
    * non-null, use {@link ImmutableList#copyOf(Iterator)} instead.
    */
+  @CanIgnoreReturnValue // TODO(kak): Remove this
   @GwtCompatible(serializable = true)
   public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> ArrayList<E> newArrayList(Iterator<? extends E> elements) {
     ArrayList<E> list = newArrayList();
@@ -272,7 +275,7 @@ public final class Lists {
    * @return a new, empty {@code CopyOnWriteArrayList}
    * @since 12.0
    */
-  @GwtIncompatible("CopyOnWriteArrayList")
+  @GwtIncompatible // CopyOnWriteArrayList
   public static <E> CopyOnWriteArrayList<E> newCopyOnWriteArrayList() {
     return new CopyOnWriteArrayList<E>();
   }
@@ -284,15 +287,13 @@ public final class Lists {
    * @return a new {@code CopyOnWriteArrayList} containing those elements
    * @since 12.0
    */
-  @GwtIncompatible("CopyOnWriteArrayList")
+  @GwtIncompatible // CopyOnWriteArrayList
   public static <E> CopyOnWriteArrayList<E> newCopyOnWriteArrayList(
       Iterable<? extends E> elements) {
     // We copy elements to an ArrayList first, rather than incurring the
     // quadratic cost of adding them to the COWAL directly.
     Collection<? extends E> elementsCollection =
-        (elements instanceof Collection)
-            ? Collections2.cast(elements)
-            : newArrayList(elements);
+        (elements instanceof Collection) ? Collections2.cast(elements) : newArrayList(elements);
     return new CopyOnWriteArrayList<E>(elementsCollection);
   }
 
@@ -330,7 +331,7 @@ public final class Lists {
     @Pure
     @Override
     public int size() {
-      return rest.length + 1;
+      return IntMath.saturatedAdd(rest.length, 1);
     }
 
     @Override
@@ -380,7 +381,7 @@ public final class Lists {
     @Pure
     @Override
     public int size() {
-      return rest.length + 2;
+      return IntMath.saturatedAdd(rest.length, 2);
     }
 
     @Override
@@ -518,6 +519,7 @@ public final class Lists {
    *     {@code lists}, or any element of a provided list is null
    * @since 19.0
    */
+  @SafeVarargs
   public static <B> List<List<B>> cartesianProduct(List<? extends B>... lists) {
     return cartesianProduct(Arrays.asList(lists));
   }
@@ -554,8 +556,11 @@ public final class Lists {
    * copy the list using {@link ImmutableList#copyOf(Collection)} (for example),
    * then serialize the copy. Other methods similar to this do not implement
    * serialization at all for this reason.
+   *
+   * <p><b>Java 8 users:</b> many use cases for this method are better addressed
+   *  by {@link java.util.stream.Stream#map}. This method is not being
+   * deprecated, but we gently encourage you to migrate to streams.
    */
-  @CheckReturnValue
   public static <F extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> List<T> transform(
       List<F> fromList, Function<? super F, ? extends T> function) {
     return (fromList instanceof RandomAccess)
@@ -601,6 +606,12 @@ public final class Lists {
           return function.apply(from);
         }
       };
+    }
+
+    @Override
+    public boolean removeIf(Predicate<? super T> filter) {
+      checkNotNull(filter);
+      return fromList.removeIf(element -> filter.test(function.apply(element)));
     }
 
     private static final long serialVersionUID = 0;
@@ -653,6 +664,12 @@ public final class Lists {
     @Override
     public boolean isEmpty() {
       return fromList.isEmpty();
+    }
+
+    @Override
+    public boolean removeIf(Predicate<? super T> filter) {
+      checkNotNull(filter);
+      return fromList.removeIf(element -> filter.test(function.apply(element)));
     }
 
     @Override
@@ -737,7 +754,6 @@ public final class Lists {
    *
    * @since 7.0
    */
-  @Beta
   public static ImmutableList<Character> charactersOf(String string) {
     return new StringAsImmutableList(checkNotNull(string));
   }
@@ -831,7 +847,6 @@ public final class Lists {
    *
    * @since 7.0
    */
-  @CheckReturnValue
   public static <T> List<T> reverse(List<T> list) {
     if (list instanceof ImmutableList) {
       return ((ImmutableList<T>) list).reverse();
@@ -1126,23 +1141,25 @@ public final class Lists {
   static <E> List<E> subListImpl(final List<E> list, int fromIndex, int toIndex) {
     List<E> wrapper;
     if (list instanceof RandomAccess) {
-      wrapper = new RandomAccessListWrapper<E>(list) {
-        @Override
-        public ListIterator<E> listIterator(int index) {
-          return backingList.listIterator(index);
-        }
+      wrapper =
+          new RandomAccessListWrapper<E>(list) {
+            @Override
+            public ListIterator<E> listIterator(int index) {
+              return backingList.listIterator(index);
+            }
 
-        private static final long serialVersionUID = 0;
-      };
+            private static final long serialVersionUID = 0;
+          };
     } else {
-      wrapper = new AbstractListWrapper<E>(list) {
-        @Override
-        public ListIterator<E> listIterator(int index) {
-          return backingList.listIterator(index);
-        }
+      wrapper =
+          new AbstractListWrapper<E>(list) {
+            @Override
+            public ListIterator<E> listIterator(int index) {
+              return backingList.listIterator(index);
+            }
 
-        private static final long serialVersionUID = 0;
-      };
+            private static final long serialVersionUID = 0;
+          };
     }
     return wrapper.subList(fromIndex, toIndex);
   }

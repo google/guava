@@ -25,15 +25,13 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link Joiner}.
@@ -58,7 +56,6 @@ public class JoinerTest extends TestCase {
   private static final Iterable<Integer> ITERABLE_FOUR_NULLS
       = Arrays.asList((Integer) null, null, null, null);
 
-  @SuppressWarnings("CheckReturnValue")
   public void testNoSpecialNullBehavior() {
     checkNoOutput(J, ITERABLE_);
     checkResult(J, ITERABLE_1, "1");
@@ -238,9 +235,8 @@ public class JoinerTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMap() {
-    MapJoiner j = Joiner.on(";").withKeyValueSeparator(":");
+    MapJoiner j = Joiner.on(';').withKeyValueSeparator(':');
     assertEquals("", j.join(ImmutableMap.of()));
     assertEquals(":", j.join(ImmutableMap.of("", "")));
 
@@ -261,7 +257,6 @@ public class JoinerTest extends TestCase {
     assertEquals("1:2;3:4;5:6", sb.toString());
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testEntries() {
     MapJoiner j = Joiner.on(";").withKeyValueSeparator(":");
     assertEquals("", j.join(ImmutableMultimap.of().entries()));
@@ -300,7 +295,6 @@ public class JoinerTest extends TestCase {
     assertEquals("1:2;1:3;3:4;5:6;5:10", sb2.toString());
   }
 
-  @SuppressWarnings("ReturnValueIgnored") // testing for exception
   public void test_skipNulls_onMap() {
     Joiner j = Joiner.on(",").skipNulls();
     try {
@@ -349,7 +343,7 @@ public class JoinerTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("StringBuilder.append in GWT invokes Object.toString(), unlike the JRE version.")
+  @GwtIncompatible // StringBuilder.append in GWT invokes Object.toString(), unlike the JRE version.
   public void testDontConvertCharSequenceToString() {
     assertEquals("foo,foo", Joiner.on(",").join(
         new DontStringMeBro(), new DontStringMeBro()));
@@ -357,7 +351,7 @@ public class JoinerTest extends TestCase {
         new DontStringMeBro(), null, new DontStringMeBro()));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Joiner.class);

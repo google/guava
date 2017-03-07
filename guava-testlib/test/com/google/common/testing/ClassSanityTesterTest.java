@@ -26,10 +26,6 @@ import com.google.common.testing.ClassSanityTester.FactoryMethodReturnsNullExcep
 import com.google.common.testing.ClassSanityTester.ParameterHasNoDistinctValueException;
 import com.google.common.testing.ClassSanityTester.ParameterNotInstantiableException;
 import com.google.common.testing.NullPointerTester.Visibility;
-
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
-
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.AbstractList;
@@ -38,8 +34,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.annotation.Nullable;
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link ClassSanityTester}.
@@ -151,7 +150,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
     fail();
   }
-  
+
   public static class BadNullsFactory {
     public static Object bad(@SuppressWarnings("unused") String a) {
       return new BadNulls();
@@ -343,6 +342,10 @@ public class ClassSanityTesterTest extends TestCase {
     tester.testEquals(UsesEnum.class);
     tester.testEquals(UsesReferentialEquality.class);
     tester.testEquals(SameListInstance.class);
+  }
+
+  public void testStreamParameterSkippedForNullTesting() throws Exception {
+    tester.testNulls(WithStreamParameter.class);
   }
 
   @AndroidIncompatible // problem with equality of Type objects?
@@ -549,14 +552,6 @@ public class ClassSanityTesterTest extends TestCase {
     tester.setDistinctValues(NotInstantiable.class, x, y);
     assertNotNull(tester.instantiate(ConstructorParameterNotInstantiable.class));
     tester.testEquals(ConstructorParameterMapOfNotInstantiable.class);
-  }
-
-  public void testInstantiate_setSampleInstances_empty() throws Exception {
-    tester.setSampleInstances(NotInstantiable.class, ImmutableList.<NotInstantiable>of());
-    try {
-      tester.instantiate(ConstructorParameterNotInstantiable.class);
-      fail();
-    } catch (ParameterNotInstantiableException expected) {}
   }
 
   public void testInstantiate_constructorThrows() throws Exception {
@@ -1034,6 +1029,16 @@ public class ClassSanityTesterTest extends TestCase {
     }
   }
 
+  static class WithStreamParameter {
+    private final List<?> list;
+
+    // This should be ignored.
+    public WithStreamParameter(Stream<?> s, String str) {
+      this.list = s.collect(Collectors.toList());
+      checkNotNull(str);
+    }
+  }
+
   static class UsesReferentialEquality {
     private final ReferentialEquality s;
 
@@ -1194,7 +1199,7 @@ public class ClassSanityTesterTest extends TestCase {
 
   static class ConstructorParameterMapOfNotInstantiable {
     private final Map<NotInstantiable, NotInstantiable> m;
-    
+
     public ConstructorParameterMapOfNotInstantiable(
         Map<NotInstantiable, NotInstantiable> m) {
       this.m = checkNotNull(m);
@@ -1276,7 +1281,7 @@ public class ClassSanityTesterTest extends TestCase {
   private enum EnumFailsToCheckNull {
     A;
 
-    @SuppressWarnings("unused") 
+    @SuppressWarnings("unused")
     public void failToCheckNull(String s) {}
   }
 

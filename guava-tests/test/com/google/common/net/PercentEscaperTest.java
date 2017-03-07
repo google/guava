@@ -24,7 +24,6 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 import com.google.common.escape.UnicodeEscaper;
-
 import junit.framework.TestCase;
 
 /**

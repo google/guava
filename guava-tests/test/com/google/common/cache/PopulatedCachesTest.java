@@ -31,14 +31,12 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.testing.EqualsTester;
-
-import junit.framework.TestCase;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import junit.framework.TestCase;
 
 /**
  * {@link LoadingCache} tests that deal with caches that actually contain some key-value mappings.
@@ -276,15 +274,19 @@ public class PopulatedCachesTest extends TestCase {
     for (LoadingCache<Object, Object> cache : caches()) {
       cache.getUnchecked(1);
       Entry<Object, Object> entry = Iterables.getOnlyElement(cache.asMap().entrySet());
-      try {
-        entry.setValue(3);
-        fail("expected entry.setValue to throw UnsupportedOperationException");
-      } catch (UnsupportedOperationException expected) {
-      }
+
+      cache.invalidate(1);
+      assertEquals(0, cache.size());
+
+      entry.setValue(3);
+      assertEquals(1, cache.size());
+      assertEquals(3, cache.getIfPresent(1));
+      checkValidState(cache);
+
       try {
         entry.setValue(null);
-        fail("expected entry.setValue(null) to throw UnsupportedOperationException");
-      } catch (UnsupportedOperationException expected) {
+        fail();
+      } catch (NullPointerException expected) {
       }
       checkValidState(cache);
     }

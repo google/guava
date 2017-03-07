@@ -24,10 +24,6 @@ import static java.math.RoundingMode.CEILING;
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.common.math.BigIntegerMath;
-import com.google.common.math.IntMath;
-import com.google.common.math.LongMath;
-
 import java.math.BigInteger;
 
 /**

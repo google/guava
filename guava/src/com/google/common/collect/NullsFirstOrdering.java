@@ -20,9 +20,7 @@ import org.checkerframework.dataflow.qual.Pure;
 import org.checkerframework.framework.qual.AnnotatedFor;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.io.Serializable;
-
 import javax.annotation.Nullable;
 
 /** An ordering that treats {@code null} as less than all other values. */

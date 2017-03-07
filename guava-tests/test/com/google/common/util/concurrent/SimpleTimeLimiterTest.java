@@ -16,12 +16,11 @@
 
 package com.google.common.util.concurrent;
 
-import junit.framework.TestCase;
-
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link SimpleTimeLimiter}.
@@ -81,7 +80,7 @@ public class SimpleTimeLimiterTest extends TestCase {
       fail("no exception thrown");
     } catch (UncheckedTimeoutException expected) {
     }
-    assertTheCallTookBetween(start, NOT_ENOUGH_MS, DELAY_MS);
+    assertTheCallTookBetween(start, NOT_ENOUGH_MS, DELAY_MS * 2);
   }
 
   public void testBadCallableWithEnoughTime() throws Exception {
@@ -113,11 +112,11 @@ public class SimpleTimeLimiterTest extends TestCase {
       fail("no exception thrown");
     } catch (UncheckedTimeoutException expected) {
     }
-    assertTheCallTookBetween(start, NOT_ENOUGH_MS, DELAY_MS);
+    assertTheCallTookBetween(start, NOT_ENOUGH_MS, DELAY_MS * 2);
   }
 
   public void testGoodMethodWithEnoughTime() throws Exception {
-    SampleImpl target = new SampleImpl();
+    SampleImpl target = new SampleImpl(DELAY_MS);
     Sample proxy = service.newProxy(
         target, Sample.class, ENOUGH_MS, TimeUnit.MILLISECONDS);
     long start = System.nanoTime();
@@ -127,7 +126,7 @@ public class SimpleTimeLimiterTest extends TestCase {
   }
 
   public void testGoodMethodWithNotEnoughTime() throws Exception {
-    SampleImpl target = new SampleImpl();
+    SampleImpl target = new SampleImpl(9999);
     Sample proxy = service.newProxy(
         target, Sample.class, NOT_ENOUGH_MS, TimeUnit.MILLISECONDS);
     long start = System.nanoTime();
@@ -136,7 +135,7 @@ public class SimpleTimeLimiterTest extends TestCase {
       fail("no exception thrown");
     } catch (UncheckedTimeoutException expected) {
     }
-    assertTheCallTookBetween(start, NOT_ENOUGH_MS, DELAY_MS);
+    assertTheCallTookBetween(start, NOT_ENOUGH_MS, DELAY_MS * 2);
 
     // Is it still computing away anyway?
     assertFalse(target.finished);
@@ -145,7 +144,7 @@ public class SimpleTimeLimiterTest extends TestCase {
   }
 
   public void testBadMethodWithEnoughTime() throws Exception {
-    SampleImpl target = new SampleImpl();
+    SampleImpl target = new SampleImpl(DELAY_MS);
     Sample proxy = service.newProxy(
         target, Sample.class, ENOUGH_MS, TimeUnit.MILLISECONDS);
     long start = System.nanoTime();
@@ -158,7 +157,7 @@ public class SimpleTimeLimiterTest extends TestCase {
   }
 
   public void testBadMethodWithNotEnoughTime() throws Exception {
-    SampleImpl target = new SampleImpl();
+    SampleImpl target = new SampleImpl(9999);
     Sample proxy = service.newProxy(
         target, Sample.class, NOT_ENOUGH_MS, TimeUnit.MILLISECONDS);
     long start = System.nanoTime();
@@ -167,7 +166,7 @@ public class SimpleTimeLimiterTest extends TestCase {
       fail("no exception thrown");
     } catch (UncheckedTimeoutException expected) {
     }
-    assertTheCallTookBetween(start, NOT_ENOUGH_MS, DELAY_MS);
+    assertTheCallTookBetween(start, NOT_ENOUGH_MS, DELAY_MS * 2);
   }
 
   private static void assertTheCallTookBetween(
@@ -186,12 +185,17 @@ public class SimpleTimeLimiterTest extends TestCase {
   public static class SampleException extends Exception {}
 
   public static class SampleImpl implements Sample {
+    final long delayMillis;
     boolean finished;
+
+    SampleImpl(long delayMillis) {
+      this.delayMillis = delayMillis;
+    }
 
     @Override
     public String sleepThenReturnInput(String input) {
       try {
-        TimeUnit.MILLISECONDS.sleep(DELAY_MS);
+        TimeUnit.MILLISECONDS.sleep(delayMillis);
         finished = true;
         return input;
       } catch (InterruptedException e) {
@@ -201,7 +205,7 @@ public class SimpleTimeLimiterTest extends TestCase {
     @Override
     public void sleepThenThrowException() throws SampleException {
       try {
-        TimeUnit.MILLISECONDS.sleep(DELAY_MS);
+        TimeUnit.MILLISECONDS.sleep(delayMillis);
       } catch (InterruptedException e) {
       }
       throw new SampleException();

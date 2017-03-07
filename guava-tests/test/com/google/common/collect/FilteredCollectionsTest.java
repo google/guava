@@ -21,9 +21,6 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.testing.EqualsTester;
-
-import junit.framework.TestCase;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -32,6 +29,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import junit.framework.TestCase;
 
 /**
  * Tests for filtered collection views.

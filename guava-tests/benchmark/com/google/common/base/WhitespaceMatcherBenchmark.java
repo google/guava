@@ -20,12 +20,11 @@ import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.runner.CaliperMain;
-
 import java.util.BitSet;
 import java.util.Random;
 
 /**
- * Benchmark for the {@link CharMatcher#WHITESPACE} implementation.
+ * Benchmark for the {@link CharMatcher#whitespace} implementation.
  */
 public class WhitespaceMatcherBenchmark {
   private static final int STRING_LENGTH = 10000;
@@ -65,7 +64,7 @@ public class WhitespaceMatcherBenchmark {
     }
     bitSet.clear(0);
     bitSet.clear(1);
-    matcher = useNew ? CharMatcher.WHITESPACE : OLD_WHITESPACE;
+    matcher = useNew ? CharMatcher.whitespace() : OLD_WHITESPACE;
     teststring = newTestString(new Random(1), bitSet, percentMatching);
   }
 

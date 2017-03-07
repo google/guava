@@ -18,15 +18,13 @@ package com.google.common.testing;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-
-import junit.framework.TestCase;
-
 import java.util.EnumSet;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link FakeTicker}.
@@ -36,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 @GwtCompatible(emulated = true)
 public class FakeTickerTest extends TestCase {
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(new FakeTicker());
@@ -100,7 +98,7 @@ public class FakeTickerTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("concurrency")
+  @GwtIncompatible // concurrency
 
   public void testConcurrentAdvance() throws Exception {
     final FakeTicker ticker = new FakeTicker();
@@ -121,7 +119,7 @@ public class FakeTickerTest extends TestCase {
     assertEquals(numberOfThreads * 2, ticker.read());
   }
 
-  @GwtIncompatible("concurrency")
+  @GwtIncompatible // concurrency
 
   public void testConcurrentAutoIncrementStep() throws Exception {
     int incrementByNanos = 3;
@@ -144,7 +142,7 @@ public class FakeTickerTest extends TestCase {
   /**
    * Runs {@code callable} concurrently {@code numberOfThreads} times.
    */
-  @GwtIncompatible("concurrency")
+  @GwtIncompatible // concurrency
   private void runConcurrentTest(int numberOfThreads, final Callable<Void> callable)
       throws Exception {
     ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);

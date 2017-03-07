@@ -18,17 +18,26 @@ package com.google.common.collect;
 
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
+import com.google.common.annotations.Beta;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Function;
+import java.util.stream.Collector;
 
 /**
- * GWT emulation of {@link ImmutableBiMap}.
+ * GWT emulation of {@link com.google.common.collect.ImmutableBiMap}.
  *
  * @author Hayward Chan
  */
 public abstract class ImmutableBiMap<K, V> extends ForwardingImmutableMap<K, V>
     implements BiMap<K, V> {
+  @Beta
+  public static <T, K, V> Collector<T, ?, ImmutableBiMap<K, V>> toImmutableBiMap(
+      Function<? super T, ? extends K> keyFunction,
+      Function<? super T, ? extends V> valueFunction) {
+    return CollectCollectors.toImmutableBiMap(keyFunction, valueFunction);
+  }
 
   // Casting to any type is safe because the set will never hold any elements.
   @SuppressWarnings("unchecked")
@@ -89,15 +98,20 @@ public abstract class ImmutableBiMap<K, V> extends ForwardingImmutableMap<K, V>
       super.putAll(map);
       return this;
     }
-    
+
     @Override public Builder<K, V> putAll(
         Iterable<? extends Entry<? extends K, ? extends V>> entries) {
       super.putAll(entries);
       return this;
     }
-    
+
     public Builder<K, V> orderEntriesByValue(Comparator<? super V> valueComparator) {
       super.orderEntriesByValue(valueComparator);
+      return this;
+    }
+
+    Builder<K, V> combine(Builder<K, V> other) {
+      super.combine(other);
       return this;
     }
 
@@ -125,7 +139,7 @@ public abstract class ImmutableBiMap<K, V> extends ForwardingImmutableMap<K, V>
     ImmutableMap<K, V> immutableMap = ImmutableMap.copyOf(map);
     return new RegularImmutableBiMap<K, V>(immutableMap);
   }
-  
+
   public static <K, V> ImmutableBiMap<K, V> copyOf(
       Iterable<? extends Entry<? extends K, ? extends V>> entries) {
     return new Builder<K, V>().putAll(entries).build();

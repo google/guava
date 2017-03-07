@@ -15,25 +15,26 @@ resolving merge conflicts where necessary.
 The original README.md follows.
 
 
-Guava: Google Core Libraries for Java
-=====================================
+# Guava: Google Core Libraries for Java
 
 [![Build Status](https://travis-ci.org/google/guava.svg?branch=master)](https://travis-ci.org/google/guava)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.google.guava/guava/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.google.guava/guava)
 
-The Guava project contains several of Google's core libraries that we rely on
-in our Java-based projects: collections, caching, primitives support,
-concurrency libraries, common annotations, string processing, I/O, and so forth.
+Guava is a set of core libraries that includes new collection types (such as
+multimap and multiset), immutable collections, a graph library, functional
+types, an in-memory cache, and APIs/utilities for concurrency, I/O, hashing,
+primitives, reflection, string processing, and much more!
 
-Requires JDK 1.6 or higher (as of 12.0).
+Requires JDK 1.8 or higher. If you need support for JDK 1.6 or Android, use
+20.0 for now. In the next release (22.0) we will begin providing a backport
+for use on Android and lower JDK versions.
 
-Latest release
---------------
+## Latest release
 
-The most recent release is [Guava 18.0][], released August 25, 2014.
+The most recent release is [Guava 21.0][], released January 12, 2017.
 
-- 18.0 API Docs: [guava][guava-release-api-docs], [guava-testlib][testlib-release-api-docs]
-- 18.0 API Diffs from 17.0: [guava][guava-release-api-diffs]
+- 21.0 API Docs: [guava][guava-release-api-docs], [guava-testlib][testlib-release-api-docs]
+- 21.0 API Diffs from 20.0: [guava][guava-release-api-diffs]
 
 To add a dependency on Guava using Maven, use the following:
 
@@ -41,7 +42,7 @@ To add a dependency on Guava using Maven, use the following:
 <dependency>
   <groupId>com.google.guava</groupId>
   <artifactId>guava</artifactId>
-  <version>18.0</version>
+  <version>21.0</version>
 </dependency>
 ```
 
@@ -49,45 +50,31 @@ To add a dependency using Gradle:
 
 ```
 dependencies {
-  compile 'com.google.guava:guava:18.0'
+  compile 'com.google.guava:guava:21.0'
 }
 ```
 
-Upcoming release
-----------------
-
-[Guava 19.0][] is the next release. A release candidate is currently available
-on Maven Central as version `19.0-rc3`, released December 1, 2015.
-
-Snapshots
----------
+## Snapshots
 
 Snapshots of Guava built from the `master` branch are available through Maven
-using version `19.0-SNAPSHOT`. API documentation and diffs from version 18.0
-are available here:
+using version `22.0-SNAPSHOT`.
 
 - Snapshot API Docs: [guava][guava-snapshot-api-docs]
-- Snapshot API Diffs from 18.0: [guava][guava-snapshot-api-diffs]
+- Snapshot API Diffs from 21.0: [guava][guava-snapshot-api-diffs]
 
-Learn about Guava
-------------------
+## Learn about Guava
 
 - Our users' guide, [Guava Explained][]
-- [Presentation slides focusing on base, primitives, and io](http://guava-libraries.googlecode.com/files/Guava_for_Netflix_.pdf)
-- [Presentation slides focusing on cache]( http://guava-libraries.googlecode.com/files/JavaCachingwithGuava.pdf)
-- [Presentation slides focusing on util.concurrent](http://guava-libraries.googlecode.com/files/guava-concurrent-slides.pdf)
 - [A nice collection](http://www.tfnico.com/presentations/google-guava) of other helpful links
 
-Links
------
+## Links
 
 - [GitHub project](https://github.com/google/guava)
-- [Issue tracker: report a defect or feature request](https://github.com/google/guava/issues/new)
+- [Issue tracker: Report a defect or feature request](https://github.com/google/guava/issues/new)
 - [StackOverflow: Ask "how-to" and "why-didn't-it-work" questions](https://stackoverflow.com/questions/ask?tags=guava+java)
 - [guava-discuss: For open-ended questions and discussion](http://groups.google.com/group/guava-discuss)
 
-IMPORTANT WARNINGS
-------------------
+## IMPORTANT WARNINGS
 
 1. APIs marked with the `@Beta` annotation at the class or method level
 are subject to change. They can be modified in any way, or even
@@ -108,15 +95,14 @@ future version of the library.
 You should not use them for communication between trusted and
 untrusted code.
 
-5. We unit-test and benchmark the libraries using only OpenJDK 1.7 on
+5. We unit-test and benchmark the libraries using only OpenJDK 1.8 on
 Linux. Some features, especially in `com.google.common.io`, may not work
 correctly in other environments.
 
-[Guava 18.0]: https://github.com/google/guava/wiki/Release18
-[Guava 19.0]: https://github.com/google/guava/wiki/Release19
-[guava-release-api-docs]: http://google.github.io/guava/releases/18.0/api/docs/
-[testlib-release-api-docs]: http://www.javadoc.io/doc/com.google.guava/guava-testlib/18.0
-[guava-release-api-diffs]: http://google.github.io/guava/releases/18.0/api/diffs/
+[Guava 21.0]: https://github.com/google/guava/wiki/Release21
+[guava-release-api-docs]: http://google.github.io/guava/releases/21.0/api/docs/
+[testlib-release-api-docs]: http://www.javadoc.io/doc/com.google.guava/guava-testlib/21.0
+[guava-release-api-diffs]: http://google.github.io/guava/releases/21.0/api/diffs/
 [guava-snapshot-api-docs]: http://google.github.io/guava/releases/snapshot/api/docs/
 [guava-snapshot-api-diffs]: http://google.github.io/guava/releases/snapshot/api/diffs/
 [Guava Explained]: https://github.com/google/guava/wiki/Home

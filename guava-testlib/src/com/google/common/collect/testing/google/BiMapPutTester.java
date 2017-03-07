@@ -29,7 +29,7 @@ import com.google.common.collect.testing.features.MapFeature;
  */
 @GwtCompatible
 public class BiMapPutTester<K, V> extends AbstractBiMapTester<K, V> {
-  
+
   @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(ZERO)
@@ -51,11 +51,11 @@ public class BiMapPutTester<K, V> extends AbstractBiMapTester<K, V> {
   public void testPutPresentKeyDifferentValue() {
     getMap().put(k0(), v0());
     getMap().put(k0(), v1());
-    // verify that the bimap is changed, and that the old inverse mapping 
+    // verify that the bimap is changed, and that the old inverse mapping
     // from v1 -> v0 is deleted
     expectContents(Helpers.mapEntry(k0(), v1()));
   }
-  
+
   @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(ZERO)
@@ -74,7 +74,7 @@ public class BiMapPutTester<K, V> extends AbstractBiMapTester<K, V> {
     // verify that the bimap is unchanged
     expectAdded(Helpers.mapEntry(k1(), v0()));
   }
-  
+
   @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(ZERO)

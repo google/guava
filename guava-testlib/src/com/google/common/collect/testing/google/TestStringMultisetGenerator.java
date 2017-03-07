@@ -20,7 +20,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.SampleElements.Strings;
-
 import java.util.List;
 
 /**
@@ -29,9 +28,7 @@ import java.util.List;
  * @author Jared Levy
  */
 @GwtCompatible
-public abstract class TestStringMultisetGenerator
-    implements TestMultisetGenerator<String>
-{
+public abstract class TestStringMultisetGenerator implements TestMultisetGenerator<String> {
   @Override
   public SampleElements<String> samples() {
     return new Strings();

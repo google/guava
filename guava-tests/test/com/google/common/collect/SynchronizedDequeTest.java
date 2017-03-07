@@ -16,11 +16,10 @@
 
 package com.google.common.collect;
 
-import junit.framework.TestCase;
-
 import java.util.Collection;
 import java.util.Deque;
 import java.util.Iterator;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link Synchronized#deque} and {@link Queues#synchronizedDeque}.

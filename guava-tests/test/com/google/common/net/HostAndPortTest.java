@@ -17,8 +17,8 @@
 package com.google.common.net;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
-
 import junit.framework.TestCase;
 
 /**
@@ -130,6 +130,7 @@ public class HostAndPortTest extends TestCase {
       } catch (IllegalStateException expected) {
       }
     }
+    assertEquals(expectHost, hp.getHost());
     assertEquals(expectHost, hp.getHostText());
 
     // Check the post-withDefaultPort() instance (if any).
@@ -142,13 +143,14 @@ public class HostAndPortTest extends TestCase {
         // Make sure we expected this to fail.
         assertEquals(-1, expectPort);
       }
+      assertEquals(expectHost, hp2.getHost());
       assertEquals(expectHost, hp2.getHostText());
     }
   }
 
   public void testFromParts() {
     HostAndPort hp = HostAndPort.fromParts("gmail.com", 81);
-    assertEquals("gmail.com", hp.getHostText());
+    assertEquals("gmail.com", hp.getHost());
     assertTrue(hp.hasPort());
     assertEquals(81, hp.getPort());
 
@@ -167,11 +169,11 @@ public class HostAndPortTest extends TestCase {
 
   public void testFromHost() {
     HostAndPort hp = HostAndPort.fromHost("gmail.com");
-    assertEquals("gmail.com", hp.getHostText());
+    assertEquals("gmail.com", hp.getHost());
     assertFalse(hp.hasPort());
 
     hp = HostAndPort.fromHost("[::1]");
-    assertEquals("::1", hp.getHostText());
+    assertEquals("::1", hp.getHost());
     assertFalse(hp.hasPort());
 
     try {
@@ -198,27 +200,20 @@ public class HostAndPortTest extends TestCase {
     HostAndPort hp3 = HostAndPort.fromString("[foo::123]");
     HostAndPort hp4 = HostAndPort.fromParts("[foo::123]", 80);
     HostAndPort hp5 = HostAndPort.fromString("[foo::123]:80");
-    assertEquals(hp1.hashCode(), hp1.hashCode());
-    assertEquals(hp1.hashCode(), hp2.hashCode());
-    assertFalse(hp1.hashCode() == hp3.hashCode());
-    assertFalse(hp3.hashCode() == hp4.hashCode());
-    assertEquals(hp4.hashCode(), hp5.hashCode());
-
-    assertTrue(hp1.equals(hp1));
-    assertTrue(hp1.equals(hp2));
-    assertFalse(hp1.equals(hp3));
-    assertFalse(hp3.equals(hp4));
-    assertTrue(hp4.equals(hp5));
-    assertFalse(hp1.equals(null));
+    new EqualsTester()
+        .addEqualityGroup(hp1, hp2)
+        .addEqualityGroup(hp3)
+        .addEqualityGroup(hp4, hp5)
+        .testEquals();
   }
 
   public void testRequireBracketsForIPv6() {
     // Bracketed IPv6 works fine.
-    assertEquals("::1", HostAndPort.fromString("[::1]").requireBracketsForIPv6().getHostText());
-    assertEquals("::1", HostAndPort.fromString("[::1]:80").requireBracketsForIPv6().getHostText());
+    assertEquals("::1", HostAndPort.fromString("[::1]").requireBracketsForIPv6().getHost());
+    assertEquals("::1", HostAndPort.fromString("[::1]:80").requireBracketsForIPv6().getHost());
     // Non-bracketed non-IPv6 works fine.
-    assertEquals("x", HostAndPort.fromString("x").requireBracketsForIPv6().getHostText());
-    assertEquals("x", HostAndPort.fromString("x:80").requireBracketsForIPv6().getHostText());
+    assertEquals("x", HostAndPort.fromString("x").requireBracketsForIPv6().getHost());
+    assertEquals("x", HostAndPort.fromString("x:80").requireBracketsForIPv6().getHost());
 
     // Non-bracketed IPv6 fails.
     try {

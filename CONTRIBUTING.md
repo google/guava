@@ -45,14 +45,14 @@ Guidelines for any code contributions:
      has good test coverage, so look at some of the existing tests if you're
      unsure how to go about it.
   2. All contributions must be licensed Apache 2.0 and all files must have a
-     copy of the boilerplate licence comment (can be copied from an existing
+     copy of the boilerplate license comment (can be copied from an existing
      file).
   3. Files should be formatted according to Google's [Java style guide][].
   4. Please squash all commits for a change into a single commit (this can be
      done using `git rebase -i`). Do your best to have a
      [well-formed commit message][] for the change.
 
-[Java style guide]: http://google-styleguide.googlecode.com/svn/trunk/javaguide.html
+[Java style guide]: https://google.github.io/styleguide/javaguide.html
 [well-formed commit message]: http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
 
 #### Merging pull requests ####

@@ -23,7 +23,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import java.io.Serializable;
 import java.nio.ByteBuffer;
-
 import javax.annotation.Nullable;
 
 /**

@@ -18,6 +18,7 @@ import static com.google.common.util.concurrent.Futures.getUnchecked;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.CHECKED_EXCEPTION;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.ERROR;
+import static com.google.common.util.concurrent.FuturesGetCheckedInputs.ERROR_FUTURE;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.FAILED_FUTURE_CHECKED_EXCEPTION;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.FAILED_FUTURE_ERROR;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.FAILED_FUTURE_OTHER_THROWABLE;
@@ -27,10 +28,9 @@ import static com.google.common.util.concurrent.FuturesGetCheckedInputs.RUNTIME_
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.RUNTIME_EXCEPTION_FUTURE;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.UNCHECKED_EXCEPTION;
 
-import junit.framework.TestCase;
-
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Future;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link Futures#getUnchecked(Future)}.
@@ -103,5 +103,15 @@ public class FuturesGetUncheckedTest extends TestCase {
     } catch (RuntimeException expected) {
       assertEquals(RUNTIME_EXCEPTION, expected);
     }
+  }
+
+  public void testGetUnchecked_Error() {
+    try {
+      getUnchecked(ERROR_FUTURE);
+    } catch (Error expected) {
+      assertEquals(ERROR, expected);
+      return;
+    }
+    fail();
   }
 }

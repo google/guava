@@ -15,7 +15,7 @@
 package com.google.common.hash;
 
 import com.google.common.annotations.Beta;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.nio.charset.Charset;
 
 /**
@@ -25,6 +25,7 @@ import java.nio.charset.Charset;
  * @since 12.0 (in 11.0 as {@code Sink})
  */
 @Beta
+@CanIgnoreReturnValue
 public interface PrimitiveSink {
   /**
    * Puts a byte into this sink.
@@ -51,7 +52,7 @@ public interface PrimitiveSink {
    * @param len the number of bytes to write
    * @return this instance
    * @throws IndexOutOfBoundsException if {@code off < 0} or {@code off + len > bytes.length} or
-   *   {@code len < 0}
+   *     {@code len < 0}
    */
   PrimitiveSink putBytes(byte[] bytes, int off, int len);
 
@@ -93,12 +94,21 @@ public interface PrimitiveSink {
   /**
    * Puts each 16-bit code unit from the {@link CharSequence} into this sink.
    *
+   * <p><b>Warning:</b> This method will produce different output than most other languages do when
+   * running on the equivalent input. For cross-language compatibility, use {@link #putString},
+   * usually with a charset of UTF-8. For other use cases, use {@code putUnencodedChars}.
+   *
    * @since 15.0 (since 11.0 as putString(CharSequence))
    */
   PrimitiveSink putUnencodedChars(CharSequence charSequence);
 
   /**
    * Puts a string into this sink using the given charset.
+   *
+   * <p><b>Warning:</b> This method, which reencodes the input before processing it, is useful only
+   * for cross-language compatibility. For other use cases, prefer {@link #putUnencodedChars}, which
+   * is faster, produces the same output across Java releases, and processes every {@code char} in
+   * the input, even if some are invalid.
    */
   PrimitiveSink putString(CharSequence charSequence, Charset charset);
 }

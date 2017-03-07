@@ -22,10 +22,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-
-import junit.framework.AssertionFailedError;
-
 import java.util.List;
+import junit.framework.AssertionFailedError;
 
 /**
  * Implementation helper for {@link EqualsTester} and {@link EquivalenceTester} that tests for
@@ -102,7 +100,7 @@ final class RelationshipTester<T> {
     T related = relatedInfo.value;
     assertWithTemplate("$ITEM must be $RELATIONSHIP to $OTHER", itemInfo, relatedInfo,
         equivalence.equivalent(item, related));
-    
+
     int itemHash = equivalence.hash(item);
     int relatedHash = equivalence.hash(related);
     assertWithTemplate("the $HASH (" + itemHash + ") of $ITEM must be equal to the $HASH ("

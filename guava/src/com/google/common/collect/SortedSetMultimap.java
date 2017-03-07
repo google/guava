@@ -19,13 +19,12 @@ package com.google.common.collect;
 import org.checkerframework.framework.qual.AnnotatedFor;
 
 import com.google.common.annotations.GwtCompatible;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
-
 import javax.annotation.Nullable;
 
 /**
@@ -76,6 +75,7 @@ public interface SortedSetMultimap<K extends /*@org.checkerframework.checker.nul
    * key, this method returns a {@link SortedSet}, instead of the
    * {@link java.util.Collection} specified in the {@link Multimap} interface.
    */
+  @CanIgnoreReturnValue
   @Override
   SortedSet<V> removeAll(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key);
 
@@ -89,6 +89,7 @@ public interface SortedSetMultimap<K extends /*@org.checkerframework.checker.nul
    *
    * <p>Any duplicates in {@code values} will be stored in the multimap once.
    */
+  @CanIgnoreReturnValue
   @Override
   SortedSet<V> replaceValues(K key, Iterable<? extends V> values);
 

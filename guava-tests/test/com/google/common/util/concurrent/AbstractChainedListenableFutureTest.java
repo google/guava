@@ -17,11 +17,9 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.util.concurrent.testing.MockFutureListener;
-
-import junit.framework.TestCase;
-
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for any listenable future that chains other listenable futures.

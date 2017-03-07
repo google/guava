@@ -1,3 +1,4 @@
+
 /*
  * Copyright (C) 2009 The Guava Authors
  *
@@ -16,6 +17,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_ANY_NULL_QUERIES;
@@ -23,22 +25,24 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableSetMultimap.Builder;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.SetMultimapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringSetMultimapGenerator;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
+import com.google.common.testing.CollectorTester;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map.Entry;
+import java.util.function.BiPredicate;
+import java.util.stream.Collector;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Tests for {@link ImmutableSetMultimap}.
@@ -67,7 +71,7 @@ public class ImmutableSetMultimapTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableSetMultimapTest.class);
@@ -274,9 +278,9 @@ public class ImmutableSetMultimapTest extends TestCase {
     assertThat(multimap.values()).containsExactly(2, 4, 3, 6, 5, 2).inOrder();
     assertThat(multimap.get("a")).containsExactly(5, 2).inOrder();
     assertThat(multimap.get("b")).containsExactly(3, 6).inOrder();
-    assertThat(multimap.get("a")).isNotInstanceOf(ImmutableSortedSet.class);
-    assertThat(multimap.get("x")).isNotInstanceOf(ImmutableSortedSet.class);
-    assertThat(multimap.asMap().get("a")).isNotInstanceOf(ImmutableSortedSet.class);
+    assertFalse(multimap.get("a") instanceof ImmutableSortedSet);
+    assertFalse(multimap.get("x") instanceof ImmutableSortedSet);
+    assertFalse(multimap.asMap().get("a") instanceof ImmutableSortedSet);
   }
 
   public void testBuilderOrderKeysByDuplicates() {
@@ -299,9 +303,9 @@ public class ImmutableSetMultimapTest extends TestCase {
     assertThat(multimap.values()).containsExactly(2, 5, 2, 3, 6, 4).inOrder();
     assertThat(multimap.get("a")).containsExactly(5, 2).inOrder();
     assertThat(multimap.get("bb")).containsExactly(3, 6).inOrder();
-    assertThat(multimap.get("a")).isNotInstanceOf(ImmutableSortedSet.class);
-    assertThat(multimap.get("x")).isNotInstanceOf(ImmutableSortedSet.class);
-    assertThat(multimap.asMap().get("a")).isNotInstanceOf(ImmutableSortedSet.class);
+    assertFalse(multimap.get("a") instanceof ImmutableSortedSet);
+    assertFalse(multimap.get("x") instanceof ImmutableSortedSet);
+    assertFalse(multimap.asMap().get("a") instanceof ImmutableSortedSet);
   }
 
   public void testBuilderOrderValuesBy() {
@@ -406,6 +410,47 @@ public class ImmutableSetMultimapTest extends TestCase {
       ImmutableSetMultimap.copyOf(input);
       fail();
     } catch (NullPointerException expected) {}
+  }
+
+  public void testToImmutableSetMultimap() {
+    Collector<Entry<String, Integer>, ?, ImmutableSetMultimap<String, Integer>> collector =
+        ImmutableSetMultimap.toImmutableSetMultimap(Entry::getKey, Entry::getValue);
+    BiPredicate<ImmutableSetMultimap<?, ?>, ImmutableSetMultimap<?, ?>> equivalence =
+        Equivalence.equals()
+            .onResultOf(
+                (ImmutableSetMultimap<?, ?> mm)
+                    -> ImmutableListMultimap.copyOf(mm).asMap().entrySet().asList())
+            .and(Equivalence.equals());
+    CollectorTester.of(collector, equivalence)
+        .expectCollects(ImmutableSetMultimap.of())
+        .expectCollects(
+            ImmutableSetMultimap.of("a", 1, "b", 2, "a", 3, "c", 4),
+            mapEntry("a", 1),
+            mapEntry("b", 2),
+            mapEntry("a", 3),
+            mapEntry("c", 4));
+  }
+
+  public void testFlatteningToImmutableSetMultimap() {
+    Collector<String, ?, ImmutableSetMultimap<Character, Character>> collector =
+        ImmutableSetMultimap.flatteningToImmutableSetMultimap(
+            str -> str.charAt(0), str -> str.substring(1).chars().mapToObj(c -> (char) c));
+    BiPredicate<Multimap<?, ?>, Multimap<?, ?>> equivalence =
+        Equivalence.equals()
+            .onResultOf((Multimap<?, ?> mm) -> ImmutableList.copyOf(mm.asMap().entrySet()))
+            .and(Equivalence.equals());
+    ImmutableSetMultimap<Character, Character> empty = ImmutableSetMultimap.of();
+    ImmutableSetMultimap<Character, Character> filled =
+        ImmutableSetMultimap.<Character, Character>builder()
+            .putAll('b', Arrays.asList('a', 'n', 'a', 'n', 'a'))
+            .putAll('a', Arrays.asList('p', 'p', 'l', 'e'))
+            .putAll('c', Arrays.asList('a', 'r', 'r', 'o', 't'))
+            .putAll('a', Arrays.asList('s', 'p', 'a', 'r', 'a', 'g', 'u', 's'))
+            .putAll('c', Arrays.asList('h', 'e', 'r', 'r', 'y'))
+            .build();
+    CollectorTester.of(collector, equivalence)
+        .expectCollects(empty)
+        .expectCollects(filled, "banana", "apple", "carrot", "asparagus", "cherry");
   }
 
   public void testEmptyMultimapReads() {
@@ -525,7 +570,7 @@ public class ImmutableSetMultimapTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerialization() {
     Multimap<String, Integer> multimap = createMultimap();
     SerializableTester.reserializeAndAssert(multimap);
@@ -541,13 +586,13 @@ public class ImmutableSetMultimapTest extends TestCase {
         HashMultiset.create(valuesCopy));
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testEmptySerialization() {
     Multimap<String, Integer> multimap = ImmutableSetMultimap.of();
     assertSame(multimap, SerializableTester.reserialize(multimap));
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSortedSerialization() {
     Multimap<String, Integer> multimap = new ImmutableSetMultimap.Builder<String, Integer>()
         .orderKeysBy(Ordering.natural().reverse())

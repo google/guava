@@ -28,7 +28,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.MoreObjects;
 import com.google.common.primitives.Ints;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -38,7 +38,6 @@ import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
 import javax.annotation.Nullable;
 
 /**
@@ -82,14 +81,13 @@ public final class TreeMultiset<E extends /*@org.checkerframework.checker.nullne
   /**
    * Creates a new, empty multiset, sorted according to the specified comparator. All elements
    * inserted into the multiset must be <i>mutually comparable</i> by the specified comparator:
-   * {@code comparator.compare(e1,
-   * e2)} must not throw a {@code ClassCastException} for any elements {@code e1} and {@code e2} in
-   * the multiset. If the user attempts to add an element to the multiset that violates this
-   * constraint, the {@code add(Object)} call will throw a {@code ClassCastException}.
+   * {@code comparator.compare(e1, e2)} must not throw a {@code ClassCastException} for any elements
+   * {@code e1} and {@code e2} in the multiset. If the user attempts to add an element to the
+   * multiset that violates this constraint, the {@code add(Object)} call will throw a {@code
+   * ClassCastException}.
    *
-   * @param comparator
-   *          the comparator that will be used to sort this multiset. A null value indicates that
-   *          the elements' <i>natural ordering</i> should be used.
+   * @param comparator the comparator that will be used to sort this multiset. A null value
+   *     indicates that the elements' <i>natural ordering</i> should be used.
    */
   @SuppressWarnings("unchecked")
   public static <E> TreeMultiset<E> create(/*@Nullable*/ Comparator<? super E> comparator) {
@@ -250,6 +248,7 @@ public final class TreeMultiset<E extends /*@org.checkerframework.checker.nullne
     }
   }
 
+  @CanIgnoreReturnValue
   @Override
   public int add(/*@Nullable*/ E element, int occurrences) {
     checkNonnegative(occurrences, "occurrences");
@@ -271,6 +270,7 @@ public final class TreeMultiset<E extends /*@org.checkerframework.checker.nullne
     return result[0];
   }
 
+  @CanIgnoreReturnValue
   @Override
   public int remove(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element, int occurrences) {
     checkNonnegative(occurrences, "occurrences");
@@ -296,6 +296,7 @@ public final class TreeMultiset<E extends /*@org.checkerframework.checker.nullne
     return result[0];
   }
 
+  @CanIgnoreReturnValue
   @Override
   public int setCount(/*@Nullable*/ E element, int count) {
     checkNonnegative(count, "count");
@@ -317,6 +318,7 @@ public final class TreeMultiset<E extends /*@org.checkerframework.checker.nullne
     return result[0];
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean setCount(/*@Nullable*/ E element, int oldCount, int newCount) {
     checkNonnegative(newCount, "newCount");
@@ -968,14 +970,14 @@ public final class TreeMultiset<E extends /*@org.checkerframework.checker.nullne
    * @serialData the comparator, the number of distinct elements, the first element, its count, the
    *             second element, its count, and so on
    */
-  @GwtIncompatible("java.io.ObjectOutputStream")
+  @GwtIncompatible // java.io.ObjectOutputStream
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeObject(elementSet().comparator());
     Serialization.writeMultiset(this, stream);
   }
 
-  @GwtIncompatible("java.io.ObjectInputStream")
+  @GwtIncompatible // java.io.ObjectInputStream
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     @SuppressWarnings("unchecked")
@@ -992,7 +994,7 @@ public final class TreeMultiset<E extends /*@org.checkerframework.checker.nullne
     Serialization.populateMultiset(this, stream);
   }
 
-  @GwtIncompatible("not needed in emulated source")
+  @GwtIncompatible // not needed in emulated source
   private static final long serialVersionUID = 1;
 
 @Pure

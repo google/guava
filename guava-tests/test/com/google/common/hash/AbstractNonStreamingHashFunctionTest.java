@@ -18,15 +18,13 @@ package com.google.common.hash;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.hash.HashTestUtils.RandomHasherAction;
-
-import junit.framework.TestCase;
-
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import junit.framework.TestCase;
 
 /**
  * Tests for AbstractNonStreamingHashFunction.

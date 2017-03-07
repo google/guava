@@ -40,7 +40,7 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction
     this.prototype = getMessageDigest(algorithmName);
     this.bytes = prototype.getDigestLength();
     this.toString = checkNotNull(toString);
-    this.supportsClone = supportsClone();
+    this.supportsClone = supportsClone(prototype);
   }
 
   MessageDigestHashFunction(String algorithmName, int bytes, String toString) {
@@ -50,12 +50,12 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction
     checkArgument(
         bytes >= 4 && bytes <= maxLength, "bytes (%s) must be >= 4 and < %s", bytes, maxLength);
     this.bytes = bytes;
-    this.supportsClone = supportsClone();
+    this.supportsClone = supportsClone(prototype);
   }
 
-  private boolean supportsClone() {
+  private static boolean supportsClone(MessageDigest digest) {
     try {
-      prototype.clone();
+      digest.clone();
       return true;
     } catch (CloneNotSupportedException e) {
       return false;

@@ -35,11 +35,6 @@ import com.google.common.collect.testing.TestStringSortedSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.Feature;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -48,6 +43,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Collection tests for {@link Table} implementations.
@@ -82,7 +80,7 @@ public class TableCollectionTest extends TestCase {
     CollectionFeature.ALLOWS_NULL_QUERIES
   };
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ArrayRowTests.class);
@@ -682,7 +680,7 @@ public class TableCollectionTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("TODO(hhchan): ArrayTable")
+  @GwtIncompatible // TODO(hhchan): ArrayTable
   public static class ArrayRowTests extends RowTests {
     public ArrayRowTests() {
       super(true, true, false, false, false);
@@ -823,7 +821,7 @@ public class TableCollectionTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("TODO(hhchan): ArrayTable")
+  @GwtIncompatible // TODO(hhchan): ArrayTable
   public static class ArrayColumnTests extends ColumnTests {
     public ArrayColumnTests() {
       super(true, true, false, false, false);
@@ -1014,7 +1012,7 @@ public class TableCollectionTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("TODO(hhchan): ArrayTable")
+  @GwtIncompatible // TODO(hhchan): ArrayTable
   public static class ArrayRowMapTests extends RowMapTests {
     public ArrayRowMapTests() {
       super(true, false, false, false);
@@ -1226,7 +1224,7 @@ public class TableCollectionTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("TODO(hhchan): ArrayTable")
+  @GwtIncompatible // TODO(hhchan): ArrayTable
   public static class ArrayColumnMapTests extends ColumnMapTests {
     public ArrayColumnMapTests() {
       super(true, false, false, false);

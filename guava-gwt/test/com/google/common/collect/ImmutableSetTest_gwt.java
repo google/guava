@@ -238,6 +238,16 @@ public void testReuseBuilderWithNonDuplicateElements() throws Exception {
   testCase.testReuseBuilderWithNonDuplicateElements();
 }
 
+public void testToImmutableSet() throws Exception {
+  com.google.common.collect.ImmutableSetTest testCase = new com.google.common.collect.ImmutableSetTest();
+  testCase.testToImmutableSet();
+}
+
+public void testToImmutableSet_duplicates() throws Exception {
+  com.google.common.collect.ImmutableSetTest testCase = new com.google.common.collect.ImmutableSetTest();
+  testCase.testToImmutableSet_duplicates();
+}
+
 public void testToString() throws Exception {
   com.google.common.collect.ImmutableSetTest testCase = new com.google.common.collect.ImmutableSetTest();
   testCase.testToString();

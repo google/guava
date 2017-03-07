@@ -13,8 +13,6 @@
 
 package com.google.common.util.concurrent;
 
-import junit.framework.*;
-
 /**
  * Unit test for {@link AtomicDouble}.
  */

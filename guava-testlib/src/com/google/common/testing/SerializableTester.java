@@ -18,7 +18,6 @@ package com.google.common.testing;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
 

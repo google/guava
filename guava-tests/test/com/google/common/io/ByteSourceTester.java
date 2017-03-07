@@ -25,9 +25,6 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.Hashing;
-
-import junit.framework.TestSuite;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -36,6 +33,7 @@ import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Random;
+import junit.framework.TestSuite;
 
 /**
  * A generator of {@code TestSuite} instances for testing {@code ByteSource} implementations.

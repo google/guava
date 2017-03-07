@@ -24,8 +24,6 @@ import static com.google.common.math.MathBenchmarking.randomPositiveDouble;
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.common.math.DoubleMath;
-
 import java.math.RoundingMode;
 
 /**

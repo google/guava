@@ -30,7 +30,6 @@ import com.google.common.collect.Multiset;
 import com.google.common.collect.Multisets;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-
 import java.util.Collections;
 import java.util.Iterator;
 
@@ -45,8 +44,7 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testEntrySet_clear() {
     getMultiset().entrySet().clear();
-    assertTrue("multiset not empty after entrySet().clear()",
-        getMultiset().isEmpty());
+    assertTrue("multiset not empty after entrySet().clear()", getMultiset().isEmpty());
   }
 
   @CollectionSize.Require(ONE)
@@ -54,13 +52,13 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
   public void testEntrySet_iteratorRemovePropagates() {
     Iterator<Multiset.Entry<E>> iterator = getMultiset().entrySet().iterator();
     assertTrue(
-        "non-empty multiset.entrySet() iterator.hasNext() returned false",
-        iterator.hasNext());
-    assertEquals("multiset.entrySet() iterator.next() returned incorrect entry",
-        Multisets.immutableEntry(e0(), 1), iterator.next());
+        "non-empty multiset.entrySet() iterator.hasNext() returned false", iterator.hasNext());
+    assertEquals(
+        "multiset.entrySet() iterator.next() returned incorrect entry",
+        Multisets.immutableEntry(e0(), 1),
+        iterator.next());
     assertFalse(
-        "size 1 multiset.entrySet() iterator.hasNext() returned true "
-            + "after next()",
+        "size 1 multiset.entrySet() iterator.hasNext() returned true after next()",
         iterator.hasNext());
     iterator.remove();
     assertTrue(
@@ -73,11 +71,8 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
   public void testEntrySet_removePresent() {
     assertTrue(
         "multiset.entrySet.remove(presentEntry) returned false",
-        getMultiset().entrySet().remove(
-            Multisets.immutableEntry(e0(), 1)));
-    assertFalse(
-        "multiset contains element after removing its entry",
-        getMultiset().contains(e0()));
+        getMultiset().entrySet().remove(Multisets.immutableEntry(e0(), 1)));
+    assertFalse("multiset contains element after removing its entry", getMultiset().contains(e0()));
   }
 
   @CollectionSize.Require(absent = ZERO)
@@ -85,8 +80,7 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
   public void testEntrySet_removeAbsent() {
     assertFalse(
         "multiset.entrySet.remove(missingEntry) returned true",
-        getMultiset().entrySet().remove(
-            Multisets.immutableEntry(e0(), 2)));
+        getMultiset().entrySet().remove(Multisets.immutableEntry(e0(), 2)));
     assertTrue(
         "multiset didn't contain element after removing a missing entry",
         getMultiset().contains(e0()));
@@ -97,11 +91,10 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
   public void testEntrySet_removeAllPresent() {
     assertTrue(
         "multiset.entrySet.removeAll(presentEntry) returned false",
-        getMultiset().entrySet().removeAll(
-            Collections.singleton(Multisets.immutableEntry(e0(), 1))));
-    assertFalse(
-        "multiset contains element after removing its entry",
-        getMultiset().contains(e0()));
+        getMultiset()
+            .entrySet()
+            .removeAll(Collections.singleton(Multisets.immutableEntry(e0(), 1))));
+    assertFalse("multiset contains element after removing its entry", getMultiset().contains(e0()));
   }
 
   @CollectionSize.Require(absent = ZERO)
@@ -109,8 +102,9 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
   public void testEntrySet_removeAllAbsent() {
     assertFalse(
         "multiset.entrySet.remove(missingEntry) returned true",
-        getMultiset().entrySet().removeAll(
-            Collections.singleton(Multisets.immutableEntry(e0(), 2))));
+        getMultiset()
+            .entrySet()
+            .removeAll(Collections.singleton(Multisets.immutableEntry(e0(), 2))));
     assertTrue(
         "multiset didn't contain element after removing a missing entry",
         getMultiset().contains(e0()));
@@ -121,8 +115,9 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
   public void testEntrySet_retainAllPresent() {
     assertFalse(
         "multiset.entrySet.retainAll(presentEntry) returned false",
-        getMultiset().entrySet().retainAll(
-            Collections.singleton(Multisets.immutableEntry(e0(), 1))));
+        getMultiset()
+            .entrySet()
+            .retainAll(Collections.singleton(Multisets.immutableEntry(e0(), 1))));
     assertTrue(
         "multiset doesn't contains element after retaining its entry",
         getMultiset().contains(e0()));
@@ -133,13 +128,14 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
   public void testEntrySet_retainAllAbsent() {
     assertTrue(
         "multiset.entrySet.retainAll(missingEntry) returned true",
-        getMultiset().entrySet().retainAll(
-            Collections.singleton(Multisets.immutableEntry(e0(), 2))));
+        getMultiset()
+            .entrySet()
+            .retainAll(Collections.singleton(Multisets.immutableEntry(e0(), 2))));
     assertFalse(
         "multiset contains element after retaining a different entry",
         getMultiset().contains(e0()));
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @MultisetFeature.Require(ENTRIES_ARE_VIEWS)
@@ -153,7 +149,7 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
     assertTrue(getMultiset().elementSet().remove(e0()));
     assertEquals(0, entry.getCount());
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
   @MultisetFeature.Require(ENTRIES_ARE_VIEWS)
@@ -172,7 +168,7 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
     itr.remove();
     assertEquals(0, entry.getCount());
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @MultisetFeature.Require(ENTRIES_ARE_VIEWS)
@@ -184,7 +180,7 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
     getMultiset().clear();
     assertEquals(0, entry.getCount());
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @MultisetFeature.Require(ENTRIES_ARE_VIEWS)
@@ -196,7 +192,7 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
     getMultiset().entrySet().clear();
     assertEquals(0, entry.getCount());
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
   @MultisetFeature.Require(ENTRIES_ARE_VIEWS)
@@ -208,7 +204,7 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
     entryItr.remove();
     assertEquals(0, entry.getCount());
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @MultisetFeature.Require(ENTRIES_ARE_VIEWS)
@@ -220,7 +216,7 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
     getMultiset().elementSet().clear();
     assertEquals(0, entry.getCount());
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
   @MultisetFeature.Require(ENTRIES_ARE_VIEWS)
@@ -234,7 +230,7 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
     elementItr.remove();
     assertEquals(0, entry.getCount());
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   @CollectionFeature.Require({SUPPORTS_REMOVE, SUPPORTS_ADD})
   @MultisetFeature.Require(ENTRIES_ARE_VIEWS)
@@ -250,7 +246,7 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
     getMultiset().add(e0(), 2);
     assertEquals(2, entry.getCount());
   }
-  
+
   public void testToString() {
     assertEquals(getMultiset().entrySet().toString(), getMultiset().toString());
   }

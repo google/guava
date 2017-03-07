@@ -20,11 +20,10 @@ import org.checkerframework.dataflow.qual.Pure;
 import org.checkerframework.framework.qual.AnnotatedFor;
 
 import com.google.common.annotations.GwtCompatible;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Nullable;
 
 /**
@@ -63,6 +62,7 @@ public interface ListMultimap<K extends /*@org.checkerframework.checker.nullness
    * insertion ordering, this method returns a {@link List}, instead of the
    * {@link java.util.Collection} specified in the {@link Multimap} interface.
    */
+  @CanIgnoreReturnValue
   @Override
   List<V> removeAll(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key);
 
@@ -73,6 +73,7 @@ public interface ListMultimap<K extends /*@org.checkerframework.checker.nullness
    * insertion ordering, this method returns a {@link List}, instead of the
    * {@link java.util.Collection} specified in the {@link Multimap} interface.
    */
+  @CanIgnoreReturnValue
   @Override
   List<V> replaceValues(K key, Iterable<? extends V> values);
 

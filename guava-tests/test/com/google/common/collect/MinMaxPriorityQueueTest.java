@@ -18,12 +18,15 @@ package com.google.common.collect;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.IteratorFeature;
 import com.google.common.collect.testing.IteratorTester;
+import com.google.common.collect.testing.QueueTestSuiteBuilder;
+import com.google.common.collect.testing.TestStringQueueGenerator;
+import com.google.common.collect.testing.features.CollectionFeature;
+import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -34,9 +37,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Random;
 import java.util.SortedMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Unit test for {@link MinMaxPriorityQueue}.
@@ -44,8 +51,25 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Alexei Stolboushkin
  * @author Sverre Sundsdal
  */
+@GwtCompatible(emulated = true)
 public class MinMaxPriorityQueueTest extends TestCase {
-  private Ordering<Integer> SOME_COMPARATOR = Ordering.natural().reverse();
+  private static final Ordering<Integer> SOME_COMPARATOR = Ordering.natural().reverse();
+
+  @GwtIncompatible // suite
+  public static Test suite() {
+    TestSuite suite = new TestSuite();
+    suite.addTestSuite(MinMaxPriorityQueueTest.class);
+    suite.addTest(QueueTestSuiteBuilder
+        .using(new TestStringQueueGenerator() {
+          @Override protected Queue<String> create(String[] elements) {
+            return MinMaxPriorityQueue.create(Arrays.asList(elements));
+          }
+        })
+        .named("MinMaxPriorityQueue")
+        .withFeatures(CollectionSize.ANY, CollectionFeature.GENERAL_PURPOSE)
+        .createTestSuite());
+    return suite;
+  }
 
   // Overkill alert!  Test all combinations of 0-2 options during creation.
 
@@ -225,8 +249,8 @@ public class MinMaxPriorityQueueTest extends TestCase {
       }
     }
     assertEquals(currentHeapSize, mmHeap.size());
-    assertTrue("Heap not intact after " + numberOfModifications +
-        " random mixture of operations", mmHeap.isIntact());
+    assertTrue("Heap not intact after " + numberOfModifications
+        + " random mixture of operations", mmHeap.isIntact());
   }
 
   public void testSmall() {
@@ -447,22 +471,24 @@ public class MinMaxPriorityQueueTest extends TestCase {
     assertEquals((Integer) 1000, it.next());
     assertEquals((Integer) 2, it.next());
     it.remove();
+    // After this remove, 400 has moved up and 20 down past cursor
     assertTrue("Heap is not intact after remove", mmHeap.isIntact());
     assertEquals((Integer) 10, it.next());
     assertEquals((Integer) 3, it.next());
     it.remove();
+    // After this remove, 400 moved down again and 500 up past the cursor
     assertTrue("Heap is not intact after remove", mmHeap.isIntact());
     assertEquals((Integer) 12, it.next());
     assertEquals((Integer) 30, it.next());
     assertEquals((Integer) 40, it.next());
     // Skipping 20
     assertEquals((Integer) 11, it.next());
-    // Skipping 400
+    // Not skipping 400, because it moved back down
+    assertEquals((Integer) 400, it.next());
     assertEquals((Integer) 13, it.next());
     assertEquals((Integer) 200, it.next());
     assertEquals((Integer) 300, it.next());
-    // Last two from forgetMeNot.
-    assertEquals((Integer) 400, it.next());
+    // Last from forgetMeNot.
     assertEquals((Integer) 500, it.next());
   }
 
@@ -742,6 +768,93 @@ public class MinMaxPriorityQueueTest extends TestCase {
   }
 
   /**
+   * Regression test for https://github.com/google/guava/issues/2658
+   */
+  public void testRemoveRegression() {
+    MinMaxPriorityQueue<Long> queue =
+        MinMaxPriorityQueue.create(ImmutableList.of(2L, 3L, 0L, 4L, 1L));
+    queue.remove(4L);
+    queue.remove(1L);
+    assertThat(queue).doesNotContain(1L);
+  }
+
+  public void testRandomRemoves() {
+    Random random = new Random(0);
+    for (int attempts = 0; attempts < 1000; attempts++) {
+      ArrayList<Integer> elements = createOrderedList(10);
+      Collections.shuffle(elements, random);
+      MinMaxPriorityQueue<Integer> queue = MinMaxPriorityQueue.create(elements);
+      Collections.shuffle(elements, random);
+      for (Integer element : elements) {
+        assertThat(queue.remove(element)).isTrue();
+        assertThat(queue.isIntact()).isTrue();
+        assertThat(queue).doesNotContain(element);
+      }
+      assertThat(queue).isEmpty();
+    }
+  }
+
+  public void testRandomAddsAndRemoves() {
+    Random random = new Random(0);
+    Multiset<Integer> elements = HashMultiset.create();
+    MinMaxPriorityQueue<Integer> queue = MinMaxPriorityQueue.create();
+    int range = 10_000; // range should be small enough that equal elements occur semi-frequently
+    for (int iter = 0; iter < 1000; iter++) {
+      for (int i = 0; i < 100; i++) {
+        Integer element = random.nextInt(range);
+        elements.add(element);
+        queue.add(element);
+      }
+      Iterator<Integer> queueIterator = queue.iterator();
+      int remaining = queue.size();
+      while (queueIterator.hasNext()) {
+        Integer element = queueIterator.next();
+        remaining--;
+        assertThat(elements).contains(element);
+        if (random.nextBoolean()) {
+          elements.remove(element);
+          queueIterator.remove();
+        }
+      }
+      assertThat(remaining).isEqualTo(0);
+      assertThat(queue.isIntact()).isTrue();
+      assertThat(queue).containsExactlyElementsIn(elements);
+    }
+  }
+
+  private enum Element {
+    ONE, TWO, THREE, FOUR, FIVE;
+  }
+
+  public void testRandomAddsAndRemoves_duplicateElements() {
+    Random random = new Random(0);
+    Multiset<Element> elements = HashMultiset.create();
+    MinMaxPriorityQueue<Element> queue = MinMaxPriorityQueue.create();
+    int range = Element.values().length;
+    for (int iter = 0; iter < 1000; iter++) {
+      for (int i = 0; i < 100; i++) {
+        Element element = Element.values()[random.nextInt(range)];
+        elements.add(element);
+        queue.add(element);
+      }
+      Iterator<Element> queueIterator = queue.iterator();
+      int remaining = queue.size();
+      while (queueIterator.hasNext()) {
+        Element element = queueIterator.next();
+        remaining--;
+        assertThat(elements).contains(element);
+        if (random.nextBoolean()) {
+          elements.remove(element);
+          queueIterator.remove();
+        }
+      }
+      assertThat(remaining).isEqualTo(0);
+      assertThat(queue.isIntact()).isTrue();
+      assertThat(queue).containsExactlyElementsIn(elements);
+    }
+  }
+
+  /**
    * Returns the seed used for the randomization.
    */
   private long insertRandomly(ArrayList<Integer> elements,
@@ -817,6 +930,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
     }
   }
 
+  @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicConstructors(MinMaxPriorityQueue.class);

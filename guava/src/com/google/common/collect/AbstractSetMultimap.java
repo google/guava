@@ -21,11 +21,10 @@ import org.checkerframework.dataflow.qual.SideEffectFree;
 import org.checkerframework.framework.qual.AnnotatedFor;
 
 import com.google.common.annotations.GwtCompatible;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-
 import javax.annotation.Nullable;
 
 /**
@@ -91,6 +90,7 @@ abstract class AbstractSetMultimap<K extends /*@org.checkerframework.checker.nul
    * method returns a {@link Set}, instead of the {@link Collection} specified
    * in the {@link Multimap} interface.
    */
+  @CanIgnoreReturnValue
   @Override
   public Set<V> removeAll(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
     return (Set<V>) super.removeAll(key);
@@ -105,6 +105,7 @@ abstract class AbstractSetMultimap<K extends /*@org.checkerframework.checker.nul
    *
    * <p>Any duplicates in {@code values} will be stored in the multimap once.
    */
+  @CanIgnoreReturnValue
   @Override
   public Set<V> replaceValues(/*@Nullable*/ K key, Iterable<? extends V> values) {
     return (Set<V>) super.replaceValues(key, values);
@@ -129,6 +130,7 @@ abstract class AbstractSetMultimap<K extends /*@org.checkerframework.checker.nul
    * @return {@code true} if the method increased the size of the multimap, or
    *     {@code false} if the multimap already contained the key-value pair
    */
+  @CanIgnoreReturnValue
   @Override
   public boolean put(/*@Nullable*/ K key, /*@Nullable*/ V value) {
     return super.put(key, value);

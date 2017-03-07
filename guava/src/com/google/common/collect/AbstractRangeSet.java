@@ -14,6 +14,7 @@
 
 package com.google.common.collect;
 
+import com.google.common.annotations.GwtIncompatible;
 import javax.annotation.Nullable;
 
 /**
@@ -21,6 +22,7 @@ import javax.annotation.Nullable;
  *
  * @author Louis Wasserman
  */
+@GwtIncompatible
 abstract class AbstractRangeSet<C extends Comparable> implements RangeSet<C> {
   AbstractRangeSet() {}
 
@@ -54,26 +56,22 @@ abstract class AbstractRangeSet<C extends Comparable> implements RangeSet<C> {
 
   @Override
   public boolean enclosesAll(RangeSet<C> other) {
-    for (Range<C> range : other.asRanges()) {
-      if (!encloses(range)) {
-        return false;
-      }
-    }
-    return true;
+    return enclosesAll(other.asRanges());
   }
 
   @Override
   public void addAll(RangeSet<C> other) {
-    for (Range<C> range : other.asRanges()) {
-      add(range);
-    }
+    addAll(other.asRanges());
   }
 
   @Override
   public void removeAll(RangeSet<C> other) {
-    for (Range<C> range : other.asRanges()) {
-      remove(range);
-    }
+    removeAll(other.asRanges());
+  }
+
+  @Override
+  public boolean intersects(Range<C> otherRange) {
+    return !subRangeSet(otherRange).isEmpty();
   }
 
   @Override

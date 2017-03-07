@@ -21,11 +21,11 @@ import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -39,6 +39,7 @@ import java.util.NavigableMap;
  * @author Jesse Wilson
  * @author Louis Wasserman
  */
+@GwtIncompatible
 public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> {
 
   private NavigableMap<K, V> navigableMap;
@@ -47,11 +48,14 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
   private Entry<K, V> b;
   private Entry<K, V> c;
 
-  @Override public void setUp() throws Exception {
+  @Override
+  public void setUp() throws Exception {
     super.setUp();
     navigableMap = (NavigableMap<K, V>) getMap();
-    entries = Helpers.copyToList(getSubjectGenerator().getSampleElements(
-        getSubjectGenerator().getCollectionSize().getNumElements()));
+    entries =
+        Helpers.copyToList(
+            getSubjectGenerator()
+                .getSampleElements(getSubjectGenerator().getCollectionSize().getNumElements()));
     Collections.sort(entries, Helpers.<K, V>entryComparator(navigableMap.comparator()));
 
     // some tests assume SEVERAL == 3
@@ -154,8 +158,7 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
   @CollectionSize.Require(SEVERAL)
   public void testPollFirst() {
     assertEquals(a, navigableMap.pollFirstEntry());
-    assertEquals(entries.subList(1, entries.size()),
-        Helpers.copyToList(navigableMap.entrySet()));
+    assertEquals(entries.subList(1, entries.size()), Helpers.copyToList(navigableMap.entrySet()));
   }
 
   @MapFeature.Require(absent = SUPPORTS_REMOVE)
@@ -220,8 +223,8 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
   @CollectionSize.Require(SEVERAL)
   public void testPollLast() {
     assertEquals(c, navigableMap.pollLastEntry());
-    assertEquals(entries.subList(0, entries.size() - 1),
-        Helpers.copyToList(navigableMap.entrySet()));
+    assertEquals(
+        entries.subList(0, entries.size() - 1), Helpers.copyToList(navigableMap.entrySet()));
   }
 
   @MapFeature.Require(absent = SUPPORTS_REMOVE)
@@ -243,22 +246,22 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
     Collections.reverse(descending);
     assertEquals(entries, descending);
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   public void testHeadMapExclusive() {
     assertFalse(navigableMap.headMap(a.getKey(), false).containsKey(a.getKey()));
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   public void testHeadMapInclusive() {
     assertTrue(navigableMap.headMap(a.getKey(), true).containsKey(a.getKey()));
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   public void testTailMapExclusive() {
     assertFalse(navigableMap.tailMap(a.getKey(), false).containsKey(a.getKey()));
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   public void testTailMapInclusive() {
     assertTrue(navigableMap.tailMap(a.getKey(), true).containsKey(a.getKey()));

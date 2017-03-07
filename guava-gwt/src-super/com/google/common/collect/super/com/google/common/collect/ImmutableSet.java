@@ -18,27 +18,33 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collector;
 
 /**
- * GWT emulated version of {@link ImmutableSet}.  For the unsorted sets, they
- * are thin wrapper around {@link java.util.Collections#emptySet()}, {@link
- * Collections#singleton(Object)} and {@link java.util.LinkedHashSet} for
- * empty, singleton and regular sets respectively.  For the sorted sets, it's
- * a thin wrapper around {@link java.util.TreeSet}.
+ * GWT emulated version of {@link com.google.common.collect.ImmutableSet}. For the unsorted sets,
+ * they are thin wrapper around {@link java.util.Collections#emptySet()}, {@link
+ * Collections#singleton(Object)} and {@link java.util.LinkedHashSet} for empty, singleton and
+ * regular sets respectively. For the sorted sets, it's a thin wrapper around {@link
+ * java.util.TreeSet}.
  *
  * @see ImmutableSortedSet
- *
  * @author Hayward Chan
  */
-@SuppressWarnings("serial")  // Serialization only done in GWT.
+@SuppressWarnings("serial") // Serialization only done in GWT.
 public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements Set<E> {
   ImmutableSet() {}
+
+  @Beta
+  public static <E> Collector<E, ?, ImmutableSet<E>> toImmutableSet() {
+    return CollectCollectors.toImmutableSet();
+  }
 
   // Casting to any type is safe because the set will never hold any elements.
   @SuppressWarnings({"unchecked"})
@@ -203,7 +209,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     public Builder() {
       this.contents = Lists.newArrayList();
     }
-    
+
     Builder(int initialCapacity) {
       this.contents = Lists.newArrayListWithCapacity(initialCapacity);
     }
@@ -231,6 +237,11 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
 
     @Override public Builder<E> addAll(Iterator<? extends E> elements) {
       super.addAll(elements);
+      return this;
+    }
+
+    Builder<E> combine(Builder<E> builder) {
+      contents.addAll(builder.contents);
       return this;
     }
 

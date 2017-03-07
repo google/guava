@@ -32,15 +32,13 @@ import com.google.common.collect.Iterables;
 import com.google.common.hash.Hashing;
 import com.google.common.primitives.UnsignedBytes;
 import com.google.common.testing.TestLogHandler;
-
-import junit.framework.TestSuite;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.EnumSet;
+import junit.framework.TestSuite;
 
 /**
  * Tests for the default implementations of {@code ByteSource} methods.

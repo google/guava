@@ -17,9 +17,7 @@
 package com.google.common.eventbus;
 
 import com.google.common.testing.AbstractPackageSanityTests;
-
 import java.lang.reflect.Method;
-
 import javax.annotation.Nullable;
 
 /**

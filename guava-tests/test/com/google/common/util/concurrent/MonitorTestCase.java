@@ -18,11 +18,9 @@ package com.google.common.util.concurrent;
 
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.TearDownStack;
-
-import junit.framework.TestCase;
-
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link Monitor}, either interruptible or uninterruptible.
@@ -141,6 +139,8 @@ public abstract class MonitorTestCase extends TestCase {
   public final void testEnterWhen_initiallyTrue() throws Exception {
     TestGuard guard = new TestGuard(true);
     thread1.callAndAssertReturns(enterWhen(), guard);
+    // same as above but with the new syntax
+    thread1.callAndAssertReturns(enterWhen(), monitor.newGuard(() -> true));
   }
 
   public final void testEnterWhen_initiallyFalse() throws Exception {

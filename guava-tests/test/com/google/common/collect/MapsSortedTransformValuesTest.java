@@ -19,13 +19,11 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
-
-import java.util.Map;
 import java.util.SortedMap;
 
 /**
  * Tests for {@link Maps#transformValues(SortedMap, Function)}.
- * 
+ *
  * @author Louis Wasserman
  */
 @GwtCompatible
@@ -44,11 +42,5 @@ public class MapsSortedTransformValuesTest extends MapsTransformValuesTest {
     underlying.put("b", 2);
     underlying.put("c", 3);
     return Maps.transformValues(underlying, Functions.toStringFunction());
-  }
-
-  public void testTransformValuesSecretlySortedMap() {
-    Map<String, String> sortedMap = Maps.newTreeMap();
-    assertTrue(Maps.transformValues(sortedMap, Functions.<String>identity())
-        instanceof SortedMap);
   }
 }

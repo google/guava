@@ -27,12 +27,10 @@ import com.google.common.collect.testing.TestListGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.ListFeature;
-
+import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
-import java.util.List;
 
 /**
  * Test suite covering {@link Doubles#asList(double[])}.
@@ -50,7 +48,7 @@ public class DoubleArrayAsListTest extends TestCase {
     return Doubles.asList(temp);
   }
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     List<ListTestSuiteBuilder<Double>> builders =
         ImmutableList.of(

@@ -17,11 +17,9 @@
 package com.google.common.eventbus;
 
 import com.google.common.collect.Lists;
-
-import junit.framework.TestCase;
-
 import java.util.List;
 import java.util.concurrent.Executor;
+import junit.framework.TestCase;
 
 /**
  * Test case for {@link AsyncEventBus}.

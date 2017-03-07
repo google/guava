@@ -18,7 +18,6 @@ import static java.util.Arrays.asList;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-
 import junit.framework.TestCase;
 
 /**

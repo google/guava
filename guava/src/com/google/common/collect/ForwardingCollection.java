@@ -21,10 +21,9 @@ import org.checkerframework.framework.qual.AnnotatedFor;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Iterator;
-
 import javax.annotation.Nullable;
 
 /**
@@ -39,6 +38,10 @@ import javax.annotation.Nullable;
  * #addAll}, which can lead to unexpected behavior. In this case, you should
  * override {@code addAll} as well, either providing your own implementation, or
  * delegating to the provided {@code standardAddAll} method.
+ *
+ * <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ * default} methods. Instead, it inherits their default implementations. When those implementations
+ * invoke methods, they invoke methods on the {@code ForwardingCollection}.
  *
  * <p>The {@code standard} methods are not guaranteed to be thread-safe, even
  * when all of the methods that they depend on are thread-safe.
@@ -70,6 +73,7 @@ public abstract class ForwardingCollection<E extends /*@org.checkerframework.che
     return delegate().size();
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean removeAll(Collection<?> collection) {
     return delegate().removeAll(collection);
@@ -87,11 +91,13 @@ public abstract class ForwardingCollection<E extends /*@org.checkerframework.che
     return delegate().contains(object);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean add(E element) {
     return delegate().add(element);
   }
 
+  @CanIgnoreReturnValue
   @Override
   @SuppressWarnings("nullness")
   // Suppressed due to the annotations on ConcurrentMap
@@ -107,11 +113,13 @@ public abstract class ForwardingCollection<E extends /*@org.checkerframework.che
     return delegate().containsAll(collection);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean addAll(Collection<? extends E> collection) {
     return delegate().addAll(collection);
   }
 
+  @CanIgnoreReturnValue
   @Override
   @SuppressWarnings("nullness")
   // Suppressed due to the containsAll method in Collection
@@ -131,6 +139,7 @@ public abstract class ForwardingCollection<E extends /*@org.checkerframework.che
     return delegate().toArray();
   }
 
+  @CanIgnoreReturnValue
   @Override
   @SuppressWarnings("nullness")
   public <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> T[] toArray(T[] array) {

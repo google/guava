@@ -24,13 +24,12 @@ import static com.google.common.collect.Multisets.setCountImpl;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
-
 import javax.annotation.Nullable;
 
 /**
@@ -87,33 +86,38 @@ abstract class AbstractMultiset<E extends /*@org.checkerframework.checker.nullne
   }
 
   // Modification Operations
-
+  @CanIgnoreReturnValue
   @Override
   public boolean add(/*@Nullable*/ E element) {
     add(element, 1);
     return true;
   }
 
+  @CanIgnoreReturnValue
   @Override
   public int add(/*@Nullable*/ E element, int occurrences) {
     throw new UnsupportedOperationException();
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean remove(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element) {
     return remove(element, 1) > 0;
   }
 
+  @CanIgnoreReturnValue
   @Override
   public int remove(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element, int occurrences) {
     throw new UnsupportedOperationException();
   }
 
+  @CanIgnoreReturnValue
   @Override
   public int setCount(/*@Nullable*/ E element, int count) {
     return setCountImpl(this, element, count);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean setCount(/*@Nullable*/ E element, int oldCount, int newCount) {
     return setCountImpl(this, element, oldCount, newCount);
@@ -127,16 +131,19 @@ abstract class AbstractMultiset<E extends /*@org.checkerframework.checker.nullne
    * <p>This implementation is highly efficient when {@code elementsToAdd}
    * is itself a {@link Multiset}.
    */
+  @CanIgnoreReturnValue
   @Override
   public boolean addAll(Collection<? extends E> elementsToAdd) {
     return Multisets.addAllImpl(this, elementsToAdd);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean removeAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> elementsToRemove) {
     return Multisets.removeAllImpl(this, elementsToRemove);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean retainAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> elementsToRetain) {
     return Multisets.retainAllImpl(this, elementsToRetain);
