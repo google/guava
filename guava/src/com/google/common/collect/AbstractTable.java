@@ -201,6 +201,11 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
     public Iterator<V> iterator() {
       return valuesIterator();
     }
+    
+    @Override
+    public Spliterator<V> spliterator() {
+      return valuesSpliterator();
+    }
 
     @Override
     public boolean contains(Object o) {

@@ -27,12 +27,11 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Unit tests for {@link Futures#transformAsync(ListenableFuture, AsyncFunction)}.
+ * Unit tests for {@link Futures#transformAsync(ListenableFuture, AsyncFunction, Executor)}.
  *
  * @author Nishant Thakkar
  */
-public class FuturesTransformAsyncTest
-    extends AbstractChainedListenableFutureTest<String> {
+public class FuturesTransformAsyncTest extends AbstractChainedListenableFutureTest<String> {
   protected static final int SLOW_OUTPUT_VALID_INPUT_DATA = 2;
   protected static final int SLOW_FUNC_VALID_INPUT_DATA = 3;
   private static final String RESULT_DATA = "SUCCESS";

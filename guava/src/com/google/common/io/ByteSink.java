@@ -61,12 +61,12 @@ public abstract class ByteSink {
   }
 
   /**
-   * Opens a new {@link OutputStream} for writing to this sink. This method should return a new,
+   * Opens a new {@link OutputStream} for writing to this sink. This method returns a new,
    * independent stream each time it is called.
    *
    * <p>The caller is responsible for ensuring that the returned stream is closed.
    *
-   * @throws IOException if an I/O error occurs in the process of opening the stream
+   * @throws IOException if an I/O error occurs while opening the stream
    */
   public abstract OutputStream openStream() throws IOException;
 
@@ -74,12 +74,12 @@ public abstract class ByteSink {
    * Opens a new buffered {@link OutputStream} for writing to this sink. The returned stream is not
    * required to be a {@link BufferedOutputStream} in order to allow implementations to simply
    * delegate to {@link #openStream()} when the stream returned by that method does not benefit from
-   * additional buffering (for example, a {@code ByteArrayOutputStream}). This method should return
-   * a new, independent stream each time it is called.
+   * additional buffering (for example, a {@code ByteArrayOutputStream}). This method returns a new,
+   * independent stream each time it is called.
    *
    * <p>The caller is responsible for ensuring that the returned stream is closed.
    *
-   * @throws IOException if an I/O error occurs in the process of opening the stream
+   * @throws IOException if an I/O error occurs while opening the stream
    * @since 15.0 (in 14.0 with return type {@link BufferedOutputStream})
    */
   public OutputStream openBufferedStream() throws IOException {
@@ -92,7 +92,7 @@ public abstract class ByteSink {
   /**
    * Writes all the given bytes to this sink.
    *
-   * @throws IOException if an I/O occurs in the process of writing to this sink
+   * @throws IOException if an I/O occurs while writing to this sink
    */
   public void write(byte[] bytes) throws IOException {
     checkNotNull(bytes);
@@ -114,8 +114,7 @@ public abstract class ByteSink {
    * {@code input}.
    *
    * @return the number of bytes written
-   * @throws IOException if an I/O occurs in the process of reading from {@code input} or writing to
-   *     this sink
+   * @throws IOException if an I/O occurs while reading from {@code input} or writing to this sink
    */
   @CanIgnoreReturnValue
   public long writeFrom(InputStream input) throws IOException {

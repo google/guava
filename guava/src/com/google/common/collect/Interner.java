@@ -22,7 +22,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
  * Provides equivalent behavior to {@link String#intern} for other immutable
- * types.
+ * types. Common implementations are available from the {@link Interners} class.
  *
  * @author Kevin Bourrillion
  * @since 3.0

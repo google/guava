@@ -27,7 +27,8 @@ import javax.annotation.Nullable;
 /**
  * A semi-persistent mapping from keys to values. Cache entries are manually added using
  * {@link #get(Object, Callable)} or {@link #put(Object, Object)}, and are stored in the cache until
- * either evicted or manually invalidated.
+ * either evicted or manually invalidated. The common way to build instances is using
+ * {@link CacheBuilder}.
  *
  * <p>Implementations of this interface are expected to be thread-safe, and can be safely accessed
  * by multiple concurrent threads.

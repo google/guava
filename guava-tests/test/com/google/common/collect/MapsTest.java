@@ -983,7 +983,7 @@ public class MapsTest extends TestCase {
     }
   }
 
-  private static final BiMap<Integer, String> INT_TO_STRING_MAP =
+  private static final ImmutableBiMap<Integer, String> INT_TO_STRING_MAP =
       new ImmutableBiMap.Builder<Integer, String>()
           .put(1, "one")
           .put(2, "two")

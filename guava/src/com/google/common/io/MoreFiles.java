@@ -25,6 +25,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.TreeTraverser;
+import com.google.common.io.ByteSource.AsCharSource;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,6 +52,7 @@ import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.stream.Stream;
 import javax.annotation.Nullable;
 
 /**
@@ -158,6 +160,25 @@ public final class MoreFiles {
         return com.google.common.io.Files.readFile(
             Channels.newInputStream(channel), channel.size());
       }
+    }
+
+    @Override
+    public CharSource asCharSource(Charset charset) {
+      if (options.length == 0) {
+        // If no OpenOptions were passed, delegate to Files.lines, which could have performance
+        // advantages. (If OpenOptions were passed we can't, because Files.lines doesn't have an
+        // overload taking OpenOptions, meaning we can't guarantee the same behavior w.r.t. things
+        // like following/not following symlinks.
+        return new AsCharSource(charset) {
+          @SuppressWarnings("FilesLinesLeak") // the user needs to close it in this case
+          @Override
+          public Stream<String> lines() throws IOException {
+            return Files.lines(path, charset);
+          }
+        };
+      }
+
+      return super.asCharSource(charset);
     }
 
     @Override

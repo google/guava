@@ -138,8 +138,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
     checkNatural(queue);
   }
 
-  private static final List<Integer> NUMBERS =
-      ImmutableList.of(4, 8, 15, 16, 23, 42);
+  private static final ImmutableList<Integer> NUMBERS = ImmutableList.of(4, 8, 15, 16, 23, 42);
 
   public void testCreation_withContents() {
     MinMaxPriorityQueue<Integer> queue = MinMaxPriorityQueue
