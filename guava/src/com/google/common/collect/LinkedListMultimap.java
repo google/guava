@@ -123,7 +123,7 @@ public class LinkedListMultimap<K extends /*@org.checkerframework.checker.nullne
     Node<K, V> nextSibling; // the next node with the same key
     Node<K, V> previousSibling; // the previous node with the same key
 
-    Node(/*@Nullable*/ K key, /*@Nullable*/ V value) {
+    Node(@Nullable K key, @Nullable V value) {
       this.key = key;
       this.value = value;
     }
@@ -139,7 +139,7 @@ public class LinkedListMultimap<K extends /*@org.checkerframework.checker.nullne
     }
 
     @Override
-    public V setValue(/*@Nullable*/ V newValue) {
+    public V setValue(@Nullable V newValue) {
       V result = value;
       this.value = newValue;
       return result;
@@ -223,7 +223,7 @@ public class LinkedListMultimap<K extends /*@org.checkerframework.checker.nullne
    * for an node for the same {@code key}!
    */
   @CanIgnoreReturnValue
-  private Node<K, V> addNode(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ K key, /*@Nullable*/ V value, /*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Node<K, V> nextSibling) {
+  private Node<K, V> addNode(@Nullable K key, @Nullable V value, @Nullable Node<K, V> nextSibling) {
     Node<K, V> node = new Node<K, V>(key, value);
     if (head == null) { // empty list
       head = tail = node;
@@ -308,12 +308,12 @@ public class LinkedListMultimap<K extends /*@org.checkerframework.checker.nullne
   }
 
   /** Removes all nodes for the specified key. */
-  private void removeAllNodes(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
+  private void removeAllNodes(@Nullable Object key) {
     Iterators.clear(new ValueForKeyIterator(key));
   }
 
   /** Helper method for verifying that an iterator element is present. */
-  private static void checkElement(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object node) {
+  private static void checkElement(@Nullable Object node) {
     if (node == null) {
       throw new NoSuchElementException();
     }
@@ -476,7 +476,7 @@ public class LinkedListMultimap<K extends /*@org.checkerframework.checker.nullne
     /*@org.checkerframework.checker.nullness.qual.Nullable*/ Node<K, V> previous;
 
     /** Constructs a new iterator over all values for the specified key. */
-    ValueForKeyIterator(/*@Nullable*/ Object key) {
+    ValueForKeyIterator(@Nullable Object key) {
       this.key = key;
       KeyList<K, V> keyList = keyToKeyList.get(key);
       next = (keyList == null) ? null : keyList.head;
@@ -491,7 +491,7 @@ public class LinkedListMultimap<K extends /*@org.checkerframework.checker.nullne
      *
      * @throws IndexOutOfBoundsException if index is invalid
      */
-    public ValueForKeyIterator(/*@Nullable*/ Object key, int index) {
+    public ValueForKeyIterator(@Nullable Object key, int index) {
       KeyList<K, V> keyList = keyToKeyList.get(key);
       int size = (keyList == null) ? 0 : keyList.count;
       checkPositionIndex(index, size);
@@ -595,13 +595,13 @@ public class LinkedListMultimap<K extends /*@org.checkerframework.checker.nullne
 
   @Pure
   @Override
-  public boolean containsKey(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
+  public boolean containsKey(@Nullable Object key) {
     return keyToKeyList.containsKey(key);
   }
 
   @Pure
   @Override
-  public boolean containsValue(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object value) {
+  public boolean containsValue(@Nullable Object value) {
     return values().contains(value);
   }
 
@@ -616,7 +616,7 @@ public class LinkedListMultimap<K extends /*@org.checkerframework.checker.nullne
    */
   @CanIgnoreReturnValue
   @Override
-  public boolean put(/*@Nullable*/ K key, /*@Nullable*/ V value) {
+  public boolean put(@Nullable K key, @Nullable V value) {
     addNode(key, value, null);
     return true;
   }
@@ -635,7 +635,7 @@ public class LinkedListMultimap<K extends /*@org.checkerframework.checker.nullne
    */
   @CanIgnoreReturnValue
   @Override
-  public List<V> replaceValues(/*@Nullable*/ K key, Iterable<? extends V> values) {
+  public List<V> replaceValues(@Nullable K key, Iterable<? extends V> values) {
     List<V> oldValues = getCopy(key);
     ListIterator<V> keyValues = new ValueForKeyIterator(key);
     Iterator<? extends V> newValues = values.iterator();
@@ -660,7 +660,7 @@ public class LinkedListMultimap<K extends /*@org.checkerframework.checker.nullne
     return oldValues;
   }
 
-  private List<V> getCopy(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
+  private List<V> getCopy(@Nullable Object key) {
     return unmodifiableList(Lists.newArrayList(new ValueForKeyIterator(key)));
   }
 
@@ -672,7 +672,7 @@ public class LinkedListMultimap<K extends /*@org.checkerframework.checker.nullne
    */
   @CanIgnoreReturnValue
   @Override
-  public List<V> removeAll(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
+  public List<V> removeAll(@Nullable Object key) {
     List<V> oldValues = getCopy(key);
     removeAllNodes(key);
     return oldValues;
@@ -699,7 +699,7 @@ public class LinkedListMultimap<K extends /*@org.checkerframework.checker.nullne
    * <p>The returned list is not serializable and does not have random access.
    */
   @Override
-  public List<V> get(final /*@Nullable*/ K key) {
+  public List<V> get(final @Nullable K key) {
     return new AbstractSequentialList<V>() {
       @Pure
       @Override
@@ -866,9 +866,9 @@ public class LinkedListMultimap<K extends /*@org.checkerframework.checker.nullne
     keyToKeyList = Maps.newLinkedHashMap();
     int size = stream.readInt();
     for (int i = 0; i < size; i++) {
-      /*@SuppressWarnings("unchecked")*/ // reading data stored by writeObject
+      @SuppressWarnings("unchecked") // reading data stored by writeObject
       K key = (K) stream.readObject();
-      /*@SuppressWarnings("unchecked")*/ // reading data stored by writeObject
+      @SuppressWarnings("unchecked") // reading data stored by writeObject
       V value = (V) stream.readObject();
       put(key, value);
     }
@@ -879,14 +879,14 @@ public class LinkedListMultimap<K extends /*@org.checkerframework.checker.nullne
 
 @Pure
 @Override
-public boolean containsEntry(/*@Nullable*/ Object arg0, /*@Nullable*/ Object arg1) { return super.containsEntry(arg0, arg1); }
+public boolean containsEntry(@Nullable Object arg0, @Nullable Object arg1) { return super.containsEntry(arg0, arg1); }
 
 @Pure
 @Override
-public boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.equals(arg0); }
+public boolean equals(@Nullable Object arg0) { return super.equals(arg0); }
 
 @Override
-public boolean remove(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0, /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg1) { return super.remove(arg0, arg1); }
+public boolean remove(@Nullable Object arg0, /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg1) { return super.remove(arg0, arg1); }
 
 @Override
 public Map<K, Collection<V>> asMap() { return super.asMap(); }

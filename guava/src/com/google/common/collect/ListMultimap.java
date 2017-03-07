@@ -53,7 +53,7 @@ public interface ListMultimap<K extends /*@org.checkerframework.checker.nullness
    * {@link java.util.Collection} specified in the {@link Multimap} interface.
    */
   @Override
-  List<V> get(/*@Nullable*/ K key);
+  List<V> get(@Nullable K key);
 
   /**
    * {@inheritDoc}
@@ -64,7 +64,7 @@ public interface ListMultimap<K extends /*@org.checkerframework.checker.nullness
    */
   @CanIgnoreReturnValue
   @Override
-  List<V> removeAll(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key);
+  List<V> removeAll(@Nullable Object key);
 
   /**
    * {@inheritDoc}
@@ -100,5 +100,5 @@ public interface ListMultimap<K extends /*@org.checkerframework.checker.nullness
    */
   @Pure
   @Override
-  boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object obj);
+  boolean equals(@Nullable Object obj);
 }

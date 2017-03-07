@@ -32,7 +32,7 @@ public class VerifyException extends RuntimeException {
   public VerifyException() {}
 
   /** Constructs a {@code VerifyException} with the message {@code message}. */
-  public VerifyException(/*@Nullable*/ String message) {
+  public VerifyException(@Nullable String message) {
     super(message);
   }
 
@@ -42,7 +42,7 @@ public class VerifyException extends RuntimeException {
    *
    * @since 19.0
    */
-  public VerifyException(/*@Nullable*/ Throwable cause) {
+  public VerifyException(@Nullable Throwable cause) {
     super(cause);
   }
 
@@ -52,7 +52,7 @@ public class VerifyException extends RuntimeException {
    *
    * @since 19.0
    */
-  public VerifyException(/*@Nullable*/ String message, /*@Nullable*/ Throwable cause) {
+  public VerifyException(@Nullable String message, @Nullable Throwable cause) {
     super(message, cause);
   }
 }

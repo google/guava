@@ -44,13 +44,13 @@ public abstract class ForwardingSetMultimap<K, V> extends ForwardingMultimap<K, 
   }
 
   @Override
-  public Set<V> get(/*@Nullable*/ K key) {
+  public Set<V> get(@Nullable K key) {
     return delegate().get(key);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public Set<V> removeAll(/*@Nullable*/ Object key) {
+  public Set<V> removeAll(@Nullable Object key) {
     return delegate().removeAll(key);
   }
 

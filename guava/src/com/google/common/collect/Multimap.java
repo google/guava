@@ -313,7 +313,7 @@ public interface Multimap<K extends /*@org.checkerframework.checker.nullness.qua
    * <p>Changes to the returned collection will update the underlying multimap,
    * and vice versa.
    */
-  Collection<V> get(/*@Nullable*/ K key);
+  Collection<V> get(@Nullable K key);
 
   /**
    * Returns a view collection of all <i>distinct</i> keys contained in this
@@ -407,7 +407,7 @@ public interface Multimap<K extends /*@org.checkerframework.checker.nullness.qua
    */
   @Pure
   @Override
-  boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object obj);
+  boolean equals(@Nullable Object obj);
 
   /**
    * Returns the hash code for this multimap.

@@ -91,13 +91,13 @@ public final class EnumHashBiMap<K extends Enum<K>, V extends /*@org.checkerfram
 
   @CanIgnoreReturnValue
   @Override
-  public V put(K key, /*@Nullable*/ V value) {
+  public V put(K key, @Nullable V value) {
     return super.put(key, value);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public V forcePut(K key, /*@Nullable*/ V value) {
+  public V forcePut(K key, @Nullable V value) {
     return super.forcePut(key, value);
   }
 

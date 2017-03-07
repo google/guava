@@ -360,13 +360,13 @@ public final class MoreObjects {
       return valueHolder;
     }
 
-    private ToStringHelper addHolder(/*@Nullable*/ Object value) {
+    private ToStringHelper addHolder(@Nullable Object value) {
       ValueHolder valueHolder = addHolder();
       valueHolder.value = value;
       return this;
     }
 
-    private ToStringHelper addHolder(String name, /*@Nullable*/ Object value) {
+    private ToStringHelper addHolder(String name, @Nullable Object value) {
       ValueHolder valueHolder = addHolder();
       valueHolder.value = value;
       valueHolder.name = checkNotNull(name);

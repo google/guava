@@ -63,7 +63,7 @@ public final class Suppliers {
     }
 
     @Override
-    public boolean equals(/*@Nullable*/ Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof SupplierComposition) {
         SupplierComposition<?, ?> that = (SupplierComposition<?, ?>) obj;
         return function.equals(that.function) && supplier.equals(that.supplier);
@@ -253,14 +253,14 @@ public final class Suppliers {
   /**
    * Returns a supplier that always supplies {@code instance}.
    */
-  public static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Supplier<T> ofInstance(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ T instance) {
+  public static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Supplier<T> ofInstance(@Nullable T instance) {
     return new SupplierOfInstance<T>(instance);
   }
 
   private static class SupplierOfInstance<T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> implements Supplier<T>, Serializable {
     final T instance;
 
-    SupplierOfInstance(/*@Nullable*/ T instance) {
+    SupplierOfInstance(@Nullable T instance) {
       this.instance = instance;
     }
 
@@ -270,7 +270,7 @@ public final class Suppliers {
     }
 
     @Override
-    public boolean equals(/*@Nullable*/ Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof SupplierOfInstance) {
         SupplierOfInstance<?> that = (SupplierOfInstance<?>) obj;
         return Objects.equal(instance, that.instance);
@@ -330,7 +330,7 @@ public final class Suppliers {
    * @since 8.0
    */
   public static <T> Function<Supplier<T>, T> supplierFunction() {
-    /*@SuppressWarnings("unchecked")*/ // implementation is "fully variant"
+    @SuppressWarnings("unchecked") // implementation is "fully variant"
     SupplierFunction<T> sf = (SupplierFunction<T>) SupplierFunctionImpl.INSTANCE;
     return sf;
   }

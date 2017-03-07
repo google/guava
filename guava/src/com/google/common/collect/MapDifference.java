@@ -71,7 +71,7 @@ public interface MapDifference<K extends /*@org.checkerframework.checker.nullnes
    */
   @Pure
   @Override
-  boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object);
+  boolean equals(@Nullable Object object);
 
   /**
    * Returns the hash code for this instance. This is defined as the hash code
@@ -108,7 +108,7 @@ public interface MapDifference<K extends /*@org.checkerframework.checker.nullnes
      */
     @Pure
     @Override
-    boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object other);
+    boolean equals(@Nullable Object other);
 
     /**
      * The hash code equals the value

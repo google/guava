@@ -243,7 +243,7 @@ public class FinalizableReferenceQueue implements Closeable {
   static class SystemLoader implements FinalizerLoader {
     // This is used by the ClassLoader-leak test in FinalizableReferenceQueueTest to disable
     // finding Finalizer on the system class path even if it is there.
-    /*@VisibleForTesting*/ static boolean disabled;
+    @VisibleForTesting static boolean disabled;
 
     @Nullable
     @Override

@@ -371,7 +371,7 @@ public final class MapConstraints {
 
     ConstrainedBiMap(
         BiMap<K, V> delegate,
-        /*@Nullable*/ BiMap<V, K> inverse,
+        @Nullable BiMap<V, K> inverse,
         MapConstraint<? super K, ? super V> constraint) {
       super(delegate, constraint);
       this.inverse = inverse;
@@ -695,7 +695,7 @@ public final class MapConstraints {
 
     @Pure
     @Override
-    public boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
+    public boolean equals(@Nullable Object object) {
       return Sets.equalsImpl(this, object);
     }
 
@@ -756,7 +756,7 @@ public final class MapConstraints {
     }
 
     @Override
-    public boolean equals(/*@Nullable*/ Object object) {
+    public boolean equals(@Nullable Object object) {
       return standardEquals(object);
     }
 

@@ -59,19 +59,19 @@ public abstract class ForwardingMultimap<K extends /*@org.checkerframework.check
 
   @Pure
   @Override
-  public boolean containsEntry(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key, /*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object value) {
+  public boolean containsEntry(@Nullable Object key, @Nullable Object value) {
     return delegate().containsEntry(key, value);
   }
 
   @Pure
   @Override
-  public boolean containsKey(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
+  public boolean containsKey(@Nullable Object key) {
     return delegate().containsKey(key);
   }
 
   @Pure
   @Override
-  public boolean containsValue(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object value) {
+  public boolean containsValue(@Nullable Object value) {
     return delegate().containsValue(value);
   }
 
@@ -82,7 +82,7 @@ public abstract class ForwardingMultimap<K extends /*@org.checkerframework.check
   }
 
   @Override
-  public Collection<V> get(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ K key) {
+  public Collection<V> get(@Nullable K key) {
     return delegate().get(key);
   }
 
@@ -123,13 +123,13 @@ public abstract class ForwardingMultimap<K extends /*@org.checkerframework.check
 
   @CanIgnoreReturnValue
   @Override
-  public boolean remove(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key, /*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object value) {
+  public boolean remove(@Nullable Object key, @Nullable Object value) {
     return delegate().remove(key, value);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public Collection<V> removeAll(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
+  public Collection<V> removeAll(@Nullable Object key) {
     return delegate().removeAll(key);
   }
 
@@ -153,7 +153,7 @@ public abstract class ForwardingMultimap<K extends /*@org.checkerframework.check
 
   @Pure
   @Override
-  public boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
+  public boolean equals(@Nullable Object object) {
     return object == this || delegate().equals(object);
   }
 

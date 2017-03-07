@@ -78,7 +78,7 @@ abstract class AbstractSortedSetMultimap<K extends /*@org.checkerframework.check
    * {@link Collection} specified in the {@link Multimap} interface.
    */
   @Override
-  public SortedSet<V> get(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ K key) {
+  public SortedSet<V> get(@Nullable K key) {
     return (SortedSet<V>) super.get(key);
   }
 
@@ -92,7 +92,7 @@ abstract class AbstractSortedSetMultimap<K extends /*@org.checkerframework.check
    */
   @CanIgnoreReturnValue
   @Override
-  public SortedSet<V> removeAll(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
+  public SortedSet<V> removeAll(@Nullable Object key) {
     return (SortedSet<V>) super.removeAll(key);
   }
 
@@ -108,7 +108,7 @@ abstract class AbstractSortedSetMultimap<K extends /*@org.checkerframework.check
    */
   @CanIgnoreReturnValue
   @Override
-  public SortedSet<V> replaceValues(/*@Nullable*/ K key, Iterable<? extends V> values) {
+  public SortedSet<V> replaceValues(@Nullable K key, Iterable<? extends V> values) {
     return (SortedSet<V>) super.replaceValues(key, values);
   }
 

@@ -81,7 +81,7 @@ public abstract class ForwardingMapEntry<K extends /*@org.checkerframework.check
 
   @Pure
   @Override
-  public boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
+  public boolean equals(@Nullable Object object) {
     return delegate().equals(object);
   }
 
@@ -99,7 +99,7 @@ public abstract class ForwardingMapEntry<K extends /*@org.checkerframework.check
    *
    * @since 7.0
    */
-  protected boolean standardEquals(/*@Nullable*/ Object object) {
+  protected boolean standardEquals(@Nullable Object object) {
     if (object instanceof Entry) {
       Entry<?, ?> that = (Entry<?, ?>) object;
       return Objects.equal(this.getKey(), that.getKey())

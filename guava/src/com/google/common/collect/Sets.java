@@ -1022,7 +1022,7 @@ public final class Sets {
 
     @Pure
     @Override
-    public boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
+    public boolean equals(@Nullable Object object) {
       return equalsImpl(this, object);
     }
 
@@ -1404,7 +1404,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean equals(/*@Nullable*/ Object object) {
+    public boolean equals(@Nullable Object object) {
       // Warning: this is broken if size() == 0, so it is critical that we
       // substitute an empty ImmutableSet to the user in place of this
       if (object instanceof CartesianSet) {
@@ -1509,7 +1509,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean contains(/*@Nullable*/ Object o) {
+    public boolean contains(@Nullable Object o) {
       Integer index = inputSet.get(o);
       return index != null && (mask & (1 << index)) != 0;
     }
@@ -1545,7 +1545,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean contains(/*@Nullable*/ Object obj) {
+    public boolean contains(@Nullable Object obj) {
       if (obj instanceof Set) {
         Set<?> set = (Set<?>) obj;
         return inputSet.keySet().containsAll(set);
@@ -1554,7 +1554,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean equals(/*@Nullable*/ Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof PowerSet) {
         PowerSet<?> that = (PowerSet<?>) obj;
         return inputSet.equals(that.inputSet);
@@ -1596,7 +1596,7 @@ public final class Sets {
   /**
    * An implementation for {@link Set#equals(Object)}.
    */
-  static boolean equalsImpl(Set<?> s, /*@Nullable*/ Object object) {
+  static boolean equalsImpl(Set<?> s, @Nullable Object object) {
     if (s == object) {
       return true;
     }

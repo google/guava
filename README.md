@@ -1,16 +1,8 @@
 Forked from
 [Google's Guava repository](https://github.com/google/guava).
-To get updates from the original repository, first configure a new
-[remote](https://help.github.com/articles/about-remote-repositories/),
-if one is not already available:
-
-```
-git remote add upstream https://github.com/google/guava
-```
-
-Then follow the procedure indicated in
-"[Syncing a fork](https://help.github.com/articles/syncing-a-fork/)",
-resolving merge conflicts where necessary.
+To get updates from the original repository, run
+`git pull https://github.com/google/guava`
+and resolve merge conflicts where necessary.
 
 The original README.md follows.
 

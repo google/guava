@@ -49,7 +49,7 @@ abstract class AbstractMapEntry<K extends /*@org.checkerframework.checker.nullne
 
   @Pure
   @Override
-  public boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object instanceof Entry) {
       Entry<?, ?> that = (Entry<?, ?>) object;
       return Objects.equal(this.getKey(), that.getKey())

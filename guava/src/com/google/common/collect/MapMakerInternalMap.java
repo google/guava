@@ -2117,7 +2117,7 @@ class MapMakerInternalMap<
   }
 
   @Override
-  public V get(/*@Nullable*/ Object key) {
+  public V get(@Nullable Object key) {
     if (key == null) {
       return null;
     }
@@ -2138,7 +2138,7 @@ class MapMakerInternalMap<
   }
 
   @Override
-  public boolean containsKey(/*@Nullable*/ Object key) {
+  public boolean containsKey(@Nullable Object key) {
     if (key == null) {
       return false;
     }
@@ -2147,7 +2147,7 @@ class MapMakerInternalMap<
   }
 
   @Override
-  public boolean containsValue(/*@Nullable*/ Object value) {
+  public boolean containsValue(@Nullable Object value) {
     if (value == null) {
       return false;
     }
@@ -2211,7 +2211,7 @@ class MapMakerInternalMap<
 
   @CanIgnoreReturnValue
   @Override
-  public V remove(/*@Nullable*/ Object key) {
+  public V remove(@Nullable Object key) {
     if (key == null) {
       return null;
     }
@@ -2221,7 +2221,7 @@ class MapMakerInternalMap<
 
   @CanIgnoreReturnValue
   @Override
-  public boolean remove(/*@Nullable*/ Object key, /*@Nullable*/ Object value) {
+  public boolean remove(@Nullable Object key, @Nullable Object value) {
     if (key == null || value == null) {
       return false;
     }
@@ -2231,7 +2231,7 @@ class MapMakerInternalMap<
 
   @CanIgnoreReturnValue
   @Override
-  public boolean replace(K key, /*@Nullable*/ V oldValue, V newValue) {
+  public boolean replace(K key, @Nullable V oldValue, V newValue) {
     checkNotNull(key);
     checkNotNull(newValue);
     if (oldValue == null) {
@@ -2435,7 +2435,7 @@ class MapMakerInternalMap<
     }
 
     @Override
-    public boolean equals(/*@Nullable*/ Object object) {
+    public boolean equals(@Nullable Object object) {
       // Cannot use key and value equivalence
       if (object instanceof Entry) {
         Entry<?, ?> that = (Entry<?, ?>) object;
@@ -2672,7 +2672,7 @@ class MapMakerInternalMap<
       out.writeObject(null); // terminate entries
     }
 
-    /*@SuppressWarnings("deprecation")*/ // serialization of deprecated feature
+    @SuppressWarnings("deprecation") // serialization of deprecated feature
     MapMaker readMapMaker(ObjectInputStream in) throws IOException {
       int size = in.readInt();
       return new MapMaker()

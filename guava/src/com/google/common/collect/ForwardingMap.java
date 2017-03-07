@@ -103,7 +103,7 @@ public abstract class ForwardingMap<K extends /*@org.checkerframework.checker.nu
   @Override
   @SuppressWarnings("nullness")
   // Suppressed due to annotations on containsKey in Java.Map
-  public boolean containsKey(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
+  public boolean containsKey(@Nullable Object key) {
     return delegate().containsKey(key);
   }
 
@@ -111,14 +111,14 @@ public abstract class ForwardingMap<K extends /*@org.checkerframework.checker.nu
   @Override
   @SuppressWarnings("nullness")
   // Suppressed due to annotations on containsValue in Java.Map
-  public boolean containsValue(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object value) {
+  public boolean containsValue(@Nullable Object value) {
     return delegate().containsValue(value);
   }
 
   @Override
   @SuppressWarnings("nullness")
   // Suppressed due to annotations on get in Java.Map
-  public V get(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
+  public V get(@Nullable Object key) {
     return delegate().get(key);
   }
 
@@ -153,7 +153,7 @@ public abstract class ForwardingMap<K extends /*@org.checkerframework.checker.nu
 
   @Pure
   @Override
-  public boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
+  public boolean equals(@Nullable Object object) {
     return object == this || delegate().equals(object);
   }
 
@@ -188,7 +188,7 @@ public abstract class ForwardingMap<K extends /*@org.checkerframework.checker.nu
    * @since 7.0
    */
   @Beta
-  protected V standardRemove(/*@Nullable*/ Object key) {
+  protected V standardRemove(@Nullable Object key) {
     Iterator<Entry<K, V>> entryIterator = entrySet().iterator();
     while (entryIterator.hasNext()) {
       Entry<K, V> entry = entryIterator.next();
@@ -240,7 +240,7 @@ public abstract class ForwardingMap<K extends /*@org.checkerframework.checker.nu
    * @since 7.0
    */
   @Beta
-  protected boolean standardContainsKey(/*@Nullable*/ Object key) {
+  protected boolean standardContainsKey(@Nullable Object key) {
     return Maps.containsKeyImpl(this, key);
   }
 
@@ -270,7 +270,7 @@ public abstract class ForwardingMap<K extends /*@org.checkerframework.checker.nu
    *
    * @since 7.0
    */
-  protected boolean standardContainsValue(/*@Nullable*/ Object value) {
+  protected boolean standardContainsValue(@Nullable Object value) {
     return Maps.containsValueImpl(this, value);
   }
 
@@ -313,7 +313,7 @@ public abstract class ForwardingMap<K extends /*@org.checkerframework.checker.nu
    *
    * @since 7.0
    */
-  protected boolean standardEquals(/*@Nullable*/ Object object) {
+  protected boolean standardEquals(@Nullable Object object) {
     return Maps.equalsImpl(this, object);
   }
 

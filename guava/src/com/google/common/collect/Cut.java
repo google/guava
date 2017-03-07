@@ -35,7 +35,7 @@ import javax.annotation.Nullable;
 abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializable {
   final C endpoint;
 
-  Cut(/*@Nullable*/ C endpoint) {
+  Cut(@Nullable C endpoint) {
     this.endpoint = endpoint;
   }
 
@@ -86,7 +86,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
     return endpoint;
   }
 
-  /*@SuppressWarnings("unchecked")*/ // catching CCE
+  @SuppressWarnings("unchecked") // catching CCE
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof Cut) {
@@ -312,7 +312,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
         case CLOSED:
           return this;
         case OPEN:
-          /*@Nullable*/ C previous = domain.previous(endpoint);
+          @Nullable C previous = domain.previous(endpoint);
           return (previous == null) ? Cut.<C>belowAll() : new AboveValue<C>(previous);
         default:
           throw new AssertionError();
@@ -323,7 +323,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
     Cut<C> withUpperBoundType(BoundType boundType, DiscreteDomain<C> domain) {
       switch (boundType) {
         case CLOSED:
-          /*@Nullable*/ C previous = domain.previous(endpoint);
+          @Nullable C previous = domain.previous(endpoint);
           return (previous == null) ? Cut.<C>aboveAll() : new AboveValue<C>(previous);
         case OPEN:
           return this;
@@ -395,7 +395,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
         case OPEN:
           return this;
         case CLOSED:
-          /*@Nullable*/ C next = domain.next(endpoint);
+          @Nullable C next = domain.next(endpoint);
           return (next == null) ? Cut.<C>belowAll() : belowValue(next);
         default:
           throw new AssertionError();
@@ -406,7 +406,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
     Cut<C> withUpperBoundType(BoundType boundType, DiscreteDomain<C> domain) {
       switch (boundType) {
         case OPEN:
-          /*@Nullable*/ C next = domain.next(endpoint);
+          @Nullable C next = domain.next(endpoint);
           return (next == null) ? Cut.<C>aboveAll() : belowValue(next);
         case CLOSED:
           return this;

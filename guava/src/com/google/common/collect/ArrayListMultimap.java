@@ -72,7 +72,7 @@ public final class ArrayListMultimap<K extends /*@org.checkerframework.checker.n
   // Default from ArrayList
   private static final int DEFAULT_VALUES_PER_KEY = 3;
 
-  /*@VisibleForTesting*/ transient int expectedValuesPerKey;
+  @VisibleForTesting transient int expectedValuesPerKey;
 
   /**
    * Creates a new, empty {@code ArrayListMultimap} with the default initial capacities.

@@ -31,7 +31,7 @@ import java.util.Spliterators;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
-/*@SuppressWarnings("serial")*/ // uses writeReplace(), not default serialization
+@SuppressWarnings("serial") // uses writeReplace(), not default serialization
 class RegularImmutableList<E> extends ImmutableList<E> {
   static final ImmutableList<Object> EMPTY =
       new RegularImmutableList<Object>(new Object[0]);

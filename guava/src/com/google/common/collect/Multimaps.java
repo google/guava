@@ -1670,7 +1670,7 @@ public final class Multimaps {
   }
 
   static class Keys<K, V> extends AbstractMultiset<K> {
-    /*@Weak*/ final Multimap<K, V> multimap;
+    @Weak final Multimap<K, V> multimap;
 
     Keys(Multimap<K, V> multimap) {
       this.multimap = multimap;
@@ -1741,7 +1741,7 @@ public final class Multimaps {
       }
 
       @Override
-      public boolean contains(/*@Nullable*/ Object o) {
+      public boolean contains(@Nullable Object o) {
         if (o instanceof Multiset.Entry) {
           Multiset.Entry<?> entry = (Multiset.Entry<?>) o;
           Collection<V> collection = multimap.asMap().get(entry.getElement());
@@ -1751,7 +1751,7 @@ public final class Multimaps {
       }
 
       @Override
-      public boolean remove(/*@Nullable*/ Object o) {
+      public boolean remove(@Nullable Object o) {
         if (o instanceof Multiset.Entry) {
           Multiset.Entry<?> entry = (Multiset.Entry<?>) o;
           Collection<V> collection = multimap.asMap().get(entry.getElement());
@@ -1765,7 +1765,7 @@ public final class Multimaps {
     }
 
     @Override
-    public boolean contains(/*@Nullable*/ Object element) {
+    public boolean contains(@Nullable Object element) {
       return multimap.containsKey(element);
     }
 
@@ -1775,13 +1775,13 @@ public final class Multimaps {
     }
 
     @Override
-    public int count(/*@Nullable*/ Object element) {
+    public int count(@Nullable Object element) {
       Collection<V> values = Maps.safeGet(multimap.asMap(), element);
       return (values == null) ? 0 : values.size();
     }
 
     @Override
-    public int remove(/*@Nullable*/ Object element, int occurrences) {
+    public int remove(@Nullable Object element, int occurrences) {
       checkNonnegative(occurrences, "occurrences");
       if (occurrences == 0) {
         return count(element);
@@ -1829,7 +1829,7 @@ public final class Multimaps {
     }
 
     @Override
-    public boolean contains(/*@Nullable*/ Object o) {
+    public boolean contains(@Nullable Object o) {
       if (o instanceof Map.Entry) {
         Map.Entry<?, ?> entry = (Map.Entry<?, ?>) o;
         return multimap().containsEntry(entry.getKey(), entry.getValue());
@@ -1838,7 +1838,7 @@ public final class Multimaps {
     }
 
     @Override
-    public boolean remove(/*@Nullable*/ Object o) {
+    public boolean remove(@Nullable Object o) {
       if (o instanceof Map.Entry) {
         Map.Entry<?, ?> entry = (Map.Entry<?, ?>) o;
         return multimap().remove(entry.getKey(), entry.getValue());
@@ -1856,7 +1856,7 @@ public final class Multimaps {
    * A skeleton implementation of {@link Multimap#asMap()}.
    */
   static final class AsMap<K, V> extends Maps.ViewCachingAbstractMap<K, Collection<V>> {
-    /*@Weak*/ private final Multimap<K, V> multimap;
+    @Weak private final Multimap<K, V> multimap;
 
     AsMap(Multimap<K, V> multimap) {
       this.multimap = checkNotNull(multimap);
@@ -2243,7 +2243,7 @@ public final class Multimaps {
     return new FilteredEntrySetMultimap<K, V>(multimap.unfiltered(), predicate);
   }
 
-  static boolean equalsImpl(Multimap<?, ?> multimap, /*@Nullable*/ Object object) {
+  static boolean equalsImpl(Multimap<?, ?> multimap, @Nullable Object object) {
     if (object == multimap) {
       return true;
     }

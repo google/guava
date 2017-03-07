@@ -148,7 +148,7 @@ public final class Tables {
    * @param value the value to be associated with the returned cell
    */
   public static <R, C, V> Cell<R, C, V> immutableCell(
-      /*@Nullable*/ R rowKey, /*@Nullable*/ C columnKey, /*@Nullable*/ V value) {
+      @Nullable R rowKey, @Nullable C columnKey, @Nullable V value) {
     return new ImmutableCell<R, C, V>(rowKey, columnKey, value);
   }
 
@@ -157,7 +157,7 @@ public final class Tables {
     private final C columnKey;
     private final V value;
 
-    ImmutableCell(/*@Nullable*/ R rowKey, /*@Nullable*/ C columnKey, /*@Nullable*/ V value) {
+    ImmutableCell(@Nullable R rowKey, @Nullable C columnKey, @Nullable V value) {
       this.rowKey = rowKey;
       this.columnKey = columnKey;
       this.value = value;
@@ -258,27 +258,27 @@ public final class Tables {
     }
 
     @Override
-    public boolean contains(/*@Nullable*/ Object rowKey, /*@Nullable*/ Object columnKey) {
+    public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
       return original.contains(columnKey, rowKey);
     }
 
     @Override
-    public boolean containsColumn(/*@Nullable*/ Object columnKey) {
+    public boolean containsColumn(@Nullable Object columnKey) {
       return original.containsRow(columnKey);
     }
 
     @Override
-    public boolean containsRow(/*@Nullable*/ Object rowKey) {
+    public boolean containsRow(@Nullable Object rowKey) {
       return original.containsColumn(rowKey);
     }
 
     @Override
-    public boolean containsValue(/*@Nullable*/ Object value) {
+    public boolean containsValue(@Nullable Object value) {
       return original.containsValue(value);
     }
 
     @Override
-    public V get(/*@Nullable*/ Object rowKey, /*@Nullable*/ Object columnKey) {
+    public V get(@Nullable Object rowKey, @Nullable Object columnKey) {
       return original.get(columnKey, rowKey);
     }
 
@@ -293,7 +293,7 @@ public final class Tables {
     }
 
     @Override
-    public V remove(/*@Nullable*/ Object rowKey, /*@Nullable*/ Object columnKey) {
+    public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
       return original.remove(columnKey, rowKey);
     }
 
@@ -569,7 +569,7 @@ public final class Tables {
       this.delegate = checkNotNull(delegate);
     }
 
-    /*@SuppressWarnings("unchecked")*/ // safe, covariant cast
+    @SuppressWarnings("unchecked") // safe, covariant cast
     @Override
     protected Table<R, C, V> delegate() {
       return (Table<R, C, V>) delegate;
@@ -586,7 +586,7 @@ public final class Tables {
     }
 
     @Override
-    public Map<R, V> column(/*@Nullable*/ C columnKey) {
+    public Map<R, V> column(@Nullable C columnKey) {
       return Collections.unmodifiableMap(super.column(columnKey));
     }
 
@@ -602,7 +602,7 @@ public final class Tables {
     }
 
     @Override
-    public V put(/*@Nullable*/ R rowKey, /*@Nullable*/ C columnKey, /*@Nullable*/ V value) {
+    public V put(@Nullable R rowKey, @Nullable C columnKey, @Nullable V value) {
       throw new UnsupportedOperationException();
     }
 
@@ -612,12 +612,12 @@ public final class Tables {
     }
 
     @Override
-    public V remove(/*@Nullable*/ Object rowKey, /*@Nullable*/ Object columnKey) {
+    public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public Map<C, V> row(/*@Nullable*/ R rowKey) {
+    public Map<C, V> row(@Nullable R rowKey) {
       return Collections.unmodifiableMap(super.row(rowKey));
     }
 
@@ -735,7 +735,7 @@ public final class Tables {
     return Synchronized.table(table, null);
   }
 
-  static boolean equalsImpl(Table<?, ?, ?> table, /*@Nullable*/ Object obj) {
+  static boolean equalsImpl(Table<?, ?, ?> table, @Nullable Object obj) {
     if (obj == table) {
       return true;
     } else if (obj instanceof Table) {

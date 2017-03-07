@@ -153,7 +153,7 @@ public abstract class ForwardingCollection<E extends /*@org.checkerframework.che
    *
    * @since 7.0
    */
-  protected boolean standardContains(/*@Nullable*/ Object object) {
+  protected boolean standardContains(@Nullable Object object) {
     return Iterators.contains(iterator(), object);
   }
 
@@ -187,7 +187,7 @@ public abstract class ForwardingCollection<E extends /*@org.checkerframework.che
    *
    * @since 7.0
    */
-  protected boolean standardRemove(/*@Nullable*/ Object object) {
+  protected boolean standardRemove(@Nullable Object object) {
     Iterator<E> iterator = iterator();
     while (iterator.hasNext()) {
       if (Objects.equal(iterator.next(), object)) {

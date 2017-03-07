@@ -94,11 +94,11 @@ public final class HashBiMap<K extends /*@org.checkerframework.checker.nullness.
     final int keyHash;
     final int valueHash;
 
-    /*@Nullable*/ BiEntry<K, V> nextInKToVBucket;
-    /*@Nullable*/ BiEntry<K, V> nextInVToKBucket;
+    @Nullable BiEntry<K, V> nextInKToVBucket;
+    @Nullable BiEntry<K, V> nextInVToKBucket;
 
-    /*@Nullable*/ BiEntry<K, V> nextInKeyInsertionOrder;
-    /*@Nullable*/ BiEntry<K, V> prevInKeyInsertionOrder;
+    @Nullable BiEntry<K, V> nextInKeyInsertionOrder;
+    @Nullable BiEntry<K, V> prevInKeyInsertionOrder;
 
     BiEntry(K key, int keyHash, V value, int valueHash) {
       super(key, value);
@@ -186,7 +186,7 @@ public final class HashBiMap<K extends /*@org.checkerframework.checker.nullness.
     modCount++;
   }
 
-  private void insert(BiEntry<K, V> entry, /*@Nullable*/ BiEntry<K, V> oldEntryForKey) {
+  private void insert(BiEntry<K, V> entry, @Nullable BiEntry<K, V> oldEntryForKey) {
     int keyBucket = entry.keyHash & mask;
     entry.nextInKToVBucket = hashTableKToV[keyBucket];
     hashTableKToV[keyBucket] = entry;
@@ -223,7 +223,7 @@ public final class HashBiMap<K extends /*@org.checkerframework.checker.nullness.
     modCount++;
   }
 
-  private BiEntry<K, V> seekByKey(/*@Nullable*/ Object key, int keyHash) {
+  private BiEntry<K, V> seekByKey(@Nullable Object key, int keyHash) {
     for (BiEntry<K, V> entry = hashTableKToV[keyHash & mask];
         entry != null;
         entry = entry.nextInKToVBucket) {
@@ -234,7 +234,7 @@ public final class HashBiMap<K extends /*@org.checkerframework.checker.nullness.
     return null;
   }
 
-  private BiEntry<K, V> seekByValue(/*@Nullable*/ Object value, int valueHash) {
+  private BiEntry<K, V> seekByValue(@Nullable Object value, int valueHash) {
     for (BiEntry<K, V> entry = hashTableVToK[valueHash & mask];
         entry != null;
         entry = entry.nextInVToKBucket) {
@@ -246,35 +246,35 @@ public final class HashBiMap<K extends /*@org.checkerframework.checker.nullness.
   }
 
   @Override
-  public boolean containsKey(/*@Nullable*/ Object key) {
+  public boolean containsKey(@Nullable Object key) {
     return seekByKey(key, smearedHash(key)) != null;
   }
 
   @Pure
   @Override
-  public boolean containsValue(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object value) {
+  public boolean containsValue(@Nullable Object value) {
     return seekByValue(value, smearedHash(value)) != null;
   }
 
   @Nullable
   @Override
-  public V get(/*@Nullable*/ Object key) {
+  public V get(@Nullable Object key) {
     return Maps.valueOrNull(seekByKey(key, smearedHash(key)));
   }
 
   @CanIgnoreReturnValue
   @Override
-  public V put(/*@Nullable*/ K key, /*@Nullable*/ V value) {
+  public V put(@Nullable K key, @Nullable V value) {
     return put(key, value, false);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public V forcePut(/*@Nullable*/ K key, /*@Nullable*/ V value) {
+  public V forcePut(@Nullable K key, @Nullable V value) {
     return put(key, value, true);
   }
 
-  private V put(/*@Nullable*/ K key, /*@Nullable*/ V value, boolean force) {
+  private V put(@Nullable K key, @Nullable V value, boolean force) {
     int keyHash = smearedHash(key);
     int valueHash = smearedHash(value);
 
@@ -310,7 +310,7 @@ public final class HashBiMap<K extends /*@org.checkerframework.checker.nullness.
   }
 
   @Nullable
-  private K putInverse(/*@Nullable*/ V value, /*@Nullable*/ K key, boolean force) {
+  private K putInverse(@Nullable V value, @Nullable K key, boolean force) {
     int valueHash = smearedHash(value);
     int keyHash = smearedHash(key);
 
@@ -369,7 +369,7 @@ public final class HashBiMap<K extends /*@org.checkerframework.checker.nullness.
 
   @CanIgnoreReturnValue
   @Override
-  public /*@org.checkerframework.checker.nullness.qual.Nullable*/ V remove(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
+  public /*@org.checkerframework.checker.nullness.qual.Nullable*/ V remove(@Nullable Object key) {
     BiEntry<K, V> entry = seekByKey(key, smearedHash(key));
     if (entry == null) {
       return null;
@@ -457,7 +457,7 @@ public final class HashBiMap<K extends /*@org.checkerframework.checker.nullness.
     }
 
     @Override
-    public boolean remove(/*@Nullable*/ Object o) {
+    public boolean remove(@Nullable Object o) {
       BiEntry<K, V> entry = seekByKey(o, smearedHash(o));
       if (entry == null) {
         return false;
@@ -570,28 +570,28 @@ public final class HashBiMap<K extends /*@org.checkerframework.checker.nullness.
     }
 
     @Override
-    public boolean containsKey(/*@Nullable*/ Object value) {
+    public boolean containsKey(@Nullable Object value) {
       return forward().containsValue(value);
     }
 
     @Override
-    public K get(/*@Nullable*/ Object value) {
+    public K get(@Nullable Object value) {
       return Maps.keyOrNull(seekByValue(value, smearedHash(value)));
     }
 
     @CanIgnoreReturnValue
     @Override
-    public K put(/*@Nullable*/ V value, /*@Nullable*/ K key) {
+    public K put(@Nullable V value, @Nullable K key) {
       return putInverse(value, key, false);
     }
 
     @Override
-    public K forcePut(/*@Nullable*/ V value, /*@Nullable*/ K key) {
+    public K forcePut(@Nullable V value, @Nullable K key) {
       return putInverse(value, key, true);
     }
 
     @Override
-    public K remove(/*@Nullable*/ Object value) {
+    public K remove(@Nullable Object value) {
       BiEntry<K, V> entry = seekByValue(value, smearedHash(value));
       if (entry == null) {
         return null;
@@ -620,7 +620,7 @@ public final class HashBiMap<K extends /*@org.checkerframework.checker.nullness.
       }
 
       @Override
-      public boolean remove(/*@Nullable*/ Object o) {
+      public boolean remove(@Nullable Object o) {
         BiEntry<K, V> entry = seekByValue(o, smearedHash(o));
         if (entry == null) {
           return false;

@@ -142,7 +142,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * @return the nonnegative number of occurrences of the element
    */
   @Override
-  public int count(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element) {
+  public int count(@Nullable Object element) {
     AtomicInteger existingCounter = Maps.safeGet(countMap, element);
     return (existingCounter == null) ? 0 : existingCounter.get();
   }
@@ -273,7 +273,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    */
   @CanIgnoreReturnValue
   @Override
-  public int remove(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element, int occurrences) {
+  public int remove(@Nullable Object element, int occurrences) {
     if (occurrences == 0) {
       return count(element);
     }
@@ -314,7 +314,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * @throws IllegalArgumentException if {@code occurrences} is negative
    */
   @CanIgnoreReturnValue
-  public boolean removeExactly(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element, int occurrences) {
+  public boolean removeExactly(@Nullable Object element, int occurrences) {
     if (occurrences == 0) {
       return true;
     }
@@ -461,7 +461,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
       }
 
       @Override
-      public boolean contains(/*@Nullable*/ Object object) {
+      public boolean contains(@Nullable Object object) {
         return object != null && Collections2.safeContains(delegate, object);
       }
 
@@ -607,7 +607,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
 
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
-    /*@SuppressWarnings("unchecked")*/ // reading data stored by writeObject
+    @SuppressWarnings("unchecked") // reading data stored by writeObject
     ConcurrentMap<E, Integer> deserializedCountMap =
         (ConcurrentMap<E, Integer>) stream.readObject();
     FieldSettersHolder.COUNT_MAP_FIELD_SETTER.set(this, deserializedCountMap);

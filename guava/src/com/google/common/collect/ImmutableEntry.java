@@ -32,7 +32,7 @@ class ImmutableEntry<K extends /*@org.checkerframework.checker.nullness.qual.Nul
   final K key;
   final V value;
 
-  ImmutableEntry(/*@Nullable*/ K key, /*@Nullable*/ V value) {
+  ImmutableEntry(@Nullable K key, @Nullable V value) {
     this.key = key;
     this.value = value;
   }

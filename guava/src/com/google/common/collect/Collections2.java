@@ -108,7 +108,7 @@ public final class Collections2 {
    * {@code contains} method throws a {@code ClassCastException} or
    * {@code NullPointerException}.
    */
-  static boolean safeContains(Collection<?> collection, /*@Nullable*/ Object object) {
+  static boolean safeContains(Collection<?> collection, @Nullable Object object) {
     checkNotNull(collection);
     try {
       return collection.contains(object);
@@ -124,7 +124,7 @@ public final class Collections2 {
    * {@code remove} method throws a {@code ClassCastException} or
    * {@code NullPointerException}.
    */
-  static boolean safeRemove(Collection<?> collection, /*@Nullable*/ Object object) {
+  static boolean safeRemove(Collection<?> collection, @Nullable Object object) {
     checkNotNull(collection);
     try {
       return collection.remove(object);
@@ -170,9 +170,9 @@ public final class Collections2 {
 
     @Pure
     @Override
-    public boolean contains(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element) {
+    public boolean contains(@Nullable Object element) {
       if (safeContains(unfiltered, element)) {
-        /*@SuppressWarnings("unchecked")*/ // element is in unfiltered, so it must be an E
+        @SuppressWarnings("unchecked") // element is in unfiltered, so it must be an E
         E e = (E) element;
         return predicate.apply(e);
       }
@@ -528,7 +528,7 @@ public final class Collections2 {
     }
 
     @Override
-    public boolean contains(/*@Nullable*/ Object obj) {
+    public boolean contains(@Nullable Object obj) {
       if (obj instanceof List) {
         List<?> list = (List<?>) obj;
         return isPermutation(inputList, list);
@@ -643,7 +643,7 @@ public final class Collections2 {
     }
 
     @Override
-    public boolean contains(/*@Nullable*/ Object obj) {
+    public boolean contains(@Nullable Object obj) {
       if (obj instanceof List) {
         List<?> list = (List<?>) obj;
         return isPermutation(inputList, list);

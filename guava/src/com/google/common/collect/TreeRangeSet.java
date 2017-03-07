@@ -43,7 +43,7 @@ import javax.annotation.Nullable;
 public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     implements Serializable {
 
-  /*@VisibleForTesting*/ final NavigableMap<Cut<C>, Range<C>> rangesByLowerBound;
+  @VisibleForTesting final NavigableMap<Cut<C>, Range<C>> rangesByLowerBound;
 
   /**
    * Creates an empty {@code TreeRangeSet} instance.
@@ -116,7 +116,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     }
 
     @Override
-    public boolean equals(/*@Nullable*/ Object o) {
+    public boolean equals(@Nullable Object o) {
       return Sets.equalsImpl(this, o);
     }
   }
@@ -336,15 +336,15 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     }
 
     @Override
-    public boolean containsKey(/*@Nullable*/ Object key) {
+    public boolean containsKey(@Nullable Object key) {
       return get(key) != null;
     }
 
     @Override
-    public Range<C> get(/*@Nullable*/ Object key) {
+    public Range<C> get(@Nullable Object key) {
       if (key instanceof Cut) {
         try {
-          /*@SuppressWarnings("unchecked")*/ // we catch CCEs
+          @SuppressWarnings("unchecked") // we catch CCEs
           Cut<C> cut = (Cut<C>) key;
           if (!upperBoundWindow.contains(cut)) {
             return null;
@@ -741,16 +741,16 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     }
 
     @Override
-    public boolean containsKey(/*@Nullable*/ Object key) {
+    public boolean containsKey(@Nullable Object key) {
       return get(key) != null;
     }
 
     @Override
     @Nullable
-    public Range<C> get(/*@Nullable*/ Object key) {
+    public Range<C> get(@Nullable Object key) {
       if (key instanceof Cut) {
         try {
-          /*@SuppressWarnings("unchecked")*/ // we catch CCE's
+          @SuppressWarnings("unchecked") // we catch CCE's
           Cut<C> cut = (Cut<C>) key;
           if (!lowerBoundWindow.contains(cut)
               || cut.compareTo(restriction.lowerBound) < 0

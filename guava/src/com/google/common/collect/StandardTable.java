@@ -68,8 +68,8 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializable {
-  /*@GwtTransient*/ final Map<R, Map<C, V>> backingMap;
-  /*@GwtTransient*/ final Supplier<? extends Map<C, V>> factory;
+  @GwtTransient final Map<R, Map<C, V>> backingMap;
+  @GwtTransient final Supplier<? extends Map<C, V>> factory;
 
   StandardTable(Map<R, Map<C, V>> backingMap, Supplier<? extends Map<C, V>> factory) {
     this.backingMap = backingMap;
@@ -79,12 +79,12 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
   // Accessors
 
   @Override
-  public boolean contains(/*@Nullable*/ Object rowKey, /*@Nullable*/ Object columnKey) {
+  public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
     return rowKey != null && columnKey != null && super.contains(rowKey, columnKey);
   }
 
   @Override
-  public boolean containsColumn(/*@Nullable*/ Object columnKey) {
+  public boolean containsColumn(@Nullable Object columnKey) {
     if (columnKey == null) {
       return false;
     }
@@ -97,17 +97,17 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
   }
 
   @Override
-  public boolean containsRow(/*@Nullable*/ Object rowKey) {
+  public boolean containsRow(@Nullable Object rowKey) {
     return rowKey != null && safeContainsKey(backingMap, rowKey);
   }
 
   @Override
-  public boolean containsValue(/*@Nullable*/ Object value) {
+  public boolean containsValue(@Nullable Object value) {
     return value != null && super.containsValue(value);
   }
 
   @Override
-  public V get(/*@Nullable*/ Object rowKey, /*@Nullable*/ Object columnKey) {
+  public V get(@Nullable Object rowKey, @Nullable Object columnKey) {
     return (rowKey == null || columnKey == null) ? null : super.get(rowKey, columnKey);
   }
 
@@ -152,7 +152,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
 
   @CanIgnoreReturnValue
   @Override
-  public V remove(/*@Nullable*/ Object rowKey, /*@Nullable*/ Object columnKey) {
+  public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
     if ((rowKey == null) || (columnKey == null)) {
       return null;
     }

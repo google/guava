@@ -87,7 +87,7 @@ public final class ObjectArrays {
    *     {@code element} occupying the first position, and the
    *     elements of {@code array} occupying the remaining elements.
    */
-  public static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> T[] concat(/*@Nullable*/ T element, T[] array) {
+  public static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> T[] concat(@Nullable T element, T[] array) {
     T[] result = newArray(array, array.length + 1);
     result[0] = element;
     System.arraycopy(array, 0, result, 1, array.length);
@@ -103,7 +103,7 @@ public final class ObjectArrays {
    *     the same contents as {@code array}, plus {@code element} occupying the
    *     last position.
    */
-  public static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> T[] concat(T[] array, /*@Nullable*/ T element) {
+  public static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> T[] concat(T[] array, @Nullable T element) {
     T[] result = Arrays.copyOf(array, array.length + 1);
     result[array.length] = element;
     return result;

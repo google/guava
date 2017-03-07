@@ -35,7 +35,7 @@ final class NullsFirstOrdering<T extends /*@org.checkerframework.checker.nullnes
 
   @Pure
   @Override
-  public int compare(/*@Nullable*/ T left, /*@Nullable*/ T right) {
+  public int compare(@Nullable T left, @Nullable T right) {
     if (left == right) {
       return 0;
     }
@@ -54,7 +54,7 @@ final class NullsFirstOrdering<T extends /*@org.checkerframework.checker.nullnes
     return ordering.reverse().nullsLast();
   }
 
-  /*@SuppressWarnings("unchecked")*/ // still need the right way to explain this
+  @SuppressWarnings("unchecked") // still need the right way to explain this
   @Override
   public <S extends T> Ordering<S> nullsFirst() {
     return (Ordering<S>) this;
@@ -67,7 +67,7 @@ final class NullsFirstOrdering<T extends /*@org.checkerframework.checker.nullnes
 
   @Pure
   @Override
-  public boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }

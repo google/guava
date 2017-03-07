@@ -53,7 +53,7 @@ import java.util.Set;
 public final class HashMultimap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends HashMultimapGwtSerializationDependencies<K, V> {
   private static final int DEFAULT_VALUES_PER_KEY = 2;
 
-  /*@VisibleForTesting*/ transient int expectedValuesPerKey = DEFAULT_VALUES_PER_KEY;
+  @VisibleForTesting transient int expectedValuesPerKey = DEFAULT_VALUES_PER_KEY;
 
   /**
    * Creates a new, empty {@code HashMultimap} with the default initial capacities.

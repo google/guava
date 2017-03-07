@@ -48,7 +48,6 @@ final class Serialization {
    * keys in a multimap serialized by {@link
    * #writeMultimap(Multimap, ObjectOutputStream)}.
    */
-  @GwtIncompatible("java.io.ObjectInputStream")
   static int readCount(ObjectInputStream stream) throws IOException {
     return stream.readInt();
   }
@@ -61,7 +60,6 @@ final class Serialization {
    * <p>The serialized output consists of the number of entries, first key,
    * first value, second key, second value, and so on.
    */
-  @GwtIncompatible("java.io.ObjectOutputStream")
   static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> void writeMap(Map<K, V> map, ObjectOutputStream stream) throws IOException {
     stream.writeInt(map.size());
     for (Map.Entry<K, V> entry : map.entrySet()) {
@@ -74,7 +72,6 @@ final class Serialization {
    * Populates a map by reading an input stream, as part of deserialization.
    * See {@link #writeMap} for the data format.
    */
-  @GwtIncompatible("java.io.ObjectInputStream")
   static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> void populateMap(Map<K, V> map, ObjectInputStream stream)
       throws IOException, ClassNotFoundException {
     int size = stream.readInt();
@@ -86,13 +83,12 @@ final class Serialization {
    * See {@link #writeMap} for the data format. The size is determined by a
    * prior call to {@link #readCount}.
    */
-  @GwtIncompatible("java.io.ObjectInputStream")
   static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> void populateMap(Map<K, V> map, ObjectInputStream stream, int size)
       throws IOException, ClassNotFoundException {
     for (int i = 0; i < size; i++) {
-      /*@SuppressWarnings("unchecked")*/ // reading data stored by writeMap
+      @SuppressWarnings("unchecked") // reading data stored by writeMap
       K key = (K) stream.readObject();
-      /*@SuppressWarnings("unchecked")*/ // reading data stored by writeMap
+      @SuppressWarnings("unchecked") // reading data stored by writeMap
       V value = (V) stream.readObject();
       map.put(key, value);
     }
@@ -106,7 +102,6 @@ final class Serialization {
    * <p>The serialized output consists of the number of distinct elements, the
    * first element, its count, the second element, its count, and so on.
    */
-  @GwtIncompatible("java.io.ObjectOutputStream")
   static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> void writeMultiset(Multiset<E> multiset, ObjectOutputStream stream)
       throws IOException {
     int entryCount = multiset.entrySet().size();
@@ -121,7 +116,6 @@ final class Serialization {
    * Populates a multiset by reading an input stream, as part of
    * deserialization. See {@link #writeMultiset} for the data format.
    */
-  @GwtIncompatible("java.io.ObjectInputStream")
   static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> void populateMultiset(Multiset<E> multiset, ObjectInputStream stream)
       throws IOException, ClassNotFoundException {
     int distinctElements = stream.readInt();
@@ -133,12 +127,11 @@ final class Serialization {
    * deserialization. See {@link #writeMultiset} for the data format. The number
    * of distinct elements is determined by a prior call to {@link #readCount}.
    */
-  @GwtIncompatible("java.io.ObjectInputStream")
   static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> void populateMultiset(
       Multiset<E> multiset, ObjectInputStream stream, int distinctElements)
       throws IOException, ClassNotFoundException {
     for (int i = 0; i < distinctElements; i++) {
-      /*@SuppressWarnings("unchecked")*/ // reading data stored by writeMultiset
+      @SuppressWarnings("unchecked") // reading data stored by writeMultiset
       E element = (E) stream.readObject();
       int count = stream.readInt();
       multiset.add(element, count);
@@ -155,7 +148,6 @@ final class Serialization {
    * for each distinct key: the key, the number of values for that key, and the
    * key's values.
    */
-  @GwtIncompatible("java.io.ObjectOutputStream")
   static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> void writeMultimap(Multimap<K, V> multimap, ObjectOutputStream stream)
       throws IOException {
     stream.writeInt(multimap.asMap().size());
@@ -172,7 +164,6 @@ final class Serialization {
    * Populates a multimap by reading an input stream, as part of
    * deserialization. See {@link #writeMultimap} for the data format.
    */
-  @GwtIncompatible("java.io.ObjectInputStream")
   static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> void populateMultimap(Multimap<K, V> multimap, ObjectInputStream stream)
       throws IOException, ClassNotFoundException {
     int distinctKeys = stream.readInt();
@@ -184,17 +175,16 @@ final class Serialization {
    * deserialization. See {@link #writeMultimap} for the data format. The number
    * of distinct keys is determined by a prior call to {@link #readCount}.
    */
-  @GwtIncompatible("java.io.ObjectInputStream")
   static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> void populateMultimap(
       Multimap<K, V> multimap, ObjectInputStream stream, int distinctKeys)
       throws IOException, ClassNotFoundException {
     for (int i = 0; i < distinctKeys; i++) {
-      /*@SuppressWarnings("unchecked")*/ // reading data stored by writeMultimap
+      @SuppressWarnings("unchecked") // reading data stored by writeMultimap
       K key = (K) stream.readObject();
       Collection<V> values = multimap.get(key);
       int valueCount = stream.readInt();
       for (int j = 0; j < valueCount; j++) {
-        /*@SuppressWarnings("unchecked")*/ // reading data stored by writeMultimap
+        @SuppressWarnings("unchecked") // reading data stored by writeMultimap
         V value = (V) stream.readObject();
         values.add(value);
       }
@@ -202,7 +192,6 @@ final class Serialization {
   }
 
   // Secret sauce for setting final fields; don't make it public.
-  @GwtIncompatible("java.lang.reflect.Field")
   static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> FieldSetter<T> getFieldSetter(final Class<T> clazz, String fieldName) {
     try {
       Field field = clazz.getDeclaredField(fieldName);
@@ -213,7 +202,6 @@ final class Serialization {
   }
 
   // Secret sauce for setting final fields; don't make it public.
-  @GwtCompatible(emulated=true)
   static final class FieldSetter<T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> {
     private final Field field;
 
@@ -222,7 +210,6 @@ final class Serialization {
       field.setAccessible(true);
     }
 
-    @GwtIncompatible("java.lang.reflect.Field")
     void set(T instance, Object value) {
       try {
         field.set(instance, value);
@@ -231,7 +218,6 @@ final class Serialization {
       }
     }
 
-    @GwtIncompatible("java.lang.reflect.Field")
     void set(T instance, int value) {
       try {
         field.set(instance, value);

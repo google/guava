@@ -37,7 +37,7 @@ public final class Strings {
    * @param string the string to test and possibly return
    * @return {@code string} itself if it is non-null; {@code ""} if it is null
    */
-  public static String nullToEmpty(/*@Nullable*/ String string) {
+  public static String nullToEmpty(@Nullable String string) {
     return (string == null) ? "" : string;
   }
 
@@ -48,7 +48,7 @@ public final class Strings {
    * @return {@code string} itself if it is nonempty; {@code null} if it is empty or null
    */
   @Nullable
-  public static String emptyToNull(/*@Nullable*/ String string) {
+  public static String emptyToNull(@Nullable String string) {
     return isNullOrEmpty(string) ? null : string;
   }
 

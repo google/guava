@@ -31,7 +31,7 @@ import com.google.errorprone.annotations.concurrent.LazyInit;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
-/*@SuppressWarnings("serial")*/ // uses writeReplace(), not default serialization
+@SuppressWarnings("serial") // uses writeReplace(), not default serialization
 final class SingletonImmutableSet<E> extends ImmutableSet<E> {
 
   final transient E element;

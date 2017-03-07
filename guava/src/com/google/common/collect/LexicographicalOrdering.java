@@ -54,7 +54,7 @@ final class LexicographicalOrdering<T> extends Ordering<Iterable<T>> implements 
   }
 
   @Override
-  public boolean equals(/*@Nullable*/ Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }

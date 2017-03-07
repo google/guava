@@ -64,7 +64,7 @@ public interface MapConstraint<K extends /*@org.checkerframework.checker.nullnes
    * {@link IllegalArgumentException}, or a {@link ClassCastException}, though
    * an application-specific exception class may be used if appropriate.
    */
-  void checkKeyValue(/*@Nullable*/ K key, /*@Nullable*/ V value);
+  void checkKeyValue(@Nullable K key, @Nullable V value);
 
   /**
    * Returns a brief human readable description of this constraint, such as

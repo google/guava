@@ -167,7 +167,7 @@ public final class LinkedHashMultimap<K extends /*@org.checkerframework.checker.
   static final class ValueEntry<K, V> extends ImmutableEntry<K, V> implements ValueSetLink<K, V> {
     final int smearedValueHash;
 
-    /*@Nullable*/ ValueEntry<K, V> nextInValueBucket;
+    @Nullable ValueEntry<K, V> nextInValueBucket;
 
     ValueSetLink<K, V> predecessorInValueSet;
     ValueSetLink<K, V> successorInValueSet;
@@ -176,16 +176,16 @@ public final class LinkedHashMultimap<K extends /*@org.checkerframework.checker.
     ValueEntry<K, V> successorInMultimap;
 
     ValueEntry(
-        /*@Nullable*/ K key,
-        /*@Nullable*/ V value,
+        @Nullable K key,
+        @Nullable V value,
         int smearedValueHash,
-        /*@Nullable*/ ValueEntry<K, V> nextInValueBucket) {
+        @Nullable ValueEntry<K, V> nextInValueBucket) {
       super(key, value);
       this.smearedValueHash = smearedValueHash;
       this.nextInValueBucket = nextInValueBucket;
     }
 
-    boolean matchesValue(/*@Nullable*/ Object v, int smearedVHash) {
+    boolean matchesValue(@Nullable Object v, int smearedVHash) {
       return smearedValueHash == smearedVHash && Objects.equal(getValue(), v);
     }
 
@@ -228,9 +228,9 @@ public final class LinkedHashMultimap<K extends /*@org.checkerframework.checker.
 
   private static final int DEFAULT_KEY_CAPACITY = 16;
   private static final int DEFAULT_VALUE_SET_CAPACITY = 2;
-  /*@VisibleForTesting*/ static final double VALUE_SET_LOAD_FACTOR = 1.0;
+  @VisibleForTesting static final double VALUE_SET_LOAD_FACTOR = 1.0;
 
-  /*@VisibleForTesting*/ transient int valueSetCapacity = DEFAULT_VALUE_SET_CAPACITY;
+  @VisibleForTesting transient int valueSetCapacity = DEFAULT_VALUE_SET_CAPACITY;
   private transient ValueEntry<K, V> multimapHeaderEntry;
 
   private LinkedHashMultimap(int keyCapacity, int valueSetCapacity) {
@@ -280,7 +280,7 @@ public final class LinkedHashMultimap<K extends /*@org.checkerframework.checker.
    */
   @CanIgnoreReturnValue
   @Override
-  public Set<V> replaceValues(/*@Nullable*/ K key, Iterable<? extends V> values) {
+  public Set<V> replaceValues(@Nullable K key, Iterable<? extends V> values) {
     return super.replaceValues(key, values);
   }
 
@@ -340,7 +340,7 @@ public final class LinkedHashMultimap<K extends /*@org.checkerframework.checker.
      */
 
     private final K key;
-    /*@VisibleForTesting*/ ValueEntry<K, V>[] hashTable;
+    @VisibleForTesting ValueEntry<K, V>[] hashTable;
     private int size = 0;
     private int modCount = 0;
 
@@ -443,7 +443,7 @@ public final class LinkedHashMultimap<K extends /*@org.checkerframework.checker.
     }
 
     @Override
-    public boolean contains(/*@Nullable*/ Object o) {
+    public boolean contains(@Nullable Object o) {
       int smearedHash = Hashing.smearedHash(o);
       for (ValueEntry<K, V> entry = hashTable[smearedHash & mask()];
           entry != null;
@@ -456,7 +456,7 @@ public final class LinkedHashMultimap<K extends /*@org.checkerframework.checker.
     }
 
     @Override
-    public boolean add(/*@Nullable*/ V value) {
+    public boolean add(@Nullable V value) {
       int smearedHash = Hashing.smearedHash(value);
       int bucket = smearedHash & mask();
       ValueEntry<K, V> rowHead = hashTable[bucket];
@@ -497,7 +497,7 @@ public final class LinkedHashMultimap<K extends /*@org.checkerframework.checker.
 
     @CanIgnoreReturnValue
     @Override
-    public boolean remove(/*@Nullable*/ Object o) {
+    public boolean remove(@Nullable Object o) {
       int smearedHash = Hashing.smearedHash(o);
       int bucket = smearedHash & mask();
       ValueEntry<K, V> prev = null;

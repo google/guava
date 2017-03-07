@@ -211,7 +211,7 @@ abstract class AbstractMapBasedMultiset<E extends /*@org.checkerframework.checke
   }
 
   @Override
-  public int count(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element) {
+  public int count(@Nullable Object element) {
     Count frequency = Maps.safeGet(backingMap, element);
     return (frequency == null) ? 0 : frequency.get();
   }
@@ -227,7 +227,7 @@ abstract class AbstractMapBasedMultiset<E extends /*@org.checkerframework.checke
    */
   @CanIgnoreReturnValue
   @Override
-  public int add(/*@Nullable*/ E element, int occurrences) {
+  public int add(@Nullable E element, int occurrences) {
     if (occurrences == 0) {
       return count(element);
     }
@@ -249,7 +249,7 @@ abstract class AbstractMapBasedMultiset<E extends /*@org.checkerframework.checke
 
   @CanIgnoreReturnValue
   @Override
-  public int remove(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element, int occurrences) {
+  public int remove(@Nullable Object element, int occurrences) {
     if (occurrences == 0) {
       return count(element);
     }
@@ -277,7 +277,7 @@ abstract class AbstractMapBasedMultiset<E extends /*@org.checkerframework.checke
   // Roughly a 33% performance improvement over AbstractMultiset.setCount().
   @CanIgnoreReturnValue
   @Override
-  public int setCount(/*@Nullable*/ E element, int count) {
+  public int setCount(@Nullable E element, int count) {
     checkNonnegative(count, "count");
 
     Count existingCounter;

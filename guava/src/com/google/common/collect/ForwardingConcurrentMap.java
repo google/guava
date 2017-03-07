@@ -43,7 +43,6 @@ import java.util.concurrent.ConcurrentMap;
 @SuppressWarnings("nullness:generic.argument")
 public abstract class ForwardingConcurrentMap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends ForwardingMap<K, V>
     implements ConcurrentMap<K, V> {
-  // TODO(lowasser): identify places where thread safety is actually lost
 
   /** Constructor for use by subclasses. */
   protected ForwardingConcurrentMap() {}

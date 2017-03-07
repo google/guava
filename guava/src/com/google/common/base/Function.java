@@ -66,5 +66,5 @@ public interface Function<F extends @Nullable Object, T extends @Nullable Object
    */
   @Pure
   @Override
-  boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object);
+  boolean equals(@Nullable Object object);
 }

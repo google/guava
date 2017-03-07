@@ -160,7 +160,7 @@ public abstract class Ordering<T extends /*@org.checkerframework.checker.nullnes
    * <p><b>Java 8 users:</b> use {@link Comparator#naturalOrder} instead.
    */
   @GwtCompatible(serializable = true)
-  /*@SuppressWarnings("unchecked")*/ // TODO(kevinb): right way to explain this??
+  @SuppressWarnings("unchecked") // TODO(kevinb): right way to explain this??
   public static <C extends Comparable> Ordering<C> natural() {
     return (Ordering<C>) NaturalOrdering.INSTANCE;
   }
@@ -533,7 +533,7 @@ public abstract class Ordering<T extends /*@org.checkerframework.checker.nullnes
   // Override to add @Nullable
   @CanIgnoreReturnValue // TODO(kak): Consider removing this
   @Override
-  public abstract int compare(/*@Nullable*/ T left, /*@Nullable*/ T right);
+  public abstract int compare(@Nullable T left, @Nullable T right);
 
   /**
    * Returns the least of the specified values according to this ordering. If there are multiple
@@ -743,7 +743,7 @@ public abstract class Ordering<T extends /*@org.checkerframework.checker.nullnes
         // faster than using the implementation for Iterator, which is
         // specialized for k much smaller than n.
 
-        /*@SuppressWarnings("unchecked")*/ // c only contains E's and doesn't escape
+        @SuppressWarnings("unchecked") // c only contains E's and doesn't escape
         E[] array = (E[]) collection.toArray();
         Arrays.sort(array, this);
         if (array.length > k) {
@@ -853,7 +853,7 @@ public abstract class Ordering<T extends /*@org.checkerframework.checker.nullnes
   // TODO(kevinb): rerun benchmarks including new options
   @CanIgnoreReturnValue // TODO(kak): Consider removing this
   public <E extends T> List<E> sortedCopy(Iterable<E> elements) {
-    /*@SuppressWarnings("unchecked")*/ // does not escape, and contains only E's
+    @SuppressWarnings("unchecked") // does not escape, and contains only E's
     E[] array = (E[]) Iterables.toArray(elements);
     Arrays.sort(array, this);
     return Lists.newArrayList(Arrays.asList(array));

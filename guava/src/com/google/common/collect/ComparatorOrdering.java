@@ -44,7 +44,7 @@ final class ComparatorOrdering<T> extends Ordering<T> implements Serializable {
 
   @Pure
   @Override
-  public boolean equals(/*@Nullable*/ Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }

@@ -145,7 +145,7 @@ public class TreeMultimap<K extends /*@org.checkerframework.checker.nullness.qua
   }
 
   @Override
-  Collection<V> createCollection(/*@Nullable*/ K key) {
+  Collection<V> createCollection(@Nullable K key) {
     if (key == null) {
       keyComparator().compare(key, key);
     }

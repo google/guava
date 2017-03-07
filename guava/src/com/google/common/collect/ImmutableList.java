@@ -59,7 +59,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
-/*@SuppressWarnings("serial")*/ // we're overriding default serialization
+@SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableList<E> extends ImmutableCollection<E>
     implements List<E>, RandomAccess {
 
@@ -254,7 +254,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    */
   public static <E> ImmutableList<E> copyOf(Collection<? extends E> elements) {
     if (elements instanceof ImmutableCollection) {
-      /*@SuppressWarnings("unchecked")*/ // all supported methods are covariant
+      @SuppressWarnings("unchecked") // all supported methods are covariant
       ImmutableList<E> list = ((ImmutableCollection<E>) elements).asList();
       return list.isPartialView() ? ImmutableList.<E>asImmutableList(list.toArray()) : list;
     }
@@ -410,12 +410,12 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
 
   @Pure
   @Override
-  public int lastIndexOf(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
+  public int lastIndexOf(@Nullable Object object) {
     return (object == null) ? -1 : Lists.lastIndexOfImpl(this, object);
   }
 
   @Override
-  public boolean contains(/*@Nullable*/ Object object) {
+  public boolean contains(@Nullable Object object) {
     return indexOf(object) >= 0;
   }
 
@@ -618,18 +618,18 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     }
 
     @Override
-    public boolean contains(/*@Nullable*/ Object object) {
+    public boolean contains(@Nullable Object object) {
       return forwardList.contains(object);
     }
 
     @Override
-    public int indexOf(/*@Nullable*/ Object object) {
+    public int indexOf(@Nullable Object object) {
       int index = forwardList.lastIndexOf(object);
       return (index >= 0) ? reverseIndex(index) : -1;
     }
 
     @Override
-    public int lastIndexOf(/*@Nullable*/ Object object) {
+    public int lastIndexOf(@Nullable Object object) {
       int index = forwardList.indexOf(object);
       return (index >= 0) ? reverseIndex(index) : -1;
     }
@@ -658,7 +658,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   @Override
-  public boolean equals(/*@Nullable*/ Object obj) {
+  public boolean equals(@Nullable Object obj) {
     return Lists.equalsImpl(this, obj);
   }
 

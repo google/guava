@@ -34,7 +34,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(emulated = true)
 final class ImmutableMapKeySet<K, V> extends ImmutableSet.Indexed<K> {
-  /*@Weak*/ private final ImmutableMap<K, V> map;
+  @Weak private final ImmutableMap<K, V> map;
 
   ImmutableMapKeySet(ImmutableMap<K, V> map) {
     this.map = map;

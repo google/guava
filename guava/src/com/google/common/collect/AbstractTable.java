@@ -36,12 +36,12 @@ import javax.annotation.Nullable;
 abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
 
   @Override
-  public boolean containsRow(/*@Nullable*/ Object rowKey) {
+  public boolean containsRow(@Nullable Object rowKey) {
     return Maps.safeContainsKey(rowMap(), rowKey);
   }
 
   @Override
-  public boolean containsColumn(/*@Nullable*/ Object columnKey) {
+  public boolean containsColumn(@Nullable Object columnKey) {
     return Maps.safeContainsKey(columnMap(), columnKey);
   }
 
@@ -56,7 +56,7 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
   }
 
   @Override
-  public boolean containsValue(/*@Nullable*/ Object value) {
+  public boolean containsValue(@Nullable Object value) {
     for (Map<C, V> row : rowMap().values()) {
       if (row.containsValue(value)) {
         return true;
@@ -66,13 +66,13 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
   }
 
   @Override
-  public boolean contains(/*@Nullable*/ Object rowKey, /*@Nullable*/ Object columnKey) {
+  public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
     Map<C, V> row = Maps.safeGet(rowMap(), rowKey);
     return row != null && Maps.safeContainsKey(row, columnKey);
   }
 
   @Override
-  public V get(/*@Nullable*/ Object rowKey, /*@Nullable*/ Object columnKey) {
+  public V get(@Nullable Object rowKey, @Nullable Object columnKey) {
     Map<C, V> row = Maps.safeGet(rowMap(), rowKey);
     return (row == null) ? null : Maps.safeGet(row, columnKey);
   }
@@ -89,7 +89,7 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
 
   @CanIgnoreReturnValue
   @Override
-  public V remove(/*@Nullable*/ Object rowKey, /*@Nullable*/ Object columnKey) {
+  public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
     Map<C, V> row = Maps.safeGet(rowMap(), rowKey);
     return (row == null) ? null : Maps.safeRemove(row, columnKey);
   }
@@ -138,7 +138,7 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
     }
 
     @Override
-    public boolean remove(/*@Nullable*/ Object o) {
+    public boolean remove(@Nullable Object o) {
       if (o instanceof Cell) {
         Cell<?, ?, ?> cell = (Cell<?, ?, ?>) o;
         Map<C, V> row = Maps.safeGet(rowMap(), cell.getRowKey());
@@ -224,7 +224,7 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
   }
 
   @Override
-  public boolean equals(/*@Nullable*/ Object obj) {
+  public boolean equals(@Nullable Object obj) {
     return Tables.equalsImpl(this, obj);
   }
 

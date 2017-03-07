@@ -137,7 +137,7 @@ public abstract class ForwardingSortedMap<K extends /*@org.checkerframework.chec
    */
   @Override
   @Beta
-  protected boolean standardContainsKey(/*@Nullable*/ Object key) {
+  protected boolean standardContainsKey(@Nullable Object key) {
     try {
       // any CCE will be caught
       @SuppressWarnings("unchecked")

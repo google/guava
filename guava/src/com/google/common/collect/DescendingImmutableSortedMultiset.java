@@ -32,7 +32,7 @@ final class DescendingImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   }
 
   @Override
-  public int count(/*@Nullable*/ Object element) {
+  public int count(@Nullable Object element) {
     return forward.count(element);
   }
 

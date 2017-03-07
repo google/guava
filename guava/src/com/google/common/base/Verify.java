@@ -116,8 +116,8 @@ public final class Verify {
    */
   public static void verify(
       boolean expression,
-      /*@Nullable*/ String errorMessageTemplate,
-      /*@Nullable*/ Object... errorMessageArgs) {
+      @Nullable String errorMessageTemplate,
+      @Nullable Object... errorMessageArgs) {
     if (!expression) {
       throw new VerifyException(format(errorMessageTemplate, errorMessageArgs));
     }
@@ -151,9 +151,9 @@ public final class Verify {
    */
   @CanIgnoreReturnValue
   public static <T> T verifyNotNull(
-      /*@Nullable*/ T reference,
-      /*@Nullable*/ String errorMessageTemplate,
-      /*@Nullable*/ Object... errorMessageArgs) {
+      @Nullable T reference,
+      @Nullable String errorMessageTemplate,
+      @Nullable Object... errorMessageArgs) {
     verify(reference != null, errorMessageTemplate, errorMessageArgs);
     return reference;
   }

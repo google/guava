@@ -120,7 +120,6 @@ public abstract class ForwardingList<E extends /*@org.checkerframework.checker.n
     return delegate().set(index, element);
   }
 
-  @GwtIncompatible("List.subList")
   @SideEffectFree
   @Override
   public List<E> subList(int fromIndex, int toIndex) {
@@ -129,7 +128,7 @@ public abstract class ForwardingList<E extends /*@org.checkerframework.checker.n
 
   @Pure
   @Override
-  public boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
+  public boolean equals(@Nullable Object object) {
     return object == this || delegate().equals(object);
   }
 
@@ -171,7 +170,7 @@ public abstract class ForwardingList<E extends /*@org.checkerframework.checker.n
    *
    * @since 7.0
    */
-  protected int standardIndexOf(/*@Nullable*/ Object element) {
+  protected int standardIndexOf(@Nullable Object element) {
     return Lists.indexOfImpl(this, element);
   }
 
@@ -183,7 +182,7 @@ public abstract class ForwardingList<E extends /*@org.checkerframework.checker.n
    *
    * @since 7.0
    */
-  protected int standardLastIndexOf(/*@Nullable*/ Object element) {
+  protected int standardLastIndexOf(@Nullable Object element) {
     return Lists.lastIndexOfImpl(this, element);
   }
 
@@ -244,7 +243,7 @@ public abstract class ForwardingList<E extends /*@org.checkerframework.checker.n
    * @since 7.0
    */
   @Beta
-  protected boolean standardEquals(/*@Nullable*/ Object object) {
+  protected boolean standardEquals(@Nullable Object object) {
     return Lists.equalsImpl(this, object);
   }
 

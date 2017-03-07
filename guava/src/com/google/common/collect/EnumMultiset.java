@@ -99,7 +99,7 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMapBasedMulti
   @GwtIncompatible // java.io.ObjectInputStream
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
-    /*@SuppressWarnings("unchecked")*/ // reading data stored by writeObject
+    @SuppressWarnings("unchecked") // reading data stored by writeObject
     Class<E> localType = (Class<E>) stream.readObject();
     type = localType;
     setBackingMap(WellBehavedMap.wrap(new EnumMap<E, Count>(type)));

@@ -41,13 +41,13 @@ public abstract class ForwardingListMultimap<K, V> extends ForwardingMultimap<K,
   protected abstract ListMultimap<K, V> delegate();
 
   @Override
-  public List<V> get(/*@Nullable*/ K key) {
+  public List<V> get(@Nullable K key) {
     return delegate().get(key);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public List<V> removeAll(/*@Nullable*/ Object key) {
+  public List<V> removeAll(@Nullable Object key) {
     return delegate().removeAll(key);
   }
 

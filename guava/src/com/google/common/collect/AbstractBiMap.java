@@ -117,7 +117,7 @@ abstract class AbstractBiMap<K extends /*@org.checkerframework.checker.nullness.
 
   @Pure
   @Override
-  public boolean containsValue(/*@org.checkerframework.checker.nullness.qual.Nullable*/ /*@Nullable*/ Object value) {
+  public boolean containsValue(@Nullable Object value) {
     return inverse.containsKey(value);
   }
 
@@ -125,17 +125,17 @@ abstract class AbstractBiMap<K extends /*@org.checkerframework.checker.nullness.
 
   @CanIgnoreReturnValue
   @Override
-  public V put(/*@Nullable*/ K key, /*@Nullable*/ V value) {
+  public V put(@Nullable K key, @Nullable V value) {
     return putInBothMaps(key, value, false);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public V forcePut(/*@Nullable*/ K key, /*@Nullable*/ V value) {
+  public V forcePut(@Nullable K key, @Nullable V value) {
     return putInBothMaps(key, value, true);
   }
 
-  private V putInBothMaps(/*@Nullable*/ K key, /*@Nullable*/ V value, boolean force) {
+  private V putInBothMaps(@Nullable K key, @Nullable V value, boolean force) {
     checkKey(key);
     checkValue(value);
     boolean containedKey = containsKey(key);
@@ -161,7 +161,7 @@ abstract class AbstractBiMap<K extends /*@org.checkerframework.checker.nullness.
 
   @CanIgnoreReturnValue
   @Override
-  public /*@org.checkerframework.checker.nullness.qual.Nullable*/ V remove(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
+  public /*@org.checkerframework.checker.nullness.qual.Nullable*/ V remove(@Nullable Object key) {
     return containsKey(key) ? removeFromBothMaps(key) : null;
   }
 

@@ -179,7 +179,7 @@ public final class Throwables {
    */
   @GwtIncompatible // propagateIfInstanceOf
   public static <X extends Throwable> void propagateIfPossible(
-      /*@Nullable*/ Throwable throwable, Class<X> declaredType) throws X {
+      @Nullable Throwable throwable, Class<X> declaredType) throws X {
     propagateIfInstanceOf(throwable, declaredType);
     propagateIfPossible(throwable);
   }
@@ -197,7 +197,7 @@ public final class Throwables {
    */
   @GwtIncompatible // propagateIfInstanceOf
   public static <X1 extends Throwable, X2 extends Throwable> void propagateIfPossible(
-      /*@Nullable*/ Throwable throwable, Class<X1> declaredType1, Class<X2> declaredType2)
+      @Nullable Throwable throwable, Class<X1> declaredType1, Class<X2> declaredType2)
       throws X1, X2 {
     checkNotNull(declaredType2);
     propagateIfInstanceOf(throwable, declaredType1);

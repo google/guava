@@ -122,7 +122,7 @@ public abstract class ForwardingSortedSet<E extends /*@org.checkerframework.chec
    */
   @Override
   @Beta
-  protected boolean standardContains(/*@Nullable*/ Object object) {
+  protected boolean standardContains(@Nullable Object object) {
     try {
       // any ClassCastExceptions are caught
       @SuppressWarnings("unchecked")
@@ -147,7 +147,7 @@ public abstract class ForwardingSortedSet<E extends /*@org.checkerframework.chec
    */
   @Override
   @Beta
-  protected boolean standardRemove(/*@Nullable*/ Object object) {
+  protected boolean standardRemove(@Nullable Object object) {
     try {
       // any ClassCastExceptions are caught
       @SuppressWarnings("unchecked")

@@ -120,7 +120,7 @@ public final class Preconditions {
    *     string using {@link String#valueOf(Object)}
    * @throws IllegalArgumentException if {@code expression} is false
    */
-  public static void checkArgument(boolean expression, /*@Nullable*/ Object errorMessage) {
+  public static void checkArgument(boolean expression, @Nullable Object errorMessage) {
     if (!expression) {
       throw new IllegalArgumentException(String.valueOf(errorMessage));
     }
@@ -143,8 +143,8 @@ public final class Preconditions {
    */
   public static void checkArgument(
       boolean expression,
-      /*@Nullable*/ String errorMessageTemplate,
-      /*@Nullable*/ Object... errorMessageArgs) {
+      @Nullable String errorMessageTemplate,
+      @Nullable Object... errorMessageArgs) {
     if (!expression) {
       throw new IllegalArgumentException(format(errorMessageTemplate, errorMessageArgs));
     }
@@ -442,7 +442,7 @@ public final class Preconditions {
    *     string using {@link String#valueOf(Object)}
    * @throws IllegalStateException if {@code expression} is false
    */
-  public static void checkState(boolean expression, /*@Nullable*/ Object errorMessage) {
+  public static void checkState(boolean expression, @Nullable Object errorMessage) {
     if (!expression) {
       throw new IllegalStateException(String.valueOf(errorMessage));
     }
@@ -466,8 +466,8 @@ public final class Preconditions {
    */
   public static void checkState(
       boolean expression,
-      /*@Nullable*/ String errorMessageTemplate,
-      /*@Nullable*/ Object... errorMessageArgs) {
+      @Nullable String errorMessageTemplate,
+      @Nullable Object... errorMessageArgs) {
     if (!expression) {
       throw new IllegalStateException(format(errorMessageTemplate, errorMessageArgs));
     }
@@ -1279,7 +1279,7 @@ public final class Preconditions {
    */
   // Note that this is somewhat-improperly used from Verify.java as well.
   @VisibleForTesting
-  static String format(String template, /*@Nullable*/ Object... args) {
+  static String format(String template, @Nullable Object... args) {
     template = String.valueOf(template); // null -> "null"
 
     // start substituting the arguments into the '%s' placeholders

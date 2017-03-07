@@ -156,7 +156,7 @@ public interface RangeMap<K extends Comparable, V> {
    * {@link #asMapOfRanges()}.
    */
   @Override
-  boolean equals(/*@Nullable*/ Object o);
+  boolean equals(@Nullable Object o);
 
   /**
    * Returns {@code asMapOfRanges().hashCode()}.

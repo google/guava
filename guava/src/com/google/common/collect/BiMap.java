@@ -51,7 +51,7 @@ public interface BiMap<K extends /*@org.checkerframework.checker.nullness.qual.N
   @CanIgnoreReturnValue
   @Override
   @Nullable
-  V put(/*@Nullable*/ K key, /*@Nullable*/ V value);
+  V put(@Nullable K key, @Nullable V value);
 
   /**
    * An alternate form of {@code put} that silently removes any existing entry
@@ -72,7 +72,7 @@ public interface BiMap<K extends /*@org.checkerframework.checker.nullness.qual.N
    */
   @CanIgnoreReturnValue
   @Nullable
-  V forcePut(/*@Nullable*/ K key, /*@Nullable*/ V value);
+  V forcePut(@Nullable K key, @Nullable V value);
 
   // Bulk Operations
 

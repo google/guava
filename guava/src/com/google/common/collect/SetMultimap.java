@@ -64,7 +64,7 @@ public interface SetMultimap<K extends /*@org.checkerframework.checker.nullness.
    * specified in the {@link Multimap} interface.
    */
   @Override
-  Set<V> get(/*@Nullable*/ K key);
+  Set<V> get(@Nullable K key);
 
   /**
    * {@inheritDoc}
@@ -75,7 +75,7 @@ public interface SetMultimap<K extends /*@org.checkerframework.checker.nullness.
    */
   @CanIgnoreReturnValue
   @Override
-  Set<V> removeAll(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key);
+  Set<V> removeAll(@Nullable Object key);
 
   /**
    * {@inheritDoc}
@@ -122,5 +122,5 @@ public interface SetMultimap<K extends /*@org.checkerframework.checker.nullness.
    */
   @Pure
   @Override
-  boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object obj);
+  boolean equals(@Nullable Object obj);
 }

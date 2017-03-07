@@ -36,7 +36,7 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-/*@Beta*/ final class SortedLists {
+@Beta final class SortedLists {
   private SortedLists() {}
 
   /**
@@ -203,7 +203,7 @@ import javax.annotation.Nullable;
   public static <E, K extends Comparable> int binarySearch(
       List<E> list,
       Function<? super E, K> keyFunction,
-      /*@Nullable*/ K key,
+      @Nullable K key,
       KeyPresentBehavior presentBehavior,
       KeyAbsentBehavior absentBehavior) {
     return binarySearch(
@@ -220,7 +220,7 @@ import javax.annotation.Nullable;
   public static <E, K> int binarySearch(
       List<E> list,
       Function<? super E, K> keyFunction,
-      /*@Nullable*/ K key,
+      @Nullable K key,
       Comparator<? super K> keyComparator,
       KeyPresentBehavior presentBehavior,
       KeyAbsentBehavior absentBehavior) {
@@ -253,7 +253,7 @@ import javax.annotation.Nullable;
    */
   public static <E> int binarySearch(
       List<? extends E> list,
-      /*@Nullable*/ E key,
+      @Nullable E key,
       Comparator<? super E> comparator,
       KeyPresentBehavior presentBehavior,
       KeyAbsentBehavior absentBehavior) {

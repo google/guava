@@ -115,7 +115,7 @@ public interface Table<R, C, V> {
    * equal when their cell views, as returned by {@link #cellSet}, are equal.
    */
   @Override
-  boolean equals(/*@Nullable*/ Object obj);
+  boolean equals(@Nullable Object obj);
 
   /**
    * Returns the hash code for this table. The hash code of a table is defined
@@ -290,7 +290,7 @@ public interface Table<R, C, V> {
      * equal when they have equal row keys, column keys, and values.
      */
     @Override
-    boolean equals(/*@Nullable*/ Object obj);
+    boolean equals(@Nullable Object obj);
 
     /**
      * Returns the hash code of this cell.

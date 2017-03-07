@@ -45,7 +45,7 @@ import java.util.LinkedHashMap;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
-/*@SuppressWarnings("serial")*/ // we're overriding default serialization
+@SuppressWarnings("serial") // we're overriding default serialization
 public final class LinkedHashMultiset<E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends AbstractMapBasedMultiset<E> {
 
   /**

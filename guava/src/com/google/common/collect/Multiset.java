@@ -339,7 +339,7 @@ public interface Multiset<E extends /*@org.checkerframework.checker.nullness.qua
   @Pure
   @Override
   // TODO(kevinb): caveats about equivalence-relation?
-  boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object);
+  boolean equals(@Nullable Object object);
 
   /**
    * Returns the hash code for this multiset. This is defined as the sum of
@@ -389,7 +389,7 @@ public interface Multiset<E extends /*@org.checkerframework.checker.nullness.qua
    */
   @Pure
   @Override
-  boolean contains(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element);
+  boolean contains(@Nullable Object element);
 
   /**
    * Returns {@code true} if this multiset contains at least one occurrence of
@@ -456,7 +456,7 @@ public interface Multiset<E extends /*@org.checkerframework.checker.nullness.qua
    */
   @CanIgnoreReturnValue
   @Override
-  boolean remove(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element);
+  boolean remove(@Nullable Object element);
 
   /**
    * {@inheritDoc}

@@ -66,7 +66,7 @@ public interface SortedSetMultimap<K extends /*@org.checkerframework.checker.nul
    * {@link java.util.Collection} specified in the {@link Multimap} interface.
    */
   @Override
-  SortedSet<V> get(/*@Nullable*/ K key);
+  SortedSet<V> get(@Nullable K key);
 
   /**
    * Removes all values associated with a given key.
@@ -77,7 +77,7 @@ public interface SortedSetMultimap<K extends /*@org.checkerframework.checker.nul
    */
   @CanIgnoreReturnValue
   @Override
-  SortedSet<V> removeAll(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key);
+  SortedSet<V> removeAll(@Nullable Object key);
 
   /**
    * Stores a collection of values with the same key, replacing any existing

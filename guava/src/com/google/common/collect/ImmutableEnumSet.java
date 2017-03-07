@@ -35,9 +35,9 @@ import java.util.function.Consumer;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
-/*@SuppressWarnings("serial")*/ // we're overriding default serialization
+@SuppressWarnings("serial") // we're overriding default serialization
 final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
-  /*@SuppressWarnings("rawtypes")*/ // necessary to compile against Java 8
+  @SuppressWarnings("rawtypes") // necessary to compile against Java 8
   static ImmutableSet asImmutable(EnumSet set) {
     switch (set.size()) {
       case 0:

@@ -352,7 +352,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
 
     // TODO(lowasser): copy ImmutableSetMultimap by using asList() on the sets
     if (multimap instanceof ImmutableListMultimap) {
-      /*@SuppressWarnings("unchecked")*/ // safe since multimap is not writable
+      @SuppressWarnings("unchecked") // safe since multimap is not writable
       ImmutableListMultimap<K, V> kvMultimap = (ImmutableListMultimap<K, V>) multimap;
       if (!kvMultimap.isPartialView()) {
         return kvMultimap;
@@ -403,7 +403,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
    * this multimap.
    */
   @Override
-  public ImmutableList<V> get(/*@Nullable*/ K key) {
+  public ImmutableList<V> get(@Nullable K key) {
     // This cast is safe as its type is known in constructor.
     /*@org.checkerframework.checker.nullness.qual.Nullable*/
     ImmutableList<V> list = (/*@org.checkerframework.checker.nullness.qual.Nullable*/ ImmutableList<V>) map.get(key);

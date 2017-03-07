@@ -131,7 +131,7 @@ public final class Iterators {
   }
 
   /** Returns an unmodifiable view of {@code iterator}. */
-  public static <TT extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> UnmodifiableIterator<T> unmodifiableIterator(
+  public static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> UnmodifiableIterator<T> unmodifiableIterator(
       final Iterator<? extends T> iterator) {
     checkNotNull(iterator);
     if (iterator instanceof UnmodifiableIterator) {
@@ -328,7 +328,7 @@ public final class Iterators {
    */
   @CanIgnoreReturnValue // TODO(kak): Consider removing this?
   @Nullable
-  public static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> T getOnlyElement(Iterator<? extends T> iterator, /*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ T defaultValue) {
+  public static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> T getOnlyElement(Iterator<? extends T> iterator, @Nullable T defaultValue) {
     return iterator.hasNext() ? getOnlyElement(iterator) : defaultValue;
   }
 
@@ -373,7 +373,7 @@ public final class Iterators {
    *
    * @see Collections#frequency
    */
-  public static int frequency(Iterator<?> iterator, /*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element) {
+  public static int frequency(Iterator<?> iterator, @Nullable Object element) {
     return size(filter(iterator, equalTo(element)));
   }
 
@@ -591,7 +591,7 @@ public final class Iterators {
           array[i] = null; // for GWT
         }
 
-        /*@SuppressWarnings("unchecked")*/ // we only put Ts in it
+        @SuppressWarnings("unchecked") // we only put Ts in it
         List<T> list = Collections.unmodifiableList((List<T>) Arrays.asList(array));
         return (pad || count == size) ? list : list.subList(0, count);
       }
@@ -681,7 +681,7 @@ public final class Iterators {
    */
   @Nullable
   public static <T> T find(
-      Iterator<? extends T> iterator, Predicate<? super T> predicate, /*@Nullable*/ T defaultValue) {
+      Iterator<? extends T> iterator, Predicate<? super T> predicate, @Nullable T defaultValue) {
     return getNext(filter(iterator, predicate), defaultValue);
   }
 
@@ -795,7 +795,7 @@ public final class Iterators {
    * @since 4.0
    */
   @Nullable
-  public static <T> T get(Iterator<? extends T> iterator, int position, /*@Nullable*/ T defaultValue) {
+  public static <T> T get(Iterator<? extends T> iterator, int position, @Nullable T defaultValue) {
     checkNonnegative(position);
     advance(iterator, position);
     return getNext(iterator, defaultValue);
@@ -811,7 +811,7 @@ public final class Iterators {
    * @since 7.0
    */
   @Nullable
-  public static <T> T getNext(Iterator<? extends T> iterator, /*@Nullable*/ T defaultValue) {
+  public static <T> T getNext(Iterator<? extends T> iterator, @Nullable T defaultValue) {
     return iterator.hasNext() ? iterator.next() : defaultValue;
   }
 
@@ -839,7 +839,7 @@ public final class Iterators {
    * @since 3.0
    */
   @Nullable
-  public static <T> T getLast(Iterator<? extends T> iterator, /*@Nullable*/ T defaultValue) {
+  public static <T> T getLast(Iterator<? extends T> iterator, @Nullable T defaultValue) {
     return iterator.hasNext() ? getLast(iterator) : defaultValue;
   }
 
@@ -1027,7 +1027,7 @@ public final class Iterators {
    * <p>The {@link Iterable} equivalent of this method is {@link
    * Collections#singleton}.
    */
-  public static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> UnmodifiableIterator<T> singletonIterator(/*@Nullable*/ final /*@org.checkerframework.checker.nullness.qual.Nullable*/ T value) {
+  public static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> UnmodifiableIterator<T> singletonIterator(@Nullable final /*@org.checkerframework.checker.nullness.qual.Nullable*/ T value) {
     return new UnmodifiableIterator<T>() {
       boolean done;
 

@@ -31,7 +31,7 @@ final class AllEqualOrdering extends Ordering<Object> implements Serializable {
   static final AllEqualOrdering INSTANCE = new AllEqualOrdering();
 
   @Override
-  public int compare(/*@Nullable*/ Object left, /*@Nullable*/ Object right) {
+  public int compare(@Nullable Object left, @Nullable Object right) {
     return 0;
   }
 

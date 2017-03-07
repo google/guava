@@ -130,7 +130,7 @@ public class Joiner {
    */
   @CanIgnoreReturnValue
   public final <A extends Appendable> A appendTo(
-      A appendable, /*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object first, /*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object second, /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object... rest)
+      A appendable, @Nullable Object first, @Nullable Object second, /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object... rest)
       throws IOException {
     return appendTo(appendable, iterable(first, second, rest));
   }
@@ -179,7 +179,7 @@ public class Joiner {
    */
   @CanIgnoreReturnValue
   public final StringBuilder appendTo(
-      StringBuilder builder, /*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object first, /*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object second, /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object... rest) {
+      StringBuilder builder, @Nullable Object first, @Nullable Object second, /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object... rest) {
     return appendTo(builder, iterable(first, second, rest));
   }
 
@@ -225,7 +225,7 @@ public class Joiner {
     checkNotNull(nullText);
     return new Joiner(this) {
       @Override
-      CharSequence toString(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object part) {
+      CharSequence toString(@Nullable Object part) {
         return (part == null) ? nullText : Joiner.this.toString(part);
       }
 

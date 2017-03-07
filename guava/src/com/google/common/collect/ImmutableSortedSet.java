@@ -64,7 +64,7 @@ import javax.annotation.Nullable;
 // TODO(benyu): benchmark and optimize all creation paths, which are a mess now
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
-/*@SuppressWarnings("serial")*/ // we're overriding default serialization
+@SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxverideShim<E>
     implements NavigableSet<E>, SortedIterable<E> {
   static final int SPLITERATOR_CHARACTERISTICS =
@@ -320,7 +320,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
         return original;
       }
     }
-    /*@SuppressWarnings("unchecked")*/ // elements only contains E's; it's safe.
+    @SuppressWarnings("unchecked") // elements only contains E's; it's safe.
     E[] array = (E[]) Iterables.toArray(elements);
     return construct(comparator, array.length, array);
   }
@@ -541,7 +541,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
      */
     @Override
     public ImmutableSortedSet<E> build() {
-      /*@SuppressWarnings("unchecked")*/ // we're careful to put only E's in here
+      @SuppressWarnings("unchecked") // we're careful to put only E's in here
       E[] contentsArray = (E[]) contents;
       ImmutableSortedSet<E> result = construct(comparator, size, contentsArray);
       this.size = result.size(); // we eliminated duplicates in-place in contentsArray
@@ -581,7 +581,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
     return comparator;
   }
 
-  /*@Override*/ // needed to unify the iterator() methods in Collection and SortedIterable
+  @Override // needed to unify the iterator() methods in Collection and SortedIterable
   public abstract UnmodifiableIterator<E> iterator();
 
   /**
@@ -813,7 +813,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   /**
    * Returns the position of an element within the set, or -1 if not present.
    */
-  abstract int indexOf(/*@Nullable*/ Object target);
+  abstract int indexOf(@Nullable Object target);
 
   /*
    * This class is used to serialize all ImmutableSortedSet instances,

@@ -35,7 +35,7 @@ import java.util.Set;
  * @since 10.0
  */
 @GwtCompatible(emulated = true)
-/*@SuppressWarnings("rawtypes")*/ // allow ungenerified Comparable types
+@SuppressWarnings("rawtypes") // allow ungenerified Comparable types
 public abstract class ContiguousSet<C extends Comparable> extends ImmutableSortedSet<C> {
   /**
    * Returns a {@code ContiguousSet} containing the same values in the given domain

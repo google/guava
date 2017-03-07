@@ -66,7 +66,7 @@ abstract class AbstractMultiset<E extends /*@org.checkerframework.checker.nullne
 
   @Pure
   @Override
-  public boolean contains(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element) {
+  public boolean contains(@Nullable Object element) {
     return count(element) > 0;
   }
 
@@ -76,7 +76,7 @@ abstract class AbstractMultiset<E extends /*@org.checkerframework.checker.nullne
   }
 
   @Override
-  public int count(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element) {
+  public int count(@Nullable Object element) {
     for (Entry<E> entry : entrySet()) {
       if (Objects.equal(entry.getElement(), element)) {
         return entry.getCount();
@@ -88,38 +88,38 @@ abstract class AbstractMultiset<E extends /*@org.checkerframework.checker.nullne
   // Modification Operations
   @CanIgnoreReturnValue
   @Override
-  public boolean add(/*@Nullable*/ E element) {
+  public boolean add(@Nullable E element) {
     add(element, 1);
     return true;
   }
 
   @CanIgnoreReturnValue
   @Override
-  public int add(/*@Nullable*/ E element, int occurrences) {
+  public int add(@Nullable E element, int occurrences) {
     throw new UnsupportedOperationException();
   }
 
   @CanIgnoreReturnValue
   @Override
-  public boolean remove(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element) {
+  public boolean remove(@Nullable Object element) {
     return remove(element, 1) > 0;
   }
 
   @CanIgnoreReturnValue
   @Override
-  public int remove(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element, int occurrences) {
+  public int remove(@Nullable Object element, int occurrences) {
     throw new UnsupportedOperationException();
   }
 
   @CanIgnoreReturnValue
   @Override
-  public int setCount(/*@Nullable*/ E element, int count) {
+  public int setCount(@Nullable E element, int count) {
     return setCountImpl(this, element, count);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public boolean setCount(/*@Nullable*/ E element, int oldCount, int newCount) {
+  public boolean setCount(@Nullable E element, int oldCount, int newCount) {
     return setCountImpl(this, element, oldCount, newCount);
   }
 
@@ -233,7 +233,7 @@ abstract class AbstractMultiset<E extends /*@org.checkerframework.checker.nullne
    */
   @Pure
   @Override
-  public boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
+  public boolean equals(@Nullable Object object) {
     return Multisets.equalsImpl(this, object);
   }
 
