@@ -3321,7 +3321,6 @@ public class FuturesTest extends TestCase {
   @GwtIncompatible // used only in GwtIncompatible tests
   private interface MapperFunction extends Function<Throwable, Exception> {}
 
-  @GwtIncompatible // inCompletionOrder
   public void testCompletionOrder() throws Exception {
     SettableFuture<Long> future1 = SettableFuture.create();
     SettableFuture<Long> future2 = SettableFuture.create();
@@ -3344,7 +3343,6 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible // inCompletionOrder
   public void testCompletionOrderExceptionThrown() throws Exception {
     SettableFuture<Long> future1 = SettableFuture.create();
     SettableFuture<Long> future2 = SettableFuture.create();
@@ -3376,7 +3374,6 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible // inCompletionOrder
   public void testCompletionOrderFutureCancelled() throws Exception {
     SettableFuture<Long> future1 = SettableFuture.create();
     SettableFuture<Long> future2 = SettableFuture.create();
@@ -3407,7 +3404,6 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible // inCompletionOrder
   public void testCancellingADelegateDoesNotPropagate() throws Exception {
     SettableFuture<Long> future1 = SettableFuture.create();
     SettableFuture<Long> future2 = SettableFuture.create();
@@ -3427,7 +3423,6 @@ public class FuturesTest extends TestCase {
   }
 
   // Mostly an example of how it would look like to use a list of mixed types
-  @GwtIncompatible // inCompletionOrder
   public void testCompletionOrderMixedBagOTypes() throws Exception {
     SettableFuture<Long> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();

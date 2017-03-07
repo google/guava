@@ -28,7 +28,6 @@ import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.CollectionFuture.ListFuture;
 import com.google.common.util.concurrent.ImmediateFuture.ImmediateCancelledFuture;
 import com.google.common.util.concurrent.ImmediateFuture.ImmediateFailedCheckedFuture;
@@ -39,13 +38,13 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.Nullable;
 
 /**
@@ -1030,6 +1029,14 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * they complete. Delegate futures return the same value or throw the same exception as the
    * corresponding input future returns/throws.
    *
+   * <p>"In the order that they complete" means, for practical purposes, about what you would
+   * expect, but there are some subtleties. First, we do guarantee that, if the output future at
+   * index n is done, the output future at index n-1 is also done. (But as usual with futures, some
+   * listeners for future n may complete before some for future n-1.) However, it is possible, if
+   * one input completes with result X and another later with result Y, for Y to come before X in
+   * the output future list. (Such races are impossible to solve without global synchronization of
+   * all future completions. And they should have little practical impact.)
+   *
    * <p>Cancelling a delegate future has no effect on any input future, since the delegate future
    * does not correspond to a specific input future until the appropriate number of input futures
    * have completed. At that point, it is too late to cancel the input future. The input future's
@@ -1038,39 +1045,38 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @since 17.0
    */
   @Beta
-  @GwtIncompatible // TODO
   public static <T> ImmutableList<ListenableFuture<T>> inCompletionOrder(
       Iterable<? extends ListenableFuture<? extends T>> futures) {
-    // A CLQ may be overkill here. We could save some pointers/memory by synchronizing on an
-    // ArrayDeque
-    final ConcurrentLinkedQueue<SettableFuture<T>> delegates = Queues.newConcurrentLinkedQueue();
-    ImmutableList.Builder<ListenableFuture<T>> listBuilder = ImmutableList.builder();
-    // Using SerializingExecutor here will ensure that each CompletionOrderListener executes
-    // atomically and therefore that each returned future is guaranteed to be in completion order.
-    // N.B. there are some cases where the use of this executor could have possibly surprising
-    // effects when input futures finish at approximately the same time _and_ the output futures
-    // have directExecutor listeners. In this situation, the listeners may end up running on a
-    // different thread than if they were attached to the corresponding input future. We believe
-    // this to be a negligible cost since:
-    // 1. Using the directExecutor implies that your callback is safe to run on any thread.
-    // 2. This would likely only be noticeable if you were doing something expensive or blocking on
-    //    a directExecutor listener on one of the output futures which is an antipattern anyway.
-    SerializingExecutor executor = new SerializingExecutor(directExecutor());
-    for (final ListenableFuture<? extends T> future : futures) {
-      SettableFuture<T> delegate = SettableFuture.create();
-      // Must make sure to add the delegate to the queue first in case the future is already done
-      delegates.add(delegate);
+    ImmutableList<ListenableFuture<? extends T>> copy = ImmutableList.copyOf(futures);
+    ImmutableList.Builder<SettableFuture<T>> delegatesBuilder = ImmutableList.builder();
+    for (int i = 0; i < copy.size(); i++) {
+      delegatesBuilder.add(SettableFuture.create());
+    }
+    final ImmutableList<SettableFuture<T>> delegates = delegatesBuilder.build();
+
+    final AtomicInteger delegateIndex = new AtomicInteger();
+    for (final ListenableFuture<? extends T> future : copy) {
       future.addListener(
           new Runnable() {
             @Override
             public void run() {
-              delegates.remove().setFuture(future);
+              for (int i = delegateIndex.get(); i < delegates.size(); i++) {
+                if (delegates.get(i).setFuture(future)) {
+                  // this is technically unnecessary, but should speed up later accesses
+                  delegateIndex.set(i + 1);
+                  return;
+                }
+              }
+              // if we get here it means that one of the output futures was cancelled
+              // nothing we can do
             }
           },
-          executor);
-      listBuilder.add(delegate);
+          directExecutor());
     }
-    return listBuilder.build();
+
+    @SuppressWarnings("unchecked")
+    ImmutableList<ListenableFuture<T>> delegatesCast = (ImmutableList) delegates;
+    return delegatesCast;
   }
 
   /**
