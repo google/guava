@@ -10212,6 +10212,59 @@
  this is always true when the iterable has fewer than two elements.]]>
       </doc>
     </method>
+    <method name="least" return="java.util.stream.Collector&lt;T, ?, java.util.List&lt;T&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="k" type="int"/>
+      <param name="comparator" type="java.util.Comparator&lt;? super T&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@code Collector} that returns the {@code k} smallest (relative to the specified
+ {@code Comparator}) input elements, in ascending order, as an unmodifiable {@code List}.
+ Ties are broken arbitrarily.
+
+ For example:
+  <pre>   {@code
+
+   Stream.of("foo", "quux", "banana", "elephant")
+       .collect(least(2, comparingInt(String::length)))
+   // returns {"foo", "quux"}}</pre>
+
+ <p>This {@code Collector} uses O(k) memory and takes expected time O(n)
+ (worst-case O(n log k)), as opposed to e.g. {@code Stream.sorted(comparator).limit(k)}, which
+ currently takes O(n log n) time and O(n) space.
+
+ @throws IllegalArgumentException if {@code k < 0}
+ @since 22.0]]>
+      </doc>
+    </method>
+    <method name="greatest" return="java.util.stream.Collector&lt;T, ?, java.util.List&lt;T&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="k" type="int"/>
+      <param name="comparator" type="java.util.Comparator&lt;? super T&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@code Collector} that returns the {@code k} greatest (relative to the specified
+ {@code Comparator}) input elements, in descending order, as an unmodifiable {@code List}.
+ Ties are broken arbitrarily.
+
+ For example:
+  <pre>   {@code
+
+   Stream.of("foo", "quux", "banana", "elephant")
+       .collect(greatest(2, comparingInt(String::length)))
+   // returns {"elephant", "banana"}}</pre>
+
+ <p>This {@code Collector} uses O(k) memory and takes expected time O(n)
+ (worst-case O(n log k)), as opposed to e.g.
+ {@code Stream.sorted(comparator.reversed()).limit(k)}, which currently takes O(n log n) time
+ and O(n) space.
+
+ @throws IllegalArgumentException if {@code k < 0}
+ @since 22.0]]>
+      </doc>
+    </method>
     <method name="emptiesFirst" return="java.util.Comparator&lt;java.util.Optional&lt;T&gt;&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -61050,6 +61103,14 @@
       <![CDATA[Returns a list of delegate futures that correspond to the futures received in the order that
  they complete. Delegate futures return the same value or throw the same exception as the
  corresponding input future returns/throws.
+
+ <p>"In the order that they complete" means, for practical purposes, about what you would
+ expect, but there are some subtleties. First, we do guarantee that, if the output future at
+ index n is done, the output future at index n-1 is also done. (But as usual with futures, some
+ listeners for future n may complete before some for future n-1.) However, it is possible, if
+ one input completes with result X and another later with result Y, for Y to come before X in
+ the output future list. (Such races are impossible to solve without global synchronization of
+ all future completions. And they should have little practical impact.)
 
  <p>Cancelling a delegate future has no effect on any input future, since the delegate future
  does not correspond to a specific input future until the appropriate number of input futures
