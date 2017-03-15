@@ -114,7 +114,7 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/base/Equivalence.html#line.36">Equivalence</a>&lt;T&gt;
+public abstract class <a href="../../../../src-html/com/google/common/base/Equivalence.html#line.37">Equivalence</a>&lt;T&gt;
 extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/BiPredicate.html?is-external=true" title="class or interface in java.util.function">BiPredicate</a>&lt;T,T&gt;</pre>
 <div class="block">A strategy for determining whether two instances are considered equivalent, and for computing
@@ -300,7 +300,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/
 <ul class="blockListLast">
 <li class="blockList">
 <h4>Equivalence</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.40">Equivalence</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.41">Equivalence</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -320,7 +320,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/
 <ul class="blockList">
 <li class="blockList">
 <h4>equivalent</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.59">equivalent</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.60">equivalent</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                 <a href="../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;a,
                                 <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                 <a href="../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;b)</pre>
@@ -350,7 +350,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/
 <li class="blockList">
 <h4>test</h4>
 <pre><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.76">test</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.77">test</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                       <a href="../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;t,
                                       <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                       <a href="../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;u)</pre>
@@ -372,7 +372,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/b
 <ul class="blockList">
 <li class="blockList">
 <h4>doEquivalent</h4>
-<pre>protected abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.89">doEquivalent</a>(<a href="../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;a,
+<pre>protected abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.91">doEquivalent</a>(<a href="../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;a,
                                         <a href="../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;b)</pre>
 <div class="block">Implemented by the user to determine whether <code>a</code> and <code>b</code> are considered
  equivalent, subject to the requirements specified in <a href="../../../../com/google/common/base/Equivalence.html#equivalent-T-T-"><code>equivalent(T, T)</code></a>.
@@ -393,7 +393,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/b
 <ul class="blockList">
 <li class="blockList">
 <h4>hash</h4>
-<pre>public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.107">hash</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.109">hash</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                       <a href="../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;t)</pre>
 <div class="block">Returns a hash code for <code>t</code>.
 
@@ -419,7 +419,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/b
 <ul class="blockList">
 <li class="blockList">
 <h4>doHash</h4>
-<pre>protected abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.123">doHash</a>(<a href="../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;t)</pre>
+<pre>protected abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.126">doHash</a>(<a href="../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;t)</pre>
 <div class="block">Implemented by the user to return a hash code for <code>t</code>, subject to the requirements
  specified in <a href="../../../../com/google/common/base/Equivalence.html#hash-T-"><code>hash(T)</code></a>.
 
@@ -437,7 +437,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/b
 <ul class="blockList">
 <li class="blockList">
 <h4>onResultOf</h4>
-<pre>public final&nbsp;&lt;F&gt;&nbsp;<a href="../../../../com/google/common/base/Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;F&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.147">onResultOf</a>(<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;F,? extends <a href="../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;function)</pre>
+<pre>public final&nbsp;&lt;F&gt;&nbsp;<a href="../../../../com/google/common/base/Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;F&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.150">onResultOf</a>(<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;F,? extends <a href="../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;function)</pre>
 <div class="block">Returns a new equivalence relation for <code>F</code> which evaluates equivalence by first applying
  <code>function</code> to the argument, then evaluating using <code>this</code>. That is, for any pair of
  non-null objects <code>x</code> and <code>y</code>, <code>equivalence.onResultOf(function).equivalent(a, b)</code> is true if and only if <code>equivalence.equivalent(function.apply(a), function.apply(b))</code> is true.
@@ -468,7 +468,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/b
 <ul class="blockList">
 <li class="blockList">
 <h4>wrap</h4>
-<pre>public final&nbsp;&lt;S extends <a href="../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;<a href="../../../../com/google/common/base/Equivalence.Wrapper.html" title="class in com.google.common.base">Equivalence.Wrapper</a>&lt;S&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.158">wrap</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public final&nbsp;&lt;S extends <a href="../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;<a href="../../../../com/google/common/base/Equivalence.Wrapper.html" title="class in com.google.common.base">Equivalence.Wrapper</a>&lt;S&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.161">wrap</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                                        S&nbsp;reference)</pre>
 <div class="block">Returns a wrapper of <code>reference</code> that implements <a href="../../../../com/google/common/base/Equivalence.Wrapper.html#equals-java.lang.Object-"><code>Object.equals()</code></a> such that <code>wrap(a).equals(wrap(b))</code> if and only if
  <code>equivalent(a, b)</code>.</div>
@@ -485,7 +485,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/b
 <li class="blockList">
 <h4>pairwise</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable--">serializable</a>=true)
-public final&nbsp;&lt;S extends <a href="../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;<a href="../../../../com/google/common/base/Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;S&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.253">pairwise</a>()</pre>
+public final&nbsp;&lt;S extends <a href="../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;<a href="../../../../com/google/common/base/Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;S&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.256">pairwise</a>()</pre>
 <div class="block">Returns an equivalence over iterables based on the equivalence of their elements. More
  specifically, two iterables are considered equivalent if they both contain the same number of
  elements, and each pair of corresponding elements is equivalent according to <code>this</code>. Null
@@ -507,7 +507,7 @@ public final&nbsp;&lt;S extends <a href="../../../../com/google/common/base/Equi
 <ul class="blockList">
 <li class="blockList">
 <h4>equivalentTo</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.265">equivalentTo</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public final&nbsp;<a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.268">equivalentTo</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                        <a href="../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;target)</pre>
 <div class="block">Returns a predicate that evaluates to true if and only if the input is equivalent to <code>target</code> according to this equivalence relation.</div>
 <dl>
@@ -522,7 +522,7 @@ public final&nbsp;&lt;S extends <a href="../../../../com/google/common/base/Equi
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.319">equals</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.322">equals</a>()</pre>
 <div class="block">Returns an equivalence that delegates to <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a> and <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang"><code>Object.hashCode()</code></a>.
  <a href="../../../../com/google/common/base/Equivalence.html#equivalent-T-T-"><code>equivalent(T, T)</code></a> returns <code>true</code> if both values are null, or if neither
  value is null and <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a> returns <code>true</code>. <a href="../../../../com/google/common/base/Equivalence.html#hash-T-"><code>hash(T)</code></a> returns
@@ -539,7 +539,7 @@ public final&nbsp;&lt;S extends <a href="../../../../com/google/common/base/Equi
 <ul class="blockListLast">
 <li class="blockList">
 <h4>identity</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.332">identity</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.335">identity</a>()</pre>
 <div class="block">Returns an equivalence that uses <code>==</code> to compare values and
  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/System.html?is-external=true#identityHashCode-java.lang.Object-" title="class or interface in java.lang"><code>System.identityHashCode(Object)</code></a> to compute the hash code.
  <a href="../../../../com/google/common/base/Equivalence.html#equivalent-T-T-"><code>equivalent(T, T)</code></a> returns <code>true</code> if <code>a == b</code>, including in the case
