@@ -17,6 +17,7 @@ package com.google.common.base;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.ForOverride;
 import java.io.Serializable;
 import java.util.function.BiPredicate;
 import javax.annotation.Nullable;
@@ -86,6 +87,7 @@ public abstract class Equivalence<T> implements BiPredicate<T, T> {
    *
    * @since 10.0 (previously, subclasses would override equivalent())
    */
+  @ForOverride
   protected abstract boolean doEquivalent(T a, T b);
 
   /**
@@ -120,6 +122,7 @@ public abstract class Equivalence<T> implements BiPredicate<T, T> {
    *
    * @since 10.0 (previously, subclasses would override hash())
    */
+  @ForOverride
   protected abstract int doHash(T t);
 
   /**
