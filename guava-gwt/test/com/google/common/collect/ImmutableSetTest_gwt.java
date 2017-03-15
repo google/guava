@@ -73,6 +73,11 @@ public void testCopyOf_collection_empty() throws Exception {
   testCase.testCopyOf_collection_empty();
 }
 
+public void testCopyOf_collection_enumSet() throws Exception {
+  com.google.common.collect.ImmutableSetTest testCase = new com.google.common.collect.ImmutableSetTest();
+  testCase.testCopyOf_collection_enumSet();
+}
+
 public void testCopyOf_collection_general() throws Exception {
   com.google.common.collect.ImmutableSetTest testCase = new com.google.common.collect.ImmutableSetTest();
   testCase.testCopyOf_collection_general();
