@@ -110,66 +110,76 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/base/Preconditions.html#line.97">Preconditions</a>
+public final class <a href="../../../../src-html/com/google/common/base/Preconditions.html#line.109">Preconditions</a>
 extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">Static convenience methods that help a method or constructor check whether it was invoked
- correctly (whether its <i>preconditions</i> have been met). These methods generally accept a
- <code>boolean</code> expression which is expected to be <code>true</code> (or in the case of <code>checkNotNull</code>, an object reference which is expected to be non-null). When <code>false</code> (or
- <code>null</code>) is passed instead, the <code>Preconditions</code> method throws an unchecked exception,
- which helps the calling method communicate to <i>its</i> caller that <i>that</i> caller has made
- a mistake. Example: <pre>   <code>
+ correctly (that is, whether its <i>preconditions</i> were met).
 
-   /**
-    * Returns the positive square root of the given value.
-    *
-    * @throws IllegalArgumentException if the value is negative
-    *</code><code> /
-   public static double sqrt(double value) {
-     Preconditions.checkArgument(value &gt;= 0.0, "negative value: %s", value);
-     // calculate the square root
+ <p>If the precondition is not met, the <code>Preconditions</code> method throws an unchecked exception
+ of a specified type, which helps the method in which the exception was thrown communicate that
+ its caller has made a mistake. This allows constructs such as
+
+ <pre><code>
+ public static double sqrt(double value) {
+   if (value &lt; 0) {
+     throw new IllegalArgumentException("input is negative: " + value);
    }
+   // calculate square root
+ }
+ </code></pre>
 
+ <p>to be replaced with the more compact
+
+ <pre><code>
+ public static double sqrt(double value) {
+   checkArgument(value &gt;= 0, "input is negative: %s", value);
+   // calculate square root
+ }
+ </code></pre>
+
+ <p>so that a hypothetical bad caller of this method, such as:
+
+ <pre><code>
    void exampleBadCaller() {
      double d = sqrt(-1.0);
-   }</code></pre>
+ }
+ </code></pre>
 
- In this example, <code>checkArgument</code> throws an <code>IllegalArgumentException</code> to indicate
- that <code>exampleBadCaller</code> made an error in <i>its</i> call to <code>sqrt</code>.
+ <p>would be flagged as having called <code>sqrt()</code> with an illegal argument.
 
- <h3>Warning about performance</h3>
+ <h3>Performance</h3>
 
- <p>The goal of this class is to improve readability of code, but in some circumstances this may
- come at a significant performance cost. Remember that parameter values for message construction
- must all be computed eagerly, and autoboxing and varargs array creation may happen as well, even
- when the precondition check then succeeds (as it should almost always do in production). In some
- circumstances these wasted CPU cycles and allocations can add up to a real problem.
- Performance-sensitive precondition checks can always be converted to the customary form:
- <pre>   <code>
+ <p>Avoid passing message arguments that are expensive to compute; your code will always compute
+ them, even though they usually won't be needed. If you have such arguments, use the conventional
+ if/throw idiom instead.
 
-   if (value &lt; 0.0) {
-     throw new IllegalArgumentException("negative value: " + value);
-   }</code></pre>
+ <p>Depending on your message arguments, memory may be allocated for boxing and varargs array
+ creation. However, the methods of this class have a large number of overloads that prevent such
+ allocations in many common cases.
+
+ <p>The message string is not formatted unless the exception will be thrown, so the cost of the
+ string formatting itself should not be a concern.
+
+ <p>As with any performance concerns, you should consider profiling your code (in a production
+ environment if possible) before spending a lot of effort on tweaking a particular element.
 
  <h3>Other types of preconditions</h3>
 
  <p>Not every type of precondition failure is supported by these methods. Continue to throw
- standard JDK exceptions such as <a href="http://docs.oracle.com/javase/8/docs/api/java/util/NoSuchElementException.html?is-external=true" title="class or interface in java.util"><code>NoSuchElementException</code></a> or
- <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang"><code>UnsupportedOperationException</code></a> in the situations they are intended for.
+ standard JDK exceptions such as <a href="http://docs.oracle.com/javase/8/docs/api/java/util/NoSuchElementException.html?is-external=true" title="class or interface in java.util"><code>NoSuchElementException</code></a> or <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang"><code>UnsupportedOperationException</code></a> in the situations they are intended for.
 
  <h3>Non-preconditions</h3>
 
  <p>It is of course possible to use the methods of this class to check for invalid conditions
  which are <i>not the caller's fault</i>. Doing so is <b>not recommended</b> because it is
- misleading to future readers of the code and of stack traces. See
- <a href="https://github.com/google/guava/wiki/ConditionalFailuresExplained">Conditional failures
+ misleading to future readers of the code and of stack traces. See <a
+ href="https://github.com/google/guava/wiki/ConditionalFailuresExplained">Conditional failures
  explained</a> in the Guava User Guide for more advice.
 
  <h3><code>java.util.Objects.requireNonNull()</code></h3>
 
- <p>Projects which use <code>com.google.common</code> should generally avoid the use of
- <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Objects.html?is-external=true#requireNonNull-T-" title="class or interface in java.util"><code>Objects.requireNonNull(Object)</code></a>. Instead, use whichever of
- <a href="../../../../com/google/common/base/Preconditions.html#checkNotNull-T-"><code>checkNotNull(Object)</code></a> or <a href="../../../../com/google/common/base/Verify.html#verifyNotNull-T-"><code>Verify.verifyNotNull(Object)</code></a> is appropriate to the
- situation. (The same goes for the message-accepting overloads.)
+ <p>Projects which use <code>com.google.common</code> should generally avoid the use of <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Objects.html?is-external=true#requireNonNull-T-" title="class or interface in java.util"><code>Objects.requireNonNull(Object)</code></a>. Instead, use whichever of <a href="../../../../com/google/common/base/Preconditions.html#checkNotNull-T-"><code>checkNotNull(Object)</code></a> or <a href="../../../../com/google/common/base/Verify.html#verifyNotNull-T-"><code>Verify.verifyNotNull(Object)</code></a> is appropriate to the situation.
+ (The same goes for the message-accepting overloads.)
 
  <h3>Only <code>%s</code> is supported</h3>
 
@@ -178,8 +188,8 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 
  <h3>More information</h3>
 
- <p>See the Guava User Guide on
- <a href="https://github.com/google/guava/wiki/PreconditionsExplained">using <code>Preconditions</code></a>.</div>
+ <p>See the Guava User Guide on <a
+ href="https://github.com/google/guava/wiki/PreconditionsExplained">using <code>Preconditions</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
@@ -954,7 +964,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkArgument</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.106">checkArgument</a>(boolean&nbsp;expression)</pre>
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.118">checkArgument</a>(boolean&nbsp;expression)</pre>
 <div class="block">Ensures the truth of an expression involving one or more parameters to the calling method.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -970,7 +980,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkArgument</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.120">checkArgument</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.132">checkArgument</a>(boolean&nbsp;expression,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;errorMessage)</pre>
 <div class="block">Ensures the truth of an expression involving one or more parameters to the calling method.</div>
@@ -990,7 +1000,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkArgument</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.141">checkArgument</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.153">checkArgument</a>(boolean&nbsp;expression,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -1018,7 +1028,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkArgument</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.155">checkArgument</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.167">checkArgument</a>(boolean&nbsp;b,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  char&nbsp;p1)</pre>
@@ -1033,7 +1043,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkArgument</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.166">checkArgument</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.178">checkArgument</a>(boolean&nbsp;b,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  int&nbsp;p1)</pre>
@@ -1048,7 +1058,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkArgument</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.177">checkArgument</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.189">checkArgument</a>(boolean&nbsp;b,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  long&nbsp;p1)</pre>
@@ -1063,7 +1073,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkArgument</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.188">checkArgument</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.200">checkArgument</a>(boolean&nbsp;b,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -1079,7 +1089,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkArgument</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.200">checkArgument</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.212">checkArgument</a>(boolean&nbsp;b,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  char&nbsp;p1,
@@ -1095,7 +1105,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkArgument</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.212">checkArgument</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.224">checkArgument</a>(boolean&nbsp;b,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  char&nbsp;p1,
@@ -1111,7 +1121,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkArgument</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.224">checkArgument</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.236">checkArgument</a>(boolean&nbsp;b,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  char&nbsp;p1,
@@ -1127,7 +1137,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkArgument</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.236">checkArgument</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.248">checkArgument</a>(boolean&nbsp;b,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  char&nbsp;p1,
@@ -1144,7 +1154,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkArgument</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.248">checkArgument</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.260">checkArgument</a>(boolean&nbsp;b,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  int&nbsp;p1,
@@ -1160,7 +1170,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkArgument</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.260">checkArgument</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.272">checkArgument</a>(boolean&nbsp;b,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  int&nbsp;p1,
@@ -1176,7 +1186,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkArgument</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.272">checkArgument</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.284">checkArgument</a>(boolean&nbsp;b,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  int&nbsp;p1,
@@ -1192,7 +1202,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkArgument</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.284">checkArgument</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.296">checkArgument</a>(boolean&nbsp;b,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  int&nbsp;p1,
@@ -1209,7 +1219,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkArgument</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.296">checkArgument</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.308">checkArgument</a>(boolean&nbsp;b,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  long&nbsp;p1,
@@ -1225,7 +1235,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkArgument</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.308">checkArgument</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.320">checkArgument</a>(boolean&nbsp;b,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  long&nbsp;p1,
@@ -1241,7 +1251,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkArgument</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.320">checkArgument</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.332">checkArgument</a>(boolean&nbsp;b,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  long&nbsp;p1,
@@ -1257,7 +1267,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkArgument</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.332">checkArgument</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.344">checkArgument</a>(boolean&nbsp;b,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  long&nbsp;p1,
@@ -1274,7 +1284,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkArgument</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.344">checkArgument</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.356">checkArgument</a>(boolean&nbsp;b,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -1291,7 +1301,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkArgument</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.356">checkArgument</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.368">checkArgument</a>(boolean&nbsp;b,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -1308,7 +1318,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkArgument</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.368">checkArgument</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.380">checkArgument</a>(boolean&nbsp;b,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -1325,7 +1335,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkArgument</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.380">checkArgument</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.392">checkArgument</a>(boolean&nbsp;b,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -1343,7 +1353,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkArgument</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.392">checkArgument</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.404">checkArgument</a>(boolean&nbsp;b,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -1363,7 +1373,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkArgument</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.408">checkArgument</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.420">checkArgument</a>(boolean&nbsp;b,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -1385,7 +1395,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkState</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.427">checkState</a>(boolean&nbsp;expression)</pre>
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.439">checkState</a>(boolean&nbsp;expression)</pre>
 <div class="block">Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.</div>
 <dl>
@@ -1402,7 +1412,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkState</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.442">checkState</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.454">checkState</a>(boolean&nbsp;expression,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;errorMessage)</pre>
 <div class="block">Ensures the truth of an expression involving the state of the calling instance, but not
@@ -1423,7 +1433,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkState</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.464">checkState</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.476">checkState</a>(boolean&nbsp;expression,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -1452,7 +1462,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkState</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.479">checkState</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.491">checkState</a>(boolean&nbsp;b,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                               char&nbsp;p1)</pre>
@@ -1468,7 +1478,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkState</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.491">checkState</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.503">checkState</a>(boolean&nbsp;b,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                               int&nbsp;p1)</pre>
@@ -1484,7 +1494,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkState</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.503">checkState</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.515">checkState</a>(boolean&nbsp;b,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                               long&nbsp;p1)</pre>
@@ -1500,7 +1510,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkState</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.515">checkState</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.527">checkState</a>(boolean&nbsp;b,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -1517,7 +1527,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkState</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.528">checkState</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.540">checkState</a>(boolean&nbsp;b,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                               char&nbsp;p1,
@@ -1534,7 +1544,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkState</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.541">checkState</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.553">checkState</a>(boolean&nbsp;b,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                               char&nbsp;p1,
@@ -1551,7 +1561,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkState</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.553">checkState</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.565">checkState</a>(boolean&nbsp;b,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                               char&nbsp;p1,
@@ -1568,7 +1578,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkState</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.566">checkState</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.578">checkState</a>(boolean&nbsp;b,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                               char&nbsp;p1,
@@ -1586,7 +1596,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkState</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.579">checkState</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.591">checkState</a>(boolean&nbsp;b,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                               int&nbsp;p1,
@@ -1603,7 +1613,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkState</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.591">checkState</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.603">checkState</a>(boolean&nbsp;b,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                               int&nbsp;p1,
@@ -1620,7 +1630,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkState</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.603">checkState</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.615">checkState</a>(boolean&nbsp;b,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                               int&nbsp;p1,
@@ -1637,7 +1647,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkState</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.615">checkState</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.627">checkState</a>(boolean&nbsp;b,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                               int&nbsp;p1,
@@ -1655,7 +1665,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkState</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.628">checkState</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.640">checkState</a>(boolean&nbsp;b,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                               long&nbsp;p1,
@@ -1672,7 +1682,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkState</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.641">checkState</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.653">checkState</a>(boolean&nbsp;b,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                               long&nbsp;p1,
@@ -1689,7 +1699,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkState</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.653">checkState</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.665">checkState</a>(boolean&nbsp;b,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                               long&nbsp;p1,
@@ -1706,7 +1716,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkState</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.666">checkState</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.678">checkState</a>(boolean&nbsp;b,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                               long&nbsp;p1,
@@ -1724,7 +1734,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkState</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.679">checkState</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.691">checkState</a>(boolean&nbsp;b,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -1742,7 +1752,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkState</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.692">checkState</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.704">checkState</a>(boolean&nbsp;b,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -1760,7 +1770,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkState</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.705">checkState</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.717">checkState</a>(boolean&nbsp;b,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -1778,7 +1788,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkState</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.718">checkState</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.730">checkState</a>(boolean&nbsp;b,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -1797,7 +1807,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkState</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.731">checkState</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.743">checkState</a>(boolean&nbsp;b,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -1818,7 +1828,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkState</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.748">checkState</a>(boolean&nbsp;b,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.760">checkState</a>(boolean&nbsp;b,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -1843,7 +1853,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkNotNull</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.768">checkNotNull</a>(T&nbsp;reference)</pre>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.780">checkNotNull</a>(T&nbsp;reference)</pre>
 <div class="block">Ensures that an object reference passed as a parameter to the calling method is not null.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -1863,7 +1873,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkNotNull</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.785">checkNotNull</a>(T&nbsp;reference,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.797">checkNotNull</a>(T&nbsp;reference,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;errorMessage)</pre>
 <div class="block">Ensures that an object reference passed as a parameter to the calling method is not null.</div>
@@ -1887,7 +1897,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkNotNull</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.807">checkNotNull</a>(T&nbsp;reference,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.819">checkNotNull</a>(T&nbsp;reference,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -1917,7 +1927,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkNotNull</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.822">checkNotNull</a>(T&nbsp;obj,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.834">checkNotNull</a>(T&nbsp;obj,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  char&nbsp;p1)</pre>
@@ -1934,7 +1944,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkNotNull</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.835">checkNotNull</a>(T&nbsp;obj,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.847">checkNotNull</a>(T&nbsp;obj,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  int&nbsp;p1)</pre>
@@ -1951,7 +1961,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkNotNull</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.848">checkNotNull</a>(T&nbsp;obj,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.860">checkNotNull</a>(T&nbsp;obj,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  long&nbsp;p1)</pre>
@@ -1968,7 +1978,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkNotNull</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.861">checkNotNull</a>(T&nbsp;obj,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.873">checkNotNull</a>(T&nbsp;obj,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -1986,7 +1996,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkNotNull</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.875">checkNotNull</a>(T&nbsp;obj,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.887">checkNotNull</a>(T&nbsp;obj,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  char&nbsp;p1,
@@ -2004,7 +2014,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkNotNull</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.888">checkNotNull</a>(T&nbsp;obj,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.900">checkNotNull</a>(T&nbsp;obj,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  char&nbsp;p1,
@@ -2022,7 +2032,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkNotNull</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.901">checkNotNull</a>(T&nbsp;obj,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.913">checkNotNull</a>(T&nbsp;obj,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  char&nbsp;p1,
@@ -2040,7 +2050,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkNotNull</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.914">checkNotNull</a>(T&nbsp;obj,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.926">checkNotNull</a>(T&nbsp;obj,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  char&nbsp;p1,
@@ -2059,7 +2069,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkNotNull</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.928">checkNotNull</a>(T&nbsp;obj,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.940">checkNotNull</a>(T&nbsp;obj,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  int&nbsp;p1,
@@ -2077,7 +2087,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkNotNull</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.941">checkNotNull</a>(T&nbsp;obj,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.953">checkNotNull</a>(T&nbsp;obj,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  int&nbsp;p1,
@@ -2095,7 +2105,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkNotNull</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.954">checkNotNull</a>(T&nbsp;obj,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.966">checkNotNull</a>(T&nbsp;obj,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  int&nbsp;p1,
@@ -2113,7 +2123,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkNotNull</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.967">checkNotNull</a>(T&nbsp;obj,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.979">checkNotNull</a>(T&nbsp;obj,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  int&nbsp;p1,
@@ -2132,7 +2142,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkNotNull</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.981">checkNotNull</a>(T&nbsp;obj,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.993">checkNotNull</a>(T&nbsp;obj,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  long&nbsp;p1,
@@ -2150,7 +2160,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkNotNull</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.994">checkNotNull</a>(T&nbsp;obj,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1006">checkNotNull</a>(T&nbsp;obj,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  long&nbsp;p1,
@@ -2168,7 +2178,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkNotNull</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1007">checkNotNull</a>(T&nbsp;obj,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1019">checkNotNull</a>(T&nbsp;obj,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  long&nbsp;p1,
@@ -2186,7 +2196,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkNotNull</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1020">checkNotNull</a>(T&nbsp;obj,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1032">checkNotNull</a>(T&nbsp;obj,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  long&nbsp;p1,
@@ -2205,7 +2215,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkNotNull</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1034">checkNotNull</a>(T&nbsp;obj,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1046">checkNotNull</a>(T&nbsp;obj,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -2224,7 +2234,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkNotNull</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1048">checkNotNull</a>(T&nbsp;obj,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1060">checkNotNull</a>(T&nbsp;obj,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -2243,7 +2253,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkNotNull</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1062">checkNotNull</a>(T&nbsp;obj,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1074">checkNotNull</a>(T&nbsp;obj,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -2262,7 +2272,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkNotNull</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1076">checkNotNull</a>(T&nbsp;obj,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1088">checkNotNull</a>(T&nbsp;obj,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -2282,7 +2292,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkNotNull</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1090">checkNotNull</a>(T&nbsp;obj,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1102">checkNotNull</a>(T&nbsp;obj,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -2304,7 +2314,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkNotNull</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1108">checkNotNull</a>(T&nbsp;obj,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1120">checkNotNull</a>(T&nbsp;obj,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                                  <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -2326,7 +2336,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkElementIndex</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1158">checkElementIndex</a>(int&nbsp;index,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1170">checkElementIndex</a>(int&nbsp;index,
                                     int&nbsp;size)</pre>
 <div class="block">Ensures that <code>index</code> specifies a valid <i>element</i> in an array, list or string of size
  <code>size</code>. An element index may range from zero, inclusive, to <code>size</code>, exclusive.</div>
@@ -2348,7 +2358,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkElementIndex</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1174">checkElementIndex</a>(int&nbsp;index,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1186">checkElementIndex</a>(int&nbsp;index,
                                     int&nbsp;size,
                                     <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                     <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;desc)</pre>
@@ -2373,7 +2383,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkPositionIndex</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1203">checkPositionIndex</a>(int&nbsp;index,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1215">checkPositionIndex</a>(int&nbsp;index,
                                      int&nbsp;size)</pre>
 <div class="block">Ensures that <code>index</code> specifies a valid <i>position</i> in an array, list or string of
  size <code>size</code>. A position index may range from zero to <code>size</code>, inclusive.</div>
@@ -2395,7 +2405,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkPositionIndex</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1219">checkPositionIndex</a>(int&nbsp;index,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1231">checkPositionIndex</a>(int&nbsp;index,
                                      int&nbsp;size,
                                      <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                      <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;desc)</pre>
@@ -2420,7 +2430,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>checkPositionIndexes</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1249">checkPositionIndexes</a>(int&nbsp;start,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Preconditions.html#line.1261">checkPositionIndexes</a>(int&nbsp;start,
                                         int&nbsp;end,
                                         int&nbsp;size)</pre>
 <div class="block">Ensures that <code>start</code> and <code>end</code> specify a valid <i>positions</i> in an array, list
