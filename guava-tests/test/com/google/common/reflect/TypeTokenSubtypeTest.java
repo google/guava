@@ -16,6 +16,7 @@
 
 package com.google.common.reflect;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
 import junit.framework.TestCase;
@@ -241,6 +242,67 @@ public class TypeTokenSubtypeTest extends TestCase {
         List<? super String> list) {
       return notSubtype(list);
     }
+
+    // Can't test getSupertype() or getSubtype() because JDK reflection doesn't consider
+    // Foo<?> and Foo<? extends Bar> equal for class Foo<T extends Bar>
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public UseIterable<?> explicitTypeBoundIsSubtypeOfImplicitTypeBound(
+        UseIterable<? extends Iterable<?>> obj) {
+      return isSubtype(obj);
+    }
+
+    // Can't test getSupertype() or getSubtype() because JDK reflection doesn't consider
+    // Foo<?> and Foo<? extends Bar> equal for class Foo<T extends Bar>
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public UseIterable<? extends Iterable<?>> implicitTypeBoundIsSubtypeOfExplicitTypeBound(
+        UseIterable<?> obj) {
+      return isSubtype(obj);
+    }
+
+    // Can't test getSupertype() or getSubtype() because JDK reflection doesn't consider
+    // Foo<?> and Foo<? extends Bar> equal for class Foo<T extends Bar>
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public UseIterable<? extends Iterable<?>> omittedTypeBoundIsSubtypeOfExplicitTypeBound(
+        UseIterable<? extends CharSequence> obj) {
+      return isSubtype(obj);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public Enum<? extends Enum<?>> implicitlyBoundedEnumIsSubtypeOfExplicitlyBoundedEnum(
+        Enum<?> obj) {
+      return isSubtype(obj);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public Enum<?> explicitlyBoundedEnumIsSubtypeOfImplicitlyBoundedEnum(
+        Enum<? extends Enum<?>> obj) {
+      return isSubtype(obj);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public UseSerializableIterable<? extends Serializable>
+    implicitTypeBoundIsSubtypeOfPartialExplicitTypeBound(UseSerializableIterable<?> obj) {
+      return isSubtype(obj);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public UseSerializableIterable<?> partialImplicitTypeBoundIsSubtypeOfImplicitTypeBound(
+        UseSerializableIterable<? extends Iterable<?>> obj) {
+      return isSubtype(obj);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public UseSerializableIterable<? extends CharSequence>
+    implicitTypeBoundIsNotSubtypeOfDifferentTypeBound(UseSerializableIterable<?> obj) {
+      return notSubtype(obj);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public UseSerializableIterable<? extends CharSequence>
+    partialExplicitTypeBoundIsNotSubtypeOfDifferentTypeBound(
+        UseSerializableIterable<? extends Serializable> obj) {
+      return notSubtype(obj);
+    }
   }
 
   // TODO(benyu): migrate all subtyping tests from TypeTokenTest to this class using SubtypeTester.
@@ -258,5 +320,8 @@ public class TypeTokenSubtypeTest extends TestCase {
   }
 
   private static class Outlet<T> extends Mall<T> {}
-}
 
+  private static interface UseIterable<T extends Iterable<?>> {}
+
+  private static interface UseSerializableIterable<T extends Serializable&Iterable<?>> {}
+}
