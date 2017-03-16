@@ -2334,6 +2334,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       ValueReference<K, V> valueReference = null;
       LoadingValueReference<K, V> loadingValueReference = null;
       boolean createNewEntry = true;
+      V newValue;
 
       lock();
       try {
@@ -2382,16 +2383,8 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
         } else {
           e.setValueReference(loadingValueReference);
         }
-      } finally {
-        unlock();
-        postWriteCleanup();
-      }
 
-      // Synchronizes on the entry to allow failing fast when a recursive load is
-      // detected. This may be circumvented when an entry is copied, but will fail fast most
-      // of the time.
-      synchronized (e) {
-        V newValue = loadingValueReference.compute(key, function);
+        newValue = loadingValueReference.compute(key, function);
         if (newValue != null) {
           try {
             return getAndRecordStats(
@@ -2403,14 +2396,12 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
           removeLoadingValue(key, hash, loadingValueReference);
           return null;
         } else {
-          lock();
-          try {
-            removeEntry(e, hash, RemovalCause.EXPLICIT);
-          } finally {
-            unlock();
-          }
+          removeEntry(e, hash, RemovalCause.EXPLICIT);
           return null;
         }
+      } finally {
+        unlock();
+        postWriteCleanup();
       }
     }
 
