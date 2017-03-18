@@ -19,6 +19,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.base.MoreObjects;
 import com.google.common.util.concurrent.MoreExecutors;
+
+import javax.annotation.Nullable;
 import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.Locale;
@@ -96,6 +98,7 @@ import java.util.logging.Logger;
 public class EventBus {
 
   private static final Logger logger = Logger.getLogger(EventBus.class.getName());
+  private static final String DEFAULT_IDENTIFIER = "default";
 
   private final String identifier;
   private final Executor executor;
@@ -104,9 +107,90 @@ public class EventBus {
   private final SubscriberRegistry subscribers = new SubscriberRegistry(this);
   private final Dispatcher dispatcher;
 
-  /** Creates a new EventBus named "default". */
+  /**
+   * A builder for creating instances of {@link EventBus}. Example: <pre> {@code
+   *   EventBus bus = new EventBus.Builder()
+   *                  .identifier("EVENT_BUS")
+   *                  .executor(MoreExecutors.directExecutor())
+   *                  .dispatcher(Dispatcher.immediate())
+   *                  .exceptionHandler(new CustomSubscriberExceptionHandler())
+   *                  .build();}</pre>
+   *
+   * <p>Builder instances can be reused if every set fields in builder is reusable across multiple
+   * EventBus instances. Default fields are reusable.
+   */
+  public static class Builder {
+
+    private String identifier = DEFAULT_IDENTIFIER;
+    private Executor executor = MoreExecutors.directExecutor();
+    @Nullable
+    private Dispatcher dispatcher = null;
+    private SubscriberExceptionHandler exceptionHandler = LoggingHandler.INSTANCE;
+
+    /**
+     * Sets a {@code identifier} of an EventBus. Optional.
+     *
+     * @param identifier a brief name for this bus, for logging purposes. Should be a valid Java identifier.
+     * @return this for chained calls.
+     */
+    public Builder identifier(final String identifier) {
+      this.identifier = identifier;
+      return this;
+    }
+
+    /**
+     * Sets an {@code executor} for the {@link EventBus} to be built with. Optional.
+     * @see Executor
+     *
+     * @param executor An instance of {@link Executor}, default one is {@link MoreExecutors#directExecutor()}.
+     * @return this for chained calls.
+     */
+    public Builder executor(final Executor executor) {
+      this.executor = executor;
+      return this;
+    }
+
+    /**
+     * Sets a dispatcher for the {@link EventBus} to be built with. Optional.
+     * @see Dispatcher
+     *
+     * @param dispatcher An instance of {@link Dispatcher}, default is {@link Dispatcher#perThreadDispatchQueue()}.
+     * @return this fir chained calls.
+     */
+    public Builder dispatcher(final Dispatcher dispatcher) {
+      this.dispatcher = dispatcher;
+      return this;
+    }
+
+    /**
+     * Sets {@link SubscriberExceptionHandler} for the EventBus to be built with.
+     * @see #EventBus(SubscriberExceptionHandler)
+     * @see SubscriberExceptionHandler
+     *
+     * @param exceptionHandler an handler of exceptions happening in subscribes, default ons is
+     *                         {@link LoggingHandler#INSTANCE}
+     * @return this for chained calls.
+     */
+    public Builder exceptionHandler(final SubscriberExceptionHandler exceptionHandler) {
+      this.exceptionHandler = exceptionHandler;
+      return this;
+    }
+
+    /**
+     * Builds and returns a new {@link EventBus} instance.
+     *
+     * @return a newly build {@link EventBus}
+     */
+    public EventBus build() {
+      return new EventBus(this.identifier, this.executor,
+          this.dispatcher != null ? this.dispatcher : Dispatcher.perThreadDispatchQueue(),
+          this.exceptionHandler);
+    }
+  }
+
+  /** Creates a new EventBus named {@link #DEFAULT_IDENTIFIER}. */
   public EventBus() {
-    this("default");
+    this(DEFAULT_IDENTIFIER);
   }
 
   /**
@@ -131,7 +215,7 @@ public class EventBus {
    */
   public EventBus(SubscriberExceptionHandler exceptionHandler) {
     this(
-        "default",
+        DEFAULT_IDENTIFIER,
         MoreExecutors.directExecutor(),
         Dispatcher.perThreadDispatchQueue(),
         exceptionHandler);
@@ -219,6 +303,10 @@ public class EventBus {
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this).addValue(identifier).toString();
+  }
+
+  public Builder builder() {
+    return new Builder();
   }
 
   /** Simple logging handler for subscriber exceptions. */
