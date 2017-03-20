@@ -21,7 +21,7 @@ import com.google.errorprone.annotations.CompatibleWith;
 import java.util.Set;
 
 /**
- * An interface for <a
+ * A functional interface for <a
  * href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-structured data.
  *
  * <p>A graph is composed of a set of nodes and a set of edges connecting pairs of nodes.
@@ -69,7 +69,4 @@ public interface SuccessorGraph<N> {
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
   Set<N> successors(@CompatibleWith("N") Object node);
-
-  /** Returns all nodes in this graph. */
-  Set<N> nodes();
 }

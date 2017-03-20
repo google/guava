@@ -110,7 +110,6 @@ public interface Network<N, E> extends SuccessorGraph<N>, PredecessorGraph<N> {
   //
 
   /** Returns all nodes in this network, in the order specified by {@link #nodeOrder()}. */
-  @Override
   Set<N> nodes();
 
   /** Returns all edges in this network, in the order specified by {@link #edgeOrder()}. */
