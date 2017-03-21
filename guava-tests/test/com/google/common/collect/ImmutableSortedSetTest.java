@@ -1127,4 +1127,29 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     ImmutableSortedSet.Builder<SuperComparableExample> reverse = ImmutableSortedSet.reverseOrder();
     assertThat(reverse).isNotNull();
   }
+
+  @GwtIncompatible("internals")
+  public void testControlsArraySize() {
+    ImmutableSet.Builder<String> builder = ImmutableSortedSet.naturalOrder();
+    for (int i = 0; i < 10; i++) {
+      builder.add("foo");
+    }
+    builder.add("bar");
+    RegularImmutableSortedSet<String> set = (RegularImmutableSortedSet<String>) builder.build();
+    RegularImmutableList<String> list = (RegularImmutableList<String>) set.elements;
+    assertTrue(list.array.length <= 2 * set.size());
+  }
+
+  @GwtIncompatible("internals")
+  public void testReusedBuilder() {
+    ImmutableSortedSet.Builder<String> builder = ImmutableSortedSet.naturalOrder();
+    for (int i = 0; i < 10; i++) {
+      builder.add("foo");
+    }
+    builder.add("bar");
+    RegularImmutableSortedSet<String> set = (RegularImmutableSortedSet<String>) builder.build();
+    RegularImmutableList<String> list = (RegularImmutableList<String>) set.elements;
+    builder.add("baz");
+    assertTrue(list.array != builder.contents);
+  }
 }

@@ -41,6 +41,10 @@ class RegularImmutableAsList<E> extends ImmutableAsList<E> {
     this(delegate, ImmutableList.<E>asImmutableList(array));
   }
 
+  RegularImmutableAsList(ImmutableCollection<E> delegate, Object[] array, int size) {
+    this(delegate, ImmutableList.<E>asImmutableList(array, size));
+  }
+
   @Override
   ImmutableCollection<E> delegateCollection() {
     return delegate;

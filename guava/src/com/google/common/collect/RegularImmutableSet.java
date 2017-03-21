@@ -31,20 +31,22 @@ import javax.annotation.Nullable;
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 final class RegularImmutableSet<E> extends ImmutableSet<E> {
   static final RegularImmutableSet<Object> EMPTY =
-      new RegularImmutableSet<Object>(new Object[0], 0, null, 0);
+      new RegularImmutableSet<Object>(new Object[0], 0, null, 0, 0);
 
-  private final transient Object[] elements;
+  @VisibleForTesting final transient Object[] elements;
   // the same elements in hashed positions (plus nulls)
   @VisibleForTesting final transient Object[] table;
   // 'and' with an int to get a valid table index.
   private final transient int mask;
   private final transient int hashCode;
+  private final transient int size;
 
-  RegularImmutableSet(Object[] elements, int hashCode, Object[] table, int mask) {
+  RegularImmutableSet(Object[] elements, int hashCode, Object[] table, int mask, int size) {
     this.elements = elements;
     this.table = table;
     this.mask = mask;
     this.hashCode = hashCode;
+    this.size = size;
   }
 
   @Override
@@ -66,28 +68,30 @@ final class RegularImmutableSet<E> extends ImmutableSet<E> {
 
   @Override
   public int size() {
-    return elements.length;
+    return size;
   }
 
   @Override
   public UnmodifiableIterator<E> iterator() {
-    return (UnmodifiableIterator<E>) Iterators.forArray(elements);
+    return (UnmodifiableIterator<E>) Iterators.forArray(elements, 0, size, 0);
   }
 
   @Override
   public Spliterator<E> spliterator() {
-    return Spliterators.spliterator(elements, SPLITERATOR_CHARACTERISTICS);
+    return Spliterators.spliterator(elements, 0, size, SPLITERATOR_CHARACTERISTICS);
   }
 
   @Override
   int copyIntoArray(Object[] dst, int offset) {
-    System.arraycopy(elements, 0, dst, offset, elements.length);
-    return offset + elements.length;
+    System.arraycopy(elements, 0, dst, offset, size);
+    return offset + size;
   }
 
   @Override
   ImmutableList<E> createAsList() {
-    return (table == null) ? ImmutableList.<E>of() : new RegularImmutableAsList<E>(this, elements);
+    return (table == null)
+        ? ImmutableList.<E>of()
+        : new RegularImmutableAsList<E>(this, elements, size);
   }
 
   @Override

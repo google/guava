@@ -141,19 +141,17 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   }
 
   /**
-   * Constructs an {@code ImmutableSet} from the first {@code n} elements of the specified array.
-   * If {@code k} is the size of the returned {@code ImmutableSet}, then the unique elements of
-   * {@code elements} will be in the first {@code k} positions, and {@code elements[i] == null} for
-   * {@code k <= i < n}.
+   * Constructs an {@code ImmutableSet} from the first {@code n} elements of the specified array. If
+   * {@code k} is the size of the returned {@code ImmutableSet}, then the unique elements of {@code
+   * elements} will be in the first {@code k} positions, and {@code elements[i] == null} for {@code
+   * k <= i < n}.
    *
-   * <p>This may modify {@code elements}.  Additionally, if {@code n == elements.length} and
-   * {@code elements} contains no duplicates, {@code elements} may be used without copying in the
-   * returned {@code ImmutableSet}, in which case it may no longer be modified.
+   * <p>After this method returns, {@code elements} will contain no duplicates, but {@code elements}
+   * may be the real array backing the returned set, so do not modify it further.
    *
    * <p>{@code elements} may contain only values of type {@code E}.
    *
-   * @throws NullPointerException if any of the first {@code n} elements of {@code elements} is
-   *          null
+   * @throws NullPointerException if any of the first {@code n} elements of {@code elements} is null
    */
   private static <E> ImmutableSet<E> construct(int n, Object... elements) {
     switch (n) {
@@ -194,14 +192,13 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       @SuppressWarnings("unchecked") // we are careful to only pass in E
       E element = (E) elements[0];
       return new SingletonImmutableSet<E>(element, hashCode);
-    } else if (tableSize != chooseTableSize(uniques)) {
+    } else if (chooseTableSize(uniques) < tableSize / 2) {
       // Resize the table when the array includes too many duplicates.
-      // when this happens, we have already made a copy
       return construct(uniques, elements);
     } else {
       Object[] uniqueElements =
-          (uniques < elements.length) ? Arrays.copyOf(elements, uniques) : elements;
-      return new RegularImmutableSet<E>(uniqueElements, hashCode, table, mask);
+          (uniques < elements.length / 2) ? Arrays.copyOf(elements, uniques) : elements;
+      return new RegularImmutableSet<E>(uniqueElements, hashCode, table, mask, uniques);
     }
   }
 
@@ -554,6 +551,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       // construct has the side effect of deduping contents, so we update size
       // accordingly.
       size = result.size();
+      forceCopy = true;
       return result;
     }
   }
