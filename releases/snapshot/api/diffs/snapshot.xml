@@ -39312,16 +39312,8 @@
  @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
       </doc>
     </method>
-    <method name="nodes" return="java.util.Set&lt;N&gt;"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns all nodes in this graph.]]>
-      </doc>
-    </method>
     <doc>
-    <![CDATA[An interface for <a
+    <![CDATA[A functional interface for <a
  href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-structured data.
 
  <p>A graph is composed of a set of nodes and a set of edges connecting pairs of nodes.
@@ -39376,16 +39368,8 @@
  @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
       </doc>
     </method>
-    <method name="nodes" return="java.util.Set&lt;N&gt;"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns all nodes in this graph.]]>
-      </doc>
-    </method>
     <doc>
-    <![CDATA[An interface for <a
+    <![CDATA[A functional interface for <a
  href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-structured data.
 
  <p>A graph is composed of a set of nodes and a set of edges connecting pairs of nodes.
