@@ -23,22 +23,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * Produces proxies that impose a time limit on method calls to the proxied object. For example, to
- * return the value of {@code target.someMethod()}, but substitute {@code DEFAULT_VALUE} if this
- * method call takes over 50 ms, you can use this code:
- *
- * <pre>
- *   TimeLimiter limiter = . . .;
- *   TargetType proxy = limiter.newProxy(
- *       target, TargetType.class, 50, TimeUnit.MILLISECONDS);
- *   try {
- *     return proxy.someMethod();
- *   } catch (UncheckedTimeoutException e) {
- *     return DEFAULT_VALUE;
- *   }
- * </pre>
- *
- * <p>Please see {@code SimpleTimeLimiterTest} for more usage examples.
+ * Imposes a time limit on method calls.
  *
  * @author Kevin Bourrillion
  * @author Jens Nyman
@@ -64,6 +49,20 @@ public interface TimeLimiter {
    * The particular nature and strength of the guarantees made by the proxy is
    * implementation-dependent. However, it is important that each of the methods on the target
    * object behaves appropriately when its thread is interrupted.
+   *
+   * <p>For example, to return the value of {@code target.someMethod()}, but substitute {@code
+   * DEFAULT_VALUE} if this method call takes over 50 ms, you can use this code:
+   *
+   * <pre>
+   *   TimeLimiter limiter = . . .;
+   *   TargetType proxy = limiter.newProxy(
+   *       target, TargetType.class, 50, TimeUnit.MILLISECONDS);
+   *   try {
+   *     return proxy.someMethod();
+   *   } catch (UncheckedTimeoutException e) {
+   *     return DEFAULT_VALUE;
+   *   }
+   * </pre>
    *
    * @param target the object to proxy
    * @param interfaceType the interface you wish the returned proxy to implement
