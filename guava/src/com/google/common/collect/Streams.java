@@ -100,6 +100,36 @@ public final class Streams {
   }
 
   /**
+   * If a value is present in {@code optional}, returns a stream containing only that element,
+   * otherwise returns an empty stream.
+   *
+   * <p><b>Java 9 users:</b> use {@code optional.stream()} instead.
+   */
+  public static IntStream stream(OptionalInt optional) {
+    return optional.isPresent() ? IntStream.of(optional.getAsInt()) : IntStream.empty();
+  }
+
+  /**
+   * If a value is present in {@code optional}, returns a stream containing only that element,
+   * otherwise returns an empty stream.
+   *
+   * <p><b>Java 9 users:</b> use {@code optional.stream()} instead.
+   */
+  public static LongStream stream(OptionalLong optional) {
+    return optional.isPresent() ? LongStream.of(optional.getAsLong()) : LongStream.empty();
+  }
+
+  /**
+   * If a value is present in {@code optional}, returns a stream containing only that element,
+   * otherwise returns an empty stream.
+   *
+   * <p><b>Java 9 users:</b> use {@code optional.stream()} instead.
+   */
+  public static DoubleStream stream(OptionalDouble optional) {
+    return optional.isPresent() ? DoubleStream.of(optional.getAsDouble()) : DoubleStream.empty();
+  }
+
+  /**
    * Returns a {@link Stream} containing the elements of the first stream, followed by the elements
    * of the second stream, and so on.
    *
@@ -172,167 +202,6 @@ public final class Streams {
   public static DoubleStream concat(DoubleStream... streams) {
     // TODO(lowasser): optimize this later
     return Stream.of(streams).flatMapToDouble(stream -> stream);
-  }
-
-  /**
-   * If a value is present in {@code optional}, returns a stream containing only that element,
-   * otherwise returns an empty stream.
-   *
-   * <p><b>Java 9 users:</b> use {@code optional.stream()} instead.
-   */
-  public static IntStream stream(OptionalInt optional) {
-    return optional.isPresent() ? IntStream.of(optional.getAsInt()) : IntStream.empty();
-  }
-
-  /**
-   * If a value is present in {@code optional}, returns a stream containing only that element,
-   * otherwise returns an empty stream.
-   *
-   * <p><b>Java 9 users:</b> use {@code optional.stream()} instead.
-   */
-  public static LongStream stream(OptionalLong optional) {
-    return optional.isPresent() ? LongStream.of(optional.getAsLong()) : LongStream.empty();
-  }
-
-  /**
-   * If a value is present in {@code optional}, returns a stream containing only that element,
-   * otherwise returns an empty stream.
-   *
-   * <p><b>Java 9 users:</b> use {@code optional.stream()} instead.
-   */
-  public static DoubleStream stream(OptionalDouble optional) {
-    return optional.isPresent() ? DoubleStream.of(optional.getAsDouble()) : DoubleStream.empty();
-  }
-
-  /**
-   * Returns the last element of the specified stream, or {@link java.util.Optional#empty} if the
-   * stream is empty.
-   *
-   * <p>Equivalent to {@code stream.reduce((a, b) -> b)}, but may perform significantly better. This
-   * method's runtime will be between O(log n) and O(n), performing better on <a
-   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
-   * streams.
-   *
-   * <p>If the stream has nondeterministic order, this has equivalent semantics to {@link
-   * Stream#findAny} (which you might as well use).
-   *
-   * @see Stream#findFirst()
-   * @throws NullPointerException if the last element of the stream is null
-   */
-  public static <T> java.util.Optional<T> findLast(Stream<T> stream) {
-    class OptionalState<T> {
-      boolean set = false;
-      T value = null;
-
-      void set(@Nullable T value) {
-        this.set = true;
-        this.value = value;
-      }
-
-      T get() {
-        checkState(set);
-        return value;
-      }
-    }
-    OptionalState<T> state = new OptionalState<>();
-
-    Deque<Spliterator<T>> splits = new ArrayDeque<>();
-    splits.addLast(stream.spliterator());
-
-    while (!splits.isEmpty()) {
-      Spliterator<T> spliterator = splits.removeLast();
-
-      if (spliterator.getExactSizeIfKnown() == 0) {
-        continue; // drop this split
-      }
-
-      // Many spliterators will have trySplits that are SUBSIZED even if they are not themselves
-      // SUBSIZED.
-      if (spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
-        // we can drill down to exactly the smallest nonempty spliterator
-        while (true) {
-          Spliterator<T> prefix = spliterator.trySplit();
-          if (prefix == null || prefix.getExactSizeIfKnown() == 0) {
-            break;
-          } else if (spliterator.getExactSizeIfKnown() == 0) {
-            spliterator = prefix;
-            break;
-          }
-        }
-
-        // spliterator is known to be nonempty now
-        spliterator.forEachRemaining(state::set);
-        return java.util.Optional.of(state.get());
-      }
-
-      Spliterator<T> prefix = spliterator.trySplit();
-      if (prefix == null || prefix.getExactSizeIfKnown() == 0) {
-        // we can't split this any further
-        spliterator.forEachRemaining(state::set);
-        if (state.set) {
-          return java.util.Optional.of(state.get());
-        }
-        // fall back to the last split
-        continue;
-      }
-      splits.addLast(prefix);
-      splits.addLast(spliterator);
-    }
-    return java.util.Optional.empty();
-  }
-
-  /**
-   * Returns the last element of the specified stream, or {@link OptionalInt#empty} if the stream is
-   * empty.
-   *
-   * <p>Equivalent to {@code stream.reduce((a, b) -> b)}, but may perform significantly better. This
-   * method's runtime will be between O(log n) and O(n), performing better on <a
-   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
-   * streams.
-   *
-   * @see IntStream#findFirst()
-   * @throws NullPointerException if the last element of the stream is null
-   */
-  public static OptionalInt findLast(IntStream stream) {
-    // findLast(Stream) does some allocation, so we might as well box some more
-    java.util.Optional<Integer> boxedLast = findLast(stream.boxed());
-    return boxedLast.isPresent() ? OptionalInt.of(boxedLast.get()) : OptionalInt.empty();
-  }
-
-  /**
-   * Returns the last element of the specified stream, or {@link OptionalLong#empty} if the stream
-   * is empty.
-   *
-   * <p>Equivalent to {@code stream.reduce((a, b) -> b)}, but may perform significantly better. This
-   * method's runtime will be between O(log n) and O(n), performing better on <a
-   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
-   * streams.
-   *
-   * @see LongStream#findFirst()
-   * @throws NullPointerException if the last element of the stream is null
-   */
-  public static OptionalLong findLast(LongStream stream) {
-    // findLast(Stream) does some allocation, so we might as well box some more
-    java.util.Optional<Long> boxedLast = findLast(stream.boxed());
-    return boxedLast.isPresent() ? OptionalLong.of(boxedLast.get()) : OptionalLong.empty();
-  }
-
-  /**
-   * Returns the last element of the specified stream, or {@link OptionalDouble#empty} if the stream
-   * is empty.
-   *
-   * <p>Equivalent to {@code stream.reduce((a, b) -> b)}, but may perform significantly better. This
-   * method's runtime will be between O(log n) and O(n), performing better on <a
-   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
-   * streams.
-   *
-   * @see DoubleStream#findFirst()
-   * @throws NullPointerException if the last element of the stream is null
-   */
-  public static OptionalDouble findLast(DoubleStream stream) {
-    // findLast(Stream) does some allocation, so we might as well box some more
-    java.util.Optional<Double> boxedLast = findLast(stream.boxed());
-    return boxedLast.isPresent() ? OptionalDouble.of(boxedLast.get()) : OptionalDouble.empty();
   }
 
   /**
@@ -790,6 +659,137 @@ public final class Streams {
   public interface DoubleFunctionWithIndex<R> {
     /** Applies this function to the given argument and its index within a stream. */
     R apply(double from, long index);
+  }
+
+  /**
+   * Returns the last element of the specified stream, or {@link java.util.Optional#empty} if the
+   * stream is empty.
+   *
+   * <p>Equivalent to {@code stream.reduce((a, b) -> b)}, but may perform significantly better. This
+   * method's runtime will be between O(log n) and O(n), performing better on <a
+   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
+   * streams.
+   *
+   * <p>If the stream has nondeterministic order, this has equivalent semantics to {@link
+   * Stream#findAny} (which you might as well use).
+   *
+   * @see Stream#findFirst()
+   * @throws NullPointerException if the last element of the stream is null
+   */
+  public static <T> java.util.Optional<T> findLast(Stream<T> stream) {
+    class OptionalState<T> {
+      boolean set = false;
+      T value = null;
+
+      void set(@Nullable T value) {
+        this.set = true;
+        this.value = value;
+      }
+
+      T get() {
+        checkState(set);
+        return value;
+      }
+    }
+    OptionalState<T> state = new OptionalState<>();
+
+    Deque<Spliterator<T>> splits = new ArrayDeque<>();
+    splits.addLast(stream.spliterator());
+
+    while (!splits.isEmpty()) {
+      Spliterator<T> spliterator = splits.removeLast();
+
+      if (spliterator.getExactSizeIfKnown() == 0) {
+        continue; // drop this split
+      }
+
+      // Many spliterators will have trySplits that are SUBSIZED even if they are not themselves
+      // SUBSIZED.
+      if (spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
+        // we can drill down to exactly the smallest nonempty spliterator
+        while (true) {
+          Spliterator<T> prefix = spliterator.trySplit();
+          if (prefix == null || prefix.getExactSizeIfKnown() == 0) {
+            break;
+          } else if (spliterator.getExactSizeIfKnown() == 0) {
+            spliterator = prefix;
+            break;
+          }
+        }
+
+        // spliterator is known to be nonempty now
+        spliterator.forEachRemaining(state::set);
+        return java.util.Optional.of(state.get());
+      }
+
+      Spliterator<T> prefix = spliterator.trySplit();
+      if (prefix == null || prefix.getExactSizeIfKnown() == 0) {
+        // we can't split this any further
+        spliterator.forEachRemaining(state::set);
+        if (state.set) {
+          return java.util.Optional.of(state.get());
+        }
+        // fall back to the last split
+        continue;
+      }
+      splits.addLast(prefix);
+      splits.addLast(spliterator);
+    }
+    return java.util.Optional.empty();
+  }
+
+  /**
+   * Returns the last element of the specified stream, or {@link OptionalInt#empty} if the stream is
+   * empty.
+   *
+   * <p>Equivalent to {@code stream.reduce((a, b) -> b)}, but may perform significantly better. This
+   * method's runtime will be between O(log n) and O(n), performing better on <a
+   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
+   * streams.
+   *
+   * @see IntStream#findFirst()
+   * @throws NullPointerException if the last element of the stream is null
+   */
+  public static OptionalInt findLast(IntStream stream) {
+    // findLast(Stream) does some allocation, so we might as well box some more
+    java.util.Optional<Integer> boxedLast = findLast(stream.boxed());
+    return boxedLast.isPresent() ? OptionalInt.of(boxedLast.get()) : OptionalInt.empty();
+  }
+
+  /**
+   * Returns the last element of the specified stream, or {@link OptionalLong#empty} if the stream
+   * is empty.
+   *
+   * <p>Equivalent to {@code stream.reduce((a, b) -> b)}, but may perform significantly better. This
+   * method's runtime will be between O(log n) and O(n), performing better on <a
+   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
+   * streams.
+   *
+   * @see LongStream#findFirst()
+   * @throws NullPointerException if the last element of the stream is null
+   */
+  public static OptionalLong findLast(LongStream stream) {
+    // findLast(Stream) does some allocation, so we might as well box some more
+    java.util.Optional<Long> boxedLast = findLast(stream.boxed());
+    return boxedLast.isPresent() ? OptionalLong.of(boxedLast.get()) : OptionalLong.empty();
+  }
+
+  /**
+   * Returns the last element of the specified stream, or {@link OptionalDouble#empty} if the stream
+   * is empty.
+   *
+   * <p>Equivalent to {@code stream.reduce((a, b) -> b)}, but may perform significantly better. This
+   * method's runtime will be between O(log n) and O(n), performing better on <a
+   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
+   * streams.
+   *
+   * @see DoubleStream#findFirst()
+   * @throws NullPointerException if the last element of the stream is null
+   */
+  public static OptionalDouble findLast(DoubleStream stream) {
+    // findLast(Stream) does some allocation, so we might as well box some more
+    java.util.Optional<Double> boxedLast = findLast(stream.boxed());
+    return boxedLast.isPresent() ? OptionalDouble.of(boxedLast.get()) : OptionalDouble.empty();
   }
 
   private Streams() {}
