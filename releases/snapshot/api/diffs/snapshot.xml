@@ -59631,6 +59631,40 @@
       <param name="amInterruptible" type="boolean"/>
       <exception name="Exception" type="java.lang.Exception"/>
     </method>
+    <method name="callWithTimeout" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="callable" type="java.util.concurrent.Callable&lt;T&gt;"/>
+      <param name="timeoutDuration" type="long"/>
+      <param name="timeoutUnit" type="java.util.concurrent.TimeUnit"/>
+      <exception name="ExecutionException" type="java.util.concurrent.ExecutionException"/>
+    </method>
+    <method name="callUninterruptiblyWithTimeout" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="callable" type="java.util.concurrent.Callable&lt;T&gt;"/>
+      <param name="timeoutDuration" type="long"/>
+      <param name="timeoutUnit" type="java.util.concurrent.TimeUnit"/>
+      <exception name="ExecutionException" type="java.util.concurrent.ExecutionException"/>
+    </method>
+    <method name="runWithTimeout"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="runnable" type="java.lang.Runnable"/>
+      <param name="timeoutDuration" type="long"/>
+      <param name="timeoutUnit" type="java.util.concurrent.TimeUnit"/>
+    </method>
+    <method name="runUninterruptiblyWithTimeout"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="runnable" type="java.lang.Runnable"/>
+      <param name="timeoutDuration" type="long"/>
+      <param name="timeoutUnit" type="java.util.concurrent.TimeUnit"/>
+    </method>
     <doc>
     <![CDATA[A TimeLimiter implementation which actually does not attempt to limit time at all. This may be
  desirable to use in some unit tests. More importantly, attempting to debug a call which is
@@ -63694,6 +63728,46 @@
       <param name="amInterruptible" type="boolean"/>
       <exception name="Exception" type="java.lang.Exception"/>
     </method>
+    <method name="callWithTimeout" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="callable" type="java.util.concurrent.Callable&lt;T&gt;"/>
+      <param name="timeoutDuration" type="long"/>
+      <param name="timeoutUnit" type="java.util.concurrent.TimeUnit"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+      <exception name="InterruptedException" type="java.lang.InterruptedException"/>
+      <exception name="ExecutionException" type="java.util.concurrent.ExecutionException"/>
+    </method>
+    <method name="callUninterruptiblyWithTimeout" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="callable" type="java.util.concurrent.Callable&lt;T&gt;"/>
+      <param name="timeoutDuration" type="long"/>
+      <param name="timeoutUnit" type="java.util.concurrent.TimeUnit"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+      <exception name="ExecutionException" type="java.util.concurrent.ExecutionException"/>
+    </method>
+    <method name="runWithTimeout"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="runnable" type="java.lang.Runnable"/>
+      <param name="timeoutDuration" type="long"/>
+      <param name="timeoutUnit" type="java.util.concurrent.TimeUnit"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+      <exception name="InterruptedException" type="java.lang.InterruptedException"/>
+    </method>
+    <method name="runUninterruptiblyWithTimeout"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="runnable" type="java.lang.Runnable"/>
+      <param name="timeoutDuration" type="long"/>
+      <param name="timeoutUnit" type="java.util.concurrent.TimeUnit"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+    </method>
     <doc>
     <![CDATA[A TimeLimiter that runs method calls in the background using an {@link ExecutorService}. If the
  time limit expires for a given method call, the thread running the call will be interrupted.
@@ -64030,6 +64104,20 @@
  implementation-dependent. However, it is important that each of the methods on the target
  object behaves appropriately when its thread is interrupted.
 
+ <p>For example, to return the value of {@code target.someMethod()}, but substitute {@code
+ DEFAULT_VALUE} if this method call takes over 50 ms, you can use this code:
+
+ <pre>
+   TimeLimiter limiter = . . .;
+   TargetType proxy = limiter.newProxy(
+       target, TargetType.class, 50, TimeUnit.MILLISECONDS);
+   try {
+     return proxy.someMethod();
+   } catch (UncheckedTimeoutException e) {
+     return DEFAULT_VALUE;
+   }
+ </pre>
+
  @param target the object to proxy
  @param interfaceType the interface you wish the returned proxy to implement
  @param timeoutDuration with timeoutUnit, the maximum length of time that callers are willing to
@@ -64068,25 +64156,119 @@
  @throws UncheckedTimeoutException if the time limit is reached]]>
       </doc>
     </method>
+    <method name="callWithTimeout" return="T"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="callable" type="java.util.concurrent.Callable&lt;T&gt;"/>
+      <param name="timeoutDuration" type="long"/>
+      <param name="timeoutUnit" type="java.util.concurrent.TimeUnit"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+      <exception name="InterruptedException" type="java.lang.InterruptedException"/>
+      <exception name="ExecutionException" type="java.util.concurrent.ExecutionException"/>
+      <doc>
+      <![CDATA[Invokes a specified Callable, timing out after the specified time limit. If the target method
+ call finishes before the limit is reached, the return value or a wrapped exception is
+ propagated. If, on the other hand, the time limit is reached, we attempt to abort the call to
+ the target, and throw a {@link TimeoutException} to the caller.
+
+ @param callable the Callable to execute
+ @param timeoutDuration with timeoutUnit, the maximum length of time to wait
+ @param timeoutUnit with timeoutDuration, the maximum length of time to wait
+ @return the result returned by the Callable
+ @throws TimeoutException if the time limit is reached
+ @throws InterruptedException if the current thread was interrupted during execution
+ @throws ExecutionException if {@code callable} throws a checked exception
+ @throws UncheckedExecutionException if {@code callable} throws a {@code RuntimeException}
+ @throws ExecutionError if {@code callable} throws an {@code Error}
+ @since 22.0]]>
+      </doc>
+    </method>
+    <method name="callUninterruptiblyWithTimeout" return="T"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="callable" type="java.util.concurrent.Callable&lt;T&gt;"/>
+      <param name="timeoutDuration" type="long"/>
+      <param name="timeoutUnit" type="java.util.concurrent.TimeUnit"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+      <exception name="ExecutionException" type="java.util.concurrent.ExecutionException"/>
+      <doc>
+      <![CDATA[Invokes a specified Callable, timing out after the specified time limit. If the target method
+ call finishes before the limit is reached, the return value or a wrapped exception is
+ propagated. If, on the other hand, the time limit is reached, we attempt to abort the call to
+ the target, and throw a {@link TimeoutException} to the caller.
+
+ <p>The difference with {@link #callWithTimeout(Callable, long, TimeUnit)} is that this method
+ will ignore interrupts on the current thread.
+
+ @param callable the Callable to execute
+ @param timeoutDuration with timeoutUnit, the maximum length of time to wait
+ @param timeoutUnit with timeoutDuration, the maximum length of time to wait
+ @return the result returned by the Callable
+ @throws TimeoutException if the time limit is reached
+ @throws ExecutionException if {@code callable} throws a checked exception
+ @throws UncheckedExecutionException if {@code callable} throws a {@code RuntimeException}
+ @throws ExecutionError if {@code callable} throws an {@code Error}
+ @since 22.0]]>
+      </doc>
+    </method>
+    <method name="runWithTimeout"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="runnable" type="java.lang.Runnable"/>
+      <param name="timeoutDuration" type="long"/>
+      <param name="timeoutUnit" type="java.util.concurrent.TimeUnit"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+      <exception name="InterruptedException" type="java.lang.InterruptedException"/>
+      <doc>
+      <![CDATA[Invokes a specified Runnable, timing out after the specified time limit. If the target method
+ run finishes before the limit is reached, this method returns or a wrapped exception is
+ propagated. If, on the other hand, the time limit is reached, we attempt to abort the run, and
+ throw a {@link TimeoutException} to the caller.
+
+ @param runnable the Runnable to execute
+ @param timeoutDuration with timeoutUnit, the maximum length of time to wait
+ @param timeoutUnit with timeoutDuration, the maximum length of time to wait
+ @throws TimeoutException if the time limit is reached
+ @throws InterruptedException if the current thread was interrupted during execution
+ @throws UncheckedExecutionException if {@code runnable} throws a {@code RuntimeException}
+ @throws ExecutionError if {@code runnable} throws an {@code Error}
+ @since 22.0]]>
+      </doc>
+    </method>
+    <method name="runUninterruptiblyWithTimeout"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="runnable" type="java.lang.Runnable"/>
+      <param name="timeoutDuration" type="long"/>
+      <param name="timeoutUnit" type="java.util.concurrent.TimeUnit"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+      <doc>
+      <![CDATA[Invokes a specified Runnable, timing out after the specified time limit. If the target method
+ run finishes before the limit is reached, this method returns or a wrapped exception is
+ propagated. If, on the other hand, the time limit is reached, we attempt to abort the run, and
+ throw a {@link TimeoutException} to the caller.
+
+ <p>The difference with {@link #runWithTimeout(Runnable, long, TimeUnit)} is that this method
+ will ignore interrupts on the current thread.
+
+ @param runnable the Runnable to execute
+ @param timeoutDuration with timeoutUnit, the maximum length of time to wait
+ @param timeoutUnit with timeoutDuration, the maximum length of time to wait
+ @throws TimeoutException if the time limit is reached
+ @throws UncheckedExecutionException if {@code runnable} throws a {@code RuntimeException}
+ @throws ExecutionError if {@code runnable} throws an {@code Error}
+ @since 22.0]]>
+      </doc>
+    </method>
     <doc>
-    <![CDATA[Produces proxies that impose a time limit on method calls to the proxied object. For example, to
- return the value of {@code target.someMethod()}, but substitute {@code DEFAULT_VALUE} if this
- method call takes over 50 ms, you can use this code:
-
- <pre>
-   TimeLimiter limiter = . . .;
-   TargetType proxy = limiter.newProxy(
-       target, TargetType.class, 50, TimeUnit.MILLISECONDS);
-   try {
-     return proxy.someMethod();
-   } catch (UncheckedTimeoutException e) {
-     return DEFAULT_VALUE;
-   }
- </pre>
-
- <p>Please see {@code SimpleTimeLimiterTest} for more usage examples.
+    <![CDATA[Imposes a time limit on method calls.
 
  @author Kevin Bourrillion
+ @author Jens Nyman
  @since 1.0]]>
     </doc>
   </interface>
