@@ -20,6 +20,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -50,5 +51,32 @@ public final class FakeTimeLimiter implements TimeLimiter {
       throws Exception {
     checkNotNull(timeoutUnit);
     return callable.call(); // fooled you
+  }
+
+  @Override
+  public <T> T callWithTimeout(Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
+      throws ExecutionException {
+    // TODO(b/36435223): Implement this method.
+    throw new UnsupportedOperationException("Not implemented yet.");
+  }
+
+  @Override
+  public <T> T callUninterruptiblyWithTimeout(
+      Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit) throws ExecutionException {
+    // TODO(b/36435223): Implement this method.
+    throw new UnsupportedOperationException("Not implemented yet.");
+  }
+
+  @Override
+  public void runWithTimeout(Runnable runnable, long timeoutDuration, TimeUnit timeoutUnit) {
+    // TODO(b/36435223): Implement this method.
+    throw new UnsupportedOperationException("Not implemented yet.");
+  }
+
+  @Override
+  public void runUninterruptiblyWithTimeout(
+      Runnable runnable, long timeoutDuration, TimeUnit timeoutUnit) {
+    // TODO(b/36435223): Implement this method.
+    throw new UnsupportedOperationException("Not implemented yet.");
   }
 }

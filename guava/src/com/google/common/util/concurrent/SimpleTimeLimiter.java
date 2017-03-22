@@ -141,6 +141,35 @@ public final class SimpleTimeLimiter implements TimeLimiter {
     }
   }
 
+  @Override
+  public <T> T callWithTimeout(Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
+      throws TimeoutException, InterruptedException, ExecutionException {
+    // TODO(b/36435223): Implement this method.
+    throw new UnsupportedOperationException("Not implemented yet.");
+  }
+
+  @Override
+  public <T> T callUninterruptiblyWithTimeout(
+      Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
+      throws TimeoutException, ExecutionException {
+    // TODO(b/36435223): Implement this method.
+    throw new UnsupportedOperationException("Not implemented yet.");
+  }
+
+  @Override
+  public void runWithTimeout(Runnable runnable, long timeoutDuration, TimeUnit timeoutUnit)
+      throws TimeoutException, InterruptedException {
+    // TODO(b/36435223): Implement this method.
+    throw new UnsupportedOperationException("Not implemented yet.");
+  }
+
+  @Override
+  public void runUninterruptiblyWithTimeout(
+      Runnable runnable, long timeoutDuration, TimeUnit timeoutUnit) throws TimeoutException {
+    // TODO(b/36435223): Implement this method.
+    throw new UnsupportedOperationException("Not implemented yet.");
+  }
+
   private static Exception throwCause(Exception e, boolean combineStackTraces) throws Exception {
     Throwable cause = e.getCause();
     if (cause == null) {
