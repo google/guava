@@ -89,7 +89,7 @@ public class SimpleTimeLimiterTest extends TestCase {
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    service = new SimpleTimeLimiter(executor);
+    service = SimpleTimeLimiter.create(executor);
   }
 
   public void testNewProxy_goodMethodWithEnoughTime() throws Exception {

@@ -59,7 +59,10 @@ public final class SimpleTimeLimiter implements TimeLimiter {
    *
    * @param executor the ExecutorService that will execute the method calls on the target objects;
    *     for example, a {@link Executors#newCachedThreadPool()}.
+   * @deprecated Use {@link #create(ExecutorService)} instead. This method is scheduled to be
+   *     removed in Guava 23.0.
    */
+  @Deprecated
   public SimpleTimeLimiter(ExecutorService executor) {
     this.executor = checkNotNull(executor);
   }
@@ -71,9 +74,28 @@ public final class SimpleTimeLimiter implements TimeLimiter {
    * <p><b>Warning:</b> using a bounded executor may be counterproductive! If the thread pool fills
    * up, any time callers spend waiting for a thread may count toward their time limit, and in this
    * case the call may even time out before the target method is ever invoked.
+   *
+   * @deprecated Use {@link #create(ExecutorService)} instead with {@code
+   *     Executors.newCachedThreadPool()}. This method is scheduled to be removed in Guava 23.0.
    */
+  @Deprecated
   public SimpleTimeLimiter() {
     this(Executors.newCachedThreadPool());
+  }
+
+  /**
+   * Creates a TimeLimiter instance using the given executor service to execute method calls.
+   *
+   * <p><b>Warning:</b> using a bounded executor may be counterproductive! If the thread pool fills
+   * up, any time callers spend waiting for a thread may count toward their time limit, and in this
+   * case the call may even time out before the target method is ever invoked.
+   *
+   * @param executor the ExecutorService that will execute the method calls on the target objects;
+   *     for example, a {@link Executors#newCachedThreadPool()}.
+   * @since 22.0
+   */
+  public static SimpleTimeLimiter create(ExecutorService executor) {
+    return new SimpleTimeLimiter(executor);
   }
 
   @Override
