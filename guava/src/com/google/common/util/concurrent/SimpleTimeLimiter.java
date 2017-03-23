@@ -40,6 +40,7 @@ import java.util.concurrent.TimeoutException;
  * time limit expires for a given method call, the thread running the call will be interrupted.
  *
  * @author Kevin Bourrillion
+ * @author Jens Nyman
  * @since 1.0
  */
 @Beta
@@ -84,7 +85,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
     checkNotNull(target);
     checkNotNull(interfaceType);
     checkNotNull(timeoutUnit);
-    checkArgument(timeoutDuration > 0, "bad timeout: %s", timeoutDuration);
+    checkPositiveTimeout(timeoutDuration);
     checkArgument(interfaceType.isInterface(), "interfaceType must be an interface type");
 
     final Set<Method> interruptibleMethods = findInterruptibleMethods(interfaceType);
@@ -101,7 +102,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
                     try {
                       return method.invoke(target, args);
                     } catch (InvocationTargetException e) {
-                      throw throwCause(e, false);
+                      throw throwCause(e, false /* combineStackTraces */);
                     }
                   }
                 };
@@ -120,8 +121,10 @@ public final class SimpleTimeLimiter implements TimeLimiter {
       throws Exception {
     checkNotNull(callable);
     checkNotNull(timeoutUnit);
-    checkArgument(timeoutDuration > 0, "timeout must be positive: %s", timeoutDuration);
+    checkPositiveTimeout(timeoutDuration);
+
     Future<T> future = executor.submit(callable);
+
     try {
       if (amInterruptible) {
         try {
@@ -134,7 +137,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
         return Uninterruptibles.getUninterruptibly(future, timeoutDuration, timeoutUnit);
       }
     } catch (ExecutionException e) {
-      throw throwCause(e, true);
+      throw throwCause(e, true /* combineStackTraces */);
     } catch (TimeoutException e) {
       future.cancel(true);
       throw new UncheckedTimeoutException(e);
@@ -144,30 +147,82 @@ public final class SimpleTimeLimiter implements TimeLimiter {
   @Override
   public <T> T callWithTimeout(Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, InterruptedException, ExecutionException {
-    // TODO(b/36435223): Implement this method.
-    throw new UnsupportedOperationException("Not implemented yet.");
+    checkNotNull(callable);
+    checkNotNull(timeoutUnit);
+    checkPositiveTimeout(timeoutDuration);
+
+    Future<T> future = executor.submit(callable);
+
+    try {
+      return future.get(timeoutDuration, timeoutUnit);
+    } catch (InterruptedException | TimeoutException e) {
+      future.cancel(true /* mayInterruptIfRunning */);
+      throw e;
+    } catch (ExecutionException e) {
+      wrapAndThrowExecutionExceptionOrError(e.getCause());
+      throw new AssertionError();
+    }
   }
 
   @Override
   public <T> T callUninterruptiblyWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, ExecutionException {
-    // TODO(b/36435223): Implement this method.
-    throw new UnsupportedOperationException("Not implemented yet.");
+    checkNotNull(callable);
+    checkNotNull(timeoutUnit);
+    checkPositiveTimeout(timeoutDuration);
+
+    Future<T> future = executor.submit(callable);
+
+    try {
+      return Uninterruptibles.getUninterruptibly(future, timeoutDuration, timeoutUnit);
+    } catch (TimeoutException e) {
+      future.cancel(true /* mayInterruptIfRunning */);
+      throw e;
+    } catch (ExecutionException e) {
+      wrapAndThrowExecutionExceptionOrError(e.getCause());
+      throw new AssertionError();
+    }
   }
 
   @Override
   public void runWithTimeout(Runnable runnable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, InterruptedException {
-    // TODO(b/36435223): Implement this method.
-    throw new UnsupportedOperationException("Not implemented yet.");
+    checkNotNull(runnable);
+    checkNotNull(timeoutUnit);
+    checkPositiveTimeout(timeoutDuration);
+
+    Future<?> future = executor.submit(runnable);
+
+    try {
+      future.get(timeoutDuration, timeoutUnit);
+    } catch (InterruptedException | TimeoutException e) {
+      future.cancel(true /* mayInterruptIfRunning */);
+      throw e;
+    } catch (ExecutionException e) {
+      wrapAndThrowRuntimeExecutionExceptionOrError(e.getCause());
+      throw new AssertionError();
+    }
   }
 
   @Override
   public void runUninterruptiblyWithTimeout(
       Runnable runnable, long timeoutDuration, TimeUnit timeoutUnit) throws TimeoutException {
-    // TODO(b/36435223): Implement this method.
-    throw new UnsupportedOperationException("Not implemented yet.");
+    checkNotNull(runnable);
+    checkNotNull(timeoutUnit);
+    checkPositiveTimeout(timeoutDuration);
+
+    Future<?> future = executor.submit(runnable);
+
+    try {
+      Uninterruptibles.getUninterruptibly(future, timeoutDuration, timeoutUnit);
+    } catch (TimeoutException e) {
+      future.cancel(true /* mayInterruptIfRunning */);
+      throw e;
+    } catch (ExecutionException e) {
+      wrapAndThrowRuntimeExecutionExceptionOrError(e.getCause());
+      throw new AssertionError();
+    }
   }
 
   private static Exception throwCause(Exception e, boolean combineStackTraces) throws Exception {
@@ -216,5 +271,27 @@ public final class SimpleTimeLimiter implements TimeLimiter {
         Proxy.newProxyInstance(
             interfaceType.getClassLoader(), new Class<?>[] {interfaceType}, handler);
     return interfaceType.cast(object);
+  }
+
+  private void wrapAndThrowExecutionExceptionOrError(Throwable cause) throws ExecutionException {
+    if (cause instanceof Error) {
+      throw new ExecutionError((Error) cause);
+    } else if (cause instanceof RuntimeException) {
+      throw new UncheckedExecutionException(cause);
+    } else {
+      throw new ExecutionException(cause);
+    }
+  }
+
+  private void wrapAndThrowRuntimeExecutionExceptionOrError(Throwable cause) {
+    if (cause instanceof Error) {
+      throw new ExecutionError((Error) cause);
+    } else {
+      throw new UncheckedExecutionException(cause);
+    }
+  }
+
+  private static void checkPositiveTimeout(long timeoutDuration) {
+    checkArgument(timeoutDuration > 0, "timeout must be positive: %s", timeoutDuration);
   }
 }
