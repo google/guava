@@ -63774,6 +63774,7 @@
  time limit expires for a given method call, the thread running the call will be interrupted.
 
  @author Kevin Bourrillion
+ @author Jens Nyman
  @since 1.0]]>
     </doc>
   </class>
