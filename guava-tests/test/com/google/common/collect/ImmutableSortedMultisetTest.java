@@ -304,6 +304,19 @@ public class ImmutableSortedMultisetTest extends TestCase {
     assertSame(c, ImmutableSortedMultiset.copyOf(c));
   }
 
+  public void testForEachEntry() {
+    ImmutableSortedMultiset<String> multiset =
+        ImmutableSortedMultiset.<String>naturalOrder().add("a").add("b").add("a").add("c").build();
+    List<Multiset.Entry<String>> entries = new ArrayList<>();
+    multiset.forEachEntry((e, c) -> entries.add(Multisets.immutableEntry(e, c)));
+    assertThat(entries)
+        .containsExactly(
+            Multisets.immutableEntry("a", 2),
+            Multisets.immutableEntry("b", 1),
+            Multisets.immutableEntry("c", 1))
+        .inOrder();
+  }
+
   public void testBuilderAdd() {
     ImmutableSortedMultiset<String> multiset =
         ImmutableSortedMultiset.<String>naturalOrder().add("a").add("b").add("a").add("c").build();
