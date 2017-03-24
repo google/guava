@@ -39826,14 +39826,14 @@
       deprecated="not deprecated">
       <param name="object" type="T"/>
       <doc>
-      <![CDATA[Puts an element into this {@code BloomFilter}. Ensures that subsequent invocations of
- {@link #mightContain(Object)} with the same element will always return {@code true}.
+      <![CDATA[Puts an element into this {@code BloomFilter}. Ensures that subsequent invocations of {@link
+ #mightContain(Object)} with the same element will always return {@code true}.
 
  @return true if the bloom filter's bits changed as a result of this operation. If the bits
      changed, this is <i>definitely</i> the first time {@code object} has been added to the
      filter. If the bits haven't changed, this <i>might</i> be the first time {@code object} has
      been added to the filter. Note that {@code put(t)} always returns the <i>opposite</i>
-     result to what {@code mightContain(t)} would have returned at the time it is called."
+     result to what {@code mightContain(t)} would have returned at the time it is called.
  @since 12.0 (present in 11.0 with {@code void} return type})]]>
       </doc>
     </method>
@@ -57338,7 +57338,13 @@
 
  <p>If a cancellation attempt succeeds on a {@code Future} that had previously been {@linkplain
  #setFuture set asynchronously}, then the cancellation will also be propagated to the delegate
- {@code Future} that was supplied in the {@code setFuture} call.]]>
+ {@code Future} that was supplied in the {@code setFuture} call.
+
+ <p>Rather than override this method to perform additional cancellation work or cleanup,
+ subclasses should override {@link #afterDone}, consulting {@link #isCancelled} and {@link
+ #wasInterrupted} as necessary. This ensures that the work is done even if the future is
+ cancelled without a call to {@code cancel}, such as by calling {@code
+ setFuture(cancelledFuture)}.]]>
       </doc>
     </method>
     <method name="interruptTask"
@@ -57350,6 +57356,9 @@
  method is invoked automatically by a successful call to {@link #cancel(boolean) cancel(true)}.
 
  <p>The default implementation does nothing.
+
+ <p>This method is likely to be deprecated. Prefer to override {@link #afterDone}, checking
+ {@link #wasInterrupted} to decide whether to interrupt your task.
 
  @since 10.0]]>
       </doc>
@@ -57467,9 +57476,8 @@
  <p>This class implements all methods in {@code ListenableFuture}. Subclasses should provide a way
  to set the result of the computation through the protected methods {@link #set(Object)}, {@link
  #setFuture(ListenableFuture)} and {@link #setException(Throwable)}. Subclasses may also override
- {@link #interruptTask()}, which will be invoked automatically if a call to {@link
- #cancel(boolean) cancel(true)} succeeds in canceling the future. Subclasses should rarely
- override other methods.
+ {@link #afterDone()}, which will be invoked automatically when the future completes. Subclasses
+ should rarely override other methods.
 
  @author Sven Mawson
  @author Luke Sandberg
