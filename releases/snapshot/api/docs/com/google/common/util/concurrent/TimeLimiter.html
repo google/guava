@@ -18,8 +18,8 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":6,"i1":6,"i2":6,"i3":6,"i4":6,"i5":6};
-var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
+var methods = {"i0":6,"i1":6,"i2":38,"i3":6,"i4":6,"i5":6};
+var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
 var tableTab = "tableTab";
@@ -128,7 +128,7 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 </a>
 <h3>Method Summary</h3>
 <table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
-<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Abstract Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Abstract Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t6" class="tableTab"><span><a href="javascript:show(32);">Deprecated Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colLast" scope="col">Method and Description</th>
@@ -155,7 +155,10 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
                long&nbsp;timeoutDuration,
                <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;timeoutUnit,
                boolean&nbsp;interruptible)</code>
-<div class="block">Invokes a specified Callable, timing out after the specified time limit.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
+<div class="block"><span class="deprecationComment">Use one of the other <code>call[Uninterruptibly]WithTimeout()</code> or <code>run[Uninterruptibly]WithTimeout()</code> methods. This method is scheduled to be removed in Guava
+     23.0.</span></div>
+</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
@@ -261,11 +264,14 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 <ul class="blockList">
 <li class="blockList">
 <h4>callWithTimeout</h4>
-<pre>&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/TimeLimiter.html#line.97">callWithTimeout</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&nbsp;callable,
-                      long&nbsp;timeoutDuration,
-                      <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;timeoutUnit,
-                      boolean&nbsp;interruptible)
-               throws <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></pre>
+<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
+&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/TimeLimiter.html#line.101">callWithTimeout</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&nbsp;callable,
+                                  long&nbsp;timeoutDuration,
+                                  <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;timeoutUnit,
+                                  boolean&nbsp;interruptible)
+                           throws <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Use one of the other <code>call[Uninterruptibly]WithTimeout()</code> or <code>run[Uninterruptibly]WithTimeout()</code> methods. This method is scheduled to be removed in Guava
+     23.0.</span></div>
 <div class="block">Invokes a specified Callable, timing out after the specified time limit. If the target method
  call finished before the limit is reached, the return value or exception is propagated to the
  caller exactly as-is. If, on the other hand, the time limit is reached, we attempt to abort the
@@ -294,7 +300,7 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 <ul class="blockList">
 <li class="blockList">
 <h4>callWithTimeout</h4>
-<pre>&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/TimeLimiter.html#line.118">callWithTimeout</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&nbsp;callable,
+<pre>&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/TimeLimiter.html#line.122">callWithTimeout</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&nbsp;callable,
                       long&nbsp;timeoutDuration,
                       <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;timeoutUnit)
                throws <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent">TimeoutException</a>,
@@ -328,7 +334,7 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 <ul class="blockList">
 <li class="blockList">
 <h4>callUninterruptiblyWithTimeout</h4>
-<pre>&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/TimeLimiter.html#line.140">callUninterruptiblyWithTimeout</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&nbsp;callable,
+<pre>&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/TimeLimiter.html#line.144">callUninterruptiblyWithTimeout</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&nbsp;callable,
                                      long&nbsp;timeoutDuration,
                                      <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;timeoutUnit)
                               throws <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent">TimeoutException</a>,
@@ -363,7 +369,7 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 <ul class="blockList">
 <li class="blockList">
 <h4>runWithTimeout</h4>
-<pre>void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/TimeLimiter.html#line.159">runWithTimeout</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;runnable,
+<pre>void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/TimeLimiter.html#line.163">runWithTimeout</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;runnable,
                     long&nbsp;timeoutDuration,
                     <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;timeoutUnit)
              throws <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent">TimeoutException</a>,
@@ -393,7 +399,7 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 <ul class="blockListLast">
 <li class="blockList">
 <h4>runUninterruptiblyWithTimeout</h4>
-<pre>void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/TimeLimiter.html#line.179">runUninterruptiblyWithTimeout</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;runnable,
+<pre>void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/TimeLimiter.html#line.183">runUninterruptiblyWithTimeout</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;runnable,
                                    long&nbsp;timeoutDuration,
                                    <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;timeoutUnit)
                             throws <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent">TimeoutException</a></pre>

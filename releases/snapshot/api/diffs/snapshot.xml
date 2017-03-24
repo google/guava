@@ -64158,7 +64158,9 @@
     <method name="callWithTimeout" return="T"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use one of the other {@code call[Uninterruptibly]WithTimeout()} or {@code
+     run[Uninterruptibly]WithTimeout()} methods. This method is scheduled to be removed in Guava
+     23.0.">
       <param name="callable" type="java.util.concurrent.Callable&lt;T&gt;"/>
       <param name="timeoutDuration" type="long"/>
       <param name="timeoutUnit" type="java.util.concurrent.TimeUnit"/>
@@ -64179,7 +64181,10 @@
  @return the result returned by the Callable
  @throws InterruptedException if {@code interruptible} is true and our thread is interrupted
      during execution
- @throws UncheckedTimeoutException if the time limit is reached]]>
+ @throws UncheckedTimeoutException if the time limit is reached
+ @deprecated Use one of the other {@code call[Uninterruptibly]WithTimeout()} or {@code
+     run[Uninterruptibly]WithTimeout()} methods. This method is scheduled to be removed in Guava
+     23.0.]]>
       </doc>
     </method>
     <method name="callWithTimeout" return="T"
