@@ -92,7 +92,11 @@ public interface TimeLimiter {
    * @throws InterruptedException if {@code interruptible} is true and our thread is interrupted
    *     during execution
    * @throws UncheckedTimeoutException if the time limit is reached
+   * @deprecated Use one of the other {@code call[Uninterruptibly]WithTimeout()} or {@code
+   *     run[Uninterruptibly]WithTimeout()} methods. This method is scheduled to be removed in Guava
+   *     23.0.
    */
+  @Deprecated
   @CanIgnoreReturnValue
   <T> T callWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit, boolean interruptible)

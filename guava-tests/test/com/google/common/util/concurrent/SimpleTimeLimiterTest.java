@@ -150,6 +150,7 @@ public class SimpleTimeLimiterTest extends TestCase {
     assertThat(stopwatch.elapsed(MILLISECONDS)).isIn(Range.closed(NOT_ENOUGH_MS, DELAY_MS * 2));
   }
 
+  @Deprecated
   public void testOldCallWithTimeout_goodCallableWithEnoughTime() throws Exception {
     Stopwatch stopwatch = Stopwatch.createStarted();
 
@@ -160,6 +161,7 @@ public class SimpleTimeLimiterTest extends TestCase {
     assertThat(stopwatch.elapsed(MILLISECONDS)).isIn(Range.closed(DELAY_MS, ENOUGH_MS));
   }
 
+  @Deprecated
   public void testOldCallWithTimeout_goodCallableWithNotEnoughTime() throws Exception {
     Stopwatch stopwatch = Stopwatch.createStarted();
 
@@ -173,6 +175,7 @@ public class SimpleTimeLimiterTest extends TestCase {
     assertThat(stopwatch.elapsed(MILLISECONDS)).isIn(Range.closed(NOT_ENOUGH_MS, DELAY_MS * 2));
   }
 
+  @Deprecated
   public void testOldCallWithTimeout_badCallableWithEnoughTime() throws Exception {
     Stopwatch stopwatch = Stopwatch.createStarted();
     try {
@@ -183,6 +186,7 @@ public class SimpleTimeLimiterTest extends TestCase {
     assertThat(stopwatch.elapsed(MILLISECONDS)).isIn(Range.closed(DELAY_MS, ENOUGH_MS));
   }
 
+  @Deprecated
   public void testOldCallWithTimeout_badCallableWithNotEnoughTime() throws Exception {
     Stopwatch stopwatch = Stopwatch.createStarted();
 

@@ -136,6 +136,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
   }
 
   // TODO: should this actually throw only ExecutionException?
+  @Deprecated
   @CanIgnoreReturnValue
   @Override
   public <T> T callWithTimeout(

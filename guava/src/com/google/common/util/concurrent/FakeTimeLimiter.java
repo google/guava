@@ -46,6 +46,7 @@ public final class FakeTimeLimiter implements TimeLimiter {
     return target; // ha ha
   }
 
+  @Deprecated
   @Override
   public <T> T callWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit, boolean amInterruptible)
