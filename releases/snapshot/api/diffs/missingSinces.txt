@@ -11,6 +11,7 @@ OK: com.google.common.util.concurrent.TimeLimiter Method callUninterruptiblyWith
 NO DOC BLOCK: com.google.common.util.concurrent.FakeTimeLimiter Method callWithTimeout(java.util.concurrent.Callable<T>, long, java.util.concurrent.TimeUnit)
 NO DOC BLOCK: com.google.common.util.concurrent.SimpleTimeLimiter Method callWithTimeout(java.util.concurrent.Callable<T>, long, java.util.concurrent.TimeUnit)
 OK: com.google.common.util.concurrent.TimeLimiter Method callWithTimeout(java.util.concurrent.Callable<T>, long, java.util.concurrent.TimeUnit)
+OK: com.google.common.util.concurrent.SimpleTimeLimiter Method create(java.util.concurrent.ExecutorService)
 MISSING @SINCE TAG: com.google.common.graph.ValueGraph Method degree(java.lang.Object)
 NO DOC BLOCK: com.google.common.graph.ImmutableGraph Method delegate()
 NO DOC BLOCK: com.google.common.graph.AbstractNetwork Method edgeConnecting(java.lang.Object, java.lang.Object)

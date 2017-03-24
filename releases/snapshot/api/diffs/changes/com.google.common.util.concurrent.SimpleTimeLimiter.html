@@ -36,7 +36,7 @@ com.google.common.util.concurrent.SimpleTimeLimiter
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.util.concurrent.SimpleTimeLimiter.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell3"><FONT SIZE="-2"> DETAIL: &nbsp;
-CONSTRUCTORS&nbsp;|&nbsp;
+<a href="#constructors">CONSTRUCTORS</a>&nbsp;|&nbsp;
 <a href="#methods">METHODS</a>&nbsp;|&nbsp;
 FIELDS
   </FONT></TD>
@@ -48,6 +48,34 @@ FIELDS
 Class com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/util/concurrent/SimpleTimeLimiter.html" target="_top"><tt>SimpleTimeLimiter</tt></A>
 </H2>
 <a NAME="constructors"></a>
+<p>
+<a NAME="Changed"></a>
+<TABLE summary="Changed Constructors" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+  <TD VALIGN="TOP" COLSPAN=3><FONT SIZE="+1"><B>Changed Constructors</B></FONT></TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.util.concurrent.SimpleTimeLimiter.ctor_changed(java.util.concurrent.ExecutorService)"></A>
+  <nobr><A HREF="../../docs/com/google/common/util/concurrent/SimpleTimeLimiter.html#SimpleTimeLimiter(java.util.concurrent.ExecutorService)" target="_top"><tt>SimpleTimeLimiter</tt></A>(<code>ExecutorService</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+<b>Now deprecated</b>.<br>
+  </TD>
+  <TD VALIGN="TOP">Use {@link #create(ExecutorService)} instead.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.util.concurrent.SimpleTimeLimiter.ctor_changed()"></A>
+  <nobr><A HREF="../../docs/com/google/common/util/concurrent/SimpleTimeLimiter.html#SimpleTimeLimiter()" target="_top"><tt>SimpleTimeLimiter</tt></A>(<code>void</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+<b>Now deprecated</b>.<br>
+  </TD>
+  <TD VALIGN="TOP">Use {@link #create(ExecutorService)} instead with {@code      Executors.newCachedThreadPool()}.</TD>
+</TR>
+</TABLE>
+&nbsp;
 <a NAME="methods"></a>
 <p>
 <a NAME="Added"></a>
@@ -68,6 +96,13 @@ Class com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/ut
   <nobr><code>T</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/SimpleTimeLimiter.html#callWithTimeout(java.util.concurrent.Callable<T>, long, java.util.concurrent.TimeUnit)" target="_top"><tt>callWithTimeout</tt></A>(<code>Callable&lt;T&gt;,</nobr> long<nobr>,</nobr> TimeUnit<nobr><nobr></code>)</nobr>
   </TD>
   <TD>&nbsp;</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.util.concurrent.SimpleTimeLimiter.create_added(java.util.concurrent.ExecutorService)"></A>
+  <nobr><code>SimpleTimeLimiter</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/SimpleTimeLimiter.html#create(java.util.concurrent.ExecutorService)" target="_top"><tt>create</tt></A>(<code>ExecutorService</code>)</nobr>
+  </TD>
+  <TD VALIGN="TOP">Creates a TimeLimiter instance using the given executor service to execute method calls.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
