@@ -147,14 +147,14 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   }
 
   /**
-   * Puts an element into this {@code BloomFilter}. Ensures that subsequent invocations of
-   * {@link #mightContain(Object)} with the same element will always return {@code true}.
+   * Puts an element into this {@code BloomFilter}. Ensures that subsequent invocations of {@link
+   * #mightContain(Object)} with the same element will always return {@code true}.
    *
    * @return true if the bloom filter's bits changed as a result of this operation. If the bits
    *     changed, this is <i>definitely</i> the first time {@code object} has been added to the
    *     filter. If the bits haven't changed, this <i>might</i> be the first time {@code object} has
    *     been added to the filter. Note that {@code put(t)} always returns the <i>opposite</i>
-   *     result to what {@code mightContain(t)} would have returned at the time it is called."
+   *     result to what {@code mightContain(t)} would have returned at the time it is called.
    * @since 12.0 (present in 11.0 with {@code void} return type})
    */
   @CanIgnoreReturnValue

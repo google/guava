@@ -51,9 +51,8 @@ import javax.annotation.Nullable;
  * <p>This class implements all methods in {@code ListenableFuture}. Subclasses should provide a way
  * to set the result of the computation through the protected methods {@link #set(Object)}, {@link
  * #setFuture(ListenableFuture)} and {@link #setException(Throwable)}. Subclasses may also override
- * {@link #interruptTask()}, which will be invoked automatically if a call to {@link
- * #cancel(boolean) cancel(true)} succeeds in canceling the future. Subclasses should rarely
- * override other methods.
+ * {@link #afterDone()}, which will be invoked automatically when the future completes. Subclasses
+ * should rarely override other methods.
  *
  * @author Sven Mawson
  * @author Luke Sandberg
@@ -529,6 +528,12 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    * <p>If a cancellation attempt succeeds on a {@code Future} that had previously been {@linkplain
    * #setFuture set asynchronously}, then the cancellation will also be propagated to the delegate
    * {@code Future} that was supplied in the {@code setFuture} call.
+   *
+   * <p>Rather than override this method to perform additional cancellation work or cleanup,
+   * subclasses should override {@link #afterDone}, consulting {@link #isCancelled} and {@link
+   * #wasInterrupted} as necessary. This ensures that the work is done even if the future is
+   * cancelled without a call to {@code cancel}, such as by calling {@code
+   * setFuture(cancelledFuture)}.
    */
   @CanIgnoreReturnValue
   @Override
@@ -596,6 +601,9 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    * method is invoked automatically by a successful call to {@link #cancel(boolean) cancel(true)}.
    *
    * <p>The default implementation does nothing.
+   *
+   * <p>This method is likely to be deprecated. Prefer to override {@link #afterDone}, checking
+   * {@link #wasInterrupted} to decide whether to interrupt your task.
    *
    * @since 10.0
    */
