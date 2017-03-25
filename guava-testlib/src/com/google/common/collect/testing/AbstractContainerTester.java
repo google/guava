@@ -17,7 +17,6 @@
 package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -39,7 +38,8 @@ public abstract class AbstractContainerTester<C, E>
   protected SampleElements<E> samples;
   protected C container;
 
-  @Override public void setUp() throws Exception {
+  @Override
+  public void setUp() throws Exception {
     super.setUp();
     samples = this.getSubjectGenerator().samples();
     resetContainer();
@@ -160,8 +160,7 @@ public abstract class AbstractContainerTester<C, E>
    */
   protected void expectMissing(E... elements) {
     for (E element : elements) {
-      assertFalse("Should not contain " + element,
-          actualContents().contains(element));
+      assertFalse("Should not contain " + element, actualContents().contains(element));
     }
   }
 
@@ -220,8 +219,7 @@ public abstract class AbstractContainerTester<C, E>
    */
   protected List<E> getOrderedElements() {
     List<E> list = new ArrayList<E>();
-    for (E e : getSubjectGenerator().order(
-        new ArrayList<E>(getSampleElements()))) {
+    for (E e : getSubjectGenerator().order(new ArrayList<E>(getSampleElements()))) {
       list.add(e);
     }
     return Collections.unmodifiableList(list);

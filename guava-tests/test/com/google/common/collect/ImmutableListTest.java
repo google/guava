@@ -39,13 +39,9 @@ import com.google.common.collect.testing.google.ListGenerators.ImmutableListOfGe
 import com.google.common.collect.testing.google.ListGenerators.ImmutableListTailSubListGenerator;
 import com.google.common.collect.testing.google.ListGenerators.UnhashableElementsImmutableListGenerator;
 import com.google.common.collect.testing.testers.ListHashCodeTester;
+import com.google.common.testing.CollectorTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -56,6 +52,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Unit test for {@link ImmutableList}.
@@ -67,7 +66,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @GwtCompatible(emulated = true)
 public class ImmutableListTest extends TestCase {
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(ListTestSuiteBuilder.using(new ImmutableListOfGenerator())
@@ -238,7 +237,7 @@ public class ImmutableListTest extends TestCase {
     public void testCreation_generic() {
       List<String> a = ImmutableList.of("a");
       // only verify that there is no compile warning
-      ImmutableList.of(a, a);
+      ImmutableList<List<String>> unused = ImmutableList.of(a, a);
     }
 
     public void testCreation_arrayOfArray() {
@@ -375,7 +374,7 @@ public class ImmutableListTest extends TestCase {
 
     public void testCopyOf_plainIterable_iteratesOnce() {
       CountingIterable iterable = new CountingIterable();
-      ImmutableList.copyOf(iterable);
+      ImmutableList<String> unused = ImmutableList.copyOf(iterable);
       assertEquals(1, iterable.count);
     }
 
@@ -427,9 +426,68 @@ public class ImmutableListTest extends TestCase {
       assertEquals(ImmutableList.of("a"), result);
       assertEquals(1, result.size());
     }
+
+    public void testSortedCopyOf_natural() {
+      Collection<Integer> c = MinimalCollection.of(4, 16, 10, -1, 5);
+      ImmutableList<Integer> list = ImmutableList.sortedCopyOf(c);
+      assertEquals(asList(-1, 4, 5, 10, 16), list);
+    }
+
+    public void testSortedCopyOf_natural_empty() {
+      Collection<Integer> c = MinimalCollection.of();
+      ImmutableList<Integer> list = ImmutableList.sortedCopyOf(c);
+      assertEquals(asList(), list);
+    }
+
+    public void testSortedCopyOf_natural_singleton() {
+      Collection<Integer> c = MinimalCollection.of(100);
+      ImmutableList<Integer> list = ImmutableList.sortedCopyOf(c);
+      assertEquals(asList(100), list);
+    }
+
+    public void testSortedCopyOf_natural_containsNull() {
+      Collection<Integer> c = MinimalCollection.of(1, 3, null, 2);
+      try {
+        ImmutableList.sortedCopyOf(c);
+        fail("Expected NPE");
+      } catch (NullPointerException expected) {
+      }
+    }
+
+    public void testSortedCopyOf() {
+      Collection<String> c = MinimalCollection.of("a", "b", "A", "c");
+      List<String> list = ImmutableList.sortedCopyOf(String.CASE_INSENSITIVE_ORDER, c);
+      assertEquals(asList("a", "A", "b", "c"), list);
+    }
+
+    public void testSortedCopyOf_empty() {
+      Collection<String> c = MinimalCollection.of();
+      List<String> list = ImmutableList.sortedCopyOf(String.CASE_INSENSITIVE_ORDER, c);
+      assertEquals(asList(), list);
+    }
+
+    public void testSortedCopyOf_singleton() {
+      Collection<String> c = MinimalCollection.of("a");
+      List<String> list = ImmutableList.sortedCopyOf(String.CASE_INSENSITIVE_ORDER, c);
+      assertEquals(asList("a"), list);
+    }
+
+    public void testSortedCopyOf_containsNull() {
+      Collection<String> c = MinimalCollection.of("a", "b", "A", null, "c");
+      try {
+        ImmutableList.sortedCopyOf(String.CASE_INSENSITIVE_ORDER, c);
+        fail("Expected NPE");
+      } catch (NullPointerException expected) {
+      }
+    }
+
+    public void testToImmutableList() {
+      CollectorTester.of(ImmutableList.<String>toImmutableList())
+          .expectCollects(ImmutableList.of("a", "b", "c", "d"), "a", "b", "c", "d");
+    }
   }
 
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static class ConcurrentTests extends TestCase {
     enum WrapWithIterable { WRAP, NO_WRAP }
 
@@ -450,10 +508,6 @@ public class ImmutableListTest extends TestCase {
 
       assertTrue(concurrentlyMutatedList.getAllStates()
           .contains(copyOfIterable));
-
-      // Check that we didn't end up with a RegularImmutableList of size 1.
-      assertEquals(copyOfIterable.size() == 1,
-          copyOfIterable instanceof SingletonImmutableList);
     }
 
     private static void runConcurrentlyMutatedTest(WrapWithIterable wrap) {
@@ -640,26 +694,26 @@ public class ImmutableListTest extends TestCase {
 
   public static class BasicTests extends TestCase {
 
-    @GwtIncompatible("NullPointerTester")
+    @GwtIncompatible // NullPointerTester
     public void testNullPointers() {
       NullPointerTester tester = new NullPointerTester();
       tester.testAllPublicStaticMethods(ImmutableList.class);
       tester.testAllPublicInstanceMethods(ImmutableList.of(1, 2, 3));
     }
 
-    @GwtIncompatible("SerializableTester")
+    @GwtIncompatible // SerializableTester
     public void testSerialization_empty() {
       Collection<String> c = ImmutableList.of();
       assertSame(c, SerializableTester.reserialize(c));
     }
 
-    @GwtIncompatible("SerializableTester")
+    @GwtIncompatible // SerializableTester
     public void testSerialization_singleton() {
       Collection<String> c = ImmutableList.of("a");
       SerializableTester.reserializeAndAssert(c);
     }
 
-    @GwtIncompatible("SerializableTester")
+    @GwtIncompatible // SerializableTester
     public void testSerialization_multiple() {
       Collection<String> c = ImmutableList.of("a", "b", "c");
       SerializableTester.reserializeAndAssert(c);
@@ -809,6 +863,18 @@ public class ImmutableListTest extends TestCase {
     public void testAsList() {
       ImmutableList<String> list = ImmutableList.of("a", "b");
       assertSame(list, list.asList());
+    }
+
+    @GwtIncompatible("builder internals")
+    public void testReusedBuilder() {
+      ImmutableList.Builder<String> builder = new ImmutableList.Builder<String>();
+      for (int i = 0; i < 10; i++) {
+        builder.add("foo");
+      }
+      builder.add("bar");
+      RegularImmutableList<String> list = (RegularImmutableList<String>) builder.build();
+      builder.add("baz");
+      assertTrue(list.array != builder.contents);
     }
   }
 }

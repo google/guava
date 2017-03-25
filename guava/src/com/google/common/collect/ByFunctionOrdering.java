@@ -21,9 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
-
 import java.io.Serializable;
-
 import javax.annotation.Nullable;
 
 /**

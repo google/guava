@@ -17,10 +17,10 @@ package com.google.common.hash;
 import static com.google.common.base.Charsets.UTF_16LE;
 import static org.junit.Assert.assertArrayEquals;
 
-import junit.framework.TestCase;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.ByteArrayOutputStream;
 import java.util.Random;
+import junit.framework.TestCase;
 
 /**
  * Tests for AbstractByteHasher.
@@ -110,6 +110,7 @@ public class AbstractByteHasherTest extends TestCase {
     }
   }
 
+  @CanIgnoreReturnValue
   private class TestHasher extends AbstractByteHasher {
 
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();

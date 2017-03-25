@@ -15,7 +15,8 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.Beta;
-
+import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -27,8 +28,18 @@ import java.util.concurrent.TimeoutException;
  *
  * @author Sven Mawson
  * @since 1.0
+ * @deprecated {@link CheckedFuture} cannot properly support the chained operations that are the
+ *     primary goal of {@link ListenableFuture}. {@code CheckedFuture} also encourages users to
+ *     rethrow exceptions from one thread in another thread, producing misleading stack traces.
+ *     Additionally, it has a surprising policy about which exceptions to map and which to leave
+ *     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
+ *     use, possibly specializing them to the particular exception type they use. We recommend that
+ *     most people use {@code ListenableFuture} and perform any exception wrapping themselves. This
+ *     class is scheduled for removal from Guava in February 2018.
  */
 @Beta
+@Deprecated
+@GwtIncompatible
 public abstract class AbstractCheckedFuture<V, X extends Exception>
     extends ForwardingListenableFuture.SimpleForwardingListenableFuture<V>
     implements CheckedFuture<V, X> {
@@ -52,6 +63,7 @@ public abstract class AbstractCheckedFuture<V, X extends Exception>
    * <p>Subclasses may choose to throw, rather than return, a subclass of {@code RuntimeException}
    * to allow creating a CheckedFuture that throws both checked and unchecked exceptions.
    */
+  // We might like @ForOverride here, but some subclasses invoke this from their get() methods.
   protected abstract X mapException(Exception e);
 
   /**
@@ -66,6 +78,7 @@ public abstract class AbstractCheckedFuture<V, X extends Exception>
    * @throws X if {@link #get()} throws an {@link InterruptedException}, {@link
    *     CancellationException}, or {@link ExecutionException}
    */
+  @CanIgnoreReturnValue
   @Override
   public V checkedGet() throws X {
     try {
@@ -93,6 +106,7 @@ public abstract class AbstractCheckedFuture<V, X extends Exception>
    * @throws X if {@link #get()} throws an {@link InterruptedException}, {@link
    *     CancellationException}, or {@link ExecutionException}
    */
+  @CanIgnoreReturnValue
   @Override
   public V checkedGet(long timeout, TimeUnit unit) throws TimeoutException, X {
     try {

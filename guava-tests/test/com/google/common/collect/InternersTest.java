@@ -16,13 +16,15 @@
 
 package com.google.common.collect;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.base.Function;
+import com.google.common.collect.Interners.StrongInterner;
+import com.google.common.collect.Interners.WeakInterner;
 import com.google.common.testing.GcFinalization;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
 import java.lang.ref.WeakReference;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link Interners}.
@@ -48,6 +50,15 @@ public class InternersTest extends TestCase {
     } catch (NullPointerException ok) {}
   }
 
+  public void testStrong_builder() {
+    int concurrencyLevel = 42;
+    Interner<Object> interner = Interners.newBuilder()
+        .strong()
+        .concurrencyLevel(concurrencyLevel)
+        .build();
+    assertThat(interner).isInstanceOf(StrongInterner.class);
+  }
+
   public void testWeak_simplistic() {
     String canonical = "a";
     String not = new String("a");
@@ -63,6 +74,17 @@ public class InternersTest extends TestCase {
       pool.intern(null);
       fail();
     } catch (NullPointerException ok) {}
+  }
+
+  public void testWeak_builder() {
+    int concurrencyLevel = 42;
+    Interner<Object> interner = Interners.newBuilder()
+        .weak()
+        .concurrencyLevel(concurrencyLevel)
+        .build();
+    assertThat(interner).isInstanceOf(WeakInterner.class);
+    WeakInterner<Object> weakInterner = (WeakInterner<Object>) interner;
+    assertEquals(concurrencyLevel, weakInterner.map.concurrencyLevel);
   }
 
   public void testWeak_afterGC() throws InterruptedException {
@@ -92,5 +114,23 @@ public class InternersTest extends TestCase {
 
   public void testNullPointerExceptions() {
     new NullPointerTester().testAllPublicStaticMethods(Interners.class);
+  }
+
+  public void testConcurrencyLevel_Zero() {
+    Interners.InternerBuilder builder = Interners.newBuilder();
+    try {
+      builder.concurrencyLevel(0);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testConcurrencyLevel_Negative() {
+    Interners.InternerBuilder builder = Interners.newBuilder();
+    try {
+      builder.concurrencyLevel(-42);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
   }
 }

@@ -17,20 +17,19 @@
 package com.google.common.testing;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
 /**
- * An {@link ClusterException} is a data structure that allows for some code to
- * "throw multiple exceptions", or something close to it. The prototypical code
- * that calls for this class is presented below:
+ * An {@link ClusterException} is a data structure that allows for some code to "throw multiple
+ * exceptions", or something close to it. The prototypical code that calls for this class is
+ * presented below:
  *
  * <pre>
- * void runManyThings(List&lt;ThingToRun&gt; thingsToRun) {
+ * void runManyThings({@literal List<ThingToRun>} thingsToRun) {
  *   for (ThingToRun thingToRun : thingsToRun) {
- *     thingToRun.run(); // <-- say this may throw an exception, but you want to
+ *     thingToRun.run(); // say this may throw an exception, but you want to
  *                       // always run all thingsToRun
  *   }
  * }
@@ -39,8 +38,8 @@ import java.util.Collections;
  * <p>This is what the code would become:
  *
  * <pre>
- * void runManyThings(List&lt;ThingToRun&gt; thingsToRun) {
- *   List&lt;Exception&gt; exceptions = Lists.newArrayList();
+ * void runManyThings({@literal List<ThingToRun>} thingsToRun) {
+ *   {@literal List<Exception>} exceptions = Lists.newArrayList();
  *   for (ThingToRun thingToRun : thingsToRun) {
  *     try {
  *       thingToRun.run();
@@ -48,7 +47,7 @@ import java.util.Collections;
  *       exceptions.add(e);
  *     }
  *   }
- *   if (exceptions.size() > 0) {
+ *   if (exceptions.size() &gt; 0) {
  *     throw ClusterException.create(exceptions);
  *   }
  * }

@@ -16,7 +16,6 @@ package com.google.common.collect;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NavigableSet;
@@ -32,6 +31,10 @@ import java.util.NavigableSet;
  * which can lead to unexpected behavior. In this case, you should override {@code add(Object)} as
  * well, either providing your own implementation, or delegating to the provided {@code
  * standardAdd} method.
+ *
+ * <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ * default} methods. Instead, it inherits their default implementations. When those implementations
+ * invoke methods, they invoke methods on the {@code ForwardingSortedMultiset}.
  *
  * <p>The {@code standard} methods and any collection views they return are not guaranteed to be
  * thread-safe, even when all of the methods that they depend on are thread-safe.
@@ -51,7 +54,7 @@ public abstract class ForwardingSortedMultiset<E> extends ForwardingMultiset<E>
 
   @Override
   public NavigableSet<E> elementSet() {
-    return (NavigableSet<E>) super.elementSet();
+    return delegate().elementSet();
   }
 
   /**

@@ -23,11 +23,12 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.math.IntMath;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.util.AbstractQueue;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -86,7 +87,7 @@ import java.util.Queue;
  *     improved (and asymptotically superior) performance.
  * <li>The retrieval operations {@link #peek}, {@link #peekFirst}, {@link
  *     #peekLast}, {@link #element}, and {@link #size} are constant-time.
- * <li>The enqueing and dequeing operations ({@link #offer}, {@link #add}, and
+ * <li>The enqueuing and dequeuing operations ({@link #offer}, {@link #add}, and
  *     all the forms of {@link #poll} and {@link #remove()}) run in {@code
  *     O(log n) time}.
  * <li>The {@link #remove(Object)} and {@link #contains} operations require
@@ -100,8 +101,8 @@ import java.util.Queue;
  * @author Torbjorn Gannholm
  * @since 8.0
  */
-// TODO(kevinb): GWT compatibility
 @Beta
+@GwtCompatible
 public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
 
   /**
@@ -183,6 +184,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
      * Configures this builder to build min-max priority queues with an initial
      * expected size of {@code expectedSize}.
      */
+    @CanIgnoreReturnValue
     public Builder<B> expectedSize(int expectedSize) {
       checkArgument(expectedSize >= 0);
       this.expectedSize = expectedSize;
@@ -195,6 +197,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
      * beyond this bound, it immediately removes its greatest element (according
      * to its comparator), which might be the element that was just added.
      */
+    @CanIgnoreReturnValue
     public Builder<B> maximumSize(int maximumSize) {
       checkArgument(maximumSize > 0);
       this.maximumSize = maximumSize;
@@ -261,12 +264,14 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    *
    * @return {@code true} always
    */
+  @CanIgnoreReturnValue
   @Override
   public boolean add(E element) {
     offer(element);
     return true;
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean addAll(Collection<? extends E> newElements) {
     boolean modified = false;
@@ -283,6 +288,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    * greatest element (according to its comparator), which may be {@code
    * element} itself.
    */
+  @CanIgnoreReturnValue
   @Override
   public boolean offer(E element) {
     checkNotNull(element);
@@ -297,6 +303,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     return size <= maximumSize || pollLast() != element;
   }
 
+  @CanIgnoreReturnValue
   @Override
   public E poll() {
     return isEmpty() ? null : removeAndGet(0);
@@ -332,6 +339,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    * Removes and returns the least element of this queue, or returns {@code
    * null} if the queue is empty.
    */
+  @CanIgnoreReturnValue
   public E pollFirst() {
     return poll();
   }
@@ -341,6 +349,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    *
    * @throws NoSuchElementException if the queue is empty
    */
+  @CanIgnoreReturnValue
   public E removeFirst() {
     return remove();
   }
@@ -357,6 +366,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    * Removes and returns the greatest element of this queue, or returns {@code
    * null} if the queue is empty.
    */
+  @CanIgnoreReturnValue
   public E pollLast() {
     return isEmpty() ? null : removeAndGet(getMaxElementIndex());
   }
@@ -366,6 +376,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    *
    * @throws NoSuchElementException if the queue is empty
    */
+  @CanIgnoreReturnValue
   public E removeLast() {
     if (isEmpty()) {
       throw new NoSuchElementException();
@@ -397,6 +408,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    * only once.
    */
   @VisibleForTesting
+  @CanIgnoreReturnValue
   MoveDesc<E> removeAt(int index) {
     checkPositionIndex(index, size);
     modCount++;
@@ -406,7 +418,14 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
       return null;
     }
     E actualLastElement = elementData(size);
-    int lastElementAt = heapForIndex(size).getCorrectLastElement(actualLastElement);
+    int lastElementAt = heapForIndex(size).swapWithConceptuallyLastElement(actualLastElement);
+    if (lastElementAt == index) {
+      // 'actualLastElement' is now at 'lastElementAt', and the element that was at 'lastElementAt'
+      // is now at the end of queue. If that's the element we wanted to remove in the first place,
+      // don't try to (incorrectly) trickle it. Instead, just delete it and we're done.
+      queue[size] = null;
+      return null;
+    }
     E toTrickle = elementData(size);
     queue[size] = null;
     MoveDesc<E> changes = fillHole(index, toTrickle);
@@ -476,7 +495,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
 
   @VisibleForTesting
   static boolean isEvenLevel(int index) {
-    int oneBased = index + 1;
+    int oneBased = ~~(index + 1); // for GWT
     checkState(oneBased > 0, "negative index");
     return (oneBased & EVEN_POWERS_OF_TWO) > (oneBased & ODD_POWERS_OF_TWO);
   }
@@ -567,6 +586,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
      * Bubbles a value from {@code index} up the levels of this heap, and
      * returns the index the element ended up at.
      */
+    @CanIgnoreReturnValue
     int bubbleUpAlternatingLevels(int index, E x) {
       while (index > 2) {
         int grandParentIndex = getGrandparentIndex(index);
@@ -656,7 +676,8 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     }
 
     /**
-     * Returns the conceptually correct last element of the heap.
+     * Swap {@code actualLastElement} with the conceptually correct last element of the heap.
+     * Returns the index that {@code actualLastElement} now resides in.
      *
      * <p>Since the last element of the array is actually in the
      * middle of the sorted structure, a childless uncle node could be
@@ -664,7 +685,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
      * becomes the new parent of the uncle. In that case, we first
      * switch the last element with its uncle, before returning.
      */
-    int getCorrectLastElement(E actualLastElement) {
+    int swapWithConceptuallyLastElement(E actualLastElement) {
       int parentIndex = getParentIndex(size);
       if (parentIndex != 0) {
         int grandparentIndex = getParentIndex(parentIndex);
@@ -759,7 +780,10 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    */
   private class QueueIterator implements Iterator<E> {
     private int cursor = -1;
+    private int nextCursor = -1;
     private int expectedModCount = modCount;
+    // The same element is not allowed in both forgetMeNot and skipMe, but duplicates are allowed in
+    // either of them, up to the same multiplicity as the queue.
     private Queue<E> forgetMeNot;
     private List<E> skipMe;
     private E lastFromForgetMeNot;
@@ -768,16 +792,17 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     @Override
     public boolean hasNext() {
       checkModCount();
-      return (nextNotInSkipMe(cursor + 1) < size())
+      nextNotInSkipMe(cursor + 1);
+      return (nextCursor < size())
           || ((forgetMeNot != null) && !forgetMeNot.isEmpty());
     }
 
     @Override
     public E next() {
       checkModCount();
-      int tempCursor = nextNotInSkipMe(cursor + 1);
-      if (tempCursor < size()) {
-        cursor = tempCursor;
+      nextNotInSkipMe(cursor + 1);
+      if (nextCursor < size()) {
+        cursor = nextCursor;
         canRemove = true;
         return elementData(cursor);
       } else if (forgetMeNot != null) {
@@ -804,28 +829,35 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
             forgetMeNot = new ArrayDeque<E>();
             skipMe = new ArrayList<E>(3);
           }
-          forgetMeNot.add(moved.toTrickle);
-          skipMe.add(moved.replaced);
+          if (!foundAndRemovedExactReference(skipMe, moved.toTrickle)) {
+            forgetMeNot.add(moved.toTrickle);
+          }
+          if (!foundAndRemovedExactReference(forgetMeNot, moved.replaced)) {
+            skipMe.add(moved.replaced);
+          }
         }
         cursor--;
+        nextCursor--;
       } else { // we must have set lastFromForgetMeNot in next()
         checkState(removeExact(lastFromForgetMeNot));
         lastFromForgetMeNot = null;
       }
     }
 
-    // Finds only this exact instance, not others that are equals()
-    private boolean containsExact(Iterable<E> elements, E target) {
-      for (E element : elements) {
+    /** Returns true if an exact reference (==) was found and removed from the supplied iterable. */
+    private boolean foundAndRemovedExactReference(Iterable<E> elements, E target) {
+      for (Iterator<E> it = elements.iterator(); it.hasNext();) {
+        E element = it.next();
         if (element == target) {
+          it.remove();
           return true;
         }
       }
       return false;
     }
 
-    // Removes only this exact instance, not others that are equals()
-    boolean removeExact(Object target) {
+    /** Removes only this exact instance, not others that are equals() */
+    private boolean removeExact(Object target) {
       for (int i = 0; i < size; i++) {
         if (queue[i] == target) {
           removeAt(i);
@@ -835,23 +867,25 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
       return false;
     }
 
-    void checkModCount() {
+    private void checkModCount() {
       if (modCount != expectedModCount) {
         throw new ConcurrentModificationException();
       }
     }
 
     /**
-     * Returns the index of the first element after {@code c} that is not in
+     * Advances nextCursor to the index of the first element after {@code c} that is not in
      * {@code skipMe} and returns {@code size()} if there is no such element.
      */
-    private int nextNotInSkipMe(int c) {
-      if (skipMe != null) {
-        while (c < size() && containsExact(skipMe, elementData(c))) {
-          c++;
+    private void nextNotInSkipMe(int c) {
+      if (nextCursor < c) {
+        if (skipMe != null) {
+          while (c < size() && foundAndRemovedExactReference(skipMe, elementData(c))) {
+            c++;
+          }
         }
+        nextCursor = c;
       }
-      return c;
     }
   }
 

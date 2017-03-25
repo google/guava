@@ -14,6 +14,7 @@
 
 package com.google.common.collect;
 
+import com.google.common.annotations.GwtIncompatible;
 import javax.annotation.Nullable;
 
 /**
@@ -22,6 +23,7 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  */
 @SuppressWarnings("serial") // uses writeReplace, not default serialization
+@GwtIncompatible
 final class DescendingImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
   private final transient ImmutableSortedMultiset<E> forward;
 
@@ -56,11 +58,7 @@ final class DescendingImmutableSortedMultiset<E> extends ImmutableSortedMultiset
 
   @Override
   Entry<E> getEntry(int index) {
-    return forward
-        .entrySet()
-        .asList()
-        .reverse()
-        .get(index);
+    return forward.entrySet().asList().reverse().get(index);
   }
 
   @Override

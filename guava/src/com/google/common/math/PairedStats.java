@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.math;
@@ -24,13 +22,12 @@ import static java.lang.Double.doubleToLongBits;
 import static java.lang.Double.isNaN;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-
 import javax.annotation.Nullable;
 
 /**
@@ -41,6 +38,7 @@ import javax.annotation.Nullable;
  * @since 20.0
  */
 @Beta
+@GwtIncompatible
 public final class PairedStats implements Serializable {
 
   private final Stats xStats;
@@ -52,10 +50,11 @@ public final class PairedStats implements Serializable {
    *
    * <p>To ensure that the created instance obeys its contract, the parameters should satisfy the
    * following constraints. This is the callers responsibility and is not enforced here.
+   *
    * <ul>
-   * <li>Both {@code xStats} and {@code yStats} must have the same {@count}.
-   * <li>If that {@code count} is 1, {@code sumOfProductsOfDeltas} must be exactly 0.0.
-   * <li>If that {@code count} is more than 1, {@code sumOfProductsOfDeltas} must be finite.
+   *   <li>Both {@code xStats} and {@code yStats} must have the same {@code count}.
+   *   <li>If that {@code count} is 1, {@code sumOfProductsOfDeltas} must be exactly 0.0.
+   *   <li>If that {@code count} is more than 1, {@code sumOfProductsOfDeltas} must be finite.
    * </ul>
    */
   PairedStats(Stats xStats, Stats yStats, double sumOfProductsOfDeltas) {
@@ -88,9 +87,9 @@ public final class PairedStats implements Serializable {
   /**
    * Returns the population covariance of the values. The count must be non-zero.
    *
-   * <p>This is guaranteed to return zero if the dataset contains a single pair of finite values.
-   * It is not guaranteed to return zero when the dataset consists of the same pair of values
-   * multiple times, due to numerical errors.
+   * <p>This is guaranteed to return zero if the dataset contains a single pair of finite values. It
+   * is not guaranteed to return zero when the dataset consists of the same pair of values multiple
+   * times, due to numerical errors.
    *
    * <h3>Non-finite values</h3>
    *
@@ -231,8 +230,8 @@ public final class PairedStats implements Serializable {
   /**
    * {@inheritDoc}
    *
-   * <p><b>Note:</b> This hash code is consistent with exact equality of the calculated
-   * statistics, including the floating point values. See the note on {@link #equals} for details.
+   * <p><b>Note:</b> This hash code is consistent with exact equality of the calculated statistics,
+   * including the floating point values. See the note on {@link #equals} for details.
    */
   @Override
   public int hashCode() {
@@ -241,11 +240,18 @@ public final class PairedStats implements Serializable {
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this)
-        .add("xStats", xStats)
-        .add("yStats", yStats)
-        .add("populationCovariance", populationCovariance())
-        .toString();
+    if (count() > 0) {
+      return MoreObjects.toStringHelper(this)
+          .add("xStats", xStats)
+          .add("yStats", yStats)
+          .add("populationCovariance", populationCovariance())
+          .toString();
+    } else {
+      return MoreObjects.toStringHelper(this)
+          .add("xStats", xStats)
+          .add("yStats", yStats)
+          .toString();
+    }
   }
 
   double sumOfProductsOfDeltas() {
@@ -273,7 +279,7 @@ public final class PairedStats implements Serializable {
   // Serialization helpers
 
   /**
-   * The size of byte array representaion in bytes.
+   * The size of byte array representation in bytes.
    */
   private static final int BYTES = Stats.BYTES * 2 + Double.SIZE / Byte.SIZE;
 
@@ -300,8 +306,11 @@ public final class PairedStats implements Serializable {
    */
   public static PairedStats fromByteArray(byte[] byteArray) {
     checkNotNull(byteArray);
-    checkArgument(byteArray.length == BYTES,
-        "Expected PairedStats.BYTES = %s, got %s", BYTES, byteArray.length);
+    checkArgument(
+        byteArray.length == BYTES,
+        "Expected PairedStats.BYTES = %s, got %s",
+        BYTES,
+        byteArray.length);
     ByteBuffer buffer = ByteBuffer.wrap(byteArray).order(ByteOrder.LITTLE_ENDIAN);
     Stats xStats = Stats.readFrom(buffer);
     Stats yStats = Stats.readFrom(buffer);

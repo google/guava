@@ -19,15 +19,16 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
+import java.util.Spliterator;
+import java.util.Spliterators;
 import javax.annotation.Nullable;
 
 /**
@@ -59,17 +60,20 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
     return collection != null && collection.contains(value);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean remove(@Nullable Object key, @Nullable Object value) {
     Collection<V> collection = asMap().get(key);
     return collection != null && collection.remove(value);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean put(@Nullable K key, @Nullable V value) {
     return get(key).add(value);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean putAll(@Nullable K key, Iterable<? extends V> values) {
     checkNotNull(values);
@@ -84,6 +88,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
     }
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean putAll(Multimap<? extends K, ? extends V> multimap) {
     boolean changed = false;
@@ -93,6 +98,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
     return changed;
   }
 
+  @CanIgnoreReturnValue
   @Override
   public Collection<V> replaceValues(@Nullable K key, Iterable<? extends V> values) {
     checkNotNull(values);
@@ -128,6 +134,11 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
     public Iterator<Entry<K, V>> iterator() {
       return entryIterator();
     }
+
+    @Override
+    public Spliterator<Entry<K, V>> spliterator() {
+      return entrySpliterator();
+    }
   }
 
   @WeakOuter
@@ -144,6 +155,11 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
   }
 
   abstract Iterator<Entry<K, V>> entryIterator();
+
+  Spliterator<Entry<K, V>> entrySpliterator() {
+    return Spliterators.spliterator(
+        entryIterator(), size(), (this instanceof SetMultimap) ? Spliterator.DISTINCT : 0);
+  }
 
   private transient Set<K> keySet;
 
@@ -189,6 +205,11 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
     }
 
     @Override
+    public Spliterator<V> spliterator() {
+      return valueSpliterator();
+    }
+
+    @Override
     public int size() {
       return AbstractMultimap.this.size();
     }
@@ -206,6 +227,10 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
 
   Iterator<V> valueIterator() {
     return Maps.valueIterator(entries().iterator());
+  }
+
+  Spliterator<V> valueSpliterator() {
+    return Spliterators.spliterator(valueIterator(), size(), 0);
   }
 
   private transient Map<K, Collection<V>> asMap;

@@ -18,19 +18,17 @@ import static com.google.common.collect.BoundType.OPEN;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@code ImmutableRangeMap}.
  *
  * @author Louis Wasserman
  */
-@GwtIncompatible("NavigableMap")
+@GwtIncompatible // NavigableMap
 public class ImmutableRangeMapTest extends TestCase {
   private static final ImmutableList<Range<Integer>> RANGES;
   private static final int MIN_BOUND = 0;
@@ -87,9 +85,9 @@ public class ImmutableRangeMapTest extends TestCase {
         boolean expectRejection =
             range1.isConnected(range2) && !range1.intersection(range2).isEmpty();
         ImmutableRangeMap.Builder<Integer, Integer> builder = ImmutableRangeMap.builder();
-        builder.put(range1, 1);
+        builder.put(range1, 1).put(range2, 2);
         try {
-          builder.put(range2, 2);
+          ImmutableRangeMap<Integer, Integer> unused = builder.build();
           assertFalse(expectRejection);
         } catch (IllegalArgumentException e) {
           assertTrue(expectRejection);

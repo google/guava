@@ -17,9 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.io.Serializable;
-
 import javax.annotation.Nullable;
 
 /** An ordering that treats {@code null} as less than all other values. */

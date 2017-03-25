@@ -18,18 +18,17 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
-
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
-
 import javax.annotation.Nullable;
 
 /**
  * A semi-persistent mapping from keys to values. Cache entries are manually added using
  * {@link #get(Object, Callable)} or {@link #put(Object, Object)}, and are stored in the cache until
- * either evicted or manually invalidated.
+ * either evicted or manually invalidated. The common way to build instances is using
+ * {@link CacheBuilder}.
  *
  * <p>Implementations of this interface are expected to be thread-safe, and can be safely accessed
  * by multiple concurrent threads.
@@ -169,11 +168,6 @@ public interface Cache<K, V> {
    * <p>Iterators from the returned map are at least <i>weakly consistent</i>: they are safe for
    * concurrent use, but if the cache is modified (including by eviction) after the iterator is
    * created, it is undefined which of the changes (if any) will be reflected in that iterator.
-   *
-   * <p><b>Warning to users of Java 8+:</b> do not call any of the new <i>default methods</i> that
-   * have been newly added to {@link ConcurrentMap}! These are marked with "Since: 1.8" in the
-   * {@code ConcurrentMap} documentation. They will not function correctly and it is impossible for
-   * Guava to fix them until Guava is ready to <i>require</i> Java 8 for all users.
    */
   ConcurrentMap<K, V> asMap();
 

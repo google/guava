@@ -19,20 +19,16 @@ package com.google.common.escape;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.escape.testing.EscaperAsserts;
-
-import junit.framework.TestCase;
-
 import java.io.IOException;
-import java.util.Map;
+import junit.framework.TestCase;
 
 /**
  * @author David Beaumont
  */
 @GwtCompatible
 public class ArrayBasedUnicodeEscaperTest extends TestCase {
-  private static final Map<Character, String> NO_REPLACEMENTS =
-      ImmutableMap.of();
-  private static final Map<Character, String> SIMPLE_REPLACEMENTS =
+  private static final ImmutableMap<Character, String> NO_REPLACEMENTS = ImmutableMap.of();
+  private static final ImmutableMap<Character, String> SIMPLE_REPLACEMENTS =
       ImmutableMap.of(
           '\n', "<newline>",
           '\t', "<tab>",

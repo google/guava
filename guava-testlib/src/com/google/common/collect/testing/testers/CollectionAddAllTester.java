@@ -30,7 +30,6 @@ import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.MinimalCollection;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-
 import java.lang.reflect.Method;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
@@ -49,16 +48,15 @@ import java.util.List;
 public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddAll_supportedNothing() {
-    assertFalse("addAll(nothing) should return false",
-        collection.addAll(emptyCollection()));
+    assertFalse("addAll(nothing) should return false", collection.addAll(emptyCollection()));
     expectUnchanged();
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_ADD)
   public void testAddAll_unsupportedNothing() {
     try {
-      assertFalse("addAll(nothing) should return false or throw",
-          collection.addAll(emptyCollection()));
+      assertFalse(
+          "addAll(nothing) should return false or throw", collection.addAll(emptyCollection()));
     } catch (UnsupportedOperationException tolerated) {
     }
     expectUnchanged();
@@ -66,8 +64,8 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
 
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddAll_supportedNonePresent() {
-    assertTrue("addAll(nonePresent) should return true",
-        collection.addAll(createDisjointCollection()));
+    assertTrue(
+        "addAll(nonePresent) should return true", collection.addAll(createDisjointCollection()));
     expectAdded(e3(), e4());
   }
 
@@ -85,7 +83,8 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   @CollectionSize.Require(absent = ZERO)
   public void testAddAll_supportedSomePresent() {
-    assertTrue("addAll(somePresent) should return true",
+    assertTrue(
+        "addAll(somePresent) should return true",
         collection.addAll(MinimalCollection.of(e3(), e0())));
     assertTrue("should contain " + e3(), collection.contains(e3()));
     assertTrue("should contain " + e0(), collection.contains(e0()));
@@ -102,8 +101,7 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
     expectUnchanged();
   }
 
-  @CollectionFeature.Require({SUPPORTS_ADD,
-      FAILS_FAST_ON_CONCURRENT_MODIFICATION})
+  @CollectionFeature.Require({SUPPORTS_ADD, FAILS_FAST_ON_CONCURRENT_MODIFICATION})
   @CollectionSize.Require(absent = ZERO)
   public void testAddAllConcurrentWithIteration() {
     try {
@@ -120,19 +118,21 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
   @CollectionSize.Require(absent = ZERO)
   public void testAddAll_unsupportedAllPresent() {
     try {
-      assertFalse("addAll(allPresent) should return false or throw",
+      assertFalse(
+          "addAll(allPresent) should return false or throw",
           collection.addAll(MinimalCollection.of(e0())));
     } catch (UnsupportedOperationException tolerated) {
     }
     expectUnchanged();
   }
 
-  @CollectionFeature.Require(value = {SUPPORTS_ADD,
-      ALLOWS_NULL_VALUES}, absent = RESTRICTS_ELEMENTS)
+  @CollectionFeature.Require(
+    value = {SUPPORTS_ADD, ALLOWS_NULL_VALUES},
+    absent = RESTRICTS_ELEMENTS
+  )
   public void testAddAll_nullSupported() {
     List<E> containsNull = singletonList(null);
-    assertTrue("addAll(containsNull) should return true", collection
-        .addAll(containsNull));
+    assertTrue("addAll(containsNull) should return true", collection.addAll(containsNull));
     /*
      * We need (E) to force interpretation of null as the single element of a
      * varargs array, not the array itself
@@ -140,8 +140,7 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
     expectAdded((E) null);
   }
 
-  @CollectionFeature.Require(value = SUPPORTS_ADD,
-      absent = ALLOWS_NULL_VALUES)
+  @CollectionFeature.Require(value = SUPPORTS_ADD, absent = ALLOWS_NULL_VALUES)
   public void testAddAll_nullUnsupported() {
     List<E> containsNull = singletonList(null);
     try {
@@ -170,7 +169,7 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045147">Sun
    * bug 5045147</a> is fixed.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method getAddAllNullUnsupportedMethod() {
     return Helpers.getMethod(CollectionAddAllTester.class, "testAddAll_nullUnsupported");
   }
@@ -182,7 +181,7 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
    * what to do with <a href="http://goo.gl/qJBruX">{@code ConcurrentHashMap}
    * support for {@code entrySet().add()}</a>.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method getAddAllUnsupportedNonePresentMethod() {
     return Helpers.getMethod(CollectionAddAllTester.class, "testAddAll_unsupportedNonePresent");
   }
@@ -194,7 +193,7 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
    * what to do with <a href="http://goo.gl/qJBruX">{@code ConcurrentHashMap}
    * support for {@code entrySet().add()}</a>.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method getAddAllUnsupportedSomePresentMethod() {
     return Helpers.getMethod(CollectionAddAllTester.class, "testAddAll_unsupportedSomePresent");
   }

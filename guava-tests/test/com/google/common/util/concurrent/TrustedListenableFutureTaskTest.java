@@ -17,13 +17,11 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.Callables.returning;
+import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.TestPlatform.verifyThreadWasNotInterrupted;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-
-import junit.framework.TestCase;
-
 import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;
@@ -33,6 +31,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import junit.framework.TestCase;
 
 /**
  * Test case for {@link TrustedListenableFutureTask}.
@@ -46,7 +45,7 @@ public class TrustedListenableFutureTaskTest extends TestCase {
     task.run();
     assertTrue(task.isDone());
     assertFalse(task.isCancelled());
-    assertEquals(2, task.get().intValue());
+    assertEquals(2, getDone(task).intValue());
   }
 
   public void testCancelled() throws Exception {
@@ -57,7 +56,7 @@ public class TrustedListenableFutureTaskTest extends TestCase {
     assertTrue(task.isCancelled());
     assertFalse(task.wasInterrupted());
     try {
-      task.get();
+      getDone(task);
       fail();
     } catch (CancellationException expected) {
     }
@@ -76,14 +75,14 @@ public class TrustedListenableFutureTaskTest extends TestCase {
     assertTrue(task.isDone());
     assertFalse(task.isCancelled());
     try {
-      task.get();
+      getDone(task);
       fail();
     } catch (ExecutionException executionException) {
       assertEquals(e, executionException.getCause());
     }
   }
 
-  @GwtIncompatible("blocking wait")
+  @GwtIncompatible // blocking wait
 
   public void testCancel_interrupted() throws Exception {
     final AtomicBoolean interruptedExceptionThrown = new AtomicBoolean();
@@ -129,7 +128,7 @@ public class TrustedListenableFutureTaskTest extends TestCase {
     assertTrue(interruptedExceptionThrown.get());
   }
 
-  @GwtIncompatible("blocking wait")
+  @GwtIncompatible // blocking wait
 
   public void testRunIdempotency() throws Exception {
     final int numThreads = 10;
@@ -161,10 +160,10 @@ public class TrustedListenableFutureTaskTest extends TestCase {
     executor.shutdown();
   }
 
-  @GwtIncompatible("used only in GwtIncomaptible tests")
-  private int awaitUnchecked(CyclicBarrier barrier) {
+  @GwtIncompatible // used only in GwtIncomaptible tests
+  private void awaitUnchecked(CyclicBarrier barrier) {
     try {
-      return barrier.await();
+      barrier.await();
     } catch (Exception e) {
       throw new RuntimeException(e);
     }

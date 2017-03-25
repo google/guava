@@ -18,6 +18,11 @@ public class UnsignedIntsTest_gwt extends com.google.gwt.junit.client.GWTTestCas
 @Override public String getModuleName() {
   return "com.google.common.primitives.testModule";
 }
+public void testCheckedCast() throws Exception {
+  com.google.common.primitives.UnsignedIntsTest testCase = new com.google.common.primitives.UnsignedIntsTest();
+  testCase.testCheckedCast();
+}
+
 public void testCompare() throws Exception {
   com.google.common.primitives.UnsignedIntsTest testCase = new com.google.common.primitives.UnsignedIntsTest();
   testCase.testCompare();
@@ -96,6 +101,11 @@ public void testParseIntWithRadixLimits() throws Exception {
 public void testRemainder() throws Exception {
   com.google.common.primitives.UnsignedIntsTest testCase = new com.google.common.primitives.UnsignedIntsTest();
   testCase.testRemainder();
+}
+
+public void testSaturatedCast() throws Exception {
+  com.google.common.primitives.UnsignedIntsTest testCase = new com.google.common.primitives.UnsignedIntsTest();
+  testCase.testSaturatedCast();
 }
 
 public void testToLong() throws Exception {

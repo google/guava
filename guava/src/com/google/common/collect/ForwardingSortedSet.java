@@ -18,12 +18,10 @@ package com.google.common.collect;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
-
 import javax.annotation.Nullable;
 
 /**
@@ -32,12 +30,16 @@ import javax.annotation.Nullable;
  * backing sorted set as desired per the <a
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
- * <p><i>Warning:</i> The methods of {@code ForwardingSortedSet} forward
+ * <p><b>Warning:</b> The methods of {@code ForwardingSortedSet} forward
  * <i>indiscriminately</i> to the methods of the delegate. For example,
  * overriding {@link #add} alone <i>will not</i> change the behavior of {@link
  * #addAll}, which can lead to unexpected behavior. In this case, you should
  * override {@code addAll} as well, either providing your own implementation, or
  * delegating to the provided {@code standardAddAll} method.
+ *
+ * <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ * default} methods. Instead, it inherits their default implementations. When those implementations
+ * invoke methods, they invoke methods on the {@code ForwardingSortedSet}.
  *
  * <p>Each of the {@code standard} methods, where appropriate, uses the set's
  * comparator (or the natural ordering of the elements, if there is no

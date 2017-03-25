@@ -38,33 +38,28 @@ import com.google.common.collect.testing.features.CollectionSize;
 public class CollectionContainsTester<E> extends AbstractCollectionTester<E> {
   @CollectionSize.Require(absent = ZERO)
   public void testContains_yes() {
-    assertTrue("contains(present) should return true",
-        collection.contains(e0()));
+    assertTrue("contains(present) should return true", collection.contains(e0()));
   }
 
   public void testContains_no() {
-    assertFalse("contains(notPresent) should return false",
-        collection.contains(e3()));
+    assertFalse("contains(notPresent) should return false", collection.contains(e3()));
   }
 
   @CollectionFeature.Require(ALLOWS_NULL_QUERIES)
   public void testContains_nullNotContainedButQueriesSupported() {
-    assertFalse("contains(null) should return false",
-        collection.contains(null));
+    assertFalse("contains(null) should return false", collection.contains(null));
   }
 
   @CollectionFeature.Require(absent = ALLOWS_NULL_QUERIES)
   public void testContains_nullNotContainedAndUnsupported() {
-    expectNullMissingWhenNullUnsupported(
-        "contains(null) should return false or throw");
+    expectNullMissingWhenNullUnsupported("contains(null) should return false or throw");
   }
 
   @CollectionFeature.Require(ALLOWS_NULL_VALUES)
   @CollectionSize.Require(absent = ZERO)
   public void testContains_nonNullWhenNullContained() {
     initCollectionWithNullElement();
-    assertFalse("contains(notPresent) should return false",
-        collection.contains(e3()));
+    assertFalse("contains(notPresent) should return false", collection.contains(e3()));
   }
 
   @CollectionFeature.Require(ALLOWS_NULL_VALUES)
@@ -76,8 +71,8 @@ public class CollectionContainsTester<E> extends AbstractCollectionTester<E> {
 
   public void testContains_wrongType() {
     try {
-      assertFalse("contains(wrongType) should return false or throw",
-          collection.contains(WrongType.VALUE));
+      assertFalse(
+          "contains(wrongType) should return false or throw", collection.contains(WrongType.VALUE));
     } catch (ClassCastException tolerated) {
     }
   }

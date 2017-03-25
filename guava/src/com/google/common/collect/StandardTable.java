@@ -31,8 +31,8 @@ import com.google.common.base.Supplier;
 import com.google.common.collect.Maps.IteratorBasedAbstractMap;
 import com.google.common.collect.Maps.ViewCachingAbstractMap;
 import com.google.common.collect.Sets.ImprovedAbstractSet;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
@@ -40,7 +40,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
+import java.util.Spliterator;
+import java.util.Spliterators;
 import javax.annotation.Nullable;
 
 /**
@@ -140,6 +141,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     return map;
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V put(R rowKey, C columnKey, V value) {
     checkNotNull(rowKey);
@@ -148,6 +150,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     return getOrCreate(rowKey).put(columnKey, value);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
     if ((rowKey == null) || (columnKey == null)) {
@@ -164,6 +167,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     return value;
   }
 
+  @CanIgnoreReturnValue
   private Map<R, V> removeColumn(Object column) {
     Map<R, V> output = new LinkedHashMap<R, V>();
     Iterator<Entry<R, Map<C, V>>> iterator = backingMap.entrySet().iterator();
@@ -262,6 +266,20 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
   }
 
   @Override
+  Spliterator<Cell<R, C, V>> cellSpliterator() {
+    return CollectSpliterators.flatMap(
+        backingMap.entrySet().spliterator(),
+        (Map.Entry<R, Map<C, V>> rowEntry) ->
+            CollectSpliterators.map(
+                rowEntry.getValue().entrySet().spliterator(),
+                (Map.Entry<C, V> columnEntry) ->
+                    Tables.immutableCell(
+                        rowEntry.getKey(), columnEntry.getKey(), columnEntry.getValue())),
+        Spliterator.DISTINCT | Spliterator.SIZED,
+        size());
+  }
+
+  @Override
   public Map<C, V> row(R rowKey) {
     return new Row(rowKey);
   }
@@ -356,30 +374,42 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
 
         @Override
         public Entry<C, V> next() {
-          final Entry<C, V> entry = iterator.next();
-          return new ForwardingMapEntry<C, V>() {
-            @Override
-            protected Entry<C, V> delegate() {
-              return entry;
-            }
-
-            @Override
-            public V setValue(V value) {
-              return super.setValue(checkNotNull(value));
-            }
-
-            @Override
-            public boolean equals(Object object) {
-              // TODO(lowasser): identify why this affects GWT tests
-              return standardEquals(object);
-            }
-          };
+          return wrapEntry(iterator.next());
         }
 
         @Override
         public void remove() {
           iterator.remove();
           maintainEmptyInvariant();
+        }
+      };
+    }
+
+    @Override
+    Spliterator<Entry<C, V>> entrySpliterator() {
+      Map<C, V> map = backingRowMap();
+      if (map == null) {
+        return Spliterators.emptySpliterator();
+      }
+      return CollectSpliterators.map(map.entrySet().spliterator(), this::wrapEntry);
+    }
+
+    Entry<C, V> wrapEntry(final Entry<C, V> entry) {
+      return new ForwardingMapEntry<C, V>() {
+        @Override
+        protected Entry<C, V> delegate() {
+          return entry;
+        }
+
+        @Override
+        public V setValue(V value) {
+          return super.setValue(checkNotNull(value));
+        }
+
+        @Override
+        public boolean equals(Object object) {
+          // TODO(lowasser): identify why this affects GWT tests
+          return standardEquals(object);
         }
       };
     }
@@ -427,6 +457,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
      * Removes all {@code Column} mappings whose row key and value satisfy the
      * given predicate.
      */
+    @CanIgnoreReturnValue
     boolean removeFromColumnIf(Predicate<? super Entry<R, V>> predicate) {
       boolean changed = false;
       Iterator<Entry<R, Map<C, V>>> iterator = backingMap.entrySet().iterator();

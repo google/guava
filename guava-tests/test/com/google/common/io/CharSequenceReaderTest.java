@@ -16,10 +16,9 @@
 
 package com.google.common.io;
 
-import junit.framework.TestCase;
-
 import java.io.IOException;
 import java.nio.CharBuffer;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link CharSequenceReader}.

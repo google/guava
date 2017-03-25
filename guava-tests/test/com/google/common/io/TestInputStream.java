@@ -23,7 +23,6 @@ import static com.google.common.io.TestOption.READ_THROWS;
 import static com.google.common.io.TestOption.SKIP_THROWS;
 
 import com.google.common.collect.ImmutableSet;
-
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;

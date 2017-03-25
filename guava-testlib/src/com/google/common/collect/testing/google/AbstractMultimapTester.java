@@ -23,7 +23,6 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.testing.AbstractContainerTester;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.SampleElements;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -109,13 +108,15 @@ public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
   }
 
   protected SampleElements<K> sampleKeys() {
-    return ((TestMultimapGenerator<K, V, ? extends Multimap<K, V>>) getSubjectGenerator()
-        .getInnerGenerator()).sampleKeys();
+    return ((TestMultimapGenerator<K, V, ? extends Multimap<K, V>>)
+            getSubjectGenerator().getInnerGenerator())
+        .sampleKeys();
   }
 
   protected SampleElements<V> sampleValues() {
-    return ((TestMultimapGenerator<K, V, ? extends Multimap<K, V>>) getSubjectGenerator()
-        .getInnerGenerator()).sampleValues();
+    return ((TestMultimapGenerator<K, V, ? extends Multimap<K, V>>)
+            getSubjectGenerator().getInnerGenerator())
+        .sampleValues();
   }
 
   @Override

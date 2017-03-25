@@ -16,6 +16,7 @@
 
 package com.google.common.io;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.io.TestOption.CLOSE_THROWS;
 import static com.google.common.io.TestOption.OPEN_THROWS;
 import static com.google.common.io.TestOption.READ_THROWS;
@@ -26,9 +27,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.testing.TestLogHandler;
-
-import junit.framework.TestSuite;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -36,6 +34,8 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.stream.Stream;
+import junit.framework.TestSuite;
 
 /**
  * Tests for the default implementations of {@code CharSource} methods.
@@ -59,6 +59,8 @@ public class CharSourceTest extends IoTestCase {
 
   private static final String STRING = ASCII + I18N;
   private static final String LINES = "foo\nbar\r\nbaz\rsomething";
+  private static final ImmutableList<String> SPLIT_LINES =
+      ImmutableList.of("foo", "bar", "baz", "something");
 
   private TestCharSource source;
 
@@ -83,6 +85,21 @@ public class CharSourceTest extends IoTestCase {
 
     assertTrue(source.wasStreamClosed());
     assertEquals(STRING, writer.toString());
+  }
+
+  public void testLines() throws IOException {
+    source = new TestCharSource(LINES);
+
+    ImmutableList<String> lines;
+    try (Stream<String> linesStream = source.lines()) {
+      assertTrue(source.wasStreamOpened());
+      assertFalse(source.wasStreamClosed());
+
+      lines = linesStream.collect(toImmutableList());
+    }
+
+    assertTrue(source.wasStreamClosed());
+    assertEquals(SPLIT_LINES, lines);
   }
 
   public void testCopyTo_appendable() throws IOException {
@@ -161,6 +178,17 @@ public class CharSourceTest extends IoTestCase {
     });
     assertEquals(ImmutableList.of("foo"), list);
     assertTrue(lines.wasStreamOpened() && lines.wasStreamClosed());
+  }
+
+  public void testForEachLine() throws IOException {
+    source = new TestCharSource(LINES);
+
+    ImmutableList.Builder<String> builder = ImmutableList.builder();
+    source.forEachLine(builder::add);
+
+    assertEquals(SPLIT_LINES, builder.build());
+    assertTrue(source.wasStreamOpened());
+    assertTrue(source.wasStreamClosed());
   }
 
   public void testCopyToAppendable_doesNotCloseIfWriter() throws IOException {

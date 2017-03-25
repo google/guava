@@ -19,15 +19,11 @@ package com.google.common.collect.testing;
 import static java.util.Collections.disjoint;
 import static java.util.logging.Level.FINER;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.features.ConflictingRequirementsException;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.features.FeatureUtil;
 import com.google.common.collect.testing.features.TesterRequirements;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,6 +35,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Creates, based on your criteria, a JUnit test suite that exhaustively tests
@@ -56,6 +55,7 @@ import java.util.logging.Logger;
  *
  * @author George van den Driessche
  */
+@GwtIncompatible
 public abstract class FeatureSpecificTestSuiteBuilder<
     B extends FeatureSpecificTestSuiteBuilder<B, G>, G> {
   @SuppressWarnings("unchecked")
@@ -129,8 +129,9 @@ public abstract class FeatureSpecificTestSuiteBuilder<
   /** Configures this builder produce a TestSuite with the given name. */
   public B named(String name) {
     if (name.contains("(")) {
-      throw new IllegalArgumentException("Eclipse hides all characters after "
-          + "'('; please use '[]' or other characters instead of parentheses");
+      throw new IllegalArgumentException(
+          "Eclipse hides all characters after "
+              + "'('; please use '[]' or other characters instead of parentheses");
     }
     this.name = name;
     return self();
@@ -165,8 +166,8 @@ public abstract class FeatureSpecificTestSuiteBuilder<
     return suppressedTests;
   }
 
-  private static final Logger logger = Logger.getLogger(
-      FeatureSpecificTestSuiteBuilder.class.getName());
+  private static final Logger logger =
+      Logger.getLogger(FeatureSpecificTestSuiteBuilder.class.getName());
 
   /**
    * Creates a runnable JUnit test suite based on the criteria already given.
@@ -192,8 +193,8 @@ public abstract class FeatureSpecificTestSuiteBuilder<
 
     TestSuite suite = new TestSuite(name);
     for (Class<? extends AbstractTester> testerClass : testers) {
-      final TestSuite testerSuite = makeSuiteForTesterClass(
-          (Class<? extends AbstractTester<?>>) testerClass);
+      final TestSuite testerSuite =
+          makeSuiteForTesterClass((Class<? extends AbstractTester<?>>) testerClass);
       if (testerSuite.countTestCases() > 0) {
         suite.addTest(testerSuite);
       }
@@ -213,27 +214,23 @@ public abstract class FeatureSpecificTestSuiteBuilder<
       throw new IllegalStateException("Call named() before createTestSuite().");
     }
     if (features == null) {
-      throw new IllegalStateException(
-          "Call withFeatures() before createTestSuite().");
+      throw new IllegalStateException("Call withFeatures() before createTestSuite().");
     }
   }
 
   // Class parameters must be raw.
-  protected abstract List<Class<? extends AbstractTester>>
-      getTesters();
+  protected abstract List<Class<? extends AbstractTester>> getTesters();
 
   private boolean matches(Test test) {
     final Method method;
     try {
       method = extractMethod(test);
     } catch (IllegalArgumentException e) {
-      logger.finer(Platform.format(
-          "%s: including by default: %s", test, e.getMessage()));
+      logger.finer(Platform.format("%s: including by default: %s", test, e.getMessage()));
       return true;
     }
     if (suppressedTests.contains(method)) {
-      logger.finer(Platform.format(
-          "%s: excluding because it was explicitly suppressed.", test));
+      logger.finer(Platform.format("%s: excluding because it was explicitly suppressed.", test));
       return false;
     }
     final TesterRequirements requirements;
@@ -244,23 +241,21 @@ public abstract class FeatureSpecificTestSuiteBuilder<
     }
     if (!features.containsAll(requirements.getPresentFeatures())) {
       if (logger.isLoggable(FINER)) {
-        Set<Feature<?>> missingFeatures =
-            Helpers.copyToSet(requirements.getPresentFeatures());
+        Set<Feature<?>> missingFeatures = Helpers.copyToSet(requirements.getPresentFeatures());
         missingFeatures.removeAll(features);
-        logger.finer(Platform.format(
-            "%s: skipping because these features are absent: %s",
-           method, missingFeatures));
+        logger.finer(
+            Platform.format(
+                "%s: skipping because these features are absent: %s", method, missingFeatures));
       }
       return false;
     }
     if (intersect(features, requirements.getAbsentFeatures())) {
       if (logger.isLoggable(FINER)) {
-        Set<Feature<?>> unwantedFeatures =
-            Helpers.copyToSet(requirements.getAbsentFeatures());
+        Set<Feature<?>> unwantedFeatures = Helpers.copyToSet(requirements.getAbsentFeatures());
         unwantedFeatures.retainAll(features);
-        logger.finer(Platform.format(
-            "%s: skipping because these features are present: %s",
-            method, unwantedFeatures));
+        logger.finer(
+            Platform.format(
+                "%s: skipping because these features are present: %s", method, unwantedFeatures));
       }
       return false;
     }
@@ -279,13 +274,11 @@ public abstract class FeatureSpecificTestSuiteBuilder<
       TestCase testCase = (TestCase) test;
       return Helpers.getMethod(testCase.getClass(), testCase.getName());
     } else {
-      throw new IllegalArgumentException(
-          "unable to extract method from test: not a TestCase.");
+      throw new IllegalArgumentException("unable to extract method from test: not a TestCase.");
     }
   }
 
-  protected TestSuite makeSuiteForTesterClass(
-      Class<? extends AbstractTester<?>> testerClass) {
+  protected TestSuite makeSuiteForTesterClass(Class<? extends AbstractTester<?>> testerClass) {
     final TestSuite candidateTests = new TestSuite(testerClass);
     final TestSuite suite = filterSuite(candidateTests);
 

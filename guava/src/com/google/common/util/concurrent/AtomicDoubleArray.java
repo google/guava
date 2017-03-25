@@ -16,29 +16,33 @@ package com.google.common.util.concurrent;
 import static java.lang.Double.doubleToRawLongBits;
 import static java.lang.Double.longBitsToDouble;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.atomic.AtomicLongArray;
 
 /**
- * A {@code double} array in which elements may be updated atomically.
- * See the {@link java.util.concurrent.atomic} package specification
- * for description of the properties of atomic variables.
+ * A {@code double} array in which elements may be updated atomically. See the {@link
+ * java.util.concurrent.atomic} package specification for description of the properties of atomic
+ * variables.
  *
- * <p><a name="bitEquals">This class compares primitive {@code double}
- * values in methods such as {@link #compareAndSet} by comparing their
- * bitwise representation using {@link Double#doubleToRawLongBits},
- * which differs from both the primitive double {@code ==} operator
- * and from {@link Double#equals}, as if implemented by:
- *  <pre> {@code
+ * <p><a name="bitEquals"></a>This class compares primitive {@code double} values in methods such as
+ * {@link #compareAndSet} by comparing their bitwise representation using {@link
+ * Double#doubleToRawLongBits}, which differs from both the primitive double {@code ==} operator and
+ * from {@link Double#equals}, as if implemented by:
+ *
+ * <pre>{@code
  * static boolean bitEquals(double x, double y) {
  *   long xBits = Double.doubleToRawLongBits(x);
  *   long yBits = Double.doubleToRawLongBits(y);
  *   return xBits == yBits;
- * }}</pre>
+ * }
+ * }</pre>
  *
  * @author Doug Lea
  * @author Martin Buchholz
  * @since 11.0
  */
+@GwtIncompatible
 public class AtomicDoubleArray implements java.io.Serializable {
   private static final long serialVersionUID = 0L;
 
@@ -176,6 +180,7 @@ public class AtomicDoubleArray implements java.io.Serializable {
    * @param delta the value to add
    * @return the previous value
    */
+  @CanIgnoreReturnValue
   public final double getAndAdd(int i, double delta) {
     while (true) {
       long current = longs.get(i);
@@ -195,6 +200,7 @@ public class AtomicDoubleArray implements java.io.Serializable {
    * @param delta the value to add
    * @return the updated value
    */
+  @CanIgnoreReturnValue
   public double addAndGet(int i, double delta) {
     while (true) {
       long current = longs.get(i);

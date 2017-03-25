@@ -21,12 +21,10 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.Uninterruptibles;
-
-import junit.framework.TestCase;
-
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link Dispatcher} implementations.

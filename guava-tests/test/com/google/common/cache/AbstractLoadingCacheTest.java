@@ -18,11 +18,9 @@ package com.google.common.cache;
 
 import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
-
-import junit.framework.TestCase;
-
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link AbstractLoadingCache}.

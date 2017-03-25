@@ -19,7 +19,6 @@ package com.google.common.math;
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-
 import java.util.Random;
 
 /**
@@ -41,7 +40,7 @@ public class LessThanBenchmark {
   long[] yLongs;
 
   int[] constant;
-  
+
   private static final long NONNEGATIVE_LONG_MASK = 0x7FFFFFFFFFFFFFFFL;
 
   @BeforeExperiment

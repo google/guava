@@ -53,6 +53,11 @@ public void testEqualsAndHashCode_present() throws Exception {
   testCase.testEqualsAndHashCode_present();
 }
 
+public void testFromJavaUtil() throws Exception {
+  com.google.common.base.OptionalTest testCase = new com.google.common.base.OptionalTest();
+  testCase.testFromJavaUtil();
+}
+
 public void testFromNullable() throws Exception {
   com.google.common.base.OptionalTest testCase = new com.google.common.base.OptionalTest();
   testCase.testFromNullable();
@@ -186,6 +191,16 @@ public void testSampleCodeFine1() throws Exception {
 public void testSampleCodeFine2() throws Exception {
   com.google.common.base.OptionalTest testCase = new com.google.common.base.OptionalTest();
   testCase.testSampleCodeFine2();
+}
+
+public void testToJavaUtil_instance() throws Exception {
+  com.google.common.base.OptionalTest testCase = new com.google.common.base.OptionalTest();
+  testCase.testToJavaUtil_instance();
+}
+
+public void testToJavaUtil_static() throws Exception {
+  com.google.common.base.OptionalTest testCase = new com.google.common.base.OptionalTest();
+  testCase.testToJavaUtil_static();
 }
 
 public void testToString_absent() throws Exception {

@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import java.util.Collection;
 import java.util.List;
-
 import javax.annotation.Nullable;
 
 /**

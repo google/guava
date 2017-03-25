@@ -30,7 +30,6 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -61,7 +60,7 @@ public class MultimapRemoveEntryTester<K, V> extends AbstractMultimapTester<K, V
   }
 
   @CollectionSize.Require(absent = ZERO)
-  @MapFeature.Require({ SUPPORTS_REMOVE, ALLOWS_NULL_KEYS })
+  @MapFeature.Require({SUPPORTS_REMOVE, ALLOWS_NULL_KEYS})
   public void testRemoveNullKeyPresent() {
     initMultimapWithNullKey();
 
@@ -72,7 +71,7 @@ public class MultimapRemoveEntryTester<K, V> extends AbstractMultimapTester<K, V
   }
 
   @CollectionSize.Require(absent = ZERO)
-  @MapFeature.Require({ SUPPORTS_REMOVE, ALLOWS_NULL_VALUES })
+  @MapFeature.Require({SUPPORTS_REMOVE, ALLOWS_NULL_VALUES})
   public void testRemoveNullValuePresent() {
     initMultimapWithNullValue();
 
@@ -82,13 +81,13 @@ public class MultimapRemoveEntryTester<K, V> extends AbstractMultimapTester<K, V
     assertGet(getKeyForNullValue(), ImmutableList.<V>of());
   }
 
-  @MapFeature.Require({ SUPPORTS_REMOVE, ALLOWS_NULL_KEY_QUERIES})
+  @MapFeature.Require({SUPPORTS_REMOVE, ALLOWS_NULL_KEY_QUERIES})
   public void testRemoveNullKeyAbsent() {
     assertFalse(multimap().remove(null, v0()));
     expectUnchanged();
   }
 
-  @MapFeature.Require({ SUPPORTS_REMOVE, ALLOWS_NULL_VALUE_QUERIES})
+  @MapFeature.Require({SUPPORTS_REMOVE, ALLOWS_NULL_VALUE_QUERIES})
   public void testRemoveNullValueAbsent() {
     assertFalse(multimap().remove(k0(), null));
     expectUnchanged();

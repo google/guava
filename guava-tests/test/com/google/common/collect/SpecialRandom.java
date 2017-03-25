@@ -21,9 +21,9 @@ import java.util.Random;
 /**
  * Utility class for being able to seed a {@link Random} value with a passed
  * in seed from a benchmark parameter.
- * 
+ *
  * TODO: Remove this class once Caliper has a better way.
- * 
+ *
  * @author Nicholaus Shupe
  */
 public final class SpecialRandom extends Random {

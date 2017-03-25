@@ -18,14 +18,11 @@ import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
 
-import javax.annotation.CheckReturnValue;
-
 /**
  * This class implements the GWT serialization of {@code UnsignedLong}.
  *
  * @author Louis Wasserman
  */
-@CheckReturnValue
 public class UnsignedLong_CustomFieldSerializer {
   public static void deserialize(SerializationStreamReader reader, UnsignedLong instance) {}
 

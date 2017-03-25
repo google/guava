@@ -22,9 +22,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.hash.AbstractStreamingHashFunction.AbstractStreamingHasher;
 import com.google.common.hash.HashTestUtils.RandomHasherAction;
-
-import junit.framework.TestCase;
-
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -33,6 +30,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import junit.framework.TestCase;
 
 /**
  * Tests for AbstractStreamingHasher.
@@ -48,7 +46,7 @@ public class AbstractStreamingHasherTest extends TestCase {
     sink.putByte((byte) 7);
     sink.putBytes(new byte[] {});
     sink.putBytes(new byte[] { 8 });
-    sink.hash();
+    HashCode unused = sink.hash();
     sink.assertInvariants(8);
     sink.assertBytes(expected);
   }
@@ -56,7 +54,7 @@ public class AbstractStreamingHasherTest extends TestCase {
   public void testShort() {
     Sink sink = new Sink(4);
     sink.putShort((short) 0x0201);
-    sink.hash();
+    HashCode unused = sink.hash();
     sink.assertInvariants(2);
     sink.assertBytes(new byte[] { 1, 2, 0, 0 }); // padded with zeros
   }
@@ -64,7 +62,7 @@ public class AbstractStreamingHasherTest extends TestCase {
   public void testInt() {
     Sink sink = new Sink(4);
     sink.putInt(0x04030201);
-    sink.hash();
+    HashCode unused = sink.hash();
     sink.assertInvariants(4);
     sink.assertBytes(new byte[] { 1, 2, 3, 4 });
   }
@@ -72,7 +70,7 @@ public class AbstractStreamingHasherTest extends TestCase {
   public void testLong() {
     Sink sink = new Sink(8);
     sink.putLong(0x0807060504030201L);
-    sink.hash();
+    HashCode unused = sink.hash();
     sink.assertInvariants(8);
     sink.assertBytes(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 });
   }
@@ -80,7 +78,7 @@ public class AbstractStreamingHasherTest extends TestCase {
   public void testChar() {
     Sink sink = new Sink(4);
     sink.putChar((char) 0x0201);
-    sink.hash();
+    HashCode unused = sink.hash();
     sink.assertInvariants(2);
     sink.assertBytes(new byte[] { 1, 2, 0, 0  }); // padded with zeros
   }
@@ -103,7 +101,7 @@ public class AbstractStreamingHasherTest extends TestCase {
   public void testFloat() {
     Sink sink = new Sink(4);
     sink.putFloat(Float.intBitsToFloat(0x04030201));
-    sink.hash();
+    HashCode unused = sink.hash();
     sink.assertInvariants(4);
     sink.assertBytes(new byte[] { 1, 2, 3, 4 });
   }
@@ -111,7 +109,7 @@ public class AbstractStreamingHasherTest extends TestCase {
   public void testDouble() {
     Sink sink = new Sink(8);
     sink.putDouble(Double.longBitsToDouble(0x0807060504030201L));
-    sink.hash();
+    HashCode unused = sink.hash();
     sink.assertInvariants(8);
     sink.assertBytes(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 });
   }
@@ -168,7 +166,7 @@ public class AbstractStreamingHasherTest extends TestCase {
         hasher.putInt(intToPut);
       }
       for (Sink sink : sinks) {
-        sink.hash();
+        HashCode unused = sink.hash();
       }
 
       byte[] expected = controlSink.hash().asBytes();

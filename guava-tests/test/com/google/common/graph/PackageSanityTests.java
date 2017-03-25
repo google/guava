@@ -16,7 +16,10 @@
 
 package com.google.common.graph;
 
+import static com.google.common.truth.Truth.assertWithMessage;
+
 import com.google.common.testing.AbstractPackageSanityTests;
+import junit.framework.AssertionFailedError;
 
 /**
  * Covers basic sanity checks for the entire package.
@@ -26,31 +29,49 @@ import com.google.common.testing.AbstractPackageSanityTests;
 
 public class PackageSanityTests extends AbstractPackageSanityTests {
 
-  private static final GraphConfig CONFIG_A = Graphs.config().multigraph().expectedNodeCount(10);
-  private static final GraphConfig CONFIG_B = Graphs.config().noSelfLoops().expectedNodeCount(16);
+  private static final AbstractGraphBuilder<?> GRAPH_BUILDER_A =
+      GraphBuilder.directed().expectedNodeCount(10);
+  private static final AbstractGraphBuilder<?> GRAPH_BUILDER_B =
+      ValueGraphBuilder.directed().allowsSelfLoops(true).expectedNodeCount(16);
 
-  private static final ImmutableDirectedGraph<String, String> IMMUTABLE_DIRECTED_A =
-      ImmutableDirectedGraph.<String, String>builder().addNode("A").build();
-  private static final ImmutableDirectedGraph<String, String> IMMUTABLE_DIRECTED_B =
-      ImmutableDirectedGraph.<String, String>builder().addNode("B").build();
+  private static final ImmutableGraph<String> IMMUTABLE_GRAPH_A = graphWithNode("A");
+  private static final ImmutableGraph<String> IMMUTABLE_GRAPH_B = graphWithNode("B");
 
-  private static final ImmutableUndirectedGraph<String, String> IMMUTABLE_UNDIRECTED_A =
-      ImmutableUndirectedGraph.<String, String>builder().addNode("A").build();
-  private static final ImmutableUndirectedGraph<String, String> IMMUTABLE_UNDIRECTED_B =
-      ImmutableUndirectedGraph.<String, String>builder().addNode("B").build();
+  private static final NetworkBuilder<?, ?> NETWORK_BUILDER_A =
+      NetworkBuilder.directed().allowsParallelEdges(true).expectedNodeCount(10);
+  private static final NetworkBuilder<?, ?> NETWORK_BUILDER_B =
+      NetworkBuilder.directed().allowsSelfLoops(true).expectedNodeCount(16);
+
+  private static final ImmutableNetwork<String, String> IMMUTABLE_NETWORK_A = networkWithNode("A");
+  private static final ImmutableNetwork<String, String> IMMUTABLE_NETWORK_B = networkWithNode("B");
 
   public PackageSanityTests() {
-    setDistinctValues(GraphConfig.class, CONFIG_A, CONFIG_B);
+    setDistinctValues(AbstractGraphBuilder.class, GRAPH_BUILDER_A, GRAPH_BUILDER_B);
+    setDistinctValues(Graph.class, IMMUTABLE_GRAPH_A, IMMUTABLE_GRAPH_B);
+    setDistinctValues(NetworkBuilder.class, NETWORK_BUILDER_A, NETWORK_BUILDER_B);
+    setDistinctValues(Network.class, IMMUTABLE_NETWORK_A, IMMUTABLE_NETWORK_B);
+  }
 
-    setDistinctValues(DirectedGraph.class, IMMUTABLE_DIRECTED_A, IMMUTABLE_DIRECTED_B);
-    setDistinctValues(UndirectedGraph.class, IMMUTABLE_UNDIRECTED_A, IMMUTABLE_UNDIRECTED_B);
+  @Override
+  public void testNulls() throws Exception {
+    try {
+      super.testNulls();
+    } catch (AssertionFailedError e) {
+      assertWithMessage("Method did not throw null pointer OR element not in graph exception.")
+          .that(e.getCause().getMessage())
+          .contains(AbstractNetworkTest.ERROR_ELEMENT_NOT_IN_GRAPH);
+    }
+  }
 
-    // We override AbstractPackageSanityTests's equality testing of mutable graphs by defining
-    // testEquals() methods in IncidenceSetUndirectedGraphTest and IncidenceSetDirectedGraphTest.
-    // If we don't define testEquals(), the tool tries to automatically create non-equal, mutable
-    // graphs by passing different instances of GraphConfig into their constructors. However,
-    // the GraphConfig instances are *not* used to determine equality for mutable graphs. Therefore,
-    // the tool ends up creating 2 equal mutable instances and it causes failures.
-    // However, the tool is still checking the nullability contracts of the mutable graphs.
+  private static <N> ImmutableGraph<N> graphWithNode(N node) {
+    MutableGraph<N> graph = GraphBuilder.directed().build();
+    graph.addNode(node);
+    return ImmutableGraph.copyOf(graph);
+  }
+
+  private static <N> ImmutableNetwork<N, N> networkWithNode(N node) {
+    MutableNetwork<N, N> network = NetworkBuilder.directed().build();
+    network.addNode(node);
+    return ImmutableNetwork.copyOf(network);
   }
 }

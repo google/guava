@@ -16,40 +16,57 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Functions.constant;
+import static com.google.common.base.Functions.identity;
 import static com.google.common.base.Throwables.propagateIfInstanceOf;
 import static com.google.common.collect.Iterables.getOnlyElement;
+import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Sets.intersection;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.util.concurrent.Futures.allAsList;
+import static com.google.common.util.concurrent.Futures.catching;
+import static com.google.common.util.concurrent.Futures.catchingAsync;
+import static com.google.common.util.concurrent.Futures.dereference;
+import static com.google.common.util.concurrent.Futures.getDone;
+import static com.google.common.util.concurrent.Futures.immediateCancelledFuture;
+import static com.google.common.util.concurrent.Futures.immediateCheckedFuture;
+import static com.google.common.util.concurrent.Futures.immediateFailedCheckedFuture;
 import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
+import static com.google.common.util.concurrent.Futures.inCompletionOrder;
+import static com.google.common.util.concurrent.Futures.lazyTransform;
+import static com.google.common.util.concurrent.Futures.makeChecked;
+import static com.google.common.util.concurrent.Futures.nonCancellationPropagating;
 import static com.google.common.util.concurrent.Futures.successfulAsList;
+import static com.google.common.util.concurrent.Futures.transform;
+import static com.google.common.util.concurrent.Futures.transformAsync;
+import static com.google.common.util.concurrent.Futures.whenAllComplete;
+import static com.google.common.util.concurrent.Futures.whenAllSucceed;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.TestPlatform.clearInterrupt;
+import static com.google.common.util.concurrent.TestPlatform.getDoneFromTimeoutOverload;
 import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
+import static java.lang.Thread.currentThread;
+import static java.util.Arrays.asList;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
-import com.google.common.base.Functions;
 import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.google.common.testing.ClassSanityTester;
 import com.google.common.testing.TestLogHandler;
-
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -58,17 +75,16 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
-
 import javax.annotation.Nullable;
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link Futures}.
@@ -86,13 +102,13 @@ public class FuturesTest extends TestCase {
   private static final String DATA3 = "most data";
 
   @Override
-  protected void setUp() throws Exception {
+  public void setUp() throws Exception {
     super.setUp();
     aggregateFutureLogger.addHandler(aggregateFutureLogHandler);
   }
 
   @Override
-  protected void tearDown() throws Exception {
+  public void tearDown() throws Exception {
     /*
      * Clear interrupt for future tests.
      *
@@ -104,75 +120,85 @@ public class FuturesTest extends TestCase {
     super.tearDown();
   }
 
+  /*
+   * TODO(cpovirk): Use FutureSubject once it's part of core Truth. But be wary of using it when I'm
+   * really testing a Future implementation (e.g., in the case of immediate*Future()). But it's OK
+   * to use in the case of the majority of Futures that are AbstractFutures.
+   */
+
   public void testImmediateFuture() throws Exception {
-    ListenableFuture<String> future = Futures.immediateFuture(DATA1);
+    ListenableFuture<String> future = immediateFuture(DATA1);
 
-    // Verify that the proper object is returned without waiting
-    assertSame(DATA1, future.get(0L, TimeUnit.MILLISECONDS));
-  }
-
-  public void testMultipleImmediateFutures() throws Exception {
-    ListenableFuture<String> future1 = Futures.immediateFuture(DATA1);
-    ListenableFuture<String> future2 = Futures.immediateFuture(DATA2);
-
-    // Verify that the proper objects are returned without waiting
-    assertSame(DATA1, future1.get(0L, TimeUnit.MILLISECONDS));
-    assertSame(DATA2, future2.get(0L, TimeUnit.MILLISECONDS));
+    assertSame(DATA1, getDone(future));
+    assertSame(DATA1, getDoneFromTimeoutOverload(future));
   }
 
   public void testImmediateFailedFuture() throws Exception {
     Exception exception = new Exception();
-    ListenableFuture<String> future =
-        Futures.immediateFailedFuture(exception);
+    ListenableFuture<String> future = immediateFailedFuture(exception);
 
     try {
-      future.get(0L, TimeUnit.MILLISECONDS);
-      fail("This call was supposed to throw an ExecutionException");
+      getDone(future);
+      fail();
     } catch (ExecutionException expected) {
-      // This is good and expected
+      assertSame(exception, expected.getCause());
+    }
+
+    try {
+      getDoneFromTimeoutOverload(future);
+      fail();
+    } catch (ExecutionException expected) {
       assertSame(exception, expected.getCause());
     }
   }
 
   public void testImmediateFailedFuture_cancellationException() throws Exception {
     CancellationException exception = new CancellationException();
-    ListenableFuture<String> future =
-        Futures.immediateFailedFuture(exception);
+    ListenableFuture<String> future = immediateFailedFuture(exception);
+    assertFalse(future.isCancelled());
 
     try {
-      future.get(0L, TimeUnit.MILLISECONDS);
-      fail("This call was supposed to throw an ExecutionException");
+      getDone(future);
+      fail();
     } catch (ExecutionException expected) {
-      // This is good and expected
       assertSame(exception, expected.getCause());
-      assertFalse(future.isCancelled());
+    }
+
+    try {
+      getDoneFromTimeoutOverload(future);
+      fail();
+    } catch (ExecutionException expected) {
+      assertSame(exception, expected.getCause());
     }
   }
 
-  @GwtIncompatible("immediateCancelledFuture")
-  public void testImmediateCancelledFuture() throws Exception {
-    ListenableFuture<String> future = CallerClass1.immediateCancelledFuture();
+  public void testImmediateCancelledFutureBasic() throws Exception {
+    ListenableFuture<String> future = CallerClass1.makeImmediateCancelledFuture();
+    assertTrue(future.isCancelled());
+  }
+
+  @GwtIncompatible
+  public void testImmediateCancelledFutureStack() throws Exception {
+    ListenableFuture<String> future = CallerClass1.makeImmediateCancelledFuture();
     assertTrue(future.isCancelled());
 
     try {
       CallerClass2.get(future);
       fail();
-    } catch (CancellationException e) {
+    } catch (CancellationException expected) {
       // There should be two CancellationException chained together.  The outer one should have the
       // stack trace of where the get() call was made, and the inner should have the stack trace of
       // where the immediateCancelledFuture() call was made.
-      List<StackTraceElement> stackTrace = ImmutableList.copyOf(e.getStackTrace());
+      List<StackTraceElement> stackTrace = ImmutableList.copyOf(expected.getStackTrace());
       assertFalse(Iterables.any(stackTrace, hasClassName(CallerClass1.class)));
       assertTrue(Iterables.any(stackTrace, hasClassName(CallerClass2.class)));
 
-      assertThat(e.getCause()).isInstanceOf(CancellationException.class);
-      stackTrace = ImmutableList.copyOf(e.getCause().getStackTrace());
-      assertTrue(Iterables.any(stackTrace, hasClassName(CallerClass1.class)));
-      assertFalse(Iterables.any(stackTrace, hasClassName(CallerClass2.class)));
+      // See AbstractFutureCancellationCauseTest for how to set causes.
+      assertThat(expected.getCause()).isNull();
     }
   }
 
-  @GwtIncompatible("used only in GwtIncompatible tests")
+  @GwtIncompatible // used only in GwtIncompatible tests
   private static Predicate<StackTraceElement> hasClassName(final Class<?> clazz) {
     return new Predicate<StackTraceElement>() {
       @Override
@@ -182,69 +208,63 @@ public class FuturesTest extends TestCase {
     };
   }
 
-  @GwtIncompatible("used only in GwtIncompatible tests")
   private static final class CallerClass1 {
-
-    static ListenableFuture<String> immediateCancelledFuture() {
-      return Futures.immediateCancelledFuture();
+    static ListenableFuture<String> makeImmediateCancelledFuture() {
+      return immediateCancelledFuture();
     }
   }
 
-  @GwtIncompatible("used only in GwtIncompatible tests")
   private static final class CallerClass2 {
-
+    @CanIgnoreReturnValue
     static <V> V get(ListenableFuture<V> future) throws ExecutionException, InterruptedException {
-      return future.get();
+      return getDone(future);
     }
   }
 
   private static class MyException extends Exception {
-
   }
 
-  @GwtIncompatible("immediateCheckedFuture")
+  @GwtIncompatible // immediateCheckedFuture
   public void testImmediateCheckedFuture() throws Exception {
-    CheckedFuture<String, MyException> future = Futures.immediateCheckedFuture(
+    CheckedFuture<String, MyException> future = immediateCheckedFuture(
         DATA1);
 
     // Verify that the proper object is returned without waiting
-    assertSame(DATA1, future.get(0L, TimeUnit.MILLISECONDS));
-    assertSame(DATA1, future.checkedGet(0L, TimeUnit.MILLISECONDS));
+    assertSame(DATA1, future.get(0L, MILLISECONDS));
+    assertSame(DATA1, future.checkedGet(0L, MILLISECONDS));
   }
 
-  @GwtIncompatible("immediateCheckedFuture")
+  @GwtIncompatible // immediateCheckedFuture
   public void testMultipleImmediateCheckedFutures() throws Exception {
-    CheckedFuture<String, MyException> future1 = Futures.immediateCheckedFuture(
+    CheckedFuture<String, MyException> future1 = immediateCheckedFuture(
         DATA1);
-    CheckedFuture<String, MyException> future2 = Futures.immediateCheckedFuture(
+    CheckedFuture<String, MyException> future2 = immediateCheckedFuture(
         DATA2);
 
     // Verify that the proper objects are returned without waiting
-    assertSame(DATA1, future1.get(0L, TimeUnit.MILLISECONDS));
-    assertSame(DATA1, future1.checkedGet(0L, TimeUnit.MILLISECONDS));
-    assertSame(DATA2, future2.get(0L, TimeUnit.MILLISECONDS));
-    assertSame(DATA2, future2.checkedGet(0L, TimeUnit.MILLISECONDS));
+    assertSame(DATA1, future1.get(0L, MILLISECONDS));
+    assertSame(DATA1, future1.checkedGet(0L, MILLISECONDS));
+    assertSame(DATA2, future2.get(0L, MILLISECONDS));
+    assertSame(DATA2, future2.checkedGet(0L, MILLISECONDS));
   }
 
-  @GwtIncompatible("immediateFailedCheckedFuture")
+  @GwtIncompatible // immediateFailedCheckedFuture
   public void testImmediateFailedCheckedFuture() throws Exception {
     MyException exception = new MyException();
     CheckedFuture<String, MyException> future =
-        Futures.immediateFailedCheckedFuture(exception);
+        immediateFailedCheckedFuture(exception);
 
     try {
-      future.get(0L, TimeUnit.MILLISECONDS);
-      fail("This call was supposed to throw an ExecutionException");
+      future.get(0L, MILLISECONDS);
+      fail();
     } catch (ExecutionException expected) {
-      // This is good and expected
       assertSame(exception, expected.getCause());
     }
 
     try {
-      future.checkedGet(0L, TimeUnit.MILLISECONDS);
-      fail("This call was supposed to throw an MyException");
+      future.checkedGet(0L, MILLISECONDS);
+      fail();
     } catch (MyException expected) {
-      // This is good and expected
       assertSame(exception, expected);
     }
   }
@@ -267,14 +287,13 @@ public class FuturesTest extends TestCase {
   }
 
   public void testTransform_genericsNull() throws Exception {
-    ListenableFuture<?> nullFuture = Futures.immediateFuture(null);
-    ListenableFuture<?> transformedFuture =
-        Futures.transform(nullFuture, Functions.constant(null));
-    assertNull(transformedFuture.get());
+    ListenableFuture<?> nullFuture = immediateFuture(null);
+    ListenableFuture<?> transformedFuture = transform(nullFuture, constant(null), directExecutor());
+    assertNull(getDone(transformedFuture));
   }
 
   public void testTransform_genericsHierarchy() throws Exception {
-    ListenableFuture<FooChild> future = Futures.immediateFuture(null);
+    ListenableFuture<FooChild> future = immediateFuture(null);
     final BarChild barChild = new BarChild();
     Function<Foo, BarChild> function = new Function<Foo, BarChild>() {
       @Override
@@ -282,75 +301,121 @@ public class FuturesTest extends TestCase {
         return barChild;
       }
     };
-    Bar bar = Futures.transform(future, function).get();
+    Bar bar = getDone(transform(future, function, directExecutor()));
     assertSame(barChild, bar);
   }
 
-  public void testTransform_cancelPropagatesToInput() throws Exception {
-    SettableFuture<Foo> input = SettableFuture.create();
-    AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
-      @Override
-      public ListenableFuture<Bar> apply(Foo unused) {
-        throw new AssertionFailedError("Unexpeted call to apply.");
-      }
-    };
-    assertTrue(Futures.transform(input, function).cancel(false));
-    assertTrue(input.isCancelled());
-    assertFalse(input.wasInterrupted());
+  /*
+   * Android does not handle this stack overflow gracefully... though somehow some other
+   * stack-overflow tests work. It must depend on the exact place the error occurs.
+   */
+  @AndroidIncompatible
+  @GwtIncompatible // StackOverflowError
+  public void testTransform_StackOverflow() throws Exception {
+    {
+      /*
+       * Initialize all relevant classes before running the test, which may otherwise poison any
+       * classes it is trying to load during its stack overflow.
+       */
+      SettableFuture<Object> root = SettableFuture.create();
+      ListenableFuture<Object> unused = transform(root, identity(), directExecutor());
+      root.set("foo");
+    }
+
+    SettableFuture<Object> root = SettableFuture.create();
+    ListenableFuture<Object> output = root;
+    for (int i = 0; i < 10000; i++) {
+      output = transform(output, identity(), directExecutor());
+    }
+    try {
+      root.set("foo");
+      fail();
+    } catch (StackOverflowError expected) {
+    }
   }
 
-  public void testTransform_interruptPropagatesToInput() throws Exception {
-    SettableFuture<Foo> input = SettableFuture.create();
-    AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
+  public void testTransform_ErrorAfterCancellation() throws Exception {
+    class Transformer implements Function<Object, Object> {
+      ListenableFuture<Object> output;
+
       @Override
-      public ListenableFuture<Bar> apply(Foo unused) {
-        throw new AssertionFailedError("Unexpeted call to apply.");
+      public Object apply(Object input) {
+        output.cancel(false);
+        throw new MyError();
       }
-    };
-    assertTrue(Futures.transform(input, function).cancel(true));
-    assertTrue(input.isCancelled());
-    assertTrue(input.wasInterrupted());
+    }
+    Transformer transformer = new Transformer();
+    SettableFuture<Object> input = SettableFuture.create();
+
+    ListenableFuture<Object> output = transform(input, transformer, directExecutor());
+    transformer.output = output;
+
+    input.set("foo");
+    assertTrue(output.isCancelled());
   }
 
-  public void testTransform_cancelPropagatesToAsyncOutput() throws Exception {
-    ListenableFuture<Foo> immediate = Futures.immediateFuture(new Foo());
-    final SettableFuture<Bar> secondary = SettableFuture.create();
-    AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
+  public void testTransform_ExceptionAfterCancellation() throws Exception {
+    class Transformer implements Function<Object, Object> {
+      ListenableFuture<Object> output;
+
       @Override
-      public ListenableFuture<Bar> apply(Foo unused) {
-        return secondary;
+      public Object apply(Object input) {
+        output.cancel(false);
+        throw new MyRuntimeException();
       }
-    };
-    assertTrue(Futures.transform(immediate, function).cancel(false));
-    assertTrue(secondary.isCancelled());
-    assertFalse(secondary.wasInterrupted());
+    }
+    Transformer transformer = new Transformer();
+    SettableFuture<Object> input = SettableFuture.create();
+
+    ListenableFuture<Object> output = transform(input, transformer, directExecutor());
+    transformer.output = output;
+
+    input.set("foo");
+    assertTrue(output.isCancelled());
   }
 
-  public void testTransform_interruptPropagatesToAsyncOutput()
-      throws Exception {
-    ListenableFuture<Foo> immediate = Futures.immediateFuture(new Foo());
-    final SettableFuture<Bar> secondary = SettableFuture.create();
-    AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
-      @Override
-      public ListenableFuture<Bar> apply(Foo unused) {
-        return secondary;
-      }
-    };
-    assertTrue(Futures.transform(immediate, function).cancel(true));
-    assertTrue(secondary.isCancelled());
-    assertTrue(secondary.wasInterrupted());
+  public void testTransform_getThrowsRuntimeException() throws Exception {
+    ListenableFuture<Object> input =
+        UncheckedThrowingFuture.throwingRuntimeException(new MyRuntimeException());
+
+    ListenableFuture<Object> output = transform(input, identity(), directExecutor());
+    try {
+      getDone(output);
+      fail();
+    } catch (ExecutionException expected) {
+      assertThat(expected.getCause()).isInstanceOf(MyRuntimeException.class);
+    }
   }
 
-  public void testTransform_inputCancelButNotInterruptPropagatesToOutput() throws Exception {
-    SettableFuture<String> f1 = SettableFuture.create();
-    ListenableFuture<Object> f2 = Futures.transform(f1, Functions.identity());
-    f1.cancel(true);
-    assertTrue(f2.isCancelled());
-    /*
-     * We might like to propagate interruption, too, but it's not clear that it matters. For now, we
-     * test for the behavior that we have today.
-     */
-    assertFalse(((AbstractFuture<?>) f2).wasInterrupted());
+  public void testTransform_getThrowsError() throws Exception {
+    ListenableFuture<Object> input = UncheckedThrowingFuture.throwingError(new MyError());
+
+    ListenableFuture<Object> output = transform(input, identity(), directExecutor());
+    try {
+      getDone(output);
+      fail();
+    } catch (ExecutionException expected) {
+      assertThat(expected.getCause()).isInstanceOf(MyError.class);
+    }
+  }
+
+  public void testTransform_listenerThrowsError() throws Exception {
+    SettableFuture<Object> input = SettableFuture.create();
+    ListenableFuture<Object> output = transform(input, identity(), directExecutor());
+
+    output.addListener(
+        new Runnable() {
+          @Override
+          public void run() {
+            throw new MyError();
+          }
+        },
+        directExecutor());
+    try {
+      input.set("foo");
+      fail();
+    } catch (MyError expected) {
+    }
   }
 
   public void testTransformAsync_cancelPropagatesToInput() throws Exception {
@@ -361,7 +426,7 @@ public class FuturesTest extends TestCase {
         throw new AssertionFailedError("Unexpeted call to apply.");
       }
     };
-    assertTrue(Futures.transformAsync(input, function).cancel(false));
+    assertTrue(transformAsync(input, function, directExecutor()).cancel(false));
     assertTrue(input.isCancelled());
     assertFalse(input.wasInterrupted());
   }
@@ -374,12 +439,12 @@ public class FuturesTest extends TestCase {
         throw new AssertionFailedError("Unexpeted call to apply.");
       }
     };
-    assertTrue(Futures.transformAsync(input, function).cancel(true));
+    assertTrue(transformAsync(input, function, directExecutor()).cancel(true));
     assertTrue(input.isCancelled());
     assertTrue(input.wasInterrupted());
   }
 
-  @GwtIncompatible("threads")
+  @GwtIncompatible // threads
 
   public void testTransformAsync_interruptPropagatesToTransformingThread() throws Exception {
     SettableFuture<String> input = SettableFuture.create();
@@ -401,7 +466,7 @@ public class FuturesTest extends TestCase {
     };
 
     ListenableFuture<String> futureResult =
-        Futures.transformAsync(input, function, newSingleThreadExecutor());
+        transformAsync(input, function, newSingleThreadExecutor());
 
     input.set("value");
     inFunction.await();
@@ -418,7 +483,7 @@ public class FuturesTest extends TestCase {
   }
 
   public void testTransformAsync_cancelPropagatesToAsyncOutput() throws Exception {
-    ListenableFuture<Foo> immediate = Futures.immediateFuture(new Foo());
+    ListenableFuture<Foo> immediate = immediateFuture(new Foo());
     final SettableFuture<Bar> secondary = SettableFuture.create();
     AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
       @Override
@@ -426,14 +491,14 @@ public class FuturesTest extends TestCase {
         return secondary;
       }
     };
-    assertTrue(Futures.transformAsync(immediate, function).cancel(false));
+    assertTrue(transformAsync(immediate, function, directExecutor()).cancel(false));
     assertTrue(secondary.isCancelled());
     assertFalse(secondary.wasInterrupted());
   }
 
   public void testTransformAsync_interruptPropagatesToAsyncOutput()
       throws Exception {
-    ListenableFuture<Foo> immediate = Futures.immediateFuture(new Foo());
+    ListenableFuture<Foo> immediate = immediateFuture(new Foo());
     final SettableFuture<Bar> secondary = SettableFuture.create();
     AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
       @Override
@@ -441,7 +506,7 @@ public class FuturesTest extends TestCase {
         return secondary;
       }
     };
-    assertTrue(Futures.transformAsync(immediate, function).cancel(true));
+    assertTrue(transformAsync(immediate, function, directExecutor()).cancel(true));
     assertTrue(secondary.isCancelled());
     assertTrue(secondary.wasInterrupted());
   }
@@ -456,7 +521,7 @@ public class FuturesTest extends TestCase {
             return secondary;
           }
         };
-    ListenableFuture<Bar> f2 = Futures.transformAsync(f1, function);
+    ListenableFuture<Bar> f2 = transformAsync(f1, function, directExecutor());
     f1.cancel(true);
     assertTrue(f2.isCancelled());
     /*
@@ -466,14 +531,141 @@ public class FuturesTest extends TestCase {
     assertFalse(((AbstractFuture<?>) f2).wasInterrupted());
   }
 
+  /*
+   * Android does not handle this stack overflow gracefully... though somehow some other
+   * stack-overflow tests work. It must depend on the exact place the error occurs.
+   */
+  @AndroidIncompatible
+  @GwtIncompatible // StackOverflowError
+  public void testTransformAsync_StackOverflow() throws Exception {
+    {
+      /*
+       * Initialize all relevant classes before running the test, which may otherwise poison any
+       * classes it is trying to load during its stack overflow.
+       */
+      SettableFuture<Object> root = SettableFuture.create();
+      ListenableFuture<Object> unused = transformAsync(root, asyncIdentity(), directExecutor());
+      root.set("foo");
+    }
+
+    SettableFuture<Object> root = SettableFuture.create();
+    ListenableFuture<Object> output = root;
+    for (int i = 0; i < 10000; i++) {
+      output = transformAsync(output, asyncIdentity(), directExecutor());
+    }
+    try {
+      root.set("foo");
+      fail();
+    } catch (StackOverflowError expected) {
+    }
+  }
+
+  public void testTransformAsync_ErrorAfterCancellation() throws Exception {
+    class Transformer implements AsyncFunction<Object, Object> {
+      ListenableFuture<Object> output;
+
+      @Override
+      public ListenableFuture<Object> apply(Object input) {
+        output.cancel(false);
+        throw new MyError();
+      }
+    }
+    Transformer transformer = new Transformer();
+    SettableFuture<Object> input = SettableFuture.create();
+
+    ListenableFuture<Object> output = transformAsync(input, transformer, directExecutor());
+    transformer.output = output;
+
+    input.set("foo");
+    assertTrue(output.isCancelled());
+  }
+
+  public void testTransformAsync_ExceptionAfterCancellation() throws Exception {
+    class Transformer implements AsyncFunction<Object, Object> {
+      ListenableFuture<Object> output;
+
+      @Override
+      public ListenableFuture<Object> apply(Object input) {
+        output.cancel(false);
+        throw new MyRuntimeException();
+      }
+    }
+    Transformer transformer = new Transformer();
+    SettableFuture<Object> input = SettableFuture.create();
+
+    ListenableFuture<Object> output = transformAsync(input, transformer, directExecutor());
+    transformer.output = output;
+
+    input.set("foo");
+    assertTrue(output.isCancelled());
+  }
+
+  public void testTransformAsync_getThrowsRuntimeException() throws Exception {
+    ListenableFuture<Object> input =
+        UncheckedThrowingFuture.throwingRuntimeException(new MyRuntimeException());
+
+    ListenableFuture<Object> output = transformAsync(input, asyncIdentity(), directExecutor());
+    try {
+      getDone(output);
+      fail();
+    } catch (ExecutionException expected) {
+      assertThat(expected.getCause()).isInstanceOf(MyRuntimeException.class);
+    }
+  }
+
+  public void testTransformAsync_getThrowsError() throws Exception {
+    ListenableFuture<Object> input = UncheckedThrowingFuture.throwingError(new MyError());
+
+    ListenableFuture<Object> output = transformAsync(input, asyncIdentity(), directExecutor());
+    try {
+      getDone(output);
+      fail();
+    } catch (ExecutionException expected) {
+      assertThat(expected.getCause()).isInstanceOf(MyError.class);
+    }
+  }
+
+  public void testTransformAsync_listenerThrowsError() throws Exception {
+    SettableFuture<Object> input = SettableFuture.create();
+    ListenableFuture<Object> output = transformAsync(input, asyncIdentity(), directExecutor());
+
+    output.addListener(
+        new Runnable() {
+          @Override
+          public void run() {
+            throw new MyError();
+          }
+        },
+        directExecutor());
+    try {
+      input.set("foo");
+      fail();
+    } catch (MyError expected) {
+    }
+  }
+
   public void testTransform_rejectionPropagatesToOutput()
       throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
-    ListenableFuture<String> transformed =
-        Futures.transform(input, Functions.toStringFunction(), REJECTING_EXECUTOR);
+    Function<Foo, Foo> identity = identity();
+    ListenableFuture<Foo> transformed = transform(input, identity, REJECTING_EXECUTOR);
     input.set(new Foo());
     try {
-      transformed.get(5, TimeUnit.SECONDS);
+      getDone(transformed);
+      fail();
+    } catch (ExecutionException expected) {
+      assertThat(expected.getCause()).isInstanceOf(RejectedExecutionException.class);
+    }
+  }
+
+  public void testTransformAsync_rejectionPropagatesToOutput() throws Exception {
+    SettableFuture<Foo> input = SettableFuture.create();
+    AsyncFunction<Foo, Foo> asyncIdentity = asyncIdentity();
+    ListenableFuture<Foo> transformed =
+        transformAsync(input, asyncIdentity, REJECTING_EXECUTOR);
+    input.set(new Foo());
+    try {
+      getDone(transformed);
       fail();
     } catch (ExecutionException expected) {
       assertThat(expected.getCause()).isInstanceOf(RejectedExecutionException.class);
@@ -501,32 +693,33 @@ public class FuturesTest extends TestCase {
     // Since holder.value is 2, applying 4 should yield 6.
     assertEquals(6, adder.apply(4).intValue());
 
-    ListenableFuture<Integer> immediateFuture = Futures.immediateFuture(4);
-    Future<Integer> transformedFuture = Futures.transform(immediateFuture, adder);
+    ListenableFuture<Integer> immediateFuture = immediateFuture(4);
+    Future<Integer> transformedFuture = transform(immediateFuture, adder, directExecutor());
 
     // The composed future also yields 6.
-    assertEquals(6, transformedFuture.get().intValue());
+    assertEquals(6, getDone(transformedFuture).intValue());
 
     // Repeated calls yield the same value even though the function's behavior
     // changes
     holder.value = 3;
-    assertEquals(6, transformedFuture.get().intValue());
+    assertEquals(6, getDone(transformedFuture).intValue());
     assertEquals(7, adder.apply(4).intValue());
 
     // Once more, with feeling.
     holder.value = 4;
-    assertEquals(6, transformedFuture.get().intValue());
+    assertEquals(6, getDone(transformedFuture).intValue());
     assertEquals(8, adder.apply(4).intValue());
 
     // Memoized get also retains the value.
-    assertEquals(6, transformedFuture.get(1000, TimeUnit.SECONDS).intValue());
+    assertEquals(6, getDoneFromTimeoutOverload(transformedFuture).intValue());
 
     // Unsurprisingly, recomposing the future will return an updated value.
-    assertEquals(8, Futures.transform(immediateFuture, adder).get().intValue());
+    assertEquals(8, getDone(transform(immediateFuture, adder, directExecutor())).intValue());
 
     // Repeating, with the timeout version
-    assertEquals(8, Futures.transform(immediateFuture, adder).get(
-        1000, TimeUnit.SECONDS).intValue());
+    assertEquals(
+        8,
+        getDoneFromTimeoutOverload(transform(immediateFuture, adder, directExecutor())).intValue());
   }
 
   static class MyError extends Error {
@@ -541,7 +734,7 @@ public class FuturesTest extends TestCase {
    * Test that the function is invoked only once, even if it throws an exception. Also, test that
    * that function's result is wrapped in an ExecutionException.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public void testTransformExceptionRemainsMemoized() throws Throwable {
     // We need to test with two input futures since ExecutionList.execute
     // doesn't catch Errors and we cannot depend on the order that our
@@ -549,13 +742,13 @@ public class FuturesTest extends TestCase {
     // could prevent our second transformations from running).
     SettableFuture<Integer> exceptionInput = SettableFuture.create();
     ListenableFuture<Integer> exceptionComposedFuture =
-        Futures.transform(exceptionInput, newOneTimeExceptionThrower());
+        transform(exceptionInput, newOneTimeExceptionThrower(), directExecutor());
     exceptionInput.set(0);
     runGetIdempotencyTest(exceptionComposedFuture, MyRuntimeException.class);
 
     SettableFuture<Integer> errorInput = SettableFuture.create();
     ListenableFuture<Integer> errorComposedFuture =
-        Futures.transform(errorInput, newOneTimeErrorThrower());
+        transform(errorInput, newOneTimeErrorThrower(), directExecutor());
     errorInput.set(0);
 
     runGetIdempotencyTest(errorComposedFuture, MyError.class);
@@ -565,19 +758,21 @@ public class FuturesTest extends TestCase {
      * slightly different in that case.
      */
     exceptionComposedFuture =
-        Futures.transform(exceptionInput, newOneTimeExceptionThrower());
+        transform(exceptionInput, newOneTimeExceptionThrower(), directExecutor());
     runGetIdempotencyTest(exceptionComposedFuture, MyRuntimeException.class);
 
-    runGetIdempotencyTest(Futures.transform(errorInput, newOneTimeErrorThrower()), MyError.class);
+    runGetIdempotencyTest(
+        transform(errorInput, newOneTimeErrorThrower(), directExecutor()), MyError.class);
     runGetIdempotencyTest(errorComposedFuture, MyError.class);
   }
 
-  @GwtIncompatible("reflection")
-  private static void runGetIdempotencyTest(Future<Integer> transformedFuture,
-      Class<? extends Throwable> expectedExceptionClass) throws Throwable {
+  @GwtIncompatible // reflection
+  private static void runGetIdempotencyTest(
+      Future<Integer> transformedFuture, Class<? extends Throwable> expectedExceptionClass)
+      throws Throwable {
     for (int i = 0; i < 5; i++) {
       try {
-        transformedFuture.get();
+        getDone(transformedFuture);
         fail();
       } catch (ExecutionException expected) {
         if (!expectedExceptionClass.isInstance(expected.getCause())) {
@@ -587,7 +782,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("used only in GwtIncompatible tests")
+  @GwtIncompatible // used only in GwtIncompatible tests
   private static Function<Integer, Integer> newOneTimeExceptionThrower() {
     return new Function<Integer, Integer>() {
       int calls = 0;
@@ -602,7 +797,7 @@ public class FuturesTest extends TestCase {
     };
   }
 
-  @GwtIncompatible("used only in GwtIncompatible tests")
+  @GwtIncompatible // used only in GwtIncompatible tests
   private static Function<Integer, Integer> newOneTimeErrorThrower() {
     return new Function<Integer, Integer>() {
       int calls = 0;
@@ -640,28 +835,28 @@ public class FuturesTest extends TestCase {
 
     assertFalse(spy.wasExecuted);
 
-    ListenableFuture<Object> future = Futures.transform(
-        Futures.immediateFuture(value),
-        Functions.identity(), spy);
+    ListenableFuture<Object> future = transform(
+        immediateFuture(value),
+        identity(), spy);
 
-    assertSame(value, future.get());
+    assertSame(value, getDone(future));
     assertTrue(spy.wasExecuted);
   }
 
-  @GwtIncompatible("lazyTransform")
+  @GwtIncompatible // lazyTransform
   public void testLazyTransform() throws Exception {
     FunctionSpy<Object, String> spy =
-        new FunctionSpy<Object, String>(Functions.constant("bar"));
-    Future<String> input = Futures.immediateFuture("foo");
-    Future<String> transformed = Futures.lazyTransform(input, spy);
+        new FunctionSpy<Object, String>(constant("bar"));
+    Future<String> input = immediateFuture("foo");
+    Future<String> transformed = lazyTransform(input, spy);
     spy.verifyCallCount(0);
-    assertEquals("bar", transformed.get());
+    assertEquals("bar", getDone(transformed));
     spy.verifyCallCount(1);
-    assertEquals("bar", transformed.get());
+    assertEquals("bar", getDone(transformed));
     spy.verifyCallCount(2);
   }
 
-  @GwtIncompatible("lazyTransform")
+  @GwtIncompatible // lazyTransform
   public void testLazyTransform_exception() throws Exception {
     final RuntimeException exception = new RuntimeException("deliberate");
     Function<Integer, String> function = new Function<Integer, String>() {
@@ -670,15 +865,15 @@ public class FuturesTest extends TestCase {
         throw exception;
       }
     };
-    Future<String> transformed = Futures.lazyTransform(Futures.immediateFuture(1), function);
+    Future<String> transformed = lazyTransform(immediateFuture(1), function);
     try {
-      transformed.get();
+      getDone(transformed);
       fail();
     } catch (ExecutionException expected) {
       assertSame(exception, expected.getCause());
     }
     try {
-      transformed.get(1, TimeUnit.SECONDS);
+      getDoneFromTimeoutOverload(transformed);
       fail();
     } catch (ExecutionException expected) {
       assertSame(exception, expected.getCause());
@@ -712,39 +907,6 @@ public class FuturesTest extends TestCase {
     return new Function<X, V>() {
       @Override
       public V apply(X t) {
-        throw newAssertionError("Unexpected fallback", t);
-      }
-    };
-  }
-
-  private static class FutureFallbackSpy<V> implements FutureFallback<V> {
-
-    private int count;
-    private final FutureFallback<V> delegate;
-
-    public FutureFallbackSpy(FutureFallback<V> delegate) {
-      this.delegate = delegate;
-    }
-
-    @Override
-    public final ListenableFuture<V> create(Throwable t) throws Exception {
-      count++;
-      return delegate.create(t);
-    }
-
-    void verifyCallCount(int expected) {
-      assertThat(count).isEqualTo(expected);
-    }
-  }
-
-  private static <V> FutureFallbackSpy<V> spy(FutureFallback<V> delegate) {
-    return new FutureFallbackSpy<V>(delegate);
-  }
-
-  private static <V> FutureFallback<V> unexpectedFallback() {
-    return new FutureFallback<V>() {
-      @Override
-      public ListenableFuture<V> create(Throwable t) {
         throw newAssertionError("Unexpected fallback", t);
       }
     };
@@ -789,173 +951,14 @@ public class FuturesTest extends TestCase {
     return e;
   }
 
-  public void testWithFallback_inputDoesNotRaiseException() throws Exception {
-    FutureFallback<Integer> fallback = unexpectedFallback();
-    ListenableFuture<Integer> originalFuture = Futures.immediateFuture(7);
-    ListenableFuture<Integer> faultToleranteFuture = Futures.withFallback(originalFuture, fallback);
-    assertEquals(7, faultToleranteFuture.get().intValue());
-  }
-
-  public void testWithFallback_inputRaisesException() throws Exception {
-    final RuntimeException raisedException = new RuntimeException();
-    FutureFallbackSpy<Integer> fallback = spy(new FutureFallback<Integer>() {
-      @Override
-      public ListenableFuture<Integer> create(Throwable t) throws Exception {
-        assertThat(t).isSameAs(raisedException);
-        return Futures.immediateFuture(20);
-      }
-    });
-    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(raisedException);
-    ListenableFuture<Integer> faultTolerantFuture = Futures.withFallback(failingFuture, fallback);
-    assertEquals(20, faultTolerantFuture.get().intValue());
-    fallback.verifyCallCount(1);
-  }
-
-  public void testWithFallback_fallbackGeneratesRuntimeException() throws Exception {
-    RuntimeException expectedException = new RuntimeException();
-    runExpectedExceptionFallbackTest(expectedException, false);
-  }
-
-  public void testWithFallback_fallbackGeneratesCheckedException() throws Exception {
-    Exception expectedException = new Exception() {
-    };
-    runExpectedExceptionFallbackTest(expectedException, false);
-  }
-
-  public void testWithFallback_fallbackGeneratesError() throws Exception {
-    final Error error = new Error("deliberate");
-    FutureFallback<Integer> fallback = new FutureFallback<Integer>() {
-      @Override
-      public ListenableFuture<Integer> create(Throwable t) throws Exception {
-        throw error;
-      }
-    };
-    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(new RuntimeException());
-    try {
-      Futures.withFallback(failingFuture, fallback).get();
-      fail("An Exception should have been thrown!");
-    } catch (ExecutionException expected) {
-      assertSame(error, expected.getCause());
-    }
-  }
-
-  public void testWithFallback_fallbackReturnsRuntimeException() throws Exception {
-    RuntimeException expectedException = new RuntimeException();
-    runExpectedExceptionFallbackTest(expectedException, true);
-  }
-
-  public void testWithFallback_fallbackReturnsCheckedException() throws Exception {
-    Exception expectedException = new Exception() {
-    };
-    runExpectedExceptionFallbackTest(expectedException, true);
-  }
-
-  private void runExpectedExceptionFallbackTest(
-      final Exception expectedException, final boolean wrapInFuture) throws Exception {
-    FutureFallbackSpy<Integer> fallback = spy(new FutureFallback<Integer>() {
-      @Override
-      public ListenableFuture<Integer> create(Throwable t) throws Exception {
-        if (!wrapInFuture) {
-          throw expectedException;
-        } else {
-          return Futures.immediateFailedFuture(expectedException);
-        }
-      }
-    });
-
-    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(new RuntimeException());
-
-    ListenableFuture<Integer> faultToleranteFuture = Futures.withFallback(failingFuture, fallback);
-    try {
-      faultToleranteFuture.get();
-      fail("An Exception should have been thrown!");
-    } catch (ExecutionException ee) {
-      assertSame(expectedException, ee.getCause());
-    }
-    fallback.verifyCallCount(1);
-  }
-
-  public void testWithFallback_fallbackNotReady() throws Exception {
-    ListenableFuture<Integer> primary = immediateFailedFuture(new Exception());
-    final SettableFuture<Integer> secondary = SettableFuture.create();
-    FutureFallback<Integer> fallback = new FutureFallback<Integer>() {
-      @Override
-      public ListenableFuture<Integer> create(Throwable t) {
-        return secondary;
-      }
-    };
-    ListenableFuture<Integer> derived = Futures.withFallback(primary, fallback);
-    secondary.set(1);
-    assertEquals(1, (int) derived.get());
-  }
-
-  public void testWithFallback_resultInterruptedBeforeFallback() throws Exception {
-    SettableFuture<Integer> primary = SettableFuture.create();
-    FutureFallback<Integer> fallback = unexpectedFallback();
-    ListenableFuture<Integer> derived = Futures.withFallback(primary, fallback);
-    derived.cancel(true);
-    assertTrue(primary.isCancelled());
-    assertTrue(primary.wasInterrupted());
-  }
-
-  public void testWithFallback_resultCancelledBeforeFallback() throws Exception {
-    SettableFuture<Integer> primary = SettableFuture.create();
-    FutureFallback<Integer> fallback = unexpectedFallback();
-    ListenableFuture<Integer> derived = Futures.withFallback(primary, fallback);
-    derived.cancel(false);
-    assertTrue(primary.isCancelled());
-    assertFalse(primary.wasInterrupted());
-  }
-
-  @GwtIncompatible("mocks")
-  @SuppressWarnings("unchecked")
-  public void testWithFallback_resultCancelledAfterFallback() throws Exception {
-    final SettableFuture<Integer> secondary = SettableFuture.create();
-    final RuntimeException raisedException = new RuntimeException();
-    FutureFallbackSpy<Integer> fallback = spy(new FutureFallback<Integer>() {
-      @Override
-      public ListenableFuture<Integer> create(Throwable t) throws Exception {
-        assertThat(t).isSameAs(raisedException);
-        return secondary;
-      }
-    });
-
-    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(raisedException);
-
-    ListenableFuture<Integer> derived = Futures.withFallback(failingFuture, fallback);
-    derived.cancel(false);
-    assertTrue(secondary.isCancelled());
-    assertFalse(secondary.wasInterrupted());
-    fallback.verifyCallCount(1);
-  }
-
-  public void testWithFallback_nullInsteadOfFuture() throws Exception {
-    ListenableFuture<Integer> inputFuture = immediateFailedFuture(new Exception());
-    ListenableFuture<?> chainedFuture =
-        Futures.withFallback(inputFuture, new FutureFallback<Integer>() {
-          @Override
-          public ListenableFuture<Integer> create(Throwable t) {
-            return null;
-          }
-        });
-    try {
-      chainedFuture.get();
-      fail();
-    } catch (ExecutionException expected) {
-      NullPointerException cause = (NullPointerException) expected.getCause();
-      assertThat(cause).hasMessage("FutureFallback.create returned null instead of a Future. "
-          + "Did you mean to return immediateFuture(null)?");
-    }
-  }
-
   // catchingAsync tests cloned from the old withFallback tests:
 
   public void testCatchingAsync_inputDoesNotRaiseException() throws Exception {
     AsyncFunction<Throwable, Integer> fallback = unexpectedAsyncFunction();
-    ListenableFuture<Integer> originalFuture = Futures.immediateFuture(7);
-    ListenableFuture<Integer> faultToleranteFuture =
-        Futures.catchingAsync(originalFuture, Throwable.class, fallback);
-    assertEquals(7, faultToleranteFuture.get().intValue());
+    ListenableFuture<Integer> originalFuture = immediateFuture(7);
+    ListenableFuture<Integer> faultTolerantFuture =
+        catchingAsync(originalFuture, Throwable.class, fallback, directExecutor());
+    assertEquals(7, getDone(faultTolerantFuture).intValue());
   }
 
   public void testCatchingAsync_inputRaisesException() throws Exception {
@@ -964,13 +967,13 @@ public class FuturesTest extends TestCase {
       @Override
       public ListenableFuture<Integer> apply(Throwable t) throws Exception {
         assertThat(t).isSameAs(raisedException);
-        return Futures.immediateFuture(20);
+        return immediateFuture(20);
       }
     });
-    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(raisedException);
+    ListenableFuture<Integer> failingFuture = immediateFailedFuture(raisedException);
     ListenableFuture<Integer> faultTolerantFuture =
-        Futures.catchingAsync(failingFuture, Throwable.class, fallback);
-    assertEquals(20, faultTolerantFuture.get().intValue());
+        catchingAsync(failingFuture, Throwable.class, fallback, directExecutor());
+    assertEquals(20, getDone(faultTolerantFuture).intValue());
     fallback.verifyCallCount(1);
   }
 
@@ -993,10 +996,10 @@ public class FuturesTest extends TestCase {
         throw error;
       }
     };
-    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(new RuntimeException());
+    ListenableFuture<Integer> failingFuture = immediateFailedFuture(new RuntimeException());
     try {
-      Futures.catchingAsync(failingFuture, Throwable.class, fallback).get();
-      fail("An Exception should have been thrown!");
+      getDone(catchingAsync(failingFuture, Throwable.class, fallback, directExecutor()));
+      fail();
     } catch (ExecutionException expected) {
       assertSame(error, expected.getCause());
     }
@@ -1021,20 +1024,20 @@ public class FuturesTest extends TestCase {
         if (!wrapInFuture) {
           throw expectedException;
         } else {
-          return Futures.immediateFailedFuture(expectedException);
+          return immediateFailedFuture(expectedException);
         }
       }
     });
 
-    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(new RuntimeException());
+    ListenableFuture<Integer> failingFuture = immediateFailedFuture(new RuntimeException());
 
-    ListenableFuture<Integer> faultToleranteFuture =
-        Futures.catchingAsync(failingFuture, Throwable.class, fallback);
+    ListenableFuture<Integer> faultTolerantFuture =
+        catchingAsync(failingFuture, Throwable.class, fallback, directExecutor());
     try {
-      faultToleranteFuture.get();
-      fail("An Exception should have been thrown!");
-    } catch (ExecutionException ee) {
-      assertSame(expectedException, ee.getCause());
+      getDone(faultTolerantFuture);
+      fail();
+    } catch (ExecutionException expected) {
+      assertSame(expectedException, expected.getCause());
     }
     fallback.verifyCallCount(1);
   }
@@ -1048,15 +1051,17 @@ public class FuturesTest extends TestCase {
         return secondary;
       }
     };
-    ListenableFuture<Integer> derived = Futures.catchingAsync(primary, Throwable.class, fallback);
+    ListenableFuture<Integer> derived =
+        catchingAsync(primary, Throwable.class, fallback, directExecutor());
     secondary.set(1);
-    assertEquals(1, (int) derived.get());
+    assertEquals(1, (int) getDone(derived));
   }
 
   public void testCatchingAsync_resultInterruptedBeforeFallback() throws Exception {
     SettableFuture<Integer> primary = SettableFuture.create();
     AsyncFunction<Throwable, Integer> fallback = unexpectedAsyncFunction();
-    ListenableFuture<Integer> derived = Futures.catchingAsync(primary, Throwable.class, fallback);
+    ListenableFuture<Integer> derived =
+        catchingAsync(primary, Throwable.class, fallback, directExecutor());
     derived.cancel(true);
     assertTrue(primary.isCancelled());
     assertTrue(primary.wasInterrupted());
@@ -1065,13 +1070,15 @@ public class FuturesTest extends TestCase {
   public void testCatchingAsync_resultCancelledBeforeFallback() throws Exception {
     SettableFuture<Integer> primary = SettableFuture.create();
     AsyncFunction<Throwable, Integer> fallback = unexpectedAsyncFunction();
-    ListenableFuture<Integer> derived = Futures.catchingAsync(primary, Throwable.class, fallback);
+    ListenableFuture<Integer> derived =
+        catchingAsync(primary, Throwable.class, fallback, directExecutor());
     derived.cancel(false);
     assertTrue(primary.isCancelled());
     assertFalse(primary.wasInterrupted());
   }
 
-  @GwtIncompatible("mocks")
+  @GwtIncompatible // mocks
+  // TODO(cpovirk): eliminate use of mocks
   @SuppressWarnings("unchecked")
   public void testCatchingAsync_resultCancelledAfterFallback() throws Exception {
     final SettableFuture<Integer> secondary = SettableFuture.create();
@@ -1084,10 +1091,10 @@ public class FuturesTest extends TestCase {
       }
     });
 
-    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(raisedException);
+    ListenableFuture<Integer> failingFuture = immediateFailedFuture(raisedException);
 
     ListenableFuture<Integer> derived =
-        Futures.catchingAsync(failingFuture, Throwable.class, fallback);
+        catchingAsync(failingFuture, Throwable.class, fallback, directExecutor());
     derived.cancel(false);
     assertTrue(secondary.isCancelled());
     assertFalse(secondary.wasInterrupted());
@@ -1096,16 +1103,20 @@ public class FuturesTest extends TestCase {
 
   public void testCatchingAsync_nullInsteadOfFuture() throws Exception {
     ListenableFuture<Integer> inputFuture = immediateFailedFuture(new Exception());
-    ListenableFuture<?> chainedFuture = Futures.catchingAsync(inputFuture, Throwable.class,
-        new AsyncFunction<Throwable, Integer>() {
-          @Override
-          @SuppressWarnings("AsyncFunctionReturnsNull")
-          public ListenableFuture<Integer> apply(Throwable t) {
-            return null;
-          }
-        });
+    ListenableFuture<?> chainedFuture =
+        catchingAsync(
+            inputFuture,
+            Throwable.class,
+            new AsyncFunction<Throwable, Integer>() {
+              @Override
+              @SuppressWarnings("AsyncFunctionReturnsNull")
+              public ListenableFuture<Integer> apply(Throwable t) {
+                return null;
+              }
+            },
+            directExecutor());
     try {
-      chainedFuture.get();
+      getDone(chainedFuture);
       fail();
     } catch (ExecutionException expected) {
       NullPointerException cause = (NullPointerException) expected.getCause();
@@ -1114,7 +1125,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("threads")
+  @GwtIncompatible // threads
 
   public void testCatchingAsync_interruptPropagatesToTransformingThread() throws Exception {
     SettableFuture<String> input = SettableFuture.create();
@@ -1136,7 +1147,7 @@ public class FuturesTest extends TestCase {
     };
 
     ListenableFuture<String> futureResult =
-        Futures.catchingAsync(input, Exception.class, function, newSingleThreadExecutor());
+        catchingAsync(input, Exception.class, function, newSingleThreadExecutor());
 
     input.setException(new Exception());
     inFunction.await();
@@ -1156,10 +1167,10 @@ public class FuturesTest extends TestCase {
 
   public void testCatching_inputDoesNotRaiseException() throws Exception {
     Function<Throwable, Integer> fallback = unexpectedFunction();
-    ListenableFuture<Integer> originalFuture = Futures.immediateFuture(7);
-    ListenableFuture<Integer> faultToleranteFuture =
-        Futures.catching(originalFuture, Throwable.class, fallback);
-    assertEquals(7, faultToleranteFuture.get().intValue());
+    ListenableFuture<Integer> originalFuture = immediateFuture(7);
+    ListenableFuture<Integer> faultTolerantFuture =
+        catching(originalFuture, Throwable.class, fallback, directExecutor());
+    assertEquals(7, getDone(faultTolerantFuture).intValue());
   }
 
   public void testCatching_inputRaisesException() throws Exception {
@@ -1171,10 +1182,10 @@ public class FuturesTest extends TestCase {
         return 20;
       }
     });
-    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(raisedException);
+    ListenableFuture<Integer> failingFuture = immediateFailedFuture(raisedException);
     ListenableFuture<Integer> faultTolerantFuture =
-        Futures.catching(failingFuture, Throwable.class, fallback);
-    assertEquals(20, faultTolerantFuture.get().intValue());
+        catching(failingFuture, Throwable.class, fallback, directExecutor());
+    assertEquals(20, getDone(faultTolerantFuture).intValue());
     fallback.verifyCallCount(1);
   }
 
@@ -1196,10 +1207,10 @@ public class FuturesTest extends TestCase {
         throw error;
       }
     };
-    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(new RuntimeException());
+    ListenableFuture<Integer> failingFuture = immediateFailedFuture(new RuntimeException());
     try {
-      Futures.catching(failingFuture, Throwable.class, fallback).get();
-      fail("An Exception should have been thrown!");
+      getDone(catching(failingFuture, Throwable.class, fallback, directExecutor()));
+      fail();
     } catch (ExecutionException expected) {
       assertSame(error, expected.getCause());
     }
@@ -1219,15 +1230,15 @@ public class FuturesTest extends TestCase {
       }
     });
 
-    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(new RuntimeException());
+    ListenableFuture<Integer> failingFuture = immediateFailedFuture(new RuntimeException());
 
-    ListenableFuture<Integer> faultToleranteFuture =
-        Futures.catching(failingFuture, Throwable.class, fallback);
+    ListenableFuture<Integer> faultTolerantFuture =
+        catching(failingFuture, Throwable.class, fallback, directExecutor());
     try {
-      faultToleranteFuture.get();
-      fail("An Exception should have been thrown!");
-    } catch (ExecutionException ee) {
-      assertSame(expectedException, ee.getCause());
+      getDone(faultTolerantFuture);
+      fail();
+    } catch (ExecutionException expected) {
+      assertSame(expectedException, expected.getCause());
     }
     fallback.verifyCallCount(1);
   }
@@ -1237,7 +1248,8 @@ public class FuturesTest extends TestCase {
   public void testCatching_resultInterruptedBeforeFallback() throws Exception {
     SettableFuture<Integer> primary = SettableFuture.create();
     Function<Throwable, Integer> fallback = unexpectedFunction();
-    ListenableFuture<Integer> derived = Futures.catching(primary, Throwable.class, fallback);
+    ListenableFuture<Integer> derived =
+        catching(primary, Throwable.class, fallback, directExecutor());
     derived.cancel(true);
     assertTrue(primary.isCancelled());
     assertTrue(primary.wasInterrupted());
@@ -1246,7 +1258,8 @@ public class FuturesTest extends TestCase {
   public void testCatching_resultCancelledBeforeFallback() throws Exception {
     SettableFuture<Integer> primary = SettableFuture.create();
     Function<Throwable, Integer> fallback = unexpectedFunction();
-    ListenableFuture<Integer> derived = Futures.catching(primary, Throwable.class, fallback);
+    ListenableFuture<Integer> derived =
+        catching(primary, Throwable.class, fallback, directExecutor());
     derived.cancel(false);
     assertTrue(primary.isCancelled());
     assertFalse(primary.wasInterrupted());
@@ -1262,30 +1275,134 @@ public class FuturesTest extends TestCase {
     Function<Throwable, Integer> fallback = functionReturningOne();
     ListenableFuture<Integer> originalFuture = immediateFailedFuture(new IOException());
     ListenableFuture<Integer> faultTolerantFuture =
-        Futures.catching(originalFuture, Throwable.class, fallback);
-    assertEquals(1, (int) faultTolerantFuture.get());
+        catching(originalFuture, Throwable.class, fallback, directExecutor());
+    assertEquals(1, (int) getDone(faultTolerantFuture));
   }
 
-  @GwtIncompatible("non-Throwable exceptionType")
+  @GwtIncompatible // non-Throwable exceptionType
   public void testCatching_customTypeMatch() throws Exception {
     Function<IOException, Integer> fallback = functionReturningOne();
     ListenableFuture<Integer> originalFuture = immediateFailedFuture(new FileNotFoundException());
     ListenableFuture<Integer> faultTolerantFuture =
-        Futures.catching(originalFuture, IOException.class, fallback);
-    assertEquals(1, (int) faultTolerantFuture.get());
+        catching(originalFuture, IOException.class, fallback, directExecutor());
+    assertEquals(1, (int) getDone(faultTolerantFuture));
   }
 
-  @GwtIncompatible("non-Throwable exceptionType")
+  @GwtIncompatible // non-Throwable exceptionType
   public void testCatching_customTypeNoMatch() throws Exception {
     Function<IOException, Integer> fallback = functionReturningOne();
     ListenableFuture<Integer> originalFuture = immediateFailedFuture(new RuntimeException());
     ListenableFuture<Integer> faultTolerantFuture =
-        Futures.catching(originalFuture, IOException.class, fallback);
+        catching(originalFuture, IOException.class, fallback, directExecutor());
     try {
-      faultTolerantFuture.get();
+      getDone(faultTolerantFuture);
       fail();
     } catch (ExecutionException expected) {
       assertThat(expected.getCause()).isInstanceOf(RuntimeException.class);
+    }
+  }
+
+  @GwtIncompatible // StackOverflowError
+  public void testCatching_StackOverflow() throws Exception {
+    {
+      /*
+       * Initialize all relevant classes before running the test, which may otherwise poison any
+       * classes it is trying to load during its stack overflow.
+       */
+      SettableFuture<Object> root = SettableFuture.create();
+      ListenableFuture<Object> unused =
+          catching(root, MyException.class, identity(), directExecutor());
+      root.setException(new MyException());
+    }
+
+    SettableFuture<Object> root = SettableFuture.create();
+    ListenableFuture<Object> output = root;
+    for (int i = 0; i < 10000; i++) {
+      output = catching(output, MyException.class, identity(), directExecutor());
+    }
+    try {
+      root.setException(new MyException());
+      fail();
+    } catch (StackOverflowError expected) {
+    }
+  }
+
+  public void testCatching_ErrorAfterCancellation() throws Exception {
+    class Fallback implements Function<Throwable, Object> {
+      ListenableFuture<Object> output;
+
+      @Override
+      public Object apply(Throwable input) {
+        output.cancel(false);
+        throw new MyError();
+      }
+    }
+    Fallback fallback = new Fallback();
+    SettableFuture<Object> input = SettableFuture.create();
+
+    ListenableFuture<Object> output = catching(input, Throwable.class, fallback, directExecutor());
+    fallback.output = output;
+
+    input.setException(new MyException());
+    assertTrue(output.isCancelled());
+  }
+
+  public void testCatching_ExceptionAfterCancellation() throws Exception {
+    class Fallback implements Function<Throwable, Object> {
+      ListenableFuture<Object> output;
+
+      @Override
+      public Object apply(Throwable input) {
+        output.cancel(false);
+        throw new MyRuntimeException();
+      }
+    }
+    Fallback fallback = new Fallback();
+    SettableFuture<Object> input = SettableFuture.create();
+
+    ListenableFuture<Object> output = catching(input, Throwable.class, fallback, directExecutor());
+    fallback.output = output;
+
+    input.setException(new MyException());
+    assertTrue(output.isCancelled());
+  }
+
+  public void testCatching_getThrowsRuntimeException() throws Exception {
+    ListenableFuture<Object> input =
+        UncheckedThrowingFuture.throwingRuntimeException(new MyRuntimeException());
+
+    // We'd catch only MyRuntimeException.class here, but then the test won't compile under GWT.
+    ListenableFuture<Object> output =
+        catching(input, Throwable.class, identity(), directExecutor());
+    assertThat(getDone(output)).isInstanceOf(MyRuntimeException.class);
+  }
+
+  public void testCatching_getThrowsError() throws Exception {
+    ListenableFuture<Object> input = UncheckedThrowingFuture.throwingError(new MyError());
+
+    // We'd catch only MyError.class here, but then the test won't compile under GWT.
+    ListenableFuture<Object> output =
+        catching(input, Throwable.class, identity(), directExecutor());
+    assertThat(getDone(output)).isInstanceOf(MyError.class);
+  }
+
+  public void testCatching_listenerThrowsError() throws Exception {
+    SettableFuture<Object> input = SettableFuture.create();
+    ListenableFuture<Object> output =
+        catching(input, Throwable.class, identity(), directExecutor());
+
+    output.addListener(
+        new Runnable() {
+          @Override
+          public void run() {
+            throw new MyError();
+          }
+        },
+        directExecutor());
+    try {
+      input.setException(new MyException());
+      fail();
+    } catch (MyError expected) {
     }
   }
 
@@ -1293,40 +1410,163 @@ public class FuturesTest extends TestCase {
     AsyncFunction<Throwable, Integer> fallback = asyncFunctionReturningOne();
     ListenableFuture<Integer> originalFuture = immediateFailedFuture(new IOException());
     ListenableFuture<Integer> faultTolerantFuture =
-        Futures.catchingAsync(originalFuture, Throwable.class, fallback);
-    assertEquals(1, (int) faultTolerantFuture.get());
+        catchingAsync(originalFuture, Throwable.class, fallback, directExecutor());
+    assertEquals(1, (int) getDone(faultTolerantFuture));
   }
 
-  @GwtIncompatible("non-Throwable exceptionType")
+  @GwtIncompatible // non-Throwable exceptionType
   public void testCatchingAsync_customTypeMatch() throws Exception {
     AsyncFunction<IOException, Integer> fallback = asyncFunctionReturningOne();
     ListenableFuture<Integer> originalFuture = immediateFailedFuture(new FileNotFoundException());
     ListenableFuture<Integer> faultTolerantFuture =
-        Futures.catchingAsync(originalFuture, IOException.class, fallback);
-    assertEquals(1, (int) faultTolerantFuture.get());
+        catchingAsync(originalFuture, IOException.class, fallback, directExecutor());
+    assertEquals(1, (int) getDone(faultTolerantFuture));
   }
 
-  @GwtIncompatible("non-Throwable exceptionType")
+  @GwtIncompatible // non-Throwable exceptionType
   public void testCatchingAsync_customTypeNoMatch() throws Exception {
     AsyncFunction<IOException, Integer> fallback = asyncFunctionReturningOne();
     ListenableFuture<Integer> originalFuture = immediateFailedFuture(new RuntimeException());
     ListenableFuture<Integer> faultTolerantFuture =
-        Futures.catchingAsync(originalFuture, IOException.class, fallback);
+        catchingAsync(originalFuture, IOException.class, fallback, directExecutor());
     try {
-      faultTolerantFuture.get();
+      getDone(faultTolerantFuture);
       fail();
     } catch (ExecutionException expected) {
       assertThat(expected.getCause()).isInstanceOf(RuntimeException.class);
     }
   }
 
+  @GwtIncompatible // StackOverflowError
+  public void testCatchingAsync_StackOverflow() throws Exception {
+    {
+      /*
+       * Initialize all relevant classes before running the test, which may otherwise poison any
+       * classes it is trying to load during its stack overflow.
+       */
+      SettableFuture<Object> root = SettableFuture.create();
+      ListenableFuture<Object> unused =
+          catchingAsync(root, MyException.class, asyncIdentity(), directExecutor());
+      root.setException(new MyException());
+    }
+
+    SettableFuture<Object> root = SettableFuture.create();
+    ListenableFuture<Object> output = root;
+    for (int i = 0; i < 10000; i++) {
+      output = catchingAsync(output, MyException.class, asyncIdentity(), directExecutor());
+    }
+    try {
+      root.setException(new MyException());
+      fail();
+    } catch (StackOverflowError expected) {
+    }
+  }
+
+  public void testCatchingAsync_ErrorAfterCancellation() throws Exception {
+    class Fallback implements AsyncFunction<Throwable, Object> {
+      ListenableFuture<Object> output;
+
+      @Override
+      public ListenableFuture<Object> apply(Throwable input) {
+        output.cancel(false);
+        throw new MyError();
+      }
+    }
+    Fallback fallback = new Fallback();
+    SettableFuture<Object> input = SettableFuture.create();
+
+    ListenableFuture<Object> output =
+        catchingAsync(input, Throwable.class, fallback, directExecutor());
+    fallback.output = output;
+
+    input.setException(new MyException());
+    assertTrue(output.isCancelled());
+  }
+
+  public void testCatchingAsync_ExceptionAfterCancellation() throws Exception {
+    class Fallback implements AsyncFunction<Throwable, Object> {
+      ListenableFuture<Object> output;
+
+      @Override
+      public ListenableFuture<Object> apply(Throwable input) {
+        output.cancel(false);
+        throw new MyRuntimeException();
+      }
+    }
+    Fallback fallback = new Fallback();
+    SettableFuture<Object> input = SettableFuture.create();
+
+    ListenableFuture<Object> output =
+        catchingAsync(input, Throwable.class, fallback, directExecutor());
+    fallback.output = output;
+
+    input.setException(new MyException());
+    assertTrue(output.isCancelled());
+  }
+
+  public void testCatchingAsync_getThrowsRuntimeException() throws Exception {
+    ListenableFuture<Object> input =
+        UncheckedThrowingFuture.throwingRuntimeException(new MyRuntimeException());
+
+    // We'd catch only MyRuntimeException.class here, but then the test won't compile under GWT.
+    ListenableFuture<Object> output =
+        catchingAsync(input, Throwable.class, asyncIdentity(), directExecutor());
+    assertThat(getDone(output)).isInstanceOf(MyRuntimeException.class);
+  }
+
+  public void testCatchingAsync_getThrowsError() throws Exception {
+    ListenableFuture<Object> input = UncheckedThrowingFuture.throwingError(new MyError());
+
+    // We'd catch only MyError.class here, but then the test won't compile under GWT.
+    ListenableFuture<Object> output =
+        catchingAsync(input, Throwable.class, asyncIdentity(), directExecutor());
+    assertThat(getDone(output)).isInstanceOf(MyError.class);
+  }
+
+  public void testCatchingAsync_listenerThrowsError() throws Exception {
+    SettableFuture<Object> input = SettableFuture.create();
+    ListenableFuture<Object> output =
+        catchingAsync(input, Throwable.class, asyncIdentity(), directExecutor());
+
+    output.addListener(
+        new Runnable() {
+          @Override
+          public void run() {
+            throw new MyError();
+          }
+        },
+        directExecutor());
+    try {
+      input.setException(new MyException());
+      fail();
+    } catch (MyError expected) {
+    }
+  }
+
+  public void testCatching_rejectionPropagatesToOutput() throws Exception {
+    SettableFuture<String> input = SettableFuture.create();
+    ListenableFuture<String> transformed =
+        catching(input, Throwable.class, constant("foo"), REJECTING_EXECUTOR);
+    input.setException(new Exception());
+    try {
+      getDone(transformed);
+      fail();
+    } catch (ExecutionException expected) {
+      assertThat(expected.getCause()).isInstanceOf(RejectedExecutionException.class);
+    }
+  }
+
   public void testCatchingAsync_rejectionPropagatesToOutput() throws Exception {
     SettableFuture<String> input = SettableFuture.create();
     ListenableFuture<String> transformed =
-        Futures.catching(input, Throwable.class, Functions.toStringFunction(), REJECTING_EXECUTOR);
+        catchingAsync(
+            input,
+            Throwable.class,
+            constantAsyncFunction(immediateFuture("foo")),
+            REJECTING_EXECUTOR);
     input.setException(new Exception());
     try {
-      transformed.get(5, TimeUnit.SECONDS);
+      getDone(transformed);
       fail();
     } catch (ExecutionException expected) {
       assertThat(expected.getCause()).isInstanceOf(RejectedExecutionException.class);
@@ -1361,15 +1601,15 @@ public class FuturesTest extends TestCase {
     };
   }
 
-  public void testTransform_genericsWildcard_AsyncFunction() throws Exception {
+  public void testTransformAsync_genericsWildcard_AsyncFunction() throws Exception {
     ListenableFuture<?> nullFuture = immediateFuture(null);
     ListenableFuture<?> chainedFuture =
-        Futures.transform(nullFuture, constantAsyncFunction(nullFuture));
-    assertNull(chainedFuture.get());
+        transformAsync(nullFuture, constantAsyncFunction(nullFuture), directExecutor());
+    assertNull(getDone(chainedFuture));
   }
 
-  public void testTransform_genericsHierarchy_AsyncFunction() throws Exception {
-    ListenableFuture<FooChild> future = Futures.immediateFuture(null);
+  public void testTransformAsync_genericsHierarchy_AsyncFunction() throws Exception {
+    ListenableFuture<FooChild> future = immediateFuture(null);
     final BarChild barChild = new BarChild();
     AsyncFunction<Foo, BarChild> function =
         new AsyncFunction<Foo, BarChild>() {
@@ -1381,24 +1621,24 @@ public class FuturesTest extends TestCase {
             return future;
           }
         };
-    Bar bar = Futures.transform(future, function).get();
+    Bar bar = getDone(transformAsync(future, function, directExecutor()));
     assertSame(barChild, bar);
   }
 
-  @GwtIncompatible("get() timeout")
-  public void testTransform_asyncFunction_timeout()
+  @GwtIncompatible // get() timeout
+  public void testTransformAsync_asyncFunction_timeout()
       throws InterruptedException, ExecutionException {
-    AsyncFunction<String, Integer> function = constantAsyncFunction(Futures.immediateFuture(1));
-    ListenableFuture<Integer> future = Futures.transform(
-        SettableFuture.<String>create(), function);
+    AsyncFunction<String, Integer> function = constantAsyncFunction(immediateFuture(1));
+    ListenableFuture<Integer> future =
+        transformAsync(SettableFuture.<String>create(), function, directExecutor());
     try {
-      future.get(1, TimeUnit.MILLISECONDS);
+      future.get(1, MILLISECONDS);
       fail();
     } catch (TimeoutException expected) {
     }
   }
 
-  public void testTransform_asyncFunction_error() throws InterruptedException {
+  public void testTransformAsync_asyncFunction_error() throws InterruptedException {
     final Error error = new Error("deliberate");
     AsyncFunction<String, Integer> function = new AsyncFunction<String, Integer>() {
       @Override
@@ -1407,22 +1647,23 @@ public class FuturesTest extends TestCase {
       }
     };
     SettableFuture<String> inputFuture = SettableFuture.create();
-    ListenableFuture<Integer> outputFuture = Futures.transform(inputFuture, function);
+    ListenableFuture<Integer> outputFuture =
+        transformAsync(inputFuture, function, directExecutor());
     inputFuture.set("value");
     try {
-      outputFuture.get();
-      fail("should have thrown error");
-    } catch (ExecutionException e) {
-      assertSame(error, e.getCause());
+      getDone(outputFuture);
+      fail();
+    } catch (ExecutionException expected) {
+      assertSame(error, expected.getCause());
     }
   }
 
-  public void testTransform_asyncFunction_nullInsteadOfFuture() throws Exception {
+  public void testTransformAsync_asyncFunction_nullInsteadOfFuture() throws Exception {
     ListenableFuture<?> inputFuture = immediateFuture("a");
     ListenableFuture<?> chainedFuture =
-        Futures.transform(inputFuture, constantAsyncFunction(null));
+        transformAsync(inputFuture, constantAsyncFunction(null), directExecutor());
     try {
-      chainedFuture.get();
+      getDone(chainedFuture);
       fail();
     } catch (ExecutionException expected) {
       NullPointerException cause = (NullPointerException) expected.getCause();
@@ -1431,9 +1672,9 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("threads")
+  @GwtIncompatible // threads
 
-  public void testTransform_asyncFunction_cancelledWhileApplyingFunction()
+  public void testTransformAsync_asyncFunction_cancelledWhileApplyingFunction()
       throws InterruptedException, ExecutionException {
     final CountDownLatch inFunction = new CountDownLatch(1);
     final CountDownLatch functionDone = new CountDownLatch(1);
@@ -1447,8 +1688,8 @@ public class FuturesTest extends TestCase {
       }
     };
     SettableFuture<String> inputFuture = SettableFuture.create();
-    ListenableFuture<Integer> future = Futures.transform(
-        inputFuture, function, Executors.newSingleThreadExecutor());
+    ListenableFuture<Integer> future = transformAsync(
+        inputFuture, function, newSingleThreadExecutor());
     inputFuture.set("value");
     inFunction.await();
     future.cancel(false);
@@ -1465,21 +1706,21 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("threads")
+  @GwtIncompatible // threads
 
-  public void testTransform_asyncFunction_cancelledBeforeApplyingFunction()
+  public void testTransformAsync_asyncFunction_cancelledBeforeApplyingFunction()
       throws InterruptedException {
     final AtomicBoolean functionCalled = new AtomicBoolean();
     AsyncFunction<String, Integer> function = new AsyncFunction<String, Integer>() {
       @Override
       public ListenableFuture<Integer> apply(String input) throws Exception {
         functionCalled.set(true);
-        return Futures.immediateFuture(1);
+        return immediateFuture(1);
       }
     };
     SettableFuture<String> inputFuture = SettableFuture.create();
     ExecutorService executor = newSingleThreadExecutor();
-    ListenableFuture<Integer> future = Futures.transform(
+    ListenableFuture<Integer> future = transformAsync(
         inputFuture, function, executor);
 
     // Pause the executor.
@@ -1497,157 +1738,53 @@ public class FuturesTest extends TestCase {
 
     // Unpause the executor.
     beforeFunction.countDown();
-    executor.awaitTermination(5, TimeUnit.SECONDS);
+    executor.awaitTermination(5, SECONDS);
 
     assertFalse(functionCalled.get());
   }
 
-  public void testTransformAsync_genericsWildcard_AsyncFunction() throws Exception {
-    ListenableFuture<?> nullFuture = immediateFuture(null);
-    ListenableFuture<?> chainedFuture =
-        Futures.transformAsync(nullFuture, constantAsyncFunction(nullFuture));
-    assertNull(chainedFuture.get());
-  }
-
-  public void testTransformAsync_genericsHierarchy_AsyncFunction() throws Exception {
-    ListenableFuture<FooChild> future = Futures.immediateFuture(null);
-    final BarChild barChild = new BarChild();
-    AsyncFunction<Foo, BarChild> function =
-        new AsyncFunction<Foo, BarChild>() {
-          @Override
-          public AbstractFuture<BarChild> apply(Foo unused) {
-            AbstractFuture<BarChild> future = new AbstractFuture<BarChild>() {
-            };
-            future.set(barChild);
-            return future;
-          }
-        };
-    Bar bar = Futures.transformAsync(future, function).get();
-    assertSame(barChild, bar);
-  }
-
-  @GwtIncompatible("get() timeout")
-  public void testTransformAsync_asyncFunction_timeout()
-      throws InterruptedException, ExecutionException {
-    AsyncFunction<String, Integer> function = constantAsyncFunction(Futures.immediateFuture(1));
-    ListenableFuture<Integer> future = Futures.transformAsync(
-        SettableFuture.<String>create(), function);
-    try {
-      future.get(1, TimeUnit.MILLISECONDS);
-      fail();
-    } catch (TimeoutException expected) {
-    }
-  }
-
-  public void testTransformAsync_asyncFunction_error() throws InterruptedException {
-    final Error error = new Error("deliberate");
-    AsyncFunction<String, Integer> function = new AsyncFunction<String, Integer>() {
-      @Override
-      public ListenableFuture<Integer> apply(String input) {
-        throw error;
-      }
-    };
-    SettableFuture<String> inputFuture = SettableFuture.create();
-    ListenableFuture<Integer> outputFuture = Futures.transformAsync(inputFuture, function);
-    inputFuture.set("value");
-    try {
-      outputFuture.get();
-      fail("should have thrown error");
-    } catch (ExecutionException e) {
-      assertSame(error, e.getCause());
-    }
-  }
-
-  public void testTransformAsync_asyncFunction_nullInsteadOfFuture() throws Exception {
-    ListenableFuture<?> inputFuture = immediateFuture("a");
-    ListenableFuture<?> chainedFuture =
-        Futures.transformAsync(inputFuture, constantAsyncFunction(null));
-    try {
-      chainedFuture.get();
-      fail();
-    } catch (ExecutionException expected) {
-      NullPointerException cause = (NullPointerException) expected.getCause();
-      assertThat(cause).hasMessage("AsyncFunction.apply returned null instead of a Future. "
-          + "Did you mean to return immediateFuture(null)?");
-    }
-  }
-
-  @GwtIncompatible("threads")
-
-  public void testTransformAsync_asyncFunction_cancelledWhileApplyingFunction()
-      throws InterruptedException, ExecutionException {
-    final CountDownLatch inFunction = new CountDownLatch(1);
-    final CountDownLatch functionDone = new CountDownLatch(1);
-    final SettableFuture<Integer> resultFuture = SettableFuture.create();
-    AsyncFunction<String, Integer> function = new AsyncFunction<String, Integer>() {
-      @Override
-      public ListenableFuture<Integer> apply(String input) throws Exception {
-        inFunction.countDown();
-        functionDone.await();
-        return resultFuture;
-      }
-    };
-    SettableFuture<String> inputFuture = SettableFuture.create();
-    ListenableFuture<Integer> future = Futures.transformAsync(
-        inputFuture, function, Executors.newSingleThreadExecutor());
-    inputFuture.set("value");
-    inFunction.await();
-    future.cancel(false);
-    functionDone.countDown();
-    try {
-      future.get();
-      fail();
-    } catch (CancellationException expected) {
-    }
-    try {
-      resultFuture.get();
-      fail();
-    } catch (CancellationException expected) {
-    }
-  }
-
   public void testDereference_genericsWildcard() throws Exception {
-    ListenableFuture<?> inner = Futures.immediateFuture(null);
+    ListenableFuture<?> inner = immediateFuture(null);
     ListenableFuture<ListenableFuture<?>> outer =
         Futures.<ListenableFuture<?>>immediateFuture(inner);
-    ListenableFuture<?> dereferenced = Futures.dereference(outer);
-    assertNull(dereferenced.get());
+    ListenableFuture<?> dereferenced = dereference(outer);
+    assertNull(getDone(dereferenced));
   }
 
   public void testDereference_genericsHierarchy() throws Exception {
     FooChild fooChild = new FooChild();
-    ListenableFuture<FooChild> inner = Futures.immediateFuture(fooChild);
-    ListenableFuture<ListenableFuture<FooChild>> outer = Futures.immediateFuture(inner);
+    ListenableFuture<FooChild> inner = immediateFuture(fooChild);
+    ListenableFuture<ListenableFuture<FooChild>> outer = immediateFuture(inner);
     ListenableFuture<Foo> dereferenced = Futures.<Foo>dereference(outer);
-    assertSame(fooChild, dereferenced.get());
+    assertSame(fooChild, getDone(dereferenced));
   }
 
   public void testDereference_resultCancelsOuter() throws Exception {
     ListenableFuture<ListenableFuture<Foo>> outer = SettableFuture.create();
-    ListenableFuture<Foo> dereferenced = Futures.dereference(outer);
+    ListenableFuture<Foo> dereferenced = dereference(outer);
     dereferenced.cancel(true);
     assertTrue(outer.isCancelled());
   }
 
   public void testDereference_resultCancelsInner() throws Exception {
     ListenableFuture<Foo> inner = SettableFuture.create();
-    ListenableFuture<ListenableFuture<Foo>> outer = Futures.immediateFuture(inner);
-    ListenableFuture<Foo> dereferenced = Futures.dereference(outer);
+    ListenableFuture<ListenableFuture<Foo>> outer = immediateFuture(inner);
+    ListenableFuture<Foo> dereferenced = dereference(outer);
     dereferenced.cancel(true);
     assertTrue(inner.isCancelled());
   }
 
   public void testDereference_outerCancelsResult() throws Exception {
     ListenableFuture<ListenableFuture<Foo>> outer = SettableFuture.create();
-    ListenableFuture<Foo> dereferenced = Futures.dereference(outer);
+    ListenableFuture<Foo> dereferenced = dereference(outer);
     outer.cancel(true);
     assertTrue(dereferenced.isCancelled());
   }
 
   public void testDereference_innerCancelsResult() throws Exception {
     ListenableFuture<Foo> inner = SettableFuture.create();
-    ListenableFuture<ListenableFuture<Foo>> outer = Futures.immediateFuture(inner);
-    ListenableFuture<Foo> dereferenced = Futures.dereference(outer);
+    ListenableFuture<ListenableFuture<Foo>> outer = immediateFuture(inner);
+    ListenableFuture<Foo> dereferenced = dereference(outer);
     inner.cancel(true);
     assertTrue(dereferenced.isCancelled());
   }
@@ -1691,7 +1828,7 @@ public class FuturesTest extends TestCase {
     SettableFuture<String> future3 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
         ListenableFuture<List<String>> compound =
-        Futures.allAsList(future1, future2, future3);
+        allAsList(future1, future2, future3);
 
     // Attach a listener
     SingleCallListener listener = new SingleCallListener();
@@ -1705,22 +1842,19 @@ public class FuturesTest extends TestCase {
     assertFalse(compound.isDone());
     listener.expectCall();
     future3.set(DATA3);
-    assertTrue(compound.isDone());
     assertTrue(listener.wasCalled());
 
-    List<String> results = compound.get();
+    List<String> results = getDone(compound);
     assertThat(results).containsExactly(DATA1, DATA2, DATA3).inOrder();
   }
 
-  @GwtIncompatible("allAsList")
   public void testAllAsList_emptyList() throws Exception {
     SingleCallListener listener = new SingleCallListener();
     listener.expectCall();
     List<ListenableFuture<String>> futures = ImmutableList.of();
-    ListenableFuture<List<String>> compound = Futures.allAsList(futures);
+    ListenableFuture<List<String>> compound = allAsList(futures);
     compound.addListener(listener, directExecutor());
-    assertTrue(compound.isDone());
-    assertTrue(compound.get().isEmpty());
+    assertThat(getDone(compound)).isEmpty();
     assertTrue(listener.wasCalled());
   }
 
@@ -1728,10 +1862,9 @@ public class FuturesTest extends TestCase {
     SingleCallListener listener = new SingleCallListener();
     listener.expectCall();
     @SuppressWarnings("unchecked") // array is never modified
-        ListenableFuture<List<String>> compound = Futures.allAsList();
+        ListenableFuture<List<String>> compound = allAsList();
     compound.addListener(listener, directExecutor());
-    assertTrue(compound.isDone());
-    assertTrue(compound.get().isEmpty());
+    assertThat(getDone(compound)).isEmpty();
     assertTrue(listener.wasCalled());
   }
 
@@ -1741,7 +1874,7 @@ public class FuturesTest extends TestCase {
     SettableFuture<String> future2 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
         ListenableFuture<List<String>> compound =
-        Futures.allAsList(future1, future2);
+        allAsList(future1, future2);
     compound.addListener(listener, directExecutor());
 
     listener.expectCall();
@@ -1752,55 +1885,52 @@ public class FuturesTest extends TestCase {
     future2.set("result2");
 
     try {
-      compound.get();
-      fail("Expected exception not thrown");
-    } catch (ExecutionException e) {
-      assertSame(exception, e.getCause());
+      getDone(compound);
+      fail();
+    } catch (ExecutionException expected) {
+      assertSame(exception, expected.getCause());
     }
   }
 
-  @GwtIncompatible("allAsList")
   public void testAllAsList_singleFailure() throws Exception {
     Throwable exception = new Throwable("failed");
-    ListenableFuture<String> future = Futures.immediateFailedFuture(exception);
-    ListenableFuture<List<String>> compound = Futures.allAsList(ImmutableList.of(future));
+    ListenableFuture<String> future = immediateFailedFuture(exception);
+    ListenableFuture<List<String>> compound = allAsList(ImmutableList.of(future));
 
     try {
-      compound.get();
-      fail("Expected exception not thrown");
-    } catch (ExecutionException e) {
-      assertSame(exception, e.getCause());
+      getDone(compound);
+      fail();
+    } catch (ExecutionException expected) {
+      assertSame(exception, expected.getCause());
     }
   }
 
-  @GwtIncompatible("allAsList")
   public void testAllAsList_immediateFailure() throws Exception {
     Throwable exception = new Throwable("failed");
-    ListenableFuture<String> future1 = Futures.immediateFailedFuture(exception);
-    ListenableFuture<String> future2 = Futures.immediateFuture("results");
-    ListenableFuture<List<String>> compound = Futures.allAsList(ImmutableList.of(future1, future2));
+    ListenableFuture<String> future1 = immediateFailedFuture(exception);
+    ListenableFuture<String> future2 = immediateFuture("results");
+    ListenableFuture<List<String>> compound = allAsList(ImmutableList.of(future1, future2));
 
     try {
-      compound.get();
-      fail("Expected exception not thrown");
-    } catch (ExecutionException e) {
-      assertSame(exception, e.getCause());
+      getDone(compound);
+      fail();
+    } catch (ExecutionException expected) {
+      assertSame(exception, expected.getCause());
     }
   }
 
-  @GwtIncompatible("allAsList")
   public void testAllAsList_error() throws Exception {
     Error error = new Error("deliberate");
     SettableFuture<String> future1 = SettableFuture.create();
-    ListenableFuture<String> future2 = Futures.immediateFuture("results");
-    ListenableFuture<List<String>> compound = Futures.allAsList(ImmutableList.of(future1, future2));
+    ListenableFuture<String> future2 = immediateFuture("results");
+    ListenableFuture<List<String>> compound = allAsList(ImmutableList.of(future1, future2));
 
     future1.setException(error);
     try {
-      compound.get();
-      fail("Expected error not set in compound future.");
-    } catch (ExecutionException ee) {
-      assertSame(error, ee.getCause());
+      getDone(compound);
+      fail();
+    } catch (ExecutionException expected) {
+      assertSame(error, expected.getCause());
     }
   }
 
@@ -1810,7 +1940,7 @@ public class FuturesTest extends TestCase {
     SettableFuture<String> future2 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
         ListenableFuture<List<String>> compound =
-        Futures.allAsList(future1, future2);
+        allAsList(future1, future2);
     compound.addListener(listener, directExecutor());
 
     listener.expectCall();
@@ -1820,10 +1950,9 @@ public class FuturesTest extends TestCase {
     future2.setException(new Throwable("failed2"));
 
     try {
-      compound.get();
-      fail("Expected exception not thrown");
-    } catch (CancellationException e) {
-      // Expected
+      getDone(compound);
+      fail();
+    } catch (CancellationException expected) {
     }
   }
 
@@ -1832,7 +1961,7 @@ public class FuturesTest extends TestCase {
     SettableFuture<String> future2 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
         ListenableFuture<List<String>> compound =
-        Futures.allAsList(future1, future2);
+        allAsList(future1, future2);
 
     future2.set(DATA2);
     assertFalse(compound.isDone());
@@ -1847,11 +1976,11 @@ public class FuturesTest extends TestCase {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
     ListenableFuture<List<String>> compound =
-        Futures.allAsList(future1, future2);
+        allAsList(future1, future2);
     // There was a bug where the event listener for the combined future would
     // result in the sub-futures being cancelled without being interrupted.
     ListenableFuture<List<String>> otherCompound =
-        Futures.allAsList(future1, future2);
+        allAsList(future1, future2);
 
     assertTrue(compound.cancel(true));
     assertTrue(future1.isCancelled());
@@ -1866,9 +1995,9 @@ public class FuturesTest extends TestCase {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
     ListenableFuture<List<String>> compound =
-        Futures.allAsList(future1, future2);
+        allAsList(future1, future2);
     // This next call is "unused," but it is an important part of the test. Don't remove it!
-    ListenableFuture<List<String>> unused = Futures.allAsList(future1, future2);
+    ListenableFuture<List<String>> unused = allAsList(future1, future2);
 
     assertTrue(compound.cancel(false));
     assertTrue(future1.isCancelled());
@@ -1882,7 +2011,7 @@ public class FuturesTest extends TestCase {
     SettableFuture<String> future2 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
         ListenableFuture<List<String>> compound =
-        Futures.allAsList(future1, future2);
+        allAsList(future1, future2);
 
     future2.set(DATA2);
     assertFalse(compound.isDone());
@@ -1911,17 +2040,16 @@ public class FuturesTest extends TestCase {
 
     @SuppressWarnings("unchecked") // array is never modified
         ListenableFuture<List<String>> compound =
-        Futures.allAsList(future1, future2, future3);
+        allAsList(future1, future2, future3);
 
     // Attach a listener
     SingleCallListener listener = new SingleCallListener();
     listener.expectCall();
     compound.addListener(listener, directExecutor());
 
-    assertTrue(compound.isDone());
     assertTrue(listener.wasCalled());
 
-    List<String> results = compound.get();
+    List<String> results = getDone(compound);
     assertThat(results).containsExactly(DATA1, DATA2, DATA3).inOrder();
   }
 
@@ -1931,10 +2059,10 @@ public class FuturesTest extends TestCase {
   @SuppressWarnings("unchecked")
   public void testAllAsList_logging_exception() throws Exception {
     try {
-      Futures.allAsList(immediateFailedFuture(new MyException())).get();
+      getDone(allAsList(immediateFailedFuture(new MyException())));
       fail();
-    } catch (ExecutionException e) {
-      assertThat(e.getCause()).isInstanceOf(MyException.class);
+    } catch (ExecutionException expected) {
+      assertThat(expected.getCause()).isInstanceOf(MyException.class);
       assertEquals(
           "Nothing should be logged", 0, aggregateFutureLogHandler.getStoredLogRecords().size());
     }
@@ -1946,10 +2074,10 @@ public class FuturesTest extends TestCase {
   @SuppressWarnings("unchecked")
   public void testAllAsList_logging_error() throws Exception {
     try {
-      Futures.allAsList(immediateFailedFuture(new MyError())).get();
+      getDone(allAsList(immediateFailedFuture(new MyError())));
       fail();
-    } catch (ExecutionException e) {
-      assertThat(e.getCause()).isInstanceOf(MyError.class);
+    } catch (ExecutionException expected) {
+      assertThat(expected.getCause()).isInstanceOf(MyError.class);
       List<LogRecord> logged = aggregateFutureLogHandler.getStoredLogRecords();
       assertThat(logged).hasSize(1); // errors are always logged
       assertThat(logged.get(0).getThrown()).isInstanceOf(MyError.class);
@@ -1962,11 +2090,11 @@ public class FuturesTest extends TestCase {
   @SuppressWarnings("unchecked")
   public void testAllAsList_logging_multipleExceptions_alreadyDone() throws Exception {
     try {
-      Futures.allAsList(immediateFailedFuture(new MyException()),
-          immediateFailedFuture(new MyException())).get();
+      getDone(allAsList(immediateFailedFuture(new MyException()),
+          immediateFailedFuture(new MyException())));
       fail();
-    } catch (ExecutionException e) {
-      assertThat(e.getCause()).isInstanceOf(MyException.class);
+    } catch (ExecutionException expected) {
+      assertThat(expected.getCause()).isInstanceOf(MyException.class);
       List<LogRecord> logged = aggregateFutureLogHandler.getStoredLogRecords();
       assertThat(logged).hasSize(1); // the second failure is logged
       assertThat(logged.get(0).getThrown()).isInstanceOf(MyException.class);
@@ -1981,15 +2109,16 @@ public class FuturesTest extends TestCase {
     SettableFuture<Object> future1 = SettableFuture.create();
     SettableFuture<Object> future2 = SettableFuture.create();
     SettableFuture<Object> future3 = SettableFuture.create();
-    ListenableFuture<List<Object>> all = Futures.allAsList(future1, future2, future3);
+    ListenableFuture<List<Object>> all = allAsList(future1, future2, future3);
 
     future1.setException(new MyException());
     future2.setException(new MyException());
     future3.setException(new MyException());
 
     try {
-      all.get();
-    } catch (ExecutionException e) {
+      getDone(all);
+      fail();
+    } catch (ExecutionException expected) {
       List<LogRecord> logged = aggregateFutureLogHandler.getStoredLogRecords();
       assertThat(logged).hasSize(2); // failures after the first are logged
       assertThat(logged.get(0).getThrown()).isInstanceOf(MyException.class);
@@ -2004,11 +2133,11 @@ public class FuturesTest extends TestCase {
   public void testAllAsList_logging_same_exception() throws Exception {
     try {
       MyException sameInstance = new MyException();
-      Futures.allAsList(immediateFailedFuture(sameInstance),
-          immediateFailedFuture(sameInstance)).get();
+      getDone(allAsList(immediateFailedFuture(sameInstance),
+          immediateFailedFuture(sameInstance)));
       fail();
-    } catch (ExecutionException e) {
-      assertThat(e.getCause()).isInstanceOf(MyException.class);
+    } catch (ExecutionException expected) {
+      assertThat(expected.getCause()).isInstanceOf(MyException.class);
       assertEquals(
           "Nothing should be logged", 0, aggregateFutureLogHandler.getStoredLogRecords().size());
     }
@@ -2034,7 +2163,7 @@ public class FuturesTest extends TestCase {
     firstFuture.setException(sameInstance);
 
     try {
-      bulkFuture.get();
+      getDone(bulkFuture);
       fail();
     } catch (ExecutionException expected) {
       assertThat(expected.getCause()).isInstanceOf(MyException.class);
@@ -2062,7 +2191,7 @@ public class FuturesTest extends TestCase {
     firstFuture.cancel(false);
 
     try {
-      bulkFuture.get();
+      getDone(bulkFuture);
       fail();
     } catch (CancellationException expected) {
       assertThat(getOnlyElement(aggregateFutureLogHandler.getStoredLogRecords()).getThrown())
@@ -2084,11 +2213,11 @@ public class FuturesTest extends TestCase {
       exception1.initCause(sameInstance);
       exception2.initCause(sameInstance);
       exception3.initCause(exception2);
-      Futures.allAsList(immediateFailedFuture(exception1),
-          immediateFailedFuture(exception3)).get();
+      getDone(allAsList(immediateFailedFuture(exception1),
+          immediateFailedFuture(exception3)));
       fail();
-    } catch (ExecutionException e) {
-      assertThat(e.getCause()).isInstanceOf(MyException.class);
+    } catch (ExecutionException expected) {
+      assertThat(expected.getCause()).isInstanceOf(MyException.class);
       assertEquals(
           "Nothing should be logged", 0, aggregateFutureLogHandler.getStoredLogRecords().size());
     }
@@ -2098,27 +2227,49 @@ public class FuturesTest extends TestCase {
     return "-" + i + "-" + b;
   }
 
+  public void testWhenAllComplete_wildcard() throws Exception {
+    ListenableFuture<?> futureA = immediateFuture("a");
+    ListenableFuture<?> futureB = immediateFuture("b");
+    ListenableFuture<?>[] futures = new ListenableFuture<?>[0];
+    Callable<String> combiner = new Callable<String>() {
+      @Override
+      public String call() throws Exception {
+        return "hi";
+      }
+    };
+
+    // We'd like for all the following to compile.
+    ListenableFuture<String> unused;
+
+    // Compiles:
+    unused = whenAllComplete(futureA, futureB).call(combiner, directExecutor());
+
+    // Does not compile:
+    // unused = whenAllComplete(futures).call(combiner);
+
+    // Workaround for the above:
+    unused = whenAllComplete(asList(futures)).call(combiner, directExecutor());
+  }
+
   public void testWhenAllComplete_asyncResult() throws Exception {
     final SettableFuture<Integer> futureInteger = SettableFuture.create();
     final SettableFuture<Boolean> futureBoolean = SettableFuture.create();
     AsyncCallable<String> combiner = new AsyncCallable<String>() {
       @Override
       public ListenableFuture<String> call() throws Exception {
-        assertTrue(futureInteger.isDone());
-        assertTrue(futureBoolean.isDone());
-        return Futures.immediateFuture(
-            createCombinedResult(futureInteger.get(), futureBoolean.get()));
+        return immediateFuture(
+            createCombinedResult(getDone(futureInteger), getDone(futureBoolean)));
       }
     };
 
-    ListenableFuture<String> futureResult = Futures.whenAllComplete(futureInteger, futureBoolean)
-        .callAsync(combiner);
+    ListenableFuture<String> futureResult =
+        whenAllComplete(futureInteger, futureBoolean).callAsync(combiner, directExecutor());
     Integer integerPartial = 1;
     futureInteger.set(integerPartial);
     Boolean booleanPartial = true;
     futureBoolean.set(booleanPartial);
     assertEquals(createCombinedResult(integerPartial, booleanPartial),
-        futureResult.get());
+        getDone(futureResult));
   }
 
   public void testWhenAllComplete_asyncError() throws Exception {
@@ -2131,26 +2282,26 @@ public class FuturesTest extends TestCase {
       public ListenableFuture<String> call() throws Exception {
         assertTrue(futureInteger.isDone());
         assertTrue(futureBoolean.isDone());
-        return Futures.immediateFailedFuture(thrown);
+        return immediateFailedFuture(thrown);
       }
     };
 
     ListenableFuture<String> futureResult =
-        Futures.whenAllComplete(futureInteger, futureBoolean).callAsync(combiner);
+        whenAllComplete(futureInteger, futureBoolean).callAsync(combiner, directExecutor());
     Integer integerPartial = 1;
     futureInteger.set(integerPartial);
     Boolean booleanPartial = true;
     futureBoolean.set(booleanPartial);
 
     try {
-      futureResult.get();
-      fail("Expected ExecutionException");
+      getDone(futureResult);
+      fail();
     } catch (ExecutionException expected) {
       assertSame(thrown, expected.getCause());
     }
   }
 
-  @GwtIncompatible("threads")
+  @GwtIncompatible // threads
 
   public void testWhenAllComplete_cancelledNotInterrupted() throws Exception {
     SettableFuture<String> stringFuture = SettableFuture.create();
@@ -2167,7 +2318,7 @@ public class FuturesTest extends TestCase {
       }
     };
 
-    ListenableFuture<String> futureResult = Futures.whenAllComplete(stringFuture, booleanFuture)
+    ListenableFuture<String> futureResult = whenAllComplete(stringFuture, booleanFuture)
         .callAsync(combiner, newSingleThreadExecutor());
 
     stringFuture.set("value");
@@ -2186,36 +2337,35 @@ public class FuturesTest extends TestCase {
     } catch (CancellationException expected) {}
   }
 
-  @GwtIncompatible("threads")
+  @GwtIncompatible // threads
 
   public void testWhenAllComplete_interrupted() throws Exception {
     SettableFuture<String> stringFuture = SettableFuture.create();
     SettableFuture<Boolean> booleanFuture = SettableFuture.create();
     final CountDownLatch inFunction = new CountDownLatch(1);
-    final CountDownLatch shouldCompleteFunction = new CountDownLatch(1);
     final CountDownLatch gotException = new CountDownLatch(1);
-    AsyncCallable<String> combiner = new AsyncCallable<String>() {
-      @Override
-      public ListenableFuture<String> call() throws Exception {
-        inFunction.countDown();
-        try {
-          shouldCompleteFunction.await();
-        } catch (InterruptedException expected) {
-          gotException.countDown();
-          throw expected;
-        }
-        return Futures.immediateFuture("a");
-      }
-    };
+    AsyncCallable<String> combiner =
+        new AsyncCallable<String>() {
+          @Override
+          public ListenableFuture<String> call() throws Exception {
+            inFunction.countDown();
+            try {
+              new CountDownLatch(1).await(); // wait for interrupt
+            } catch (InterruptedException expected) {
+              gotException.countDown();
+              throw expected;
+            }
+            return immediateFuture("a");
+          }
+        };
 
-    ListenableFuture<String> futureResult = Futures.whenAllComplete(stringFuture, booleanFuture)
+    ListenableFuture<String> futureResult = whenAllComplete(stringFuture, booleanFuture)
         .callAsync(combiner, newSingleThreadExecutor());
 
     stringFuture.set("value");
     booleanFuture.set(true);
     inFunction.await();
     futureResult.cancel(true);
-    shouldCompleteFunction.countDown();
     try {
       futureResult.get();
       fail();
@@ -2238,15 +2388,14 @@ public class FuturesTest extends TestCase {
     };
 
     ListenableFuture<String> futureResult =
-        Futures.whenAllSucceed(futureInteger, futureBoolean).callAsync(combiner);
+        whenAllSucceed(futureInteger, futureBoolean).callAsync(combiner, directExecutor());
     PartialResultException partialResultException =
         new PartialResultException();
     futureInteger.setException(partialResultException);
     Boolean booleanPartial = true;
     futureBoolean.set(booleanPartial);
-    assertTrue(futureResult.isDone());
     try {
-      futureResult.get();
+      getDone(futureResult);
       fail();
     } catch (ExecutionException expected) {
       assertSame(partialResultException, expected.getCause());
@@ -2263,7 +2412,7 @@ public class FuturesTest extends TestCase {
    * finisher}, a task that will complete the future in some fashion when it is called, allowing for
    * testing both before and after the completion of the future.
    */
-  @GwtIncompatible("used only in GwtIncompatible tests")
+  @GwtIncompatible // used only in GwtIncompatible tests
   private static final class TestFuture {
 
     final ListenableFuture<String> future;
@@ -2286,7 +2435,7 @@ public class FuturesTest extends TestCase {
    * <p>Each test requires a new {@link TestFutureBatch} because we need new delayed futures each
    * time, as the old delayed futures were completed as part of the old test.
    */
-  @GwtIncompatible("used only in GwtIncompatible tests")
+  @GwtIncompatible // used only in GwtIncompatible tests
   private static final class TestFutureBatch {
 
     final ListenableFuture<String> doneSuccess = immediateFuture("a");
@@ -2406,7 +2555,7 @@ public class FuturesTest extends TestCase {
         };
 
     static boolean intersect(Set<?> a, Set<?> b) {
-      return !Sets.intersection(a, b).isEmpty();
+      return !intersection(a, b).isEmpty();
     }
 
     /**
@@ -2468,10 +2617,10 @@ public class FuturesTest extends TestCase {
   }
 
   /**
-   * {@link Futures#allAsList(Iterable)} or {@link Futures#successfulAsList(Iterable)}, hidden
+   * {@link allAsList(Iterable)} or {@link successfulAsList(Iterable)}, hidden
    * behind a common interface for testing.
    */
-  @GwtIncompatible("used only in GwtIncompatible tests")
+  @GwtIncompatible // used only in GwtIncompatible tests
   private interface Merger {
 
     ListenableFuture<List<String>> merged(
@@ -2500,9 +2649,9 @@ public class FuturesTest extends TestCase {
    * <p>We need this to test the behavior of no-arg get methods without hanging the main test thread
    * forever in the case of failure.
    */
-  @GwtIncompatible("threads")
-  static <V> V pseudoTimedGetUninterruptibly(
-      final Future<V> input, long timeout, TimeUnit unit)
+  @CanIgnoreReturnValue
+  @GwtIncompatible // threads
+  static <V> V pseudoTimedGetUninterruptibly(final Future<V> input, long timeout, TimeUnit unit)
       throws ExecutionException, TimeoutException {
     ExecutorService executor = newSingleThreadExecutor();
     Future<V> waiter = executor.submit(new Callable<V>() {
@@ -2530,9 +2679,8 @@ public class FuturesTest extends TestCase {
    * before future completion, and untimed after future completion) return or throw the proper
    * values.
    */
-  @GwtIncompatible("used only in GwtIncompatible tests")
-  private static void runExtensiveMergerTest(Merger merger)
-      throws InterruptedException {
+  @GwtIncompatible // used only in GwtIncompatible tests
+  private static void runExtensiveMergerTest(Merger merger) throws InterruptedException {
     int inputCount = new TestFutureBatch().allFutures.size();
 
     for (int i = 0; i < inputCount; i++) {
@@ -2548,7 +2696,7 @@ public class FuturesTest extends TestCase {
           try {
             List<String> result = future.get(0, MILLISECONDS);
             assertTrue("Got " + result,
-                Arrays.asList("a", null).containsAll(result));
+                asList("a", null).containsAll(result));
           } catch (CancellationException e) {
             assertTrue(merger == Merger.allMerger);
             inputs.assertHasImmediateCancel(iFuture, jFuture, e);
@@ -2564,7 +2712,7 @@ public class FuturesTest extends TestCase {
             List<String> result = conditionalPseudoTimedGetUninterruptibly(
                 inputs, iFuture, jFuture, future, 20, MILLISECONDS);
             assertTrue("Got " + result,
-                Arrays.asList("a", null).containsAll(result));
+                asList("a", null).containsAll(result));
           } catch (CancellationException e) {
             assertTrue(merger == Merger.allMerger);
             inputs.assertHasImmediateCancel(iFuture, jFuture, e);
@@ -2581,9 +2729,9 @@ public class FuturesTest extends TestCase {
 
           // Test untimed get now that we've completed any delayed futures.
           try {
-            List<String> result = future.get();
+            List<String> result = getDone(future);
             assertTrue("Got " + result,
-                Arrays.asList("a", "b", null).containsAll(result));
+                asList("a", "b", null).containsAll(result));
           } catch (CancellationException e) {
             assertTrue(merger == Merger.allMerger);
             inputs.assertHasCancel(iFuture, jFuture, e);
@@ -2613,7 +2761,7 @@ public class FuturesTest extends TestCase {
    * expected to succeed; the fact that the numbers match is only a coincidence.) See the comment
    * below for how to restore the fast but hang-y version.
    */
-  @GwtIncompatible("used only in GwtIncompatible tests")
+  @GwtIncompatible // used only in GwtIncompatible tests
   private static List<String> conditionalPseudoTimedGetUninterruptibly(
       TestFutureBatch inputs,
       ListenableFuture<String> iFuture,
@@ -2632,17 +2780,16 @@ public class FuturesTest extends TestCase {
         : pseudoTimedGetUninterruptibly(future, 2500, MILLISECONDS);
   }
 
-  @GwtIncompatible("allAsList")
+  @GwtIncompatible // threads
   public void testAllAsList_extensive() throws InterruptedException {
     runExtensiveMergerTest(Merger.allMerger);
   }
 
-  @GwtIncompatible("successfulAsList")
+  @GwtIncompatible // threads
   public void testSuccessfulAsList_extensive() throws InterruptedException {
     runExtensiveMergerTest(Merger.successMerger);
   }
 
-  @GwtIncompatible("successfulAsList")
   public void testSuccessfulAsList() throws Exception {
     // Create input and output
     SettableFuture<String> future1 = SettableFuture.create();
@@ -2650,7 +2797,7 @@ public class FuturesTest extends TestCase {
     SettableFuture<String> future3 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
         ListenableFuture<List<String>> compound =
-        Futures.successfulAsList(future1, future2, future3);
+        successfulAsList(future1, future2, future3);
 
     // Attach a listener
     SingleCallListener listener = new SingleCallListener();
@@ -2664,45 +2811,39 @@ public class FuturesTest extends TestCase {
     assertFalse(compound.isDone());
     listener.expectCall();
     future3.set(DATA3);
-    assertTrue(compound.isDone());
     assertTrue(listener.wasCalled());
 
-    List<String> results = compound.get();
+    List<String> results = getDone(compound);
     assertThat(results).containsExactly(DATA1, DATA2, DATA3).inOrder();
   }
 
-  @GwtIncompatible("successfulAsList")
   public void testSuccessfulAsList_emptyList() throws Exception {
     SingleCallListener listener = new SingleCallListener();
     listener.expectCall();
     List<ListenableFuture<String>> futures = ImmutableList.of();
-    ListenableFuture<List<String>> compound = Futures.successfulAsList(futures);
+    ListenableFuture<List<String>> compound = successfulAsList(futures);
     compound.addListener(listener, directExecutor());
-    assertTrue(compound.isDone());
-    assertTrue(compound.get().isEmpty());
+    assertThat(getDone(compound)).isEmpty();
     assertTrue(listener.wasCalled());
   }
 
-  @GwtIncompatible("successfulAsList")
   public void testSuccessfulAsList_emptyArray() throws Exception {
     SingleCallListener listener = new SingleCallListener();
     listener.expectCall();
     @SuppressWarnings("unchecked") // array is never modified
-        ListenableFuture<List<String>> compound = Futures.successfulAsList();
+        ListenableFuture<List<String>> compound = successfulAsList();
     compound.addListener(listener, directExecutor());
-    assertTrue(compound.isDone());
-    assertTrue(compound.get().isEmpty());
+    assertThat(getDone(compound)).isEmpty();
     assertTrue(listener.wasCalled());
   }
 
-  @GwtIncompatible("successfulAsList")
   public void testSuccessfulAsList_partialFailure() throws Exception {
     SingleCallListener listener = new SingleCallListener();
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
         ListenableFuture<List<String>> compound =
-        Futures.successfulAsList(future1, future2);
+        successfulAsList(future1, future2);
     compound.addListener(listener, directExecutor());
 
     assertFalse(compound.isDone());
@@ -2710,21 +2851,19 @@ public class FuturesTest extends TestCase {
     assertFalse(compound.isDone());
     listener.expectCall();
     future2.set(DATA2);
-    assertTrue(compound.isDone());
     assertTrue(listener.wasCalled());
 
-    List<String> results = compound.get();
+    List<String> results = getDone(compound);
     assertThat(results).containsExactly(null, DATA2).inOrder();
   }
 
-  @GwtIncompatible("successfulAsList")
   public void testSuccessfulAsList_totalFailure() throws Exception {
     SingleCallListener listener = new SingleCallListener();
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
         ListenableFuture<List<String>> compound =
-        Futures.successfulAsList(future1, future2);
+        successfulAsList(future1, future2);
     compound.addListener(listener, directExecutor());
 
     assertFalse(compound.isDone());
@@ -2732,21 +2871,19 @@ public class FuturesTest extends TestCase {
     assertFalse(compound.isDone());
     listener.expectCall();
     future2.setException(new Throwable("failed2"));
-    assertTrue(compound.isDone());
     assertTrue(listener.wasCalled());
 
-    List<String> results = compound.get();
+    List<String> results = getDone(compound);
     assertThat(results).containsExactly(null, null).inOrder();
   }
 
-  @GwtIncompatible("successfulAsList")
   public void testSuccessfulAsList_cancelled() throws Exception {
     SingleCallListener listener = new SingleCallListener();
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
         ListenableFuture<List<String>> compound =
-        Futures.successfulAsList(future1, future2);
+        successfulAsList(future1, future2);
     compound.addListener(listener, directExecutor());
 
     assertFalse(compound.isDone());
@@ -2754,20 +2891,18 @@ public class FuturesTest extends TestCase {
     assertFalse(compound.isDone());
     listener.expectCall();
     future2.set(DATA2);
-    assertTrue(compound.isDone());
     assertTrue(listener.wasCalled());
 
-    List<String> results = compound.get();
+    List<String> results = getDone(compound);
     assertThat(results).containsExactly(null, DATA2).inOrder();
   }
 
-  @GwtIncompatible("successfulAsList")
   public void testSuccessfulAsList_resultCancelled() throws Exception {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
         ListenableFuture<List<String>> compound =
-        Futures.successfulAsList(future1, future2);
+        successfulAsList(future1, future2);
 
     future2.set(DATA2);
     assertFalse(compound.isDone());
@@ -2777,43 +2912,23 @@ public class FuturesTest extends TestCase {
     assertFalse(future1.wasInterrupted());
   }
 
-  @GwtIncompatible("successfulAsList")
-  public void testSuccessfulAsList_resultCancelledRacingInputDone()
-      throws Exception {
-    /*
-     * The IllegalStateException that we're testing for is caught by
-     * ExecutionList and logged rather than allowed to propagate. We need to
-     * turn that back into a failure.
-     */
-    Handler throwingHandler =
-        new Handler() {
-          @Override
-          public void publish(LogRecord record) {
-            AssertionFailedError error = new AssertionFailedError();
-            error.initCause(record.getThrown());
-            throw error;
-          }
-
-          @Override
-          public void flush() {}
-
-          @Override
-          public void close() {}
-        };
-
-    ExecutionList.log.addHandler(throwingHandler);
+  public void testSuccessfulAsList_resultCancelledRacingInputDone() throws Exception {
+    TestLogHandler listenerLoggerHandler = new TestLogHandler();
+    Logger exceptionLogger = Logger.getLogger(AbstractFuture.class.getName());
+    exceptionLogger.addHandler(listenerLoggerHandler);
     try {
       doTestSuccessfulAsList_resultCancelledRacingInputDone();
+
+      assertWithMessage("Nothing should be logged")
+          .that(listenerLoggerHandler.getStoredLogRecords()).isEmpty();
     } finally {
-      ExecutionList.log.removeHandler(throwingHandler);
+      exceptionLogger.removeHandler(listenerLoggerHandler);
     }
   }
 
-  @GwtIncompatible("successfulAsList")
-  private static void doTestSuccessfulAsList_resultCancelledRacingInputDone()
-      throws Exception {
+  private static void doTestSuccessfulAsList_resultCancelledRacingInputDone() throws Exception {
     // Simple (combined.cancel -> input.cancel -> setOneValue):
-    Futures.successfulAsList(ImmutableList.of(SettableFuture.create()))
+    successfulAsList(ImmutableList.of(SettableFuture.create()))
         .cancel(true);
 
     /*
@@ -2825,7 +2940,7 @@ public class FuturesTest extends TestCase {
     final SettableFuture<String> future2 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
         ListenableFuture<List<String>> compound =
-        Futures.successfulAsList(future1, future2);
+        successfulAsList(future1, future2);
 
     future1.addListener(new Runnable() {
       @Override
@@ -2848,20 +2963,18 @@ public class FuturesTest extends TestCase {
     assertFalse(future2.isCancelled());
 
     try {
-      compound.get();
-      fail("Expected exception not thrown");
-    } catch (CancellationException e) {
-      // Expected
+      getDone(compound);
+      fail();
+    } catch (CancellationException expected) {
     }
   }
 
-  @GwtIncompatible("successfulAsList")
   public void testSuccessfulAsList_resultInterrupted() throws Exception {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
         ListenableFuture<List<String>> compound =
-        Futures.successfulAsList(future1, future2);
+        successfulAsList(future1, future2);
 
     future2.set(DATA2);
     assertFalse(compound.isDone());
@@ -2871,7 +2984,6 @@ public class FuturesTest extends TestCase {
     assertTrue(future1.wasInterrupted());
   }
 
-  @GwtIncompatible("successfulAsList")
   public void testSuccessfulAsList_mixed() throws Exception {
     SingleCallListener listener = new SingleCallListener();
     SettableFuture<String> future1 = SettableFuture.create();
@@ -2879,7 +2991,7 @@ public class FuturesTest extends TestCase {
     SettableFuture<String> future3 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
         ListenableFuture<List<String>> compound =
-        Futures.successfulAsList(future1, future2, future3);
+        successfulAsList(future1, future2, future3);
     compound.addListener(listener, directExecutor());
 
     // First is cancelled, second fails, third succeeds
@@ -2890,10 +3002,9 @@ public class FuturesTest extends TestCase {
     assertFalse(compound.isDone());
     listener.expectCall();
     future3.set(DATA3);
-    assertTrue(compound.isDone());
     assertTrue(listener.wasCalled());
 
-    List<String> results = compound.get();
+    List<String> results = getDone(compound);
     assertThat(results).containsExactly(null, null, DATA3).inOrder();
   }
 
@@ -2902,20 +3013,20 @@ public class FuturesTest extends TestCase {
    */
   @SuppressWarnings("unchecked")
   public void testSuccessfulAsList_logging_exception() throws Exception {
-    assertEquals(Lists.newArrayList((Object) null),
-        Futures.successfulAsList(
-            immediateFailedFuture(new MyException())).get());
-    assertEquals("Nothing should be logged", 0,
-        aggregateFutureLogHandler.getStoredLogRecords().size());
+    assertEquals(newArrayList((Object) null),
+        getDone(successfulAsList(
+            immediateFailedFuture(new MyException()))));
+    assertWithMessage("Nothing should be logged")
+        .that(aggregateFutureLogHandler.getStoredLogRecords()).isEmpty();
 
     // Not even if there are a bunch of failures.
-    assertEquals(Lists.newArrayList(null, null, null),
-        Futures.successfulAsList(
+    assertEquals(newArrayList(null, null, null),
+        getDone(successfulAsList(
             immediateFailedFuture(new MyException()),
             immediateFailedFuture(new MyException()),
-            immediateFailedFuture(new MyException())).get());
-    assertEquals("Nothing should be logged", 0,
-        aggregateFutureLogHandler.getStoredLogRecords().size());
+            immediateFailedFuture(new MyException()))));
+    assertWithMessage("Nothing should be logged")
+        .that(aggregateFutureLogHandler.getStoredLogRecords()).isEmpty();
   }
 
   /**
@@ -2923,57 +3034,52 @@ public class FuturesTest extends TestCase {
    */
   @SuppressWarnings("unchecked")
   public void testSuccessfulAsList_logging_error() throws Exception {
-    assertEquals(Lists.newArrayList((Object) null),
-        Futures.successfulAsList(
-            immediateFailedFuture(new MyError())).get());
+    assertEquals(newArrayList((Object) null),
+        getDone(successfulAsList(
+            immediateFailedFuture(new MyError()))));
     List<LogRecord> logged = aggregateFutureLogHandler.getStoredLogRecords();
     assertThat(logged).hasSize(1); // errors are always logged
     assertThat(logged.get(0).getThrown()).isInstanceOf(MyError.class);
   }
 
-  @GwtIncompatible("nonCancellationPropagating")
   public void testNonCancellationPropagating_successful() throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
-    ListenableFuture<Foo> wrapper = Futures.nonCancellationPropagating(input);
+    ListenableFuture<Foo> wrapper = nonCancellationPropagating(input);
     Foo foo = new Foo();
 
     assertFalse(wrapper.isDone());
     input.set(foo);
     assertTrue(wrapper.isDone());
-    assertSame(foo, wrapper.get());
+    assertSame(foo, getDone(wrapper));
   }
 
-  @GwtIncompatible("nonCancellationPropagating")
   public void testNonCancellationPropagating_failure() throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
-    ListenableFuture<Foo> wrapper = Futures.nonCancellationPropagating(input);
+    ListenableFuture<Foo> wrapper = nonCancellationPropagating(input);
     Throwable failure = new Throwable("thrown");
 
     assertFalse(wrapper.isDone());
     input.setException(failure);
-    assertTrue(wrapper.isDone());
     try {
-      wrapper.get();
-      fail("Expected ExecutionException");
-    } catch (ExecutionException e) {
-      assertSame(failure, e.getCause());
+      getDone(wrapper);
+      fail();
+    } catch (ExecutionException expected) {
+      assertSame(failure, expected.getCause());
     }
   }
 
-  @GwtIncompatible("nonCancellationPropagating")
   public void testNonCancellationPropagating_delegateCancelled() throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
-    ListenableFuture<Foo> wrapper = Futures.nonCancellationPropagating(input);
+    ListenableFuture<Foo> wrapper = nonCancellationPropagating(input);
 
     assertFalse(wrapper.isDone());
     assertTrue(input.cancel(false));
     assertTrue(wrapper.isCancelled());
   }
 
-  @GwtIncompatible("nonCancellationPropagating")
   public void testNonCancellationPropagating_doesNotPropagate() throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
-    ListenableFuture<Foo> wrapper = Futures.nonCancellationPropagating(input);
+    ListenableFuture<Foo> wrapper = nonCancellationPropagating(input);
 
     assertTrue(wrapper.cancel(true));
     assertTrue(wrapper.isCancelled());
@@ -2982,7 +3088,7 @@ public class FuturesTest extends TestCase {
     assertFalse(input.isDone());
   }
 
-  @GwtIncompatible("used only in GwtIncompatible tests")
+  @GwtIncompatible // used only in GwtIncompatible tests
   private static class TestException extends Exception {
 
     TestException(@Nullable Throwable cause) {
@@ -2990,7 +3096,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("used only in GwtIncompatible tests")
+  @GwtIncompatible // used only in GwtIncompatible tests
   private static final Function<Exception, TestException> mapper =
       new Function<Exception, TestException>() {
         @Override
@@ -2998,19 +3104,19 @@ public class FuturesTest extends TestCase {
           if (from instanceof ExecutionException) {
             return new TestException(from.getCause());
           } else {
-            assertTrue("got " + from.getClass(),
-                from instanceof InterruptedException
-                    || from instanceof CancellationException);
+            assertTrue(
+                "got " + from.getClass(),
+                from instanceof InterruptedException || from instanceof CancellationException);
             return new TestException(from);
           }
         }
       };
 
-  @GwtIncompatible("makeChecked")
+  @GwtIncompatible // makeChecked
   public void testMakeChecked_mapsExecutionExceptions() throws Exception {
     SettableFuture<String> future = SettableFuture.create();
 
-    CheckedFuture<String, TestException> checked = Futures.makeChecked(
+    CheckedFuture<String, TestException> checked = makeChecked(
         future, mapper);
 
     future.setException(new IOException("checked"));
@@ -3021,81 +3127,79 @@ public class FuturesTest extends TestCase {
     try {
       checked.get();
       fail();
-    } catch (ExecutionException e) {
-      assertThat(e.getCause()).isInstanceOf(IOException.class);
+    } catch (ExecutionException expected) {
+      assertThat(expected.getCause()).isInstanceOf(IOException.class);
     }
 
     try {
-      checked.get(5, TimeUnit.SECONDS);
+      checked.get(5, SECONDS);
       fail();
-    } catch (ExecutionException e) {
-      assertThat(e.getCause()).isInstanceOf(IOException.class);
+    } catch (ExecutionException expected) {
+      assertThat(expected.getCause()).isInstanceOf(IOException.class);
     }
 
     try {
       checked.checkedGet();
       fail();
-    } catch (TestException e) {
-      assertThat(e.getCause()).isInstanceOf(IOException.class);
+    } catch (TestException expected) {
+      assertThat(expected.getCause()).isInstanceOf(IOException.class);
     }
 
     try {
-      checked.checkedGet(5, TimeUnit.SECONDS);
+      checked.checkedGet(5, SECONDS);
       fail();
-    } catch (TestException e) {
-      assertThat(e.getCause()).isInstanceOf(IOException.class);
+    } catch (TestException expected) {
+      assertThat(expected.getCause()).isInstanceOf(IOException.class);
     }
   }
 
-  @GwtIncompatible("makeChecked")
+  @GwtIncompatible // makeChecked
   public void testMakeChecked_mapsInterruption() throws Exception {
     SettableFuture<String> future = SettableFuture.create();
 
-    CheckedFuture<String, TestException> checked = Futures.makeChecked(
+    CheckedFuture<String, TestException> checked = makeChecked(
         future, mapper);
 
-    Thread.currentThread().interrupt();
+    currentThread().interrupt();
 
     try {
       checked.get();
       fail();
-    } catch (InterruptedException e) {
-      // Expected.
+    } catch (InterruptedException expected) {
     }
 
-    Thread.currentThread().interrupt();
+    currentThread().interrupt();
 
     try {
-      checked.get(5, TimeUnit.SECONDS);
+      checked.get(5, SECONDS);
       fail();
-    } catch (InterruptedException e) {
-      // Expected.
+    } catch (InterruptedException expected) {
     }
 
-    Thread.currentThread().interrupt();
+    currentThread().interrupt();
 
     try {
       checked.checkedGet();
       fail();
-    } catch (TestException e) {
-      assertThat(e.getCause()).isInstanceOf(InterruptedException.class);
+    } catch (TestException expected) {
+      assertThat(expected.getCause()).isInstanceOf(InterruptedException.class);
     }
 
-    Thread.currentThread().interrupt();
+    currentThread().interrupt();
 
     try {
-      checked.checkedGet(5, TimeUnit.SECONDS);
+      checked.checkedGet(5, SECONDS);
       fail();
-    } catch (TestException e) {
-      assertThat(e.getCause()).isInstanceOf(InterruptedException.class);
+    } catch (TestException expected) {
+      assertThat(expected.getCause()).isInstanceOf(InterruptedException.class);
     }
   }
 
-  @GwtIncompatible("makeChecked")
+  @GwtIncompatible // makeChecked
   public void testMakeChecked_mapsCancellation() throws Exception {
     SettableFuture<String> future = SettableFuture.create();
 
-    CheckedFuture<String, TestException> checked = Futures.makeChecked(
+    CheckedFuture<String, TestException> checked = makeChecked(
         future, mapper);
 
     assertTrue(future.cancel(true)); // argument is ignored
@@ -3107,7 +3211,7 @@ public class FuturesTest extends TestCase {
     }
 
     try {
-      checked.get(5, TimeUnit.SECONDS);
+      checked.get(5, SECONDS);
       fail();
     } catch (CancellationException expected) {
     }
@@ -3120,18 +3224,18 @@ public class FuturesTest extends TestCase {
     }
 
     try {
-      checked.checkedGet(5, TimeUnit.SECONDS);
+      checked.checkedGet(5, SECONDS);
       fail();
     } catch (TestException expected) {
       assertThat(expected.getCause()).isInstanceOf(CancellationException.class);
     }
   }
 
-  @GwtIncompatible("makeChecked")
+  @GwtIncompatible // makeChecked
   public void testMakeChecked_propagatesFailedMappers() throws Exception {
     SettableFuture<String> future = SettableFuture.create();
 
-    CheckedFuture<String, TestException> checked = Futures.makeChecked(
+    CheckedFuture<String, TestException> checked = makeChecked(
         future, new Function<Exception, TestException>() {
           @Override
           public TestException apply(Exception from) {
@@ -3148,18 +3252,18 @@ public class FuturesTest extends TestCase {
     }
 
     try {
-      checked.checkedGet(5, TimeUnit.SECONDS);
+      checked.checkedGet(5, SECONDS);
       fail();
     } catch (NullPointerException expected) {
     }
   }
 
-  @GwtIncompatible("makeChecked")
+  @GwtIncompatible // makeChecked
 
   public void testMakeChecked_listenersRunOnceCompleted() throws Exception {
     SettableFuture<String> future = SettableFuture.create();
 
-    CheckedFuture<String, TestException> checked = Futures.makeChecked(
+    CheckedFuture<String, TestException> checked = makeChecked(
         future, new Function<Exception, TestException>() {
           @Override
           public TestException apply(Exception from) {
@@ -3174,12 +3278,12 @@ public class FuturesTest extends TestCase {
     tester.tearDown();
   }
 
-  @GwtIncompatible("makeChecked")
+  @GwtIncompatible // makeChecked
 
   public void testMakeChecked_listenersRunOnCancel() throws Exception {
     SettableFuture<String> future = SettableFuture.create();
 
-    CheckedFuture<String, TestException> checked = Futures.makeChecked(
+    CheckedFuture<String, TestException> checked = makeChecked(
         future, new Function<Exception, TestException>() {
           @Override
           public TestException apply(Exception from) {
@@ -3194,12 +3298,12 @@ public class FuturesTest extends TestCase {
     tester.tearDown();
   }
 
-  @GwtIncompatible("makeChecked")
+  @GwtIncompatible // makeChecked
 
   public void testMakeChecked_listenersRunOnFailure() throws Exception {
     SettableFuture<String> future = SettableFuture.create();
 
-    CheckedFuture<String, TestException> checked = Futures.makeChecked(
+    CheckedFuture<String, TestException> checked = makeChecked(
         future, new Function<Exception, TestException>() {
           @Override
           public TestException apply(Exception from) {
@@ -3214,12 +3318,9 @@ public class FuturesTest extends TestCase {
     tester.tearDown();
   }
 
-  @GwtIncompatible("used only in GwtIncompatible tests")
-  private interface MapperFunction extends Function<Throwable, Exception> {
+  @GwtIncompatible // used only in GwtIncompatible tests
+  private interface MapperFunction extends Function<Throwable, Exception> {}
 
-  }
-
-  @GwtIncompatible("inCompletionOrder")
   public void testCompletionOrder() throws Exception {
     SettableFuture<Long> future1 = SettableFuture.create();
     SettableFuture<Long> future2 = SettableFuture.create();
@@ -3227,7 +3328,7 @@ public class FuturesTest extends TestCase {
     SettableFuture<Long> future4 = SettableFuture.create();
     SettableFuture<Long> future5 = SettableFuture.create();
 
-    ImmutableList<ListenableFuture<Long>> futures = Futures.inCompletionOrder(
+    ImmutableList<ListenableFuture<Long>> futures = inCompletionOrder(
         ImmutableList.<ListenableFuture<Long>>of(future1, future2, future3, future4, future5));
     future2.set(1L);
     future5.set(2L);
@@ -3235,14 +3336,13 @@ public class FuturesTest extends TestCase {
     future3.set(4L);
     future4.set(5L);
 
-    long expected = 1L;
+    long expectedResult = 1L;
     for (ListenableFuture<Long> future : futures) {
-      assertEquals((Long) expected, future.get());
-      expected++;
+      assertEquals((Long) expectedResult, getDone(future));
+      expectedResult++;
     }
   }
 
-  @GwtIncompatible("inCompletionOrder")
   public void testCompletionOrderExceptionThrown() throws Exception {
     SettableFuture<Long> future1 = SettableFuture.create();
     SettableFuture<Long> future2 = SettableFuture.create();
@@ -3250,7 +3350,7 @@ public class FuturesTest extends TestCase {
     SettableFuture<Long> future4 = SettableFuture.create();
     SettableFuture<Long> future5 = SettableFuture.create();
 
-    ImmutableList<ListenableFuture<Long>> futures = Futures.inCompletionOrder(
+    ImmutableList<ListenableFuture<Long>> futures = inCompletionOrder(
         ImmutableList.<ListenableFuture<Long>>of(future1, future2, future3, future4, future5));
     future2.set(1L);
     future5.setException(new IllegalStateException("2L"));
@@ -3258,24 +3358,22 @@ public class FuturesTest extends TestCase {
     future3.set(4L);
     future4.set(5L);
 
-    long expected = 1L;
+    long expectedResult = 1L;
     for (ListenableFuture<Long> future : futures) {
-      if (expected != 2) {
-        assertEquals((Long) expected, future.get());
+      if (expectedResult != 2) {
+        assertEquals((Long) expectedResult, getDone(future));
       } else {
         try {
-          future.get();
+          getDone(future);
           fail();
-        } catch (ExecutionException e) {
-          // Expected
-          assertThat(e.getCause()).hasMessage("2L");
+        } catch (ExecutionException expected) {
+          assertThat(expected.getCause()).hasMessage("2L");
         }
       }
-      expected++;
+      expectedResult++;
     }
   }
 
-  @GwtIncompatible("inCompletionOrder")
   public void testCompletionOrderFutureCancelled() throws Exception {
     SettableFuture<Long> future1 = SettableFuture.create();
     SettableFuture<Long> future2 = SettableFuture.create();
@@ -3283,7 +3381,7 @@ public class FuturesTest extends TestCase {
     SettableFuture<Long> future4 = SettableFuture.create();
     SettableFuture<Long> future5 = SettableFuture.create();
 
-    ImmutableList<ListenableFuture<Long>> futures = Futures.inCompletionOrder(
+    ImmutableList<ListenableFuture<Long>> futures = inCompletionOrder(
         ImmutableList.<ListenableFuture<Long>>of(future1, future2, future3, future4, future5));
     future2.set(1L);
     future5.set(2L);
@@ -3291,28 +3389,26 @@ public class FuturesTest extends TestCase {
     future3.cancel(true);
     future4.set(5L);
 
-    long expected = 1L;
+    long expectedResult = 1L;
     for (ListenableFuture<Long> future : futures) {
-      if (expected != 4) {
-        assertEquals((Long) expected, future.get());
+      if (expectedResult != 4) {
+        assertEquals((Long) expectedResult, getDone(future));
       } else {
         try {
-          future.get();
+          getDone(future);
           fail();
-        } catch (CancellationException e) {
-          // Expected
+        } catch (CancellationException expected) {
         }
       }
-      expected++;
+      expectedResult++;
     }
   }
 
-  @GwtIncompatible("inCompletionOrder")
   public void testCancellingADelegateDoesNotPropagate() throws Exception {
     SettableFuture<Long> future1 = SettableFuture.create();
     SettableFuture<Long> future2 = SettableFuture.create();
 
-    ImmutableList<ListenableFuture<Long>> delegates = Futures.inCompletionOrder(
+    ImmutableList<ListenableFuture<Long>> delegates = inCompletionOrder(
         ImmutableList.<ListenableFuture<Long>>of(future1, future2));
 
     future1.set(1L);
@@ -3323,11 +3419,10 @@ public class FuturesTest extends TestCase {
     // Setting the future still works since cancellation didn't propagate
     assertTrue(future2.set(2L));
     // Second check to ensure the input future was not cancelled
-    assertEquals((Long) 2L, future2.get());
+    assertEquals((Long) 2L, getDone(future2));
   }
 
   // Mostly an example of how it would look like to use a list of mixed types
-  @GwtIncompatible("inCompletionOrder")
   public void testCompletionOrderMixedBagOTypes() throws Exception {
     SettableFuture<Long> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
@@ -3335,18 +3430,18 @@ public class FuturesTest extends TestCase {
 
     ImmutableList<? extends ListenableFuture<?>> inputs =
         ImmutableList.<ListenableFuture<?>>of(future1, future2, future3);
-    ImmutableList<ListenableFuture<Object>> futures = Futures.inCompletionOrder(inputs);
+    ImmutableList<ListenableFuture<Object>> futures = inCompletionOrder(inputs);
     future2.set("1L");
     future1.set(2L);
     future3.set(3);
 
     ImmutableList<?> expected = ImmutableList.of("1L", 2L, 3);
     for (int i = 0; i < expected.size(); i++) {
-      assertEquals(expected.get(i), futures.get(i).get());
+      assertEquals(expected.get(i), getDone(futures.get(i)));
     }
   }
 
-  @GwtIncompatible("ClassSanityTester")
+  @GwtIncompatible // ClassSanityTester
   public void testFutures_nullChecks() throws Exception {
     new ClassSanityTester()
         .forAllPublicStaticMethods(Futures.class)
@@ -3358,22 +3453,6 @@ public class FuturesTest extends TestCase {
     AssertionFailedError failure = new AssertionFailedError(message);
     failure.initCause(cause);
     return failure;
-  }
-
-  /**
-   * A future that throws a runtime exception from get.
-   */
-  static class BuggyFuture extends AbstractFuture<String> {
-
-    @Override
-    public String get() {
-      throw new RuntimeException();
-    }
-
-    @Override
-    public boolean set(String v) {
-      return super.set(v);
-    }
   }
 
   // This test covers a bug where an Error thrown from a callback could cause the TimeoutFuture to
@@ -3390,4 +3469,13 @@ public class FuturesTest extends TestCase {
           throw new RejectedExecutionException();
         }
       };
+
+  private static <V> AsyncFunction<V, V> asyncIdentity() {
+    return new AsyncFunction<V, V>() {
+      @Override
+      public ListenableFuture<V> apply(V input) {
+        return immediateFuture(input);
+      }
+    };
+  }
 }

@@ -26,7 +26,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
-
 import java.util.Collection;
 import java.util.Map.Entry;
 
@@ -93,10 +92,7 @@ public class MultimapSizeTester<K, V> extends AbstractMultimapTester<K, V, Multi
 
   @CollectionSize.Require(SEVERAL)
   public void testSizeMultipleValues() {
-    resetContainer(
-        mapEntry(k0(), v0()),
-        mapEntry(k0(), v1()),
-        mapEntry(k0(), v2()));
+    resetContainer(mapEntry(k0(), v0()), mapEntry(k0(), v1()), mapEntry(k0(), v2()));
 
     assertEquals(3, multimap().size());
     assertEquals(3, multimap().entries().size());

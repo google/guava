@@ -103,7 +103,7 @@ public enum TimeUnit {
   static final long C6 = C5 * 24L;
 
   static final long MAX = Long.MAX_VALUE;
-  
+
   static final long C6_C0 = C6 / C0;
   static final long C6_C1 = C6 / C1;
   static final long C6_C2 = C6 / C2;
@@ -121,14 +121,14 @@ public enum TimeUnit {
   static final long C4_C1 = C4 / C1;
   static final long C4_C2 = C4 / C2;
   static final long C4_C3 = C4 / C3;
-  
+
   static final long C3_C0 = C3 / C0;
   static final long C3_C1 = C3 / C1;
   static final long C3_C2 = C3 / C2;
-  
+
   static final long C2_C0 = C2 / C0;
   static final long C2_C1 = C2 / C1;
-  
+
   static final long C1_C0 = C1 / C0;
 
   static final long MAX_C6_C0 = MAX / C6_C0;
@@ -157,7 +157,7 @@ public enum TimeUnit {
   static final long MAX_C2_C1 = MAX / C2_C1;
 
   static final long MAX_C1_C0 = MAX / C1_C0;
-  
+
   static long x(long d, long m, long over) {
     if (d >  over) return Long.MAX_VALUE;
     if (d < -over) return Long.MIN_VALUE;

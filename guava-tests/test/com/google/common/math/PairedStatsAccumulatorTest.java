@@ -45,10 +45,8 @@ import static com.google.common.math.StatsTesting.createPartitionedFilledPairedS
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.math.StatsTesting.ManyValues;
-
-import junit.framework.TestCase;
-
 import java.util.Collections;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link PairedStatsAccumulator}. This tests the stats methods for instances built with

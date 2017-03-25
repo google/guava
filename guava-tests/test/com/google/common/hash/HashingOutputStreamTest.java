@@ -14,13 +14,14 @@
 
 package com.google.common.hash;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
+
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
-import org.easymock.EasyMock;
-
 import java.io.ByteArrayOutputStream;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link HashingOutputStream}.
@@ -32,49 +33,43 @@ public class HashingOutputStreamTest extends TestCase {
   private HashFunction hashFunction;
   private final ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 
-  @Override protected void setUp() throws Exception {
+  @Override
+  protected void setUp() throws Exception {
     super.setUp();
-    hasher = EasyMock.createMock(Hasher.class);
-    hashFunction = EasyMock.createMock(HashFunction.class);
+    hasher = mock(Hasher.class);
+    hashFunction = mock(HashFunction.class);
 
-    EasyMock.expect(hashFunction.newHasher()).andReturn(hasher).once();
-    EasyMock.replay(hashFunction);
+    when(hashFunction.newHasher()).thenReturn(hasher);
   }
 
   public void testWrite_putSingleByte() throws Exception {
     int b = 'q';
-    EasyMock.expect(hasher.putByte((byte) b)).andReturn(hasher).once();
-    EasyMock.replay(hasher);
     HashingOutputStream out = new HashingOutputStream(hashFunction, buffer);
-
     out.write(b);
 
-    EasyMock.verify(hashFunction);
-    EasyMock.verify(hasher);
+    verify(hashFunction).newHasher();
+    verify(hasher).putByte((byte) b);
+    verifyNoMoreInteractions(hashFunction, hasher);
   }
 
   public void testWrite_putByteArray() throws Exception {
     byte[] buf = new byte[] {'y', 'a', 'm', 's'};
-    EasyMock.expect(hasher.putBytes(buf, 0, buf.length)).andReturn(hasher).once();
-    EasyMock.replay(hasher);
     HashingOutputStream out = new HashingOutputStream(hashFunction, buffer);
-
     out.write(buf);
 
-    EasyMock.verify(hashFunction);
-    EasyMock.verify(hasher);
+    verify(hashFunction).newHasher();
+    verify(hasher).putBytes(buf, 0, buf.length);
+    verifyNoMoreInteractions(hashFunction, hasher);
   }
 
   public void testWrite_putByteArrayAtPos() throws Exception {
     byte[] buf = new byte[] {'y', 'a', 'm', 's'};
-    EasyMock.expect(hasher.putBytes(buf, 0, 3)).andReturn(hasher).once();
-    EasyMock.replay(hasher);
     HashingOutputStream out = new HashingOutputStream(hashFunction, buffer);
-
     out.write(buf, 0, 3);
 
-    EasyMock.verify(hashFunction);
-    EasyMock.verify(hasher);
+    verify(hashFunction).newHasher();
+    verify(hasher).putBytes(buf, 0, 3);
+    verifyNoMoreInteractions(hashFunction, hasher);
   }
 
   public void testHash_hashesCorrectly() throws Exception {

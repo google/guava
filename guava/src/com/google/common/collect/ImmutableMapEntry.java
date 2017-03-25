@@ -19,7 +19,6 @@ package com.google.common.collect;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
-
 import javax.annotation.Nullable;
 
 /**
@@ -33,7 +32,7 @@ import javax.annotation.Nullable;
  *
  * @author Louis Wasserman
  */
-@GwtIncompatible("unnecessary")
+@GwtIncompatible // unnecessary
 class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
   /**
    * Creates an {@code ImmutableMapEntry} array to hold parameterized entries. The

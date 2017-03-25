@@ -21,7 +21,6 @@ import static com.google.common.collect.DiscreteDomain.integers;
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-
 import java.util.Set;
 
 /**

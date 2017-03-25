@@ -24,9 +24,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.common.util.concurrent.AbstractScheduledService.Scheduler;
 import com.google.common.util.concurrent.Service.State;
 import com.google.common.util.concurrent.testing.TestingExecutors;
-
-import junit.framework.TestCase;
-
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;
@@ -41,6 +38,7 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link AbstractScheduledService}.
@@ -354,27 +352,35 @@ public class AbstractScheduledServiceTest extends TestCase {
 
     public void testFixedRateSchedule() {
       Scheduler schedule = Scheduler.newFixedRateSchedule(initialDelay, delay, unit);
-      schedule.schedule(null, new ScheduledThreadPoolExecutor(1) {
-        @Override
-        public ScheduledFuture<?> scheduleAtFixedRate(Runnable command, long initialDelay,
-            long period, TimeUnit unit) {
-          assertSingleCallWithCorrectParameters(command, initialDelay, delay, unit);
-          return null;
-        }
-      }, testRunnable);
+      Future<?> unused =
+          schedule.schedule(
+              null,
+              new ScheduledThreadPoolExecutor(1) {
+                @Override
+                public ScheduledFuture<?> scheduleAtFixedRate(
+                    Runnable command, long initialDelay, long period, TimeUnit unit) {
+                  assertSingleCallWithCorrectParameters(command, initialDelay, delay, unit);
+                  return null;
+                }
+              },
+              testRunnable);
       assertTrue(called);
     }
 
     public void testFixedDelaySchedule() {
       Scheduler schedule = newFixedDelaySchedule(initialDelay, delay, unit);
-      schedule.schedule(null, new ScheduledThreadPoolExecutor(10) {
-        @Override
-        public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command, long initialDelay,
-            long delay, TimeUnit unit) {
-          assertSingleCallWithCorrectParameters(command, initialDelay, delay, unit);
-          return null;
-        }
-      }, testRunnable);
+      Future<?> unused =
+          schedule.schedule(
+              null,
+              new ScheduledThreadPoolExecutor(10) {
+                @Override
+                public ScheduledFuture<?> scheduleWithFixedDelay(
+                    Runnable command, long initialDelay, long delay, TimeUnit unit) {
+                  assertSingleCallWithCorrectParameters(command, initialDelay, delay, unit);
+                  return null;
+                }
+              },
+              testRunnable);
       assertTrue(called);
     }
 

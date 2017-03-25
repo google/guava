@@ -23,9 +23,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Lists;
 import com.google.common.testing.ClassSanityTester;
 import com.google.common.testing.EqualsTester;
-
-import junit.framework.TestCase;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import junit.framework.TestCase;
 
 /**
  * Tests com.google.common.base.Suppliers.
@@ -42,6 +40,118 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 @GwtCompatible(emulated = true)
 public class SuppliersTest extends TestCase {
+
+  static class CountingSupplier implements Supplier<Integer> {
+    int calls = 0;
+
+    @Override
+    public Integer get() {
+      calls++;
+      return calls * 10;
+    }
+  }
+
+  static class ThrowingSupplier implements Supplier<Integer> {
+    @Override
+    public Integer get() {
+      throw new NullPointerException();
+    }
+  }
+
+  static class SerializableCountingSupplier extends CountingSupplier implements Serializable {
+    private static final long serialVersionUID = 0L;
+  }
+
+  static class SerializableThrowingSupplier extends ThrowingSupplier implements Serializable {
+    private static final long serialVersionUID = 0L;
+  }
+
+  static void checkMemoize(CountingSupplier countingSupplier, Supplier<Integer> memoizedSupplier) {
+    // the underlying supplier hasn't executed yet
+    assertEquals(0, countingSupplier.calls);
+
+    assertEquals(10, (int) memoizedSupplier.get());
+
+    // now it has
+    assertEquals(1, countingSupplier.calls);
+
+    assertEquals(10, (int) memoizedSupplier.get());
+
+    // it still should only have executed once due to memoization
+    assertEquals(1, countingSupplier.calls);
+  }
+
+  public void testMemoize() {
+    memoizeTest(new CountingSupplier());
+    memoizeTest(new SerializableCountingSupplier());
+  }
+
+  private void memoizeTest(CountingSupplier countingSupplier) {
+    Supplier<Integer> memoizedSupplier = Suppliers.memoize(countingSupplier);
+    checkMemoize(countingSupplier, memoizedSupplier);
+  }
+
+  public void testMemoize_redudantly() {
+    memoize_redudantlyTest(new CountingSupplier());
+    memoize_redudantlyTest(new SerializableCountingSupplier());
+  }
+
+  private void memoize_redudantlyTest(CountingSupplier countingSupplier) {
+    Supplier<Integer> memoizedSupplier = Suppliers.memoize(countingSupplier);
+    assertSame(memoizedSupplier, Suppliers.memoize(memoizedSupplier));
+  }
+
+  public void testMemoizeExceptionThrown() {
+    memoizeExceptionThrownTest(new ThrowingSupplier());
+    memoizeExceptionThrownTest(new SerializableThrowingSupplier());
+  }
+
+  private void memoizeExceptionThrownTest(ThrowingSupplier memoizedSupplier) {
+    // call get() twice to make sure that memoization doesn't interfere
+    // with throwing the exception
+    for (int i = 0; i < 2; i++) {
+      try {
+        memoizedSupplier.get();
+        fail("failed to throw NullPointerException");
+      } catch (NullPointerException e) {
+        // this is what should happen
+      }
+    }
+  }
+
+  @GwtIncompatible // SerializableTester
+  public void testMemoizeNonSerializable() throws Exception {
+    CountingSupplier countingSupplier = new CountingSupplier();
+    Supplier<Integer> memoizedSupplier = Suppliers.memoize(countingSupplier);
+    checkMemoize(countingSupplier, memoizedSupplier);
+    // Calls to the original memoized supplier shouldn't affect its copy.
+    memoizedSupplier.get();
+    // Should get an exception when we try to serialize.
+    try {
+      reserialize(memoizedSupplier);
+      fail();
+    } catch (RuntimeException ex) {
+      assertEquals(java.io.NotSerializableException.class, ex.getCause().getClass());
+    }
+  }
+
+  @GwtIncompatible // SerializableTester
+  public void testMemoizeSerializable() throws Exception {
+    SerializableCountingSupplier countingSupplier = new SerializableCountingSupplier();
+
+    Supplier<Integer> memoizedSupplier = Suppliers.memoize(countingSupplier);
+    checkMemoize(countingSupplier, memoizedSupplier);
+    // Calls to the original memoized supplier shouldn't affect its copy.
+    memoizedSupplier.get();
+
+    Supplier<Integer> copy = reserialize(memoizedSupplier);
+    memoizedSupplier.get();
+
+    CountingSupplier countingCopy =
+        (CountingSupplier) ((Suppliers.MemoizingSupplier<Integer>) copy).delegate;
+    checkMemoize(countingCopy, copy);
+  }
+
   public void testCompose() {
     Supplier<Integer> fiveSupplier = new Supplier<Integer>() {
       @Override
@@ -91,83 +201,7 @@ public class SuppliersTest extends TestCase {
     assertEquals(Integer.valueOf(1), result.get(1));
   }
 
-  static class CountingSupplier implements Supplier<Integer>, Serializable {
-    private static final long serialVersionUID = 0L;
-    transient int calls = 0;
-    @Override
-    public Integer get() {
-      calls++;
-      return calls * 10;
-    }
-  }
-
-  public void testMemoize() {
-    CountingSupplier countingSupplier = new CountingSupplier();
-    Supplier<Integer> memoizedSupplier = Suppliers.memoize(countingSupplier);
-    checkMemoize(countingSupplier, memoizedSupplier);
-  }
-
-  public void testMemoize_redudantly() {
-    CountingSupplier countingSupplier = new CountingSupplier();
-    Supplier<Integer> memoizedSupplier = Suppliers.memoize(countingSupplier);
-    assertSame(memoizedSupplier, Suppliers.memoize(memoizedSupplier));
-  }
-
-  @GwtIncompatible("SerializableTester")
-  public void testMemoizeSerialized() {
-    CountingSupplier countingSupplier = new CountingSupplier();
-    Supplier<Integer> memoizedSupplier = Suppliers.memoize(countingSupplier);
-    checkMemoize(countingSupplier, memoizedSupplier);
-    // Calls to the original memoized supplier shouldn't affect its copy.
-    memoizedSupplier.get();
-
-    Supplier<Integer> copy = reserialize(memoizedSupplier);
-    memoizedSupplier.get();
-
-    CountingSupplier countingCopy = (CountingSupplier)
-        ((Suppliers.MemoizingSupplier<Integer>) copy).delegate;
-    checkMemoize(countingCopy, copy);
-  }
-
-  private void checkMemoize(
-      CountingSupplier countingSupplier, Supplier<Integer> memoizedSupplier) {
-    // the underlying supplier hasn't executed yet
-    assertEquals(0, countingSupplier.calls);
-
-    assertEquals(10, (int) memoizedSupplier.get());
-
-    // now it has
-    assertEquals(1, countingSupplier.calls);
-
-    assertEquals(10, (int) memoizedSupplier.get());
-
-    // it still should only have executed once due to memoization
-    assertEquals(1, countingSupplier.calls);
-  }
-
-  public void testMemoizeExceptionThrown() {
-    Supplier<Integer> exceptingSupplier = new Supplier<Integer>() {
-      @Override
-      public Integer get() {
-        throw new NullPointerException();
-      }
-    };
-
-    Supplier<Integer> memoizedSupplier = Suppliers.memoize(exceptingSupplier);
-
-    // call get() twice to make sure that memoization doesn't interfere
-    // with throwing the exception
-    for (int i = 0; i < 2; i++) {
-      try {
-        memoizedSupplier.get();
-        fail("failed to throw NullPointerException");
-      } catch (NullPointerException e) {
-        // this is what should happen
-      }
-    }
-  }
-
-  @GwtIncompatible("Thread.sleep")
+  @GwtIncompatible // Thread.sleep
   public void testMemoizeWithExpiration() throws InterruptedException {
     CountingSupplier countingSupplier = new CountingSupplier();
 
@@ -177,10 +211,9 @@ public class SuppliersTest extends TestCase {
     checkExpiration(countingSupplier, memoizedSupplier);
   }
 
-  @GwtIncompatible("Thread.sleep, SerializationTester")
-  public void testMemoizeWithExpirationSerialized()
-      throws InterruptedException {
-    CountingSupplier countingSupplier = new CountingSupplier();
+  @GwtIncompatible // Thread.sleep, SerializationTester
+  public void testMemoizeWithExpirationSerialized() throws InterruptedException {
+    SerializableCountingSupplier countingSupplier = new SerializableCountingSupplier();
 
     Supplier<Integer> memoizedSupplier = Suppliers.memoizeWithExpiration(
         countingSupplier, 75, TimeUnit.MILLISECONDS);
@@ -190,12 +223,12 @@ public class SuppliersTest extends TestCase {
     Supplier<Integer> copy = reserialize(memoizedSupplier);
     memoizedSupplier.get();
 
-    CountingSupplier countingCopy = (CountingSupplier)
-        ((Suppliers.ExpiringMemoizingSupplier<Integer>) copy).delegate;
+    CountingSupplier countingCopy =
+        (CountingSupplier) ((Suppliers.ExpiringMemoizingSupplier<Integer>) copy).delegate;
     checkExpiration(countingCopy, copy);
   }
 
-  @GwtIncompatible("Thread.sleep")
+  @GwtIncompatible // Thread.sleep
   private void checkExpiration(
       CountingSupplier countingSupplier, Supplier<Integer> memoizedSupplier)
       throws InterruptedException {
@@ -233,7 +266,7 @@ public class SuppliersTest extends TestCase {
     assertNull(nullSupplier.get());
   }
 
-  @GwtIncompatible("Thread")
+  @GwtIncompatible // Thread
 
   public void testExpiringMemoizedSupplierThreadSafe() throws Throwable {
     Function<Supplier<Boolean>, Supplier<Boolean>> memoizer =
@@ -246,7 +279,7 @@ public class SuppliersTest extends TestCase {
     testSupplierThreadSafe(memoizer);
   }
 
-  @GwtIncompatible("Thread")
+  @GwtIncompatible // Thread
 
   public void testMemoizedSupplierThreadSafe() throws Throwable {
     Function<Supplier<Boolean>, Supplier<Boolean>> memoizer =
@@ -258,9 +291,8 @@ public class SuppliersTest extends TestCase {
     testSupplierThreadSafe(memoizer);
   }
 
-  @GwtIncompatible("Thread")
-  public void testSupplierThreadSafe(
-      Function<Supplier<Boolean>, Supplier<Boolean>> memoizer)
+  @GwtIncompatible // Thread
+  public void testSupplierThreadSafe(Function<Supplier<Boolean>, Supplier<Boolean>> memoizer)
       throws Throwable {
     final AtomicInteger count = new AtomicInteger(0);
     final AtomicReference<Throwable> thrown =
@@ -332,10 +364,9 @@ public class SuppliersTest extends TestCase {
     assertEquals(1, count.get());
   }
 
-  @GwtIncompatible("Thread")
+  @GwtIncompatible // Thread
 
-  public void testSynchronizedSupplierThreadSafe()
-      throws InterruptedException {
+  public void testSynchronizedSupplierThreadSafe() throws InterruptedException {
     final Supplier<Integer> nonThreadSafe = new Supplier<Integer>() {
       int counter = 0;
       @Override
@@ -377,7 +408,7 @@ public class SuppliersTest extends TestCase {
     assertEquals(14, (int) supplierFunction.apply(supplier));
   }
 
-  @GwtIncompatible("SerializationTester")
+  @GwtIncompatible // SerializationTester
   public void testSerialization() {
     assertEquals(
         Integer.valueOf(5), reserialize(Suppliers.ofInstance(5)).get());
@@ -392,13 +423,13 @@ public class SuppliersTest extends TestCase {
         Suppliers.synchronizedSupplier(Suppliers.ofInstance(5))).get());
   }
 
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public void testSuppliersNullChecks() throws Exception {
     new ClassSanityTester().forAllPublicStaticMethods(Suppliers.class)
         .testNulls();
   }
 
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   @AndroidIncompatible // TODO(cpovirk): ClassNotFoundException: com.google.common.base.Function
   public void testSuppliersSerializable() throws Exception {
     new ClassSanityTester().forAllPublicStaticMethods(Suppliers.class)

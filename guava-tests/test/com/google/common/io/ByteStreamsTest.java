@@ -19,7 +19,6 @@ package com.google.common.io;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Charsets;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
@@ -455,6 +454,17 @@ public class ByteStreamsTest extends IoTestCase {
     InputStream in = newTestStream(100);
     byte[] b = ByteStreams.toByteArray(in, 0);
     assertEquals(100, b.length);
+  }
+
+  public void testExhaust() throws IOException {
+    InputStream in = newTestStream(100);
+    assertEquals(100, ByteStreams.exhaust(in));
+    assertEquals(-1, in.read());
+    assertEquals(0, ByteStreams.exhaust(in));
+
+    InputStream empty = newTestStream(0);
+    assertEquals(0, ByteStreams.exhaust(empty));
+    assertEquals(-1, empty.read());
   }
 
   private static InputStream newTestStream(int n) {

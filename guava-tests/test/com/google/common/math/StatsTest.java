@@ -68,6 +68,7 @@ import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.NaN;
 import static java.lang.Double.POSITIVE_INFINITY;
 import static java.lang.Math.sqrt;
+import static java.util.Arrays.stream;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.math.StatsTesting.ManyValues;
@@ -75,11 +76,10 @@ import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.DoubleSummaryStatistics;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link Stats}. This tests instances created by both {@link Stats#of} and
@@ -500,6 +500,23 @@ public class StatsTest extends TestCase {
     SerializableTester.reserializeAndAssert(MANY_VALUES_STATS_ITERABLE);
   }
 
+  public void testToString() {
+    assertThat(EMPTY_STATS_VARARGS.toString()).isEqualTo("Stats{count=0}");
+    assertThat(MANY_VALUES_STATS_ITERABLE.toString())
+        .isEqualTo(
+            "Stats{count="
+                + MANY_VALUES_STATS_ITERABLE.count()
+                + ", mean="
+                + MANY_VALUES_STATS_ITERABLE.mean()
+                + ", populationStandardDeviation="
+                + MANY_VALUES_STATS_ITERABLE.populationStandardDeviation()
+                + ", min="
+                + MANY_VALUES_STATS_ITERABLE.min()
+                + ", max="
+                + MANY_VALUES_STATS_ITERABLE.max()
+                + "}");
+  }
+
   public void testMeanOf() {
     try {
       Stats.meanOf();
@@ -590,6 +607,42 @@ public class StatsTest extends TestCase {
       Stats.fromByteArray(tooShortByteArray);
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testEquivalentStreams() {
+    // For datasets of many double values created from an array, we test many combinations of finite
+    // and non-finite values:
+    for (ManyValues values : ALL_MANY_VALUES) {
+      double[] array = values.asArray();
+      Stats stats = Stats.of(array);
+      // instance methods on Stats vs on instance methods on DoubleStream
+      assertThat(stats.count()).isEqualTo(stream(array).count());
+      assertEquivalent(stats.mean(), stream(array).average().getAsDouble());
+      assertEquivalent(stats.sum(), stream(array).sum());
+      assertEquivalent(stats.max(), stream(array).max().getAsDouble());
+      assertEquivalent(stats.min(), stream(array).min().getAsDouble());
+      // static method on Stats vs on instance method on DoubleStream
+      assertEquivalent(Stats.meanOf(array), stream(array).average().getAsDouble());
+      // instance methods on Stats vs instance methods on DoubleSummaryStatistics
+      DoubleSummaryStatistics streamStats = stream(array).summaryStatistics();
+      assertThat(stats.count()).isEqualTo(streamStats.getCount());
+      assertEquivalent(stats.mean(), streamStats.getAverage());
+      assertEquivalent(stats.sum(), streamStats.getSum());
+      assertEquivalent(stats.max(), streamStats.getMax());
+      assertEquivalent(stats.min(), streamStats.getMin());
+    }
+  }
+
+  private static void assertEquivalent(double actual, double expected) {
+    if (expected == POSITIVE_INFINITY) {
+      assertThat(actual).isPositiveInfinity();
+    } else if (expected == NEGATIVE_INFINITY) {
+      assertThat(actual).isNegativeInfinity();
+    } else if (Double.isNaN(expected)) {
+      assertThat(actual).isNaN();
+    } else {
+      assertThat(actual).isWithin(ALLOWED_ERROR).of(expected);
     }
   }
 }

@@ -28,18 +28,15 @@ import com.google.common.collect.Lists;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.NullPointerTester.Visibility;
 import com.google.common.util.concurrent.RateLimiter.SleepingStopwatch;
-
-import junit.framework.TestCase;
-
-import org.easymock.EasyMock;
-import org.mockito.Mockito;
-
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import junit.framework.TestCase;
+import org.easymock.EasyMock;
+import org.mockito.Mockito;
 
 /**
  * Tests for RateLimiter.
@@ -167,8 +164,9 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testCreateWarmupParameterValidation() {
-    RateLimiter.create(1.0, 1, NANOSECONDS);
-    RateLimiter.create(1.0, 0, NANOSECONDS);
+    RateLimiter unused;
+    unused = RateLimiter.create(1.0, 1, NANOSECONDS);
+    unused = RateLimiter.create(1.0, 0, NANOSECONDS);
 
     try {
       RateLimiter.create(0.0, 1, NANOSECONDS);
@@ -500,6 +498,15 @@ public class RateLimiterTest extends TestCase {
         .setDefault(double.class, 1.0d);
     tester.testStaticMethods(RateLimiter.class, Visibility.PACKAGE);
     tester.testInstanceMethods(RateLimiter.create(stopwatch, 5.0), Visibility.PACKAGE);
+  }
+
+  public void testVerySmallDoubleValues() throws Exception {
+    RateLimiter rateLimiter = RateLimiter.create(stopwatch, Double.MIN_VALUE);
+    assertTrue("Should acquire initial permit", rateLimiter.tryAcquire());
+    assertFalse("Should not acquire additional permit", rateLimiter.tryAcquire());
+    stopwatch.sleepMillis(5000);
+    assertFalse(
+        "Should not acquire additional permit even after sleeping", rateLimiter.tryAcquire());
   }
 
   private long measureTotalTimeMillis(RateLimiter rateLimiter, int permits, Random random) {

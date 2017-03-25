@@ -27,16 +27,14 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedMap;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * Test cases for {@link TreeBasedTable}.
@@ -46,7 +44,7 @@ import java.util.SortedMap;
  */
 @GwtCompatible(emulated = true)
 public class TreeBasedTableTest extends AbstractTableTest {
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(TreeBasedTableTest.class);
@@ -171,7 +169,7 @@ public class TreeBasedTableTest extends AbstractTableTest {
     assertEquals(original, table);
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerialization() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     SerializableTester.reserializeAndAssert(table);
@@ -210,11 +208,21 @@ public class TreeBasedTableTest extends AbstractTableTest {
 
   public void testColumnComparator() {
     sortedTable = TreeBasedTable.create();
+    sortedTable.put("", 42, 'x');
     assertSame(Ordering.natural(), sortedTable.columnComparator());
+    assertSame(
+        Ordering.natural(),
+        ((SortedMap<Integer, Character>) sortedTable.rowMap().values().iterator().next())
+            .comparator());
 
     sortedTable = TreeBasedTable.create(
         Collections.reverseOrder(), Ordering.usingToString());
+    sortedTable.put("", 42, 'x');
     assertSame(Ordering.usingToString(), sortedTable.columnComparator());
+    assertSame(
+        Ordering.usingToString(),
+        ((SortedMap<Integer, Character>) sortedTable.rowMap().values().iterator().next())
+            .comparator());
   }
 
   public void testRowKeySetComparator() {

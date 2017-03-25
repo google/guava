@@ -17,13 +17,12 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
-
 import javax.annotation.Nullable;
 
 /**
@@ -73,6 +72,7 @@ public interface SortedSetMultimap<K, V> extends SetMultimap<K, V> {
    * key, this method returns a {@link SortedSet}, instead of the
    * {@link java.util.Collection} specified in the {@link Multimap} interface.
    */
+  @CanIgnoreReturnValue
   @Override
   SortedSet<V> removeAll(@Nullable Object key);
 
@@ -86,6 +86,7 @@ public interface SortedSetMultimap<K, V> extends SetMultimap<K, V> {
    *
    * <p>Any duplicates in {@code values} will be stored in the multimap once.
    */
+  @CanIgnoreReturnValue
   @Override
   SortedSet<V> replaceValues(K key, Iterable<? extends V> values);
 

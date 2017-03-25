@@ -14,6 +14,11 @@
 
 package com.google.common.collect;
 
+import com.google.common.annotations.GwtIncompatible;
+import java.util.function.Function;
+import java.util.function.ToIntFunction;
+import java.util.stream.Collector;
+
 /**
  * "Overrides" the {@link ImmutableMultiset} static methods that lack
  * {@link ImmutableSortedMultiset} equivalents with deprecated, exception-throwing versions. This
@@ -31,7 +36,37 @@ package com.google.common.collect;
  *
  * @author Louis Wasserman
  */
+@GwtIncompatible
 abstract class ImmutableSortedMultisetFauxverideShim<E> extends ImmutableMultiset<E> {
+  /**
+   * Not supported. Use {@link ImmutableSortedMultiset#toImmutableSortedMultiset} instead.
+   * This method exists only to hide {@link ImmutableMultiset#toImmutableMultiset} from
+   * consumers of {@code ImmutableSortedMultiset}.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Use {@link ImmutableSortedMultiset#toImmutableSortedMultiset}.
+   * @since 21.0
+   */
+  @Deprecated
+  public static <E> Collector<E, ?, ImmutableMultiset<E>> toImmutableMultiset() {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. Use {@link ImmutableSortedMultiset#toImmutableSortedMultiset} instead.
+   * This method exists only to hide {@link ImmutableMultiset#toImmutableMultiset} from
+   * consumers of {@code ImmutableSortedMultiset}.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Use {@link ImmutableSortedMultiset#toImmutableSortedMultiset}.
+   * @since 22.0
+   */
+  @Deprecated
+  public static <T, E> Collector<T, ?, ImmutableMultiset<E>> toImmutableMultiset(
+      Function<? super T, ? extends E> elementFunction, ToIntFunction<? super T> countFunction) {
+    throw new UnsupportedOperationException();
+  }
+
   /**
    * Not supported. Use {@link ImmutableSortedMultiset#naturalOrder}, which offers better
    * type-safety, instead. This method exists only to hide {@link ImmutableMultiset#builder} from

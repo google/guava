@@ -24,12 +24,10 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link Optional}.
@@ -38,6 +36,23 @@ import java.util.Set;
  */
 @GwtCompatible(emulated = true)
 public final class OptionalTest extends TestCase {
+  public void testToJavaUtil_static() {
+    assertNull(Optional.toJavaUtil(null));
+    assertEquals(java.util.Optional.empty(), Optional.toJavaUtil(Optional.absent()));
+    assertEquals(java.util.Optional.of("abc"), Optional.toJavaUtil(Optional.of("abc")));
+  }
+
+  public void testToJavaUtil_instance() {
+    assertEquals(java.util.Optional.empty(), Optional.absent().toJavaUtil());
+    assertEquals(java.util.Optional.of("abc"), Optional.of("abc").toJavaUtil());
+  }
+
+  public void testFromJavaUtil() {
+    assertNull(Optional.fromJavaUtil(null));
+    assertEquals(Optional.absent(), Optional.fromJavaUtil(java.util.Optional.empty()));
+    assertEquals(Optional.of("abc"), Optional.fromJavaUtil(java.util.Optional.of("abc")));
+  }
+
   public void testAbsent() {
     Optional<String> optionalName = Optional.absent();
     assertFalse(optionalName.isPresent());
@@ -49,7 +64,7 @@ public final class OptionalTest extends TestCase {
 
   public void testOf_null() {
     try {
-      Optional<Object> unused = Optional.of(null);
+      Optional.of(null);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -76,7 +91,7 @@ public final class OptionalTest extends TestCase {
   public void testGet_absent() {
     Optional<String> optional = Optional.absent();
     try {
-      String unused = optional.get();
+      optional.get();
       fail();
     } catch (IllegalStateException expected) {
     }
@@ -106,7 +121,7 @@ public final class OptionalTest extends TestCase {
     Supplier<Object> nullSupplier = Suppliers.ofInstance(null);
     Optional<Object> absentOptional = Optional.absent();
     try {
-      Object unused = absentOptional.or(nullSupplier);
+      absentOptional.or(nullSupplier);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -299,13 +314,13 @@ public final class OptionalTest extends TestCase {
     Number value = first.or(0.5); // fine
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerialization() {
     SerializableTester.reserializeAndAssert(Optional.absent());
     SerializableTester.reserializeAndAssert(Optional.of("foo"));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     NullPointerTester npTester = new NullPointerTester();
     npTester.testAllPublicConstructors(Optional.class);

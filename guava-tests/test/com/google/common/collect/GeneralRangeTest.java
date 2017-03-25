@@ -21,11 +21,9 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
 import java.util.Arrays;
 import java.util.List;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@code GeneralRange}.
@@ -202,7 +200,7 @@ public class GeneralRangeTest extends TestCase {
         GeneralRange.range(ORDERING, 3, CLOSED, 5, OPEN).reverse());
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     new NullPointerTester().testAllPublicStaticMethods(GeneralRange.class);
   }

@@ -20,13 +20,11 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link Bytes}.
@@ -147,13 +145,13 @@ public class BytesTest extends TestCase {
 
   public void testEnsureCapacity_fail() {
     try {
-      byte[] unused = Bytes.ensureCapacity(ARRAY1, -1, 1);
+      Bytes.ensureCapacity(ARRAY1, -1, 1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
       // notice that this should even fail when no growth was needed
-      byte[] unused = Bytes.ensureCapacity(ARRAY1, 1, -1);
+      Bytes.ensureCapacity(ARRAY1, 1, -1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -194,7 +192,7 @@ public class BytesTest extends TestCase {
   public void testToArray_withNull() {
     List<Byte> list = Arrays.asList((byte) 0, (byte) 1, null);
     try {
-      byte[] unused = Bytes.toArray(list);
+      Bytes.toArray(list);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -254,7 +252,7 @@ public class BytesTest extends TestCase {
     assertSame(Collections.emptyList(), Bytes.asList(EMPTY));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Bytes.class);
   }

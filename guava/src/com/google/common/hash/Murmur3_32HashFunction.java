@@ -30,15 +30,14 @@ import static com.google.common.primitives.UnsignedBytes.toInt;
 import com.google.common.primitives.Chars;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
-
 import java.io.Serializable;
 import java.nio.ByteBuffer;
-
 import javax.annotation.Nullable;
 
 /**
- * See http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp
- * MurmurHash3_x86_32
+ * See MurmurHash3_x86_32 in
+ * <a href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">the C++
+ * implementation</a>.
  *
  * @author Austin Appleby
  * @author Dimitris Andreou

@@ -19,11 +19,9 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Supplier;
-
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -33,7 +31,6 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
-
 import javax.annotation.Nullable;
 
 /**
@@ -75,7 +72,6 @@ import javax.annotation.Nullable;
  * @since 7.0
  */
 @GwtCompatible(serializable = true)
-@Beta
 public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   private final Comparator<? super C> columnComparator;
 
@@ -140,17 +136,27 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   // TODO(jlevy): Move to StandardRowSortedTable?
 
   /**
-   * Returns the comparator that orders the rows. With natural ordering,
-   * {@link Ordering#natural()} is returned.
+   * Returns the comparator that orders the rows. With natural ordering, {@link Ordering#natural()}
+   * is returned.
+   *
+   * @deprecated Use {@code table.rowKeySet().comparator()} instead. This method is scheduled for
+   *     removal in April 2019.
    */
+  @Deprecated
   public Comparator<? super R> rowComparator() {
     return rowKeySet().comparator();
   }
 
   /**
-   * Returns the comparator that orders the columns. With natural ordering,
-   * {@link Ordering#natural()} is returned.
+   * Returns the comparator that orders the columns. With natural ordering, {@link
+   * Ordering#natural()} is returned.
+   *
+   * @deprecated Store the {@link Comparator} alongside the {@link Table}. Or, if you know that the
+   *     {@link Table} contains at least one value, you can retrieve the {@link Comparator} with:
+   *     {@code ((SortedMap<C, V>) table.rowMap().values().iterator().next()).comparator();}. This
+   *     method is scheduled for removal in April 2019.
    */
+  @Deprecated
   public Comparator<? super C> columnComparator() {
     return columnComparator;
   }

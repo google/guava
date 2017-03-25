@@ -17,424 +17,636 @@
 package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-
-import java.util.Iterator;
+import com.google.common.base.Objects;
+import com.google.common.base.Optional;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Maps;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.ArrayDeque;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
-
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
- * Static utility methods for {@link Graph} instances.
+ * Static utility methods for {@link Graph}, {@link ValueGraph}, and {@link Network} instances.
  *
+ * @author James Sexton
  * @author Joshua O'Madadhain
- * @see Graph
  * @since 20.0
  */
 @Beta
 public final class Graphs {
 
-  public static final GraphConfig MULTIGRAPH = config().multigraph();
-
   private Graphs() {}
 
+  // Graph query methods
+
   /**
-   * Returns the node at the other end of {@code e} from {@code n}.
+   * Returns true if {@code graph} has at least one cycle. A cycle is defined as a non-empty subset
+   * of edges in a graph arranged to form a path (a sequence of adjacent outgoing edges) starting
+   * and ending with the same node.
+   *
+   * <p>This method will detect any non-empty cycle, including self-loops (a cycle of length 1).
    */
-  @SuppressWarnings("unchecked")
-  @CheckReturnValue
-  public static <N> N oppositeNode(
-      UndirectedGraph<N, ?> undirectedGraph, Object edge, Object node) {
-    checkNotNull(edge, "edge");
-    checkNotNull(node, "node");
-    Set<N> incidentNodes = undirectedGraph.incidentNodes(edge);
-    checkArgument(incidentNodes.contains(node), "Edge %s is not incident to node %s", edge, node);
-    for (N incidentNode : incidentNodes) {
-      if (!incidentNode.equals(node)) {
-        return incidentNode;
+  public static boolean hasCycle(Graph<?> graph) {
+    int numEdges = graph.edges().size();
+    if (numEdges == 0) {
+      return false; // An edge-free graph is acyclic by definition.
+    }
+    if (!graph.isDirected() && numEdges >= graph.nodes().size()) {
+      return true; // Optimization for the undirected case: at least one cycle must exist.
+    }
+
+    Map<Object, NodeVisitState> visitedNodes =
+        Maps.newHashMapWithExpectedSize(graph.nodes().size());
+    for (Object node : graph.nodes()) {
+      if (subgraphHasCycle(graph, visitedNodes, node, null)) {
+        return true;
       }
     }
-    // Reaching this point means that incidentNodes contains only one node,
-    // which is node, hence edge is a self-loop for node, and node is its own opposite
-    return (N) node;
+    return false;
   }
 
   /**
-   * Adds {@code edge} to {@code graph} with the specified incident {@code nodes}, in the order
-   * returned by {@code nodes}' iterator.
+   * Returns true if {@code network} has at least one cycle. A cycle is defined as a non-empty
+   * subset of edges in a graph arranged to form a path (a sequence of adjacent outgoing edges)
+   * starting and ending with the same node.
+   *
+   * <p>This method will detect any non-empty cycle, including self-loops (a cycle of length 1).
    */
-  public static <N, E> boolean addEdge(Graph<N, E> graph, E edge, Iterable<N> nodes) {
-    checkNotNull(graph, "graph");
-    checkNotNull(nodes, "nodes");
-    checkNotNull(edge, "edge");
-    if (graph instanceof Hypergraph) {
-      return ((Hypergraph<N, E>) graph).addEdge(edge, nodes);
+  public static boolean hasCycle(Network<?, ?> network) {
+    // In a directed graph, parallel edges cannot introduce a cycle in an acyclic graph.
+    // However, in an undirected graph, any parallel edge induces a cycle in the graph.
+    if (!network.isDirected()
+        && network.allowsParallelEdges()
+        && network.edges().size() > network.asGraph().edges().size()) {
+      return true;
+    }
+    return hasCycle(network.asGraph());
+  }
+
+  /**
+   * Performs a traversal of the nodes reachable from {@code node}. If we ever reach a node we've
+   * already visited (following only outgoing edges and without reusing edges), we know there's a
+   * cycle in the graph.
+   */
+  private static boolean subgraphHasCycle(
+      Graph<?> graph,
+      Map<Object, NodeVisitState> visitedNodes,
+      Object node,
+      @Nullable Object previousNode) {
+    NodeVisitState state = visitedNodes.get(node);
+    if (state == NodeVisitState.COMPLETE) {
+      return false;
+    }
+    if (state == NodeVisitState.PENDING) {
+      return true;
     }
 
-    Iterator<N> it = nodes.iterator();
-    checkArgument(
-        it.hasNext(), "'graph' is not a Hypergraph, and 'nodes' has < 1 elements: %s", nodes);
-    N n1 = it.next();
-    if (it.hasNext()) {
-      N n2 = it.next();
-      checkArgument(
-          !it.hasNext(), "'graph' is not a Hypergraph, and 'nodes' has > 2 elements: %s", nodes);
-      return graph.addEdge(edge, n1, n2);
+    visitedNodes.put(node, NodeVisitState.PENDING);
+    for (Object nextNode : graph.successors(node)) {
+      if (canTraverseWithoutReusingEdge(graph, nextNode, previousNode)
+          && subgraphHasCycle(graph, visitedNodes, nextNode, node)) {
+        return true;
+      }
+    }
+    visitedNodes.put(node, NodeVisitState.COMPLETE);
+    return false;
+  }
+
+  /**
+   * Determines whether an edge has already been used during traversal. In the directed case a cycle
+   * is always detected before reusing an edge, so no special logic is required. In the undirected
+   * case, we must take care not to "backtrack" over an edge (i.e. going from A to B and then going
+   * from B to A).
+   */
+  private static boolean canTraverseWithoutReusingEdge(
+      Graph<?> graph, Object nextNode, @Nullable Object previousNode) {
+    if (graph.isDirected() || !Objects.equal(previousNode, nextNode)) {
+      return true;
+    }
+    // This falls into the undirected A->B->A case. The Graph interface does not support parallel
+    // edges, so this traversal would require reusing the undirected AB edge.
+    return false;
+  }
+
+  /**
+   * Returns the transitive closure of {@code graph}. The transitive closure of a graph is another
+   * graph with an edge connecting node A to node B if node B is {@link #reachableNodes(Graph,
+   * Object) reachable} from node A.
+   *
+   * <p>This is a "snapshot" based on the current topology of {@code graph}, rather than a live view
+   * of the transitive closure of {@code graph}. In other words, the returned {@link Graph} will not
+   * be updated after modifications to {@code graph}.
+   */
+  // TODO(b/31438252): Consider potential optimizations for this algorithm.
+  public static <N> Graph<N> transitiveClosure(Graph<N> graph) {
+    MutableGraph<N> transitiveClosure = GraphBuilder.from(graph).allowsSelfLoops(true).build();
+    // Every node is, at a minimum, reachable from itself. Since the resulting transitive closure
+    // will have no isolated nodes, we can skip adding nodes explicitly and let putEdge() do it.
+
+    if (graph.isDirected()) {
+      // Note: works for both directed and undirected graphs, but we only use in the directed case.
+      for (N node : graph.nodes()) {
+        for (N reachableNode : reachableNodes(graph, node)) {
+          transitiveClosure.putEdge(node, reachableNode);
+        }
+      }
     } else {
-      return graph.addEdge(edge, n1, n1);
-    }
-  }
-
-  /**
-   * Creates a mutable copy of {@code graph}, using the same node and edge elements.
-   */
-  @CheckReturnValue
-  public static <N, E> DirectedGraph<N, E> copyOf(DirectedGraph<N, E> graph) {
-    checkNotNull(graph, "graph");
-    DirectedGraph<N, E> copy = createDirected(graph.config()
-            .expectedNodeCount(graph.nodes().size())
-            .expectedEdgeCount(graph.edges().size()));
-    mergeNodesFrom(graph, copy);
-    mergeEdgesFrom(graph, copy);
-    return copy;
-  }
-
-  /**
-   * Creates a mutable copy of {@code graph}, using all of its elements that satisfy
-   * {@code nodePredicate} and {@code edgePredicate}.
-   */
-  @CheckReturnValue
-  public static <N, E> DirectedGraph<N, E> copyOf(
-      DirectedGraph<N, E> graph,
-      Predicate<? super N> nodePredicate,
-      Predicate<? super E> edgePredicate) {
-    checkNotNull(graph, "graph");
-    checkNotNull(nodePredicate, "nodePredicate");
-    checkNotNull(edgePredicate, "edgePredicate");
-    DirectedGraph<N, E> copy = createDirected(graph.config()
-            .expectedNodeCount(graph.nodes().size())
-            .expectedEdgeCount(graph.edges().size()));
-    mergeNodesFrom(graph, copy, nodePredicate);
-    // We can't just call mergeEdgesFrom(graph, copy, edgePredicate) because addEdge() can add
-    // the edge's incident nodes if they are not present; we need to run them past nodePredicate.
-    if (edgePredicate.equals(Predicates.<E>alwaysFalse())) {
-      return copy; // no edges to add
-    }
-
-    for (E edge : graph.edges()) {
-      if (edgePredicate.apply(edge)) {
-        N source = graph.source(edge);
-        N target = graph.target(edge);
-        if (nodePredicate.apply(source) && nodePredicate.apply(target)) {
-          copy.addEdge(edge, source, target);
+      // An optimization for the undirected case: for every node B reachable from node A,
+      // node A and node B have the same reachability set.
+      Set<N> visitedNodes = new HashSet<N>();
+      for (N node : graph.nodes()) {
+        if (!visitedNodes.contains(node)) {
+          Set<N> reachableNodes = reachableNodes(graph, node);
+          visitedNodes.addAll(reachableNodes);
+          int pairwiseMatch = 1; // start at 1 to include self-loops
+          for (N nodeU : reachableNodes) {
+            for (N nodeV : Iterables.limit(reachableNodes, pairwiseMatch++)) {
+              transitiveClosure.putEdge(nodeU, nodeV);
+            }
+          }
         }
       }
     }
 
-    return copy;
+    return transitiveClosure;
   }
 
   /**
-   * Copies all nodes from {@code original} into {@code copy}.
+   * Returns the set of nodes that are reachable from {@code node}. Node B is defined as reachable
+   * from node A if there exists a path (a sequence of adjacent outgoing edges) starting at node A
+   * and ending at node B. Note that a node is always reachable from itself via a zero-length path.
+   *
+   * <p>This is a "snapshot" based on the current topology of {@code graph}, rather than a live view
+   * of the set of nodes reachable from {@code node}. In other words, the returned {@link Set} will
+   * not be updated after modifications to {@code graph}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not present in {@code graph}
    */
-  public static <N, E> void mergeNodesFrom(Graph<N, E> original, Graph<N, E> copy) {
-    checkNotNull(original, "original");
-    checkNotNull(copy, "copy");
-    for (N node : original.nodes()) {
+  @SuppressWarnings("unchecked") // Safe because we only cast if node is an element of the graph.
+  public static <N> Set<N> reachableNodes(Graph<N> graph, Object node) {
+    checkArgument(graph.nodes().contains(node), NODE_NOT_IN_GRAPH, node);
+    Set<N> visitedNodes = new LinkedHashSet<N>();
+    Queue<N> queuedNodes = new ArrayDeque<N>();
+    visitedNodes.add((N) node);
+    queuedNodes.add((N) node);
+    // Perform a breadth-first traversal rooted at the input node.
+    while (!queuedNodes.isEmpty()) {
+      N currentNode = queuedNodes.remove();
+      for (N successor : graph.successors(currentNode)) {
+        if (visitedNodes.add(successor)) {
+          queuedNodes.add(successor);
+        }
+      }
+    }
+    return Collections.unmodifiableSet(visitedNodes);
+  }
+
+  /**
+   * @deprecated Use {@link Graph#equals(Object)} instead. This method will be removed in late 2017.
+   */
+  // TODO(user): Delete this method.
+  @Deprecated
+  public static boolean equivalent(@Nullable Graph<?> graphA, @Nullable Graph<?> graphB) {
+    return Objects.equal(graphA, graphB);
+  }
+
+  /**
+   * @deprecated Use {@link ValueGraph#equals(Object)} instead. This method will be removed in late
+   * 2017.
+   */
+  // TODO(user): Delete this method.
+  @Deprecated
+  public static boolean equivalent(
+      @Nullable ValueGraph<?, ?> graphA, @Nullable ValueGraph<?, ?> graphB) {
+    return Objects.equal(graphA, graphB);
+  }
+
+  /**
+   * @deprecated Use {@link Network#equals(Object)} instead. This method will be removed in late
+   * 2017.
+   */
+  // TODO(user): Delete this method.
+  @Deprecated
+  public static boolean equivalent(
+      @Nullable Network<?, ?> networkA, @Nullable Network<?, ?> networkB) {
+    return Objects.equal(networkA, networkB);
+  }
+
+  // Graph mutation methods
+
+  // Graph view methods
+
+  /**
+   * Returns a view of {@code graph} with the direction (if any) of every edge reversed. All other
+   * properties remain intact, and further updates to {@code graph} will be reflected in the view.
+   */
+  public static <N> Graph<N> transpose(Graph<N> graph) {
+    if (!graph.isDirected()) {
+      return graph; // the transpose of an undirected graph is an identical graph
+    }
+
+    if (graph instanceof TransposedGraph) {
+      return ((TransposedGraph<N>) graph).graph;
+    }
+
+    return new TransposedGraph<N>(graph);
+  }
+
+  private static class TransposedGraph<N> extends AbstractGraph<N> {
+    private final Graph<N> graph;
+
+    TransposedGraph(Graph<N> graph) {
+      this.graph = graph;
+    }
+
+    @Override
+    public Set<N> nodes() {
+      return graph.nodes();
+    }
+
+    /**
+     * Defer to {@link AbstractGraph#edges()} (based on {@link #successors(Object)}) for full
+     * edges() implementation.
+     */
+    @Override
+    protected long edgeCount() {
+      return graph.edges().size();
+    }
+
+    @Override
+    public boolean isDirected() {
+      return graph.isDirected();
+    }
+
+    @Override
+    public boolean allowsSelfLoops() {
+      return graph.allowsSelfLoops();
+    }
+
+    @Override
+    public ElementOrder<N> nodeOrder() {
+      return graph.nodeOrder();
+    }
+
+    @Override
+    public Set<N> adjacentNodes(Object node) {
+      return graph.adjacentNodes(node);
+    }
+
+    @Override
+    public Set<N> predecessors(Object node) {
+      return graph.successors(node); // transpose
+    }
+
+    @Override
+    public Set<N> successors(Object node) {
+      return graph.predecessors(node); // transpose
+    }
+  }
+
+  /**
+   * Returns a view of {@code graph} with the direction (if any) of every edge reversed. All other
+   * properties remain intact, and further updates to {@code graph} will be reflected in the view.
+   */
+  public static <N, V> ValueGraph<N, V> transpose(ValueGraph<N, V> graph) {
+    if (!graph.isDirected()) {
+      return graph; // the transpose of an undirected graph is an identical graph
+    }
+
+    if (graph instanceof TransposedValueGraph) {
+      return ((TransposedValueGraph<N, V>) graph).graph;
+    }
+
+    return new TransposedValueGraph<N, V>(graph);
+  }
+
+  private static class TransposedValueGraph<N, V> extends AbstractValueGraph<N, V> {
+    private final ValueGraph<N, V> graph;
+
+    TransposedValueGraph(ValueGraph<N, V> graph) {
+      this.graph = graph;
+    }
+
+    @Override
+    public Set<N> nodes() {
+      return graph.nodes();
+    }
+
+    /**
+     * Defer to {@link AbstractGraph#edges()} (based on {@link #successors(Object)}) for full
+     * edges() implementation.
+     */
+    @Override
+    protected long edgeCount() {
+      return graph.edges().size();
+    }
+
+    @Override
+    public boolean isDirected() {
+      return graph.isDirected();
+    }
+
+    @Override
+    public boolean allowsSelfLoops() {
+      return graph.allowsSelfLoops();
+    }
+
+    @Override
+    public ElementOrder<N> nodeOrder() {
+      return graph.nodeOrder();
+    }
+
+    @Override
+    public Set<N> adjacentNodes(Object node) {
+      return graph.adjacentNodes(node);
+    }
+
+    @Override
+    public Set<N> predecessors(Object node) {
+      return graph.successors(node); // transpose
+    }
+
+    @Override
+    public Set<N> successors(Object node) {
+      return graph.predecessors(node); // transpose
+    }
+
+    @Override
+    public V edgeValue(Object nodeU, Object nodeV) {
+      return graph.edgeValue(nodeV, nodeU); // transpose
+    }
+
+    @Override
+    public V edgeValueOrDefault(Object nodeU, Object nodeV, @Nullable V defaultValue) {
+      return graph.edgeValueOrDefault(nodeV, nodeU, defaultValue); // transpose
+    }
+  }
+
+  /**
+   * Returns a view of {@code network} with the direction (if any) of every edge reversed. All other
+   * properties remain intact, and further updates to {@code network} will be reflected in the view.
+   */
+  public static <N, E> Network<N, E> transpose(Network<N, E> network) {
+    if (!network.isDirected()) {
+      return network; // the transpose of an undirected network is an identical network
+    }
+
+    if (network instanceof TransposedNetwork) {
+      return ((TransposedNetwork<N, E>) network).network;
+    }
+
+    return new TransposedNetwork<N, E>(network);
+  }
+
+  private static class TransposedNetwork<N, E> extends AbstractNetwork<N, E> {
+    private final Network<N, E> network;
+
+    TransposedNetwork(Network<N, E> network) {
+      this.network = network;
+    }
+
+    @Override
+    public Set<N> nodes() {
+      return network.nodes();
+    }
+
+    @Override
+    public Set<E> edges() {
+      return network.edges();
+    }
+
+    @Override
+    public boolean isDirected() {
+      return network.isDirected();
+    }
+
+    @Override
+    public boolean allowsParallelEdges() {
+      return network.allowsParallelEdges();
+    }
+
+    @Override
+    public boolean allowsSelfLoops() {
+      return network.allowsSelfLoops();
+    }
+
+    @Override
+    public ElementOrder<N> nodeOrder() {
+      return network.nodeOrder();
+    }
+
+    @Override
+    public ElementOrder<E> edgeOrder() {
+      return network.edgeOrder();
+    }
+
+    @Override
+    public Set<N> adjacentNodes(Object node) {
+      return network.adjacentNodes(node);
+    }
+
+    @Override
+    public Set<N> predecessors(Object node) {
+      return network.successors(node); // transpose
+    }
+
+    @Override
+    public Set<N> successors(Object node) {
+      return network.predecessors(node); // transpose
+    }
+
+    @Override
+    public Set<E> incidentEdges(Object node) {
+      return network.incidentEdges(node);
+    }
+
+    @Override
+    public Set<E> inEdges(Object node) {
+      return network.outEdges(node); // transpose
+    }
+
+    @Override
+    public Set<E> outEdges(Object node) {
+      return network.inEdges(node); // transpose
+    }
+
+    @Override
+    public EndpointPair<N> incidentNodes(Object edge) {
+      EndpointPair<N> endpointPair = network.incidentNodes(edge);
+      return EndpointPair.of(network, endpointPair.nodeV(), endpointPair.nodeU()); // transpose
+    }
+
+    @Override
+    public Set<E> adjacentEdges(Object edge) {
+      return network.adjacentEdges(edge);
+    }
+
+    @Override
+    public Set<E> edgesConnecting(Object nodeU, Object nodeV) {
+      return network.edgesConnecting(nodeV, nodeU); // transpose
+    }
+
+    @Override
+    public Optional<E> edgeConnecting(Object nodeU, Object nodeV) {
+      return network.edgeConnecting(nodeV, nodeU); // transpose
+    }
+  }
+
+  // Graph copy methods
+
+  /**
+   * Returns the subgraph of {@code graph} induced by {@code nodes}. This subgraph is a new graph
+   * that contains all of the nodes in {@code nodes}, and all of the {@link Graph#edges() edges}
+   * from {@code graph} for which both nodes are contained by {@code nodes}.
+   *
+   * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
+   */
+  public static <N> MutableGraph<N> inducedSubgraph(Graph<N> graph, Iterable<? extends N> nodes) {
+    MutableGraph<N> subgraph = GraphBuilder.from(graph).build();
+    for (N node : nodes) {
+      subgraph.addNode(node);
+    }
+    for (N node : subgraph.nodes()) {
+      for (N successorNode : graph.successors(node)) {
+        if (subgraph.nodes().contains(successorNode)) {
+          subgraph.putEdge(node, successorNode);
+        }
+      }
+    }
+    return subgraph;
+  }
+
+  /**
+   * Returns the subgraph of {@code graph} induced by {@code nodes}. This subgraph is a new graph
+   * that contains all of the nodes in {@code nodes}, and all of the {@link Graph#edges() edges}
+   * (and associated edge values) from {@code graph} for which both nodes are contained by {@code
+   * nodes}.
+   *
+   * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
+   */
+  public static <N, V> MutableValueGraph<N, V> inducedSubgraph(
+      ValueGraph<N, V> graph, Iterable<? extends N> nodes) {
+    MutableValueGraph<N, V> subgraph = ValueGraphBuilder.from(graph).build();
+    for (N node : nodes) {
+      subgraph.addNode(node);
+    }
+    for (N node : subgraph.nodes()) {
+      for (N successorNode : graph.successors(node)) {
+        if (subgraph.nodes().contains(successorNode)) {
+          subgraph.putEdgeValue(node, successorNode, graph.edgeValue(node, successorNode));
+        }
+      }
+    }
+    return subgraph;
+  }
+
+  /**
+   * Returns the subgraph of {@code network} induced by {@code nodes}. This subgraph is a new graph
+   * that contains all of the nodes in {@code nodes}, and all of the {@link Network#edges() edges}
+   * from {@code network} for which the {@link Network#incidentNodes(Object) incident nodes} are
+   * both contained by {@code nodes}.
+   *
+   * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
+   */
+  public static <N, E> MutableNetwork<N, E> inducedSubgraph(
+      Network<N, E> network, Iterable<? extends N> nodes) {
+    MutableNetwork<N, E> subgraph = NetworkBuilder.from(network).build();
+    for (N node : nodes) {
+      subgraph.addNode(node);
+    }
+    for (N node : subgraph.nodes()) {
+      for (E edge : network.outEdges(node)) {
+        N successorNode = network.incidentNodes(edge).adjacentNode(node);
+        if (subgraph.nodes().contains(successorNode)) {
+          subgraph.addEdge(node, successorNode, edge);
+        }
+      }
+    }
+    return subgraph;
+  }
+
+  /** Creates a mutable copy of {@code graph} with the same nodes and edges. */
+  public static <N> MutableGraph<N> copyOf(Graph<N> graph) {
+    MutableGraph<N> copy = GraphBuilder.from(graph).expectedNodeCount(graph.nodes().size()).build();
+    for (N node : graph.nodes()) {
       copy.addNode(node);
     }
-  }
-
-  /**
-   * Copies all nodes from {@code original} into {@code copy} that satisfy {@code nodePredicate}.
-   */
-  public static <N, E> void mergeNodesFrom(
-      Graph<N, E> original, Graph<N, E> copy, Predicate<? super N> nodePredicate) {
-    checkNotNull(original, "original");
-    checkNotNull(copy, "copy");
-    checkNotNull(nodePredicate, "nodePredicate");
-    if (nodePredicate.equals(Predicates.<N>alwaysFalse())) {
-      return; // nothing to do
+    for (EndpointPair<N> edge : graph.edges()) {
+      copy.putEdge(edge.nodeU(), edge.nodeV());
     }
-
-    if (nodePredicate.equals(Predicates.<N>alwaysTrue())) {
-      mergeNodesFrom(original, copy); // optimization
-    } else {
-      for (N node : original.nodes()) {
-        if (nodePredicate.apply(node)) {
-          copy.addNode(node);
-        }
-      }
-    }
-  }
-
-  /**
-   * Copies all edges from {@code original} into {@code copy}.  Also copies all nodes incident
-   * to these edges.
-   */
-  public static <N, E> void mergeEdgesFrom(DirectedGraph<N, E> original, DirectedGraph<N, E> copy) {
-    checkNotNull(original, "original");
-    checkNotNull(copy, "copy");
-    for (E edge : original.edges()) {
-      copy.addEdge(edge, original.source(edge), original.target(edge));
-    }
-  }
-
-  /**
-   * Copies all edges from {@code original} into {@code copy} that satisfy {@code edgePredicate}.
-   * Also copies all nodes incident to these edges.
-   */
-  public static <N, E> void mergeEdgesFrom(
-      DirectedGraph<N, E> original, DirectedGraph<N, E> copy, Predicate<? super E> edgePredicate) {
-    checkNotNull(original, "original");
-    checkNotNull(copy, "copy");
-    checkNotNull(edgePredicate, "edgePredicate");
-    if (edgePredicate.equals(Predicates.<E>alwaysFalse())) {
-      return; // nothing to do
-    }
-
-    if (edgePredicate.equals(Predicates.<E>alwaysTrue())) {
-      mergeEdgesFrom(original, copy); // optimization
-    } else {
-      for (E edge : original.edges()) {
-        if (edgePredicate.apply(edge)) {
-          copy.addEdge(edge, original.source(edge), original.target(edge));
-        }
-      }
-    }
-  }
-
-  /**
-   * Creates a mutable copy of {@code graph}, using the same node and edge elements.
-   */
-  @CheckReturnValue
-  public static <N, E> UndirectedGraph<N, E> copyOf(UndirectedGraph<N, E> graph) {
-    checkNotNull(graph, "graph");
-    UndirectedGraph<N, E> copy = createUndirected(graph.config()
-            .expectedNodeCount(graph.nodes().size())
-            .expectedEdgeCount(graph.edges().size()));
-    mergeNodesFrom(graph, copy);
-    mergeEdgesFrom(graph, copy);
     return copy;
   }
 
-  /**
-   * Creates a mutable copy of {@code graph}, using all of its elements that satisfy
-   * {@code nodePredicate} and {@code edgePredicate}.
-   */
-  @CheckReturnValue
-  public static <N, E> UndirectedGraph<N, E> copyOf(
-      UndirectedGraph<N, E> graph,
-      Predicate<? super N> nodePredicate,
-      Predicate<? super E> edgePredicate) {
-    checkNotNull(graph, "graph");
-    checkNotNull(nodePredicate, "nodePredicate");
-    checkNotNull(edgePredicate, "edgePredicate");
-    UndirectedGraph<N, E> copy = createUndirected(graph.config()
-            .expectedNodeCount(graph.nodes().size())
-            .expectedEdgeCount(graph.edges().size()));
-    mergeNodesFrom(graph, copy, nodePredicate);
-
-    // We can't just call mergeEdgesFrom(graph, copy, edgePredicate) because addEdge() can add
-    // the edge's incident nodes if they are not present; we need to run them past nodePredicate.
-    for (E edge : graph.edges()) {
-      if (edgePredicate.apply(edge)) {
-        boolean nodesOk = true;
-        Set<N> incidentNodes = graph.incidentNodes(edge);
-        for (N node : incidentNodes) {
-          nodesOk &= nodePredicate.apply(node);
-        }
-        if (nodesOk) {
-          addEdge(copy, edge, incidentNodes);
-        }
-      }
+  /** Creates a mutable copy of {@code graph} with the same nodes, edges, and edge values. */
+  public static <N, V> MutableValueGraph<N, V> copyOf(ValueGraph<N, V> graph) {
+    MutableValueGraph<N, V> copy =
+        ValueGraphBuilder.from(graph).expectedNodeCount(graph.nodes().size()).build();
+    for (N node : graph.nodes()) {
+      copy.addNode(node);
     }
-
+    for (EndpointPair<N> edge : graph.edges()) {
+      copy.putEdgeValue(edge.nodeU(), edge.nodeV(), graph.edgeValue(edge.nodeU(), edge.nodeV()));
+    }
     return copy;
   }
 
-  /**
-   * Copies all edges from {@code original} into {@code copy}.  Also copies all nodes incident
-   * to these edges.
-   */
-  public static <N, E> void mergeEdgesFrom(Graph<N, E> original, Graph<N, E> copy) {
-    checkNotNull(original, "original");
-    checkNotNull(copy, "copy");
-    for (E edge : original.edges()) {
-      addEdge(copy, edge, original.incidentNodes(edge));
+  /** Creates a mutable copy of {@code network} with the same nodes and edges. */
+  public static <N, E> MutableNetwork<N, E> copyOf(Network<N, E> network) {
+    MutableNetwork<N, E> copy =
+        NetworkBuilder.from(network)
+            .expectedNodeCount(network.nodes().size())
+            .expectedEdgeCount(network.edges().size())
+            .build();
+    for (N node : network.nodes()) {
+      copy.addNode(node);
     }
+    for (E edge : network.edges()) {
+      EndpointPair<N> endpointPair = network.incidentNodes(edge);
+      copy.addEdge(endpointPair.nodeU(), endpointPair.nodeV(), edge);
+    }
+    return copy;
+  }
+
+  @CanIgnoreReturnValue
+  static int checkNonNegative(int value) {
+    checkArgument(value >= 0, "Not true that %s is non-negative.", value);
+    return value;
+  }
+
+  @CanIgnoreReturnValue
+  static int checkPositive(int value) {
+    checkArgument(value > 0, "Not true that %s is positive.", value);
+    return value;
+  }
+
+  @CanIgnoreReturnValue
+  static long checkNonNegative(long value) {
+    checkArgument(value >= 0, "Not true that %s is non-negative.", value);
+    return value;
+  }
+
+  @CanIgnoreReturnValue
+  static long checkPositive(long value) {
+    checkArgument(value > 0, "Not true that %s is positive.", value);
+    return value;
   }
 
   /**
-   * Copies all edges from {@code original} into {@code copy} that satisfy {@code edgePredicate}.
-   * Also copies all nodes incident to these edges.
+   * An enum representing the state of a node during DFS. {@code PENDING} means that the node is on
+   * the stack of the DFS, while {@code COMPLETE} means that the node and all its successors have
+   * been already explored. Any node that has not been explored will not have a state at all.
    */
-  // NOTE: this is identical to mergeEdgesFrom(DirectedGraph) except for the call to addEdge
-  public static <N, E> void mergeEdgesFrom(Graph<N, E> original, Graph<N, E> copy,
-      Predicate<? super E> edgePredicate) {
-    checkNotNull(original, "original");
-    checkNotNull(copy, "copy");
-    checkNotNull(edgePredicate, "edgePredicate");
-    if (edgePredicate.equals(Predicates.<E>alwaysFalse())) {
-      return; // nothing to do
-    }
-
-    if (edgePredicate.equals(Predicates.<E>alwaysTrue())) {
-      mergeEdgesFrom(original, copy); // optimization
-    } else {
-      for (E edge : original.edges()) {
-        if (edgePredicate.apply(edge)) {
-          addEdge(copy, edge, original.incidentNodes(edge));
-        }
-      }
-    }
-  }
-
-  /**
-   * Copies all nodes and edges from {@code original} to {@code copy} that satisfy
-   * {@code nodePredicate} and {@code edgePredicate}.
-   */
-  public static <N, E> void copyFrom(
-      Graph<N, E> original,
-      Graph<N, E> copy,
-      Predicate<? super N> nodePredicate,
-      Predicate<? super E> edgePredicate) {
-    checkNotNull(original, "original");
-    checkNotNull(copy, "copy");
-    checkNotNull(nodePredicate, "nodePredicate");
-    checkNotNull(edgePredicate, "edgePredicate");
-    mergeNodesFrom(original, copy, nodePredicate);
-    mergeEdgesFrom(original, copy, edgePredicate);
-  }
-
-  /**
-   * Returns a new default instance of {@code GraphConfig}.
-   *
-   * @see GraphConfig
-   */
-  @CheckReturnValue
-  public static GraphConfig config() {
-    return new GraphConfig();
-  }
-
-  /**
-   * Returns a new instance of {@link DirectedGraph} with the default
-   * graph configuration.
-   *
-   * @see GraphConfig
-   */
-  @CheckReturnValue
-  public static <N, E> DirectedGraph<N, E> createDirected() {
-    return new IncidenceSetDirectedGraph<N, E>(config());
-  }
-
-  /**
-   * Returns a new instance of {@link DirectedGraph} with the graph
-   * configuration specified by {@code config}.
-   */
-  @CheckReturnValue
-  public static <N, E> DirectedGraph<N, E> createDirected(GraphConfig config) {
-    return new IncidenceSetDirectedGraph<N, E>(config);
-  }
-
-  /**
-   * Returns a new instance of {@link UndirectedGraph} with the default
-   * graph configuration.
-   *
-   * @see GraphConfig
-   */
-  @CheckReturnValue
-  public static <N, E> UndirectedGraph<N, E> createUndirected() {
-    return new IncidenceSetUndirectedGraph<N, E>(config());
-  }
-
-  /**
-   * Returns a new instance of {@link UndirectedGraph} with the graph
-   * configuration specified by {@code config}.
-   */
-  @CheckReturnValue
-  public static <N, E> UndirectedGraph<N, E> createUndirected(GraphConfig config) {
-    return new IncidenceSetUndirectedGraph<N, E>(config);
-  }
-
-  /**
-   * Returns true iff {@code g1} and {@code g2} have the same node and edge sets and each edge
-   * has the same source and target in both graphs.
-   *
-   * @see Graph#equals(Object)
-   */
-  @CheckReturnValue
-  public static <N, E> boolean equal(
-      @Nullable DirectedGraph<?, ?> g1, @Nullable DirectedGraph<?, ?> g2) {
-    if (g1 == g2) {
-      return true;
-    }
-
-    if (g1 == null || g2 == null) {
-      return false;
-    }
-
-    if (!g1.nodes().equals(g2.nodes()) || !g1.edges().equals(g2.edges())) {
-      return false;
-    }
-
-    for (Object e : g1.edges()) {
-      if (!g1.source(e).equals(g2.source(e)) || !g1.target(e).equals(g2.target(e))) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  /**
-   * Returns true iff {@code g1} and {@code g2} have the same node and edge sets and each edge
-   * has the same incident node set in both graphs.
-   *
-   * @see Graph#equals(Object)
-   */
-  @CheckReturnValue
-  public static boolean equal(@Nullable Graph<?, ?> g1, @Nullable Graph<?, ?> g2) {
-    if (g1 == g2) {
-      return true;
-    }
-
-    if (g1 == null || g2 == null) {
-      return false;
-    }
-
-    if (!g1.nodes().equals(g2.nodes()) || !g1.edges().equals(g2.edges())) {
-      return false;
-    }
-
-    for (Object e : g1.edges()) {
-      if (!g1.incidentNodes(e).equals(g2.incidentNodes(e))) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  /**
-   * Returns a {@link Predicate} that returns {@code true} if the input edge is not a self-loop in
-   * {@code graph}. A self-loop is defined as an edge whose set of incident nodes has exactly one
-   * element. The predicate's {@code apply} method will throw a {@link IllegalStateException} if
-   * {@code graph} does not contain {@code edge}.
-   */
-  @CheckReturnValue
-  public static <E> Predicate<E> noSelfLoopPredicate(final Graph<?, E> graph) {
-    checkNotNull(graph, "graph");
-    return new Predicate<E>() {
-      @Override
-      public boolean apply(E edge) {
-        checkState(graph.edges().contains(edge), "Graph does not contain edge %s", edge);
-        return graph.incidentNodes(edge).size() != 1;
-      }
-    };
+  private enum NodeVisitState {
+    PENDING,
+    COMPLETE
   }
 }

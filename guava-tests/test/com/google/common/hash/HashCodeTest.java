@@ -22,10 +22,8 @@ import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.BaseEncoding;
 import com.google.common.testing.ClassSanityTester;
-
-import junit.framework.TestCase;
-
 import java.util.Arrays;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link HashCode}.
@@ -221,7 +219,7 @@ public class HashCodeTest extends TestCase {
 
   public void testFromStringFailsWithInvalidHexChar() {
     try {
-      HashCode unused = HashCode.fromString("7f8005ff0z");
+      HashCode.fromString("7f8005ff0z");
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -230,7 +228,7 @@ public class HashCodeTest extends TestCase {
   public void testFromStringFailsWithUpperCaseString() {
     String string = Hashing.sha1().hashString("foo", Charsets.US_ASCII).toString().toUpperCase();
     try {
-      HashCode unused = HashCode.fromString(string);
+      HashCode.fromString(string);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -238,12 +236,12 @@ public class HashCodeTest extends TestCase {
 
   public void testFromStringFailsWithShortInputs() {
     try {
-      HashCode unused = HashCode.fromString("");
+      HashCode.fromString("");
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
-      HashCode unused = HashCode.fromString("7");
+      HashCode.fromString("7");
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -252,7 +250,7 @@ public class HashCodeTest extends TestCase {
 
   public void testFromStringFailsWithOddLengthInput() {
     try {
-      HashCode unused = HashCode.fromString("7f8");
+      HashCode.fromString("7f8");
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -351,7 +349,7 @@ public class HashCodeTest extends TestCase {
     assertEquals(expectedHashCode.asInt, hash.asInt());
     if (expectedHashCode.asLong == null) {
       try {
-        long unused = hash.asLong();
+        hash.asLong();
         fail();
       } catch (IllegalStateException expected) {}
     } else {

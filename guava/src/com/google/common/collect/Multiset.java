@@ -16,14 +16,20 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.GwtCompatible;
+import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.CompatibleWith;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
+import java.util.Spliterator;
+import java.util.function.Consumer;
+import java.util.function.ObjIntConsumer;
 import javax.annotation.Nullable;
 
 /**
@@ -90,20 +96,28 @@ public interface Multiset<E> extends Collection<E> {
   // Query Operations
 
   /**
-   * Returns the number of occurrences of an element in this multiset (the
-   * <i>count</i> of the element). Note that for an {@link Object#equals}-based
-   * multiset, this gives the same result as {@link Collections#frequency}
-   * (which would presumably perform more poorly).
+   * Returns the total number of all occurrences of all elements in this multiset.
    *
-   * <p><b>Note:</b> the utility method {@link Iterables#frequency} generalizes
-   * this operation; it correctly delegates to this method when dealing with a
-   * multiset, but it can also accept any other iterable type.
+   * <p><b>Note:</b> this method does not return the number of <i>distinct elements</i> in the
+   * multiset, which is given by {@code entrySet().size()}.
+   */
+  @Override
+  int size();
+
+  /**
+   * Returns the number of occurrences of an element in this multiset (the <i>count</i> of the
+   * element). Note that for an {@link Object#equals}-based multiset, this gives the same result as
+   * {@link Collections#frequency} (which would presumably perform more poorly).
+   *
+   * <p><b>Note:</b> the utility method {@link Iterables#frequency} generalizes this operation; it
+   * correctly delegates to this method when dealing with a multiset, but it can also accept any
+   * other iterable type.
    *
    * @param element the element to count occurrences of
-   * @return the number of occurrences of the element in this multiset; possibly
-   *     zero but never negative
+   * @return the number of occurrences of the element in this multiset; possibly zero but never
+   *     negative
    */
-  int count(@Nullable Object element);
+  int count(@Nullable @CompatibleWith("E") Object element);
 
   // Bulk Operations
 
@@ -126,22 +140,23 @@ public interface Multiset<E> extends Collection<E> {
    *     implementation does not permit null elements. Note that if {@code
    *     occurrences} is zero, the implementation may opt to return normally.
    */
+  @CanIgnoreReturnValue
   int add(@Nullable E element, int occurrences);
 
   /**
-   * Removes a number of occurrences of the specified element from this
-   * multiset. If the multiset contains fewer than this number of occurrences to
-   * begin with, all occurrences will be removed.  Note that if
-   * {@code occurrences == 1}, this is functionally equivalent to the call
-   * {@code remove(element)}.
+   * Removes a number of occurrences of the specified element from this multiset. If the multiset
+   * contains fewer than this number of occurrences to begin with, all occurrences will be removed.
+   * Note that if {@code occurrences == 1}, this is functionally equivalent to the call {@code
+   * remove(element)}.
    *
    * @param element the element to conditionally remove occurrences of
-   * @param occurrences the number of occurrences of the element to remove. May
-   *     be zero, in which case no change will be made.
+   * @param occurrences the number of occurrences of the element to remove. May be zero, in which
+   *     case no change will be made.
    * @return the count of the element before the operation; possibly zero
    * @throws IllegalArgumentException if {@code occurrences} is negative
    */
-  int remove(@Nullable Object element, int occurrences);
+  @CanIgnoreReturnValue
+  int remove(@Nullable @CompatibleWith("E") Object element, int occurrences);
 
   /**
    * Adds or removes the necessary occurrences of an element such that the
@@ -156,6 +171,7 @@ public interface Multiset<E> extends Collection<E> {
    *     implementation does not permit null elements. Note that if {@code
    *     count} is zero, the implementor may optionally return zero instead.
    */
+  @CanIgnoreReturnValue
   int setCount(E element, int count);
 
   /**
@@ -178,6 +194,7 @@ public interface Multiset<E> extends Collection<E> {
    *     oldCount} and {@code newCount} are both zero, the implementor may
    *     optionally return {@code true} instead.
    */
+  @CanIgnoreReturnValue
   boolean setCount(E element, int oldCount, int newCount);
 
   // Views
@@ -290,12 +307,26 @@ public interface Multiset<E> extends Collection<E> {
     String toString();
   }
 
+  /**
+   * Runs the specified action for each distinct element in this multiset, and the number of
+   * occurrences of that element. For some {@code Multiset} implementations, this may be more
+   * efficient than iterating over the {@link #entrySet()} either explicitly or with {@code
+   * entrySet().forEach(action)}.
+   *
+   * @since 21.0
+   */
+  @Beta
+  default void forEachEntry(ObjIntConsumer<? super E> action) {
+    checkNotNull(action);
+    entrySet().forEach(entry -> action.accept(entry.getElement(), entry.getCount()));
+  }
+
   // Comparison and hashing
 
   /**
-   * Compares the specified object with this multiset for equality. Returns
-   * {@code true} if the given object is also a multiset and contains equal
-   * elements with equal counts, regardless of order.
+   * Compares the specified object with this multiset for equality. Returns {@code true} if the
+   * given object is also a multiset and contains equal elements with equal counts, regardless of
+   * order.
    */
   @Override
   // TODO(kevinb): caveats about equivalence-relation?
@@ -392,6 +423,7 @@ public interface Multiset<E> extends Collection<E> {
    * @throws IllegalArgumentException if {@link Integer#MAX_VALUE} occurrences
    *     of {@code element} are already contained in this multiset
    */
+  @CanIgnoreReturnValue
   @Override
   boolean add(E element);
 
@@ -409,6 +441,7 @@ public interface Multiset<E> extends Collection<E> {
    * @param element the element to remove one occurrence of
    * @return {@code true} if an occurrence was found and removed
    */
+  @CanIgnoreReturnValue
   @Override
   boolean remove(@Nullable Object element);
 
@@ -424,6 +457,7 @@ public interface Multiset<E> extends Collection<E> {
    * it <b>may not</b> throw an exception in response to any of {@code elements}
    * being null or of the wrong type.
    */
+  @CanIgnoreReturnValue
   @Override
   boolean removeAll(Collection<?> c);
 
@@ -441,6 +475,32 @@ public interface Multiset<E> extends Collection<E> {
    *
    * @see Multisets#retainOccurrences(Multiset, Multiset)
    */
+  @CanIgnoreReturnValue
   @Override
   boolean retainAll(Collection<?> c);
+
+  /**
+   * {@inheritDoc}
+   *
+   * <p>Elements that occur multiple times in the multiset will be passed to the {@code Consumer}
+   * correspondingly many times, though not necessarily sequentially.
+   */
+  @Override
+  default void forEach(Consumer<? super E> action) {
+    checkNotNull(action);
+    entrySet()
+        .forEach(
+            entry -> {
+              E elem = entry.getElement();
+              int count = entry.getCount();
+              for (int i = 0; i < count; i++) {
+                action.accept(elem);
+              }
+            });
+  }
+
+  @Override
+  default Spliterator<E> spliterator() {
+    return Multisets.spliteratorImpl(this);
+  }
 }

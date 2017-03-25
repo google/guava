@@ -31,7 +31,6 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
-
 import java.util.Collection;
 import java.util.Collections;
 
@@ -58,13 +57,8 @@ public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multim
   @CollectionSize.Require(SEVERAL)
   public void testGetMultiple() {
     resetContainer(
-        Helpers.mapEntry(k0(), v0()),
-        Helpers.mapEntry(k0(), v1()),
-        Helpers.mapEntry(k0(), v2()));
-    assertGet(k0(),
-        v0(),
-        v1(),
-        v2());
+        Helpers.mapEntry(k0(), v0()), Helpers.mapEntry(k0(), v1()), Helpers.mapEntry(k0(), v2()));
+    assertGet(k0(), v0(), v1(), v2());
   }
 
   public void testGetAbsentKey() {
@@ -75,9 +69,7 @@ public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multim
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testPropagatesRemoveToMultimap() {
     resetContainer(
-        Helpers.mapEntry(k0(), v0()),
-        Helpers.mapEntry(k0(), v3()),
-        Helpers.mapEntry(k0(), v2()));
+        Helpers.mapEntry(k0(), v0()), Helpers.mapEntry(k0(), v3()), Helpers.mapEntry(k0(), v2()));
     Collection<V> result = multimap().get(k0());
     assertTrue(result.remove(v0()));
     assertFalse(multimap().containsEntry(k0(), v0()));
@@ -111,7 +103,7 @@ public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multim
   }
 
   @CollectionSize.Require(absent = ZERO)
-  @MapFeature.Require({ SUPPORTS_REMOVE, SUPPORTS_PUT })
+  @MapFeature.Require({SUPPORTS_REMOVE, SUPPORTS_PUT})
   public void testPropagatesRemoveLastThenAddToMultimap() {
     int oldSize = getNumElements();
 

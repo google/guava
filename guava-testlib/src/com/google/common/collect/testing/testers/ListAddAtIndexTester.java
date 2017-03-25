@@ -28,7 +28,6 @@ import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.ListFeature;
-
 import java.lang.reflect.Method;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
@@ -125,8 +124,7 @@ public class ListAddAtIndexTester<E> extends AbstractListTester<E> {
     } catch (NullPointerException expected) {
     }
     expectUnchanged();
-    expectNullMissingWhenNullUnsupported(
-        "Should not contain null after unsupported add(n, null)");
+    expectNullMissingWhenNullUnsupported("Should not contain null after unsupported add(n, null)");
   }
 
   @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
@@ -156,9 +154,8 @@ public class ListAddAtIndexTester<E> extends AbstractListTester<E> {
    * {@link #testAddAtIndex_nullSupported()} so that tests can suppress it. See
    * {@link CollectionAddTester#getAddNullSupportedMethod()} for details.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method getAddNullSupportedMethod() {
-    return Helpers.getMethod(
-        ListAddAtIndexTester.class, "testAddAtIndex_nullSupported");
+    return Helpers.getMethod(ListAddAtIndexTester.class, "testAddAtIndex_nullSupported");
   }
 }

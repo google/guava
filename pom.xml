@@ -11,7 +11,7 @@
   </parent>
   <groupId>com.google.guava</groupId>
   <artifactId>guava-parent</artifactId>
-  <version>20.0-SNAPSHOT</version>
+  <version>22.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Guava Maven Parent</name>
   <url>https://github.com/google/guava</url>
@@ -19,7 +19,7 @@
     <gpg.skip>true</gpg.skip>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>**/*Test.java</test.include>
-    <truth.version>0.28</truth.version>
+    <truth.version>0.31</truth.version>
     <animal.sniffer.version>1.14</animal.sniffer.version>
   </properties>
   <issueManagement>
@@ -106,8 +106,8 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>2.3.2</version>
           <configuration>
-            <source>1.6</source>
-            <target>1.6</target>
+            <source>1.8</source>
+            <target>1.8</target>
           </configuration>
         </plugin>
         <plugin>
@@ -142,13 +142,13 @@
           <configuration>
             <signature>
               <groupId>org.codehaus.mojo.signature</groupId>
-              <artifactId>java16-sun</artifactId>
-              <version>1.10</version>
+              <artifactId>java18</artifactId>
+              <version>1.0</version>
             </signature>
           </configuration>
           <executions>
             <execution>
-              <id>check-java16-sun</id>
+              <id>check-java-version-compatibility</id>
               <phase>test</phase>
               <goals>
                 <goal>check</goal>
@@ -207,12 +207,12 @@
       <dependency>
         <groupId>com.google.errorprone</groupId>
         <artifactId>error_prone_annotations</artifactId>
-        <version>2.0.2</version>
+        <version>2.0.18</version>
       </dependency>
       <dependency>
         <groupId>com.google.j2objc</groupId>
         <artifactId>j2objc-annotations</artifactId>
-        <version>0.1</version>
+        <version>1.1</version>
       </dependency>
       <dependency>
         <groupId>junit</groupId>
@@ -229,12 +229,31 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>1.8.5</version>
+        <version>2.1.0</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.google.jimfs</groupId>
+        <artifactId>jimfs</artifactId>
+        <version>1.1</version>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>com.google.truth</groupId>
         <artifactId>truth</artifactId>
+        <version>${truth.version}</version>
+        <scope>test</scope>
+        <exclusions>
+          <exclusion>
+            <!-- use the guava we're building. -->
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>com.google.truth.extensions</groupId>
+        <artifactId>truth-java8-extension</artifactId>
         <version>${truth.version}</version>
         <scope>test</scope>
         <exclusions>
@@ -262,35 +281,6 @@
   </dependencyManagement>
   <profiles>
     <profile>
-      <id>jdk7</id>
-      <activation>
-        <jdk>1.7</jdk>
-      </activation>
-      <!-- Set custom stylesheet under JDK7 -->
-      <reporting>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-              <stylesheetfile>javadoc-stylesheet.css</stylesheetfile>
-            </configuration>
-          </plugin>
-        </plugins>
-      </reporting>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-              <stylesheetfile>javadoc-stylesheet.css</stylesheetfile>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
       <id>jdk8</id>
       <activation>
         <jdk>[1.8,)</jdk>
@@ -302,7 +292,7 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
             <configuration>
-              <additionalparam>-Xdoclint:none</additionalparam>
+              <additionalparam>-Xdoclint:-html</additionalparam>
             </configuration>
           </plugin>
         </plugins>
@@ -313,7 +303,7 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
             <configuration>
-              <additionalparam>-Xdoclint:none</additionalparam>
+              <additionalparam>-Xdoclint:-html</additionalparam>
             </configuration>
           </plugin>
         </plugins>

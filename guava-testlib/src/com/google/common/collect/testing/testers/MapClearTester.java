@@ -25,7 +25,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
-
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -43,14 +42,12 @@ public class MapClearTester<K, V> extends AbstractMapTester<K, V> {
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testClear() {
     getMap().clear();
-    assertTrue("After clear(), a map should be empty.",
-        getMap().isEmpty());
+    assertTrue("After clear(), a map should be empty.", getMap().isEmpty());
     assertEquals(0, getMap().size());
     assertFalse(getMap().entrySet().iterator().hasNext());
   }
 
-  @MapFeature.Require({FAILS_FAST_ON_CONCURRENT_MODIFICATION,
-      SUPPORTS_REMOVE})
+  @MapFeature.Require({FAILS_FAST_ON_CONCURRENT_MODIFICATION, SUPPORTS_REMOVE})
   @CollectionSize.Require(SEVERAL)
   public void testClearConcurrentWithEntrySetIteration() {
     try {
@@ -63,8 +60,7 @@ public class MapClearTester<K, V> extends AbstractMapTester<K, V> {
     }
   }
 
-  @MapFeature.Require({FAILS_FAST_ON_CONCURRENT_MODIFICATION,
-      SUPPORTS_REMOVE})
+  @MapFeature.Require({FAILS_FAST_ON_CONCURRENT_MODIFICATION, SUPPORTS_REMOVE})
   @CollectionSize.Require(SEVERAL)
   public void testClearConcurrentWithKeySetIteration() {
     try {
@@ -77,8 +73,7 @@ public class MapClearTester<K, V> extends AbstractMapTester<K, V> {
     }
   }
 
-  @MapFeature.Require({FAILS_FAST_ON_CONCURRENT_MODIFICATION,
-      SUPPORTS_REMOVE})
+  @MapFeature.Require({FAILS_FAST_ON_CONCURRENT_MODIFICATION, SUPPORTS_REMOVE})
   @CollectionSize.Require(SEVERAL)
   public void testClearConcurrentWithValuesIteration() {
     try {
@@ -96,8 +91,9 @@ public class MapClearTester<K, V> extends AbstractMapTester<K, V> {
   public void testClear_unsupported() {
     try {
       getMap().clear();
-      fail("clear() should throw UnsupportedOperation if a map does "
-          + "not support it and is not empty.");
+      fail(
+          "clear() should throw UnsupportedOperation if a map does "
+              + "not support it and is not empty.");
     } catch (UnsupportedOperationException expected) {
     }
     expectUnchanged();

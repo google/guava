@@ -35,11 +35,6 @@ import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.SortedSetMultimapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringSetMultimapGenerator;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
@@ -53,6 +48,9 @@ import java.util.NavigableSet;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Unit tests for {@code TreeMultimap} with natural ordering.
@@ -62,7 +60,7 @@ import java.util.SortedSet;
 @GwtCompatible(emulated = true)
 public class TreeMultimapNaturalTest extends TestCase {
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     // TODO(lowasser): should we force TreeMultimap to be more thorough about checking nulls?
@@ -400,7 +398,7 @@ public class TreeMultimapNaturalTest extends TestCase {
     assertEquals(Ordering.natural(), multimap.valueComparator());
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testExplicitComparatorSerialization() {
     TreeMultimap<String, Integer> multimap = createPopulate();
     TreeMultimap<String, Integer> copy
@@ -411,7 +409,7 @@ public class TreeMultimapNaturalTest extends TestCase {
     assertEquals(multimap.valueComparator(), copy.valueComparator());
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testTreeMultimapDerived() {
     TreeMultimap<DerivedComparable, DerivedComparable> multimap = TreeMultimap.create();
     assertEquals(ImmutableMultimap.of(), multimap);
@@ -431,7 +429,7 @@ public class TreeMultimapNaturalTest extends TestCase {
     SerializableTester.reserializeAndAssert(multimap);
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testTreeMultimapNonGeneric() {
     TreeMultimap<LegacyComparable, LegacyComparable> multimap
         = TreeMultimap.create();
@@ -489,7 +487,7 @@ public class TreeMultimapNaturalTest extends TestCase {
     assertEquals(4, multimap.keys().size());
   }
 
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public void testKeySetBridgeMethods() {
     for (Method m : TreeMultimap.class.getMethods()) {
       if (m.getName().equals("keySet") && m.getReturnType().equals(SortedSet.class)) {
@@ -499,7 +497,7 @@ public class TreeMultimapNaturalTest extends TestCase {
     fail("No bridge method found");
   }
 
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public void testAsMapBridgeMethods() {
     for (Method m : TreeMultimap.class.getMethods()) {
       if (m.getName().equals("asMap") && m.getReturnType().equals(SortedMap.class)) {
@@ -508,7 +506,7 @@ public class TreeMultimapNaturalTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public void testGetBridgeMethods() {
     for (Method m : TreeMultimap.class.getMethods()) {
       if (m.getName().equals("get") && m.getReturnType().equals(SortedSet.class)) {

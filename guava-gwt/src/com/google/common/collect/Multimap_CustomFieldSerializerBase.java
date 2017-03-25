@@ -16,10 +16,10 @@
 
 package com.google.common.collect;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
-
 import java.util.Collection;
 import java.util.Map;
 
@@ -49,6 +49,7 @@ public final class Multimap_CustomFieldSerializerBase {
     return builder.build();
   }
 
+  @CanIgnoreReturnValue
   public static Multimap<Object, Object> populate(
       SerializationStreamReader reader, Multimap<Object, Object> multimap)
       throws SerializationException {

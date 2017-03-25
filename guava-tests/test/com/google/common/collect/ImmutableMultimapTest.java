@@ -22,11 +22,9 @@ import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.SampleElements.Unhashables;
 import com.google.common.collect.testing.UnhashableObject;
 import com.google.common.testing.EqualsTester;
-
-import junit.framework.TestCase;
-
 import java.util.Arrays;
 import java.util.Map.Entry;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link ImmutableMultimap}.

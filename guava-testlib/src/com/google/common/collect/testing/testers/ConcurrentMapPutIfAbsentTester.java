@@ -25,7 +25,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
@@ -33,7 +32,7 @@ import java.util.concurrent.ConcurrentMap;
  * A generic JUnit test which tests {@code putIfAbsent} operations on a concurrent map. Can't be
  * invoked directly; please see
  * {@link com.google.common.collect.testing.ConcurrentMapTestSuiteBuilder}.
- * 
+ *
  * @author Louis Wasserman
  */
 @GwtCompatible
@@ -48,12 +47,14 @@ public class ConcurrentMapPutIfAbsentTester<K, V> extends AbstractMapTester<K, V
     assertNull("putIfAbsent(notPresent, value) should return null", putIfAbsent(e3()));
     expectAdded(e3());
   }
-  
+
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)
   public void testPutIfAbsent_supportedPresent() {
-    assertEquals("putIfAbsent(present, value) should return existing value", 
-        v0(), getMap().putIfAbsent(k0(), v3()));
+    assertEquals(
+        "putIfAbsent(present, value) should return existing value",
+        v0(),
+        getMap().putIfAbsent(k0(), v3()));
     expectUnchanged();
   }
 
@@ -72,8 +73,10 @@ public class ConcurrentMapPutIfAbsentTester<K, V> extends AbstractMapTester<K, V
   @CollectionSize.Require(absent = ZERO)
   public void testPutIfAbsent_unsupportedPresentExistingValue() {
     try {
-      assertEquals("putIfAbsent(present, existingValue) should return present or throw",
-          v0(), putIfAbsent(e0()));
+      assertEquals(
+          "putIfAbsent(present, existingValue) should return present or throw",
+          v0(),
+          putIfAbsent(e0()));
     } catch (UnsupportedOperationException tolerated) {
     }
     expectUnchanged();

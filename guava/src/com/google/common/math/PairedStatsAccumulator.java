@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.math;
@@ -22,15 +20,17 @@ import static java.lang.Double.NaN;
 import static java.lang.Double.isNaN;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 
 /**
- * A mutable object which accumulates paired double values (e.g. points on a plane) and tracks
- * some basic statistics over all the values added so far. This class is not thread safe.
+ * A mutable object which accumulates paired double values (e.g. points on a plane) and tracks some
+ * basic statistics over all the values added so far. This class is not thread safe.
  *
  * @author Pete Gillin
  * @since 20.0
  */
 @Beta
+@GwtIncompatible
 public final class PairedStatsAccumulator {
 
   // These fields must satisfy the requirements of PairedStats' constructor as well as those of the
@@ -69,27 +69,24 @@ public final class PairedStatsAccumulator {
    * Adds the given statistics to the dataset, as if the individual values used to compute the
    * statistics had been added directly.
    */
-  // TODO(b/26080783): Make public once ready (including exhaustive tests for edge cases).
-  void addAll(PairedStats values) {
+  public void addAll(PairedStats values) {
     if (values.count() == 0) {
       return;
     }
 
-    if (count() == 0) {
+    xStats.addAll(values.xStats());
+    if (yStats.count() == 0) {
       sumOfProductsOfDeltas = values.sumOfProductsOfDeltas();
     } else {
-      long nextCount = count() + values.count();
-      double xMeanDelta = xStats.mean() - values.xStats().mean();
-      double yMeanDelta = yStats.mean() - values.yStats().mean();
-      // Note that non-finite inputs will have sumOfSquaresOfDeltas = NaN, so non-finite values will
-      // result in NaN naturally.
-      // TODO(b/26080783): Consider optimizations similar to those in StatsAccumulator.addAll().
+      // This is a generalized version of the calculation in add(double, double) above. Note that
+      // non-finite inputs will have sumOfProductsOfDeltas = NaN, so non-finite values will result
+      // in NaN naturally.
       sumOfProductsOfDeltas +=
           values.sumOfProductsOfDeltas()
-              + xMeanDelta * yMeanDelta * count() * values.count() / nextCount;
+              + (values.xStats().mean() - xStats.mean())
+                  * (values.yStats().mean() - yStats.mean())
+                  * values.count();
     }
-
-    xStats.addAll(values.xStats());
     yStats.addAll(values.yStats());
   }
 
@@ -124,9 +121,9 @@ public final class PairedStatsAccumulator {
   /**
    * Returns the population covariance of the values. The count must be non-zero.
    *
-   * <p>This is guaranteed to return zero if the dataset contains a single pair of finite values.
-   * It is not guaranteed to return zero when the dataset consists of the same pair of values
-   * multiple times, due to numerical errors.
+   * <p>This is guaranteed to return zero if the dataset contains a single pair of finite values. It
+   * is not guaranteed to return zero when the dataset consists of the same pair of values multiple
+   * times, due to numerical errors.
    *
    * <h3>Non-finite values</h3>
    *

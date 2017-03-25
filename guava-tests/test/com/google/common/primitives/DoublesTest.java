@@ -26,14 +26,12 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link Doubles}.
@@ -183,7 +181,7 @@ public class DoublesTest extends TestCase {
 
   public void testMax_noArgs() {
     try {
-      double unused = Doubles.max();
+      Doubles.max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -204,7 +202,7 @@ public class DoublesTest extends TestCase {
 
   public void testMin_noArgs() {
     try {
-      double unused = Doubles.min();
+      Doubles.min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -221,6 +219,25 @@ public class DoublesTest extends TestCase {
     assertEquals(-0.0, Doubles.min(0.0, -0.0));
     assertEquals(LEAST, Doubles.min(NUMBERS));
     assertTrue(Double.isNaN(Doubles.min(VALUES)));
+  }
+
+  public void testConstrainToRange() {
+    double tolerance = 1e-10;
+    assertEquals(
+        (double) 1, Doubles.constrainToRange((double) 1, (double) 0, (double) 5), tolerance);
+    assertEquals(
+        (double) 1, Doubles.constrainToRange((double) 1, (double) 1, (double) 5), tolerance);
+    assertEquals(
+        (double) 3, Doubles.constrainToRange((double) 1, (double) 3, (double) 5), tolerance);
+    assertEquals(
+        (double) -1, Doubles.constrainToRange((double) 0, (double) -5, (double) -1), tolerance);
+    assertEquals(
+        (double) 2, Doubles.constrainToRange((double) 5, (double) 2, (double) 2), tolerance);
+    try {
+      Doubles.constrainToRange((double) 1, (double) 3, (double) 2);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testConcat() {
@@ -249,19 +266,19 @@ public class DoublesTest extends TestCase {
 
   public void testEnsureCapacity_fail() {
     try {
-      double[] unused = Doubles.ensureCapacity(ARRAY1, -1, 1);
+      Doubles.ensureCapacity(ARRAY1, -1, 1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
       // notice that this should even fail when no growth was needed
-      double[] unused = Doubles.ensureCapacity(ARRAY1, 1, -1);
+      Doubles.ensureCapacity(ARRAY1, 1, -1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
-  @GwtIncompatible("Double.toString returns different value in GWT.")
+  @GwtIncompatible // Double.toString returns different value in GWT.
   public void testJoin() {
     assertEquals("", Doubles.join(",", EMPTY));
     assertEquals("1.0", Doubles.join(",", ARRAY1));
@@ -293,13 +310,13 @@ public class DoublesTest extends TestCase {
     Helpers.testComparator(comparator, ordered);
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testLexicographicalComparatorSerializable() {
     Comparator<double[]> comparator = Doubles.lexicographicalComparator();
     assertSame(comparator, SerializableTester.reserialize(comparator));
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testStringConverterSerialization() {
     SerializableTester.reserializeAndAssert(Doubles.stringConverter());
   }
@@ -339,7 +356,7 @@ public class DoublesTest extends TestCase {
   public void testToArray_withNull() {
     List<Double> list = Arrays.asList((double) 0, (double) 1, null);
     try {
-      double[] unused = Doubles.toArray(list);
+      Doubles.toArray(list);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -414,7 +431,7 @@ public class DoublesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("Doubles.tryParse")
+  @GwtIncompatible // Doubles.tryParse
   private static void checkTryParse(String input) {
     Double expected = referenceTryParse(input);
     assertEquals(expected, Doubles.tryParse(input));
@@ -432,13 +449,13 @@ public class DoublesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("Doubles.tryParse")
+  @GwtIncompatible // Doubles.tryParse
   private static void checkTryParse(double expected, String input) {
     assertEquals(Double.valueOf(expected), Doubles.tryParse(input));
     assertThat(input).matches(Doubles.FLOATING_POINT_PATTERN);
   }
 
-  @GwtIncompatible("Doubles.tryParse")
+  @GwtIncompatible // Doubles.tryParse
   public void testTryParseHex() {
     for (String signChar : ImmutableList.of("", "+", "-")) {
       for (String hexPrefix : ImmutableList.of("0x", "0X")) {
@@ -459,7 +476,7 @@ public class DoublesTest extends TestCase {
   }
 
   @AndroidIncompatible // slow
-  @GwtIncompatible("Doubles.tryParse")
+  @GwtIncompatible // Doubles.tryParse
   public void testTryParseAllCodePoints() {
     // Exercise non-ASCII digit test cases and the like.
     char[] tmp = new char[2];
@@ -469,28 +486,28 @@ public class DoublesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("Doubles.tryParse")
+  @GwtIncompatible // Doubles.tryParse
   public void testTryParseOfToStringIsOriginal() {
     for (double d : NUMBERS) {
       checkTryParse(d, Double.toString(d));
     }
   }
 
-  @GwtIncompatible("Doubles.tryParse")
+  @GwtIncompatible // Doubles.tryParse
   public void testTryParseOfToHexStringIsOriginal() {
     for (double d : NUMBERS) {
       checkTryParse(d, Double.toHexString(d));
     }
   }
 
-  @GwtIncompatible("Doubles.tryParse")
+  @GwtIncompatible // Doubles.tryParse
   public void testTryParseNaN() {
     checkTryParse("NaN");
     checkTryParse("+NaN");
     checkTryParse("-NaN");
   }
 
-  @GwtIncompatible("Doubles.tryParse")
+  @GwtIncompatible // Doubles.tryParse
   public void testTryParseInfinity() {
     checkTryParse(Double.POSITIVE_INFINITY, "Infinity");
     checkTryParse(Double.POSITIVE_INFINITY, "+Infinity");
@@ -501,7 +518,7 @@ public class DoublesTest extends TestCase {
     { "", "+-", "+-0", " 5", "32 ", " 55 ", "infinity", "POSITIVE_INFINITY", "0x9A", "0x9A.bE-5",
       ".", ".e5", "NaNd", "InfinityF" };
 
-  @GwtIncompatible("Doubles.tryParse")
+  @GwtIncompatible // Doubles.tryParse
   public void testTryParseFailures() {
     for (String badInput : BAD_TRY_PARSE_INPUTS) {
       assertThat(badInput).doesNotMatch(Doubles.FLOATING_POINT_PATTERN);
@@ -510,7 +527,7 @@ public class DoublesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Doubles.class);
   }
@@ -529,7 +546,7 @@ public class DoublesTest extends TestCase {
 
   public void testStringConverter_convertError() {
     try {
-      double unused = Doubles.stringConverter().convert("notanumber");
+      Doubles.stringConverter().convert("notanumber");
       fail();
     } catch (NumberFormatException expected) {
     }
@@ -540,7 +557,7 @@ public class DoublesTest extends TestCase {
     assertNull(Doubles.stringConverter().reverse().convert(null));
   }
 
-  @GwtIncompatible("Double.toString returns different value in GWT.")
+  @GwtIncompatible // Double.toString returns different value in GWT.
   public void testStringConverter_reverse() {
     Converter<String, Double> converter = Doubles.stringConverter();
     assertEquals("1.0", converter.reverse().convert(1.0));
@@ -550,9 +567,19 @@ public class DoublesTest extends TestCase {
     assertEquals("1.0E-6", converter.reverse().convert(1e-6));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testStringConverter_nullPointerTester() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(Doubles.stringConverter());
+  }
+
+  @GwtIncompatible
+  public void testTryParse_withNullNoGwt() {
+    assertNull(Doubles.tryParse("null"));
+    try {
+      Doubles.tryParse(null);
+      fail("Expected NPE");
+    } catch (NullPointerException expected) {
+    }
   }
 }

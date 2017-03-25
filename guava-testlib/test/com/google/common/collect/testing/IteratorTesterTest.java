@@ -23,13 +23,11 @@ import static java.util.Collections.emptyList;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
 
 /**
  * Unit test for IteratorTester.
@@ -152,25 +150,6 @@ public class IteratorTesterTest extends TestCase {
       return;
     }
     fail("Should have caught jdk6 bug in target iterator");
-  }
-
-  public void testCanWorkAroundSunJavaBug6529795InTargetIterator() {
-    IteratorTester<Integer> tester =
-        new IteratorTester<Integer>(4, MODIFIABLE, newArrayList(1, 2),
-            IteratorTester.KnownOrder.KNOWN_ORDER) {
-          @Override protected Iterator<Integer> newTargetIterator() {
-            Iterator<Integer> iterator = Lists.newArrayList(1, 2).iterator();
-            return new IteratorWithSunJavaBug6529795<Integer>(iterator);
-          }
-        };
-
-    /*
-     * Calling this method on an IteratorTester should avoid flagging
-     * the bug exposed by the preceding test.
-     */
-    tester.ignoreSunJavaBug6529795();
-
-    tester.test();
   }
 
   private static final int STEPS = 3;
@@ -318,9 +297,10 @@ public class IteratorTesterTest extends TestCase {
   private static void assertFailure(IteratorTester<?> tester) {
     try {
       tester.test();
-      fail();
     } catch (AssertionFailedError expected) {
+      return;
     }
+    fail();
   }
 
   private static final class ThrowingIterator<E> implements Iterator<E> {

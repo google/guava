@@ -17,9 +17,8 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Map;
-
 import javax.annotation.Nullable;
 
 /**
@@ -53,6 +52,7 @@ public interface ClassToInstanceMap<B> extends Map<Class<? extends B>, B> {
    * bound to this specific class, not a value that may have been bound to a
    * subtype.
    */
+  @CanIgnoreReturnValue // TODO(kak): Consider removing this?
   <T extends B> T getInstance(Class<T> type);
 
   /**
@@ -62,5 +62,6 @@ public interface ClassToInstanceMap<B> extends Map<Class<? extends B>, B> {
    * @return the value previously associated with this class (possibly {@code
    *     null}), or {@code null} if there was no previous entry.
    */
+  @CanIgnoreReturnValue
   <T extends B> T putInstance(Class<T> type, @Nullable T value);
 }

@@ -14,8 +14,9 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ForwardingQueue;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -26,11 +27,17 @@ import java.util.concurrent.TimeUnit;
  * as desired per the <a href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator
  * pattern</a>.
  *
+ * <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ * default} methods. Instead, it inherits their default implementations. When those implementations
+ * invoke methods, they invoke methods on the {@code ForwardingBlockingQueue}.
+ *
  * @author Raimundo Mirisola
  *
  * @param <E> the type of elements held in this collection
  * @since 4.0
  */
+@CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
+@GwtIncompatible
 public abstract class ForwardingBlockingQueue<E> extends ForwardingQueue<E>
     implements BlockingQueue<E> {
 

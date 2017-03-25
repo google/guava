@@ -20,11 +20,10 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
-
-import junit.framework.TestCase;
-
 import java.security.Permission;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link Callables}.
@@ -44,7 +43,46 @@ public class CallablesTest extends TestCase {
     assertSame(value, callable.call());
   }
 
-  @GwtIncompatible("threads")
+  @GwtIncompatible
+  public void testAsAsyncCallable() throws Exception {
+    final String expected = "MyCallableString";
+    Callable<String> callable = new Callable<String>() {
+      @Override
+      public String call() throws Exception {
+        return expected;
+      }
+    };
+
+    AsyncCallable<String> asyncCallable =
+        Callables.asAsyncCallable(callable, MoreExecutors.newDirectExecutorService());
+
+    ListenableFuture<String> future = asyncCallable.call();
+    assertSame(expected, future.get());
+  }
+
+  @GwtIncompatible
+  public void testAsAsyncCallable_exception() throws Exception {
+    final Exception expected = new IllegalArgumentException();
+    Callable<String> callable = new Callable<String>() {
+      @Override
+      public String call() throws Exception {
+        throw expected;
+      }
+    };
+
+    AsyncCallable<String> asyncCallable =
+        Callables.asAsyncCallable(callable, MoreExecutors.newDirectExecutorService());
+
+    ListenableFuture<String> future = asyncCallable.call();
+    try {
+      future.get();
+      fail("Expected exception to be thrown");
+    } catch (ExecutionException e) {
+      assertSame(expected, e.getCause());
+    }
+  }
+
+  @GwtIncompatible // threads
   public void testRenaming() throws Exception {
     String oldName = Thread.currentThread().getName();
     final Supplier<String> newName = Suppliers.ofInstance("MyCrazyThreadName");
@@ -58,7 +96,7 @@ public class CallablesTest extends TestCase {
     assertEquals(oldName, Thread.currentThread().getName());
   }
 
-  @GwtIncompatible("threads")
+  @GwtIncompatible // threads
   public void testRenaming_exceptionalReturn() throws Exception {
     String oldName = Thread.currentThread().getName();
     final Supplier<String> newName = Suppliers.ofInstance("MyCrazyThreadName");
@@ -76,7 +114,7 @@ public class CallablesTest extends TestCase {
     assertEquals(oldName, Thread.currentThread().getName());
   }
 
-  @GwtIncompatible("threads")
+  @GwtIncompatible // threads
 
   public void testRenaming_noPermissions() throws Exception {
     System.setSecurityManager(new SecurityManager() {

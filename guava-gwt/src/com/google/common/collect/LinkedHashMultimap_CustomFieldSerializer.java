@@ -19,7 +19,6 @@ package com.google.common.collect;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
-
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;

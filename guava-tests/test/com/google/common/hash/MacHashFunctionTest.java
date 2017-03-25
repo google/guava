@@ -23,18 +23,14 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
-import sun.security.jca.ProviderList;
-import sun.security.jca.Providers;
-
 import java.security.Key;
 import java.util.Arrays;
-
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import junit.framework.TestCase;
+import sun.security.jca.ProviderList;
+import sun.security.jca.Providers;
 
 /**
  * Tests for the MacHashFunction.
@@ -87,7 +83,7 @@ public class MacHashFunctionTest extends TestCase {
     ProviderList providers = Providers.getProviderList();
     Providers.setProviderList(ProviderList.newList());
     try {
-      HashFunction unused = Hashing.hmacMd5(MD5_KEY);
+      Hashing.hmacMd5(MD5_KEY);
       fail("expected ISE");
     } catch (IllegalStateException expected) {
     } finally {
@@ -155,7 +151,7 @@ public class MacHashFunctionTest extends TestCase {
       }
     };
     try {
-      HashFunction unused = Hashing.hmacMd5(badKey);
+      Hashing.hmacMd5(badKey);
       fail();
     } catch (IllegalArgumentException expected) {
     } catch (NullPointerException toleratedOnAndroid) {
@@ -226,7 +222,7 @@ public class MacHashFunctionTest extends TestCase {
     assertEquals("9753980fe94daa8ecaa82216519393a9",
         hasher.putString("The quick brown fox jumps over the lazy dog", UTF_8).hash().toString());
     try {
-      HashCode unused = hasher.hash();
+      hasher.hash();
       fail();
     } catch (IllegalStateException expected) {
     }

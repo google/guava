@@ -22,11 +22,9 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
-
-import junit.framework.TestCase;
-
 import java.lang.reflect.Field;
 import java.util.List;
+import junit.framework.TestCase;
 
 /**
  * Tests for the HttpHeaders class.
@@ -37,7 +35,8 @@ public class HttpHeadersTest extends TestCase {
 
   public void testConstantNameMatchesString() throws Exception {
     // Special case some of the weird HTTP Header names...
-    ImmutableBiMap<String, String> specialCases = ImmutableBiMap.of("ETAG", "ETag");
+    ImmutableBiMap<String, String> specialCases = ImmutableBiMap.of("ETAG", "ETag",
+        "X_WEBKIT_CSP", "X-WebKit-CSP", "X_WEBKIT_CSP_REPORT_ONLY", "X-WebKit-CSP-Report-Only");
     ImmutableSet<String> uppercaseAcronyms = ImmutableSet.of(
         "ID", "DNT", "IP", "MD5", "P3P", "TE", "UID", "URL", "WWW", "XSS");
     assertConstantNameMatchesString(HttpHeaders.class, specialCases, uppercaseAcronyms);

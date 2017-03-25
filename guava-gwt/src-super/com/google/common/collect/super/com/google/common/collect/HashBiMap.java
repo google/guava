@@ -16,13 +16,18 @@
 
 package com.google.common.collect;
 
-import java.util.HashMap;
-import java.util.Map;
+import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.base.Objects;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import javax.annotation.Nullable;
 
 /**
- * GWT emulation of {@code HashBiMap} that just delegates to two HashMaps.
+ * GWT emulation of {@code HashBiMap} that just delegates to a LinkedHashMap and a HashMap.
  *
  * @author Mike Bostock
  */
@@ -60,18 +65,61 @@ public final class HashBiMap<K, V> extends AbstractBiMap<K, V> {
   }
 
   private HashBiMap() {
-    super(new HashMap<K, V>(), new HashMap<V, K>());
+    // we only care about the forward-direction order, so only that direction needs to be an LHM
+    super(new LinkedHashMap<K, V>(), new HashMap<V, K>());
   }
 
   private HashBiMap(int expectedSize) {
+    // we only care about the forward-direction order, so only that direction needs to be an LHM
     super(
-        Maps.<K, V>newHashMapWithExpectedSize(expectedSize),
+        Maps.<K, V>newLinkedHashMapWithExpectedSize(expectedSize),
         Maps.<V, K>newHashMapWithExpectedSize(expectedSize));
+  }
+
+  @Override
+  AbstractBiMap<V, K> makeInverse(Map<V, K> backward) {
+    return new Inverse<V, K>(backward, this) {
+      @Override
+      Iterator<Entry<V, K>> entrySetIterator() {
+        return new TransformedIterator<Entry<K, V>, Entry<V, K>>(
+            HashBiMap.this.delegate().entrySet().iterator()) {
+          @Override
+          public Entry<V, K> transform(final Entry<K, V> forwardEntry) {
+            return new AbstractMapEntry<V, K>() {
+              final V value = forwardEntry.getValue();
+
+              @Override
+              public V getKey() {
+                return value;
+              }
+
+              @Override
+              public K getValue() {
+                return delegate().get(value);
+              }
+
+              @Override
+              public K setValue(K newKey) {
+                // Preconditions keep the map and inverse consistent.
+                checkState(entrySet().contains(this), "entry no longer in map");
+                K oldKey = getValue();
+                if (Objects.equal(newKey, oldKey)) {
+                  return newKey;
+                }
+                forcePut(value, newKey);
+                return oldKey;
+              }
+            };
+          }
+        };
+      }
+    };
   }
 
   // Override these two methods to show that keys and values may be null
 
-  @Override public V put(@Nullable K key, @Nullable V value) {
+  @Override
+  public V put(@Nullable K key, @Nullable V value) {
     return super.put(key, value);
   }
 

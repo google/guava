@@ -20,14 +20,12 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+import junit.framework.TestCase;
 
 /**
  * Tests for UnsignedLongs
@@ -39,7 +37,7 @@ import java.util.Random;
 public class UnsignedLongsTest extends TestCase {
   private static final long LEAST = 0L;
   private static final long GREATEST = 0xffffffffffffffffL;
-  
+
   public void testCompare() {
     // max value
     assertTrue(UnsignedLongs.compare(0, 0xffffffffffffffffL) < 0);
@@ -63,12 +61,12 @@ public class UnsignedLongsTest extends TestCase {
 
   public void testMax_noArgs() {
     try {
-      long unused = UnsignedLongs.max();
+      UnsignedLongs.max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
-  
+
   public void testMax() {
     assertEquals(LEAST, UnsignedLongs.max(LEAST));
     assertEquals(GREATEST, UnsignedLongs.max(GREATEST));
@@ -79,12 +77,12 @@ public class UnsignedLongsTest extends TestCase {
 
   public void testMin_noArgs() {
     try {
-      long unused = UnsignedLongs.min();
+      UnsignedLongs.min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
-  
+
   public void testMin() {
     assertEquals(LEAST, UnsignedLongs.min(LEAST));
     assertEquals(GREATEST, UnsignedLongs.min(GREATEST));
@@ -92,7 +90,7 @@ public class UnsignedLongsTest extends TestCase {
         0x5a4316b8c153ac4dL, 8L, 100L,
         0L, 0x6cf78a4b139a4e2aL, 0xff1a618b7f65ea12L));
   }
-  
+
   public void testLexicographicalComparator() {
     List<long[]> ordered = Arrays.asList(
         new long[] {},
@@ -104,7 +102,7 @@ public class UnsignedLongsTest extends TestCase {
         new long[] {GREATEST, GREATEST - (long) 1},
         new long[] {GREATEST, GREATEST},
         new long[] {GREATEST, GREATEST, GREATEST});
-    
+
     Comparator<long[]> comparator = UnsignedLongs.lexicographicalComparator();
     Helpers.testComparator(comparator, ordered);
   }
@@ -130,7 +128,7 @@ public class UnsignedLongsTest extends TestCase {
     assertEquals(4, UnsignedLongs.remainder(0xfffffffffffffffeL, 5));
   }
 
-  @GwtIncompatible("Too slow in GWT (~3min fully optimized)")
+  @GwtIncompatible // Too slow in GWT (~3min fully optimized)
   public void testDivideRemainderEuclideanProperty() {
     // Use a seed so that the test is deterministic:
     Random r = new Random(0L);
@@ -155,7 +153,7 @@ public class UnsignedLongsTest extends TestCase {
   public void testParseLongFails() {
     try {
       // One more than maximum value
-      long unused = UnsignedLongs.parseUnsignedLong("18446744073709551616");
+      UnsignedLongs.parseUnsignedLong("18446744073709551616");
       fail();
     } catch (NumberFormatException expected) {
     }
@@ -174,25 +172,25 @@ public class UnsignedLongsTest extends TestCase {
   public void testDecodeLongFails() {
     try {
       // One more than maximum value
-      long unused = UnsignedLongs.decode("0xfffffffffffffffff");
+      UnsignedLongs.decode("0xfffffffffffffffff");
       fail();
     } catch (NumberFormatException expected) {
     }
 
     try {
-      long unused = UnsignedLongs.decode("-5");
+      UnsignedLongs.decode("-5");
       fail();
     } catch (NumberFormatException expected) {
     }
 
     try {
-      long unused = UnsignedLongs.decode("-0x5");
+      UnsignedLongs.decode("-0x5");
       fail();
     } catch (NumberFormatException expected) {
     }
 
     try {
-      long unused = UnsignedLongs.decode("-05");
+      UnsignedLongs.decode("-05");
       fail();
     } catch (NumberFormatException expected) {
     }
@@ -215,7 +213,7 @@ public class UnsignedLongsTest extends TestCase {
         // tests that we get exception whre an overflow would occur.
         BigInteger overflow = max.add(ONE);
         String overflowAsString = overflow.toString(radix);
-        long unused = UnsignedLongs.parseUnsignedLong(overflowAsString, radix);
+        UnsignedLongs.parseUnsignedLong(overflowAsString, radix);
         fail();
       } catch (NumberFormatException expected) {
       }
@@ -231,20 +229,20 @@ public class UnsignedLongsTest extends TestCase {
   public void testParseLongThrowsExceptionForInvalidRadix() {
     // Valid radix values are Character.MIN_RADIX to Character.MAX_RADIX, inclusive.
     try {
-      long unused = UnsignedLongs.parseUnsignedLong("0", Character.MIN_RADIX - 1);
+      UnsignedLongs.parseUnsignedLong("0", Character.MIN_RADIX - 1);
       fail();
     } catch (NumberFormatException expected) {
     }
 
     try {
-      long unused = UnsignedLongs.parseUnsignedLong("0", Character.MAX_RADIX + 1);
+      UnsignedLongs.parseUnsignedLong("0", Character.MAX_RADIX + 1);
       fail();
     } catch (NumberFormatException expected) {
     }
 
     // The radix is used as an array index, so try a negative value.
     try {
-      long unused = UnsignedLongs.parseUnsignedLong("0", -1);
+      UnsignedLongs.parseUnsignedLong("0", -1);
       fail();
     } catch (NumberFormatException expected) {
     }
@@ -279,7 +277,7 @@ public class UnsignedLongsTest extends TestCase {
         UnsignedLongs.join("", -1, Long.MIN_VALUE));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(UnsignedLongs.class);
   }

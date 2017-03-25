@@ -19,12 +19,10 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.GcFinalization;
-
-import junit.framework.TestCase;
-
 import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@code AbstractIterator}.
@@ -134,7 +132,7 @@ public class AbstractIteratorTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("weak references")
+  @GwtIncompatible // weak references
   public void testFreesNextReference() {
     Iterator<Object> itr = new AbstractIterator<Object>() {
       @Override public Object computeNext() {
@@ -256,12 +254,14 @@ public class AbstractIteratorTest extends TestCase {
   }
 
   public void testReentrantHasNext() {
-    Iterator<Integer> iter = new AbstractIterator<Integer>() {
-      @Override protected Integer computeNext() {
-        hasNext();
-        return null;
-      }
-    };
+    Iterator<Integer> iter =
+        new AbstractIterator<Integer>() {
+          @Override
+          protected Integer computeNext() {
+            boolean unused = hasNext();
+            return null;
+          }
+        };
     try {
       iter.hasNext();
       fail();

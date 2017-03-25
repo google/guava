@@ -1,29 +1,23 @@
 /*
  * Copyright (C) 2006 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-
 import java.io.Serializable;
-
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -33,7 +27,6 @@ import javax.annotation.Nullable;
  * @author Mike Bostock
  * @since 1.0
  */
-@CheckReturnValue
 @GwtCompatible
 public enum CaseFormat {
   /**
@@ -167,7 +160,6 @@ public enum CaseFormat {
    *
    * @since 16.0
    */
-  @Beta
   public Converter<String, String> converterTo(CaseFormat targetFormat) {
     return new StringConverter(this, targetFormat);
   }
@@ -224,9 +216,6 @@ public enum CaseFormat {
   private static String firstCharOnlyToUpper(String word) {
     return (word.isEmpty())
         ? word
-        : new StringBuilder(word.length())
-            .append(Ascii.toUpperCase(word.charAt(0)))
-            .append(Ascii.toLowerCase(word.substring(1)))
-            .toString();
+        : Ascii.toUpperCase(word.charAt(0)) + Ascii.toLowerCase(word.substring(1));
   }
 }

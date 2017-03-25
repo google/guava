@@ -21,10 +21,8 @@ import static com.google.common.base.Charsets.UTF_8;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Strings;
-
-import junit.framework.TestCase;
-
 import java.util.Arrays;
+import junit.framework.TestCase;
 
 /**
  * Unit test for FarmHashFingerprint64.

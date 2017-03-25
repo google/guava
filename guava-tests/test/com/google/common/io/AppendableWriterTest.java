@@ -23,7 +23,7 @@ import java.io.Writer;
 
 /**
  * Unit test for {@link AppendableWriter}.
- * 
+ *
  * @author Alan Green
  */
 public class AppendableWriterTest extends IoTestCase {

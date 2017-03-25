@@ -26,15 +26,12 @@ import com.google.common.primitives.Ints;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.math.RoundingMode;
 import java.util.Random;
-
 import javax.annotation.Nullable;
+import junit.framework.TestCase;
 
 /**
  * Tests for SimpleGenericBloomFilter and derived BloomFilter views.
@@ -192,19 +189,19 @@ public class BloomFilterTest extends TestCase {
 
   public void testPreconditions() {
     try {
-      BloomFilter<String> unused = BloomFilter.create(Funnels.unencodedCharsFunnel(), -1);
+      BloomFilter.create(Funnels.unencodedCharsFunnel(), -1);
       fail();
     } catch (IllegalArgumentException expected) {}
     try {
-      BloomFilter<String> unused = BloomFilter.create(Funnels.unencodedCharsFunnel(), -1, 0.03);
+      BloomFilter.create(Funnels.unencodedCharsFunnel(), -1, 0.03);
       fail();
     } catch (IllegalArgumentException expected) {}
     try {
-      BloomFilter<String> unused = BloomFilter.create(Funnels.unencodedCharsFunnel(), 1, 0.0);
+      BloomFilter.create(Funnels.unencodedCharsFunnel(), 1, 0.0);
       fail();
     } catch (IllegalArgumentException expected) {}
     try {
-      BloomFilter<String> unused = BloomFilter.create(Funnels.unencodedCharsFunnel(), 1, 1.0);
+      BloomFilter.create(Funnels.unencodedCharsFunnel(), 1, 1.0);
       fail();
     } catch (IllegalArgumentException expected) {}
   }
@@ -213,7 +210,7 @@ public class BloomFilterTest extends TestCase {
     try {
       int n = 1000;
       double p = 0.00000000000000000000000000000000000000000000000000000000000000000000000000000001;
-      BloomFilter<String> unused = BloomFilter.create(Funnels.unencodedCharsFunnel(), n, p);
+      BloomFilter.create(Funnels.unencodedCharsFunnel(), n, p);
       fail();
     } catch (IllegalArgumentException expected) {}
   }

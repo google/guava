@@ -50,7 +50,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.math.StatsTesting.ManyValues;
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Longs;
-
 import junit.framework.TestCase;
 
 /**

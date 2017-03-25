@@ -20,7 +20,7 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 
 /**
- * Some microbenchmarks for the {@link Objects.ToStringHelper} class.
+ * Some microbenchmarks for the {@link MoreObjects.ToStringHelper} class.
  *
  * @author Osvaldo Doederlein
  */
@@ -30,7 +30,7 @@ public class ToStringHelperBenchmark {
   private static final String NAME = "abcdefgh";
   private static final String NAME3 = Strings.repeat(NAME, 3);
 
-  private static void addEntries(Objects.ToStringHelper helper) {
+  private static void addEntries(MoreObjects.ToStringHelper helper) {
     helper
       .add(NAME, 10)
       .addValue(10L)
@@ -44,7 +44,7 @@ public class ToStringHelperBenchmark {
   @Benchmark int toString(int reps) {
     int dummy = 0;
     for (int i = 0; i < reps; i++) {
-      Objects.ToStringHelper helper = Objects.toStringHelper("klass").omitNullValues();
+      MoreObjects.ToStringHelper helper = MoreObjects.toStringHelper("klass").omitNullValues();
       for (int j = 0; j < dataSize; ++j) {
         addEntries(helper);
       }

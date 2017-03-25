@@ -24,14 +24,12 @@ import static java.util.Collections.emptyList;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.IteratorTester;
-
-import junit.framework.TestCase;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import junit.framework.TestCase;
 
 /**
   * Unit test for {@link PeekingIterator}.
@@ -96,12 +94,12 @@ public class PeekingIteratorTest extends TestCase {
   }
 
   // TODO(cpovirk): instead of skipping, use a smaller number of steps
-  @GwtIncompatible("works but takes 5 minutes to run")
+  @GwtIncompatible // works but takes 5 minutes to run
   public void testPeekingIteratorBehavesLikeIteratorOnThreeElementIterable() {
     actsLikeIteratorHelper(Lists.newArrayList("A", "B", "C"));
   }
 
-  @GwtIncompatible("works but takes 5 minutes to run")
+  @GwtIncompatible // works but takes 5 minutes to run
   public void testPeekingIteratorAcceptsNullElements() {
     actsLikeIteratorHelper(Lists.newArrayList(null, "A", null));
   }

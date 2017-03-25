@@ -17,13 +17,11 @@
 package com.google.common.io;
 
 import com.google.common.collect.ImmutableList;
-
-import junit.framework.TestCase;
-
 import java.io.FilterReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import junit.framework.TestCase;
 
 /**
  * @author ricebin
@@ -62,7 +60,7 @@ public class MultiReaderTest extends TestCase {
     assertEquals('a', joinedReader.read());
     assertEquals('a', joinedReader.read());
     assertEquals(-1, joinedReader.read());
-    assertFalse(joinedReader.ready());    
+    assertFalse(joinedReader.ready());
   }
 
   public void testSimple() throws Exception {
@@ -74,7 +72,6 @@ public class MultiReaderTest extends TestCase {
     assertEquals(expectedString, CharStreams.toString(joinedReader));
   }
 
-  
   private static CharSource newCharSource(final String text) {
     return new CharSource() {
       @Override
@@ -100,7 +97,7 @@ public class MultiReaderTest extends TestCase {
     assertEquals(expected.charAt(9), joinedReader.read());
     assertEquals(-1, joinedReader.read());
   }
-  
+
   public void testSkipZero() throws Exception {
     CharSource source = newCharSource("a");
     Iterable<CharSource> list = ImmutableList.of(source, source);

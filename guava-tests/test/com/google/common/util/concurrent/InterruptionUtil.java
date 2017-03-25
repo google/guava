@@ -23,13 +23,12 @@ import static junit.framework.Assert.fail;
 
 import com.google.common.testing.TearDown;
 import com.google.common.testing.TearDownAccepter;
-
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 /**
  * Utilities for performing thread interruption in tests
- * 
+ *
  * @author Kevin Bourrillion
  * @author Chris Povirk
  */

@@ -18,7 +18,6 @@ package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.SampleElements.Strings;
-
 import java.util.List;
 import java.util.Queue;
 
@@ -28,9 +27,7 @@ import java.util.Queue;
  * @author Jared Levy
  */
 @GwtCompatible
-public abstract class TestStringQueueGenerator
-    implements TestQueueGenerator<String>
-{
+public abstract class TestStringQueueGenerator implements TestQueueGenerator<String> {
   @Override
   public SampleElements<String> samples() {
     return new Strings();

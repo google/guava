@@ -22,7 +22,6 @@ import static com.google.common.io.TestOption.READ_THROWS;
 import static com.google.common.io.TestOption.WRITE_THROWS;
 
 import com.google.common.collect.ImmutableList;
-
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.Writer;

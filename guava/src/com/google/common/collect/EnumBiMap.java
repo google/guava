@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -89,11 +88,7 @@ public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>> extends Abstr
       return ((EnumHashBiMap<K, ?>) map).keyType();
     }
     checkArgument(!map.isEmpty());
-    return map
-        .keySet()
-        .iterator()
-        .next()
-        .getDeclaringClass();
+    return map.keySet().iterator().next().getDeclaringClass();
   }
 
   private static <V extends Enum<V>> Class<V> inferValueType(Map<?, V> map) {
@@ -101,11 +96,7 @@ public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>> extends Abstr
       return ((EnumBiMap<?, V>) map).valueType;
     }
     checkArgument(!map.isEmpty());
-    return map
-        .values()
-        .iterator()
-        .next()
-        .getDeclaringClass();
+    return map.values().iterator().next().getDeclaringClass();
   }
 
   /** Returns the associated key type. */
@@ -132,7 +123,7 @@ public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>> extends Abstr
    * @serialData the key class, value class, number of entries, first key, first
    *     value, second key, second value, and so on.
    */
-  @GwtIncompatible("java.io.ObjectOutputStream")
+  @GwtIncompatible // java.io.ObjectOutputStream
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeObject(keyType);
@@ -141,7 +132,7 @@ public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>> extends Abstr
   }
 
   @SuppressWarnings("unchecked") // reading fields populated by writeObject
-  @GwtIncompatible("java.io.ObjectInputStream")
+  @GwtIncompatible // java.io.ObjectInputStream
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     keyType = (Class<K>) stream.readObject();
@@ -152,6 +143,6 @@ public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>> extends Abstr
     Serialization.populateMap(this, stream);
   }
 
-  @GwtIncompatible("not needed in emulated source.")
+  @GwtIncompatible // not needed in emulated source.
   private static final long serialVersionUID = 0;
 }

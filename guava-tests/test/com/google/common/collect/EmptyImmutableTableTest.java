@@ -47,7 +47,7 @@ public class EmptyImmutableTableTest extends AbstractImmutableTableTest {
         .testEquals();
   }
 
-  @GwtIncompatible("ArrayTable")
+  @GwtIncompatible // ArrayTable
   public void testEqualsObjectNullValues() {
     new EqualsTester()
         .addEqualityGroup(INSTANCE)

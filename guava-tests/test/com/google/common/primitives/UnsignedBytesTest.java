@@ -19,12 +19,10 @@ package com.google.common.primitives;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link UnsignedBytes}.
@@ -73,7 +71,7 @@ public class UnsignedBytesTest extends TestCase {
 
   private static void assertCastFails(long value) {
     try {
-      byte unused = UnsignedBytes.checkedCast(value);
+      UnsignedBytes.checkedCast(value);
       fail("Cast to byte should have failed: " + value);
     } catch (IllegalArgumentException ex) {
       assertTrue(value + " not found in exception text: " + ex.getMessage(),
@@ -98,7 +96,7 @@ public class UnsignedBytesTest extends TestCase {
 
   public void testMax_noArgs() {
     try {
-      byte unused = UnsignedBytes.max();
+      UnsignedBytes.max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -113,7 +111,7 @@ public class UnsignedBytesTest extends TestCase {
 
   public void testMin_noArgs() {
     try {
-      byte unused = UnsignedBytes.min();
+      UnsignedBytes.min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -130,7 +128,7 @@ public class UnsignedBytesTest extends TestCase {
 
   private static void assertParseFails(String value) {
     try {
-      byte unused = UnsignedBytes.parseUnsignedByte(value);
+      UnsignedBytes.parseUnsignedByte(value);
       fail();
     } catch (NumberFormatException expected) {
     }
@@ -154,7 +152,7 @@ public class UnsignedBytesTest extends TestCase {
 
   private static void assertParseFails(String value, int radix) {
     try {
-      byte unused = UnsignedBytes.parseUnsignedByte(value, radix);
+      UnsignedBytes.parseUnsignedByte(value, radix);
       fail();
     } catch (NumberFormatException expected) {
     }
@@ -177,14 +175,14 @@ public class UnsignedBytesTest extends TestCase {
     // Valid radix values are Character.MIN_RADIX to Character.MAX_RADIX,
     // inclusive.
     try {
-      byte unused = UnsignedBytes.parseUnsignedByte("0", Character.MIN_RADIX - 1);
+      UnsignedBytes.parseUnsignedByte("0", Character.MIN_RADIX - 1);
       fail();
     } catch (NumberFormatException nfe) {
       // expected
     }
 
     try {
-      byte unused = UnsignedBytes.parseUnsignedByte("0", Character.MAX_RADIX + 1);
+      UnsignedBytes.parseUnsignedByte("0", Character.MAX_RADIX + 1);
       fail();
     } catch (NumberFormatException nfe) {
       // expected
@@ -192,7 +190,7 @@ public class UnsignedBytesTest extends TestCase {
 
     // The radix is used as an array index, so try a negative value.
     try {
-      byte unused = UnsignedBytes.parseUnsignedByte("0", -1);
+      UnsignedBytes.parseUnsignedByte("0", -1);
       fail();
     } catch (NumberFormatException nfe) {
       // expected
@@ -253,7 +251,7 @@ public class UnsignedBytesTest extends TestCase {
     Helpers.testComparator(javaImpl, ordered);
     assertSame(javaImpl, SerializableTester.reserialize(javaImpl));
   }
-  
+
   @SuppressWarnings("unchecked")
   public void testLexicographicalComparatorLongInputs() {
     for (Comparator<byte[]> comparator : Arrays.asList(

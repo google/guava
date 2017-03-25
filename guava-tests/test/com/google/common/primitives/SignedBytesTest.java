@@ -21,12 +21,10 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link SignedBytes}.
@@ -67,7 +65,7 @@ public class SignedBytesTest extends TestCase {
 
   private static void assertCastFails(long value) {
     try {
-      byte unused = SignedBytes.checkedCast(value);
+      SignedBytes.checkedCast(value);
       fail("Cast to byte should have failed: " + value);
     } catch (IllegalArgumentException ex) {
       assertTrue(value + " not found in exception text: " + ex.getMessage(),
@@ -96,7 +94,7 @@ public class SignedBytesTest extends TestCase {
 
   public void testMax_noArgs() {
     try {
-      byte unused = SignedBytes.max();
+      SignedBytes.max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -111,7 +109,7 @@ public class SignedBytesTest extends TestCase {
 
   public void testMin_noArgs() {
     try {
-      byte unused = SignedBytes.min();
+      SignedBytes.min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -148,13 +146,13 @@ public class SignedBytesTest extends TestCase {
     Helpers.testComparator(comparator, ordered);
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testLexicographicalComparatorSerializable() {
     Comparator<byte[]> comparator = SignedBytes.lexicographicalComparator();
     assertSame(comparator, SerializableTester.reserialize(comparator));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(SignedBytes.class);
   }

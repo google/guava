@@ -17,7 +17,6 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.Table.Cell;
 import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.Collections;
@@ -136,10 +135,6 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
     return forCellsInternal(cells, null, null);
   }
 
-  /**
-   * A factory that chooses the most space-efficient representation of the
-   * table.
-   */
   private static final <R, C, V> RegularImmutableTable<R, C, V> forCellsInternal(
       Iterable<Cell<R, C, V>> cells,
       @Nullable Comparator<? super R> rowComparator,
@@ -155,14 +150,20 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
     ImmutableSet<R> rowSpace =
         (rowComparator == null)
             ? ImmutableSet.copyOf(rowSpaceBuilder)
-            : ImmutableSet.copyOf(
-                Ordering.from(rowComparator).immutableSortedCopy(rowSpaceBuilder));
+            : ImmutableSet.copyOf(ImmutableList.sortedCopyOf(rowComparator, rowSpaceBuilder));
     ImmutableSet<C> columnSpace =
         (columnComparator == null)
             ? ImmutableSet.copyOf(columnSpaceBuilder)
-            : ImmutableSet.copyOf(
-                Ordering.from(columnComparator).immutableSortedCopy(columnSpaceBuilder));
+            : ImmutableSet.copyOf(ImmutableList.sortedCopyOf(columnComparator, columnSpaceBuilder));
 
+    return forOrderedComponents(cellList, rowSpace, columnSpace);
+  }
+
+  /** A factory that chooses the most space-efficient representation of the table. */
+  static <R, C, V> RegularImmutableTable<R, C, V> forOrderedComponents(
+      ImmutableList<Cell<R, C, V>> cellList,
+      ImmutableSet<R> rowSpace,
+      ImmutableSet<C> columnSpace) {
     // use a dense table if more than half of the cells have values
     // TODO(gak): tune this condition based on empirical evidence
     return (cellList.size() > (((long) rowSpace.size() * columnSpace.size()) / 2))

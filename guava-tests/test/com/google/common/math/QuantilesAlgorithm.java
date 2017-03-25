@@ -17,7 +17,6 @@
 package com.google.common.math;
 
 import com.google.common.collect.ImmutableMap;
-
 import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.Collection;
@@ -128,7 +127,7 @@ enum QuantilesAlgorithm {
 
   /**
    * Calculates a single quantile. Equivalent to
-   * {@code Quantiles.scale(scale).index(index).computeInPlace(dataset)}. 
+   * {@code Quantiles.scale(scale).index(index).computeInPlace(dataset)}.
    */
   abstract double singleQuantile(int index, int scale, double[] dataset);
 

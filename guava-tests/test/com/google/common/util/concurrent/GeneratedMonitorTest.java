@@ -21,10 +21,7 @@ import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterrup
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Ints;
-
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -33,6 +30,8 @@ import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Generated tests for {@link Monitor}.
@@ -708,6 +707,7 @@ public class GeneratedMonitorTest extends TestCase {
     awaitUninterruptibly(enteredLatch);
   }
 
+  @CanIgnoreReturnValue
   static Thread startThread(Runnable runnable) {
     Thread thread = new Thread(runnable);
     thread.setDaemon(true);

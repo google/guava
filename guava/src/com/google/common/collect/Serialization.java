@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import com.google.common.annotations.GwtIncompatible;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -31,6 +32,7 @@ import java.util.Map;
  *
  * @author Jared Levy
  */
+@GwtIncompatible
 final class Serialization {
   private Serialization() {}
 

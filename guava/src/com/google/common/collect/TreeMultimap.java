@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -31,7 +30,6 @@ import java.util.NavigableSet;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
-
 import javax.annotation.Nullable;
 
 /**
@@ -149,7 +147,11 @@ public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V>
 
   /**
    * Returns the comparator that orders the multimap keys.
+   *
+   * @deprecated Use {@code ((NavigableSet<K>) multimap.keySet()).comparator()} instead. This method
+   *     is scheduled for removal in April 2019.
    */
+  @Deprecated
   public Comparator<? super K> keyComparator() {
     return keyComparator;
   }
@@ -159,37 +161,13 @@ public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V>
     return valueComparator;
   }
 
-  /*
-   * The following @GwtIncompatible methods override the methods in
-   * AbstractSortedKeySortedSetMultimap, so GWT will fall back to the ASKSSM implementations,
-   * which return SortedSets and SortedMaps.
-   */
-
-  @Override
-  @GwtIncompatible("NavigableMap")
-  NavigableMap<K, Collection<V>> backingMap() {
-    return (NavigableMap<K, Collection<V>>) super.backingMap();
-  }
-
   /**
    * @since 14.0 (present with return type {@code SortedSet} since 2.0)
    */
   @Override
-  @GwtIncompatible("NavigableSet")
+  @GwtIncompatible // NavigableSet
   public NavigableSet<V> get(@Nullable K key) {
     return (NavigableSet<V>) super.get(key);
-  }
-
-  @Override
-  @GwtIncompatible("NavigableSet")
-  Collection<V> unmodifiableCollectionSubclass(Collection<V> collection) {
-    return Sets.unmodifiableNavigableSet((NavigableSet<V>) collection);
-  }
-
-  @Override
-  @GwtIncompatible("NavigableSet")
-  Collection<V> wrapCollection(K key, Collection<V> collection) {
-    return new WrappedNavigableSet(key, (NavigableSet<V>) collection, null);
   }
 
   /**
@@ -202,15 +180,8 @@ public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V>
    * @since 14.0 (present with return type {@code SortedSet} since 2.0)
    */
   @Override
-  @GwtIncompatible("NavigableSet")
   public NavigableSet<K> keySet() {
     return (NavigableSet<K>) super.keySet();
-  }
-
-  @Override
-  @GwtIncompatible("NavigableSet")
-  NavigableSet<K> createKeySet() {
-    return new NavigableKeySet(backingMap());
   }
 
   /**
@@ -223,15 +194,8 @@ public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V>
    * @since 14.0 (present with return type {@code SortedMap} since 2.0)
    */
   @Override
-  @GwtIncompatible("NavigableMap")
   public NavigableMap<K, Collection<V>> asMap() {
     return (NavigableMap<K, Collection<V>>) super.asMap();
-  }
-
-  @Override
-  @GwtIncompatible("NavigableMap")
-  NavigableMap<K, Collection<V>> createAsMap() {
-    return new NavigableAsMap(backingMap());
   }
 
   /**
@@ -239,7 +203,7 @@ public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V>
    *     then for each distinct key: the key, number of values for that key, and
    *     key values
    */
-  @GwtIncompatible("java.io.ObjectOutputStream")
+  @GwtIncompatible // java.io.ObjectOutputStream
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeObject(keyComparator());
@@ -247,7 +211,7 @@ public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V>
     Serialization.writeMultimap(this, stream);
   }
 
-  @GwtIncompatible("java.io.ObjectInputStream")
+  @GwtIncompatible // java.io.ObjectInputStream
   @SuppressWarnings("unchecked") // reading data stored by writeObject
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
@@ -257,6 +221,6 @@ public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V>
     Serialization.populateMultimap(this, stream);
   }
 
-  @GwtIncompatible("not needed in emulated source")
+  @GwtIncompatible // not needed in emulated source
   private static final long serialVersionUID = 0;
 }

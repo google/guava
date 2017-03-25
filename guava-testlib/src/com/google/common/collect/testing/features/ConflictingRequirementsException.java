@@ -17,7 +17,6 @@
 package com.google.common.collect.testing.features;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.util.Set;
 
 /**
@@ -46,7 +45,8 @@ public class ConflictingRequirementsException extends Exception {
     return source;
   }
 
-  @Override public String getMessage() {
+  @Override
+  public String getMessage() {
     return super.getMessage() + " (source: " + source + ")";
   }
 

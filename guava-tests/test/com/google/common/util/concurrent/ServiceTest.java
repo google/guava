@@ -23,9 +23,8 @@ import static com.google.common.util.concurrent.Service.State.STARTING;
 import static com.google.common.util.concurrent.Service.State.STOPPING;
 import static com.google.common.util.concurrent.Service.State.TERMINATED;
 
-import junit.framework.TestCase;
-
 import java.util.Locale;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link Service}
@@ -37,18 +36,18 @@ public class ServiceTest extends TestCase {
     // List every valid (direct) state transition.
     assertLessThan(NEW, STARTING);
     assertLessThan(NEW, TERMINATED);
-    
+
     assertLessThan(STARTING, RUNNING);
     assertLessThan(STARTING, STOPPING);
     assertLessThan(STARTING, FAILED);
-    
+
     assertLessThan(RUNNING, STOPPING);
     assertLessThan(RUNNING, FAILED);
-    
+
     assertLessThan(STOPPING, FAILED);
     assertLessThan(STOPPING, TERMINATED);
   }
-  
+
   private static <T extends Comparable<? super T>> void assertLessThan(T a, T b) {
     if (a.compareTo(b) >= 0) {
       fail(String.format(Locale.ROOT, "Expected %s to be less than %s", a, b));

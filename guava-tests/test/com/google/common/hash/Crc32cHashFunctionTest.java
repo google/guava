@@ -16,9 +16,8 @@ package com.google.common.hash;
 
 import static com.google.common.base.Charsets.UTF_8;
 
-import junit.framework.TestCase;
-
 import java.util.Arrays;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link Crc32c}. Known test values are from RFC 3720, Section B.4.
@@ -87,7 +86,7 @@ public class Crc32cHashFunctionTest extends TestCase {
   }
 
   /**
-   * Verfies that the crc of an array of byte data matches the expected value.
+   * Verifies that the crc of an array of byte data matches the expected value.
    *
    * @param expectedCrc the expected crc value.
    * @param data the data to run the checksum on.

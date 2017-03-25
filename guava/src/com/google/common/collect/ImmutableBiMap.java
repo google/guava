@@ -18,10 +18,13 @@ package com.google.common.collect;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * A {@link BiMap} whose contents will never change, with many other important properties detailed
@@ -31,7 +34,28 @@ import java.util.Map;
  * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
-public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements BiMap<K, V> {
+public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<K, V>
+    implements BiMap<K, V> {
+
+  /**
+   * Returns a {@link Collector} that accumulates elements into an {@code ImmutableBiMap} whose
+   * keys and values are the result of applying the provided mapping functions to the input
+   * elements. Entries appear in the result {@code ImmutableBiMap} in encounter order.
+   *
+   * <p>If the mapped keys or values contain duplicates
+   * (according to {@link Object#equals(Object)}, an {@code IllegalArgumentException} is thrown
+   * when the collection operation is performed. (This differs from the {@code Collector} returned
+   * by {@link Collectors#toMap(Function, Function)}, which throws an
+   * {@code IllegalStateException}.)
+   *
+   * @since 21.0
+   */
+  @Beta
+  public static <T, K, V> Collector<T, ?, ImmutableBiMap<K, V>> toImmutableBiMap(
+      Function<? super T, ? extends K> keyFunction,
+      Function<? super T, ? extends V> valueFunction) {
+    return CollectCollectors.toImmutableBiMap(keyFunction, valueFunction);
+  }
 
   /**
    * Returns the empty bimap.
@@ -134,6 +158,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
      * Associates {@code key} with {@code value} in the built bimap. Duplicate
      * keys or values are not allowed, and will cause {@link #build} to fail.
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> put(K key, V value) {
       super.put(key, value);
@@ -146,6 +171,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
      *
      * @since 19.0
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
       super.put(entry);
@@ -159,6 +185,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
      *
      * @throws NullPointerException if any key or value in {@code map} is null
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> putAll(Map<? extends K, ? extends V> map) {
       super.putAll(map);
@@ -172,6 +199,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
      * @throws NullPointerException if any key, value, or entry is null
      * @since 19.0
      */
+    @CanIgnoreReturnValue
     @Beta
     @Override
     public Builder<K, V> putAll(Iterable<? extends Entry<? extends K, ? extends V>> entries) {
@@ -190,10 +218,18 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
      * @throws IllegalStateException if this method was already called
      * @since 19.0
      */
+    @CanIgnoreReturnValue
     @Beta
     @Override
     public Builder<K, V> orderEntriesByValue(Comparator<? super V> valueComparator) {
       super.orderEntriesByValue(valueComparator);
+      return this;
+    }
+
+    @Override
+    @CanIgnoreReturnValue
+    Builder<K, V> combine(ImmutableMap.Builder<K, V> builder) {
+      super.combine(builder);
       return this;
     }
 
@@ -219,7 +255,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
            */
           if (valueComparator != null) {
             if (entriesUsed) {
-              entries = ObjectArrays.arraysCopyOf(entries, size);
+              entries = Arrays.copyOf(entries, size);
             }
             Arrays.sort(
                 entries,
@@ -307,12 +343,18 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
     return inverse().keySet();
   }
 
+  @Override
+  final ImmutableSet<V> createValues() {
+    throw new AssertionError("should never be called");
+  }
+
   /**
    * Guaranteed to throw an exception and leave the bimap unmodified.
    *
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public V forcePut(K key, V value) {

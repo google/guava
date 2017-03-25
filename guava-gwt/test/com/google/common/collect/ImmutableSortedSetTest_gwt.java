@@ -163,6 +163,11 @@ public void testCopyOf_collection_empty() throws Exception {
   testCase.testCopyOf_collection_empty();
 }
 
+public void testCopyOf_collection_enumSet() throws Exception {
+  com.google.common.collect.ImmutableSortedSetTest testCase = new com.google.common.collect.ImmutableSortedSetTest();
+  testCase.testCopyOf_collection_enumSet();
+}
+
 public void testCopyOf_collection_general() throws Exception {
   com.google.common.collect.ImmutableSortedSetTest testCase = new com.google.common.collect.ImmutableSortedSetTest();
   testCase.testCopyOf_collection_general();
@@ -616,6 +621,21 @@ public void testTailSetExclusive() throws Exception {
 public void testTailSetInclusive() throws Exception {
   com.google.common.collect.ImmutableSortedSetTest testCase = new com.google.common.collect.ImmutableSortedSetTest();
   testCase.testTailSetInclusive();
+}
+
+public void testToImmutableSortedSet() throws Exception {
+  com.google.common.collect.ImmutableSortedSetTest testCase = new com.google.common.collect.ImmutableSortedSetTest();
+  testCase.testToImmutableSortedSet();
+}
+
+public void testToImmutableSortedSet_customComparator() throws Exception {
+  com.google.common.collect.ImmutableSortedSetTest testCase = new com.google.common.collect.ImmutableSortedSetTest();
+  testCase.testToImmutableSortedSet_customComparator();
+}
+
+public void testToImmutableSortedSet_duplicates() throws Exception {
+  com.google.common.collect.ImmutableSortedSetTest testCase = new com.google.common.collect.ImmutableSortedSetTest();
+  testCase.testToImmutableSortedSet_duplicates();
 }
 
 public void testToString() throws Exception {

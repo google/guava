@@ -16,11 +16,10 @@
 
 package com.google.common.util.concurrent;
 
-import junit.framework.TestCase;
-
 import java.net.URLClassLoader;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Future;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link AbstractFuture} with the cancellation cause system property set
@@ -32,7 +31,8 @@ public class AbstractFutureCancellationCauseTest extends TestCase {
   private URLClassLoader classReloader;
 
   @Override protected void setUp() throws Exception {
-    SettableFuture.create();
+    // Load the "normal" copy of SettableFuture and related classes.
+    SettableFuture<?> unused = SettableFuture.create();
     // Hack to load AbstractFuture et. al. in a new classloader so that it re-reads the cancellation
     // cause system property.  This allows us to run with both settings of the property in one jvm
     // without resorting to even crazier hacks to reset static final boolean fields.

@@ -1,23 +1,21 @@
 /*
  * Copyright (C) 2007 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
-
 import java.io.Closeable;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -29,7 +27,6 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.annotation.Nullable;
 
 /**
@@ -40,18 +37,18 @@ import javax.annotation.Nullable;
  * finalized. If this object is garbage collected earlier, the backing thread will not invoke {@code
  * finalizeReferent()} on the remaining references.
  *
- * <p>As an example of how this is used, imagine you have a class {@code MyServer} that creates a
- * a {@link java.net.ServerSocket ServerSocket}, and you would like to ensure that the
+ * <p>As an example of how this is used, imagine you have a class {@code MyServer} that creates a a
+ * {@link java.net.ServerSocket ServerSocket}, and you would like to ensure that the
  * {@code ServerSocket} is closed even if the {@code MyServer} object is garbage-collected without
- * calling its {@code close} method. You <em>could</em> use a finalizer to accomplish this, but
- * that has a number of well-known problems. Here is how you might use this class instead:
+ * calling its {@code close} method. You <em>could</em> use a finalizer to accomplish this, but that
+ * has a number of well-known problems. Here is how you might use this class instead:
  *
- * <pre>
+ * <pre>   {@code
  * public class MyServer implements Closeable {
  *   private static final FinalizableReferenceQueue frq = new FinalizableReferenceQueue();
  *   // You might also share this between several objects.
  *
- *   private static final Set&lt;Reference&lt;?>> references = Sets.newConcurrentHashSet();
+ *   private static final Set<Reference<?>> references = Sets.newConcurrentHashSet();
  *   // This ensures that the FinalizablePhantomReference itself is not garbage-collected.
  *
  *   private final ServerSocket serverSocket;
@@ -65,8 +62,8 @@ import javax.annotation.Nullable;
  *   public static MyServer create(...) {
  *     MyServer myServer = new MyServer(...);
  *     final ServerSocket serverSocket = myServer.serverSocket;
- *     Reference&lt;?> reference = new FinalizablePhantomReference&lt;MyServer>(myServer, frq) {
- *       &#64;Override public void finalizeReferent() {
+ *     Reference<?> reference = new FinalizablePhantomReference<MyServer>(myServer, frq) {
+ *       public void finalizeReferent() {
  *         references.remove(this):
  *         if (!serverSocket.isClosed()) {
  *           ...log a message about how nobody called close()...
@@ -82,15 +79,15 @@ import javax.annotation.Nullable;
  *     return myServer;
  *   }
  *
- *   &#64;Override public void close() {
+ *   public void close() {
  *     serverSocket.close();
  *   }
- * }
- * </pre>
+ * }}</pre>
  *
  * @author Bob Lee
  * @since 2.0
  */
+@GwtIncompatible
 public class FinalizableReferenceQueue implements Closeable {
   /*
    * The Finalizer thread keeps a phantom reference to this object. When the client (for example, a
@@ -116,8 +113,8 @@ public class FinalizableReferenceQueue implements Closeable {
    * If the library is loaded in an application class loader, we try to break the cycle by loading
    * Finalizer in its own independent class loader:
    *
-   * System class loader -> Application class loader -> ReferenceMap -> FinalizableReferenceQueue
-   * -> etc. -> Decoupled class loader -> Finalizer
+   * System class loader -> Application class loader -> ReferenceMap -> FinalizableReferenceQueue ->
+   * etc. -> Decoupled class loader -> Finalizer
    *
    * Now, Finalizer no longer keeps an indirect strong reference to the static
    * FinalizableReferenceQueue field in ReferenceMap. The application class loader can be reclaimed
@@ -184,9 +181,9 @@ public class FinalizableReferenceQueue implements Closeable {
   }
 
   /**
-   * Repeatedly dequeues references from the queue and invokes {@link
-   * FinalizableReference#finalizeReferent()} on them until the queue is empty. This method is a
-   * no-op if the background thread was created successfully.
+   * Repeatedly dequeues references from the queue and invokes
+   * {@link FinalizableReference#finalizeReferent()} on them until the queue is empty. This method
+   * is a no-op if the background thread was created successfully.
    */
   void cleanUp() {
     if (threadStarted) {
@@ -247,6 +244,7 @@ public class FinalizableReferenceQueue implements Closeable {
     // finding Finalizer on the system class path even if it is there.
     @VisibleForTesting static boolean disabled;
 
+    @Nullable
     @Override
     public Class<?> loadFinalizer() {
       if (disabled) {
@@ -284,6 +282,7 @@ public class FinalizableReferenceQueue implements Closeable {
             + "loader. To support reclaiming this class loader, either resolve the underlying "
             + "issue, or move Guava to your system class path.";
 
+    @Nullable
     @Override
     public Class<?> loadFinalizer() {
       try {

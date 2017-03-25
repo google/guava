@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkState;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
-
 import javax.crypto.Mac;
 
 /**
@@ -39,8 +38,8 @@ final class MacHashFunction extends AbstractStreamingHashFunction {
     this.prototype = getMac(algorithmName, key);
     this.key = checkNotNull(key);
     this.toString = checkNotNull(toString);
-    this.bits = getMac(algorithmName, key).getMacLength() * Byte.SIZE;
-    this.supportsClone = supportsClone();
+    this.bits = prototype.getMacLength() * Byte.SIZE;
+    this.supportsClone = supportsClone(prototype);
   }
 
   @Override
@@ -48,9 +47,9 @@ final class MacHashFunction extends AbstractStreamingHashFunction {
     return bits;
   }
 
-  private boolean supportsClone() {
+  private static boolean supportsClone(Mac mac) {
     try {
-      prototype.clone();
+      mac.clone();
       return true;
     } catch (CloneNotSupportedException e) {
       return false;

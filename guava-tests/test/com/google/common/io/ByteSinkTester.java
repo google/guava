@@ -22,14 +22,12 @@ import static org.junit.Assert.assertArrayEquals;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
-
-import junit.framework.TestSuite;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.Map;
+import junit.framework.TestSuite;
 
 /**
  * A generator of {@code TestSuite} instances for testing {@code ByteSink} implementations.

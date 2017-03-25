@@ -26,7 +26,6 @@ import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.testing.RelationshipTester.ItemReporter;
-
 import java.util.List;
 
 /**

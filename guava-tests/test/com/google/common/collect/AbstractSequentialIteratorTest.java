@@ -22,17 +22,15 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.IteratorTester;
-
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
 
 /** Tests for {@link AbstractSequentialIterator}. */
 @GwtCompatible(emulated = true)
 public class AbstractSequentialIteratorTest extends TestCase {
-  @GwtIncompatible("Too slow")
+  @GwtIncompatible // Too slow
   public void testDoublerExhaustive() {
     new IteratorTester<Integer>(3, UNMODIFIABLE, ImmutableList.of(1, 2),
         IteratorTester.KnownOrder.KNOWN_ORDER) {

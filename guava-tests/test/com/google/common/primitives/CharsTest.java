@@ -21,15 +21,13 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link Chars}.
@@ -78,7 +76,7 @@ public class CharsTest extends TestCase {
 
   private void assertCastFails(long value) {
     try {
-      char unused = Chars.checkedCast(value);
+      Chars.checkedCast(value);
       fail("Cast to char should have failed: " + value);
     } catch (IllegalArgumentException ex) {
       assertTrue(value + " not found in exception text: " + ex.getMessage(),
@@ -171,7 +169,7 @@ public class CharsTest extends TestCase {
 
   public void testMax_noArgs() {
     try {
-      char unused = Chars.max();
+      Chars.max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -187,7 +185,7 @@ public class CharsTest extends TestCase {
 
   public void testMin_noArgs() {
     try {
-      char unused = Chars.min();
+      Chars.min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -199,6 +197,19 @@ public class CharsTest extends TestCase {
     assertEquals((char) 0, Chars.min(
         (char) 8, (char) 6, (char) 7,
         (char) 5, (char) 3, (char) 0, (char) 9));
+  }
+
+  public void testConstrainToRange() {
+    assertEquals((char) 1, Chars.constrainToRange((char) 1, (char) 0, (char) 5));
+    assertEquals((char) 1, Chars.constrainToRange((char) 1, (char) 1, (char) 5));
+    assertEquals((char) 3, Chars.constrainToRange((char) 1, (char) 3, (char) 5));
+    assertEquals((char) 254, Chars.constrainToRange((char) 255, (char) 250, (char) 254));
+    assertEquals((char) 2, Chars.constrainToRange((char) 5, (char) 2, (char) 2));
+    try {
+      Chars.constrainToRange((char) 1, (char) 3, (char) 2);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testConcat() {
@@ -216,7 +227,7 @@ public class CharsTest extends TestCase {
         Chars.concat(ARRAY1, ARRAY234)));
   }
 
-  @GwtIncompatible("Chars.fromByteArray")
+  @GwtIncompatible // Chars.fromByteArray
   public void testFromByteArray() {
     assertEquals('\u2345', Chars.fromByteArray(
         new byte[] {0x23, 0x45, (byte) 0xDC}));
@@ -224,22 +235,22 @@ public class CharsTest extends TestCase {
         new byte[] {(byte) 0xFE, (byte) 0xDC}));
   }
 
-  @GwtIncompatible("Chars.fromByteArray")
+  @GwtIncompatible // Chars.fromByteArray
   public void testFromByteArrayFails() {
     try {
-      char unused = Chars.fromByteArray(new byte[Chars.BYTES - 1]);
+      Chars.fromByteArray(new byte[Chars.BYTES - 1]);
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
-  @GwtIncompatible("Chars.fromBytes")
+  @GwtIncompatible // Chars.fromBytes
   public void testFromBytes() {
     assertEquals('\u2345', Chars.fromBytes((byte) 0x23, (byte) 0x45));
     assertEquals('\uFEDC', Chars.fromBytes((byte) 0xFE, (byte) 0xDC));
   }
 
-  @GwtIncompatible("Chars.fromByteArray, Chars.toByteArray")
+  @GwtIncompatible // Chars.fromByteArray, Chars.toByteArray
   public void testByteArrayRoundTrips() {
     char c = 0;
     for (int hi = 0; hi < 256; hi++) {
@@ -259,10 +270,10 @@ public class CharsTest extends TestCase {
     assertEquals((char) 0, c); // sanity check
   }
 
-  @GwtIncompatible("Chars.fromByteArray, Chars.toByteArray")
+  @GwtIncompatible // Chars.fromByteArray, Chars.toByteArray
   public void testByteArrayRoundTripsFails() {
     try {
-      char unused = Chars.fromByteArray(new byte[] {0x11});
+      Chars.fromByteArray(new byte[] {0x11});
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -279,13 +290,13 @@ public class CharsTest extends TestCase {
 
   public void testEnsureCapacity_fail() {
     try {
-      char[] unused = Chars.ensureCapacity(ARRAY1, -1, 1);
+      Chars.ensureCapacity(ARRAY1, -1, 1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
       // notice that this should even fail when no growth was needed
-      char[] unused = Chars.ensureCapacity(ARRAY1, 1, -1);
+      Chars.ensureCapacity(ARRAY1, 1, -1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -314,7 +325,7 @@ public class CharsTest extends TestCase {
     Helpers.testComparator(comparator, ordered);
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testLexicographicalComparatorSerializable() {
     Comparator<char[]> comparator = Chars.lexicographicalComparator();
     assertSame(comparator, SerializableTester.reserialize(comparator));
@@ -355,7 +366,7 @@ public class CharsTest extends TestCase {
   public void testToArray_withNull() {
     List<Character> list = Arrays.asList((char) 0, (char) 1, null);
     try {
-      char[] unused = Chars.toArray(list);
+      Chars.toArray(list);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -397,7 +408,7 @@ public class CharsTest extends TestCase {
     assertSame(Collections.emptyList(), Chars.asList(EMPTY));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Chars.class);
   }

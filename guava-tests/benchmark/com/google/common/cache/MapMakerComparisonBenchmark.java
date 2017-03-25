@@ -19,7 +19,6 @@ package com.google.common.cache;
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.common.collect.MapMaker;
-
 import java.util.Map;
 
 /**

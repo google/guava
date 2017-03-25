@@ -38,6 +38,11 @@ public void testAsList_toArray_roundTrip() throws Exception {
   testCase.testAsList_toArray_roundTrip();
 }
 
+public void testByteArrayRoundTrips() throws Exception {
+  com.google.common.primitives.IntsTest testCase = new com.google.common.primitives.IntsTest();
+  testCase.testByteArrayRoundTrips();
+}
+
 public void testCheckedCast() throws Exception {
   com.google.common.primitives.IntsTest testCase = new com.google.common.primitives.IntsTest();
   testCase.testCheckedCast();
@@ -53,6 +58,11 @@ public void testConcat() throws Exception {
   testCase.testConcat();
 }
 
+public void testConstrainToRange() throws Exception {
+  com.google.common.primitives.IntsTest testCase = new com.google.common.primitives.IntsTest();
+  testCase.testConstrainToRange();
+}
+
 public void testContains() throws Exception {
   com.google.common.primitives.IntsTest testCase = new com.google.common.primitives.IntsTest();
   testCase.testContains();
@@ -66,6 +76,21 @@ public void testEnsureCapacity() throws Exception {
 public void testEnsureCapacity_fail() throws Exception {
   com.google.common.primitives.IntsTest testCase = new com.google.common.primitives.IntsTest();
   testCase.testEnsureCapacity_fail();
+}
+
+public void testFromByteArray() throws Exception {
+  com.google.common.primitives.IntsTest testCase = new com.google.common.primitives.IntsTest();
+  testCase.testFromByteArray();
+}
+
+public void testFromByteArrayFails() throws Exception {
+  com.google.common.primitives.IntsTest testCase = new com.google.common.primitives.IntsTest();
+  testCase.testFromByteArrayFails();
+}
+
+public void testFromBytes() throws Exception {
+  com.google.common.primitives.IntsTest testCase = new com.google.common.primitives.IntsTest();
+  testCase.testFromBytes();
 }
 
 public void testHashCode() throws Exception {
@@ -163,6 +188,11 @@ public void testToArray_withNull() throws Exception {
   testCase.testToArray_withNull();
 }
 
+public void testToByteArray() throws Exception {
+  com.google.common.primitives.IntsTest testCase = new com.google.common.primitives.IntsTest();
+  testCase.testToByteArray();
+}
+
 public void testTryParse() throws Exception {
   com.google.common.primitives.IntsTest testCase = new com.google.common.primitives.IntsTest();
   testCase.testTryParse();
@@ -181,5 +211,10 @@ public void testTryParse_radixTooBig() throws Exception {
 public void testTryParse_radixTooSmall() throws Exception {
   com.google.common.primitives.IntsTest testCase = new com.google.common.primitives.IntsTest();
   testCase.testTryParse_radixTooSmall();
+}
+
+public void testTryParse_withNullGwt() throws Exception {
+  com.google.common.primitives.IntsTest testCase = new com.google.common.primitives.IntsTest();
+  testCase.testTryParse_withNullGwt();
 }
 }

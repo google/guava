@@ -1,26 +1,25 @@
 /*
  * Copyright (C) 2007 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.io;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.EOFException;
@@ -29,20 +28,19 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * An implementation of {@link DataInput} that uses little-endian byte ordering
- * for reading {@code short}, {@code int}, {@code float}, {@code double}, and
- * {@code long} values.
- * <p>
- * <b>Note:</b> This class intentionally violates the specification of its
- * supertype {@code DataInput}, which explicitly requires big-endian byte order.
+ * An implementation of {@link DataInput} that uses little-endian byte ordering for reading
+ * {@code short}, {@code int}, {@code float}, {@code double}, and {@code long} values.
+ *
+ * <p><b>Note:</b> This class intentionally violates the specification of its supertype
+ * {@code DataInput}, which explicitly requires big-endian byte order.
  *
  * @author Chris Nokleberg
  * @author Keith Bottner
  * @since 8.0
  */
 @Beta
-public final class LittleEndianDataInputStream extends FilterInputStream
-    implements DataInput {
+@GwtIncompatible
+public final class LittleEndianDataInputStream extends FilterInputStream implements DataInput {
 
   /**
    * Creates a {@code LittleEndianDataInputStream} that wraps the given stream.
@@ -56,6 +54,7 @@ public final class LittleEndianDataInputStream extends FilterInputStream
   /**
    * This method will throw an {@link UnsupportedOperationException}.
    */
+  @CanIgnoreReturnValue // to skip a line
   @Override
   public String readLine() {
     throw new UnsupportedOperationException("readLine is not supported");
@@ -76,25 +75,26 @@ public final class LittleEndianDataInputStream extends FilterInputStream
     return (int) in.skip(n);
   }
 
+  @CanIgnoreReturnValue // to skip a byte
   @Override
   public int readUnsignedByte() throws IOException {
     int b1 = in.read();
     if (0 > b1) {
       throw new EOFException();
     }
-    
+
     return b1;
   }
 
   /**
-   * Reads an unsigned {@code short} as specified by
-   * {@link DataInputStream#readUnsignedShort()}, except using little-endian
-   * byte order.
+   * Reads an unsigned {@code short} as specified by {@link DataInputStream#readUnsignedShort()},
+   * except using little-endian byte order.
    *
-   * @return the next two bytes of the input stream, interpreted as an 
-   *         unsigned 16-bit integer in little-endian byte order
+   * @return the next two bytes of the input stream, interpreted as an unsigned 16-bit integer in
+   *     little-endian byte order
    * @throws IOException if an I/O error occurs
    */
+  @CanIgnoreReturnValue // to skip some bytes
   @Override
   public int readUnsignedShort() throws IOException {
     byte b1 = readAndCheckByte();
@@ -104,13 +104,14 @@ public final class LittleEndianDataInputStream extends FilterInputStream
   }
 
   /**
-   * Reads an integer as specified by {@link DataInputStream#readInt()}, except
-   * using little-endian byte order.
+   * Reads an integer as specified by {@link DataInputStream#readInt()}, except using little-endian
+   * byte order.
    *
-   * @return the next four bytes of the input stream, interpreted as an 
-   *         {@code int} in little-endian byte order
+   * @return the next four bytes of the input stream, interpreted as an {@code int} in little-endian
+   *     byte order
    * @throws IOException if an I/O error occurs
    */
+  @CanIgnoreReturnValue // to skip some bytes
   @Override
   public int readInt() throws IOException {
     byte b1 = readAndCheckByte();
@@ -118,17 +119,18 @@ public final class LittleEndianDataInputStream extends FilterInputStream
     byte b3 = readAndCheckByte();
     byte b4 = readAndCheckByte();
 
-    return Ints.fromBytes( b4, b3, b2, b1);
+    return Ints.fromBytes(b4, b3, b2, b1);
   }
 
   /**
-   * Reads a {@code long} as specified by {@link DataInputStream#readLong()},
-   * except using little-endian byte order.
+   * Reads a {@code long} as specified by {@link DataInputStream#readLong()}, except using
+   * little-endian byte order.
    *
-   * @return the next eight bytes of the input stream, interpreted as a 
-   *         {@code long} in little-endian byte order
+   * @return the next eight bytes of the input stream, interpreted as a {@code long} in
+   *     little-endian byte order
    * @throws IOException if an I/O error occurs
    */
+  @CanIgnoreReturnValue // to skip some bytes
   @Override
   public long readLong() throws IOException {
     byte b1 = readAndCheckByte();
@@ -144,77 +146,83 @@ public final class LittleEndianDataInputStream extends FilterInputStream
   }
 
   /**
-   * Reads a {@code float} as specified by {@link DataInputStream#readFloat()},
-   * except using little-endian byte order.
+   * Reads a {@code float} as specified by {@link DataInputStream#readFloat()}, except using
+   * little-endian byte order.
    *
-   * @return the next four bytes of the input stream, interpreted as a
-   *         {@code float} in little-endian byte order
+   * @return the next four bytes of the input stream, interpreted as a {@code float} in
+   *     little-endian byte order
    * @throws IOException if an I/O error occurs
    */
+  @CanIgnoreReturnValue // to skip some bytes
   @Override
   public float readFloat() throws IOException {
     return Float.intBitsToFloat(readInt());
   }
 
   /**
-   * Reads a {@code double} as specified by
-   * {@link DataInputStream#readDouble()}, except using little-endian byte
-   * order.
+   * Reads a {@code double} as specified by {@link DataInputStream#readDouble()}, except using
+   * little-endian byte order.
    *
-   * @return the next eight bytes of the input stream, interpreted as a
-   *         {@code double} in little-endian byte order
+   * @return the next eight bytes of the input stream, interpreted as a {@code double} in
+   *     little-endian byte order
    * @throws IOException if an I/O error occurs
    */
+  @CanIgnoreReturnValue // to skip some bytes
   @Override
   public double readDouble() throws IOException {
     return Double.longBitsToDouble(readLong());
   }
 
+  @CanIgnoreReturnValue // to skip a field
   @Override
   public String readUTF() throws IOException {
     return new DataInputStream(in).readUTF();
   }
 
   /**
-   * Reads a {@code short} as specified by {@link DataInputStream#readShort()},
-   * except using little-endian byte order.
+   * Reads a {@code short} as specified by {@link DataInputStream#readShort()}, except using
+   * little-endian byte order.
    *
-   * @return the next two bytes of the input stream, interpreted as a
-   *         {@code short} in little-endian byte order.
+   * @return the next two bytes of the input stream, interpreted as a {@code short} in little-endian
+   *     byte order.
    * @throws IOException if an I/O error occurs.
    */
+  @CanIgnoreReturnValue // to skip some bytes
   @Override
   public short readShort() throws IOException {
     return (short) readUnsignedShort();
   }
 
   /**
-   * Reads a char as specified by {@link DataInputStream#readChar()}, except
-   * using little-endian byte order.
+   * Reads a char as specified by {@link DataInputStream#readChar()}, except using little-endian
+   * byte order.
    *
-   * @return the next two bytes of the input stream, interpreted as a 
-   *         {@code char} in little-endian byte order
+   * @return the next two bytes of the input stream, interpreted as a {@code char} in little-endian
+   *     byte order
    * @throws IOException if an I/O error occurs
    */
+  @CanIgnoreReturnValue // to skip some bytes
   @Override
   public char readChar() throws IOException {
     return (char) readUnsignedShort();
   }
 
+  @CanIgnoreReturnValue // to skip a byte
   @Override
   public byte readByte() throws IOException {
     return (byte) readUnsignedByte();
   }
 
+  @CanIgnoreReturnValue // to skip a byte
   @Override
   public boolean readBoolean() throws IOException {
     return readUnsignedByte() != 0;
   }
 
   /**
-   * Reads a byte from the input stream checking that the end of file (EOF)
-   * has not been encountered.
-   *  
+   * Reads a byte from the input stream checking that the end of file (EOF) has not been
+   * encountered.
+   *
    * @return byte read from input
    * @throws IOException if an error is encountered while reading
    * @throws EOFException if the end of file (EOF) is encountered.
@@ -228,5 +236,4 @@ public final class LittleEndianDataInputStream extends FilterInputStream
 
     return (byte) b1;
   }
-
 }

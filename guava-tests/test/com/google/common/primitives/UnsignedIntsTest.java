@@ -14,17 +14,17 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+import junit.framework.TestCase;
 
 /**
  * Tests for UnsignedInts
@@ -49,6 +49,35 @@ public class UnsignedIntsTest extends TestCase {
   private static final int LEAST = (int) 0L;
   private static final int GREATEST = (int) 0xffffffffL;
 
+  public void testCheckedCast() {
+    for (long value : UNSIGNED_INTS) {
+      assertEquals(value, UnsignedInts.toLong(UnsignedInts.checkedCast(value)));
+    }
+    assertCastFails(1L << 32);
+    assertCastFails(-1L);
+    assertCastFails(Long.MAX_VALUE);
+    assertCastFails(Long.MIN_VALUE);
+  }
+
+  private static void assertCastFails(long value) {
+    try {
+      UnsignedInts.checkedCast(value);
+      fail("Cast to int should have failed: " + value);
+    } catch (IllegalArgumentException ex) {
+      assertThat(ex.getMessage()).contains(String.valueOf(value));
+    }
+  }
+
+  public void testSaturatedCast() {
+    for (long value : UNSIGNED_INTS) {
+      assertEquals(value, UnsignedInts.toLong(UnsignedInts.saturatedCast(value)));
+    }
+    assertEquals(GREATEST, UnsignedInts.saturatedCast(1L << 32));
+    assertEquals(LEAST, UnsignedInts.saturatedCast(-1L));
+    assertEquals(GREATEST, UnsignedInts.saturatedCast(Long.MAX_VALUE));
+    assertEquals(LEAST, UnsignedInts.saturatedCast(Long.MIN_VALUE));
+  }
+
   public void testToLong() {
     for (long a : UNSIGNED_INTS) {
       assertEquals(a, UnsignedInts.toLong((int) a));
@@ -67,7 +96,7 @@ public class UnsignedIntsTest extends TestCase {
 
   public void testMax_noArgs() {
     try {
-      int unused = UnsignedInts.max();
+      UnsignedInts.max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -84,12 +113,12 @@ public class UnsignedIntsTest extends TestCase {
 
   public void testMin_noArgs() {
     try {
-      int unused = UnsignedInts.min();
+      UnsignedInts.min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
-  
+
   public void testMin() {
     assertEquals(LEAST, UnsignedInts.min(LEAST));
     assertEquals(GREATEST, UnsignedInts.min(GREATEST));
@@ -98,7 +127,7 @@ public class UnsignedIntsTest extends TestCase {
         (int) 0x12345678L, (int) 0x5a4316b8L,
         (int) 0xff1a618bL, (int) 0L));
   }
-  
+
   public void testLexicographicalComparator() {
     List<int[]> ordered = Arrays.asList(
         new int[] {},
@@ -142,7 +171,7 @@ public class UnsignedIntsTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("Too slow in GWT (~3min fully optimized)")
+  @GwtIncompatible // Too slow in GWT (~3min fully optimized)
   public void testDivideRemainderEuclideanProperty() {
     // Use a seed so that the test is deterministic:
     Random r = new Random(0L);
@@ -164,7 +193,7 @@ public class UnsignedIntsTest extends TestCase {
 
   public void testParseIntFail() {
     try {
-      int unused = UnsignedInts.parseUnsignedInt(Long.toString(1L << 32));
+      UnsignedInts.parseUnsignedInt(Long.toString(1L << 32));
       fail("Expected NumberFormatException");
     } catch (NumberFormatException expected) {}
   }
@@ -188,7 +217,7 @@ public class UnsignedIntsTest extends TestCase {
         // tests that we get exception whre an overflow would occur.
         long overflow = 1L << 32;
         String overflowAsString = Long.toString(overflow, radix);
-        int unused = UnsignedInts.parseUnsignedInt(overflowAsString, radix);
+        UnsignedInts.parseUnsignedInt(overflowAsString, radix);
         fail();
       } catch (NumberFormatException expected) {}
     }
@@ -198,18 +227,18 @@ public class UnsignedIntsTest extends TestCase {
     // Valid radix values are Character.MIN_RADIX to Character.MAX_RADIX,
     // inclusive.
     try {
-      int unused = UnsignedInts.parseUnsignedInt("0", Character.MIN_RADIX - 1);
+      UnsignedInts.parseUnsignedInt("0", Character.MIN_RADIX - 1);
       fail();
     } catch (NumberFormatException expected) {}
 
     try {
-      int unused = UnsignedInts.parseUnsignedInt("0", Character.MAX_RADIX + 1);
+      UnsignedInts.parseUnsignedInt("0", Character.MAX_RADIX + 1);
       fail();
     } catch (NumberFormatException expected) {}
 
     // The radix is used as an array index, so try a negative value.
     try {
-      int unused = UnsignedInts.parseUnsignedInt("0", -1);
+      UnsignedInts.parseUnsignedInt("0", -1);
       fail();
     } catch (NumberFormatException expected) {}
   }
@@ -227,25 +256,25 @@ public class UnsignedIntsTest extends TestCase {
   public void testDecodeIntFails() {
     try {
       // One more than maximum value
-      int unused = UnsignedInts.decode("0xfffffffff");
+      UnsignedInts.decode("0xfffffffff");
       fail();
     } catch (NumberFormatException expected) {
     }
 
     try {
-      int unused = UnsignedInts.decode("-5");
+      UnsignedInts.decode("-5");
       fail();
     } catch (NumberFormatException expected) {
     }
 
     try {
-      int unused = UnsignedInts.decode("-0x5");
+      UnsignedInts.decode("-0x5");
       fail();
     } catch (NumberFormatException expected) {
     }
 
     try {
-      int unused = UnsignedInts.decode("-05");
+      UnsignedInts.decode("-05");
       fail();
     } catch (NumberFormatException expected) {
     }
@@ -273,7 +302,7 @@ public class UnsignedIntsTest extends TestCase {
     return UnsignedInts.join(",", values);
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(UnsignedInts.class);
   }

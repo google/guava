@@ -19,10 +19,8 @@ package com.google.common.collect;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
-
 import java.util.Map;
 import java.util.Map.Entry;
-
 import javax.annotation.Nullable;
 
 /**
@@ -31,7 +29,7 @@ import javax.annotation.Nullable;
  * backing map entry as desired per the <a
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
- * <p><i>Warning:</i> The methods of {@code ForwardingMapEntry} forward
+ * <p><b>Warning:</b> The methods of {@code ForwardingMapEntry} forward
  * <i>indiscriminately</i> to the methods of the delegate. For example,
  * overriding {@link #getValue} alone <i>will not</i> change the behavior of
  * {@link #equals}, which can lead to unexpected behavior. In this case, you

@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2014 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.math;
@@ -24,9 +22,9 @@ import static java.util.Arrays.sort;
 import static java.util.Collections.unmodifiableMap;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
-
 import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.HashMap;
@@ -78,12 +76,13 @@ import java.util.Map;
  * definition in
  * <a href="http://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html">R</a>, and it is
  * described by
- * <a href="http://en.wikipedia.org/wiki/Quantile#Estimating_the_quantiles_of_a_population">wikipedia</a>
- * as providing "Linear interpolation of the modes for the order statistics for the uniform
- * distribution on [0,1]."
+ * <a href="http://en.wikipedia.org/wiki/Quantile#Estimating_the_quantiles_of_a_population">
+ * wikipedia</a> as providing "Linear interpolation of the modes for the order statistics for the
+ * uniform distribution on [0,1]."
  *
  * <h3>Handling of non-finite values</h3>
- * If any values in the input are {@link Double#NaN NaN} then all values returned are
+ *
+ * <p>If any values in the input are {@link Double#NaN NaN} then all values returned are
  * {@link Double#NaN NaN}. (This is the one occasion when the behaviour is not the same as you'd get
  * from sorting with {@link java.util.Arrays#sort(double[]) Arrays.sort(double[])} or
  * {@link java.util.Collections#sort(java.util.List) Collections.sort(List&lt;Double&gt;)} and
@@ -97,9 +96,9 @@ import java.util.Map;
  *
  * <p>If required to do a weighted average between an infinity and a finite value, or between an
  * infinite value and itself, the infinite value is returned. If required to do a weighted average
- * between {@link Double#NEGATIVE_INFINITY NEGATIVE_INFINITY} and
- * {@link Double#POSITIVE_INFINITY POSITIVE_INFINITY}, {@link Double#NaN NaN} is returned (note that
- * this will only happen if the dataset contains no finite values).
+ * between {@link Double#NEGATIVE_INFINITY NEGATIVE_INFINITY} and {@link Double#POSITIVE_INFINITY
+ * POSITIVE_INFINITY}, {@link Double#NaN NaN} is returned (note that this will only happen if the
+ * dataset contains no finite values).
  *
  * <h3>Performance</h3>
  *
@@ -109,15 +108,15 @@ import java.util.Map;
  * passing in unsanitized user data then a malicious user could force it. A light shuffle of the
  * data using an unpredictable seed should normally be enough to thwart this attack.
  *
- * <p>The time taken to compute multiple quantiles on the same dataset using
- * {@link Scale#indexes indexes} is generally less than the total time taken to compute each of them
- * separately, and sometimes much less. For example, on a large enough dataset, computing the 90th
- * and 99th percentiles together takes about 55% as long as computing them separately.
+ * <p>The time taken to compute multiple quantiles on the same dataset using {@link Scale#indexes
+ * indexes} is generally less than the total time taken to compute each of them separately, and
+ * sometimes much less. For example, on a large enough dataset, computing the 90th and 99th
+ * percentiles together takes about 55% as long as computing them separately.
  *
- * <p>When calling {@link ScaleAndIndex#compute} (in
- * {@linkplain ScaleAndIndexes#compute either form}), the memory requirement is 8*N bytes for the
- * copy of the dataset plus an overhead which is independent of N (but depends on the quantiles
- * being computed). When calling {@link ScaleAndIndex#computeInPlace computeInPlace} (in
+ * <p>When calling {@link ScaleAndIndex#compute} (in {@linkplain ScaleAndIndexes#compute either
+ * form}), the memory requirement is 8*N bytes for the copy of the dataset plus an overhead which is
+ * independent of N (but depends on the quantiles being computed). When calling
+ * {@link ScaleAndIndex#computeInPlace computeInPlace} (in
  * {@linkplain ScaleAndIndexes#computeInPlace either form}), only the overhead is required. The
  * number of object allocations is independent of N in both cases.
  *
@@ -125,6 +124,7 @@ import java.util.Map;
  * @since 20.0
  */
 @Beta
+@GwtIncompatible
 public final class Quantiles {
 
   /**
@@ -271,8 +271,7 @@ public final class Quantiles {
      *
      * @param dataset the dataset to do the calculation on, which must be non-empty, and which will
      *     be arbitrarily reordered by this method call
-     * @return an unmodifiable map of results: the keys will be the specified quantile indexes, and
-     *     the values the corresponding quantile values
+     * @return the quantile value
      */
     public double computeInPlace(double... dataset) {
       checkArgument(dataset.length > 0, "Cannot calculate quantiles of an empty dataset");
@@ -427,8 +426,8 @@ public final class Quantiles {
         if (remainder == 0) {
           ret.put(indexes[i], dataset[quotient]);
         } else {
-          ret.put(indexes[i],
-              interpolate(dataset[quotient], dataset[quotient + 1], remainder, scale));
+          ret.put(
+              indexes[i], interpolate(dataset[quotient], dataset[quotient + 1], remainder, scale));
         }
       }
       return unmodifiableMap(ret);
@@ -507,8 +506,8 @@ public final class Quantiles {
    * This method will reorder the values with indexes in the range [{@code from}, {@code to}] such
    * that all the values with indexes in the range [{@code from}, {@code required}) are less than or
    * equal to the value with index {@code required}, and all the values with indexes in the range
-   * ({@code required}, {@code to}] are greater than or equal to that value. Therefore, the value
-   * at {@code required} is the value which would appear at that index in the sorted dataset.
+   * ({@code required}, {@code to}] are greater than or equal to that value. Therefore, the value at
+   * {@code required} is the value which would appear at that index in the sorted dataset.
    */
   private static void selectInPlace(int required, double[] array, int from, int to) {
     // If we are looking for the least element in the range, we can just do a linear search for it.
@@ -545,14 +544,14 @@ public final class Quantiles {
    * [{@code from}, {@code to}]. Uses the median of {@code from}, {@code to}, and the midpoint
    * between them as a pivot. Returns the index which the slice is partitioned around, i.e. if it
    * returns {@code ret} then we know that the values with indexes in [{@code from}, {@code ret})
-   * are less than or equal to the value at {@code ret} and the values with indexes in
-   * ({@code ret}, {@code to}] are greater than or equal to that.
+   * are less than or equal to the value at {@code ret} and the values with indexes in ({@code ret},
+   * {@code to}] are greater than or equal to that.
    */
   private static int partition(double[] array, int from, int to) {
     // Select a pivot, and move it to the start of the slice i.e. to index from.
     movePivotToStartOfSlice(array, from, to);
     double pivot = array[from];
-    
+
     // Move all elements with indexes in (from, to] which are greater than the pivot to the end of
     // the array. Keep track of where those elements begin.
     int partitionPoint = to;
@@ -598,8 +597,8 @@ public final class Quantiles {
   /**
    * Performs an in-place selection, like {@link #selectInPlace}, to select all the indexes
    * {@code allRequired[i]} for {@code i} in the range [{@code requiredFrom}, {@code requiredTo}].
-   * These indexes must be sorted in the array and must all be in the range
-   * [{@code from}, {@code to}].
+   * These indexes must be sorted in the array and must all be in the range [{@code from},
+   * {@code to}].
    */
   private static void selectAllInPlace(
       int[] allRequired, int requiredFrom, int requiredTo, double[] array, int from, int to) {
@@ -613,7 +612,7 @@ public final class Quantiles {
     // ...then recursively perform the selections in the range below...
     int requiredBelow = requiredChosen - 1;
     while (requiredBelow >= requiredFrom && allRequired[requiredBelow] == required) {
-      requiredBelow--;  // skip duplicates of required in the range below
+      requiredBelow--; // skip duplicates of required in the range below
     }
     if (requiredBelow >= requiredFrom) {
       selectAllInPlace(allRequired, requiredFrom, requiredBelow, array, from, required - 1);
@@ -622,7 +621,7 @@ public final class Quantiles {
     // ...and then recursively perform the selections in the range above.
     int requiredAbove = requiredChosen + 1;
     while (requiredAbove <= requiredTo && allRequired[requiredAbove] == required) {
-      requiredAbove++;  // skip duplicates of required in the range above
+      requiredAbove++; // skip duplicates of required in the range above
     }
     if (requiredAbove <= requiredTo) {
       selectAllInPlace(allRequired, requiredAbove, requiredTo, array, required + 1, to);
@@ -631,18 +630,17 @@ public final class Quantiles {
 
   /**
    * Chooses the next selection to do from the required selections. It is required that the array
-   * {@code allRequired} is sorted and that {@code allRequired[i]} are in the range
-   * [{@code from}, {@code to}] for all {@code i} in the range
-   * [{@code requiredFrom}, {@requiredTo}]. The value returned by this method is the {@code i} in
-   * that range such that {@code allRequired[i]} is as close as possible to the center of the range
-   * [{@code from}, {@code to}]. Choosing the value closest to the center of the range first is the
-   * most efficient strategy because it minimizes the size of the subranges from which the remaining
-   * selections must be done. 
+   * {@code allRequired} is sorted and that {@code allRequired[i]} are in the range [{@code from},
+   * {@code to}] for all {@code i} in the range [{@code requiredFrom}, {@code requiredTo}]. The
+   * value returned by this method is the {@code i} in that range such that {@code allRequired[i]}
+   * is as close as possible to the center of the range [{@code from}, {@code to}]. Choosing the
+   * value closest to the center of the range first is the most efficient strategy because it
+   * minimizes the size of the subranges from which the remaining selections must be done.
    */
   private static int chooseNextSelection(
       int[] allRequired, int requiredFrom, int requiredTo, int from, int to) {
     if (requiredFrom == requiredTo) {
-      return requiredFrom;  // only one thing to choose, so choose it
+      return requiredFrom; // only one thing to choose, so choose it
     }
 
     // Find the center and round down. The true center is either centerFloor or halfway between
@@ -663,7 +661,7 @@ public final class Quantiles {
       } else if (allRequired[mid] < centerFloor) {
         low = mid;
       } else {
-        return mid;  // allRequired[mid] = centerFloor, so we can't get closer than that
+        return mid; // allRequired[mid] = centerFloor, so we can't get closer than that
       }
     }
 

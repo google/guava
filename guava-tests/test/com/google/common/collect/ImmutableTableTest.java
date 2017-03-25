@@ -20,6 +20,13 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Equivalence;
+import com.google.common.base.MoreObjects;
+import com.google.common.collect.Table.Cell;
+import com.google.common.testing.CollectorTester;
+import com.google.common.testing.SerializableTester;
+import java.util.stream.Collector;
+import java.util.stream.Stream;
 
 /**
  * Tests common methods in {@link ImmutableTable}
@@ -36,6 +43,155 @@ public class ImmutableTableTest extends AbstractTableReadTest {
           (Character) data[i + 2]);
     }
     return builder.build();
+  }
+
+  public void testToImmutableTable() {
+    Collector<Cell<String, String, Integer>, ?, ImmutableTable<String, String, Integer>> collector =
+        ImmutableTable.toImmutableTable(Cell::getRowKey, Cell::getColumnKey, Cell::getValue);
+    Equivalence<ImmutableTable<String, String, Integer>> equivalence =
+        Equivalence.equals()
+            .<Cell<String, String, Integer>>pairwise()
+            .onResultOf(ImmutableTable::cellSet);
+    CollectorTester.of(collector, equivalence)
+        .expectCollects(
+            new ImmutableTable.Builder<String, String, Integer>()
+                .put("one", "uno", 1)
+                .put("two", "dos", 2)
+                .put("three", "tres", 3)
+                .build(),
+            Tables.immutableCell("one", "uno", 1),
+            Tables.immutableCell("two", "dos", 2),
+            Tables.immutableCell("three", "tres", 3));
+  }
+
+  public void testToImmutableTableConflict() {
+    Collector<Cell<String, String, Integer>, ?, ImmutableTable<String, String, Integer>> collector =
+        ImmutableTable.toImmutableTable(Cell::getRowKey, Cell::getColumnKey, Cell::getValue);
+    try {
+      Stream.of(Tables.immutableCell("one", "uno", 1), Tables.immutableCell("one", "uno", 2))
+          .collect(collector);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testToImmutableTableNullRowKey() {
+    Collector<Cell<String, String, Integer>, ?, ImmutableTable<String, String, Integer>> collector =
+        ImmutableTable.toImmutableTable(t -> null, Cell::getColumnKey, Cell::getValue);
+    try {
+      Stream.of(Tables.immutableCell("one", "uno", 1)).collect(collector);
+      fail("Expected NullPointerException");
+    } catch (NullPointerException expected) {
+    }
+  }
+
+  public void testToImmutableTableNullColumnKey() {
+    Collector<Cell<String, String, Integer>, ?, ImmutableTable<String, String, Integer>> collector =
+        ImmutableTable.toImmutableTable(Cell::getRowKey, t -> null, Cell::getValue);
+    try {
+      Stream.of(Tables.immutableCell("one", "uno", 1)).collect(collector);
+      fail("Expected NullPointerException");
+    } catch (NullPointerException expected) {
+    }
+  }
+
+  public void testToImmutableTableNullValue() {
+    Collector<Cell<String, String, Integer>, ?, ImmutableTable<String, String, Integer>> collector =
+        ImmutableTable.toImmutableTable(Cell::getRowKey, Cell::getColumnKey, t -> null);
+    try {
+      Stream.of(Tables.immutableCell("one", "uno", 1)).collect(collector);
+      fail("Expected NullPointerException");
+    } catch (NullPointerException expected) {
+    }
+    collector =
+        ImmutableTable.toImmutableTable(Cell::getRowKey, Cell::getColumnKey, Cell::getValue);
+    try {
+      Stream.of(
+              Tables.immutableCell("one", "uno", 1),
+              Tables.immutableCell("one", "uno", (Integer) null))
+          .collect(collector);
+      fail("Expected NullPointerException");
+    } catch (NullPointerException expected) {
+    }
+  }
+
+  public void testToImmutableTableMerging() {
+    Collector<Cell<String, String, Integer>, ?, ImmutableTable<String, String, Integer>> collector =
+        ImmutableTable.toImmutableTable(
+            Cell::getRowKey, Cell::getColumnKey, Cell::getValue, Integer::sum);
+    Equivalence<ImmutableTable<String, String, Integer>> equivalence =
+        Equivalence.equals()
+            .<Cell<String, String, Integer>>pairwise()
+            .onResultOf(ImmutableTable::cellSet);
+    CollectorTester.of(collector, equivalence)
+        .expectCollects(
+            new ImmutableTable.Builder<String, String, Integer>()
+                .put("one", "uno", 1)
+                .put("two", "dos", 6)
+                .put("three", "tres", 3)
+                .build(),
+            Tables.immutableCell("one", "uno", 1),
+            Tables.immutableCell("two", "dos", 2),
+            Tables.immutableCell("three", "tres", 3),
+            Tables.immutableCell("two", "dos", 4));
+  }
+
+  public void testToImmutableTableMergingNullRowKey() {
+    Collector<Cell<String, String, Integer>, ?, ImmutableTable<String, String, Integer>> collector =
+        ImmutableTable.toImmutableTable(
+            t -> null, Cell::getColumnKey, Cell::getValue, Integer::sum);
+    try {
+      Stream.of(Tables.immutableCell("one", "uno", 1)).collect(collector);
+      fail("Expected NullPointerException");
+    } catch (NullPointerException expected) {
+    }
+  }
+
+  public void testToImmutableTableMergingNullColumnKey() {
+    Collector<Cell<String, String, Integer>, ?, ImmutableTable<String, String, Integer>> collector =
+        ImmutableTable.toImmutableTable(Cell::getRowKey, t -> null, Cell::getValue, Integer::sum);
+    try {
+      Stream.of(Tables.immutableCell("one", "uno", 1)).collect(collector);
+      fail("Expected NullPointerException");
+    } catch (NullPointerException expected) {
+    }
+  }
+
+  public void testToImmutableTableMergingNullValue() {
+    Collector<Cell<String, String, Integer>, ?, ImmutableTable<String, String, Integer>> collector =
+        ImmutableTable.toImmutableTable(
+            Cell::getRowKey, Cell::getColumnKey, t -> null, Integer::sum);
+    try {
+      Stream.of(Tables.immutableCell("one", "uno", 1)).collect(collector);
+      fail("Expected NullPointerException");
+    } catch (NullPointerException expected) {
+    }
+    collector =
+        ImmutableTable.toImmutableTable(
+            Cell::getRowKey,
+            Cell::getColumnKey,
+            Cell::getValue,
+            (i, j) -> MoreObjects.firstNonNull(i, 0) + MoreObjects.firstNonNull(j, 0));
+    try {
+      Stream.of(
+              Tables.immutableCell("one", "uno", 1),
+              Tables.immutableCell("one", "uno", (Integer) null))
+          .collect(collector);
+      fail("Expected NullPointerException");
+    } catch (NullPointerException expected) {
+    }
+  }
+
+  public void testToImmutableTableMergingNullMerge() {
+    Collector<Cell<String, String, Integer>, ?, ImmutableTable<String, String, Integer>> collector =
+        ImmutableTable.toImmutableTable(
+            Cell::getRowKey, Cell::getColumnKey, Cell::getValue, (v1, v2) -> null);
+    try {
+      Stream.of(Tables.immutableCell("one", "uno", 1), Tables.immutableCell("one", "uno", 2))
+          .collect(collector);
+      fail("Expected NullPointerException");
+    } catch (NullPointerException expected) {
+    }
   }
 
   public void testBuilder() {
@@ -170,9 +326,9 @@ public class ImmutableTableTest extends AbstractTableReadTest {
 
   private static <R, C, V> void validateViewOrdering(
       Table<R, C, V> original, Table<R, C, V> copy) {
-    assertTrue(Iterables.elementsEqual(original.cellSet(), copy.cellSet()));
-    assertTrue(Iterables.elementsEqual(original.rowKeySet(), copy.rowKeySet()));
-    assertTrue(Iterables.elementsEqual(original.values(), copy.values()));
+    assertThat(copy.cellSet()).containsExactlyElementsIn(original.cellSet()).inOrder();
+    assertThat(copy.rowKeySet()).containsExactlyElementsIn(original.rowKeySet()).inOrder();
+    assertThat(copy.values()).containsExactlyElementsIn(original.values()).inOrder();
   }
 
   public void testCopyOf() {
@@ -349,7 +505,118 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     assertThat(table.row('c').keySet()).containsExactly(1, 2, 3).inOrder();
   }
 
-  @GwtIncompatible("Mind-bogglingly slow in GWT")
+  public void testSerialization_empty() {
+    validateReserialization(ImmutableTable.of());
+  }
+
+  public void testSerialization_singleElement() {
+    validateReserialization(ImmutableTable.of('a', 2, "foo"));
+  }
+
+  public void testDenseSerialization_manualOrder() {
+    ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
+    builder.put('b', 2, "foo");
+    builder.put('b', 1, "bar");
+    builder.put('a', 2, "baz");
+    Table<Character, Integer, String> table = builder.build();
+    assertThat(table).isInstanceOf(DenseImmutableTable.class);
+    validateReserialization(table);
+  }
+
+  public void testDenseSerialization_rowOrder() {
+    ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
+    builder.orderRowsBy(Ordering.<Character>natural());
+    builder.put('b', 2, "foo");
+    builder.put('b', 1, "bar");
+    builder.put('a', 2, "baz");
+    Table<Character, Integer, String> table = builder.build();
+    assertThat(table).isInstanceOf(DenseImmutableTable.class);
+    validateReserialization(table);
+  }
+
+  public void testDenseSerialization_columnOrder() {
+    ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
+    builder.orderColumnsBy(Ordering.<Integer>natural());
+    builder.put('b', 2, "foo");
+    builder.put('b', 1, "bar");
+    builder.put('a', 2, "baz");
+    Table<Character, Integer, String> table = builder.build();
+    assertThat(table).isInstanceOf(DenseImmutableTable.class);
+    validateReserialization(table);
+  }
+
+  public void testDenseSerialization_bothOrders() {
+    ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
+    builder.orderRowsBy(Ordering.<Character>natural());
+    builder.orderColumnsBy(Ordering.<Integer>natural());
+    builder.put('b', 2, "foo");
+    builder.put('b', 1, "bar");
+    builder.put('a', 2, "baz");
+    Table<Character, Integer, String> table = builder.build();
+    assertThat(table).isInstanceOf(DenseImmutableTable.class);
+    validateReserialization(table);
+  }
+
+  public void testSparseSerialization_manualOrder() {
+    ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
+    builder.put('b', 2, "foo");
+    builder.put('b', 1, "bar");
+    builder.put('a', 2, "baz");
+    builder.put('c', 3, "cat");
+    builder.put('d', 4, "dog");
+    Table<Character, Integer, String> table = builder.build();
+    assertThat(table).isInstanceOf(SparseImmutableTable.class);
+    validateReserialization(table);
+  }
+
+  public void testSparseSerialization_rowOrder() {
+    ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
+    builder.orderRowsBy(Ordering.<Character>natural());
+    builder.put('b', 2, "foo");
+    builder.put('b', 1, "bar");
+    builder.put('a', 2, "baz");
+    builder.put('c', 3, "cat");
+    builder.put('d', 4, "dog");
+    Table<Character, Integer, String> table = builder.build();
+    assertThat(table).isInstanceOf(SparseImmutableTable.class);
+    validateReserialization(table);
+  }
+
+  public void testSparseSerialization_columnOrder() {
+    ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
+    builder.orderColumnsBy(Ordering.<Integer>natural());
+    builder.put('b', 2, "foo");
+    builder.put('b', 1, "bar");
+    builder.put('a', 2, "baz");
+    builder.put('c', 3, "cat");
+    builder.put('d', 4, "dog");
+    Table<Character, Integer, String> table = builder.build();
+    assertThat(table).isInstanceOf(SparseImmutableTable.class);
+    validateReserialization(table);
+  }
+
+  public void testSparseSerialization_bothOrders() {
+    ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
+    builder.orderRowsBy(Ordering.<Character>natural());
+    builder.orderColumnsBy(Ordering.<Integer>natural());
+    builder.put('b', 2, "foo");
+    builder.put('b', 1, "bar");
+    builder.put('a', 2, "baz");
+    builder.put('c', 3, "cat");
+    builder.put('d', 4, "dog");
+    Table<Character, Integer, String> table = builder.build();
+    assertThat(table).isInstanceOf(SparseImmutableTable.class);
+    validateReserialization(table);
+  }
+
+  private static <R, C, V> void validateReserialization(Table<R, C, V> original) {
+    Table<R, C, V> copy = SerializableTester.reserializeAndAssert(original);
+    assertThat(copy.cellSet()).containsExactlyElementsIn(original.cellSet()).inOrder();
+    assertThat(copy.rowKeySet()).containsExactlyElementsIn(original.rowKeySet()).inOrder();
+    assertThat(copy.columnKeySet()).containsExactlyElementsIn(original.columnKeySet()).inOrder();
+  }
+
+  @GwtIncompatible // Mind-bogglingly slow in GWT
   @AndroidIncompatible // slow
   public void testOverflowCondition() {
     // See https://code.google.com/p/guava-libraries/issues/detail?id=1322 for details.

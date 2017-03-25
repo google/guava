@@ -20,7 +20,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -47,36 +46,44 @@ import java.util.Set;
  * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
-public final class HashMultimap<K, V> extends AbstractSetMultimap<K, V> {
+public final class HashMultimap<K, V> extends HashMultimapGwtSerializationDependencies<K, V> {
   private static final int DEFAULT_VALUES_PER_KEY = 2;
 
   @VisibleForTesting transient int expectedValuesPerKey = DEFAULT_VALUES_PER_KEY;
 
   /**
-   * Creates a new, empty {@code HashMultimap} with the default initial
-   * capacities.
+   * Creates a new, empty {@code HashMultimap} with the default initial capacities.
+   *
+   * <p>This method will soon be deprecated in favor of {@code
+   * MultimapBuilder.hashKeys().hashSetValues().build()}.
    */
   public static <K, V> HashMultimap<K, V> create() {
     return new HashMultimap<K, V>();
   }
 
   /**
-   * Constructs an empty {@code HashMultimap} with enough capacity to hold the
-   * specified numbers of keys and values without rehashing.
+   * Constructs an empty {@code HashMultimap} with enough capacity to hold the specified numbers of
+   * keys and values without rehashing.
+   *
+   * <p>This method will soon be deprecated in favor of {@code
+   * MultimapBuilder.hashKeys(expectedKeys).hashSetValues(expectedValuesPerKey).build()}.
    *
    * @param expectedKeys the expected number of distinct keys
    * @param expectedValuesPerKey the expected average number of values per key
-   * @throws IllegalArgumentException if {@code expectedKeys} or {@code
-   *      expectedValuesPerKey} is negative
+   * @throws IllegalArgumentException if {@code expectedKeys} or {@code expectedValuesPerKey} is
+   *     negative
    */
   public static <K, V> HashMultimap<K, V> create(int expectedKeys, int expectedValuesPerKey) {
     return new HashMultimap<K, V>(expectedKeys, expectedValuesPerKey);
   }
 
   /**
-   * Constructs a {@code HashMultimap} with the same mappings as the specified
-   * multimap. If a key-value mapping appears multiple times in the input
-   * multimap, it only appears once in the constructed multimap.
+   * Constructs a {@code HashMultimap} with the same mappings as the specified multimap. If a
+   * key-value mapping appears multiple times in the input multimap, it only appears once in the
+   * constructed multimap.
+   *
+   * <p>This method will soon be deprecated in favor of {@code
+   * MultimapBuilder.hashKeys().hashSetValues().build(multimap)}.
    *
    * @param multimap the multimap whose contents are copied to this multimap
    */
@@ -116,13 +123,13 @@ public final class HashMultimap<K, V> extends AbstractSetMultimap<K, V> {
    *     each distinct key: the key, number of values for that key, and the
    *     key's values
    */
-  @GwtIncompatible("java.io.ObjectOutputStream")
+  @GwtIncompatible // java.io.ObjectOutputStream
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     Serialization.writeMultimap(this, stream);
   }
 
-  @GwtIncompatible("java.io.ObjectInputStream")
+  @GwtIncompatible // java.io.ObjectInputStream
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     expectedValuesPerKey = DEFAULT_VALUES_PER_KEY;
@@ -132,6 +139,6 @@ public final class HashMultimap<K, V> extends AbstractSetMultimap<K, V> {
     Serialization.populateMultimap(this, stream, distinctKeys);
   }
 
-  @GwtIncompatible("Not needed in emulated source")
+  @GwtIncompatible // Not needed in emulated source
   private static final long serialVersionUID = 0;
 }

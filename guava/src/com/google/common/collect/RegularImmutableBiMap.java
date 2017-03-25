@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.ImmutableMapEntry.createEntryArray;
@@ -23,10 +24,13 @@ import static com.google.common.collect.RegularImmutableMap.checkNoConflictInKey
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMapEntry.NonTerminalImmutableBiMapEntry;
+import com.google.errorprone.annotations.concurrent.LazyInit;
+import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.io.Serializable;
-
+import java.util.Map.Entry;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 
 /**
@@ -92,12 +96,12 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
          */
         boolean reusable =
             entry instanceof ImmutableMapEntry && ((ImmutableMapEntry<K, V>) entry).isReusable();
-        newEntry = reusable
-            ? (ImmutableMapEntry<K, V>) entry
-            : new ImmutableMapEntry<K, V>(key, value);
+        newEntry =
+            reusable ? (ImmutableMapEntry<K, V>) entry : new ImmutableMapEntry<K, V>(key, value);
       } else {
-        newEntry = new NonTerminalImmutableBiMapEntry<K, V>(
-            key, value, nextInKeyBucket, nextInValueBucket);
+        newEntry =
+            new NonTerminalImmutableBiMapEntry<K, V>(
+                key, value, nextInKeyBucket, nextInValueBucket);
       }
       keyTable[keyBucket] = newEntry;
       valueTable[valueBucket] = newEntry;
@@ -143,6 +147,19 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   }
 
   @Override
+  ImmutableSet<K> createKeySet() {
+    return new ImmutableMapKeySet<K, V>(this);
+  }
+
+  @Override
+  public void forEach(BiConsumer<? super K, ? super V> action) {
+    checkNotNull(action);
+    for (Entry<K, V> entry : entries) {
+      action.accept(entry.getKey(), entry.getValue());
+    }
+  }
+
+  @Override
   boolean isHashCodeFast() {
     return true;
   }
@@ -162,6 +179,8 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     return entries.length;
   }
 
+  @LazyInit
+  @RetainedWith
   private transient ImmutableBiMap<V, K> inverse;
 
   @Override
@@ -186,6 +205,12 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     }
 
     @Override
+    public void forEach(BiConsumer<? super V, ? super K> action) {
+      checkNotNull(action);
+      RegularImmutableBiMap.this.forEach((k, v) -> action.accept(v, k));
+    }
+
+    @Override
     public K get(@Nullable Object value) {
       if (value == null || valueTable == null) {
         return null;
@@ -199,6 +224,11 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
         }
       }
       return null;
+    }
+
+    @Override
+    ImmutableSet<V> createKeySet() {
+      return new ImmutableMapKeySet<V, K>(this);
     }
 
     @Override
@@ -226,6 +256,11 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
       @Override
       public UnmodifiableIterator<Entry<V, K>> iterator() {
         return asList().iterator();
+      }
+
+      @Override
+      public void forEach(Consumer<? super Entry<V, K>> action) {
+        asList().forEach(action);
       }
 
       @Override

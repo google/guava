@@ -25,13 +25,11 @@ import com.google.common.collect.testing.SetTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-
+import java.util.HashSet;
+import java.util.Set;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Unit tests for {@link Sets#union}, {@link Sets#intersection} and
@@ -41,7 +39,7 @@ import java.util.Set;
  */
 @GwtCompatible(emulated = true)
 public class SetOperationsTest extends TestCase {
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
 

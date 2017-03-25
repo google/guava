@@ -16,10 +16,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
 
-import com.google.common.util.concurrent.ForwardingFuture.SimpleForwardingFuture;
-
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Classes and futures used in {@link FuturesGetCheckedTest} and {@link FuturesGetUncheckedTest}.
@@ -38,17 +35,8 @@ final class FuturesGetCheckedInputs {
   static final Error ERROR = new Error("mymessage");
   static final Future<String> FAILED_FUTURE_ERROR = immediateFailedFuture(ERROR);
   static final Future<String> RUNTIME_EXCEPTION_FUTURE =
-      new SimpleForwardingFuture<String>(FAILED_FUTURE_CHECKED_EXCEPTION) {
-        @Override
-        public String get() {
-          throw RUNTIME_EXCEPTION;
-        }
-
-        @Override
-        public String get(long timeout, TimeUnit unit) {
-          throw RUNTIME_EXCEPTION;
-        }
-      };
+      UncheckedThrowingFuture.throwingRuntimeException(RUNTIME_EXCEPTION);
+  static final Future<String> ERROR_FUTURE = UncheckedThrowingFuture.throwingError(ERROR);
 
   public static final class TwoArgConstructorException extends Exception {
     public TwoArgConstructorException(String message, Throwable cause) {

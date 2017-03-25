@@ -19,7 +19,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -27,6 +28,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.ToIntFunction;
+import java.util.stream.Collector;
 
 /**
  * A {@link SortedMultiset} whose contents will never change, with many other important properties
@@ -45,11 +49,54 @@ import java.util.List;
  * @author Louis Wasserman
  * @since 12.0
  */
-@Beta
-@GwtIncompatible("hasn't been tested yet")
+@GwtIncompatible // hasn't been tested yet
 public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultisetFauxverideShim<E>
     implements SortedMultiset<E> {
   // TODO(lowasser): GWT compatibility
+
+  /**
+   * Returns a {@code Collector} that accumulates the input elements into a new
+   * {@code ImmutableMultiset}.  Elements are sorted by the specified comparator.
+   *
+   * <p><b>Warning:</b> {@code comparator} should be <i>consistent with {@code
+   * equals}</i> as explained in the {@link Comparator} documentation.
+   *
+   * @since 21.0
+   */
+  @Beta
+  public static <E> Collector<E, ?, ImmutableSortedMultiset<E>> toImmutableSortedMultiset(
+      Comparator<? super E> comparator) {
+    return toImmutableSortedMultiset(comparator, Function.identity(), e -> 1);
+  }
+
+  /**
+   * Returns a {@code Collector} that accumulates elements into an {@code ImmutableSortedMultiset}
+   * whose elements are the result of applying {@code elementFunction} to the inputs, with counts
+   * equal to the result of applying {@code countFunction} to the inputs.
+   *
+   * <p>If the mapped elements contain duplicates (according to {@code comparator}), the first
+   * occurrence in encounter order appears in the resulting multiset, with count equal to the sum of
+   * the outputs of {@code countFunction.applyAsInt(t)} for each {@code t} mapped to that element.
+   *
+   * @since 22.0
+   */
+  public static <T, E> Collector<T, ?, ImmutableSortedMultiset<E>> toImmutableSortedMultiset(
+      Comparator<? super E> comparator,
+      Function<? super T, ? extends E> elementFunction,
+      ToIntFunction<? super T> countFunction) {
+    checkNotNull(comparator);
+    checkNotNull(elementFunction);
+    checkNotNull(countFunction);
+    return Collector.of(
+        () -> TreeMultiset.create(comparator),
+        (multiset, t) ->
+            multiset.add(checkNotNull(elementFunction.apply(t)), countFunction.applyAsInt(t)),
+        (multiset1, multiset2) -> {
+          multiset1.addAll(multiset2);
+          return multiset1;
+        },
+        (Multiset<E> multiset) -> copyOfSortedEntries(comparator, multiset.entrySet()));
+  }
 
   /**
    * Returns the empty immutable sorted multiset.
@@ -147,10 +194,10 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * comparator, call {@link #copyOfSorted} instead. This method iterates over {@code elements} at
    * most once.
    *
-   * <p>Note that if {@code s} is a {@code multiset<String>}, then {@code
+   * <p>Note that if {@code s} is a {@code Multiset<String>}, then {@code
    * ImmutableSortedMultiset.copyOf(s)} returns an {@code ImmutableSortedMultiset<String>}
    * containing each of the strings in {@code s}, while {@code ImmutableSortedMultiset.of(s)}
-   * returns an {@code ImmutableSortedMultiset<multiset<String>>} containing one element (the given
+   * returns an {@code ImmutableSortedMultiset<Multiset<String>>} containing one element (the given
    * multiset itself).
    *
    * <p>Despite the method name, this method attempts to avoid actually copying the data when it is
@@ -288,6 +335,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   @Override
   public abstract ImmutableSortedSet<E> elementSet();
 
+  @LazyInit
   transient ImmutableSortedMultiset<E> descendingMultiset;
 
   @Override
@@ -310,6 +358,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final Entry<E> pollFirstEntry() {
@@ -324,6 +373,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final Entry<E> pollLastEntry() {
@@ -392,7 +442,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * <pre> {@code
    *
    *   public static final ImmutableSortedMultiset<Bean> BEANS =
-   *       new ImmutableSortedMultiset.Builder<Bean>()
+   *       new ImmutableSortedMultiset.Builder<Bean>(colorComparator())
    *           .addCopies(Bean.COCOA, 4)
    *           .addCopies(Bean.GARDEN, 6)
    *           .addCopies(Bean.RED, 8)
@@ -420,6 +470,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
      * @return this {@code Builder} object
      * @throws NullPointerException if {@code element} is null
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> add(E element) {
       super.add(element);
@@ -437,6 +488,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
      * @throws IllegalArgumentException if {@code occurrences} is negative, or if this operation
      *         would result in more than {@link Integer#MAX_VALUE} occurrences of the element
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> addCopies(E element, int occurrences) {
       super.addCopies(element, occurrences);
@@ -453,6 +505,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
      * @throws NullPointerException if {@code element} is null
      * @throws IllegalArgumentException if {@code count} is negative
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> setCount(E element, int count) {
       super.setCount(element, count);
@@ -466,6 +519,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
      * @return this {@code Builder} object
      * @throws NullPointerException if {@code elements} is null or contains a null element
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> add(E... elements) {
       super.add(elements);
@@ -479,6 +533,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
      * @return this {@code Builder} object
      * @throws NullPointerException if {@code elements} is null or contains a null element
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> addAll(Iterable<? extends E> elements) {
       super.addAll(elements);
@@ -492,6 +547,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
      * @return this {@code Builder} object
      * @throws NullPointerException if {@code elements} is null or contains a null element
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> addAll(Iterator<? extends E> elements) {
       super.addAll(elements);
@@ -509,9 +565,9 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   }
 
   private static final class SerializedForm<E> implements Serializable {
-    Comparator<? super E> comparator;
-    E[] elements;
-    int[] counts;
+    final Comparator<? super E> comparator;
+    final E[] elements;
+    final int[] counts;
 
     @SuppressWarnings("unchecked")
     SerializedForm(SortedMultiset<E> multiset) {

@@ -20,7 +20,7 @@ import junit.framework.TestCase;
 
 /**
  * Test for {@link ForwardingCheckedFuture}
- * 
+ *
  * @author Ben Yu
  */
 public class ForwardingCheckedFutureTest extends TestCase {

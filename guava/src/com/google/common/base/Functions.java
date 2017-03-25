@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
@@ -19,22 +17,19 @@ package com.google.common.base;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-
 import java.io.Serializable;
 import java.util.Map;
-
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
- * Static utility methods pertaining to {@code Function} instances.
+ * Static utility methods pertaining to {@code com.google.common.base.Function} instances; see that
+ * class for information about migrating to {@code java.util.function}.
  *
  * <p>All methods return serializable functions as long as they're given serializable parameters.
  *
- * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code
+ * <p>See the Guava User Guide article on
+ * <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code
  * Function}</a>.
  *
  * @author Mike Bostock
@@ -42,13 +37,13 @@ import javax.annotation.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-@CheckReturnValue
 public final class Functions {
   private Functions() {}
 
   /**
-   * Returns a function that calls {@code toString()} on its argument. The function does not accept
-   * nulls; it will throw a {@link NullPointerException} when applied to {@code null}.
+   * A function equivalent to the method reference {@code Object::toString}, for users not yet using
+   * Java 8. The function simply invokes {@code toString} on its argument and returns the result. It
+   * throws a {@link NullPointerException} on null input.
    *
    * <p><b>Warning:</b> The returned function may not be <i>consistent with equals</i> (as
    * documented at {@link Function#apply}). For example, this function yields different results for
@@ -108,13 +103,17 @@ public final class Functions {
   }
 
   /**
-   * Returns a function which performs a map lookup. The returned function throws an {@link
-   * IllegalArgumentException} if given a key that does not exist in the map. See also {@link
-   * #forMap(Map, Object)}, which returns a default value in this case.
+   * Returns a function which performs a map lookup. The returned function throws an
+   * {@link IllegalArgumentException} if given a key that does not exist in the map. See also
+   * {@link #forMap(Map, Object)}, which returns a default value in this case.
    *
    * <p>Note: if {@code map} is a {@link com.google.common.collect.BiMap BiMap} (or can be one), you
    * can use {@link com.google.common.collect.Maps#asConverter Maps.asConverter} instead to get a
    * function that also supports reverse conversion.
+   *
+   * <p><b>Java 8 users:</b> if you are okay with {@code null} being returned for an unrecognized
+   * key (instead of an exception being thrown), you can use the method reference {@code map::get}
+   * instead.
    */
   public static <K, V> Function<K, V> forMap(Map<K, V> map) {
     return new FunctionForMapNoDefault<K, V>(map);
@@ -160,6 +159,9 @@ public final class Functions {
    * Returns a function which performs a map lookup with a default value. The function created by
    * this method returns {@code defaultValue} for all inputs that do not belong to the map's key
    * set. See also {@link #forMap(Map)}, which throws an exception in this case.
+   *
+   * <p><b>Java 8 users:</b> you can just write the lambda expression {@code k ->
+   * map.getWithDefault(k, defaultValue)} instead.
    *
    * @param map source map that determines the function behavior
    * @param defaultValue the value to return for inputs that aren't map keys
@@ -212,6 +214,9 @@ public final class Functions {
    * Returns the composition of two functions. For {@code f: A->B} and {@code g: B->C}, composition
    * is defined as the function h such that {@code h(a) == g(f(a))} for each {@code a}.
    *
+   * <p><b>Java 8 users:</b> use {@code g.compose(f)} or (probably clearer) {@code f.andThen(g)}
+   * instead.
+   *
    * @param g the second function to apply
    * @param f the first function to apply
    * @return the composition of {@code f} and {@code g}
@@ -261,8 +266,10 @@ public final class Functions {
   /**
    * Creates a function that returns the same boolean output as the given predicate for all inputs.
    *
-   * <p>The returned function is <i>consistent with equals</i> (as documented at {@link
-   * Function#apply}) if and only if {@code predicate} is itself consistent with equals.
+   * <p>The returned function is <i>consistent with equals</i> (as documented at
+   * {@link Function#apply}) if and only if {@code predicate} is itself consistent with equals.
+   *
+   * <p><b>Java 8 users:</b> use the method reference {@code predicate::test} instead.
    */
   public static <T> Function<T, Boolean> forPredicate(Predicate<T> predicate) {
     return new PredicateFunction<T>(predicate);
@@ -304,7 +311,9 @@ public final class Functions {
   }
 
   /**
-   * Creates a function that returns {@code value} for any input.
+   * Returns a function that ignores its input and always returns {@code value}.
+   *
+   * <p><b>Java 8 users:</b> use the lambda expression {@code o -> value} instead.
    *
    * @param value the constant value for the function to return
    * @return a function that always returns {@code value}
@@ -348,17 +357,17 @@ public final class Functions {
   }
 
   /**
-   * Returns a function that always returns the result of invoking {@link Supplier#get} on {@code
-   * supplier}, regardless of its input.
+   * Returns a function that ignores its input and returns the result of {@code supplier.get()}.
+   *
+   * <p><b>Java 8 users:</b> use the lambda expression {@code o -> supplier.get()} instead.
    *
    * @since 10.0
    */
-  @Beta
   public static <T> Function<Object, T> forSupplier(Supplier<T> supplier) {
     return new SupplierFunction<T>(supplier);
   }
 
-  /** @see Functions#forSupplier*/
+  /** @see Functions#forSupplier */
   private static class SupplierFunction<T> implements Function<Object, T>, Serializable {
 
     private final Supplier<T> supplier;

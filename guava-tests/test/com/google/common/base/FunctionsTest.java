@@ -24,11 +24,9 @@ import com.google.common.testing.ClassSanityTester;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.io.Serializable;
 import java.util.Map;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link Functions}.
@@ -50,7 +48,7 @@ public class FunctionsTest extends TestCase {
     assertNotSame(new Long(135135L), identity.apply(new Long(135135L)));
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testIdentitySerializable() {
     checkCanReserializeSingleton(Functions.identity());
   }
@@ -73,12 +71,12 @@ public class FunctionsTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testToStringFunctionSerializable() {
     checkCanReserializeSingleton(Functions.toStringFunction());
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Functions.class);
@@ -107,7 +105,7 @@ public class FunctionsTest extends TestCase {
         .testEquals();
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testForMapWithoutDefaultSerializable() {
     checkCanReserialize(Functions.forMap(ImmutableMap.of(1, 2)));
   }
@@ -132,7 +130,7 @@ public class FunctionsTest extends TestCase {
         .testEquals();
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testForMapWithDefault_includeSerializable() {
     Map<String, Integer> map = Maps.newHashMap();
     map.put("One", 1);
@@ -154,7 +152,7 @@ public class FunctionsTest extends TestCase {
         .testEquals();
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testForMapWithDefaultSerializable() {
     checkCanReserialize(Functions.forMap(ImmutableMap.of(1, 2), 3));
   }
@@ -173,7 +171,7 @@ public class FunctionsTest extends TestCase {
         .testEquals();
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testForMapWithDefault_null_compareWithSerializable() {
     ImmutableMap<String, Integer> map = ImmutableMap.of("One", 1);
     Function<String, Integer> function = Functions.forMap(map, null);
@@ -242,7 +240,7 @@ public class FunctionsTest extends TestCase {
         .testEquals();
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testComposition_includeReserializabled() {
     Map<String, Integer> mJapaneseToInteger = Maps.newHashMap();
     mJapaneseToInteger.put("Ichi", 1);
@@ -348,7 +346,7 @@ public class FunctionsTest extends TestCase {
         .testEquals();
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testForPredicateSerializable() {
     checkCanReserialize(Functions.forPredicate(Predicates.equalTo(5)));
   }
@@ -377,7 +375,7 @@ public class FunctionsTest extends TestCase {
         .testEquals();
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testConstantSerializable() {
     checkCanReserialize(Functions.constant(5));
   }
@@ -423,24 +421,24 @@ public class FunctionsTest extends TestCase {
         .testEquals();
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testForSupplierSerializable() {
     checkCanReserialize(Functions.forSupplier(new CountingSupplier()));
   }
 
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public void testNulls() throws Exception {
     new ClassSanityTester().forAllPublicStaticMethods(Functions.class).testNulls();
   }
 
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   @AndroidIncompatible // TODO(cpovirk): ClassNotFoundException: com.google.common.base.Function
   // (I suspect that this and the other similar failures happen with ArbitraryInstances proxies.)
   public void testEqualsAndSerializable() throws Exception {
     new ClassSanityTester().forAllPublicStaticMethods(Functions.class).testEqualsAndSerializable();
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   private static <Y> void checkCanReserialize(Function<? super Integer, Y> f) {
     Function<? super Integer, Y> g = SerializableTester.reserializeAndAssert(f);
     for (int i = 1; i < 5; i++) {
@@ -460,7 +458,7 @@ public class FunctionsTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   private static <Y> void checkCanReserializeSingleton(Function<? super String, Y> f) {
     Function<? super String, Y> g = SerializableTester.reserializeAndAssert(f);
     assertSame(f, g);

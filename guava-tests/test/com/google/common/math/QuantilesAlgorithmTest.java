@@ -21,12 +21,10 @@ import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-
-import junit.framework.TestCase;
-
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import junit.framework.TestCase;
 
 /**
  * Tests that the different algorithms benchmarked in {@link QuantilesBenchmark} are actually all
@@ -50,7 +48,7 @@ public class QuantilesAlgorithmTest extends TestCase {
       dataset[i] = RNG.nextDouble();
     }
   }
-  
+
   public void testSingleQuantile_median() {
     double referenceValue = REFERENCE_ALGORITHM.singleQuantile(1, 2, dataset.clone());
     for (QuantilesAlgorithm algorithm : NON_REFERENCE_ALGORITHMS) {
@@ -60,7 +58,7 @@ public class QuantilesAlgorithmTest extends TestCase {
           .of(referenceValue);
     }
   }
-  
+
   public void testSingleQuantile_percentile99() {
     double referenceValue = REFERENCE_ALGORITHM.singleQuantile(99, 100, dataset.clone());
     for (QuantilesAlgorithm algorithm : NON_REFERENCE_ALGORITHMS) {

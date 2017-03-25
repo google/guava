@@ -17,10 +17,12 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.Spliterator;
+import java.util.function.Consumer;
 
 /**
  * Implementation of {@link ImmutableSet} backed by a non-empty {@link
@@ -68,6 +70,16 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
   }
 
   @Override
+  public Spliterator<E> spliterator() {
+    return delegate.spliterator();
+  }
+
+  @Override
+  public void forEach(Consumer<? super E> action) {
+    delegate.forEach(action);
+  }
+
+  @Override
   public int size() {
     return delegate.size();
   }
@@ -106,6 +118,7 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
     return true;
   }
 
+  @LazyInit
   private transient int hashCode;
 
   @Override

@@ -17,15 +17,18 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
  * Provides equivalent behavior to {@link String#intern} for other immutable
- * types.
+ * types. Common implementations are available from the {@link Interners} class.
  *
  * @author Kevin Bourrillion
  * @since 3.0
  */
 @Beta
+@GwtIncompatible
 public interface Interner<E> {
   /**
    * Chooses and returns the representative instance for any of a collection of
@@ -40,5 +43,6 @@ public interface Interner<E> {
    *
    * @throws NullPointerException if {@code sample} is null
    */
+  @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?
   E intern(E sample);
 }

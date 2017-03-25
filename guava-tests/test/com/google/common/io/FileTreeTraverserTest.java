@@ -17,11 +17,9 @@
 package com.google.common.io;
 
 import com.google.common.collect.ImmutableSet;
-
-import junit.framework.TestCase;
-
 import java.io.File;
 import java.io.IOException;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link Files#fileTreeViewer}.

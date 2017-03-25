@@ -18,11 +18,9 @@ package com.google.common.eventbus.outside;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
-
-import junit.framework.TestCase;
-
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import junit.framework.TestCase;
 
 /**
  * Test cases for {@code EventBus} that must not be in the same package.

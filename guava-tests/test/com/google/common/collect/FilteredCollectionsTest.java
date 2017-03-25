@@ -21,9 +21,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.testing.EqualsTester;
-
-import junit.framework.TestCase;
-
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -32,6 +30,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import junit.framework.TestCase;
 
 /**
  * Tests for filtered collection views.
@@ -84,6 +83,20 @@ public class FilteredCollectionsTest extends TestCase {
           }
         }
         assertFalse(filteredItr.hasNext());
+      }
+    }
+
+    public void testForEach() {
+      for (List<Integer> contents : SAMPLE_INPUTS) {
+        C unfiltered = createUnfiltered(contents);
+        C filtered = filter(unfiltered, EVEN);
+        List<Integer> foundElements = new ArrayList<>();
+        filtered.forEach(
+            (Integer i) -> {
+              assertTrue("Unexpected element: " + i, EVEN.apply(i));
+              foundElements.add(i);
+            });
+        assertEquals(ImmutableList.copyOf(filtered), foundElements);
       }
     }
   }

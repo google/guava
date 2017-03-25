@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;

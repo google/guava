@@ -16,24 +16,22 @@
 
 package com.google.common.reflect;
 
+import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Maps;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.TestMapGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Unit test for {@link ImmutableTypeToInstanceMap}.
@@ -101,7 +99,7 @@ public class ImmutableTypeToInstanceMapTest extends TestCase {
     assertEquals(ImmutableList.of(1), map.getInstance(type));
   }
 
-  public void testGeneriArrayType() {
+  public void testGenericArrayType() {
     @SuppressWarnings("unchecked") // Trying to test generic array
     ImmutableList<Integer>[] array = new ImmutableList[] {ImmutableList.of(1)};
     TypeToken<ImmutableList<Integer>[]> type = new TypeToken<ImmutableList<Integer>[]>() {};
@@ -110,7 +108,8 @@ public class ImmutableTypeToInstanceMapTest extends TestCase {
             .put(type, array)
             .build();
     assertEquals(1, map.size());
-    assertThat(map.getInstance(type)).asList().containsExactly(array[0]);
+    // Redundant cast works around a javac bug.
+    assertThat((Iterable<?>[]) map.getInstance(type)).asList().containsExactly(array[0]);
   }
 
   public void testWildcardType() {
@@ -156,21 +155,16 @@ public class ImmutableTypeToInstanceMapTest extends TestCase {
 
     @Override
     public SampleElements<Entry<TypeToken, Object>> samples() {
-      Entry<TypeToken, Object> entry1 =
-          Maps.immutableEntry((TypeToken) TypeToken.of(Integer.class), (Object) 0);
-      Entry<TypeToken, Object> entry2 =
-          Maps.immutableEntry((TypeToken) TypeToken.of(Number.class), (Object) 1);
-      Entry<TypeToken, Object> entry3 =
-          Maps.immutableEntry((TypeToken) new TypeToken<ImmutableList<Integer>>() {},
-              (Object) ImmutableList.of(2));
-      Entry<TypeToken, Object> entry4 =
-          Maps.immutableEntry((TypeToken) new TypeToken<int[]>() {}, (Object) new int[] {3});
-      Entry<TypeToken, Object> entry5 =
-          Maps.immutableEntry((TypeToken) new TypeToken<Iterable<?>>() {},
-              (Object) ImmutableList.of("4"));
       return new SampleElements<Entry<TypeToken, Object>>(
-          entry1, entry2, entry3, entry4, entry5
-      );
+          entry(TypeToken.of(Integer.class), 0),
+          entry(TypeToken.of(Number.class), 1),
+          entry(new TypeToken<ImmutableList<Integer>>() {}, ImmutableList.of(2)),
+          entry(new TypeToken<int[]>() {}, new int[] {3}),
+          entry(new TypeToken<Iterable<?>>() {}, ImmutableList.of("4")));
+    }
+
+    private static Entry<TypeToken, Object> entry(TypeToken<?> k, Object v) {
+      return immutableEntry((TypeToken) k, v);
     }
 
     @Override

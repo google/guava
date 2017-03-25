@@ -20,12 +20,10 @@ import static com.google.common.util.concurrent.GeneratedMonitorTest.startThread
 import static com.google.common.util.concurrent.Uninterruptibles.joinUninterruptibly;
 
 import com.google.common.util.concurrent.GeneratedMonitorTest.FlagGuard;
-
-import junit.framework.TestCase;
-
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import junit.framework.TestCase;
 
 /**
  * Supplemental tests for {@link Monitor}.

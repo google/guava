@@ -24,15 +24,12 @@ import com.google.common.base.Charsets;
 import com.google.common.hash.AbstractStreamingHashFunction.AbstractStreamingHasher;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
-import org.mockito.InOrder;
-
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import junit.framework.TestCase;
+import org.mockito.InOrder;
 
 /**
  * Tests for HashExtractors.

@@ -17,6 +17,8 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Multiset.Entry;
@@ -28,15 +30,9 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.SortedMultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
+import com.google.common.testing.CollectorTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-import org.easymock.EasyMock;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -45,6 +41,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BiPredicate;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Tests for {@link ImmutableSortedMultiset}.
@@ -304,6 +304,19 @@ public class ImmutableSortedMultisetTest extends TestCase {
     assertSame(c, ImmutableSortedMultiset.copyOf(c));
   }
 
+  public void testForEachEntry() {
+    ImmutableSortedMultiset<String> multiset =
+        ImmutableSortedMultiset.<String>naturalOrder().add("a").add("b").add("a").add("c").build();
+    List<Multiset.Entry<String>> entries = new ArrayList<>();
+    multiset.forEachEntry((e, c) -> entries.add(Multisets.immutableEntry(e, c)));
+    assertThat(entries)
+        .containsExactly(
+            Multisets.immutableEntry("a", 2),
+            Multisets.immutableEntry("b", 1),
+            Multisets.immutableEntry("c", 1))
+        .inOrder();
+  }
+
   public void testBuilderAdd() {
     ImmutableSortedMultiset<String> multiset =
         ImmutableSortedMultiset.<String>naturalOrder().add("a").add("b").add("a").add("c").build();
@@ -410,6 +423,56 @@ public class ImmutableSortedMultisetTest extends TestCase {
     } catch (IllegalArgumentException expected) {}
   }
 
+  public void testToImmutableSortedMultiset() {
+    BiPredicate<ImmutableSortedMultiset<String>, ImmutableSortedMultiset<String>> equivalence =
+        (ms1, ms2)
+            -> ms1.equals(ms2)
+                && ms1.entrySet().asList().equals(ms2.entrySet().asList())
+                && ms1.comparator().equals(ms2.comparator());
+    CollectorTester.of(
+            ImmutableSortedMultiset.<String>toImmutableSortedMultiset(
+                String.CASE_INSENSITIVE_ORDER),
+            equivalence)
+        .expectCollects(ImmutableSortedMultiset.emptyMultiset(String.CASE_INSENSITIVE_ORDER))
+        .expectCollects(
+            ImmutableSortedMultiset.orderedBy(String.CASE_INSENSITIVE_ORDER)
+                .addCopies("a", 2)
+                .addCopies("b", 1)
+                .addCopies("c", 3)
+                .build(),
+            "a",
+            "c",
+            "b",
+            "c",
+            "A",
+            "C");
+  }
+
+  public void testToImmutableSortedMultisetCountFunction() {
+    BiPredicate<ImmutableSortedMultiset<String>, ImmutableSortedMultiset<String>> equivalence =
+        (ms1, ms2) ->
+            ms1.equals(ms2)
+                && ms1.entrySet().asList().equals(ms2.entrySet().asList())
+                && ms1.comparator().equals(ms2.comparator());
+    CollectorTester.of(
+            ImmutableSortedMultiset.<String, String>toImmutableSortedMultiset(
+                String.CASE_INSENSITIVE_ORDER, e -> e, e -> 1),
+            equivalence)
+        .expectCollects(ImmutableSortedMultiset.emptyMultiset(String.CASE_INSENSITIVE_ORDER))
+        .expectCollects(
+            ImmutableSortedMultiset.orderedBy(String.CASE_INSENSITIVE_ORDER)
+                .addCopies("a", 2)
+                .addCopies("b", 1)
+                .addCopies("c", 3)
+                .build(),
+            "a",
+            "c",
+            "b",
+            "c",
+            "A",
+            "C");
+  }
+
   public void testNullPointers() {
     new NullPointerTester().testAllPublicStaticMethods(ImmutableSortedMultiset.class);
   }
@@ -514,15 +577,12 @@ public class ImmutableSortedMultisetTest extends TestCase {
 
     // Test that toArray() is used to make a defensive copy in copyOf(), so concurrently modified
     // synchronized collections can be safely copied.
-    SortedMultiset<String> toCopy = EasyMock.createMock(SortedMultiset.class);
+    SortedMultiset<String> toCopy = mock(SortedMultiset.class);
     TestHashSet<Entry<String>> entrySet = new TestHashSet<Entry<String>>();
-    EasyMock.expect((Comparator<Comparable>) toCopy.comparator())
-      .andReturn(Ordering.natural());
-    EasyMock.expect(toCopy.entrySet()).andReturn(entrySet);
-    EasyMock.replay(toCopy);
-    ImmutableSortedMultiset<String> multiset =
-        ImmutableSortedMultiset.copyOfSorted(toCopy);
-    EasyMock.verify(toCopy);
+    when((Comparator<Comparable<String>>) toCopy.comparator())
+        .thenReturn(Ordering.<Comparable<String>>natural());
+    when(toCopy.entrySet()).thenReturn(entrySet);
+    ImmutableSortedMultiset<String> unused = ImmutableSortedMultiset.copyOfSorted(toCopy);
     assertTrue(entrySet.toArrayCalled);
   }
 

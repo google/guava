@@ -27,9 +27,6 @@ import com.google.common.primitives.Ints;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.util.concurrent.AtomicLongMap;
-
-import junit.framework.TestCase;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.nio.ByteBuffer;
@@ -37,9 +34,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link Hashing}.
+ *
+ * <p>TODO(b/33919189): Migrate repeated testing methods to {@link #HashTestUtils} and tweak unit
+ * tests to reference them from there.
  *
  * @author Dimitris Andreou
  * @author Kurt Alfred Kluever
@@ -209,7 +210,7 @@ public class HashingTest extends TestCase {
 
   public void testConsistentHash_outOfRange() {
     try {
-      int unused = Hashing.consistentHash(5L, 0);
+      Hashing.consistentHash(5L, 0);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -249,7 +250,7 @@ public class HashingTest extends TestCase {
 
   public void testCombineOrdered_empty() {
     try {
-      HashCode unused = Hashing.combineOrdered(Collections.<HashCode>emptySet());
+      Hashing.combineOrdered(Collections.<HashCode>emptySet());
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -292,7 +293,7 @@ public class HashingTest extends TestCase {
 
   public void testCombineUnordered_empty() {
     try {
-      HashCode unused = Hashing.combineUnordered(Collections.<HashCode>emptySet());
+      Hashing.combineUnordered(Collections.<HashCode>emptySet());
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -487,10 +488,13 @@ public class HashingTest extends TestCase {
           .build();
 
   public void testAllHashFunctionsHaveKnownHashes() throws Exception {
+    // The following legacy hashing function methods have been covered by unit testing already.
+    List<String> legacyHashingMethodNames = ImmutableList.of("murmur2_64", "fprint96");
     for (Method method : Hashing.class.getDeclaredMethods()) {
       if (method.getReturnType().equals(HashFunction.class) // must return HashFunction
           && Modifier.isPublic(method.getModifiers()) // only the public methods
-          && method.getParameterTypes().length == 0) { // only the seed-less grapes^W hash functions
+          && method.getParameterTypes().length == 0 // only the seed-less grapes^W hash functions
+          && !legacyHashingMethodNames.contains(method.getName())) {
         HashFunction hashFunction = (HashFunction) method.invoke(Hashing.class);
         assertTrue("There should be at least 3 entries in KNOWN_HASHES for " + hashFunction,
             KNOWN_HASHES.row(hashFunction).size() >= 3);
@@ -610,4 +614,6 @@ public class HashingTest extends TestCase {
       }
     }
   }
+
+  // Parity tests taken from //util/hash/hash_unittest.cc
 }

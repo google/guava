@@ -27,12 +27,10 @@ import static java.lang.Character.MIN_SUPPLEMENTARY_CODE_POINT;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableList;
-
-import junit.framework.TestCase;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link Utf8}.
@@ -119,7 +117,7 @@ public class Utf8Test extends TestCase {
 
   private static void testEncodedLengthFails(String invalidString, int invalidCodePointIndex) {
     try {
-      int unused = Utf8.encodedLength(invalidString);
+      Utf8.encodedLength(invalidString);
       fail();
     } catch (IllegalArgumentException expected) {
       assertThat(expected).hasMessage("Unpaired surrogate at index " + invalidCodePointIndex);
@@ -183,19 +181,19 @@ public class Utf8Test extends TestCase {
       FOUR_BYTE_ROUNDTRIPPABLE_CHARACTERS;
 
   /** Tests that round tripping of all two byte permutations work. */
-  @GwtIncompatible("java.nio.charset.Charset")
+  @GwtIncompatible // java.nio.charset.Charset
   public void testIsWellFormed_1Byte() {
     testBytes(1, EXPECTED_ONE_BYTE_ROUNDTRIPPABLE_COUNT);
   }
 
   /** Tests that round tripping of all two byte permutations work. */
-  @GwtIncompatible("java.nio.charset.Charset")
+  @GwtIncompatible // java.nio.charset.Charset
   public void testIsWellFormed_2Bytes() {
     testBytes(2, EXPECTED_TWO_BYTE_ROUNDTRIPPABLE_COUNT);
   }
 
   /** Tests that round tripping of all three byte permutations work. */
-  @GwtIncompatible("java.nio.charset.Charset")
+  @GwtIncompatible // java.nio.charset.Charset
 
   public void testIsWellFormed_3Bytes() {
     testBytes(3, EXPECTED_THREE_BYTE_ROUNDTRIPPABLE_COUNT);
@@ -300,7 +298,7 @@ public class Utf8Test extends TestCase {
    * @param numBytes the number of bytes in the byte array
    * @param expectedCount the expected number of roundtrippable permutations
    */
-  @GwtIncompatible("java.nio.charset.Charset")
+  @GwtIncompatible // java.nio.charset.Charset
   private static void testBytes(int numBytes, long expectedCount) {
     testBytes(numBytes, expectedCount, 0, -1);
   }
@@ -316,9 +314,8 @@ public class Utf8Test extends TestCase {
    * @param lim the limit of bytes to process encoded as a long as big-endian,
    *     or -1 to mean the max limit for numBytes
    */
-  @GwtIncompatible("java.nio.charset.Charset")
-  private static void testBytes(int numBytes, long expectedCount, long start,
-      long lim) {
+  @GwtIncompatible // java.nio.charset.Charset
+  private static void testBytes(int numBytes, long expectedCount, long start, long lim) {
     byte[] bytes = new byte[numBytes];
     if (lim == -1) {
       lim = 1L << (numBytes * 8);

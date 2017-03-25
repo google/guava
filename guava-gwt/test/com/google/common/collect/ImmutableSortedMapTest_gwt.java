@@ -228,6 +228,21 @@ public void testSingletonBuilder__CreationTests() throws Exception {
   testCase.testSingletonBuilder();
 }
 
+public void testToImmutableSortedMap__CreationTests() throws Exception {
+  com.google.common.collect.ImmutableSortedMapTest.CreationTests testCase = new com.google.common.collect.ImmutableSortedMapTest.CreationTests();
+  testCase.testToImmutableSortedMap();
+}
+
+public void testToImmutableSortedMapMerging__CreationTests() throws Exception {
+  com.google.common.collect.ImmutableSortedMapTest.CreationTests testCase = new com.google.common.collect.ImmutableSortedMapTest.CreationTests();
+  testCase.testToImmutableSortedMapMerging();
+}
+
+public void testToImmutableSortedMap_exceptionOnDuplicateKey__CreationTests() throws Exception {
+  com.google.common.collect.ImmutableSortedMapTest.CreationTests testCase = new com.google.common.collect.ImmutableSortedMapTest.CreationTests();
+  testCase.testToImmutableSortedMap_exceptionOnDuplicateKey();
+}
+
 public void testClear__SubMapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.SubMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SubMapTests();
   testCase.testClear();

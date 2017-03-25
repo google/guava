@@ -21,14 +21,12 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link Booleans}.
@@ -48,6 +46,20 @@ public class BooleansTest extends TestCase {
   public void testHashCode() {
     assertEquals(Boolean.TRUE.hashCode(), Booleans.hashCode(true));
     assertEquals(Boolean.FALSE.hashCode(), Booleans.hashCode(false));
+  }
+
+  public void testTrueFirst() {
+    assertEquals(0, Booleans.trueFirst().compare(true, true));
+    assertEquals(0, Booleans.trueFirst().compare(false, false));
+    assertTrue(Booleans.trueFirst().compare(true, false) < 0);
+    assertTrue(Booleans.trueFirst().compare(false, true) > 0);
+  }
+
+  public void testFalseFirst() {
+    assertEquals(0, Booleans.falseFirst().compare(true, true));
+    assertEquals(0, Booleans.falseFirst().compare(false, false));
+    assertTrue(Booleans.falseFirst().compare(false, true) < 0);
+    assertTrue(Booleans.falseFirst().compare(true, false) > 0);
   }
 
   public void testCompare() {
@@ -125,13 +137,13 @@ public class BooleansTest extends TestCase {
 
   public void testEnsureCapacity_fail() {
     try {
-      boolean[] unused = Booleans.ensureCapacity(ARRAY_FALSE, -1, 1);
+      Booleans.ensureCapacity(ARRAY_FALSE, -1, 1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
       // notice that this should even fail when no growth was needed
-      boolean[] unused = Booleans.ensureCapacity(ARRAY_FALSE, 1, -1);
+      Booleans.ensureCapacity(ARRAY_FALSE, 1, -1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -160,7 +172,7 @@ public class BooleansTest extends TestCase {
     Helpers.testComparator(comparator, ordered);
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testLexicographicalComparatorSerializable() {
     Comparator<boolean[]> comparator = Booleans.lexicographicalComparator();
     assertSame(comparator, SerializableTester.reserialize(comparator));
@@ -205,7 +217,7 @@ public class BooleansTest extends TestCase {
   public void testToArray_withNull() {
     List<Boolean> list = Arrays.asList(false, true, null);
     try {
-      boolean[] unused = Booleans.toArray(list);
+      Booleans.toArray(list);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -296,7 +308,7 @@ public class BooleansTest extends TestCase {
     assertEquals(1, Booleans.countTrue(false, false, true, false, false));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Booleans.class);
   }

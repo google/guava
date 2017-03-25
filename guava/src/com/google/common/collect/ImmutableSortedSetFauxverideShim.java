@@ -16,6 +16,9 @@
 
 package com.google.common.collect;
 
+import com.google.common.annotations.GwtIncompatible;
+import java.util.stream.Collector;
+
 /**
  * "Overrides" the {@link ImmutableSet} static methods that lack
  * {@link ImmutableSortedSet} equivalents with deprecated, exception-throwing
@@ -32,7 +35,22 @@ package com.google.common.collect;
  *
  * @author Chris Povirk
  */
+@GwtIncompatible
 abstract class ImmutableSortedSetFauxverideShim<E> extends ImmutableSet<E> {
+  /**
+   * Not supported. Use {@link ImmutableSortedSet#toImmutableSortedSet} instead.
+   * This method exists only to hide {@link ImmutableSet#toImmutableSet} from
+   * consumers of {@code ImmutableSortedSet}.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Use {@link ImmutableSortedSet#toImmutableSortedSet}.
+   * @since 21.0
+   */
+  @Deprecated
+  public static <E> Collector<E, ?, ImmutableSet<E>> toImmutableSet() {
+    throw new UnsupportedOperationException();
+  }
+
   /**
    * Not supported. Use {@link ImmutableSortedSet#naturalOrder}, which offers
    * better type-safety, instead. This method exists only to hide

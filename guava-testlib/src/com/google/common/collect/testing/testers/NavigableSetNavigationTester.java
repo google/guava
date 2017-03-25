@@ -21,10 +21,10 @@ import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,6 +40,7 @@ import java.util.TreeSet;
  * @author Jesse Wilson
  * @author Louis Wasserman
  */
+@GwtIncompatible
 public class NavigableSetNavigationTester<E> extends AbstractSetTester<E> {
 
   private NavigableSet<E> navigableSet;
@@ -48,11 +49,14 @@ public class NavigableSetNavigationTester<E> extends AbstractSetTester<E> {
   private E b;
   private E c;
 
-  @Override public void setUp() throws Exception {
+  @Override
+  public void setUp() throws Exception {
     super.setUp();
     navigableSet = (NavigableSet<E>) getSet();
-    values = Helpers.copyToList(getSubjectGenerator().getSampleElements(
-        getSubjectGenerator().getCollectionSize().getNumElements()));
+    values =
+        Helpers.copyToList(
+            getSubjectGenerator()
+                .getSampleElements(getSubjectGenerator().getCollectionSize().getNumElements()));
     Collections.sort(values, navigableSet.comparator());
 
     // some tests assume SEVERAL == 3
@@ -120,8 +124,7 @@ public class NavigableSetNavigationTester<E> extends AbstractSetTester<E> {
   @CollectionSize.Require(SEVERAL)
   public void testPollFirst() {
     assertEquals(a, navigableSet.pollFirst());
-    assertEquals(
-        values.subList(1, values.size()), Helpers.copyToList(navigableSet));
+    assertEquals(values.subList(1, values.size()), Helpers.copyToList(navigableSet));
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
@@ -202,8 +205,7 @@ public class NavigableSetNavigationTester<E> extends AbstractSetTester<E> {
   @CollectionSize.Require(SEVERAL)
   public void testPollLast() {
     assertEquals(c, navigableSet.pollLast());
-    assertEquals(
-        values.subList(0, values.size() - 1), Helpers.copyToList(navigableSet));
+    assertEquals(values.subList(0, values.size() - 1), Helpers.copyToList(navigableSet));
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
@@ -218,7 +220,7 @@ public class NavigableSetNavigationTester<E> extends AbstractSetTester<E> {
   @CollectionSize.Require(SEVERAL)
   public void testDescendingNavigation() {
     List<E> descending = new ArrayList<E>();
-    for (Iterator<E> i = navigableSet.descendingIterator(); i.hasNext();) {
+    for (Iterator<E> i = navigableSet.descendingIterator(); i.hasNext(); ) {
       descending.add(i.next());
     }
     Collections.reverse(descending);
@@ -248,10 +250,10 @@ public class NavigableSetNavigationTester<E> extends AbstractSetTester<E> {
    */
   public static Method[] getHoleMethods() {
     return new Method[] {
-        Helpers.getMethod(NavigableSetNavigationTester.class, "testLowerHole"),
-        Helpers.getMethod(NavigableSetNavigationTester.class, "testFloorHole"),
-        Helpers.getMethod(NavigableSetNavigationTester.class, "testCeilingHole"),
-        Helpers.getMethod(NavigableSetNavigationTester.class, "testHigherHole"),
+      Helpers.getMethod(NavigableSetNavigationTester.class, "testLowerHole"),
+      Helpers.getMethod(NavigableSetNavigationTester.class, "testFloorHole"),
+      Helpers.getMethod(NavigableSetNavigationTester.class, "testCeilingHole"),
+      Helpers.getMethod(NavigableSetNavigationTester.class, "testHigherHole"),
     };
   }
 }

@@ -37,10 +37,6 @@ import com.google.common.collect.Table;
 import com.google.common.reflect.TypeToken;
 import com.google.common.testing.NullPointerTester.Visibility;
 import com.google.common.testing.anotherpackage.SomeClassThatDoesNotUseNullable;
-
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -48,8 +44,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
-
+import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link NullPointerTester}.
@@ -81,12 +79,24 @@ public class NullPointerTesterTest extends TestCase {
       // should catch as failure
     }
     public static void
+    staticOneArgCheckForNullCorrectlyDoesNotThrowNPE(@CheckForNull String s) {
+      // null?  no problem
+    }
+    public static void
     staticOneArgNullableCorrectlyDoesNotThrowNPE(@Nullable String s) {
       // null?  no problem
     }
     public static void
+    staticOneArgCheckForNullCorrectlyThrowsOtherThanNPE(@CheckForNull String s) {
+      throw new FooException(); // ok, as long as it's not NullPointerException
+    }
+    public static void
     staticOneArgNullableCorrectlyThrowsOtherThanNPE(@Nullable String s) {
       throw new FooException(); // ok, as long as it's not NullPointerException
+    }
+    public static void
+    staticOneArgCheckForNullThrowsNPE(@CheckForNull String s) {
+      checkNotNull(s); // doesn't check if you said you'd accept null, but you don't
     }
     public static void
     staticOneArgNullableThrowsNPE(@Nullable String s) {
@@ -102,11 +112,20 @@ public class NullPointerTesterTest extends TestCase {
     public void oneArgShouldThrowNpeButDoesnt(String s) {
       // should catch as failure
     }
+    public void oneArgCheckForNullCorrectlyDoesNotThrowNPE(@CheckForNull String s) {
+      // null?  no problem
+    }
     public void oneArgNullableCorrectlyDoesNotThrowNPE(@Nullable String s) {
       // null?  no problem
     }
+    public void oneArgCheckForNullCorrectlyThrowsOtherThanNPE(@CheckForNull String s) {
+      throw new FooException(); // ok, as long as it's not NullPointerException
+    }
     public void oneArgNullableCorrectlyThrowsOtherThanNPE(@Nullable String s) {
       throw new FooException(); // ok, as long as it's not NullPointerException
+    }
+    public void oneArgCheckForNullThrowsNPE(@CheckForNull String s) {
+      checkNotNull(s); // doesn't check if you said you'd accept null, but you don't
     }
     public void oneArgNullableThrowsNPE(@Nullable String s) {
       checkNotNull(s); // doesn't check if you said you'd accept null, but you don't
@@ -115,6 +134,9 @@ public class NullPointerTesterTest extends TestCase {
 
   private static final String[] STATIC_ONE_ARG_METHODS_SHOULD_PASS = {
     "staticOneArgCorrectlyThrowsNpe",
+    "staticOneArgCheckForNullCorrectlyDoesNotThrowNPE",
+    "staticOneArgCheckForNullCorrectlyThrowsOtherThanNPE",
+    "staticOneArgCheckForNullThrowsNPE",
     "staticOneArgNullableCorrectlyDoesNotThrowNPE",
     "staticOneArgNullableCorrectlyThrowsOtherThanNPE",
     "staticOneArgNullableThrowsNPE",
@@ -125,6 +147,9 @@ public class NullPointerTesterTest extends TestCase {
   };
   private static final String[] NONSTATIC_ONE_ARG_METHODS_SHOULD_PASS = {
     "oneArgCorrectlyThrowsNpe",
+    "oneArgCheckForNullCorrectlyDoesNotThrowNPE",
+    "oneArgCheckForNullCorrectlyThrowsOtherThanNPE",
+    "oneArgCheckForNullThrowsNPE",
     "oneArgNullableCorrectlyDoesNotThrowNPE",
     "oneArgNullableCorrectlyThrowsOtherThanNPE",
     "oneArgNullableThrowsNPE",
@@ -156,6 +181,58 @@ public class NullPointerTesterTest extends TestCase {
     public static void christenPoodle(String name) {
       throw new RuntimeException();
     }
+  }
+
+  private interface InterfaceStaticMethodFailsToCheckNull {
+    static String create(String s) {
+      return "I don't check";
+    }
+  }
+
+  private interface InterfaceStaticMethodChecksNull {
+    static String create(String s) {
+      return checkNotNull(s);
+    }
+  }
+
+  private interface InterfaceDefaultMethodFailsToCheckNull {
+    static InterfaceDefaultMethodFailsToCheckNull create() {
+      return new InterfaceDefaultMethodFailsToCheckNull() {};
+    }
+
+    default void doNotCheckNull(String s) {}
+  }
+
+  private interface InterfaceDefaultMethodChecksNull {
+    static InterfaceDefaultMethodChecksNull create() {
+      return new InterfaceDefaultMethodChecksNull() {};
+    }
+
+    default void checksNull(String s) {
+      checkNotNull(s);
+    }
+  }
+
+  public void testInterfaceStaticMethod() {
+    NullPointerTester tester = new NullPointerTester();
+    tester.testAllPublicStaticMethods(InterfaceStaticMethodChecksNull.class);
+    try {
+      tester.testAllPublicStaticMethods(InterfaceStaticMethodFailsToCheckNull.class);
+    } catch (AssertionError expected) {
+      return;
+    }
+    fail();
+  }
+
+  public void testInterfaceDefaultMethod() {
+    NullPointerTester tester = new NullPointerTester();
+    tester.testAllPublicInstanceMethods(InterfaceDefaultMethodChecksNull.create());
+    try {
+      tester.testAllPublicInstanceMethods(InterfaceDefaultMethodFailsToCheckNull.create());
+    } catch (AssertionError expected) {
+      return;
+    }
+    fail();
   }
 
   public void testDontAcceptIae() {
@@ -1302,5 +1379,48 @@ public class NullPointerTesterTest extends TestCase {
 
   private static String rootLocaleFormat(String format, Object... args) {
     return String.format(Locale.ROOT, format, args);
+  }
+
+  static class OverridesEquals {
+    @Override
+    public boolean equals(Object o) {
+      return true;
+    }
+  }
+
+  static class DoesNotOverrideEquals {
+    public boolean equals(Object a, Object b) {
+      return true;
+    }
+  }
+
+  public void testEqualsMethod() {
+    shouldPass(new OverridesEquals());
+    shouldFail(new DoesNotOverrideEquals());
+  }
+
+  private static final class FailOnOneOfTwoConstructors {
+    @SuppressWarnings("unused") // Called by reflection
+    public FailOnOneOfTwoConstructors(String s) {}
+
+    @SuppressWarnings("unused") // Called by reflection
+    public FailOnOneOfTwoConstructors(Object o) {
+      checkNotNull(o);
+    }
+  }
+
+  public void testConstructor_Ignored_ShouldPass() throws Exception {
+    new NullPointerTester()
+        .ignore(FailOnOneOfTwoConstructors.class.getDeclaredConstructor(String.class))
+        .testAllPublicConstructors(FailOnOneOfTwoConstructors.class);
+  }
+
+  public void testConstructor_ShouldFail() throws Exception {
+    try {
+      new NullPointerTester().testAllPublicConstructors(FailOnOneOfTwoConstructors.class);
+    } catch (AssertionFailedError expected) {
+      return;
+    }
+    fail("Should detect problem in " + FailOnOneOfTwoConstructors.class.getSimpleName());
   }
 }

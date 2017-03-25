@@ -30,11 +30,6 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.MultisetFeature;
 import com.google.common.collect.testing.google.SortedMultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collections;
@@ -42,6 +37,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Unit test for {@link TreeMultiset}.
@@ -51,7 +49,7 @@ import java.util.SortedSet;
 @GwtCompatible(emulated = true)
 public class TreeMultisetTest extends TestCase {
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(SortedMultisetTestSuiteBuilder
@@ -352,7 +350,7 @@ public class TreeMultisetTest extends TestCase {
     assertEquals(Integer.MAX_VALUE, ms.tailMultiset("a", CLOSED).size());
   }
 
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   @AndroidIncompatible // Reflection bug, or actual binary compatibility problem?
   public void testElementSetBridgeMethods() {
     for (Method m : TreeMultiset.class.getMethods()) {

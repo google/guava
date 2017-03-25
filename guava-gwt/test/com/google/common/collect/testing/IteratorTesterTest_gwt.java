@@ -38,11 +38,6 @@ public void testCanCatchSunJavaBug6529795InTargetIterator() throws Exception {
   testCase.testCanCatchSunJavaBug6529795InTargetIterator();
 }
 
-public void testCanWorkAroundSunJavaBug6529795InTargetIterator() throws Exception {
-  com.google.common.collect.testing.IteratorTesterTest testCase = new com.google.common.collect.testing.IteratorTesterTest();
-  testCase.testCanWorkAroundSunJavaBug6529795InTargetIterator();
-}
-
 public void testMismatchedException() throws Exception {
   com.google.common.collect.testing.IteratorTesterTest testCase = new com.google.common.collect.testing.IteratorTesterTest();
   testCase.testMismatchedException();

@@ -22,15 +22,13 @@ import com.google.common.base.Converter;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link Shorts}.
@@ -79,7 +77,7 @@ public class ShortsTest extends TestCase {
 
   private static void assertCastFails(long value) {
     try {
-      short unused = Shorts.checkedCast(value);
+      Shorts.checkedCast(value);
       fail("Cast to short should have failed: " + value);
     } catch (IllegalArgumentException ex) {
       assertTrue(value + " not found in exception text: " + ex.getMessage(),
@@ -180,7 +178,7 @@ public class ShortsTest extends TestCase {
 
   public void testMax_noArgs() {
     try {
-      short unused = Shorts.max();
+      Shorts.max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -196,7 +194,7 @@ public class ShortsTest extends TestCase {
 
   public void testMin_noArgs() {
     try {
-      short unused = Shorts.min();
+      Shorts.min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -208,6 +206,19 @@ public class ShortsTest extends TestCase {
     assertEquals((short) 0, Shorts.min(
         (short) 8, (short) 6, (short) 7,
         (short) 5, (short) 3, (short) 0, (short) 9));
+  }
+
+  public void testConstrainToRange() {
+    assertEquals((short) 1, Shorts.constrainToRange((short) 1, (short) 0, (short) 5));
+    assertEquals((short) 1, Shorts.constrainToRange((short) 1, (short) 1, (short) 5));
+    assertEquals((short) 3, Shorts.constrainToRange((short) 1, (short) 3, (short) 5));
+    assertEquals((short) -1, Shorts.constrainToRange((short) 0, (short) -5, (short) -1));
+    assertEquals((short) 2, Shorts.constrainToRange((short) 5, (short) 2, (short) 2));
+    try {
+      Shorts.constrainToRange((short) 1, (short) 3, (short) 2);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testConcat() {
@@ -225,7 +236,7 @@ public class ShortsTest extends TestCase {
         Shorts.concat(ARRAY1, ARRAY234)));
   }
 
-  @GwtIncompatible("Shorts.toByteArray")
+  @GwtIncompatible // Shorts.toByteArray
   public void testToByteArray() {
     assertTrue(Arrays.equals(
         new byte[] {0x23, 0x45}, Shorts.toByteArray((short) 0x2345)));
@@ -234,7 +245,7 @@ public class ShortsTest extends TestCase {
         Shorts.toByteArray((short) 0xFEDC)));
   }
 
-  @GwtIncompatible("Shorts.fromByteArray")
+  @GwtIncompatible // Shorts.fromByteArray
   public void testFromByteArray() {
     assertEquals((short) 0x2345,
         Shorts.fromByteArray(new byte[] {0x23, 0x45}));
@@ -242,22 +253,22 @@ public class ShortsTest extends TestCase {
         new byte[] {(byte) 0xFE, (byte) 0xDC}));
   }
 
-  @GwtIncompatible("Shorts.fromByteArray")
+  @GwtIncompatible // Shorts.fromByteArray
   public void testFromByteArrayFails() {
     try {
-      short unused = Shorts.fromByteArray(new byte[] {0x01});
+      Shorts.fromByteArray(new byte[] {0x01});
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
-  @GwtIncompatible("Shorts.fromBytes")
+  @GwtIncompatible // Shorts.fromBytes
   public void testFromBytes() {
     assertEquals((short) 0x2345, Shorts.fromBytes((byte) 0x23, (byte) 0x45));
     assertEquals((short) 0xFEDC, Shorts.fromBytes((byte) 0xFE, (byte) 0xDC));
   }
 
-  @GwtIncompatible("Shorts.fromByteArray, Shorts.toByteArray")
+  @GwtIncompatible // Shorts.fromByteArray, Shorts.toByteArray
   public void testByteArrayRoundTrips() {
     Random r = new Random(5);
     byte[] b = new byte[Shorts.BYTES];
@@ -284,13 +295,13 @@ public class ShortsTest extends TestCase {
 
   public void testEnsureCapacity_fail() {
     try {
-      short[] unused = Shorts.ensureCapacity(ARRAY1, -1, 1);
+      Shorts.ensureCapacity(ARRAY1, -1, 1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
       // notice that this should even fail when no growth was needed
-      short[] unused = Shorts.ensureCapacity(ARRAY1, 1, -1);
+      Shorts.ensureCapacity(ARRAY1, 1, -1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -320,13 +331,13 @@ public class ShortsTest extends TestCase {
     Helpers.testComparator(comparator, ordered);
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testLexicographicalComparatorSerializable() {
     Comparator<short[]> comparator = Shorts.lexicographicalComparator();
     assertSame(comparator, SerializableTester.reserialize(comparator));
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testStringConverterSerialization() {
     SerializableTester.reserializeAndAssert(Shorts.stringConverter());
   }
@@ -366,7 +377,7 @@ public class ShortsTest extends TestCase {
   public void testToArray_withNull() {
     List<Short> list = Arrays.asList((short) 0, (short) 1, null);
     try {
-      short[] unused = Shorts.toArray(list);
+      Shorts.toArray(list);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -426,7 +437,7 @@ public class ShortsTest extends TestCase {
     assertSame(Collections.emptyList(), Shorts.asList(EMPTY));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Shorts.class);
   }
@@ -445,7 +456,7 @@ public class ShortsTest extends TestCase {
 
   public void testStringConverter_convertError() {
     try {
-      short unused = Shorts.stringConverter().convert("notanumber");
+      Shorts.stringConverter().convert("notanumber");
       fail();
     } catch (NumberFormatException expected) {
     }
@@ -467,7 +478,7 @@ public class ShortsTest extends TestCase {
     assertEquals("438", converter.reverse().convert((short) 0666));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testStringConverter_nullPointerTester() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(Shorts.stringConverter());

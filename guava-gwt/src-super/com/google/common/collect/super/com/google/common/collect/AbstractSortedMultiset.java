@@ -17,11 +17,9 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.SortedSet;
-
 import javax.annotation.Nullable;
 
 /**

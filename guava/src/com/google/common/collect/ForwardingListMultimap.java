@@ -17,9 +17,8 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.List;
-
 import javax.annotation.Nullable;
 
 /**
@@ -46,11 +45,13 @@ public abstract class ForwardingListMultimap<K, V> extends ForwardingMultimap<K,
     return delegate().get(key);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public List<V> removeAll(@Nullable Object key) {
     return delegate().removeAll(key);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public List<V> replaceValues(K key, Iterable<? extends V> values) {
     return delegate().replaceValues(key, values);

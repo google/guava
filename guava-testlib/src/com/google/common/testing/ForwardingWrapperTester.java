@@ -18,16 +18,17 @@ package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Throwables.throwIfUnchecked;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.google.common.reflect.AbstractInvocationHandler;
 import com.google.common.reflect.Reflection;
-
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -50,6 +51,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @since 14.0
  */
 @Beta
+@GwtIncompatible
 public final class ForwardingWrapperTester {
 
   private boolean testsEquals = false;
@@ -112,7 +114,8 @@ public final class ForwardingWrapperTester {
       try {
         methods[i] = type.getMethod(methods[i].getName(), methods[i].getParameterTypes());
       } catch (Exception e) {
-        throw Throwables.propagate(e);
+        throwIfUnchecked(e);
+        throw new RuntimeException(e);
       }
     }
     return methods;
