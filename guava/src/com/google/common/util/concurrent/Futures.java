@@ -237,18 +237,19 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *
    * <p>Usage example:
    *
-   * <pre>   {@code
-   *   ListenableFuture<Integer> fetchCounterFuture = ...;
+   * <pre>{@code
+   * ListenableFuture<Integer> fetchCounterFuture = ...;
    *
-   *   // Falling back to a zero counter in case an exception happens when
-   *   // processing the RPC to fetch counters.
-   *   ListenableFuture<Integer> faultTolerantFuture = Futures.catching(
-   *       fetchCounterFuture, FetchException.class,
-   *       new Function<FetchException, Integer>() {
-   *         public Integer apply(FetchException e) {
-   *           return 0;
-   *         }
-   *       });}</pre>
+   * // Falling back to a zero counter in case an exception happens when
+   * // processing the RPC to fetch counters.
+   * ListenableFuture<Integer> faultTolerantFuture = Futures.catching(
+   *     fetchCounterFuture, FetchException.class,
+   *     new Function<FetchException, Integer>() {
+   *       public Integer apply(FetchException e) {
+   *         return 0;
+   *       }
+   *     });
+   * }</pre>
    *
    * <p>This overload, which does not accept an executor, uses {@code directExecutor}, a dangerous
    * choice in some cases. See the discussion in the {@link ListenableFuture#addListener
@@ -267,7 +268,13 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     means the cause of the {@link ExecutionException} thrown by {@code input.get()} or, if
    *     {@code get()} throws a different kind of exception, that exception itself.
    * @since 19.0
+   * @deprecated Use {@linkplain #catching(ListenableFuture, Class, Function, Executor) the overload
+   *     that requires an executor}. For identical behavior, pass {@link
+   *     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
+   *     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
+   *     documentation. This method is scheduled to be removed in April 2018.
    */
+  @Deprecated
   @Partially.GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
   public static <V, X extends Throwable> ListenableFuture<V> catching(
       ListenableFuture<? extends V> input,
@@ -337,37 +344,39 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *
    * <p>Usage examples:
    *
-   * <pre>   {@code
-   *   ListenableFuture<Integer> fetchCounterFuture = ...;
+   * <pre>{@code
+   * ListenableFuture<Integer> fetchCounterFuture = ...;
    *
-   *   // Falling back to a zero counter in case an exception happens when
-   *   // processing the RPC to fetch counters.
-   *   ListenableFuture<Integer> faultTolerantFuture = Futures.catchingAsync(
-   *       fetchCounterFuture, FetchException.class,
-   *       new AsyncFunction<FetchException, Integer>() {
-   *         public ListenableFuture<Integer> apply(FetchException e) {
-   *           return immediateFuture(0);
-   *         }
-   *       });}</pre>
+   * // Falling back to a zero counter in case an exception happens when
+   * // processing the RPC to fetch counters.
+   * ListenableFuture<Integer> faultTolerantFuture = Futures.catchingAsync(
+   *     fetchCounterFuture, FetchException.class,
+   *     new AsyncFunction<FetchException, Integer>() {
+   *       public ListenableFuture<Integer> apply(FetchException e) {
+   *         return immediateFuture(0);
+   *       }
+   *     });
+   * }</pre>
    *
    * <p>The fallback can also choose to propagate the original exception when desired:
    *
-   * <pre>   {@code
-   *   ListenableFuture<Integer> fetchCounterFuture = ...;
+   * <pre>{@code
+   * ListenableFuture<Integer> fetchCounterFuture = ...;
    *
-   *   // Falling back to a zero counter only in case the exception was a
-   *   // TimeoutException.
-   *   ListenableFuture<Integer> faultTolerantFuture = Futures.catchingAsync(
-   *       fetchCounterFuture, FetchException.class,
-   *       new AsyncFunction<FetchException, Integer>() {
-   *         public ListenableFuture<Integer> apply(FetchException e)
-   *             throws FetchException {
-   *           if (omitDataOnFetchFailure) {
-   *             return immediateFuture(0);
-   *           }
-   *           throw e;
+   * // Falling back to a zero counter only in case the exception was a
+   * // TimeoutException.
+   * ListenableFuture<Integer> faultTolerantFuture = Futures.catchingAsync(
+   *     fetchCounterFuture, FetchException.class,
+   *     new AsyncFunction<FetchException, Integer>() {
+   *       public ListenableFuture<Integer> apply(FetchException e)
+   *           throws FetchException {
+   *         if (omitDataOnFetchFailure) {
+   *           return immediateFuture(0);
    *         }
-   *       });}</pre>
+   *         throw e;
+   *       }
+   *     });
+   * }</pre>
    *
    * <p>This overload, which does not accept an executor, uses {@code directExecutor}, a dangerous
    * choice in some cases. See the discussion in the {@link ListenableFuture#addListener
@@ -387,8 +396,14 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     means the cause of the {@link ExecutionException} thrown by {@code input.get()} or, if
    *     {@code get()} throws a different kind of exception, that exception itself.
    * @since 19.0 (similar functionality in 14.0 as {@code withFallback})
+   * @deprecated Use {@linkplain #catchingAsync(ListenableFuture, Class, AsyncFunction, Executor)
+   *     the overload that requires an executor}. For identical behavior, pass {@link
+   *     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
+   *     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
+   *     documentation. This method is scheduled to be removed in April 2018.
    */
   @CanIgnoreReturnValue // TODO(kak): @CheckReturnValue
+  @Deprecated
   @Partially.GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
   public static <V, X extends Throwable> ListenableFuture<V> catchingAsync(
       ListenableFuture<? extends V> input,
@@ -500,16 +515,17 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * by applying the given {@code AsyncFunction} to the result of the original {@code Future}.
    * Example usage:
    *
-   * <pre>   {@code
-   *   ListenableFuture<RowKey> rowKeyFuture = indexService.lookUp(query);
-   *   AsyncFunction<RowKey, QueryResult> queryFunction =
-   *       new AsyncFunction<RowKey, QueryResult>() {
-   *         public ListenableFuture<QueryResult> apply(RowKey rowKey) {
-   *           return dataService.read(rowKey);
-   *         }
-   *       };
-   *   ListenableFuture<QueryResult> queryFuture =
-   *       transformAsync(rowKeyFuture, queryFunction);}</pre>
+   * <pre>{@code
+   * ListenableFuture<RowKey> rowKeyFuture = indexService.lookUp(query);
+   * AsyncFunction<RowKey, QueryResult> queryFunction =
+   *     new AsyncFunction<RowKey, QueryResult>() {
+   *       public ListenableFuture<QueryResult> apply(RowKey rowKey) {
+   *         return dataService.read(rowKey);
+   *       }
+   *     };
+   * ListenableFuture<QueryResult> queryFuture =
+   *     transformAsync(rowKeyFuture, queryFunction);
+   * }</pre>
    *
    * <p>This overload, which does not accept an executor, uses {@code directExecutor}, a dangerous
    * choice in some cases. See the discussion in the {@link ListenableFuture#addListener
@@ -529,7 +545,13 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @return A future that holds result of the function (if the input succeeded) or the original
    *     input's failure (if not)
    * @since 19.0 (in 11.0 as {@code transform})
+   * @deprecated Use {@linkplain #transformAsync(ListenableFuture, AsyncFunction, Executor) the
+   *     overload that requires an executor}. For identical behavior, pass {@link
+   *     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
+   *     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
+   *     documentation. This method is scheduled to be removed in April 2018.
    */
+  @Deprecated
   public static <I, O> ListenableFuture<O> transformAsync(
       ListenableFuture<I> input, AsyncFunction<? super I, ? extends O> function) {
     return AbstractTransformFuture.create(input, function);
@@ -587,16 +609,17 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * Future}. If {@code input} fails, the returned {@code Future} fails with the same exception (and
    * the function is not invoked). Example usage:
    *
-   * <pre>   {@code
-   *   ListenableFuture<QueryResult> queryFuture = ...;
-   *   Function<QueryResult, List<Row>> rowsFunction =
-   *       new Function<QueryResult, List<Row>>() {
-   *         public List<Row> apply(QueryResult queryResult) {
-   *           return queryResult.getRows();
-   *         }
-   *       };
-   *   ListenableFuture<List<Row>> rowsFuture =
-   *       transform(queryFuture, rowsFunction);}</pre>
+   * <pre>{@code
+   * ListenableFuture<QueryResult> queryFuture = ...;
+   * Function<QueryResult, List<Row>> rowsFunction =
+   *     new Function<QueryResult, List<Row>>() {
+   *       public List<Row> apply(QueryResult queryResult) {
+   *         return queryResult.getRows();
+   *       }
+   *     };
+   * ListenableFuture<List<Row>> rowsFuture =
+   *     transform(queryFuture, rowsFunction);
+   * }</pre>
    *
    * <p>This overload, which does not accept an executor, uses {@code directExecutor}, a dangerous
    * choice in some cases. See the discussion in the {@link ListenableFuture#addListener
@@ -613,10 +636,16 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *
    * @param input The future to transform
    * @param function A Function to transform the results of the provided future to the results of
-   *     the returned future.  This will be run in the thread that notifies input it is complete.
+   *     the returned future. This will be run in the thread that notifies input it is complete.
    * @return A future that holds result of the transformation.
    * @since 9.0 (in 1.0 as {@code compose})
+   * @deprecated Use {@linkplain #transform(ListenableFuture, Function, Executor) the overload that
+   *     requires an executor}. For identical behavior, pass {@link MoreExecutors#directExecutor},
+   *     but consider whether another executor would be safer, as discussed in the {@link
+   *     ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
+   *     scheduled to be removed in April 2018.
    */
+  @Deprecated
   public static <I, O> ListenableFuture<O> transform(
       ListenableFuture<I> input, Function<? super I, ? extends O> function) {
     return AbstractTransformFuture.create(input, function);
@@ -912,7 +941,14 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     /**
      * Like {@link #callAsync(AsyncCallable, Executor)} but using {@linkplain
      * MoreExecutors#directExecutor direct executor}.
+     *
+     * @deprecated Use {@linkplain #callAsync(AsyncCallable, Executor) the overload that requires an
+     *     executor}. For identical behavior, pass {@link MoreExecutors#directExecutor}, but
+     *     consider whether another executor would be safer, as discussed in the {@link
+     *     ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
+     *     scheduled to be removed in April 2018.
      */
+    @Deprecated
     public <C> ListenableFuture<C> callAsync(AsyncCallable<C> combiner) {
       return callAsync(combiner, directExecutor());
     }
@@ -939,8 +975,15 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     /**
      * Like {@link #call(Callable, Executor)} but using {@linkplain MoreExecutors#directExecutor
      * direct executor}.
+     *
+     * @deprecated Use {@linkplain #call(Callable, Executor) the overload that requires an
+     *     executor}. For identical behavior, pass {@link MoreExecutors#directExecutor}, but
+     *     consider whether another executor would be safer, as discussed in the {@link
+     *     ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
+     *     scheduled to be removed in April 2018.
      */
     @CanIgnoreReturnValue
+    @Deprecated
     public <C> ListenableFuture<C> call(Callable<C> combiner) {
       return call(combiner, directExecutor());
     }
@@ -1087,7 +1130,9 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * <p>There is no guaranteed ordering of execution of callbacks, but any callback added through
    * this method is guaranteed to be called once the computation is complete.
    *
-   * Example: <pre> {@code
+   * <p>Example:
+   *
+   * <pre>{@code
    * ListenableFuture<QueryResult> future = ...;
    * addCallback(future,
    *     new FutureCallback<QueryResult>() {
@@ -1097,7 +1142,8 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *       public void onFailure(Throwable t) {
    *         reportError(t);
    *       }
-   *     });}</pre>
+   *     });
+   * }</pre>
    *
    * <p>This overload, which does not accept an executor, uses {@code directExecutor}, a dangerous
    * choice in some cases. See the discussion in the {@link ListenableFuture#addListener
@@ -1109,7 +1155,13 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @param future The future attach the callback to.
    * @param callback The callback to invoke when {@code future} is completed.
    * @since 10.0
+   * @deprecated Use {@linkplain #addCallback(ListenableFuture, FutureCallback, Executor) the
+   *     overload that requires an executor}. For identical behavior, pass {@link
+   *     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
+   *     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
+   *     documentation. This method is scheduled to be removed in April 2018.
    */
+  @Deprecated
   public static <V> void addCallback(
       ListenableFuture<V> future, FutureCallback<? super V> callback) {
     addCallback(future, callback, directExecutor());
