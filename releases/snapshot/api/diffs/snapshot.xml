@@ -60498,7 +60498,11 @@
     <method name="catching" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@linkplain #catching(ListenableFuture, Class, Function, Executor) the overload
+     that requires an executor}. For identical behavior, pass {@link
+     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
+     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
+     documentation. This method is scheduled to be removed in April 2018.">
       <param name="input" type="com.google.common.util.concurrent.ListenableFuture&lt;? extends V&gt;"/>
       <param name="exceptionType" type="java.lang.Class&lt;X&gt;"/>
       <param name="fallback" type="com.google.common.base.Function&lt;? super X, ? extends V&gt;"/>
@@ -60512,18 +60516,19 @@
 
  <p>Usage example:
 
- <pre>   {@code
-   ListenableFuture<Integer> fetchCounterFuture = ...;
+ <pre>{@code
+ ListenableFuture<Integer> fetchCounterFuture = ...;
 
-   // Falling back to a zero counter in case an exception happens when
-   // processing the RPC to fetch counters.
-   ListenableFuture<Integer> faultTolerantFuture = Futures.catching(
-       fetchCounterFuture, FetchException.class,
-       new Function<FetchException, Integer>() {
-         public Integer apply(FetchException e) {
-           return 0;
-         }
-       });}</pre>
+ // Falling back to a zero counter in case an exception happens when
+ // processing the RPC to fetch counters.
+ ListenableFuture<Integer> faultTolerantFuture = Futures.catching(
+     fetchCounterFuture, FetchException.class,
+     new Function<FetchException, Integer>() {
+       public Integer apply(FetchException e) {
+         return 0;
+       }
+     });
+ }</pre>
 
  <p>This overload, which does not accept an executor, uses {@code directExecutor}, a dangerous
  choice in some cases. See the discussion in the {@link ListenableFuture#addListener
@@ -60541,7 +60546,12 @@
      exception type. The function's argument is the input's exception. "The input's exception"
      means the cause of the {@link ExecutionException} thrown by {@code input.get()} or, if
      {@code get()} throws a different kind of exception, that exception itself.
- @since 19.0]]>
+ @since 19.0
+ @deprecated Use {@linkplain #catching(ListenableFuture, Class, Function, Executor) the overload
+     that requires an executor}. For identical behavior, pass {@link
+     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
+     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
+     documentation. This method is scheduled to be removed in April 2018.]]>
       </doc>
     </method>
     <method name="catching" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
@@ -60598,7 +60608,11 @@
     <method name="catchingAsync" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@linkplain #catchingAsync(ListenableFuture, Class, AsyncFunction, Executor)
+     the overload that requires an executor}. For identical behavior, pass {@link
+     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
+     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
+     documentation. This method is scheduled to be removed in April 2018.">
       <param name="input" type="com.google.common.util.concurrent.ListenableFuture&lt;? extends V&gt;"/>
       <param name="exceptionType" type="java.lang.Class&lt;X&gt;"/>
       <param name="fallback" type="com.google.common.util.concurrent.AsyncFunction&lt;? super X, ? extends V&gt;"/>
@@ -60612,37 +60626,39 @@
 
  <p>Usage examples:
 
- <pre>   {@code
-   ListenableFuture<Integer> fetchCounterFuture = ...;
+ <pre>{@code
+ ListenableFuture<Integer> fetchCounterFuture = ...;
 
-   // Falling back to a zero counter in case an exception happens when
-   // processing the RPC to fetch counters.
-   ListenableFuture<Integer> faultTolerantFuture = Futures.catchingAsync(
-       fetchCounterFuture, FetchException.class,
-       new AsyncFunction<FetchException, Integer>() {
-         public ListenableFuture<Integer> apply(FetchException e) {
-           return immediateFuture(0);
-         }
-       });}</pre>
+ // Falling back to a zero counter in case an exception happens when
+ // processing the RPC to fetch counters.
+ ListenableFuture<Integer> faultTolerantFuture = Futures.catchingAsync(
+     fetchCounterFuture, FetchException.class,
+     new AsyncFunction<FetchException, Integer>() {
+       public ListenableFuture<Integer> apply(FetchException e) {
+         return immediateFuture(0);
+       }
+     });
+ }</pre>
 
  <p>The fallback can also choose to propagate the original exception when desired:
 
- <pre>   {@code
-   ListenableFuture<Integer> fetchCounterFuture = ...;
+ <pre>{@code
+ ListenableFuture<Integer> fetchCounterFuture = ...;
 
-   // Falling back to a zero counter only in case the exception was a
-   // TimeoutException.
-   ListenableFuture<Integer> faultTolerantFuture = Futures.catchingAsync(
-       fetchCounterFuture, FetchException.class,
-       new AsyncFunction<FetchException, Integer>() {
-         public ListenableFuture<Integer> apply(FetchException e)
-             throws FetchException {
-           if (omitDataOnFetchFailure) {
-             return immediateFuture(0);
-           }
-           throw e;
+ // Falling back to a zero counter only in case the exception was a
+ // TimeoutException.
+ ListenableFuture<Integer> faultTolerantFuture = Futures.catchingAsync(
+     fetchCounterFuture, FetchException.class,
+     new AsyncFunction<FetchException, Integer>() {
+       public ListenableFuture<Integer> apply(FetchException e)
+           throws FetchException {
+         if (omitDataOnFetchFailure) {
+           return immediateFuture(0);
          }
-       });}</pre>
+         throw e;
+       }
+     });
+ }</pre>
 
  <p>This overload, which does not accept an executor, uses {@code directExecutor}, a dangerous
  choice in some cases. See the discussion in the {@link ListenableFuture#addListener
@@ -60661,7 +60677,12 @@
      exception type. The function's argument is the input's exception. "The input's exception"
      means the cause of the {@link ExecutionException} thrown by {@code input.get()} or, if
      {@code get()} throws a different kind of exception, that exception itself.
- @since 19.0 (similar functionality in 14.0 as {@code withFallback})]]>
+ @since 19.0 (similar functionality in 14.0 as {@code withFallback})
+ @deprecated Use {@linkplain #catchingAsync(ListenableFuture, Class, AsyncFunction, Executor)
+     the overload that requires an executor}. For identical behavior, pass {@link
+     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
+     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
+     documentation. This method is scheduled to be removed in April 2018.]]>
       </doc>
     </method>
     <method name="catchingAsync" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
@@ -60760,7 +60781,11 @@
     <method name="transformAsync" return="com.google.common.util.concurrent.ListenableFuture&lt;O&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@linkplain #transformAsync(ListenableFuture, AsyncFunction, Executor) the
+     overload that requires an executor}. For identical behavior, pass {@link
+     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
+     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
+     documentation. This method is scheduled to be removed in April 2018.">
       <param name="input" type="com.google.common.util.concurrent.ListenableFuture&lt;I&gt;"/>
       <param name="function" type="com.google.common.util.concurrent.AsyncFunction&lt;? super I, ? extends O&gt;"/>
       <doc>
@@ -60772,16 +60797,17 @@
  by applying the given {@code AsyncFunction} to the result of the original {@code Future}.
  Example usage:
 
- <pre>   {@code
-   ListenableFuture<RowKey> rowKeyFuture = indexService.lookUp(query);
-   AsyncFunction<RowKey, QueryResult> queryFunction =
-       new AsyncFunction<RowKey, QueryResult>() {
-         public ListenableFuture<QueryResult> apply(RowKey rowKey) {
-           return dataService.read(rowKey);
-         }
-       };
-   ListenableFuture<QueryResult> queryFuture =
-       transformAsync(rowKeyFuture, queryFunction);}</pre>
+ <pre>{@code
+ ListenableFuture<RowKey> rowKeyFuture = indexService.lookUp(query);
+ AsyncFunction<RowKey, QueryResult> queryFunction =
+     new AsyncFunction<RowKey, QueryResult>() {
+       public ListenableFuture<QueryResult> apply(RowKey rowKey) {
+         return dataService.read(rowKey);
+       }
+     };
+ ListenableFuture<QueryResult> queryFuture =
+     transformAsync(rowKeyFuture, queryFunction);
+ }</pre>
 
  <p>This overload, which does not accept an executor, uses {@code directExecutor}, a dangerous
  choice in some cases. See the discussion in the {@link ListenableFuture#addListener
@@ -60800,7 +60826,12 @@
      output future
  @return A future that holds result of the function (if the input succeeded) or the original
      input's failure (if not)
- @since 19.0 (in 11.0 as {@code transform})]]>
+ @since 19.0 (in 11.0 as {@code transform})
+ @deprecated Use {@linkplain #transformAsync(ListenableFuture, AsyncFunction, Executor) the
+     overload that requires an executor}. For identical behavior, pass {@link
+     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
+     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
+     documentation. This method is scheduled to be removed in April 2018.]]>
       </doc>
     </method>
     <method name="transformAsync" return="com.google.common.util.concurrent.ListenableFuture&lt;O&gt;"
@@ -60854,7 +60885,11 @@
     <method name="transform" return="com.google.common.util.concurrent.ListenableFuture&lt;O&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@linkplain #transform(ListenableFuture, Function, Executor) the overload that
+     requires an executor}. For identical behavior, pass {@link MoreExecutors#directExecutor},
+     but consider whether another executor would be safer, as discussed in the {@link
+     ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
+     scheduled to be removed in April 2018.">
       <param name="input" type="com.google.common.util.concurrent.ListenableFuture&lt;I&gt;"/>
       <param name="function" type="com.google.common.base.Function&lt;? super I, ? extends O&gt;"/>
       <doc>
@@ -60862,16 +60897,17 @@
  Future}. If {@code input} fails, the returned {@code Future} fails with the same exception (and
  the function is not invoked). Example usage:
 
- <pre>   {@code
-   ListenableFuture<QueryResult> queryFuture = ...;
-   Function<QueryResult, List<Row>> rowsFunction =
-       new Function<QueryResult, List<Row>>() {
-         public List<Row> apply(QueryResult queryResult) {
-           return queryResult.getRows();
-         }
-       };
-   ListenableFuture<List<Row>> rowsFuture =
-       transform(queryFuture, rowsFunction);}</pre>
+ <pre>{@code
+ ListenableFuture<QueryResult> queryFuture = ...;
+ Function<QueryResult, List<Row>> rowsFunction =
+     new Function<QueryResult, List<Row>>() {
+       public List<Row> apply(QueryResult queryResult) {
+         return queryResult.getRows();
+       }
+     };
+ ListenableFuture<List<Row>> rowsFuture =
+     transform(queryFuture, rowsFunction);
+ }</pre>
 
  <p>This overload, which does not accept an executor, uses {@code directExecutor}, a dangerous
  choice in some cases. See the discussion in the {@link ListenableFuture#addListener
@@ -60888,9 +60924,14 @@
 
  @param input The future to transform
  @param function A Function to transform the results of the provided future to the results of
-     the returned future.  This will be run in the thread that notifies input it is complete.
+     the returned future. This will be run in the thread that notifies input it is complete.
  @return A future that holds result of the transformation.
- @since 9.0 (in 1.0 as {@code compose})]]>
+ @since 9.0 (in 1.0 as {@code compose})
+ @deprecated Use {@linkplain #transform(ListenableFuture, Function, Executor) the overload that
+     requires an executor}. For identical behavior, pass {@link MoreExecutors#directExecutor},
+     but consider whether another executor would be safer, as discussed in the {@link
+     ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
+     scheduled to be removed in April 2018.]]>
       </doc>
     </method>
     <method name="transform" return="com.google.common.util.concurrent.ListenableFuture&lt;O&gt;"
@@ -61162,7 +61203,11 @@
     <method name="addCallback"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@linkplain #addCallback(ListenableFuture, FutureCallback, Executor) the
+     overload that requires an executor}. For identical behavior, pass {@link
+     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
+     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
+     documentation. This method is scheduled to be removed in April 2018.">
       <param name="future" type="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"/>
       <param name="callback" type="com.google.common.util.concurrent.FutureCallback&lt;? super V&gt;"/>
       <doc>
@@ -61173,7 +61218,9 @@
  <p>There is no guaranteed ordering of execution of callbacks, but any callback added through
  this method is guaranteed to be called once the computation is complete.
 
- Example: <pre> {@code
+ <p>Example:
+
+ <pre>{@code
  ListenableFuture<QueryResult> future = ...;
  addCallback(future,
      new FutureCallback<QueryResult>() {
@@ -61183,7 +61230,8 @@
        public void onFailure(Throwable t) {
          reportError(t);
        }
-     });}</pre>
+     });
+ }</pre>
 
  <p>This overload, which does not accept an executor, uses {@code directExecutor}, a dangerous
  choice in some cases. See the discussion in the {@link ListenableFuture#addListener
@@ -61194,7 +61242,12 @@
 
  @param future The future attach the callback to.
  @param callback The callback to invoke when {@code future} is completed.
- @since 10.0]]>
+ @since 10.0
+ @deprecated Use {@linkplain #addCallback(ListenableFuture, FutureCallback, Executor) the
+     overload that requires an executor}. For identical behavior, pass {@link
+     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
+     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
+     documentation. This method is scheduled to be removed in April 2018.]]>
       </doc>
     </method>
     <method name="addCallback"
@@ -61447,11 +61500,21 @@
     <method name="callAsync" return="com.google.common.util.concurrent.ListenableFuture&lt;C&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@linkplain #callAsync(AsyncCallable, Executor) the overload that requires an
+     executor}. For identical behavior, pass {@link MoreExecutors#directExecutor}, but
+     consider whether another executor would be safer, as discussed in the {@link
+     ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
+     scheduled to be removed in April 2018.">
       <param name="combiner" type="com.google.common.util.concurrent.AsyncCallable&lt;C&gt;"/>
       <doc>
       <![CDATA[Like {@link #callAsync(AsyncCallable, Executor)} but using {@linkplain
- MoreExecutors#directExecutor direct executor}.]]>
+ MoreExecutors#directExecutor direct executor}.
+
+ @deprecated Use {@linkplain #callAsync(AsyncCallable, Executor) the overload that requires an
+     executor}. For identical behavior, pass {@link MoreExecutors#directExecutor}, but
+     consider whether another executor would be safer, as discussed in the {@link
+     ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
+     scheduled to be removed in April 2018.]]>
       </doc>
     </method>
     <method name="call" return="com.google.common.util.concurrent.ListenableFuture&lt;C&gt;"
@@ -61478,11 +61541,21 @@
     <method name="call" return="com.google.common.util.concurrent.ListenableFuture&lt;C&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@linkplain #call(Callable, Executor) the overload that requires an
+     executor}. For identical behavior, pass {@link MoreExecutors#directExecutor}, but
+     consider whether another executor would be safer, as discussed in the {@link
+     ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
+     scheduled to be removed in April 2018.">
       <param name="combiner" type="java.util.concurrent.Callable&lt;C&gt;"/>
       <doc>
       <![CDATA[Like {@link #call(Callable, Executor)} but using {@linkplain MoreExecutors#directExecutor
- direct executor}.]]>
+ direct executor}.
+
+ @deprecated Use {@linkplain #call(Callable, Executor) the overload that requires an
+     executor}. For identical behavior, pass {@link MoreExecutors#directExecutor}, but
+     consider whether another executor would be safer, as discussed in the {@link
+     ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
+     scheduled to be removed in April 2018.]]>
       </doc>
     </method>
     <doc>
