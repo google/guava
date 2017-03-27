@@ -29,6 +29,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.util.concurrent.Monitor.Guard;
 import com.google.common.util.concurrent.Service.State; // javadoc needs this
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.ForOverride;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
@@ -199,6 +200,7 @@ public abstract class AbstractService implements Service {
    * convenient. It is invoked exactly once on service startup, even when {@link #startAsync} is
    * called multiple times.
    */
+  @ForOverride
   protected abstract void doStart();
 
   /**
@@ -211,6 +213,7 @@ public abstract class AbstractService implements Service {
    * convenient. It is invoked exactly once on service shutdown, even when {@link #stopAsync} is
    * called multiple times.
    */
+  @ForOverride
   protected abstract void doStop();
 
   @CanIgnoreReturnValue
