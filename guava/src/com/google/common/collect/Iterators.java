@@ -204,7 +204,15 @@ public final class Iterators {
    */
   @CanIgnoreReturnValue
   public static boolean removeAll(Iterator<?> removeFrom, Collection<?> elementsToRemove) {
-    return removeIf(removeFrom, in(elementsToRemove));
+    checkNotNull(elementsToRemove);
+    boolean result = false;
+    while (removeFrom.hasNext()) {
+      if (elementsToRemove.contains(removeFrom.next())) {
+        removeFrom.remove();
+        result = true;
+      }
+    }
+    return result;
   }
 
   /**
@@ -242,7 +250,15 @@ public final class Iterators {
    */
   @CanIgnoreReturnValue
   public static boolean retainAll(Iterator<?> removeFrom, Collection<?> elementsToRetain) {
-    return removeIf(removeFrom, not(in(elementsToRetain)));
+    checkNotNull(elementsToRetain);
+    boolean result = false;
+    while (removeFrom.hasNext()) {
+      if (!elementsToRetain.contains(removeFrom.next())) {
+        removeFrom.remove();
+        result = true;
+      }
+    }
+    return result;
   }
 
   /**
