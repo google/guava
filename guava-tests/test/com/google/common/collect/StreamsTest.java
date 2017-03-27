@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
@@ -262,6 +263,54 @@ public class StreamsTest extends TestCase {
     assertThat(Streams.zip(Stream.of("a", "b", "c"), Stream.of(1, 2, 3, 4), (a, b) -> a + ":" + b))
         .containsExactly("a:1", "b:2", "c:3")
         .inOrder();
+  }
+
+  public void testForEachPair() {
+    List<String> list = new ArrayList<>();
+    Streams.forEachPair(
+        Stream.of("a", "b", "c"), Stream.of(1, 2, 3), (a, b) -> list.add(a + ":" + b));
+    Truth.assertThat(list).containsExactly("a:1", "b:2", "c:3");
+  }
+
+  public void testForEachPair_differingLengths1() {
+    List<String> list = new ArrayList<>();
+    Streams.forEachPair(
+        Stream.of("a", "b", "c", "d"), Stream.of(1, 2, 3), (a, b) -> list.add(a + ":" + b));
+    Truth.assertThat(list).containsExactly("a:1", "b:2", "c:3");
+  }
+
+  public void testForEachPair_differingLengths2() {
+    List<String> list = new ArrayList<>();
+    Streams.forEachPair(
+        Stream.of("a", "b", "c"), Stream.of(1, 2, 3, 4), (a, b) -> list.add(a + ":" + b));
+    Truth.assertThat(list).containsExactly("a:1", "b:2", "c:3");
+  }
+
+  public void testForEachPair_oneEmpty() {
+    Streams.forEachPair(Stream.of("a"), Stream.empty(), (a, b) -> fail());
+  }
+
+  public void testForEachPair_finiteWithInfinite() {
+    List<String> list = new ArrayList<>();
+    Streams.forEachPair(
+        Stream.of("a", "b", "c"), Stream.iterate(1, i -> i + 1), (a, b) -> list.add(a + ":" + b));
+    Truth.assertThat(list).containsExactly("a:1", "b:2", "c:3");
+  }
+
+  public void testForEachPair_parallel() {
+    Stream<String> streamA = IntStream.range(0, 100000).mapToObj(String::valueOf).parallel();
+    Stream<Integer> streamB = IntStream.range(0, 100000).mapToObj(i -> i).parallel();
+
+    AtomicInteger count = new AtomicInteger(0);
+    Streams.forEachPair(
+        streamA,
+        streamB,
+        (a, b) -> {
+          count.incrementAndGet();
+          Truth.assertThat(a.equals(String.valueOf(b))).isTrue();
+        });
+    Truth.assertThat(count.get()).isEqualTo(100000);
+    // of course, this test doesn't prove that anything actually happened in parallel...
   }
 
   // TODO(kevinb): switch to importing Truth's assertThat(Stream) if we get that added

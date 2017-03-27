@@ -33,6 +33,7 @@ import java.util.PrimitiveIterator;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.Spliterators.AbstractSpliterator;
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
@@ -205,7 +206,7 @@ public final class Streams {
   }
 
   /**
-   * Returns a stream in which each element is the result of passing the corresponding element of
+   * Returns a stream in which each element is the result of passing the corresponding elementY of
    * each of {@code streamA} and {@code streamB} to {@code function}.
    *
    * <p>For example:
@@ -222,7 +223,10 @@ public final class Streams {
    * <p>The resulting stream will only be as long as the shorter of the two input streams; if one
    * stream is longer, its extra elements will be ignored.
    *
-   * <p>The resulting stream is not <a
+   * <p>Note that if you are calling {@link Stream#forEach} on the resulting stream, you might want
+   * to consider using {@link #forEachPair} instead of this method.
+   *
+   * <p><b>Performance note:</b> The resulting stream is not <a
    * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>.
    * This may harm parallel performance.
    */
@@ -253,6 +257,59 @@ public final class Streams {
           }
         },
         isParallel);
+  }
+
+  /**
+   * Invokes {@code consumer} once for each pair of <i>corresponding</i> elements in {@code streamA}
+   * and {@code streamB}. If one stream is longer than the other, the extra elements are silently
+   * ignored. Elements passed to the consumer are guaranteed to come from the same position in their
+   * respective source streams. For example:
+   *
+   * <pre>{@code
+   * Streams.forEachPair(
+   *   Stream.of("foo1", "foo2", "foo3"),
+   *   Stream.of("bar1", "bar2"),
+   *   (arg1, arg2) -> System.out.println(arg1 + ":" + arg2)
+   * }</pre>
+   *
+   * <p>will print:
+   *
+   * <pre>{@code
+   * foo1:bar1
+   * foo2:bar2
+   * }</pre>
+   *
+   * <p><b>Warning:</b> If either supplied stream is a parallel stream, the same correspondence
+   * between elements will be made, but the order in which those pairs of elements are passed to the
+   * consumer is <i>not</i> defined.
+   *
+   * <p>Note that many usages of this method can be replaced with simpler calls to {@link #zip}.
+   * This method behaves equivalently to {@linkplain #zip zipping} the stream elements into
+   * temporary pair objects and then using {@link Stream#forEach} on that stream.
+   */
+  public static <A, B> void forEachPair(
+      Stream<A> streamA, Stream<B> streamB, BiConsumer<? super A, ? super B> consumer) {
+    checkNotNull(consumer);
+
+    if (streamA.isParallel() || streamB.isParallel()) {
+      zip(streamA, streamB, TemporaryPair::new).forEach(pair -> consumer.accept(pair.a, pair.b));
+    } else {
+      Iterator<A> iterA = streamA.iterator();
+      Iterator<B> iterB = streamB.iterator();
+      while (iterA.hasNext() && iterB.hasNext()) {
+        consumer.accept(iterA.next(), iterB.next());
+      }
+    }
+  }
+
+  private static class TemporaryPair<A, B> {
+    final A a;
+    final B b;
+
+    TemporaryPair(A a, B b) {
+      this.a = a;
+      this.b = b;
+    }
   }
 
   /**
