@@ -220,7 +220,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    *   <li>have the same bit size
    *   <li>have the same strategy
    *   <li>have equal funnels
-   *       <ul>
+   * </ul>
    *
    * @param that The Bloom filter to check for compatibility.
    * @since 15.0
