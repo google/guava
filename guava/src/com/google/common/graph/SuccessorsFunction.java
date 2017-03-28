@@ -34,11 +34,11 @@ import java.util.Set;
  *
  * <h3>Usage</h3>
  *
- * Some graph algorithms only care about the nodes that are adjacent to a node but not about the
- * type of edges (e.g. depth first search). These algorithms should prefer working with {@code
- * SuccessorGraph} rather than a more specialized type.
+ * Some graph algorithms only care about the nodes that are adjacent to a node but not about other
+ * properties such as the size or type of edges (e.g. depth first search). These algorithms should
+ * prefer working with {@code SuccessorsFunction} rather than a more specialized type.
  *
- * <p>When calling a method that requires a {@code SuccessorGraph}, you can use {@link Graph},
+ * <p>When calling a method that requires a {@code SuccessorsFunction}, you can use {@link Graph},
  * {@link ValueGraph}, {@link Network} or implement this interface for an already existing data
  * structure.
  *
@@ -57,7 +57,7 @@ import java.util.Set;
  */
 // TODO(b/35456940): Update the documentation to reflect the new interfaces
 @Beta
-public interface SuccessorGraph<N> {
+public interface SuccessorsFunction<N> {
 
   /**
    * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing

@@ -25,7 +25,7 @@ import java.util.Set;
  * @author James Sexton
  * @param <N> Node parameter type
  */
-interface BaseGraph<N> extends SuccessorGraph<N>, PredecessorGraph<N> {
+interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
   //
   // Graph-level accessors
   //

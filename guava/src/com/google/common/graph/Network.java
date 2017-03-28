@@ -57,7 +57,7 @@ import javax.annotation.Nullable;
  * NetworkBuilder} class:
  *
  * <pre>{@code
- *   MutableNetwork<Integer, MyEdge> graph = NetworkBuilder.directed().build();
+ * MutableNetwork<Integer, MyEdge> graph = NetworkBuilder.directed().build();
  * }</pre>
  *
  * <p>{@link NetworkBuilder#build()} returns an instance of {@link MutableNetwork}, which is a
@@ -70,7 +70,7 @@ import javax.annotation.Nullable;
  * ImmutableNetwork#copyOf(Network)}:
  *
  * <pre>{@code
- *   ImmutableNetwork<Integer, MyEdge> immutableGraph = ImmutableNetwork.copyOf(graph);
+ * ImmutableNetwork<Integer, MyEdge> immutableGraph = ImmutableNetwork.copyOf(graph);
  * }</pre>
  *
  * <p>Instances of {@link ImmutableNetwork} do not implement {@link MutableNetwork} (obviously!) and
@@ -104,7 +104,7 @@ import javax.annotation.Nullable;
  */
 // TODO(b/35456940): Update the documentation to reflect the new interfaces
 @Beta
-public interface Network<N, E> extends SuccessorGraph<N>, PredecessorGraph<N> {
+public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
   //
   // Network-level accessors
   //
