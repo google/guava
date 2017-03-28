@@ -31,10 +31,11 @@ import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.Spliterator;
@@ -1147,14 +1148,6 @@ public final class Multisets {
     return (Multiset<T>) iterable;
   }
 
-  private static final Ordering<Entry<?>> DECREASING_COUNT_ORDERING =
-      new Ordering<Entry<?>>() {
-        @Override
-        public int compare(Entry<?> entry1, Entry<?> entry2) {
-          return Ints.compare(entry2.getCount(), entry1.getCount());
-        }
-      };
-
   /**
    * Returns a copy of {@code multiset} as an {@link ImmutableMultiset} whose iteration order is
    * highest count first, with ties broken by the iteration order of the original multiset.
@@ -1163,8 +1156,16 @@ public final class Multisets {
    */
   @Beta
   public static <E> ImmutableMultiset<E> copyHighestCountFirst(Multiset<E> multiset) {
-    List<Entry<E>> sortedEntries =
-        Multisets.DECREASING_COUNT_ORDERING.immutableSortedCopy(multiset.entrySet());
-    return ImmutableMultiset.copyFromEntries(sortedEntries);
+    Entry<E>[] entries = (Entry<E>[]) multiset.entrySet().toArray(new Entry[0]);
+    Arrays.sort(entries, DecreasingCount.INSTANCE);
+    return ImmutableMultiset.copyFromEntries(Arrays.asList(entries));
+  }
+
+  private static final class DecreasingCount implements Comparator<Entry<?>> {
+    static final DecreasingCount INSTANCE = new DecreasingCount();
+
+    @Override public int compare(Entry<?> entry1, Entry<?> entry2) {
+      return entry2.getCount() - entry1.getCount(); // subtracting two nonnegative integers
+    }
   }
 }
