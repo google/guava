@@ -16,34 +16,30 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkElementIndex;
-
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
 import java.util.Spliterator;
 import java.util.Spliterators;
 
 /**
- * Implementation of {@link ImmutableList} backed by a simple array.
+ * Implementation of {@link ImmutableList} used for 0 or 2+ elements (not 1).
  *
  * @author Kevin Bourrillion
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 class RegularImmutableList<E> extends ImmutableList<E> {
-  static final ImmutableList<Object> EMPTY = new RegularImmutableList<Object>(new Object[0], 0);
+  static final ImmutableList<Object> EMPTY =
+      new RegularImmutableList<Object>(new Object[0]);
 
-  @VisibleForTesting final transient Object[] array;
-  private final transient int size;
+  private final transient Object[] array;
 
-  RegularImmutableList(Object[] array, int size) {
+  RegularImmutableList(Object[] array) {
     this.array = array;
-    this.size = size;
   }
 
   @Override
   public int size() {
-    return size;
+    return array.length;
   }
 
   @Override
@@ -53,15 +49,14 @@ class RegularImmutableList<E> extends ImmutableList<E> {
 
   @Override
   int copyIntoArray(Object[] dst, int dstOff) {
-    System.arraycopy(array, 0, dst, dstOff, size);
-    return dstOff + size;
+    System.arraycopy(array, 0, dst, dstOff, array.length);
+    return dstOff + array.length;
   }
 
   // The fake cast to E is safe because the creation methods only allow E's
   @Override
   @SuppressWarnings("unchecked")
   public E get(int index) {
-    checkElementIndex(index, size);
     return (E) array[index];
   }
 
@@ -70,12 +65,12 @@ class RegularImmutableList<E> extends ImmutableList<E> {
   public UnmodifiableListIterator<E> listIterator(int index) {
     // for performance
     // The fake cast to E is safe because the creation methods only allow E's
-    return (UnmodifiableListIterator<E>) Iterators.forArray(array, 0, size, index);
+    return (UnmodifiableListIterator<E>) Iterators.forArray(array, 0, array.length, index);
   }
 
   @Override
   public Spliterator<E> spliterator() {
-    return Spliterators.spliterator(array, 0, size, SPLITERATOR_CHARACTERISTICS);
+    return Spliterators.spliterator(array, SPLITERATOR_CHARACTERISTICS);
   }
 
   // TODO(lowasser): benchmark optimizations for equals() and see if they're worthwhile
