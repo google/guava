@@ -838,7 +838,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     SortedSet<String> set = ImmutableSortedSet.<String>reverseOrder()
         .add("a", "b", "c").build();
     assertThat(set).containsExactly("c", "b", "a").inOrder();
-    assertEquals(Ordering.natural().reverse(), set.comparator());
+    assertTrue(Comparators.isInOrder(Arrays.asList("c", "b", "a"), set.comparator()));
   }
 
   private static final Comparator<Object> TO_STRING

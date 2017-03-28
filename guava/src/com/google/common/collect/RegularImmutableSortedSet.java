@@ -305,7 +305,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
 
   @Override
   ImmutableSortedSet<E> createDescendingSet() {
-    Ordering<E> reversedOrder = Ordering.from(comparator).reverse();
+    Comparator<? super E> reversedOrder = Collections.reverseOrder(comparator);
     return isEmpty()
         ? emptySet(reversedOrder)
         : new RegularImmutableSortedSet<E>(elements.reverse(), reversedOrder);
