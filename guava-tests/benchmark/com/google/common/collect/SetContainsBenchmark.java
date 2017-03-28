@@ -46,7 +46,7 @@ public class SetContainsBenchmark {
   @Param("")
   private SpecialRandom random;
 
-  @Param({"Hash", "Immutable"})
+  @Param({"HashSetImpl", "ImmutableSetImpl"})
   private SetImpl impl;
 
   // the following must be set during setUp
@@ -58,7 +58,7 @@ public class SetContainsBenchmark {
         new CollectionBenchmarkSampleData(
             isUserTypeFast, random, hitRate, size);
 
-    this.setToTest = impl.create(sampleData.getValuesInSet());
+    this.setToTest = (Set<Element>)impl.create(sampleData.getValuesInSet());
     this.queries = sampleData.getQueries();
   }
 
