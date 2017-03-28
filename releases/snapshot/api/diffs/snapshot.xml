@@ -34568,7 +34568,7 @@
       <param name="streamB" type="java.util.stream.Stream&lt;B&gt;"/>
       <param name="function" type="java.util.function.BiFunction&lt;? super A, ? super B, R&gt;"/>
       <doc>
-      <![CDATA[Returns a stream in which each element is the result of passing the corresponding element of
+      <![CDATA[Returns a stream in which each element is the result of passing the corresponding elementY of
  each of {@code streamA} and {@code streamB} to {@code function}.
 
  <p>For example:
@@ -34585,9 +34585,48 @@
  <p>The resulting stream will only be as long as the shorter of the two input streams; if one
  stream is longer, its extra elements will be ignored.
 
- <p>The resulting stream is not <a
+ <p>Note that if you are calling {@link Stream#forEach} on the resulting stream, you might want
+ to consider using {@link #forEachPair} instead of this method.
+
+ <p><b>Performance note:</b> The resulting stream is not <a
  href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>.
  This may harm parallel performance.]]>
+      </doc>
+    </method>
+    <method name="forEachPair"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="streamA" type="java.util.stream.Stream&lt;A&gt;"/>
+      <param name="streamB" type="java.util.stream.Stream&lt;B&gt;"/>
+      <param name="consumer" type="java.util.function.BiConsumer&lt;? super A, ? super B&gt;"/>
+      <doc>
+      <![CDATA[Invokes {@code consumer} once for each pair of <i>corresponding</i> elements in {@code streamA}
+ and {@code streamB}. If one stream is longer than the other, the extra elements are silently
+ ignored. Elements passed to the consumer are guaranteed to come from the same position in their
+ respective source streams. For example:
+
+ <pre>{@code
+ Streams.forEachPair(
+   Stream.of("foo1", "foo2", "foo3"),
+   Stream.of("bar1", "bar2"),
+   (arg1, arg2) -> System.out.println(arg1 + ":" + arg2)
+ }</pre>
+
+ <p>will print:
+
+ <pre>{@code
+ foo1:bar1
+ foo2:bar2
+ }</pre>
+
+ <p><b>Warning:</b> If either supplied stream is a parallel stream, the same correspondence
+ between elements will be made, but the order in which those pairs of elements are passed to the
+ consumer is <i>not</i> defined.
+
+ <p>Note that many usages of this method can be replaced with simpler calls to {@link #zip}.
+ This method behaves equivalently to {@linkplain #zip zipping} the stream elements into
+ temporary pair objects and then using {@link Stream#forEach} on that stream.]]>
       </doc>
     </method>
     <method name="mapWithIndex" return="java.util.stream.Stream&lt;R&gt;"
@@ -38776,8 +38815,8 @@
   <interface name="Network"    abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
-    <implements name="com.google.common.graph.SuccessorGraph&lt;N&gt;"/>
-    <implements name="com.google.common.graph.PredecessorGraph&lt;N&gt;"/>
+    <implements name="com.google.common.graph.SuccessorsFunction&lt;N&gt;"/>
+    <implements name="com.google.common.graph.PredecessorsFunction&lt;N&gt;"/>
     <method name="nodes" return="java.util.Set&lt;N&gt;"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -39117,7 +39156,7 @@
  NetworkBuilder} class:
 
  <pre>{@code
-   MutableNetwork<Integer, MyEdge> graph = NetworkBuilder.directed().build();
+ MutableNetwork<Integer, MyEdge> graph = NetworkBuilder.directed().build();
  }</pre>
 
  <p>{@link NetworkBuilder#build()} returns an instance of {@link MutableNetwork}, which is a
@@ -39130,7 +39169,7 @@
  ImmutableNetwork#copyOf(Network)}:
 
  <pre>{@code
-   ImmutableNetwork<Integer, MyEdge> immutableGraph = ImmutableNetwork.copyOf(graph);
+ ImmutableNetwork<Integer, MyEdge> immutableGraph = ImmutableNetwork.copyOf(graph);
  }</pre>
 
  <p>Instances of {@link ImmutableNetwork} do not implement {@link MutableNetwork} (obviously!) and
@@ -39296,8 +39335,8 @@
     </doc>
   </class>
   <!-- end class com.google.common.graph.NetworkBuilder -->
-  <!-- start interface com.google.common.graph.PredecessorGraph -->
-  <interface name="PredecessorGraph"    abstract="true"
+  <!-- start interface com.google.common.graph.PredecessorsFunction -->
+  <interface name="PredecessorsFunction"    abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
     <method name="predecessors" return="java.util.Set&lt;N&gt;"
@@ -39326,11 +39365,11 @@
 
  <h3>Usage</h3>
 
- Some graph algorithms only care about the nodes that are adjacent to a node but not about the
- type of edges (e.g. topological sort). These algorithms should prefer working with {@code
- PredecessorGraph} rather than a more specialized type.
+ Some graph algorithms only care about the nodes that are adjacent to a node but not about other
+ properties such as the size or type of edges (e.g. topological sort). These algorithms should
+ prefer working with {@code PredecessorsFunction} rather than a more specialized type.
 
- <p>When calling a method that requires a {@code PredecessorGraph}, you can use {@link Graph},
+ <p>When calling a method that requires a {@code PredecessorsFunction}, you can use {@link Graph},
  {@link ValueGraph}, {@link Network} or implement this interface for an already existing data
  structure.
 
@@ -39348,9 +39387,9 @@
  @since 22.0]]>
     </doc>
   </interface>
-  <!-- end interface com.google.common.graph.PredecessorGraph -->
-  <!-- start interface com.google.common.graph.SuccessorGraph -->
-  <interface name="SuccessorGraph"    abstract="true"
+  <!-- end interface com.google.common.graph.PredecessorsFunction -->
+  <!-- start interface com.google.common.graph.SuccessorsFunction -->
+  <interface name="SuccessorsFunction"    abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
     <method name="successors" return="java.util.Set&lt;N&gt;"
@@ -39382,11 +39421,11 @@
 
  <h3>Usage</h3>
 
- Some graph algorithms only care about the nodes that are adjacent to a node but not about the
- type of edges (e.g. depth first search). These algorithms should prefer working with {@code
- SuccessorGraph} rather than a more specialized type.
+ Some graph algorithms only care about the nodes that are adjacent to a node but not about other
+ properties such as the size or type of edges (e.g. depth first search). These algorithms should
+ prefer working with {@code SuccessorsFunction} rather than a more specialized type.
 
- <p>When calling a method that requires a {@code SuccessorGraph}, you can use {@link Graph},
+ <p>When calling a method that requires a {@code SuccessorsFunction}, you can use {@link Graph},
  {@link ValueGraph}, {@link Network} or implement this interface for an already existing data
  structure.
 
@@ -39404,7 +39443,7 @@
  @since 22.0]]>
     </doc>
   </interface>
-  <!-- end interface com.google.common.graph.SuccessorGraph -->
+  <!-- end interface com.google.common.graph.SuccessorsFunction -->
   <!-- start interface com.google.common.graph.ValueGraph -->
   <interface name="ValueGraph"    abstract="true"
     static="false" final="false" visibility="public"

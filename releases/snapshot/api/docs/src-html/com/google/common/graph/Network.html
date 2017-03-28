@@ -65,7 +65,7 @@
 <span class="sourceLineNo">057</span> * NetworkBuilder} class:<a name="line.57"></a>
 <span class="sourceLineNo">058</span> *<a name="line.58"></a>
 <span class="sourceLineNo">059</span> * &lt;pre&gt;{@code<a name="line.59"></a>
-<span class="sourceLineNo">060</span> *   MutableNetwork&lt;Integer, MyEdge&gt; graph = NetworkBuilder.directed().build();<a name="line.60"></a>
+<span class="sourceLineNo">060</span> * MutableNetwork&lt;Integer, MyEdge&gt; graph = NetworkBuilder.directed().build();<a name="line.60"></a>
 <span class="sourceLineNo">061</span> * }&lt;/pre&gt;<a name="line.61"></a>
 <span class="sourceLineNo">062</span> *<a name="line.62"></a>
 <span class="sourceLineNo">063</span> * &lt;p&gt;{@link NetworkBuilder#build()} returns an instance of {@link MutableNetwork}, which is a<a name="line.63"></a>
@@ -78,7 +78,7 @@
 <span class="sourceLineNo">070</span> * ImmutableNetwork#copyOf(Network)}:<a name="line.70"></a>
 <span class="sourceLineNo">071</span> *<a name="line.71"></a>
 <span class="sourceLineNo">072</span> * &lt;pre&gt;{@code<a name="line.72"></a>
-<span class="sourceLineNo">073</span> *   ImmutableNetwork&lt;Integer, MyEdge&gt; immutableGraph = ImmutableNetwork.copyOf(graph);<a name="line.73"></a>
+<span class="sourceLineNo">073</span> * ImmutableNetwork&lt;Integer, MyEdge&gt; immutableGraph = ImmutableNetwork.copyOf(graph);<a name="line.73"></a>
 <span class="sourceLineNo">074</span> * }&lt;/pre&gt;<a name="line.74"></a>
 <span class="sourceLineNo">075</span> *<a name="line.75"></a>
 <span class="sourceLineNo">076</span> * &lt;p&gt;Instances of {@link ImmutableNetwork} do not implement {@link MutableNetwork} (obviously!) and<a name="line.76"></a>
@@ -112,7 +112,7 @@
 <span class="sourceLineNo">104</span> */<a name="line.104"></a>
 <span class="sourceLineNo">105</span>// TODO(b/35456940): Update the documentation to reflect the new interfaces<a name="line.105"></a>
 <span class="sourceLineNo">106</span>@Beta<a name="line.106"></a>
-<span class="sourceLineNo">107</span>public interface Network&lt;N, E&gt; extends SuccessorGraph&lt;N&gt;, PredecessorGraph&lt;N&gt; {<a name="line.107"></a>
+<span class="sourceLineNo">107</span>public interface Network&lt;N, E&gt; extends SuccessorsFunction&lt;N&gt;, PredecessorsFunction&lt;N&gt; {<a name="line.107"></a>
 <span class="sourceLineNo">108</span>  //<a name="line.108"></a>
 <span class="sourceLineNo">109</span>  // Network-level accessors<a name="line.109"></a>
 <span class="sourceLineNo">110</span>  //<a name="line.110"></a>
