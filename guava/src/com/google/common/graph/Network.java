@@ -164,7 +164,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  Set<N> adjacentNodes(@CompatibleWith("N") Object node);
+  Set<N> adjacentNodes(N node);
 
   /**
    * Returns all nodes in this network adjacent to {@code node} which can be reached by traversing
@@ -175,7 +175,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
   @Override
-  Set<N> predecessors(Object node);
+  Set<N> predecessors(N node);
 
   /**
    * Returns all nodes in this network adjacent to {@code node} which can be reached by traversing
@@ -189,7 +189,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
   @Override
-  Set<N> successors(Object node);
+  Set<N> successors(N node);
 
   /**
    * Returns the edges whose {@link #incidentNodes(Object) incident nodes} in this network include
@@ -197,7 +197,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  Set<E> incidentEdges(@CompatibleWith("N") Object node);
+  Set<E> incidentEdges(N node);
 
   /**
    * Returns all edges in this network which can be traversed in the direction (if any) of the edge
@@ -209,7 +209,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  Set<E> inEdges(@CompatibleWith("N") Object node);
+  Set<E> inEdges(N node);
 
   /**
    * Returns all edges in this network which can be traversed in the direction (if any) of the edge
@@ -221,7 +221,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  Set<E> outEdges(@CompatibleWith("N") Object node);
+  Set<E> outEdges(N node);
 
   /**
    * Returns the count of {@code node}'s {@link #incidentEdges(Object) incident edges}, counting
@@ -236,7 +236,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  int degree(@CompatibleWith("N") Object node);
+  int degree(N node);
 
   /**
    * Returns the count of {@code node}'s {@link #inEdges(Object) incoming edges} in a directed
@@ -246,7 +246,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  int inDegree(@CompatibleWith("N") Object node);
+  int inDegree(N node);
 
   /**
    * Returns the count of {@code node}'s {@link #outEdges(Object) outgoing edges} in a directed
@@ -256,7 +256,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  int outDegree(@CompatibleWith("N") Object node);
+  int outDegree(N node);
 
   /**
    * Returns the nodes which are the endpoints of {@code edge} in this network.
@@ -285,7 +285,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
    *     network
    */
-  Set<E> edgesConnecting(@CompatibleWith("N") Object nodeU, @CompatibleWith("N") Object nodeV);
+  Set<E> edgesConnecting(N nodeU, N nodeV);
 
   /**
    * Returns the single edge directly connecting {@code nodeU} to {@code nodeV}, if one is present.
@@ -297,7 +297,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
    *     network
    */
-  Optional<E> edgeConnecting(@CompatibleWith("N") Object nodeU, @CompatibleWith("N") Object nodeV);
+  Optional<E> edgeConnecting(N nodeU, N nodeV);
 
   //
   // Network identity

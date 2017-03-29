@@ -118,7 +118,7 @@ final class ConfigurableMutableNetwork<N, E> extends ConfigurableNetwork<N, E>
 
   @Override
   @CanIgnoreReturnValue
-  public boolean removeNode(Object node) {
+  public boolean removeNode(N node) {
     checkNotNull(node, "node");
 
     NetworkConnections<N, E> connections = nodeConnections.get(node);

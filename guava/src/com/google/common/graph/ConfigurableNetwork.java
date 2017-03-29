@@ -128,7 +128,7 @@ class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   }
 
   @Override
-  public Set<E> incidentEdges(Object node) {
+  public Set<E> incidentEdges(N node) {
     return checkedConnections(node).incidentEdges();
   }
 
@@ -140,12 +140,12 @@ class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   }
 
   @Override
-  public Set<N> adjacentNodes(Object node) {
+  public Set<N> adjacentNodes(N node) {
     return checkedConnections(node).adjacentNodes();
   }
 
   @Override
-  public Set<E> edgesConnecting(Object nodeU, Object nodeV) {
+  public Set<E> edgesConnecting(N nodeU, N nodeV) {
     NetworkConnections<N, E> connectionsU = checkedConnections(nodeU);
     if (!allowsSelfLoops && nodeU == nodeV) { // just an optimization, only check reference equality
       return ImmutableSet.of();
@@ -155,22 +155,22 @@ class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   }
 
   @Override
-  public Set<E> inEdges(Object node) {
+  public Set<E> inEdges(N node) {
     return checkedConnections(node).inEdges();
   }
 
   @Override
-  public Set<E> outEdges(Object node) {
+  public Set<E> outEdges(N node) {
     return checkedConnections(node).outEdges();
   }
 
   @Override
-  public Set<N> predecessors(Object node) {
+  public Set<N> predecessors(N node) {
     return checkedConnections(node).predecessors();
   }
 
   @Override
-  public Set<N> successors(Object node) {
+  public Set<N> successors(N node) {
     return checkedConnections(node).successors();
   }
 

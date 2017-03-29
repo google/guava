@@ -55,7 +55,7 @@ public final class Graphs {
    *
    * <p>This method will detect any non-empty cycle, including self-loops (a cycle of length 1).
    */
-  public static boolean hasCycle(Graph<?> graph) {
+  public static <N> boolean hasCycle(Graph<N> graph) {
     int numEdges = graph.edges().size();
     if (numEdges == 0) {
       return false; // An edge-free graph is acyclic by definition.
@@ -66,7 +66,7 @@ public final class Graphs {
 
     Map<Object, NodeVisitState> visitedNodes =
         Maps.newHashMapWithExpectedSize(graph.nodes().size());
-    for (Object node : graph.nodes()) {
+    for (N node : graph.nodes()) {
       if (subgraphHasCycle(graph, visitedNodes, node, null)) {
         return true;
       }
@@ -97,11 +97,8 @@ public final class Graphs {
    * already visited (following only outgoing edges and without reusing edges), we know there's a
    * cycle in the graph.
    */
-  private static boolean subgraphHasCycle(
-      Graph<?> graph,
-      Map<Object, NodeVisitState> visitedNodes,
-      Object node,
-      @Nullable Object previousNode) {
+  private static <N> boolean subgraphHasCycle(
+      Graph<N> graph, Map<Object, NodeVisitState> visitedNodes, N node, @Nullable N previousNode) {
     NodeVisitState state = visitedNodes.get(node);
     if (state == NodeVisitState.COMPLETE) {
       return false;
@@ -111,7 +108,7 @@ public final class Graphs {
     }
 
     visitedNodes.put(node, NodeVisitState.PENDING);
-    for (Object nextNode : graph.successors(node)) {
+    for (N nextNode : graph.successors(node)) {
       if (canTraverseWithoutReusingEdge(graph, nextNode, previousNode)
           && subgraphHasCycle(graph, visitedNodes, nextNode, node)) {
         return true;
@@ -191,13 +188,12 @@ public final class Graphs {
    *
    * @throws IllegalArgumentException if {@code node} is not present in {@code graph}
    */
-  @SuppressWarnings("unchecked") // Safe because we only cast if node is an element of the graph.
-  public static <N> Set<N> reachableNodes(Graph<N> graph, Object node) {
+  public static <N> Set<N> reachableNodes(Graph<N> graph, N node) {
     checkArgument(graph.nodes().contains(node), NODE_NOT_IN_GRAPH, node);
     Set<N> visitedNodes = new LinkedHashSet<N>();
     Queue<N> queuedNodes = new ArrayDeque<N>();
-    visitedNodes.add((N) node);
-    queuedNodes.add((N) node);
+    visitedNodes.add(node);
+    queuedNodes.add(node);
     // Perform a breadth-first traversal rooted at the input node.
     while (!queuedNodes.isEmpty()) {
       N currentNode = queuedNodes.remove();
@@ -298,17 +294,17 @@ public final class Graphs {
     }
 
     @Override
-    public Set<N> adjacentNodes(Object node) {
+    public Set<N> adjacentNodes(N node) {
       return graph.adjacentNodes(node);
     }
 
     @Override
-    public Set<N> predecessors(Object node) {
+    public Set<N> predecessors(N node) {
       return graph.successors(node); // transpose
     }
 
     @Override
-    public Set<N> successors(Object node) {
+    public Set<N> successors(N node) {
       return graph.predecessors(node); // transpose
     }
   }
@@ -366,27 +362,27 @@ public final class Graphs {
     }
 
     @Override
-    public Set<N> adjacentNodes(Object node) {
+    public Set<N> adjacentNodes(N node) {
       return graph.adjacentNodes(node);
     }
 
     @Override
-    public Set<N> predecessors(Object node) {
+    public Set<N> predecessors(N node) {
       return graph.successors(node); // transpose
     }
 
     @Override
-    public Set<N> successors(Object node) {
+    public Set<N> successors(N node) {
       return graph.predecessors(node); // transpose
     }
 
     @Override
-    public V edgeValue(Object nodeU, Object nodeV) {
+    public V edgeValue(N nodeU, N nodeV) {
       return graph.edgeValue(nodeV, nodeU); // transpose
     }
 
     @Override
-    public V edgeValueOrDefault(Object nodeU, Object nodeV, @Nullable V defaultValue) {
+    public V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue) {
       return graph.edgeValueOrDefault(nodeV, nodeU, defaultValue); // transpose
     }
   }
@@ -450,32 +446,32 @@ public final class Graphs {
     }
 
     @Override
-    public Set<N> adjacentNodes(Object node) {
+    public Set<N> adjacentNodes(N node) {
       return network.adjacentNodes(node);
     }
 
     @Override
-    public Set<N> predecessors(Object node) {
+    public Set<N> predecessors(N node) {
       return network.successors(node); // transpose
     }
 
     @Override
-    public Set<N> successors(Object node) {
+    public Set<N> successors(N node) {
       return network.predecessors(node); // transpose
     }
 
     @Override
-    public Set<E> incidentEdges(Object node) {
+    public Set<E> incidentEdges(N node) {
       return network.incidentEdges(node);
     }
 
     @Override
-    public Set<E> inEdges(Object node) {
+    public Set<E> inEdges(N node) {
       return network.outEdges(node); // transpose
     }
 
     @Override
-    public Set<E> outEdges(Object node) {
+    public Set<E> outEdges(N node) {
       return network.inEdges(node); // transpose
     }
 
@@ -491,12 +487,12 @@ public final class Graphs {
     }
 
     @Override
-    public Set<E> edgesConnecting(Object nodeU, Object nodeV) {
+    public Set<E> edgesConnecting(N nodeU, N nodeV) {
       return network.edgesConnecting(nodeV, nodeU); // transpose
     }
 
     @Override
-    public Optional<E> edgeConnecting(Object nodeU, Object nodeV) {
+    public Optional<E> edgeConnecting(N nodeU, N nodeV) {
       return network.edgeConnecting(nodeV, nodeU); // transpose
     }
   }

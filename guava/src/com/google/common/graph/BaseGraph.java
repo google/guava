@@ -16,7 +16,6 @@
 
 package com.google.common.graph;
 
-import com.google.errorprone.annotations.CompatibleWith;
 import java.util.Set;
 
 /**
@@ -66,7 +65,7 @@ interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  Set<N> adjacentNodes(@CompatibleWith("N") Object node);
+  Set<N> adjacentNodes(N node);
 
   /**
    * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
@@ -77,7 +76,7 @@ interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
   @Override
-  Set<N> predecessors(Object node);
+  Set<N> predecessors(N node);
 
   /**
    * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
@@ -91,7 +90,7 @@ interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
   @Override
-  Set<N> successors(Object node);
+  Set<N> successors(N node);
 
   /**
    * Returns the count of {@code node}'s incident edges, counting self-loops twice (equivalently,
@@ -106,7 +105,7 @@ interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  int degree(@CompatibleWith("N") Object node);
+  int degree(N node);
 
   /**
    * Returns the count of {@code node}'s incoming edges (equal to {@code predecessors(node).size()})
@@ -116,7 +115,7 @@ interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  int inDegree(@CompatibleWith("N") Object node);
+  int inDegree(N node);
 
   /**
    * Returns the count of {@code node}'s outgoing edges (equal to {@code successors(node).size()})
@@ -126,7 +125,7 @@ interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  int outDegree(@CompatibleWith("N") Object node);
+  int outDegree(N node);
 
   /**
    * Returns true if there is an edge directly connecting {@code nodeU} to {@code nodeV}. This is
@@ -134,5 +133,5 @@ interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
    *
    * <p>In an undirected graph, this is equal to {@code hasEdge(nodeV, nodeU)}.
    */
-  boolean hasEdge(@CompatibleWith("N") Object nodeU, @CompatibleWith("N") Object nodeV);
+  boolean hasEdge(N nodeU, N nodeV);
 }

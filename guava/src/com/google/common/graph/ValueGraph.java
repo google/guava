@@ -17,7 +17,6 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
-import com.google.errorprone.annotations.CompatibleWith;
 import java.util.Set;
 import javax.annotation.Nullable;
 
@@ -149,31 +148,31 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
 
   /** {@inheritDoc} */
   @Override
-  Set<N> adjacentNodes(Object node);
+  Set<N> adjacentNodes(N node);
 
   /** {@inheritDoc} */
   @Override
-  Set<N> predecessors(Object node);
+  Set<N> predecessors(N node);
 
   /** {@inheritDoc} */
   @Override
-  Set<N> successors(Object node);
+  Set<N> successors(N node);
 
   /** {@inheritDoc} */
   @Override
-  int degree(Object node);
+  int degree(N node);
 
   /** {@inheritDoc} */
   @Override
-  int inDegree(Object node);
+  int inDegree(N node);
 
   /** {@inheritDoc} */
   @Override
-  int outDegree(Object node);
+  int outDegree(N node);
 
   /** {@inheritDoc} */
   @Override
-  boolean hasEdge(Object nodeU, Object nodeV);
+  boolean hasEdge(N nodeU, N nodeV);
 
   /**
    * If there is an edge connecting {@code nodeU} to {@code nodeV}, returns the non-null value
@@ -183,7 +182,7 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
    *
    * @throws IllegalArgumentException if there is no edge connecting {@code nodeU} to {@code nodeV}.
    */
-  V edgeValue(@CompatibleWith("N") Object nodeU, @CompatibleWith("N") Object nodeV);
+  V edgeValue(N nodeU, N nodeV);
 
   /**
    * If there is an edge connecting {@code nodeU} to {@code nodeV}, returns the non-null value
@@ -192,8 +191,7 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
    * <p>In an undirected graph, this is equal to {@code edgeValueOrDefault(nodeV, nodeU,
    * defaultValue)}.
    */
-  V edgeValueOrDefault(@CompatibleWith("N") Object nodeU, @CompatibleWith("N") Object nodeV,
-      @Nullable V defaultValue);
+  V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue);
 
   //
   // ValueGraph identity

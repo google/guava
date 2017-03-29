@@ -54,32 +54,32 @@ abstract class ForwardingGraph<N> extends AbstractGraph<N> {
   }
 
   @Override
-  public Set<N> adjacentNodes(Object node) {
+  public Set<N> adjacentNodes(N node) {
     return delegate().adjacentNodes(node);
   }
 
   @Override
-  public Set<N> predecessors(Object node) {
+  public Set<N> predecessors(N node) {
     return delegate().predecessors(node);
   }
 
   @Override
-  public Set<N> successors(Object node) {
+  public Set<N> successors(N node) {
     return delegate().successors(node);
   }
 
   @Override
-  public int degree(Object node) {
+  public int degree(N node) {
     return delegate().degree(node);
   }
 
   @Override
-  public int inDegree(Object node) {
+  public int inDegree(N node) {
     return delegate().inDegree(node);
   }
 
   @Override
-  public int outDegree(Object node) {
+  public int outDegree(N node) {
     return delegate().outDegree(node);
   }
 }

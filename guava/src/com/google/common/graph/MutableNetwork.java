@@ -71,7 +71,7 @@ public interface MutableNetwork<N, E> extends Network<N, E> {
    * @return {@code true} if the network was modified as a result of this call
    */
   @CanIgnoreReturnValue
-  boolean removeNode(@CompatibleWith("N") Object node);
+  boolean removeNode(N node);
 
   /**
    * Removes {@code edge} from this network, if it is present.

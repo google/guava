@@ -78,6 +78,10 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
             return AbstractNetwork.this.edges().size();
           }
 
+          // Mostly safe: We check contains(u) before calling successors(u), so we perform unsafe
+          // operations only in weird cases like checking for an EndpointPair<ArrayList> in a
+          // Network<LinkedList>.
+          @SuppressWarnings("unchecked")
           @Override
           public boolean contains(@Nullable Object obj) {
             if (!(obj instanceof EndpointPair)) {
@@ -86,7 +90,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
             EndpointPair<?> endpointPair = (EndpointPair<?>) obj;
             return isDirected() == endpointPair.isOrdered()
                 && nodes().contains(endpointPair.nodeU())
-                && successors(endpointPair.nodeU()).contains(endpointPair.nodeV());
+                && successors((N) endpointPair.nodeU()).contains(endpointPair.nodeV());
           }
         };
       }
@@ -107,17 +111,17 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
       }
 
       @Override
-      public Set<N> adjacentNodes(Object node) {
+      public Set<N> adjacentNodes(N node) {
         return AbstractNetwork.this.adjacentNodes(node);
       }
 
       @Override
-      public Set<N> predecessors(Object node) {
+      public Set<N> predecessors(N node) {
         return AbstractNetwork.this.predecessors(node);
       }
 
       @Override
-      public Set<N> successors(Object node) {
+      public Set<N> successors(N node) {
         return AbstractNetwork.this.successors(node);
       }
 
@@ -126,7 +130,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
   }
 
   @Override
-  public int degree(Object node) {
+  public int degree(N node) {
     if (isDirected()) {
       return IntMath.saturatedAdd(inEdges(node).size(), outEdges(node).size());
     } else {
@@ -135,25 +139,25 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
   }
 
   @Override
-  public int inDegree(Object node) {
+  public int inDegree(N node) {
     return isDirected() ? inEdges(node).size() : degree(node);
   }
 
   @Override
-  public int outDegree(Object node) {
+  public int outDegree(N node) {
     return isDirected() ? outEdges(node).size() : degree(node);
   }
 
   @Override
   public Set<E> adjacentEdges(Object edge) {
-    EndpointPair<?> endpointPair = incidentNodes(edge); // Verifies that edge is in this network.
+    EndpointPair<N> endpointPair = incidentNodes(edge); // Verifies that edge is in this network.
     Set<E> endpointPairIncidentEdges =
         Sets.union(incidentEdges(endpointPair.nodeU()), incidentEdges(endpointPair.nodeV()));
     return Sets.difference(endpointPairIncidentEdges, ImmutableSet.of(edge));
   }
 
   @Override
-  public Optional<E> edgeConnecting(Object nodeU, Object nodeV) {
+  public Optional<E> edgeConnecting(N nodeU, N nodeV) {
     Set<E> edgesConnecting = edgesConnecting(nodeU, nodeV);
     switch (edgesConnecting.size()) {
       case 0:

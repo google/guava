@@ -101,22 +101,22 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
   }
 
   @Override
-  public Set<N> adjacentNodes(Object node) {
+  public Set<N> adjacentNodes(N node) {
     return checkedConnections(node).adjacentNodes();
   }
 
   @Override
-  public Set<N> predecessors(Object node) {
+  public Set<N> predecessors(N node) {
     return checkedConnections(node).predecessors();
   }
 
   @Override
-  public Set<N> successors(Object node) {
+  public Set<N> successors(N node) {
     return checkedConnections(node).successors();
   }
 
   @Override
-  public boolean hasEdge(Object nodeU, Object nodeV) {
+  public boolean hasEdge(N nodeU, N nodeV) {
     checkNotNull(nodeU);
     checkNotNull(nodeV);
     GraphConnections<N, V> connectionsU = nodeConnections.get(nodeU);
@@ -124,7 +124,7 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
   }
 
   @Override
-  public V edgeValueOrDefault(Object nodeU, Object nodeV, @Nullable V defaultValue) {
+  public V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue) {
     GraphConnections<N, V> connectionsU = nodeConnections.get(nodeU);
     if (connectionsU == null) {
       return defaultValue;
@@ -141,7 +141,7 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
     return edgeCount;
   }
 
-  protected final GraphConnections<N, V> checkedConnections(Object node) {
+  protected final GraphConnections<N, V> checkedConnections(N node) {
     GraphConnections<N, V> connections = nodeConnections.get(node);
     if (connections == null) {
       checkNotNull(node);
@@ -150,7 +150,7 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
     return connections;
   }
 
-  protected final boolean containsNode(@Nullable Object node) {
+  protected final boolean containsNode(@Nullable N node) {
     return nodeConnections.containsKey(node);
   }
 }
