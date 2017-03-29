@@ -286,6 +286,8 @@ public final class Streams {
    * <p>Note that many usages of this method can be replaced with simpler calls to {@link #zip}.
    * This method behaves equivalently to {@linkplain #zip zipping} the stream elements into
    * temporary pair objects and then using {@link Stream#forEach} on that stream.
+   *
+   * @since 22.0
    */
   public static <A, B> void forEachPair(
       Stream<A> streamA, Stream<B> streamB, BiConsumer<? super A, ? super B> consumer) {
@@ -302,6 +304,7 @@ public final class Streams {
     }
   }
 
+  // Use this carefully - it doesn't implement value semantics
   private static class TemporaryPair<A, B> {
     final A a;
     final B b;
