@@ -475,6 +475,11 @@
 <dd>
 <div class="block">Adds the given value to the dataset.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.Builder.html#add-int-">add(int)</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.Builder.html" title="class in com.google.common.primitives">ImmutableIntArray.Builder</a></dt>
+<dd>
+<div class="block">Appends <code>value</code> to the end of the values the built <a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives"><code>ImmutableIntArray</code></a> will
+ contain.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ExecutionList.html#add-java.lang.Runnable-java.util.concurrent.Executor-">add(Runnable, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ExecutionList.html" title="class in com.google.common.util.concurrent">ExecutionList</a></dt>
 <dd>
 <div class="block">Adds the <code>Runnable</code> and accompanying <code>Executor</code> to the list of listeners to
@@ -625,6 +630,22 @@
 <dd>
 <div class="block">Adds the given statistics to the dataset, as if the individual values used to compute the
  statistics had been added directly.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.Builder.html#addAll-int:A-">addAll(int[])</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.Builder.html" title="class in com.google.common.primitives">ImmutableIntArray.Builder</a></dt>
+<dd>
+<div class="block">Appends <code>values</code>, in order, to the end of the values the built <a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives"><code>ImmutableIntArray</code></a> will contain.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.Builder.html#addAll-java.lang.Iterable-">addAll(Iterable&lt;Integer&gt;)</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.Builder.html" title="class in com.google.common.primitives">ImmutableIntArray.Builder</a></dt>
+<dd>
+<div class="block">Appends <code>values</code>, in order, to the end of the values the built <a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives"><code>ImmutableIntArray</code></a> will contain.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.Builder.html#addAll-java.util.Collection-">addAll(Collection&lt;Integer&gt;)</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.Builder.html" title="class in com.google.common.primitives">ImmutableIntArray.Builder</a></dt>
+<dd>
+<div class="block">Appends <code>values</code>, in order, to the end of the values the built <a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives"><code>ImmutableIntArray</code></a> will contain.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.Builder.html#addAll-com.google.common.primitives.ImmutableIntArray-">addAll(ImmutableIntArray)</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.Builder.html" title="class in com.google.common.primitives">ImmutableIntArray.Builder</a></dt>
+<dd>
+<div class="block">Appends <code>values</code>, in order, to the end of the values the built <a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives"><code>ImmutableIntArray</code></a> will contain.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AtomicDouble.html#addAndGet-double-">addAndGet(double)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AtomicDouble.html" title="class in com.google.common.util.concurrent">AtomicDouble</a></dt>
 <dd>
@@ -1394,6 +1415,10 @@
 <div class="block">Returns a fixed-size list backed by the specified array, similar to
  <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Arrays.html?is-external=true#asList-T...-" title="class or interface in java.util"><code>Arrays.asList(Object[])</code></a>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#asList--">asList()</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Returns an immutable <i>view</i> of this array's values as a <code>List</code>; note that <code>int</code> values are boxed into <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang"><code>Integer</code></a> instances on demand, which can be very expensive.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/primitives/Ints.html#asList-int...-">asList(int...)</a></span> - Static method in class com.google.common.primitives.<a href="com/google/common/primitives/Ints.html" title="class in com.google.common.primitives">Ints</a></dt>
 <dd>
 <div class="block">Returns a fixed-size list backed by the specified array, similar to
@@ -1988,6 +2013,10 @@
 <dd>
 <div class="block">Returns an empty <a href="com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph"><code>MutableValueGraph</code></a> with the properties of this <a href="com/google/common/graph/ValueGraphBuilder.html" title="class in com.google.common.graph"><code>ValueGraphBuilder</code></a>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.Builder.html#build--">build()</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.Builder.html" title="class in com.google.common.primitives">ImmutableIntArray.Builder</a></dt>
+<dd>
+<div class="block">Returns a new immutable array.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/reflect/ImmutableTypeToInstanceMap.Builder.html#build--">build()</a></span> - Method in class com.google.common.reflect.<a href="com/google/common/reflect/ImmutableTypeToInstanceMap.Builder.html" title="class in com.google.common.reflect">ImmutableTypeToInstanceMap.Builder</a></dt>
 <dd>
 <div class="block">Returns a new immutable type-to-instance map containing the entries provided to this builder.</div>
@@ -2107,6 +2136,16 @@
 <dt><span class="memberNameLink"><a href="com/google/common/escape/Escapers.html#builder--">builder()</a></span> - Static method in class com.google.common.escape.<a href="com/google/common/escape/Escapers.html" title="class in com.google.common.escape">Escapers</a></dt>
 <dd>
 <div class="block">Returns a builder for creating simple, fast escapers.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#builder-int-">builder(int)</a></span> - Static method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Returns a new, empty builder for <a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives"><code>ImmutableIntArray</code></a> instances, sized to hold up to
+ <code>initialCapacity</code> values without resizing.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#builder--">builder()</a></span> - Static method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Returns a new, empty builder for <a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives"><code>ImmutableIntArray</code></a> instances, with a default initial
+ capacity.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/reflect/ImmutableTypeToInstanceMap.html#builder--">builder()</a></span> - Static method in class com.google.common.reflect.<a href="com/google/common/reflect/ImmutableTypeToInstanceMap.html" title="class in com.google.common.reflect">ImmutableTypeToInstanceMap</a></dt>
 <dd>
@@ -3881,6 +3920,10 @@
 <dd>
 <div class="block">Returns <code>true</code> if <code>target</code> is present as an element anywhere in <code>array</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#contains-int-">contains(int)</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Returns <code>true</code> if <code>target</code> is present at any index in this array.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/primitives/Ints.html#contains-int:A-int-">contains(int[], int)</a></span> - Static method in class com.google.common.primitives.<a href="com/google/common/primitives/Ints.html" title="class in com.google.common.primitives">Ints</a></dt>
 <dd>
 <div class="block">Returns <code>true</code> if <code>target</code> is present as an element anywhere in <code>array</code>.</div>
@@ -4353,6 +4396,18 @@
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="block"><span class="deprecationComment">no need to use this</span></div>
 </div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#copyOf-int:A-">copyOf(int[])</a></span> - Static method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Returns an immutable array containing the given values, in order.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#copyOf-java.util.Collection-">copyOf(Collection&lt;Integer&gt;)</a></span> - Static method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Returns an immutable array containing the given values, in order.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#copyOf-java.lang.Iterable-">copyOf(Iterable&lt;Integer&gt;)</a></span> - Static method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Returns an immutable array containing the given values, in order.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableSortedMap.html#copyOfSorted-java.util.SortedMap-">copyOfSorted(SortedMap&lt;K, ? extends V&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a></dt>
 <dd>
@@ -5886,6 +5941,8 @@
  in the class documentation.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/MediaType.html#equals-java.lang.Object-">equals(Object)</a></span> - Method in class com.google.common.net.<a href="com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#equals-java.lang.Object-">equals(Object)</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/primitives/UnsignedInteger.html#equals-java.lang.Object-">equals(Object)</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/UnsignedInteger.html" title="class in com.google.common.primitives">UnsignedInteger</a></dt>
 <dd>&nbsp;</dd>
@@ -7505,6 +7562,10 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/TreeRangeMap.html#get-K-">get(K)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/TreeRangeMap.html" title="class in com.google.common.collect">TreeRangeMap</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#get-int-">get(int)</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Returns the <code>int</code> value present at the given index.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AbstractFuture.html#get-long-java.util.concurrent.TimeUnit-">get(long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a></dt>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AbstractFuture.html#get--">get()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a></dt>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AtomicDouble.html#get--">get()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AtomicDouble.html" title="class in com.google.common.util.concurrent">AtomicDouble</a></dt>
@@ -8350,6 +8411,10 @@
 <div class="block">Returns a hash code for <code>value</code>; equal to the result of invoking
  <code>((Float) value).hashCode()</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#hashCode--">hashCode()</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Returns an unspecified hash code for the contents of this immutable array.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/primitives/Ints.html#hashCode-int-">hashCode(int)</a></span> - Static method in class com.google.common.primitives.<a href="com/google/common/primitives/Ints.html" title="class in com.google.common.primitives">Ints</a></dt>
 <dd>
 <div class="block">Returns a hash code for <code>value</code>; equal to the result of invoking
@@ -8794,6 +8859,14 @@
 <dd>
 <div class="block">A <a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> whose elements and structural relationships will never change.</div>
 </dd>
+<dt><a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives"><span class="typeNameLink">ImmutableIntArray</span></a> - Class in <a href="com/google/common/primitives/package-summary.html">com.google.common.primitives</a></dt>
+<dd>
+<div class="block">An immutable array of <code>int</code> values, with an API resembling <a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util"><code>List</code></a>.</div>
+</dd>
+<dt><a href="com/google/common/primitives/ImmutableIntArray.Builder.html" title="class in com.google.common.primitives"><span class="typeNameLink">ImmutableIntArray.Builder</span></a> - Class in <a href="com/google/common/primitives/package-summary.html">com.google.common.primitives</a></dt>
+<dd>
+<div class="block">A builder for <a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives"><code>ImmutableIntArray</code></a> instances; obtained using <a href="com/google/common/primitives/ImmutableIntArray.html#builder-int-"><code>ImmutableIntArray.builder(int)</code></a>.</div>
+</dd>
 <dt><a href="com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect"><span class="typeNameLink">ImmutableList</span></a>&lt;<a href="com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt; - Class in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
 <div class="block">A <a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util"><code>List</code></a> whose contents will never change, with many other important properties detailed at
@@ -9082,6 +9155,11 @@
 <dt><span class="memberNameLink"><a href="com/google/common/primitives/Floats.html#indexOf-float:A-float:A-">indexOf(float[], float[])</a></span> - Static method in class com.google.common.primitives.<a href="com/google/common/primitives/Floats.html" title="class in com.google.common.primitives">Floats</a></dt>
 <dd>
 <div class="block">Returns the start position of the first occurrence of the specified <code>target</code> within <code>array</code>, or <code>-1</code> if there is no such occurrence.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#indexOf-int-">indexOf(int)</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Returns the smallest index for which <a href="com/google/common/primitives/ImmutableIntArray.html#get-int-"><code>ImmutableIntArray.get(int)</code></a> returns <code>target</code>, or <code>-1</code> if no
+ such index exists.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/primitives/Ints.html#indexOf-int:A-int-">indexOf(int[], int)</a></span> - Static method in class com.google.common.primitives.<a href="com/google/common/primitives/Ints.html" title="class in com.google.common.primitives">Ints</a></dt>
 <dd>
@@ -9483,6 +9561,10 @@
 <dt><span class="memberNameLink"><a href="com/google/common/io/CharSource.html#isEmpty--">isEmpty()</a></span> - Method in class com.google.common.io.<a href="com/google/common/io/CharSource.html" title="class in com.google.common.io">CharSource</a></dt>
 <dd>
 <div class="block">Returns whether the source has zero chars.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#isEmpty--">isEmpty()</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Returns <code>true</code> if there are no values in this array (<a href="com/google/common/primitives/ImmutableIntArray.html#length--"><code>ImmutableIntArray.length()</code></a> is zero).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AtomicLongMap.html#isEmpty--">isEmpty()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AtomicLongMap.html" title="class in com.google.common.util.concurrent">AtomicLongMap</a></dt>
 <dd>
@@ -10122,6 +10204,11 @@
 <dd>
 <div class="block">Returns the index of the last appearance of the value <code>target</code> in <code>array</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#lastIndexOf-int-">lastIndexOf(int)</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Returns the largest index for which <a href="com/google/common/primitives/ImmutableIntArray.html#get-int-"><code>ImmutableIntArray.get(int)</code></a> returns <code>target</code>, or <code>-1</code> if no
+ such index exists.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/primitives/Ints.html#lastIndexOf-int:A-int-">lastIndexOf(int[], int)</a></span> - Static method in class com.google.common.primitives.<a href="com/google/common/primitives/Ints.html" title="class in com.google.common.primitives">Ints</a></dt>
 <dd>
 <div class="block">Returns the index of the last appearance of the value <code>target</code> in <code>array</code>.</div>
@@ -10218,6 +10305,10 @@
 <dd>
 <div class="block">Returns the length of this source in chars, even if doing so requires opening and traversing an
  entire stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#length--">length()</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Returns the number of values in this array.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AtomicDoubleArray.html#length--">length()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AtomicDoubleArray.html" title="class in com.google.common.util.concurrent">AtomicDoubleArray</a></dt>
 <dd>
@@ -12354,6 +12445,26 @@
 <dt><span class="memberNameLink"><a href="com/google/common/math/Stats.html#of-long...-">of(long...)</a></span> - Static method in class com.google.common.math.<a href="com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a></dt>
 <dd>
 <div class="block">Returns statistics over a dataset containing the given values.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#of--">of()</a></span> - Static method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Returns the empty array.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#of-int-">of(int)</a></span> - Static method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Returns an immutable array containing a single value.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#of-int-int-">of(int, int)</a></span> - Static method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Returns an immutable array containing the given values, in order.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#of-int-int-int-">of(int, int, int)</a></span> - Static method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Returns an immutable array containing the given values, in order.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#of-int-int...-">of(int, int...)</a></span> - Static method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Returns an immutable array containing the given values, in order.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/reflect/ImmutableTypeToInstanceMap.html#of--">of()</a></span> - Static method in class com.google.common.reflect.<a href="com/google/common/reflect/ImmutableTypeToInstanceMap.html" title="class in com.google.common.reflect">ImmutableTypeToInstanceMap</a></dt>
 <dd>
@@ -16310,6 +16421,10 @@
 <div class="block">Substitute: A character that may be substituted for a character which is determined to be
  invalid or in error.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#subArray-int-int-">subArray(int, int)</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Returns a new immutable array containing the values in the specified range.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ForwardingList.html#subList-int-int-">subList(int, int)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ForwardingList.html" title="class in com.google.common.collect">ForwardingList</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableList.html#subList-int-int-">subList(int, int)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a></dt>
@@ -16806,6 +16921,10 @@
 <div class="block">Returns an array containing each value of <code>collection</code>, converted to a <code>float</code>
  value in the manner of <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Number.html?is-external=true#floatValue--" title="class or interface in java.lang"><code>Number.floatValue()</code></a>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#toArray--">toArray()</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Returns a new, mutable copy of this array's values, as a primitive <code>int[]</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/primitives/Ints.html#toArray-java.util.Collection-">toArray(Collection&lt;? extends Number&gt;)</a></span> - Static method in class com.google.common.primitives.<a href="com/google/common/primitives/Ints.html" title="class in com.google.common.primitives">Ints</a></dt>
 <dd>
 <div class="block">Returns an array containing each value of <code>collection</code>, converted to a <code>int</code> value
@@ -17207,6 +17326,10 @@
 <div class="block">Returns the string representation of this media type in the format described in
  <a href="http://www.ietf.org/rfc/rfc2045.txt">RFC 2045</a>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#toString--">toString()</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Returns a string representation of this array in the same form as <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Arrays.html?is-external=true#toString-int:A-" title="class or interface in java.util"><code>Arrays.toString(int[])</code></a>, for example <code>"[1, 2, 3]"</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/primitives/UnsignedBytes.html#toString-byte-">toString(byte)</a></span> - Static method in class com.google.common.primitives.<a href="com/google/common/primitives/UnsignedBytes.html" title="class in com.google.common.primitives">UnsignedBytes</a></dt>
 <dd>
 <div class="block">Returns a string representation of x, where x is treated as unsigned.</div>
@@ -17567,6 +17690,10 @@
 <dd>
 <div class="block">Returns a substring of the input character sequence that omits all characters this matcher
  matches from the beginning of the string.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#trimmed--">trimmed()</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Returns an immutable array containing the same values as <code>this</code> array.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Splitter.html#trimResults--">trimResults()</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a></dt>
 <dd>

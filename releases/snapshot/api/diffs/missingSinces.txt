@@ -1,3 +1,5 @@
+OK: com.google.common.primitives.ImmutableIntArray Class
+MISSING @SINCE TAG: com.google.common.primitives.ImmutableIntArray.Builder Class
 OK: com.google.common.graph.PredecessorsFunction Interface
 OK: com.google.common.graph.SuccessorsFunction Interface
 MISSING @SINCE TAG: com.google.common.graph.ValueGraph Method adjacentNodes(java.lang.Object)
