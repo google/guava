@@ -119,7 +119,7 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public interface <a href="../../../../src-html/com/google/common/graph/Network.html#line.107">Network</a>&lt;N,E&gt;
+public interface <a href="../../../../src-html/com/google/common/graph/Network.html#line.106">Network</a>&lt;N,E&gt;
 extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" title="interface in com.google.common.graph">SuccessorsFunction</a>&lt;N&gt;, <a href="../../../../com/google/common/graph/PredecessorsFunction.html" title="interface in com.google.common.graph">PredecessorsFunction</a>&lt;N&gt;</pre>
 <div class="block">An interface for <a
  href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-structured data,
@@ -216,14 +216,14 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#adjacentEdges-java.lang.Object-">adjacentEdges</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</code>
-<div class="block">Returns the edges which have an <a href="../../../../com/google/common/graph/Network.html#incidentNodes-java.lang.Object-"><code>incident node</code></a> in common with
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#adjacentEdges-E-">adjacentEdges</a></span>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&nbsp;edge)</code>
+<div class="block">Returns the edges which have an <a href="../../../../com/google/common/graph/Network.html#incidentNodes-E-"><code>incident node</code></a> in common with
  <code>edge</code>.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#adjacentNodes-java.lang.Object-">adjacentNodes</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#adjacentNodes-N-">adjacentNodes</a></span>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;node)</code>
 <div class="block">Returns the nodes which have an incident edge in common with <code>node</code> in this network.</div>
 </td>
 </tr>
@@ -247,15 +247,15 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#degree-java.lang.Object-">degree</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</code>
-<div class="block">Returns the count of <code>node</code>'s <a href="../../../../com/google/common/graph/Network.html#incidentEdges-java.lang.Object-"><code>incident edges</code></a>, counting
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#degree-N-">degree</a></span>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;node)</code>
+<div class="block">Returns the count of <code>node</code>'s <a href="../../../../com/google/common/graph/Network.html#incidentEdges-N-"><code>incident edges</code></a>, counting
  self-loops twice (equivalently, the number of times an edge touches <code>node</code>).</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#edgeConnecting-java.lang.Object-java.lang.Object-">edgeConnecting</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;nodeU,
-              <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;nodeV)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#edgeConnecting-N-N-">edgeConnecting</a></span>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
+              <a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;nodeV)</code>
 <div class="block">Returns the single edge directly connecting <code>nodeU</code> to <code>nodeV</code>, if one is present.</div>
 </td>
 </tr>
@@ -273,8 +273,8 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#edgesConnecting-java.lang.Object-java.lang.Object-">edgesConnecting</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;nodeU,
-               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;nodeV)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#edgesConnecting-N-N-">edgesConnecting</a></span>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
+               <a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;nodeV)</code>
 <div class="block">Returns the set of edges directly connecting <code>nodeU</code> to <code>nodeV</code>.</div>
 </td>
 </tr>
@@ -293,27 +293,27 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 </tr>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#incidentEdges-java.lang.Object-">incidentEdges</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</code>
-<div class="block">Returns the edges whose <a href="../../../../com/google/common/graph/Network.html#incidentNodes-java.lang.Object-"><code>incident nodes</code></a> in this network include
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#incidentEdges-N-">incidentEdges</a></span>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;node)</code>
+<div class="block">Returns the edges whose <a href="../../../../com/google/common/graph/Network.html#incidentNodes-E-"><code>incident nodes</code></a> in this network include
  <code>node</code>.</div>
 </td>
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#incidentNodes-java.lang.Object-">incidentNodes</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#incidentNodes-E-">incidentNodes</a></span>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&nbsp;edge)</code>
 <div class="block">Returns the nodes which are the endpoints of <code>edge</code> in this network.</div>
 </td>
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#inDegree-java.lang.Object-">inDegree</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</code>
-<div class="block">Returns the count of <code>node</code>'s <a href="../../../../com/google/common/graph/Network.html#inEdges-java.lang.Object-"><code>incoming edges</code></a> in a directed
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#inDegree-N-">inDegree</a></span>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;node)</code>
+<div class="block">Returns the count of <code>node</code>'s <a href="../../../../com/google/common/graph/Network.html#inEdges-N-"><code>incoming edges</code></a> in a directed
  network.</div>
 </td>
 </tr>
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#inEdges-java.lang.Object-">inEdges</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#inEdges-N-">inEdges</a></span>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;node)</code>
 <div class="block">Returns all edges in this network which can be traversed in the direction (if any) of the edge
  to end at <code>node</code>.</div>
 </td>
@@ -338,28 +338,28 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 </tr>
 <tr id="i19" class="rowColor">
 <td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#outDegree-java.lang.Object-">outDegree</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</code>
-<div class="block">Returns the count of <code>node</code>'s <a href="../../../../com/google/common/graph/Network.html#outEdges-java.lang.Object-"><code>outgoing edges</code></a> in a directed
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#outDegree-N-">outDegree</a></span>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;node)</code>
+<div class="block">Returns the count of <code>node</code>'s <a href="../../../../com/google/common/graph/Network.html#outEdges-N-"><code>outgoing edges</code></a> in a directed
  network.</div>
 </td>
 </tr>
 <tr id="i20" class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#outEdges-java.lang.Object-">outEdges</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#outEdges-N-">outEdges</a></span>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;node)</code>
 <div class="block">Returns all edges in this network which can be traversed in the direction (if any) of the edge
  starting from <code>node</code>.</div>
 </td>
 </tr>
 <tr id="i21" class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#predecessors-java.lang.Object-">predecessors</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#predecessors-N-">predecessors</a></span>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;node)</code>
 <div class="block">Returns all nodes in this network adjacent to <code>node</code> which can be reached by traversing
  <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
 </td>
 </tr>
 <tr id="i22" class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#successors-java.lang.Object-">successors</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#successors-N-">successors</a></span>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;node)</code>
 <div class="block">Returns all nodes in this network adjacent to <code>node</code> which can be reached by traversing
  <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
 </td>
@@ -385,7 +385,7 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>nodes</h4>
-<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.113">nodes</a>()</pre>
+<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.112">nodes</a>()</pre>
 <div class="block">Returns all nodes in this network, in the order specified by <a href="../../../../com/google/common/graph/Network.html#nodeOrder--"><code>nodeOrder()</code></a>.</div>
 </li>
 </ul>
@@ -395,7 +395,7 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>edges</h4>
-<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.116">edges</a>()</pre>
+<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.115">edges</a>()</pre>
 <div class="block">Returns all edges in this network, in the order specified by <a href="../../../../com/google/common/graph/Network.html#edgeOrder--"><code>edgeOrder()</code></a>.</div>
 </li>
 </ul>
@@ -405,12 +405,12 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>asGraph</h4>
-<pre><a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.126">asGraph</a>()</pre>
+<pre><a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.125">asGraph</a>()</pre>
 <div class="block">Returns a live view of this network as a <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>. The resulting <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> will have
  an edge connecting node A to node B if this <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> has an edge connecting A to B.
 
  <p>If this network <a href="../../../../com/google/common/graph/Network.html#allowsParallelEdges--"><code>allows parallel edges</code></a>, parallel edges will be
- treated as if collapsed into a single edge. For example, the <a href="../../../../com/google/common/graph/Network.html#degree-java.lang.Object-"><code>degree(Object)</code></a> of a node
+ treated as if collapsed into a single edge. For example, the <a href="../../../../com/google/common/graph/Network.html#degree-N-"><code>degree(Object)</code></a> of a node
  in the <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> view may be less than the degree of the same node in this <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a>.</div>
 </li>
 </ul>
@@ -420,7 +420,7 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>isDirected</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.137">isDirected</a>()</pre>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.136">isDirected</a>()</pre>
 <div class="block">Returns true if the edges in this network are directed. Directed edges connect a <a href="../../../../com/google/common/graph/EndpointPair.html#source--"><code>source node</code></a> to a <a href="../../../../com/google/common/graph/EndpointPair.html#target--"><code>target node</code></a>, while
  undirected edges connect a pair of nodes to each other.</div>
 </li>
@@ -431,7 +431,7 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>allowsParallelEdges</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.143">allowsParallelEdges</a>()</pre>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.142">allowsParallelEdges</a>()</pre>
 <div class="block">Returns true if this network allows parallel edges. Attempting to add a parallel edge to a
  network that does not allow them will throw an <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>.</div>
 </li>
@@ -442,7 +442,7 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>allowsSelfLoops</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.150">allowsSelfLoops</a>()</pre>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.149">allowsSelfLoops</a>()</pre>
 <div class="block">Returns true if this network allows self-loops (edges that connect a node to itself).
  Attempting to add a self-loop to a network that does not allow them will throw an <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>.</div>
 </li>
@@ -453,7 +453,7 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>nodeOrder</h4>
-<pre><a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.153">nodeOrder</a>()</pre>
+<pre><a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.152">nodeOrder</a>()</pre>
 <div class="block">Returns the order of iteration for the elements of <a href="../../../../com/google/common/graph/Network.html#nodes--"><code>nodes()</code></a>.</div>
 </li>
 </ul>
@@ -463,18 +463,19 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>edgeOrder</h4>
-<pre><a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.156">edgeOrder</a>()</pre>
+<pre><a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.155">edgeOrder</a>()</pre>
 <div class="block">Returns the order of iteration for the elements of <a href="../../../../com/google/common/graph/Network.html#edges--"><code>edges()</code></a>.</div>
 </li>
 </ul>
 <a name="adjacentNodes-java.lang.Object-">
 <!--   -->
+</a><a name="adjacentNodes-N-">
+<!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>adjacentNodes</h4>
-<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.167">adjacentNodes</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="N")
-                     <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.166">adjacentNodes</a>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
 <div class="block">Returns the nodes which have an incident edge in common with <code>node</code> in this network.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -484,18 +485,20 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 </ul>
 <a name="predecessors-java.lang.Object-">
 <!--   -->
+</a><a name="predecessors-N-">
+<!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>predecessors</h4>
-<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.178">predecessors</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.177">predecessors</a>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
 <div class="block">Returns all nodes in this network adjacent to <code>node</code> which can be reached by traversing
  <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.
 
- <p>In an undirected network, this is equivalent to <a href="../../../../com/google/common/graph/Network.html#adjacentNodes-java.lang.Object-"><code>adjacentNodes(Object)</code></a>.</div>
+ <p>In an undirected network, this is equivalent to <a href="../../../../com/google/common/graph/Network.html#adjacentNodes-N-"><code>adjacentNodes(Object)</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../com/google/common/graph/PredecessorsFunction.html#predecessors-java.lang.Object-">predecessors</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/graph/PredecessorsFunction.html" title="interface in com.google.common.graph">PredecessorsFunction</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;</code></dd>
+<dd><code><a href="../../../../com/google/common/graph/PredecessorsFunction.html#predecessors-N-">predecessors</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/graph/PredecessorsFunction.html" title="interface in com.google.common.graph">PredecessorsFunction</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>node</code> is not an element of this network</dd>
 </dl>
@@ -503,21 +506,23 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 </ul>
 <a name="successors-java.lang.Object-">
 <!--   -->
+</a><a name="successors-N-">
+<!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>successors</h4>
-<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.192">successors</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.191">successors</a>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
 <div class="block">Returns all nodes in this network adjacent to <code>node</code> which can be reached by traversing
  <code>node</code>'s outgoing edges in the direction (if any) of the edge.
 
- <p>In an undirected network, this is equivalent to <a href="../../../../com/google/common/graph/Network.html#adjacentNodes-java.lang.Object-"><code>adjacentNodes(Object)</code></a>.
+ <p>In an undirected network, this is equivalent to <a href="../../../../com/google/common/graph/Network.html#adjacentNodes-N-"><code>adjacentNodes(Object)</code></a>.
 
  <p>This is <i>not</i> the same as "all nodes reachable from <code>node</code> by following outgoing
- edges". For that functionality, see <a href="../../../../com/google/common/graph/Graphs.html#reachableNodes-com.google.common.graph.Graph-java.lang.Object-"><code>Graphs.reachableNodes(Graph, Object)</code></a>.</div>
+ edges". For that functionality, see <a href="../../../../com/google/common/graph/Graphs.html#reachableNodes-com.google.common.graph.Graph-N-"><code>Graphs.reachableNodes(Graph, Object)</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../com/google/common/graph/SuccessorsFunction.html#successors-java.lang.Object-">successors</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/graph/SuccessorsFunction.html" title="interface in com.google.common.graph">SuccessorsFunction</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;</code></dd>
+<dd><code><a href="../../../../com/google/common/graph/SuccessorsFunction.html#successors-N-">successors</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/graph/SuccessorsFunction.html" title="interface in com.google.common.graph">SuccessorsFunction</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>node</code> is not an element of this network</dd>
 </dl>
@@ -525,13 +530,14 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 </ul>
 <a name="incidentEdges-java.lang.Object-">
 <!--   -->
+</a><a name="incidentEdges-N-">
+<!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>incidentEdges</h4>
-<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.200">incidentEdges</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="N")
-                     <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
-<div class="block">Returns the edges whose <a href="../../../../com/google/common/graph/Network.html#incidentNodes-java.lang.Object-"><code>incident nodes</code></a> in this network include
+<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.199">incidentEdges</a>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
+<div class="block">Returns the edges whose <a href="../../../../com/google/common/graph/Network.html#incidentNodes-E-"><code>incident nodes</code></a> in this network include
  <code>node</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -541,18 +547,19 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 </ul>
 <a name="inEdges-java.lang.Object-">
 <!--   -->
+</a><a name="inEdges-N-">
+<!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>inEdges</h4>
-<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.212">inEdges</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="N")
-               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.211">inEdges</a>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
 <div class="block">Returns all edges in this network which can be traversed in the direction (if any) of the edge
  to end at <code>node</code>.
 
  <p>In a directed network, an incoming edge's <a href="../../../../com/google/common/graph/EndpointPair.html#target--"><code>EndpointPair.target()</code></a> equals <code>node</code>.
 
- <p>In an undirected network, this is equivalent to <a href="../../../../com/google/common/graph/Network.html#incidentEdges-java.lang.Object-"><code>incidentEdges(Object)</code></a>.</div>
+ <p>In an undirected network, this is equivalent to <a href="../../../../com/google/common/graph/Network.html#incidentEdges-N-"><code>incidentEdges(Object)</code></a>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>node</code> is not an element of this network</dd>
@@ -561,18 +568,19 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 </ul>
 <a name="outEdges-java.lang.Object-">
 <!--   -->
+</a><a name="outEdges-N-">
+<!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>outEdges</h4>
-<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.224">outEdges</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="N")
-                <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.223">outEdges</a>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
 <div class="block">Returns all edges in this network which can be traversed in the direction (if any) of the edge
  starting from <code>node</code>.
 
  <p>In a directed network, an outgoing edge's <a href="../../../../com/google/common/graph/EndpointPair.html#source--"><code>EndpointPair.source()</code></a> equals <code>node</code>.
 
- <p>In an undirected network, this is equivalent to <a href="../../../../com/google/common/graph/Network.html#incidentEdges-java.lang.Object-"><code>incidentEdges(Object)</code></a>.</div>
+ <p>In an undirected network, this is equivalent to <a href="../../../../com/google/common/graph/Network.html#incidentEdges-N-"><code>incidentEdges(Object)</code></a>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>node</code> is not an element of this network</dd>
@@ -581,13 +589,14 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 </ul>
 <a name="degree-java.lang.Object-">
 <!--   -->
+</a><a name="degree-N-">
+<!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>degree</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.239">degree</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="N")
-           <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
-<div class="block">Returns the count of <code>node</code>'s <a href="../../../../com/google/common/graph/Network.html#incidentEdges-java.lang.Object-"><code>incident edges</code></a>, counting
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.238">degree</a>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
+<div class="block">Returns the count of <code>node</code>'s <a href="../../../../com/google/common/graph/Network.html#incidentEdges-N-"><code>incident edges</code></a>, counting
  self-loops twice (equivalently, the number of times an edge touches <code>node</code>).
 
  <p>For directed networks, this is equal to <code>inDegree(node) + outDegree(node)</code>.
@@ -604,14 +613,15 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 </ul>
 <a name="inDegree-java.lang.Object-">
 <!--   -->
+</a><a name="inDegree-N-">
+<!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>inDegree</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.249">inDegree</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="N")
-             <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
-<div class="block">Returns the count of <code>node</code>'s <a href="../../../../com/google/common/graph/Network.html#inEdges-java.lang.Object-"><code>incoming edges</code></a> in a directed
- network. In an undirected network, returns the <a href="../../../../com/google/common/graph/Network.html#degree-java.lang.Object-"><code>degree(Object)</code></a>.
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.248">inDegree</a>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
+<div class="block">Returns the count of <code>node</code>'s <a href="../../../../com/google/common/graph/Network.html#inEdges-N-"><code>incoming edges</code></a> in a directed
+ network. In an undirected network, returns the <a href="../../../../com/google/common/graph/Network.html#degree-N-"><code>degree(Object)</code></a>.
 
  <p>If the count is greater than <code>Integer.MAX_VALUE</code>, returns <code>Integer.MAX_VALUE</code>.</div>
 <dl>
@@ -622,14 +632,15 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 </ul>
 <a name="outDegree-java.lang.Object-">
 <!--   -->
+</a><a name="outDegree-N-">
+<!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>outDegree</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.259">outDegree</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="N")
-              <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
-<div class="block">Returns the count of <code>node</code>'s <a href="../../../../com/google/common/graph/Network.html#outEdges-java.lang.Object-"><code>outgoing edges</code></a> in a directed
- network. In an undirected network, returns the <a href="../../../../com/google/common/graph/Network.html#degree-java.lang.Object-"><code>degree(Object)</code></a>.
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.258">outDegree</a>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;node)</pre>
+<div class="block">Returns the count of <code>node</code>'s <a href="../../../../com/google/common/graph/Network.html#outEdges-N-"><code>outgoing edges</code></a> in a directed
+ network. In an undirected network, returns the <a href="../../../../com/google/common/graph/Network.html#degree-N-"><code>degree(Object)</code></a>.
 
  <p>If the count is greater than <code>Integer.MAX_VALUE</code>, returns <code>Integer.MAX_VALUE</code>.</div>
 <dl>
@@ -640,12 +651,13 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 </ul>
 <a name="incidentNodes-java.lang.Object-">
 <!--   -->
+</a><a name="incidentNodes-E-">
+<!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>incidentNodes</h4>
-<pre><a href="../../../../com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.266">incidentNodes</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="E")
-                              <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
+<pre><a href="../../../../com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.265">incidentNodes</a>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&nbsp;edge)</pre>
 <div class="block">Returns the nodes which are the endpoints of <code>edge</code> in this network.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -655,13 +667,14 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 </ul>
 <a name="adjacentEdges-java.lang.Object-">
 <!--   -->
+</a><a name="adjacentEdges-E-">
+<!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>adjacentEdges</h4>
-<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.274">adjacentEdges</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="E")
-                     <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
-<div class="block">Returns the edges which have an <a href="../../../../com/google/common/graph/Network.html#incidentNodes-java.lang.Object-"><code>incident node</code></a> in common with
+<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.273">adjacentEdges</a>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&nbsp;edge)</pre>
+<div class="block">Returns the edges which have an <a href="../../../../com/google/common/graph/Network.html#incidentNodes-E-"><code>incident node</code></a> in common with
  <code>edge</code>. An edge is not considered adjacent to itself.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -671,19 +684,19 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 </ul>
 <a name="edgesConnecting-java.lang.Object-java.lang.Object-">
 <!--   -->
+</a><a name="edgesConnecting-N-N-">
+<!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>edgesConnecting</h4>
-<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.288">edgesConnecting</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="N")
-                       <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;nodeU,
-                       <a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="N")
-                       <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;nodeV)</pre>
+<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.287">edgesConnecting</a>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
+                       <a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;nodeV)</pre>
 <div class="block">Returns the set of edges directly connecting <code>nodeU</code> to <code>nodeV</code>.
 
  <p>In an undirected network, this is equal to <code>edgesConnecting(nodeV, nodeU)</code>.
 
- <p>The resulting set of edges will be parallel (i.e. have equal <a href="../../../../com/google/common/graph/Network.html#incidentNodes-java.lang.Object-"><code>incidentNodes(Object)</code></a>.
+ <p>The resulting set of edges will be parallel (i.e. have equal <a href="../../../../com/google/common/graph/Network.html#incidentNodes-E-"><code>incidentNodes(Object)</code></a>.
  If this network does not <a href="../../../../com/google/common/graph/Network.html#allowsParallelEdges--"><code>allow parallel edges</code></a>, the resulting set
  will contain at most one edge (equivalent to <code>edgeConnecting(nodeU, nodeV).asSet()</code>).</div>
 <dl>
@@ -695,14 +708,14 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 </ul>
 <a name="edgeConnecting-java.lang.Object-java.lang.Object-">
 <!--   -->
+</a><a name="edgeConnecting-N-N-">
+<!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>edgeConnecting</h4>
-<pre><a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.300">edgeConnecting</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="N")
-                           <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;nodeU,
-                           <a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="N")
-                           <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;nodeV)</pre>
+<pre><a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.299">edgeConnecting</a>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
+                           <a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;nodeV)</pre>
 <div class="block">Returns the single edge directly connecting <code>nodeU</code> to <code>nodeV</code>, if one is present.
 
  <p>In an undirected network, this is equal to <code>edgeConnecting(nodeV, nodeU)</code>.</div>
@@ -721,7 +734,7 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.327">equals</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.326">equals</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> that has the same elements and the
  same structural relationships as those in this network.
@@ -753,9 +766,9 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.337">hashCode</a>()</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.336">hashCode</a>()</pre>
 <div class="block">Returns the hash code for this network. The hash code of a network is defined as the hash code
- of a map from each of its <a href="../../../../com/google/common/graph/Network.html#edges--"><code>edges</code></a> to their <a href="../../../../com/google/common/graph/Network.html#incidentNodes-java.lang.Object-"><code>incident nodes</code></a>.
+ of a map from each of its <a href="../../../../com/google/common/graph/Network.html#edges--"><code>edges</code></a> to their <a href="../../../../com/google/common/graph/Network.html#incidentNodes-E-"><code>incident nodes</code></a>.
 
  <p>A reference implementation of this is provided by <a href="../../../../com/google/common/graph/AbstractNetwork.html#hashCode--"><code>AbstractNetwork.hashCode()</code></a>.</div>
 <dl>

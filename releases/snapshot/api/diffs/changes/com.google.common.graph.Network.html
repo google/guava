@@ -30,7 +30,7 @@ com.google.common.graph.Network
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.graph.ImmutableValueGraph.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.graph.MutableValueGraph.html"><B>PREV CLASS</B></A>
 &nbsp;<A HREF="com.google.common.graph.ValueGraph.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
@@ -58,10 +58,147 @@ Interface com.google.common.graph.<A HREF="../../docs/com/google/common/graph/Ne
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.Network.edgeConnecting_added(java.lang.Object, java.lang.Object)"></A>
-  <nobr><code>Optional&lt;E&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#edgeConnecting(java.lang.Object, java.lang.Object)" target="_top"><tt>edgeConnecting</tt></A>(<code>Object,</nobr> Object<nobr><nobr></code>)</nobr>
+  <A NAME="com.google.common.graph.Network.edgeConnecting_added(N, N)"></A>
+  <nobr><code>Optional&lt;E&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#edgeConnecting(N, N)" target="_top"><tt>edgeConnecting</tt></A>(<code>N,</nobr> N<nobr><nobr></code>)</nobr>
   </TD>
   <TD VALIGN="TOP">Returns the single edge directly connecting {@code nodeU} to {@code nodeV}, if one is present.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<p>
+<a NAME="Changed"></a>
+<TABLE summary="Changed Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+  <TD VALIGN="TOP" COLSPAN=3><FONT SIZE="+1"><B>Changed Methods</B></FONT></TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.graph.Network.adjacentEdges_changed(E)"></A>
+  <nobr><code>Set&lt;E&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#adjacentEdges(E)" target="_top"><tt>adjacentEdges</tt></A>(<code>E</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Change in signature from <code>Object</code> to <code>E</code>.<br>
+  </TD>
+  <TD VALIGN="TOP">Returns the edges which have an <A HREF="../../docs/.html#incidentNodes(Object)"><TT>incident node</TT></A> in common with
+ {@code edge}.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.graph.Network.adjacentNodes_changed(N)"></A>
+  <nobr><code>Set&lt;N&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#adjacentNodes(N)" target="_top"><tt>adjacentNodes</tt></A>(<code>N</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Change in signature from <code>Object</code> to <code>N</code>.<br>
+  </TD>
+  <TD VALIGN="TOP">Returns the nodes which have an incident edge in common with {@code node} in this network.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.graph.Network.degree_changed(N)"></A>
+  <nobr><code>int</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#degree(N)" target="_top"><tt>degree</tt></A>(<code>N</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Change in signature from <code>Object</code> to <code>N</code>.<br>
+  </TD>
+  <TD VALIGN="TOP">Returns the count of {@code node}'s <A HREF="../../docs/.html#incidentEdges(Object)"><TT>incident edges</TT></A>, counting
+ self-loops twice (equivalently, the number of times an edge touches {@code node}).</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.graph.Network.edgesConnecting_changed(N, N)"></A>
+  <nobr><code>Set&lt;E&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#edgesConnecting(N, N)" target="_top"><tt>edgesConnecting</tt></A>(<code>N,</nobr> N<nobr><nobr></code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Change in signature from (<code>Object, Object</code>) to (<code>N, N</code>).<br>
+  </TD>
+  <TD VALIGN="TOP">Returns the set of edges directly connecting {@code nodeU} to {@code nodeV}.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.graph.Network.inDegree_changed(N)"></A>
+  <nobr><code>int</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#inDegree(N)" target="_top"><tt>inDegree</tt></A>(<code>N</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Change in signature from <code>Object</code> to <code>N</code>.<br>
+  </TD>
+  <TD VALIGN="TOP">Returns the count of {@code node}'s <A HREF="../../docs/.html#inEdges(Object)"><TT>incoming edges</TT></A> in a directed
+ network.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.graph.Network.inEdges_changed(N)"></A>
+  <nobr><code>Set&lt;E&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#inEdges(N)" target="_top"><tt>inEdges</tt></A>(<code>N</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Change in signature from <code>Object</code> to <code>N</code>.<br>
+  </TD>
+  <TD VALIGN="TOP">Returns all edges in this network which can be traversed in the direction (if any) of the edge
+ to end at {@code node}.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.graph.Network.incidentEdges_changed(N)"></A>
+  <nobr><code>Set&lt;E&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#incidentEdges(N)" target="_top"><tt>incidentEdges</tt></A>(<code>N</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Change in signature from <code>Object</code> to <code>N</code>.<br>
+  </TD>
+  <TD VALIGN="TOP">Returns the edges whose <A HREF="../../docs/.html#incidentNodes(Object)"><TT>incident nodes</TT></A> in this network include
+ {@code node}.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.graph.Network.incidentNodes_changed(E)"></A>
+  <nobr><code>EndpointPair&lt;N&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#incidentNodes(E)" target="_top"><tt>incidentNodes</tt></A>(<code>E</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Change in signature from <code>Object</code> to <code>E</code>.<br>
+  </TD>
+  <TD VALIGN="TOP">Returns the nodes which are the endpoints of {@code edge} in this network.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.graph.Network.outDegree_changed(N)"></A>
+  <nobr><code>int</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#outDegree(N)" target="_top"><tt>outDegree</tt></A>(<code>N</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Change in signature from <code>Object</code> to <code>N</code>.<br>
+  </TD>
+  <TD VALIGN="TOP">Returns the count of {@code node}'s <A HREF="../../docs/.html#outEdges(Object)"><TT>outgoing edges</TT></A> in a directed
+ network.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.graph.Network.outEdges_changed(N)"></A>
+  <nobr><code>Set&lt;E&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#outEdges(N)" target="_top"><tt>outEdges</tt></A>(<code>N</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Change in signature from <code>Object</code> to <code>N</code>.<br>
+  </TD>
+  <TD VALIGN="TOP">Returns all edges in this network which can be traversed in the direction (if any) of the edge
+ starting from {@code node}.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.graph.Network.predecessors_changed(N)"></A>
+  <nobr><code>Set&lt;N&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#predecessors(N)" target="_top"><tt>predecessors</tt></A>(<code>N</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Change in signature from <code>Object</code> to <code>N</code>.<br>
+  </TD>
+  <TD VALIGN="TOP">Returns all nodes in this network adjacent to {@code node} which can be reached by traversing
+ {@code node}'s incoming edges <i>against</i> the direction (if any) of the edge.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.graph.Network.successors_changed(N)"></A>
+  <nobr><code>Set&lt;N&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/Network.html#successors(N)" target="_top"><tt>successors</tt></A>(<code>N</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Change in signature from <code>Object</code> to <code>N</code>.<br>
+  </TD>
+  <TD VALIGN="TOP">Returns all nodes in this network adjacent to {@code node} which can be reached by traversing
+ {@code node}'s outgoing edges in the direction (if any) of the edge.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -85,7 +222,7 @@ Interface com.google.common.graph.<A HREF="../../docs/com/google/common/graph/Ne
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.graph.ImmutableValueGraph.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.graph.MutableValueGraph.html"><B>PREV CLASS</B></A>
 &nbsp;<A HREF="com.google.common.graph.ValueGraph.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;

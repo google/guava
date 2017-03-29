@@ -37558,32 +37558,32 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
     </method>
     <method name="inDegree" return="int"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
     </method>
     <method name="outDegree" return="int"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
     </method>
     <method name="adjacentEdges" return="java.util.Set&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="edge" type="java.lang.Object"/>
+      <param name="edge" type="E"/>
     </method>
     <method name="edgeConnecting" return="com.google.common.base.Optional&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="nodeU" type="java.lang.Object"/>
-      <param name="nodeV" type="java.lang.Object"/>
+      <param name="nodeU" type="N"/>
+      <param name="nodeV" type="N"/>
     </method>
     <method name="equals" return="boolean"
       abstract="false" native="false" synchronized="false"
@@ -37634,8 +37634,8 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="nodeU" type="java.lang.Object"/>
-      <param name="nodeV" type="java.lang.Object"/>
+      <param name="nodeU" type="N"/>
+      <param name="nodeV" type="N"/>
     </method>
     <method name="equals" return="boolean"
       abstract="false" native="false" synchronized="false"
@@ -37958,7 +37958,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[{@inheritDoc}]]>
       </doc>
@@ -37967,7 +37967,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[{@inheritDoc}]]>
       </doc>
@@ -37976,7 +37976,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[{@inheritDoc}]]>
       </doc>
@@ -37985,7 +37985,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[{@inheritDoc}]]>
       </doc>
@@ -37994,7 +37994,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[{@inheritDoc}]]>
       </doc>
@@ -38003,7 +38003,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[{@inheritDoc}]]>
       </doc>
@@ -38012,8 +38012,8 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="nodeU" type="java.lang.Object"/>
-      <param name="nodeV" type="java.lang.Object"/>
+      <param name="nodeU" type="N"/>
+      <param name="nodeV" type="N"/>
       <doc>
       <![CDATA[{@inheritDoc}]]>
       </doc>
@@ -38242,7 +38242,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.Graph&lt;?&gt;"/>
+      <param name="graph" type="com.google.common.graph.Graph&lt;N&gt;"/>
       <doc>
       <![CDATA[Returns true if {@code graph} has at least one cycle. A cycle is defined as a non-empty subset
  of edges in a graph arranged to form a path (a sequence of adjacent outgoing edges) starting
@@ -38284,7 +38284,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="graph" type="com.google.common.graph.Graph&lt;N&gt;"/>
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[Returns the set of nodes that are reachable from {@code node}. Node B is defined as reachable
  from node A if there exists a path (a sequence of adjacent outgoing edges) starting at node A
@@ -38624,7 +38624,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[Removes {@code node} if it is present; all edges incident to {@code node} will also be removed.
 
@@ -38635,8 +38635,8 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="nodeU" type="java.lang.Object"/>
-      <param name="nodeV" type="java.lang.Object"/>
+      <param name="nodeU" type="N"/>
+      <param name="nodeV" type="N"/>
       <doc>
       <![CDATA[Removes the edge connecting {@code nodeU} to {@code nodeV}, if it is present.
 
@@ -38703,7 +38703,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[Removes {@code node} if it is present; all edges incident to {@code node} will also be removed.
 
@@ -38714,7 +38714,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="edge" type="java.lang.Object"/>
+      <param name="edge" type="E"/>
       <doc>
       <![CDATA[Removes {@code edge} from this network, if it is present.
 
@@ -38780,7 +38780,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[Removes {@code node} if it is present; all edges incident to {@code node} will also be removed.
 
@@ -38791,8 +38791,8 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="nodeU" type="java.lang.Object"/>
-      <param name="nodeV" type="java.lang.Object"/>
+      <param name="nodeU" type="N"/>
+      <param name="nodeV" type="N"/>
       <doc>
       <![CDATA[Removes the edge connecting {@code nodeU} to {@code nodeV}, if it is present.
 
@@ -38895,7 +38895,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[Returns the nodes which have an incident edge in common with {@code node} in this network.
 
@@ -38906,7 +38906,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[Returns all nodes in this network adjacent to {@code node} which can be reached by traversing
  {@code node}'s incoming edges <i>against</i> the direction (if any) of the edge.
@@ -38920,7 +38920,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[Returns all nodes in this network adjacent to {@code node} which can be reached by traversing
  {@code node}'s outgoing edges in the direction (if any) of the edge.
@@ -38937,7 +38937,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[Returns the edges whose {@link #incidentNodes(Object) incident nodes} in this network include
  {@code node}.
@@ -38949,7 +38949,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[Returns all edges in this network which can be traversed in the direction (if any) of the edge
  to end at {@code node}.
@@ -38965,7 +38965,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[Returns all edges in this network which can be traversed in the direction (if any) of the edge
  starting from {@code node}.
@@ -38981,7 +38981,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[Returns the count of {@code node}'s {@link #incidentEdges(Object) incident edges}, counting
  self-loops twice (equivalently, the number of times an edge touches {@code node}).
@@ -39000,7 +39000,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[Returns the count of {@code node}'s {@link #inEdges(Object) incoming edges} in a directed
  network. In an undirected network, returns the {@link #degree(Object)}.
@@ -39014,7 +39014,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[Returns the count of {@code node}'s {@link #outEdges(Object) outgoing edges} in a directed
  network. In an undirected network, returns the {@link #degree(Object)}.
@@ -39028,7 +39028,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="edge" type="java.lang.Object"/>
+      <param name="edge" type="E"/>
       <doc>
       <![CDATA[Returns the nodes which are the endpoints of {@code edge} in this network.
 
@@ -39039,7 +39039,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="edge" type="java.lang.Object"/>
+      <param name="edge" type="E"/>
       <doc>
       <![CDATA[Returns the edges which have an {@link #incidentNodes(Object) incident node} in common with
  {@code edge}. An edge is not considered adjacent to itself.
@@ -39051,8 +39051,8 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="nodeU" type="java.lang.Object"/>
-      <param name="nodeV" type="java.lang.Object"/>
+      <param name="nodeU" type="N"/>
+      <param name="nodeV" type="N"/>
       <doc>
       <![CDATA[Returns the set of edges directly connecting {@code nodeU} to {@code nodeV}.
 
@@ -39070,8 +39070,8 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="nodeU" type="java.lang.Object"/>
-      <param name="nodeV" type="java.lang.Object"/>
+      <param name="nodeU" type="N"/>
+      <param name="nodeV" type="N"/>
       <doc>
       <![CDATA[Returns the single edge directly connecting {@code nodeU} to {@code nodeV}, if one is present.
 
@@ -39343,7 +39343,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
  {@code node}'s incoming edges <i>against</i> the direction (if any) of the edge.
@@ -39396,7 +39396,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
  {@code node}'s outgoing edges in the direction (if any) of the edge.
@@ -39502,7 +39502,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[{@inheritDoc}]]>
       </doc>
@@ -39511,7 +39511,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[{@inheritDoc}]]>
       </doc>
@@ -39520,7 +39520,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[{@inheritDoc}]]>
       </doc>
@@ -39529,7 +39529,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[{@inheritDoc}]]>
       </doc>
@@ -39538,7 +39538,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[{@inheritDoc}]]>
       </doc>
@@ -39547,7 +39547,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[{@inheritDoc}]]>
       </doc>
@@ -39556,8 +39556,8 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="nodeU" type="java.lang.Object"/>
-      <param name="nodeV" type="java.lang.Object"/>
+      <param name="nodeU" type="N"/>
+      <param name="nodeV" type="N"/>
       <doc>
       <![CDATA[{@inheritDoc}]]>
       </doc>
@@ -39566,8 +39566,8 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="nodeU" type="java.lang.Object"/>
-      <param name="nodeV" type="java.lang.Object"/>
+      <param name="nodeU" type="N"/>
+      <param name="nodeV" type="N"/>
       <doc>
       <![CDATA[If there is an edge connecting {@code nodeU} to {@code nodeV}, returns the non-null value
  associated with that edge.
@@ -39581,8 +39581,8 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="nodeU" type="java.lang.Object"/>
-      <param name="nodeV" type="java.lang.Object"/>
+      <param name="nodeU" type="N"/>
+      <param name="nodeV" type="N"/>
       <param name="defaultValue" type="V"/>
       <doc>
       <![CDATA[If there is an edge connecting {@code nodeU} to {@code nodeV}, returns the non-null value

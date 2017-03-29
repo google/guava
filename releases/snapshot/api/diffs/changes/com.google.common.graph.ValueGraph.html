@@ -58,8 +58,8 @@ Interface com.google.common.graph.<A HREF="../../docs/com/google/common/graph/Va
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.ValueGraph.adjacentNodes_added(java.lang.Object)"></A>
-  <nobr><code>Set&lt;N&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/ValueGraph.html#adjacentNodes(java.lang.Object)" target="_top"><tt>adjacentNodes</tt></A>(<code>Object</code>)</nobr>
+  <A NAME="com.google.common.graph.ValueGraph.adjacentNodes_added(N)"></A>
+  <nobr><code>Set&lt;N&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/ValueGraph.html#adjacentNodes(N)" target="_top"><tt>adjacentNodes</tt></A>(<code>N</code>)</nobr>
   </TD>
   <TD VALIGN="TOP">{@inheritDoc}</TD>
 </TR>
@@ -79,8 +79,8 @@ Interface com.google.common.graph.<A HREF="../../docs/com/google/common/graph/Va
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.ValueGraph.degree_added(java.lang.Object)"></A>
-  <nobr><code>int</code>&nbsp;<A HREF="../../docs/com/google/common/graph/ValueGraph.html#degree(java.lang.Object)" target="_top"><tt>degree</tt></A>(<code>Object</code>)</nobr>
+  <A NAME="com.google.common.graph.ValueGraph.degree_added(N)"></A>
+  <nobr><code>int</code>&nbsp;<A HREF="../../docs/com/google/common/graph/ValueGraph.html#degree(N)" target="_top"><tt>degree</tt></A>(<code>N</code>)</nobr>
   </TD>
   <TD VALIGN="TOP">{@inheritDoc}</TD>
 </TR>
@@ -93,15 +93,15 @@ Interface com.google.common.graph.<A HREF="../../docs/com/google/common/graph/Va
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.ValueGraph.hasEdge_added(java.lang.Object, java.lang.Object)"></A>
-  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/graph/ValueGraph.html#hasEdge(java.lang.Object, java.lang.Object)" target="_top"><tt>hasEdge</tt></A>(<code>Object,</nobr> Object<nobr><nobr></code>)</nobr>
+  <A NAME="com.google.common.graph.ValueGraph.hasEdge_added(N, N)"></A>
+  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/graph/ValueGraph.html#hasEdge(N, N)" target="_top"><tt>hasEdge</tt></A>(<code>N,</nobr> N<nobr><nobr></code>)</nobr>
   </TD>
   <TD VALIGN="TOP">{@inheritDoc}</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.ValueGraph.inDegree_added(java.lang.Object)"></A>
-  <nobr><code>int</code>&nbsp;<A HREF="../../docs/com/google/common/graph/ValueGraph.html#inDegree(java.lang.Object)" target="_top"><tt>inDegree</tt></A>(<code>Object</code>)</nobr>
+  <A NAME="com.google.common.graph.ValueGraph.inDegree_added(N)"></A>
+  <nobr><code>int</code>&nbsp;<A HREF="../../docs/com/google/common/graph/ValueGraph.html#inDegree(N)" target="_top"><tt>inDegree</tt></A>(<code>N</code>)</nobr>
   </TD>
   <TD VALIGN="TOP">{@inheritDoc}</TD>
 </TR>
@@ -128,24 +128,54 @@ Interface com.google.common.graph.<A HREF="../../docs/com/google/common/graph/Va
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.ValueGraph.outDegree_added(java.lang.Object)"></A>
-  <nobr><code>int</code>&nbsp;<A HREF="../../docs/com/google/common/graph/ValueGraph.html#outDegree(java.lang.Object)" target="_top"><tt>outDegree</tt></A>(<code>Object</code>)</nobr>
+  <A NAME="com.google.common.graph.ValueGraph.outDegree_added(N)"></A>
+  <nobr><code>int</code>&nbsp;<A HREF="../../docs/com/google/common/graph/ValueGraph.html#outDegree(N)" target="_top"><tt>outDegree</tt></A>(<code>N</code>)</nobr>
   </TD>
   <TD VALIGN="TOP">{@inheritDoc}</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.ValueGraph.predecessors_added(java.lang.Object)"></A>
-  <nobr><code>Set&lt;N&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/ValueGraph.html#predecessors(java.lang.Object)" target="_top"><tt>predecessors</tt></A>(<code>Object</code>)</nobr>
+  <A NAME="com.google.common.graph.ValueGraph.predecessors_added(N)"></A>
+  <nobr><code>Set&lt;N&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/ValueGraph.html#predecessors(N)" target="_top"><tt>predecessors</tt></A>(<code>N</code>)</nobr>
   </TD>
   <TD VALIGN="TOP">{@inheritDoc}</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.graph.ValueGraph.successors_added(java.lang.Object)"></A>
-  <nobr><code>Set&lt;N&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/ValueGraph.html#successors(java.lang.Object)" target="_top"><tt>successors</tt></A>(<code>Object</code>)</nobr>
+  <A NAME="com.google.common.graph.ValueGraph.successors_added(N)"></A>
+  <nobr><code>Set&lt;N&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/ValueGraph.html#successors(N)" target="_top"><tt>successors</tt></A>(<code>N</code>)</nobr>
   </TD>
   <TD VALIGN="TOP">{@inheritDoc}</TD>
+</TR>
+</TABLE>
+&nbsp;
+<p>
+<a NAME="Changed"></a>
+<TABLE summary="Changed Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+  <TD VALIGN="TOP" COLSPAN=3><FONT SIZE="+1"><B>Changed Methods</B></FONT></TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.graph.ValueGraph.edgeValue_changed(N, N)"></A>
+  <nobr><code>V</code>&nbsp;<A HREF="../../docs/com/google/common/graph/ValueGraph.html#edgeValue(N, N)" target="_top"><tt>edgeValue</tt></A>(<code>N,</nobr> N<nobr><nobr></code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Change in signature from (<code>Object, Object</code>) to (<code>N, N</code>).<br>
+  </TD>
+  <TD VALIGN="TOP">If there is an edge connecting {@code nodeU} to {@code nodeV}, returns the non-null value
+ associated with that edge.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.graph.ValueGraph.edgeValueOrDefault_changed(N, N, V)"></A>
+  <nobr><code>V</code>&nbsp;<A HREF="../../docs/com/google/common/graph/ValueGraph.html#edgeValueOrDefault(N, N, V)" target="_top"><tt>edgeValueOrDefault</tt></A>(<code>N,</nobr> N<nobr>,</nobr> V<nobr><nobr></code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Change in signature from (<code>Object, Object, V</code>) to (<code>N, N, V</code>).<br>
+  </TD>
+  <TD VALIGN="TOP">If there is an edge connecting {@code nodeU} to {@code nodeV}, returns the non-null value
+ associated with that edge; otherwise, returns {@code defaultValue}.</TD>
 </TR>
 </TABLE>
 &nbsp;
