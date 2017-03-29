@@ -28,7 +28,7 @@ NO DOC BLOCK: com.google.common.graph.AbstractGraph Method equals(java.lang.Obje
 NO DOC BLOCK: com.google.common.graph.AbstractNetwork Method equals(java.lang.Object)
 NO DOC BLOCK: com.google.common.graph.AbstractValueGraph Method equals(java.lang.Object)
 OK: com.google.common.io.CharSource Method forEachLine(java.util.function.Consumer<? super java.lang.String>)
-MISSING @SINCE TAG: com.google.common.collect.Streams Method forEachPair(java.util.stream.Stream<A>, java.util.stream.Stream<B>, java.util.function.BiConsumer<? super A, ? super B>)
+OK: com.google.common.collect.Streams Method forEachPair(java.util.stream.Stream<A>, java.util.stream.Stream<B>, java.util.function.BiConsumer<? super A, ? super B>)
 OK: com.google.common.base.Throwables Method getCauseAs(java.lang.Throwable, java.lang.Class<X>)
 OK: com.google.common.collect.Comparators Method greatest(int, java.util.Comparator<? super T>)
 MISSING @SINCE TAG: com.google.common.graph.Graph Method hasEdge(N, N)

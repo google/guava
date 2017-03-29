@@ -34626,7 +34626,9 @@
 
  <p>Note that many usages of this method can be replaced with simpler calls to {@link #zip}.
  This method behaves equivalently to {@linkplain #zip zipping} the stream elements into
- temporary pair objects and then using {@link Stream#forEach} on that stream.]]>
+ temporary pair objects and then using {@link Stream#forEach} on that stream.
+
+ @since 22.0]]>
       </doc>
     </method>
     <method name="mapWithIndex" return="java.util.stream.Stream&lt;R&gt;"
