@@ -133,7 +133,7 @@ class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   }
 
   @Override
-  public EndpointPair<N> incidentNodes(Object edge) {
+  public EndpointPair<N> incidentNodes(E edge) {
     N nodeU = checkedReferenceNode(edge);
     N nodeV = nodeConnections.get(nodeU).oppositeNode(edge);
     return EndpointPair.of(this, nodeU, nodeV);
@@ -174,7 +174,7 @@ class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
     return checkedConnections(node).successors();
   }
 
-  protected final NetworkConnections<N, E> checkedConnections(Object node) {
+  protected final NetworkConnections<N, E> checkedConnections(N node) {
     NetworkConnections<N, E> connections = nodeConnections.get(node);
     if (connections == null) {
       checkNotNull(node);
@@ -183,7 +183,7 @@ class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
     return connections;
   }
 
-  protected final N checkedReferenceNode(Object edge) {
+  protected final N checkedReferenceNode(E edge) {
     N referenceNode = edgeToReferenceNode.get(edge);
     if (referenceNode == null) {
       checkNotNull(edge);
@@ -192,11 +192,11 @@ class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
     return referenceNode;
   }
 
-  protected final boolean containsNode(@Nullable Object node) {
+  protected final boolean containsNode(@Nullable N node) {
     return nodeConnections.containsKey(node);
   }
 
-  protected final boolean containsEdge(@Nullable Object edge) {
+  protected final boolean containsEdge(@Nullable E edge) {
     return edgeToReferenceNode.containsKey(edge);
   }
 }

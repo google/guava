@@ -476,13 +476,13 @@ public final class Graphs {
     }
 
     @Override
-    public EndpointPair<N> incidentNodes(Object edge) {
+    public EndpointPair<N> incidentNodes(E edge) {
       EndpointPair<N> endpointPair = network.incidentNodes(edge);
       return EndpointPair.of(network, endpointPair.nodeV(), endpointPair.nodeU()); // transpose
     }
 
     @Override
-    public Set<E> adjacentEdges(Object edge) {
+    public Set<E> adjacentEdges(E edge) {
       return network.adjacentEdges(edge);
     }
 

@@ -137,7 +137,7 @@ final class ConfigurableMutableNetwork<N, E> extends ConfigurableNetwork<N, E>
 
   @Override
   @CanIgnoreReturnValue
-  public boolean removeEdge(Object edge) {
+  public boolean removeEdge(E edge) {
     checkNotNull(edge, "edge");
 
     N nodeU = edgeToReferenceNode.get(edge);

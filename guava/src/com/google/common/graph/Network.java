@@ -18,7 +18,6 @@ package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
-import com.google.errorprone.annotations.CompatibleWith;
 import java.util.Set;
 import javax.annotation.Nullable;
 
@@ -263,7 +262,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    *
    * @throws IllegalArgumentException if {@code edge} is not an element of this network
    */
-  EndpointPair<N> incidentNodes(@CompatibleWith("E") Object edge);
+  EndpointPair<N> incidentNodes(E edge);
 
   /**
    * Returns the edges which have an {@link #incidentNodes(Object) incident node} in common with
@@ -271,7 +270,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    *
    * @throws IllegalArgumentException if {@code edge} is not an element of this network
    */
-  Set<E> adjacentEdges(@CompatibleWith("E") Object edge);
+  Set<E> adjacentEdges(E edge);
 
   /**
    * Returns the set of edges directly connecting {@code nodeU} to {@code nodeV}.
