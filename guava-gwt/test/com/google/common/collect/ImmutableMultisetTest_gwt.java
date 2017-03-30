@@ -238,11 +238,6 @@ public void testIterationOrder() throws Exception {
   testCase.testIterationOrder();
 }
 
-public void testIterationOrderThroughBuilderRemovals() throws Exception {
-  com.google.common.collect.ImmutableMultisetTest testCase = new com.google.common.collect.ImmutableMultisetTest();
-  testCase.testIterationOrderThroughBuilderRemovals();
-}
-
 public void testMultisetWrites() throws Exception {
   com.google.common.collect.ImmutableMultisetTest testCase = new com.google.common.collect.ImmutableMultisetTest();
   testCase.testMultisetWrites();
