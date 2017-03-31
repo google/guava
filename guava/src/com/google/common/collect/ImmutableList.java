@@ -431,8 +431,6 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     switch (length) {
       case 0:
         return of();
-      case 1:
-        return of(get(fromIndex));
       default:
         return subListUnchecked(fromIndex, toIndex);
     }
