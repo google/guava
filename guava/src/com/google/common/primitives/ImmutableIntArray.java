@@ -17,7 +17,7 @@ package com.google.common.primitives;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.AbstractList;
@@ -79,7 +79,7 @@ import javax.annotation.Nullable;
  * @since 22.0
  */
 @Beta
-@GwtIncompatible // TODO(kevinb)
+@GwtCompatible
 public final class ImmutableIntArray { // TODO(kevinb): implements Serializable
   private static final ImmutableIntArray EMPTY = new ImmutableIntArray(new int[0]);
 
@@ -117,7 +117,7 @@ public final class ImmutableIntArray { // TODO(kevinb): implements Serializable
 
   /** Returns an immutable array containing the given values, in order. */
   public static ImmutableIntArray copyOf(int[] values) {
-    return values.length == 0 ? EMPTY : new ImmutableIntArray(values.clone());
+    return values.length == 0 ? EMPTY : new ImmutableIntArray(Arrays.copyOf(values, values.length));
   }
 
   /** Returns an immutable array containing the given values, in order. */
