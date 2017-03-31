@@ -427,12 +427,10 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     int length = toIndex - fromIndex;
     if (length == size()) {
       return this;
-    }
-    switch (length) {
-      case 0:
-        return of();
-      default:
-        return subListUnchecked(fromIndex, toIndex);
+    } else if (length == 0) {
+      return of();
+    } else {
+      return subListUnchecked(fromIndex, toIndex);
     }
   }
 
