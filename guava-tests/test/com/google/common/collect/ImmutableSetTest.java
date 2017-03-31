@@ -172,11 +172,11 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     assertEquals(8, ImmutableSet.chooseTableSize(4));
 
     assertEquals(1 << 29, ImmutableSet.chooseTableSize(1 << 28));
-    assertEquals(1 << 29, ImmutableSet.chooseTableSize(1 << 29 - 1));
+    assertEquals(1 << 29, ImmutableSet.chooseTableSize((1 << 29) * 3 / 5));
 
     // Now we hit the cap
     assertEquals(1 << 30, ImmutableSet.chooseTableSize(1 << 29));
-    assertEquals(1 << 30, ImmutableSet.chooseTableSize(1 << 30 - 1));
+    assertEquals(1 << 30, ImmutableSet.chooseTableSize((1 << 30) - 1));
 
     // Now we've gone too far
     try {
