@@ -17,9 +17,18 @@
 package com.google.common.eventbus;
 
 import com.google.common.collect.Lists;
+
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Executor;
+
+import com.google.common.util.concurrent.MoreExecutors;
 import junit.framework.TestCase;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 /**
  * Test case for {@link AsyncEventBus}.
@@ -33,6 +42,53 @@ public class AsyncEventBusTest extends TestCase {
   private FakeExecutor executor;
 
   private AsyncEventBus bus;
+
+  public static class CreationTests extends TestCase {
+    private static final String TEST_BUS_IDENTIFIER = "test-bus";
+
+    private FakeExecutor executor;
+    private AsyncEventBus.Builder builder;
+
+    @Override
+    protected void setUp() throws Exception {
+      super.setUp();
+      executor = new FakeExecutor();
+      builder = new AsyncEventBus.Builder(executor);
+    }
+
+    public void testBuilderEmpty() {
+      final AsyncEventBus bus = builder.build();
+      assertEquals("default", bus.identifier());
+      assertEquals(executor, bus.executor());
+    }
+
+    public void testBuilderIdentifier() {
+      final AsyncEventBus bus = builder.identifier(TEST_BUS_IDENTIFIER).build();
+      assertEquals(TEST_BUS_IDENTIFIER, bus.identifier());
+      assertEquals(executor, bus.executor());
+    }
+
+    public void testBuilderIdentifierDispatcher() {
+      final Dispatcher dispatcher = mock(Dispatcher.class);
+      final AsyncEventBus bus = builder.identifier(TEST_BUS_IDENTIFIER).dispatcher(dispatcher).build();
+      bus.register(new StringCatcher());
+      bus.post(EVENT);
+
+      assertEquals(TEST_BUS_IDENTIFIER, bus.identifier());
+      verify(dispatcher).dispatch(eq(EVENT), any(Iterator.class));
+    }
+
+    public void testBuilderIdentifierSubscriberExceptionHandler() {
+      final SubscriberExceptionHandler subscriberExceptionHandler = mock(SubscriberExceptionHandler.class);
+      final EventBus bus = builder.identifier(TEST_BUS_IDENTIFIER).exceptionHandler(subscriberExceptionHandler).build();
+      final Throwable throwable = new Throwable();
+      final SubscriberExceptionContext subscriberExceptionContext = mock(SubscriberExceptionContext.class);
+      bus.handleSubscriberException(throwable, subscriberExceptionContext);
+
+      assertEquals(TEST_BUS_IDENTIFIER, bus.identifier());
+      verify(subscriberExceptionHandler).handleException(throwable, subscriberExceptionContext);
+    }
+  }
 
   @Override
   protected void setUp() throws Exception {

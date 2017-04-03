@@ -42,7 +42,7 @@ import junit.framework.TestCase;
  */
 public class EventBusTest extends TestCase {
   private static final String EVENT = "Hello";
-  private static final String BUS_IDENTIFIER = "test-bus";
+  private static final String TEST_BUS_IDENTIFIER = "test-bus";
 
   private EventBus bus;
 
@@ -54,21 +54,21 @@ public class EventBusTest extends TestCase {
     }
 
     public void testBuilderIdentifier() {
-      final EventBus bus = new Builder().identifier(BUS_IDENTIFIER).build();
-      assertEquals(BUS_IDENTIFIER, bus.identifier());
+      final EventBus bus = new Builder().identifier(TEST_BUS_IDENTIFIER).build();
+      assertEquals(TEST_BUS_IDENTIFIER, bus.identifier());
     }
 
     public void testBuilderIdentifierDispatcher() {
 
       final Dispatcher dispatcher = mock(Dispatcher.class);
       final EventBus bus = new Builder()
-          .identifier(BUS_IDENTIFIER)
+          .identifier(TEST_BUS_IDENTIFIER)
           .dispatcher(dispatcher)
           .build();
       bus.register(new StringCatcher());
       bus.post(EVENT);
 
-      assertEquals(BUS_IDENTIFIER, bus.identifier());
+      assertEquals(TEST_BUS_IDENTIFIER, bus.identifier());
       verify(dispatcher).dispatch(eq(EVENT), any(Iterator.class));
     }
 
@@ -76,32 +76,32 @@ public class EventBusTest extends TestCase {
 
       final Executor executor = mock(Executor.class);
       final EventBus bus = new Builder()
-          .identifier(BUS_IDENTIFIER)
+          .identifier(TEST_BUS_IDENTIFIER)
           .executor(executor)
           .build();
 
-      assertEquals(BUS_IDENTIFIER, bus.identifier());
+      assertEquals(TEST_BUS_IDENTIFIER, bus.identifier());
       assertEquals(executor, bus.executor());
     }
 
     public void testBuilderIdentifierSubscriberExceptionHandler() {
       final SubscriberExceptionHandler subscriberExceptionHandler = mock(SubscriberExceptionHandler.class);
       final EventBus bus = new Builder()
-          .identifier(BUS_IDENTIFIER)
+          .identifier(TEST_BUS_IDENTIFIER)
           .exceptionHandler(subscriberExceptionHandler)
           .build();
       final Throwable throwable = new Throwable();
       final SubscriberExceptionContext subscriberExceptionContext = mock(SubscriberExceptionContext.class);
       bus.handleSubscriberException(throwable, subscriberExceptionContext);
 
-      assertEquals(BUS_IDENTIFIER, bus.identifier());
+      assertEquals(TEST_BUS_IDENTIFIER, bus.identifier());
       verify(subscriberExceptionHandler).handleException(throwable, subscriberExceptionContext);
     }
   }
 
   @Override protected void setUp() throws Exception {
     super.setUp();
-    bus = new EventBus(BUS_IDENTIFIER);
+    bus = new EventBus(TEST_BUS_IDENTIFIER);
   }
 
   public void testBasicCatcherDistribution() {

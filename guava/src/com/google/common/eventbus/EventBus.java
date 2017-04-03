@@ -14,8 +14,6 @@
 
 package com.google.common.eventbus;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.common.annotations.Beta;
 import com.google.common.base.MoreObjects;
 import com.google.common.util.concurrent.MoreExecutors;
@@ -27,6 +25,8 @@ import java.util.Locale;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Dispatches events to listeners, and provides ways for listeners to register themselves.
@@ -116,16 +116,16 @@ public class EventBus {
    *                  .exceptionHandler(new CustomSubscriberExceptionHandler())
    *                  .build();}</pre>
    *
-   * <p>Builder instances can be reused if every set fields in builder is reusable across multiple
-   * EventBus instances. Default fields are reusable.
+   * <p>Builder instances can be reused if every set fields in builder is reusable across multiple EventBus instances.
+   * Default fields are reusable.
    */
   public static class Builder {
 
-    private String identifier = DEFAULT_IDENTIFIER;
-    private Executor executor = MoreExecutors.directExecutor();
+    protected String identifier = DEFAULT_IDENTIFIER;
+    protected Executor executor = MoreExecutors.directExecutor();
     @Nullable
-    private Dispatcher dispatcher = null;
-    private SubscriberExceptionHandler exceptionHandler = LoggingHandler.INSTANCE;
+    protected Dispatcher dispatcher = null;
+    protected SubscriberExceptionHandler exceptionHandler = LoggingHandler.INSTANCE;
 
     /**
      * Sets a {@code identifier} of an EventBus. Optional.
@@ -134,6 +134,7 @@ public class EventBus {
      * @return this for chained calls.
      */
     public Builder identifier(final String identifier) {
+      checkNotNull(identifier);
       this.identifier = identifier;
       return this;
     }
@@ -142,10 +143,11 @@ public class EventBus {
      * Sets an {@code executor} for the {@link EventBus} to be built with. Optional.
      * @see Executor
      *
-     * @param executor An instance of {@link Executor}, default one is {@link MoreExecutors#directExecutor()}.
+     * @param executor {@link Executor}, default one is {@link MoreExecutors#directExecutor()}.
      * @return this for chained calls.
      */
     public Builder executor(final Executor executor) {
+      checkNotNull(executor);
       this.executor = executor;
       return this;
     }
@@ -154,10 +156,11 @@ public class EventBus {
      * Sets a dispatcher for the {@link EventBus} to be built with. Optional.
      * @see Dispatcher
      *
-     * @param dispatcher An instance of {@link Dispatcher}, default is {@link Dispatcher#perThreadDispatchQueue()}.
+     * @param dispatcher {@link Dispatcher}, default is {@link Dispatcher#perThreadDispatchQueue()}.
      * @return this fir chained calls.
      */
     public Builder dispatcher(final Dispatcher dispatcher) {
+      checkNotNull(dispatcher);
       this.dispatcher = dispatcher;
       return this;
     }
@@ -167,11 +170,12 @@ public class EventBus {
      * @see #EventBus(SubscriberExceptionHandler)
      * @see SubscriberExceptionHandler
      *
-     * @param exceptionHandler an handler of exceptions happening in subscribes, default ons is
-     *                         {@link LoggingHandler#INSTANCE}
+     * @param exceptionHandler A handler of exceptions happening in subscribers, default one is
+     *     {@link LoggingHandler#INSTANCE}
      * @return this for chained calls.
      */
     public Builder exceptionHandler(final SubscriberExceptionHandler exceptionHandler) {
+      checkNotNull(exceptionHandler);
       this.exceptionHandler = exceptionHandler;
       return this;
     }
@@ -305,7 +309,11 @@ public class EventBus {
     return MoreObjects.toStringHelper(this).addValue(identifier).toString();
   }
 
-  public Builder builder() {
+  /**
+   * Returns a new builder. The generated builder is equivalent to the builder created by the {@link EventBus.Builder}
+   * constructor.
+   */
+  public static Builder builder() {
     return new Builder();
   }
 

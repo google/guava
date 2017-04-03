@@ -61,4 +61,112 @@ public class AsyncEventBus extends EventBus {
   public AsyncEventBus(Executor executor) {
     super("default", executor, Dispatcher.legacyAsync(), LoggingHandler.INSTANCE);
   }
+
+  /**
+   * Returns a new builder. The generated builder is equivalent to the builder created by the {@link
+   * AsyncEventBus.Builder} constructor.
+   */
+  public static AsyncEventBus.Builder builder(final Executor executor) {
+    return new Builder(executor);
+  }
+
+  /**
+   * Creates a new AsyncEventBus that will use {@code executor} to dispatch events. Assigns {@code
+   * identifier} as the bus's name for logging purposes.
+   *
+   * @param identifier short name for the bus, for logging purposes.
+   * @param executor Executor to use to dispatch events. It is the caller's responsibility to shut
+   *     down the executor after the last event has been posted to this event bus.
+   * @param dispatcher dispatcher
+   * @param exceptionHandler Handler used to handle exceptions thrown from subscribers.
+   *     See {@link SubscriberExceptionHandler} for more information.
+   */
+  private AsyncEventBus(final String identifier,
+                final Executor executor,
+                final Dispatcher dispatcher,
+                final SubscriberExceptionHandler exceptionHandler) {
+    super(identifier, executor, dispatcher, exceptionHandler);
+  }
+
+  /**
+   * A builder for creating instances of {@link AsyncEventBus}. Example: <pre> {@code
+   *   EventBus bus = new AsyncEventBus.Builder()
+   *                  .identifier("EVENT_BUS")
+   *                  .executor(MoreExecutors.directExecutor())
+   *                  .dispatcher(Dispatcher.immediate())
+   *                  .exceptionHandler(new CustomSubscriberExceptionHandler())
+   *                  .build();}</pre>
+   *
+   * <p>Builder instances can be reused if every set fields in builder is reusable across multiple AsyncEventBus
+   * instances. Default fields are reusable.
+   */
+  public static class Builder extends EventBus.Builder {
+    /**
+     * Returns a new builder. The generated builder is equivalent to the builder created by the {@link
+     * AsyncEventBus#builder(Executor)} )} constructor.
+     */
+    public Builder(Executor executor) {
+      this.executor(executor);
+    }
+
+    /**
+     * Sets a dispatcher for the {@link AsyncEventBus} to be built with. Optional.
+     *
+     * @param dispatcher {@link Dispatcher}, default is {@link Dispatcher#legacyAsync()}.
+     * @return this for chained calls.
+     * @see Dispatcher
+     */
+    @Override
+    public Builder dispatcher(final Dispatcher dispatcher) {
+      return (Builder) super.dispatcher(dispatcher);
+    }
+
+    /**
+     * Sets a {@code identifier} of an AsyncEventBus. Optional.
+     *
+     * @param identifier a brief name for this bus, for logging purposes. Should be a valid Java identifier.
+     * @return this for chained calls.
+     */
+    @Override
+    public Builder identifier(String identifier) {
+      return (Builder) super.identifier(identifier);
+    }
+
+    /**
+     * Sets an {@code executor} for the {@link AsyncEventBus} to be built with. Optional.
+     *
+     * @param executor {@link Executor}.
+     * @return this for chained calls.
+     * @see Executor
+     */
+    @Override
+    public Builder executor(Executor executor) {
+      return (Builder) super.executor(executor);
+    }
+
+    /**
+     * Sets {@link SubscriberExceptionHandler} for the EventBus to be built with.
+     *
+     * @param exceptionHandler Handler used to handle exceptions thrown from subscribers.
+     *     See {@link SubscriberExceptionHandler} for more information.
+     * @return this for chained calls.
+     * @see SubscriberExceptionHandler
+     */
+    @Override
+    public EventBus.Builder exceptionHandler(SubscriberExceptionHandler exceptionHandler) {
+      return super.exceptionHandler(exceptionHandler);
+    }
+
+    /**
+     * Builds and returns a new {@link AsyncEventBus} instance.
+     *
+     * @return a newly build {@link AsyncEventBus}
+     */
+    @Override
+    public AsyncEventBus build() {
+      return new AsyncEventBus(this.identifier, this.executor,
+                               this.dispatcher != null ? this.dispatcher : Dispatcher.legacyAsync(),
+                               this.exceptionHandler);
+    }
+  }
 }
