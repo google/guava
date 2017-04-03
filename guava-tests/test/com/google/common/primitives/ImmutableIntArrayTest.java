@@ -16,6 +16,7 @@ package com.google.common.primitives;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ObjectArrays;
@@ -37,7 +38,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /** @author Kevin Bourrillion */
-@GwtIncompatible
+@GwtCompatible(emulated = true)
 public class ImmutableIntArrayTest extends TestCase {
   // Test all creation paths very lazily: by assuming asList() works
 
@@ -168,11 +169,13 @@ public class ImmutableIntArrayTest extends TestCase {
 
   private enum BuilderOp {
     ADD_ONE {
+      @Override
       void doIt(ImmutableIntArray.Builder builder, AtomicInteger counter) {
         builder.add(counter.getAndIncrement());
       }
     },
     ADD_ARRAY {
+      @Override
       void doIt(ImmutableIntArray.Builder builder, AtomicInteger counter) {
         int[] array = new int[RANDOM.nextInt(10)];
         for (int i = 0; i < array.length; i++) {
@@ -182,6 +185,7 @@ public class ImmutableIntArrayTest extends TestCase {
       }
     },
     ADD_COLLECTION {
+      @Override
       void doIt(ImmutableIntArray.Builder builder, AtomicInteger counter) {
         List<Integer> list = new ArrayList<>();
         int num = RANDOM.nextInt(10);
@@ -192,6 +196,7 @@ public class ImmutableIntArrayTest extends TestCase {
       }
     },
     ADD_ITERABLE {
+      @Override
       void doIt(ImmutableIntArray.Builder builder, AtomicInteger counter) {
         List<Integer> list = new ArrayList<>();
         int num = RANDOM.nextInt(10);
@@ -202,6 +207,7 @@ public class ImmutableIntArrayTest extends TestCase {
       }
     },
     ADD_IIA {
+      @Override
       void doIt(ImmutableIntArray.Builder builder, AtomicInteger counter) {
         int[] array = new int[RANDOM.nextInt(10)];
         for (int i = 0; i < array.length; i++) {
@@ -211,6 +217,7 @@ public class ImmutableIntArrayTest extends TestCase {
       }
     },
     ADD_LARGER_ARRAY {
+      @Override
       void doIt(ImmutableIntArray.Builder builder, AtomicInteger counter) {
         int[] array = new int[RANDOM.nextInt(200) + 200];
         for (int i = 0; i < array.length; i++) {
@@ -378,6 +385,7 @@ public class ImmutableIntArrayTest extends TestCase {
     assertThat(iia.trimmed()).isSameAs(iia);
   }
 
+  @GwtIncompatible // suite
   public static Test suite() {
     List<ListTestSuiteBuilder<Integer>> builders =
         ImmutableList.of(
@@ -406,13 +414,15 @@ public class ImmutableIntArrayTest extends TestCase {
     return suite;
   }
 
+  @GwtIncompatible // used only from suite
   private static ImmutableIntArray makeArray(Integer[] values) {
     return ImmutableIntArray.copyOf(Arrays.asList(values));
   }
 
-  // Test generators.  To let the GWT test suite generator access them, they need to be
-  // public named classes with a public default constructor (not that we test these under GWT yet).
+  // Test generators.  To let the GWT test suite generator access them, they need to be public named
+  // classes with a public default constructor (not that we run these suites under GWT yet).
 
+  @GwtIncompatible // used only from suite
   public static final class ImmutableIntArrayAsListGenerator extends TestIntegerListGenerator {
     @Override
     protected List<Integer> create(Integer[] elements) {
@@ -420,6 +430,7 @@ public class ImmutableIntArrayTest extends TestCase {
     }
   }
 
+  @GwtIncompatible // used only from suite
   public static final class ImmutableIntArrayHeadSubListAsListGenerator
       extends TestIntegerListGenerator {
     @Override
@@ -430,6 +441,7 @@ public class ImmutableIntArrayTest extends TestCase {
     }
   }
 
+  @GwtIncompatible // used only from suite
   public static final class ImmutableIntArrayTailSubListAsListGenerator
       extends TestIntegerListGenerator {
     @Override
@@ -440,6 +452,7 @@ public class ImmutableIntArrayTest extends TestCase {
     }
   }
 
+  @GwtIncompatible // used only from suite
   public static final class ImmutableIntArrayMiddleSubListAsListGenerator
       extends TestIntegerListGenerator {
     @Override
@@ -451,10 +464,12 @@ public class ImmutableIntArrayTest extends TestCase {
     }
   }
 
+  @GwtIncompatible // used only from suite
   private static Integer[] concat(Integer[] a, Integer[] b) {
     return ObjectArrays.concat(a, b, Integer.class);
   }
 
+  @GwtIncompatible // used only from suite
   public abstract static class TestIntegerListGenerator implements TestListGenerator<Integer> {
     @Override
     public SampleElements<Integer> samples() {
@@ -489,6 +504,7 @@ public class ImmutableIntArrayTest extends TestCase {
     }
   }
 
+  @GwtIncompatible // used only from suite
   public static class SampleIntegers extends SampleElements<Integer> {
     public SampleIntegers() {
       super(1, 3, 6, 10, 15);
