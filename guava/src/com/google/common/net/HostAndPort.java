@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
@@ -58,7 +57,6 @@ import javax.annotation.concurrent.Immutable;
  * @author Paul Marks
  * @since 10.0
  */
-@Beta
 @Immutable
 @GwtCompatible
 public final class HostAndPort implements Serializable {
