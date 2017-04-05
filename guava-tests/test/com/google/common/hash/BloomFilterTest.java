@@ -54,11 +54,12 @@ public class BloomFilterTest extends TestCase {
   }
 
   /**
-   * Asserts that {@link BloomFilter#approximateCount} is within 1 percent of the expected value.
+   * Asserts that {@link BloomFilter#approximateElementCount} is within 1 percent of the expected
+   * value.
    */
-  private static void assertApproximateCountGuess(BloomFilter<?> bf, int sizeGuess) {
-    assertThat(bf.approximateCount()).isAtLeast((long) (sizeGuess * 0.99));
-    assertThat(bf.approximateCount()).isAtMost((long) (sizeGuess * 1.01));
+  private static void assertApproximateElementCountGuess(BloomFilter<?> bf, int sizeGuess) {
+    assertThat(bf.approximateElementCount()).isAtLeast((long) (sizeGuess * 0.99));
+    assertThat(bf.approximateElementCount()).isAtMost((long) (sizeGuess * 1.01));
   }
 
   public void testCreateAndCheckMitz32BloomFilterWithKnownFalsePositives() {
@@ -71,7 +72,7 @@ public class BloomFilterTest extends TestCase {
     for (int i = 0; i < numInsertions * 2; i += 2) {
       bf.put(Integer.toString(i));
     }
-    assertApproximateCountGuess(bf, numInsertions);
+    assertApproximateElementCountGuess(bf, numInsertions);
 
     // Assert that the BF "might" have all of the even numbers.
     for (int i = 0; i < numInsertions * 2; i += 2) {
@@ -113,7 +114,7 @@ public class BloomFilterTest extends TestCase {
     for (int i = 0; i < numInsertions * 2; i += 2) {
       bf.put(Integer.toString(i));
     }
-    assertApproximateCountGuess(bf, numInsertions);
+    assertApproximateElementCountGuess(bf, numInsertions);
 
     // Assert that the BF "might" have all of the even numbers.
     for (int i = 0; i < numInsertions * 2; i += 2) {
@@ -155,7 +156,7 @@ public class BloomFilterTest extends TestCase {
     for (int i = 0; i < numInsertions * 2; i += 2) {
       bf.put(Integer.toString(i));
     }
-    assertApproximateCountGuess(bf, numInsertions);
+    assertApproximateElementCountGuess(bf, numInsertions);
 
     // Assert that the BF "might" have all of the even numbers.
     for (int i = 0; i < numInsertions * 2; i += 2) {
@@ -328,14 +329,14 @@ public class BloomFilterTest extends TestCase {
     }
   }
 
-  public void testApproximateCount() {
+  public void testApproximateElementCount() {
     int numInsertions = 1000;
     BloomFilter<Integer> bf = BloomFilter.create(Funnels.integerFunnel(), numInsertions);
     bf.put(-1);
     for (int i = 0; i < numInsertions; i++) {
       bf.put(i);
     }
-    assertApproximateCountGuess(bf, numInsertions);
+    assertApproximateElementCountGuess(bf, numInsertions);
   }
 
   public void testEquals_empty() {

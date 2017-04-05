@@ -187,7 +187,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    *
    * @since 22.0
    */
-  public long approximateCount() {
+  public long approximateElementCount() {
     long bitSize = bits.bitSize();
     long bitCount = bits.bitCount();
 
