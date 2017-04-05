@@ -317,19 +317,19 @@
 <span class="sourceLineNo">309</span>       * them while (final or not) local variables are run time values.<a name="line.309"></a>
 <span class="sourceLineNo">310</span>       */<a name="line.310"></a>
 <span class="sourceLineNo">311</span><a name="line.311"></a>
-<span class="sourceLineNo">312</span>      static final Unsafe theUnsafe;<a name="line.312"></a>
+<span class="sourceLineNo">312</span>      static final Unsafe theUnsafe = getUnsafe();<a name="line.312"></a>
 <span class="sourceLineNo">313</span><a name="line.313"></a>
 <span class="sourceLineNo">314</span>      /** The offset to the first element in a byte array. */<a name="line.314"></a>
-<span class="sourceLineNo">315</span>      static final int BYTE_ARRAY_BASE_OFFSET;<a name="line.315"></a>
+<span class="sourceLineNo">315</span>      static final int BYTE_ARRAY_BASE_OFFSET = theUnsafe.arrayBaseOffset(byte[].class);<a name="line.315"></a>
 <span class="sourceLineNo">316</span><a name="line.316"></a>
 <span class="sourceLineNo">317</span>      static {<a name="line.317"></a>
-<span class="sourceLineNo">318</span>        theUnsafe = getUnsafe();<a name="line.318"></a>
-<span class="sourceLineNo">319</span><a name="line.319"></a>
-<span class="sourceLineNo">320</span>        BYTE_ARRAY_BASE_OFFSET = theUnsafe.arrayBaseOffset(byte[].class);<a name="line.320"></a>
-<span class="sourceLineNo">321</span><a name="line.321"></a>
-<span class="sourceLineNo">322</span>        // sanity check - this should never fail<a name="line.322"></a>
-<span class="sourceLineNo">323</span>        if (theUnsafe.arrayIndexScale(byte[].class) != 1) {<a name="line.323"></a>
-<span class="sourceLineNo">324</span>          throw new AssertionError();<a name="line.324"></a>
+<span class="sourceLineNo">318</span>        // fall back to the safer pure java implementation unless we're in<a name="line.318"></a>
+<span class="sourceLineNo">319</span>        // a 64-bit JVM with an 8-byte aligned field offset.<a name="line.319"></a>
+<span class="sourceLineNo">320</span>        if (!("64".equals(System.getProperty("sun.arch.data.model"))<a name="line.320"></a>
+<span class="sourceLineNo">321</span>              &amp;&amp; (BYTE_ARRAY_BASE_OFFSET % 8) == 0<a name="line.321"></a>
+<span class="sourceLineNo">322</span>              // sanity check - this should never fail<a name="line.322"></a>
+<span class="sourceLineNo">323</span>              &amp;&amp; theUnsafe.arrayIndexScale(byte[].class) == 1)) {<a name="line.323"></a>
+<span class="sourceLineNo">324</span>          throw new Error();  // force fallback to PureJavaComparator<a name="line.324"></a>
 <span class="sourceLineNo">325</span>        }<a name="line.325"></a>
 <span class="sourceLineNo">326</span>      }<a name="line.326"></a>
 <span class="sourceLineNo">327</span><a name="line.327"></a>
@@ -368,89 +368,90 @@
 <span class="sourceLineNo">360</span><a name="line.360"></a>
 <span class="sourceLineNo">361</span>      @Override<a name="line.361"></a>
 <span class="sourceLineNo">362</span>      public int compare(byte[] left, byte[] right) {<a name="line.362"></a>
-<span class="sourceLineNo">363</span>        int minLength = Math.min(left.length, right.length);<a name="line.363"></a>
-<span class="sourceLineNo">364</span>        int minWords = minLength / Longs.BYTES;<a name="line.364"></a>
-<span class="sourceLineNo">365</span><a name="line.365"></a>
-<span class="sourceLineNo">366</span>        /*<a name="line.366"></a>
-<span class="sourceLineNo">367</span>         * Compare 8 bytes at a time. Benchmarking shows comparing 8 bytes at a time is no slower<a name="line.367"></a>
-<span class="sourceLineNo">368</span>         * than comparing 4 bytes at a time even on 32-bit. On the other hand, it is substantially<a name="line.368"></a>
-<span class="sourceLineNo">369</span>         * faster on 64-bit.<a name="line.369"></a>
-<span class="sourceLineNo">370</span>         */<a name="line.370"></a>
-<span class="sourceLineNo">371</span>        for (int i = 0; i &lt; minWords * Longs.BYTES; i += Longs.BYTES) {<a name="line.371"></a>
-<span class="sourceLineNo">372</span>          long lw = theUnsafe.getLong(left, BYTE_ARRAY_BASE_OFFSET + (long) i);<a name="line.372"></a>
-<span class="sourceLineNo">373</span>          long rw = theUnsafe.getLong(right, BYTE_ARRAY_BASE_OFFSET + (long) i);<a name="line.373"></a>
-<span class="sourceLineNo">374</span>          if (lw != rw) {<a name="line.374"></a>
-<span class="sourceLineNo">375</span>            if (BIG_ENDIAN) {<a name="line.375"></a>
-<span class="sourceLineNo">376</span>              return UnsignedLongs.compare(lw, rw);<a name="line.376"></a>
-<span class="sourceLineNo">377</span>            }<a name="line.377"></a>
-<span class="sourceLineNo">378</span><a name="line.378"></a>
-<span class="sourceLineNo">379</span>            /*<a name="line.379"></a>
-<span class="sourceLineNo">380</span>             * We want to compare only the first index where left[index] != right[index]. This<a name="line.380"></a>
-<span class="sourceLineNo">381</span>             * corresponds to the least significant nonzero byte in lw ^ rw, since lw and rw are<a name="line.381"></a>
-<span class="sourceLineNo">382</span>             * little-endian. Long.numberOfTrailingZeros(diff) tells us the least significant<a name="line.382"></a>
-<span class="sourceLineNo">383</span>             * nonzero bit, and zeroing out the first three bits of L.nTZ gives us the shift to get<a name="line.383"></a>
-<span class="sourceLineNo">384</span>             * that least significant nonzero byte.<a name="line.384"></a>
-<span class="sourceLineNo">385</span>             */<a name="line.385"></a>
-<span class="sourceLineNo">386</span>            int n = Long.numberOfTrailingZeros(lw ^ rw) &amp; ~0x7;<a name="line.386"></a>
-<span class="sourceLineNo">387</span>            return ((int) ((lw &gt;&gt;&gt; n) &amp; UNSIGNED_MASK)) - ((int) ((rw &gt;&gt;&gt; n) &amp; UNSIGNED_MASK));<a name="line.387"></a>
-<span class="sourceLineNo">388</span>          }<a name="line.388"></a>
-<span class="sourceLineNo">389</span>        }<a name="line.389"></a>
-<span class="sourceLineNo">390</span><a name="line.390"></a>
-<span class="sourceLineNo">391</span>        // The epilogue to cover the last (minLength % 8) elements.<a name="line.391"></a>
-<span class="sourceLineNo">392</span>        for (int i = minWords * Longs.BYTES; i &lt; minLength; i++) {<a name="line.392"></a>
-<span class="sourceLineNo">393</span>          int result = UnsignedBytes.compare(left[i], right[i]);<a name="line.393"></a>
-<span class="sourceLineNo">394</span>          if (result != 0) {<a name="line.394"></a>
-<span class="sourceLineNo">395</span>            return result;<a name="line.395"></a>
-<span class="sourceLineNo">396</span>          }<a name="line.396"></a>
-<span class="sourceLineNo">397</span>        }<a name="line.397"></a>
-<span class="sourceLineNo">398</span>        return left.length - right.length;<a name="line.398"></a>
-<span class="sourceLineNo">399</span>      }<a name="line.399"></a>
-<span class="sourceLineNo">400</span><a name="line.400"></a>
-<span class="sourceLineNo">401</span>      @Override<a name="line.401"></a>
-<span class="sourceLineNo">402</span>      public String toString() {<a name="line.402"></a>
-<span class="sourceLineNo">403</span>        return "UnsignedBytes.lexicographicalComparator() (sun.misc.Unsafe version)";<a name="line.403"></a>
-<span class="sourceLineNo">404</span>      }<a name="line.404"></a>
-<span class="sourceLineNo">405</span>    }<a name="line.405"></a>
-<span class="sourceLineNo">406</span><a name="line.406"></a>
-<span class="sourceLineNo">407</span>    enum PureJavaComparator implements Comparator&lt;byte[]&gt; {<a name="line.407"></a>
-<span class="sourceLineNo">408</span>      INSTANCE;<a name="line.408"></a>
-<span class="sourceLineNo">409</span><a name="line.409"></a>
-<span class="sourceLineNo">410</span>      @Override<a name="line.410"></a>
-<span class="sourceLineNo">411</span>      public int compare(byte[] left, byte[] right) {<a name="line.411"></a>
-<span class="sourceLineNo">412</span>        int minLength = Math.min(left.length, right.length);<a name="line.412"></a>
-<span class="sourceLineNo">413</span>        for (int i = 0; i &lt; minLength; i++) {<a name="line.413"></a>
-<span class="sourceLineNo">414</span>          int result = UnsignedBytes.compare(left[i], right[i]);<a name="line.414"></a>
-<span class="sourceLineNo">415</span>          if (result != 0) {<a name="line.415"></a>
-<span class="sourceLineNo">416</span>            return result;<a name="line.416"></a>
-<span class="sourceLineNo">417</span>          }<a name="line.417"></a>
-<span class="sourceLineNo">418</span>        }<a name="line.418"></a>
-<span class="sourceLineNo">419</span>        return left.length - right.length;<a name="line.419"></a>
-<span class="sourceLineNo">420</span>      }<a name="line.420"></a>
-<span class="sourceLineNo">421</span><a name="line.421"></a>
-<span class="sourceLineNo">422</span>      @Override<a name="line.422"></a>
-<span class="sourceLineNo">423</span>      public String toString() {<a name="line.423"></a>
-<span class="sourceLineNo">424</span>        return "UnsignedBytes.lexicographicalComparator() (pure Java version)";<a name="line.424"></a>
-<span class="sourceLineNo">425</span>      }<a name="line.425"></a>
-<span class="sourceLineNo">426</span>    }<a name="line.426"></a>
-<span class="sourceLineNo">427</span><a name="line.427"></a>
-<span class="sourceLineNo">428</span>    /**<a name="line.428"></a>
-<span class="sourceLineNo">429</span>     * Returns the Unsafe-using Comparator, or falls back to the pure-Java implementation if unable<a name="line.429"></a>
-<span class="sourceLineNo">430</span>     * to do so.<a name="line.430"></a>
-<span class="sourceLineNo">431</span>     */<a name="line.431"></a>
-<span class="sourceLineNo">432</span>    static Comparator&lt;byte[]&gt; getBestComparator() {<a name="line.432"></a>
-<span class="sourceLineNo">433</span>      try {<a name="line.433"></a>
-<span class="sourceLineNo">434</span>        Class&lt;?&gt; theClass = Class.forName(UNSAFE_COMPARATOR_NAME);<a name="line.434"></a>
-<span class="sourceLineNo">435</span><a name="line.435"></a>
-<span class="sourceLineNo">436</span>        // yes, UnsafeComparator does implement Comparator&lt;byte[]&gt;<a name="line.436"></a>
-<span class="sourceLineNo">437</span>        @SuppressWarnings("unchecked")<a name="line.437"></a>
-<span class="sourceLineNo">438</span>        Comparator&lt;byte[]&gt; comparator = (Comparator&lt;byte[]&gt;) theClass.getEnumConstants()[0];<a name="line.438"></a>
-<span class="sourceLineNo">439</span>        return comparator;<a name="line.439"></a>
-<span class="sourceLineNo">440</span>      } catch (Throwable t) { // ensure we really catch *everything*<a name="line.440"></a>
-<span class="sourceLineNo">441</span>        return lexicographicalComparatorJavaImpl();<a name="line.441"></a>
-<span class="sourceLineNo">442</span>      }<a name="line.442"></a>
-<span class="sourceLineNo">443</span>    }<a name="line.443"></a>
-<span class="sourceLineNo">444</span>  }<a name="line.444"></a>
-<span class="sourceLineNo">445</span>}<a name="line.445"></a>
+<span class="sourceLineNo">363</span>        final int stride = 8;<a name="line.363"></a>
+<span class="sourceLineNo">364</span>        int minLength = Math.min(left.length, right.length);<a name="line.364"></a>
+<span class="sourceLineNo">365</span>        int strideLimit = minLength &amp; ~(stride - 1);<a name="line.365"></a>
+<span class="sourceLineNo">366</span>        int i;<a name="line.366"></a>
+<span class="sourceLineNo">367</span>        <a name="line.367"></a>
+<span class="sourceLineNo">368</span>        /*<a name="line.368"></a>
+<span class="sourceLineNo">369</span>         * Compare 8 bytes at a time. Benchmarking on x86 shows a stride of 8 bytes is no slower<a name="line.369"></a>
+<span class="sourceLineNo">370</span>         * than 4 bytes even on 32-bit. On the other hand, it is substantially faster on 64-bit.<a name="line.370"></a>
+<span class="sourceLineNo">371</span>         */<a name="line.371"></a>
+<span class="sourceLineNo">372</span>        for (i = 0; i &lt; strideLimit; i += stride) {<a name="line.372"></a>
+<span class="sourceLineNo">373</span>          long lw = theUnsafe.getLong(left, BYTE_ARRAY_BASE_OFFSET + (long) i);<a name="line.373"></a>
+<span class="sourceLineNo">374</span>          long rw = theUnsafe.getLong(right, BYTE_ARRAY_BASE_OFFSET + (long) i);<a name="line.374"></a>
+<span class="sourceLineNo">375</span>          if (lw != rw) {<a name="line.375"></a>
+<span class="sourceLineNo">376</span>            if (BIG_ENDIAN) {<a name="line.376"></a>
+<span class="sourceLineNo">377</span>              return UnsignedLongs.compare(lw, rw);<a name="line.377"></a>
+<span class="sourceLineNo">378</span>            }<a name="line.378"></a>
+<span class="sourceLineNo">379</span><a name="line.379"></a>
+<span class="sourceLineNo">380</span>            /*<a name="line.380"></a>
+<span class="sourceLineNo">381</span>             * We want to compare only the first index where left[index] != right[index]. This<a name="line.381"></a>
+<span class="sourceLineNo">382</span>             * corresponds to the least significant nonzero byte in lw ^ rw, since lw and rw are<a name="line.382"></a>
+<span class="sourceLineNo">383</span>             * little-endian. Long.numberOfTrailingZeros(diff) tells us the least significant<a name="line.383"></a>
+<span class="sourceLineNo">384</span>             * nonzero bit, and zeroing out the first three bits of L.nTZ gives us the shift to get<a name="line.384"></a>
+<span class="sourceLineNo">385</span>             * that least significant nonzero byte.<a name="line.385"></a>
+<span class="sourceLineNo">386</span>             */<a name="line.386"></a>
+<span class="sourceLineNo">387</span>            int n = Long.numberOfTrailingZeros(lw ^ rw) &amp; ~0x7;<a name="line.387"></a>
+<span class="sourceLineNo">388</span>            return ((int) ((lw &gt;&gt;&gt; n) &amp; UNSIGNED_MASK)) - ((int) ((rw &gt;&gt;&gt; n) &amp; UNSIGNED_MASK));<a name="line.388"></a>
+<span class="sourceLineNo">389</span>          }<a name="line.389"></a>
+<span class="sourceLineNo">390</span>        }<a name="line.390"></a>
+<span class="sourceLineNo">391</span><a name="line.391"></a>
+<span class="sourceLineNo">392</span>        // The epilogue to cover the last (minLength % stride) elements.<a name="line.392"></a>
+<span class="sourceLineNo">393</span>        for (; i &lt; minLength; i++) {<a name="line.393"></a>
+<span class="sourceLineNo">394</span>          int result = UnsignedBytes.compare(left[i], right[i]);<a name="line.394"></a>
+<span class="sourceLineNo">395</span>          if (result != 0) {<a name="line.395"></a>
+<span class="sourceLineNo">396</span>            return result;<a name="line.396"></a>
+<span class="sourceLineNo">397</span>          }<a name="line.397"></a>
+<span class="sourceLineNo">398</span>        }<a name="line.398"></a>
+<span class="sourceLineNo">399</span>        return left.length - right.length;<a name="line.399"></a>
+<span class="sourceLineNo">400</span>      }<a name="line.400"></a>
+<span class="sourceLineNo">401</span><a name="line.401"></a>
+<span class="sourceLineNo">402</span>      @Override<a name="line.402"></a>
+<span class="sourceLineNo">403</span>      public String toString() {<a name="line.403"></a>
+<span class="sourceLineNo">404</span>        return "UnsignedBytes.lexicographicalComparator() (sun.misc.Unsafe version)";<a name="line.404"></a>
+<span class="sourceLineNo">405</span>      }<a name="line.405"></a>
+<span class="sourceLineNo">406</span>    }<a name="line.406"></a>
+<span class="sourceLineNo">407</span><a name="line.407"></a>
+<span class="sourceLineNo">408</span>    enum PureJavaComparator implements Comparator&lt;byte[]&gt; {<a name="line.408"></a>
+<span class="sourceLineNo">409</span>      INSTANCE;<a name="line.409"></a>
+<span class="sourceLineNo">410</span><a name="line.410"></a>
+<span class="sourceLineNo">411</span>      @Override<a name="line.411"></a>
+<span class="sourceLineNo">412</span>      public int compare(byte[] left, byte[] right) {<a name="line.412"></a>
+<span class="sourceLineNo">413</span>        int minLength = Math.min(left.length, right.length);<a name="line.413"></a>
+<span class="sourceLineNo">414</span>        for (int i = 0; i &lt; minLength; i++) {<a name="line.414"></a>
+<span class="sourceLineNo">415</span>          int result = UnsignedBytes.compare(left[i], right[i]);<a name="line.415"></a>
+<span class="sourceLineNo">416</span>          if (result != 0) {<a name="line.416"></a>
+<span class="sourceLineNo">417</span>            return result;<a name="line.417"></a>
+<span class="sourceLineNo">418</span>          }<a name="line.418"></a>
+<span class="sourceLineNo">419</span>        }<a name="line.419"></a>
+<span class="sourceLineNo">420</span>        return left.length - right.length;<a name="line.420"></a>
+<span class="sourceLineNo">421</span>      }<a name="line.421"></a>
+<span class="sourceLineNo">422</span><a name="line.422"></a>
+<span class="sourceLineNo">423</span>      @Override<a name="line.423"></a>
+<span class="sourceLineNo">424</span>      public String toString() {<a name="line.424"></a>
+<span class="sourceLineNo">425</span>        return "UnsignedBytes.lexicographicalComparator() (pure Java version)";<a name="line.425"></a>
+<span class="sourceLineNo">426</span>      }<a name="line.426"></a>
+<span class="sourceLineNo">427</span>    }<a name="line.427"></a>
+<span class="sourceLineNo">428</span><a name="line.428"></a>
+<span class="sourceLineNo">429</span>    /**<a name="line.429"></a>
+<span class="sourceLineNo">430</span>     * Returns the Unsafe-using Comparator, or falls back to the pure-Java implementation if unable<a name="line.430"></a>
+<span class="sourceLineNo">431</span>     * to do so.<a name="line.431"></a>
+<span class="sourceLineNo">432</span>     */<a name="line.432"></a>
+<span class="sourceLineNo">433</span>    static Comparator&lt;byte[]&gt; getBestComparator() {<a name="line.433"></a>
+<span class="sourceLineNo">434</span>      try {<a name="line.434"></a>
+<span class="sourceLineNo">435</span>        Class&lt;?&gt; theClass = Class.forName(UNSAFE_COMPARATOR_NAME);<a name="line.435"></a>
+<span class="sourceLineNo">436</span><a name="line.436"></a>
+<span class="sourceLineNo">437</span>        // yes, UnsafeComparator does implement Comparator&lt;byte[]&gt;<a name="line.437"></a>
+<span class="sourceLineNo">438</span>        @SuppressWarnings("unchecked")<a name="line.438"></a>
+<span class="sourceLineNo">439</span>        Comparator&lt;byte[]&gt; comparator = (Comparator&lt;byte[]&gt;) theClass.getEnumConstants()[0];<a name="line.439"></a>
+<span class="sourceLineNo">440</span>        return comparator;<a name="line.440"></a>
+<span class="sourceLineNo">441</span>      } catch (Throwable t) { // ensure we really catch *everything*<a name="line.441"></a>
+<span class="sourceLineNo">442</span>        return lexicographicalComparatorJavaImpl();<a name="line.442"></a>
+<span class="sourceLineNo">443</span>      }<a name="line.443"></a>
+<span class="sourceLineNo">444</span>    }<a name="line.444"></a>
+<span class="sourceLineNo">445</span>  }<a name="line.445"></a>
+<span class="sourceLineNo">446</span>}<a name="line.446"></a>
 
 
 
