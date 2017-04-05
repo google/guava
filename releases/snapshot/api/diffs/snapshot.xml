@@ -39894,7 +39894,7 @@
  @since 14.0 (since 11.0 as expectedFalsePositiveProbability())]]>
       </doc>
     </method>
-    <method name="approximateCount" return="long"
+    <method name="approximateElementCount" return="long"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
