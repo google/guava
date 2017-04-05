@@ -127,7 +127,7 @@ class StatsTesting {
     }
   }
 
-  static final Iterable<ManyValues> ALL_MANY_VALUES = ManyValues.createAll();
+  static final ImmutableList<ManyValues> ALL_MANY_VALUES = ManyValues.createAll();
 
   static final ImmutableList<Double> MANY_VALUES =
       ImmutableList.of(1.1, -44.44, 33.33, 555.555, -2.2);
