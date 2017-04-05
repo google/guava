@@ -99,7 +99,7 @@ public final class Floats {
    * @since 10.0
    */
   public static boolean isFinite(float value) {
-    return NEGATIVE_INFINITY < value & value < POSITIVE_INFINITY;
+    return NEGATIVE_INFINITY < value && value < POSITIVE_INFINITY;
   }
 
   /**
