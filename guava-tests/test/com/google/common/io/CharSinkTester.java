@@ -16,10 +16,9 @@
 
 package com.google.common.io;
 
-import static com.google.common.io.SourceSinkFactory.CharSinkFactory;
-
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
+import com.google.common.io.SourceSinkFactory.CharSinkFactory;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Method;
@@ -112,6 +111,20 @@ public class CharSinkTester extends SourceSinkTester<CharSink, String, CharSinkF
   public void testWriteLines_specificSeparator() throws IOException {
     String separator = "\r\n";
     sink.writeLines(lines, separator);
+
+    assertContainsExpectedLines(separator);
+  }
+
+  public void testWriteLinesStream_systemDefaultSeparator() throws IOException {
+    String separator = System.getProperty("line.separator");
+    sink.writeLines(lines.stream());
+
+    assertContainsExpectedLines(separator);
+  }
+
+  public void testWriteLinesStream_specificSeparator() throws IOException {
+    String separator = "\r\n";
+    sink.writeLines(lines.stream(), separator);
 
     assertContainsExpectedLines(separator);
   }

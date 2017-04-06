@@ -16,6 +16,7 @@ package com.google.common.io;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.BufferedWriter;
@@ -23,6 +24,8 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import java.util.Iterator;
+import java.util.stream.Stream;
 
 /**
  * A destination to which characters can be written, such as a text file. Unlike a {@link Writer}, a
@@ -121,20 +124,43 @@ public abstract class CharSink {
    */
   public void writeLines(Iterable<? extends CharSequence> lines, String lineSeparator)
       throws IOException {
-    checkNotNull(lines);
+    writeLines(lines.iterator(), lineSeparator);
+  }
+
+  /**
+   * Writes the given lines of text to this sink with each line (including the last) terminated with
+   * the operating system's default line separator. This method is equivalent to {@code
+   * writeLines(lines, System.getProperty("line.separator"))}.
+   *
+   * @throws IOException if an I/O error occurs while writing to this sink
+   * @since 22.0
+   */
+  @Beta
+  public void writeLines(Stream<? extends CharSequence> lines) throws IOException {
+    writeLines(lines, System.getProperty("line.separator"));
+  }
+
+  /**
+   * Writes the given lines of text to this sink with each line (including the last) terminated with
+   * the given line separator.
+   *
+   * @throws IOException if an I/O error occurs while writing to this sink
+   * @since 22.0
+   */
+  @Beta
+  public void writeLines(Stream<? extends CharSequence> lines, String lineSeparator)
+      throws IOException {
+    writeLines(lines.iterator(), lineSeparator);
+  }
+
+  private void writeLines(Iterator<? extends CharSequence> lines, String lineSeparator)
+      throws IOException {
     checkNotNull(lineSeparator);
 
-    Closer closer = Closer.create();
-    try {
-      Writer out = closer.register(openBufferedStream());
-      for (CharSequence line : lines) {
-        out.append(line).append(lineSeparator);
+    try (Writer out = openBufferedStream()) {
+      while (lines.hasNext()) {
+        out.append(lines.next()).append(lineSeparator);
       }
-      out.flush(); // https://code.google.com/p/guava-libraries/issues/detail?id=1330
-    } catch (Throwable e) {
-      throw closer.rethrow(e);
-    } finally {
-      closer.close();
     }
   }
 
