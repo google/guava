@@ -27,7 +27,7 @@ import javax.annotation.Nullable;
  *
  * <p>A graph is composed of a set of nodes and a set of edges connecting pairs of nodes.
  *
- * <p>There are three main interfaces provided to represent graphs. In order of increasing
+ * <p>There are three primary interfaces provided to represent graphs. In order of increasing
  * complexity they are: {@link Graph}, {@link ValueGraph}, and {@link Network}. You should generally
  * prefer the simplest interface that satisfies your use case. See the <a
  * href="https://github.com/google/guava/wiki/GraphsExplained#choosing-the-right-graph-type">

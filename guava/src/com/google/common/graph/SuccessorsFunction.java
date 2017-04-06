@@ -23,23 +23,46 @@ import java.util.Set;
  * A functional interface for <a
  * href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-structured data.
  *
- * <p>A graph is composed of a set of nodes and a set of edges connecting pairs of nodes.
- *
- * <p>There are three main interfaces provided to represent graphs. In order of increasing
- * complexity they are: {@link Graph}, {@link ValueGraph}, and {@link Network}. You should generally
- * prefer the simplest interface that satisfies your use case. See the <a
- * href="https://github.com/google/guava/wiki/GraphsExplained#choosing-the-right-graph-type">
- * "Choosing the right graph type"</a> section of the Guava User Guide for more details.
+ * <p>This interface is meant to be used as the type of a parameter to graph algorithms (such as
+ * breadth first traversal) that only need a way of accessing the successors of a node in a graph.
  *
  * <h3>Usage</h3>
  *
- * Some graph algorithms only care about the nodes that are adjacent to a node but not about other
- * properties such as the size or type of edges (e.g. depth first search). These algorithms should
- * prefer working with {@code SuccessorsFunction} rather than a more specialized type.
+ * Given an algorithm, for example:
  *
- * <p>When calling a method that requires a {@code SuccessorsFunction}, you can use {@link Graph},
- * {@link ValueGraph}, {@link Network} or implement this interface for an already existing data
- * structure.
+ * <pre>{@code
+ *   public <N> someGraphAlgorithm(N startNode, SuccessorsFunction<N> successorsFunction);
+ * }</pre>
+ *
+ * you will invoke it depending on the graph representation you're using.
+ *
+ * <p>If you have an instance of one of the primary {@code common.graph} types ({@link Graph},
+ * {@link ValueGraph}, and {@link Network}):
+ *
+ * <pre>{@code
+ *   someGraphAlgorithm(startNode, graph);
+ * }</pre>
+ *
+ * This works because those types each implement {@code SuccessorsFunction}. It will also work with
+ * any other implementation of this interface.
+ *
+ * <p>If you have your own graph implementation based around a custom node type {@code MyNode},
+ * which has a method {@code getChildren()} that retrieves its successors in a graph:
+ *
+ * <pre>{@code
+ *   someGraphAlgorithm(startNode, MyNode::getChildren);
+ * }</pre>
+ *
+ * <p>If you have some other mechanism for returning the successors of a node, or one that doesn't
+ * return a {@code Set<N>}, then you can use a lambda to perform a more general transformation:
+ *
+ * <pre>{@code
+ *   someGraphAlgorithm(startNode, node -> ImmutableSet.copyOf(node.getChildren());
+ * }</pre>
+ *
+ * <p>Graph algorithms that need additional capabilities (accessing both predecessors and
+ * successors, iterating over the edges, etc.) should declare their input to be of a type that
+ * provides those capabilities, such as {@link Graph}, {@link ValueGraph}, or {@link Network}.
  *
  * <h3>Additional documentation</h3>
  *
