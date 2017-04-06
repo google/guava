@@ -114,27 +114,50 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public interface <a href="../../../../src-html/com/google/common/graph/PredecessorsFunction.html#line.59">PredecessorsFunction</a>&lt;N&gt;</pre>
+public interface <a href="../../../../src-html/com/google/common/graph/PredecessorsFunction.html#line.82">PredecessorsFunction</a>&lt;N&gt;</pre>
 <div class="block">A functional interface for <a
  href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-structured data.
 
- <p>A graph is composed of a set of nodes and a set of edges connecting pairs of nodes.
-
- <p>There are three main interfaces provided to represent graphs. In order of increasing
- complexity they are: <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>, <a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a>, and <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a>. You should generally
- prefer the simplest interface that satisfies your use case. See the <a
- href="https://github.com/google/guava/wiki/GraphsExplained#choosing-the-right-graph-type">
- "Choosing the right graph type"</a> section of the Guava User Guide for more details.
+ <p>This interface is meant to be used as the type of a parameter to graph algorithms (such as
+ topological sort) that only need a way of accessing the predecessors of a node in a graph.
 
  <h3>Usage</h3>
 
- Some graph algorithms only care about the nodes that are adjacent to a node but not about other
- properties such as the size or type of edges (e.g. topological sort). These algorithms should
- prefer working with <code>PredecessorsFunction</code> rather than a more specialized type.
+ Given an algorithm, for example:
 
- <p>When calling a method that requires a <code>PredecessorsFunction</code>, you can use <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>,
- <a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a>, <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> or implement this interface for an already existing data
- structure.
+ <pre><code>
+   public &lt;N&gt; someGraphAlgorithm(N startNode, PredecessorsFunction&lt;N&gt; predecessorsFunction);
+ </code></pre>
+
+ you will invoke it depending on the graph representation you're using.
+
+ <p>If you have an instance of one of the primary <code>common.graph</code> types (<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>,
+ <a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a>, and <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a>):
+
+ <pre><code>
+   someGraphAlgorithm(startNode, graph);
+ </code></pre>
+
+ This works because those types each implement <code>PredecessorsFunction</code>. It will also work
+ with any other implementation of this interface.
+
+ <p>If you have your own graph implementation based around a custom node type <code>MyNode</code>,
+ which has a method <code>getParents()</code> that retrieves its predecessors in a graph:
+
+ <pre><code>
+   someGraphAlgorithm(startNode, MyNode::getParents);
+ </code></pre>
+
+ <p>If you have some other mechanism for returning the predecessors of a node, or one that doesn't
+ return a <code>Set&lt;N&gt;</code>, then you can use a lambda to perform a more general transformation:
+
+ <pre><code>
+   someGraphAlgorithm(startNode, node -&gt; ImmutableSet.copyOf(node.getParents());
+ </code></pre>
+
+ <p>Graph algorithms that need additional capabilities (accessing both predecessors and
+ successors, iterating over the edges, etc.) should declare their input to be of a type that
+ provides those capabilities, such as <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>, <a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a>, or <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a>.
 
  <h3>Additional documentation</h3>
 
@@ -197,7 +220,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Predecess
 <ul class="blockListLast">
 <li class="blockList">
 <h4>predecessors</h4>
-<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/PredecessorsFunction.html" title="type parameter in PredecessorsFunction">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/PredecessorsFunction.html#line.67">predecessors</a>(<a href="../../../../com/google/common/graph/PredecessorsFunction.html" title="type parameter in PredecessorsFunction">N</a>&nbsp;node)</pre>
+<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/PredecessorsFunction.html" title="type parameter in PredecessorsFunction">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/PredecessorsFunction.html#line.90">predecessors</a>(<a href="../../../../com/google/common/graph/PredecessorsFunction.html" title="type parameter in PredecessorsFunction">N</a>&nbsp;node)</pre>
 <div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
  <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
 <dl>
