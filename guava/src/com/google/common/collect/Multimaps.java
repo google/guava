@@ -1582,14 +1582,8 @@ public final class Multimaps {
    * @return {@code ImmutableListMultimap} mapping the result of evaluating the
    *     function {@code keyFunction} on each value in the input collection to
    *     that value
-   * @throws NullPointerException if any of the following cases is true:
-   *     <ul>
-   *     <li>{@code values} is null
-   *     <li>{@code keyFunction} is null
-   *     <li>An element in {@code values} is null
-   *     <li>{@code keyFunction} returns {@code null} for any element of {@code
-   *         values}
-   *     </ul>
+   * @throws NullPointerException if any element of {@code values} is {@code null}, or if {@code
+   *     keyFunction} produces {@code null} for any key
    */
   public static <K, V> ImmutableListMultimap<K, V> index(
       Iterable<V> values, Function<? super V, K> keyFunction) {
@@ -1629,14 +1623,8 @@ public final class Multimaps {
    * @return {@code ImmutableListMultimap} mapping the result of evaluating the
    *     function {@code keyFunction} on each value in the input collection to
    *     that value
-   * @throws NullPointerException if any of the following cases is true:
-   *     <ul>
-   *     <li>{@code values} is null
-   *     <li>{@code keyFunction} is null
-   *     <li>An element in {@code values} is null
-   *     <li>{@code keyFunction} returns {@code null} for any element of {@code
-   *         values}
-   *     </ul>
+   * @throws NullPointerException if any element of {@code values} is {@code null}, or if {@code
+   *     keyFunction} produces {@code null} for any key
    * @since 10.0
    */
   public static <K, V> ImmutableListMultimap<K, V> index(

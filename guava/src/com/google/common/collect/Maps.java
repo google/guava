@@ -1329,8 +1329,8 @@ public final class Maps {
    *         keyFunction} on each value in the input collection to that value
    * @throws IllegalArgumentException if {@code keyFunction} produces the same
    *         key for more than one value in the input collection
-   * @throws NullPointerException if any elements of {@code values} is null, or
-   *         if {@code keyFunction} produces {@code null} for any value
+   * @throws NullPointerException if any element of {@code values} is {@code
+   *         null}, or if {@code keyFunction} produces {@code null} for any value
    */
   @CanIgnoreReturnValue
   public static <K, V> ImmutableMap<K, V> uniqueIndex(
@@ -1363,8 +1363,8 @@ public final class Maps {
    *         keyFunction} on each value in the input collection to that value
    * @throws IllegalArgumentException if {@code keyFunction} produces the same
    *         key for more than one value in the input collection
-   * @throws NullPointerException if any elements of {@code values} is null, or
-   *         if {@code keyFunction} produces {@code null} for any value
+   * @throws NullPointerException if any element of {@code values} is {@code
+   *         null}, or if {@code keyFunction} produces {@code null} for any value
    * @since 10.0
    */
   @CanIgnoreReturnValue
