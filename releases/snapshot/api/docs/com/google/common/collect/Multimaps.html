@@ -1318,7 +1318,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/doc
 <ul class="blockList">
 <li class="blockList">
 <h4>index</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1594">index</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;V&gt;&nbsp;values,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1588">index</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;V&gt;&nbsp;values,
                                                      <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super V,K&gt;&nbsp;keyFunction)</pre>
 <div class="block">Creates an index <code>ImmutableListMultimap</code> that contains the results of
  applying a specified function to each item in an <code>Iterable</code> of
@@ -1354,13 +1354,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/doc
      function <code>keyFunction</code> on each value in the input collection to
      that value</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if any of the following cases is true:
-     <ul>
-     <li><code>values</code> is null
-     <li><code>keyFunction</code> is null
-     <li>An element in <code>values</code> is null
-     <li><code>keyFunction</code> returns <code>null</code> for any element of <code>values</code>
-     </ul></dd>
+<dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if any element of <code>values</code> is <code>null</code>, or if <code>keyFunction</code> produces <code>null</code> for any key</dd>
 </dl>
 </li>
 </ul>
@@ -1370,7 +1364,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/doc
 <ul class="blockList">
 <li class="blockList">
 <h4>index</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1642">index</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;V&gt;&nbsp;values,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1630">index</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;V&gt;&nbsp;values,
                                                      <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super V,K&gt;&nbsp;keyFunction)</pre>
 <div class="block">Creates an index <code>ImmutableListMultimap</code> that contains the results of
  applying a specified function to each item in an <code>Iterator</code> of
@@ -1406,13 +1400,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/doc
      function <code>keyFunction</code> on each value in the input collection to
      that value</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if any of the following cases is true:
-     <ul>
-     <li><code>values</code> is null
-     <li><code>keyFunction</code> is null
-     <li>An element in <code>values</code> is null
-     <li><code>keyFunction</code> returns <code>null</code> for any element of <code>values</code>
-     </ul></dd>
+<dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if any element of <code>values</code> is <code>null</code>, or if <code>keyFunction</code> produces <code>null</code> for any key</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>10.0</dd>
 </dl>
@@ -1424,7 +1412,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/doc
 <ul class="blockList">
 <li class="blockList">
 <h4>filterKeys</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1953">filterKeys</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;unfiltered,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1941">filterKeys</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;unfiltered,
                                              <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super K&gt;&nbsp;keyPredicate)</pre>
 <div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose keys
  satisfy a predicate. The returned multimap is a live view of
@@ -1464,7 +1452,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/doc
 <ul class="blockList">
 <li class="blockList">
 <h4>filterKeys</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.2001">filterKeys</a>(<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;unfiltered,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1989">filterKeys</a>(<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;unfiltered,
                                                 <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super K&gt;&nbsp;keyPredicate)</pre>
 <div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose keys
  satisfy a predicate. The returned multimap is a live view of
@@ -1504,7 +1492,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/doc
 <ul class="blockList">
 <li class="blockList">
 <h4>filterKeys</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.2045">filterKeys</a>(<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;unfiltered,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.2033">filterKeys</a>(<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;unfiltered,
                                                  <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super K&gt;&nbsp;keyPredicate)</pre>
 <div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose keys
  satisfy a predicate. The returned multimap is a live view of
@@ -1544,7 +1532,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/doc
 <ul class="blockList">
 <li class="blockList">
 <h4>filterValues</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.2086">filterValues</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;unfiltered,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.2074">filterValues</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;unfiltered,
                                                <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super V&gt;&nbsp;valuePredicate)</pre>
 <div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose values
  satisfy a predicate. The returned multimap is a live view of
@@ -1584,7 +1572,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/doc
 <ul class="blockList">
 <li class="blockList">
 <h4>filterValues</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.2121">filterValues</a>(<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;unfiltered,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.2109">filterValues</a>(<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;unfiltered,
                                                   <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super V&gt;&nbsp;valuePredicate)</pre>
 <div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose values
  satisfy a predicate. The returned multimap is a live view of
@@ -1624,7 +1612,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/doc
 <ul class="blockList">
 <li class="blockList">
 <h4>filterEntries</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.2154">filterEntries</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;unfiltered,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.2142">filterEntries</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;unfiltered,
                                                 <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;K,V&gt;&gt;&nbsp;entryPredicate)</pre>
 <div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> that
  satisfy a predicate. The returned multimap is a live view of
@@ -1662,7 +1650,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/8/doc
 <ul class="blockListLast">
 <li class="blockList">
 <h4>filterEntries</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.2193">filterEntries</a>(<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;unfiltered,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.2181">filterEntries</a>(<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;unfiltered,
                                                    <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;K,V&gt;&gt;&nbsp;entryPredicate)</pre>
 <div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> that
  satisfy a predicate. The returned multimap is a live view of
