@@ -43116,6 +43116,36 @@
  @throws IOException if an I/O error occurs while writing to this sink]]>
       </doc>
     </method>
+    <method name="writeLines"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="lines" type="java.util.stream.Stream&lt;? extends java.lang.CharSequence&gt;"/>
+      <exception name="IOException" type="java.io.IOException"/>
+      <doc>
+      <![CDATA[Writes the given lines of text to this sink with each line (including the last) terminated with
+ the operating system's default line separator. This method is equivalent to {@code
+ writeLines(lines, System.getProperty("line.separator"))}.
+
+ @throws IOException if an I/O error occurs while writing to this sink
+ @since 22.0]]>
+      </doc>
+    </method>
+    <method name="writeLines"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="lines" type="java.util.stream.Stream&lt;? extends java.lang.CharSequence&gt;"/>
+      <param name="lineSeparator" type="java.lang.String"/>
+      <exception name="IOException" type="java.io.IOException"/>
+      <doc>
+      <![CDATA[Writes the given lines of text to this sink with each line (including the last) terminated with
+ the given line separator.
+
+ @throws IOException if an I/O error occurs while writing to this sink
+ @since 22.0]]>
+      </doc>
+    </method>
     <method name="writeFrom" return="long"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"

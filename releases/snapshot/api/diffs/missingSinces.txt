@@ -58,3 +58,5 @@ OK: com.google.common.collect.Tables Method synchronizedTable(com.google.common.
 OK: com.google.common.collect.ImmutableMultiset Method toImmutableMultiset(java.util.function.Function<? super T, ? extends E>, java.util.function.ToIntFunction<? super T>)
 OK: com.google.common.collect.ImmutableSortedMultiset Method toImmutableSortedMultiset(java.util.Comparator<? super E>, java.util.function.Function<? super T, ? extends E>, java.util.function.ToIntFunction<? super T>)
 OK: com.google.common.collect.Multisets Method toMultiset(java.util.function.Function<T, E>, java.util.function.ToIntFunction<T>, java.util.function.Supplier<M>)
+OK: com.google.common.io.CharSink Method writeLines(java.util.stream.Stream<? extends java.lang.CharSequence>)
+OK: com.google.common.io.CharSink Method writeLines(java.util.stream.Stream<? extends java.lang.CharSequence>, java.lang.String)
