@@ -138,6 +138,21 @@ public class StreamsTest extends TestCase {
     assertThat(Streams.concat(Stream.of("a"), Stream.of("b"), Stream.empty(), Stream.of("c", "d")))
         .containsExactly("a", "b", "c", "d")
         .inOrder();
+    SpliteratorTester.of(
+            () ->
+                Streams.concat(Stream.of("a"), Stream.of("b"), Stream.empty(), Stream.of("c", "d"))
+                    .spliterator())
+        .expect("a", "b", "c", "d");
+  }
+
+  public void testConcat_refStream_parallel() {
+    Truth.assertThat(
+            Streams.concat(Stream.of("a"), Stream.of("b"), Stream.empty(), Stream.of("c", "d"))
+                .parallel()
+                .toArray())
+        .asList()
+        .containsExactly("a", "b", "c", "d")
+        .inOrder();
   }
 
   public void testConcat_intStream() {
