@@ -27,6 +27,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import junit.framework.TestCase;
@@ -591,64 +592,68 @@ public class AtomicLongMapTest extends TestCase {
 
     ExecutorService threadPool = Executors.newFixedThreadPool(nThreads);
     for (int i = 0; i < nTasks; i++) {
-      threadPool.submit(new Runnable() {
-        @Override public void run() {
-          int threadSum = 0;
-          for (int j = 0; j < getsPerTask; j++) {
-            long delta = random.nextInt(deltaRange);
-            int behavior = random.nextInt(10);
-            switch (behavior) {
-              case 0:
-                map.incrementAndGet(key);
-                threadSum++;
-                break;
-              case 1:
-                map.decrementAndGet(key);
-                threadSum--;
-                break;
-              case 2:
-                map.addAndGet(key, delta);
-                threadSum += delta;
-                break;
-              case 3:
-                map.getAndIncrement(key);
-                threadSum++;
-                break;
-              case 4:
-                map.getAndDecrement(key);
-                threadSum--;
-                break;
-              case 5:
-                map.getAndAdd(key, delta);
-                threadSum += delta;
-                break;
-              case 6:
-                long oldValue = map.put(key, delta);
-                threadSum += delta - oldValue;
-                break;
-              case 7:
-                oldValue = map.get(key);
-                if (map.replace(key, oldValue, delta)) {
-                  threadSum += delta - oldValue;
+      @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+      Future<?> possiblyIgnoredError =
+          threadPool.submit(
+              new Runnable() {
+                @Override
+                public void run() {
+                  int threadSum = 0;
+                  for (int j = 0; j < getsPerTask; j++) {
+                    long delta = random.nextInt(deltaRange);
+                    int behavior = random.nextInt(10);
+                    switch (behavior) {
+                      case 0:
+                        map.incrementAndGet(key);
+                        threadSum++;
+                        break;
+                      case 1:
+                        map.decrementAndGet(key);
+                        threadSum--;
+                        break;
+                      case 2:
+                        map.addAndGet(key, delta);
+                        threadSum += delta;
+                        break;
+                      case 3:
+                        map.getAndIncrement(key);
+                        threadSum++;
+                        break;
+                      case 4:
+                        map.getAndDecrement(key);
+                        threadSum--;
+                        break;
+                      case 5:
+                        map.getAndAdd(key, delta);
+                        threadSum += delta;
+                        break;
+                      case 6:
+                        long oldValue = map.put(key, delta);
+                        threadSum += delta - oldValue;
+                        break;
+                      case 7:
+                        oldValue = map.get(key);
+                        if (map.replace(key, oldValue, delta)) {
+                          threadSum += delta - oldValue;
+                        }
+                        break;
+                      case 8:
+                        oldValue = map.remove(key);
+                        threadSum -= oldValue;
+                        break;
+                      case 9:
+                        oldValue = map.get(key);
+                        if (map.remove(key, oldValue)) {
+                          threadSum -= oldValue;
+                        }
+                        break;
+                      default:
+                        throw new AssertionError();
+                    }
+                  }
+                  sum.addAndGet(threadSum);
                 }
-                break;
-              case 8:
-                oldValue = map.remove(key);
-                threadSum -= oldValue;
-                break;
-              case 9:
-                oldValue = map.get(key);
-                if (map.remove(key, oldValue)) {
-                  threadSum -= oldValue;
-                }
-                break;
-              default:
-                throw new AssertionError();
-            }
-          }
-          sum.addAndGet(threadSum);
-        }
-      });
+              });
     }
 
     threadPool.shutdown();

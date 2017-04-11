@@ -101,11 +101,16 @@ public class QueuesTest extends TestCase {
 
   private void testMultipleProducers(BlockingQueue<Object> q) throws InterruptedException {
     for (boolean interruptibly : new boolean[] {true, false}) {
-      threadPool.submit(new Producer(q, 20));
-      threadPool.submit(new Producer(q, 20));
-      threadPool.submit(new Producer(q, 20));
-      threadPool.submit(new Producer(q, 20));
-      threadPool.submit(new Producer(q, 20));
+      @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+      Future<?> possiblyIgnoredError = threadPool.submit(new Producer(q, 20));
+      @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+      Future<?> possiblyIgnoredError1 = threadPool.submit(new Producer(q, 20));
+      @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+      Future<?> possiblyIgnoredError2 = threadPool.submit(new Producer(q, 20));
+      @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+      Future<?> possiblyIgnoredError3 = threadPool.submit(new Producer(q, 20));
+      @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+      Future<?> possiblyIgnoredError4 = threadPool.submit(new Producer(q, 20));
 
       List<Object> buf = newArrayList();
       int elements = drain(q, buf, 100, MAX_VALUE, NANOSECONDS, interruptibly);
@@ -177,7 +182,8 @@ public class QueuesTest extends TestCase {
   }
 
   private void testNegativeMaxElements(BlockingQueue<Object> q) throws InterruptedException {
-    threadPool.submit(new Producer(q, 1));
+    @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+    Future<?> possiblyIgnoredError = threadPool.submit(new Producer(q, 1));
 
     List<Object> buf = newArrayList();
     int elements = Queues.drain(q, buf, -1, MAX_VALUE, NANOSECONDS);
@@ -195,7 +201,8 @@ public class QueuesTest extends TestCase {
   }
 
   private void testDrain_throws(BlockingQueue<Object> q) {
-    threadPool.submit(new Interrupter(currentThread()));
+    @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+    Future<?> possiblyIgnoredError = threadPool.submit(new Interrupter(currentThread()));
     try {
       Queues.drain(q, ImmutableList.of(), 100, MAX_VALUE, NANOSECONDS);
       fail();
@@ -211,15 +218,17 @@ public class QueuesTest extends TestCase {
 
   private void testDrainUninterruptibly_doesNotThrow(final BlockingQueue<Object> q) {
     final Thread mainThread = currentThread();
-    threadPool.submit(
-        new Callable<Void>() {
-          public Void call() throws InterruptedException {
-            new Producer(q, 50).call();
-            new Interrupter(mainThread).run();
-            new Producer(q, 50).call();
-            return null;
-          }
-        });
+    @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+    Future<?> possiblyIgnoredError =
+        threadPool.submit(
+            new Callable<Void>() {
+              public Void call() throws InterruptedException {
+                new Producer(q, 50).call();
+                new Interrupter(mainThread).run();
+                new Producer(q, 50).call();
+                return null;
+              }
+            });
     List<Object> buf = newArrayList();
     int elements = Queues.drainUninterruptibly(q, buf, 100, MAX_VALUE, NANOSECONDS);
     // so when this drains all elements, we know the thread has also been interrupted in between
@@ -266,7 +275,8 @@ public class QueuesTest extends TestCase {
     }
 
     // but does the wait actually occurs?
-    threadPool.submit(new Interrupter(currentThread()));
+    @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+    Future<?> possiblyIgnoredError = threadPool.submit(new Interrupter(currentThread()));
     try {
       // if waiting works, this should get stuck
       Queues.drain(q, newArrayList(), 1, MAX_VALUE, NANOSECONDS);
@@ -281,7 +291,8 @@ public class QueuesTest extends TestCase {
     assertEquals(0, Queues.drainUninterruptibly(q, ImmutableList.of(), 0, 10, MILLISECONDS));
 
     // but does the wait actually occurs?
-    threadPool.submit(new Interrupter(currentThread()));
+    @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+    Future<?> possiblyIgnoredError = threadPool.submit(new Interrupter(currentThread()));
 
     Stopwatch timer = Stopwatch.createStarted();
     Queues.drainUninterruptibly(q, newArrayList(), 1, 10, MILLISECONDS);

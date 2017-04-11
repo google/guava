@@ -1725,12 +1725,15 @@ public class FuturesTest extends TestCase {
 
     // Pause the executor.
     final CountDownLatch beforeFunction = new CountDownLatch(1);
-    executor.submit(new Runnable() {
-      @Override
-      public void run() {
-        awaitUninterruptibly(beforeFunction);
-      }
-    });
+    @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+    Future<?> possiblyIgnoredError =
+        executor.submit(
+            new Runnable() {
+              @Override
+              public void run() {
+                awaitUninterruptibly(beforeFunction);
+              }
+            });
 
     // Cancel the future after making input available.
     inputFuture.set("value");
