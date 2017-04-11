@@ -40,9 +40,7 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import junit.framework.TestCase;
 
-/**
- * Unit test for {@link Streams}.
- */
+/** Unit test for {@link Streams}. */
 public class StreamsTest extends TestCase {
   /*
    * Full and proper black-box testing of a Stream-returning method is extremely involved, and is
@@ -77,7 +75,7 @@ public class StreamsTest extends TestCase {
     assertThat(stream(java.util.Optional.empty())).isEmpty();
     assertThat(stream(java.util.Optional.of("a"))).containsExactly("a");
   }
-  
+
   public void testFindLast_refStream() {
     Truth8.assertThat(findLast(Stream.of())).isEmpty();
     Truth8.assertThat(findLast(Stream.of("a", "b", "c", "d"))).hasValue("d");
@@ -195,7 +193,7 @@ public class StreamsTest extends TestCase {
     assertThat(stream(java.util.OptionalDouble.empty())).isEmpty();
     assertThat(stream(java.util.OptionalDouble.of(5.0))).containsExactly(5.0);
   }
-  
+
   private void testMapWithIndex(Function<Collection<String>, Stream<String>> collectionImpl) {
     SpliteratorTester.of(
             () ->
@@ -332,7 +330,7 @@ public class StreamsTest extends TestCase {
   private static IterableSubject assertThat(Stream<?> stream) {
     return Truth.assertThat(stream.toArray()).asList();
   }
-  
+
   private static IterableSubject assertThat(IntStream stream) {
     return Truth.assertThat(stream.toArray()).asList();
   }
