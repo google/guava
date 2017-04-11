@@ -16,6 +16,7 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
+import com.google.j2objc.annotations.WeakOuter;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.concurrent.Executor;
@@ -49,16 +50,16 @@ final class SerializingExecutor implements Executor {
   /** Underlying executor that all submitted Runnable objects are run on. */
   private final Executor executor;
 
-  @GuardedBy("internalLock")
+  @GuardedBy("queue")
   private final Deque<Runnable> queue = new ArrayDeque<Runnable>();
 
-  @GuardedBy("internalLock")
+  @GuardedBy("queue")
   private boolean isWorkerRunning = false;
 
-  @GuardedBy("internalLock")
+  @GuardedBy("queue")
   private int suspensions = 0;
 
-  private final Object internalLock = new Object();
+  private final QueueWorker worker = new QueueWorker();
 
   public SerializingExecutor(Executor executor) {
     this.executor = Preconditions.checkNotNull(executor);
@@ -71,9 +72,14 @@ final class SerializingExecutor implements Executor {
    * <p>If this method throws, e.g. a {@code RejectedExecutionException} from the delegate executor,
    * execution of tasks will stop until a call to this method or to {@link #resume()} is made.
    */
+  @Override
   public void execute(Runnable task) {
-    synchronized (internalLock) {
-      queue.add(task);
+    synchronized (queue) {
+      queue.addLast(task);
+      if (isWorkerRunning || suspensions > 0) {
+        return;
+      }
+      isWorkerRunning = true;
     }
     startQueueWorker();
   }
@@ -83,8 +89,12 @@ final class SerializingExecutor implements Executor {
    * queue has been suspended.
    */
   public void executeFirst(Runnable task) {
-    synchronized (internalLock) {
+    synchronized (queue) {
       queue.addFirst(task);
+      if (isWorkerRunning || suspensions > 0) {
+        return;
+      }
+      isWorkerRunning = true;
     }
     startQueueWorker();
   }
@@ -98,7 +108,7 @@ final class SerializingExecutor implements Executor {
    * execution is suspended.
    */
   public void suspend() {
-    synchronized (internalLock) {
+    synchronized (queue) {
       suspensions++;
     }
   }
@@ -115,36 +125,37 @@ final class SerializingExecutor implements Executor {
    * @throws java.lang.IllegalStateException if this executor is not suspended.
    */
   public void resume() {
-    synchronized (internalLock) {
+    synchronized (queue) {
       Preconditions.checkState(suspensions > 0);
       suspensions--;
-    }
-    startQueueWorker();
-  }
-
-  private void startQueueWorker() {
-    synchronized (internalLock) {
-      // We sometimes try to start a queue worker without knowing if there is any work to do.
-      if (queue.peek() == null) {
-        return;
-      }
-      if (suspensions > 0) {
-        return;
-      }
-      if (isWorkerRunning) {
+      if (isWorkerRunning || suspensions > 0 || queue.isEmpty()) {
         return;
       }
       isWorkerRunning = true;
     }
+    startQueueWorker();
+  }
+
+  /**
+   * Starts a worker.  This should only be called if:
+   *
+   * <ul>
+   *   <li>{@code suspensions == 0}
+   *   <li>{@code isWorkerRunning == true}
+   *   <li>{@code !queue.isEmpty()}
+   *   <li>the {@link #worker} lock is not held
+   * </ul>
+   */
+  private void startQueueWorker() {
     boolean executionRejected = true;
     try {
-      executor.execute(new QueueWorker());
+      executor.execute(worker);
       executionRejected = false;
     } finally {
       if (executionRejected) {
         // The best we can do is to stop executing the queue, but reset the state so that
         // execution can be resumed later if the caller so wishes.
-        synchronized (internalLock) {
+        synchronized (queue) {
           isWorkerRunning = false;
         }
       }
@@ -154,13 +165,14 @@ final class SerializingExecutor implements Executor {
   /**
    * Worker that runs tasks off the queue until it is empty or the queue is suspended.
    */
+  @WeakOuter
   private final class QueueWorker implements Runnable {
     @Override
     public void run() {
       try {
         workOnQueue();
       } catch (Error e) {
-        synchronized (internalLock) {
+        synchronized (queue) {
           isWorkerRunning = false;
         }
         throw e;
@@ -173,10 +185,10 @@ final class SerializingExecutor implements Executor {
     private void workOnQueue() {
       while (true) {
         Runnable task = null;
-        synchronized (internalLock) {
+        synchronized (queue) {
           // TODO(user): How should we handle interrupts and shutdowns?
           if (suspensions == 0) {
-            task = queue.poll();
+            task = queue.pollFirst();
           }
           if (task == null) {
             isWorkerRunning = false;
