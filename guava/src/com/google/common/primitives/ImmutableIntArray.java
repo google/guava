@@ -20,6 +20,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -80,7 +81,7 @@ import javax.annotation.Nullable;
  */
 @Beta
 @GwtCompatible
-public final class ImmutableIntArray { // TODO(kevinb): implements Serializable
+public final class ImmutableIntArray implements Serializable {
   private static final ImmutableIntArray EMPTY = new ImmutableIntArray(new int[0]);
 
   /** Returns the empty array. */
@@ -103,7 +104,22 @@ public final class ImmutableIntArray { // TODO(kevinb): implements Serializable
     return new ImmutableIntArray(new int[] {e0, e1, e2});
   }
 
-  // TODO(kevinb): go up to 11
+  /** Returns an immutable array containing the given values, in order. */
+  public static ImmutableIntArray of(int e0, int e1, int e2, int e3) {
+    return new ImmutableIntArray(new int[] {e0, e1, e2, e3});
+  }
+
+  /** Returns an immutable array containing the given values, in order. */
+  public static ImmutableIntArray of(int e0, int e1, int e2, int e3, int e4) {
+    return new ImmutableIntArray(new int[] {e0, e1, e2, e3, e4});
+  }
+
+  /** Returns an immutable array containing the given values, in order. */
+  public static ImmutableIntArray of(int e0, int e1, int e2, int e3, int e4, int e5) {
+    return new ImmutableIntArray(new int[] {e0, e1, e2, e3, e4, e5});
+  }
+
+  // TODO(kevinb): go up to 11?
 
   /** Returns an immutable array containing the given values, in order. */
   // Use (first, rest) so that `of(anIntArray)` won't compile (they should use copyOf), which is
@@ -287,7 +303,7 @@ public final class ImmutableIntArray { // TODO(kevinb): implements Serializable
    * optimizing, because the rest have the option of calling `trimmed`.
    */
 
-  private final int start; // inclusive
+  private final transient int start; // it happens that we only serialize instances where this is 0
   private final int end; // exclusive
 
   private ImmutableIntArray(int[] array) {
@@ -531,5 +547,13 @@ public final class ImmutableIntArray { // TODO(kevinb): implements Serializable
 
   private boolean isPartialView() {
     return start > 0 || end < array.length;
+  }
+
+  Object writeReplace() {
+    return trimmed();
+  }
+
+  Object readResolve() {
+    return isEmpty() ? EMPTY : this;
   }
 }

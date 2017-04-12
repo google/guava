@@ -78,6 +78,11 @@ public void testCopyOf_iterable_notCollection_nonempty() throws Exception {
   testCase.testCopyOf_iterable_notCollection_nonempty();
 }
 
+public void testEquals() throws Exception {
+  com.google.common.primitives.ImmutableIntArrayTest testCase = new com.google.common.primitives.ImmutableIntArrayTest();
+  testCase.testEquals();
+}
+
 public void testGet_bad() throws Exception {
   com.google.common.primitives.ImmutableIntArrayTest testCase = new com.google.common.primitives.ImmutableIntArrayTest();
   testCase.testGet_bad();

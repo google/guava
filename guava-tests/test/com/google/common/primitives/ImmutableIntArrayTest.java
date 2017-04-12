@@ -14,6 +14,7 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -25,6 +26,7 @@ import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.TestListGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.testing.EqualsTester;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -79,8 +81,6 @@ public class ImmutableIntArrayTest extends TestCase {
         .containsExactly(0, 1, 3, 6, 10, 15, 21)
         .inOrder();
   }
-
-  // TODO(kevinb): go up to 13ish...
 
   public void testCopyOf_array_empty() {
     /*
@@ -352,6 +352,16 @@ public class ImmutableIntArrayTest extends TestCase {
     };
   }
 
+  public void testEquals() {
+    new EqualsTester()
+        .addEqualityGroup(ImmutableIntArray.of())
+        .addEqualityGroup(
+            ImmutableIntArray.of(1, 2),
+            reserialize(ImmutableIntArray.of(1, 2)),
+            ImmutableIntArray.of(0, 1, 2, 3).subArray(1, 3))
+        .testEquals();
+  }
+
   /**
    * This is probably a weird and hacky way to test what we're really trying to test, but hey, it
    * caught a bug.
@@ -371,6 +381,18 @@ public class ImmutableIntArrayTest extends TestCase {
 
     ImmutableIntArray underSized = ImmutableIntArray.builder(2).add(0).add(1).add(3).build();
     assertActuallyTrims(underSized);
+  }
+
+  @GwtIncompatible // SerializableTester
+  public void testSerialization() {
+    assertThat(reserialize(ImmutableIntArray.of())).isSameAs(ImmutableIntArray.of());
+    assertThat(reserialize(ImmutableIntArray.of(0, 1).subArray(1, 1)))
+        .isSameAs(ImmutableIntArray.of());
+
+    ImmutableIntArray iia = ImmutableIntArray.of(0, 1, 3, 6).subArray(1, 3);
+    ImmutableIntArray iia2 = reserialize(iia);
+    assertThat(iia2).isEqualTo(iia);
+    assertDoesntActuallyTrim(iia2);
   }
 
   private static void assertActuallyTrims(ImmutableIntArray iia) {
