@@ -14,12 +14,14 @@
 
 package com.google.common.base;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.common.annotations.GwtCompatible;
+
+import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Set;
-import javax.annotation.Nullable;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Implementation of an {@link Optional} containing a reference.
@@ -82,6 +84,27 @@ final class Present<T> extends Optional<T> {
   public boolean equals(@Nullable Object object) {
     if (object instanceof Present) {
       Present<?> other = (Present<?>) object;
+
+      if (reference instanceof Object[] && other.reference instanceof Object[]) {
+        return Arrays.deepEquals((Object[]) reference, (Object[]) other.reference);
+      } else if (reference instanceof boolean[] && other.reference instanceof boolean[]) {
+        return Arrays.equals((boolean[]) reference, (boolean[]) other.reference);
+      } else if (reference instanceof byte[] && other.reference instanceof byte[]) {
+        return Arrays.equals((byte[]) reference, (byte[]) other.reference);
+      } else if (reference instanceof char[] && other.reference instanceof char[]) {
+        return Arrays.equals((char[]) reference, (char[]) other.reference);
+      } else if (reference instanceof double[] && other.reference instanceof double[]) {
+        return Arrays.equals((double[]) reference, (double[]) other.reference);
+      } else if (reference instanceof float[] && other.reference instanceof float[]) {
+        return Arrays.equals((float[]) reference, (float[]) other.reference);
+      } else if (reference instanceof int[] && other.reference instanceof int[]) {
+        return Arrays.equals((int[]) reference, (int[]) other.reference);
+      } else if (reference instanceof long[] && other.reference instanceof long[]) {
+        return Arrays.equals((long[]) reference, (long[]) other.reference);
+      } else if (reference instanceof short[] && other.reference instanceof short[]) {
+        return Arrays.equals((short[]) reference, (short[]) other.reference);
+      }
+
       return reference.equals(other.reference);
     }
     return false;
@@ -89,6 +112,25 @@ final class Present<T> extends Optional<T> {
 
   @Override
   public int hashCode() {
+    if (reference instanceof Object[]) {
+      return 0x598df91c + Arrays.deepHashCode((Object[]) reference);
+    } else if (reference instanceof boolean[]) {
+      return 0x598df91c + Arrays.hashCode((boolean[]) reference);
+    } else if (reference instanceof byte[]) {
+      return 0x598df91c + Arrays.hashCode((byte[]) reference);
+    } else if (reference instanceof char[]) {
+      return 0x598df91c + Arrays.hashCode((char[]) reference);
+    } else if (reference instanceof double[]) {
+      return 0x598df91c + Arrays.hashCode((double[]) reference);
+    } else if (reference instanceof float[]) {
+      return 0x598df91c + Arrays.hashCode((float[]) reference);
+    } else if (reference instanceof int[]) {
+      return 0x598df91c + Arrays.hashCode((int[]) reference);
+    } else if (reference instanceof long[]) {
+      return 0x598df91c + Arrays.hashCode((long[]) reference);
+    } else if (reference instanceof short[]) {
+      return 0x598df91c + Arrays.hashCode((short[]) reference);
+    }
     return 0x598df91c + reference.hashCode();
   }
 
