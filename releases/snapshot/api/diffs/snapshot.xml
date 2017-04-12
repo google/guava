@@ -53000,6 +53000,7 @@
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
+    <implements name="java.io.Serializable"/>
     <method name="of" return="com.google.common.primitives.ImmutableIntArray"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -53034,6 +53035,45 @@
       <param name="e0" type="int"/>
       <param name="e1" type="int"/>
       <param name="e2" type="int"/>
+      <doc>
+      <![CDATA[Returns an immutable array containing the given values, in order.]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.primitives.ImmutableIntArray"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="e0" type="int"/>
+      <param name="e1" type="int"/>
+      <param name="e2" type="int"/>
+      <param name="e3" type="int"/>
+      <doc>
+      <![CDATA[Returns an immutable array containing the given values, in order.]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.primitives.ImmutableIntArray"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="e0" type="int"/>
+      <param name="e1" type="int"/>
+      <param name="e2" type="int"/>
+      <param name="e3" type="int"/>
+      <param name="e4" type="int"/>
+      <doc>
+      <![CDATA[Returns an immutable array containing the given values, in order.]]>
+      </doc>
+    </method>
+    <method name="of" return="com.google.common.primitives.ImmutableIntArray"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="e0" type="int"/>
+      <param name="e1" type="int"/>
+      <param name="e2" type="int"/>
+      <param name="e3" type="int"/>
+      <param name="e4" type="int"/>
+      <param name="e5" type="int"/>
       <doc>
       <![CDATA[Returns an immutable array containing the given values, in order.]]>
       </doc>
