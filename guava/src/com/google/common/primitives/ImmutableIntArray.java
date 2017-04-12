@@ -25,10 +25,11 @@ import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.function.IntConsumer;
 import java.util.List;
 import java.util.RandomAccess;
 import java.util.Spliterator;
-import java.util.function.IntConsumer;
+import java.util.Spliterators;
 import java.util.stream.IntStream;
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
@@ -431,6 +432,10 @@ public final class ImmutableIntArray implements Serializable {
         : new ImmutableIntArray(array, start + startIndex, start + endIndex);
   }
 
+  private Spliterator.OfInt spliterator() {
+    return Spliterators.spliterator(array, start, end, Spliterator.IMMUTABLE | Spliterator.ORDERED);
+  }
+
   /**
    * Returns an immutable <i>view</i> of this array's values as a {@code List}; note that {@code
    * int} values are boxed into {@link Integer} instances on demand, which can be very expensive.
@@ -455,7 +460,7 @@ public final class ImmutableIntArray implements Serializable {
       this.parent = parent;
     }
 
-    // inherit: isEmpty, containsAll, toArray x2, {,list,spl}iterator, stream, forEach, mutations
+    // inherit: isEmpty, containsAll, toArray x2, iterator, listIterator, stream, forEach, mutations
 
     @Override
     public int size() {
@@ -485,6 +490,12 @@ public final class ImmutableIntArray implements Serializable {
     @Override
     public List<Integer> subList(int fromIndex, int toIndex) {
       return parent.subArray(fromIndex, toIndex).asList();
+    }
+
+    // The default List spliterator is not efficiently splittable
+    @Override
+    public Spliterator<Integer> spliterator() {
+      return parent.spliterator();
     }
 
     @Override
