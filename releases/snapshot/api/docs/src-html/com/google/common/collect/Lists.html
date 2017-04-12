@@ -93,7 +93,7 @@
 <span class="sourceLineNo">085</span>   */<a name="line.85"></a>
 <span class="sourceLineNo">086</span>  @GwtCompatible(serializable = true)<a name="line.86"></a>
 <span class="sourceLineNo">087</span>  public static &lt;E&gt; ArrayList&lt;E&gt; newArrayList() {<a name="line.87"></a>
-<span class="sourceLineNo">088</span>    return new ArrayList&lt;E&gt;();<a name="line.88"></a>
+<span class="sourceLineNo">088</span>    return new ArrayList&lt;&gt;();<a name="line.88"></a>
 <span class="sourceLineNo">089</span>  }<a name="line.89"></a>
 <span class="sourceLineNo">090</span><a name="line.90"></a>
 <span class="sourceLineNo">091</span>  /**<a name="line.91"></a>
@@ -120,7 +120,7 @@
 <span class="sourceLineNo">112</span>    checkNotNull(elements); // for GWT<a name="line.112"></a>
 <span class="sourceLineNo">113</span>    // Avoid integer overflow when a large array is passed in<a name="line.113"></a>
 <span class="sourceLineNo">114</span>    int capacity = computeArrayListCapacity(elements.length);<a name="line.114"></a>
-<span class="sourceLineNo">115</span>    ArrayList&lt;E&gt; list = new ArrayList&lt;E&gt;(capacity);<a name="line.115"></a>
+<span class="sourceLineNo">115</span>    ArrayList&lt;E&gt; list = new ArrayList&lt;&gt;(capacity);<a name="line.115"></a>
 <span class="sourceLineNo">116</span>    Collections.addAll(list, elements);<a name="line.116"></a>
 <span class="sourceLineNo">117</span>    return list;<a name="line.117"></a>
 <span class="sourceLineNo">118</span>  }<a name="line.118"></a>
@@ -154,7 +154,7 @@
 <span class="sourceLineNo">146</span>    checkNotNull(elements); // for GWT<a name="line.146"></a>
 <span class="sourceLineNo">147</span>    // Let ArrayList's sizing logic work, if possible<a name="line.147"></a>
 <span class="sourceLineNo">148</span>    return (elements instanceof Collection)<a name="line.148"></a>
-<span class="sourceLineNo">149</span>        ? new ArrayList&lt;E&gt;(Collections2.cast(elements))<a name="line.149"></a>
+<span class="sourceLineNo">149</span>        ? new ArrayList&lt;&gt;(Collections2.cast(elements))<a name="line.149"></a>
 <span class="sourceLineNo">150</span>        : newArrayList(elements.iterator());<a name="line.150"></a>
 <span class="sourceLineNo">151</span>  }<a name="line.151"></a>
 <span class="sourceLineNo">152</span><a name="line.152"></a>
@@ -195,7 +195,7 @@
 <span class="sourceLineNo">187</span>  @GwtCompatible(serializable = true)<a name="line.187"></a>
 <span class="sourceLineNo">188</span>  public static &lt;E&gt; ArrayList&lt;E&gt; newArrayListWithCapacity(int initialArraySize) {<a name="line.188"></a>
 <span class="sourceLineNo">189</span>    checkNonnegative(initialArraySize, "initialArraySize"); // for GWT.<a name="line.189"></a>
-<span class="sourceLineNo">190</span>    return new ArrayList&lt;E&gt;(initialArraySize);<a name="line.190"></a>
+<span class="sourceLineNo">190</span>    return new ArrayList&lt;&gt;(initialArraySize);<a name="line.190"></a>
 <span class="sourceLineNo">191</span>  }<a name="line.191"></a>
 <span class="sourceLineNo">192</span><a name="line.192"></a>
 <span class="sourceLineNo">193</span>  /**<a name="line.193"></a>
@@ -216,7 +216,7 @@
 <span class="sourceLineNo">208</span>   */<a name="line.208"></a>
 <span class="sourceLineNo">209</span>  @GwtCompatible(serializable = true)<a name="line.209"></a>
 <span class="sourceLineNo">210</span>  public static &lt;E&gt; ArrayList&lt;E&gt; newArrayListWithExpectedSize(int estimatedSize) {<a name="line.210"></a>
-<span class="sourceLineNo">211</span>    return new ArrayList&lt;E&gt;(computeArrayListCapacity(estimatedSize));<a name="line.211"></a>
+<span class="sourceLineNo">211</span>    return new ArrayList&lt;&gt;(computeArrayListCapacity(estimatedSize));<a name="line.211"></a>
 <span class="sourceLineNo">212</span>  }<a name="line.212"></a>
 <span class="sourceLineNo">213</span><a name="line.213"></a>
 <span class="sourceLineNo">214</span>  // LinkedList<a name="line.214"></a>
@@ -240,7 +240,7 @@
 <span class="sourceLineNo">232</span>   */<a name="line.232"></a>
 <span class="sourceLineNo">233</span>  @GwtCompatible(serializable = true)<a name="line.233"></a>
 <span class="sourceLineNo">234</span>  public static &lt;E&gt; LinkedList&lt;E&gt; newLinkedList() {<a name="line.234"></a>
-<span class="sourceLineNo">235</span>    return new LinkedList&lt;E&gt;();<a name="line.235"></a>
+<span class="sourceLineNo">235</span>    return new LinkedList&lt;&gt;();<a name="line.235"></a>
 <span class="sourceLineNo">236</span>  }<a name="line.236"></a>
 <span class="sourceLineNo">237</span><a name="line.237"></a>
 <span class="sourceLineNo">238</span>  /**<a name="line.238"></a>
@@ -281,7 +281,7 @@
 <span class="sourceLineNo">273</span>   */<a name="line.273"></a>
 <span class="sourceLineNo">274</span>  @GwtIncompatible // CopyOnWriteArrayList<a name="line.274"></a>
 <span class="sourceLineNo">275</span>  public static &lt;E&gt; CopyOnWriteArrayList&lt;E&gt; newCopyOnWriteArrayList() {<a name="line.275"></a>
-<span class="sourceLineNo">276</span>    return new CopyOnWriteArrayList&lt;E&gt;();<a name="line.276"></a>
+<span class="sourceLineNo">276</span>    return new CopyOnWriteArrayList&lt;&gt;();<a name="line.276"></a>
 <span class="sourceLineNo">277</span>  }<a name="line.277"></a>
 <span class="sourceLineNo">278</span><a name="line.278"></a>
 <span class="sourceLineNo">279</span>  /**<a name="line.279"></a>
@@ -298,7 +298,7 @@
 <span class="sourceLineNo">290</span>    // quadratic cost of adding them to the COWAL directly.<a name="line.290"></a>
 <span class="sourceLineNo">291</span>    Collection&lt;? extends E&gt; elementsCollection =<a name="line.291"></a>
 <span class="sourceLineNo">292</span>        (elements instanceof Collection) ? Collections2.cast(elements) : newArrayList(elements);<a name="line.292"></a>
-<span class="sourceLineNo">293</span>    return new CopyOnWriteArrayList&lt;E&gt;(elementsCollection);<a name="line.293"></a>
+<span class="sourceLineNo">293</span>    return new CopyOnWriteArrayList&lt;&gt;(elementsCollection);<a name="line.293"></a>
 <span class="sourceLineNo">294</span>  }<a name="line.294"></a>
 <span class="sourceLineNo">295</span><a name="line.295"></a>
 <span class="sourceLineNo">296</span>  /**<a name="line.296"></a>
@@ -318,7 +318,7 @@
 <span class="sourceLineNo">310</span>   * @return an unmodifiable list containing the specified elements<a name="line.310"></a>
 <span class="sourceLineNo">311</span>   */<a name="line.311"></a>
 <span class="sourceLineNo">312</span>  public static &lt;E&gt; List&lt;E&gt; asList(@Nullable E first, E[] rest) {<a name="line.312"></a>
-<span class="sourceLineNo">313</span>    return new OnePlusArrayList&lt;E&gt;(first, rest);<a name="line.313"></a>
+<span class="sourceLineNo">313</span>    return new OnePlusArrayList&lt;&gt;(first, rest);<a name="line.313"></a>
 <span class="sourceLineNo">314</span>  }<a name="line.314"></a>
 <span class="sourceLineNo">315</span><a name="line.315"></a>
 <span class="sourceLineNo">316</span>  /** @see Lists#asList(Object, Object[]) */<a name="line.316"></a>
@@ -365,7 +365,7 @@
 <span class="sourceLineNo">357</span>   * @return an unmodifiable list containing the specified elements<a name="line.357"></a>
 <span class="sourceLineNo">358</span>   */<a name="line.358"></a>
 <span class="sourceLineNo">359</span>  public static &lt;E&gt; List&lt;E&gt; asList(@Nullable E first, @Nullable E second, E[] rest) {<a name="line.359"></a>
-<span class="sourceLineNo">360</span>    return new TwoPlusArrayList&lt;E&gt;(first, second, rest);<a name="line.360"></a>
+<span class="sourceLineNo">360</span>    return new TwoPlusArrayList&lt;&gt;(first, second, rest);<a name="line.360"></a>
 <span class="sourceLineNo">361</span>  }<a name="line.361"></a>
 <span class="sourceLineNo">362</span><a name="line.362"></a>
 <span class="sourceLineNo">363</span>  /** @see Lists#asList(Object, Object, Object[]) */<a name="line.363"></a>
@@ -566,8 +566,8 @@
 <span class="sourceLineNo">558</span>  public static &lt;F, T&gt; List&lt;T&gt; transform(<a name="line.558"></a>
 <span class="sourceLineNo">559</span>      List&lt;F&gt; fromList, Function&lt;? super F, ? extends T&gt; function) {<a name="line.559"></a>
 <span class="sourceLineNo">560</span>    return (fromList instanceof RandomAccess)<a name="line.560"></a>
-<span class="sourceLineNo">561</span>        ? new TransformingRandomAccessList&lt;F, T&gt;(fromList, function)<a name="line.561"></a>
-<span class="sourceLineNo">562</span>        : new TransformingSequentialList&lt;F, T&gt;(fromList, function);<a name="line.562"></a>
+<span class="sourceLineNo">561</span>        ? new TransformingRandomAccessList&lt;&gt;(fromList, function)<a name="line.561"></a>
+<span class="sourceLineNo">562</span>        : new TransformingSequentialList&lt;&gt;(fromList, function);<a name="line.562"></a>
 <span class="sourceLineNo">563</span>  }<a name="line.563"></a>
 <span class="sourceLineNo">564</span><a name="line.564"></a>
 <span class="sourceLineNo">565</span>  /**<a name="line.565"></a>
@@ -707,8 +707,8 @@
 <span class="sourceLineNo">699</span>    checkNotNull(list);<a name="line.699"></a>
 <span class="sourceLineNo">700</span>    checkArgument(size &gt; 0);<a name="line.700"></a>
 <span class="sourceLineNo">701</span>    return (list instanceof RandomAccess)<a name="line.701"></a>
-<span class="sourceLineNo">702</span>        ? new RandomAccessPartition&lt;T&gt;(list, size)<a name="line.702"></a>
-<span class="sourceLineNo">703</span>        : new Partition&lt;T&gt;(list, size);<a name="line.703"></a>
+<span class="sourceLineNo">702</span>        ? new RandomAccessPartition&lt;&gt;(list, size)<a name="line.702"></a>
+<span class="sourceLineNo">703</span>        : new Partition&lt;&gt;(list, size);<a name="line.703"></a>
 <span class="sourceLineNo">704</span>  }<a name="line.704"></a>
 <span class="sourceLineNo">705</span><a name="line.705"></a>
 <span class="sourceLineNo">706</span>  private static class Partition&lt;T&gt; extends AbstractList&lt;List&lt;T&gt;&gt; {<a name="line.706"></a>
@@ -850,9 +850,9 @@
 <span class="sourceLineNo">842</span>    } else if (list instanceof ReverseList) {<a name="line.842"></a>
 <span class="sourceLineNo">843</span>      return ((ReverseList&lt;T&gt;) list).getForwardList();<a name="line.843"></a>
 <span class="sourceLineNo">844</span>    } else if (list instanceof RandomAccess) {<a name="line.844"></a>
-<span class="sourceLineNo">845</span>      return new RandomAccessReverseList&lt;T&gt;(list);<a name="line.845"></a>
+<span class="sourceLineNo">845</span>      return new RandomAccessReverseList&lt;&gt;(list);<a name="line.845"></a>
 <span class="sourceLineNo">846</span>    } else {<a name="line.846"></a>
-<span class="sourceLineNo">847</span>      return new ReverseList&lt;T&gt;(list);<a name="line.847"></a>
+<span class="sourceLineNo">847</span>      return new ReverseList&lt;&gt;(list);<a name="line.847"></a>
 <span class="sourceLineNo">848</span>    }<a name="line.848"></a>
 <span class="sourceLineNo">849</span>  }<a name="line.849"></a>
 <span class="sourceLineNo">850</span><a name="line.850"></a>
@@ -1129,7 +1129,7 @@
 <span class="sourceLineNo">1121</span>   * Returns an implementation of {@link List#listIterator(int)}.<a name="line.1121"></a>
 <span class="sourceLineNo">1122</span>   */<a name="line.1122"></a>
 <span class="sourceLineNo">1123</span>  static &lt;E&gt; ListIterator&lt;E&gt; listIteratorImpl(List&lt;E&gt; list, int index) {<a name="line.1123"></a>
-<span class="sourceLineNo">1124</span>    return new AbstractListWrapper&lt;E&gt;(list).listIterator(index);<a name="line.1124"></a>
+<span class="sourceLineNo">1124</span>    return new AbstractListWrapper&lt;&gt;(list).listIterator(index);<a name="line.1124"></a>
 <span class="sourceLineNo">1125</span>  }<a name="line.1125"></a>
 <span class="sourceLineNo">1126</span><a name="line.1126"></a>
 <span class="sourceLineNo">1127</span>  /**<a name="line.1127"></a>
