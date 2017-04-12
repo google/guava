@@ -78,9 +78,19 @@ public void testCopyOf_iterable_notCollection_nonempty() throws Exception {
   testCase.testCopyOf_iterable_notCollection_nonempty();
 }
 
+public void testCopyOf_stream() throws Exception {
+  com.google.common.primitives.ImmutableIntArrayTest testCase = new com.google.common.primitives.ImmutableIntArrayTest();
+  testCase.testCopyOf_stream();
+}
+
 public void testEquals() throws Exception {
   com.google.common.primitives.ImmutableIntArrayTest testCase = new com.google.common.primitives.ImmutableIntArrayTest();
   testCase.testEquals();
+}
+
+public void testForEach() throws Exception {
+  com.google.common.primitives.ImmutableIntArrayTest testCase = new com.google.common.primitives.ImmutableIntArrayTest();
+  testCase.testForEach();
 }
 
 public void testGet_bad() throws Exception {
@@ -151,6 +161,11 @@ public void testOf6() throws Exception {
 public void testOf7() throws Exception {
   com.google.common.primitives.ImmutableIntArrayTest testCase = new com.google.common.primitives.ImmutableIntArrayTest();
   testCase.testOf7();
+}
+
+public void testStream() throws Exception {
+  com.google.common.primitives.ImmutableIntArrayTest testCase = new com.google.common.primitives.ImmutableIntArrayTest();
+  testCase.testStream();
 }
 
 public void testSubArray() throws Exception {

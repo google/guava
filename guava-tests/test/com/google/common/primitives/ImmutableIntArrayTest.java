@@ -35,6 +35,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -133,6 +134,13 @@ public class ImmutableIntArrayTest extends TestCase {
     assertThat(iia.asList()).containsExactly(0, 1, 3).inOrder();
   }
 
+  public void testCopyOf_stream() {
+    assertThat(ImmutableIntArray.copyOf(IntStream.empty())).isSameAs(ImmutableIntArray.of());
+    assertThat(ImmutableIntArray.copyOf(IntStream.of(0, 1, 3)).asList())
+        .containsExactly(0, 1, 3)
+        .inOrder();
+  }
+
   public void testBuilder_presize_zero() {
     ImmutableIntArray.Builder builder = ImmutableIntArray.builder(0);
     builder.add(5);
@@ -204,6 +212,16 @@ public class ImmutableIntArrayTest extends TestCase {
           list.add(counter.getAndIncrement());
         }
         builder.addAll(iterable(list));
+      }
+    },
+    ADD_STREAM {
+      @Override
+      void doIt(ImmutableIntArray.Builder builder, AtomicInteger counter) {
+        int[] array = new int[RANDOM.nextInt(10)];
+        for (int i = 0; i < array.length; i++) {
+          array[i] = counter.getAndIncrement();
+        }
+        builder.addAll(Arrays.stream(array));
       }
     },
     ADD_IIA {
@@ -311,6 +329,21 @@ public class ImmutableIntArrayTest extends TestCase {
     assertThat(ImmutableIntArray.of(13).contains(13)).isTrue();
     assertThat(ImmutableIntArray.of().contains(21)).isFalse();
     assertThat(iia.subArray(1, 5).contains(1)).isTrue();
+  }
+
+  public void testForEach() {
+    ImmutableIntArray.of().forEach(i -> fail());
+    ImmutableIntArray.of(0, 1, 3).subArray(1, 1).forEach(i -> fail());
+
+    AtomicInteger count = new AtomicInteger(0);
+    ImmutableIntArray.of(0, 1, 2, 3).forEach(i -> assertThat(i).isEqualTo(count.getAndIncrement()));
+    assertEquals(4, count.get());
+  }
+
+  public void testStream() {
+    ImmutableIntArray.of().stream().forEach(i -> fail());
+    ImmutableIntArray.of(0, 1, 3).subArray(1, 1).stream().forEach(i -> fail());
+    assertThat(ImmutableIntArray.of(0, 1, 3).stream().toArray()).isEqualTo(new int[] {0, 1, 3});
   }
 
   public void testSubArray() {
