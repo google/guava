@@ -16,12 +16,14 @@
 
 package com.google.common.base;
 
+import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
+import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.util.Collections;
@@ -204,7 +206,7 @@ public final class OptionalTest extends TestCase {
     }
   }
 
-  public void testTransform_abssent_functionReturnsNull() {
+  public void testTransform_absent_functionReturnsNull() {
     assertEquals(Optional.absent(),
         Optional.absent().transform(
           new Function<Object, Object>() {
@@ -214,20 +216,12 @@ public final class OptionalTest extends TestCase {
           }));
   }
 
-  // TODO(kevinb): use EqualsTester
-
-  public void testEqualsAndHashCode_absent() {
-    assertEquals(Optional.<String>absent(), Optional.<Integer>absent());
-    assertEquals(Optional.absent().hashCode(), Optional.absent().hashCode());
-    assertThat(Optional.absent().hashCode())
-        .isNotEqualTo(Optional.of(0).hashCode());
-  }
-
-  public void testEqualsAndHashCode_present() {
-    assertEquals(Optional.of("training"), Optional.of("training"));
-    assertFalse(Optional.of("a").equals(Optional.of("b")));
-    assertFalse(Optional.of("a").equals(Optional.absent()));
-    assertEquals(Optional.of("training").hashCode(), Optional.of("training").hashCode());
+  public void testEqualsAndHashCode() {
+    new EqualsTester()
+        .addEqualityGroup(Optional.absent(), reserialize(Optional.absent()))
+        .addEqualityGroup(Optional.of(new Long(5)), reserialize(Optional.of(new Long(5))))
+        .addEqualityGroup(Optional.of(new Long(42)), reserialize(Optional.of(new Long(42))))
+        .testEquals();
   }
 
   public void testToString_absent() {
@@ -312,12 +306,6 @@ public final class OptionalTest extends TestCase {
     @SuppressWarnings("unchecked") // safe covariant cast
     Optional<Number> first = (Optional) numbers.first();
     Number value = first.or(0.5); // fine
-  }
-
-  @GwtIncompatible // SerializableTester
-  public void testSerialization() {
-    SerializableTester.reserializeAndAssert(Optional.absent());
-    SerializableTester.reserializeAndAssert(Optional.of("foo"));
   }
 
   @GwtIncompatible // NullPointerTester
