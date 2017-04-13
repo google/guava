@@ -53119,6 +53119,15 @@
  Builder#addAll(Iterable)}, with all the performance implications associated with that.]]>
       </doc>
     </method>
+    <method name="copyOf" return="com.google.common.primitives.ImmutableIntArray"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="stream" type="java.util.stream.IntStream"/>
+      <doc>
+      <![CDATA[Returns an immutable array containing all the values from {@code stream}, in order.]]>
+      </doc>
+    </method>
     <method name="builder" return="com.google.common.primitives.ImmutableIntArray.Builder"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -53206,6 +53215,23 @@
  {@code asList().contains(target)}.]]>
       </doc>
     </method>
+    <method name="forEach"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="consumer" type="java.util.function.IntConsumer"/>
+      <doc>
+      <![CDATA[Invokes {@code consumer} for each value contained in this array, in order.]]>
+      </doc>
+    </method>
+    <method name="stream" return="java.util.stream.IntStream"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a stream over the values in this array, in order.]]>
+      </doc>
+    </method>
     <method name="toArray" return="int[]"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -53282,12 +53308,13 @@
  <ul>
    <li>All the many well-known advantages of immutability (read <i>Effective Java</i>, second
        edition, Item 15).
-   <li>Has the value-based (not identity-based) {@link #equals}, {@link #hashCode}, and
-       {@link #toString} behavior you expect
+   <li>Has the value-based (not identity-based) {@link #equals}, {@link #hashCode}, and {@link
+       #toString} behavior you expect.
    <li>Offers useful operations beyond just {@code get} and {@code length}, so you don't have to
        hunt through classes like {@link Arrays} and {@link Ints} for them.
    <li>Supports a copy-free {@link #subArray} view, so methods that accept this type don't need to
        add overloads that accept start and end indexes.
+   <li>Can be streamed without "breaking the chain": {@code foo.getBarInts().stream()...}.
    <li>Access to all collection-based utilities via {@link #asList} (though at the cost of
        allocating garbage).
  </ul>
@@ -53307,8 +53334,10 @@
  <Integer>}:
 
  <ul>
-   <li>Improved memory compactness and locality
-   <li>Can be queried without allocating garbage
+   <li>Improved memory compactness and locality.
+   <li>Can be queried without allocating garbage.
+   <li>Access to {@code IntStream} features (like {@link IntStream#sum}) using {@code stream()}
+       instead of the awkward {@code stream().mapToInt(i -> i)}.
  </ul>
 
  <p>Disadvantages compared to {@code ImmutableList<Integer>}:
@@ -53375,6 +53404,16 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <param name="stream" type="java.util.stream.IntStream"/>
+      <doc>
+      <![CDATA[Appends all values from {@code stream}, in order, to the end of the values the built {@link
+ ImmutableIntArray} will contain.]]>
+      </doc>
+    </method>
+    <method name="addAll" return="com.google.common.primitives.ImmutableIntArray.Builder"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
       <param name="values" type="com.google.common.primitives.ImmutableIntArray"/>
       <doc>
       <![CDATA[Appends {@code values}, in order, to the end of the values the built {@link
@@ -53386,8 +53425,8 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns a new immutable array. The builder can continue to be used after this call, to
- append more values and build again.
+      <![CDATA[Returns a new immutable array. The builder can continue to be used after this call, to append
+ more values and build again.
 
  <p><b>Performance note:</b> the returned array is backed by the same array as the builder, so
  no data is copied as part of this step, but this may occupy more memory than strictly

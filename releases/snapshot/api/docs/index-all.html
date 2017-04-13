@@ -643,6 +643,10 @@
 <dd>
 <div class="block">Appends <code>values</code>, in order, to the end of the values the built <a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives"><code>ImmutableIntArray</code></a> will contain.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.Builder.html#addAll-java.util.stream.IntStream-">addAll(IntStream)</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.Builder.html" title="class in com.google.common.primitives">ImmutableIntArray.Builder</a></dt>
+<dd>
+<div class="block">Appends all values from <code>stream</code>, in order, to the end of the values the built <a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives"><code>ImmutableIntArray</code></a> will contain.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.Builder.html#addAll-com.google.common.primitives.ImmutableIntArray-">addAll(ImmutableIntArray)</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.Builder.html" title="class in com.google.common.primitives">ImmutableIntArray.Builder</a></dt>
 <dd>
 <div class="block">Appends <code>values</code>, in order, to the end of the values the built <a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives"><code>ImmutableIntArray</code></a> will contain.</div>
@@ -4409,6 +4413,10 @@
 <dd>
 <div class="block">Returns an immutable array containing the given values, in order.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#copyOf-java.util.stream.IntStream-">copyOf(IntStream)</a></span> - Static method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Returns an immutable array containing all the values from <code>stream</code>, in order.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableSortedMap.html#copyOfSorted-java.util.SortedMap-">copyOfSorted(SortedMap&lt;K, ? extends V&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a></dt>
 <dd>
 <div class="block">Returns an immutable map containing the same entries as the provided sorted
@@ -6740,6 +6748,10 @@
 <div class="block">Performs the given action for all key-value pairs contained in this multimap.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Multiset.html#forEach-java.util.function.Consumer-">forEach(Consumer&lt;? super E&gt;)</a></span> - Method in interface com.google.common.collect.<a href="com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a></dt>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#forEach-java.util.function.IntConsumer-">forEach(IntConsumer)</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Invokes <code>consumer</code> for each value contained in this array, in order.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Multiset.html#forEachEntry-java.util.function.ObjIntConsumer-">forEachEntry(ObjIntConsumer&lt;? super E&gt;)</a></span> - Method in interface com.google.common.collect.<a href="com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a></dt>
 <dd>
 <div class="block">Runs the specified action for each distinct element in this multiset, and the number of
@@ -16349,6 +16361,10 @@
 <dd>
 <div class="block">If a value is present in <code>optional</code>, returns a stream containing only that element,
  otherwise returns an empty stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableIntArray.html#stream--">stream()</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a></dt>
+<dd>
+<div class="block">Returns a stream over the values in this array, in order.</div>
 </dd>
 <dt><a href="com/google/common/collect/Streams.html" title="class in com.google.common.collect"><span class="typeNameLink">Streams</span></a> - Class in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
