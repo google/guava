@@ -205,6 +205,25 @@ public final class Throwables {
   }
 
   /**
+   * Propagates supplied {@code throwable} exactly as-is, if and only if the expression is truth. Example
+   * usage:
+   *
+   * <pre>
+   * Throwables.propagateIf(!optional.isPresent(), () -> new Exception());
+   * </pre>
+   *
+   * @param expression a boolean expression
+   * @param supplier a Throwable supplier
+   */
+  @GwtIncompatible
+  public static <X extends Throwable> void propagateIf(boolean expression, Supplier<X> supplier) throws X {
+    checkNotNull(supplier);
+    if (expression) {
+      throw supplier.get();
+    }
+  }
+
+  /**
    * Propagates {@code throwable} as-is if it is an instance of {@link RuntimeException} or {@link
    * Error}, or else as a last resort, wraps it in a {@code RuntimeException} and then propagates.
    *

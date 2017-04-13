@@ -323,6 +323,29 @@ public class ThrowablesTest extends TestCase {
         SomeUncheckedException.class);
   }
 
+  @GwtIncompatible // propagateIfPossible(Expression, Supplier)
+  public void testPropageIf_null() throws SomeCheckedException {
+    try {
+      Throwables.propagateIf(false, null);
+      fail();
+    } catch (NullPointerException e){
+    }
+  }
+
+  @GwtIncompatible // propagateIfPossible(Expression, Supplier)
+  public void testPropageIf_FalseExpression() throws SomeCheckedException {
+    Throwables.propagateIf(false, () -> new SomeCheckedException());
+  }
+
+  @GwtIncompatible // propagateIfPossible(Expression, Supplier)
+  public void testPropageIf_TrueExpression() throws SomeCheckedException {
+    try {
+      Throwables.propagateIf(true, () -> new SomeCheckedException());
+      fail();
+    } catch (SomeCheckedException e) {
+    }
+  }
+
   @GwtIncompatible // propagate
   public void testPropagate_NoneDeclared_NoneThrown() {
     Sample sample = new Sample() {
