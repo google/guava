@@ -50,7 +50,6 @@ import junit.framework.TestSuite;
  *
  * @author Colin Decker
  */
-@AndroidIncompatible
 
 public class MoreFilesTest extends TestCase {
 

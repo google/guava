@@ -23,14 +23,19 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.CLASS;
 
-import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.GwtCompatible;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Signifies that the annotated element should not be included for use on Android.
+ * Signifies that a test should not be run under Android. This annotation is respected only by our
+ * Google-internal Android suite generators. Note that those generators also suppress any test
+ * annotated with MediumTest or LargeTest.
+ *
+ * <p>For more discussion, see {@linkplain com.google.common.base.AndroidIncompatible the
+ * documentation on another copy of this annotation}.
  */
 @Retention(CLASS)
 @Target({ANNOTATION_TYPE, CONSTRUCTOR, FIELD, METHOD, TYPE})
-@GwtIncompatible // nothing that uses it is GwtCompatible
+@GwtCompatible
 @interface AndroidIncompatible {}
