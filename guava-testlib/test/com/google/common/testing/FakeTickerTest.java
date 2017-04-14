@@ -23,6 +23,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import junit.framework.TestCase;
 
@@ -149,16 +150,19 @@ public class FakeTickerTest extends TestCase {
     final CountDownLatch startLatch = new CountDownLatch(numberOfThreads);
     final CountDownLatch doneLatch = new CountDownLatch(numberOfThreads);
     for (int i = numberOfThreads; i > 0; i--) {
-      executorService.submit(new Callable<Void>() {
-        @Override
-        public Void call() throws Exception {
-          startLatch.countDown();
-          startLatch.await();
-          callable.call();
-          doneLatch.countDown();
-          return null;
-        }
-      });
+      @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+      Future<?> possiblyIgnoredError =
+          executorService.submit(
+              new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                  startLatch.countDown();
+                  startLatch.await();
+                  callable.call();
+                  doneLatch.countDown();
+                  return null;
+                }
+              });
     }
     doneLatch.await();
   }

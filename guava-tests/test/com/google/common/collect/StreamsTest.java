@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
@@ -39,9 +40,7 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import junit.framework.TestCase;
 
-/**
- * Unit test for {@link Streams}.
- */
+/** Unit test for {@link Streams}. */
 public class StreamsTest extends TestCase {
   /*
    * Full and proper black-box testing of a Stream-returning method is extremely involved, and is
@@ -76,7 +75,7 @@ public class StreamsTest extends TestCase {
     assertThat(stream(java.util.Optional.empty())).isEmpty();
     assertThat(stream(java.util.Optional.of("a"))).containsExactly("a");
   }
-  
+
   public void testFindLast_refStream() {
     Truth8.assertThat(findLast(Stream.of())).isEmpty();
     Truth8.assertThat(findLast(Stream.of("a", "b", "c", "d"))).hasValue("d");
@@ -137,6 +136,21 @@ public class StreamsTest extends TestCase {
     assertThat(Streams.concat(Stream.of("a"), Stream.of("b"), Stream.empty(), Stream.of("c", "d")))
         .containsExactly("a", "b", "c", "d")
         .inOrder();
+    SpliteratorTester.of(
+            () ->
+                Streams.concat(Stream.of("a"), Stream.of("b"), Stream.empty(), Stream.of("c", "d"))
+                    .spliterator())
+        .expect("a", "b", "c", "d");
+  }
+
+  public void testConcat_refStream_parallel() {
+    Truth.assertThat(
+            Streams.concat(Stream.of("a"), Stream.of("b"), Stream.empty(), Stream.of("c", "d"))
+                .parallel()
+                .toArray())
+        .asList()
+        .containsExactly("a", "b", "c", "d")
+        .inOrder();
   }
 
   public void testConcat_intStream() {
@@ -179,7 +193,7 @@ public class StreamsTest extends TestCase {
     assertThat(stream(java.util.OptionalDouble.empty())).isEmpty();
     assertThat(stream(java.util.OptionalDouble.of(5.0))).containsExactly(5.0);
   }
-  
+
   private void testMapWithIndex(Function<Collection<String>, Stream<String>> collectionImpl) {
     SpliteratorTester.of(
             () ->
@@ -264,11 +278,59 @@ public class StreamsTest extends TestCase {
         .inOrder();
   }
 
+  public void testForEachPair() {
+    List<String> list = new ArrayList<>();
+    Streams.forEachPair(
+        Stream.of("a", "b", "c"), Stream.of(1, 2, 3), (a, b) -> list.add(a + ":" + b));
+    Truth.assertThat(list).containsExactly("a:1", "b:2", "c:3");
+  }
+
+  public void testForEachPair_differingLengths1() {
+    List<String> list = new ArrayList<>();
+    Streams.forEachPair(
+        Stream.of("a", "b", "c", "d"), Stream.of(1, 2, 3), (a, b) -> list.add(a + ":" + b));
+    Truth.assertThat(list).containsExactly("a:1", "b:2", "c:3");
+  }
+
+  public void testForEachPair_differingLengths2() {
+    List<String> list = new ArrayList<>();
+    Streams.forEachPair(
+        Stream.of("a", "b", "c"), Stream.of(1, 2, 3, 4), (a, b) -> list.add(a + ":" + b));
+    Truth.assertThat(list).containsExactly("a:1", "b:2", "c:3");
+  }
+
+  public void testForEachPair_oneEmpty() {
+    Streams.forEachPair(Stream.of("a"), Stream.empty(), (a, b) -> fail());
+  }
+
+  public void testForEachPair_finiteWithInfinite() {
+    List<String> list = new ArrayList<>();
+    Streams.forEachPair(
+        Stream.of("a", "b", "c"), Stream.iterate(1, i -> i + 1), (a, b) -> list.add(a + ":" + b));
+    Truth.assertThat(list).containsExactly("a:1", "b:2", "c:3");
+  }
+
+  public void testForEachPair_parallel() {
+    Stream<String> streamA = IntStream.range(0, 100000).mapToObj(String::valueOf).parallel();
+    Stream<Integer> streamB = IntStream.range(0, 100000).mapToObj(i -> i).parallel();
+
+    AtomicInteger count = new AtomicInteger(0);
+    Streams.forEachPair(
+        streamA,
+        streamB,
+        (a, b) -> {
+          count.incrementAndGet();
+          Truth.assertThat(a.equals(String.valueOf(b))).isTrue();
+        });
+    Truth.assertThat(count.get()).isEqualTo(100000);
+    // of course, this test doesn't prove that anything actually happened in parallel...
+  }
+
   // TODO(kevinb): switch to importing Truth's assertThat(Stream) if we get that added
   private static IterableSubject assertThat(Stream<?> stream) {
     return Truth.assertThat(stream.toArray()).asList();
   }
-  
+
   private static IterableSubject assertThat(IntStream stream) {
     return Truth.assertThat(stream.toArray()).asList();
   }

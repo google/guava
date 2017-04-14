@@ -606,6 +606,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * <p><b>{@code Stream} equivalent:</b> pass {@link ImmutableList#toImmutableList} to {@code
    * stream.collect()}.
    *
+   * @throws NullPointerException if any element is {@code null}
    * @since 14.0 (since 12.0 as {@code toImmutableList()}).
    */
   public final ImmutableList<E> toList() {
@@ -621,7 +622,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * stream.sorted(comparator).collect()}.
    *
    * @param comparator the function by which to sort list elements
-   * @throws NullPointerException if any element is null
+   * @throws NullPointerException if any element of this iterable is {@code null}
    * @since 14.0 (since 13.0 as {@code toSortedImmutableList()}).
    */
   public final ImmutableList<E> toSortedList(Comparator<? super E> comparator) {
@@ -635,6 +636,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * <p><b>{@code Stream} equivalent:</b> pass {@link ImmutableSet#toImmutableSet} to {@code
    * stream.collect()}.
    *
+   * @throws NullPointerException if any element is {@code null}
    * @since 14.0 (since 12.0 as {@code toImmutableSet()}).
    */
   public final ImmutableSet<E> toSet() {
@@ -651,7 +653,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * ImmutableSortedSet#toImmutableSortedSet} to {@code stream.collect()}.
    *
    * @param comparator the function by which to sort set elements
-   * @throws NullPointerException if any element is null
+   * @throws NullPointerException if any element of this iterable is {@code null}
    * @since 14.0 (since 12.0 as {@code toImmutableSortedSet()}).
    */
   public final ImmutableSortedSet<E> toSortedSet(Comparator<? super E> comparator) {
@@ -665,6 +667,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * {@code
    * stream.collect()}.
    *
+   * @throws NullPointerException if any element is null
    * @since 19.0
    */
   public final ImmutableMultiset<E> toMultiset() {
@@ -705,13 +708,8 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * the order of entries).
    *
    * @param keyFunction the function used to produce the key for each value
-   * @throws NullPointerException if any of the following cases is true:
-   *     <ul>
-   *     <li>{@code keyFunction} is null
-   *     <li>An element in this fluent iterable is null
-   *     <li>{@code keyFunction} returns {@code null} for any element of this iterable
-   *     </ul>
-   *
+   * @throws NullPointerException if any element of this iterable is {@code null}, or if {@code
+   *     keyFunction} produces {@code null} for any key
    * @since 14.0
    */
   public final <K> ImmutableListMultimap<K, E> index(Function<? super E, K> keyFunction) {
@@ -744,8 +742,8 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *     in this fluent iterable to that value
    * @throws IllegalArgumentException if {@code keyFunction} produces the same key for more than one
    *     value in this fluent iterable
-   * @throws NullPointerException if any elements of this fluent iterable is null, or if {@code
-   *     keyFunction} produces {@code null} for any value
+   * @throws NullPointerException if any element of this iterable is {@code null}, or if {@code
+   *     keyFunction} produces {@code null} for any key
    * @since 14.0
    */
   public final <K> ImmutableMap<K, E> uniqueIndex(Function<? super E, K> keyFunction) {

@@ -20,12 +20,15 @@ import static com.google.common.collect.testing.Helpers.mapEntry;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.testing.AnEnum;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.TestEnumMapGenerator;
 import com.google.common.collect.testing.TestListGenerator;
+import com.google.common.collect.testing.TestMapGenerator;
 import com.google.common.collect.testing.TestStringListGenerator;
 import com.google.common.collect.testing.TestStringMapGenerator;
 import com.google.common.collect.testing.TestUnhashableCollectionGenerator;
@@ -115,7 +118,7 @@ public class MapGenerators {
 
     @Override
     public SampleElements<Entry<String, Integer>> samples() {
-      return new SampleElements<Entry<String, Integer>>(
+      return new SampleElements<>(
           mapEntry("foo", 5),
           mapEntry("bar", 3),
           mapEntry("baz", 17),
@@ -161,7 +164,7 @@ public class MapGenerators {
   public static class ImmutableMapCopyOfEnumMapGenerator extends TestEnumMapGenerator {
     @Override
     protected Map<AnEnum, String> create(Entry<AnEnum, String>[] entries) {
-      EnumMap<AnEnum, String> map = new EnumMap<AnEnum, String>(AnEnum.class);
+      EnumMap<AnEnum, String> map = new EnumMap<>(AnEnum.class);
       for (Entry<AnEnum, String> entry : entries) {
         map.put(entry.getKey(), entry.getValue());
       }
@@ -180,7 +183,53 @@ public class MapGenerators {
     }
   }
 
-  private static String toStringOrNull(Object o) {
-    return (o == null) ? null : o.toString();
+  public static class ImmutableMapValuesAsSingletonSetGenerator
+      implements TestMapGenerator<String, Collection<Integer>> {
+
+    @Override
+    public SampleElements<Entry<String, Collection<Integer>>> samples() {
+      return new SampleElements<>(
+          mapEntry("one", ImmutableSet.of(10000)),
+          mapEntry("two", ImmutableSet.of(-2000)),
+          mapEntry("three", ImmutableSet.of(300)),
+          mapEntry("four", ImmutableSet.of(-40)),
+          mapEntry("five", ImmutableSet.of(5)));
+    }
+
+    @Override
+    public Map<String, Collection<Integer>> create(Object... elements) {
+      ImmutableMap.Builder<String, Integer> builder = ImmutableMap.builder();
+      // assumes that each set is a singleton or less (as is done for the samples)
+      for (Object elem : elements) {
+        @SuppressWarnings("unchecked") // safe by generator contract
+        Entry<String, Collection<Integer>> entry = (Entry<String, Collection<Integer>>) elem;
+        Integer value = Iterables.getOnlyElement(entry.getValue());
+        builder.put(entry.getKey(), value);
+      }
+      return builder.build().asMultimap().asMap();
+    }
+
+    @Override
+    @SuppressWarnings({"unchecked", "rawtypes"}) // needed for arrays
+    public Entry<String, Collection<Integer>>[] createArray(int length) {
+      return new Entry[length];
+    }
+
+    @Override
+    public Iterable<Entry<String, Collection<Integer>>> order(
+        List<Entry<String, Collection<Integer>>> insertionOrder) {
+      return insertionOrder;
+    }
+
+    @Override
+    public String[] createKeyArray(int length) {
+      return new String[length];
+    }
+
+    @Override
+    @SuppressWarnings({"unchecked", "rawtypes"}) // needed for arrays
+    public ImmutableSet<Integer>[] createValueArray(int length) {
+      return new ImmutableSet[length];
+    }
   }
 }

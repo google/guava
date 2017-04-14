@@ -89,50 +89,52 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     return suite;
   }
 
-  @Override protected Set<String> of() {
+  @Override protected <E extends Comparable<? super E>> Set<E> of() {
     return ImmutableSet.of();
   }
 
-  @Override protected Set<String> of(String e) {
+  @Override protected <E extends Comparable<? super E>> Set<E> of(E e) {
     return ImmutableSet.of(e);
   }
 
-  @Override protected Set<String> of(String e1, String e2) {
+  @Override protected <E extends Comparable<? super E>> Set<E> of(E e1, E e2) {
     return ImmutableSet.of(e1, e2);
   }
 
-  @Override protected Set<String> of(String e1, String e2, String e3) {
+  @Override protected <E extends Comparable<? super E>> Set<E> of(E e1, E e2, E e3) {
     return ImmutableSet.of(e1, e2, e3);
   }
 
-  @Override protected Set<String> of(
-      String e1, String e2, String e3, String e4) {
+  @Override protected <E extends Comparable<? super E>> Set<E> of(E e1, E e2, E e3, E e4) {
     return ImmutableSet.of(e1, e2, e3, e4);
   }
 
-  @Override protected Set<String> of(
-      String e1, String e2, String e3, String e4, String e5) {
+  @Override protected <E extends Comparable<? super E>> Set<E> of(E e1, E e2, E e3, E e4, E e5) {
     return ImmutableSet.of(e1, e2, e3, e4, e5);
   }
 
-  @Override protected Set<String> of(String e1, String e2, String e3,
-      String e4, String e5, String e6, String... rest) {
+  @SuppressWarnings("unchecked")
+  @Override protected <E extends Comparable<? super E>> Set<E> of(
+      E e1, E e2, E e3, E e4, E e5, E e6, E... rest) {
     return ImmutableSet.of(e1, e2, e3, e4, e5, e6, rest);
   }
 
-  @Override protected Set<String> copyOf(String[] elements) {
+  @Override protected <E extends Comparable<? super E>> Set<E> copyOf(E[] elements) {
     return ImmutableSet.copyOf(elements);
   }
 
-  @Override protected Set<String> copyOf(Collection<String> elements) {
+  @Override protected <E extends Comparable<? super E>> Set<E> copyOf(
+      Collection<? extends E> elements) {
     return ImmutableSet.copyOf(elements);
   }
 
-  @Override protected Set<String> copyOf(Iterable<String> elements) {
+  @Override protected <E extends Comparable<? super E>> Set<E> copyOf(
+      Iterable<? extends E> elements) {
     return ImmutableSet.copyOf(elements);
   }
 
-  @Override protected Set<String> copyOf(Iterator<String> elements) {
+  @Override protected <E extends Comparable<? super E>> Set<E> copyOf(
+      Iterator<? extends E> elements) {
     return ImmutableSet.copyOf(elements);
   }
 
@@ -170,11 +172,11 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     assertEquals(8, ImmutableSet.chooseTableSize(4));
 
     assertEquals(1 << 29, ImmutableSet.chooseTableSize(1 << 28));
-    assertEquals(1 << 29, ImmutableSet.chooseTableSize(1 << 29 - 1));
+    assertEquals(1 << 29, ImmutableSet.chooseTableSize((1 << 29) * 3 / 5));
 
     // Now we hit the cap
     assertEquals(1 << 30, ImmutableSet.chooseTableSize(1 << 29));
-    assertEquals(1 << 30, ImmutableSet.chooseTableSize(1 << 30 - 1));
+    assertEquals(1 << 30, ImmutableSet.chooseTableSize((1 << 30) - 1));
 
     // Now we've gone too far
     try {

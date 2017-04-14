@@ -22,6 +22,7 @@ import com.google.common.testing.SerializableTester;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 import junit.framework.TestCase;
 
 /**
@@ -221,12 +222,36 @@ public class UnsignedBytesTest extends TestCase {
     assertEquals("128,255", UnsignedBytes.join(",", (byte) 128, (byte) -1));
   }
 
-  public void testLexicographicalComparatorDefaultChoice() {
+  private static String unsafeComparatorClassName() {
+    return UnsignedBytes.LexicographicalComparatorHolder.class.getName()
+        + "$UnsafeComparator";
+  }
+
+  private static boolean unsafeComparatorAvailable() {
+    // See Java Puzzler #44
+    // Use reflection instead of catching NoClassDefFoundError
+    try {
+      Class.forName(unsafeComparatorClassName());
+      return true;
+    } catch (ExceptionInInitializerError | ClassNotFoundException tolerable) {
+      // probably running on Android
+      return false;
+    }
+  }
+
+  public void testLexicographicalComparatorChoice() throws Exception {
     Comparator<byte[]> defaultComparator =
         UnsignedBytes.lexicographicalComparator();
-    Comparator<byte[]> unsafeComparator =
-        UnsignedBytes.LexicographicalComparatorHolder.UnsafeComparator.INSTANCE;
-    assertSame(defaultComparator, unsafeComparator);
+    assertNotNull(defaultComparator);
+    assertSame(defaultComparator,
+        UnsignedBytes.lexicographicalComparator());
+    if (unsafeComparatorAvailable()) {
+      assertSame(defaultComparator.getClass(),
+          Class.forName(unsafeComparatorClassName()));
+    } else {
+      assertSame(defaultComparator,
+          UnsignedBytes.lexicographicalComparatorJavaImpl());
+    }
   }
 
   public void testLexicographicalComparator() {
@@ -254,17 +279,21 @@ public class UnsignedBytesTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   public void testLexicographicalComparatorLongInputs() {
+    Random rnd = new Random();
     for (Comparator<byte[]> comparator : Arrays.asList(
         UnsignedBytes.lexicographicalComparator(),
         UnsignedBytes.lexicographicalComparatorJavaImpl())) {
-      for (int i = 0; i < 32; i++) {
-        byte[] left = new byte[32];
-        byte[] right = new byte[32];
-
+      for (int trials = 10; trials-- > 0; ) {
+        byte[] left = new byte[1 + rnd.nextInt(32)];
+        rnd.nextBytes(left);
+        byte[] right = left.clone();
         assertTrue(comparator.compare(left, right) == 0);
-        left[i] = 1;
-        assertTrue(comparator.compare(left, right) > 0);
-        assertTrue(comparator.compare(right, left) < 0);
+        int i = rnd.nextInt(left.length);
+        left[i] ^= (byte) (1 + rnd.nextInt(255));
+        assertTrue(comparator.compare(left, right) != 0);
+        assertEquals(
+            comparator.compare(left, right) > 0,
+            UnsignedBytes.compare(left[i], right[i]) > 0);
       }
     }
   }

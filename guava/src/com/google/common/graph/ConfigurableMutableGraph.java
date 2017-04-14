@@ -52,12 +52,12 @@ final class ConfigurableMutableGraph<N> extends ForwardingGraph<N> implements Mu
   }
 
   @Override
-  public boolean removeNode(Object node) {
+  public boolean removeNode(N node) {
     return backingValueGraph.removeNode(node);
   }
 
   @Override
-  public boolean removeEdge(Object nodeU, Object nodeV) {
+  public boolean removeEdge(N nodeU, N nodeV) {
     return backingValueGraph.removeEdge(nodeU, nodeV) != null;
   }
 }

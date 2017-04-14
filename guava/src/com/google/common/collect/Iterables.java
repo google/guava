@@ -78,7 +78,7 @@ public final class Iterables {
       Iterable<T> result = (Iterable<T>) iterable;
       return result;
     }
-    return new UnmodifiableIterable<T>(iterable);
+    return new UnmodifiableIterable<>(iterable);
   }
 
   /**
@@ -417,6 +417,7 @@ public final class Iterables {
    * this method is {@code Stream.generate(() -> e)}. Otherwise, put the elements in a collection
    * and use {@code Stream.generate(() -> collection).flatMap(Collection::stream)}.
    */
+  @SafeVarargs
   public static <T> Iterable<T> cycle(T... elements) {
     return cycle(Lists.newArrayList(elements));
   }
@@ -485,6 +486,7 @@ public final class Iterables {
    *
    * @throws NullPointerException if any of the provided iterables is null
    */
+  @SafeVarargs
   public static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Iterable<T> concat(Iterable<? extends T>... inputs) {
     return concat(ImmutableList.copyOf(inputs));
   }
@@ -1019,7 +1021,7 @@ public final class Iterables {
       return new FluentIterable<T>() {
         @Override
         public Iterator<T> iterator() {
-          return new ConsumingQueueIterator<T>((Queue<T>) iterable);
+          return new ConsumingQueueIterator<>((Queue<T>) iterable);
         }
 
         @Override
@@ -1091,7 +1093,7 @@ public final class Iterables {
                 Iterables.transform(iterables, Iterables.<T>toIterator()), comparator);
           }
         };
-    return new UnmodifiableIterable<T>(iterable);
+    return new UnmodifiableIterable<>(iterable);
   }
 
   // TODO(user): Is this the best place for this? Move to fluent functions?

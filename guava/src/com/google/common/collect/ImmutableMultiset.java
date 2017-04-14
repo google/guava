@@ -57,7 +57,6 @@ import javax.annotation.Nullable;
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
-// TODO(lowasser): write an efficient asList() implementation
 public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializationDependencies<E>
     implements Multiset<E> {
 
@@ -272,14 +271,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
   @Override
   public ImmutableList<E> asList() {
     ImmutableList<E> result = asList;
-    return (result == null) ? asList = createAsList() : result;
-  }
-
-  ImmutableList<E> createAsList() {
-    if (isEmpty()) {
-      return ImmutableList.of();
-    }
-    return new RegularImmutableAsList<E>(this, toArray());
+    return (result == null) ? asList = super.asList() : result;
   }
 
   @Override

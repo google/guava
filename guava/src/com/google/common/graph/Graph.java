@@ -27,7 +27,7 @@ import javax.annotation.Nullable;
  *
  * <p>A graph is composed of a set of nodes and a set of edges connecting pairs of nodes.
  *
- * <p>There are three main interfaces provided to represent graphs. In order of increasing
+ * <p>There are three primary interfaces provided to represent graphs. In order of increasing
  * complexity they are: {@link Graph}, {@link ValueGraph}, and {@link Network}. You should generally
  * prefer the simplest interface that satisfies your use case. See the <a
  * href="https://github.com/google/guava/wiki/GraphsExplained#choosing-the-right-graph-type">
@@ -136,31 +136,31 @@ public interface Graph<N> extends BaseGraph<N> {
 
   /** {@inheritDoc} */
   @Override
-  Set<N> adjacentNodes(Object node);
+  Set<N> adjacentNodes(N node);
 
   /** {@inheritDoc} */
   @Override
-  Set<N> predecessors(Object node);
+  Set<N> predecessors(N node);
 
   /** {@inheritDoc} */
   @Override
-  Set<N> successors(Object node);
+  Set<N> successors(N node);
 
   /** {@inheritDoc} */
   @Override
-  int degree(Object node);
+  int degree(N node);
 
   /** {@inheritDoc} */
   @Override
-  int inDegree(Object node);
+  int inDegree(N node);
 
   /** {@inheritDoc} */
   @Override
-  int outDegree(Object node);
+  int outDegree(N node);
 
   /** {@inheritDoc} */
   @Override
-  boolean hasEdge(Object nodeU, Object nodeV);
+  boolean hasEdge(N nodeU, N nodeV);
 
   //
   // Graph identity

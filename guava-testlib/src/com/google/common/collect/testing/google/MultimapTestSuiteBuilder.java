@@ -263,7 +263,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
     return derivedFeatures;
   }
 
-  private static final Multimap<Feature<?>, Feature<?>> GET_FEATURE_MAP =
+  private static final ImmutableMultimap<Feature<?>, Feature<?>> GET_FEATURE_MAP =
       ImmutableMultimap.<Feature<?>, Feature<?>>builder()
           .put(
               MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,

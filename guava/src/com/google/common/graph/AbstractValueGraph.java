@@ -70,39 +70,39 @@ public abstract class AbstractValueGraph<N, V> extends AbstractBaseGraph<N>
       }
 
       @Override
-      public Set<N> adjacentNodes(Object node) {
+      public Set<N> adjacentNodes(N node) {
         return AbstractValueGraph.this.adjacentNodes(node);
       }
 
       @Override
-      public Set<N> predecessors(Object node) {
+      public Set<N> predecessors(N node) {
         return AbstractValueGraph.this.predecessors(node);
       }
 
       @Override
-      public Set<N> successors(Object node) {
+      public Set<N> successors(N node) {
         return AbstractValueGraph.this.successors(node);
       }
 
       @Override
-      public int degree(Object node) {
+      public int degree(N node) {
         return AbstractValueGraph.this.degree(node);
       }
 
       @Override
-      public int inDegree(Object node) {
+      public int inDegree(N node) {
         return AbstractValueGraph.this.inDegree(node);
       }
 
       @Override
-      public int outDegree(Object node) {
+      public int outDegree(N node) {
         return AbstractValueGraph.this.outDegree(node);
       }
     };
   }
 
   @Override
-  public V edgeValue(Object nodeU, Object nodeV) {
+  public V edgeValue(N nodeU, N nodeV) {
     V value = edgeValueOrDefault(nodeU, nodeV, null);
     if (value == null) {
       checkArgument(nodes().contains(nodeU), NODE_NOT_IN_GRAPH, nodeU);

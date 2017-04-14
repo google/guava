@@ -491,7 +491,7 @@ public class CycleDetectingLockFactory {
 
     static final StackTraceElement[] EMPTY_STACK_TRACE = new StackTraceElement[0];
 
-    static final Set<String> EXCLUDED_CLASS_NAMES =
+    static final ImmutableSet<String> EXCLUDED_CLASS_NAMES =
         ImmutableSet.of(
             CycleDetectingLockFactory.class.getName(),
             ExampleStackTrace.class.getName(),

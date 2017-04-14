@@ -31,6 +31,7 @@ import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
+import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -207,11 +208,15 @@ public class ExecutionListBenchmark {
     final AtomicInteger integer = new AtomicInteger();
     // Execute a bunch of tasks to ensure that our threads are allocated and hot
     for (int i = 0; i < NUM_THREADS * 10; i++) {
-      executorService.submit(new Runnable() {
-        @Override public void run() {
-          integer.getAndIncrement();
-        }
-      });
+      @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+      Future<?> possiblyIgnoredError =
+          executorService.submit(
+              new Runnable() {
+                @Override
+                public void run() {
+                  integer.getAndIncrement();
+                }
+              });
     }
   }
 
@@ -277,9 +282,11 @@ public class ExecutionListBenchmark {
       list = impl.newExecutionList();
       listenerLatch = new CountDownLatch(numListeners * NUM_THREADS);
       for (int j = 0; j < NUM_THREADS; j++) {
-        executorService.submit(addTask);
+        @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+        Future<?> possiblyIgnoredError = executorService.submit(addTask);
       }
-      executorService.submit(executeTask);
+      @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+      Future<?> possiblyIgnoredError = executorService.submit(executeTask);
       returnValue += (int) listenerLatch.getCount();
       listenerLatch.await();
     }
@@ -298,9 +305,11 @@ public class ExecutionListBenchmark {
     for (int i = 0; i < reps; i++) {
       list = impl.newExecutionList();
       listenerLatch = new CountDownLatch(numListeners * NUM_THREADS);
-      executorService.submit(executeTask);
+      @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+      Future<?> possiblyIgnoredError = executorService.submit(executeTask);
       for (int j = 0; j < NUM_THREADS; j++) {
-        executorService.submit(addTask);
+        @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+        Future<?> possiblyIgnoredError1 = executorService.submit(addTask);
       }
       returnValue += (int) listenerLatch.getCount();
       listenerLatch.await();

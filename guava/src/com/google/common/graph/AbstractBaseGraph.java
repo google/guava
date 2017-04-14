@@ -66,6 +66,10 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
         return Ints.saturatedCast(edgeCount());
       }
 
+      // Mostly safe: We check contains(u) before calling successors(u), so we perform unsafe
+      // operations only in weird cases like checking for an EndpointPair<ArrayList> in a
+      // Graph<LinkedList>.
+      @SuppressWarnings("unchecked")
       @Override
       public boolean contains(@Nullable Object obj) {
         if (!(obj instanceof EndpointPair)) {
@@ -74,13 +78,13 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
         EndpointPair<?> endpointPair = (EndpointPair<?>) obj;
         return isDirected() == endpointPair.isOrdered()
             && nodes().contains(endpointPair.nodeU())
-            && successors(endpointPair.nodeU()).contains(endpointPair.nodeV());
+            && successors((N) endpointPair.nodeU()).contains(endpointPair.nodeV());
       }
     };
   }
 
   @Override
-  public int degree(Object node) {
+  public int degree(N node) {
     if (isDirected()) {
       return IntMath.saturatedAdd(predecessors(node).size(), successors(node).size());
     } else {
@@ -91,17 +95,17 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
   }
 
   @Override
-  public int inDegree(Object node) {
+  public int inDegree(N node) {
     return isDirected() ? predecessors(node).size() : degree(node);
   }
 
   @Override
-  public int outDegree(Object node) {
+  public int outDegree(N node) {
     return isDirected() ? successors(node).size() : degree(node);
   }
 
   @Override
-  public boolean hasEdge(Object nodeU, Object nodeV) {
+  public boolean hasEdge(N nodeU, N nodeV) {
     checkNotNull(nodeU);
     checkNotNull(nodeV);
     return nodes().contains(nodeU) && successors(nodeU).contains(nodeV);

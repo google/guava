@@ -28,6 +28,7 @@ import java.util.concurrent.Future;
  * @since 20.0
  */
 @Beta
+@FunctionalInterface
 @GwtCompatible
 public interface AsyncCallable<V> {
   /**

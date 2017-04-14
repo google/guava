@@ -1448,13 +1448,8 @@ public class TypeTokenTest extends TestCase {
 
   @SuppressWarnings("unused") // used by reflection
   private static class Holder<T> {
-    T element;
-    List<T> list;
     List<T>[] matrix;
-
-    void setList(List<T> list) {
-      this.list = list;
-    }
+    void setList(List<T> list) {}
   }
 
   public void testWildcardCaptured_methodParameter_upperBound() throws Exception {
@@ -1473,6 +1468,77 @@ public class TypeTokenTest extends TestCase {
     assertEquals(List[].class, matrixType.getRawType());
     assertThat(matrixType.getType())
         .isNotEqualTo(new TypeToken<List<?>[]>() {}.getType());
+  }
+
+  public void testWildcardCaptured_wildcardWithImplicitBound() throws Exception {
+    TypeToken<Holder<?>> type = new TypeToken<Holder<?>>() {};
+    TypeToken<?> parameterType = type.resolveType(
+        Holder.class.getDeclaredMethod("setList", List.class).getGenericParameterTypes()[0]);
+    Type[] typeArgs = ((ParameterizedType) parameterType.getType()).getActualTypeArguments();
+    assertThat(typeArgs).asList().hasSize(1);
+    TypeVariable<?> captured = (TypeVariable<?>) typeArgs[0];
+    assertThat(captured.getBounds()).asList().containsExactly(Object.class);
+    assertThat(new TypeToken<List<?>>() {}.isSupertypeOf(parameterType)).isTrue();
+  }
+
+  public void testWildcardCaptured_wildcardWithExplicitBound() throws Exception {
+    TypeToken<Holder<? extends Number>> type = new TypeToken<Holder<? extends Number>>() {};
+    TypeToken<?> parameterType = type.resolveType(
+        Holder.class.getDeclaredMethod("setList", List.class).getGenericParameterTypes()[0]);
+    Type[] typeArgs = ((ParameterizedType) parameterType.getType()).getActualTypeArguments();
+    assertThat(typeArgs).asList().hasSize(1);
+    TypeVariable<?> captured = (TypeVariable<?>) typeArgs[0];
+    assertThat(captured.getBounds()).asList().containsExactly(Number.class);
+    assertThat(new TypeToken<List<? extends Number>>() {}.isSupertypeOf(parameterType)).isTrue();
+  }
+
+  private static class Counter<N extends Number> {
+    @SuppressWarnings("unused") // used by reflection
+    List<N> counts;
+  }
+
+  public void testWildcardCaptured_typeVariableDeclaresTypeBound_wildcardHasNoExplicitUpperBound()
+      throws Exception {
+    TypeToken<Counter<?>> type = new TypeToken<Counter<?>>() {};
+    TypeToken<?> fieldType = type.resolveType(
+        Counter.class.getDeclaredField("counts").getGenericType());
+    Type[] typeArgs = ((ParameterizedType) fieldType.getType()).getActualTypeArguments();
+    assertThat(typeArgs).asList().hasSize(1);
+    TypeVariable<?> captured = (TypeVariable<?>) typeArgs[0];
+    assertThat(captured.getBounds()).asList().containsExactly(Number.class);
+    assertThat(new TypeToken<List<? extends Number>>() {}.isSupertypeOf(fieldType)).isTrue();
+    assertThat(new TypeToken<List<? extends Iterable<?>>>() {}.isSupertypeOf(fieldType)).isFalse();
+  }
+
+  public void testWildcardCaptured_typeVariableDeclaresTypeBound_wildcardHasExplicitUpperBound()
+      throws Exception {
+    TypeToken<Counter<? extends Number>> type = new TypeToken<Counter<? extends Number>>() {};
+    TypeToken<?> fieldType = type.resolveType(
+        Counter.class.getDeclaredField("counts").getGenericType());
+    Type[] typeArgs = ((ParameterizedType) fieldType.getType()).getActualTypeArguments();
+    assertThat(typeArgs).asList().hasSize(1);
+    TypeVariable<?> captured = (TypeVariable<?>) typeArgs[0];
+    assertThat(captured.getBounds()).asList().containsExactly(Number.class);
+    assertThat(new TypeToken<List<? extends Number>>() {}.isSupertypeOf(fieldType)).isTrue();
+    assertThat(new TypeToken<List<? extends Iterable<?>>>() {}.isSupertypeOf(fieldType)).isFalse();
+  }
+
+  public void testWildcardCaptured_typeVariableDeclaresTypeBound_wildcardAddsNewUpperBound()
+      throws Exception {
+    TypeToken<Counter<? extends Iterable<?>>> type =
+        new TypeToken<Counter<? extends Iterable<?>>>() {};
+    TypeToken<?> fieldType = type.resolveType(
+        Counter.class.getDeclaredField("counts").getGenericType());
+    Type[] typeArgs = ((ParameterizedType) fieldType.getType()).getActualTypeArguments();
+    assertThat(typeArgs).asList().hasSize(1);
+    TypeVariable<?> captured = (TypeVariable<?>) typeArgs[0];
+    assertThat(captured.getBounds()).asList().contains(Number.class);
+    assertThat(captured.getBounds()).asList()
+        .containsNoneOf(Object.class, new TypeToken<Iterable<Number>>() {}.getType());
+    assertThat(new TypeToken<List<? extends Number>>() {}.isSupertypeOf(fieldType)).isTrue();
+    assertThat(new TypeToken<List<? extends Iterable<?>>>() {}.isSupertypeOf(fieldType)).isTrue();
+    assertThat(new TypeToken<List<? extends Iterable<Number>>>() {}.isSupertypeOf(fieldType))
+        .isFalse();
   }
 
   public void testArrayClassPreserved() {

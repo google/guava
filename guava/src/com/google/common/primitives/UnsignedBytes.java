@@ -309,19 +309,19 @@ public final class UnsignedBytes {
        * them while (final or not) local variables are run time values.
        */
 
-      static final Unsafe theUnsafe;
+      static final Unsafe theUnsafe = getUnsafe();
 
       /** The offset to the first element in a byte array. */
-      static final int BYTE_ARRAY_BASE_OFFSET;
+      static final int BYTE_ARRAY_BASE_OFFSET = theUnsafe.arrayBaseOffset(byte[].class);
 
       static {
-        theUnsafe = getUnsafe();
-
-        BYTE_ARRAY_BASE_OFFSET = theUnsafe.arrayBaseOffset(byte[].class);
-
-        // sanity check - this should never fail
-        if (theUnsafe.arrayIndexScale(byte[].class) != 1) {
-          throw new AssertionError();
+        // fall back to the safer pure java implementation unless we're in
+        // a 64-bit JVM with an 8-byte aligned field offset.
+        if (!("64".equals(System.getProperty("sun.arch.data.model"))
+              && (BYTE_ARRAY_BASE_OFFSET % 8) == 0
+              // sanity check - this should never fail
+              && theUnsafe.arrayIndexScale(byte[].class) == 1)) {
+          throw new Error();  // force fallback to PureJavaComparator
         }
       }
 
@@ -360,15 +360,16 @@ public final class UnsignedBytes {
 
       @Override
       public int compare(byte[] left, byte[] right) {
+        final int stride = 8;
         int minLength = Math.min(left.length, right.length);
-        int minWords = minLength / Longs.BYTES;
-
+        int strideLimit = minLength & ~(stride - 1);
+        int i;
+        
         /*
-         * Compare 8 bytes at a time. Benchmarking shows comparing 8 bytes at a time is no slower
-         * than comparing 4 bytes at a time even on 32-bit. On the other hand, it is substantially
-         * faster on 64-bit.
+         * Compare 8 bytes at a time. Benchmarking on x86 shows a stride of 8 bytes is no slower
+         * than 4 bytes even on 32-bit. On the other hand, it is substantially faster on 64-bit.
          */
-        for (int i = 0; i < minWords * Longs.BYTES; i += Longs.BYTES) {
+        for (i = 0; i < strideLimit; i += stride) {
           long lw = theUnsafe.getLong(left, BYTE_ARRAY_BASE_OFFSET + (long) i);
           long rw = theUnsafe.getLong(right, BYTE_ARRAY_BASE_OFFSET + (long) i);
           if (lw != rw) {
@@ -388,8 +389,8 @@ public final class UnsignedBytes {
           }
         }
 
-        // The epilogue to cover the last (minLength % 8) elements.
-        for (int i = minWords * Longs.BYTES; i < minLength; i++) {
+        // The epilogue to cover the last (minLength % stride) elements.
+        for (; i < minLength; i++) {
           int result = UnsignedBytes.compare(left[i], right[i]);
           if (result != 0) {
             return result;

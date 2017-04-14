@@ -69,7 +69,7 @@ final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E>
   @Override
   public void forEachEntry(ObjIntConsumer<? super E> action) {
     checkNotNull(action);
-    for (int i = 0; i < size(); i++) {
+    for (int i = 0; i < length; i++) {
       action.accept(elementSet.asList().get(i), getCount(i));
     }
   }

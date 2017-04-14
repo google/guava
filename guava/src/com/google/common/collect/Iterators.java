@@ -209,7 +209,15 @@ public final class Iterators {
    */
   @CanIgnoreReturnValue
   public static boolean removeAll(Iterator<?> removeFrom, Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> elementsToRemove) {
-    return removeIf(removeFrom, in(elementsToRemove));
+    checkNotNull(elementsToRemove);
+    boolean result = false;
+    while (removeFrom.hasNext()) {
+      if (elementsToRemove.contains(removeFrom.next())) {
+        removeFrom.remove();
+        result = true;
+      }
+    }
+    return result;
   }
 
   /**
@@ -247,7 +255,15 @@ public final class Iterators {
    */
   @CanIgnoreReturnValue
   public static boolean retainAll(Iterator<?> removeFrom, Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> elementsToRetain) {
-    return removeIf(removeFrom, not(in(elementsToRetain)));
+    checkNotNull(elementsToRetain);
+    boolean result = false;
+    while (removeFrom.hasNext()) {
+      if (!elementsToRetain.contains(removeFrom.next())) {
+        removeFrom.remove();
+        result = true;
+      }
+    }
+    return result;
   }
 
   /**

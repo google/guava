@@ -131,8 +131,6 @@ public abstract class AbstractGraphTest {
 
     for (N node : sanityCheckSet(graph.nodes())) {
       assertThat(nodeString).contains(node.toString());
-      assertThat(graph.hasEdge(node, new Object())).isFalse();
-      assertThat(graph.hasEdge(new Object(), node)).isFalse();
 
       if (graph.isDirected()) {
         assertThat(graph.degree(node)).isEqualTo(graph.inDegree(node) + graph.outDegree(node));
@@ -170,7 +168,6 @@ public abstract class AbstractGraphTest {
     }
 
     sanityCheckSet(graph.edges());
-    assertThat(graph.hasEdge(new Object(), new Object())).isFalse();
     assertThat(graph.edges()).doesNotContain(EndpointPair.of(graph, new Object(), new Object()));
     assertThat(graph.edges()).isEqualTo(allEndpointPairs);
   }

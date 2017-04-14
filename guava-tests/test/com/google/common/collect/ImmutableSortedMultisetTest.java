@@ -304,6 +304,19 @@ public class ImmutableSortedMultisetTest extends TestCase {
     assertSame(c, ImmutableSortedMultiset.copyOf(c));
   }
 
+  public void testForEachEntry() {
+    ImmutableSortedMultiset<String> multiset =
+        ImmutableSortedMultiset.<String>naturalOrder().add("a").add("b").add("a").add("c").build();
+    List<Multiset.Entry<String>> entries = new ArrayList<>();
+    multiset.forEachEntry((e, c) -> entries.add(Multisets.immutableEntry(e, c)));
+    assertThat(entries)
+        .containsExactly(
+            Multisets.immutableEntry("a", 2),
+            Multisets.immutableEntry("b", 1),
+            Multisets.immutableEntry("c", 1))
+        .inOrder();
+  }
+
   public void testBuilderAdd() {
     ImmutableSortedMultiset<String> multiset =
         ImmutableSortedMultiset.<String>naturalOrder().add("a").add("b").add("a").add("c").build();
@@ -508,9 +521,7 @@ public class ImmutableSortedMultisetTest extends TestCase {
     ImmutableSortedMultiset<String> multiset = ImmutableSortedMultiset.of("a", "a", "b", "b", "b");
     ImmutableList<String> list = multiset.asList();
     assertEquals(ImmutableList.of("a", "a", "b", "b", "b"), list);
-    assertTrue(list instanceof ImmutableAsList);
-    ImmutableList<String> copy = SerializableTester.reserializeAndAssert(list);
-    assertTrue(copy instanceof ImmutableAsList);
+    SerializableTester.reserializeAndAssert(list);
     assertEquals(2, list.indexOf("b"));
     assertEquals(4, list.lastIndexOf("b"));
   }
@@ -537,7 +548,7 @@ public class ImmutableSortedMultisetTest extends TestCase {
     // Test that toArray() is used to make a defensive copy in copyOf(), so concurrently modified
     // synchronized collections can be safely copied.
     TestArrayList<String> toCopy = new TestArrayList<String>();
-    ImmutableSortedMultiset<String> multiset =
+    ImmutableSortedMultiset<String> unused =
         ImmutableSortedMultiset.copyOf(Ordering.natural(), toCopy);
     assertTrue(toCopy.toArrayCalled);
   }

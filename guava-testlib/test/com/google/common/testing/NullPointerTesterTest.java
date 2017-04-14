@@ -44,6 +44,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
+import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -78,12 +79,24 @@ public class NullPointerTesterTest extends TestCase {
       // should catch as failure
     }
     public static void
+    staticOneArgCheckForNullCorrectlyDoesNotThrowNPE(@CheckForNull String s) {
+      // null?  no problem
+    }
+    public static void
     staticOneArgNullableCorrectlyDoesNotThrowNPE(@Nullable String s) {
       // null?  no problem
     }
     public static void
+    staticOneArgCheckForNullCorrectlyThrowsOtherThanNPE(@CheckForNull String s) {
+      throw new FooException(); // ok, as long as it's not NullPointerException
+    }
+    public static void
     staticOneArgNullableCorrectlyThrowsOtherThanNPE(@Nullable String s) {
       throw new FooException(); // ok, as long as it's not NullPointerException
+    }
+    public static void
+    staticOneArgCheckForNullThrowsNPE(@CheckForNull String s) {
+      checkNotNull(s); // doesn't check if you said you'd accept null, but you don't
     }
     public static void
     staticOneArgNullableThrowsNPE(@Nullable String s) {
@@ -99,11 +112,20 @@ public class NullPointerTesterTest extends TestCase {
     public void oneArgShouldThrowNpeButDoesnt(String s) {
       // should catch as failure
     }
+    public void oneArgCheckForNullCorrectlyDoesNotThrowNPE(@CheckForNull String s) {
+      // null?  no problem
+    }
     public void oneArgNullableCorrectlyDoesNotThrowNPE(@Nullable String s) {
       // null?  no problem
     }
+    public void oneArgCheckForNullCorrectlyThrowsOtherThanNPE(@CheckForNull String s) {
+      throw new FooException(); // ok, as long as it's not NullPointerException
+    }
     public void oneArgNullableCorrectlyThrowsOtherThanNPE(@Nullable String s) {
       throw new FooException(); // ok, as long as it's not NullPointerException
+    }
+    public void oneArgCheckForNullThrowsNPE(@CheckForNull String s) {
+      checkNotNull(s); // doesn't check if you said you'd accept null, but you don't
     }
     public void oneArgNullableThrowsNPE(@Nullable String s) {
       checkNotNull(s); // doesn't check if you said you'd accept null, but you don't
@@ -112,6 +134,9 @@ public class NullPointerTesterTest extends TestCase {
 
   private static final String[] STATIC_ONE_ARG_METHODS_SHOULD_PASS = {
     "staticOneArgCorrectlyThrowsNpe",
+    "staticOneArgCheckForNullCorrectlyDoesNotThrowNPE",
+    "staticOneArgCheckForNullCorrectlyThrowsOtherThanNPE",
+    "staticOneArgCheckForNullThrowsNPE",
     "staticOneArgNullableCorrectlyDoesNotThrowNPE",
     "staticOneArgNullableCorrectlyThrowsOtherThanNPE",
     "staticOneArgNullableThrowsNPE",
@@ -122,6 +147,9 @@ public class NullPointerTesterTest extends TestCase {
   };
   private static final String[] NONSTATIC_ONE_ARG_METHODS_SHOULD_PASS = {
     "oneArgCorrectlyThrowsNpe",
+    "oneArgCheckForNullCorrectlyDoesNotThrowNPE",
+    "oneArgCheckForNullCorrectlyThrowsOtherThanNPE",
+    "oneArgCheckForNullThrowsNPE",
     "oneArgNullableCorrectlyDoesNotThrowNPE",
     "oneArgNullableCorrectlyThrowsOtherThanNPE",
     "oneArgNullableThrowsNPE",

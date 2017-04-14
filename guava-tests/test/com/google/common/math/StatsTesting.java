@@ -127,7 +127,7 @@ class StatsTesting {
     }
   }
 
-  static final Iterable<ManyValues> ALL_MANY_VALUES = ManyValues.createAll();
+  static final ImmutableList<ManyValues> ALL_MANY_VALUES = ManyValues.createAll();
 
   static final ImmutableList<Double> MANY_VALUES =
       ImmutableList.of(1.1, -44.44, 33.33, 555.555, -2.2);
@@ -246,7 +246,7 @@ class StatsTesting {
     LONG_MANY_VALUES_STATS_SNAPSHOT = accumulator.snapshot();
   }
 
-  static final List<Stats> ALL_STATS =
+  static final ImmutableList<Stats> ALL_STATS =
       ImmutableList.of(
           EMPTY_STATS_VARARGS,
           EMPTY_STATS_ITERABLE,
@@ -313,7 +313,7 @@ class StatsTesting {
     CONSTANT_VALUES_PAIRED_STATS = accumulator.snapshot();
   }
 
-  static final List<PairedStats> ALL_PAIRED_STATS =
+  static final ImmutableList<PairedStats> ALL_PAIRED_STATS =
       ImmutableList.of(
           EMPTY_PAIRED_STATS,
           ONE_VALUE_PAIRED_STATS,

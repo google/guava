@@ -44,6 +44,7 @@ import com.google.common.collect.testing.google.MapGenerators.ImmutableMapGenera
 import com.google.common.collect.testing.google.MapGenerators.ImmutableMapKeyListGenerator;
 import com.google.common.collect.testing.google.MapGenerators.ImmutableMapUnhashableValuesGenerator;
 import com.google.common.collect.testing.google.MapGenerators.ImmutableMapValueListGenerator;
+import com.google.common.collect.testing.google.MapGenerators.ImmutableMapValuesAsSingletonSetGenerator;
 import com.google.common.testing.CollectorTester;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
@@ -113,7 +114,16 @@ public class ImmutableMapTest extends TestCase {
         .named("ImmutableMap.copyOf[EnumMap]")
         .createTestSuite());
 
-    suite.addTest(CollectionTestSuiteBuilder.using(
+    suite.addTest(MapTestSuiteBuilder.using(new ImmutableMapValuesAsSingletonSetGenerator())
+        .withFeatures(
+            CollectionSize.ANY,
+            MapFeature.REJECTS_DUPLICATES_AT_CREATION,
+            CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .named("ImmutableMap.asMultimap.asMap")
+        .createTestSuite());
+
+   suite.addTest(CollectionTestSuiteBuilder.using(
             new ImmutableMapUnhashableValuesGenerator())
         .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
             CollectionFeature.ALLOWS_NULL_QUERIES)

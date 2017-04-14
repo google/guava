@@ -94,7 +94,7 @@ final class DirectedMultiNetworkConnections<N, E> extends AbstractDirectedNetwor
   }
 
   @Override
-  public Set<E> edgesConnecting(final Object node) {
+  public Set<E> edgesConnecting(final N node) {
     return new MultiEdgesConnecting<E>(outEdgeMap, node) {
       @Override
       public int size() {

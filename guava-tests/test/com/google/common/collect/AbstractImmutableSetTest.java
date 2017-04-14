@@ -28,6 +28,7 @@ import com.google.common.collect.testing.MinimalCollection;
 import com.google.common.collect.testing.MinimalIterable;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -42,19 +43,22 @@ import junit.framework.TestCase;
 @GwtCompatible(emulated = true)
 public abstract class AbstractImmutableSetTest extends TestCase {
 
-  protected abstract Set<String> of();
-  protected abstract Set<String> of(String e);
-  protected abstract Set<String> of(String e1, String e2);
-  protected abstract Set<String> of(String e1, String e2, String e3);
-  protected abstract Set<String> of(String e1, String e2, String e3, String e4);
-  protected abstract Set<String> of(String e1, String e2, String e3, String e4,
-      String e5);
-  protected abstract Set<String> of(String e1, String e2, String e3, String e4,
-      String e5, String e6, String... rest);
-  protected abstract Set<String> copyOf(String[] elements);
-  protected abstract Set<String> copyOf(Collection<String> elements);
-  protected abstract Set<String> copyOf(Iterable<String> elements);
-  protected abstract Set<String> copyOf(Iterator<String> elements);
+  protected abstract <E extends Comparable<? super E>> Set<E> of();
+  protected abstract <E extends Comparable<? super E>> Set<E> of(E e);
+  protected abstract <E extends Comparable<? super E>> Set<E> of(E e1, E e2);
+  protected abstract <E extends Comparable<? super E>> Set<E> of(E e1, E e2, E e3);
+  protected abstract <E extends Comparable<? super E>> Set<E> of(E e1, E e2, E e3, E e4);
+  protected abstract <E extends Comparable<? super E>> Set<E> of(E e1, E e2, E e3, E e4, E e5);
+  @SuppressWarnings("unchecked")
+  protected abstract <E extends Comparable<? super E>> Set<E> of(
+      E e1, E e2, E e3, E e4, E e5, E e6, E... rest);
+  protected abstract <E extends Comparable<? super E>> Set<E> copyOf(E[] elements);
+  protected abstract <E extends Comparable<? super E>> Set<E> copyOf(
+      Collection<? extends E> elements);
+  protected abstract <E extends Comparable<? super E>> Set<E> copyOf(
+      Iterable<? extends E> elements);
+  protected abstract <E extends Comparable<? super E>> Set<E> copyOf(
+      Iterator<? extends E> elements);
 
   public void testCreation_noArgs() {
     Set<String> set = of();
@@ -167,6 +171,15 @@ public abstract class AbstractImmutableSetTest extends TestCase {
       fail();
     } catch (NullPointerException expected) {
     }
+  }
+
+  enum TestEnum { A, B, C, D }
+
+  public void testCopyOf_collection_enumSet() {
+    Collection<TestEnum> c = EnumSet.of(TestEnum.A, TestEnum.B, TestEnum.D);
+    Set<TestEnum> set = copyOf(c);
+    assertEquals(3, set.size());
+    assertEquals(c, set);
   }
 
   public void testCopyOf_iterator_empty() {

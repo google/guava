@@ -18,7 +18,6 @@ package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
-import com.google.errorprone.annotations.CompatibleWith;
 import java.util.Set;
 import javax.annotation.Nullable;
 
@@ -29,7 +28,7 @@ import javax.annotation.Nullable;
  *
  * <p>A graph is composed of a set of nodes and a set of edges connecting pairs of nodes.
  *
- * <p>There are three main interfaces provided to represent graphs. In order of increasing
+ * <p>There are three primary interfaces provided to represent graphs. In order of increasing
  * complexity they are: {@link Graph}, {@link ValueGraph}, and {@link Network}. You should generally
  * prefer the simplest interface that satisfies your use case. See the <a
  * href="https://github.com/google/guava/wiki/GraphsExplained#choosing-the-right-graph-type">
@@ -57,7 +56,7 @@ import javax.annotation.Nullable;
  * NetworkBuilder} class:
  *
  * <pre>{@code
- *   MutableNetwork<Integer, MyEdge> graph = NetworkBuilder.directed().build();
+ * MutableNetwork<Integer, MyEdge> graph = NetworkBuilder.directed().build();
  * }</pre>
  *
  * <p>{@link NetworkBuilder#build()} returns an instance of {@link MutableNetwork}, which is a
@@ -70,7 +69,7 @@ import javax.annotation.Nullable;
  * ImmutableNetwork#copyOf(Network)}:
  *
  * <pre>{@code
- *   ImmutableNetwork<Integer, MyEdge> immutableGraph = ImmutableNetwork.copyOf(graph);
+ * ImmutableNetwork<Integer, MyEdge> immutableGraph = ImmutableNetwork.copyOf(graph);
  * }</pre>
  *
  * <p>Instances of {@link ImmutableNetwork} do not implement {@link MutableNetwork} (obviously!) and
@@ -104,13 +103,12 @@ import javax.annotation.Nullable;
  */
 // TODO(b/35456940): Update the documentation to reflect the new interfaces
 @Beta
-public interface Network<N, E> extends SuccessorGraph<N>, PredecessorGraph<N> {
+public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
   //
   // Network-level accessors
   //
 
   /** Returns all nodes in this network, in the order specified by {@link #nodeOrder()}. */
-  @Override
   Set<N> nodes();
 
   /** Returns all edges in this network, in the order specified by {@link #edgeOrder()}. */
@@ -165,7 +163,7 @@ public interface Network<N, E> extends SuccessorGraph<N>, PredecessorGraph<N> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  Set<N> adjacentNodes(@CompatibleWith("N") Object node);
+  Set<N> adjacentNodes(N node);
 
   /**
    * Returns all nodes in this network adjacent to {@code node} which can be reached by traversing
@@ -176,7 +174,7 @@ public interface Network<N, E> extends SuccessorGraph<N>, PredecessorGraph<N> {
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
   @Override
-  Set<N> predecessors(Object node);
+  Set<N> predecessors(N node);
 
   /**
    * Returns all nodes in this network adjacent to {@code node} which can be reached by traversing
@@ -190,7 +188,7 @@ public interface Network<N, E> extends SuccessorGraph<N>, PredecessorGraph<N> {
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
   @Override
-  Set<N> successors(Object node);
+  Set<N> successors(N node);
 
   /**
    * Returns the edges whose {@link #incidentNodes(Object) incident nodes} in this network include
@@ -198,7 +196,7 @@ public interface Network<N, E> extends SuccessorGraph<N>, PredecessorGraph<N> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  Set<E> incidentEdges(@CompatibleWith("N") Object node);
+  Set<E> incidentEdges(N node);
 
   /**
    * Returns all edges in this network which can be traversed in the direction (if any) of the edge
@@ -210,7 +208,7 @@ public interface Network<N, E> extends SuccessorGraph<N>, PredecessorGraph<N> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  Set<E> inEdges(@CompatibleWith("N") Object node);
+  Set<E> inEdges(N node);
 
   /**
    * Returns all edges in this network which can be traversed in the direction (if any) of the edge
@@ -222,7 +220,7 @@ public interface Network<N, E> extends SuccessorGraph<N>, PredecessorGraph<N> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  Set<E> outEdges(@CompatibleWith("N") Object node);
+  Set<E> outEdges(N node);
 
   /**
    * Returns the count of {@code node}'s {@link #incidentEdges(Object) incident edges}, counting
@@ -237,7 +235,7 @@ public interface Network<N, E> extends SuccessorGraph<N>, PredecessorGraph<N> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  int degree(@CompatibleWith("N") Object node);
+  int degree(N node);
 
   /**
    * Returns the count of {@code node}'s {@link #inEdges(Object) incoming edges} in a directed
@@ -247,7 +245,7 @@ public interface Network<N, E> extends SuccessorGraph<N>, PredecessorGraph<N> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  int inDegree(@CompatibleWith("N") Object node);
+  int inDegree(N node);
 
   /**
    * Returns the count of {@code node}'s {@link #outEdges(Object) outgoing edges} in a directed
@@ -257,14 +255,14 @@ public interface Network<N, E> extends SuccessorGraph<N>, PredecessorGraph<N> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  int outDegree(@CompatibleWith("N") Object node);
+  int outDegree(N node);
 
   /**
    * Returns the nodes which are the endpoints of {@code edge} in this network.
    *
    * @throws IllegalArgumentException if {@code edge} is not an element of this network
    */
-  EndpointPair<N> incidentNodes(@CompatibleWith("E") Object edge);
+  EndpointPair<N> incidentNodes(E edge);
 
   /**
    * Returns the edges which have an {@link #incidentNodes(Object) incident node} in common with
@@ -272,7 +270,7 @@ public interface Network<N, E> extends SuccessorGraph<N>, PredecessorGraph<N> {
    *
    * @throws IllegalArgumentException if {@code edge} is not an element of this network
    */
-  Set<E> adjacentEdges(@CompatibleWith("E") Object edge);
+  Set<E> adjacentEdges(E edge);
 
   /**
    * Returns the set of edges directly connecting {@code nodeU} to {@code nodeV}.
@@ -286,7 +284,7 @@ public interface Network<N, E> extends SuccessorGraph<N>, PredecessorGraph<N> {
    * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
    *     network
    */
-  Set<E> edgesConnecting(@CompatibleWith("N") Object nodeU, @CompatibleWith("N") Object nodeV);
+  Set<E> edgesConnecting(N nodeU, N nodeV);
 
   /**
    * Returns the single edge directly connecting {@code nodeU} to {@code nodeV}, if one is present.
@@ -298,7 +296,7 @@ public interface Network<N, E> extends SuccessorGraph<N>, PredecessorGraph<N> {
    * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
    *     network
    */
-  Optional<E> edgeConnecting(@CompatibleWith("N") Object nodeU, @CompatibleWith("N") Object nodeV);
+  Optional<E> edgeConnecting(N nodeU, N nodeV);
 
   //
   // Network identity

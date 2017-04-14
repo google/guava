@@ -89,6 +89,17 @@ public class CharSinkTest extends IoTestCase {
     assertEquals("foo" + separator + "bar" + separator + "baz" + separator, sink.getString());
   }
 
+  public void testWriteLines_stream() throws IOException {
+    sink.writeLines(ImmutableList.of("foo", "bar", "baz").stream());
+    String separator = System.getProperty("line.separator");
+    assertEquals("foo" + separator + "bar" + separator + "baz" + separator, sink.getString());
+  }
+
+  public void testWriteLines_stream_separator() throws IOException {
+    sink.writeLines(ImmutableList.of("foo", "bar", "baz").stream(), "!");
+    assertEquals("foo!bar!baz!", sink.getString());
+  }
+
   public void testClosesOnErrors_copyingFromCharSourceThatThrows() {
     for (TestOption option : EnumSet.of(OPEN_THROWS, READ_THROWS, CLOSE_THROWS)) {
       TestCharSource failSource = new TestCharSource(STRING, option);

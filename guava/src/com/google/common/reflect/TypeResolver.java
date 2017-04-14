@@ -17,6 +17,7 @@ package com.google.common.reflect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Joiner;
@@ -29,7 +30,9 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.Nullable;
 
@@ -411,11 +414,19 @@ public final class TypeResolver {
   // }
   // Holder<List<?>> should *not* resolve the set() method to set(List<?> data).
   // Instead, it should create a capture of the wildcard so that set() rejects any List<T>.
-  private static final class WildcardCapturer {
+  private static class WildcardCapturer {
 
-    private final AtomicInteger id = new AtomicInteger();
+    private final AtomicInteger id;
 
-    Type capture(Type type) {
+    WildcardCapturer() {
+      this(new AtomicInteger());
+    }
+
+    private WildcardCapturer(AtomicInteger id) {
+      this.id = id;
+    }
+
+    final Type capture(Type type) {
       checkNotNull(type);
       if (type instanceof Class) {
         return type;
@@ -425,27 +436,26 @@ public final class TypeResolver {
       }
       if (type instanceof GenericArrayType) {
         GenericArrayType arrayType = (GenericArrayType) type;
-        return Types.newArrayType(capture(arrayType.getGenericComponentType()));
+        return Types.newArrayType(
+            notForTypeVariable().capture(arrayType.getGenericComponentType()));
       }
       if (type instanceof ParameterizedType) {
         ParameterizedType parameterizedType = (ParameterizedType) type;
+        Class<?> rawType = (Class<?>) parameterizedType.getRawType();
+        TypeVariable<?>[] typeVars = rawType.getTypeParameters();
+        Type[] typeArgs = parameterizedType.getActualTypeArguments();
+        for (int i = 0; i < typeArgs.length; i++) {
+          typeArgs[i] = forTypeVariable(typeVars[i]).capture(typeArgs[i]);
+        }
         return Types.newParameterizedTypeWithOwner(
-            captureNullable(parameterizedType.getOwnerType()),
-            (Class<?>) parameterizedType.getRawType(),
-            capture(parameterizedType.getActualTypeArguments()));
+            notForTypeVariable().captureNullable(parameterizedType.getOwnerType()),
+            rawType, typeArgs);
       }
       if (type instanceof WildcardType) {
         WildcardType wildcardType = (WildcardType) type;
         Type[] lowerBounds = wildcardType.getLowerBounds();
         if (lowerBounds.length == 0) { // ? extends something changes to capture-of
-          Type[] upperBounds = wildcardType.getUpperBounds();
-          String name =
-              "capture#"
-                  + id.incrementAndGet()
-                  + "-of ? extends "
-                  + Joiner.on('&').join(upperBounds);
-          return Types.newArtificialTypeVariable(
-              WildcardCapturer.class, name, wildcardType.getUpperBounds());
+          return captureAsTypeVariable(wildcardType.getUpperBounds());
         } else {
           // TODO(benyu): handle ? super T somehow.
           return type;
@@ -454,19 +464,43 @@ public final class TypeResolver {
       throw new AssertionError("must have been one of the known types");
     }
 
+    TypeVariable<?> captureAsTypeVariable(Type[] upperBounds) {
+          String name =
+              "capture#"
+                  + id.incrementAndGet()
+                  + "-of ? extends "
+                  + Joiner.on('&').join(upperBounds);
+      return Types.newArtificialTypeVariable(WildcardCapturer.class, name, upperBounds);
+    }
+
+    private WildcardCapturer forTypeVariable(final TypeVariable<?> typeParam) {
+      return new WildcardCapturer(id) {
+        @Override TypeVariable<?> captureAsTypeVariable(Type[] upperBounds) {
+          Set<Type> combined = new LinkedHashSet<>(asList(upperBounds));
+          // Since this is an artifically generated type variable, we don't bother checking
+          // subtyping between declared type bound and actual type bound. So it's possible that we
+          // may generate something like <capture#1-of ? extends Foo&SubFoo>.
+          // Checking subtype between declared and actual type bounds
+          // adds recursive isSubtypeOf() call and feels complicated.
+          // There is no contract one way or another as long as isSubtypeOf() works as expected.
+          combined.addAll(asList(typeParam.getBounds()));
+          if (combined.size() > 1) { // Object is implicit and only useful if it's the only bound.
+            combined.remove(Object.class);
+          }
+          return super.captureAsTypeVariable(combined.toArray(new Type[0]));
+        }
+      };
+    }
+
+    private WildcardCapturer notForTypeVariable() {
+      return new WildcardCapturer(id);
+    }
+
     private Type captureNullable(@Nullable Type type) {
       if (type == null) {
         return null;
       }
       return capture(type);
-    }
-
-    private Type[] capture(Type[] types) {
-      Type[] result = new Type[types.length];
-      for (int i = 0; i < types.length; i++) {
-        result[i] = capture(types[i]);
-      }
-      return result;
     }
   }
 

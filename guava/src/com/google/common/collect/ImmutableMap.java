@@ -423,7 +423,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   private static <K extends Enum<K>, V> ImmutableMap<K, V> copyOfEnumMap(
       EnumMap<K, ? extends V> original) {
-    EnumMap<K, V> copy = new EnumMap<K, V>(original);
+    EnumMap<K, V> copy = new EnumMap<>(original);
     for (Map.Entry<?, ?> entry : copy.entrySet()) {
       checkEntryNotNull(entry.getKey(), entry.getValue());
     }
@@ -444,7 +444,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
     @Override
     ImmutableSet<K> createKeySet() {
-      return new ImmutableMapKeySet<K, V>(this);
+      return new ImmutableMapKeySet<>(this);
     }
 
     @Override
@@ -466,7 +466,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
     @Override
     ImmutableCollection<V> createValues() {
-      return new ImmutableMapValues<K, V>(this);
+      return new ImmutableMapValues<>(this);
     }
   }
 
@@ -692,7 +692,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   /*
    * This could have a good default implementation of return new ImmutableKeySet<K, V>(this),
-   * but ProGuard can't figure out how to eliminate that default when RegularImmutableMap 
+   * but ProGuard can't figure out how to eliminate that default when RegularImmutableMap
    * overrides it.
    */
   abstract ImmutableSet<K> createKeySet();
@@ -731,7 +731,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   /*
-   * This could have a good default implementation of {@code return new 
+   * This could have a good default implementation of {@code return new
    * ImmutableMapValues<K, V>(this)}, but ProGuard can't figure out how to eliminate that default
    * when RegularImmutableMap overrides it.
    */
@@ -753,7 +753,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     ImmutableSetMultimap<K, V> result = multimapView;
     return (result == null)
         ? (multimapView =
-            new ImmutableSetMultimap<K, V>(new MapViewOfValuesAsSingletonSets(), size(), null))
+            new ImmutableSetMultimap<>(new MapViewOfValuesAsSingletonSets(), size(), null))
         : result;
   }
 
@@ -871,7 +871,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
 
     Object readResolve() {
-      Builder<Object, Object> builder = new Builder<Object, Object>(keys.length);
+      Builder<Object, Object> builder = new Builder<>(keys.length);
       return createMap(builder);
     }
 

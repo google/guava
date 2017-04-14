@@ -103,7 +103,7 @@ public final class Doubles {
    * @since 10.0
    */
   public static boolean isFinite(double value) {
-    return NEGATIVE_INFINITY < value & value < POSITIVE_INFINITY;
+    return NEGATIVE_INFINITY < value && value < POSITIVE_INFINITY;
   }
 
   /**

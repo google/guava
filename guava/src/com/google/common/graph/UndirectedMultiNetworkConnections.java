@@ -73,7 +73,7 @@ final class UndirectedMultiNetworkConnections<N, E>
   }
 
   @Override
-  public Set<E> edgesConnecting(final Object node) {
+  public Set<E> edgesConnecting(final N node) {
     return new MultiEdgesConnecting<E>(incidentEdgeMap, node) {
       @Override
       public int size() {

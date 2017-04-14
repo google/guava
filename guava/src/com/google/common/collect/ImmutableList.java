@@ -308,8 +308,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    */
   public static <E extends Comparable<? super E>> ImmutableList<E> sortedCopyOf(
       Iterable<? extends E> elements) {
-    Comparable[] array = Iterables.toArray(elements, new Comparable[0]);
-    checkElementsNotNull(array);
+    Comparable<?>[] array = Iterables.toArray(elements, new Comparable<?>[0]);
+    checkElementsNotNull((Object[]) array);
     Arrays.sort(array);
     return asImmutableList(array);
   }
@@ -433,14 +433,10 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     int length = toIndex - fromIndex;
     if (length == size()) {
       return this;
-    }
-    switch (length) {
-      case 0:
-        return of();
-      case 1:
-        return of(get(fromIndex));
-      default:
-        return subListUnchecked(fromIndex, toIndex);
+    } else if (length == 0) {
+      return of();
+    } else {
+      return subListUnchecked(fromIndex, toIndex);
     }
   }
 

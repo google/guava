@@ -221,8 +221,8 @@ public class MultisetsCollectionTest extends TestCase {
     };
   }
 
-  private static final Multiset<String> ELEMENTS_TO_FILTER_OUT = ImmutableMultiset.of(
-      "foobar", "bazfoo", "foobar", "foobar");
+  private static final ImmutableMultiset<String> ELEMENTS_TO_FILTER_OUT =
+      ImmutableMultiset.of("foobar", "bazfoo", "foobar", "foobar");
 
   private static final Predicate<String> PREDICATE =
       Predicates.not(Predicates.in(ELEMENTS_TO_FILTER_OUT));

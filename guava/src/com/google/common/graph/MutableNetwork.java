@@ -18,7 +18,6 @@ package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.CompatibleWith;
 
 /**
  * A subinterface of {@link Network} which adds mutation methods. When mutation is not required,
@@ -71,7 +70,7 @@ public interface MutableNetwork<N, E> extends Network<N, E> {
    * @return {@code true} if the network was modified as a result of this call
    */
   @CanIgnoreReturnValue
-  boolean removeNode(@CompatibleWith("N") Object node);
+  boolean removeNode(N node);
 
   /**
    * Removes {@code edge} from this network, if it is present.
@@ -79,5 +78,5 @@ public interface MutableNetwork<N, E> extends Network<N, E> {
    * @return {@code true} if the network was modified as a result of this call
    */
   @CanIgnoreReturnValue
-  boolean removeEdge(@CompatibleWith("E") Object edge);
+  boolean removeEdge(E edge);
 }

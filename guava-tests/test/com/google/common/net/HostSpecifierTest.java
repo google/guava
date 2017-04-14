@@ -22,7 +22,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import java.text.ParseException;
-import java.util.List;
 import junit.framework.TestCase;
 
 /**
@@ -36,17 +35,17 @@ import junit.framework.TestCase;
  */
 public final class HostSpecifierTest extends TestCase {
 
-  private static final List<String> GOOD_IPS = ImmutableList.of(
-      "1.2.3.4", "2001:db8::1", "[2001:db8::1]");
+  private static final ImmutableList<String> GOOD_IPS =
+      ImmutableList.of("1.2.3.4", "2001:db8::1", "[2001:db8::1]");
 
-  private static final List<String> BAD_IPS = ImmutableList.of(
-      "1.2.3", "2001:db8::1::::::0", "[2001:db8::1", "[::]:80");
+  private static final ImmutableList<String> BAD_IPS =
+      ImmutableList.of("1.2.3", "2001:db8::1::::::0", "[2001:db8::1", "[::]:80");
 
-  private static final List<String> GOOD_DOMAINS = ImmutableList.of(
-      "com", "google.com", "foo.co.uk");
+  private static final ImmutableList<String> GOOD_DOMAINS =
+      ImmutableList.of("com", "google.com", "foo.co.uk");
 
-  private static final List<String> BAD_DOMAINS = ImmutableList.of(
-      "foo.blah", "", "[google.com]");
+  private static final ImmutableList<String> BAD_DOMAINS =
+      ImmutableList.of("foo.blah", "", "[google.com]");
 
   public void testGoodIpAddresses() throws ParseException {
     for (String spec : GOOD_IPS) {

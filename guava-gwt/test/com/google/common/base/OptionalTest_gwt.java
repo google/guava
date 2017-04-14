@@ -43,14 +43,9 @@ public void testAsSet_presentIsImmutable() throws Exception {
   testCase.testAsSet_presentIsImmutable();
 }
 
-public void testEqualsAndHashCode_absent() throws Exception {
+public void testEqualsAndHashCode() throws Exception {
   com.google.common.base.OptionalTest testCase = new com.google.common.base.OptionalTest();
-  testCase.testEqualsAndHashCode_absent();
-}
-
-public void testEqualsAndHashCode_present() throws Exception {
-  com.google.common.base.OptionalTest testCase = new com.google.common.base.OptionalTest();
-  testCase.testEqualsAndHashCode_present();
+  testCase.testEqualsAndHashCode();
 }
 
 public void testFromJavaUtil() throws Exception {
@@ -218,9 +213,9 @@ public void testTransform_absent() throws Exception {
   testCase.testTransform_absent();
 }
 
-public void testTransform_abssent_functionReturnsNull() throws Exception {
+public void testTransform_absent_functionReturnsNull() throws Exception {
   com.google.common.base.OptionalTest testCase = new com.google.common.base.OptionalTest();
-  testCase.testTransform_abssent_functionReturnsNull();
+  testCase.testTransform_absent_functionReturnsNull();
 }
 
 public void testTransform_presentIdentity() throws Exception {
