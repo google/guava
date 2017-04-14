@@ -150,7 +150,7 @@ public class FakeTickerTest extends TestCase {
     final CountDownLatch startLatch = new CountDownLatch(numberOfThreads);
     final CountDownLatch doneLatch = new CountDownLatch(numberOfThreads);
     for (int i = numberOfThreads; i > 0; i--) {
-      @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+      @SuppressWarnings("unused") // go/futurereturn-lsc
       Future<?> possiblyIgnoredError =
           executorService.submit(
               new Callable<Void>() {

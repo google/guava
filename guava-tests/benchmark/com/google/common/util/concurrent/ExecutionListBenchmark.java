@@ -208,7 +208,7 @@ public class ExecutionListBenchmark {
     final AtomicInteger integer = new AtomicInteger();
     // Execute a bunch of tasks to ensure that our threads are allocated and hot
     for (int i = 0; i < NUM_THREADS * 10; i++) {
-      @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+      @SuppressWarnings("unused") // go/futurereturn-lsc
       Future<?> possiblyIgnoredError =
           executorService.submit(
               new Runnable() {
@@ -282,10 +282,10 @@ public class ExecutionListBenchmark {
       list = impl.newExecutionList();
       listenerLatch = new CountDownLatch(numListeners * NUM_THREADS);
       for (int j = 0; j < NUM_THREADS; j++) {
-        @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+        @SuppressWarnings("unused") // go/futurereturn-lsc
         Future<?> possiblyIgnoredError = executorService.submit(addTask);
       }
-      @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+      @SuppressWarnings("unused") // go/futurereturn-lsc
       Future<?> possiblyIgnoredError = executorService.submit(executeTask);
       returnValue += (int) listenerLatch.getCount();
       listenerLatch.await();
@@ -305,10 +305,10 @@ public class ExecutionListBenchmark {
     for (int i = 0; i < reps; i++) {
       list = impl.newExecutionList();
       listenerLatch = new CountDownLatch(numListeners * NUM_THREADS);
-      @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+      @SuppressWarnings("unused") // go/futurereturn-lsc
       Future<?> possiblyIgnoredError = executorService.submit(executeTask);
       for (int j = 0; j < NUM_THREADS; j++) {
-        @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+        @SuppressWarnings("unused") // go/futurereturn-lsc
         Future<?> possiblyIgnoredError1 = executorService.submit(addTask);
       }
       returnValue += (int) listenerLatch.getCount();

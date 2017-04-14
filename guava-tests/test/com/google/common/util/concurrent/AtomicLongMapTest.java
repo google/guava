@@ -592,7 +592,7 @@ public class AtomicLongMapTest extends TestCase {
 
     ExecutorService threadPool = Executors.newFixedThreadPool(nThreads);
     for (int i = 0; i < nTasks; i++) {
-      @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+      @SuppressWarnings("unused") // go/futurereturn-lsc
       Future<?> possiblyIgnoredError =
           threadPool.submit(
               new Runnable() {

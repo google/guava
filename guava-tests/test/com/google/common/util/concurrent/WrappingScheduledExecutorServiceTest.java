@@ -46,11 +46,11 @@ public class WrappingScheduledExecutorServiceTest extends TestCase {
     MockExecutor mock = new MockExecutor();
     TestExecutor testExecutor = new TestExecutor(mock);
 
-    @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+    @SuppressWarnings("unused") // go/futurereturn-lsc
     Future<?> possiblyIgnoredError = testExecutor.schedule(DO_NOTHING, 10, TimeUnit.MINUTES);
     mock.assertLastMethodCalled("scheduleRunnable", 10, TimeUnit.MINUTES);
 
-    @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+    @SuppressWarnings("unused") // go/futurereturn-lsc
     Future<?> possiblyIgnoredError1 =
         testExecutor.schedule(Executors.callable(DO_NOTHING), 5, TimeUnit.SECONDS);
     mock.assertLastMethodCalled("scheduleCallable", 5, TimeUnit.SECONDS);
@@ -59,12 +59,12 @@ public class WrappingScheduledExecutorServiceTest extends TestCase {
   public void testSchedule_repeating() {
     MockExecutor mock = new MockExecutor();
     TestExecutor testExecutor = new TestExecutor(mock);
-    @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+    @SuppressWarnings("unused") // go/futurereturn-lsc
     Future<?> possiblyIgnoredError =
         testExecutor.scheduleWithFixedDelay(DO_NOTHING, 100, 10, TimeUnit.MINUTES);
     mock.assertLastMethodCalled("scheduleWithFixedDelay", 100, 10, TimeUnit.MINUTES);
 
-    @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+    @SuppressWarnings("unused") // go/futurereturn-lsc
     Future<?> possiblyIgnoredError1 =
         testExecutor.scheduleAtFixedRate(DO_NOTHING, 3, 7, TimeUnit.SECONDS);
     mock.assertLastMethodCalled("scheduleAtFixedRate", 3, 7, TimeUnit.SECONDS);

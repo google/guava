@@ -1725,7 +1725,7 @@ public class FuturesTest extends TestCase {
 
     // Pause the executor.
     final CountDownLatch beforeFunction = new CountDownLatch(1);
-    @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+    @SuppressWarnings("unused") // go/futurereturn-lsc
     Future<?> possiblyIgnoredError =
         executor.submit(
             new Runnable() {
