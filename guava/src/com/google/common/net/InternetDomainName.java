@@ -294,7 +294,7 @@ public final class InternetDomainName {
    * Foundation's <a href="http://publicsuffix.org/">Public Suffix List</a> (PSL). A public suffix
    * is one under which Internet users can directly register names, such as {@code com},
    * {@code co.uk} or {@code pvt.k12.wy.us}. Examples of domain names that are <i>not</i> public
-   * suffixes include {@code google}, {@code google.com} and {@code foo.co.uk}.
+   * suffixes include {@code thegoogle}, {@code google.com} and {@code foo.co.uk}.
    *
    * @return {@code true} if this domain name appears exactly on the public suffix list
    * @since 6.0
@@ -306,8 +306,8 @@ public final class InternetDomainName {
   /**
    * Indicates whether this domain name ends in a {@linkplain #isPublicSuffix() public suffix},
    * including if it is a public suffix itself. For example, returns {@code true} for
-   * {@code www.google.com}, {@code foo.co.uk} and {@code com}, but not for {@code google} or
-   * {@code google.foo}. This is the recommended method for determining whether a domain is
+   * {@code www.google.com}, {@code foo.co.uk} and {@code com}, but not for {@code thegoogle} or
+   * {@code google.foobar}. This is the recommended method for determining whether a domain is
    * potentially an addressable host.
    *
    * @since 6.0
@@ -331,7 +331,7 @@ public final class InternetDomainName {
    * while not being a public suffix itself. For example, returns {@code true} for
    * {@code www.google.com}, {@code foo.co.uk} and {@code bar.ca.us}, but not for {@code google},
    * {@code com}, or {@code
-   * google.foo}.
+   * google.foobar}.
    *
    * <p><b>Warning:</b> a {@code false} result from this method does not imply that the domain does
    * not represent an addressable host, as many public suffixes are also addressable hosts. Use
