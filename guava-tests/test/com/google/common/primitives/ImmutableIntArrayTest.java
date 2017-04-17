@@ -392,6 +392,8 @@ public class ImmutableIntArrayTest extends TestCase {
             ImmutableIntArray.of(1, 2),
             reserialize(ImmutableIntArray.of(1, 2)),
             ImmutableIntArray.of(0, 1, 2, 3).subArray(1, 3))
+        .addEqualityGroup(ImmutableIntArray.of(1, 3))
+        .addEqualityGroup(ImmutableIntArray.of(1, 2, 3))
         .testEquals();
   }
 
