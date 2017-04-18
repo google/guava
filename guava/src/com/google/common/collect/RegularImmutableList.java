@@ -21,7 +21,7 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 
 /**
- * Implementation of {@link ImmutableList} used for 0 or 2+ elements (not 1).
+ * Implementation of {@link ImmutableList} backed by a simple array.
  *
  * @author Kevin Bourrillion
  */
