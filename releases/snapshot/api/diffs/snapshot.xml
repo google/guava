@@ -13116,10 +13116,13 @@
       <param name="values" type="java.lang.Iterable&lt;? extends V&gt;"/>
     </method>
     <doc>
-    <![CDATA[A list multimap which forwards all its method calls to another list multimap.
- Subclasses should override one or more methods to modify the behavior of
- the backing multimap as desired per the <a
+    <![CDATA[A list multimap which forwards all its method calls to another list multimap. Subclasses should
+ override one or more methods to modify the behavior of the backing multimap as desired per the <a
  href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
+
+ <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ default} methods. Instead, it inherits their default implementations. When those implementations
+ invoke methods, they invoke methods on the {@code ForwardingListMultimap}.
 
  @author Kurt Alfred Kluever
  @since 3.0]]>
@@ -13697,10 +13700,13 @@
       deprecated="not deprecated">
     </method>
     <doc>
-    <![CDATA[A multimap which forwards all its method calls to another multimap.
- Subclasses should override one or more methods to modify the behavior of
- the backing multimap as desired per the <a
+    <![CDATA[A multimap which forwards all its method calls to another multimap. Subclasses should override
+ one or more methods to modify the behavior of the backing multimap as desired per the <a
  href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
+
+ <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ default} methods. Instead, it inherits their default implementations. When those implementations
+ invoke methods, they invoke methods on the {@code ForwardingMultimap}.
 
  @author Robert Konigsberg
  @since 2.0]]>
@@ -15008,10 +15014,13 @@
       <param name="values" type="java.lang.Iterable&lt;? extends V&gt;"/>
     </method>
     <doc>
-    <![CDATA[A set multimap which forwards all its method calls to another set multimap.
- Subclasses should override one or more methods to modify the behavior of
- the backing multimap as desired per the <a
+    <![CDATA[A set multimap which forwards all its method calls to another set multimap. Subclasses should
+ override one or more methods to modify the behavior of the backing multimap as desired per the <a
  href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
+
+ <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ default} methods. Instead, it inherits their default implementations. When those implementations
+ invoke methods, they invoke methods on the {@code ForwardingSetMultimap}.
 
  @author Kurt Alfred Kluever
  @since 3.0]]>
@@ -15532,10 +15541,13 @@
       deprecated="not deprecated">
     </method>
     <doc>
-    <![CDATA[A sorted set multimap which forwards all its method calls to another sorted
- set multimap. Subclasses should override one or more methods to modify the
- behavior of the backing multimap as desired per the <a
- href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
+    <![CDATA[A sorted set multimap which forwards all its method calls to another sorted set multimap.
+ Subclasses should override one or more methods to modify the behavior of the backing multimap as
+ desired per the <a href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
+
+ <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ default} methods. Instead, it inherits their default implementations. When those implementations
+ invoke methods, they invoke methods on the {@code ForwardingSortedSetMultimap}.
 
  @author Kurt Alfred Kluever
  @since 3.0]]>
