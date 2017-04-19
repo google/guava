@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
  *
  * <p>This annotation behaves identically to <a href=
  * "http://www.gwtproject.org/javadoc/latest/com/google/gwt/core/shared/GwtIncompatible.html">the
- * {@code @GwtCompatible} annotation in GWT itself</a>.
+ * {@code @GwtIncompatible} annotation in GWT itself</a>.
  *
  * @author Charles Fry
  */
