@@ -49562,6 +49562,17 @@
       <![CDATA[The HTTP {@code X-XSS-Protection} header field name.]]>
       </doc>
     </field>
+    <field name="X_DNS_PREFETCH_CONTROL" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a
+ href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-DNS-Prefetch-Control">{@code
+ X-DNS-Prefetch-Control}</a> header controls DNS prefetch behavior. Value can be "on" or "off".
+ By default, DNS prefetching is "on" for HTTP pages and "off" for HTTPS pages.]]>
+      </doc>
+    </field>
     <field name="PING_FROM" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"

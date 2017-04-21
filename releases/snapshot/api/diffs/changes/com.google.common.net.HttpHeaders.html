@@ -18,7 +18,7 @@ com.google.common.net.HttpHeaders
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/net/HttpHeaders.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/net/HttpHeaders.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 22.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.net.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -30,8 +30,8 @@ com.google.common.net.HttpHeaders
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.net.HostAndPort.html"><B>PREV CLASS</B></A>
-&nbsp;<A HREF="com.google.common.net.MediaType.html"><B>NEXT CLASS</B></A>
+&nbsp;<B>PREV CLASS</B>&nbsp;
+&nbsp;<B>NEXT CLASS</B>&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.net.HttpHeaders.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
@@ -58,68 +58,12 @@ Class com.google.common.net.<A HREF="../../docs/com/google/common/net/HttpHeader
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.net.HttpHeaders.FORWARDED"></A>
-  <nobr><code>String</code>&nbsp;<A HREF="../../docs/com/google/common/net/HttpHeaders.html#FORWARDED" target="_top"><tt>FORWARDED</tt></A></nobr>
+  <A NAME="com.google.common.net.HttpHeaders.X_DNS_PREFETCH_CONTROL"></A>
+  <nobr><code>String</code>&nbsp;<A HREF="../../docs/com/google/common/net/HttpHeaders.html#X_DNS_PREFETCH_CONTROL" target="_top"><tt>X_DNS_PREFETCH_CONTROL</tt></A></nobr>
   </TD>
-  <TD VALIGN="TOP">The HTTP <a href="https://tools.ietf.org/html/rfc7239">{@code Forwarded}</a> header field name.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.net.HttpHeaders.SERVICE_WORKER"></A>
-  <nobr><code>String</code>&nbsp;<A HREF="../../docs/com/google/common/net/HttpHeaders.html#SERVICE_WORKER" target="_top"><tt>SERVICE_WORKER</tt></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">The HTTP <a href="https://www.w3.org/TR/service-workers/#update-algorithm">
- {@code Service-Worker}</a> header field name.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.net.HttpHeaders.SERVICE_WORKER_ALLOWED"></A>
-  <nobr><code>String</code>&nbsp;<A HREF="../../docs/com/google/common/net/HttpHeaders.html#SERVICE_WORKER_ALLOWED" target="_top"><tt>SERVICE_WORKER_ALLOWED</tt></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">The HTTP <a href="https://www.w3.org/TR/service-workers/#update-algorithm">
- {@code Service-Worker-Allowed}</a> header field name.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.net.HttpHeaders.X_CONTENT_SECURITY_POLICY"></A>
-  <nobr><code>String</code>&nbsp;<A HREF="../../docs/com/google/common/net/HttpHeaders.html#X_CONTENT_SECURITY_POLICY" target="_top"><tt>X_CONTENT_SECURITY_POLICY</tt></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">The HTTP nonstandard {@code X-Content-Security-Policy} header field name.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.net.HttpHeaders.X_CONTENT_SECURITY_POLICY_REPORT_ONLY"></A>
-  <nobr><code>String</code>&nbsp;<A HREF="../../docs/com/google/common/net/HttpHeaders.html#X_CONTENT_SECURITY_POLICY_REPORT_ONLY" target="_top"><tt>X_CONTENT_SECURITY_POLICY_REPORT_ONLY</tt></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">The HTTP nonstandard {@code X-Content-Security-Policy-Report-Only} header field name.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.net.HttpHeaders.X_FORWARDED_HOST"></A>
-  <nobr><code>String</code>&nbsp;<A HREF="../../docs/com/google/common/net/HttpHeaders.html#X_FORWARDED_HOST" target="_top"><tt>X_FORWARDED_HOST</tt></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">The HTTP <a href="http://goo.gl/lQirAH">{@code X-Forwarded-Host}</a> header field name.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.net.HttpHeaders.X_FORWARDED_PORT"></A>
-  <nobr><code>String</code>&nbsp;<A HREF="../../docs/com/google/common/net/HttpHeaders.html#X_FORWARDED_PORT" target="_top"><tt>X_FORWARDED_PORT</tt></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">The HTTP <a href="http://goo.gl/YtV2at">{@code X-Forwarded-Port}</a> header field name.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.net.HttpHeaders.X_WEBKIT_CSP"></A>
-  <nobr><code>String</code>&nbsp;<A HREF="../../docs/com/google/common/net/HttpHeaders.html#X_WEBKIT_CSP" target="_top"><tt>X_WEBKIT_CSP</tt></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">The HTTP nonstandard {@code X-WebKit-CSP} header field name.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.net.HttpHeaders.X_WEBKIT_CSP_REPORT_ONLY"></A>
-  <nobr><code>String</code>&nbsp;<A HREF="../../docs/com/google/common/net/HttpHeaders.html#X_WEBKIT_CSP_REPORT_ONLY" target="_top"><tt>X_WEBKIT_CSP_REPORT_ONLY</tt></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">The HTTP nonstandard {@code X-WebKit-CSP-Report-Only} header field name.</TD>
+  <TD VALIGN="TOP">The HTTP <a
+ href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-DNS-Prefetch-Control">{@code
+ X-DNS-Prefetch-Control}</a> header controls DNS prefetch behavior.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -130,7 +74,7 @@ Class com.google.common.net.<A HREF="../../docs/com/google/common/net/HttpHeader
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/net/HttpHeaders.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/net/HttpHeaders.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 22.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.net.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -142,8 +86,8 @@ Class com.google.common.net.<A HREF="../../docs/com/google/common/net/HttpHeader
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.net.HostAndPort.html"><B>PREV CLASS</B></A>
-&nbsp;<A HREF="com.google.common.net.MediaType.html"><B>NEXT CLASS</B></A>
+&nbsp;<B>PREV CLASS</B>&nbsp;
+&nbsp;<B>NEXT CLASS</B>&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.net.HttpHeaders.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>

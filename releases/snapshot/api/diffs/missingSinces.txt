@@ -60,3 +60,4 @@ OK: com.google.common.collect.ImmutableSortedMultiset Method toImmutableSortedMu
 OK: com.google.common.collect.Multisets Method toMultiset(java.util.function.Function<T, E>, java.util.function.ToIntFunction<T>, java.util.function.Supplier<M>)
 OK: com.google.common.io.CharSink Method writeLines(java.util.stream.Stream<? extends java.lang.CharSequence>)
 OK: com.google.common.io.CharSink Method writeLines(java.util.stream.Stream<? extends java.lang.CharSequence>, java.lang.String)
+MISSING @SINCE TAG: com.google.common.net.HttpHeaders Field X_DNS_PREFETCH_CONTROL
