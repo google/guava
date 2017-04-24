@@ -371,9 +371,6 @@ public final class ImmutableIntArray implements Serializable {
     return indexOf(target) >= 0;
   }
 
-  // TODO(kevinb): other instance methods to consider if we fork common.primitives:
-  // forEach(IntConsumer), stream()
-
   /** Returns a new, mutable copy of this array's values, as a primitive {@code int[]}. */
   public int[] toArray() {
     return Arrays.copyOfRange(array, start, end);
