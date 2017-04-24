@@ -1101,7 +1101,7 @@
 <span class="sourceLineNo">1093</span>    ImmutableList&lt;ListenableFuture&lt;? extends T&gt;&gt; copy = ImmutableList.copyOf(futures);<a name="line.1093"></a>
 <span class="sourceLineNo">1094</span>    ImmutableList.Builder&lt;SettableFuture&lt;T&gt;&gt; delegatesBuilder = ImmutableList.builder();<a name="line.1094"></a>
 <span class="sourceLineNo">1095</span>    for (int i = 0; i &lt; copy.size(); i++) {<a name="line.1095"></a>
-<span class="sourceLineNo">1096</span>      delegatesBuilder.add(SettableFuture.create());<a name="line.1096"></a>
+<span class="sourceLineNo">1096</span>      delegatesBuilder.add(SettableFuture.&lt;T&gt;create());<a name="line.1096"></a>
 <span class="sourceLineNo">1097</span>    }<a name="line.1097"></a>
 <span class="sourceLineNo">1098</span>    final ImmutableList&lt;SettableFuture&lt;T&gt;&gt; delegates = delegatesBuilder.build();<a name="line.1098"></a>
 <span class="sourceLineNo">1099</span><a name="line.1099"></a>
