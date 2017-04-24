@@ -34,51 +34,53 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /** @author Kevin Bourrillion */
 @GwtCompatible(emulated = true)
-public class ImmutableIntArrayTest extends TestCase {
+public class ImmutableLongArrayTest extends TestCase {
   // Test all creation paths very lazily: by assuming asList() works
 
   public void testOf0() {
-    assertThat(ImmutableIntArray.of().asList()).isEmpty();
+    assertThat(ImmutableLongArray.of().asList()).isEmpty();
   }
 
   public void testOf1() {
-    assertThat(ImmutableIntArray.of(0).asList()).containsExactly(0);
+    assertThat(ImmutableLongArray.of(0).asList()).containsExactly(0L);
   }
 
   public void testOf2() {
-    assertThat(ImmutableIntArray.of(0, 1).asList()).containsExactly(0, 1).inOrder();
+    assertThat(ImmutableLongArray.of(0, 1).asList()).containsExactly(0L, 1L).inOrder();
   }
 
   public void testOf3() {
-    assertThat(ImmutableIntArray.of(0, 1, 3).asList()).containsExactly(0, 1, 3).inOrder();
+    assertThat(ImmutableLongArray.of(0, 1, 3).asList()).containsExactly(0L, 1L, 3L).inOrder();
   }
 
   public void testOf4() {
-    assertThat(ImmutableIntArray.of(0, 1, 3, 6).asList()).containsExactly(0, 1, 3, 6).inOrder();
+    assertThat(ImmutableLongArray.of(0, 1, 3, 6).asList())
+        .containsExactly(0L, 1L, 3L, 6L)
+        .inOrder();
   }
 
   public void testOf5() {
-    assertThat(ImmutableIntArray.of(0, 1, 3, 6, 10).asList())
-        .containsExactly(0, 1, 3, 6, 10)
+    assertThat(ImmutableLongArray.of(0, 1, 3, 6, 10).asList())
+        .containsExactly(0L, 1L, 3L, 6L, 10L)
         .inOrder();
   }
 
   public void testOf6() {
-    assertThat(ImmutableIntArray.of(0, 1, 3, 6, 10, 15).asList())
-        .containsExactly(0, 1, 3, 6, 10, 15)
+    assertThat(ImmutableLongArray.of(0, 1, 3, 6, 10, 15).asList())
+        .containsExactly(0L, 1L, 3L, 6L, 10L, 15L)
         .inOrder();
   }
 
   public void testOf7() {
-    assertThat(ImmutableIntArray.of(0, 1, 3, 6, 10, 15, 21).asList())
-        .containsExactly(0, 1, 3, 6, 10, 15, 21)
+    assertThat(ImmutableLongArray.of(0, 1, 3, 6, 10, 15, 21).asList())
+        .containsExactly(0L, 1L, 3L, 6L, 10L, 15L, 21L)
         .inOrder();
   }
 
@@ -87,62 +89,62 @@ public class ImmutableIntArrayTest extends TestCase {
      * We don't guarantee the same-as property, so we aren't obligated to test it. However, it's
      * useful in testing - when two things are the same then one can't have bugs the other doesn't.
      */
-    assertThat(ImmutableIntArray.copyOf(new int[0])).isSameAs(ImmutableIntArray.of());
+    assertThat(ImmutableLongArray.copyOf(new long[0])).isSameAs(ImmutableLongArray.of());
   }
 
   public void testCopyOf_array_nonempty() {
-    int[] array = new int[] {0, 1, 3};
-    ImmutableIntArray iia = ImmutableIntArray.copyOf(array);
+    long[] array = new long[] {0, 1, 3};
+    ImmutableLongArray iia = ImmutableLongArray.copyOf(array);
     array[2] = 2;
-    assertThat(iia.asList()).containsExactly(0, 1, 3).inOrder();
+    assertThat(iia.asList()).containsExactly(0L, 1L, 3L).inOrder();
   }
 
   public void testCopyOf_iterable_notCollection_empty() {
-    Iterable<Integer> iterable = iterable(Collections.<Integer>emptySet());
-    assertThat(ImmutableIntArray.copyOf(iterable)).isSameAs(ImmutableIntArray.of());
+    Iterable<Long> iterable = iterable(Collections.emptySet());
+    assertThat(ImmutableLongArray.copyOf(iterable)).isSameAs(ImmutableLongArray.of());
   }
 
   public void testCopyOf_iterable_notCollection_nonempty() {
-    List<Integer> list = Arrays.asList(0, 1, 3);
-    ImmutableIntArray iia = ImmutableIntArray.copyOf(iterable(list));
-    list.set(2, 2);
-    assertThat(iia.asList()).containsExactly(0, 1, 3).inOrder();
+    List<Long> list = Arrays.asList(0L, 1L, 3L);
+    ImmutableLongArray iia = ImmutableLongArray.copyOf(iterable(list));
+    list.set(2, 2L);
+    assertThat(iia.asList()).containsExactly(0L, 1L, 3L).inOrder();
   }
 
   public void testCopyOf_iterable_collection_empty() {
-    Iterable<Integer> iterable = Collections.emptySet();
-    assertThat(ImmutableIntArray.copyOf(iterable)).isSameAs(ImmutableIntArray.of());
+    Iterable<Long> iterable = Collections.emptySet();
+    assertThat(ImmutableLongArray.copyOf(iterable)).isSameAs(ImmutableLongArray.of());
   }
 
   public void testCopyOf_iterable_collection_nonempty() {
-    List<Integer> list = Arrays.asList(0, 1, 3);
-    ImmutableIntArray iia = ImmutableIntArray.copyOf((Iterable<Integer>) list);
-    list.set(2, 2);
-    assertThat(iia.asList()).containsExactly(0, 1, 3).inOrder();
+    List<Long> list = Arrays.asList(0L, 1L, 3L);
+    ImmutableLongArray iia = ImmutableLongArray.copyOf((Iterable<Long>) list);
+    list.set(2, 2L);
+    assertThat(iia.asList()).containsExactly(0L, 1L, 3L).inOrder();
   }
 
   public void testCopyOf_collection_empty() {
-    Collection<Integer> iterable = Collections.emptySet();
-    assertThat(ImmutableIntArray.copyOf(iterable)).isSameAs(ImmutableIntArray.of());
+    Collection<Long> iterable = Collections.emptySet();
+    assertThat(ImmutableLongArray.copyOf(iterable)).isSameAs(ImmutableLongArray.of());
   }
 
   public void testCopyOf_collection_nonempty() {
-    List<Integer> list = Arrays.asList(0, 1, 3);
-    ImmutableIntArray iia = ImmutableIntArray.copyOf(list);
-    list.set(2, 2);
-    assertThat(iia.asList()).containsExactly(0, 1, 3).inOrder();
+    List<Long> list = Arrays.asList(0L, 1L, 3L);
+    ImmutableLongArray iia = ImmutableLongArray.copyOf(list);
+    list.set(2, 2L);
+    assertThat(iia.asList()).containsExactly(0L, 1L, 3L).inOrder();
   }
 
   public void testBuilder_presize_zero() {
-    ImmutableIntArray.Builder builder = ImmutableIntArray.builder(0);
-    builder.add(5);
-    ImmutableIntArray array = builder.build();
-    assertThat(array.asList()).containsExactly(5);
+    ImmutableLongArray.Builder builder = ImmutableLongArray.builder(0);
+    builder.add(5L);
+    ImmutableLongArray array = builder.build();
+    assertThat(array.asList()).containsExactly(5L);
   }
 
   public void testBuilder_presize_negative() {
     try {
-      ImmutableIntArray.builder(-1);
+      ImmutableLongArray.builder(-1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -153,16 +155,16 @@ public class ImmutableIntArrayTest extends TestCase {
    * out of it for a while and see what happens.
    */
   public void testBuilder_bruteForce() {
-    for (int i = 0; i < 100; i++) {
-      ImmutableIntArray.Builder builder = ImmutableIntArray.builder(RANDOM.nextInt(20));
-      AtomicInteger counter = new AtomicInteger(0);
+    for (long i = 0; i < 100; i++) {
+      ImmutableLongArray.Builder builder = ImmutableLongArray.builder(RANDOM.nextInt(20));
+      AtomicLong counter = new AtomicLong(0);
       while (counter.get() < 1000) {
         BuilderOp op = BuilderOp.randomOp();
         op.doIt(builder, counter);
       }
-      ImmutableIntArray iia = builder.build();
+      ImmutableLongArray iia = builder.build();
       for (int j = 0; j < iia.length(); j++) {
-        assertThat(iia.get(j)).isEqualTo(j);
+        assertThat(iia.get(j)).isEqualTo((long) j);
       }
     }
   }
@@ -170,14 +172,14 @@ public class ImmutableIntArrayTest extends TestCase {
   private enum BuilderOp {
     ADD_ONE {
       @Override
-      void doIt(ImmutableIntArray.Builder builder, AtomicInteger counter) {
+      void doIt(ImmutableLongArray.Builder builder, AtomicLong counter) {
         builder.add(counter.getAndIncrement());
       }
     },
     ADD_ARRAY {
       @Override
-      void doIt(ImmutableIntArray.Builder builder, AtomicInteger counter) {
-        int[] array = new int[RANDOM.nextInt(10)];
+      void doIt(ImmutableLongArray.Builder builder, AtomicLong counter) {
+        long[] array = new long[RANDOM.nextInt(10)];
         for (int i = 0; i < array.length; i++) {
           array[i] = counter.getAndIncrement();
         }
@@ -186,9 +188,9 @@ public class ImmutableIntArrayTest extends TestCase {
     },
     ADD_COLLECTION {
       @Override
-      void doIt(ImmutableIntArray.Builder builder, AtomicInteger counter) {
-        List<Integer> list = new ArrayList<>();
-        int num = RANDOM.nextInt(10);
+      void doIt(ImmutableLongArray.Builder builder, AtomicLong counter) {
+        List<Long> list = new ArrayList<>();
+        long num = RANDOM.nextInt(10);
         for (int i = 0; i < num; i++) {
           list.add(counter.getAndIncrement());
         }
@@ -197,9 +199,9 @@ public class ImmutableIntArrayTest extends TestCase {
     },
     ADD_ITERABLE {
       @Override
-      void doIt(ImmutableIntArray.Builder builder, AtomicInteger counter) {
-        List<Integer> list = new ArrayList<>();
-        int num = RANDOM.nextInt(10);
+      void doIt(ImmutableLongArray.Builder builder, AtomicLong counter) {
+        List<Long> list = new ArrayList<>();
+        long num = RANDOM.nextInt(10);
         for (int i = 0; i < num; i++) {
           list.add(counter.getAndIncrement());
         }
@@ -208,18 +210,18 @@ public class ImmutableIntArrayTest extends TestCase {
     },
     ADD_IIA {
       @Override
-      void doIt(ImmutableIntArray.Builder builder, AtomicInteger counter) {
-        int[] array = new int[RANDOM.nextInt(10)];
+      void doIt(ImmutableLongArray.Builder builder, AtomicLong counter) {
+        long[] array = new long[RANDOM.nextInt(10)];
         for (int i = 0; i < array.length; i++) {
           array[i] = counter.getAndIncrement();
         }
-        builder.addAll(ImmutableIntArray.copyOf(array));
+        builder.addAll(ImmutableLongArray.copyOf(array));
       }
     },
     ADD_LARGER_ARRAY {
       @Override
-      void doIt(ImmutableIntArray.Builder builder, AtomicInteger counter) {
-        int[] array = new int[RANDOM.nextInt(200) + 200];
+      void doIt(ImmutableLongArray.Builder builder, AtomicLong counter) {
+        long[] array = new long[RANDOM.nextInt(200) + 200];
         for (int i = 0; i < array.length; i++) {
           array[i] = counter.getAndIncrement();
         }
@@ -234,36 +236,36 @@ public class ImmutableIntArrayTest extends TestCase {
       return values[RANDOM.nextInt(values.length)];
     }
 
-    abstract void doIt(ImmutableIntArray.Builder builder, AtomicInteger counter);
+    abstract void doIt(ImmutableLongArray.Builder builder, AtomicLong counter);
   }
 
   private static final Random RANDOM = new Random(42);
 
   public void testLength() {
-    assertThat(ImmutableIntArray.of().length()).isEqualTo(0);
-    assertThat(ImmutableIntArray.of(0).length()).isEqualTo(1);
-    assertThat(ImmutableIntArray.of(0, 1, 3).length()).isEqualTo(3);
-    assertThat(ImmutableIntArray.of(0, 1, 3).subArray(1, 1).length()).isEqualTo(0);
-    assertThat(ImmutableIntArray.of(0, 1, 3).subArray(1, 2).length()).isEqualTo(1);
+    assertThat(ImmutableLongArray.of().length()).isEqualTo(0);
+    assertThat(ImmutableLongArray.of(0).length()).isEqualTo(1);
+    assertThat(ImmutableLongArray.of(0, 1, 3).length()).isEqualTo(3);
+    assertThat(ImmutableLongArray.of(0, 1, 3).subArray(1, 1).length()).isEqualTo(0);
+    assertThat(ImmutableLongArray.of(0, 1, 3).subArray(1, 2).length()).isEqualTo(1);
   }
 
   public void testIsEmpty() {
-    assertThat(ImmutableIntArray.of().isEmpty()).isTrue();
-    assertThat(ImmutableIntArray.of(0).isEmpty()).isFalse();
-    assertThat(ImmutableIntArray.of(0, 1, 3).isEmpty()).isFalse();
-    assertThat(ImmutableIntArray.of(0, 1, 3).subArray(1, 1).isEmpty()).isTrue();
-    assertThat(ImmutableIntArray.of(0, 1, 3).subArray(1, 2).isEmpty()).isFalse();
+    assertThat(ImmutableLongArray.of().isEmpty()).isTrue();
+    assertThat(ImmutableLongArray.of(0).isEmpty()).isFalse();
+    assertThat(ImmutableLongArray.of(0, 1, 3).isEmpty()).isFalse();
+    assertThat(ImmutableLongArray.of(0, 1, 3).subArray(1, 1).isEmpty()).isTrue();
+    assertThat(ImmutableLongArray.of(0, 1, 3).subArray(1, 2).isEmpty()).isFalse();
   }
 
   public void testGet_good() {
-    ImmutableIntArray iia = ImmutableIntArray.of(0, 1, 3);
+    ImmutableLongArray iia = ImmutableLongArray.of(0, 1, 3);
     assertThat(iia.get(0)).isEqualTo(0);
     assertThat(iia.get(2)).isEqualTo(3);
     assertThat(iia.subArray(1, 3).get(1)).isEqualTo(3);
   }
 
   public void testGet_bad() {
-    ImmutableIntArray iia = ImmutableIntArray.of(0, 1, 3);
+    ImmutableLongArray iia = ImmutableLongArray.of(0, 1, 3);
     try {
       iia.get(-1);
       fail();
@@ -284,46 +286,46 @@ public class ImmutableIntArrayTest extends TestCase {
   }
 
   public void testIndexOf() {
-    ImmutableIntArray iia = ImmutableIntArray.of(1, 1, 2, 3, 5, 8);
+    ImmutableLongArray iia = ImmutableLongArray.of(1, 1, 2, 3, 5, 8);
     assertThat(iia.indexOf(1)).isEqualTo(0);
     assertThat(iia.indexOf(8)).isEqualTo(5);
     assertThat(iia.indexOf(4)).isEqualTo(-1);
-    assertThat(ImmutableIntArray.of(13).indexOf(13)).isEqualTo(0);
-    assertThat(ImmutableIntArray.of().indexOf(21)).isEqualTo(-1);
+    assertThat(ImmutableLongArray.of(13).indexOf(13)).isEqualTo(0);
+    assertThat(ImmutableLongArray.of().indexOf(21)).isEqualTo(-1);
     assertThat(iia.subArray(1, 5).indexOf(1)).isEqualTo(0);
   }
 
   public void testLastIndexOf() {
-    ImmutableIntArray iia = ImmutableIntArray.of(1, 1, 2, 3, 5, 8);
+    ImmutableLongArray iia = ImmutableLongArray.of(1, 1, 2, 3, 5, 8);
     assertThat(iia.lastIndexOf(1)).isEqualTo(1);
     assertThat(iia.lastIndexOf(8)).isEqualTo(5);
     assertThat(iia.lastIndexOf(4)).isEqualTo(-1);
-    assertThat(ImmutableIntArray.of(13).lastIndexOf(13)).isEqualTo(0);
-    assertThat(ImmutableIntArray.of().lastIndexOf(21)).isEqualTo(-1);
+    assertThat(ImmutableLongArray.of(13).lastIndexOf(13)).isEqualTo(0);
+    assertThat(ImmutableLongArray.of().lastIndexOf(21)).isEqualTo(-1);
     assertThat(iia.subArray(1, 5).lastIndexOf(1)).isEqualTo(0);
   }
 
   public void testContains() {
-    ImmutableIntArray iia = ImmutableIntArray.of(1, 1, 2, 3, 5, 8);
+    ImmutableLongArray iia = ImmutableLongArray.of(1, 1, 2, 3, 5, 8);
     assertThat(iia.contains(1)).isTrue();
     assertThat(iia.contains(8)).isTrue();
     assertThat(iia.contains(4)).isFalse();
-    assertThat(ImmutableIntArray.of(13).contains(13)).isTrue();
-    assertThat(ImmutableIntArray.of().contains(21)).isFalse();
+    assertThat(ImmutableLongArray.of(13).contains(13)).isTrue();
+    assertThat(ImmutableLongArray.of().contains(21)).isFalse();
     assertThat(iia.subArray(1, 5).contains(1)).isTrue();
   }
 
   public void testSubArray() {
-    ImmutableIntArray iia0 = ImmutableIntArray.of();
-    ImmutableIntArray iia1 = ImmutableIntArray.of(5);
-    ImmutableIntArray iia3 = ImmutableIntArray.of(5, 25, 125);
+    ImmutableLongArray iia0 = ImmutableLongArray.of();
+    ImmutableLongArray iia1 = ImmutableLongArray.of(5);
+    ImmutableLongArray iia3 = ImmutableLongArray.of(5, 25, 125);
 
-    assertThat(iia0.subArray(0, 0)).isSameAs(ImmutableIntArray.of());
-    assertThat(iia1.subArray(0, 0)).isSameAs(ImmutableIntArray.of());
-    assertThat(iia1.subArray(1, 1)).isSameAs(ImmutableIntArray.of());
-    assertThat(iia1.subArray(0, 1).asList()).containsExactly(5);
-    assertThat(iia3.subArray(0, 2).asList()).containsExactly(5, 25).inOrder();
-    assertThat(iia3.subArray(1, 3).asList()).containsExactly(25, 125).inOrder();
+    assertThat(iia0.subArray(0, 0)).isSameAs(ImmutableLongArray.of());
+    assertThat(iia1.subArray(0, 0)).isSameAs(ImmutableLongArray.of());
+    assertThat(iia1.subArray(1, 1)).isSameAs(ImmutableLongArray.of());
+    assertThat(iia1.subArray(0, 1).asList()).containsExactly(5L);
+    assertThat(iia3.subArray(0, 2).asList()).containsExactly(5L, 25L).inOrder();
+    assertThat(iia3.subArray(1, 3).asList()).containsExactly(25L, 125L).inOrder();
 
     try {
       iia3.subArray(-1, 1);
@@ -354,13 +356,13 @@ public class ImmutableIntArrayTest extends TestCase {
 
   public void testEquals() {
     new EqualsTester()
-        .addEqualityGroup(ImmutableIntArray.of())
+        .addEqualityGroup(ImmutableLongArray.of())
         .addEqualityGroup(
-            ImmutableIntArray.of(1, 2),
-            reserialize(ImmutableIntArray.of(1, 2)),
-            ImmutableIntArray.of(0, 1, 2, 3).subArray(1, 3))
-        .addEqualityGroup(ImmutableIntArray.of(1, 3))
-        .addEqualityGroup(ImmutableIntArray.of(1, 2, 3))
+            ImmutableLongArray.of(1, 2),
+            reserialize(ImmutableLongArray.of(1, 2)),
+            ImmutableLongArray.of(0, 1, 2, 3).subArray(1, 3))
+        .addEqualityGroup(ImmutableLongArray.of(1, 3))
+        .addEqualityGroup(ImmutableLongArray.of(1, 2, 3))
         .testEquals();
   }
 
@@ -369,61 +371,61 @@ public class ImmutableIntArrayTest extends TestCase {
    * caught a bug.
    */
   public void testTrimmed() {
-    ImmutableIntArray iia = ImmutableIntArray.of(0, 1, 3);
+    ImmutableLongArray iia = ImmutableLongArray.of(0, 1, 3);
     assertDoesntActuallyTrim(iia);
     assertDoesntActuallyTrim(iia.subArray(0, 3));
     assertActuallyTrims(iia.subArray(0, 2));
     assertActuallyTrims(iia.subArray(1, 3));
 
-    ImmutableIntArray rightSized = ImmutableIntArray.builder(3).add(0).add(1).add(3).build();
+    ImmutableLongArray rightSized = ImmutableLongArray.builder(3).add(0).add(1).add(3).build();
     assertDoesntActuallyTrim(rightSized);
 
-    ImmutableIntArray overSized = ImmutableIntArray.builder(3).add(0).add(1).build();
+    ImmutableLongArray overSized = ImmutableLongArray.builder(3).add(0).add(1).build();
     assertActuallyTrims(overSized);
 
-    ImmutableIntArray underSized = ImmutableIntArray.builder(2).add(0).add(1).add(3).build();
+    ImmutableLongArray underSized = ImmutableLongArray.builder(2).add(0).add(1).add(3).build();
     assertActuallyTrims(underSized);
   }
 
   @GwtIncompatible // SerializableTester
   public void testSerialization() {
-    assertThat(reserialize(ImmutableIntArray.of())).isSameAs(ImmutableIntArray.of());
-    assertThat(reserialize(ImmutableIntArray.of(0, 1).subArray(1, 1)))
-        .isSameAs(ImmutableIntArray.of());
+    assertThat(reserialize(ImmutableLongArray.of())).isSameAs(ImmutableLongArray.of());
+    assertThat(reserialize(ImmutableLongArray.of(0, 1).subArray(1, 1)))
+        .isSameAs(ImmutableLongArray.of());
 
-    ImmutableIntArray iia = ImmutableIntArray.of(0, 1, 3, 6).subArray(1, 3);
-    ImmutableIntArray iia2 = reserialize(iia);
+    ImmutableLongArray iia = ImmutableLongArray.of(0, 1, 3, 6).subArray(1, 3);
+    ImmutableLongArray iia2 = reserialize(iia);
     assertThat(iia2).isEqualTo(iia);
     assertDoesntActuallyTrim(iia2);
   }
 
-  private static void assertActuallyTrims(ImmutableIntArray iia) {
-    ImmutableIntArray trimmed = iia.trimmed();
+  private static void assertActuallyTrims(ImmutableLongArray iia) {
+    ImmutableLongArray trimmed = iia.trimmed();
     assertThat(trimmed).isNotSameAs(iia);
 
     // Yes, this is apparently how you check array equality in Truth
     assertThat(trimmed.toArray()).isEqualTo(iia.toArray());
   }
 
-  private static void assertDoesntActuallyTrim(ImmutableIntArray iia) {
+  private static void assertDoesntActuallyTrim(ImmutableLongArray iia) {
     assertThat(iia.trimmed()).isSameAs(iia);
   }
 
   @GwtIncompatible // suite
   public static Test suite() {
-    List<ListTestSuiteBuilder<Integer>> builders =
+    List<ListTestSuiteBuilder<Long>> builders =
         ImmutableList.of(
-            ListTestSuiteBuilder.using(new ImmutableIntArrayAsListGenerator())
-                .named("ImmutableIntArray.asList"),
-            ListTestSuiteBuilder.using(new ImmutableIntArrayHeadSubListAsListGenerator())
-                .named("ImmutableIntArray.asList, head subList"),
-            ListTestSuiteBuilder.using(new ImmutableIntArrayTailSubListAsListGenerator())
-                .named("ImmutableIntArray.asList, tail subList"),
-            ListTestSuiteBuilder.using(new ImmutableIntArrayMiddleSubListAsListGenerator())
-                .named("ImmutableIntArray.asList, middle subList"));
+            ListTestSuiteBuilder.using(new ImmutableLongArrayAsListGenerator())
+                .named("ImmutableLongArray.asList"),
+            ListTestSuiteBuilder.using(new ImmutableLongArrayHeadSubListAsListGenerator())
+                .named("ImmutableLongArray.asList, head subList"),
+            ListTestSuiteBuilder.using(new ImmutableLongArrayTailSubListAsListGenerator())
+                .named("ImmutableLongArray.asList, tail subList"),
+            ListTestSuiteBuilder.using(new ImmutableLongArrayMiddleSubListAsListGenerator())
+                .named("ImmutableLongArray.asList, middle subList"));
 
     TestSuite suite = new TestSuite();
-    for (ListTestSuiteBuilder<Integer> builder : builders) {
+    for (ListTestSuiteBuilder<Long> builder : builders) {
       suite.addTest(
           builder
               .withFeatures(
@@ -439,73 +441,73 @@ public class ImmutableIntArrayTest extends TestCase {
   }
 
   @GwtIncompatible // used only from suite
-  private static ImmutableIntArray makeArray(Integer[] values) {
-    return ImmutableIntArray.copyOf(Arrays.asList(values));
+  private static ImmutableLongArray makeArray(Long[] values) {
+    return ImmutableLongArray.copyOf(Arrays.asList(values));
   }
 
   // Test generators.  To let the GWT test suite generator access them, they need to be public named
   // classes with a public default constructor (not that we run these suites under GWT yet).
 
   @GwtIncompatible // used only from suite
-  public static final class ImmutableIntArrayAsListGenerator extends TestIntegerListGenerator {
+  public static final class ImmutableLongArrayAsListGenerator extends TestLongListGenerator {
     @Override
-    protected List<Integer> create(Integer[] elements) {
+    protected List<Long> create(Long[] elements) {
       return makeArray(elements).asList();
     }
   }
 
   @GwtIncompatible // used only from suite
-  public static final class ImmutableIntArrayHeadSubListAsListGenerator
-      extends TestIntegerListGenerator {
+  public static final class ImmutableLongArrayHeadSubListAsListGenerator
+      extends TestLongListGenerator {
     @Override
-    protected List<Integer> create(Integer[] elements) {
-      Integer[] suffix = {Integer.MIN_VALUE, Integer.MAX_VALUE};
-      Integer[] all = concat(elements, suffix);
+    protected List<Long> create(Long[] elements) {
+      Long[] suffix = {Long.MIN_VALUE, Long.MAX_VALUE};
+      Long[] all = concat(elements, suffix);
       return makeArray(all).subArray(0, elements.length).asList();
     }
   }
 
   @GwtIncompatible // used only from suite
-  public static final class ImmutableIntArrayTailSubListAsListGenerator
-      extends TestIntegerListGenerator {
+  public static final class ImmutableLongArrayTailSubListAsListGenerator
+      extends TestLongListGenerator {
     @Override
-    protected List<Integer> create(Integer[] elements) {
-      Integer[] prefix = {86, 99};
-      Integer[] all = concat(prefix, elements);
+    protected List<Long> create(Long[] elements) {
+      Long[] prefix = {86L, 99L};
+      Long[] all = concat(prefix, elements);
       return makeArray(all).subArray(2, elements.length + 2).asList();
     }
   }
 
   @GwtIncompatible // used only from suite
-  public static final class ImmutableIntArrayMiddleSubListAsListGenerator
-      extends TestIntegerListGenerator {
+  public static final class ImmutableLongArrayMiddleSubListAsListGenerator
+      extends TestLongListGenerator {
     @Override
-    protected List<Integer> create(Integer[] elements) {
-      Integer[] prefix = {Integer.MIN_VALUE, Integer.MAX_VALUE};
-      Integer[] suffix = {86, 99};
-      Integer[] all = concat(concat(prefix, elements), suffix);
+    protected List<Long> create(Long[] elements) {
+      Long[] prefix = {Long.MIN_VALUE, Long.MAX_VALUE};
+      Long[] suffix = {86L, 99L};
+      Long[] all = concat(concat(prefix, elements), suffix);
       return makeArray(all).subArray(2, elements.length + 2).asList();
     }
   }
 
   @GwtIncompatible // used only from suite
-  private static Integer[] concat(Integer[] a, Integer[] b) {
-    return ObjectArrays.concat(a, b, Integer.class);
+  private static Long[] concat(Long[] a, Long[] b) {
+    return ObjectArrays.concat(a, b, Long.class);
   }
 
   @GwtIncompatible // used only from suite
-  public abstract static class TestIntegerListGenerator implements TestListGenerator<Integer> {
+  public abstract static class TestLongListGenerator implements TestListGenerator<Long> {
     @Override
-    public SampleElements<Integer> samples() {
-      return new SampleIntegers();
+    public SampleElements<Long> samples() {
+      return new SampleLongs();
     }
 
     @Override
-    public List<Integer> create(Object... elements) {
-      Integer[] array = new Integer[elements.length];
+    public List<Long> create(Object... elements) {
+      Long[] array = new Long[elements.length];
       int i = 0;
       for (Object e : elements) {
-        array[i++] = (Integer) e;
+        array[i++] = (Long) e;
       }
       return create(array);
     }
@@ -514,24 +516,24 @@ public class ImmutableIntArrayTest extends TestCase {
      * Creates a new collection containing the given elements; implement this method instead of
      * {@link #create(Object...)}.
      */
-    protected abstract List<Integer> create(Integer[] elements);
+    protected abstract List<Long> create(Long[] elements);
 
     @Override
-    public Integer[] createArray(int length) {
-      return new Integer[length];
+    public Long[] createArray(int length) {
+      return new Long[length];
     }
 
     /** Returns the original element list, unchanged. */
     @Override
-    public List<Integer> order(List<Integer> insertionOrder) {
+    public List<Long> order(List<Long> insertionOrder) {
       return insertionOrder;
     }
   }
 
   @GwtIncompatible // used only from suite
-  public static class SampleIntegers extends SampleElements<Integer> {
-    public SampleIntegers() {
-      super(1, 3, 6, 10, 15);
+  public static class SampleLongs extends SampleElements<Long> {
+    public SampleLongs() {
+      super(1L, 3L, 6L, 10L, 15L);
     }
   }
 }

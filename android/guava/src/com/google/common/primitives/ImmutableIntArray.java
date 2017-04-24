@@ -74,9 +74,6 @@ import javax.annotation.Nullable;
  *       lazy {@link #asList} view).
  * </ul>
  *
- * <p><b>Note:</b> this class will be forked into {@code ImmutableLongArray} and {@code
- * ImmutableDoubleArray} once it stabilizes.
- *
  * @since 22.0
  */
 @Beta
@@ -122,7 +119,7 @@ public final class ImmutableIntArray implements Serializable {
   // TODO(kevinb): go up to 11?
 
   /** Returns an immutable array containing the given values, in order. */
-  // Use (first, rest) so that `of(anIntArray)` won't compile (they should use copyOf), which is
+  // Use (first, rest) so that `of(someIntArray)` won't compile (they should use copyOf), which is
   // okay since we have to copy the just-created array anyway.
   public static ImmutableIntArray of(int first, int... rest) {
     int[] array = new int[rest.length + 1];
@@ -255,7 +252,7 @@ public final class ImmutableIntArray implements Serializable {
     }
 
     private void ensureRoomFor(int numberToAdd) {
-      int newCount = count + numberToAdd;
+      int newCount = count + numberToAdd; // TODO(kevinb): check overflow now?
       if (newCount > array.length) {
         int[] newArray = new int[expandedCapacity(array.length, newCount)];
         System.arraycopy(array, 0, newArray, 0, count);

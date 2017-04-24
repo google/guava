@@ -15,7 +15,6 @@
 package com.google.common.primitives;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -27,17 +26,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.RandomAccess;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.function.IntConsumer;
-import java.util.stream.IntStream;
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
- * An immutable array of {@code int} values, with an API resembling {@link List}.
+ * An immutable array of {@code long} values, with an API resembling {@link List}.
  *
- * <p>Advantages compared to {@code int[]}:
+ * <p>Advantages compared to {@code long[]}:
  *
  * <ul>
  *   <li>All the many well-known advantages of immutability (read <i>Effective Java</i>, second
@@ -45,36 +40,33 @@ import javax.annotation.Nullable;
  *   <li>Has the value-based (not identity-based) {@link #equals}, {@link #hashCode}, and {@link
  *       #toString} behavior you expect.
  *   <li>Offers useful operations beyond just {@code get} and {@code length}, so you don't have to
- *       hunt through classes like {@link Arrays} and {@link Ints} for them.
+ *       hunt through classes like {@link Arrays} and {@link Longs} for them.
  *   <li>Supports a copy-free {@link #subArray} view, so methods that accept this type don't need to
  *       add overloads that accept start and end indexes.
- *   <li>Can be streamed without "breaking the chain": {@code foo.getBarInts().stream()...}.
  *   <li>Access to all collection-based utilities via {@link #asList} (though at the cost of
  *       allocating garbage).
  * </ul>
  *
- * <p>Disadvantages compared to {@code int[]}:
+ * <p>Disadvantages compared to {@code long[]}:
  *
  * <ul>
  *   <li>Memory footprint has a fixed overhead (about 24 bytes per instance).
  *   <li><i>Some</i> construction use cases force the data to be copied (though several construction
  *       APIs are offered that don't).
- *   <li>Can't be passed directly to methods that expect {@code int[]} (though the most common
+ *   <li>Can't be passed directly to methods that expect {@code long[]} (though the most common
  *       utilities do have replacements here).
  *   <li>Dependency on {@code com.google.common} / Guava.
  * </ul>
  *
  * <p>Advantages compared to {@link com.google.common.collect.ImmutableList ImmutableList}{@code
- * <Integer>}:
+ * <Long>}:
  *
  * <ul>
  *   <li>Improved memory compactness and locality.
  *   <li>Can be queried without allocating garbage.
- *   <li>Access to {@code IntStream} features (like {@link IntStream#sum}) using {@code stream()}
- *       instead of the awkward {@code stream().mapToInt(v -> v)}.
  * </ul>
  *
- * <p>Disadvantages compared to {@code ImmutableList<Integer>}:
+ * <p>Disadvantages compared to {@code ImmutableList<Long>}:
  *
  * <ul>
  *   <li>Can't be passed directly to methods that expect {@code Iterable}, {@code Collection}, or
@@ -86,64 +78,66 @@ import javax.annotation.Nullable;
  */
 @Beta
 @GwtCompatible
-public final class ImmutableIntArray implements Serializable {
-  private static final ImmutableIntArray EMPTY = new ImmutableIntArray(new int[0]);
+public final class ImmutableLongArray implements Serializable {
+  private static final ImmutableLongArray EMPTY = new ImmutableLongArray(new long[0]);
 
   /** Returns the empty array. */
-  public static ImmutableIntArray of() {
+  public static ImmutableLongArray of() {
     return EMPTY;
   }
 
   /** Returns an immutable array containing a single value. */
-  public static ImmutableIntArray of(int e0) {
-    return new ImmutableIntArray(new int[] {e0});
+  public static ImmutableLongArray of(long e0) {
+    return new ImmutableLongArray(new long[] {e0});
   }
 
   /** Returns an immutable array containing the given values, in order. */
-  public static ImmutableIntArray of(int e0, int e1) {
-    return new ImmutableIntArray(new int[] {e0, e1});
+  public static ImmutableLongArray of(long e0, long e1) {
+    return new ImmutableLongArray(new long[] {e0, e1});
   }
 
   /** Returns an immutable array containing the given values, in order. */
-  public static ImmutableIntArray of(int e0, int e1, int e2) {
-    return new ImmutableIntArray(new int[] {e0, e1, e2});
+  public static ImmutableLongArray of(long e0, long e1, long e2) {
+    return new ImmutableLongArray(new long[] {e0, e1, e2});
   }
 
   /** Returns an immutable array containing the given values, in order. */
-  public static ImmutableIntArray of(int e0, int e1, int e2, int e3) {
-    return new ImmutableIntArray(new int[] {e0, e1, e2, e3});
+  public static ImmutableLongArray of(long e0, long e1, long e2, long e3) {
+    return new ImmutableLongArray(new long[] {e0, e1, e2, e3});
   }
 
   /** Returns an immutable array containing the given values, in order. */
-  public static ImmutableIntArray of(int e0, int e1, int e2, int e3, int e4) {
-    return new ImmutableIntArray(new int[] {e0, e1, e2, e3, e4});
+  public static ImmutableLongArray of(long e0, long e1, long e2, long e3, long e4) {
+    return new ImmutableLongArray(new long[] {e0, e1, e2, e3, e4});
   }
 
   /** Returns an immutable array containing the given values, in order. */
-  public static ImmutableIntArray of(int e0, int e1, int e2, int e3, int e4, int e5) {
-    return new ImmutableIntArray(new int[] {e0, e1, e2, e3, e4, e5});
+  public static ImmutableLongArray of(long e0, long e1, long e2, long e3, long e4, long e5) {
+    return new ImmutableLongArray(new long[] {e0, e1, e2, e3, e4, e5});
   }
 
   // TODO(kevinb): go up to 11?
 
   /** Returns an immutable array containing the given values, in order. */
-  // Use (first, rest) so that `of(someIntArray)` won't compile (they should use copyOf), which is
+  // Use (first, rest) so that `of(someLongArray)` won't compile (they should use copyOf), which is
   // okay since we have to copy the just-created array anyway.
-  public static ImmutableIntArray of(int first, int... rest) {
-    int[] array = new int[rest.length + 1];
+  public static ImmutableLongArray of(long first, long... rest) {
+    long[] array = new long[rest.length + 1];
     array[0] = first;
     System.arraycopy(rest, 0, array, 1, rest.length);
-    return new ImmutableIntArray(array);
+    return new ImmutableLongArray(array);
   }
 
   /** Returns an immutable array containing the given values, in order. */
-  public static ImmutableIntArray copyOf(int[] values) {
-    return values.length == 0 ? EMPTY : new ImmutableIntArray(Arrays.copyOf(values, values.length));
+  public static ImmutableLongArray copyOf(long[] values) {
+    return values.length == 0
+        ? EMPTY
+        : new ImmutableLongArray(Arrays.copyOf(values, values.length));
   }
 
   /** Returns an immutable array containing the given values, in order. */
-  public static ImmutableIntArray copyOf(Collection<Integer> values) {
-    return values.isEmpty() ? EMPTY : new ImmutableIntArray(Ints.toArray(values));
+  public static ImmutableLongArray copyOf(Collection<Long> values) {
+    return values.isEmpty() ? EMPTY : new ImmutableLongArray(Longs.toArray(values));
   }
 
   /**
@@ -153,28 +147,21 @@ public final class ImmutableIntArray implements Serializable {
    * values} is a {@link Collection}. Otherwise it creates a {@link #builder} and uses {@link
    * Builder#addAll(Iterable)}, with all the performance implications associated with that.
    */
-  public static ImmutableIntArray copyOf(Iterable<Integer> values) {
+  public static ImmutableLongArray copyOf(Iterable<Long> values) {
     if (values instanceof Collection) {
-      return copyOf((Collection<Integer>) values);
+      return copyOf((Collection<Long>) values);
     }
     return builder().addAll(values).build();
   }
 
-  /** Returns an immutable array containing all the values from {@code stream}, in order. */
-  public static ImmutableIntArray copyOf(IntStream stream) {
-    // Note this uses very different growth behavior from copyOf(Iterable) and the builder.
-    int[] array = stream.toArray();
-    return (array.length == 0) ? EMPTY : new ImmutableIntArray(array);
-  }
-
   /**
-   * Returns a new, empty builder for {@link ImmutableIntArray} instances, sized to hold up to
+   * Returns a new, empty builder for {@link ImmutableLongArray} instances, sized to hold up to
    * {@code initialCapacity} values without resizing. The returned builder is not thread-safe.
    *
    * <p><b>Performance note:</b> When feasible, {@code initialCapacity} should be the exact number
    * of values that will be added, if that knowledge is readily available. It is better to guess a
    * value slightly too high than slightly too low. If the value is not exact, the {@link
-   * ImmutableIntArray} that is built will very likely occupy more memory than strictly necessary;
+   * ImmutableLongArray} that is built will very likely occupy more memory than strictly necessary;
    * to trim memory usage, build using {@code builder.build().trimmed()}.
    */
   public static Builder builder(int initialCapacity) {
@@ -183,11 +170,11 @@ public final class ImmutableIntArray implements Serializable {
   }
 
   /**
-   * Returns a new, empty builder for {@link ImmutableIntArray} instances, with a default initial
+   * Returns a new, empty builder for {@link ImmutableLongArray} instances, with a default initial
    * capacity. The returned builder is not thread-safe.
    *
-   * <p><b>Performance note:</b> The {@link ImmutableIntArray} that is built will very likely occupy
-   * more memory than necessary; to trim memory usage, build using {@code
+   * <p><b>Performance note:</b> The {@link ImmutableLongArray} that is built will very likely
+   * occupy more memory than necessary; to trim memory usage, build using {@code
    * builder.build().trimmed()}.
    */
   public static Builder builder() {
@@ -195,23 +182,23 @@ public final class ImmutableIntArray implements Serializable {
   }
 
   /**
-   * A builder for {@link ImmutableIntArray} instances; obtained using {@link
-   * ImmutableIntArray#builder}.
+   * A builder for {@link ImmutableLongArray} instances; obtained using {@link
+   * ImmutableLongArray#builder}.
    */
   @CanIgnoreReturnValue
   public static final class Builder {
-    private int[] array;
+    private long[] array;
     private int count = 0; // <= array.length
 
     Builder(int initialCapacity) {
-      array = new int[initialCapacity];
+      array = new long[initialCapacity];
     }
 
     /**
-     * Appends {@code value} to the end of the values the built {@link ImmutableIntArray} will
+     * Appends {@code value} to the end of the values the built {@link ImmutableLongArray} will
      * contain.
      */
-    public Builder add(int value) {
+    public Builder add(long value) {
       ensureRoomFor(1);
       array[count] = value;
       count += 1;
@@ -220,9 +207,9 @@ public final class ImmutableIntArray implements Serializable {
 
     /**
      * Appends {@code values}, in order, to the end of the values the built {@link
-     * ImmutableIntArray} will contain.
+     * ImmutableLongArray} will contain.
      */
-    public Builder addAll(int[] values) {
+    public Builder addAll(long[] values) {
       ensureRoomFor(values.length);
       System.arraycopy(values, 0, array, count, values.length);
       count += values.length;
@@ -231,13 +218,13 @@ public final class ImmutableIntArray implements Serializable {
 
     /**
      * Appends {@code values}, in order, to the end of the values the built {@link
-     * ImmutableIntArray} will contain.
+     * ImmutableLongArray} will contain.
      */
-    public Builder addAll(Iterable<Integer> values) {
+    public Builder addAll(Iterable<Long> values) {
       if (values instanceof Collection) {
-        return addAll((Collection<Integer>) values);
+        return addAll((Collection<Long>) values);
       }
-      for (Integer value : values) {
+      for (Long value : values) {
         add(value);
       }
       return this;
@@ -245,35 +232,21 @@ public final class ImmutableIntArray implements Serializable {
 
     /**
      * Appends {@code values}, in order, to the end of the values the built {@link
-     * ImmutableIntArray} will contain.
+     * ImmutableLongArray} will contain.
      */
-    public Builder addAll(Collection<Integer> values) {
+    public Builder addAll(Collection<Long> values) {
       ensureRoomFor(values.size());
-      for (Integer value : values) {
+      for (Long value : values) {
         array[count++] = value;
       }
       return this;
     }
 
     /**
-     * Appends all values from {@code stream}, in order, to the end of the values the built {@link
-     * ImmutableIntArray} will contain.
-     */
-    public Builder addAll(IntStream stream) {
-      Spliterator.OfInt spliterator = stream.spliterator();
-      long size = spliterator.getExactSizeIfKnown();
-      if (size > 0) { // known *and* nonempty
-        ensureRoomFor(Ints.saturatedCast(size));
-      }
-      spliterator.forEachRemaining((IntConsumer) this::add);
-      return this;
-    }
-
-    /**
      * Appends {@code values}, in order, to the end of the values the built {@link
-     * ImmutableIntArray} will contain.
+     * ImmutableLongArray} will contain.
      */
-    public Builder addAll(ImmutableIntArray values) {
+    public Builder addAll(ImmutableLongArray values) {
       ensureRoomFor(values.length());
       System.arraycopy(values.array, values.start, array, count, values.length());
       count += values.length();
@@ -283,7 +256,7 @@ public final class ImmutableIntArray implements Serializable {
     private void ensureRoomFor(int numberToAdd) {
       int newCount = count + numberToAdd; // TODO(kevinb): check overflow now?
       if (newCount > array.length) {
-        int[] newArray = new int[expandedCapacity(array.length, newCount)];
+        long[] newArray = new long[expandedCapacity(array.length, newCount)];
         System.arraycopy(array, 0, newArray, 0, count);
         this.array = newArray;
       }
@@ -314,14 +287,14 @@ public final class ImmutableIntArray implements Serializable {
      * necessary. To copy the data to a right-sized backing array, use {@code .build().trimmed()}.
      */
     @CheckReturnValue
-    public ImmutableIntArray build() {
-      return count == 0 ? EMPTY : new ImmutableIntArray(array, 0, count);
+    public ImmutableLongArray build() {
+      return count == 0 ? EMPTY : new ImmutableLongArray(array, 0, count);
     }
   }
 
   // Instance stuff here
 
-  private final int[] array;
+  private final long[] array;
 
   /*
    * TODO(kevinb): evaluate the trade-offs of going bimorphic to save these two fields from most
@@ -332,11 +305,11 @@ public final class ImmutableIntArray implements Serializable {
   private final transient int start; // it happens that we only serialize instances where this is 0
   private final int end; // exclusive
 
-  private ImmutableIntArray(int[] array) {
+  private ImmutableLongArray(long[] array) {
     this(array, 0, array.length);
   }
 
-  private ImmutableIntArray(int[] array, int start, int end) {
+  private ImmutableLongArray(long[] array, int start, int end) {
     this.array = array;
     this.start = start;
     this.end = end;
@@ -353,12 +326,12 @@ public final class ImmutableIntArray implements Serializable {
   }
 
   /**
-   * Returns the {@code int} value present at the given index.
+   * Returns the {@code long} value present at the given index.
    *
    * @throws IndexOutOfBoundsException if {@code index} is negative, or greater than or equal to
    *     {@link #length}
    */
-  public int get(int index) {
+  public long get(int index) {
     Preconditions.checkElementIndex(index, length());
     return array[start + index];
   }
@@ -367,7 +340,7 @@ public final class ImmutableIntArray implements Serializable {
    * Returns the smallest index for which {@link #get} returns {@code target}, or {@code -1} if no
    * such index exists. Equivalent to {@code asList().indexOf(target)}.
    */
-  public int indexOf(int target) {
+  public int indexOf(long target) {
     for (int i = start; i < end; i++) {
       if (array[i] == target) {
         return i - start;
@@ -380,7 +353,7 @@ public final class ImmutableIntArray implements Serializable {
    * Returns the largest index for which {@link #get} returns {@code target}, or {@code -1} if no
    * such index exists. Equivalent to {@code asList().lastIndexOf(target)}.
    */
-  public int lastIndexOf(int target) {
+  public int lastIndexOf(long target) {
     for (int i = end - 1; i >= start; i--) {
       if (array[i] == target) {
         return i - start;
@@ -393,25 +366,12 @@ public final class ImmutableIntArray implements Serializable {
    * Returns {@code true} if {@code target} is present at any index in this array. Equivalent to
    * {@code asList().contains(target)}.
    */
-  public boolean contains(int target) {
+  public boolean contains(long target) {
     return indexOf(target) >= 0;
   }
 
-  /** Invokes {@code consumer} for each value contained in this array, in order. */
-  public void forEach(IntConsumer consumer) {
-    checkNotNull(consumer);
-    for (int i = start; i < end; i++) {
-      consumer.accept(array[i]);
-    }
-  }
-
-  /** Returns a stream over the values in this array, in order. */
-  public IntStream stream() {
-    return Arrays.stream(array, start, end);
-  }
-
-  /** Returns a new, mutable copy of this array's values, as a primitive {@code int[]}. */
-  public int[] toArray() {
+  /** Returns a new, mutable copy of this array's values, as a primitive {@code long[]}. */
+  public long[] toArray() {
     return Arrays.copyOfRange(array, start, end);
   }
 
@@ -422,25 +382,21 @@ public final class ImmutableIntArray implements Serializable {
    * does (no actual copying is performed). To reduce memory usage, use {@code subArray(start,
    * end).trimmed()}.
    */
-  public ImmutableIntArray subArray(int startIndex, int endIndex) {
+  public ImmutableLongArray subArray(int startIndex, int endIndex) {
     Preconditions.checkPositionIndexes(startIndex, endIndex, length());
     return startIndex == endIndex
         ? EMPTY
-        : new ImmutableIntArray(array, start + startIndex, start + endIndex);
-  }
-
-  private Spliterator.OfInt spliterator() {
-    return Spliterators.spliterator(array, start, end, Spliterator.IMMUTABLE | Spliterator.ORDERED);
+        : new ImmutableLongArray(array, start + startIndex, start + endIndex);
   }
 
   /**
    * Returns an immutable <i>view</i> of this array's values as a {@code List}; note that {@code
-   * int} values are boxed into {@link Integer} instances on demand, which can be very expensive.
-   * The returned list should be used once and discarded. For any usages beyond than that, pass the
+   * long} values are boxed into {@link Long} instances on demand, which can be very expensive. The
+   * returned list should be used once and discarded. For any usages beyond than that, pass the
    * returned list to {@link com.google.common.collect.ImmutableList#copyOf(Collection)
    * ImmutableList.copyOf} and use that list instead.
    */
-  public List<Integer> asList() {
+  public List<Long> asList() {
     /*
      * Typically we cache this kind of thing, but much repeated use of this view is a performance
      * anti-pattern anyway. If we cache, then everyone pays a price in memory footprint even if
@@ -450,14 +406,14 @@ public final class ImmutableIntArray implements Serializable {
   }
 
   // TODO(kevinb): Serializable
-  static class AsList extends AbstractList<Integer> implements RandomAccess {
-    private final ImmutableIntArray parent;
+  static class AsList extends AbstractList<Long> implements RandomAccess {
+    private final ImmutableLongArray parent;
 
-    private AsList(ImmutableIntArray parent) {
+    private AsList(ImmutableLongArray parent) {
       this.parent = parent;
     }
 
-    // inherit: isEmpty, containsAll, toArray x2, iterator, listIterator, stream, forEach, mutations
+    // inherit: isEmpty, containsAll, toArray x2, iterator, listIterator, mutations
 
     @Override
     public int size() {
@@ -465,7 +421,7 @@ public final class ImmutableIntArray implements Serializable {
     }
 
     @Override
-    public Integer get(int index) {
+    public Long get(int index) {
       return parent.get(index);
     }
 
@@ -476,23 +432,17 @@ public final class ImmutableIntArray implements Serializable {
 
     @Override
     public int indexOf(Object target) {
-      return target instanceof Integer ? parent.indexOf((Integer) target) : -1;
+      return target instanceof Long ? parent.indexOf((Long) target) : -1;
     }
 
     @Override
     public int lastIndexOf(Object target) {
-      return target instanceof Integer ? parent.lastIndexOf((Integer) target) : -1;
+      return target instanceof Long ? parent.lastIndexOf((Long) target) : -1;
     }
 
     @Override
-    public List<Integer> subList(int fromIndex, int toIndex) {
+    public List<Long> subList(int fromIndex, int toIndex) {
       return parent.subArray(fromIndex, toIndex).asList();
-    }
-
-    // The default List spliterator is not efficiently splittable
-    @Override
-    public Spliterator<Integer> spliterator() {
-      return parent.spliterator();
     }
 
     @Override
@@ -512,7 +462,7 @@ public final class ImmutableIntArray implements Serializable {
       int i = parent.start;
       // Since `that` is very likely RandomAccess we could avoid allocating this iterator...
       for (Object element : that) {
-        if (!(element instanceof Integer) || parent.array[i++] != (Integer) element) {
+        if (!(element instanceof Long) || parent.array[i++] != (Long) element) {
           return false;
         }
       }
@@ -536,10 +486,10 @@ public final class ImmutableIntArray implements Serializable {
     if (object == this) {
       return true;
     }
-    if (!(object instanceof ImmutableIntArray)) {
+    if (!(object instanceof ImmutableLongArray)) {
       return false;
     }
-    ImmutableIntArray that = (ImmutableIntArray) object;
+    ImmutableLongArray that = (ImmutableLongArray) object;
     if (this.length() != that.length()) {
       return false;
     }
@@ -564,7 +514,7 @@ public final class ImmutableIntArray implements Serializable {
 
   /**
    * Returns a string representation of this array in the same form as {@link
-   * Arrays#toString(int[])}, for example {@code "[1, 2, 3]"}.
+   * Arrays#toString(long[])}, for example {@code "[1, 2, 3]"}.
    */
   @Override
   public String toString() {
@@ -587,8 +537,8 @@ public final class ImmutableIntArray implements Serializable {
    * is a {@link #subArray} view of a larger array, this method will copy only the appropriate range
    * of values, resulting in an equivalent array with a smaller memory footprint.
    */
-  public ImmutableIntArray trimmed() {
-    return isPartialView() ? new ImmutableIntArray(toArray()) : this;
+  public ImmutableLongArray trimmed() {
+    return isPartialView() ? new ImmutableLongArray(toArray()) : this;
   }
 
   private boolean isPartialView() {
