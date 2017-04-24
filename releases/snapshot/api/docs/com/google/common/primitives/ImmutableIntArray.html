@@ -115,7 +115,7 @@ var activeTableTab = "activeTableTab";
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.92">ImmutableIntArray</a>
+public final class <a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.89">ImmutableIntArray</a>
 extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</a></pre>
 <div class="block">An immutable array of <code>int</code> values, with an API resembling <a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util"><code>List</code></a>.
@@ -152,7 +152,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
    <li>Improved memory compactness and locality.
    <li>Can be queried without allocating garbage.
    <li>Access to <code>IntStream</code> features (like <a href="http://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html?is-external=true#sum--" title="class or interface in java.util.stream"><code>IntStream.sum()</code></a>) using <code>stream()</code>
-       instead of the awkward <code>stream().mapToInt(i -&gt; i)</code>.
+       instead of the awkward <code>stream().mapToInt(v -&gt; v)</code>.
  </ul>
 
  <p>Disadvantages compared to <code>ImmutableList&lt;Integer&gt;</code>:
@@ -161,9 +161,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
    <li>Can't be passed directly to methods that expect <code>Iterable</code>, <code>Collection</code>, or
        <code>List</code> (though the most common utilities do have replacements here, and there is a
        lazy <a href="../../../../com/google/common/primitives/ImmutableIntArray.html#asList--"><code>asList()</code></a> view).
- </ul>
-
- <p><b>Note:</b> this class will be forked into <code>ImmutableLongArray</code> and <code>ImmutableDoubleArray</code> once it stabilizes.</div>
+ </ul></div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>22.0</dd>
@@ -430,7 +428,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.96">of</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.93">of</a>()</pre>
 <div class="block">Returns the empty array.</div>
 </li>
 </ul>
@@ -440,7 +438,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.101">of</a>(int&nbsp;e0)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.98">of</a>(int&nbsp;e0)</pre>
 <div class="block">Returns an immutable array containing a single value.</div>
 </li>
 </ul>
@@ -450,7 +448,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.106">of</a>(int&nbsp;e0,
+<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.103">of</a>(int&nbsp;e0,
                                    int&nbsp;e1)</pre>
 <div class="block">Returns an immutable array containing the given values, in order.</div>
 </li>
@@ -461,7 +459,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.111">of</a>(int&nbsp;e0,
+<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.108">of</a>(int&nbsp;e0,
                                    int&nbsp;e1,
                                    int&nbsp;e2)</pre>
 <div class="block">Returns an immutable array containing the given values, in order.</div>
@@ -473,7 +471,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.116">of</a>(int&nbsp;e0,
+<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.113">of</a>(int&nbsp;e0,
                                    int&nbsp;e1,
                                    int&nbsp;e2,
                                    int&nbsp;e3)</pre>
@@ -486,7 +484,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.121">of</a>(int&nbsp;e0,
+<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.118">of</a>(int&nbsp;e0,
                                    int&nbsp;e1,
                                    int&nbsp;e2,
                                    int&nbsp;e3,
@@ -500,7 +498,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.126">of</a>(int&nbsp;e0,
+<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.123">of</a>(int&nbsp;e0,
                                    int&nbsp;e1,
                                    int&nbsp;e2,
                                    int&nbsp;e3,
@@ -515,7 +513,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.135">of</a>(int&nbsp;first,
+<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.132">of</a>(int&nbsp;first,
                                    int...&nbsp;rest)</pre>
 <div class="block">Returns an immutable array containing the given values, in order.</div>
 </li>
@@ -526,7 +524,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.143">copyOf</a>(int[]&nbsp;values)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.140">copyOf</a>(int[]&nbsp;values)</pre>
 <div class="block">Returns an immutable array containing the given values, in order.</div>
 </li>
 </ul>
@@ -536,7 +534,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.148">copyOf</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&gt;&nbsp;values)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.145">copyOf</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&gt;&nbsp;values)</pre>
 <div class="block">Returns an immutable array containing the given values, in order.</div>
 </li>
 </ul>
@@ -546,7 +544,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.159">copyOf</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&gt;&nbsp;values)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.156">copyOf</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&gt;&nbsp;values)</pre>
 <div class="block">Returns an immutable array containing the given values, in order.
 
  <p><b>Performance note:</b> this method delegates to <a href="../../../../com/google/common/primitives/ImmutableIntArray.html#copyOf-java.util.Collection-"><code>copyOf(Collection)</code></a> if <code>values</code> is a <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a>. Otherwise it creates a <a href="../../../../com/google/common/primitives/ImmutableIntArray.html#builder-int-"><code>builder(int)</code></a> and uses <a href="../../../../com/google/common/primitives/ImmutableIntArray.Builder.html#addAll-java.lang.Iterable-"><code>ImmutableIntArray.Builder.addAll(Iterable)</code></a>, with all the performance implications associated with that.</div>
@@ -558,7 +556,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.167">copyOf</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html?is-external=true" title="class or interface in java.util.stream">IntStream</a>&nbsp;stream)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.164">copyOf</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html?is-external=true" title="class or interface in java.util.stream">IntStream</a>&nbsp;stream)</pre>
 <div class="block">Returns an immutable array containing all the values from <code>stream</code>, in order.</div>
 </li>
 </ul>
@@ -568,7 +566,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>builder</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.Builder.html" title="class in com.google.common.primitives">ImmutableIntArray.Builder</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.183">builder</a>(int&nbsp;initialCapacity)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.Builder.html" title="class in com.google.common.primitives">ImmutableIntArray.Builder</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.180">builder</a>(int&nbsp;initialCapacity)</pre>
 <div class="block">Returns a new, empty builder for <a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives"><code>ImmutableIntArray</code></a> instances, sized to hold up to
  <code>initialCapacity</code> values without resizing. The returned builder is not thread-safe.
 
@@ -584,7 +582,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>builder</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.Builder.html" title="class in com.google.common.primitives">ImmutableIntArray.Builder</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.196">builder</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.Builder.html" title="class in com.google.common.primitives">ImmutableIntArray.Builder</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.193">builder</a>()</pre>
 <div class="block">Returns a new, empty builder for <a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives"><code>ImmutableIntArray</code></a> instances, with a default initial
  capacity. The returned builder is not thread-safe.
 
@@ -598,7 +596,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>length</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.349">length</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.346">length</a>()</pre>
 <div class="block">Returns the number of values in this array.</div>
 </li>
 </ul>
@@ -608,7 +606,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.354">isEmpty</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.351">isEmpty</a>()</pre>
 <div class="block">Returns <code>true</code> if there are no values in this array (<a href="../../../../com/google/common/primitives/ImmutableIntArray.html#length--"><code>length()</code></a> is zero).</div>
 </li>
 </ul>
@@ -618,7 +616,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.364">get</a>(int&nbsp;index)</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.361">get</a>(int&nbsp;index)</pre>
 <div class="block">Returns the <code>int</code> value present at the given index.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -633,7 +631,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>indexOf</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.373">indexOf</a>(int&nbsp;target)</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.370">indexOf</a>(int&nbsp;target)</pre>
 <div class="block">Returns the smallest index for which <a href="../../../../com/google/common/primitives/ImmutableIntArray.html#get-int-"><code>get(int)</code></a> returns <code>target</code>, or <code>-1</code> if no
  such index exists. Equivalent to <code>asList().indexOf(target)</code>.</div>
 </li>
@@ -644,7 +642,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>lastIndexOf</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.386">lastIndexOf</a>(int&nbsp;target)</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.383">lastIndexOf</a>(int&nbsp;target)</pre>
 <div class="block">Returns the largest index for which <a href="../../../../com/google/common/primitives/ImmutableIntArray.html#get-int-"><code>get(int)</code></a> returns <code>target</code>, or <code>-1</code> if no
  such index exists. Equivalent to <code>asList().lastIndexOf(target)</code>.</div>
 </li>
@@ -655,7 +653,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.399">contains</a>(int&nbsp;target)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.396">contains</a>(int&nbsp;target)</pre>
 <div class="block">Returns <code>true</code> if <code>target</code> is present at any index in this array. Equivalent to
  <code>asList().contains(target)</code>.</div>
 </li>
@@ -666,7 +664,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>forEach</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.404">forEach</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/IntConsumer.html?is-external=true" title="class or interface in java.util.function">IntConsumer</a>&nbsp;consumer)</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.401">forEach</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/IntConsumer.html?is-external=true" title="class or interface in java.util.function">IntConsumer</a>&nbsp;consumer)</pre>
 <div class="block">Invokes <code>consumer</code> for each value contained in this array, in order.</div>
 </li>
 </ul>
@@ -676,7 +674,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>stream</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html?is-external=true" title="class or interface in java.util.stream">IntStream</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.412">stream</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html?is-external=true" title="class or interface in java.util.stream">IntStream</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.409">stream</a>()</pre>
 <div class="block">Returns a stream over the values in this array, in order.</div>
 </li>
 </ul>
@@ -686,7 +684,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre>public&nbsp;int[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.417">toArray</a>()</pre>
+<pre>public&nbsp;int[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.414">toArray</a>()</pre>
 <div class="block">Returns a new, mutable copy of this array's values, as a primitive <code>int[]</code>.</div>
 </li>
 </ul>
@@ -696,7 +694,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>subArray</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.428">subArray</a>(int&nbsp;startIndex,
+<pre>public&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.425">subArray</a>(int&nbsp;startIndex,
                                   int&nbsp;endIndex)</pre>
 <div class="block">Returns a new immutable array containing the values in the specified range.
 
@@ -711,7 +709,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>asList</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.446">asList</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.443">asList</a>()</pre>
 <div class="block">Returns an immutable <i>view</i> of this array's values as a <code>List</code>; note that <code>int</code> values are boxed into <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang"><code>Integer</code></a> instances on demand, which can be very expensive.
  The returned list should be used once and discarded. For any usages beyond than that, pass the
  returned list to <a href="../../../../com/google/common/collect/ImmutableList.html#copyOf-java.util.Collection-"><code>ImmutableList.copyOf</code></a> and use that list instead.</div>
@@ -723,7 +721,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.538">equals</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.535">equals</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                       <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -737,7 +735,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.559">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.556">hashCode</a>()</pre>
 <div class="block">Returns an unspecified hash code for the contents of this immutable array.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -751,7 +749,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.573">toString</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.570">toString</a>()</pre>
 <div class="block">Returns a string representation of this array in the same form as <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Arrays.html?is-external=true#toString-int:A-" title="class or interface in java.util"><code>Arrays.toString(int[])</code></a>, for example <code>"[1, 2, 3]"</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -765,7 +763,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockListLast">
 <li class="blockList">
 <h4>trimmed</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.593">trimmed</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives">ImmutableIntArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableIntArray.html#line.590">trimmed</a>()</pre>
 <div class="block">Returns an immutable array containing the same values as <code>this</code> array. This is logically
  a no-op, and in some circumstances <code>this</code> itself is returned. However, if this instance
  is a <a href="../../../../com/google/common/primitives/ImmutableIntArray.html#subArray-int-int-"><code>subArray(int, int)</code></a> view of a larger array, this method will copy only the appropriate range
