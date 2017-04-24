@@ -361,8 +361,8 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
           }
         }
         return new ImmutableSortedMap<K, V>(
-            new RegularImmutableSortedSet<K>(ImmutableList.asImmutableList(keys), comparator),
-            ImmutableList.asImmutableList(values));
+            new RegularImmutableSortedSet<K>(ImmutableList.<K>asImmutableList(keys), comparator),
+            ImmutableList.<V>asImmutableList(values));
     }
   }
 

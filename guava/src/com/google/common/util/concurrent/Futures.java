@@ -1093,7 +1093,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     ImmutableList<ListenableFuture<? extends T>> copy = ImmutableList.copyOf(futures);
     ImmutableList.Builder<SettableFuture<T>> delegatesBuilder = ImmutableList.builder();
     for (int i = 0; i < copy.size(); i++) {
-      delegatesBuilder.add(SettableFuture.create());
+      delegatesBuilder.add(SettableFuture.<T>create());
     }
     final ImmutableList<SettableFuture<T>> delegates = delegatesBuilder.build();
 
