@@ -14,12 +14,6 @@
  * limitations under the License.
  */
 
-package com.google.common.reflect;
+package com.google.common.reflect.subpackage;
 
-import com.google.common.testing.AbstractPackageSanityTests;
-
-/**
- * Tests nulls for the entire package.
- */
-
-public class PackageSanityTests extends AbstractPackageSanityTests {}
+public class ClassInSubPackage {}
