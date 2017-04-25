@@ -144,7 +144,9 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
     return (Function) UPPER_BOUND_FN;
   }
 
-  static final Ordering<Range<?>> RANGE_LEX_ORDERING = new RangeLexOrdering();
+  static <C extends Comparable<?>> Ordering<Range<C>> rangeLexOrdering() {
+    return (Ordering<Range<C>>) (Ordering) RangeLexOrdering.INSTANCE;
+  }
 
   static <C extends Comparable<?>> Range<C> create(Cut<C> lowerBound, Cut<C> upperBound) {
     return new Range<C>(lowerBound, upperBound);
@@ -680,6 +682,7 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
    * Needed to serialize sorted collections of Ranges.
    */
   private static class RangeLexOrdering extends Ordering<Range<?>> implements Serializable {
+    static final Ordering<Range<?>> INSTANCE = new RangeLexOrdering();
 
     @Override
     public int compare(Range<?> left, Range<?> right) {
