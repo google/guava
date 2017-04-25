@@ -2333,6 +2333,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       ReferenceEntry<K, V> e;
       ValueReference<K, V> valueReference = null;
       LoadingValueReference<K, V> loadingValueReference = null;
+      ValueReference<K, V> valueReferenceOld = null;
       boolean createNewEntry = true;
       V newValue;
 
@@ -2381,10 +2382,21 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
           e.setValueReference(loadingValueReference);
           table.set(index, e);
         } else {
+          valueReferenceOld = e.getValueReference();
           e.setValueReference(loadingValueReference);
         }
 
-        newValue = loadingValueReference.compute(key, function);
+        try
+        {
+          newValue = loadingValueReference.compute(key, function);
+        } catch (RuntimeException rex) {
+          if (createNewEntry) {
+            removeLoadingValue(key, hash, loadingValueReference);
+          } else {
+            e.setValueReference(valueReferenceOld);
+          }
+          throw rex;
+        }
         if (newValue != null) {
           try {
             return getAndRecordStats(
