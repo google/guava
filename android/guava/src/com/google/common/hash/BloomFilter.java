@@ -290,7 +290,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   }
 
   /**
-   * Creates a {@link BloomFilter BloomFilter<T>} with the expected number of insertions and
+   * Creates a {@link BloomFilter}{@code <T>} with the expected number of insertions and
    * expected false positive probability.
    *
    * <p>Note that overflowing a {@code BloomFilter} with significantly more elements than specified,
@@ -315,7 +315,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   }
 
   /**
-   * Creates a {@link BloomFilter BloomFilter<T>} with the expected number of insertions and
+   * Creates a {@link BloomFilter}{@code <T>} with the expected number of insertions and
    * expected false positive probability.
    *
    * <p>Note that overflowing a {@code BloomFilter} with significantly more elements than specified,
@@ -368,7 +368,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   }
 
   /**
-   * Creates a {@link BloomFilter BloomFilter<T>} with the expected number of insertions and a
+   * Creates a {@link BloomFilter}{@code <T>} with the expected number of insertions and a
    * default expected false positive probability of 3%.
    *
    * <p>Note that overflowing a {@code BloomFilter} with significantly more elements than specified,
@@ -391,7 +391,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   }
 
   /**
-   * Creates a {@link BloomFilter BloomFilter<T>} with the expected number of insertions and a
+   * Creates a {@link BloomFilter}{@code <T>} with the expected number of insertions and a
    * default expected false positive probability of 3%.
    *
    * <p>Note that overflowing a {@code BloomFilter} with significantly more elements than specified,

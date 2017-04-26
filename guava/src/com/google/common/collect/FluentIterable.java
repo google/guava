@@ -298,7 +298,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * <p><b>{@code Stream} equivalent:</b> {@link java.util.stream.Stream#of(Object[])
    * Stream.of(T...)}.
    *
-   * @deprecated Use {@link #from(E[])} instead (but note the differences in mutability). This
+   * @deprecated Use {@link #from(Object[])} instead (but note the differences in mutability). This
    *     method will be removed in Guava release 21.0.
    * @since 18.0
    */

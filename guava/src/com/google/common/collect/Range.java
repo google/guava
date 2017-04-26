@@ -48,6 +48,7 @@ import javax.annotation.Nullable;
  * <blockquote>
  *
  * <table>
+ * <caption>Range Types</caption>
  * <tr><th>Notation        <th>Definition               <th>Factory method
  * <tr><td>{@code (a..b)}  <td>{@code {x | a < x < b}}  <td>{@link Range#open open}
  * <tr><td>{@code [a..b]}  <td>{@code {x | a <= x <= b}}<td>{@link Range#closed closed}
