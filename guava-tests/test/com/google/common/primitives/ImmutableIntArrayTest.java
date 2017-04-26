@@ -99,7 +99,7 @@ public class ImmutableIntArrayTest extends TestCase {
   }
 
   public void testCopyOf_iterable_notCollection_empty() {
-    Iterable<Integer> iterable = iterable(Collections.emptySet());
+    Iterable<Integer> iterable = iterable(Collections.<Integer>emptySet());
     assertThat(ImmutableIntArray.copyOf(iterable)).isSameAs(ImmutableIntArray.of());
   }
 
