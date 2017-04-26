@@ -104,7 +104,7 @@
           <excludePackageNames>com.google.common.base.internal</excludePackageNames>
           <linksource>true</linksource>
           <links>
-            <link>http://docs.oracle.com/javase/8/docs/api/</link>
+            <link>http://docs.oracle.com/javase/7/docs/api/</link>
             <link>http://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/</link>
             <link>http://errorprone.info/api/latest/</link>
             <link>http://static.javadoc.io/com.google.j2objc/j2objc-annotations/1.1/</link>
