@@ -287,7 +287,7 @@
 <span class="sourceLineNo">279</span>    if (ranges.isEmpty()) {<a name="line.279"></a>
 <span class="sourceLineNo">280</span>      return ImmutableSet.of();<a name="line.280"></a>
 <span class="sourceLineNo">281</span>    }<a name="line.281"></a>
-<span class="sourceLineNo">282</span>    return new RegularImmutableSortedSet&lt;Range&lt;C&gt;&gt;(ranges, Range.RANGE_LEX_ORDERING);<a name="line.282"></a>
+<span class="sourceLineNo">282</span>    return new RegularImmutableSortedSet&lt;Range&lt;C&gt;&gt;(ranges, Range.&lt;C&gt;rangeLexOrdering());<a name="line.282"></a>
 <span class="sourceLineNo">283</span>  }<a name="line.283"></a>
 <span class="sourceLineNo">284</span><a name="line.284"></a>
 <span class="sourceLineNo">285</span>  @Override<a name="line.285"></a>
@@ -296,7 +296,7 @@
 <span class="sourceLineNo">288</span>      return ImmutableSet.of();<a name="line.288"></a>
 <span class="sourceLineNo">289</span>    }<a name="line.289"></a>
 <span class="sourceLineNo">290</span>    return new RegularImmutableSortedSet&lt;Range&lt;C&gt;&gt;(<a name="line.290"></a>
-<span class="sourceLineNo">291</span>        ranges.reverse(), Range.RANGE_LEX_ORDERING.reverse());<a name="line.291"></a>
+<span class="sourceLineNo">291</span>        ranges.reverse(), Range.&lt;C&gt;rangeLexOrdering().reverse());<a name="line.291"></a>
 <span class="sourceLineNo">292</span>  }<a name="line.292"></a>
 <span class="sourceLineNo">293</span><a name="line.293"></a>
 <span class="sourceLineNo">294</span>  @LazyInit<a name="line.294"></a>
@@ -772,7 +772,7 @@
 <span class="sourceLineNo">764</span>    public ImmutableRangeSet&lt;C&gt; build() {<a name="line.764"></a>
 <span class="sourceLineNo">765</span>      ImmutableList.Builder&lt;Range&lt;C&gt;&gt; mergedRangesBuilder =<a name="line.765"></a>
 <span class="sourceLineNo">766</span>          new ImmutableList.Builder&lt;Range&lt;C&gt;&gt;(ranges.size());<a name="line.766"></a>
-<span class="sourceLineNo">767</span>      Collections.sort(ranges, Range.RANGE_LEX_ORDERING);<a name="line.767"></a>
+<span class="sourceLineNo">767</span>      Collections.sort(ranges, Range.&lt;C&gt;rangeLexOrdering());<a name="line.767"></a>
 <span class="sourceLineNo">768</span>      PeekingIterator&lt;Range&lt;C&gt;&gt; peekingItr = Iterators.peekingIterator(ranges.iterator());<a name="line.768"></a>
 <span class="sourceLineNo">769</span>      while (peekingItr.hasNext()) {<a name="line.769"></a>
 <span class="sourceLineNo">770</span>        Range&lt;C&gt; range = peekingItr.next();<a name="line.770"></a>

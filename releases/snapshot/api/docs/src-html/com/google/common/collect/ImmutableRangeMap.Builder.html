@@ -134,7 +134,7 @@
 <span class="sourceLineNo">126</span>     * @throws IllegalArgumentException if any two ranges inserted into this builder overlap<a name="line.126"></a>
 <span class="sourceLineNo">127</span>     */<a name="line.127"></a>
 <span class="sourceLineNo">128</span>    public ImmutableRangeMap&lt;K, V&gt; build() {<a name="line.128"></a>
-<span class="sourceLineNo">129</span>      Collections.sort(entries, Range.RANGE_LEX_ORDERING.onKeys());<a name="line.129"></a>
+<span class="sourceLineNo">129</span>      Collections.sort(entries, Range.&lt;K&gt;rangeLexOrdering().onKeys());<a name="line.129"></a>
 <span class="sourceLineNo">130</span>      ImmutableList.Builder&lt;Range&lt;K&gt;&gt; rangesBuilder =<a name="line.130"></a>
 <span class="sourceLineNo">131</span>          new ImmutableList.Builder&lt;Range&lt;K&gt;&gt;(entries.size());<a name="line.131"></a>
 <span class="sourceLineNo">132</span>      ImmutableList.Builder&lt;V&gt; valuesBuilder = new ImmutableList.Builder&lt;V&gt;(entries.size());<a name="line.132"></a>
@@ -274,7 +274,7 @@
 <span class="sourceLineNo">266</span>      return ImmutableMap.of();<a name="line.266"></a>
 <span class="sourceLineNo">267</span>    }<a name="line.267"></a>
 <span class="sourceLineNo">268</span>    RegularImmutableSortedSet&lt;Range&lt;K&gt;&gt; rangeSet =<a name="line.268"></a>
-<span class="sourceLineNo">269</span>        new RegularImmutableSortedSet&lt;Range&lt;K&gt;&gt;(ranges, Range.RANGE_LEX_ORDERING);<a name="line.269"></a>
+<span class="sourceLineNo">269</span>        new RegularImmutableSortedSet&lt;Range&lt;K&gt;&gt;(ranges, Range.&lt;K&gt;rangeLexOrdering());<a name="line.269"></a>
 <span class="sourceLineNo">270</span>    return new ImmutableSortedMap&lt;Range&lt;K&gt;, V&gt;(rangeSet, values);<a name="line.270"></a>
 <span class="sourceLineNo">271</span>  }<a name="line.271"></a>
 <span class="sourceLineNo">272</span><a name="line.272"></a>
@@ -285,7 +285,7 @@
 <span class="sourceLineNo">277</span>    }<a name="line.277"></a>
 <span class="sourceLineNo">278</span>    RegularImmutableSortedSet&lt;Range&lt;K&gt;&gt; rangeSet =<a name="line.278"></a>
 <span class="sourceLineNo">279</span>        new RegularImmutableSortedSet&lt;Range&lt;K&gt;&gt;(<a name="line.279"></a>
-<span class="sourceLineNo">280</span>            ranges.reverse(), Range.RANGE_LEX_ORDERING.reverse());<a name="line.280"></a>
+<span class="sourceLineNo">280</span>            ranges.reverse(), Range.&lt;K&gt;rangeLexOrdering().reverse());<a name="line.280"></a>
 <span class="sourceLineNo">281</span>    return new ImmutableSortedMap&lt;Range&lt;K&gt;, V&gt;(rangeSet, values.reverse());<a name="line.281"></a>
 <span class="sourceLineNo">282</span>  }<a name="line.282"></a>
 <span class="sourceLineNo">283</span><a name="line.283"></a>
