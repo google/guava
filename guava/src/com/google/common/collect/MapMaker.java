@@ -239,6 +239,16 @@ public final class MapMaker {
     return setValueStrength(Strength.WEAK);
   }
 
+  /**
+   * A dummy singleton value type used by {@link Interners}.
+   *
+   * <p>{@link MapMakerInternalMap} can optimize for memory usage in this case; see
+   * {@link MapMakerInternalMap#createWithDummyValues}.
+   */
+  enum Dummy {
+    VALUE
+  }
+
   MapMaker setValueStrength(Strength strength) {
     checkState(valueStrength == null, "Value strength was already set to %s", valueStrength);
     valueStrength = checkNotNull(strength);
@@ -268,15 +278,6 @@ public final class MapMaker {
     if (!useCustomMap) {
       return new ConcurrentHashMap<K, V>(getInitialCapacity(), 0.75f, getConcurrencyLevel());
     }
-    return MapMakerInternalMap.create(this);
-  }
-
-  /**
-   * Returns a MapMakerInternalMap for the benefit of internal callers that use features of that
-   * class not exposed through ConcurrentMap.
-   */
-  @GwtIncompatible // MapMakerInternalMap
-  <K, V> MapMakerInternalMap<K, V, ?, ?> makeCustomMap() {
     return MapMakerInternalMap.create(this);
   }
 

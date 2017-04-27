@@ -50,6 +50,11 @@ final class BenchmarkHelpers {
     String name();
   }
 
+  public interface InternerImplEnum {
+    <E> Interner<E> create(Collection<E> contents);
+    String name();
+  }
+
   public enum SetImpl implements CollectionsImplEnum {
     HashSetImpl {
       @Override
@@ -402,6 +407,29 @@ final class BenchmarkHelpers {
 
     abstract <R extends Comparable<R>, C extends Comparable<C>, V>
         Table<R, C, V> create(Table<R, C, V> contents);
+  }
+
+  public enum InternerImpl implements InternerImplEnum {
+    WeakInternerImpl {
+      @Override
+      public <E> Interner<E> create(Collection<E> contents) {
+        Interner<E> interner = Interners.newWeakInterner();
+        for (E e : contents) {
+          interner.intern(e);
+        }
+        return interner;
+      }
+    },
+    StrongInternerImpl {
+      @Override
+      public <E> Interner<E> create(Collection<E> contents) {
+        Interner<E> interner = Interners.newStrongInterner();
+        for (E e : contents) {
+          interner.intern(e);
+        }
+        return interner;
+      }
+    };
   }
 
   public enum Value {
