@@ -165,6 +165,7 @@
           <version>2.8</version>
           <configuration>
             <notimestamp>true</notimestamp>
+            <additionalparam>-Xdoclint:-html</additionalparam>
           </configuration>
           <executions>
             <execution>
