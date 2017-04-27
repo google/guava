@@ -13,12 +13,12 @@ addons:
 
 install:
   - mvn -B install -U -DskipTests=true
-  - cd android && mvn -B install -U -DskipTests=true
+  - mvn -B install -U -DskipTests=true -f android/pom.xml
 
 # https://docs.travis-ci.com/user/common-build-problems/#Build-times-out-because-no-output-was-received
 script:
   - travis_wait 60 mvn -B verify -U -Dmaven.javadoc.skip=true
-  - cd android && travis_wait 60 mvn -B verify -U -Dmaven.javadoc.skip=true
+  - travis_wait 60 mvn -B verify -U -Dmaven.javadoc.skip=true -f android/pom.xml
 
 after_success:
   - util/deploy_snapshot.sh
