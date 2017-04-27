@@ -11,14 +11,10 @@ addons:
     packages:
       - oracle-java8-installer
 
-install:
-  - mvn -B install -U -DskipTests=true
-  - cd android && mvn -B install -U -DskipTests=true
-
 # https://docs.travis-ci.com/user/common-build-problems/#Build-times-out-because-no-output-was-received
 script:
-  - travis_wait 60 mvn -B verify -U -Dmaven.javadoc.skip=true
-  - cd android && travis_wait 60 mvn -B verify -U -Dmaven.javadoc.skip=true
+  - ls
+  - echo $(pwd)
 
 after_success:
   - util/deploy_snapshot.sh
