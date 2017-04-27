@@ -102,8 +102,8 @@
 <span class="sourceLineNo">094</span> * convenient shortcut methods defined directly on {@link HashFunction} to make this easier.<a name="line.94"></a>
 <span class="sourceLineNo">095</span> *<a name="line.95"></a>
 <span class="sourceLineNo">096</span> * &lt;p&gt;Hasher accepts primitive data types, but can also accept any Object of type {@code<a name="line.96"></a>
-<span class="sourceLineNo">097</span> * T} provided that you implement a {@link Funnel Funnel&lt;T&gt;} to specify how to "feed" data from that<a name="line.97"></a>
-<span class="sourceLineNo">098</span> * object into the function. (See {@linkplain Hasher#putObject an example} of this.)<a name="line.98"></a>
+<span class="sourceLineNo">097</span> * T} provided that you implement a {@link Funnel}{@code &lt;T&gt;} to specify how to "feed" data from<a name="line.97"></a>
+<span class="sourceLineNo">098</span> * that object into the function. (See {@linkplain Hasher#putObject an example} of this.)<a name="line.98"></a>
 <span class="sourceLineNo">099</span> *<a name="line.99"></a>
 <span class="sourceLineNo">100</span> * &lt;p&gt;&lt;b&gt;Compatibility note:&lt;/b&gt; Throughout this API, multibyte values are always interpreted in<a name="line.100"></a>
 <span class="sourceLineNo">101</span> * &lt;i&gt;little-endian&lt;/i&gt; order. That is, hashing the byte array {@code {0x01, 0x02, 0x03, 0x04}} is<a name="line.101"></a>

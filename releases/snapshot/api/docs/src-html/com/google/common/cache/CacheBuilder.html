@@ -399,9 +399,9 @@
 <span class="sourceLineNo">391</span>   * Specifies the maximum number of entries the cache may contain.<a name="line.391"></a>
 <span class="sourceLineNo">392</span>   *<a name="line.392"></a>
 <span class="sourceLineNo">393</span>   * &lt;p&gt;Note that the cache &lt;b&gt;may evict an entry before this limit is exceeded&lt;/b&gt;. For example, in<a name="line.393"></a>
-<span class="sourceLineNo">394</span>   * the current implementation, when {@concurrencyLevel} is greater than {@code 1}, each resulting<a name="line.394"></a>
-<span class="sourceLineNo">395</span>   * segment inside the cache &lt;i&gt;independently&lt;/i&gt; limits its own size to approximately {@code<a name="line.395"></a>
-<span class="sourceLineNo">396</span>   * maximumSize / concurrencyLevel}.<a name="line.396"></a>
+<span class="sourceLineNo">394</span>   * the current implementation, when {@code concurrencyLevel} is greater than {@code 1}, each<a name="line.394"></a>
+<span class="sourceLineNo">395</span>   * resulting segment inside the cache &lt;i&gt;independently&lt;/i&gt; limits its own size to approximately<a name="line.395"></a>
+<span class="sourceLineNo">396</span>   * {@code maximumSize / concurrencyLevel}.<a name="line.396"></a>
 <span class="sourceLineNo">397</span>   *<a name="line.397"></a>
 <span class="sourceLineNo">398</span>   * &lt;p&gt;When eviction is necessary, the cache evicts entries that are less likely to be used again.<a name="line.398"></a>
 <span class="sourceLineNo">399</span>   * For example, the cache may evict an entry because it hasn't been used recently or very often.<a name="line.399"></a>
@@ -435,9 +435,9 @@
 <span class="sourceLineNo">427</span>   * corresponding call to {@link #weigher} prior to calling {@link #build}.<a name="line.427"></a>
 <span class="sourceLineNo">428</span>   *<a name="line.428"></a>
 <span class="sourceLineNo">429</span>   * &lt;p&gt;Note that the cache &lt;b&gt;may evict an entry before this limit is exceeded&lt;/b&gt;. For example, in<a name="line.429"></a>
-<span class="sourceLineNo">430</span>   * the current implementation, when {@concurrencyLevel} is greater than {@code 1}, each resulting<a name="line.430"></a>
-<span class="sourceLineNo">431</span>   * segment inside the cache &lt;i&gt;independently&lt;/i&gt; limits its own weight to approximately {@code<a name="line.431"></a>
-<span class="sourceLineNo">432</span>   * maximumWeight / concurrencyLevel}.<a name="line.432"></a>
+<span class="sourceLineNo">430</span>   * the current implementation, when {@code concurrencyLevel} is greater than {@code 1}, each<a name="line.430"></a>
+<span class="sourceLineNo">431</span>   * resulting segment inside the cache &lt;i&gt;independently&lt;/i&gt; limits its own weight to approximately<a name="line.431"></a>
+<span class="sourceLineNo">432</span>   * {@code maximumWeight / concurrencyLevel}.<a name="line.432"></a>
 <span class="sourceLineNo">433</span>   *<a name="line.433"></a>
 <span class="sourceLineNo">434</span>   * &lt;p&gt;When eviction is necessary, the cache evicts entries that are less likely to be used again.<a name="line.434"></a>
 <span class="sourceLineNo">435</span>   * For example, the cache may evict an entry because it hasn't been used recently or very often.<a name="line.435"></a>

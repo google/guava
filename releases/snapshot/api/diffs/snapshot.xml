@@ -7565,9 +7565,9 @@
       <![CDATA[Specifies the maximum number of entries the cache may contain.
 
  <p>Note that the cache <b>may evict an entry before this limit is exceeded</b>. For example, in
- the current implementation, when {@concurrencyLevel} is greater than {@code 1}, each resulting
- segment inside the cache <i>independently</i> limits its own size to approximately {@code
- maximumSize / concurrencyLevel}.
+ the current implementation, when {@code concurrencyLevel} is greater than {@code 1}, each
+ resulting segment inside the cache <i>independently</i> limits its own size to approximately
+ {@code maximumSize / concurrencyLevel}.
 
  <p>When eviction is necessary, the cache evicts entries that are less likely to be used again.
  For example, the cache may evict an entry because it hasn't been used recently or very often.
@@ -7594,9 +7594,9 @@
  corresponding call to {@link #weigher} prior to calling {@link #build}.
 
  <p>Note that the cache <b>may evict an entry before this limit is exceeded</b>. For example, in
- the current implementation, when {@concurrencyLevel} is greater than {@code 1}, each resulting
- segment inside the cache <i>independently</i> limits its own weight to approximately {@code
- maximumWeight / concurrencyLevel}.
+ the current implementation, when {@code concurrencyLevel} is greater than {@code 1}, each
+ resulting segment inside the cache <i>independently</i> limits its own weight to approximately
+ {@code maximumWeight / concurrencyLevel}.
 
  <p>When eviction is necessary, the cache evicts entries that are less likely to be used again.
  For example, the cache may evict an entry because it hasn't been used recently or very often.
@@ -11466,7 +11466,7 @@
     <method name="of" return="com.google.common.collect.FluentIterable&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Use {@link #from(E[])} instead (but note the differences in mutability). This
+      deprecated="Use {@link #from(Object[])} instead (but note the differences in mutability). This
      method will be removed in Guava release 21.0.">
       <param name="elements" type="E[]"/>
       <doc>
@@ -11477,7 +11477,7 @@
  <p><b>{@code Stream} equivalent:</b> {@link java.util.stream.Stream#of(Object[])
  Stream.of(T...)}.
 
- @deprecated Use {@link #from(E[])} instead (but note the differences in mutability). This
+ @deprecated Use {@link #from(Object[])} instead (but note the differences in mutability). This
      method will be removed in Guava release 21.0.
  @since 18.0]]>
       </doc>
@@ -29979,7 +29979,7 @@
  collection, by one.
 
  <p>To both add the element and obtain the previous count of that element,
- use {@link #add(E, int) add}{@code (element, 1)} instead.
+ use {@link #add(Object, int) add}{@code (element, 1)} instead.
 
  @param element the element to add one occurrence of; may be null only if
      explicitly allowed by the implementation
@@ -30005,7 +30005,7 @@
  or of the wrong type.
 
  <p>To both remove the element and obtain the previous count of that element,
- use {@link #remove(E, int) remove}{@code (element, 1)} instead.
+ use {@link #remove(Object, int) remove}{@code (element, 1)} instead.
 
  @param element the element to remove one occurrence of
  @return {@code true} if an occurrence was found and removed]]>
@@ -32319,6 +32319,7 @@
  <blockquote>
 
  <table>
+ <caption>Range Types</caption>
  <tr><th>Notation        <th>Definition               <th>Factory method
  <tr><td>{@code (a..b)}  <td>{@code {x | a < x < b}}  <td>{@link Range#open open}
  <tr><td>{@code [a..b]}  <td>{@code {x | a <= x <= b}}<td>{@link Range#closed closed}
@@ -40002,7 +40003,7 @@
       <param name="expectedInsertions" type="int"/>
       <param name="fpp" type="double"/>
       <doc>
-      <![CDATA[Creates a {@link BloomFilter BloomFilter<T>} with the expected number of insertions and
+      <![CDATA[Creates a {@link BloomFilter}{@code <T>} with the expected number of insertions and
  expected false positive probability.
 
  <p>Note that overflowing a {@code BloomFilter} with significantly more elements than specified,
@@ -40030,7 +40031,7 @@
       <param name="expectedInsertions" type="long"/>
       <param name="fpp" type="double"/>
       <doc>
-      <![CDATA[Creates a {@link BloomFilter BloomFilter<T>} with the expected number of insertions and
+      <![CDATA[Creates a {@link BloomFilter}{@code <T>} with the expected number of insertions and
  expected false positive probability.
 
  <p>Note that overflowing a {@code BloomFilter} with significantly more elements than specified,
@@ -40058,7 +40059,7 @@
       <param name="funnel" type="com.google.common.hash.Funnel&lt;? super T&gt;"/>
       <param name="expectedInsertions" type="int"/>
       <doc>
-      <![CDATA[Creates a {@link BloomFilter BloomFilter<T>} with the expected number of insertions and a
+      <![CDATA[Creates a {@link BloomFilter}{@code <T>} with the expected number of insertions and a
  default expected false positive probability of 3%.
 
  <p>Note that overflowing a {@code BloomFilter} with significantly more elements than specified,
@@ -40084,7 +40085,7 @@
       <param name="funnel" type="com.google.common.hash.Funnel&lt;? super T&gt;"/>
       <param name="expectedInsertions" type="long"/>
       <doc>
-      <![CDATA[Creates a {@link BloomFilter BloomFilter<T>} with the expected number of insertions and a
+      <![CDATA[Creates a {@link BloomFilter}{@code <T>} with the expected number of insertions and a
  default expected false positive probability of 3%.
 
  <p>Note that overflowing a {@code BloomFilter} with significantly more elements than specified,
@@ -40858,8 +40859,8 @@
  convenient shortcut methods defined directly on {@link HashFunction} to make this easier.
 
  <p>Hasher accepts primitive data types, but can also accept any Object of type {@code
- T} provided that you implement a {@link Funnel Funnel<T>} to specify how to "feed" data from that
- object into the function. (See {@linkplain Hasher#putObject an example} of this.)
+ T} provided that you implement a {@link Funnel}{@code <T>} to specify how to "feed" data from
+ that object into the function. (See {@linkplain Hasher#putObject an example} of this.)
 
  <p><b>Compatibility note:</b> Throughout this API, multibyte values are always interpreted in
  <i>little-endian</i> order. That is, hashing the byte array {@code {0x01, 0x02, 0x03, 0x04}} is
@@ -42016,6 +42017,7 @@
  {@code x}, but the reverse does not necessarily hold.
 
  <table>
+ <caption>Encodings</caption>
  <tr>
  <th>Encoding
  <th>Alphabet

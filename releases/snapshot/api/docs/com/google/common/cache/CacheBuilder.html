@@ -502,8 +502,9 @@ public static&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.htm
 <div class="block">Specifies the maximum number of entries the cache may contain.
 
  <p>Note that the cache <b>may evict an entry before this limit is exceeded</b>. For example, in
- the current implementation, when  is greater than <code>1</code>, each resulting
- segment inside the cache <i>independently</i> limits its own size to approximately <code>maximumSize / concurrencyLevel</code>.
+ the current implementation, when <code>concurrencyLevel</code> is greater than <code>1</code>, each
+ resulting segment inside the cache <i>independently</i> limits its own size to approximately
+ <code>maximumSize / concurrencyLevel</code>.
 
  <p>When eviction is necessary, the cache evicts entries that are less likely to be used again.
  For example, the cache may evict an entry because it hasn't been used recently or very often.
@@ -536,8 +537,9 @@ public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" titl
  corresponding call to <a href="../../../../com/google/common/cache/CacheBuilder.html#weigher"><code>weigher</code></a> prior to calling <a href="../../../../com/google/common/cache/CacheBuilder.html#build-com.google.common.cache.CacheLoader-"><code>build(com.google.common.cache.CacheLoader&lt;? super K1, V1&gt;)</code></a>.
 
  <p>Note that the cache <b>may evict an entry before this limit is exceeded</b>. For example, in
- the current implementation, when  is greater than <code>1</code>, each resulting
- segment inside the cache <i>independently</i> limits its own weight to approximately <code>maximumWeight / concurrencyLevel</code>.
+ the current implementation, when <code>concurrencyLevel</code> is greater than <code>1</code>, each
+ resulting segment inside the cache <i>independently</i> limits its own weight to approximately
+ <code>maximumWeight / concurrencyLevel</code>.
 
  <p>When eviction is necessary, the cache evicts entries that are less likely to be used again.
  For example, the cache may evict an entry because it hasn't been used recently or very often.
