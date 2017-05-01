@@ -2389,13 +2389,13 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
         try
         {
           newValue = loadingValueReference.compute(key, function);
-        } catch (RuntimeException rex) {
+        } catch (Throwable t) {
           if (createNewEntry) {
             removeLoadingValue(key, hash, loadingValueReference);
           } else {
             e.setValueReference(valueReferenceOld);
           }
-          throw rex;
+          throw t;
         }
         if (newValue != null) {
           try {
