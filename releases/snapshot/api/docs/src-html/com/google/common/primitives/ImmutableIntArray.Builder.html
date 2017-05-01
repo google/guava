@@ -565,7 +565,7 @@
 <span class="sourceLineNo">557</span>    int hash = 1;<a name="line.557"></a>
 <span class="sourceLineNo">558</span>    for (int i = start; i &lt; end; i++) {<a name="line.558"></a>
 <span class="sourceLineNo">559</span>      hash *= 31;<a name="line.559"></a>
-<span class="sourceLineNo">560</span>      hash += array[i];<a name="line.560"></a>
+<span class="sourceLineNo">560</span>      hash += Ints.hashCode(array[i]);<a name="line.560"></a>
 <span class="sourceLineNo">561</span>    }<a name="line.561"></a>
 <span class="sourceLineNo">562</span>    return hash;<a name="line.562"></a>
 <span class="sourceLineNo">563</span>  }<a name="line.563"></a>
