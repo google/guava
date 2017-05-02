@@ -634,9 +634,8 @@ public final class Ints {
    * Parses the specified string as a signed decimal integer value. The ASCII character {@code '-'}
    * (<code>'&#92;u002D'</code>) is recognized as the minus sign.
    *
-   * <p>Unlike {@link Integer#parseInt(String)}, this method returns {@code null} instead of
-   * throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,
-   * and returns {@code null} if non-ASCII digits are present in the string.
+   * This method only accepts ASCII digits, and returns {@code null} if non-ASCII digits 
+   * are present in the string.
    *
    * <p>Note that strings prefixed with ASCII {@code '+'} are rejected, even under JDK 7, despite
    * the change to {@link Integer#parseInt(String)} for that version.
@@ -657,9 +656,8 @@ public final class Ints {
    * Parses the specified string as a signed integer value using the specified radix. The ASCII
    * character {@code '-'} (<code>'&#92;u002D'</code>) is recognized as the minus sign.
    *
-   * <p>Unlike {@link Integer#parseInt(String, int)}, this method returns {@code null} instead of
-   * throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,
-   * and returns {@code null} if non-ASCII digits are present in the string.
+   * This method only accepts ASCII digits, and returns {@code null} if non-ASCII digits 
+   * are present in the string.
    *
    * <p>Note that strings prefixed with ASCII {@code '+'} are rejected, even under JDK 7, despite
    * the change to {@link Integer#parseInt(String, int)} for that version.
