@@ -48517,16 +48517,6 @@
  @since 20.0 (since 10.0 as {@code getHostText})]]>
       </doc>
     </method>
-    <method name="getHostText" return="java.lang.String"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="Use {@link #getHost()} instead. This method is scheduled for removal in Guava 22.0.">
-      <doc>
-      <![CDATA[Old name of {@link #getHost}.
-
- @deprecated Use {@link #getHost()} instead. This method is scheduled for removal in Guava 22.0.]]>
-      </doc>
-    </method>
     <method name="hasPort" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
