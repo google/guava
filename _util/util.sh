@@ -66,8 +66,116 @@ function git_checkout_ref {
   fi
 }
 
-platform=$(uname)
-if [[ $platform == "Linux" ]]; then
+# Expands a release number into a numeric release number than can be directly
+# compared to another expanded release number. Release numbers without a patch
+# release version get expanded to have a ".0" patch release number. Non RC
+# releases all get a final ".1" while "-rcN" releases get ".0N", to ensure that
+# RCs are always considered lower than final versions.
+#
+# If a release ends in "-android", the result will also end in "-android".
+#
+# Examples:
+#
+# - 22.0 -> 22.0.0.1
+# - 22.0.1 -> 22.0.1.1
+# - 22.1-rc1 -> 22.1.0.01
+# - 22.1-rc2 -> 22.1.0.02
+function expand_release {
+  local release="$1"
+
+  if [[ "$release" == "snapshot" ]]; then
+    echo "$release"
+    return
+  fi
+
+  # strip -final suffix if present
+  final=""
+  if [[ "$release" =~ ^(.+)-final$ ]]; then
+    release="${BASH_REMATCH[1]}"
+    final="-final"
+  fi
+
+  # strip -android suffix if present
+  local android=""
+  if [[ "$release" =~ ^(.+)-android$ ]]; then
+    release="${BASH_REMATCH[1]}"
+    android="-android"
+  fi
+
+  rc="100"
+  if [[ "$release" =~ ^(.+)-rc([0-9]+)$ ]]; then
+    # strip and record rc number if present
+    release="${BASH_REMATCH[1]}"
+    rc="0${BASH_REMATCH[2]}"
+  fi
+
+  if [[ "$release" =~ ^[0-9]+\.[0-9]+$ ]]; then
+    release="$release.0"
+  fi
+
+  release="$release.$rc$final$android"
+  echo "$release"
+}
+
+# Converts an expanded release number back to its default form (no patch
+# version if the patch version is 0, RCs converted back to using -rcN).
+function unexpand_release {
+  local release="$1"
+
+  if [[ "$release" == "snapshot" ]]; then
+    echo "$release"
+    return
+  fi
+
+  # strip -final suffix if present
+  final=""
+  if [[ "$release" =~ ^(.+)-final$ ]]; then
+    release="${BASH_REMATCH[1]}"
+    final="-final"
+  fi
+
+  # strip -android suffix if present
+  local android=""
+  if [[ "$release" =~ ^(.+)-android$ ]]; then
+    release="${BASH_REMATCH[1]}"
+    android="-android"
+  fi
+
+  local release_array
+  IFS='.' read -ra release_array <<< "$release"
+  local major="${release_array[0]}"
+  local minor="${release_array[1]}"
+  local patch="${release_array[2]}"
+  local rc="${release_array[3]}"
+
+  local result="$major.$minor"
+  if (( patch != 0 )); then
+    result="$result.$patch"
+  fi
+
+  if [[ "$rc" != "100" ]]; then
+    rc="${rc:1}"
+    result="$result-rc$rc"
+  fi
+
+  result="$result$final$android"
+  echo "$result"
+}
+
+function expand_releases {
+  while read release; do
+    expand_release "$release"
+  done
+}
+
+function unexpand_releases {
+  while read release; do
+    unexpand_release "$release"
+  done
+}
+
+platform="$(uname)"
+if [[ "$platform" == "Linux" ]]; then
   # GNU utils
   extended="-r"
   versionsort="--version-sort"
@@ -77,23 +185,12 @@ else
   versionsort="-g"
 fi
 
-# Sorts all numeric releases from the releases/ directory by version, from
-# greatest version to least. This works as you'd expect, for example:
+# Sorts all numeric releases given on stdin by version, from greatest version to
+# least. This works as you'd expect, for example:
 #
 #   18.0.2 > 18.0.1 > 18.0 > 18.0-rc2 > 18.0-rc1 > 17.1 > 17.0.1 > 17.0
-#
-# This function expects to be run with the working directory at the root of
-# the git tree.
 function sort_releases {
-  # This is all sorts of hacky and I'm sure there's a better way, but it
-  # seems to work as long as we're just dealing with versions like 1.2,
-  # 1.2.3, 1.2-rc1 and 1.2.3-rc1.
-  ls releases | \
-      grep -E ^[0-9]+\.[0-9]+ | \
-      sort -u | \
-      sed $extended -e 's/^([0-9]+\.[0-9]+)$/\1.01/g' -e 's/-rc/!/g' | \
-      sort -r $versionsort | \
-      sed $extended -e 's/!/-rc/g' -e 's/\.01//g'
+  expand_releases | sort -r $versionsort | unexpand_releases
 }
 
 # Gets the major version part of a version number.
@@ -106,28 +203,58 @@ function major_version {
   echo $majorversion
 }
 
-# Prints the highest non-rc release from the sorted list of releases
-# produced by sort_releases. If a release argument is provided, print
-# the highest non-rc release that has a major version that is lower than
-# the given release. For example, given "16.0.1", return "15.0".
+# Prints the highest non-rc release from the sorted list of releases produced
+# by sort_releases. If a release argument is provided, print the highest non-rc
+# release that has a major or minor version that is lower than the given
+# release. For example, given "16.0.1", return "15.0". Given "16.1", return
+# "16.0.1".
+#
+# If the release argument is a "-android" release, only look at other
+# "-android" releases.
 function latest_release {
-  if [[ $# -eq 1 ]]; then
-    ceiling=$(major_version "$1")
+  if [[ $# == 1 ]]; then
+    local ceiling="$1"
   else
-    ceiling=""
+    # This should be safe to ensure it's higher than any Guava version for a
+    # while. =)
+    local ceiling="999.9"
+  fi
+  local non_rc_releases="$(ls releases | grep -v "rc" | grep -v "snapshot")"
+
+  if [[ "$ceiling" =~ ^.+-android$ ]]; then
+    # If the release we're looking at is an android release, only look at other
+    # android releases.
+    non_rc_releases="$(echo "$non_rc_releases" | grep -e "-android")"
   fi
 
-  releases=$(sort_releases)
+  if [[ -z "$non_rc_releases" ]]; then
+    # There are no non-RC releases to compare against (or no android releases).
+    # Print nothing because there is no previous release.
+    return
+  fi
+
+  # Add the release we're looking for to the list, uniqueify, then sort
+  # according to our release sort order.
+  local releases="$((echo "$non_rc_releases" && echo "$ceiling") | sort -u | sort_releases)"
+
+  ceiling_expanded="$(expand_release "$ceiling")"
+  ceiling_major="$(cut -d. -f1 <<< "$ceiling_expanded")"
+  ceiling_minor="$(cut -d. -f2 <<< "$ceiling_expanded")"
+
+  local release
+  local seen_ceiling=1
   for release in $releases; do
-    if [[ ! -z "$ceiling" ]]; then
-      releasemajor=$(major_version "$release")
-      if (( ceiling <= releasemajor )); then
-        continue
+    if [[ "$seen_ceiling" ]]; then
+      release_expanded="$(expand_release "$release")"
+      release_major="$(cut -d. -f1 <<< "$release_expanded")"
+      release_minor="$(cut -d. -f2 <<< "$release_expanded")"
+
+      if (( release_major < ceiling_major || release_minor < ceiling_minor )); then
+        echo "$release"
+        return
       fi
-    fi
-    if [[ ! $release =~ ^.+-rc[0-9]+$ ]]; then
-      echo $release
-      break
+    elif [[ "$release" == "$ceiling" ]]; then
+      seen_ceiling=0
     fi
   done
 }
