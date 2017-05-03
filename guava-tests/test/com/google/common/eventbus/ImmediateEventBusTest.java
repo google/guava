@@ -32,7 +32,7 @@ public class ImmediateEventBusTest extends TestCase {
   static final String FIRST = "one";
   static final Double SECOND = 2.0d;
 
-  final EventBus bus = new ImmediateEventBus("x");
+  final EventBus bus = new ImmediateEventBus("default");
 
   public void testNoReentrantEvents() {
     ReentrantEventsHater hater = new ReentrantEventsHater();
