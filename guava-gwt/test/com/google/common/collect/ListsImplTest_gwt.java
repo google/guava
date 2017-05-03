@@ -18,6 +18,11 @@ public class ListsImplTest_gwt extends com.google.gwt.junit.client.GWTTestCase {
 @Override public String getModuleName() {
   return "com.google.common.collect.testModule";
 }
+public void testAddAllImpl() throws Exception {
+  com.google.common.collect.ListsImplTest testCase = new com.google.common.collect.ListsImplTest();
+  testCase.testAddAllImpl();
+}
+
 public void testEqualsImpl() throws Exception {
   com.google.common.collect.ListsImplTest testCase = new com.google.common.collect.ListsImplTest();
   testCase.testEqualsImpl();
