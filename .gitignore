@@ -15,6 +15,7 @@ out/
 .project
 .settings/
 .metadata/
+.recommenders/
 
 # OS X
 .DS_Store
