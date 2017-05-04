@@ -28,6 +28,8 @@
 #
 #***************************************************************************
 
+exit # temporarily disable this script
+
 set -e -u
 
 # Ensure working dir is the root of the git repo and load util functions.
