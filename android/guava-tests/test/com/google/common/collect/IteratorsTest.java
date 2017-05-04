@@ -782,6 +782,15 @@ public class IteratorsTest extends TestCase {
     }.test();
   }
 
+  public void testConcatPartiallyAdvanced() {
+    Iterator<String> itr1 = Iterators.concat(Iterators.singletonIterator("a"), Iterators.forArray("b", "c"));
+    assertEquals("a", itr1.next());
+    assertEquals("b", itr1.next());
+    Iterator<String> itr2 = Iterators.concat(Iterators.singletonIterator("d"), itr1);
+    assertEquals("d", itr2.next());
+    assertEquals("c", itr2.next());
+  }
+
   /**
    * Illustrates the somewhat bizarre behavior when a null is passed in.
    */

@@ -88,6 +88,11 @@ public void testConcatNested_appendToEnd() throws Exception {
   testCase.testConcatNested_appendToEnd();
 }
 
+public void testConcatPartiallyAdvanced() throws Exception {
+  com.google.common.collect.IteratorsTest testCase = new com.google.common.collect.IteratorsTest();
+  testCase.testConcatPartiallyAdvanced();
+}
+
 public void testConcatVarArgsContainingNull() throws Exception {
   com.google.common.collect.IteratorsTest testCase = new com.google.common.collect.IteratorsTest();
   testCase.testConcatVarArgsContainingNull();

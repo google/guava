@@ -1303,10 +1303,11 @@ public final class Iterators {
           if (iterator instanceof ConcatenatedIterator) {
             ConcatenatedIterator<? extends T> concatIterator =
                 (ConcatenatedIterator<? extends T>) iterator;
-            return getComponentIterators(concatIterator.backingIterator);
-          } else {
-            return Iterators.singletonIterator(iterator);
+            if (!concatIterator.current.hasNext()) {
+              return getComponentIterators(concatIterator.backingIterator);
+            }
           }
+          return Iterators.singletonIterator(iterator);
         }
       };
     }
