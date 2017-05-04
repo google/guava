@@ -28,8 +28,6 @@
 #
 #***************************************************************************
 
-exit # temporarily disable this script
-
 set -e -u
 
 # Ensure working dir is the root of the git repo and load util functions.
@@ -212,14 +210,28 @@ function generate_docs {
     remove_unnecessary_comments "$tempdir/diffs/index.html"
   fi
 
+  # Determine the name to use for this release; for non-snapshots, this is just
+  # the version number. For snapshots, it should be either "snapshot" or
+  # "snapshot-android". This name is used for the directory the results are put
+  # in and for the JDiff XML file.
+  local version_name="$guavaversion"
+  if [[ "$release" == "snapshot" ]]; then
+    if [[ "$dir" == "android" ]]; then
+      version_name="snapshot-android"
+    else
+      version_name="snapshot"
+    fi
+  fi
+
   # Put the generated JDiff XML file in the correct place in the diffs dir.
   remove_unnecessary_comments "$tempdir/Guava_$guavaversion.xml"
-  mv "$tempdir/Guava_$guavaversion.xml" "$tempdir/diffs/$guavaversion.xml"
+  mv "$tempdir/Guava_$guavaversion.xml" "$tempdir/diffs/$version_name.xml"
 
   # Move generated output to the appropriate final directories.
-  docsdir="releases/$guavaversion/api/docs"
+  local releasedir="releases/$version_name"
+  local docsdir="$releasedir/api/docs"
   mkdir -p "$docsdir" && rm -fr "$docsdir"
-  local diffsdir="releases/$guavaversion/api/diffs"
+  local diffsdir="$releasedir/api/diffs"
   mkdir -p "$diffsdir" && rm -fr "$diffsdir"
 
   echo -n "Moving generated Javadoc to $docsdir..."
@@ -233,11 +245,14 @@ function generate_docs {
   rm -fr "$tempdir/*"
 }
 
-for dir in "" "android"; do
-  generate_docs "$dir" "$releaseref"
-done
+generate_docs ""
+git add -A > /dev/null
+git stash save > /dev/null # stash the changes temporarily so we can switch branches
 
-git add . > /dev/null
+generate_docs "android"
+git stash pop > /dev/null # restore the stashed changes
+
+git add -A > /dev/null
 
 # Commit
 if ! git diff --cached --quiet ; then

@@ -88,6 +88,13 @@ function expand_release {
     return
   fi
 
+  # strip -SNAPSHOT suffix if present
+  snapshot=""
+  if [[ "$release" =~ ^(.+)-SNAPSHOT$ ]]; then
+    release="${BASH_REMATCH[1]}"
+    snapshot="-SNAPSHOT"
+  fi
+
   # strip -final suffix if present
   final=""
   if [[ "$release" =~ ^(.+)-final$ ]]; then
@@ -113,7 +120,7 @@ function expand_release {
     release="$release.0"
   fi
 
-  release="$release.$rc$final$android"
+  release="$release.$rc$final$android$snapshot"
   echo "$release"
 }
 
@@ -125,6 +132,13 @@ function unexpand_release {
   if [[ "$release" == "snapshot" ]]; then
     echo "$release"
     return
+  fi
+
+  # strip -SNAPSHOT suffix if present
+  snapshot=""
+  if [[ "$release" =~ ^(.+)-SNAPSHOT$ ]]; then
+    release="${BASH_REMATCH[1]}"
+    snapshot="-SNAPSHOT"
   fi
 
   # strip -final suffix if present
@@ -158,7 +172,7 @@ function unexpand_release {
     result="$result-rc$rc"
   fi
 
-  result="$result$final$android"
+  result="$result$final$android$snapshot"
   echo "$result"
 }
 
@@ -221,7 +235,7 @@ function latest_release {
   fi
   local non_rc_releases="$(ls releases | grep -v "rc" | grep -v "snapshot")"
 
-  if [[ "$ceiling" =~ ^.+-android$ ]]; then
+  if [[ "$ceiling" =~ ^.+-android(-SNAPSHOT)?$ ]]; then
     # If the release we're looking at is an android release, only look at other
     # android releases.
     non_rc_releases="$(echo "$non_rc_releases" | grep -e "-android")"
