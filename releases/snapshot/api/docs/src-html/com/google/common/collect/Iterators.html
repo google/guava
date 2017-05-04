@@ -1311,22 +1311,23 @@
 <span class="sourceLineNo">1303</span>          if (iterator instanceof ConcatenatedIterator) {<a name="line.1303"></a>
 <span class="sourceLineNo">1304</span>            ConcatenatedIterator&lt;? extends T&gt; concatIterator =<a name="line.1304"></a>
 <span class="sourceLineNo">1305</span>                (ConcatenatedIterator&lt;? extends T&gt;) iterator;<a name="line.1305"></a>
-<span class="sourceLineNo">1306</span>            return getComponentIterators(concatIterator.backingIterator);<a name="line.1306"></a>
-<span class="sourceLineNo">1307</span>          } else {<a name="line.1307"></a>
-<span class="sourceLineNo">1308</span>            return Iterators.singletonIterator(iterator);<a name="line.1308"></a>
+<span class="sourceLineNo">1306</span>            if (!concatIterator.current.hasNext()) {<a name="line.1306"></a>
+<span class="sourceLineNo">1307</span>              return getComponentIterators(concatIterator.backingIterator);<a name="line.1307"></a>
+<span class="sourceLineNo">1308</span>            }<a name="line.1308"></a>
 <span class="sourceLineNo">1309</span>          }<a name="line.1309"></a>
-<span class="sourceLineNo">1310</span>        }<a name="line.1310"></a>
-<span class="sourceLineNo">1311</span>      };<a name="line.1311"></a>
-<span class="sourceLineNo">1312</span>    }<a name="line.1312"></a>
-<span class="sourceLineNo">1313</span>  }<a name="line.1313"></a>
-<span class="sourceLineNo">1314</span><a name="line.1314"></a>
-<span class="sourceLineNo">1315</span>  /**<a name="line.1315"></a>
-<span class="sourceLineNo">1316</span>   * Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557<a name="line.1316"></a>
-<span class="sourceLineNo">1317</span>   */<a name="line.1317"></a>
-<span class="sourceLineNo">1318</span>  static &lt;T&gt; ListIterator&lt;T&gt; cast(Iterator&lt;T&gt; iterator) {<a name="line.1318"></a>
-<span class="sourceLineNo">1319</span>    return (ListIterator&lt;T&gt;) iterator;<a name="line.1319"></a>
-<span class="sourceLineNo">1320</span>  }<a name="line.1320"></a>
-<span class="sourceLineNo">1321</span>}<a name="line.1321"></a>
+<span class="sourceLineNo">1310</span>          return Iterators.singletonIterator(iterator);<a name="line.1310"></a>
+<span class="sourceLineNo">1311</span>        }<a name="line.1311"></a>
+<span class="sourceLineNo">1312</span>      };<a name="line.1312"></a>
+<span class="sourceLineNo">1313</span>    }<a name="line.1313"></a>
+<span class="sourceLineNo">1314</span>  }<a name="line.1314"></a>
+<span class="sourceLineNo">1315</span><a name="line.1315"></a>
+<span class="sourceLineNo">1316</span>  /**<a name="line.1316"></a>
+<span class="sourceLineNo">1317</span>   * Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557<a name="line.1317"></a>
+<span class="sourceLineNo">1318</span>   */<a name="line.1318"></a>
+<span class="sourceLineNo">1319</span>  static &lt;T&gt; ListIterator&lt;T&gt; cast(Iterator&lt;T&gt; iterator) {<a name="line.1319"></a>
+<span class="sourceLineNo">1320</span>    return (ListIterator&lt;T&gt;) iterator;<a name="line.1320"></a>
+<span class="sourceLineNo">1321</span>  }<a name="line.1321"></a>
+<span class="sourceLineNo">1322</span>}<a name="line.1322"></a>
 
 
 
