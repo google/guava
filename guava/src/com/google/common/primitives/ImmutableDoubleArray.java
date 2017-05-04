@@ -454,8 +454,7 @@ public final class ImmutableDoubleArray implements Serializable {
     return new AsList(this);
   }
 
-  // TODO(kevinb): Serializable
-  static class AsList extends AbstractList<Double> implements RandomAccess {
+  static class AsList extends AbstractList<Double> implements RandomAccess, Serializable {
     private final ImmutableDoubleArray parent;
 
     private AsList(ImmutableDoubleArray parent) {

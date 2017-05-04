@@ -403,8 +403,7 @@ public final class ImmutableIntArray implements Serializable {
     return new AsList(this);
   }
 
-  // TODO(kevinb): Serializable
-  static class AsList extends AbstractList<Integer> implements RandomAccess {
+  static class AsList extends AbstractList<Integer> implements RandomAccess, Serializable {
     private final ImmutableIntArray parent;
 
     private AsList(ImmutableIntArray parent) {

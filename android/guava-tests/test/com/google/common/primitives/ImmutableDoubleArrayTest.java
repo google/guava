@@ -444,7 +444,8 @@ public class ImmutableDoubleArrayTest extends TestCase {
                   CollectionSize.SEVERAL,
                   CollectionFeature.ALLOWS_NULL_QUERIES,
                   CollectionFeature.RESTRICTS_ELEMENTS,
-                  CollectionFeature.KNOWN_ORDER /*, SERIALIZABLE_INCLUDING_VIEWS*/)
+                  CollectionFeature.KNOWN_ORDER,
+                  CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS)
               .createTestSuite());
     }
     return suite;
