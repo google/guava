@@ -245,12 +245,22 @@ function generate_docs {
   rm -fr "$tempdir/*"
 }
 
+# Generate docs for normal Guava
 generate_docs ""
-git add -A > /dev/null
-git stash save > /dev/null # stash the changes temporarily so we can switch branches
 
+pop_stash=false
+if ! git diff --cached --quiet ; then
+  # stash the changes temporarily so we can switch branches
+  git stash save > /dev/null
+  pop_stash=true
+fi
+
+# Generate docs for android Guava
 generate_docs "android"
-git stash pop > /dev/null # restore the stashed changes
+
+if [[ "$pop_stash" == true ]]; then
+  git stash pop > /dev/null # restore the stashed changes
+fi
 
 git add -A > /dev/null
 
