@@ -693,8 +693,8 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   }
 
   /**
-   * Like {@link #transform(ListenableFuture, Function)} except that the transformation {@code
-   * function} is invoked on each call to {@link Future#get() get()} on the returned future.
+   * Like {@link #transform(ListenableFuture, Function, Executor)} except that the transformation
+   * {@code function} is invoked on each call to {@link Future#get() get()} on the returned future.
    *
    * <p>The returned {@code Future} reflects the input's cancellation state directly, and any
    * attempt to cancel the returned Future is likewise passed through to the input Future.
@@ -758,22 +758,23 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   /**
    * Returns a new {@code ListenableFuture} whose result is the product of calling {@code get()} on
    * the {@code Future} nested within the given {@code Future}, effectively chaining the futures one
-   * after the other.  Example:
+   * after the other. Example:
    *
-   * <pre>   {@code
-   *   SettableFuture<ListenableFuture<String>> nested = SettableFuture.create();
-   *   ListenableFuture<String> dereferenced = dereference(nested);}</pre>
+   * <pre>{@code
+   * SettableFuture<ListenableFuture<String>> nested = SettableFuture.create();
+   * ListenableFuture<String> dereferenced = dereference(nested);
+   * }</pre>
    *
    * <p>Most users will not need this method. To create a {@code Future} that completes with the
    * result of another {@code Future}, create a {@link SettableFuture}, and call {@link
    * SettableFuture#setFuture setFuture(otherFuture)} on it.
    *
    * <p>{@code dereference} has the same cancellation and execution semantics as {@link
-   * #transformAsync(ListenableFuture, AsyncFunction)}, in that the returned {@code Future}
-   * attempts to keep its cancellation state in sync with both the input {@code Future} and the
-   * nested {@code Future}.  The transformation is very lightweight and therefore takes place in
-   * the same thread (either the thread that called {@code dereference}, or the thread in which
-   * the dereferenced future completes).
+   * #transformAsync(ListenableFuture, AsyncFunction, Executor)}, in that the returned {@code
+   * Future} attempts to keep its cancellation state in sync with both the input {@code Future} and
+   * the nested {@code Future}. The transformation is very lightweight and therefore takes place in
+   * the same thread (either the thread that called {@code dereference}, or the thread in which the
+   * dereferenced future completes).
    *
    * @param nested The nested future to transform.
    * @return A future that holds result of the inner future.

@@ -23,12 +23,11 @@ import com.google.common.base.Function;
 import java.lang.reflect.UndeclaredThrowableException;
 
 /**
- * Unit tests for {@link Futures#transform(ListenableFuture, Function)}.
+ * Unit tests for {@link Futures#transform(ListenableFuture, Function, Executor)}.
  *
  * @author Nishant Thakkar
  */
-public class FuturesTransformTest
-    extends AbstractChainedListenableFutureTest<String> {
+public class FuturesTransformTest extends AbstractChainedListenableFutureTest<String> {
   private static final String RESULT_DATA = "SUCCESS";
 
   @Override protected ListenableFuture<String> buildChainingFuture(
