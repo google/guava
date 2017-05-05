@@ -28,10 +28,10 @@
 #
 #***************************************************************************
 
-set -e -u
+set -eu
 
 # Ensure working dir is the root of the git repo and load util functions.
-cd $(dirname $0)
+cd "$(dirname $0)"
 source _util/util.sh
 
 ensure_no_uncommitted_changes
@@ -41,182 +41,250 @@ if [[ ! $# -eq 1 ]]; then
   echo "Usage: $0 <release>" >&2
   exit 1
 fi
-release=$1
-releaseref="$(git_ref "$release")"
-initialref="$(current_git_ref)"
+
+readonly RELEASE="$1"
+readonly RELEASE_REF="$(git_ref "$RELEASE")"
+readonly INITIAL_REF="$(current_git_ref)"
 
 # Create temp directories and files.
-tempdir="$(mktemp -d -t "guava-$release-temp.XXX")"
-logfile="$(mktemp -t "guava-$release-temp-log.XXX")"
+readonly TEMPDIR="$(mktemp -d -t "guava-$RELEASE-temp.XXX")"
+readonly LOGFILE="$(mktemp -t "guava-$RELEASE-temp-log.XXX")"
+
+readonly FLAVORS=("normal" "android")
+
+readonly JDIFF_PATH="_util/lib/jdiff.jar:_util/lib/xerces-for-jdiff.jar"
 
 # Ensure temp files are cleaned up and we're back on the original branch on exit.
 function cleanup {
   exitcode=$?
   if [[ "$exitcode" == "0" ]]; then
-    rm "$logfile"
+    rm "$LOGFILE"
   else
     # Put a newline in case we're in the middle of a "Do something... Done." line
     echo ""
-    echo "Update failed: see log at '$logfile' for more details." >&2
+    echo "Update failed: see log at '$LOGFILE' for more details." >&2
     # If we failed while not on the original branch/ref, switch back to it.
-    currentref="$(current_git_ref)"
-    if [[ "$currentref" != "$initialref" ]]; then
-      git checkout -q "$initialref"
+    local currentref="$(current_git_ref)"
+    if [[ "$currentref" != "$INITIAL_REF" ]]; then
+      git checkout -q "$INITIAL_REF"
     fi
   fi
-  rm -fr "$tempdir"
+  #rm -fr "$TEMPDIR"
   exit "$exitcode"
 }
 trap cleanup INT TERM EXIT
 
 # Get the sed to use
-sedbinary=sed
+SED=sed
 if [[ -n "$(which gsed)" ]]; then
   # default sed on OS X isn't GNU sed and behaves differently
   # use gsed if it's available
-  sedbinary=gsed
+  SED=gsed
 fi
-
-# Make sure we have all the latest tags
-git fetch --tags
-
 
 # Removes comments that cause unnecessary diffs from JDiff generated files,
 # e.g. command line arguments and date generated.
-function remove_unnecessary_comments {
-  $sedbinary -i -r \
+remove_unnecessary_comments() {
+  "$SED" -i -r \
     -e '/^<!-- on .+ -->$/d' \
     -e '/^<!--\s+Command line arguments .+ -->$/d' $@
 }
 
-# Generates the Javadoc and JDiff for a Guava version.
-function generate_docs {
-  local dir="$1"
+# Generates Javadoc for the given flavor of Guava.
+generate_javadoc() {
+  local flavor="$1"
 
-  # Switch to the git ref for the release to do things with the actual Guava repo.
-  git_checkout_ref "$releaseref"
-
-  if [[ -n "$dir" ]]; then
-    if [[ ! -d "$dir" ]]; then
-      echo "Subdirectory '$dir' does not exist for this version; skipping."
-      git_checkout_ref "$initialref"
+  # Change to android directory if necessary.
+  if [[ "$flavor" == android ]]; then
+    if [[ ! -d android ]]; then
+      # If we're trying to build for the android flavor and the android
+      # directory doesn't exist, just skip this.
       return
     fi
-    cd "$dir" &> /dev/null
+    cd android &> /dev/null
   fi
+
+  mkdir -p "$TEMPDIR/$flavor"
 
   # Get the current Guava version from Maven.
-  local guavaversion="$(guava_version)"
+  local version="$(guava_version)"
+  echo "$version" > "$TEMPDIR/$flavor/VERSION"
 
-  if [[ -z "$dir" ]]; then
-    # non-android version; set global variable
-    GUAVA_VERSION="$guavaversion"
-  fi
+  # Copy source files to the temp dir.
+  cp -r guava/src "$TEMPDIR/$flavor/src"
 
-  echo "Updating Javadoc and JDiff for Guava $guavaversion"
-
-  # Copy source files to a temp dir.
-  cp -r guava/src "$tempdir/src"
-
-  # Compile and generate Javadoc, putting class files in $tempdir/classes and docs in $tempdir/docs.
-
-  echo -n "Compiling and generating Javadoc..."
+  # Compile and generate Javadoc.
+  # Save the build classpath to a file in the tempdir.
+  echo -n "Compiling and generating Javadoc for Guava $version..."
   mvn \
     clean \
     compile \
     javadoc:javadoc \
     dependency:build-classpath \
-    -Dmdep.outputFile="$tempdir/classpath" \
-    -pl guava >> "$logfile" 2>&1
+    -Dmdep.outputFile="$TEMPDIR/$flavor/classpath" \
+    -pl guava >> "$LOGFILE" 2>&1
   echo " Done."
 
-  mv guava/target/classes "$tempdir/classes"
-  mv guava/target/site/apidocs "$tempdir/docs"
+  # Move generated .class and Javadoc files to the temp dir.
+  mv guava/target/classes "$TEMPDIR/$flavor/classes"
+  mv guava/target/site/apidocs "$TEMPDIR/$flavor/docs"
 
-  # Create classpath string for JDiff to use.
-  local classpath="$tempdir/classes:$(cat "$tempdir/classpath")"
-
-  # Cleanup target dir.
+  # Clean up target dir.
   rm -fr guava/target
 
-  if [[ -n "$dir" ]]; then
+  # If we changed directories, go back.
+  if [[ "$flavor" == android ]]; then
     cd - &> /dev/null
   fi
+}
 
-  # Switch back to gh-pages.
-  git_checkout_ref "$initialref"
+# Generates the JDiff XML file for the given flavor.
+generate_jdiff_xml() {
+  local flavor="$1"
+
+  if [[ ! -d "$TEMPDIR/$flavor" ]]; then
+    return
+  fi
+
+  local classpath="$TEMPDIR/$flavor/classes:$(cat "$TEMPDIR/$flavor/classpath")"
+
+  local version="$(cat "$TEMPDIR/$flavor/VERSION")"
 
   # Generate JDiff XML file for the release.
-  echo -n "Generating JDiff XML..."
-  local jdiffpath="_util/lib/jdiff.jar:_util/lib/xerces-for-jdiff.jar"
+  echo -n "Generating JDiff XML for Guava $version..."
   javadoc \
-    -sourcepath "$tempdir/src" \
+    -sourcepath "$TEMPDIR/$flavor/src" \
     -classpath "$classpath" \
     -subpackages com.google.common \
     -encoding UTF-8 \
     -doclet jdiff.JDiff \
-    -docletpath "$jdiffpath" \
-    -apiname "Guava $guavaversion" \
-    -apidir "$tempdir" \
+    -docletpath "$JDIFF_PATH" \
+    -apiname "Guava $version" \
+    -apidir "$TEMPDIR/$flavor" \
     -exclude com.google.common.base.internal \
-    -protected >> "$logfile" 2>&1
+    -protected >> "$LOGFILE" 2>&1
   echo " Done."
 
-  # Get the previous release version to diff against.
-  echo -n "Determining previous release version..."
-  local prevrelease="$(latest_release "$guavaversion")"
+  remove_unnecessary_comments "$TEMPDIR/$flavor/Guava_$version.xml"
+}
 
-  mkdir "$tempdir/diffs"
+# Generates a JDiff report.
+jdiff() {
+  # The location of the root temporary directory for the "to" side where we want
+  # to generate the report.
+  local tempdir="$1"
+  # The other version we're comparing against. We expect that the file
+  # releases/$other_version/api/diffs/$other_version.xml exists.
+  local other="$2"
+  # The name of the directory (under the tempdir) where we'll put the diffs.
+  local output_dir_name="$3"
 
-  if [[ -z "$prevrelease" ]]; then
-    echo " no previous release found."
-  else
-    echo " $prevrelease"
+  local version="$(cat "$tempdir/VERSION")"
 
-    cp "releases/$prevrelease/api/diffs/$prevrelease.xml" "$tempdir/Guava_$prevrelease.xml"
+  local output_dir="$tempdir/$output_dir_name"
+  mkdir "$output_dir"
 
-    # Generate Jdiff report, putting it in $tempdir/diffs
+  cp "releases/$other/api/diffs/$other.xml" "$tempdir/Guava_$other.xml"
 
-    # These are the base paths to Javadoc that will be used in the generated changes html files.
-    # Use paths relative to the directory where those files will go (releases/$release/api/diffs/changes).
-    # releases/$release/api/docs/
-    releasejavadocpath="../../docs/"
-    # releases/$prevrelease/api/docs/
-    prevjavadocpath="../../../../$prevrelease/api/docs/"
+  # These are the base paths to Javadoc that will be used in the generated changes html files.
+  # Use paths relative to the directory where those files will go.
+  local this_release_javadoc_path="../../docs/"
+  local prev_release_javadoc_path="../../../../$other/api/docs/"
 
-    echo -n "Generating JDiff report between Guava $prevrelease and $guavaversion..."
-    javadoc \
-      -subpackages com \
-      -doclet jdiff.JDiff \
-      -docletpath "$jdiffpath" \
-      -oldapi "Guava $prevrelease" \
-      -oldapidir "$tempdir" \
-      -newapi "Guava $guavaversion" \
-      -newapidir "$tempdir" \
-      -javadocold "$prevjavadocpath" \
-      -javadocnew "$releasejavadocpath" \
-      -d "$tempdir/diffs" >> "$logfile" 2>&1
-    echo " Done."
+  echo -n "Generating JDiff report between Guava $other and $version..."
+  javadoc \
+    -subpackages com \
+    -doclet jdiff.JDiff \
+    -docletpath "$JDIFF_PATH" \
+    -oldapi "Guava $other" \
+    -oldapidir "$tempdir" \
+    -newapi "Guava $version" \
+    -newapidir "$tempdir" \
+    -javadocold "$prev_release_javadoc_path" \
+    -javadocnew "$this_release_javadoc_path" \
+    -d "$output_dir" >> "$LOGFILE" 2>&1
+  echo " Done."
 
-    # Make changes to the JDiff output
-    # Remove the useless user comments xml file
-    rm $tempdir/diffs/user_comments_for_Guava_*
+  # Make changes to the JDiff output.
 
-    # Change changes.html to index.html, making the url for a diff just releases/<release>/api/diffs/
-    mv "$tempdir/diffs/changes.html" "$tempdir/diffs/index.html"
-    # Change references to ../changes.html in the changes/ subdirectory  to reference the new URL (just ..)
-    find "$tempdir/diffs/changes" -name "*.html" -exec "$sedbinary" -i -re 's#\.\./changes.html#..#g' {} ";"
+  # Remove the useless user comments xml file.
+  rm $output_dir/user_comments_for_Guava_*
+  # Change changes.html to index.html, making the url for a diff just releases/<release>/api/diffs/
+  mv "$output_dir/changes.html" "$output_dir/index.html"
+  # Change references to ../changes.html in the changes/ subdirectory  to reference the new URL (just ..)
+  find "$output_dir/changes" -name "*.html" -exec "$SED" -i -re 's#\.\./changes.html#..#g' {} ";"
 
-    remove_unnecessary_comments "$tempdir/diffs/index.html"
+  remove_unnecessary_comments "$output_dir/index.html"
+}
+
+# Generates the JDiff report comparing the current version to the previous
+# release version for the given flavor.
+jdiff_vs_previous_release() {
+  local flavor="$1"
+
+  if [[ ! -d "$TEMPDIR/$flavor" ]]; then
+    return
   fi
+
+  local version="$(cat "$TEMPDIR/$flavor/VERSION")"
+
+  echo -n "Determining previous release version for Guava $version..."
+  local prev_release="$(latest_release "$version")"
+
+  if [[ "$flavor" == android ]] && [[ -z "$prev_release" ]]; then
+    # This should really only matter for the first -android release. Diff it
+    # against 20.0, which was the previous release that was runnable on Android.
+    prev_release="20.0"
+  fi
+
+  if [[ -z "$prev_release" ]]; then
+    # Probably shouldn't ever happen, but if it does... we can't generated a
+    # diff.
+    echo " no previous release found."
+    return
+  else
+    echo "$prev_release"
+  fi
+
+  jdiff "$TEMPDIR/$flavor" "$prev_release" "diffs"
+}
+
+# Generates the JDiff report comparing the current android version to the
+# current non-android version.
+jdiff_android_vs_non_android() {
+  local normal_version="$(cat "$TEMPDIR/normal/VERSION")"
+
+  # The normal version has already been moved to its final location, so the
+  # jdiff function will be able to find it the same way it finds a previous
+  # version.
+  jdiff "$TEMPDIR/android" "$normal_version" "androiddiffs"
+}
+
+# Given a source directory and target path, moves the source to the target path,
+# ensuring that parent directories exist (if necessary) and that any existing
+# directory at that path is deleted first.
+clean_directory_move() {
+  local src="$1"
+  local target="$2"
+
+  mkdir -p "$target"
+  rm -fr "$target"
+  mv "$src" "$target"
+}
+
+# Moves generated files for the given flavor to their proper location.
+move_generated_files() {
+  local flavor="$1"
+
+  local version="$(cat "$TEMPDIR/$flavor/VERSION")"
 
   # Determine the name to use for this release; for non-snapshots, this is just
   # the version number. For snapshots, it should be either "snapshot" or
   # "snapshot-android". This name is used for the directory the results are put
   # in and for the JDiff XML file.
-  local version_name="$guavaversion"
-  if [[ "$release" == "snapshot" ]]; then
-    if [[ "$dir" == "android" ]]; then
+  local version_name="$version"
+  if [[ "$RELEASE" == snapshot ]]; then
+    if [[ "$flavor" == android ]]; then
       version_name="snapshot-android"
     else
       version_name="snapshot"
@@ -224,73 +292,121 @@ function generate_docs {
   fi
 
   # Put the generated JDiff XML file in the correct place in the diffs dir.
-  remove_unnecessary_comments "$tempdir/Guava_$guavaversion.xml"
-  mv "$tempdir/Guava_$guavaversion.xml" "$tempdir/diffs/$version_name.xml"
+  mv "$TEMPDIR/$flavor/Guava_$version.xml" "$TEMPDIR/$flavor/diffs/$version_name.xml"
 
   # Move generated output to the appropriate final directories.
   local releasedir="releases/$version_name"
-  local docsdir="$releasedir/api/docs"
-  mkdir -p "$docsdir" && rm -fr "$docsdir"
-  local diffsdir="$releasedir/api/diffs"
-  mkdir -p "$diffsdir" && rm -fr "$diffsdir"
 
-  echo -n "Moving generated Javadoc to $docsdir..."
-  mv "$tempdir/docs" "$docsdir"
+  echo -n "Moving generated Javadoc to $releasedir/api/docs..."
+  clean_directory_move "$TEMPDIR/$flavor/docs" "$releasedir/api/docs"
   echo " Done."
 
-  echo -n "Moving generated JDiff to $diffsdir..."
-  mv "$tempdir/diffs" "$diffsdir"
+  echo -n "Moving generated JDiff to $releasedir/api/diffs..."
+  clean_directory_move "$TEMPDIR/$flavor/diffs" "$releasedir/api/diffs"
   echo " Done."
 
-  rm -fr "$tempdir/*"
+  if [[ -d "$TEMPDIR/$flavor/androiddiffs" ]]; then
+    # Android vs. non-android diffs exist for this (android) flavor... move them
+    # too.
+    echo -n "Moving generated Android JDiff to $releasedir/api/androiddiffs..."
+    clean_directory_move "$TEMPDIR/$flavor/androiddiffs" "$releasedir/api/androiddiffs"
+    echo " Done."
+  fi
 }
 
-# Generate docs for normal Guava
-generate_docs ""
+# Commits the generated Javadoc and JDiff to git.
+commit_changes() {
+  # Use the non-android version number from maven for the commit message
+  local version="$(cat "$TEMPDIR/normal/VERSION")"
 
-pop_stash=false
-if ! git diff --cached --quiet ; then
-  # stash the changes temporarily so we can switch branches
-  git stash save > /dev/null
-  pop_stash=true
-fi
+  git add -A > /dev/null
 
-# Generate docs for android Guava
-generate_docs "android"
+  # Commit
+  if ! git diff --cached --quiet ; then
+    echo -n "Committing changes..."
+    git commit -q -m "Generate Javadoc and JDiff for Guava $version"
+    echo " Done."
+  else
+    echo "No changes to commit."
+  fi
+}
 
-if [[ "$pop_stash" == true ]]; then
-  git stash pop > /dev/null # restore the stashed changes
-fi
+# Updates the version info (latest_release or latest_snapshot) stored in
+# _config.yml.
+update_config_yml() {
+  if [[ "$RELEASE" == "snapshot" ]]; then
+    fieldtoupdate="latest_snapshot"
+    version="$(cat "$TEMPDIR/normal/VERSION")"
+  else
+    fieldtoupdate="latest_release"
+    # The release being updated currently may not be the latest release.
+    version="$(latest_release)"
+  fi
 
-git add -A > /dev/null
+  "$SED" -i'' -re "s/$fieldtoupdate:[ ]+.+/$fieldtoupdate: $version/g" _config.yml
 
-# Commit
-if ! git diff --cached --quiet ; then
-  echo -n "Committing changes..."
-  git commit -q -m "Generate Javadoc and JDiff for Guava $GUAVA_VERSION"
-  echo " Done."
-else
-  echo "No changes to commit."
-fi
+  git add _config.yml > /dev/null
 
-# Update version info in _config.yml
-if [[ $release == "snapshot" ]]; then
-  fieldtoupdate="latest_snapshot"
-  version="$GUAVA_VERSION"
-else
-  fieldtoupdate="latest_release"
-  # The release being updated currently may not be the latest release.
-  version="$(latest_release)"
-fi
+  if ! git diff --cached --quiet ; then
+    echo -n "Updating $fieldtoupdate in _config.yml to $version..."
+    git commit -q -m "Update $fieldtoupdate version to $version"
+    echo " Done."
+  fi
+}
 
-$sedbinary -i'' -re "s/$fieldtoupdate:[ ]+.+/$fieldtoupdate: $version/g" _config.yml
+# Main function actually run the process.
+main() {
+  # Make sure we have all the latest tags
+  git fetch --tags
 
-git add _config.yml > /dev/null
+  # Checkout the git ref (release tag or master) for the version of guava that
+  # we're building docs for and do everything that needs to be done there. The
+  # temp dir should contain the following after this is done:
+  #
+  # normal/
+  #   VERSION    # file containing only the version number from Maven
+  #   classpath  # file containing the classpath for building
+  #   src/       # all guava srcs for the flavor
+  #   classes/   # all generated .class files for the flavor
+  #   docs/      # generated javadoc for the flavor
+  # android/     # only if an android flavor exists for the version
+  #   VERSION
+  #   classpath
+  #   src/
+  #   classes/
+  #   docs/
+  git_checkout_ref "$RELEASE_REF"
+  for flavor in "${FLAVORS[@]}"; do
+    generate_javadoc "$flavor"
+  done
+  git_checkout_ref "$INITIAL_REF"
 
-if ! git diff --cached --quiet ; then
-  echo -n "Updating $fieldtoupdate in _config.yml to $version..."
-  git commit -q -m "Update $fieldtoupdate version to $version"
-  echo " Done."
-fi
+  # Back on gh-pages branch
 
-echo "Update succeeded."
+  # Generate the JDiff XML file for each flavor and diff it against the previous
+  # release for the flavor.
+  for flavor in "${FLAVORS[@]}"; do
+    generate_jdiff_xml "$flavor"
+    jdiff_vs_previous_release "$flavor"
+  done
+
+  # Move the generated files for the non-android flavor only to their final
+  # location. If there's an android flavor, there's one more thing we need to do
+  # with it.
+  move_generated_files "normal"
+
+  if [[ -d "$TEMPDIR/android" ]]; then
+    # If the android flavor exists for this version, we want to diff it against
+    # the non-android version.
+    jdiff_android_vs_non_android
+    move_generated_files "android"
+  fi
+
+  commit_changes
+  update_config_yml
+
+  echo "Update succeeded."
+}
+
+main
+
