@@ -441,7 +441,7 @@ public final class ImmutableDoubleArray implements Serializable {
   /**
    * Returns an immutable <i>view</i> of this array's values as a {@code List}; note that {@code
    * double} values are boxed into {@link Double} instances on demand, which can be very expensive.
-   * The returned list should be used once and discarded. For any usages beyond than that, pass the
+   * The returned list should be used once and discarded. For any usages beyond that, pass the
    * returned list to {@link com.google.common.collect.ImmutableList#copyOf(Collection)
    * ImmutableList.copyOf} and use that list instead.
    */
