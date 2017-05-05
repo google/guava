@@ -179,24 +179,32 @@ jdiff() {
   # The name of the directory (under the tempdir) where we'll put the diffs.
   local output_dir_name="$3"
 
+  # If the other we're diffing against is "snapshot", get its actual version
+  # number to use. This should only happen when generating the diff between
+  # snapshot-android and snapshot.
+  local other_version="$other"
+  if [[ "$other" == snapshot ]]; then
+    other_version="$(cat "$TEMPDIR/normal/VERSION")"
+  fi
+
   local version="$(cat "$tempdir/VERSION")"
 
   local output_dir="$tempdir/$output_dir_name"
   mkdir "$output_dir"
 
-  cp "releases/$other/api/diffs/$other.xml" "$tempdir/Guava_$other.xml"
+  cp "releases/$other/api/diffs/$other.xml" "$tempdir/Guava_$other_version.xml"
 
   # These are the base paths to Javadoc that will be used in the generated changes html files.
   # Use paths relative to the directory where those files will go.
   local this_release_javadoc_path="../../docs/"
   local prev_release_javadoc_path="../../../../$other/api/docs/"
 
-  echo -n "Generating JDiff report between Guava $other and $version..."
+  echo -n "Generating JDiff report between Guava $other_version and $version..."
   javadoc \
     -subpackages com \
     -doclet jdiff.JDiff \
     -docletpath "$JDIFF_PATH" \
-    -oldapi "Guava $other" \
+    -oldapi "Guava $other_version" \
     -oldapidir "$tempdir" \
     -newapi "Guava $version" \
     -newapidir "$tempdir" \
@@ -252,7 +260,12 @@ jdiff_vs_previous_release() {
 # Generates the JDiff report comparing the current android version to the
 # current non-android version.
 jdiff_android_vs_non_android() {
-  local normal_version="$(cat "$TEMPDIR/normal/VERSION")"
+  local normal_version
+  if [[ "$RELEASE" == "snapshot" ]]; then
+    normal_version="snapshot"
+  else
+    normal_version="$(cat "$TEMPDIR/normal/VERSION")"
+  fi
 
   # The normal version has already been moved to its final location, so the
   # jdiff function will be able to find it the same way it finds a previous
