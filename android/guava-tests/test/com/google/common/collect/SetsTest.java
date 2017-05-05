@@ -31,6 +31,7 @@ import static java.util.Collections.singleton;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Predicate;
 import com.google.common.collect.testing.AnEnum;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.MinimalIterable;
@@ -971,6 +972,33 @@ public class SetsTest extends TestCase {
 
   private static void checkHashCode(Set<?> set) {
     assertEquals(Sets.newHashSet(set).hashCode(), set.hashCode());
+  }
+
+  public void testCombinations() {
+    ImmutableList<Set<Integer>> sampleSets =
+        ImmutableList.<Set<Integer>>of(
+            ImmutableSet.<Integer>of(),
+            ImmutableSet.of(1, 2),
+            ImmutableSet.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+    for (Set<Integer> sampleSet : sampleSets) {
+      for (int k = 0; k <= sampleSet.size(); k++) {
+        final int size = k;
+        Set<Set<Integer>> expected =
+            Sets.filter(
+                Sets.powerSet(sampleSet),
+                new Predicate<Set<Integer>>() {
+
+                  @Override
+                  public boolean apply(Set<Integer> input) {
+                    return input.size() == size;
+                  }
+                });
+        assertThat(Sets.combinations(sampleSet, k))
+            .named("Sets.combinations(%s, %s)", sampleSet, k)
+            .containsExactlyElementsIn(expected)
+            .inOrder();
+      }
+    }
   }
 
   private static <E> Set<E> set(E... elements) {
