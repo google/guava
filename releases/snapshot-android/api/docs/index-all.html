@@ -3350,6 +3350,10 @@
  for
  XML.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Sets.html#combinations-java.util.Set-int-">combinations(Set&lt;E&gt;, int)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Sets.html" title="class in com.google.common.collect">Sets</a></dt>
+<dd>
+<div class="block">Returns the set of all subsets of <code>set</code> of size <code>size</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/hash/Hashing.html#combineOrdered-java.lang.Iterable-">combineOrdered(Iterable&lt;HashCode&gt;)</a></span> - Static method in class com.google.common.hash.<a href="com/google/common/hash/Hashing.html" title="class in com.google.common.hash">Hashing</a></dt>
 <dd>
 <div class="block">Returns a hash code, having the same bit length as each of the input hash codes, that combines
@@ -10207,7 +10211,8 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#lazyTransform-java.util.concurrent.Future-com.google.common.base.Function-">lazyTransform(Future&lt;I&gt;, Function&lt;? super I, ? extends O&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>
-<div class="block">Like <a href="com/google/common/util/concurrent/Futures.html#transform-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-"><code>Futures.transform(ListenableFuture, Function)</code></a> except that the transformation <code>function</code> is invoked on each call to <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#get--" title="class or interface in java.util.concurrent"><code>get()</code></a> on the returned future.</div>
+<div class="block">Like <a href="com/google/common/util/concurrent/Futures.html#transform-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-java.util.concurrent.Executor-"><code>Futures.transform(ListenableFuture, Function, Executor)</code></a> except that the transformation
+ <code>function</code> is invoked on each call to <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#get--" title="class or interface in java.util.concurrent"><code>get()</code></a> on the returned future.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Striped.html#lazyWeakLock-int-">lazyWeakLock(int)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Striped.html" title="class in com.google.common.util.concurrent">Striped</a></dt>
 <dd>

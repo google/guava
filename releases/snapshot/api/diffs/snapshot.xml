@@ -25986,9 +25986,9 @@
  all optional operations of the ConcurrentMap interface. It does not permit
  null keys or values. It is serializable.
 
- <p>This is currently accomplished by calling {@link MapMaker#makeMap()}.
+ <p>This is equivalent to {@link MapMaker#makeMap()}.
 
- <p>It is preferable to use {@code MapMaker} directly (rather than through
+ <p>It is often preferable to use {@code MapMaker} directly (rather than through
  this method), as it presents numerous useful configuration options,
  such as the concurrency level, load factor, key/value reference types,
  and value computation.
@@ -33843,6 +33843,37 @@
  @see <a href="http://en.wikipedia.org/wiki/Power_set">Power set article at
       Wikipedia</a>
  @since 4.0]]>
+      </doc>
+    </method>
+    <method name="combinations" return="java.util.Set&lt;java.util.Set&lt;E&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="set" type="java.util.Set&lt;E&gt;"/>
+      <param name="size" type="int"/>
+      <doc>
+      <![CDATA[Returns the set of all subsets of {@code set} of size {@code size}. For example, {@code
+ combinations(ImmutableSet.of(1, 2, 3), 2)} returns the set {@code {{1, 2}, {1, 3}, {2, 3}}}.
+
+ <p>Elements appear in these subsets in the same iteration order as they appeared in the input
+ set. The order in which these subsets appear in the outer set is undefined.
+
+ <p>The returned set and its constituent sets use {@code equals} to decide whether two elements
+ are identical, even if the input set uses a different concept of equivalence.
+
+ <p><i>Performance notes:</i> the memory usage of the returned set is only {@code O(n)}. When
+ the result set is constructed, the input set is merely copied. Only as the result set is
+ iterated are the individual subsets created. Each of these subsets occupies an additional O(n)
+ memory but only for as long as the user retains a reference to it. That is, the set returned by
+ {@code combinations} does not retain the individual subsets.
+
+ @param set the set of elements to take combinations of
+ @param size the number of elements per combination
+ @return the set of all combinations of {@code size} elements from {@code set}
+ @throws IllegalArgumentException if {@code size} is not between 0 and {@code set.size()}
+     inclusive
+ @throws NullPointerException if {@code set} is or contains {@code null}
+ @since 23.0]]>
       </doc>
     </method>
     <method name="unmodifiableNavigableSet" return="java.util.NavigableSet&lt;E&gt;"
@@ -58924,8 +58955,9 @@
  common ways to create a {@code ListenableFuture} include instantiating a {@link SettableFuture},
  submitting a task to a {@link ListeningExecutorService}, and deriving a {@code Future} from an
  existing one, typically using methods like {@link Futures#transform(ListenableFuture,
- com.google.common.base.Function) Futures.transform} and {@link Futures#catching(ListenableFuture,
- Class, com.google.common.base.Function, java.util.concurrent.Executor) Futures.catching}.
+ com.google.common.base.Function, java.util.concurrent.Executor) Futures.transform} and {@link
+ Futures#catching(ListenableFuture, Class, com.google.common.base.Function,
+ java.util.concurrent.Executor) Futures.catching}.
 
  <p>This class implements all methods in {@code ListenableFuture}. Subclasses should provide a way
  to set the result of the computation through the protected methods {@link #set(Object)}, {@link
@@ -62439,8 +62471,8 @@
       <param name="input" type="java.util.concurrent.Future&lt;I&gt;"/>
       <param name="function" type="com.google.common.base.Function&lt;? super I, ? extends O&gt;"/>
       <doc>
-      <![CDATA[Like {@link #transform(ListenableFuture, Function)} except that the transformation {@code
- function} is invoked on each call to {@link Future#get() get()} on the returned future.
+      <![CDATA[Like {@link #transform(ListenableFuture, Function, Executor)} except that the transformation
+ {@code function} is invoked on each call to {@link Future#get() get()} on the returned future.
 
  <p>The returned {@code Future} reflects the input's cancellation state directly, and any
  attempt to cancel the returned Future is likewise passed through to the input Future.
@@ -62467,22 +62499,23 @@
       <doc>
       <![CDATA[Returns a new {@code ListenableFuture} whose result is the product of calling {@code get()} on
  the {@code Future} nested within the given {@code Future}, effectively chaining the futures one
- after the other.  Example:
+ after the other. Example:
 
- <pre>   {@code
-   SettableFuture<ListenableFuture<String>> nested = SettableFuture.create();
-   ListenableFuture<String> dereferenced = dereference(nested);}</pre>
+ <pre>{@code
+ SettableFuture<ListenableFuture<String>> nested = SettableFuture.create();
+ ListenableFuture<String> dereferenced = dereference(nested);
+ }</pre>
 
  <p>Most users will not need this method. To create a {@code Future} that completes with the
  result of another {@code Future}, create a {@link SettableFuture}, and call {@link
  SettableFuture#setFuture setFuture(otherFuture)} on it.
 
  <p>{@code dereference} has the same cancellation and execution semantics as {@link
- #transformAsync(ListenableFuture, AsyncFunction)}, in that the returned {@code Future}
- attempts to keep its cancellation state in sync with both the input {@code Future} and the
- nested {@code Future}.  The transformation is very lightweight and therefore takes place in
- the same thread (either the thread that called {@code dereference}, or the thread in which
- the dereferenced future completes).
+ #transformAsync(ListenableFuture, AsyncFunction, Executor)}, in that the returned {@code
+ Future} attempts to keep its cancellation state in sync with both the input {@code Future} and
+ the nested {@code Future}. The transformation is very lightweight and therefore takes place in
+ the same thread (either the thread that called {@code dereference}, or the thread in which the
+ dereferenced future completes).
 
  @param nested The nested future to transform.
  @return A future that holds result of the inner future.

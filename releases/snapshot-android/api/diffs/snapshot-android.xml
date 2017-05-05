@@ -2033,7 +2033,6 @@
     abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
-    <implements name="java.util.function.BiPredicate&lt;T, T&gt;"/>
     <constructor name="Equivalence"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
@@ -2065,19 +2064,6 @@
  long as neither {@code x} nor {@code y} is modified.]]>
       </doc>
     </method>
-    <method name="test" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="Provided only to satisfy the {@link BiPredicate} interface; use
-     {@link #equivalent} instead.">
-      <param name="t" type="T"/>
-      <param name="u" type="T"/>
-      <doc>
-      <![CDATA[@deprecated Provided only to satisfy the {@link BiPredicate} interface; use
-     {@link #equivalent} instead.
- @since 21.0]]>
-      </doc>
-    </method>
     <method name="doEquivalent" return="boolean"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
@@ -2085,10 +2071,7 @@
       <param name="a" type="T"/>
       <param name="b" type="T"/>
       <doc>
-      <![CDATA[Implemented by the user to determine whether {@code a} and {@code b} are considered
- equivalent, subject to the requirements specified in {@link #equivalent}.
-
- <p>This method should not be called except by {@link #equivalent}. When {@link #equivalent}
+      <![CDATA[<p>This method should not be called except by {@link #equivalent}. When {@link #equivalent}
  calls this method, {@code a} and {@code b} are guaranteed to be distinct, non-null instances.
 
  @since 10.0 (previously, subclasses would override equivalent())]]>
@@ -2233,6 +2216,11 @@
     <![CDATA[A strategy for determining whether two instances are considered equivalent, and for computing
  hash codes in a manner consistent with that equivalence. Two examples of equivalences are the
  {@linkplain #identity() identity equivalence} and the {@linkplain #equals "equals" equivalence}.
+
+ <p><b>For users targeting Android API level 24 or higher:</b> This class will eventually
+ implement {@code BiPredicate<T, T>} (as it does in the main Guava artifact), but we currently
+ target a lower API level. In the meantime, if you have support for method references you can use
+ an equivalence as a bi-predicate like this: {@code myEquivalence::equivalent}.
 
  @author Bob Lee
  @author Ben Yu
@@ -2489,12 +2477,25 @@
   <interface name="Function"    abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
-    <implements name="java.util.function.Function&lt;F, T&gt;"/>
     <method name="apply" return="T"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="input" type="F"/>
+      <doc>
+      <![CDATA[Returns the result of applying this function to {@code input}. This method is <i>generally
+ expected</i>, but not absolutely required, to have the following properties:
+
+ <ul>
+ <li>Its execution does not cause any observable side effects.
+ <li>The computation is <i>consistent with equals</i>; that is, {@link Objects#equal
+     Objects.equal}{@code (a, b)} implies that {@code Objects.equal(function.apply(a),
+     function.apply(b))}.
+ </ul>
+
+ @throws NullPointerException if {@code input} is null and this function does not accept null
+     arguments]]>
+      </doc>
     </method>
     <method name="equals" return="boolean"
       abstract="true" native="false" synchronized="false"
@@ -2514,23 +2515,27 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[Legacy version of {@link java.util.function.Function}.
+    <![CDATA[Determines an output value based on an input value; a pre-Java-8 version of {@code
+ java.util.function.Function}.
 
  <p>The {@link Functions} class provides common functions and related utilities.
 
- <p>As this interface extends {@link java.util.function.Function}, an instance of this type
- can be used as a {@code java.util.function.Function} directly.  To use a
- {@code java.util.function.Function} in a context where a
- {@code com.google.common.base.Function} is needed, use {@code function::apply}.
+ <p>See the Guava User Guide article on
+ <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code
+ Function}</a>.
+
+ <h3>For Java 8+ users</h3>
 
  <p>This interface is now a legacy type. Use {@code java.util.function.Function} (or the
  appropriate primitive specialization such as {@code ToIntFunction}) instead whenever possible.
  Otherwise, at least reduce <i>explicit</i> dependencies on this type by using lambda expressions
  or method references instead of classes, leaving your code easier to migrate in the future.
 
- <p>See the Guava User Guide article on
- <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code
- Function}</a>.
+ <p>To use an existing function (say, named {@code function}) in a context where the <i>other
+ type</i> of function is expected, use the method reference {@code function::apply}. A future
+ version of {@code com.google.common.base.Function} will be made to <i>extend</i> {@code
+ java.util.function.Function}, making conversion code necessary only in one direction. At that
+ time, this interface will be officially discouraged.
 
  @author Kevin Bourrillion
  @since 2.0]]>
@@ -3527,37 +3532,6 @@
  {@code Optional.ofNullable}.]]>
       </doc>
     </method>
-    <method name="fromJavaUtil" return="com.google.common.base.Optional&lt;T&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="javaUtilOptional" type="java.util.Optional&lt;T&gt;"/>
-      <doc>
-      <![CDATA[Returns the equivalent {@code com.google.common.base.Optional} value to the given {@code
- java.util.Optional}, or {@code null} if the argument is null.
-
- @since 21.0]]>
-      </doc>
-    </method>
-    <method name="toJavaUtil" return="java.util.Optional&lt;T&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="googleOptional" type="com.google.common.base.Optional&lt;T&gt;"/>
-      <doc>
-      <![CDATA[Returns the equivalent {@code java.util.Optional} value to the given {@code
- com.google.common.base.Optional}, or {@code null} if the argument is null.
-
- <p>If {@code googleOptional} is known to be non-null, use {@code googleOptional.toJavaUtil()}
- instead.
-
- <p>Unfortunately, the method reference {@code Optional::toJavaUtil} will not work, because it
- could refer to either the static or instance version of this method. Write out the lambda
- expression {@code o -> Optional.toJavaUtil(o)} instead.
-
- @since 21.0]]>
-      </doc>
-    </method>
     <method name="isPresent" return="boolean"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -3704,20 +3678,6 @@
 
  @throws NullPointerException if the function returns {@code null}
  @since 12.0]]>
-      </doc>
-    </method>
-    <method name="toJavaUtil" return="java.util.Optional&lt;T&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns the equivalent {@code java.util.Optional} value to this optional.
-
- <p>Unfortunately, the method reference {@code Optional::toJavaUtil} will not work, because it
- could refer to either the static or instance version of this method. Write out the lambda
- expression {@code o -> o.toJavaUtil()} instead.
-
- @since 21.0]]>
       </doc>
     </method>
     <method name="equals" return="boolean"
@@ -5119,7 +5079,6 @@
   <interface name="Predicate"    abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
-    <implements name="java.util.function.Predicate&lt;T&gt;"/>
     <method name="apply" return="boolean"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -5157,31 +5116,29 @@
  predicates are known <i>not</i> to be interchangeable.]]>
       </doc>
     </method>
-    <method name="test" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="input" type="T"/>
-    </method>
     <doc>
-    <![CDATA[Legacy version of {@link java.util.function.Predicate}.  Determines a true or false value for a
- given input.
-
- <p>As this interface extends {@code java.util.function.Predicate}, an instance of this type may
- be used as a {@code Predicate} directly.  To use a {@code java.util.function.Predicate} where a
- {@code com.google.common.base.Predicate} is expected, use the method reference {@code
- predicate::test}.
-
- <p>This interface is now a legacy type. Use {@code java.util.function.Predicate} (or the
- appropriate primitive specialization such as {@code IntPredicate}) instead whenever possible.
- Otherwise, at least reduce <i>explicit</i> dependencies on this type by using lambda expressions
- or method references instead of classes, leaving your code easier to migrate in the future.
+    <![CDATA[Determines a true or false value for a given input; a pre-Java-8 version of {@code
+ java.util.function.Predicate}.
 
  <p>The {@link Predicates} class provides common predicates and related utilities.
 
  <p>See the Guava User Guide article on
  <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code
  Predicate}</a>.
+
+ <h3>For Java 8+ users</h3>
+
+ <p>This interface is now a legacy type. Use {@code java.util.function.Predicate} (or the
+ appropriate primitive specialization such as {@code IntPredicate}) instead whenever possible.
+ Otherwise, at least reduce <i>explicit</i> dependencies on this type by using lambda expressions
+ or method references instead of classes, leaving your code easier to migrate in the future.
+
+ <p>To use a reference of this type (say, named {@code guavaPredicate}) in a context where {@code
+ java.util.function.Predicate} is expected, use the method reference {@code
+ guavaPredicate::apply}. For the other direction, use {@code javaUtilPredicate::test}. A future
+ version of this interface will be made to <i>extend</i> {@code java.util.function.Predicate}, so
+ that conversion will be necessary in only one direction. At that time, this interface will be
+ officially discouraged.
 
  @author Kevin Bourrillion
  @since 2.0]]>
@@ -5945,25 +5902,10 @@
       <![CDATA[Returns the current elapsed time shown on this stopwatch, expressed in the desired time unit,
  with any fraction rounded down.
 
- <p><b>Note:</b> the overhead of measurement can be more than a microsecond, so it is generally
- not useful to specify {@link TimeUnit#NANOSECONDS} precision here.
-
- <p>It is generally not a good idea to use an ambiguous, unitless {@code long} to represent
- elapsed time. Therefore, we recommend using {@link #elapsed()} instead, which returns a
- strongly-typed {@link Duration} instance.
+ <p>Note that the overhead of measurement can be more than a microsecond, so it is generally not
+ useful to specify {@link TimeUnit#NANOSECONDS} precision here.
 
  @since 14.0 (since 10.0 as {@code elapsedTime()})]]>
-      </doc>
-    </method>
-    <method name="elapsed" return="java.time.Duration"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns the current elapsed time shown on this stopwatch as a {@link Duration}. Unlike {@link
- #elapsed(TimeUnit)}, this method does not lose any precision due to rounding.
-
- @since 22.0]]>
       </doc>
     </method>
     <method name="toString" return="java.lang.String"
@@ -5993,7 +5935,7 @@
  doSomething();
  stopwatch.stop(); // optional
 
- Duration duration = stopwatch.elapsed();
+ long millis = stopwatch.elapsed(MILLISECONDS);
 
  log.info("time: " + stopwatch); // formatted string like "12.3 ms"
  }</pre>
@@ -6181,7 +6123,6 @@
   <interface name="Supplier"    abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
-    <implements name="java.util.function.Supplier&lt;T&gt;"/>
     <method name="get" return="T"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -6194,20 +6135,27 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[Legacy version of {@code java.util.function.Supplier}. Semantically, this could be a factory,
- generator, builder, closure, or something else entirely. No guarantees are implied by this
- interface.
+    <![CDATA[A class that can supply objects of a single type; a pre-Java-8 version of {@code
+ java.util.function.Supplier}. Semantically, this could be a factory, generator, builder,
+ closure, or something else entirely. No guarantees are implied by this interface.
 
  <p>The {@link Suppliers} class provides common suppliers and related utilities.
 
- <p>As this interface extends {@link java.util.function.Supplier}, an instance of this type
- can be used as a {@code java.util.function.Supplier} directly.  To use a
- {@code java.util.function.Supplier} in a context where a
- {@code com.google.common.base.Supplier} is needed, use {@code supplier::get}.
+ <p>See the Guava User Guide article on <a href=
+ "https://github.com/google/guava/wiki/FunctionalExplained">the use of functional types</a>.
 
- <p>See the Guava User Guide article on
- <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code
- Function}</a>.
+ <h3>For Java 8+ users</h3>
+
+ <p>This interface is now a legacy type. Use {@code java.util.function.Supplier} (or the
+ appropriate primitive specialization such as {@code IntSupplier}) instead whenever possible.
+ Otherwise, at least reduce <i>explicit</i> dependencies on this type by using lambda expressions
+ or method references instead of classes, leaving your code easier to migrate in the future.
+
+ <p>To use an existing supplier instance (say, named {@code supplier}) in a context where the
+ <i>other type</i> of supplier is expected, use the method reference {@code supplier::get}. A
+ future version of {@code com.google.common.base.Supplier} will be made to <i>extend</i> {@code
+ java.util.function.Supplier}, making conversion code necessary only in one direction. At that
+ time, this interface will be officially discouraged.
 
  @author Harry Heymann
  @since 2.0]]>
@@ -7438,7 +7386,12 @@
 
  <p>Iterators from the returned map are at least <i>weakly consistent</i>: they are safe for
  concurrent use, but if the cache is modified (including by eviction) after the iterator is
- created, it is undefined which of the changes (if any) will be reflected in that iterator.]]>
+ created, it is undefined which of the changes (if any) will be reflected in that iterator.
+
+ <p><b>Warning to users of Java 8+:</b> do not call any of the new <i>default methods</i> that
+ have been newly added to {@link ConcurrentMap}! These are marked with "Since: 1.8" in the
+ {@code ConcurrentMap} documentation. They will not function correctly and it is impossible for
+ Guava to fix them until Guava is ready to <i>require</i> Java 8 for all users.]]>
       </doc>
     </method>
     <method name="cleanUp"
@@ -10224,85 +10177,6 @@
  this is always true when the iterable has fewer than two elements.]]>
       </doc>
     </method>
-    <method name="least" return="java.util.stream.Collector&lt;T, ?, java.util.List&lt;T&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="k" type="int"/>
-      <param name="comparator" type="java.util.Comparator&lt;? super T&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@code Collector} that returns the {@code k} smallest (relative to the specified
- {@code Comparator}) input elements, in ascending order, as an unmodifiable {@code List}.
- Ties are broken arbitrarily.
-
- For example:
-  <pre>   {@code
-
-   Stream.of("foo", "quux", "banana", "elephant")
-       .collect(least(2, comparingInt(String::length)))
-   // returns {"foo", "quux"}}</pre>
-
- <p>This {@code Collector} uses O(k) memory and takes expected time O(n)
- (worst-case O(n log k)), as opposed to e.g. {@code Stream.sorted(comparator).limit(k)}, which
- currently takes O(n log n) time and O(n) space.
-
- @throws IllegalArgumentException if {@code k < 0}
- @since 22.0]]>
-      </doc>
-    </method>
-    <method name="greatest" return="java.util.stream.Collector&lt;T, ?, java.util.List&lt;T&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="k" type="int"/>
-      <param name="comparator" type="java.util.Comparator&lt;? super T&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@code Collector} that returns the {@code k} greatest (relative to the specified
- {@code Comparator}) input elements, in descending order, as an unmodifiable {@code List}.
- Ties are broken arbitrarily.
-
- For example:
-  <pre>   {@code
-
-   Stream.of("foo", "quux", "banana", "elephant")
-       .collect(greatest(2, comparingInt(String::length)))
-   // returns {"elephant", "banana"}}</pre>
-
- <p>This {@code Collector} uses O(k) memory and takes expected time O(n)
- (worst-case O(n log k)), as opposed to e.g.
- {@code Stream.sorted(comparator.reversed()).limit(k)}, which currently takes O(n log n) time
- and O(n) space.
-
- @throws IllegalArgumentException if {@code k < 0}
- @since 22.0]]>
-      </doc>
-    </method>
-    <method name="emptiesFirst" return="java.util.Comparator&lt;java.util.Optional&lt;T&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="valueComparator" type="java.util.Comparator&lt;T&gt;"/>
-      <doc>
-      <![CDATA[Returns a comparator of {@link Optional} values which treats {@link Optional#empty} as less
- than all other values, and orders the rest using {@code valueComparator} on the contained
- value.
-
- @since 22.0]]>
-      </doc>
-    </method>
-    <method name="emptiesLast" return="java.util.Comparator&lt;java.util.Optional&lt;T&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="valueComparator" type="java.util.Comparator&lt;T&gt;"/>
-      <doc>
-      <![CDATA[Returns a comparator of {@link Optional} values which treats {@link Optional#empty} as greater
- than all other values, and orders the rest using {@code valueComparator} on the contained
- value.
-
- @since 22.0]]>
-      </doc>
-    </method>
     <doc>
     <![CDATA[Provides static methods for working with {@link Comparator} instances. For many other helpful
  comparator utilities, see either {@code Comparator} itself (for Java 8 or later), or
@@ -11073,6 +10947,60 @@
     </doc>
   </class>
   <!-- end class com.google.common.collect.EnumBiMap -->
+  <!-- start class com.google.common.collect.EnumCountHashMap -->
+  <class name="EnumCountHashMap" extends="com.google.common.collect.AbstractObjectCountMap&lt;K&gt;"
+    abstract="false"
+    static="false" final="false" visibility="public"
+    deprecated="not deprecated">
+    <method name="create" return="com.google.common.collect.EnumCountHashMap&lt;K&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="type" type="java.lang.Class&lt;K&gt;"/>
+      <doc>
+      <![CDATA[Creates an empty {@code EnumCountHashMap} instance.]]>
+      </doc>
+    </method>
+    <method name="clear"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+    </method>
+    <method name="containsKey" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="key" type="java.lang.Object"/>
+    </method>
+    <method name="get" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="key" type="java.lang.Object"/>
+    </method>
+    <method name="put" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="key" type="K extends java.lang.Enum&lt;K&gt;"/>
+      <param name="value" type="int"/>
+    </method>
+    <method name="remove" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="key" type="java.lang.Object"/>
+    </method>
+    <method name="hashCode" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+    </method>
+    <doc>
+    <![CDATA[EnumCountHashMap is an implementation of {@code AbstractObjectCountMap} with enum type keys.]]>
+    </doc>
+  </class>
+  <!-- end class com.google.common.collect.EnumCountHashMap -->
   <!-- start class com.google.common.collect.EnumHashBiMap -->
   <class name="EnumHashBiMap" extends="com.google.common.collect.AbstractBiMap&lt;K, V&gt;"
     abstract="false"
@@ -11312,8 +11240,8 @@
       <![CDATA[Returns a fluent iterable that wraps {@code iterable}, or {@code iterable} itself if it is
  already a {@code FluentIterable}.
 
- <p><b>{@code Stream} equivalent:</b> {@link Collection#stream} if {@code iterable} is a
- {@link Collection}; {@link Streams#stream(Iterable)} otherwise.]]>
+ <p><b>{@code Stream} equivalent:</b> {@code iterable.stream()} if {@code iterable} is a
+ {@link Collection}; {@code StreamSupport.stream(iterable.spliterator(), false)} otherwise.]]>
       </doc>
     </method>
     <method name="from" return="com.google.common.collect.FluentIterable&lt;E&gt;"
@@ -11424,8 +11352,8 @@
  iterator supports it.
 
  <p><b>{@code Stream} equivalent:</b> to concatenate an arbitrary number of streams, use {@code
- Stream.of(stream1, stream2, ...).flatMap(s -> s)}. If the sources are iterables, use {@code
- Stream.of(iter1, iter2, ...).flatMap(Streams::stream)}.
+ Stream.of(stream1, stream2, ...).flatMap(s -> s)}. If the sources are iterables, after the next
+ release of Guava you can use {@code Stream.of(iter1, iter2, ...).flatMap(Streams::stream)}.
 
  @throws NullPointerException if any of the provided iterables is {@code null}
  @since 20.0]]>
@@ -11458,7 +11386,7 @@
       <doc>
       <![CDATA[Returns a fluent iterable containing no elements.
 
- <p><b>{@code Stream} equivalent:</b> {@link Stream#empty}.
+ <p><b>{@code Stream} equivalent:</b> {@code Stream.empty()}.
 
  @since 20.0]]>
       </doc>
@@ -11516,7 +11444,7 @@
       <doc>
       <![CDATA[Returns the number of elements in this fluent iterable.
 
- <p><b>{@code Stream} equivalent:</b> {@link Stream#count}.]]>
+ <p><b>{@code Stream} equivalent:</b> {@code stream.count()}.]]>
       </doc>
     </method>
     <method name="contains" return="boolean"
@@ -11777,7 +11705,8 @@
       <![CDATA[Returns an {@code ImmutableList} containing all of the elements from this fluent iterable in
  proper sequence.
 
- <p><b>{@code Stream} equivalent:</b> pass {@link ImmutableList#toImmutableList} to {@code
+ <p><b>{@code Stream} equivalent:</b> {@code ImmutableList.copyOf(stream.iterator())}, or after
+ the next release of Guava, pass {@link ImmutableList#toImmutableList} to {@code
  stream.collect()}.
 
  @throws NullPointerException if any element is {@code null}
@@ -11794,7 +11723,9 @@
  FluentIterable} in the order specified by {@code comparator}. To produce an {@code
  ImmutableList} sorted by its natural ordering, use {@code toSortedList(Ordering.natural())}.
 
- <p><b>{@code Stream} equivalent:</b> pass {@link ImmutableList#toImmutableList} to {@code
+ <p><b>{@code Stream} equivalent:</b> {@code
+ ImmutableList.copyOf(stream.sorted(comparator).iterator())}, or after the next release of
+ Guava, pass {@link ImmutableList#toImmutableList} to {@code
  stream.sorted(comparator).collect()}.
 
  @param comparator the function by which to sort list elements
@@ -11810,7 +11741,8 @@
       <![CDATA[Returns an {@code ImmutableSet} containing all of the elements from this fluent iterable with
  duplicates removed.
 
- <p><b>{@code Stream} equivalent:</b> pass {@link ImmutableSet#toImmutableSet} to {@code
+ <p><b>{@code Stream} equivalent:</b> {@code ImmutableSet.copyOf(stream.iterator())}, or after
+ the next release of Guava, pass {@link ImmutableSet#toImmutableSet} to {@code
  stream.collect()}.
 
  @throws NullPointerException if any element is {@code null}
@@ -11828,7 +11760,8 @@
  {@code comparator.compare(x, y) == 0}) removed. To produce an {@code ImmutableSortedSet} sorted
  by its natural ordering, use {@code toSortedSet(Ordering.natural())}.
 
- <p><b>{@code Stream} equivalent:</b> pass {@link
+ <p><b>{@code Stream} equivalent:</b> {@code ImmutableSortedSet.copyOf(comparator,
+ stream.iterator())}, or after the next release of Guava, pass {@link
  ImmutableSortedSet#toImmutableSortedSet} to {@code stream.collect()}.
 
  @param comparator the function by which to sort set elements
@@ -11843,8 +11776,8 @@
       <doc>
       <![CDATA[Returns an {@code ImmutableMultiset} containing all of the elements from this fluent iterable.
 
- <p><b>{@code Stream} equivalent:</b> pass {@link ImmutableMultiset#toImmutableMultiset} to
- {@code
+ <p><b>{@code Stream} equivalent:</b> {@code ImmutableMultiset.copyOf(stream.iterator())}, or
+ after the next release of Guava, pass {@link ImmutableMultiset#toImmutableMultiset} to {@code
  stream.collect()}.
 
  @throws NullPointerException if any element is null
@@ -11865,8 +11798,10 @@
  {@code valueFunction} will be applied to more than one instance of that key and, if it is,
  which result will be mapped to that key in the returned map.
 
- <p><b>{@code Stream} equivalent:</b> {@code
- stream.collect(ImmutableMap.toImmutableMap(k -> k, valueFunction))}.
+ <p><b>{@code Stream} equivalent:</b> after the next release of Guava, use {@code
+ stream.collect(ImmutableMap.toImmutableMap(k -> k, valueFunction))}. Before then you can use
+ {@code ImmutableMap.copyOf(stream.collect(Collectors.toMap(k -> k, valueFunction)))}, but be
+ aware that this may not preserve the order of entries.
 
  @throws NullPointerException if any element of this iterable is {@code null}, or if {@code
      valueFunction} produces {@code null} for any key
@@ -11920,8 +11855,10 @@
  <p>If your index may associate multiple values with each key, use {@link #index(Function)
  index}.
 
- <p><b>{@code Stream} equivalent:</b> {@code
- stream.collect(ImmutableMap.toImmutableMap(keyFunction, v -> v))}.
+ <p><b>{@code Stream} equivalent:</b> after the next release of Guava, use {@code
+ stream.collect(ImmutableMap.toImmutableMap(keyFunction, v -> v))}. Before then you can use
+ {@code ImmutableMap.copyOf(stream.collect(Collectors.toMap(keyFunction, v -> v)))}, but be
+ aware that this may not preserve the order of entries.
 
  @param keyFunction the function used to produce the key for each value
  @return a map mapping the result of evaluating the function {@code keyFunction} on each value
@@ -12002,23 +11939,10 @@
      the size of this fluent iterable]]>
       </doc>
     </method>
-    <method name="stream" return="java.util.stream.Stream&lt;E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns a stream of this fluent iterable's contents (similar to calling {@link
- Collection#stream} on a collecion).
-
- <p><b>Note:</b> the earlier in the chain you can switch to {@code Stream} usage (ideally not
- going through {@code FluentIterable} at all), the more performant and idiomatic your code will
- be. This method is a transitional aid, to be used only when really necessary.
-
- @since 21.0]]>
-      </doc>
-    </method>
     <doc>
-    <![CDATA[A discouraged (but not deprecated) precursor to Java's superior {@link Stream} library.
+    <![CDATA[An expanded {@code Iterable} API, providing functionality similar to Java 8's powerful <a href=
+ "https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html#package.description"
+ >streams library</a> in a slightly different way.
 
  <p>The following types of methods are provided:
 
@@ -12039,8 +11963,9 @@
  <a name="streams"></a>
  <h3>Comparison to streams</h3>
 
- <p>{@link Stream} is similar to this class, but generally more powerful, and certainly more
- standard. Key differences include:
+ <p>Starting with Java 8, the core Java class libraries provide a new "Streams" library (in {@code
+ java.util.stream}), which is similar to {@code FluentIterable} but generally more powerful. Key
+ differences include:
 
  <ul>
  <li>A stream is <i>single-use</i>; it becomes invalid as soon as any "terminal operation" such as
@@ -12055,7 +11980,8 @@
      noted in the method descriptions below.
  <li>Streams include primitive-specialized variants such as {@code IntStream}, the use of which is
      strongly recommended.
- <li>Streams are standard Java, not requiring a third-party dependency.
+ <li>Streams are standard Java, not requiring a third-party dependency (but do render your code
+     incompatible with Java 7 and earlier).
  </ul>
 
  <h3>Example</h3>
@@ -14401,12 +14327,6 @@
       <![CDATA[Constructor for use by subclasses.]]>
       </doc>
     </constructor>
-    <method name="replaceAll"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="function" type="java.util.function.BiFunction&lt;? super K, ? super V, ? extends V&gt;"/>
-    </method>
     <method name="entryIterator" return="java.util.Iterator&lt;java.util.Map.Entry&lt;K, V&gt;&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
@@ -15915,18 +15835,6 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="forEach"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="action" type="java.util.function.BiConsumer&lt;? super K, ? super V&gt;"/>
-    </method>
-    <method name="replaceAll"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="function" type="java.util.function.BiFunction&lt;? super K, ? super V, ? extends V&gt;"/>
-    </method>
     <method name="inverse" return="com.google.common.collect.BiMap&lt;V, K&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -16059,7 +15967,7 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[Multiset implementation backed by a {@link HashMap}.
+    <![CDATA[Multiset implementation that uses hashing for key and entry access.
 
  @author Kevin Bourrillion
  @author Jared Levy
@@ -16068,31 +15976,11 @@
   </class>
   <!-- end class com.google.common.collect.HashMultiset -->
   <!-- start class com.google.common.collect.ImmutableBiMap -->
-  <class name="ImmutableBiMap" extends="com.google.common.collect.ImmutableBiMapFauxverideShim&lt;K, V&gt;"
+  <class name="ImmutableBiMap" extends="com.google.common.collect.ImmutableMap&lt;K, V&gt;"
     abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
     <implements name="com.google.common.collect.BiMap&lt;K, V&gt;"/>
-    <method name="toImmutableBiMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableBiMap&lt;K, V&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
-      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@link Collector} that accumulates elements into an {@code ImmutableBiMap} whose
- keys and values are the result of applying the provided mapping functions to the input
- elements. Entries appear in the result {@code ImmutableBiMap} in encounter order.
-
- <p>If the mapped keys or values contain duplicates
- (according to {@link Object#equals(Object)}, an {@code IllegalArgumentException} is thrown
- when the collection operation is performed. (This differs from the {@code Collector} returned
- by {@link Collectors#toMap(Function, Function)}, which throws an
- {@code IllegalStateException}.)
-
- @since 21.0]]>
-      </doc>
-    </method>
     <method name="of" return="com.google.common.collect.ImmutableBiMap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -16542,11 +16430,6 @@
       <![CDATA[Returns an unmodifiable iterator across the elements in this collection.]]>
       </doc>
     </method>
-    <method name="spliterator" return="java.util.Spliterator&lt;E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-    </method>
     <method name="toArray" return="java.lang.Object[]"
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
@@ -16605,18 +16488,6 @@
       static="false" final="true" visibility="public"
       deprecated="Unsupported operation.">
       <param name="oldElements" type="java.util.Collection&lt;?&gt;"/>
-      <doc>
-      <![CDATA[Guaranteed to throw an exception and leave the collection unmodified.
-
- @throws UnsupportedOperationException always
- @deprecated Unsupported operation.]]>
-      </doc>
-    </method>
-    <method name="removeIf" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="Unsupported operation.">
-      <param name="filter" type="java.util.function.Predicate&lt;? super E&gt;"/>
       <doc>
       <![CDATA[Guaranteed to throw an exception and leave the collection unmodified.
 
@@ -16881,17 +16752,6 @@
     deprecated="not deprecated">
     <implements name="java.util.List&lt;E&gt;"/>
     <implements name="java.util.RandomAccess"/>
-    <method name="toImmutableList" return="java.util.stream.Collector&lt;E, ?, com.google.common.collect.ImmutableList&lt;E&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns a {@code Collector} that accumulates the input elements into a new
- {@code ImmutableList}, in encounter order.
-
- @since 21.0]]>
-      </doc>
-    </method>
     <method name="of" return="com.google.common.collect.ImmutableList&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -17226,12 +17086,6 @@
       deprecated="not deprecated">
       <param name="index" type="int"/>
     </method>
-    <method name="forEach"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="consumer" type="java.util.function.Consumer&lt;? super E&gt;"/>
-    </method>
     <method name="indexOf" return="int"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -17314,30 +17168,6 @@
  @deprecated Unsupported operation.]]>
       </doc>
     </method>
-    <method name="replaceAll"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="Unsupported operation.">
-      <param name="operator" type="java.util.function.UnaryOperator&lt;E&gt;"/>
-      <doc>
-      <![CDATA[Guaranteed to throw an exception and leave the list unmodified.
-
- @throws UnsupportedOperationException always
- @deprecated Unsupported operation.]]>
-      </doc>
-    </method>
-    <method name="sort"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="Unsupported operation.">
-      <param name="c" type="java.util.Comparator&lt;? super E&gt;"/>
-      <doc>
-      <![CDATA[Guaranteed to throw an exception and leave the list unmodified.
-
- @throws UnsupportedOperationException always
- @deprecated Unsupported operation.]]>
-      </doc>
-    </method>
     <method name="asList" return="com.google.common.collect.ImmutableList&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
@@ -17347,11 +17177,6 @@
 
  @since 2.0]]>
       </doc>
-    </method>
-    <method name="spliterator" return="java.util.Spliterator&lt;E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
     </method>
     <method name="reverse" return="com.google.common.collect.ImmutableList&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
@@ -17502,77 +17327,6 @@
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
     <implements name="com.google.common.collect.ListMultimap&lt;K, V&gt;"/>
-    <method name="toImmutableListMultimap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableListMultimap&lt;K, V&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
-      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@link Collector} that accumulates elements into an {@code ImmutableListMultimap}
- whose keys and values are the result of applying the provided mapping functions to the input
- elements.
-
- <p>For streams with {@linkplain java.util.stream#Ordering defined encounter order}, that order
- is preserved, but entries are {@linkplain ImmutableMultimap#iteration grouped by key}.
-
- Example:
- <pre>   {@code
-
-   static final Multimap<Character, String> FIRST_LETTER_MULTIMAP =
-       Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
-           .collect(toImmutableListMultimap(str -> str.charAt(0), str -> str.substring(1)));
-
-   // is equivalent to
-
-   static final Multimap<Character, String> FIRST_LETTER_MULTIMAP =
-       new ImmutableListMultimap.Builder<Character, String>()
-           .put('b', "anana")
-           .putAll('a', "pple", "sparagus")
-           .putAll('c', "arrot", "herry")
-           .build();}</pre>
-
- @since 21.0]]>
-      </doc>
-    </method>
-    <method name="flatteningToImmutableListMultimap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableListMultimap&lt;K, V&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
-      <param name="valuesFunction" type="java.util.function.Function&lt;? super T, ? extends java.util.stream.Stream&lt;? extends V&gt;&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@code Collector} accumulating entries into an {@code ImmutableListMultimap}. Each
- input element is mapped to a key and a stream of values, each of which are put into the
- resulting {@code Multimap}, in the encounter order of the stream and the encounter order of the
- streams of values.
-
- <p>Example:
-
- <pre>{@code
- static final ImmutableListMultimap<Character, Character> FIRST_LETTER_MULTIMAP =
-     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
-         .collect(
-             flatteningToImmutableListMultimap(
-                  str -> str.charAt(0),
-                  str -> str.substring(1).chars().mapToObj(c -> (char) c));
-
- // is equivalent to
-
- static final ImmutableListMultimap<Character, Character> FIRST_LETTER_MULTIMAP =
-     ImmutableListMultimap.<Character, Character>builder()
-         .putAll('b', Arrays.asList('a', 'n', 'a', 'n', 'a'))
-         .putAll('a', Arrays.asList('p', 'p', 'l', 'e'))
-         .putAll('c', Arrays.asList('a', 'r', 'r', 'o', 't'))
-         .putAll('a', Arrays.asList('s', 'p', 'a', 'r', 'a', 'g', 'u', 's'))
-         .putAll('c', Arrays.asList('h', 'e', 'r', 'r', 'y'))
-         .build();
- }
- }</pre>
-
- @since 21.0]]>
-      </doc>
-    </method>
     <method name="of" return="com.google.common.collect.ImmutableListMultimap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -17877,51 +17631,14 @@
     deprecated="not deprecated">
     <implements name="java.util.Map&lt;K, V&gt;"/>
     <implements name="java.io.Serializable"/>
-    <method name="toImmutableMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableMap&lt;K, V&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
-      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@link Collector} that accumulates elements into an {@code ImmutableMap} whose keys
- and values are the result of applying the provided mapping functions to the input elements.
- Entries appear in the result {@code ImmutableMap} in encounter order.
-
- <p>If the mapped keys contain duplicates (according to {@link Object#equals(Object)}, an
- {@code IllegalArgumentException} is thrown when the collection operation is performed.
- (This differs from the {@code Collector} returned by
- {@link Collectors#toMap(Function, Function)}, which throws an {@code IllegalStateException}.)
-
- @since 21.0]]>
-      </doc>
-    </method>
-    <method name="toImmutableMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableMap&lt;K, V&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
-      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
-      <param name="mergeFunction" type="java.util.function.BinaryOperator&lt;V&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@link Collector} that accumulates elements into an {@code ImmutableMap} whose keys
- and values are the result of applying the provided mapping functions to the input elements.
-
- <p>If the mapped keys contain duplicates (according to {@link Object#equals(Object)}), the
- values are merged using the specified merging function. Entries will appear in the encounter
- order of the first occurrence of the key.
-
- @since 21.0]]>
-      </doc>
-    </method>
     <method name="of" return="com.google.common.collect.ImmutableMap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns the empty map. This map behaves and performs comparably to
- {@link Collections#emptyMap}, and is preferable mainly for consistency
- and maintainability of your code.]]>
+      <![CDATA[Returns the empty map. This map behaves and performs comparably to {@link
+ Collections#emptyMap}, and is preferable mainly for consistency and maintainability of your
+ code.]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableMap&lt;K, V&gt;"
@@ -17931,10 +17648,9 @@
       <param name="k1" type="K"/>
       <param name="v1" type="V"/>
       <doc>
-      <![CDATA[Returns an immutable map containing a single entry. This map behaves and
- performs comparably to {@link Collections#singletonMap} but will not accept
- a null key or value. It is preferable mainly for consistency and
- maintainability of your code.]]>
+      <![CDATA[Returns an immutable map containing a single entry. This map behaves and performs comparably to
+ {@link Collections#singletonMap} but will not accept a null key or value. It is preferable
+ mainly for consistency and maintainability of your code.]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableMap&lt;K, V&gt;"
@@ -18010,8 +17726,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns a new builder. The generated builder is equivalent to the builder
- created by the {@link Builder} constructor.]]>
+      <![CDATA[Returns a new builder. The generated builder is equivalent to the builder created by the {@link
+ Builder} constructor.]]>
       </doc>
     </method>
     <method name="copyOf" return="com.google.common.collect.ImmutableMap&lt;K, V&gt;"
@@ -18020,14 +17736,13 @@
       deprecated="not deprecated">
       <param name="map" type="java.util.Map&lt;? extends K, ? extends V&gt;"/>
       <doc>
-      <![CDATA[Returns an immutable map containing the same entries as {@code map}. If
- {@code map} somehow contains entries with duplicate keys (for example, if
- it is a {@code SortedMap} whose comparator is not <i>consistent with
- equals</i>), the results of this method are undefined.
+      <![CDATA[Returns an immutable map containing the same entries as {@code map}. If {@code map} somehow
+ contains entries with duplicate keys (for example, if it is a {@code SortedMap} whose
+ comparator is not <i>consistent with equals</i>), the results of this method are undefined.
 
- <p>Despite the method name, this method attempts to avoid actually copying
- the data when it is safe to do so. The exact circumstances under which a
- copy will or will not be performed are undocumented and subject to change.
+ <p>Despite the method name, this method attempts to avoid actually copying the data when it is
+ safe to do so. The exact circumstances under which a copy will or will not be performed are
+ undocumented and subject to change.
 
  @throws NullPointerException if any key or value in {@code map} is null]]>
       </doc>
@@ -18038,8 +17753,8 @@
       deprecated="not deprecated">
       <param name="entries" type="java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends K, ? extends V&gt;&gt;"/>
       <doc>
-      <![CDATA[Returns an immutable map containing the specified entries.  The returned
- map iterates over entries in the same order as the original iterable.
+      <![CDATA[Returns an immutable map containing the specified entries. The returned map iterates over
+ entries in the same order as the original iterable.
 
  @throws NullPointerException if any key, value, or entry is null
  @throws IllegalArgumentException if two entries have the same key
@@ -18059,123 +17774,6 @@
  @deprecated Unsupported operation.]]>
       </doc>
     </method>
-    <method name="putIfAbsent" return="V"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="Unsupported operation.">
-      <param name="key" type="K"/>
-      <param name="value" type="V"/>
-      <doc>
-      <![CDATA[Guaranteed to throw an exception and leave the map unmodified.
-
- @throws UnsupportedOperationException always
- @deprecated Unsupported operation.]]>
-      </doc>
-    </method>
-    <method name="replace" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="Unsupported operation.">
-      <param name="key" type="K"/>
-      <param name="oldValue" type="V"/>
-      <param name="newValue" type="V"/>
-      <doc>
-      <![CDATA[Guaranteed to throw an exception and leave the map unmodified.
-
- @throws UnsupportedOperationException always
- @deprecated Unsupported operation.]]>
-      </doc>
-    </method>
-    <method name="replace" return="V"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="Unsupported operation.">
-      <param name="key" type="K"/>
-      <param name="value" type="V"/>
-      <doc>
-      <![CDATA[Guaranteed to throw an exception and leave the map unmodified.
-
- @throws UnsupportedOperationException always
- @deprecated Unsupported operation.]]>
-      </doc>
-    </method>
-    <method name="computeIfAbsent" return="V"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="Unsupported operation.">
-      <param name="key" type="K"/>
-      <param name="mappingFunction" type="java.util.function.Function&lt;? super K, ? extends V&gt;"/>
-      <doc>
-      <![CDATA[Guaranteed to throw an exception and leave the map unmodified.
-
- @throws UnsupportedOperationException always
- @deprecated Unsupported operation.]]>
-      </doc>
-    </method>
-    <method name="computeIfPresent" return="V"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="Unsupported operation.">
-      <param name="key" type="K"/>
-      <param name="remappingFunction" type="java.util.function.BiFunction&lt;? super K, ? super V, ? extends V&gt;"/>
-      <doc>
-      <![CDATA[Guaranteed to throw an exception and leave the map unmodified.
-
- @throws UnsupportedOperationException always
- @deprecated Unsupported operation.]]>
-      </doc>
-    </method>
-    <method name="compute" return="V"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="Unsupported operation.">
-      <param name="key" type="K"/>
-      <param name="remappingFunction" type="java.util.function.BiFunction&lt;? super K, ? super V, ? extends V&gt;"/>
-      <doc>
-      <![CDATA[Guaranteed to throw an exception and leave the map unmodified.
-
- @throws UnsupportedOperationException always
- @deprecated Unsupported operation.]]>
-      </doc>
-    </method>
-    <method name="merge" return="V"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="Unsupported operation.">
-      <param name="key" type="K"/>
-      <param name="value" type="V"/>
-      <param name="remappingFunction" type="java.util.function.BiFunction&lt;? super V, ? super V, ? extends V&gt;"/>
-      <doc>
-      <![CDATA[Guaranteed to throw an exception and leave the map unmodified.
-
- @throws UnsupportedOperationException always
- @deprecated Unsupported operation.]]>
-      </doc>
-    </method>
-    <method name="putAll"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="Unsupported operation.">
-      <param name="map" type="java.util.Map&lt;? extends K, ? extends V&gt;"/>
-      <doc>
-      <![CDATA[Guaranteed to throw an exception and leave the map unmodified.
-
- @throws UnsupportedOperationException always
- @deprecated Unsupported operation.]]>
-      </doc>
-    </method>
-    <method name="replaceAll"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="Unsupported operation.">
-      <param name="function" type="java.util.function.BiFunction&lt;? super K, ? super V, ? extends V&gt;"/>
-      <doc>
-      <![CDATA[Guaranteed to throw an exception and leave the map unmodified.
-
- @throws UnsupportedOperationException always
- @deprecated Unsupported operation.]]>
-      </doc>
-    </method>
     <method name="remove" return="V"
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
@@ -18188,12 +17786,11 @@
  @deprecated Unsupported operation.]]>
       </doc>
     </method>
-    <method name="remove" return="boolean"
+    <method name="putAll"
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="Unsupported operation.">
-      <param name="key" type="java.lang.Object"/>
-      <param name="value" type="java.lang.Object"/>
+      <param name="map" type="java.util.Map&lt;? extends K, ? extends V&gt;"/>
       <doc>
       <![CDATA[Guaranteed to throw an exception and leave the map unmodified.
 
@@ -18235,20 +17832,13 @@
       deprecated="not deprecated">
       <param name="key" type="java.lang.Object"/>
     </method>
-    <method name="getOrDefault" return="V"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
-      <param name="defaultValue" type="V"/>
-    </method>
     <method name="entrySet" return="com.google.common.collect.ImmutableSet&lt;java.util.Map.Entry&lt;K, V&gt;&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns an immutable set of the mappings in this map. The entries are in
- the same order as the parameters used to build this map.]]>
+      <![CDATA[Returns an immutable set of the mappings in this map. The entries are in the same order as the
+ parameters used to build this map.]]>
       </doc>
     </method>
     <method name="keySet" return="com.google.common.collect.ImmutableSet&lt;K&gt;"
@@ -18256,8 +17846,8 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns an immutable set of the keys in this map. These keys are in
- the same order as the parameters used to build this map.]]>
+      <![CDATA[Returns an immutable set of the keys in this map. These keys are in the same order as the
+ parameters used to build this map.]]>
       </doc>
     </method>
     <method name="values" return="com.google.common.collect.ImmutableCollection&lt;V&gt;"
@@ -18265,8 +17855,8 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns an immutable collection of the values in this map. The values are
- in the same order as the parameters used to build this map.]]>
+      <![CDATA[Returns an immutable collection of the values in this map. The values are in the same order as
+ the parameters used to build this map.]]>
       </doc>
     </method>
     <method name="asMultimap" return="com.google.common.collect.ImmutableSetMultimap&lt;K, V&gt;"
@@ -18300,8 +17890,7 @@
  {@link ImmutableCollection}.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">
- immutable collections</a>.
+ "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
 
  @author Jesse Wilson
  @author Kevin Bourrillion
@@ -18318,8 +17907,8 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Creates a new builder. The returned builder is equivalent to the builder
- generated by {@link ImmutableMap#builder}.]]>
+      <![CDATA[Creates a new builder. The returned builder is equivalent to the builder generated by {@link
+ ImmutableMap#builder}.]]>
       </doc>
     </constructor>
     <method name="put" return="com.google.common.collect.ImmutableMap.Builder&lt;K, V&gt;"
@@ -18329,8 +17918,8 @@
       <param name="key" type="K"/>
       <param name="value" type="V"/>
       <doc>
-      <![CDATA[Associates {@code key} with {@code value} in the built map. Duplicate
- keys are not allowed, and will cause {@link #build} to fail.]]>
+      <![CDATA[Associates {@code key} with {@code value} in the built map. Duplicate keys are not allowed,
+ and will cause {@link #build} to fail.]]>
       </doc>
     </method>
     <method name="put" return="com.google.common.collect.ImmutableMap.Builder&lt;K, V&gt;"
@@ -18339,9 +17928,8 @@
       deprecated="not deprecated">
       <param name="entry" type="java.util.Map.Entry&lt;? extends K, ? extends V&gt;"/>
       <doc>
-      <![CDATA[Adds the given {@code entry} to the map, making it immutable if
- necessary. Duplicate keys are not allowed, and will cause {@link #build}
- to fail.
+      <![CDATA[Adds the given {@code entry} to the map, making it immutable if necessary. Duplicate keys are
+ not allowed, and will cause {@link #build} to fail.
 
  @since 11.0]]>
       </doc>
@@ -18352,8 +17940,8 @@
       deprecated="not deprecated">
       <param name="map" type="java.util.Map&lt;? extends K, ? extends V&gt;"/>
       <doc>
-      <![CDATA[Associates all of the given map's keys and values in the built map.
- Duplicate keys are not allowed, and will cause {@link #build} to fail.
+      <![CDATA[Associates all of the given map's keys and values in the built map. Duplicate keys are not
+ allowed, and will cause {@link #build} to fail.
 
  @throws NullPointerException if any key or value in {@code map} is null]]>
       </doc>
@@ -18364,8 +17952,8 @@
       deprecated="not deprecated">
       <param name="entries" type="java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends K, ? extends V&gt;&gt;"/>
       <doc>
-      <![CDATA[Adds all of the given entries to the built map.  Duplicate keys are not
- allowed, and will cause {@link #build} to fail.
+      <![CDATA[Adds all of the given entries to the built map. Duplicate keys are not allowed, and will
+ cause {@link #build} to fail.
 
  @throws NullPointerException if any key, value, or entry is null
  @since 19.0]]>
@@ -18380,9 +17968,8 @@
       <![CDATA[Configures this {@code Builder} to order entries by value according to the specified
  comparator.
 
- <p>The sort order is stable, that is, if two entries have values that compare
- as equivalent, the entry that was inserted first will be first in the built map's
- iteration order.
+ <p>The sort order is stable, that is, if two entries have values that compare as equivalent,
+ the entry that was inserted first will be first in the built map's iteration order.
 
  @throws IllegalStateException if this method was already called
  @since 19.0]]>
@@ -18399,22 +17986,23 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[A builder for creating immutable map instances, especially {@code public
- static final} maps ("constant maps"). Example: <pre>   {@code
+    <![CDATA[A builder for creating immutable map instances, especially {@code public static final} maps
+ ("constant maps"). Example:
 
-   static final ImmutableMap<String, Integer> WORD_TO_INT =
-       new ImmutableMap.Builder<String, Integer>()
-           .put("one", 1)
-           .put("two", 2)
-           .put("three", 3)
-           .build();}</pre>
+ <pre>{@code
+ static final ImmutableMap<String, Integer> WORD_TO_INT =
+     new ImmutableMap.Builder<String, Integer>()
+         .put("one", 1)
+         .put("two", 2)
+         .put("three", 3)
+         .build();
+ }</pre>
 
- <p>For <i>small</i> immutable maps, the {@code ImmutableMap.of()} methods are
- even more convenient.
+ <p>For <i>small</i> immutable maps, the {@code ImmutableMap.of()} methods are even more
+ convenient.
 
- <p>Builder instances can be reused - it is safe to call {@link #build}
- multiple times to build multiple maps in series. Each map is a superset of
- the maps created before it.
+ <p>Builder instances can be reused - it is safe to call {@link #build} multiple times to build
+ multiple maps in series. Each map is a superset of the maps created before it.
 
  @since 2.0]]>
     </doc>
@@ -18707,12 +18295,6 @@
       <![CDATA[Returns an immutable collection of all key-value pairs in the multimap.]]>
       </doc>
     </method>
-    <method name="forEach"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="action" type="java.util.function.BiConsumer&lt;? super K, ? super V&gt;"/>
-    </method>
     <method name="keys" return="com.google.common.collect.ImmutableMultiset&lt;K&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -18904,36 +18486,6 @@
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
     <implements name="com.google.common.collect.Multiset&lt;E&gt;"/>
-    <method name="toImmutableMultiset" return="java.util.stream.Collector&lt;E, ?, com.google.common.collect.ImmutableMultiset&lt;E&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns a {@code Collector} that accumulates the input elements into a new
- {@code ImmutableMultiset}.  Elements iterate in order by the <i>first</i> appearance of that
- element in encounter order.
-
- @since 21.0]]>
-      </doc>
-    </method>
-    <method name="toImmutableMultiset" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableMultiset&lt;E&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="elementFunction" type="java.util.function.Function&lt;? super T, ? extends E&gt;"/>
-      <param name="countFunction" type="java.util.function.ToIntFunction&lt;? super T&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@code Collector} that accumulates elements into an {@code ImmutableMultiset} whose
- elements are the result of applying {@code elementFunction} to the inputs, with counts equal to
- the result of applying {@code countFunction} to the inputs.
-
- <p>If the mapped elements contain duplicates (according to {@link Object#equals}), the first
- occurrence in encounter order appears in the resulting multiset, with count equal to the sum of
- the outputs of {@code countFunction.applyAsInt(t)} for each {@code t} mapped to that element.
-
- @since 22.0]]>
-      </doc>
-    </method>
     <method name="of" return="com.google.common.collect.ImmutableMultiset&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -19871,19 +19423,6 @@
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
     <implements name="java.util.Set&lt;E&gt;"/>
-    <method name="toImmutableSet" return="java.util.stream.Collector&lt;E, ?, com.google.common.collect.ImmutableSet&lt;E&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns a {@code Collector} that accumulates the input elements into a new
- {@code ImmutableSet}.  Elements are added in encounter order; if the
- elements contain duplicates (according to {@link Object#equals(Object)}),
- only the first duplicate in encounter order will appear in the result.
-
- @since 21.0]]>
-      </doc>
-    </method>
     <method name="of" return="com.google.common.collect.ImmutableSet&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -20180,85 +19719,6 @@
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
     <implements name="com.google.common.collect.SetMultimap&lt;K, V&gt;"/>
-    <method name="toImmutableSetMultimap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableSetMultimap&lt;K, V&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
-      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@link Collector} that accumulates elements into an {@code ImmutableSetMultimap}
- whose keys and values are the result of applying the provided mapping functions to the input
- elements.
-
- <p>For streams with {@linkplain java.util.stream#Ordering defined encounter order}, that order
- is preserved, but entries are {@linkplain ImmutableMultimap#iteration grouped by key}.
-
- Example:
- <pre>   {@code
-
-   static final Multimap<Character, String> FIRST_LETTER_MULTIMAP =
-       Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
-           .collect(toImmutableSetMultimap(str -> str.charAt(0), str -> str.substring(1)));
-
-   // is equivalent to
-
-   static final Multimap<Character, String> FIRST_LETTER_MULTIMAP =
-       new ImmutableSetMultimap.Builder<Character, String>()
-           .put('b', "anana")
-           .putAll('a', "pple", "sparagus")
-           .putAll('c', "arrot", "herry")
-           .build();}</pre>
- @since 21.0]]>
-      </doc>
-    </method>
-    <method name="flatteningToImmutableSetMultimap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableSetMultimap&lt;K, V&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
-      <param name="valuesFunction" type="java.util.function.Function&lt;? super T, ? extends java.util.stream.Stream&lt;? extends V&gt;&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@code Collector} accumulating entries into an {@code ImmutableSetMultimap}. Each
- input element is mapped to a key and a stream of values, each of which are put into the
- resulting {@code Multimap}, in the encounter order of the stream and the encounter order of the
- streams of values.
-
- <p>Example:
-
- <pre>{@code
- static final ImmutableSetMultimap<Character, Character> FIRST_LETTER_MULTIMAP =
-     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
-         .collect(
-             flatteningToImmutableSetMultimap(
-                  str -> str.charAt(0),
-                  str -> str.substring(1).chars().mapToObj(c -> (char) c));
-
- // is equivalent to
-
- static final ImmutableSetMultimap<Character, Character> FIRST_LETTER_MULTIMAP =
-     ImmutableSetMultimap.<Character, Character>builder()
-         .putAll('b', Arrays.asList('a', 'n', 'a', 'n', 'a'))
-         .putAll('a', Arrays.asList('p', 'p', 'l', 'e'))
-         .putAll('c', Arrays.asList('a', 'r', 'r', 'o', 't'))
-         .putAll('a', Arrays.asList('s', 'p', 'a', 'r', 'a', 'g', 'u', 's'))
-         .putAll('c', Arrays.asList('h', 'e', 'r', 'r', 'y'))
-         .build();
-
- // after deduplication, the resulting multimap is equivalent to
-
- static final ImmutableSetMultimap<Character, Character> FIRST_LETTER_MULTIMAP =
-     ImmutableSetMultimap.<Character, Character>builder()
-         .putAll('b', Arrays.asList('a', 'n'))
-         .putAll('a', Arrays.asList('p', 'l', 'e', 's', 'a', 'r', 'g', 'u'))
-         .putAll('c', Arrays.asList('a', 'r', 'o', 't', 'h', 'e', 'y'))
-         .build();
- }
- }</pre>
-
- @since 21.0]]>
-      </doc>
-    </method>
     <method name="of" return="com.google.common.collect.ImmutableSetMultimap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -20592,46 +20052,6 @@
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
     <implements name="java.util.NavigableMap&lt;K, V&gt;"/>
-    <method name="toImmutableSortedMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="comparator" type="java.util.Comparator&lt;? super K&gt;"/>
-      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
-      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@link Collector} that accumulates elements into an {@code ImmutableSortedMap}
- whose keys and values are the result of applying the provided mapping functions to the input
- elements.  The generated map is sorted by the specified comparator.
-
- <p>If the mapped keys contain duplicates (according to the specified comparator), an
- {@code IllegalArgumentException} is thrown when the collection operation is performed.
- (This differs from the {@code Collector} returned by
- {@link Collectors#toMap(Function, Function)}, which throws an {@code IllegalStateException}.)
-
- @since 21.0]]>
-      </doc>
-    </method>
-    <method name="toImmutableSortedMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="comparator" type="java.util.Comparator&lt;? super K&gt;"/>
-      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
-      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
-      <param name="mergeFunction" type="java.util.function.BinaryOperator&lt;V&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@link Collector} that accumulates elements into an {@code ImmutableSortedMap} whose
- keys and values are the result of applying the provided mapping functions to the input
- elements.
-
- <p>If the mapped keys contain duplicates (according to the comparator), the the values are
- merged using the specified merging function. Entries will appear in the encounter order of the
- first occurrence of the key.
-
- @since 21.0]]>
-      </doc>
-    </method>
     <method name="of" return="com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -20855,12 +20275,6 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-    </method>
-    <method name="forEach"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="action" type="java.util.function.BiConsumer&lt;? super K, ? super V&gt;"/>
     </method>
     <method name="get" return="V"
       abstract="false" native="false" synchronized="false"
@@ -21262,40 +20676,6 @@
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
     <implements name="com.google.common.collect.SortedMultiset&lt;E&gt;"/>
-    <method name="toImmutableSortedMultiset" return="java.util.stream.Collector&lt;E, ?, com.google.common.collect.ImmutableSortedMultiset&lt;E&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="comparator" type="java.util.Comparator&lt;? super E&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@code Collector} that accumulates the input elements into a new
- {@code ImmutableMultiset}.  Elements are sorted by the specified comparator.
-
- <p><b>Warning:</b> {@code comparator} should be <i>consistent with {@code
- equals}</i> as explained in the {@link Comparator} documentation.
-
- @since 21.0]]>
-      </doc>
-    </method>
-    <method name="toImmutableSortedMultiset" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableSortedMultiset&lt;E&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="comparator" type="java.util.Comparator&lt;? super E&gt;"/>
-      <param name="elementFunction" type="java.util.function.Function&lt;? super T, ? extends E&gt;"/>
-      <param name="countFunction" type="java.util.function.ToIntFunction&lt;? super T&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@code Collector} that accumulates elements into an {@code ImmutableSortedMultiset}
- whose elements are the result of applying {@code elementFunction} to the inputs, with counts
- equal to the result of applying {@code countFunction} to the inputs.
-
- <p>If the mapped elements contain duplicates (according to {@code comparator}), the first
- occurrence in encounter order appears in the resulting multiset, with count equal to the sum of
- the outputs of {@code countFunction.applyAsInt(t)} for each {@code t} mapped to that element.
-
- @since 22.0]]>
-      </doc>
-    </method>
     <method name="of" return="com.google.common.collect.ImmutableSortedMultiset&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -21757,21 +21137,6 @@
     deprecated="not deprecated">
     <implements name="java.util.NavigableSet&lt;E&gt;"/>
     <implements name="com.google.common.collect.SortedIterable&lt;E&gt;"/>
-    <method name="toImmutableSortedSet" return="java.util.stream.Collector&lt;E, ?, com.google.common.collect.ImmutableSortedSet&lt;E&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="comparator" type="java.util.Comparator&lt;? super E&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@code Collector} that accumulates the input elements into a new
- {@code ImmutableSortedSet}, ordered by the specified comparator.
-
- <p>If the elements contain duplicates (according to the comparator),
- only the first duplicate in encounter order will appear in the result.
-
- @since 21.0]]>
-      </doc>
-    </method>
     <method name="of" return="com.google.common.collect.ImmutableSortedSet&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -22268,11 +21633,6 @@
       <![CDATA[@since 12.0]]>
       </doc>
     </method>
-    <method name="spliterator" return="java.util.Spliterator&lt;E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-    </method>
     <method name="descendingIterator" return="com.google.common.collect.UnmodifiableIterator&lt;E&gt;"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -22406,44 +21766,6 @@
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
     <implements name="java.io.Serializable"/>
-    <method name="toImmutableTable" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableTable&lt;R, C, V&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="rowFunction" type="java.util.function.Function&lt;? super T, ? extends R&gt;"/>
-      <param name="columnFunction" type="java.util.function.Function&lt;? super T, ? extends C&gt;"/>
-      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@code Collector} that accumulates elements into an {@code ImmutableTable}. Each
- input element is mapped to one cell in the returned table, with the rows, columns, and values
- generated by applying the specified functions.
-
- <p>The returned {@code Collector} will throw a {@code NullPointerException} at collection time
- if the row, column, or value functions return null on any input.
-
- @since 21.0]]>
-      </doc>
-    </method>
-    <method name="toImmutableTable" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableTable&lt;R, C, V&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="rowFunction" type="java.util.function.Function&lt;? super T, ? extends R&gt;"/>
-      <param name="columnFunction" type="java.util.function.Function&lt;? super T, ? extends C&gt;"/>
-      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
-      <param name="mergeFunction" type="java.util.function.BinaryOperator&lt;V&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@code Collector} that accumulates elements into an {@code ImmutableTable}. Each
- input element is mapped to one cell in the returned table, with the rows, columns, and values
- generated by applying the specified functions. If multiple inputs are mapped to the same row
- and column pair, they will be combined with the specified merging function in encounter order.
-
- <p>The returned {@code Collector} will throw a {@code NullPointerException} at collection time
- if the row, column, value, or merging functions return null on any input.
-
- @since 21.0]]>
-      </doc>
-    </method>
     <method name="of" return="com.google.common.collect.ImmutableTable&lt;R, C, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -22966,9 +22288,6 @@
  <p>Removals may or may not happen immediately as each element is tested
  against the predicate.  The behavior of this method is not specified if
  {@code predicate} is dependent on {@code removeFrom}.
-
- <p><b>Java 8 users:</b> if {@code removeFrom} is a {@link Collection},
- use {@code removeFrom.removeIf(predicate)} instead.
 
  @param removeFrom the iterable to (potentially) remove elements from
  @param predicate a predicate that determines whether an element should
@@ -25811,46 +25130,6 @@
  @since 14.0]]>
       </doc>
     </method>
-    <method name="toImmutableEnumMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableMap&lt;K, V&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
-      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@link Collector} that accumulates elements into an {@code ImmutableMap} whose keys
- and values are the result of applying the provided mapping functions to the input elements. The
- resulting implementation is specialized for enum key types. The returned map and its views will
- iterate over keys in their enum definition order, not encounter order.
-
- <p>If the mapped keys contain duplicates, an {@code IllegalArgumentException} is thrown when
- the collection operation is performed. (This differs from the {@code Collector} returned by
- {@link java.util.stream.Collectors#toMap(java.util.function.Function,
- java.util.function.Function) Collectors.toMap(Function, Function)}, which throws an
- {@code IllegalStateException}.)
-
- @since 21.0]]>
-      </doc>
-    </method>
-    <method name="toImmutableEnumMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableMap&lt;K, V&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
-      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
-      <param name="mergeFunction" type="java.util.function.BinaryOperator&lt;V&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@link Collector} that accumulates elements into an {@code ImmutableMap} whose keys
- and values are the result of applying the provided mapping functions to the input elements. The
- resulting implementation is specialized for enum key types. The returned map and its views will
- iterate over keys in their enum definition order, not encounter order.
-
- <p>If the mapped keys contain duplicates, the values are merged using the specified merging
- function.
-
- @since 21.0]]>
-      </doc>
-    </method>
     <method name="newHashMap" return="java.util.HashMap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -25986,9 +25265,9 @@
  all optional operations of the ConcurrentMap interface. It does not permit
  null keys or values. It is serializable.
 
- <p>This is currently accomplished by calling {@link MapMaker#makeMap()}.
+ <p>This is equivalent to {@link MapMaker#makeMap()}.
 
- <p>It is preferable to use {@code MapMaker} directly (rather than through
+ <p>It is often preferable to use {@code MapMaker} directly (rather than through
  this method), as it presents numerous useful configuration options,
  such as the concurrency level, load factor, key/value reference types,
  and value computation.
@@ -27741,41 +27020,6 @@
     </doc>
   </class>
   <!-- end class com.google.common.collect.MinMaxPriorityQueue.Builder -->
-  <!-- start class com.google.common.collect.MoreCollectors -->
-  <class name="MoreCollectors" extends="java.lang.Object"
-    abstract="false"
-    static="false" final="true" visibility="public"
-    deprecated="not deprecated">
-    <method name="toOptional" return="java.util.stream.Collector&lt;T, ?, java.util.Optional&lt;T&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[A collector that converts a stream of zero or one elements to an {@code Optional}. The returned
- collector throws an {@code IllegalArgumentException} if the stream consists of two or more
- elements, and a {@code NullPointerException} if the stream consists of exactly one element,
- which is null.]]>
-      </doc>
-    </method>
-    <method name="onlyElement" return="java.util.stream.Collector&lt;T, ?, T&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[A collector that takes a stream containing exactly one element and returns that element. The
- returned collector throws an {@code IllegalArgumentException} if the stream consists of two or
- more elements, and a {@code NoSuchElementException} if the stream is empty.]]>
-      </doc>
-    </method>
-    <doc>
-    <![CDATA[Collectors not present in {@code java.util.stream.Collectors} that are not otherwise associated
- with a {@code com.google.common} type.
-
- @author Louis Wasserman
- @since 21.0]]>
-    </doc>
-  </class>
-  <!-- end class com.google.common.collect.MoreCollectors -->
   <!-- start interface com.google.common.collect.Multimap -->
   <interface name="Multimap"    abstract="true"
     static="false" final="false" visibility="public"
@@ -28011,22 +27255,6 @@
  <p>Changes to the returned collection or the entries it contains will
  update the underlying multimap, and vice versa. However, <i>adding</i> to
  the returned collection is not possible.]]>
-      </doc>
-    </method>
-    <method name="forEach"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="action" type="java.util.function.BiConsumer&lt;? super K, ? super V&gt;"/>
-      <doc>
-      <![CDATA[Performs the given action for all key-value pairs contained in this multimap. If an ordering is
- specified by the {@code Multimap} implementation, actions will be performed in the order of
- iteration of {@link #entries()}. Exceptions thrown by the action are relayed to the caller.
-
- <p>To loop over all keys and their associated value collections, write
- {@code Multimaps.asMap(multimap).forEach((key, valueCollection) -> action())}.
-
- @since 21.0]]>
       </doc>
     </method>
     <method name="asMap" return="java.util.Map&lt;K, java.util.Collection&lt;V&gt;&gt;"
@@ -28542,87 +27770,6 @@
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
-    <method name="toMultimap" return="java.util.stream.Collector&lt;T, ?, M&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
-      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
-      <param name="multimapSupplier" type="java.util.function.Supplier&lt;M&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@code Collector} accumulating entries into a {@code Multimap} generated from the
- specified supplier. The keys and values of the entries are the result of applying the provided
- mapping functions to the input elements, accumulated in the encounter order of the stream.
-
- <p>Example:
-
- <pre>{@code
- static final ListMultimap<Character, String> FIRST_LETTER_MULTIMAP =
-     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
-         .collect(
-             toMultimap(
-                  str -> str.charAt(0),
-                  str -> str.substring(1),
-                  MultimapBuilder.treeKeys().arrayListValues()::build));
-
- // is equivalent to
-
- static final ListMultimap<Character, String> FIRST_LETTER_MULTIMAP;
-
- static {
-     FIRST_LETTER_MULTIMAP = MultimapBuilder.treeKeys().arrayListValues().build();
-     FIRST_LETTER_MULTIMAP.put('b', "anana");
-     FIRST_LETTER_MULTIMAP.put('a', "pple");
-     FIRST_LETTER_MULTIMAP.put('a', "sparagus");
-     FIRST_LETTER_MULTIMAP.put('c', "arrot");
-     FIRST_LETTER_MULTIMAP.put('c', "herry");
- }
- }</pre>
-
- @since 21.0]]>
-      </doc>
-    </method>
-    <method name="flatteningToMultimap" return="java.util.stream.Collector&lt;T, ?, M&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
-      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends java.util.stream.Stream&lt;? extends V&gt;&gt;"/>
-      <param name="multimapSupplier" type="java.util.function.Supplier&lt;M&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@code Collector} accumulating entries into a {@code Multimap} generated from the
- specified supplier. Each input element is mapped to a key and a stream of values, each of which
- are put into the resulting {@code Multimap}, in the encounter order of the stream and the
- encounter order of the streams of values.
-
- <p>Example:
-
- <pre>{@code
- static final ListMultimap<Character, Character> FIRST_LETTER_MULTIMAP =
-     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
-         .collect(
-             flatteningToMultimap(
-                  str -> str.charAt(0),
-                  str -> str.substring(1).chars().mapToObj(c -> (char) c),
-                  MultimapBuilder.linkedHashKeys().arrayListValues()::build));
-
- // is equivalent to
-
- static final ListMultimap<Character, Character> FIRST_LETTER_MULTIMAP;
-
- static {
-     FIRST_LETTER_MULTIMAP = MultimapBuilder.linkedHashKeys().arrayListValues().build();
-     FIRST_LETTER_MULTIMAP.putAll('b', Arrays.asList('a', 'n', 'a', 'n', 'a'));
-     FIRST_LETTER_MULTIMAP.putAll('a', Arrays.asList('p', 'p', 'l', 'e'));
-     FIRST_LETTER_MULTIMAP.putAll('c', Arrays.asList('a', 'r', 'r', 'o', 't'));
-     FIRST_LETTER_MULTIMAP.putAll('a', Arrays.asList('s', 'p', 'a', 'r', 'a', 'g', 'u', 's'));
-     FIRST_LETTER_MULTIMAP.putAll('c', Arrays.asList('h', 'e', 'r', 'r', 'y'));
- }
- }</pre>
-
- @since 21.0]]>
-      </doc>
-    </method>
     <method name="newMultimap" return="com.google.common.collect.Multimap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -28630,39 +27777,46 @@
       <param name="map" type="java.util.Map&lt;K, java.util.Collection&lt;V&gt;&gt;"/>
       <param name="factory" type="com.google.common.base.Supplier&lt;? extends java.util.Collection&lt;V&gt;&gt;"/>
       <doc>
-      <![CDATA[Creates a new {@code Multimap} backed by {@code map}, whose internal value collections are
- generated by {@code factory}.
+      <![CDATA[Creates a new {@code Multimap} backed by {@code map}, whose internal value
+ collections are generated by {@code factory}.
 
- <p><b>Warning: do not use</b> this method when the collections returned by {@code factory}
- implement either {@link List} or {@code Set}! Use the more specific method {@link
- #newListMultimap}, {@link #newSetMultimap} or {@link #newSortedSetMultimap} instead, to avoid
- very surprising behavior from {@link Multimap#equals}.
+ <b>Warning: do not use</b> this method when the collections returned by
+ {@code factory} implement either {@link List} or {@code Set}! Use the more
+ specific method {@link #newListMultimap}, {@link #newSetMultimap} or {@link
+ #newSortedSetMultimap} instead, to avoid very surprising behavior from
+ {@link Multimap#equals}.
 
- <p>The {@code factory}-generated and {@code map} classes determine the multimap iteration
- order. They also specify the behavior of the {@code equals}, {@code hashCode}, and {@code
- toString} methods for the multimap and its returned views. However, the multimap's {@code get}
- method returns instances of a different class than {@code factory.get()} does.
+ <p>The {@code factory}-generated and {@code map} classes determine the
+ multimap iteration order. They also specify the behavior of the
+ {@code equals}, {@code hashCode}, and {@code toString} methods for the
+ multimap and its returned views. However, the multimap's {@code get}
+ method returns instances of a different class than {@code factory.get()}
+ does.
 
- <p>The multimap is serializable if {@code map}, {@code factory}, the collections generated by
- {@code factory}, and the multimap contents are all serializable.
+ <p>The multimap is serializable if {@code map}, {@code factory}, the
+ collections generated by {@code factory}, and the multimap contents are all
+ serializable.
 
- <p>The multimap is not threadsafe when any concurrent operations update the multimap, even if
- {@code map} and the instances generated by {@code factory} are. Concurrent read operations will
- work correctly. To allow concurrent update operations, wrap the multimap with a call to {@link
- #synchronizedMultimap}.
+ <p>The multimap is not threadsafe when any concurrent operations update the
+ multimap, even if {@code map} and the instances generated by
+ {@code factory} are. Concurrent read operations will work correctly. To
+ allow concurrent update operations, wrap the multimap with a call to
+ {@link #synchronizedMultimap}.
 
- <p>Call this method only when the simpler methods {@link ArrayListMultimap#create()}, {@link
- HashMultimap#create()}, {@link LinkedHashMultimap#create()}, {@link
- LinkedListMultimap#create()}, {@link TreeMultimap#create()}, and {@link
- TreeMultimap#create(Comparator, Comparator)} won't suffice.
+ <p>Call this method only when the simpler methods
+ {@link ArrayListMultimap#create()}, {@link HashMultimap#create()},
+ {@link LinkedHashMultimap#create()}, {@link LinkedListMultimap#create()},
+ {@link TreeMultimap#create()}, and
+ {@link TreeMultimap#create(Comparator, Comparator)} won't suffice.
 
- <p>Note: the multimap assumes complete ownership over of {@code map} and the collections
- returned by {@code factory}. Those objects should not be manually updated and they should not
- use soft, weak, or phantom references.
+ <p>Note: the multimap assumes complete ownership over of {@code map} and
+ the collections returned by {@code factory}. Those objects should not be
+ manually updated and they should not use soft, weak, or phantom references.
 
- @param map place to store the mapping from each key to its corresponding values
- @param factory supplier of new, empty collections that will each hold all values for a given
-     key
+ @param map place to store the mapping from each key to its corresponding
+     values
+ @param factory supplier of new, empty collections that will each hold all
+     values for a given key
  @throws IllegalArgumentException if {@code map} is not empty]]>
       </doc>
     </method>
@@ -29859,29 +29013,15 @@
  @return a set of entries representing the data of this multiset]]>
       </doc>
     </method>
-    <method name="forEachEntry"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="action" type="java.util.function.ObjIntConsumer&lt;? super E&gt;"/>
-      <doc>
-      <![CDATA[Runs the specified action for each distinct element in this multiset, and the number of
- occurrences of that element. For some {@code Multiset} implementations, this may be more
- efficient than iterating over the {@link #entrySet()} either explicitly or with {@code
- entrySet().forEach(action)}.
-
- @since 21.0]]>
-      </doc>
-    </method>
     <method name="equals" return="boolean"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="object" type="java.lang.Object"/>
       <doc>
-      <![CDATA[Compares the specified object with this multiset for equality. Returns {@code true} if the
- given object is also a multiset and contains equal elements with equal counts, regardless of
- order.]]>
+      <![CDATA[Compares the specified object with this multiset for equality. Returns
+ {@code true} if the given object is also a multiset and contains equal
+ elements with equal counts, regardless of order.]]>
       </doc>
     </method>
     <method name="hashCode" return="int"
@@ -30049,23 +29189,6 @@
  @see Multisets#retainOccurrences(Multiset, Multiset)]]>
       </doc>
     </method>
-    <method name="forEach"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="action" type="java.util.function.Consumer&lt;? super E&gt;"/>
-      <doc>
-      <![CDATA[{@inheritDoc}
-
- <p>Elements that occur multiple times in the multiset will be passed to the {@code Consumer}
- correspondingly many times, though not necessarily sequentially.]]>
-      </doc>
-    </method>
-    <method name="spliterator" return="java.util.Spliterator&lt;E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-    </method>
     <doc>
     <![CDATA[A collection that supports order-independent equality, like {@link Set}, but
  may have duplicate elements. A multiset is also sometimes called a
@@ -30216,28 +29339,6 @@
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
-    <method name="toMultiset" return="java.util.stream.Collector&lt;T, ?, M&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="elementFunction" type="java.util.function.Function&lt;T, E&gt;"/>
-      <param name="countFunction" type="java.util.function.ToIntFunction&lt;T&gt;"/>
-      <param name="multisetSupplier" type="java.util.function.Supplier&lt;M&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@code Collector} that accumulates elements into a multiset created via the specified
- {@code Supplier}, whose elements are the result of applying {@code elementFunction} to the
- inputs, with counts equal to the result of applying {@code countFunction} to the inputs.
- Elements are added in encounter order.
-
- <p>If the mapped elements contain duplicates (according to {@link Object#equals}), the element
- will be added more than once, with the count summed over all appearances of the element.
-
- <p>Note that {@code stream.collect(toMultiset(function, e -> 1, supplier))} is equivalent to
- {@code stream.map(function).collect(Collectors.toCollection(supplier))}.
-
- @since 22.0]]>
-      </doc>
-    </method>
     <method name="unmodifiableMultiset" return="com.google.common.collect.Multiset&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -31201,8 +30302,8 @@
  <p>The implementation does not necessarily use a <i>stable</i> sorting algorithm; when multiple
  elements are equivalent, it is undefined which will come first.
 
- <p><b>Java 8 users:</b> Use {@code Streams.stream(iterable).collect(Comparators.least(k,
- thisComparator))} instead.
+ <p><b>Java 8 users:</b> Continue to use this method for now. After the next release of Guava,
+ use {@code Streams.stream(iterable).collect(Comparators.least(k, thisComparator))} instead.
 
  @return an immutable {@code RandomAccess} list of the {@code k} least elements in ascending
      order
@@ -31247,8 +30348,8 @@
  <p>The implementation does not necessarily use a <i>stable</i> sorting algorithm; when multiple
  elements are equivalent, it is undefined which will come first.
 
- <p><b>Java 8 users:</b> Use {@code Streams.stream(iterable).collect(Comparators.greatest(k,
- thisComparator))} instead.
+ <p><b>Java 8 users:</b> Continue to use this method for now. After the next release of Guava,
+ use {@code Streams.stream(iterable).collect(Comparators.greatest(k, thisComparator))} instead.
 
  @return an immutable {@code RandomAccess} list of the {@code k} greatest elements in
      <i>descending order</i>
@@ -32646,7 +31747,7 @@
       </doc>
     </method>
     <method name="enclosesAll" return="boolean"
-      abstract="false" native="false" synchronized="false"
+      abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="other" type="java.lang.Iterable&lt;com.google.common.collect.Range&lt;C&gt;&gt;"/>
@@ -32793,7 +31894,7 @@
       </doc>
     </method>
     <method name="addAll"
-      abstract="false" native="false" synchronized="false"
+      abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="ranges" type="java.lang.Iterable&lt;com.google.common.collect.Range&lt;C&gt;&gt;"/>
@@ -32827,7 +31928,7 @@
       </doc>
     </method>
     <method name="removeAll"
-      abstract="false" native="false" synchronized="false"
+      abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="ranges" type="java.lang.Iterable&lt;com.google.common.collect.Range&lt;C&gt;&gt;"/>
@@ -33092,18 +32193,6 @@
  @param elements the elements, all of the same {@code enum} type, that the
      set should contain
  @return an immutable set containing those elements, minus duplicates]]>
-      </doc>
-    </method>
-    <method name="toImmutableEnumSet" return="java.util.stream.Collector&lt;E, ?, com.google.common.collect.ImmutableSet&lt;E&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns a {@code Collector} that accumulates the input elements into a new {@code ImmutableSet}
- with an implementation specialized for enums. Unlike {@link ImmutableSet#toImmutableSet}, the
- resulting set will iterate over elements in their enum definition order, not encounter order.
-
- @since 21.0]]>
       </doc>
     </method>
     <method name="newEnumSet" return="java.util.EnumSet&lt;E&gt;"
@@ -33845,6 +32934,37 @@
  @since 4.0]]>
       </doc>
     </method>
+    <method name="combinations" return="java.util.Set&lt;java.util.Set&lt;E&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="set" type="java.util.Set&lt;E&gt;"/>
+      <param name="size" type="int"/>
+      <doc>
+      <![CDATA[Returns the set of all subsets of {@code set} of size {@code size}. For example, {@code
+ combinations(ImmutableSet.of(1, 2, 3), 2)} returns the set {@code {{1, 2}, {1, 3}, {2, 3}}}.
+
+ <p>Elements appear in these subsets in the same iteration order as they appeared in the input
+ set. The order in which these subsets appear in the outer set is undefined.
+
+ <p>The returned set and its constituent sets use {@code equals} to decide whether two elements
+ are identical, even if the input set uses a different concept of equivalence.
+
+ <p><i>Performance notes:</i> the memory usage of the returned set is only {@code O(n)}. When
+ the result set is constructed, the input set is merely copied. Only as the result set is
+ iterated are the individual subsets created. Each of these subsets occupies an additional O(n)
+ memory but only for as long as the user retains a reference to it. That is, the set returned by
+ {@code combinations} does not retain the individual subsets.
+
+ @param set the set of elements to take combinations of
+ @param size the number of elements per combination
+ @return the set of all combinations of {@code size} elements from {@code set}
+ @throws IllegalArgumentException if {@code size} is not between 0 and {@code set.size()}
+     inclusive
+ @throws NullPointerException if {@code set} is or contains {@code null}
+ @since 23.0]]>
+      </doc>
+    </method>
     <method name="unmodifiableNavigableSet" return="java.util.NavigableSet&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -34028,18 +33148,6 @@
       static="false" final="true" visibility="public"
       deprecated="Unsupported operation.">
       <param name="oldElements" type="java.util.Collection&lt;?&gt;"/>
-      <doc>
-      <![CDATA[Guaranteed to throw an exception and leave the collection unmodified.
-
- @throws UnsupportedOperationException always
- @deprecated Unsupported operation.]]>
-      </doc>
-    </method>
-    <method name="removeIf" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="Unsupported operation.">
-      <param name="filter" type="java.util.function.Predicate&lt;? super E&gt;"/>
       <doc>
       <![CDATA[Guaranteed to throw an exception and leave the collection unmodified.
 
@@ -34402,525 +33510,6 @@
     </doc>
   </interface>
   <!-- end interface com.google.common.collect.SortedSetMultimap -->
-  <!-- start class com.google.common.collect.Streams -->
-  <class name="Streams" extends="java.lang.Object"
-    abstract="false"
-    static="false" final="true" visibility="public"
-    deprecated="not deprecated">
-    <method name="stream" return="java.util.stream.Stream&lt;T&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="iterable" type="java.lang.Iterable&lt;T&gt;"/>
-      <doc>
-      <![CDATA[Returns a sequential {@link Stream} of the contents of {@code iterable}, delegating to {@link
- Collection#stream} if possible.]]>
-      </doc>
-    </method>
-    <method name="stream" return="java.util.stream.Stream&lt;T&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="There is no reason to use this; just invoke {@code collection.stream()} directly.">
-      <param name="collection" type="java.util.Collection&lt;T&gt;"/>
-      <doc>
-      <![CDATA[Returns {@link Collection#stream}.
-
- @deprecated There is no reason to use this; just invoke {@code collection.stream()} directly.]]>
-      </doc>
-    </method>
-    <method name="stream" return="java.util.stream.Stream&lt;T&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="iterator" type="java.util.Iterator&lt;T&gt;"/>
-      <doc>
-      <![CDATA[Returns a sequential {@link Stream} of the remaining contents of {@code iterator}. Do not use
- {@code iterator} directly after passing it to this method.]]>
-      </doc>
-    </method>
-    <method name="stream" return="java.util.stream.Stream&lt;T&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="optional" type="com.google.common.base.Optional&lt;T&gt;"/>
-      <doc>
-      <![CDATA[If a value is present in {@code optional}, returns a stream containing only that element,
- otherwise returns an empty stream.]]>
-      </doc>
-    </method>
-    <method name="stream" return="java.util.stream.Stream&lt;T&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="optional" type="java.util.Optional&lt;T&gt;"/>
-      <doc>
-      <![CDATA[If a value is present in {@code optional}, returns a stream containing only that element,
- otherwise returns an empty stream.
-
- <p><b>Java 9 users:</b> use {@code optional.stream()} instead.]]>
-      </doc>
-    </method>
-    <method name="stream" return="java.util.stream.IntStream"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="optional" type="java.util.OptionalInt"/>
-      <doc>
-      <![CDATA[If a value is present in {@code optional}, returns a stream containing only that element,
- otherwise returns an empty stream.
-
- <p><b>Java 9 users:</b> use {@code optional.stream()} instead.]]>
-      </doc>
-    </method>
-    <method name="stream" return="java.util.stream.LongStream"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="optional" type="java.util.OptionalLong"/>
-      <doc>
-      <![CDATA[If a value is present in {@code optional}, returns a stream containing only that element,
- otherwise returns an empty stream.
-
- <p><b>Java 9 users:</b> use {@code optional.stream()} instead.]]>
-      </doc>
-    </method>
-    <method name="stream" return="java.util.stream.DoubleStream"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="optional" type="java.util.OptionalDouble"/>
-      <doc>
-      <![CDATA[If a value is present in {@code optional}, returns a stream containing only that element,
- otherwise returns an empty stream.
-
- <p><b>Java 9 users:</b> use {@code optional.stream()} instead.]]>
-      </doc>
-    </method>
-    <method name="concat" return="java.util.stream.Stream&lt;T&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="streams" type="java.util.stream.Stream[]"/>
-      <doc>
-      <![CDATA[Returns a {@link Stream} containing the elements of the first stream, followed by the elements
- of the second stream, and so on.
-
- <p>This is equivalent to {@code Stream.of(streams).flatMap(stream -> stream)}, but the returned
- stream may perform better.
-
- @see Stream#concat(Stream, Stream)]]>
-      </doc>
-    </method>
-    <method name="concat" return="java.util.stream.IntStream"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="streams" type="java.util.stream.IntStream[]"/>
-      <doc>
-      <![CDATA[Returns an {@link IntStream} containing the elements of the first stream, followed by the
- elements of the second stream, and so on.
-
- <p>This is equivalent to {@code Stream.of(streams).flatMapToInt(stream -> stream)}, but the
- returned stream may perform better.
-
- @see IntStream#concat(IntStream, IntStream)]]>
-      </doc>
-    </method>
-    <method name="concat" return="java.util.stream.LongStream"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="streams" type="java.util.stream.LongStream[]"/>
-      <doc>
-      <![CDATA[Returns a {@link LongStream} containing the elements of the first stream, followed by the
- elements of the second stream, and so on.
-
- <p>This is equivalent to {@code Stream.of(streams).flatMapToLong(stream -> stream)}, but the
- returned stream may perform better.
-
- @see LongStream#concat(LongStream, LongStream)]]>
-      </doc>
-    </method>
-    <method name="concat" return="java.util.stream.DoubleStream"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="streams" type="java.util.stream.DoubleStream[]"/>
-      <doc>
-      <![CDATA[Returns a {@link DoubleStream} containing the elements of the first stream, followed by the
- elements of the second stream, and so on.
-
- <p>This is equivalent to {@code Stream.of(streams).flatMapToDouble(stream -> stream)}, but the
- returned stream may perform better.
-
- @see DoubleStream#concat(DoubleStream, DoubleStream)]]>
-      </doc>
-    </method>
-    <method name="zip" return="java.util.stream.Stream&lt;R&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="streamA" type="java.util.stream.Stream&lt;A&gt;"/>
-      <param name="streamB" type="java.util.stream.Stream&lt;B&gt;"/>
-      <param name="function" type="java.util.function.BiFunction&lt;? super A, ? super B, R&gt;"/>
-      <doc>
-      <![CDATA[Returns a stream in which each element is the result of passing the corresponding elementY of
- each of {@code streamA} and {@code streamB} to {@code function}.
-
- <p>For example:
-
- <pre>{@code
- Streams.zip(
-   Stream.of("foo1", "foo2", "foo3"),
-   Stream.of("bar1", "bar2"),
-   (arg1, arg2) -> arg1 + ":" + arg2)
- }</pre>
-
- <p>will return {@code Stream.of("foo1:bar1", "foo2:bar2")}.
-
- <p>The resulting stream will only be as long as the shorter of the two input streams; if one
- stream is longer, its extra elements will be ignored.
-
- <p>Note that if you are calling {@link Stream#forEach} on the resulting stream, you might want
- to consider using {@link #forEachPair} instead of this method.
-
- <p><b>Performance note:</b> The resulting stream is not <a
- href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>.
- This may harm parallel performance.]]>
-      </doc>
-    </method>
-    <method name="forEachPair"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="streamA" type="java.util.stream.Stream&lt;A&gt;"/>
-      <param name="streamB" type="java.util.stream.Stream&lt;B&gt;"/>
-      <param name="consumer" type="java.util.function.BiConsumer&lt;? super A, ? super B&gt;"/>
-      <doc>
-      <![CDATA[Invokes {@code consumer} once for each pair of <i>corresponding</i> elements in {@code streamA}
- and {@code streamB}. If one stream is longer than the other, the extra elements are silently
- ignored. Elements passed to the consumer are guaranteed to come from the same position in their
- respective source streams. For example:
-
- <pre>{@code
- Streams.forEachPair(
-   Stream.of("foo1", "foo2", "foo3"),
-   Stream.of("bar1", "bar2"),
-   (arg1, arg2) -> System.out.println(arg1 + ":" + arg2)
- }</pre>
-
- <p>will print:
-
- <pre>{@code
- foo1:bar1
- foo2:bar2
- }</pre>
-
- <p><b>Warning:</b> If either supplied stream is a parallel stream, the same correspondence
- between elements will be made, but the order in which those pairs of elements are passed to the
- consumer is <i>not</i> defined.
-
- <p>Note that many usages of this method can be replaced with simpler calls to {@link #zip}.
- This method behaves equivalently to {@linkplain #zip zipping} the stream elements into
- temporary pair objects and then using {@link Stream#forEach} on that stream.
-
- @since 22.0]]>
-      </doc>
-    </method>
-    <method name="mapWithIndex" return="java.util.stream.Stream&lt;R&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="stream" type="java.util.stream.Stream&lt;T&gt;"/>
-      <param name="function" type="com.google.common.collect.Streams.FunctionWithIndex&lt;? super T, ? extends R&gt;"/>
-      <doc>
-      <![CDATA[Returns a stream consisting of the results of applying the given function to the elements of
- {@code stream} and their indices in the stream. For example,
-
- <pre>{@code
- mapWithIndex(
-     Stream.of("a", "b", "c"),
-     (str, index) -> str + ":" + index)
- }</pre>
-
- <p>would return {@code Stream.of("a:0", "b:1", "c:2")}.
-
- <p>The resulting stream is <a
- href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
- if and only if {@code stream} was efficiently splittable and its underlying spliterator
- reported {@link Spliterator#SUBSIZED}. This is generally the case if the underlying stream
- comes from a data structure supporting efficient indexed random access, typically an array or
- list.
-
- <p>The order of the resulting stream is defined if and only if the order of the original stream
- was defined.]]>
-      </doc>
-    </method>
-    <method name="mapWithIndex" return="java.util.stream.Stream&lt;R&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="stream" type="java.util.stream.IntStream"/>
-      <param name="function" type="com.google.common.collect.Streams.IntFunctionWithIndex&lt;R&gt;"/>
-      <doc>
-      <![CDATA[Returns a stream consisting of the results of applying the given function to the elements of
- {@code stream} and their indexes in the stream. For example,
-
- <pre>{@code
- mapWithIndex(
-     IntStream.of(0, 1, 2),
-     (i, index) -> i + ":" + index)
- }</pre>
-
- <p>...would return {@code Stream.of("0:0", "1:1", "2:2")}.
-
- <p>The resulting stream is <a
- href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
- if and only if {@code stream} was efficiently splittable and its underlying spliterator
- reported {@link Spliterator#SUBSIZED}. This is generally the case if the underlying stream
- comes from a data structure supporting efficient indexed random access, typically an array or
- list.
-
- <p>The order of the resulting stream is defined if and only if the order of the original stream
- was defined.]]>
-      </doc>
-    </method>
-    <method name="mapWithIndex" return="java.util.stream.Stream&lt;R&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="stream" type="java.util.stream.LongStream"/>
-      <param name="function" type="com.google.common.collect.Streams.LongFunctionWithIndex&lt;R&gt;"/>
-      <doc>
-      <![CDATA[Returns a stream consisting of the results of applying the given function to the elements of
- {@code stream} and their indexes in the stream. For example,
-
- <pre>{@code
- mapWithIndex(
-     LongStream.of(0, 1, 2),
-     (i, index) -> i + ":" + index)
- }</pre>
-
- <p>...would return {@code Stream.of("0:0", "1:1", "2:2")}.
-
- <p>The resulting stream is <a
- href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
- if and only if {@code stream} was efficiently splittable and its underlying spliterator
- reported {@link Spliterator#SUBSIZED}. This is generally the case if the underlying stream
- comes from a data structure supporting efficient indexed random access, typically an array or
- list.
-
- <p>The order of the resulting stream is defined if and only if the order of the original stream
- was defined.]]>
-      </doc>
-    </method>
-    <method name="mapWithIndex" return="java.util.stream.Stream&lt;R&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="stream" type="java.util.stream.DoubleStream"/>
-      <param name="function" type="com.google.common.collect.Streams.DoubleFunctionWithIndex&lt;R&gt;"/>
-      <doc>
-      <![CDATA[Returns a stream consisting of the results of applying the given function to the elements of
- {@code stream} and their indexes in the stream. For example,
-
- <pre>{@code
- mapWithIndex(
-     DoubleStream.of(0, 1, 2),
-     (x, index) -> x + ":" + index)
- }</pre>
-
- <p>...would return {@code Stream.of("0.0:0", "1.0:1", "2.0:2")}.
-
- <p>The resulting stream is <a
- href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
- if and only if {@code stream} was efficiently splittable and its underlying spliterator
- reported {@link Spliterator#SUBSIZED}. This is generally the case if the underlying stream
- comes from a data structure supporting efficient indexed random access, typically an array or
- list.
-
- <p>The order of the resulting stream is defined if and only if the order of the original stream
- was defined.]]>
-      </doc>
-    </method>
-    <method name="findLast" return="java.util.Optional&lt;T&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="stream" type="java.util.stream.Stream&lt;T&gt;"/>
-      <doc>
-      <![CDATA[Returns the last element of the specified stream, or {@link java.util.Optional#empty} if the
- stream is empty.
-
- <p>Equivalent to {@code stream.reduce((a, b) -> b)}, but may perform significantly better. This
- method's runtime will be between O(log n) and O(n), performing better on <a
- href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
- streams.
-
- <p>If the stream has nondeterministic order, this has equivalent semantics to {@link
- Stream#findAny} (which you might as well use).
-
- @see Stream#findFirst()
- @throws NullPointerException if the last element of the stream is null]]>
-      </doc>
-    </method>
-    <method name="findLast" return="java.util.OptionalInt"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="stream" type="java.util.stream.IntStream"/>
-      <doc>
-      <![CDATA[Returns the last element of the specified stream, or {@link OptionalInt#empty} if the stream is
- empty.
-
- <p>Equivalent to {@code stream.reduce((a, b) -> b)}, but may perform significantly better. This
- method's runtime will be between O(log n) and O(n), performing better on <a
- href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
- streams.
-
- @see IntStream#findFirst()
- @throws NullPointerException if the last element of the stream is null]]>
-      </doc>
-    </method>
-    <method name="findLast" return="java.util.OptionalLong"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="stream" type="java.util.stream.LongStream"/>
-      <doc>
-      <![CDATA[Returns the last element of the specified stream, or {@link OptionalLong#empty} if the stream
- is empty.
-
- <p>Equivalent to {@code stream.reduce((a, b) -> b)}, but may perform significantly better. This
- method's runtime will be between O(log n) and O(n), performing better on <a
- href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
- streams.
-
- @see LongStream#findFirst()
- @throws NullPointerException if the last element of the stream is null]]>
-      </doc>
-    </method>
-    <method name="findLast" return="java.util.OptionalDouble"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="stream" type="java.util.stream.DoubleStream"/>
-      <doc>
-      <![CDATA[Returns the last element of the specified stream, or {@link OptionalDouble#empty} if the stream
- is empty.
-
- <p>Equivalent to {@code stream.reduce((a, b) -> b)}, but may perform significantly better. This
- method's runtime will be between O(log n) and O(n), performing better on <a
- href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
- streams.
-
- @see DoubleStream#findFirst()
- @throws NullPointerException if the last element of the stream is null]]>
-      </doc>
-    </method>
-    <doc>
-    <![CDATA[Static utility methods related to {@code Stream} instances.
-
- @since 21.0]]>
-    </doc>
-  </class>
-  <!-- end class com.google.common.collect.Streams -->
-  <!-- start interface com.google.common.collect.Streams.DoubleFunctionWithIndex -->
-  <interface name="Streams.DoubleFunctionWithIndex"    abstract="true"
-    static="true" final="false" visibility="public"
-    deprecated="not deprecated">
-    <method name="apply" return="R"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="from" type="double"/>
-      <param name="index" type="long"/>
-      <doc>
-      <![CDATA[Applies this function to the given argument and its index within a stream.]]>
-      </doc>
-    </method>
-    <doc>
-    <![CDATA[An analogue of {@link java.util.function.DoubleFunction} also accepting an index.
-
- <p>This interface is only intended for use by callers of {@link #mapWithIndex(DoubleStream,
- DoubleFunctionWithIndex)}.
-
- @since 21.0]]>
-    </doc>
-  </interface>
-  <!-- end interface com.google.common.collect.Streams.DoubleFunctionWithIndex -->
-  <!-- start interface com.google.common.collect.Streams.FunctionWithIndex -->
-  <interface name="Streams.FunctionWithIndex"    abstract="true"
-    static="true" final="false" visibility="public"
-    deprecated="not deprecated">
-    <method name="apply" return="R"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="from" type="T"/>
-      <param name="index" type="long"/>
-      <doc>
-      <![CDATA[Applies this function to the given argument and its index within a stream.]]>
-      </doc>
-    </method>
-    <doc>
-    <![CDATA[An analogue of {@link java.util.function.Function} also accepting an index.
-
- <p>This interface is only intended for use by callers of {@link #mapWithIndex(Stream,
- FunctionWithIndex)}.
-
- @since 21.0]]>
-    </doc>
-  </interface>
-  <!-- end interface com.google.common.collect.Streams.FunctionWithIndex -->
-  <!-- start interface com.google.common.collect.Streams.IntFunctionWithIndex -->
-  <interface name="Streams.IntFunctionWithIndex"    abstract="true"
-    static="true" final="false" visibility="public"
-    deprecated="not deprecated">
-    <method name="apply" return="R"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="from" type="int"/>
-      <param name="index" type="long"/>
-      <doc>
-      <![CDATA[Applies this function to the given argument and its index within a stream.]]>
-      </doc>
-    </method>
-    <doc>
-    <![CDATA[An analogue of {@link java.util.function.IntFunction} also accepting an index.
-
- <p>This interface is only intended for use by callers of {@link #mapWithIndex(IntStream,
- IntFunctionWithIndex)}.
-
- @since 21.0]]>
-    </doc>
-  </interface>
-  <!-- end interface com.google.common.collect.Streams.IntFunctionWithIndex -->
-  <!-- start interface com.google.common.collect.Streams.LongFunctionWithIndex -->
-  <interface name="Streams.LongFunctionWithIndex"    abstract="true"
-    static="true" final="false" visibility="public"
-    deprecated="not deprecated">
-    <method name="apply" return="R"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="from" type="long"/>
-      <param name="index" type="long"/>
-      <doc>
-      <![CDATA[Applies this function to the given argument and its index within a stream.]]>
-      </doc>
-    </method>
-    <doc>
-    <![CDATA[An analogue of {@link java.util.function.LongFunction} also accepting an index.
-
- <p>This interface is only intended for use by callers of {@link #mapWithIndex(LongStream,
- LongFunctionWithIndex)}.
-
- @since 21.0]]>
-    </doc>
-  </interface>
-  <!-- end interface com.google.common.collect.Streams.LongFunctionWithIndex -->
   <!-- start interface com.google.common.collect.Table -->
   <interface name="Table"    abstract="true"
     static="false" final="false" visibility="public"
@@ -35285,49 +33874,6 @@
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
-    <method name="toTable" return="java.util.stream.Collector&lt;T, ?, I&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="rowFunction" type="java.util.function.Function&lt;? super T, ? extends R&gt;"/>
-      <param name="columnFunction" type="java.util.function.Function&lt;? super T, ? extends C&gt;"/>
-      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
-      <param name="tableSupplier" type="java.util.function.Supplier&lt;I&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@link Collector} that accumulates elements into a {@code Table} created using the
- specified supplier, whose cells are generated by applying the provided mapping functions to the
- input elements. Cells are inserted into the generated {@code Table} in encounter order.
-
- <p>If multiple input elements map to the same row and column, an {@code IllegalStateException}
- is thrown when the collection operation is performed.
-
- @since 21.0]]>
-      </doc>
-    </method>
-    <method name="toTable" return="java.util.stream.Collector&lt;T, ?, I&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="rowFunction" type="java.util.function.Function&lt;? super T, ? extends R&gt;"/>
-      <param name="columnFunction" type="java.util.function.Function&lt;? super T, ? extends C&gt;"/>
-      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
-      <param name="mergeFunction" type="java.util.function.BinaryOperator&lt;V&gt;"/>
-      <param name="tableSupplier" type="java.util.function.Supplier&lt;I&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@link Collector} that accumulates elements into a {@code Table} created using the
- specified supplier, whose cells are generated by applying the provided mapping functions to the
- input elements. Cells are inserted into the generated {@code Table} in encounter order.
-
- <p>If multiple input elements map to the same row and column, the specified merging function is
- used to combine the values. Like {@link
- java.util.stream.Collectors#toMap(java.util.function.Function, java.util.function.Function,
- BinaryOperator, java.util.function.Supplier)}, this Collector throws a {@code
- NullPointerException} on null values returned from {@code valueFunction}, and treats nulls
- returned from {@code mergeFunction} as removals of that row/column pair.
-
- @since 21.0]]>
-      </doc>
-    </method>
     <method name="immutableCell" return="com.google.common.collect.Table.Cell&lt;R, C, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -43116,36 +41662,6 @@
  @throws IOException if an I/O error occurs while writing to this sink]]>
       </doc>
     </method>
-    <method name="writeLines"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="lines" type="java.util.stream.Stream&lt;? extends java.lang.CharSequence&gt;"/>
-      <exception name="IOException" type="java.io.IOException"/>
-      <doc>
-      <![CDATA[Writes the given lines of text to this sink with each line (including the last) terminated with
- the operating system's default line separator. This method is equivalent to {@code
- writeLines(lines, System.getProperty("line.separator"))}.
-
- @throws IOException if an I/O error occurs while writing to this sink
- @since 22.0]]>
-      </doc>
-    </method>
-    <method name="writeLines"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="lines" type="java.util.stream.Stream&lt;? extends java.lang.CharSequence&gt;"/>
-      <param name="lineSeparator" type="java.lang.String"/>
-      <exception name="IOException" type="java.io.IOException"/>
-      <doc>
-      <![CDATA[Writes the given lines of text to this sink with each line (including the last) terminated with
- the given line separator.
-
- @throws IOException if an I/O error occurs while writing to this sink
- @since 22.0]]>
-      </doc>
-    </method>
     <method name="writeFrom" return="long"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -43240,38 +41756,6 @@
  <p>The caller is responsible for ensuring that the returned reader is closed.
 
  @throws IOException if an I/O error occurs while of opening the reader]]>
-      </doc>
-    </method>
-    <method name="lines" return="java.util.stream.Stream&lt;java.lang.String&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <exception name="IOException" type="java.io.IOException"/>
-      <doc>
-      <![CDATA[Opens a new {@link Stream} for reading text one line at a time from this source. This method
- returns a new, independent stream each time it is called.
-
- <p>The returned stream is lazy and only reads from the source in the terminal operation. If an
- I/O error occurs while the stream is reading from the source or when the stream is closed, an
- {@link UncheckedIOException} is thrown.
-
- <p>Like {@link BufferedReader#readLine()}, this method considers a line to be a sequence of
- text that is terminated by (but does not include) one of {@code \r\n}, {@code \r} or
- {@code \n}. If the source's content does not end in a line termination sequence, it is treated
- as if it does.
-
- <p>The caller is responsible for ensuring that the returned stream is closed. For example:
-
- <pre>{@code
- try (Stream<String> lines = source.lines()) {
-   lines.map(...)
-      .filter(...)
-      .forEach(...);
- }
- }</pre>
-
- @throws IOException if an I/O error occurs while opening the stream
- @since 22.0]]>
       </doc>
     </method>
     <method name="lengthIfKnown" return="com.google.common.base.Optional&lt;java.lang.Long&gt;"
@@ -43410,26 +41894,6 @@
  @throws IOException if an I/O error occurs while reading from this source or if
      {@code processor} throws an {@code IOException}
  @since 16.0]]>
-      </doc>
-    </method>
-    <method name="forEachLine"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="action" type="java.util.function.Consumer&lt;? super java.lang.String&gt;"/>
-      <exception name="IOException" type="java.io.IOException"/>
-      <doc>
-      <![CDATA[Reads all lines of text from this source, running the given {@code action} for each line as
- it is read.
-
- <p>Like {@link BufferedReader#readLine()}, this method considers a line to be a sequence of
- text that is terminated by (but does not include) one of {@code \r\n}, {@code \r} or
- {@code \n}. If the source's content does not end in a line termination sequence, it is treated
- as if it does.
-
- @throws IOException if an I/O error occurs while reading from this source or if
-     {@code action} throws an {@code UncheckedIOException}
- @since 22.0]]>
       </doc>
     </method>
     <method name="isEmpty" return="boolean"
@@ -44881,29 +43345,6 @@
     </doc>
   </class>
   <!-- end class com.google.common.io.Flushables -->
-  <!-- start class com.google.common.io.InsecureRecursiveDeleteException -->
-  <class name="InsecureRecursiveDeleteException" extends="java.nio.file.FileSystemException"
-    abstract="false"
-    static="false" final="true" visibility="public"
-    deprecated="not deprecated">
-    <constructor name="InsecureRecursiveDeleteException" type="java.lang.String"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-    </constructor>
-    <doc>
-    <![CDATA[Exception indicating that a recursive delete can't be performed because the file system does not
- have the support necessary to guarantee that it is not vulnerable to race conditions that would
- allow it to delete files and directories outside of the directory being deleted (i.e.,
- {@link SecureDirectoryStream} is not supported).
-
- <p>{@link RecursiveDeleteOption#ALLOW_INSECURE} can be used to force the recursive delete method
- to proceed anyway.
-
- @since 21.0
- @author Colin Decker]]>
-    </doc>
-  </class>
-  <!-- end class com.google.common.io.InsecureRecursiveDeleteException -->
   <!-- start interface com.google.common.io.LineProcessor -->
   <interface name="LineProcessor"    abstract="true"
     static="false" final="false" visibility="public"
@@ -45325,299 +43766,6 @@
     </doc>
   </class>
   <!-- end class com.google.common.io.LittleEndianDataOutputStream -->
-  <!-- start class com.google.common.io.MoreFiles -->
-  <class name="MoreFiles" extends="java.lang.Object"
-    abstract="false"
-    static="false" final="true" visibility="public"
-    deprecated="not deprecated">
-    <method name="asByteSource" return="com.google.common.io.ByteSource"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="path" type="java.nio.file.Path"/>
-      <param name="options" type="java.nio.file.OpenOption[]"/>
-      <doc>
-      <![CDATA[Returns a view of the given {@code path} as a {@link ByteSource}.
-
- <p>Any {@linkplain OpenOption open options} provided are used when opening streams to the file
- and may affect the behavior of the returned source and the streams it provides. See {@link
- StandardOpenOption} for the standard options that may be provided. Providing no options is
- equivalent to providing the {@link StandardOpenOption#READ READ} option.]]>
-      </doc>
-    </method>
-    <method name="asByteSink" return="com.google.common.io.ByteSink"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="path" type="java.nio.file.Path"/>
-      <param name="options" type="java.nio.file.OpenOption[]"/>
-      <doc>
-      <![CDATA[Returns a view of the given {@code path} as a {@link ByteSink}.
-
- <p>Any {@linkplain OpenOption open options} provided are used when opening streams to the file
- and may affect the behavior of the returned sink and the streams it provides. See {@link
- StandardOpenOption} for the standard options that may be provided. Providing no options is
- equivalent to providing the {@link StandardOpenOption#CREATE CREATE}, {@link
- StandardOpenOption#TRUNCATE_EXISTING TRUNCATE_EXISTING} and {@link StandardOpenOption#WRITE
- WRITE} options.]]>
-      </doc>
-    </method>
-    <method name="asCharSource" return="com.google.common.io.CharSource"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="path" type="java.nio.file.Path"/>
-      <param name="charset" type="java.nio.charset.Charset"/>
-      <param name="options" type="java.nio.file.OpenOption[]"/>
-      <doc>
-      <![CDATA[Returns a view of the given {@code path} as a {@link CharSource} using the given {@code
- charset}.
-
- <p>Any {@linkplain OpenOption open options} provided are used when opening streams to the file
- and may affect the behavior of the returned source and the streams it provides. See {@link
- StandardOpenOption} for the standard options that may be provided. Providing no options is
- equivalent to providing the {@link StandardOpenOption#READ READ} option.]]>
-      </doc>
-    </method>
-    <method name="asCharSink" return="com.google.common.io.CharSink"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="path" type="java.nio.file.Path"/>
-      <param name="charset" type="java.nio.charset.Charset"/>
-      <param name="options" type="java.nio.file.OpenOption[]"/>
-      <doc>
-      <![CDATA[Returns a view of the given {@code path} as a {@link CharSink} using the given {@code
- charset}.
-
- <p>Any {@linkplain OpenOption open options} provided are used when opening streams to the file
- and may affect the behavior of the returned sink and the streams it provides. See {@link
- StandardOpenOption} for the standard options that may be provided. Providing no options is
- equivalent to providing the {@link StandardOpenOption#CREATE CREATE}, {@link
- StandardOpenOption#TRUNCATE_EXISTING TRUNCATE_EXISTING} and {@link StandardOpenOption#WRITE
- WRITE} options.]]>
-      </doc>
-    </method>
-    <method name="listFiles" return="com.google.common.collect.ImmutableList&lt;java.nio.file.Path&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="dir" type="java.nio.file.Path"/>
-      <exception name="IOException" type="java.io.IOException"/>
-      <doc>
-      <![CDATA[Returns an immutable list of paths to the files contained in the given directory.
-
- @throws NoSuchFileException if the file does not exist <i>(optional specific exception)</i>
- @throws NotDirectoryException if the file could not be opened because it is not a directory
-     <i>(optional specific exception)</i>
- @throws IOException if an I/O error occurs]]>
-      </doc>
-    </method>
-    <method name="directoryTreeTraverser" return="com.google.common.collect.TreeTraverser&lt;java.nio.file.Path&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns a {@link TreeTraverser} for traversing a directory tree. The returned traverser
- attempts to avoid following symbolic links to directories. However, the traverser cannot
- guarantee that it will not follow symbolic links to directories as it is possible for a
- directory to be replaced with a symbolic link between checking if the file is a directory and
- actually reading the contents of that directory.
-
- <p>Note that if the {@link Path} passed to one of the traversal methods does not exist, no
- exception will be thrown and the returned {@link Iterable} will contain a single element: that
- path.
-
- <p>{@link DirectoryIteratorException}  may be thrown when iterating {@link Iterable} instances
- created by this traverser if an {@link IOException} is thrown by a call to
- {@link #listFiles(Path)}.]]>
-      </doc>
-    </method>
-    <method name="isDirectory" return="com.google.common.base.Predicate&lt;java.nio.file.Path&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="options" type="java.nio.file.LinkOption[]"/>
-      <doc>
-      <![CDATA[Returns a predicate that returns the result of {@link Files#isDirectory(Path, LinkOption...)}
- on input paths with the given link options.]]>
-      </doc>
-    </method>
-    <method name="isRegularFile" return="com.google.common.base.Predicate&lt;java.nio.file.Path&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="options" type="java.nio.file.LinkOption[]"/>
-      <doc>
-      <![CDATA[Returns a predicate that returns the result of
- {@link Files#isRegularFile(Path, LinkOption...)} on input paths with the given link options.]]>
-      </doc>
-    </method>
-    <method name="equal" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="path1" type="java.nio.file.Path"/>
-      <param name="path2" type="java.nio.file.Path"/>
-      <exception name="IOException" type="java.io.IOException"/>
-      <doc>
-      <![CDATA[Returns true if the files located by the given paths exist, are not directories, and contain
- the same bytes.
-
- @throws IOException if an I/O error occurs
- @since 22.0]]>
-      </doc>
-    </method>
-    <method name="touch"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="path" type="java.nio.file.Path"/>
-      <exception name="IOException" type="java.io.IOException"/>
-      <doc>
-      <![CDATA[Like the unix command of the same name, creates an empty file or updates the last modified
- timestamp of the existing file at the given path to the current system time.]]>
-      </doc>
-    </method>
-    <method name="createParentDirectories"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="path" type="java.nio.file.Path"/>
-      <param name="attrs" type="java.nio.file.attribute.FileAttribute[]"/>
-      <exception name="IOException" type="java.io.IOException"/>
-      <doc>
-      <![CDATA[Creates any necessary but nonexistent parent directories of the specified path. Note that if
- this operation fails, it may have succeeded in creating some (but not all) of the necessary
- parent directories. The parent directory is created with the given {@code attrs}.
-
- @throws IOException if an I/O error occurs, or if any necessary but nonexistent parent
-                     directories of the specified file could not be created.]]>
-      </doc>
-    </method>
-    <method name="getFileExtension" return="java.lang.String"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="path" type="java.nio.file.Path"/>
-      <doc>
-      <![CDATA[Returns the <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> for
- the file at the given path, or the empty string if the file has no extension. The result does
- not include the '{@code .}'.
-
- <p><b>Note:</b> This method simply returns everything after the last '{@code .}' in the file's
- name as determined by {@link Path#getFileName}. It does not account for any filesystem-specific
- behavior that the {@link Path} API does not already account for. For example, on NTFS it will
- report {@code "txt"} as the extension for the filename {@code "foo.exe:.txt"} even though NTFS
- will drop the {@code ":.txt"} part of the name when the file is actually created on the
- filesystem due to NTFS's <a href="https://goo.gl/vTpJi4">Alternate Data Streams</a>.]]>
-      </doc>
-    </method>
-    <method name="getNameWithoutExtension" return="java.lang.String"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="path" type="java.nio.file.Path"/>
-      <doc>
-      <![CDATA[Returns the file name without its
- <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> or path. This is
- similar to the {@code basename} unix command. The result does not include the '{@code .}'.]]>
-      </doc>
-    </method>
-    <method name="deleteRecursively"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="path" type="java.nio.file.Path"/>
-      <param name="options" type="com.google.common.io.RecursiveDeleteOption[]"/>
-      <exception name="IOException" type="java.io.IOException"/>
-      <doc>
-      <![CDATA[Deletes the file or directory at the given {@code path} recursively. Deletes symbolic links,
- not their targets (subject to the caveat below).
-
- <p>If an I/O exception occurs attempting to read, open or delete any file under the given
- directory, this method skips that file and continues. All such exceptions are collected and,
- after attempting to delete all files, an {@code IOException} is thrown containing those
- exceptions as {@linkplain Throwable#getSuppressed() suppressed exceptions}.
-
- <h2>Warning: Security of recursive deletes</h2>
-
- <p>On a file system that supports symbolic links and does <i>not</i> support
- {@link SecureDirectoryStream}, it is possible for a recursive delete to delete files and
- directories that are <i>outside</i> the directory being deleted. This can happen if, after
- checking that a file is a directory (and not a symbolic link), that directory is replaced by a
- symbolic link to an outside directory before the call that opens the directory to read its
- entries.
-
- <p>By default, this method throws {@link InsecureRecursiveDeleteException} if it can't
- guarantee the security of recursive deletes. If you wish to allow the recursive deletes
- anyway, pass {@link RecursiveDeleteOption#ALLOW_INSECURE} to this method to override that
- behavior.
-
- @throws NoSuchFileException if {@code path} does not exist <i>(optional specific
-     exception)</i>
- @throws InsecureRecursiveDeleteException if the security of recursive deletes can't be
-     guaranteed for the file system and {@link RecursiveDeleteOption#ALLOW_INSECURE} was not
-     specified
- @throws IOException if {@code path} or any file in the subtree rooted at it can't be deleted
-     for any reason]]>
-      </doc>
-    </method>
-    <method name="deleteDirectoryContents"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="path" type="java.nio.file.Path"/>
-      <param name="options" type="com.google.common.io.RecursiveDeleteOption[]"/>
-      <exception name="IOException" type="java.io.IOException"/>
-      <doc>
-      <![CDATA[Deletes all files within the directory at the given {@code path}
- {@linkplain #deleteRecursively recursively}. Does not delete the directory itself. Deletes
- symbolic links, not their targets (subject to the caveat below). If {@code path} itself is
- a symbolic link to a directory, that link is followed and the contents of the directory it
- targets are deleted.
-
- <p>If an I/O exception occurs attempting to read, open or delete any file under the given
- directory, this method skips that file and continues. All such exceptions are collected and,
- after attempting to delete all files, an {@code IOException} is thrown containing those
- exceptions as {@linkplain Throwable#getSuppressed() suppressed exceptions}.
-
- <h2>Warning: Security of recursive deletes</h2>
-
- <p>On a file system that supports symbolic links and does <i>not</i> support
- {@link SecureDirectoryStream}, it is possible for a recursive delete to delete files and
- directories that are <i>outside</i> the directory being deleted. This can happen if, after
- checking that a file is a directory (and not a symbolic link), that directory is replaced by a
- symbolic link to an outside directory before the call that opens the directory to read its
- entries.
-
- <p>By default, this method throws {@link InsecureRecursiveDeleteException} if it can't
- guarantee the security of recursive deletes. If you wish to allow the recursive deletes
- anyway, pass {@link RecursiveDeleteOption#ALLOW_INSECURE} to this method to override that
- behavior.
-
- @throws NoSuchFileException if {@code path} does not exist <i>(optional specific
-     exception)</i>
- @throws NotDirectoryException if the file at {@code path} is not a directory <i>(optional
-     specific exception)</i>
- @throws InsecureRecursiveDeleteException if the security of recursive deletes can't be
-     guaranteed for the file system and {@link RecursiveDeleteOption#ALLOW_INSECURE} was not
-     specified
- @throws IOException if one or more files can't be deleted for any reason]]>
-      </doc>
-    </method>
-    <doc>
-    <![CDATA[Static utilities for use with {@link Path} instances, intended to complement {@link Files}.
-
- <p>Many methods provided by Guava's {@code Files} class for {@link java.io.File} instances are
- now available via the JDK's {@link java.nio.file.Files} class for {@code Path} - check the JDK's
- class if a sibling method from {@code Files} appears to be missing from this class.
-
- @since 21.0
- @author Colin Decker]]>
-    </doc>
-  </class>
-  <!-- end class com.google.common.io.MoreFiles -->
   <!-- start class com.google.common.io.PatternFilenameFilter -->
   <class name="PatternFilenameFilter" extends="java.lang.Object"
     abstract="false"
@@ -45660,31 +43808,6 @@
     </doc>
   </class>
   <!-- end class com.google.common.io.PatternFilenameFilter -->
-  <!-- start class com.google.common.io.RecursiveDeleteOption -->
-  <class name="RecursiveDeleteOption" extends="java.lang.Enum&lt;com.google.common.io.RecursiveDeleteOption&gt;"
-    abstract="false"
-    static="false" final="true" visibility="public"
-    deprecated="not deprecated">
-    <method name="values" return="com.google.common.io.RecursiveDeleteOption[]"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-    </method>
-    <method name="valueOf" return="com.google.common.io.RecursiveDeleteOption"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="name" type="java.lang.String"/>
-    </method>
-    <doc>
-    <![CDATA[Options for use with recursive delete methods ({@link MoreFiles#deleteRecursively} and
- {@link MoreFiles#deleteDirectoryContents}).
-
- @since 21.0
- @author Colin Decker]]>
-    </doc>
-  </class>
-  <!-- end class com.google.common.io.RecursiveDeleteOption -->
   <!-- start class com.google.common.io.Resources -->
   <class name="Resources" extends="java.lang.Object"
     abstract="false"
@@ -53134,15 +51257,6 @@
  Builder#addAll(Iterable)}, with all the performance implications associated with that.]]>
       </doc>
     </method>
-    <method name="copyOf" return="com.google.common.primitives.ImmutableDoubleArray"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="stream" type="java.util.stream.DoubleStream"/>
-      <doc>
-      <![CDATA[Returns an immutable array containing all the values from {@code stream}, in order.]]>
-      </doc>
-    </method>
     <method name="builder" return="com.google.common.primitives.ImmutableDoubleArray.Builder"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -53232,23 +51346,6 @@
  compared as if by {@link Double#equals}. Equivalent to {@code asList().contains(target)}.]]>
       </doc>
     </method>
-    <method name="forEach"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="consumer" type="java.util.function.DoubleConsumer"/>
-      <doc>
-      <![CDATA[Invokes {@code consumer} for each value contained in this array, in order.]]>
-      </doc>
-    </method>
-    <method name="stream" return="java.util.stream.DoubleStream"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns a stream over the values in this array, in order.]]>
-      </doc>
-    </method>
     <method name="toArray" return="double[]"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -53331,7 +51428,6 @@
        hunt through classes like {@link Arrays} and {@link Doubles} for them.
    <li>Supports a copy-free {@link #subArray} view, so methods that accept this type don't need to
        add overloads that accept start and end indexes.
-   <li>Can be streamed without "breaking the chain": {@code foo.getBarDoubles().stream()...}.
    <li>Access to all collection-based utilities via {@link #asList} (though at the cost of
        allocating garbage).
  </ul>
@@ -53353,8 +51449,6 @@
  <ul>
    <li>Improved memory compactness and locality.
    <li>Can be queried without allocating garbage.
-   <li>Access to {@code DoubleStream} features (like {@link DoubleStream#sum}) using {@code
-       stream()} instead of the awkward {@code stream().mapToDouble(v -> v)}.
  </ul>
 
  <p>Disadvantages compared to {@code ImmutableList<Double>}:
@@ -53411,16 +51505,6 @@
       <param name="values" type="java.util.Collection&lt;java.lang.Double&gt;"/>
       <doc>
       <![CDATA[Appends {@code values}, in order, to the end of the values the built {@link
- ImmutableDoubleArray} will contain.]]>
-      </doc>
-    </method>
-    <method name="addAll" return="com.google.common.primitives.ImmutableDoubleArray.Builder"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="stream" type="java.util.stream.DoubleStream"/>
-      <doc>
-      <![CDATA[Appends all values from {@code stream}, in order, to the end of the values the built {@link
  ImmutableDoubleArray} will contain.]]>
       </doc>
     </method>
@@ -53577,15 +51661,6 @@
  Builder#addAll(Iterable)}, with all the performance implications associated with that.]]>
       </doc>
     </method>
-    <method name="copyOf" return="com.google.common.primitives.ImmutableIntArray"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="stream" type="java.util.stream.IntStream"/>
-      <doc>
-      <![CDATA[Returns an immutable array containing all the values from {@code stream}, in order.]]>
-      </doc>
-    </method>
     <method name="builder" return="com.google.common.primitives.ImmutableIntArray.Builder"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -53673,23 +51748,6 @@
  {@code asList().contains(target)}.]]>
       </doc>
     </method>
-    <method name="forEach"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="consumer" type="java.util.function.IntConsumer"/>
-      <doc>
-      <![CDATA[Invokes {@code consumer} for each value contained in this array, in order.]]>
-      </doc>
-    </method>
-    <method name="stream" return="java.util.stream.IntStream"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns a stream over the values in this array, in order.]]>
-      </doc>
-    </method>
     <method name="toArray" return="int[]"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -53766,13 +51824,12 @@
  <ul>
    <li>All the many well-known advantages of immutability (read <i>Effective Java</i>, second
        edition, Item 15).
-   <li>Has the value-based (not identity-based) {@link #equals}, {@link #hashCode}, and {@link
-       #toString} behavior you expect.
+   <li>Has the value-based (not identity-based) {@link #equals}, {@link #hashCode}, and
+       {@link #toString} behavior you expect
    <li>Offers useful operations beyond just {@code get} and {@code length}, so you don't have to
        hunt through classes like {@link Arrays} and {@link Ints} for them.
    <li>Supports a copy-free {@link #subArray} view, so methods that accept this type don't need to
        add overloads that accept start and end indexes.
-   <li>Can be streamed without "breaking the chain": {@code foo.getBarInts().stream()...}.
    <li>Access to all collection-based utilities via {@link #asList} (though at the cost of
        allocating garbage).
  </ul>
@@ -53792,10 +51849,8 @@
  <Integer>}:
 
  <ul>
-   <li>Improved memory compactness and locality.
-   <li>Can be queried without allocating garbage.
-   <li>Access to {@code IntStream} features (like {@link IntStream#sum}) using {@code stream()}
-       instead of the awkward {@code stream().mapToInt(v -> v)}.
+   <li>Improved memory compactness and locality
+   <li>Can be queried without allocating garbage
  </ul>
 
  <p>Disadvantages compared to {@code ImmutableList<Integer>}:
@@ -53859,16 +51914,6 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="stream" type="java.util.stream.IntStream"/>
-      <doc>
-      <![CDATA[Appends all values from {@code stream}, in order, to the end of the values the built {@link
- ImmutableIntArray} will contain.]]>
-      </doc>
-    </method>
-    <method name="addAll" return="com.google.common.primitives.ImmutableIntArray.Builder"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
       <param name="values" type="com.google.common.primitives.ImmutableIntArray"/>
       <doc>
       <![CDATA[Appends {@code values}, in order, to the end of the values the built {@link
@@ -53880,8 +51925,8 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns a new immutable array. The builder can continue to be used after this call, to append
- more values and build again.
+      <![CDATA[Returns a new immutable array. The builder can continue to be used after this call, to
+ append more values and build again.
 
  <p><b>Performance note:</b> the returned array is backed by the same array as the builder, so
  no data is copied as part of this step, but this may occupy more memory than strictly
@@ -54018,15 +52063,6 @@
  Builder#addAll(Iterable)}, with all the performance implications associated with that.]]>
       </doc>
     </method>
-    <method name="copyOf" return="com.google.common.primitives.ImmutableLongArray"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="stream" type="java.util.stream.LongStream"/>
-      <doc>
-      <![CDATA[Returns an immutable array containing all the values from {@code stream}, in order.]]>
-      </doc>
-    </method>
     <method name="builder" return="com.google.common.primitives.ImmutableLongArray.Builder"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -54114,23 +52150,6 @@
  {@code asList().contains(target)}.]]>
       </doc>
     </method>
-    <method name="forEach"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="consumer" type="java.util.function.LongConsumer"/>
-      <doc>
-      <![CDATA[Invokes {@code consumer} for each value contained in this array, in order.]]>
-      </doc>
-    </method>
-    <method name="stream" return="java.util.stream.LongStream"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns a stream over the values in this array, in order.]]>
-      </doc>
-    </method>
     <method name="toArray" return="long[]"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -54213,7 +52232,6 @@
        hunt through classes like {@link Arrays} and {@link Longs} for them.
    <li>Supports a copy-free {@link #subArray} view, so methods that accept this type don't need to
        add overloads that accept start and end indexes.
-   <li>Can be streamed without "breaking the chain": {@code foo.getBarLongs().stream()...}.
    <li>Access to all collection-based utilities via {@link #asList} (though at the cost of
        allocating garbage).
  </ul>
@@ -54235,8 +52253,6 @@
  <ul>
    <li>Improved memory compactness and locality.
    <li>Can be queried without allocating garbage.
-   <li>Access to {@code LongStream} features (like {@link LongStream#sum}) using {@code stream()}
-       instead of the awkward {@code stream().mapToLong(v -> v)}.
  </ul>
 
  <p>Disadvantages compared to {@code ImmutableList<Long>}:
@@ -54293,16 +52309,6 @@
       <param name="values" type="java.util.Collection&lt;java.lang.Long&gt;"/>
       <doc>
       <![CDATA[Appends {@code values}, in order, to the end of the values the built {@link
- ImmutableLongArray} will contain.]]>
-      </doc>
-    </method>
-    <method name="addAll" return="com.google.common.primitives.ImmutableLongArray.Builder"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="stream" type="java.util.stream.LongStream"/>
-      <doc>
-      <![CDATA[Appends all values from {@code stream}, in order, to the end of the values the built {@link
  ImmutableLongArray} will contain.]]>
       </doc>
     </method>
@@ -58811,7 +56817,7 @@
 
  <p>The default implementation does nothing.
 
- <p>This method is likely to be deprecated. Prefer to override {@link #afterDone}, checking
+ <p>This method is likely to be deprecated. Prefer to override {@link #afterDone}, consulting
  {@link #wasInterrupted} to decide whether to interrupt your task.
 
  @since 10.0]]>
@@ -58924,8 +56930,9 @@
  common ways to create a {@code ListenableFuture} include instantiating a {@link SettableFuture},
  submitting a task to a {@link ListeningExecutorService}, and deriving a {@code Future} from an
  existing one, typically using methods like {@link Futures#transform(ListenableFuture,
- com.google.common.base.Function) Futures.transform} and {@link Futures#catching(ListenableFuture,
- Class, com.google.common.base.Function, java.util.concurrent.Executor) Futures.catching}.
+ com.google.common.base.Function, java.util.concurrent.Executor) Futures.transform} and {@link
+ Futures#catching(ListenableFuture, Class, com.google.common.base.Function,
+ java.util.concurrent.Executor) Futures.catching}.
 
  <p>This class implements all methods in {@code ListenableFuture}. Subclasses should provide a way
  to set the result of the computation through the protected methods {@link #set(Object)}, {@link
@@ -60192,66 +58199,6 @@
  value.]]>
       </doc>
     </method>
-    <method name="updateAndGet" return="long"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="key" type="K"/>
-      <param name="updaterFunction" type="java.util.function.LongUnaryOperator"/>
-      <doc>
-      <![CDATA[Updates the value currently associated with {@code key} with the specified function,
- and returns the new value.  If there is not currently a value associated with {@code key},
- the function is applied to {@code 0L}.
-
- @since 21.0]]>
-      </doc>
-    </method>
-    <method name="getAndUpdate" return="long"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="key" type="K"/>
-      <param name="updaterFunction" type="java.util.function.LongUnaryOperator"/>
-      <doc>
-      <![CDATA[Updates the value currently associated with {@code key} with the specified function,
- and returns the old value.  If there is not currently a value associated with {@code key},
- the function is applied to {@code 0L}.
-
- @since 21.0]]>
-      </doc>
-    </method>
-    <method name="accumulateAndGet" return="long"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="key" type="K"/>
-      <param name="x" type="long"/>
-      <param name="accumulatorFunction" type="java.util.function.LongBinaryOperator"/>
-      <doc>
-      <![CDATA[Updates the value currently associated with {@code key} by combining it with {@code x}
- via the specified accumulator function, returning the new value.  The previous value
- associated with {@code key} (or zero, if there is none) is passed as the first argument
- to {@code accumulatorFunction}, and {@code x} is passed as the second argument.
-
- @since 21.0]]>
-      </doc>
-    </method>
-    <method name="getAndAccumulate" return="long"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="key" type="K"/>
-      <param name="x" type="long"/>
-      <param name="accumulatorFunction" type="java.util.function.LongBinaryOperator"/>
-      <doc>
-      <![CDATA[Updates the value currently associated with {@code key} by combining it with {@code x}
- via the specified accumulator function, returning the old value.  The previous value
- associated with {@code key} (or zero, if there is none) is passed as the first argument
- to {@code accumulatorFunction}, and {@code x} is passed as the second argument.
-
- @since 21.0]]>
-      </doc>
-    </method>
     <method name="put" return="long"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -60281,8 +58228,8 @@
       deprecated="not deprecated">
       <param name="key" type="K"/>
       <doc>
-      <![CDATA[Removes and returns the value associated with {@code key}. If {@code key} is not
- in the map, this method has no effect and returns zero.]]>
+      <![CDATA[Removes and returns the value associated with {@code key}. If {@code key} is not in the map,
+ this method has no effect and returns zero.]]>
       </doc>
     </method>
     <method name="removeIfZero" return="boolean"
@@ -60303,8 +58250,8 @@
       <doc>
       <![CDATA[Removes all mappings from this map whose values are zero.
 
- <p>This method is not atomic: the map may be visible in intermediate states, where some
- of the zero values have been removed and others have not.]]>
+ <p>This method is not atomic: the map may be visible in intermediate states, where some of the
+ zero values have been removed and others have not.]]>
       </doc>
     </method>
     <method name="sum" return="long"
@@ -60339,8 +58286,8 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns the number of key-value mappings in this map. If the map contains more than
- {@code Integer.MAX_VALUE} elements, returns {@code Integer.MAX_VALUE}.]]>
+      <![CDATA[Returns the number of key-value mappings in this map. If the map contains more than {@code
+ Integer.MAX_VALUE} elements, returns {@code Integer.MAX_VALUE}.]]>
       </doc>
     </method>
     <method name="isEmpty" return="boolean"
@@ -60374,15 +58321,15 @@
  {@code K}. If a key has not yet been associated with a value, its implicit value is zero.
 
  <p>Most methods in this class treat absent values and zero values identically, as individually
- documented. Exceptions to this are {@link #containsKey}, {@link #size}, {@link #isEmpty},
- {@link #asMap}, and {@link #toString}.
+ documented. Exceptions to this are {@link #containsKey}, {@link #size}, {@link #isEmpty}, {@link
+ #asMap}, and {@link #toString}.
 
  <p>Instances of this class may be used by multiple threads concurrently. All operations are
  atomic unless otherwise noted.
 
  <p><b>Note:</b> If your values are always positive and less than 2^31, you may wish to use a
- {@link com.google.common.collect.Multiset} such as
- {@link com.google.common.collect.ConcurrentHashMultiset} instead.
+ {@link com.google.common.collect.Multiset} such as {@link
+ com.google.common.collect.ConcurrentHashMultiset} instead.
 
  <b>Warning:</b> Unlike {@code Multiset}, entries whose values are zero are not automatically
  removed from the map. Instead they must be removed manually with {@link #removeAllZeros}.
@@ -62439,8 +60386,8 @@
       <param name="input" type="java.util.concurrent.Future&lt;I&gt;"/>
       <param name="function" type="com.google.common.base.Function&lt;? super I, ? extends O&gt;"/>
       <doc>
-      <![CDATA[Like {@link #transform(ListenableFuture, Function)} except that the transformation {@code
- function} is invoked on each call to {@link Future#get() get()} on the returned future.
+      <![CDATA[Like {@link #transform(ListenableFuture, Function, Executor)} except that the transformation
+ {@code function} is invoked on each call to {@link Future#get() get()} on the returned future.
 
  <p>The returned {@code Future} reflects the input's cancellation state directly, and any
  attempt to cancel the returned Future is likewise passed through to the input Future.
@@ -62467,22 +60414,23 @@
       <doc>
       <![CDATA[Returns a new {@code ListenableFuture} whose result is the product of calling {@code get()} on
  the {@code Future} nested within the given {@code Future}, effectively chaining the futures one
- after the other.  Example:
+ after the other. Example:
 
- <pre>   {@code
-   SettableFuture<ListenableFuture<String>> nested = SettableFuture.create();
-   ListenableFuture<String> dereferenced = dereference(nested);}</pre>
+ <pre>{@code
+ SettableFuture<ListenableFuture<String>> nested = SettableFuture.create();
+ ListenableFuture<String> dereferenced = dereference(nested);
+ }</pre>
 
  <p>Most users will not need this method. To create a {@code Future} that completes with the
  result of another {@code Future}, create a {@link SettableFuture}, and call {@link
  SettableFuture#setFuture setFuture(otherFuture)} on it.
 
  <p>{@code dereference} has the same cancellation and execution semantics as {@link
- #transformAsync(ListenableFuture, AsyncFunction)}, in that the returned {@code Future}
- attempts to keep its cancellation state in sync with both the input {@code Future} and the
- nested {@code Future}.  The transformation is very lightweight and therefore takes place in
- the same thread (either the thread that called {@code dereference}, or the thread in which
- the dereferenced future completes).
+ #transformAsync(ListenableFuture, AsyncFunction, Executor)}, in that the returned {@code
+ Future} attempts to keep its cancellation state in sync with both the input {@code Future} and
+ the nested {@code Future}. The transformation is very lightweight and therefore takes place in
+ the same thread (either the thread that called {@code dereference}, or the thread in which the
+ dereferenced future completes).
 
  @param nested The nested future to transform.
  @return A future that holds result of the inner future.
@@ -63494,17 +61442,6 @@
      fast) one]]>
       </doc>
     </constructor>
-    <method name="newGuard" return="com.google.common.util.concurrent.Monitor.Guard"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="isSatisfied" type="java.util.function.BooleanSupplier"/>
-      <doc>
-      <![CDATA[Creates a new {@link Guard} for {@code this} monitor.
-
- @Param isSatisfied The guards boolean condition.  See {@link Guard#isSatisfied}.]]>
-      </doc>
-    </method>
     <method name="enter"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"

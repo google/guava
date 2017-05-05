@@ -127,7 +127,7 @@ var activeTableTab = "activeTableTab";
 </dl>
 <hr>
 <br>
-<pre>public abstract static class <a href="../../../../src-html/com/google/common/collect/Sets.html#line.596">Sets.SetView</a>&lt;E&gt;
+<pre>public abstract static class <a href="../../../../src-html/com/google/common/collect/Sets.html#line.598">Sets.SetView</a>&lt;E&gt;
 extends <a href="http://docs.oracle.com/javase/8/docs/api/java/util/AbstractSet.html?is-external=true" title="class or interface in java.util">AbstractSet</a>&lt;E&gt;</pre>
 <div class="block">An unmodifiable view of a set which may be backed by other sets; this view
  will change as the backing sets do. Contains methods to copy the data into
@@ -294,7 +294,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/util/AbstractSet.
 <ul class="blockList">
 <li class="blockList">
 <h4>immutableCopy</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="../../../../com/google/common/collect/Sets.SetView.html" title="type parameter in Sets.SetView">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.608">immutableCopy</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="../../../../com/google/common/collect/Sets.SetView.html" title="type parameter in Sets.SetView">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.610">immutableCopy</a>()</pre>
 <div class="block">Returns an immutable copy of the current contents of this set view.
  Does not support null elements.
 
@@ -311,7 +311,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/util/AbstractSet.
 <ul class="blockList">
 <li class="blockList">
 <h4>copyInto</h4>
-<pre>public&nbsp;&lt;S extends <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/Sets.SetView.html" title="type parameter in Sets.SetView">E</a>&gt;&gt;&nbsp;S&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.622">copyInto</a>(S&nbsp;set)</pre>
+<pre>public&nbsp;&lt;S extends <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/Sets.SetView.html" title="type parameter in Sets.SetView">E</a>&gt;&gt;&nbsp;S&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.624">copyInto</a>(S&nbsp;set)</pre>
 <div class="block">Copies the current contents of this set view into an existing set. This
  method has equivalent behavior to <code>set.addAll(this)</code>, assuming that
  all the sets involved are based on the same notion of equivalence.</div>
@@ -330,7 +330,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/util/AbstractSet.
 <li class="blockList">
 <h4>add</h4>
 <pre><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.636">add</a>(<a href="../../../../com/google/common/collect/Sets.SetView.html" title="type parameter in Sets.SetView">E</a>&nbsp;e)</pre>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.638">add</a>(<a href="../../../../com/google/common/collect/Sets.SetView.html" title="type parameter in Sets.SetView">E</a>&nbsp;e)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the collection unmodified.</div>
 <dl>
@@ -352,7 +352,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <li class="blockList">
 <h4>remove</h4>
 <pre><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.649">remove</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.651">remove</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the collection unmodified.</div>
 <dl>
@@ -374,7 +374,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <li class="blockList">
 <h4>addAll</h4>
 <pre><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.662">addAll</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="../../../../com/google/common/collect/Sets.SetView.html" title="type parameter in Sets.SetView">E</a>&gt;&nbsp;newElements)</pre>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.664">addAll</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="../../../../com/google/common/collect/Sets.SetView.html" title="type parameter in Sets.SetView">E</a>&gt;&nbsp;newElements)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the collection unmodified.</div>
 <dl>
@@ -396,7 +396,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <li class="blockList">
 <h4>removeAll</h4>
 <pre><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.675">removeAll</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;oldElements)</pre>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.677">removeAll</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;oldElements)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the collection unmodified.</div>
 <dl>
@@ -418,7 +418,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <li class="blockList">
 <h4>removeIf</h4>
 <pre><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.688">removeIf</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html?is-external=true" title="class or interface in java.util.function">Predicate</a>&lt;? super <a href="../../../../com/google/common/collect/Sets.SetView.html" title="type parameter in Sets.SetView">E</a>&gt;&nbsp;filter)</pre>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.690">removeIf</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html?is-external=true" title="class or interface in java.util.function">Predicate</a>&lt;? super <a href="../../../../com/google/common/collect/Sets.SetView.html" title="type parameter in Sets.SetView">E</a>&gt;&nbsp;filter)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the collection unmodified.</div>
 <dl>
@@ -434,7 +434,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <li class="blockList">
 <h4>retainAll</h4>
 <pre><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.701">retainAll</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;elementsToKeep)</pre>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.703">retainAll</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;elementsToKeep)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the collection unmodified.</div>
 <dl>
@@ -456,7 +456,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <li class="blockList">
 <h4>clear</h4>
 <pre><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.713">clear</a>()</pre>
+public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.715">clear</a>()</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the collection unmodified.</div>
 <dl>
@@ -477,7 +477,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockListLast">
 <li class="blockList">
 <h4>iterator</h4>
-<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="../../../../com/google/common/collect/Sets.SetView.html" title="type parameter in Sets.SetView">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.723">iterator</a>()</pre>
+<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="../../../../com/google/common/collect/Sets.SetView.html" title="type parameter in Sets.SetView">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.SetView.html#line.725">iterator</a>()</pre>
 <div class="block">Scope the return type to <a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect"><code>UnmodifiableIterator</code></a> to ensure this is an unmodifiable view.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
