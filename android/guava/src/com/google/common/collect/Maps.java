@@ -61,6 +61,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import javax.annotation.Nullable;
 
@@ -287,9 +288,9 @@ public final class Maps {
    * all optional operations of the ConcurrentMap interface. It does not permit
    * null keys or values. It is serializable.
    *
-   * <p>This is currently accomplished by calling {@link MapMaker#makeMap()}.
+   * <p>This is equivalent to {@link MapMaker#makeMap()}.
    *
-   * <p>It is preferable to use {@code MapMaker} directly (rather than through
+   * <p>It is often preferable to use {@code MapMaker} directly (rather than through
    * this method), as it presents numerous useful configuration options,
    * such as the concurrency level, load factor, key/value reference types,
    * and value computation.
@@ -298,7 +299,7 @@ public final class Maps {
    * @since 3.0
    */
   public static <K, V> ConcurrentMap<K, V> newConcurrentMap() {
-    return new MapMaker().<K, V>makeMap();
+    return new ConcurrentHashMap<>();
   }
 
   /**
