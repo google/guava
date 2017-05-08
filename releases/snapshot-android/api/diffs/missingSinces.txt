@@ -1,5 +1,4 @@
 OK: com.google.common.collect.Comparators Class
-MISSING @SINCE TAG: com.google.common.collect.EnumCountHashMap Class
 OK: com.google.common.util.concurrent.ForwardingBlockingDeque Class
 OK: com.google.common.primitives.ImmutableDoubleArray Class
 MISSING @SINCE TAG: com.google.common.primitives.ImmutableDoubleArray.Builder Class

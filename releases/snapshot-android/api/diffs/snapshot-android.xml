@@ -10947,60 +10947,6 @@
     </doc>
   </class>
   <!-- end class com.google.common.collect.EnumBiMap -->
-  <!-- start class com.google.common.collect.EnumCountHashMap -->
-  <class name="EnumCountHashMap" extends="com.google.common.collect.AbstractObjectCountMap&lt;K&gt;"
-    abstract="false"
-    static="false" final="false" visibility="public"
-    deprecated="not deprecated">
-    <method name="create" return="com.google.common.collect.EnumCountHashMap&lt;K&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="type" type="java.lang.Class&lt;K&gt;"/>
-      <doc>
-      <![CDATA[Creates an empty {@code EnumCountHashMap} instance.]]>
-      </doc>
-    </method>
-    <method name="clear"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-    </method>
-    <method name="containsKey" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
-    </method>
-    <method name="get" return="int"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
-    </method>
-    <method name="put" return="int"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="key" type="K extends java.lang.Enum&lt;K&gt;"/>
-      <param name="value" type="int"/>
-    </method>
-    <method name="remove" return="int"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
-    </method>
-    <method name="hashCode" return="int"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-    </method>
-    <doc>
-    <![CDATA[EnumCountHashMap is an implementation of {@code AbstractObjectCountMap} with enum type keys.]]>
-    </doc>
-  </class>
-  <!-- end class com.google.common.collect.EnumCountHashMap -->
   <!-- start class com.google.common.collect.EnumHashBiMap -->
   <class name="EnumHashBiMap" extends="com.google.common.collect.AbstractBiMap&lt;K, V&gt;"
     abstract="false"
