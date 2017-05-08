@@ -32,4 +32,14 @@ public void testHashCodeImpl() throws Exception {
   com.google.common.collect.ListsImplTest testCase = new com.google.common.collect.ListsImplTest();
   testCase.testHashCodeImpl();
 }
+
+public void testIndexOfImpl_nonNull() throws Exception {
+  com.google.common.collect.ListsImplTest testCase = new com.google.common.collect.ListsImplTest();
+  testCase.testIndexOfImpl_nonNull();
+}
+
+public void testIndexOfImpl_null() throws Exception {
+  com.google.common.collect.ListsImplTest testCase = new com.google.common.collect.ListsImplTest();
+  testCase.testIndexOfImpl_null();
+}
 }

@@ -183,6 +183,35 @@ public class ListsImplTest extends TestCase {
     }
   }
 
+  public void testIndexOfImpl_nonNull() {
+    List<Integer> toTest = createList(Integer.class, 5, 2, -1, 2, 1, 10, 5);
+    int[] expected = {0, 1, 2, 1, 4, 5, 0};
+    checkIndexOf(toTest, expected);
+  }
+
+  public void testIndexOfImpl_null() {
+    List<String> toTest;
+    try {
+      toTest = createList(String.class, null, "A", "B", null, "C", null);
+    } catch (NullPointerException e) {
+      // example cannot handle nulls, test invalid
+      return;
+    }
+    int[] expected = {0, 1, 2, 0, 4, 0};
+    checkIndexOf(toTest, expected);
+  }
+
+  private void checkIndexOf(List<?> toTest, int[] expected) {
+    int index = 0;
+    for (Object obj : toTest) {
+      String name = "toTest[" + index + "] (" + obj + ")";
+      assertThat(Lists.indexOfImpl(toTest, obj))
+          .named(name)
+          .isEqualTo(expected[index]);
+      index++;
+    }
+  }
+
   @SafeVarargs
   @SuppressWarnings("varargs")
   private final <T> List<T> createList(Class<T> listType, T... contents) {
