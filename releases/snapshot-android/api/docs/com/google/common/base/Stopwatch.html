@@ -150,7 +150,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
  Stopwatch.createStarted(
       new Ticker() {
         public long read() {
-          return android.os.SystemClock.elapsedRealtime();
+          return android.os.SystemClock.elapsedRealtimeNanos();
         }
       });
  </code></pre></div>
