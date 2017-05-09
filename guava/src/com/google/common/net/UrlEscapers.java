@@ -39,9 +39,9 @@ public final class UrlEscapers {
   static final String URL_FORM_PARAMETER_OTHER_SAFE_CHARS = "-_.*";
 
   static final String URL_PATH_OTHER_SAFE_CHARS_LACKING_PLUS =
-      "-._~" +        // Unreserved characters.
-      "!$'()*,;&=" +  // The subdelim characters (excluding '+').
-      "@:";           // The gendelim characters permitted in paths.
+      "-._~" // Unreserved characters.
+          + "!$'()*,;&=" // The subdelim characters (excluding '+').
+          + "@:"; // The gendelim characters permitted in paths.
 
   /**
    * Returns an {@link Escaper} instance that escapes strings so they can be safely included in

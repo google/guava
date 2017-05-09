@@ -51,11 +51,11 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   }
 
   /**
-   * This implementation of {@code getAllPresent} lacks any insight into the internal cache data
+   * {@inheritDoc}
+   *
+   * <p>This implementation of {@code getAllPresent} lacks any insight into the internal cache data
    * structure, and is thus forced to return the query keys instead of the cached keys. This is only
    * possible with an unsafe cast which requires {@code keys} to actually be of type {@code K}.
-   *
-   * {@inheritDoc}
    *
    * @since 11.0
    */

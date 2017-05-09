@@ -52,9 +52,6 @@ import java.util.List;
  *
  * @author Gregory Kick
  * @since 10.0
- *
- * TODO(gak): turn this into a test suite so that each test can fail
- * independently
  */
 @Beta
 @GwtCompatible public final class EquivalenceTester<T> {
