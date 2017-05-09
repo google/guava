@@ -333,8 +333,12 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
    */
   public static <C extends Comparable<?>> Range<C> encloseAll(Iterable<C> values) {
     checkNotNull(values);
-    if (values instanceof ContiguousSet) {
-      return ((ContiguousSet<C>) values).range();
+    if (values instanceof SortedSet) {
+      SortedSet<? extends C> set = cast(values);
+      Comparator<?> comparator = set.comparator();
+      if (Ordering.natural().equals(comparator) || comparator == null) {
+        return closed(set.first(), set.last());
+      }
     }
     Iterator<C> valueIterator = values.iterator();
     C min = checkNotNull(valueIterator.next());
