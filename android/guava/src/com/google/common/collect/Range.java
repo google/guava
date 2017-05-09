@@ -119,30 +119,30 @@ import javax.annotation.Nullable;
 public final class Range<C extends Comparable> extends RangeGwtSerializationDependencies
     implements Predicate<C>, Serializable {
 
-  private static final Function<Range, Cut> LOWER_BOUND_FN =
-      new Function<Range, Cut>() {
-        @Override
-        public Cut apply(Range range) {
-          return range.lowerBound;
-        }
-      };
+  static class LowerBoundFn implements Function<Range, Cut> {
+    static final LowerBoundFn INSTANCE = new LowerBoundFn();
+    @Override
+    public Cut apply(Range range) {
+      return range.lowerBound;
+    }
+  }
+
+  static class UpperBoundFn implements Function<Range, Cut> {
+    static final UpperBoundFn INSTANCE = new UpperBoundFn();
+    @Override
+    public Cut apply(Range range) {
+      return range.upperBound;
+    }
+  }
 
   @SuppressWarnings("unchecked")
   static <C extends Comparable<?>> Function<Range<C>, Cut<C>> lowerBoundFn() {
-    return (Function) LOWER_BOUND_FN;
+    return (Function) LowerBoundFn.INSTANCE;
   }
-
-  private static final Function<Range, Cut> UPPER_BOUND_FN =
-      new Function<Range, Cut>() {
-        @Override
-        public Cut apply(Range range) {
-          return range.upperBound;
-        }
-      };
 
   @SuppressWarnings("unchecked")
   static <C extends Comparable<?>> Function<Range<C>, Cut<C>> upperBoundFn() {
-    return (Function) UPPER_BOUND_FN;
+    return (Function) UpperBoundFn.INSTANCE;
   }
 
   static <C extends Comparable<?>> Ordering<Range<C>> rangeLexOrdering() {
