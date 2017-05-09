@@ -28,21 +28,14 @@ public enum BoundType {
   /**
    * The endpoint value <i>is not</i> considered part of the set ("exclusive").
    */
-  OPEN {
-    @Override
-    BoundType flip() {
-      return CLOSED;
-    }
-  },
-  /**
-   * The endpoint value <i>is</i> considered part of the set ("inclusive").
-   */
-  CLOSED {
-    @Override
-    BoundType flip() {
-      return OPEN;
-    }
-  };
+  OPEN(false),
+  CLOSED(true);
+
+  final boolean inclusive;
+
+  BoundType(boolean inclusive) {
+    this.inclusive = inclusive;
+  }
 
   /**
    * Returns the bound type corresponding to a boolean value for inclusivity.
@@ -51,5 +44,7 @@ public enum BoundType {
     return inclusive ? CLOSED : OPEN;
   }
 
-  abstract BoundType flip();
+  BoundType flip() {
+    return forBoolean(!inclusive);
+  }
 }
