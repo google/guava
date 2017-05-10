@@ -11298,8 +11298,8 @@
  iterator supports it.
 
  <p><b>{@code Stream} equivalent:</b> to concatenate an arbitrary number of streams, use {@code
- Stream.of(stream1, stream2, ...).flatMap(s -> s)}. If the sources are iterables, after the next
- release of Guava you can use {@code Stream.of(iter1, iter2, ...).flatMap(Streams::stream)}.
+ Stream.of(stream1, stream2, ...).flatMap(s -> s)}. If the sources are iterables, use {@code
+ Stream.of(iter1, iter2, ...).flatMap(Streams::stream)}.
 
  @throws NullPointerException if any of the provided iterables is {@code null}
  @since 20.0]]>
