@@ -127,30 +127,30 @@
 <span class="sourceLineNo">119</span>public final class Range&lt;C extends Comparable&gt; extends RangeGwtSerializationDependencies<a name="line.119"></a>
 <span class="sourceLineNo">120</span>    implements Predicate&lt;C&gt;, Serializable {<a name="line.120"></a>
 <span class="sourceLineNo">121</span><a name="line.121"></a>
-<span class="sourceLineNo">122</span>  private static final Function&lt;Range, Cut&gt; LOWER_BOUND_FN =<a name="line.122"></a>
-<span class="sourceLineNo">123</span>      new Function&lt;Range, Cut&gt;() {<a name="line.123"></a>
-<span class="sourceLineNo">124</span>        @Override<a name="line.124"></a>
-<span class="sourceLineNo">125</span>        public Cut apply(Range range) {<a name="line.125"></a>
-<span class="sourceLineNo">126</span>          return range.lowerBound;<a name="line.126"></a>
-<span class="sourceLineNo">127</span>        }<a name="line.127"></a>
-<span class="sourceLineNo">128</span>      };<a name="line.128"></a>
+<span class="sourceLineNo">122</span>  static class LowerBoundFn implements Function&lt;Range, Cut&gt; {<a name="line.122"></a>
+<span class="sourceLineNo">123</span>    static final LowerBoundFn INSTANCE = new LowerBoundFn();<a name="line.123"></a>
+<span class="sourceLineNo">124</span>    @Override<a name="line.124"></a>
+<span class="sourceLineNo">125</span>    public Cut apply(Range range) {<a name="line.125"></a>
+<span class="sourceLineNo">126</span>      return range.lowerBound;<a name="line.126"></a>
+<span class="sourceLineNo">127</span>    }<a name="line.127"></a>
+<span class="sourceLineNo">128</span>  }<a name="line.128"></a>
 <span class="sourceLineNo">129</span><a name="line.129"></a>
-<span class="sourceLineNo">130</span>  @SuppressWarnings("unchecked")<a name="line.130"></a>
-<span class="sourceLineNo">131</span>  static &lt;C extends Comparable&lt;?&gt;&gt; Function&lt;Range&lt;C&gt;, Cut&lt;C&gt;&gt; lowerBoundFn() {<a name="line.131"></a>
-<span class="sourceLineNo">132</span>    return (Function) LOWER_BOUND_FN;<a name="line.132"></a>
-<span class="sourceLineNo">133</span>  }<a name="line.133"></a>
-<span class="sourceLineNo">134</span><a name="line.134"></a>
-<span class="sourceLineNo">135</span>  private static final Function&lt;Range, Cut&gt; UPPER_BOUND_FN =<a name="line.135"></a>
-<span class="sourceLineNo">136</span>      new Function&lt;Range, Cut&gt;() {<a name="line.136"></a>
-<span class="sourceLineNo">137</span>        @Override<a name="line.137"></a>
-<span class="sourceLineNo">138</span>        public Cut apply(Range range) {<a name="line.138"></a>
-<span class="sourceLineNo">139</span>          return range.upperBound;<a name="line.139"></a>
-<span class="sourceLineNo">140</span>        }<a name="line.140"></a>
-<span class="sourceLineNo">141</span>      };<a name="line.141"></a>
+<span class="sourceLineNo">130</span>  static class UpperBoundFn implements Function&lt;Range, Cut&gt; {<a name="line.130"></a>
+<span class="sourceLineNo">131</span>    static final UpperBoundFn INSTANCE = new UpperBoundFn();<a name="line.131"></a>
+<span class="sourceLineNo">132</span>    @Override<a name="line.132"></a>
+<span class="sourceLineNo">133</span>    public Cut apply(Range range) {<a name="line.133"></a>
+<span class="sourceLineNo">134</span>      return range.upperBound;<a name="line.134"></a>
+<span class="sourceLineNo">135</span>    }<a name="line.135"></a>
+<span class="sourceLineNo">136</span>  }<a name="line.136"></a>
+<span class="sourceLineNo">137</span><a name="line.137"></a>
+<span class="sourceLineNo">138</span>  @SuppressWarnings("unchecked")<a name="line.138"></a>
+<span class="sourceLineNo">139</span>  static &lt;C extends Comparable&lt;?&gt;&gt; Function&lt;Range&lt;C&gt;, Cut&lt;C&gt;&gt; lowerBoundFn() {<a name="line.139"></a>
+<span class="sourceLineNo">140</span>    return (Function) LowerBoundFn.INSTANCE;<a name="line.140"></a>
+<span class="sourceLineNo">141</span>  }<a name="line.141"></a>
 <span class="sourceLineNo">142</span><a name="line.142"></a>
 <span class="sourceLineNo">143</span>  @SuppressWarnings("unchecked")<a name="line.143"></a>
 <span class="sourceLineNo">144</span>  static &lt;C extends Comparable&lt;?&gt;&gt; Function&lt;Range&lt;C&gt;, Cut&lt;C&gt;&gt; upperBoundFn() {<a name="line.144"></a>
-<span class="sourceLineNo">145</span>    return (Function) UPPER_BOUND_FN;<a name="line.145"></a>
+<span class="sourceLineNo">145</span>    return (Function) UpperBoundFn.INSTANCE;<a name="line.145"></a>
 <span class="sourceLineNo">146</span>  }<a name="line.146"></a>
 <span class="sourceLineNo">147</span><a name="line.147"></a>
 <span class="sourceLineNo">148</span>  static &lt;C extends Comparable&lt;?&gt;&gt; Ordering&lt;Range&lt;C&gt;&gt; rangeLexOrdering() {<a name="line.148"></a>

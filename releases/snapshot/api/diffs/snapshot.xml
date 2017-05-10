@@ -9902,7 +9902,7 @@
   <!-- start class com.google.common.collect.BoundType -->
   <class name="BoundType" extends="java.lang.Enum&lt;com.google.common.collect.BoundType&gt;"
     abstract="false"
-    static="false" final="false" visibility="public"
+    static="false" final="true" visibility="public"
     deprecated="not deprecated">
     <method name="values" return="com.google.common.collect.BoundType[]"
       abstract="false" native="false" synchronized="false"
