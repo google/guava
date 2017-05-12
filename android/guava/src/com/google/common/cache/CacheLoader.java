@@ -34,14 +34,23 @@ import java.util.concurrent.Executor;
  * <p>Most implementations will only need to implement {@link #load}. Other methods may be
  * overridden as desired.
  *
- * <p>Usage example: <pre>   {@code
+ * <p>Usage example:
  *
- *   CacheLoader<Key, Graph> loader = new CacheLoader<Key, Graph>() {
- *     public Graph load(Key key) throws AnyException {
- *       return createExpensiveGraph(key);
- *     }
- *   };
- *   LoadingCache<Key, Graph> cache = CacheBuilder.newBuilder().build(loader);}</pre>
+ * <pre>{@code
+ * CacheLoader<Key, Graph> loader = new CacheLoader<Key, Graph>() {
+ *   public Graph load(Key key) throws AnyException {
+ *     return createExpensiveGraph(key);
+ *   }
+ * };
+ * LoadingCache<Key, Graph> cache = CacheBuilder.newBuilder().build(loader);
+ * }</pre>
+ *
+ * <p>Since this example doesn't support reloading or bulk loading, if you're able to use lambda
+ * expressions it can be specified even more easily:
+ *
+ * <pre>{@code
+ * CacheLoader<Key, Graph> loader = CacheLoader.from(key -> createExpensiveGraph(key));
+ * }</pre>
  *
  * @author Charles Fry
  * @since 10.0
@@ -122,9 +131,9 @@ public abstract class CacheLoader<K, V> {
   }
 
   /**
-   * Returns a cache loader based on an <i>existing</i> function instance. Note that there's no need
-   * to create a <i>new</i> function just to pass it in here; just subclass {@code CacheLoader} and
-   * implement {@link #load load} instead.
+   * Returns a cache loader that uses {@code function} to load keys, and without supporting either
+   * reloading or bulk loading. This is most useful when you can pass a lambda expression. Otherwise
+   * it is useful mostly when you already have an existing function instance.
    *
    * @param function the function to be used for loading values; must never return {@code null}
    * @return a cache loader that loads values by passing each key to {@code function}
