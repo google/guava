@@ -56698,11 +56698,8 @@
       <![CDATA[{@inheritDoc}
 
  <p>The default {@link AbstractFuture} implementation throws {@code InterruptedException} if the
- current thread is interrupted before or during the call, even if the value is already
- available.
+ current thread is interrupted during the call, even if the value is already available.
 
- @throws InterruptedException if the current thread was interrupted before or during the call
-     (optional but recommended).
  @throws CancellationException {@inheritDoc}]]>
       </doc>
     </method>
@@ -56716,11 +56713,8 @@
       <![CDATA[{@inheritDoc}
 
  <p>The default {@link AbstractFuture} implementation throws {@code InterruptedException} if the
- current thread is interrupted before or during the call, even if the value is already
- available.
+ current thread is interrupted during the call, even if the value is already available.
 
- @throws InterruptedException if the current thread was interrupted before or during the call
-     (optional but recommended).
  @throws CancellationException {@inheritDoc}]]>
       </doc>
     </method>
