@@ -99,7 +99,7 @@ public class ImmutableIntArrayTest extends TestCase {
   }
 
   public void testCopyOf_iterable_notCollection_empty() {
-    Iterable<Integer> iterable = iterable(Collections.emptySet());
+    Iterable<Integer> iterable = iterable(Collections.<Integer>emptySet());
     assertThat(ImmutableIntArray.copyOf(iterable)).isSameAs(ImmutableIntArray.of());
   }
 
@@ -465,7 +465,8 @@ public class ImmutableIntArrayTest extends TestCase {
                   CollectionSize.SEVERAL,
                   CollectionFeature.ALLOWS_NULL_QUERIES,
                   CollectionFeature.RESTRICTS_ELEMENTS,
-                  CollectionFeature.KNOWN_ORDER /*, SERIALIZABLE_INCLUDING_VIEWS*/)
+                  CollectionFeature.KNOWN_ORDER,
+                  CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS)
               .createTestSuite());
     }
     return suite;

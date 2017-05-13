@@ -279,7 +279,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     if (ranges.isEmpty()) {
       return ImmutableSet.of();
     }
-    return new RegularImmutableSortedSet<Range<C>>(ranges, Range.RANGE_LEX_ORDERING);
+    return new RegularImmutableSortedSet<Range<C>>(ranges, Range.<C>rangeLexOrdering());
   }
 
   @Override
@@ -288,7 +288,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
       return ImmutableSet.of();
     }
     return new RegularImmutableSortedSet<Range<C>>(
-        ranges.reverse(), Range.RANGE_LEX_ORDERING.reverse());
+        ranges.reverse(), Range.<C>rangeLexOrdering().reverse());
   }
 
   @LazyInit
@@ -764,7 +764,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     public ImmutableRangeSet<C> build() {
       ImmutableList.Builder<Range<C>> mergedRangesBuilder =
           new ImmutableList.Builder<Range<C>>(ranges.size());
-      Collections.sort(ranges, Range.RANGE_LEX_ORDERING);
+      Collections.sort(ranges, Range.<C>rangeLexOrdering());
       PeekingIterator<Range<C>> peekingItr = Iterators.peekingIterator(ranges.iterator());
       while (peekingItr.hasNext()) {
         Range<C> range = peekingItr.next();

@@ -21,8 +21,8 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
+import com.google.common.collect.MapMaker.Dummy;
 import com.google.common.collect.MapMakerInternalMap.InternalEntry;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * Contains static methods pertaining to instances of {@link Interner}.
@@ -79,7 +79,10 @@ public final class Interners {
     }
 
     public <E> Interner<E> build() {
-      return strong ? new StrongInterner<E>(mapMaker) : new WeakInterner<E>(mapMaker);
+      if (!strong) {
+        mapMaker.weakKeys();
+      }
+      return new InternerImpl<E>(mapMaker);
     }
   }
 
@@ -109,29 +112,14 @@ public final class Interners {
   }
 
   @VisibleForTesting
-  static final class StrongInterner<E> implements Interner<E> {
-    @VisibleForTesting
-    final ConcurrentMap<E, E> map;
-
-    private StrongInterner(MapMaker mapMaker) {
-      this.map = mapMaker.makeMap();
-    }
-
-    @Override
-    public E intern(E sample) {
-      E canonical = map.putIfAbsent(checkNotNull(sample), sample);
-      return (canonical == null) ? sample : canonical;
-    }
-  }
-
-  @VisibleForTesting
-  static final class WeakInterner<E> implements Interner<E> {
+  static final class InternerImpl<E> implements Interner<E> {
     // MapMaker is our friend, we know about this type
     @VisibleForTesting
     final MapMakerInternalMap<E, Dummy, ?, ?> map;
 
-    private WeakInterner(MapMaker mapMaker) {
-      this.map = mapMaker.weakKeys().keyEquivalence(Equivalence.equals()).makeCustomMap();
+    private InternerImpl(MapMaker mapMaker) {
+      this.map = MapMakerInternalMap.createWithDummyValues(
+          mapMaker.keyEquivalence(Equivalence.equals()));
     }
 
     @Override
@@ -159,10 +147,6 @@ public final class Interners {
            */
         }
       }
-    }
-
-    private enum Dummy {
-      VALUE
     }
   }
 

@@ -391,9 +391,9 @@ public final class CacheBuilder<K, V> {
    * Specifies the maximum number of entries the cache may contain.
    *
    * <p>Note that the cache <b>may evict an entry before this limit is exceeded</b>. For example, in
-   * the current implementation, when {@concurrencyLevel} is greater than {@code 1}, each resulting
-   * segment inside the cache <i>independently</i> limits its own size to approximately {@code
-   * maximumSize / concurrencyLevel}.
+   * the current implementation, when {@code concurrencyLevel} is greater than {@code 1}, each
+   * resulting segment inside the cache <i>independently</i> limits its own size to approximately
+   * {@code maximumSize / concurrencyLevel}.
    *
    * <p>When eviction is necessary, the cache evicts entries that are less likely to be used again.
    * For example, the cache may evict an entry because it hasn't been used recently or very often.
@@ -427,9 +427,9 @@ public final class CacheBuilder<K, V> {
    * corresponding call to {@link #weigher} prior to calling {@link #build}.
    *
    * <p>Note that the cache <b>may evict an entry before this limit is exceeded</b>. For example, in
-   * the current implementation, when {@concurrencyLevel} is greater than {@code 1}, each resulting
-   * segment inside the cache <i>independently</i> limits its own weight to approximately {@code
-   * maximumWeight / concurrencyLevel}.
+   * the current implementation, when {@code concurrencyLevel} is greater than {@code 1}, each
+   * resulting segment inside the cache <i>independently</i> limits its own weight to approximately
+   * {@code maximumWeight / concurrencyLevel}.
    *
    * <p>When eviction is necessary, the cache evicts entries that are less likely to be used again.
    * For example, the cache may evict an entry because it hasn't been used recently or very often.

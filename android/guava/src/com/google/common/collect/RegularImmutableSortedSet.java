@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+
 import com.google.common.annotations.VisibleForTesting;
 import java.util.Collection;
 import java.util.Collections;
@@ -42,7 +43,8 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   static final RegularImmutableSortedSet<Comparable> NATURAL_EMPTY_SET =
       new RegularImmutableSortedSet<Comparable>(ImmutableList.<Comparable>of(), Ordering.natural());
 
-  @VisibleForTesting final transient ImmutableList<E> elements;
+  @VisibleForTesting
+  final transient ImmutableList<E> elements;
 
   RegularImmutableSortedSet(ImmutableList<E> elements, Comparator<? super E> comparator) {
     super(comparator);

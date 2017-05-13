@@ -17,16 +17,10 @@
 package com.google.common.reflect;
 
 import static com.google.common.base.Charsets.US_ASCII;
-import static com.google.common.io.MoreFiles.deleteRecursively;
 import static com.google.common.truth.Truth.assertThat;
-import static java.nio.file.Files.createDirectory;
-import static java.nio.file.Files.createFile;
-import static java.nio.file.Files.createSymbolicLink;
-import static java.nio.file.Files.createTempDirectory;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.io.Closer;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
@@ -196,65 +190,6 @@ public class ClassPathTest extends TestCase {
       assertThat(scanner.getResources()).hasSize(1);
     } finally {
       jarFile.delete();
-    }
-  }
-
-  @AndroidIncompatible // Path (for symlink creation)
-
-  public void testScanDirectory_symlinkCycle() throws IOException {
-    ClassLoader loader = ClassPathTest.class.getClassLoader();
-    // directory with a cycle,
-    // /root
-    //    /left
-    //       /[sibling -> right]
-    //    /right
-    //       /[sibling -> left]
-    java.nio.file.Path root = createTempDirectory("ClassPathTest");
-    try {
-      java.nio.file.Path left = createDirectory(root.resolve("left"));
-      createFile(left.resolve("some.txt"));
-
-      java.nio.file.Path right = createDirectory(root.resolve("right"));
-      createFile(right.resolve("another.txt"));
-
-      createSymbolicLink(left.resolve("sibling"), right);
-      createSymbolicLink(right.resolve("sibling"), left);
-
-      ClassPath.DefaultScanner scanner = new ClassPath.DefaultScanner();
-      scanner.scan(root.toFile(), loader);
-
-      assertEquals(
-          ImmutableSet.of(
-              new ResourceInfo("left/some.txt", loader),
-              new ResourceInfo("left/sibling/another.txt", loader),
-              new ResourceInfo("right/another.txt", loader),
-              new ResourceInfo("right/sibling/some.txt", loader)),
-          scanner.getResources());
-    } finally {
-      deleteRecursively(root);
-    }
-  }
-
-  @AndroidIncompatible // Path (for symlink creation)
-
-  public void testScanDirectory_symlinkToRootCycle() throws IOException {
-    ClassLoader loader = ClassPathTest.class.getClassLoader();
-    // directory with a cycle,
-    // /root
-    //    /child
-    //       /[grandchild -> root]
-    java.nio.file.Path root = createTempDirectory("ClassPathTest");
-    try {
-      createFile(root.resolve("some.txt"));
-      java.nio.file.Path child = createDirectory(root.resolve("child"));
-      createSymbolicLink(child.resolve("grandchild"), root);
-
-      ClassPath.DefaultScanner scanner = new ClassPath.DefaultScanner();
-      scanner.scan(root.toFile(), loader);
-
-      assertEquals(ImmutableSet.of(new ResourceInfo("some.txt", loader)), scanner.getResources());
-    } finally {
-      deleteRecursively(root);
     }
   }
 

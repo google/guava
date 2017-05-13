@@ -101,6 +101,7 @@
           <docencoding>UTF-8</docencoding>
           <charset>UTF-8</charset>
           <additionalparam>-XDignore.symbol.file</additionalparam>
+          <additionalparam>-Xdoclint:-html</additionalparam>
           <excludePackageNames>com.google.common.base.internal</excludePackageNames>
           <linksource>true</linksource>
           <links>
@@ -144,38 +145,6 @@
           <optional>true</optional>
         </dependency>
       </dependencies>
-    </profile>
-    <profile>
-      <id>jdk8</id>
-      <activation>
-        <jdk>[1.8,)</jdk>
-      </activation>
-      <!-- Disable doclint under JDK 8 -->
-      <!-- This is defined in guava-parent as well, but we need it here too because the
-           <additionalparam> from the maven-javadoc-plugin configuration above seems to
-           override the one from the parent pom. -->
-      <reporting>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-              <additionalparam>-XDignore.symbol.file -Xdoclint:-html</additionalparam>
-            </configuration>
-          </plugin>
-        </plugins>
-      </reporting>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-              <additionalparam>-XDignore.symbol.file -Xdoclint:-html</additionalparam>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
     </profile>
   </profiles>
 </project>

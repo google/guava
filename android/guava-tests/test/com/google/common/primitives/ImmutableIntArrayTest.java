@@ -98,7 +98,7 @@ public class ImmutableIntArrayTest extends TestCase {
   }
 
   public void testCopyOf_iterable_notCollection_empty() {
-    Iterable<Integer> iterable = iterable(Collections.emptySet());
+    Iterable<Integer> iterable = iterable(Collections.<Integer>emptySet());
     assertThat(ImmutableIntArray.copyOf(iterable)).isSameAs(ImmutableIntArray.of());
   }
 
@@ -385,6 +385,7 @@ public class ImmutableIntArrayTest extends TestCase {
     assertActuallyTrims(underSized);
   }
 
+  @GwtIncompatible // SerializableTester
   public void testSerialization() {
     assertThat(reserialize(ImmutableIntArray.of())).isSameAs(ImmutableIntArray.of());
     assertThat(reserialize(ImmutableIntArray.of(0, 1).subArray(1, 1)))
@@ -431,7 +432,8 @@ public class ImmutableIntArrayTest extends TestCase {
                   CollectionSize.SEVERAL,
                   CollectionFeature.ALLOWS_NULL_QUERIES,
                   CollectionFeature.RESTRICTS_ELEMENTS,
-                  CollectionFeature.KNOWN_ORDER /*, SERIALIZABLE_INCLUDING_VIEWS*/)
+                  CollectionFeature.KNOWN_ORDER,
+                  CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS)
               .createTestSuite());
     }
     return suite;

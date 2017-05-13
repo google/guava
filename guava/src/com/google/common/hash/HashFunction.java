@@ -94,8 +94,8 @@ import java.nio.charset.Charset;
  * convenient shortcut methods defined directly on {@link HashFunction} to make this easier.
  *
  * <p>Hasher accepts primitive data types, but can also accept any Object of type {@code
- * T} provided that you implement a {@link Funnel Funnel<T>} to specify how to "feed" data from that
- * object into the function. (See {@linkplain Hasher#putObject an example} of this.)
+ * T} provided that you implement a {@link Funnel}{@code <T>} to specify how to "feed" data from
+ * that object into the function. (See {@linkplain Hasher#putObject an example} of this.)
  *
  * <p><b>Compatibility note:</b> Throughout this API, multibyte values are always interpreted in
  * <i>little-endian</i> order. That is, hashing the byte array {@code {0x01, 0x02, 0x03, 0x04}} is

@@ -412,7 +412,7 @@ public interface Multiset<E> extends Collection<E> {
    * collection, by one.
    *
    * <p>To both add the element and obtain the previous count of that element,
-   * use {@link #add(E, int) add}{@code (element, 1)} instead.
+   * use {@link #add(Object, int) add}{@code (element, 1)} instead.
    *
    * @param element the element to add one occurrence of; may be null only if
    *     explicitly allowed by the implementation
@@ -436,7 +436,7 @@ public interface Multiset<E> extends Collection<E> {
    * or of the wrong type.
    *
    * <p>To both remove the element and obtain the previous count of that element,
-   * use {@link #remove(E, int) remove}{@code (element, 1)} instead.
+   * use {@link #remove(Object, int) remove}{@code (element, 1)} instead.
    *
    * @param element the element to remove one occurrence of
    * @return {@code true} if an occurrence was found and removed

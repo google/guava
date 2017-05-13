@@ -131,7 +131,6 @@ public class HostAndPortTest extends TestCase {
       }
     }
     assertEquals(expectHost, hp.getHost());
-    assertEquals(expectHost, hp.getHostText());
 
     // Check the post-withDefaultPort() instance (if any).
     if (!badDefaultPort) {
@@ -144,7 +143,6 @@ public class HostAndPortTest extends TestCase {
         assertEquals(-1, expectPort);
       }
       assertEquals(expectHost, hp2.getHost());
-      assertEquals(expectHost, hp2.getHostText());
     }
   }
 

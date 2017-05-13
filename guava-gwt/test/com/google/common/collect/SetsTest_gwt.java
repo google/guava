@@ -84,6 +84,11 @@ public void testCartesianProduct_zeroary() throws Exception {
   testCase.testCartesianProduct_zeroary();
 }
 
+public void testCombinations() throws Exception {
+  com.google.common.collect.SetsTest testCase = new com.google.common.collect.SetsTest();
+  testCase.testCombinations();
+}
+
 public void testComplementOfEmptyEnumSetWithoutType() throws Exception {
   com.google.common.collect.SetsTest testCase = new com.google.common.collect.SetsTest();
   testCase.testComplementOfEmptyEnumSetWithoutType();

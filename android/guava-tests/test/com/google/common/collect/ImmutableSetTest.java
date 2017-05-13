@@ -244,8 +244,7 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     }
     builder.add("bar");
     RegularImmutableSet<String> set = (RegularImmutableSet<String>) builder.build();
-    // TODO(b/36683218): reenable
-    // assertTrue(set.elements.length <= 2 * set.size());
+    assertTrue(set.elements.length <= 2 * set.size());
   }
 
   @GwtIncompatible("internals")
@@ -257,7 +256,6 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     builder.add("bar");
     RegularImmutableSet<String> set = (RegularImmutableSet<String>) builder.build();
     builder.add("baz");
-    // TODO(b/36683218): reenable
-    // assertTrue(set.elements != builder.contents);
+    assertTrue(set.elements != builder.contents);
   }
 }

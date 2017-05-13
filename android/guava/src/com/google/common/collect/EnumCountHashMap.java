@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
 
 /** EnumCountHashMap is an implementation of {@code AbstractObjectCountMap} with enum type keys. */
 @GwtCompatible(serializable = true, emulated = true)
-public class EnumCountHashMap<K extends Enum<K>> extends AbstractObjectCountMap<K> {
+class EnumCountHashMap<K extends Enum<K>> extends AbstractObjectCountMap<K> {
 
   /** Creates an empty {@code EnumCountHashMap} instance. */
   public static <K extends Enum<K>> EnumCountHashMap<K> create(Class<K> type) {

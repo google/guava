@@ -74,9 +74,6 @@ import javax.annotation.Nullable;
  *       lazy {@link #asList} view).
  * </ul>
  *
- * <p><b>Note:</b> this class will be forked into {@code ImmutableLongArray} and {@code
- * ImmutableDoubleArray} once it stabilizes.
- *
  * @since 22.0
  */
 @Beta
@@ -122,7 +119,7 @@ public final class ImmutableIntArray implements Serializable {
   // TODO(kevinb): go up to 11?
 
   /** Returns an immutable array containing the given values, in order. */
-  // Use (first, rest) so that `of(anIntArray)` won't compile (they should use copyOf), which is
+  // Use (first, rest) so that `of(someIntArray)` won't compile (they should use copyOf), which is
   // okay since we have to copy the just-created array anyway.
   public static ImmutableIntArray of(int first, int... rest) {
     int[] array = new int[rest.length + 1];
@@ -255,7 +252,7 @@ public final class ImmutableIntArray implements Serializable {
     }
 
     private void ensureRoomFor(int numberToAdd) {
-      int newCount = count + numberToAdd;
+      int newCount = count + numberToAdd; // TODO(kevinb): check overflow now?
       if (newCount > array.length) {
         int[] newArray = new int[expandedCapacity(array.length, newCount)];
         System.arraycopy(array, 0, newArray, 0, count);
@@ -371,9 +368,6 @@ public final class ImmutableIntArray implements Serializable {
     return indexOf(target) >= 0;
   }
 
-  // TODO(kevinb): other instance methods to consider if we fork common.primitives:
-  // forEach(IntConsumer), stream()
-
   /** Returns a new, mutable copy of this array's values, as a primitive {@code int[]}. */
   public int[] toArray() {
     return Arrays.copyOfRange(array, start, end);
@@ -396,7 +390,7 @@ public final class ImmutableIntArray implements Serializable {
   /**
    * Returns an immutable <i>view</i> of this array's values as a {@code List}; note that {@code
    * int} values are boxed into {@link Integer} instances on demand, which can be very expensive.
-   * The returned list should be used once and discarded. For any usages beyond than that, pass the
+   * The returned list should be used once and discarded. For any usages beyond that, pass the
    * returned list to {@link com.google.common.collect.ImmutableList#copyOf(Collection)
    * ImmutableList.copyOf} and use that list instead.
    */
@@ -409,8 +403,7 @@ public final class ImmutableIntArray implements Serializable {
     return new AsList(this);
   }
 
-  // TODO(kevinb): Serializable
-  static class AsList extends AbstractList<Integer> implements RandomAccess {
+  static class AsList extends AbstractList<Integer> implements RandomAccess, Serializable {
     private final ImmutableIntArray parent;
 
     private AsList(ImmutableIntArray parent) {
@@ -511,7 +504,7 @@ public final class ImmutableIntArray implements Serializable {
     int hash = 1;
     for (int i = start; i < end; i++) {
       hash *= 31;
-      hash += array[i];
+      hash += Ints.hashCode(array[i]);
     }
     return hash;
   }

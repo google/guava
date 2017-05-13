@@ -45,8 +45,9 @@ import javax.annotation.Nullable;
  * common ways to create a {@code ListenableFuture} include instantiating a {@link SettableFuture},
  * submitting a task to a {@link ListeningExecutorService}, and deriving a {@code Future} from an
  * existing one, typically using methods like {@link Futures#transform(ListenableFuture,
- * com.google.common.base.Function) Futures.transform} and {@link Futures#catching(ListenableFuture,
- * Class, com.google.common.base.Function, java.util.concurrent.Executor) Futures.catching}.
+ * com.google.common.base.Function, java.util.concurrent.Executor) Futures.transform} and {@link
+ * Futures#catching(ListenableFuture, Class, com.google.common.base.Function,
+ * java.util.concurrent.Executor) Futures.catching}.
  *
  * <p>This class implements all methods in {@code ListenableFuture}. Subclasses should provide a way
  * to set the result of the computation through the protected methods {@link #set(Object)}, {@link
@@ -349,20 +350,12 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   //   and we could use that to make a decision about whether or not we timed out prior to being
   //   unparked.
 
-  /*
-   * Improve the documentation of when InterruptedException is thrown. Our behavior matches the
-   * JDK's, but the JDK's documentation is misleading.
-   */
-
   /**
    * {@inheritDoc}
    *
    * <p>The default {@link AbstractFuture} implementation throws {@code InterruptedException} if the
-   * current thread is interrupted before or during the call, even if the value is already
-   * available.
+   * current thread is interrupted during the call, even if the value is already available.
    *
-   * @throws InterruptedException if the current thread was interrupted before or during the call
-   *     (optional but recommended).
    * @throws CancellationException {@inheritDoc}
    */
   @CanIgnoreReturnValue
@@ -435,20 +428,12 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     throw new TimeoutException();
   }
 
-  /*
-   * Improve the documentation of when InterruptedException is thrown. Our behavior matches the
-   * JDK's, but the JDK's documentation is misleading.
-   */
-
   /**
    * {@inheritDoc}
    *
    * <p>The default {@link AbstractFuture} implementation throws {@code InterruptedException} if the
-   * current thread is interrupted before or during the call, even if the value is already
-   * available.
+   * current thread is interrupted during the call, even if the value is already available.
    *
-   * @throws InterruptedException if the current thread was interrupted before or during the call
-   *     (optional but recommended).
    * @throws CancellationException {@inheritDoc}
    */
   @CanIgnoreReturnValue
