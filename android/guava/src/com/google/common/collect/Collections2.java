@@ -38,6 +38,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
@@ -671,12 +672,15 @@ public final class Collections2 {
    * Returns {@code true} if the second list is a permutation of the first.
    */
   private static boolean isPermutation(List<?> first, List<?> second) {
-    if (first.size() != second.size()) {
-      return false;
+    return first.size() == second.size() && counts(first).equals(counts(second));
+  }
+  
+  private static <E> Set<Multiset.Entry<E>> counts(Collection<E> collection) {
+    AbstractObjectCountMap<E> map = new ObjectCountHashMap<>();
+    for (E e : collection) {
+      map.put(e, map.get(e) + 1);
     }
-    Multiset<?> firstMultiset = HashMultiset.create(first);
-    Multiset<?> secondMultiset = HashMultiset.create(second);
-    return firstMultiset.equals(secondMultiset);
+    return map.entrySet();
   }
 
   private static boolean isPositiveInt(long n) {
