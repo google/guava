@@ -421,7 +421,7 @@ public final class Collections2 {
     final int size;
 
     OrderedPermutationCollection(Iterable<E> input, Comparator<? super E> comparator) {
-      this.inputList = Ordering.from(comparator).immutableSortedCopy(input);
+      this.inputList = ImmutableList.sortedCopyOf(comparator, input);
       this.comparator = comparator;
       this.size = calculateSize(inputList, comparator);
     }
