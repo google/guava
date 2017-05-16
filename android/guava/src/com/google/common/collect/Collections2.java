@@ -18,8 +18,6 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Predicates.and;
-import static com.google.common.base.Predicates.not;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.math.LongMath.binomial;
 
@@ -197,17 +195,41 @@ public final class Collections2 {
 
     @Override
     public boolean removeAll(final Collection<?> collection) {
-      return Iterables.removeIf(unfiltered, and(predicate, Predicates.<Object>in(collection)));
+      boolean changed = false;
+      Iterator<E> itr = unfiltered.iterator();
+      while (itr.hasNext()) {
+        E e = itr.next();
+        if (predicate.apply(e) && collection.contains(e)) {
+          itr.remove();
+          changed = true;
+        }
+      }
+      return changed;
     }
 
     @Override
     public boolean retainAll(final Collection<?> collection) {
-      return Iterables.removeIf(unfiltered, and(predicate, not(Predicates.<Object>in(collection))));
+      boolean changed = false;
+      Iterator<E> itr = unfiltered.iterator();
+      while (itr.hasNext()) {
+        E e = itr.next();
+        if (predicate.apply(e) && !collection.contains(e)) {
+          itr.remove();
+          changed = true;
+        }
+      }
+      return changed;
     }
 
     @Override
     public int size() {
-      return Iterators.size(iterator());
+      int size = 0;
+      for (E e : unfiltered) {
+        if (predicate.apply(e)) {
+          size++;
+        }
+      }
+      return size;
     }
 
     @Override
@@ -291,7 +313,12 @@ public final class Collections2 {
    * @param c a collection whose elements might be contained by {@code self}
    */
   static boolean containsAllImpl(Collection<?> self, Collection<?> c) {
-    return Iterables.all(c, Predicates.in(self));
+    for (Object o : c) {
+      if (!self.contains(o)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   /**

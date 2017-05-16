@@ -228,7 +228,13 @@ public final class Collections2 {
 
     @Override
     public int size() {
-      return Iterators.size(iterator());
+      int size = 0;
+      for (E e : unfiltered) {
+        if (predicate.apply(e)) {
+          size++;
+        }
+      }
+      return size;
     }
 
     @Override
@@ -329,7 +335,12 @@ public final class Collections2 {
    * @param c a collection whose elements might be contained by {@code self}
    */
   static boolean containsAllImpl(Collection<?> self, Collection<?> c) {
-    return Iterables.all(c, Predicates.in(self));
+    for (Object o : c) {
+      if (!self.contains(o)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   /**
