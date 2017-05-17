@@ -617,15 +617,21 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.337">equals</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.343">equals</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                       <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</pre>
 <div class="block">
 
  <p><b>Note:</b> This tests exact equality of the calculated statistics, including the floating
- point values. It is definitely true for instances constructed from exactly the same values in
- the same order. It is also true for an instance round-tripped through java serialization.
- However, floating point rounding errors mean that it may be false for some instances where the
- statistics are mathematically equal, including the same values in a different order.</div>
+ point values. Two instances are guaranteed to be considered equal if one is copied from the
+ other using <code>second = new StatsAccumulator().addAll(first).snapshot()</code>, if both were
+ obtained by calling <code>snapshot()</code> on the same <a href="../../../../com/google/common/math/StatsAccumulator.html" title="class in com.google.common.math"><code>StatsAccumulator</code></a> without adding any
+ values in between the two calls, or if one is obtained from the other after round-tripping
+ through java serialization. However, floating point rounding errors mean that it may be false
+ for some instances where the statistics are mathematically equal, including instances
+ constructed from the same values in a different order... or (in the general case) even in the
+ same order. (It is guaranteed to return true for instances constructed from the same values in
+ the same order if <code>strictfp</code> is in effect, or if the system architecture guarantees
+ <code>strictfp</code>-like semantics.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">equals</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
@@ -638,7 +644,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.359">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.365">hashCode</a>()</pre>
 <div class="block">
 
  <p><b>Note:</b> This hash code is consistent with exact equality of the calculated statistics,
@@ -655,7 +661,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.364">toString</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.370">toString</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang">toString</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
@@ -668,7 +674,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>meanOf</h4>
-<pre>public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.392">meanOf</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&gt;&nbsp;values)</pre>
+<pre>public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.398">meanOf</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&gt;&nbsp;values)</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of the
  values. The count must be non-zero.
 
@@ -688,7 +694,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>meanOf</h4>
-<pre>public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.406">meanOf</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&gt;&nbsp;values)</pre>
+<pre>public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.412">meanOf</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&gt;&nbsp;values)</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of the
  values. The count must be non-zero.
 
@@ -708,7 +714,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>meanOf</h4>
-<pre>public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.432">meanOf</a>(double...&nbsp;values)</pre>
+<pre>public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.438">meanOf</a>(double...&nbsp;values)</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of the
  values. The count must be non-zero.
 
@@ -727,7 +733,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>meanOf</h4>
-<pre>public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.456">meanOf</a>(int...&nbsp;values)</pre>
+<pre>public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.462">meanOf</a>(int...&nbsp;values)</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of the
  values. The count must be non-zero.
 
@@ -746,7 +752,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>meanOf</h4>
-<pre>public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.481">meanOf</a>(long...&nbsp;values)</pre>
+<pre>public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.487">meanOf</a>(long...&nbsp;values)</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of the
  values. The count must be non-zero.
 
@@ -766,7 +772,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>toByteArray</h4>
-<pre>public&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.509">toByteArray</a>()</pre>
+<pre>public&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.515">toByteArray</a>()</pre>
 <div class="block">Gets a byte array representation of this instance.
 
  <p><b>Note:</b> No guarantees are made regarding stability of the representation between
@@ -779,7 +785,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockListLast">
 <li class="blockList">
 <h4>fromByteArray</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.547">fromByteArray</a>(byte[]&nbsp;byteArray)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.553">fromByteArray</a>(byte[]&nbsp;byteArray)</pre>
 <div class="block">Creates a Stats instance from the given byte representation which was obtained by
  <a href="../../../../com/google/common/math/Stats.html#toByteArray--"><code>toByteArray()</code></a>.
 

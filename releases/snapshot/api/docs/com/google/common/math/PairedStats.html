@@ -384,15 +384,21 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.216">equals</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.222">equals</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                       <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</pre>
 <div class="block">
 
  <p><b>Note:</b> This tests exact equality of the calculated statistics, including the floating
- point values. It is definitely true for instances constructed from exactly the same values in
- the same order. It is also true for an instance round-tripped through java serialization.
- However, floating point rounding errors mean that it may be false for some instances where the
- statistics are mathematically equal, including the same values in a different order.</div>
+ point values. Two instances are guaranteed to be considered equal if one is copied from the
+ other using <code>second = new PairedStatsAccumulator().addAll(first).snapshot()</code>, if both
+ were obtained by calling <code>snapshot()</code> on the same <a href="../../../../com/google/common/math/PairedStatsAccumulator.html" title="class in com.google.common.math"><code>PairedStatsAccumulator</code></a> without
+ adding any values in between the two calls, or if one is obtained from the other after
+ round-tripping through java serialization. However, floating point rounding errors mean that it
+ may be false for some instances where the statistics are mathematically equal, including
+ instances constructed from the same values in a different order... or (in the general case)
+ even in the same order. (It is guaranteed to return true for instances constructed from the
+ same values in the same order if <code>strictfp</code> is in effect, or if the system architecture
+ guarantees <code>strictfp</code>-like semantics.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">equals</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
@@ -405,7 +411,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.237">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.243">hashCode</a>()</pre>
 <div class="block">
 
  <p><b>Note:</b> This hash code is consistent with exact equality of the calculated statistics,
@@ -422,7 +428,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.242">toString</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.248">toString</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang">toString</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
@@ -435,7 +441,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>toByteArray</h4>
-<pre>public&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.292">toByteArray</a>()</pre>
+<pre>public&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.298">toByteArray</a>()</pre>
 <div class="block">Gets a byte array representation of this instance.
 
  <p><b>Note:</b> No guarantees are made regarding stability of the representation between
@@ -448,7 +454,7 @@ implements <a href="http://docs.oracle.com/javase/8/docs/api/java/io/Serializabl
 <ul class="blockListLast">
 <li class="blockList">
 <h4>fromByteArray</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/math/PairedStats.html" title="class in com.google.common.math">PairedStats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.307">fromByteArray</a>(byte[]&nbsp;byteArray)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/math/PairedStats.html" title="class in com.google.common.math">PairedStats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.313">fromByteArray</a>(byte[]&nbsp;byteArray)</pre>
 <div class="block">Creates a <a href="../../../../com/google/common/math/PairedStats.html" title="class in com.google.common.math"><code>PairedStats</code></a> instance from the given byte representation which was obtained by
  <a href="../../../../com/google/common/math/PairedStats.html#toByteArray--"><code>toByteArray()</code></a>.
 
