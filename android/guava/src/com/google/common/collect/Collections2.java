@@ -19,7 +19,6 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
-import static com.google.common.math.LongMath.binomial;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -464,27 +463,23 @@ public final class Collections2 {
      */
     private static <E> int calculateSize(
         List<E> sortedInputList, Comparator<? super E> comparator) {
-      long permutations = 1;
+      int permutations = 1;
       int n = 1;
       int r = 1;
       while (n < sortedInputList.size()) {
         int comparison = comparator.compare(sortedInputList.get(n - 1), sortedInputList.get(n));
         if (comparison < 0) {
           // We move to the next non-repeated element.
-          permutations *= binomial(n, r);
+          permutations = IntMath.saturatedMultiply(permutations, IntMath.binomial(n, r));
           r = 0;
-          if (!isPositiveInt(permutations)) {
+          if (permutations == Integer.MAX_VALUE) {
             return Integer.MAX_VALUE;
           }
         }
         n++;
         r++;
       }
-      permutations *= binomial(n, r);
-      if (!isPositiveInt(permutations)) {
-        return Integer.MAX_VALUE;
-      }
-      return (int) permutations;
+      return IntMath.saturatedMultiply(permutations, IntMath.binomial(n, r));
     }
 
     @Override
@@ -708,9 +703,5 @@ public final class Collections2 {
       map.put(e, map.get(e) + 1);
     }
     return map.entrySet();
-  }
-
-  private static boolean isPositiveInt(long n) {
-    return n >= 0 && n <= Integer.MAX_VALUE;
   }
 }
