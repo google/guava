@@ -24,6 +24,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
@@ -190,7 +191,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    */
   @Beta
   public static <T> FluentIterable<T> concat(Iterable<? extends T> a, Iterable<? extends T> b) {
-    return concatNoDefensiveCopy(a, b);
+    return concat(Arrays.asList(checkNotNull(a), checkNotNull(b)));
   }
 
   /**
@@ -209,7 +210,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   @Beta
   public static <T> FluentIterable<T> concat(
       Iterable<? extends T> a, Iterable<? extends T> b, Iterable<? extends T> c) {
-    return concatNoDefensiveCopy(a, b, c);
+    return concat(Arrays.asList(checkNotNull(a), checkNotNull(b), checkNotNull(c)));
   }
 
   /**
@@ -232,7 +233,8 @@ public abstract class FluentIterable<E> implements Iterable<E> {
       Iterable<? extends T> b,
       Iterable<? extends T> c,
       Iterable<? extends T> d) {
-    return concatNoDefensiveCopy(a, b, c, d);
+    return concat(
+        Arrays.asList(checkNotNull(a), checkNotNull(b), checkNotNull(c), checkNotNull(d)));
   }
 
   /**
@@ -252,28 +254,11 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    */
   @Beta
   public static <T> FluentIterable<T> concat(Iterable<? extends T>... inputs) {
-    return concatNoDefensiveCopy(Arrays.copyOf(inputs, inputs.length));
-  }
-
-  /**
-   * Concatenates a varargs array of iterables without making a defensive copy of the array.
-   */
-  private static <T> FluentIterable<T> concatNoDefensiveCopy(
-      final Iterable<? extends T>... inputs) {
+    List<Iterable<? extends T>> list = new ArrayList<>(inputs.length);
     for (Iterable<? extends T> input : inputs) {
-      checkNotNull(input);
+      list.add(checkNotNull(input));
     }
-    return new FluentIterable<T>() {
-      @Override
-      public Iterator<T> iterator() {
-        @SuppressWarnings("unchecked")
-        Iterator<? extends T>[] iterators = new Iterator[inputs.length];
-        for (int i = 0; i < inputs.length; i++) {
-          iterators[i] = inputs[i].iterator();
-        }
-        return Iterators.concatNoDefensiveCopy(iterators);
-      }
-    };
+    return concat(list);
   }
 
   /**
@@ -297,7 +282,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
     return new FluentIterable<T>() {
       @Override
       public Iterator<T> iterator() {
-        return Iterators.concat(Iterators.transform(inputs.iterator(), Iterables.<T>toIterator()));
+        return Iterators.concat(Iterables.transform(inputs, Iterables.<T>toIterator()).iterator());
       }
     };
   }
