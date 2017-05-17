@@ -1097,7 +1097,7 @@ public final class Sets {
 
     @Override
     public E first() {
-      return iterator().next();
+      return Iterators.find(unfiltered.iterator(), predicate);
     }
 
     @Override
@@ -1171,23 +1171,23 @@ public final class Sets {
     @Override
     @Nullable
     public E lower(E e) {
-      return Iterators.getNext(headSet(e, false).descendingIterator(), null);
+      return Iterators.find(unfiltered().headSet(e, false).descendingIterator(), predicate, null);
     }
 
     @Override
     @Nullable
     public E floor(E e) {
-      return Iterators.getNext(headSet(e, true).descendingIterator(), null);
+      return Iterators.find(unfiltered().headSet(e, true).descendingIterator(), predicate, null);
     }
 
     @Override
     public E ceiling(E e) {
-      return Iterables.getFirst(tailSet(e, true), null);
+      return Iterables.find(unfiltered().tailSet(e, true), predicate, null);
     }
 
     @Override
     public E higher(E e) {
-      return Iterables.getFirst(tailSet(e, false), null);
+      return Iterables.find(unfiltered().tailSet(e, false), predicate, null);
     }
 
     @Override
@@ -1212,7 +1212,7 @@ public final class Sets {
 
     @Override
     public E last() {
-      return descendingIterator().next();
+      return Iterators.find(unfiltered().descendingIterator(), predicate);
     }
 
     @Override
