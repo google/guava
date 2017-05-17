@@ -41,15 +41,12 @@ final class CollectCollectors {
         new Collector.Characteristics[0]);
   }
 
-  private static final Collector<Object, ?, ImmutableList<Object>> TO_IMMUTABLE_LIST =
-      Collector.of(
-          ImmutableList::<Object>builder,
-          ImmutableList.Builder::add,
-          ImmutableList.Builder::combine,
-          ImmutableList.Builder::build);
-
   static <E> Collector<E, ?, ImmutableList<E>> toImmutableList() {
-    return (Collector) TO_IMMUTABLE_LIST;
+    return Collector.of(
+        ImmutableList::<E>builder,
+        ImmutableList.Builder::add,
+        ImmutableList.Builder::combine,
+        ImmutableList.Builder::build);
   }
 
   static <T, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
@@ -63,16 +60,13 @@ final class CollectCollectors {
         ImmutableMap.Builder::combine,
         ImmutableMap.Builder::build);
   }
-  
-  private static final Collector<Object, ?, ImmutableSet<Object>> TO_IMMUTABLE_SET =
-      Collector.of(
-          ImmutableSet::<Object>builder,
-          ImmutableSet.Builder::add,
-          ImmutableSet.Builder::combine,
-          ImmutableSet.Builder::build);
 
   static <E> Collector<E, ?, ImmutableSet<E>> toImmutableSet() {
-    return (Collector) TO_IMMUTABLE_SET;
+    return Collector.of(
+        ImmutableSet::<E>builder,
+        ImmutableSet.Builder::add,
+        ImmutableSet.Builder::combine,
+        ImmutableSet.Builder::build);
   }
 
   static <T, K, V> Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(

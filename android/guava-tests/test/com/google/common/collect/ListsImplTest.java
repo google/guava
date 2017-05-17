@@ -24,7 +24,6 @@ import com.google.common.annotations.GwtIncompatible;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
@@ -40,25 +39,14 @@ import junit.framework.TestSuite;
 @GwtCompatible(emulated = true)
 public class ListsImplTest extends TestCase {
 
-  /**
-   * Describes how a list is modifiable
-   */
-  public enum Modifiability {
-    NONE, // immutable lists
-    BY_ELEMENT, // elements can change (set), but not structure
-    DIRECT_ONLY, // Element can be added and removed only via direct calls, not through iterators
-    ALL // Elements can be added and removed as well as modified.
-  }
-
   /** Handles the creation of lists needed for the tests */
   public static abstract class ListExample {
 
     private final String name;
-    private final Modifiability modifiability;
 
-    protected ListExample(String name, Modifiability modifiability) {
+    protected ListExample(String name) {
       this.name = name;
-      this.modifiability = modifiability;
+
     }
     /**
      * Gets the name of the example
@@ -71,13 +59,6 @@ public class ListsImplTest extends TestCase {
      * Creates a new list with the given contents.
      */
     public abstract <T> List<T> createList(Class<T> listType, Collection<? extends T> contents);
-
-    /**
-     * The modifiablity of this list example.
-     */
-    public Modifiability modifiability() {
-      return modifiability;
-    }
   }
 
   @GwtIncompatible // suite
@@ -153,65 +134,6 @@ public class ListsImplTest extends TestCase {
     }
   }
 
-  public void testAddAllImpl() {
-    if (getExample().modifiability() != Modifiability.ALL) {
-      return;
-    }
-    List<String> toTest = createList(String.class);
-
-    List<Iterable<String>> toAdd = ImmutableList.of(
-        (Iterable<String>) Collections.singleton("A"),
-        Collections.<String>emptyList(),
-        ImmutableList.of("A", "B", "C"),
-        ImmutableList.of("D", "E"));
-    List<Integer> indexes = ImmutableList.of(0, 0, 1, 3);
-    List<List<String>> expected = ImmutableList.of(
-        Collections.singletonList("A"),
-        ImmutableList.of("A"),
-        ImmutableList.of("A", "A", "B", "C"),
-        ImmutableList.of("A", "A", "D", "E", "B", "C"));
-
-    String format = "Adding %s at %s";
-    for (int i = 0; i < toAdd.size(); i++) {
-      int index = indexes.get(i);
-      Iterable<String> iterableToAdd = toAdd.get(i);
-      boolean expectedChanged = iterableToAdd.iterator().hasNext();
-      assertThat(Lists.addAllImpl(toTest, index, iterableToAdd)).named(format, iterableToAdd, index)
-          .isEqualTo(expectedChanged);
-      assertThat(toTest).named(format, iterableToAdd, index)
-          .containsExactlyElementsIn(expected.get(i));
-    }
-  }
-
-  public void testIndexOfImpl_nonNull() {
-    List<Integer> toTest = createList(Integer.class, 5, 2, -1, 2, 1, 10, 5);
-    int[] expected = {0, 1, 2, 1, 4, 5, 0};
-    checkIndexOf(toTest, expected);
-  }
-
-  public void testIndexOfImpl_null() {
-    List<String> toTest;
-    try {
-      toTest = createList(String.class, null, "A", "B", null, "C", null);
-    } catch (NullPointerException e) {
-      // example cannot handle nulls, test invalid
-      return;
-    }
-    int[] expected = {0, 1, 2, 0, 4, 0};
-    checkIndexOf(toTest, expected);
-  }
-
-  private void checkIndexOf(List<?> toTest, int[] expected) {
-    int index = 0;
-    for (Object obj : toTest) {
-      String name = "toTest[" + index + "] (" + obj + ")";
-      assertThat(Lists.indexOfImpl(toTest, obj))
-          .named(name)
-          .isEqualTo(expected[index]);
-      index++;
-    }
-  }
-
   @SafeVarargs
   @SuppressWarnings("varargs")
   private final <T> List<T> createList(Class<T> listType, T... contents) {
@@ -221,7 +143,7 @@ public class ListsImplTest extends TestCase {
   private static final class ArrayListExample extends ListExample {
 
     protected ArrayListExample(String name) {
-      super(name, Modifiability.ALL);
+      super(name);
     }
 
     @Override
@@ -233,7 +155,7 @@ public class ListsImplTest extends TestCase {
   private static final class LinkedListExample extends ListExample {
 
     protected LinkedListExample(String name) {
-      super(name, Modifiability.ALL);
+      super(name);
     }
 
     @Override
@@ -246,7 +168,7 @@ public class ListsImplTest extends TestCase {
   private static final class ArraysAsListExample extends ListExample {
 
     protected ArraysAsListExample(String name) {
-      super(name, Modifiability.BY_ELEMENT);
+      super(name);
     }
 
     @Override
@@ -260,7 +182,7 @@ public class ListsImplTest extends TestCase {
   private static final class ImmutableListExample extends ListExample {
 
     protected ImmutableListExample(String name) {
-      super(name, Modifiability.NONE);
+      super(name);
     }
 
     @Override
@@ -273,7 +195,7 @@ public class ListsImplTest extends TestCase {
   private static final class CopyOnWriteListExample extends ListExample {
 
     protected CopyOnWriteListExample(String name) {
-      super(name, Modifiability.DIRECT_ONLY);
+      super(name);
     }
 
     @Override

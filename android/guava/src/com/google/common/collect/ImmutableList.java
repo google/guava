@@ -267,7 +267,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   public static <E> ImmutableList<E> copyOf(E[] elements) {
     return (elements.length == 0)
         ? ImmutableList.<E>of()
-        : ImmutableList.<E>construct(elements.clone());
+        : construct(elements.clone());
   }
 
   /**

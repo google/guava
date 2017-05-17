@@ -16,9 +16,11 @@
 
 package com.google.common.collect;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.base.Function;
-import com.google.common.collect.Interners.InternerImpl;
-import com.google.common.collect.MapMakerInternalMap.Strength;
+import com.google.common.collect.Interners.StrongInterner;
+import com.google.common.collect.Interners.WeakInterner;
 import com.google.common.testing.GcFinalization;
 import com.google.common.testing.NullPointerTester;
 import java.lang.ref.WeakReference;
@@ -54,8 +56,7 @@ public class InternersTest extends TestCase {
         .strong()
         .concurrencyLevel(concurrencyLevel)
         .build();
-    InternerImpl<Object> internerImpl = (InternerImpl<Object>) interner;
-    assertEquals(Strength.STRONG, internerImpl.map.keyStrength());
+    assertThat(interner).isInstanceOf(StrongInterner.class);
   }
 
   public void testWeak_simplistic() {
@@ -81,9 +82,9 @@ public class InternersTest extends TestCase {
         .weak()
         .concurrencyLevel(concurrencyLevel)
         .build();
-    InternerImpl<Object> internerImpl = (InternerImpl<Object>) interner;
-    assertEquals(Strength.WEAK, internerImpl.map.keyStrength());
-    assertEquals(concurrencyLevel, internerImpl.map.concurrencyLevel);
+    assertThat(interner).isInstanceOf(WeakInterner.class);
+    WeakInterner<Object> weakInterner = (WeakInterner<Object>) interner;
+    assertEquals(concurrencyLevel, weakInterner.map.concurrencyLevel);
   }
 
   public void testWeak_afterGC() throws InterruptedException {

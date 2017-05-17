@@ -48,7 +48,6 @@ import javax.annotation.Nullable;
  * <blockquote>
  *
  * <table>
- * <caption>Range Types</caption>
  * <tr><th>Notation        <th>Definition               <th>Factory method
  * <tr><td>{@code (a..b)}  <td>{@code {x | a < x < b}}  <td>{@link Range#open open}
  * <tr><td>{@code [a..b]}  <td>{@code {x | a <= x <= b}}<td>{@link Range#closed closed}
@@ -119,35 +118,33 @@ import javax.annotation.Nullable;
 public final class Range<C extends Comparable> extends RangeGwtSerializationDependencies
     implements Predicate<C>, Serializable {
 
-  static class LowerBoundFn implements Function<Range, Cut> {
-    static final LowerBoundFn INSTANCE = new LowerBoundFn();
-    @Override
-    public Cut apply(Range range) {
-      return range.lowerBound;
-    }
-  }
-
-  static class UpperBoundFn implements Function<Range, Cut> {
-    static final UpperBoundFn INSTANCE = new UpperBoundFn();
-    @Override
-    public Cut apply(Range range) {
-      return range.upperBound;
-    }
-  }
+  private static final Function<Range, Cut> LOWER_BOUND_FN =
+      new Function<Range, Cut>() {
+        @Override
+        public Cut apply(Range range) {
+          return range.lowerBound;
+        }
+      };
 
   @SuppressWarnings("unchecked")
   static <C extends Comparable<?>> Function<Range<C>, Cut<C>> lowerBoundFn() {
-    return (Function) LowerBoundFn.INSTANCE;
+    return (Function) LOWER_BOUND_FN;
   }
+
+  private static final Function<Range, Cut> UPPER_BOUND_FN =
+      new Function<Range, Cut>() {
+        @Override
+        public Cut apply(Range range) {
+          return range.upperBound;
+        }
+      };
 
   @SuppressWarnings("unchecked")
   static <C extends Comparable<?>> Function<Range<C>, Cut<C>> upperBoundFn() {
-    return (Function) UpperBoundFn.INSTANCE;
+    return (Function) UPPER_BOUND_FN;
   }
 
-  static <C extends Comparable<?>> Ordering<Range<C>> rangeLexOrdering() {
-    return (Ordering<Range<C>>) (Ordering) RangeLexOrdering.INSTANCE;
-  }
+  static final Ordering<Range<?>> RANGE_LEX_ORDERING = new RangeLexOrdering();
 
   static <C extends Comparable<?>> Range<C> create(Cut<C> lowerBound, Cut<C> upperBound) {
     return new Range<C>(lowerBound, upperBound);
@@ -333,12 +330,8 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
    */
   public static <C extends Comparable<?>> Range<C> encloseAll(Iterable<C> values) {
     checkNotNull(values);
-    if (values instanceof SortedSet) {
-      SortedSet<? extends C> set = cast(values);
-      Comparator<?> comparator = set.comparator();
-      if (Ordering.natural().equals(comparator) || comparator == null) {
-        return closed(set.first(), set.last());
-      }
+    if (values instanceof ContiguousSet) {
+      return ((ContiguousSet<C>) values).range();
     }
     Iterator<C> valueIterator = values.iterator();
     C min = checkNotNull(valueIterator.next());
@@ -687,7 +680,6 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
    * Needed to serialize sorted collections of Ranges.
    */
   private static class RangeLexOrdering extends Ordering<Range<?>> implements Serializable {
-    static final Ordering<Range<?>> INSTANCE = new RangeLexOrdering();
 
     @Override
     public int compare(Range<?> left, Range<?> right) {

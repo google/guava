@@ -645,6 +645,7 @@ public final class IntMath {
    *
    * @throws IllegalArgumentException if {@code n < 0}, {@code k < 0} or {@code k > n}
    */
+  @GwtIncompatible // need BigIntegerMath to adequately test
   public static int binomial(int n, int k) {
     checkNonNegative("n", n);
     checkNonNegative("k", k);

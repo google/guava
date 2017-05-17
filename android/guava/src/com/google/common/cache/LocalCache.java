@@ -544,8 +544,9 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       }
     };
 
-    // Masks used to compute indices in the following table.
-
+    /**
+     * Masks used to compute indices in the following table.
+     */
     static final int ACCESS_MASK = 1;
     static final int WRITE_MASK = 2;
     static final int WEAK_MASK = 4;
@@ -741,22 +742,21 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   /**
    * An entry in a reference map.
    *
-   * <p>Entries in the map can be in the following states:
+   * Entries in the map can be in the following states:
    *
-   * <p>Valid:
+   * Valid:
    *
-   * <ul>
-   *   <li>Live: valid key/value are set
-   *   <li>Loading: loading is pending
-   * </ul>
+   * - Live: valid key/value are set
    *
-   * <p>Invalid:
+   * - Loading: loading is pending
    *
-   * <ul>
-   *   <li>Expired: time expired (key/value may still be set)
-   *   <li>Collected: key/value was partially collected, but not yet cleaned up
-   *   <li>Unset: marked as unset, awaiting cleanup or reuse
-   * </ul>
+   * Invalid:
+   *
+   * - Expired: time expired (key/value may still be set)
+   *
+   * - Collected: key/value was partially collected, but not yet cleaned up
+   *
+   * - Unset: marked as unset, awaiting cleanup or reuse
    */
   interface ReferenceEntry<K, V> {
     /**

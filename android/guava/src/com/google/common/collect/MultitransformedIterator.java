@@ -32,7 +32,7 @@ import java.util.NoSuchElementException;
 abstract class MultitransformedIterator<F, T> implements Iterator<T> {
   final Iterator<? extends F> backingIterator;
 
-  Iterator<? extends T> current = Iterators.emptyIterator();
+  private Iterator<? extends T> current = Iterators.emptyIterator();
   private Iterator<? extends T> removeFrom;
 
   MultitransformedIterator(Iterator<? extends F> backingIterator) {

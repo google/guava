@@ -24,7 +24,6 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
@@ -188,7 +187,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    */
   @Beta
   public static <T> FluentIterable<T> concat(Iterable<? extends T> a, Iterable<? extends T> b) {
-    return concat(Arrays.asList(checkNotNull(a), checkNotNull(b)));
+    return concat(ImmutableList.of(a, b));
   }
 
   /**
@@ -207,7 +206,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   @Beta
   public static <T> FluentIterable<T> concat(
       Iterable<? extends T> a, Iterable<? extends T> b, Iterable<? extends T> c) {
-    return concat(Arrays.asList(checkNotNull(a), checkNotNull(b), checkNotNull(c)));
+    return concat(ImmutableList.of(a, b, c));
   }
 
   /**
@@ -230,8 +229,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
       Iterable<? extends T> b,
       Iterable<? extends T> c,
       Iterable<? extends T> d) {
-    return concat(
-        Arrays.asList(checkNotNull(a), checkNotNull(b), checkNotNull(c), checkNotNull(d)));
+    return concat(ImmutableList.of(a, b, c, d));
   }
 
   /**
@@ -251,11 +249,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    */
   @Beta
   public static <T> FluentIterable<T> concat(Iterable<? extends T>... inputs) {
-    List<Iterable<? extends T>> list = new ArrayList<>(inputs.length);
-    for (Iterable<? extends T> input : inputs) {
-      list.add(checkNotNull(input));
-    }
-    return concat(list);
+    return concat(ImmutableList.copyOf(inputs));
   }
 
   /**
@@ -304,7 +298,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * <p><b>{@code Stream} equivalent:</b> {@link java.util.stream.Stream#of(Object[])
    * Stream.of(T...)}.
    *
-   * @deprecated Use {@link #from(Object[])} instead (but note the differences in mutability). This
+   * @deprecated Use {@link #from(E[])} instead (but note the differences in mutability). This
    *     method will be removed in Guava release 21.0.
    * @since 18.0
    */

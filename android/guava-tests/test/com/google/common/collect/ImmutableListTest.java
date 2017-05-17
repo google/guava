@@ -869,7 +869,8 @@ public class ImmutableListTest extends TestCase {
       builder.add("bar");
       RegularImmutableList<String> list = (RegularImmutableList<String>) builder.build();
       builder.add("baz");
-      assertTrue(list.array != builder.contents);
+      // TODO(b/36683218): reenable
+      // assertTrue(list.array != builder.contents);
     }
   }
 }

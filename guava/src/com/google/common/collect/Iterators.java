@@ -19,7 +19,10 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Predicates.equalTo;
+import static com.google.common.base.Predicates.in;
 import static com.google.common.base.Predicates.instanceOf;
+import static com.google.common.base.Predicates.not;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.Beta;
@@ -381,13 +384,7 @@ public final class Iterators {
    * @see Collections#frequency
    */
   public static int frequency(Iterator<?> iterator, @Nullable Object element) {
-    int count = 0;
-    while (contains(iterator, element)) {
-      // Since it lives in the same class, we know contains gets to the element and then stops,
-      // though that isn't currently publicly documented.
-      count++;
-    }
-    return count;
+    return size(filter(iterator, equalTo(element)));
   }
 
   /**
@@ -679,15 +676,7 @@ public final class Iterators {
    *     the given predicate
    */
   public static <T> T find(Iterator<T> iterator, Predicate<? super T> predicate) {
-    checkNotNull(iterator);
-    checkNotNull(predicate);
-    while (iterator.hasNext()) {
-      T t = iterator.next();
-      if (predicate.apply(t)) {
-        return t;
-      }
-    }
-    throw new NoSuchElementException();
+    return filter(iterator, predicate).next();
   }
 
   /**
@@ -703,15 +692,7 @@ public final class Iterators {
   @Nullable
   public static <T> T find(
       Iterator<? extends T> iterator, Predicate<? super T> predicate, @Nullable T defaultValue) {
-    checkNotNull(iterator);
-    checkNotNull(predicate);
-    while (iterator.hasNext()) {
-      T t = iterator.next();
-      if (predicate.apply(t)) {
-        return t;
-      }
-    }
-    return defaultValue;
+    return getNext(filter(iterator, predicate), defaultValue);
   }
 
   /**
@@ -728,15 +709,8 @@ public final class Iterators {
    * @since 11.0
    */
   public static <T> Optional<T> tryFind(Iterator<T> iterator, Predicate<? super T> predicate) {
-    checkNotNull(iterator);
-    checkNotNull(predicate);
-    while (iterator.hasNext()) {
-      T t = iterator.next();
-      if (predicate.apply(t)) {
-        return Optional.of(t);
-      }
-    }
-    return Optional.absent();
+    UnmodifiableIterator<T> filteredIterator = filter(iterator, predicate);
+    return filteredIterator.hasNext() ? Optional.of(filteredIterator.next()) : Optional.<T>absent();
   }
 
   /**
@@ -1329,11 +1303,10 @@ public final class Iterators {
           if (iterator instanceof ConcatenatedIterator) {
             ConcatenatedIterator<? extends T> concatIterator =
                 (ConcatenatedIterator<? extends T>) iterator;
-            if (!concatIterator.current.hasNext()) {
-              return getComponentIterators(concatIterator.backingIterator);
-            }
+            return getComponentIterators(concatIterator.backingIterator);
+          } else {
+            return Iterators.singletonIterator(iterator);
           }
-          return Iterators.singletonIterator(iterator);
         }
       };
     }

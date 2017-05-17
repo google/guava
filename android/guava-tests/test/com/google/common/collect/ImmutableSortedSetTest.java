@@ -1061,8 +1061,9 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     }
     builder.add("bar");
     RegularImmutableSortedSet<String> set = (RegularImmutableSortedSet<String>) builder.build();
-    RegularImmutableList<String> list = (RegularImmutableList<String>) set.elements;
-    assertTrue(list.array.length <= 2 * set.size());
+    // TODO(b/36683218): reenable
+    // RegularImmutableList<String> list = (RegularImmutableList<String>) set.elements;
+    // assertTrue(list.array.length <= 2 * set.size());
   }
 
   @GwtIncompatible("internals")
@@ -1073,8 +1074,9 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     }
     builder.add("bar");
     RegularImmutableSortedSet<String> set = (RegularImmutableSortedSet<String>) builder.build();
-    RegularImmutableList<String> list = (RegularImmutableList<String>) set.elements;
-    builder.add("baz");
-    assertTrue(list.array != builder.contents);
+    // TODO(b/36683218): reenable
+    // RegularImmutableList<String> list = (RegularImmutableList<String>) set.elements;
+    // builder.add("baz");
+    // assertTrue(list.array != builder.contents);
   }
 }

@@ -73,7 +73,7 @@ public class TreeRangeMapTest extends TestCase {
         @Override
         public Iterable<Entry<Range<Integer>, String>> order(
             List<Entry<Range<Integer>, String>> insertionOrder) {
-          return Range.<Integer>rangeLexOrdering().onKeys()
+          return Range.RANGE_LEX_ORDERING.<Range<Integer>>onKeys()
               .sortedCopy(insertionOrder);
         }
 
@@ -128,7 +128,7 @@ public class TreeRangeMapTest extends TestCase {
         @Override
         public Iterable<Entry<Range<Integer>, String>> order(
             List<Entry<Range<Integer>, String>> insertionOrder) {
-          return Range.<Integer>rangeLexOrdering().onKeys()
+          return Range.RANGE_LEX_ORDERING.<Range<Integer>>onKeys()
               .sortedCopy(insertionOrder);
         }
 
@@ -182,7 +182,7 @@ public class TreeRangeMapTest extends TestCase {
         @Override
         public Iterable<Entry<Range<Integer>, String>> order(
             List<Entry<Range<Integer>, String>> insertionOrder) {
-          return Range.<Integer>rangeLexOrdering().reverse().onKeys()
+          return Range.RANGE_LEX_ORDERING.reverse().<Range<Integer>>onKeys()
               .sortedCopy(insertionOrder);
         }
 
@@ -237,7 +237,7 @@ public class TreeRangeMapTest extends TestCase {
         @Override
         public Iterable<Entry<Range<Integer>, String>> order(
             List<Entry<Range<Integer>, String>> insertionOrder) {
-          return Range.<Integer>rangeLexOrdering().reverse().onKeys()
+          return Range.RANGE_LEX_ORDERING.reverse().<Range<Integer>>onKeys()
               .sortedCopy(insertionOrder);
         }
 

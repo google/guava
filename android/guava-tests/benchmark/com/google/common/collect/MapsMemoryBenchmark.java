@@ -35,7 +35,7 @@ import java.util.Map;
 public class MapsMemoryBenchmark {
   static final Map<String, MapsImplEnum> mapEnums =
       uniqueIndex(
-          Iterables.<MapsImplEnum>concat(
+          Iterables.concat(
               Arrays.asList(MapImpl.values()),
               Arrays.asList(SortedMapImpl.values()),
               Arrays.asList(BiMapImpl.values())),

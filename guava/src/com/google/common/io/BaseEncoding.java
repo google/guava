@@ -71,7 +71,6 @@ import javax.annotation.Nullable;
  * {@code x}, but the reverse does not necessarily hold.
  *
  * <table>
- * <caption>Encodings</caption>
  * <tr>
  * <th>Encoding
  * <th>Alphabet
