@@ -1011,7 +1011,7 @@
 <span class="sourceLineNo">1003</span><a name="line.1003"></a>
 <span class="sourceLineNo">1004</span>    @Override<a name="line.1004"></a>
 <span class="sourceLineNo">1005</span>    public E first() {<a name="line.1005"></a>
-<span class="sourceLineNo">1006</span>      return iterator().next();<a name="line.1006"></a>
+<span class="sourceLineNo">1006</span>      return Iterators.find(unfiltered.iterator(), predicate);<a name="line.1006"></a>
 <span class="sourceLineNo">1007</span>    }<a name="line.1007"></a>
 <span class="sourceLineNo">1008</span><a name="line.1008"></a>
 <span class="sourceLineNo">1009</span>    @Override<a name="line.1009"></a>
@@ -1085,23 +1085,23 @@
 <span class="sourceLineNo">1077</span>    @Override<a name="line.1077"></a>
 <span class="sourceLineNo">1078</span>    @Nullable<a name="line.1078"></a>
 <span class="sourceLineNo">1079</span>    public E lower(E e) {<a name="line.1079"></a>
-<span class="sourceLineNo">1080</span>      return Iterators.getNext(headSet(e, false).descendingIterator(), null);<a name="line.1080"></a>
+<span class="sourceLineNo">1080</span>      return Iterators.find(unfiltered().headSet(e, false).descendingIterator(), predicate, null);<a name="line.1080"></a>
 <span class="sourceLineNo">1081</span>    }<a name="line.1081"></a>
 <span class="sourceLineNo">1082</span><a name="line.1082"></a>
 <span class="sourceLineNo">1083</span>    @Override<a name="line.1083"></a>
 <span class="sourceLineNo">1084</span>    @Nullable<a name="line.1084"></a>
 <span class="sourceLineNo">1085</span>    public E floor(E e) {<a name="line.1085"></a>
-<span class="sourceLineNo">1086</span>      return Iterators.getNext(headSet(e, true).descendingIterator(), null);<a name="line.1086"></a>
+<span class="sourceLineNo">1086</span>      return Iterators.find(unfiltered().headSet(e, true).descendingIterator(), predicate, null);<a name="line.1086"></a>
 <span class="sourceLineNo">1087</span>    }<a name="line.1087"></a>
 <span class="sourceLineNo">1088</span><a name="line.1088"></a>
 <span class="sourceLineNo">1089</span>    @Override<a name="line.1089"></a>
 <span class="sourceLineNo">1090</span>    public E ceiling(E e) {<a name="line.1090"></a>
-<span class="sourceLineNo">1091</span>      return Iterables.getFirst(tailSet(e, true), null);<a name="line.1091"></a>
+<span class="sourceLineNo">1091</span>      return Iterables.find(unfiltered().tailSet(e, true), predicate, null);<a name="line.1091"></a>
 <span class="sourceLineNo">1092</span>    }<a name="line.1092"></a>
 <span class="sourceLineNo">1093</span><a name="line.1093"></a>
 <span class="sourceLineNo">1094</span>    @Override<a name="line.1094"></a>
 <span class="sourceLineNo">1095</span>    public E higher(E e) {<a name="line.1095"></a>
-<span class="sourceLineNo">1096</span>      return Iterables.getFirst(tailSet(e, false), null);<a name="line.1096"></a>
+<span class="sourceLineNo">1096</span>      return Iterables.find(unfiltered().tailSet(e, false), predicate, null);<a name="line.1096"></a>
 <span class="sourceLineNo">1097</span>    }<a name="line.1097"></a>
 <span class="sourceLineNo">1098</span><a name="line.1098"></a>
 <span class="sourceLineNo">1099</span>    @Override<a name="line.1099"></a>
@@ -1126,7 +1126,7 @@
 <span class="sourceLineNo">1118</span><a name="line.1118"></a>
 <span class="sourceLineNo">1119</span>    @Override<a name="line.1119"></a>
 <span class="sourceLineNo">1120</span>    public E last() {<a name="line.1120"></a>
-<span class="sourceLineNo">1121</span>      return descendingIterator().next();<a name="line.1121"></a>
+<span class="sourceLineNo">1121</span>      return Iterators.find(unfiltered().descendingIterator(), predicate);<a name="line.1121"></a>
 <span class="sourceLineNo">1122</span>    }<a name="line.1122"></a>
 <span class="sourceLineNo">1123</span><a name="line.1123"></a>
 <span class="sourceLineNo">1124</span>    @Override<a name="line.1124"></a>
