@@ -32,10 +32,12 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
@@ -460,6 +462,34 @@ public final class Iterators {
   }
 
   /**
+   * Returns an Iterator that walks the specified array, nulling out elements behind it.
+   * This can avoid memory leaks when an element is no longer necessary.
+   *
+   * This is mainly just to avoid the intermediate ArrayDeque in ConsumingQueueIterator.
+   */
+  private static <T> Iterator<T> consumingForArray(final T... elements) {
+    return new UnmodifiableIterator<T>() {
+      int index = 0;
+
+      @Override
+      public boolean hasNext() {
+        return index < elements.length;
+      }
+
+      @Override
+      public T next() {
+        if (!hasNext()) {
+          throw new NoSuchElementException();
+        }
+        T result = elements[index];
+        elements[index] = null;
+        index++;
+        return result;
+      }
+    };
+  }
+
+  /**
    * Combines two iterators into a single iterator. The returned iterator
    * iterates across the elements in {@code a}, followed by the elements in
    * {@code b}. The source iterators are not polled until necessary.
@@ -470,7 +500,7 @@ public final class Iterators {
   public static <T> Iterator<T> concat(Iterator<? extends T> a, Iterator<? extends T> b) {
     checkNotNull(a);
     checkNotNull(b);
-    return concat(new ConsumingQueueIterator<Iterator<? extends T>>(a, b));
+    return concat(consumingForArray(a, b));
   }
 
   /**
@@ -487,7 +517,7 @@ public final class Iterators {
     checkNotNull(a);
     checkNotNull(b);
     checkNotNull(c);
-    return concat(new ConsumingQueueIterator<Iterator<? extends T>>(a, b, c));
+    return concat(consumingForArray(a, b, c));
   }
 
   /**
@@ -508,7 +538,7 @@ public final class Iterators {
     checkNotNull(b);
     checkNotNull(c);
     checkNotNull(d);
-    return concat(new ConsumingQueueIterator<Iterator<? extends T>>(a, b, c, d));
+    return concat(consumingForArray(a, b, c, d));
   }
 
   /**
@@ -522,10 +552,17 @@ public final class Iterators {
    * @throws NullPointerException if any of the provided iterators is null
    */
   public static <T> Iterator<T> concat(Iterator<? extends T>... inputs) {
+    return concatNoDefensiveCopy(Arrays.copyOf(inputs, inputs.length));
+  }
+
+  /**
+   * Concats a varargs array of iterators without making a defensive copy of the array.
+   */
+  static <T> Iterator<T> concatNoDefensiveCopy(Iterator<? extends T>... inputs) {
     for (Iterator<? extends T> input : checkNotNull(inputs)) {
       checkNotNull(input);
     }
-    return concat(new ConsumingQueueIterator<Iterator<? extends T>>(inputs));
+    return concat(consumingForArray(inputs));
   }
 
   /**
@@ -1305,37 +1342,75 @@ public final class Iterators {
     }
   }
 
-  private static class ConcatenatedIterator<T>
-      extends MultitransformedIterator<Iterator<? extends T>, T> {
+  private static class ConcatenatedIterator<T> implements Iterator<T> {
+    private Iterator<? extends T> toRemove;
 
-    public ConcatenatedIterator(Iterator<? extends Iterator<? extends T>> iterators) {
-      super(getComponentIterators(iterators));
+    private Iterator<? extends T> iterator = emptyIterator();
+    private Deque<Iterator<? extends Iterator<? extends T>>> metaIterators;
+
+    ConcatenatedIterator(Iterator<? extends Iterator<? extends T>> metaIterator) {
+      this.metaIterators = new ArrayDeque<>();
+      metaIterators.addFirst(checkNotNull(metaIterator));
     }
 
     @Override
-    Iterator<? extends T> transform(Iterator<? extends T> iterator) {
-      return iterator;
+    public boolean hasNext() {
+      while (!checkNotNull(iterator).hasNext()) {
+        // this weird checkNotNull positioning appears required by our tests, which expect
+        // both hasNext and next to throw NPE if an input iterator is null.
+
+        if (metaIterators.isEmpty()) {
+          return false;
+        }
+        Iterator<? extends Iterator<? extends T>> topMeta = checkNotNull(metaIterators.getFirst());
+
+        if (!topMeta.hasNext()) {
+          metaIterators.removeFirst();
+          continue;
+        }
+        iterator = topMeta.next();
+
+        if (iterator instanceof ConcatenatedIterator) {
+          // Instead of taking linear time in the number of nested concatenations, unpack
+          // them into the queue
+          @SuppressWarnings("unchecked")
+          ConcatenatedIterator<T> topConcat = (ConcatenatedIterator<T>) iterator;
+          iterator = topConcat.iterator;
+          metaIterators = smushTogether(topConcat.metaIterators, metaIterators);
+        }
+      }
+      return true;
     }
 
-    /**
-     * Using the component iterators, rather than the input iterators directly,
-     * allows for higher performance in the case of nested concatenation.
-     */
-    private static <T> Iterator<Iterator<? extends T>> getComponentIterators(
-        Iterator<? extends Iterator<? extends T>> iterators) {
-      return new MultitransformedIterator<Iterator<? extends T>, Iterator<? extends T>>(iterators) {
-        @Override
-        Iterator<? extends Iterator<? extends T>> transform(Iterator<? extends T> iterator) {
-          if (iterator instanceof ConcatenatedIterator) {
-            ConcatenatedIterator<? extends T> concatIterator =
-                (ConcatenatedIterator<? extends T>) iterator;
-            if (!concatIterator.current.hasNext()) {
-              return getComponentIterators(concatIterator.backingIterator);
-            }
-          }
-          return Iterators.singletonIterator(iterator);
+    private static <E> Deque<E> smushTogether(Deque<E> first, Deque<E> second) {
+      if (first.size() >= second.size()) {
+        while (!second.isEmpty()) {
+          first.addLast(second.removeFirst());
         }
-      };
+        return first;
+      } else {
+        while (!first.isEmpty()) {
+          second.addFirst(first.removeLast());
+        }
+        return second;
+      }
+    }
+
+    @Override
+    public T next() {
+      if (hasNext()) {
+        toRemove = iterator;
+        return iterator.next();
+      } else {
+        throw new NoSuchElementException();
+      }
+    }
+
+    @Override
+    public void remove() {
+      CollectPreconditions.checkRemove(toRemove != null);
+      toRemove.remove();
+      toRemove = null;
     }
   }
 
