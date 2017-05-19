@@ -20,7 +20,6 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -29,7 +28,6 @@ import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -201,11 +199,40 @@ public class ListsImplTest extends TestCase {
     checkIndexOf(toTest, expected);
   }
 
+  public void testLastIndexOfImpl_nonNull() {
+    List<Integer> toTest = createList(Integer.class, 1, 5, 6, 10, 1, 3, 2, 1, 6);
+    int[] expected = {7, 1, 8, 3, 7, 5, 6, 7, 8};
+    checkLastIndexOf(toTest, expected);
+  }
+
+  public void testLastIndexOfImpl_null() {
+    List<String> toTest;
+    try {
+      toTest = createList(String.class, null, "A", "B", null, "C", "B");
+    } catch (NullPointerException e) {
+      // example cannot handle nulls, test invalid
+      return;
+    }
+    int[] expected = {3, 1, 5, 3, 4, 5};
+    checkLastIndexOf(toTest, expected);
+  }
+
   private void checkIndexOf(List<?> toTest, int[] expected) {
     int index = 0;
     for (Object obj : toTest) {
       String name = "toTest[" + index + "] (" + obj + ")";
       assertThat(Lists.indexOfImpl(toTest, obj))
+          .named(name)
+          .isEqualTo(expected[index]);
+      index++;
+    }
+  }
+
+  private void checkLastIndexOf(List<?> toTest, int[] expected) {
+    int index = 0;
+    for (Object obj : toTest) {
+      String name = "toTest[" + index + "] (" + obj + ")";
+      assertThat(Lists.lastIndexOfImpl(toTest, obj))
           .named(name)
           .isEqualTo(expected[index]);
       index++;

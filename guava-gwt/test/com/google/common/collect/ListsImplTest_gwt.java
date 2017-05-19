@@ -42,4 +42,14 @@ public void testIndexOfImpl_null() throws Exception {
   com.google.common.collect.ListsImplTest testCase = new com.google.common.collect.ListsImplTest();
   testCase.testIndexOfImpl_null();
 }
+
+public void testLastIndexOfImpl_nonNull() throws Exception {
+  com.google.common.collect.ListsImplTest testCase = new com.google.common.collect.ListsImplTest();
+  testCase.testLastIndexOfImpl_nonNull();
+}
+
+public void testLastIndexOfImpl_null() throws Exception {
+  com.google.common.collect.ListsImplTest testCase = new com.google.common.collect.ListsImplTest();
+  testCase.testLastIndexOfImpl_null();
+}
 }
