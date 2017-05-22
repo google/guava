@@ -239,6 +239,9 @@ function latest_release {
     # If the release we're looking at is an android release, only look at other
     # android releases.
     non_rc_releases="$(echo "$non_rc_releases" | grep -e "-android")"
+  else
+    # If it's not an android release, don't include android releases.
+    non_rc_releases="$(echo "$non_rc_releases" | grep -v -e "-android")"
   fi
 
   if [[ -z "$non_rc_releases" ]]; then
