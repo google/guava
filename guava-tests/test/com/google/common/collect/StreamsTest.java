@@ -17,6 +17,8 @@ package com.google.common.collect;
 import static com.google.common.collect.Streams.findLast;
 import static com.google.common.collect.Streams.stream;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.SpliteratorTester;
 import com.google.common.primitives.Doubles;
 import com.google.common.truth.IterableSubject;
@@ -41,6 +43,7 @@ import java.util.stream.Stream;
 import junit.framework.TestCase;
 
 /** Unit test for {@link Streams}. */
+@GwtCompatible(emulated = true)
 public class StreamsTest extends TestCase {
   /*
    * Full and proper black-box testing of a Stream-returning method is extremely involved, and is
@@ -235,6 +238,7 @@ public class StreamsTest extends TestCase {
         .expect("0:0", "1:1", "2:2");
   }
 
+  @GwtIncompatible // TODO(b/38490623): reenable after GWT double-to-string conversion is fixed
   public void testMapWithIndex_doubleStream() {
     SpliteratorTester.of(
             () ->
