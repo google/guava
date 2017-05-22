@@ -263,8 +263,8 @@ public class TreeRangeMapTest extends TestCase {
   }
 
   private static final ImmutableList<Range<Integer>> RANGES;
-  private static final int MIN_BOUND = -2;
-  private static final int MAX_BOUND = 2;
+  private static final int MIN_BOUND = -1;
+  private static final int MAX_BOUND = 1;
   static {
     ImmutableList.Builder<Range<Integer>> builder = ImmutableList.builder();
 
