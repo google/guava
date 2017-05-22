@@ -676,12 +676,16 @@ public final class Sets {
     checkNotNull(set1, "set1");
     checkNotNull(set2, "set2");
 
-    final Set<? extends E> set2minus1 = difference(set2, set1);
-
     return new SetView<E>() {
       @Override
       public int size() {
-        return IntMath.saturatedAdd(set1.size(), set2minus1.size());
+        int size = set1.size();
+        for (E e : set2) {
+          if (!set1.contains(e)) {
+            size++;
+          }
+        }
+        return size;
       }
 
       @Override
@@ -691,8 +695,24 @@ public final class Sets {
 
       @Override
       public UnmodifiableIterator<E> iterator() {
-        return Iterators.unmodifiableIterator(
-            Iterators.concat(set1.iterator(), set2minus1.iterator()));
+        return new AbstractIterator<E>() {
+          final Iterator<? extends E> itr1 = set1.iterator();
+          final Iterator<? extends E> itr2 = set2.iterator();
+
+          @Override
+          protected E computeNext() {
+            if (itr1.hasNext()) {
+              return itr1.next();
+            }
+            while (itr2.hasNext()) {
+              E e = itr2.next();
+              if (!set1.contains(e)) {
+                return e;
+              }
+            }
+            return endOfData();
+          }
+        };
       }
 
       @Override
@@ -744,21 +764,39 @@ public final class Sets {
     checkNotNull(set1, "set1");
     checkNotNull(set2, "set2");
 
-    final Predicate<Object> inSet2 = Predicates.in(set2);
     return new SetView<E>() {
       @Override
       public UnmodifiableIterator<E> iterator() {
-        return Iterators.filter(set1.iterator(), inSet2);
+        return new AbstractIterator<E>() {
+          final Iterator<E> itr = set1.iterator();
+
+          @Override
+          protected E computeNext() {
+            while (itr.hasNext()) {
+              E e = itr.next();
+              if (set2.contains(e)) {
+                return e;
+              }
+            }
+            return endOfData();
+          }
+        };
       }
 
       @Override
       public int size() {
-        return Iterators.size(iterator());
+        int size = 0;
+        for (E e : set1) {
+          if (set2.contains(e)) {
+            size++;
+          }
+        }
+        return size;
       }
 
       @Override
       public boolean isEmpty() {
-        return !iterator().hasNext();
+        return Collections.disjoint(set1, set2);
       }
 
       @Override
@@ -788,16 +826,33 @@ public final class Sets {
     checkNotNull(set1, "set1");
     checkNotNull(set2, "set2");
 
-    final Predicate<Object> notInSet2 = Predicates.not(Predicates.in(set2));
     return new SetView<E>() {
       @Override
       public UnmodifiableIterator<E> iterator() {
-        return Iterators.filter(set1.iterator(), notInSet2);
+        return new AbstractIterator<E>(){
+          final Iterator<E> itr = set1.iterator();
+          @Override
+          protected E computeNext() {
+            while (itr.hasNext()) {
+              E e = itr.next();
+              if (!set2.contains(e)) {
+                return e;
+              }
+            }
+            return endOfData();
+          }
+        };
       }
 
       @Override
       public int size() {
-        return Iterators.size(iterator());
+        int size = 0;
+        for (E e : set1) {
+          if (!set2.contains(e)) {
+            size++;
+          }
+        }
+        return size;
       }
 
       @Override
@@ -856,7 +911,18 @@ public final class Sets {
 
       @Override
       public int size() {
-        return Iterators.size(iterator());
+        int size = 0;
+        for (E e : set1) {
+          if (!set2.contains(e)) {
+            size++;
+          }
+        }
+        for (E e : set2) {
+          if (!set1.contains(e)) {
+            size++;
+          }
+        }
+        return size;
       }
 
       @Override
