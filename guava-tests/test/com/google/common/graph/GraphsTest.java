@@ -309,11 +309,9 @@ public class GraphsTest {
     AbstractNetworkTest.validateNetwork(transpose);
 
     assertThat(transpose.edgesConnecting(N1, N2)).isEmpty();
-    assertThat(transpose.edgeConnecting(N1, N2)).isAbsent();
     directedGraph.addEdge(N2, N1, E21);
     // View should be updated.
     assertThat(transpose.edgesConnecting(N1, N2)).containsExactly(E21);
-    assertThat(transpose.edgeConnecting(N1, N2)).hasValue(E21);
     AbstractNetworkTest.validateNetwork(transpose);
   }
 
