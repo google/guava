@@ -37615,13 +37615,6 @@
       deprecated="not deprecated">
       <param name="edge" type="E"/>
     </method>
-    <method name="edgeConnecting" return="com.google.common.base.Optional&lt;E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="nodeU" type="N"/>
-      <param name="nodeV" type="N"/>
-    </method>
     <method name="equals" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
@@ -38041,16 +38034,6 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="node" type="N"/>
-      <doc>
-      <![CDATA[{@inheritDoc}]]>
-      </doc>
-    </method>
-    <method name="hasEdge" return="boolean"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="nodeU" type="N"/>
-      <param name="nodeV" type="N"/>
       <doc>
       <![CDATA[{@inheritDoc}]]>
       </doc>
@@ -38852,8 +38835,6 @@
   <interface name="Network"    abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
-    <implements name="com.google.common.graph.SuccessorsFunction&lt;N&gt;"/>
-    <implements name="com.google.common.graph.PredecessorsFunction&lt;N&gt;"/>
     <method name="nodes" return="java.util.Set&lt;N&gt;"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -39099,23 +39080,6 @@
  If this network does not {@link #allowsParallelEdges() allow parallel edges}, the resulting set
  will contain at most one edge (equivalent to {@code edgeConnecting(nodeU, nodeV).asSet()}).
 
- @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
-     network]]>
-      </doc>
-    </method>
-    <method name="edgeConnecting" return="com.google.common.base.Optional&lt;E&gt;"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="nodeU" type="N"/>
-      <param name="nodeV" type="N"/>
-      <doc>
-      <![CDATA[Returns the single edge directly connecting {@code nodeU} to {@code nodeV}, if one is present.
-
- <p>In an undirected network, this is equal to {@code edgeConnecting(nodeV, nodeU)}.
-
- @throws IllegalArgumentException if there are multiple parallel edges connecting {@code nodeU}
-     to {@code nodeV}
  @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
      network]]>
       </doc>
@@ -39372,161 +39336,6 @@
     </doc>
   </class>
   <!-- end class com.google.common.graph.NetworkBuilder -->
-  <!-- start interface com.google.common.graph.PredecessorsFunction -->
-  <interface name="PredecessorsFunction"    abstract="true"
-    static="false" final="false" visibility="public"
-    deprecated="not deprecated">
-    <method name="predecessors" return="java.util.Set&lt;N&gt;"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="node" type="N"/>
-      <doc>
-      <![CDATA[Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
- {@code node}'s incoming edges <i>against</i> the direction (if any) of the edge.
-
- @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
-      </doc>
-    </method>
-    <doc>
-    <![CDATA[A functional interface for <a
- href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-structured data.
-
- <p>This interface is meant to be used as the type of a parameter to graph algorithms (such as
- topological sort) that only need a way of accessing the predecessors of a node in a graph.
-
- <h3>Usage</h3>
-
- Given an algorithm, for example:
-
- <pre>{@code
-   public <N> someGraphAlgorithm(N startNode, PredecessorsFunction<N> predecessorsFunction);
- }</pre>
-
- you will invoke it depending on the graph representation you're using.
-
- <p>If you have an instance of one of the primary {@code common.graph} types ({@link Graph},
- {@link ValueGraph}, and {@link Network}):
-
- <pre>{@code
-   someGraphAlgorithm(startNode, graph);
- }</pre>
-
- This works because those types each implement {@code PredecessorsFunction}. It will also work
- with any other implementation of this interface.
-
- <p>If you have your own graph implementation based around a custom node type {@code MyNode},
- which has a method {@code getParents()} that retrieves its predecessors in a graph:
-
- <pre>{@code
-   someGraphAlgorithm(startNode, MyNode::getParents);
- }</pre>
-
- <p>If you have some other mechanism for returning the predecessors of a node, or one that doesn't
- return a {@code Set<N>}, then you can use a lambda to perform a more general transformation:
-
- <pre>{@code
-   someGraphAlgorithm(startNode, node -> ImmutableSet.copyOf(node.getParents());
- }</pre>
-
- <p>Graph algorithms that need additional capabilities (accessing both predecessors and
- successors, iterating over the edges, etc.) should declare their input to be of a type that
- provides those capabilities, such as {@link Graph}, {@link ValueGraph}, or {@link Network}.
-
- <h3>Additional documentation</h3>
-
- <p>See the Guava User Guide for the {@code common.graph} package (<a
- href="https://github.com/google/guava/wiki/GraphsExplained">"Graphs Explained"</a>) for
- additional documentation, including <a
- href="https://github.com/google/guava/wiki/GraphsExplained#notes-for-implementors">notes for
- implementors</a>
-
- @author Joshua O'Madadhain
- @author Jens Nyman
- @param <N> Node parameter type
- @since 22.0]]>
-    </doc>
-  </interface>
-  <!-- end interface com.google.common.graph.PredecessorsFunction -->
-  <!-- start interface com.google.common.graph.SuccessorsFunction -->
-  <interface name="SuccessorsFunction"    abstract="true"
-    static="false" final="false" visibility="public"
-    deprecated="not deprecated">
-    <method name="successors" return="java.util.Set&lt;N&gt;"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="node" type="N"/>
-      <doc>
-      <![CDATA[Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
- {@code node}'s outgoing edges in the direction (if any) of the edge.
-
- <p>This is <i>not</i> the same as "all nodes reachable from {@code node} by following outgoing
- edges". For that functionality, see {@link Graphs#reachableNodes(Graph, Object)}.
-
- @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
-      </doc>
-    </method>
-    <doc>
-    <![CDATA[A functional interface for <a
- href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-structured data.
-
- <p>This interface is meant to be used as the type of a parameter to graph algorithms (such as
- breadth first traversal) that only need a way of accessing the successors of a node in a graph.
-
- <h3>Usage</h3>
-
- Given an algorithm, for example:
-
- <pre>{@code
-   public <N> someGraphAlgorithm(N startNode, SuccessorsFunction<N> successorsFunction);
- }</pre>
-
- you will invoke it depending on the graph representation you're using.
-
- <p>If you have an instance of one of the primary {@code common.graph} types ({@link Graph},
- {@link ValueGraph}, and {@link Network}):
-
- <pre>{@code
-   someGraphAlgorithm(startNode, graph);
- }</pre>
-
- This works because those types each implement {@code SuccessorsFunction}. It will also work with
- any other implementation of this interface.
-
- <p>If you have your own graph implementation based around a custom node type {@code MyNode},
- which has a method {@code getChildren()} that retrieves its successors in a graph:
-
- <pre>{@code
-   someGraphAlgorithm(startNode, MyNode::getChildren);
- }</pre>
-
- <p>If you have some other mechanism for returning the successors of a node, or one that doesn't
- return a {@code Set<N>}, then you can use a lambda to perform a more general transformation:
-
- <pre>{@code
-   someGraphAlgorithm(startNode, node -> ImmutableSet.copyOf(node.getChildren());
- }</pre>
-
- <p>Graph algorithms that need additional capabilities (accessing both predecessors and
- successors, iterating over the edges, etc.) should declare their input to be of a type that
- provides those capabilities, such as {@link Graph}, {@link ValueGraph}, or {@link Network}.
-
- <h3>Additional documentation</h3>
-
- <p>See the Guava User Guide for the {@code common.graph} package (<a
- href="https://github.com/google/guava/wiki/GraphsExplained">"Graphs Explained"</a>) for
- additional documentation, including <a
- href="https://github.com/google/guava/wiki/GraphsExplained#notes-for-implementors">notes for
- implementors</a>
-
- @author Joshua O'Madadhain
- @author Jens Nyman
- @param <N> Node parameter type
- @since 22.0]]>
-    </doc>
-  </interface>
-  <!-- end interface com.google.common.graph.SuccessorsFunction -->
   <!-- start interface com.google.common.graph.ValueGraph -->
   <interface name="ValueGraph"    abstract="true"
     static="false" final="false" visibility="public"
@@ -39631,16 +39440,6 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="node" type="N"/>
-      <doc>
-      <![CDATA[{@inheritDoc}]]>
-      </doc>
-    </method>
-    <method name="hasEdge" return="boolean"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="nodeU" type="N"/>
-      <param name="nodeV" type="N"/>
       <doc>
       <![CDATA[{@inheritDoc}]]>
       </doc>
