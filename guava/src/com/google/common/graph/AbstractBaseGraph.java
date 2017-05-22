@@ -16,7 +16,6 @@
 
 package com.google.common.graph;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.UnmodifiableIterator;
@@ -102,12 +101,5 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
   @Override
   public int outDegree(N node) {
     return isDirected() ? successors(node).size() : degree(node);
-  }
-
-  @Override
-  public boolean hasEdge(N nodeU, N nodeV) {
-    checkNotNull(nodeU);
-    checkNotNull(nodeV);
-    return nodes().contains(nodeU) && successors(nodeU).contains(nodeV);
   }
 }

@@ -21,7 +21,6 @@ import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Objects;
-import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -489,11 +488,6 @@ public final class Graphs {
     @Override
     public Set<E> edgesConnecting(N nodeU, N nodeV) {
       return network.edgesConnecting(nodeV, nodeU); // transpose
-    }
-
-    @Override
-    public Optional<E> edgeConnecting(N nodeU, N nodeV) {
-      return network.edgeConnecting(nodeV, nodeU); // transpose
     }
   }
 

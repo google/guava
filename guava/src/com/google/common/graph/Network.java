@@ -17,7 +17,6 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Optional;
 import java.util.Set;
 import javax.annotation.Nullable;
 
@@ -103,7 +102,8 @@ import javax.annotation.Nullable;
  */
 // TODO(b/35456940): Update the documentation to reflect the new interfaces
 @Beta
-public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
+public interface Network<N, E>
+    {
   //
   // Network-level accessors
   //
@@ -173,7 +173,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  @Override
+  // TODO(b/35451662): restore the @Override once the supertypes are released
   Set<N> predecessors(N node);
 
   /**
@@ -187,7 +187,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  @Override
+  // TODO(b/35451662): restore the @Override once the supertypes are released
   Set<N> successors(N node);
 
   /**
@@ -285,18 +285,6 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    *     network
    */
   Set<E> edgesConnecting(N nodeU, N nodeV);
-
-  /**
-   * Returns the single edge directly connecting {@code nodeU} to {@code nodeV}, if one is present.
-   *
-   * <p>In an undirected network, this is equal to {@code edgeConnecting(nodeV, nodeU)}.
-   *
-   * @throws IllegalArgumentException if there are multiple parallel edges connecting {@code nodeU}
-   *     to {@code nodeV}
-   * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
-   *     network
-   */
-  Optional<E> edgeConnecting(N nodeU, N nodeV);
 
   //
   // Network identity

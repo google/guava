@@ -24,7 +24,9 @@ import java.util.Set;
  * @author James Sexton
  * @param <N> Node parameter type
  */
-interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
+interface BaseGraph<N>
+    {
+
   //
   // Graph-level accessors
   //
@@ -75,7 +77,7 @@ interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  @Override
+  // TODO(b/35451662): restore the @Override once the supertypes are released
   Set<N> predecessors(N node);
 
   /**
@@ -89,7 +91,7 @@ interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  @Override
+  // TODO(b/35451662): restore the @Override once the supertypes are released
   Set<N> successors(N node);
 
   /**
@@ -126,12 +128,4 @@ interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
   int outDegree(N node);
-
-  /**
-   * Returns true if there is an edge directly connecting {@code nodeU} to {@code nodeV}. This is
-   * equivalent to {@code return nodes().contains(nodeU) && successors(nodeU).contains(nodeV)}.
-   *
-   * <p>In an undirected graph, this is equal to {@code hasEdge(nodeV, nodeU)}.
-   */
-  boolean hasEdge(N nodeU, N nodeV);
 }

@@ -52,11 +52,6 @@ public final class ValueGraphTest {
       assertThat(graph.inDegree(node)).isEqualTo(asGraph.inDegree(node));
       assertThat(graph.outDegree(node)).isEqualTo(asGraph.outDegree(node));
 
-      for (Integer otherNode : graph.nodes()) {
-        boolean hasEdge = graph.hasEdge(node, otherNode);
-        assertThat(hasEdge).isEqualTo(asGraph.hasEdge(node, otherNode));
-        assertThat(graph.edgeValueOrDefault(node, otherNode, null) != null).isEqualTo(hasEdge);
-      }
     }
   }
 
