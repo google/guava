@@ -1727,14 +1727,16 @@ public final class Sets {
   static final class UnmodifiableNavigableSet<E> extends ForwardingSortedSet<E>
       implements NavigableSet<E>, Serializable {
     private final NavigableSet<E> delegate;
+    private final SortedSet<E> unmodifiableDelegate;
 
     UnmodifiableNavigableSet(NavigableSet<E> delegate) {
       this.delegate = checkNotNull(delegate);
+      this.unmodifiableDelegate = Collections.unmodifiableSortedSet(delegate);
     }
 
     @Override
     protected SortedSet<E> delegate() {
-      return Collections.unmodifiableSortedSet(delegate);
+      return unmodifiableDelegate;
     }
 
     @Override

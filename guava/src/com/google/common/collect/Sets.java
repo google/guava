@@ -48,6 +48,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.function.Consumer;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 import javax.annotation.Nullable;
@@ -1822,14 +1823,38 @@ public final class Sets {
   static final class UnmodifiableNavigableSet<E> extends ForwardingSortedSet<E>
       implements NavigableSet<E>, Serializable {
     private final NavigableSet<E> delegate;
+    private final SortedSet<E> unmodifiableDelegate;
 
     UnmodifiableNavigableSet(NavigableSet<E> delegate) {
       this.delegate = checkNotNull(delegate);
+      this.unmodifiableDelegate = Collections.unmodifiableSortedSet(delegate);
     }
 
     @Override
     protected SortedSet<E> delegate() {
-      return Collections.unmodifiableSortedSet(delegate);
+      return unmodifiableDelegate;
+    }
+
+    // default methods not forwarded by ForwardingSortedSet
+
+    @Override
+    public boolean removeIf(java.util.function.Predicate<? super E> filter) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Stream<E> stream() {
+      return delegate.stream();
+    }
+
+    @Override
+    public Stream<E> parallelStream() {
+      return delegate.parallelStream();
+    }
+
+    @Override
+    public void forEach(Consumer<? super E> action) {
+      delegate.forEach(action);
     }
 
     @Override
