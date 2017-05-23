@@ -8,16 +8,23 @@ multimap and multiset), immutable collections, a graph library, functional
 types, an in-memory cache, and APIs/utilities for concurrency, I/O, hashing,
 primitives, reflection, string processing, and much more!
 
-Requires JDK 1.8 or higher. If you need support for JDK 1.6 or Android, use
-20.0 for now. In the next release (22.0) we will begin providing a backport
-for use on Android and lower JDK versions.
+Guava comes in two flavors.
+
+*   The main flavor requires JDK 1.8 or higher.
+*   If you need support for JDK 1.7 or Android, use the Android flavor. You can
+    find the Android Guava source in the [`android` directory].
+
+[`android` directory]: https://github.com/google/guava/tree/master/android
 
 ## Latest release
 
-The most recent release is [Guava 21.0][], released January 12, 2017.
+The most recent release is [Guava 22.0][], released May 22, 2017.
 
-- 21.0 API Docs: [guava][guava-release-api-docs], [guava-testlib][testlib-release-api-docs]
-- 21.0 API Diffs from 20.0: [guava][guava-release-api-diffs]
+- 22.0 API Docs: [guava][guava-release-api-docs], [guava-testlib][testlib-release-api-docs]
+- 22.0 API Diffs from 21.0: [guava][guava-release-api-diffs]
+
+The Maven group ID is `com.google.guava`, and the artifact ID is `guava`. Use
+version `22.0` for the main flavor, or `22.0-android` for the Android flavor.
 
 To add a dependency on Guava using Maven, use the following:
 
@@ -25,7 +32,9 @@ To add a dependency on Guava using Maven, use the following:
 <dependency>
   <groupId>com.google.guava</groupId>
   <artifactId>guava</artifactId>
-  <version>21.0</version>
+  <version>22.0</version>
+  <!-- or, for Android: -->
+  <version>22.0-android</version>
 </dependency>
 ```
 
@@ -33,17 +42,21 @@ To add a dependency using Gradle:
 
 ```
 dependencies {
-  compile 'com.google.guava:guava:21.0'
+  compile 'com.google.guava:guava:22.0'
+  // or, for Android:
+  compile 'com.google.guava:guava:22.0-android'
 }
 ```
+
 
 ## Snapshots
 
 Snapshots of Guava built from the `master` branch are available through Maven
-using version `22.0-SNAPSHOT`.
+using version `22.0-SNAPSHOT`, or `22.0-android-SNAPSHOT` for the Android
+flavor.
 
 - Snapshot API Docs: [guava][guava-snapshot-api-docs]
-- Snapshot API Diffs from 21.0: [guava][guava-snapshot-api-diffs]
+- Snapshot API Diffs from 22.0: [guava][guava-snapshot-api-diffs]
 
 ## Learn about Guava
 
@@ -78,14 +91,16 @@ future version of the library.
 You should not use them for communication between trusted and
 untrusted code.
 
-5. We unit-test and benchmark the libraries using only OpenJDK 1.8 on
+5. For the mainline flavor, we unit-test the libraries using only OpenJDK 1.8 on
 Linux. Some features, especially in `com.google.common.io`, may not work
 correctly in other environments.
 
-[Guava 21.0]: https://github.com/google/guava/wiki/Release21
-[guava-release-api-docs]: http://google.github.io/guava/releases/21.0/api/docs/
-[testlib-release-api-docs]: http://www.javadoc.io/doc/com.google.guava/guava-testlib/21.0
-[guava-release-api-diffs]: http://google.github.io/guava/releases/21.0/api/diffs/
+  For the Android flavor, our unit tests run on API level 10 (Gingerbread).
+
+[Guava 22.0]: https://github.com/google/guava/wiki/Release22
+[guava-release-api-docs]: http://google.github.io/guava/releases/22.0/api/docs/
+[testlib-release-api-docs]: http://www.javadoc.io/doc/com.google.guava/guava-testlib/22.0
+[guava-release-api-diffs]: http://google.github.io/guava/releases/22.0/api/diffs/
 [guava-snapshot-api-docs]: http://google.github.io/guava/releases/snapshot/api/docs/
 [guava-snapshot-api-diffs]: http://google.github.io/guava/releases/snapshot/api/diffs/
 [Guava Explained]: https://github.com/google/guava/wiki/Home
