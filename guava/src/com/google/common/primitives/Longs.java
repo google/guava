@@ -320,23 +320,31 @@ public final class Longs {
         | (b8 & 0xFFL);
   }
 
-  private static final byte[] asciiDigits = createAsciiDigits();
+  /*
+   * Moving asciiDigits into this static holder class lets ProGuard eliminate and inline the Longs
+   * class.
+   */
+  static final class AsciiDigits {
+    private AsciiDigits() {}
 
-  private static byte[] createAsciiDigits() {
-    byte[] result = new byte[128];
-    Arrays.fill(result, (byte) -1);
-    for (int i = 0; i <= 9; i++) {
-      result['0' + i] = (byte) i;
-    }
-    for (int i = 0; i <= 26; i++) {
-      result['A' + i] = (byte) (10 + i);
-      result['a' + i] = (byte) (10 + i);
-    }
-    return result;
-  }
+    private static final byte[] asciiDigits;
 
-  private static int digit(char c) {
-    return (c < 128) ? asciiDigits[c] : -1;
+    static {
+      byte[] result = new byte[128];
+      Arrays.fill(result, (byte) -1);
+      for (int i = 0; i <= 9; i++) {
+        result['0' + i] = (byte) i;
+      }
+      for (int i = 0; i <= 26; i++) {
+        result['A' + i] = (byte) (10 + i);
+        result['a' + i] = (byte) (10 + i);
+      }
+      asciiDigits = result;
+    }
+
+    static int digit(char c) {
+      return (c < 128) ? asciiDigits[c] : -1;
+    }
   }
 
   /**
@@ -397,7 +405,7 @@ public final class Longs {
     if (index == string.length()) {
       return null;
     }
-    int digit = digit(string.charAt(index++));
+    int digit = AsciiDigits.digit(string.charAt(index++));
     if (digit < 0 || digit >= radix) {
       return null;
     }
@@ -406,7 +414,7 @@ public final class Longs {
     long cap = Long.MIN_VALUE / radix;
 
     while (index < string.length()) {
-      digit = digit(string.charAt(index++));
+      digit = AsciiDigits.digit(string.charAt(index++));
       if (digit < 0 || digit >= radix || accum < cap) {
         return null;
       }
