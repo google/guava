@@ -24,6 +24,7 @@ import static java.lang.Double.longBitsToDouble;
 import static java.lang.Math.getExponent;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.VisibleForTesting;
 import java.math.BigInteger;
 
 /**
@@ -143,5 +144,6 @@ final class DoubleUtils {
     }
   }
 
-  private static final long ONE_BITS = doubleToRawLongBits(1.0);
+  @VisibleForTesting
+  static final long ONE_BITS = 0x3ff0000000000000L;
 }
