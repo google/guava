@@ -203,7 +203,7 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
    * <li>A and B have equal {@link #isDirected() directedness}.
    * <li>A and B have equal {@link #nodes() node sets}.
    * <li>A and B have equal {@link #edges() edge sets}.
-   * <li>Every edge in A and B are associated with equal {@link #edgeValue(Object, Object) values}.
+   * <li>The {@link #edgeValue(Object, Object) value} of a given edge is the same in both A and B.
    * </ul>
    *
    * <p>Graph properties besides {@link #isDirected() directedness} do <b>not</b> affect equality.

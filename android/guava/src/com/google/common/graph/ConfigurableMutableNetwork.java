@@ -146,7 +146,7 @@ final class ConfigurableMutableNetwork<N, E> extends ConfigurableNetwork<N, E>
     }
 
     NetworkConnections<N, E> connectionsU = nodeConnections.get(nodeU);
-    N nodeV = connectionsU.oppositeNode(edge);
+    N nodeV = connectionsU.adjacentNode(edge);
     NetworkConnections<N, E> connectionsV = nodeConnections.get(nodeV);
     connectionsU.removeOutEdge(edge);
     connectionsV.removeInEdge(edge, allowsSelfLoops() && nodeU.equals(nodeV));

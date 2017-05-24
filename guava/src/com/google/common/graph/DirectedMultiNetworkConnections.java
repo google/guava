@@ -104,7 +104,7 @@ final class DirectedMultiNetworkConnections<N, E> extends AbstractDirectedNetwor
   }
 
   @Override
-  public N removeInEdge(Object edge, boolean isSelfLoop) {
+  public N removeInEdge(E edge, boolean isSelfLoop) {
     N node = super.removeInEdge(edge, isSelfLoop);
     Multiset<N> predecessors = getReference(predecessorsReference);
     if (predecessors != null) {
@@ -114,7 +114,7 @@ final class DirectedMultiNetworkConnections<N, E> extends AbstractDirectedNetwor
   }
 
   @Override
-  public N removeOutEdge(Object edge) {
+  public N removeOutEdge(E edge) {
     N node = super.removeOutEdge(edge);
     Multiset<N> successors = getReference(successorsReference);
     if (successors != null) {

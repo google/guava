@@ -46,7 +46,7 @@ public interface MutableGraph<N> extends Graph<N> {
    * undirected graph, the edge will also connect {@code nodeV} to {@code nodeU}.
    *
    * <p>Behavior if {@code nodeU} and {@code nodeV} are not already present in this graph is
-   * implementation-dependent. Suggested behaviors include (a) silently {@link #addNode(Object)
+   * implementation-dependent. Suggested behaviors include (a) silently {@link #addNode(N)
    * adding} {@code nodeU} and {@code nodeV} to the graph (this is the behavior of the default
    * implementations) or (b) throwing {@code IllegalArgumentException}.
    *

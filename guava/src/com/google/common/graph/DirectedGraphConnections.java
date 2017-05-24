@@ -166,7 +166,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
 
   @SuppressWarnings("unchecked")
   @Override
-  public V value(Object node) {
+  public V value(N node) {
     Object value = adjacentNodeValues.get(node);
     if (value == PRED) {
       return null;
@@ -179,7 +179,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
 
   @SuppressWarnings("unchecked")
   @Override
-  public void removePredecessor(Object node) {
+  public void removePredecessor(N node) {
     Object previousValue = adjacentNodeValues.get(node);
     if (previousValue == PRED) {
       adjacentNodeValues.remove(node);

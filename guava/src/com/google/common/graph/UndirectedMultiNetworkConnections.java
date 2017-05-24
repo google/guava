@@ -83,7 +83,7 @@ final class UndirectedMultiNetworkConnections<N, E>
   }
 
   @Override
-  public N removeInEdge(Object edge, boolean isSelfLoop) {
+  public N removeInEdge(E edge, boolean isSelfLoop) {
     if (!isSelfLoop) {
       return removeOutEdge(edge);
     }
@@ -91,7 +91,7 @@ final class UndirectedMultiNetworkConnections<N, E>
   }
 
   @Override
-  public N removeOutEdge(Object edge) {
+  public N removeOutEdge(E edge) {
     N node = super.removeOutEdge(edge);
     Multiset<N> adjacentNodes = getReference(adjacentNodesReference);
     if (adjacentNodes != null) {

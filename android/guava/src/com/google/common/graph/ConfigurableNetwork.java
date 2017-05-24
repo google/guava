@@ -135,7 +135,7 @@ class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   @Override
   public EndpointPair<N> incidentNodes(E edge) {
     N nodeU = checkedReferenceNode(edge);
-    N nodeV = nodeConnections.get(nodeU).oppositeNode(edge);
+    N nodeV = nodeConnections.get(nodeU).adjacentNode(edge);
     return EndpointPair.of(this, nodeU, nodeV);
   }
 
