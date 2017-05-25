@@ -50,11 +50,16 @@ public class MessageDigestAlgorithmBenchmark {
         return md.digest();
       }
     },
-    HASH_FUNCTION_API() {
+    HASH_FUNCTION_DIRECT() {
       @Override public byte[] hash(Algorithm algorithm, byte[] input) {
         return algorithm.getHashFunction().hashBytes(input).asBytes();
       }
-    };
+    },
+    HASH_FUNCTION_VIA_HASHER() {
+      @Override public byte[] hash(Algorithm algorithm, byte[] input) {
+        return algorithm.getHashFunction().newHasher().putBytes(input).hash().asBytes();
+      }
+    };;
     public abstract byte[] hash(Algorithm algorithm, byte[] input);
   }
 
