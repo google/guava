@@ -40,6 +40,11 @@ import javax.annotation.Nullable;
  * @author Dimitris Andreou
  */
 final class Murmur3_128HashFunction extends AbstractStreamingHashFunction implements Serializable {
+  static final HashFunction MURMUR3_128 = new Murmur3_128HashFunction(0);
+
+  static final HashFunction GOOD_FAST_HASH_128 =
+      new Murmur3_128HashFunction(Hashing.GOOD_FAST_HASH_SEED);
+
   // TODO(user): when the shortcuts are implemented, update BloomFilterStrategies
   private final int seed;
 

@@ -21,6 +21,8 @@ package com.google.common.hash;
  * @author Kurt Alfred Kluever
  */
 final class Crc32cHashFunction extends AbstractStreamingHashFunction {
+  static final HashFunction CRC_32_C = new Crc32cHashFunction();
+  
   @Override
   public int bits() {
     return 32;

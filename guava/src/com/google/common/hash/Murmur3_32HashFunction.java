@@ -44,6 +44,11 @@ import javax.annotation.Nullable;
  * @author Kurt Alfred Kluever
  */
 final class Murmur3_32HashFunction extends AbstractStreamingHashFunction implements Serializable {
+  static final HashFunction MURMUR3_32 = new Murmur3_32HashFunction(0);
+  
+  static final HashFunction GOOD_FAST_HASH_32 = 
+      new Murmur3_32HashFunction(Hashing.GOOD_FAST_HASH_SEED);
+  
   private static final int C1 = 0xcc9e2d51;
   private static final int C2 = 0x1b873593;
 

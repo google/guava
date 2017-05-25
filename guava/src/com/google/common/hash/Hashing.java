@@ -65,16 +65,16 @@ public final class Hashing {
     int bits = checkPositiveAndMakeMultipleOf32(minimumBits);
 
     if (bits == 32) {
-      return Murmur3_32Holder.GOOD_FAST_HASH_FUNCTION_32;
+      return Murmur3_32HashFunction.GOOD_FAST_HASH_32;
     }
     if (bits <= 128) {
-      return Murmur3_128Holder.GOOD_FAST_HASH_FUNCTION_128;
+      return Murmur3_128HashFunction.GOOD_FAST_HASH_128;
     }
 
     // Otherwise, join together some 128-bit murmur3s
     int hashFunctionsNeeded = (bits + 127) / 128;
     HashFunction[] hashFunctions = new HashFunction[hashFunctionsNeeded];
-    hashFunctions[0] = Murmur3_128Holder.GOOD_FAST_HASH_FUNCTION_128;
+    hashFunctions[0] = Murmur3_128HashFunction.GOOD_FAST_HASH_128;
     int seed = GOOD_FAST_HASH_SEED;
     for (int i = 1; i < hashFunctionsNeeded; i++) {
       seed += 1500450271; // a prime; shouldn't matter
@@ -87,7 +87,7 @@ public final class Hashing {
    * Used to randomize {@link #goodFastHash} instances, so that programs which persist anything
    * dependent on the hash codes they produce will fail sooner.
    */
-  private static final int GOOD_FAST_HASH_SEED = (int) System.currentTimeMillis();
+  static final int GOOD_FAST_HASH_SEED = (int) System.currentTimeMillis();
 
   /**
    * Returns a hash function implementing the
@@ -108,14 +108,7 @@ public final class Hashing {
    * <p>The exact C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A).
    */
   public static HashFunction murmur3_32() {
-    return Murmur3_32Holder.MURMUR3_32;
-  }
-
-  private static class Murmur3_32Holder {
-    static final HashFunction MURMUR3_32 = new Murmur3_32HashFunction(0);
-
-    /** Returned by {@link #goodFastHash} when {@code minimumBits <= 32}. */
-    static final HashFunction GOOD_FAST_HASH_FUNCTION_32 = murmur3_32(GOOD_FAST_HASH_SEED);
+    return Murmur3_32HashFunction.MURMUR3_32;
   }
 
   /**
@@ -137,14 +130,7 @@ public final class Hashing {
    * <p>The exact C++ equivalent is the MurmurHash3_x64_128 function (Murmur3F).
    */
   public static HashFunction murmur3_128() {
-    return Murmur3_128Holder.MURMUR3_128;
-  }
-
-  private static class Murmur3_128Holder {
-    static final HashFunction MURMUR3_128 = new Murmur3_128HashFunction(0);
-
-    /** Returned by {@link #goodFastHash} when {@code 32 < minimumBits <= 128}. */
-    static final HashFunction GOOD_FAST_HASH_FUNCTION_128 = murmur3_128(GOOD_FAST_HASH_SEED);
+    return Murmur3_128HashFunction.MURMUR3_128;
   }
 
   /**
@@ -154,12 +140,7 @@ public final class Hashing {
    * @since 15.0
    */
   public static HashFunction sipHash24() {
-    return SipHash24Holder.SIP_HASH_24;
-  }
-
-  private static class SipHash24Holder {
-    static final HashFunction SIP_HASH_24 =
-        new SipHashFunction(2, 4, 0x0706050403020100L, 0x0f0e0d0c0b0a0908L);
+    return SipHashFunction.SIP_HASH_24;
   }
 
   /**
@@ -371,11 +352,7 @@ public final class Hashing {
    * @since 18.0
    */
   public static HashFunction crc32c() {
-    return Crc32cHolder.CRC_32_C;
-  }
-
-  private static final class Crc32cHolder {
-    static final HashFunction CRC_32_C = new Crc32cHashFunction();
+    return Crc32cHashFunction.CRC_32_C;
   }
 
   /**
@@ -391,11 +368,7 @@ public final class Hashing {
    * @since 14.0
    */
   public static HashFunction crc32() {
-    return Crc32Holder.CRC_32;
-  }
-
-  private static class Crc32Holder {
-    static final HashFunction CRC_32 = checksumHashFunction(ChecksumType.CRC_32, "Hashing.crc32()");
+    return ChecksumType.CRC_32.hashFunction;
   }
 
   /**
@@ -411,40 +384,28 @@ public final class Hashing {
    * @since 14.0
    */
   public static HashFunction adler32() {
-    return Adler32Holder.ADLER_32;
-  }
-
-  private static class Adler32Holder {
-    static final HashFunction ADLER_32 =
-        checksumHashFunction(ChecksumType.ADLER_32, "Hashing.adler32()");
-  }
-
-  private static HashFunction checksumHashFunction(ChecksumType type, String toString) {
-    return new ChecksumHashFunction(type, type.bits, toString);
+    return ChecksumType.ADLER_32.hashFunction;
   }
 
   enum ChecksumType implements Supplier<Checksum> {
-    CRC_32(32) {
+    CRC_32("Hashing.crc32()") {
       @Override
       public Checksum get() {
         return new CRC32();
       }
     },
-    ADLER_32(32) {
+    ADLER_32("Hashing.adler32()") {
       @Override
       public Checksum get() {
         return new Adler32();
       }
     };
 
-    private final int bits;
+    public final HashFunction hashFunction;
 
-    ChecksumType(int bits) {
-      this.bits = bits;
+    ChecksumType(String toString) {
+      this.hashFunction = new ChecksumHashFunction(this, 32, toString);
     }
-
-    @Override
-    public abstract Checksum get();
   }
 
   /**
@@ -464,11 +425,7 @@ public final class Hashing {
    * @since 20.0
    */
   public static HashFunction farmHashFingerprint64() {
-    return FarmHashFingerprint64Holder.FARMHASH_FINGERPRINT_64;
-  }
-
-  private static class FarmHashFingerprint64Holder {
-    static final HashFunction FARMHASH_FINGERPRINT_64 = new FarmHashFingerprint64();
+    return FarmHashFingerprint64.FARMHASH_FINGERPRINT_64;
   }
 
   /**
