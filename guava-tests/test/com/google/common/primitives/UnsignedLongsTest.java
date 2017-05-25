@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 The Guava Authors
+ * Copyright (C) 2011-2017 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -14,17 +14,18 @@
 
 package com.google.common.primitives;
 
-import static java.math.BigInteger.ONE;
+import static java.math.BigInteger.*;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.testing.Helpers;
-import com.google.common.testing.NullPointerTester;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.testing.Helpers;
+import com.google.common.testing.NullPointerTester;
 import junit.framework.TestCase;
 
 /**
@@ -32,6 +33,7 @@ import junit.framework.TestCase;
  *
  * @author Brian Milch
  * @author Louis Wasserman
+ * @author Michael Hausegger, hausegger.michael@googlemail.com
  */
 @GwtCompatible(emulated = true)
 public class UnsignedLongsTest extends TestCase {
@@ -150,6 +152,15 @@ public class UnsignedLongsTest extends TestCase {
     assertEquals(0x6cf78a4b139a4e2aL, UnsignedLongs.parseUnsignedLong("7851896530399809066"));
   }
 
+  public void testParseLongWithRadixProvidingEmptyString() {
+    try {
+      UnsignedLongs.parseUnsignedLong( "", 1 );
+      fail("NumberFormatException should have been raised.");
+    }
+    catch ( NumberFormatException n ){
+    }
+  }
+
   public void testParseLongFails() {
     try {
       // One more than maximum value
@@ -264,6 +275,10 @@ public class UnsignedLongsTest extends TestCase {
         assertEquals(xValue.toString(base), UnsignedLongs.toString(xLong, base));
       }
     }
+  }
+
+  public void testToStringWithRadixProvidingZeroAsFirstParameter() {
+    assertEquals("0", UnsignedLongs.toString(0L,2));
   }
 
   public void testJoin() {

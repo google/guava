@@ -16,13 +16,14 @@
 
 package com.google.common.eventbus;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import junit.framework.TestCase;
 
 /**
@@ -268,6 +269,11 @@ public class EventBusTest extends TestCase {
       assertEquals("One of the registered catchers did not receive an event.",
           expectedEvents, catcher.getEvents());
     }
+  }
+
+  public void testToString() throws Exception {
+    EventBus eventBus = new EventBus("a b ; - \" < > / \\ €" );
+    assertEquals("EventBus{a b ; - \" < > / \\ €}",eventBus.toString());
   }
 
   /**
