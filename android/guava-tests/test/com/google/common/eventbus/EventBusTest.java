@@ -270,6 +270,11 @@ public class EventBusTest extends TestCase {
     }
   }
 
+  public void testToString() throws Exception {
+    EventBus eventBus = new EventBus("a b ; - \" < > / \\ €");
+    assertEquals("EventBus{a b ; - \" < > / \\ €}", eventBus.toString());
+  }
+
   /**
    * Tests that bridge methods are not subscribed to events. In Java 8,
    * annotations are included on the bridge method in addition to the original
