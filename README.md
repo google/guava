@@ -52,7 +52,7 @@ dependencies {
 ## Snapshots
 
 Snapshots of Guava built from the `master` branch are available through Maven
-using version `22.0-SNAPSHOT`, or `22.0-android-SNAPSHOT` for the Android
+using version `23.0-SNAPSHOT`, or `23.0-android-SNAPSHOT` for the Android
 flavor.
 
 - Snapshot API Docs: [guava][guava-snapshot-api-docs]
