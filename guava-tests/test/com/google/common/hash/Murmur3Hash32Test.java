@@ -55,6 +55,17 @@ public class Murmur3Hash32Test extends TestCase {
     assertEquals(HashCode.fromInt(expected), actual);
   }
 
+  public void testParanoidHashBytes() {
+    HashFn hf = new HashFn() {
+      @Override public byte[] hash(byte[] input, int seed) {
+        return murmur3_32(seed).hashBytes(input).asBytes();
+      }
+    };
+    // Murmur3A, MurmurHash3 for x86, 32-bit (MurmurHash3_x86_32)
+    // http://code.google.com/p/smhasher/source/browse/trunk/main.cpp
+    HashTestUtils.verifyHashFunction(hf, 32, 0xB0F57EE3);
+  }
+
   public void testParanoid() {
     HashFn hf = new HashFn() {
       @Override public byte[] hash(byte[] input, int seed) {

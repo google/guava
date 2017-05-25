@@ -59,7 +59,7 @@ abstract class AbstractStreamingHashFunction implements HashFunction {
 
   @Override
   public HashCode hashBytes(byte[] input) {
-    return newHasher().putBytes(input).hash();
+    return hashBytes(input, 0, input.length);
   }
 
   @Override

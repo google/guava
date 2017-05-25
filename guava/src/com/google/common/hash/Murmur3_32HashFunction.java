@@ -25,6 +25,7 @@
 
 package com.google.common.hash;
 
+import static com.google.common.base.Preconditions.checkPositionIndexes;
 import static com.google.common.primitives.UnsignedBytes.toInt;
 
 import com.google.common.primitives.Chars;
@@ -32,6 +33,7 @@ import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import javax.annotation.Nullable;
 
 /**
@@ -48,6 +50,8 @@ final class Murmur3_32HashFunction extends AbstractStreamingHashFunction impleme
   
   static final HashFunction GOOD_FAST_HASH_32 = 
       new Murmur3_32HashFunction(Hashing.GOOD_FAST_HASH_SEED);
+  
+  private static final int CHUNK_SIZE = 4;
   
   private static final int C1 = 0xcc9e2d51;
   private static final int C2 = 0x1b873593;
@@ -131,6 +135,33 @@ final class Murmur3_32HashFunction extends AbstractStreamingHashFunction impleme
     return fmix(h1, Chars.BYTES * input.length());
   }
 
+  @Override
+  public HashCode hashString(CharSequence input, Charset charset) {
+    return hashBytes(input.toString().getBytes(charset));
+  }
+
+  @Override
+  public HashCode hashBytes(byte[] input, int off, int len) {
+    checkPositionIndexes(off, off + len, input.length);
+    int h1 = seed;
+    int i;
+    for (i = 0; i + CHUNK_SIZE <= len; i += CHUNK_SIZE) {
+      int k1 = mixK1(getIntLittleEndian(input, off + i));
+      h1 = mixH1(h1, k1);
+    }
+    
+    int k1 = 0;
+    for (int shift = 0; i < len; i++, shift += 8) {
+      k1 ^= toInt(input[off + i]) << shift;
+    }
+    h1 ^= mixK1(k1);
+    return fmix(h1, len);
+  }
+  
+  private static int getIntLittleEndian(byte[] input, int offset) {
+    return Ints.fromBytes(input[offset + 3], input[offset + 2], input[offset + 1], input[offset]);
+  }
+
   private static int mixK1(int k1) {
     k1 *= C1;
     k1 = Integer.rotateLeft(k1, 15);
@@ -157,7 +188,6 @@ final class Murmur3_32HashFunction extends AbstractStreamingHashFunction impleme
   }
 
   private static final class Murmur3_32Hasher extends AbstractStreamingHasher {
-    private static final int CHUNK_SIZE = 4;
     private int h1;
     private int length;
 
