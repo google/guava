@@ -38621,7 +38621,7 @@
  undirected graph, the edge will also connect {@code nodeV} to {@code nodeU}.
 
  <p>Behavior if {@code nodeU} and {@code nodeV} are not already present in this graph is
- implementation-dependent. Suggested behaviors include (a) silently {@link #addNode(Object)
+ implementation-dependent. Suggested behaviors include (a) silently {@link #addNode(N)
  adding} {@code nodeU} and {@code nodeV} to the graph (this is the behavior of the default
  implementations) or (b) throwing {@code IllegalArgumentException}.
 
@@ -39479,7 +39479,7 @@
  <li>A and B have equal {@link #isDirected() directedness}.
  <li>A and B have equal {@link #nodes() node sets}.
  <li>A and B have equal {@link #edges() edge sets}.
- <li>Every edge in A and B are associated with equal {@link #edgeValue(Object, Object) values}.
+ <li>The {@link #edgeValue(Object, Object) value} of a given edge is the same in both A and B.
  </ul>
 
  <p>Graph properties besides {@link #isDirected() directedness} do <b>not</b> affect equality.

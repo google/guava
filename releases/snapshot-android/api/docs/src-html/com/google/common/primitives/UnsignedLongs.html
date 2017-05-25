@@ -313,14 +313,14 @@
 <span class="sourceLineNo">305</span>      throw new NumberFormatException("illegal radix: " + radix);<a name="line.305"></a>
 <span class="sourceLineNo">306</span>    }<a name="line.306"></a>
 <span class="sourceLineNo">307</span><a name="line.307"></a>
-<span class="sourceLineNo">308</span>    int maxSafePos = maxSafeDigits[radix] - 1;<a name="line.308"></a>
+<span class="sourceLineNo">308</span>    int maxSafePos = ParseOverflowDetection.maxSafeDigits[radix] - 1;<a name="line.308"></a>
 <span class="sourceLineNo">309</span>    long value = 0;<a name="line.309"></a>
 <span class="sourceLineNo">310</span>    for (int pos = 0; pos &lt; string.length(); pos++) {<a name="line.310"></a>
 <span class="sourceLineNo">311</span>      int digit = Character.digit(string.charAt(pos), radix);<a name="line.311"></a>
 <span class="sourceLineNo">312</span>      if (digit == -1) {<a name="line.312"></a>
 <span class="sourceLineNo">313</span>        throw new NumberFormatException(string);<a name="line.313"></a>
 <span class="sourceLineNo">314</span>      }<a name="line.314"></a>
-<span class="sourceLineNo">315</span>      if (pos &gt; maxSafePos &amp;&amp; overflowInParse(value, digit, radix)) {<a name="line.315"></a>
+<span class="sourceLineNo">315</span>      if (pos &gt; maxSafePos &amp;&amp; ParseOverflowDetection.overflowInParse(value, digit, radix)) {<a name="line.315"></a>
 <span class="sourceLineNo">316</span>        throw new NumberFormatException("Too large for unsigned long: " + string);<a name="line.316"></a>
 <span class="sourceLineNo">317</span>      }<a name="line.317"></a>
 <span class="sourceLineNo">318</span>      value = (value * radix) + digit;<a name="line.318"></a>
@@ -328,104 +328,112 @@
 <span class="sourceLineNo">320</span><a name="line.320"></a>
 <span class="sourceLineNo">321</span>    return value;<a name="line.321"></a>
 <span class="sourceLineNo">322</span>  }<a name="line.322"></a>
-<span class="sourceLineNo">323</span><a name="line.323"></a>
-<span class="sourceLineNo">324</span>  /**<a name="line.324"></a>
-<span class="sourceLineNo">325</span>   * Returns true if (current * radix) + digit is a number too large to be represented by an<a name="line.325"></a>
-<span class="sourceLineNo">326</span>   * unsigned long. This is useful for detecting overflow while parsing a string representation of a<a name="line.326"></a>
-<span class="sourceLineNo">327</span>   * number. Does not verify whether supplied radix is valid, passing an invalid radix will give<a name="line.327"></a>
-<span class="sourceLineNo">328</span>   * undefined results or an ArrayIndexOutOfBoundsException.<a name="line.328"></a>
-<span class="sourceLineNo">329</span>   */<a name="line.329"></a>
-<span class="sourceLineNo">330</span>  private static boolean overflowInParse(long current, int digit, int radix) {<a name="line.330"></a>
-<span class="sourceLineNo">331</span>    if (current &gt;= 0) {<a name="line.331"></a>
-<span class="sourceLineNo">332</span>      if (current &lt; maxValueDivs[radix]) {<a name="line.332"></a>
-<span class="sourceLineNo">333</span>        return false;<a name="line.333"></a>
-<span class="sourceLineNo">334</span>      }<a name="line.334"></a>
-<span class="sourceLineNo">335</span>      if (current &gt; maxValueDivs[radix]) {<a name="line.335"></a>
-<span class="sourceLineNo">336</span>        return true;<a name="line.336"></a>
-<span class="sourceLineNo">337</span>      }<a name="line.337"></a>
-<span class="sourceLineNo">338</span>      // current == maxValueDivs[radix]<a name="line.338"></a>
-<span class="sourceLineNo">339</span>      return (digit &gt; maxValueMods[radix]);<a name="line.339"></a>
-<span class="sourceLineNo">340</span>    }<a name="line.340"></a>
-<span class="sourceLineNo">341</span><a name="line.341"></a>
-<span class="sourceLineNo">342</span>    // current &lt; 0: high bit is set<a name="line.342"></a>
-<span class="sourceLineNo">343</span>    return true;<a name="line.343"></a>
-<span class="sourceLineNo">344</span>  }<a name="line.344"></a>
-<span class="sourceLineNo">345</span><a name="line.345"></a>
-<span class="sourceLineNo">346</span>  /**<a name="line.346"></a>
-<span class="sourceLineNo">347</span>   * Returns a string representation of x, where x is treated as unsigned.<a name="line.347"></a>
-<span class="sourceLineNo">348</span>   */<a name="line.348"></a>
-<span class="sourceLineNo">349</span>  public static String toString(long x) {<a name="line.349"></a>
-<span class="sourceLineNo">350</span>    return toString(x, 10);<a name="line.350"></a>
-<span class="sourceLineNo">351</span>  }<a name="line.351"></a>
-<span class="sourceLineNo">352</span><a name="line.352"></a>
-<span class="sourceLineNo">353</span>  /**<a name="line.353"></a>
-<span class="sourceLineNo">354</span>   * Returns a string representation of {@code x} for the given radix, where {@code x} is treated as<a name="line.354"></a>
-<span class="sourceLineNo">355</span>   * unsigned.<a name="line.355"></a>
-<span class="sourceLineNo">356</span>   *<a name="line.356"></a>
-<span class="sourceLineNo">357</span>   * @param x the value to convert to a string.<a name="line.357"></a>
-<span class="sourceLineNo">358</span>   * @param radix the radix to use while working with {@code x}<a name="line.358"></a>
-<span class="sourceLineNo">359</span>   * @throws IllegalArgumentException if {@code radix} is not between {@link Character#MIN_RADIX}<a name="line.359"></a>
-<span class="sourceLineNo">360</span>   *     and {@link Character#MAX_RADIX}.<a name="line.360"></a>
-<span class="sourceLineNo">361</span>   */<a name="line.361"></a>
-<span class="sourceLineNo">362</span>  public static String toString(long x, int radix) {<a name="line.362"></a>
-<span class="sourceLineNo">363</span>    checkArgument(<a name="line.363"></a>
-<span class="sourceLineNo">364</span>        radix &gt;= Character.MIN_RADIX &amp;&amp; radix &lt;= Character.MAX_RADIX,<a name="line.364"></a>
-<span class="sourceLineNo">365</span>        "radix (%s) must be between Character.MIN_RADIX and Character.MAX_RADIX",<a name="line.365"></a>
-<span class="sourceLineNo">366</span>        radix);<a name="line.366"></a>
-<span class="sourceLineNo">367</span>    if (x == 0) {<a name="line.367"></a>
-<span class="sourceLineNo">368</span>      // Simply return "0"<a name="line.368"></a>
-<span class="sourceLineNo">369</span>      return "0";<a name="line.369"></a>
-<span class="sourceLineNo">370</span>    } else if (x &gt; 0) {<a name="line.370"></a>
-<span class="sourceLineNo">371</span>      return Long.toString(x, radix);<a name="line.371"></a>
-<span class="sourceLineNo">372</span>    } else {<a name="line.372"></a>
-<span class="sourceLineNo">373</span>      char[] buf = new char[64];<a name="line.373"></a>
-<span class="sourceLineNo">374</span>      int i = buf.length;<a name="line.374"></a>
-<span class="sourceLineNo">375</span>      if ((radix &amp; (radix - 1)) == 0) {<a name="line.375"></a>
-<span class="sourceLineNo">376</span>        // Radix is a power of two so we can avoid division.<a name="line.376"></a>
-<span class="sourceLineNo">377</span>        int shift = Integer.numberOfTrailingZeros(radix);<a name="line.377"></a>
-<span class="sourceLineNo">378</span>        int mask = radix - 1;<a name="line.378"></a>
-<span class="sourceLineNo">379</span>        do {<a name="line.379"></a>
-<span class="sourceLineNo">380</span>          buf[--i] = Character.forDigit(((int) x) &amp; mask, radix);<a name="line.380"></a>
-<span class="sourceLineNo">381</span>          x &gt;&gt;&gt;= shift;<a name="line.381"></a>
-<span class="sourceLineNo">382</span>        } while (x != 0);<a name="line.382"></a>
-<span class="sourceLineNo">383</span>      } else {<a name="line.383"></a>
-<span class="sourceLineNo">384</span>        // Separate off the last digit using unsigned division. That will leave<a name="line.384"></a>
-<span class="sourceLineNo">385</span>        // a number that is nonnegative as a signed integer.<a name="line.385"></a>
-<span class="sourceLineNo">386</span>        long quotient;<a name="line.386"></a>
-<span class="sourceLineNo">387</span>        if ((radix &amp; 1) == 0) {<a name="line.387"></a>
-<span class="sourceLineNo">388</span>          // Fast path for the usual case where the radix is even.<a name="line.388"></a>
-<span class="sourceLineNo">389</span>          quotient = (x &gt;&gt;&gt; 1) / (radix &gt;&gt;&gt; 1);<a name="line.389"></a>
-<span class="sourceLineNo">390</span>        } else {<a name="line.390"></a>
-<span class="sourceLineNo">391</span>          quotient = divide(x, radix);<a name="line.391"></a>
-<span class="sourceLineNo">392</span>        }<a name="line.392"></a>
-<span class="sourceLineNo">393</span>        long rem = x - quotient * radix;<a name="line.393"></a>
-<span class="sourceLineNo">394</span>        buf[--i] = Character.forDigit((int) rem, radix);<a name="line.394"></a>
-<span class="sourceLineNo">395</span>        x = quotient;<a name="line.395"></a>
-<span class="sourceLineNo">396</span>        // Simple modulo/division approach<a name="line.396"></a>
-<span class="sourceLineNo">397</span>        while (x &gt; 0) {<a name="line.397"></a>
-<span class="sourceLineNo">398</span>          buf[--i] = Character.forDigit((int) (x % radix), radix);<a name="line.398"></a>
-<span class="sourceLineNo">399</span>          x /= radix;<a name="line.399"></a>
-<span class="sourceLineNo">400</span>        }<a name="line.400"></a>
-<span class="sourceLineNo">401</span>      }<a name="line.401"></a>
-<span class="sourceLineNo">402</span>      // Generate string<a name="line.402"></a>
-<span class="sourceLineNo">403</span>      return new String(buf, i, buf.length - i);<a name="line.403"></a>
-<span class="sourceLineNo">404</span>    }<a name="line.404"></a>
-<span class="sourceLineNo">405</span>  }<a name="line.405"></a>
-<span class="sourceLineNo">406</span><a name="line.406"></a>
-<span class="sourceLineNo">407</span>  // calculated as 0xffffffffffffffff / radix<a name="line.407"></a>
-<span class="sourceLineNo">408</span>  private static final long[] maxValueDivs = new long[Character.MAX_RADIX + 1];<a name="line.408"></a>
-<span class="sourceLineNo">409</span>  private static final int[] maxValueMods = new int[Character.MAX_RADIX + 1];<a name="line.409"></a>
-<span class="sourceLineNo">410</span>  private static final int[] maxSafeDigits = new int[Character.MAX_RADIX + 1];<a name="line.410"></a>
-<span class="sourceLineNo">411</span><a name="line.411"></a>
-<span class="sourceLineNo">412</span>  static {<a name="line.412"></a>
-<span class="sourceLineNo">413</span>    BigInteger overflow = new BigInteger("10000000000000000", 16);<a name="line.413"></a>
-<span class="sourceLineNo">414</span>    for (int i = Character.MIN_RADIX; i &lt;= Character.MAX_RADIX; i++) {<a name="line.414"></a>
-<span class="sourceLineNo">415</span>      maxValueDivs[i] = divide(MAX_VALUE, i);<a name="line.415"></a>
-<span class="sourceLineNo">416</span>      maxValueMods[i] = (int) remainder(MAX_VALUE, i);<a name="line.416"></a>
-<span class="sourceLineNo">417</span>      maxSafeDigits[i] = overflow.toString(i).length() - 1;<a name="line.417"></a>
-<span class="sourceLineNo">418</span>    }<a name="line.418"></a>
-<span class="sourceLineNo">419</span>  }<a name="line.419"></a>
-<span class="sourceLineNo">420</span>}<a name="line.420"></a>
+<span class="sourceLineNo">323</span>  <a name="line.323"></a>
+<span class="sourceLineNo">324</span>  /*<a name="line.324"></a>
+<span class="sourceLineNo">325</span>   * We move the static constants into this class so ProGuard can inline UnsignedLongs entirely<a name="line.325"></a>
+<span class="sourceLineNo">326</span>   * unless the user is actually calling a parse method.<a name="line.326"></a>
+<span class="sourceLineNo">327</span>   */<a name="line.327"></a>
+<span class="sourceLineNo">328</span>  private static final class ParseOverflowDetection {<a name="line.328"></a>
+<span class="sourceLineNo">329</span>    private ParseOverflowDetection() {}<a name="line.329"></a>
+<span class="sourceLineNo">330</span>    <a name="line.330"></a>
+<span class="sourceLineNo">331</span>    // calculated as 0xffffffffffffffff / radix<a name="line.331"></a>
+<span class="sourceLineNo">332</span>    static final long[] maxValueDivs = new long[Character.MAX_RADIX + 1];<a name="line.332"></a>
+<span class="sourceLineNo">333</span>    static final int[] maxValueMods = new int[Character.MAX_RADIX + 1];<a name="line.333"></a>
+<span class="sourceLineNo">334</span>    static final int[] maxSafeDigits = new int[Character.MAX_RADIX + 1];<a name="line.334"></a>
+<span class="sourceLineNo">335</span><a name="line.335"></a>
+<span class="sourceLineNo">336</span>    static {<a name="line.336"></a>
+<span class="sourceLineNo">337</span>      BigInteger overflow = new BigInteger("10000000000000000", 16);<a name="line.337"></a>
+<span class="sourceLineNo">338</span>      for (int i = Character.MIN_RADIX; i &lt;= Character.MAX_RADIX; i++) {<a name="line.338"></a>
+<span class="sourceLineNo">339</span>        maxValueDivs[i] = divide(MAX_VALUE, i);<a name="line.339"></a>
+<span class="sourceLineNo">340</span>        maxValueMods[i] = (int) remainder(MAX_VALUE, i);<a name="line.340"></a>
+<span class="sourceLineNo">341</span>        maxSafeDigits[i] = overflow.toString(i).length() - 1;<a name="line.341"></a>
+<span class="sourceLineNo">342</span>      }<a name="line.342"></a>
+<span class="sourceLineNo">343</span>    }<a name="line.343"></a>
+<span class="sourceLineNo">344</span><a name="line.344"></a>
+<span class="sourceLineNo">345</span>    /**<a name="line.345"></a>
+<span class="sourceLineNo">346</span>     * Returns true if (current * radix) + digit is a number too large to be represented by an<a name="line.346"></a>
+<span class="sourceLineNo">347</span>     * unsigned long. This is useful for detecting overflow while parsing a string representation of<a name="line.347"></a>
+<span class="sourceLineNo">348</span>     * a number. Does not verify whether supplied radix is valid, passing an invalid radix will give<a name="line.348"></a>
+<span class="sourceLineNo">349</span>     * undefined results or an ArrayIndexOutOfBoundsException.<a name="line.349"></a>
+<span class="sourceLineNo">350</span>     */<a name="line.350"></a>
+<span class="sourceLineNo">351</span>    static boolean overflowInParse(long current, int digit, int radix) {<a name="line.351"></a>
+<span class="sourceLineNo">352</span>      if (current &gt;= 0) {<a name="line.352"></a>
+<span class="sourceLineNo">353</span>        if (current &lt; maxValueDivs[radix]) {<a name="line.353"></a>
+<span class="sourceLineNo">354</span>          return false;<a name="line.354"></a>
+<span class="sourceLineNo">355</span>        }<a name="line.355"></a>
+<span class="sourceLineNo">356</span>        if (current &gt; maxValueDivs[radix]) {<a name="line.356"></a>
+<span class="sourceLineNo">357</span>          return true;<a name="line.357"></a>
+<span class="sourceLineNo">358</span>        }<a name="line.358"></a>
+<span class="sourceLineNo">359</span>        // current == maxValueDivs[radix]<a name="line.359"></a>
+<span class="sourceLineNo">360</span>        return (digit &gt; maxValueMods[radix]);<a name="line.360"></a>
+<span class="sourceLineNo">361</span>      }<a name="line.361"></a>
+<span class="sourceLineNo">362</span><a name="line.362"></a>
+<span class="sourceLineNo">363</span>      // current &lt; 0: high bit is set<a name="line.363"></a>
+<span class="sourceLineNo">364</span>      return true;<a name="line.364"></a>
+<span class="sourceLineNo">365</span>    }<a name="line.365"></a>
+<span class="sourceLineNo">366</span>  }<a name="line.366"></a>
+<span class="sourceLineNo">367</span><a name="line.367"></a>
+<span class="sourceLineNo">368</span>  /**<a name="line.368"></a>
+<span class="sourceLineNo">369</span>   * Returns a string representation of x, where x is treated as unsigned.<a name="line.369"></a>
+<span class="sourceLineNo">370</span>   */<a name="line.370"></a>
+<span class="sourceLineNo">371</span>  public static String toString(long x) {<a name="line.371"></a>
+<span class="sourceLineNo">372</span>    return toString(x, 10);<a name="line.372"></a>
+<span class="sourceLineNo">373</span>  }<a name="line.373"></a>
+<span class="sourceLineNo">374</span><a name="line.374"></a>
+<span class="sourceLineNo">375</span>  /**<a name="line.375"></a>
+<span class="sourceLineNo">376</span>   * Returns a string representation of {@code x} for the given radix, where {@code x} is treated as<a name="line.376"></a>
+<span class="sourceLineNo">377</span>   * unsigned.<a name="line.377"></a>
+<span class="sourceLineNo">378</span>   *<a name="line.378"></a>
+<span class="sourceLineNo">379</span>   * @param x the value to convert to a string.<a name="line.379"></a>
+<span class="sourceLineNo">380</span>   * @param radix the radix to use while working with {@code x}<a name="line.380"></a>
+<span class="sourceLineNo">381</span>   * @throws IllegalArgumentException if {@code radix} is not between {@link Character#MIN_RADIX}<a name="line.381"></a>
+<span class="sourceLineNo">382</span>   *     and {@link Character#MAX_RADIX}.<a name="line.382"></a>
+<span class="sourceLineNo">383</span>   */<a name="line.383"></a>
+<span class="sourceLineNo">384</span>  public static String toString(long x, int radix) {<a name="line.384"></a>
+<span class="sourceLineNo">385</span>    checkArgument(<a name="line.385"></a>
+<span class="sourceLineNo">386</span>        radix &gt;= Character.MIN_RADIX &amp;&amp; radix &lt;= Character.MAX_RADIX,<a name="line.386"></a>
+<span class="sourceLineNo">387</span>        "radix (%s) must be between Character.MIN_RADIX and Character.MAX_RADIX",<a name="line.387"></a>
+<span class="sourceLineNo">388</span>        radix);<a name="line.388"></a>
+<span class="sourceLineNo">389</span>    if (x == 0) {<a name="line.389"></a>
+<span class="sourceLineNo">390</span>      // Simply return "0"<a name="line.390"></a>
+<span class="sourceLineNo">391</span>      return "0";<a name="line.391"></a>
+<span class="sourceLineNo">392</span>    } else if (x &gt; 0) {<a name="line.392"></a>
+<span class="sourceLineNo">393</span>      return Long.toString(x, radix);<a name="line.393"></a>
+<span class="sourceLineNo">394</span>    } else {<a name="line.394"></a>
+<span class="sourceLineNo">395</span>      char[] buf = new char[64];<a name="line.395"></a>
+<span class="sourceLineNo">396</span>      int i = buf.length;<a name="line.396"></a>
+<span class="sourceLineNo">397</span>      if ((radix &amp; (radix - 1)) == 0) {<a name="line.397"></a>
+<span class="sourceLineNo">398</span>        // Radix is a power of two so we can avoid division.<a name="line.398"></a>
+<span class="sourceLineNo">399</span>        int shift = Integer.numberOfTrailingZeros(radix);<a name="line.399"></a>
+<span class="sourceLineNo">400</span>        int mask = radix - 1;<a name="line.400"></a>
+<span class="sourceLineNo">401</span>        do {<a name="line.401"></a>
+<span class="sourceLineNo">402</span>          buf[--i] = Character.forDigit(((int) x) &amp; mask, radix);<a name="line.402"></a>
+<span class="sourceLineNo">403</span>          x &gt;&gt;&gt;= shift;<a name="line.403"></a>
+<span class="sourceLineNo">404</span>        } while (x != 0);<a name="line.404"></a>
+<span class="sourceLineNo">405</span>      } else {<a name="line.405"></a>
+<span class="sourceLineNo">406</span>        // Separate off the last digit using unsigned division. That will leave<a name="line.406"></a>
+<span class="sourceLineNo">407</span>        // a number that is nonnegative as a signed integer.<a name="line.407"></a>
+<span class="sourceLineNo">408</span>        long quotient;<a name="line.408"></a>
+<span class="sourceLineNo">409</span>        if ((radix &amp; 1) == 0) {<a name="line.409"></a>
+<span class="sourceLineNo">410</span>          // Fast path for the usual case where the radix is even.<a name="line.410"></a>
+<span class="sourceLineNo">411</span>          quotient = (x &gt;&gt;&gt; 1) / (radix &gt;&gt;&gt; 1);<a name="line.411"></a>
+<span class="sourceLineNo">412</span>        } else {<a name="line.412"></a>
+<span class="sourceLineNo">413</span>          quotient = divide(x, radix);<a name="line.413"></a>
+<span class="sourceLineNo">414</span>        }<a name="line.414"></a>
+<span class="sourceLineNo">415</span>        long rem = x - quotient * radix;<a name="line.415"></a>
+<span class="sourceLineNo">416</span>        buf[--i] = Character.forDigit((int) rem, radix);<a name="line.416"></a>
+<span class="sourceLineNo">417</span>        x = quotient;<a name="line.417"></a>
+<span class="sourceLineNo">418</span>        // Simple modulo/division approach<a name="line.418"></a>
+<span class="sourceLineNo">419</span>        while (x &gt; 0) {<a name="line.419"></a>
+<span class="sourceLineNo">420</span>          buf[--i] = Character.forDigit((int) (x % radix), radix);<a name="line.420"></a>
+<span class="sourceLineNo">421</span>          x /= radix;<a name="line.421"></a>
+<span class="sourceLineNo">422</span>        }<a name="line.422"></a>
+<span class="sourceLineNo">423</span>      }<a name="line.423"></a>
+<span class="sourceLineNo">424</span>      // Generate string<a name="line.424"></a>
+<span class="sourceLineNo">425</span>      return new String(buf, i, buf.length - i);<a name="line.425"></a>
+<span class="sourceLineNo">426</span>    }<a name="line.426"></a>
+<span class="sourceLineNo">427</span>  }<a name="line.427"></a>
+<span class="sourceLineNo">428</span>}<a name="line.428"></a>
 
 
 
