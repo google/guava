@@ -188,7 +188,7 @@ public class ConcurrentHashMultisetTest extends TestCase {
     when(backingMap.get(KEY)).thenReturn(existing);
     // we shouldn't see any more map operations; CHM will now just update the AtomicInteger
 
-    assertEquals(multiset.add(KEY, 3), 12);
+    assertEquals(12, multiset.add(KEY, 3));
     assertEquals(15, existing.get());
   }
 

@@ -111,8 +111,11 @@ public class LongMathTest extends TestCase {
 
   @GwtIncompatible // TODO
   public void testConstantMaxPowerOfSqrt2Unsigned() {
-    assertEquals(BigIntegerMath.sqrt(BigInteger.ZERO.setBit(2 * Long.SIZE - 1), FLOOR).longValue(),
-        LongMath.MAX_POWER_OF_SQRT2_UNSIGNED);
+    assertEquals(
+
+        /*expected=*/ BigIntegerMath.sqrt(BigInteger.ZERO.setBit(2 * Long.SIZE - 1), FLOOR)
+            .longValue(),
+        /*actual=*/ LongMath.MAX_POWER_OF_SQRT2_UNSIGNED);
   }
 
   @GwtIncompatible // BigIntegerMath // TODO(cpovirk): GWT-enable BigIntegerMath
@@ -148,7 +151,9 @@ public class LongMathTest extends TestCase {
 
   @GwtIncompatible // TODO
   public void testConstantsSqrtMaxLong() {
-    assertEquals(LongMath.sqrt(Long.MAX_VALUE, FLOOR), LongMath.FLOOR_SQRT_MAX_LONG);
+    assertEquals(
+        /*expected=*/ LongMath.sqrt(Long.MAX_VALUE, FLOOR),
+        /*actual=*/ LongMath.FLOOR_SQRT_MAX_LONG);
   }
 
   @GwtIncompatible // TODO

@@ -431,8 +431,8 @@ public class TreeBasedTableTest extends AbstractTableTest {
                 'X', "c", 10, 'X', "c", 20, 'X', "d", 15, 'X', "d", 20, 'X',
                 "d", 1, 'X', "e", 5, 'X');
     SortedMap<Integer, Character> row = sortedTable.row("c");
-    assertEquals(row.size(), 2);
-    assertEquals(row.tailMap(15).size(), 1);
+    assertEquals(2, row.size());
+    assertEquals(1, row.tailMap(15).size());
   }
 
   public void testSubRowClearAndPut() {

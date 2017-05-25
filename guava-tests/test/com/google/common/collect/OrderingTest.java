@@ -58,9 +58,9 @@ public class OrderingTest extends TestCase {
     Ordering<Object> comparator = Ordering.allEqual();
     assertSame(comparator, comparator.reverse());
 
-    assertEquals(comparator.compare(null, null), 0);
-    assertEquals(comparator.compare(new Object(), new Object()), 0);
-    assertEquals(comparator.compare("apples", "oranges"), 0);
+    assertEquals(0, comparator.compare(null, null));
+    assertEquals(0, comparator.compare(new Object(), new Object()));
+    assertEquals(0, comparator.compare("apples", "oranges"));
     assertSame(comparator, reserialize(comparator));
     assertEquals("Ordering.allEqual()", comparator.toString());
 

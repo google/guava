@@ -72,7 +72,7 @@ public class SimpleAbstractMultisetTest extends TestCase {
     ImmutableMultiset<String> adds =
         new ImmutableMultiset.Builder<String>().addCopies("x", 10).build();
     multiset.addAll(adds);
-    assertEquals(addCalls.get(), 1);
+    assertEquals(1, addCalls.get());
   }
 
   public void testRemoveUnsupported() {

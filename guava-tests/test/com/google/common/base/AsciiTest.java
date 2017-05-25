@@ -143,7 +143,7 @@ public class AsciiTest extends TestCase {
     // regards edge cases.
 
     // The Unicode point {@code 00df} is the lowercase form of sharp-S (ß), whose uppercase is "SS".
-    assertEquals("pa\u00dfword".toUpperCase(), "PASSWORD");    // [*]
+    assertEquals("PASSWORD", "pa\u00dfword".toUpperCase()); // [*]
     assertFalse("pa\u00dfword".equalsIgnoreCase("PASSWORD"));  // [*]
     assertFalse(Ascii.equalsIgnoreCase("pa\u00dfword", "PASSWORD"));
   }
