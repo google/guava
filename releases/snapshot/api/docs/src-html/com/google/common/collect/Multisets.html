@@ -82,8 +82,8 @@
 <span class="sourceLineNo">074</span>   * @since 22.0<a name="line.74"></a>
 <span class="sourceLineNo">075</span>   */<a name="line.75"></a>
 <span class="sourceLineNo">076</span>  public static &lt;T, E, M extends Multiset&lt;E&gt;&gt; Collector&lt;T, ?, M&gt; toMultiset(<a name="line.76"></a>
-<span class="sourceLineNo">077</span>      java.util.function.Function&lt;T, E&gt; elementFunction,<a name="line.77"></a>
-<span class="sourceLineNo">078</span>      java.util.function.ToIntFunction&lt;T&gt; countFunction,<a name="line.78"></a>
+<span class="sourceLineNo">077</span>      java.util.function.Function&lt;? super T, E&gt; elementFunction,<a name="line.77"></a>
+<span class="sourceLineNo">078</span>      java.util.function.ToIntFunction&lt;? super T&gt; countFunction,<a name="line.78"></a>
 <span class="sourceLineNo">079</span>      java.util.function.Supplier&lt;M&gt; multisetSupplier) {<a name="line.79"></a>
 <span class="sourceLineNo">080</span>    checkNotNull(elementFunction);<a name="line.80"></a>
 <span class="sourceLineNo">081</span>    checkNotNull(countFunction);<a name="line.81"></a>

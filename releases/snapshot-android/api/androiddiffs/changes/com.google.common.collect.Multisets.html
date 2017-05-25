@@ -57,8 +57,8 @@ Class com.google.common.collect.<A HREF="../../docs/com/google/common/collect/Mu
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.Multisets.toMultiset_removed(java.util.function.Function<T, E>, java.util.function.ToIntFunction<T>, java.util.function.Supplier<M>)"></A>
-  <nobr>(<code>Collector&lt;T, ?, M&gt;</code>)&nbsp;<A HREF="../../../../snapshot/api/docs/com/google/common/collect/Multisets.html#toMultiset(java.util.function.Function<T, E>, java.util.function.ToIntFunction<T>, java.util.function.Supplier<M>)" target="_top"><tt>toMultiset</tt></A>(<code>Function&lt;T,</nobr> E&gt;<nobr>,</nobr> ToIntFunction&lt;T&gt;<nobr>,</nobr> Supplier&lt;M&gt;<nobr><nobr></code>)</nobr>
+  <A NAME="com.google.common.collect.Multisets.toMultiset_removed(java.util.function.Function<? super T, E>, java.util.function.ToIntFunction<? super T>, java.util.function.Supplier<M>)"></A>
+  <nobr>(<code>Collector&lt;T, ?, M&gt;</code>)&nbsp;<A HREF="../../../../snapshot/api/docs/com/google/common/collect/Multisets.html#toMultiset(java.util.function.Function<? super T, E>, java.util.function.ToIntFunction<? super T>, java.util.function.Supplier<M>)" target="_top"><tt>toMultiset</tt></A>(<code>Function&lt;?,</nobr> super<nobr>,</nobr> T<nobr>,</nobr> E&gt;<nobr>,</nobr> ToIntFunction&lt;?<nobr>,</nobr> super<nobr>,</nobr> T&gt;<nobr>,</nobr> Supplier&lt;M&gt;<nobr><nobr></code>)</nobr>
   </TD>
   <TD VALIGN="TOP">Returns a {@code Collector} that accumulates elements into a multiset created via the specified
  {@code Supplier}, whose elements are the result of applying {@code elementFunction} to the
