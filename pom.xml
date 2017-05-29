@@ -37,6 +37,13 @@
   <prerequisites>
     <maven>3.0.3</maven>
   </prerequisites>
+  <repositories>
+    <repository>
+      <id>releases</id>
+      <url>http://mvnrepository.com/</url>
+
+    </repository>
+  </repositories>
   <scm>
     <connection>scm:git:https://github.com/google/guava.git</connection>
     <developerConnection>scm:git:git@github.com:google/guava.git</developerConnection>
