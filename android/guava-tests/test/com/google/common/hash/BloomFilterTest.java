@@ -114,10 +114,9 @@ public class BloomFilterTest extends TestCase {
       }
     }
     assertEquals(knownNumberOfFalsePositives, numFpp);
-    double actualFpp = (double) knownNumberOfFalsePositives / numInsertions;
-    double expectedFpp = bf.expectedFpp();
-    // The normal order of (expected, actual) is reversed here on purpose.
-    assertEquals(actualFpp, expectedFpp, 0.00015);
+    double expectedReportedFpp = (double) knownNumberOfFalsePositives / numInsertions;
+    double actualReportedFpp = bf.expectedFpp();
+    assertEquals(expectedReportedFpp, actualReportedFpp, 0.00015);
   }
 
   public void testCreateAndCheckBloomFilterWithKnownFalsePositives64() {
@@ -156,10 +155,9 @@ public class BloomFilterTest extends TestCase {
       }
     }
     assertEquals(knownNumberOfFalsePositives, numFpp);
-    double actualFpp = (double) knownNumberOfFalsePositives / numInsertions;
-    double expectedFpp = bf.expectedFpp();
-    // The normal order of (expected, actual) is reversed here on purpose.
-    assertEquals(actualFpp, expectedFpp, 0.00033);
+    double expectedReportedFpp = (double) knownNumberOfFalsePositives / numInsertions;
+    double actualReportedFpp = bf.expectedFpp();
+    assertEquals(expectedReportedFpp, actualReportedFpp, 0.00033);
   }
 
   public void testCreateAndCheckBloomFilterWithKnownUtf8FalsePositives64() {
@@ -198,10 +196,9 @@ public class BloomFilterTest extends TestCase {
       }
     }
     assertEquals(knownNumberOfFalsePositives, numFpp);
-    double actualFpp = (double) knownNumberOfFalsePositives / numInsertions;
-    double expectedFpp = bf.expectedFpp();
-    // The normal order of (expected, actual) is reversed here on purpose.
-    assertEquals(actualFpp, expectedFpp, 0.00033);
+    double expectedReportedFpp = (double) knownNumberOfFalsePositives / numInsertions;
+    double actualReportedFpp = bf.expectedFpp();
+    assertEquals(expectedReportedFpp, actualReportedFpp, 0.00033);
   }
 
   /**
