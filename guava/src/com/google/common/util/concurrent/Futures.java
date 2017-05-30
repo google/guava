@@ -51,8 +51,20 @@ import javax.annotation.Nullable;
  * Static utility methods pertaining to the {@link Future} interface.
  *
  * <p>Many of these methods use the {@link ListenableFuture} API; consult the Guava User Guide
- * article on <a href="https://github.com/google/guava/wiki/ListenableFutureExplained">
- * {@code ListenableFuture}</a>.
+ * article on <a href="https://github.com/google/guava/wiki/ListenableFutureExplained">{@code
+ * ListenableFuture}</a>.
+ *
+ * <p>The main purpose of {@code ListenableFuture} is to help you chain together a graph of
+ * asynchronous operations. You can chain them together manually with calls to methods like {@link
+ * Futures#transform(ListenableFuture, Function, Executor) Futures.transform}, but you will often
+ * find it easier to use a framework. Frameworks automate the process, often adding features like
+ * monitoring, debugging, and cancellation. Examples of frameworks include:
+ *
+ * <ul>
+ *   <li><a href="http://google.github.io/dagger/producers.html">Dagger Producers</a>
+ * </ul>
+ *
+ * <p>If you do chain your operations manually, you may want to use {@link FluentFuture}.
  *
  * @author Kevin Bourrillion
  * @author Nishant Thakkar
@@ -243,18 +255,13 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * // Falling back to a zero counter in case an exception happens when
    * // processing the RPC to fetch counters.
    * ListenableFuture<Integer> faultTolerantFuture = Futures.catching(
-   *     fetchCounterFuture, FetchException.class,
-   *     new Function<FetchException, Integer>() {
-   *       public Integer apply(FetchException e) {
-   *         return 0;
-   *       }
-   *     });
+   *     fetchCounterFuture, FetchException.class, x -> 0);
    * }</pre>
    *
    * <p>This overload, which does not accept an executor, uses {@code directExecutor}, a dangerous
    * choice in some cases. See the discussion in the {@link ListenableFuture#addListener
-   * ListenableFuture.addListener} documentation. The documentation's warnings about "lightweight
-   * listeners" refer here to the work done during {@code Function.apply}.
+   * ListenableFuture.addListener} documentation. All its warnings about heavyweight listeners are
+   * also applicable to heavyweight functions passed to this method.
    *
    * @param input the primary input {@code Future}
    * @param exceptionType the exception type that triggers use of {@code fallback}. The exception
@@ -293,23 +300,19 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *
    * <p>Usage example:
    *
-   * <pre>   {@code
-   *   ListenableFuture<Integer> fetchCounterFuture = ...;
+   * <pre>{@code
+   * ListenableFuture<Integer> fetchCounterFuture = ...;
    *
-   *   // Falling back to a zero counter in case an exception happens when
-   *   // processing the RPC to fetch counters.
-   *   ListenableFuture<Integer> faultTolerantFuture = Futures.catching(
-   *       fetchCounterFuture, FetchException.class,
-   *       new Function<FetchException, Integer>() {
-   *         public Integer apply(FetchException e) {
-   *           return 0;
-   *         }
-   *       }, directExecutor());}</pre>
+   * // Falling back to a zero counter in case an exception happens when
+   * // processing the RPC to fetch counters.
+   * ListenableFuture<Integer> faultTolerantFuture = Futures.catching(
+   *     fetchCounterFuture, FetchException.class, x -> 0, directExecutor());
+   * }</pre>
    *
    * <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
    * the discussion in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-   * documentation. The documentation's warnings about "lightweight listeners" refer here to the
-   * work done during {@code Function.apply}.
+   * documentation. All its warnings about heavyweight listeners are also applicable to heavyweight
+   * functions passed to this method.
    *
    * @param input the primary input {@code Future}
    * @param exceptionType the exception type that triggers use of {@code fallback}. The exception
@@ -350,12 +353,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * // Falling back to a zero counter in case an exception happens when
    * // processing the RPC to fetch counters.
    * ListenableFuture<Integer> faultTolerantFuture = Futures.catchingAsync(
-   *     fetchCounterFuture, FetchException.class,
-   *     new AsyncFunction<FetchException, Integer>() {
-   *       public ListenableFuture<Integer> apply(FetchException e) {
-   *         return immediateFuture(0);
-   *       }
-   *     });
+   *     fetchCounterFuture, FetchException.class, x -> immediateFuture(0));
    * }</pre>
    *
    * <p>The fallback can also choose to propagate the original exception when desired:
@@ -366,23 +364,23 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * // Falling back to a zero counter only in case the exception was a
    * // TimeoutException.
    * ListenableFuture<Integer> faultTolerantFuture = Futures.catchingAsync(
-   *     fetchCounterFuture, FetchException.class,
-   *     new AsyncFunction<FetchException, Integer>() {
-   *       public ListenableFuture<Integer> apply(FetchException e)
-   *           throws FetchException {
-   *         if (omitDataOnFetchFailure) {
-   *           return immediateFuture(0);
-   *         }
-   *         throw e;
+   *     fetchCounterFuture,
+   *     FetchException.class,
+   *     e -> {
+   *       if (omitDataOnFetchFailure) {
+   *         return immediateFuture(0);
    *       }
+   *       throw e;
    *     });
    * }</pre>
    *
    * <p>This overload, which does not accept an executor, uses {@code directExecutor}, a dangerous
    * choice in some cases. See the discussion in the {@link ListenableFuture#addListener
-   * ListenableFuture.addListener} documentation. The documentation's warnings about "lightweight
-   * listeners" refer here to the work done during {@code AsyncFunction.apply}, not to any work done
-   * to complete the returned {@code Future}.
+   * ListenableFuture.addListener} documentation. All its warnings about heavyweight listeners are
+   * also applicable to heavyweight functions passed to this method. (Specifically, {@code
+   * directExecutor} functions should avoid heavyweight operations inside {@code
+   * AsyncFunction.apply}. Any heavyweight operations should occur in other threads responsible for
+   * completing the returned {@code Future}.)
    *
    * @param input the primary input {@code Future}
    * @param exceptionType the exception type that triggers use of {@code fallback}. The exception
@@ -422,43 +420,40 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *
    * <p>Usage examples:
    *
-   * <pre>   {@code
-   *   ListenableFuture<Integer> fetchCounterFuture = ...;
+   * <pre>{@code
+   * ListenableFuture<Integer> fetchCounterFuture = ...;
    *
-   *   // Falling back to a zero counter in case an exception happens when
-   *   // processing the RPC to fetch counters.
-   *   ListenableFuture<Integer> faultTolerantFuture = Futures.catchingAsync(
-   *       fetchCounterFuture, FetchException.class,
-   *       new AsyncFunction<FetchException, Integer>() {
-   *         public ListenableFuture<Integer> apply(FetchException e) {
-   *           return immediateFuture(0);
-   *         }
-   *       }, directExecutor());}</pre>
+   * // Falling back to a zero counter in case an exception happens when
+   * // processing the RPC to fetch counters.
+   * ListenableFuture<Integer> faultTolerantFuture = Futures.catchingAsync(
+   *     fetchCounterFuture, FetchException.class, x -> immediateFuture(0), directExecutor());
+   * }</pre>
    *
    * <p>The fallback can also choose to propagate the original exception when desired:
    *
-   * <pre>   {@code
-   *   ListenableFuture<Integer> fetchCounterFuture = ...;
+   * <pre>{@code
+   * ListenableFuture<Integer> fetchCounterFuture = ...;
    *
-   *   // Falling back to a zero counter only in case the exception was a
-   *   // TimeoutException.
-   *   ListenableFuture<Integer> faultTolerantFuture = Futures.catchingAsync(
-   *       fetchCounterFuture, FetchException.class,
-   *       new AsyncFunction<FetchException, Integer>() {
-   *         public ListenableFuture<Integer> apply(FetchException e)
-   *             throws FetchException {
-   *           if (omitDataOnFetchFailure) {
-   *             return immediateFuture(0);
-   *           }
-   *           throw e;
-   *         }
-   *       }, directExecutor());}</pre>
+   * // Falling back to a zero counter only in case the exception was a
+   * // TimeoutException.
+   * ListenableFuture<Integer> faultTolerantFuture = Futures.catchingAsync(
+   *     fetchCounterFuture,
+   *     FetchException.class,
+   *     e -> {
+   *       if (omitDataOnFetchFailure) {
+   *         return immediateFuture(0);
+   *       }
+   *       throw e;
+   *     },
+   *     directExecutor());
+   * }</pre>
    *
    * <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
    * the discussion in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-   * documentation. The documentation's warnings about "lightweight listeners" refer here to the
-   * work done during {@code AsyncFunction.apply}, not to any work done to complete the returned
-   * {@code Future}.
+   * documentation. All its warnings about heavyweight listeners are also applicable to heavyweight
+   * functions passed to this method. (Specifically, {@code directExecutor} functions should avoid
+   * heavyweight operations inside {@code AsyncFunction.apply}. Any heavyweight operations should
+   * occur in other threads responsible for completing the returned {@code Future}.)
    *
    * @param input the primary input {@code Future}
    * @param exceptionType the exception type that triggers use of {@code fallback}. The exception
@@ -494,7 +489,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @param time when to timeout the future
    * @param unit the time unit of the time parameter
    * @param scheduledExecutor The executor service to enforce the timeout.
-   *
    * @since 19.0
    */
   @GwtIncompatible // java.util.concurrent.ScheduledExecutorService
@@ -517,21 +511,17 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *
    * <pre>{@code
    * ListenableFuture<RowKey> rowKeyFuture = indexService.lookUp(query);
-   * AsyncFunction<RowKey, QueryResult> queryFunction =
-   *     new AsyncFunction<RowKey, QueryResult>() {
-   *       public ListenableFuture<QueryResult> apply(RowKey rowKey) {
-   *         return dataService.read(rowKey);
-   *       }
-   *     };
    * ListenableFuture<QueryResult> queryFuture =
-   *     transformAsync(rowKeyFuture, queryFunction);
+   *     transformAsync(rowKeyFuture, dataService::readFuture);
    * }</pre>
    *
    * <p>This overload, which does not accept an executor, uses {@code directExecutor}, a dangerous
    * choice in some cases. See the discussion in the {@link ListenableFuture#addListener
-   * ListenableFuture.addListener} documentation. The documentation's warnings about "lightweight
-   * listeners" refer here to the work done during {@code AsyncFunction.apply}, not to any work done
-   * to complete the returned {@code Future}.
+   * ListenableFuture.addListener} documentation. All its warnings about heavyweight listeners are
+   * also applicable to heavyweight functions passed to this method. (Specifically, {@code
+   * directExecutor} functions should avoid heavyweight operations inside {@code
+   * AsyncFunction.apply}. Any heavyweight operations should occur in other threads responsible for
+   * completing the returned {@code Future}.)
    *
    * <p>The returned {@code Future} attempts to keep its cancellation state in sync with that of the
    * input future and that of the future returned by the function. That is, if the returned {@code
@@ -566,22 +556,18 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * by applying the given {@code AsyncFunction} to the result of the original {@code Future}.
    * Example usage:
    *
-   * <pre>   {@code
-   *   ListenableFuture<RowKey> rowKeyFuture = indexService.lookUp(query);
-   *   AsyncFunction<RowKey, QueryResult> queryFunction =
-   *       new AsyncFunction<RowKey, QueryResult>() {
-   *         public ListenableFuture<QueryResult> apply(RowKey rowKey) {
-   *           return dataService.read(rowKey);
-   *         }
-   *       };
-   *   ListenableFuture<QueryResult> queryFuture =
-   *       transformAsync(rowKeyFuture, queryFunction, executor);}</pre>
+   * <pre>{@code
+   * ListenableFuture<RowKey> rowKeyFuture = indexService.lookUp(query);
+   * ListenableFuture<QueryResult> queryFuture =
+   *     transformAsync(rowKeyFuture, dataService::readFuture, executor);
+   * }</pre>
    *
    * <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
    * the discussion in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-   * documentation. The documentation's warnings about "lightweight listeners" refer here to the
-   * work done during {@code AsyncFunction.apply}, not to any work done to complete the returned
-   * {@code Future}.
+   * documentation. All its warnings about heavyweight listeners are also applicable to heavyweight
+   * functions passed to this method. (Specifically, {@code directExecutor} functions should avoid
+   * heavyweight operations inside {@code AsyncFunction.apply}. Any heavyweight operations should
+   * occur in other threads responsible for completing the returned {@code Future}.)
    *
    * <p>The returned {@code Future} attempts to keep its cancellation state in sync with that of the
    * input future and that of the future returned by the chain function. That is, if the returned
@@ -611,20 +597,14 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *
    * <pre>{@code
    * ListenableFuture<QueryResult> queryFuture = ...;
-   * Function<QueryResult, List<Row>> rowsFunction =
-   *     new Function<QueryResult, List<Row>>() {
-   *       public List<Row> apply(QueryResult queryResult) {
-   *         return queryResult.getRows();
-   *       }
-   *     };
    * ListenableFuture<List<Row>> rowsFuture =
-   *     transform(queryFuture, rowsFunction);
+   *     transform(queryFuture, QueryResult::getRows);
    * }</pre>
    *
    * <p>This overload, which does not accept an executor, uses {@code directExecutor}, a dangerous
    * choice in some cases. See the discussion in the {@link ListenableFuture#addListener
-   * ListenableFuture.addListener} documentation. The documentation's warnings about "lightweight
-   * listeners" refer here to the work done during {@code Function.apply}.
+   * ListenableFuture.addListener} documentation. All its warnings about heavyweight listeners are
+   * also applicable to heavyweight functions passed to this method.
    *
    * <p>The returned {@code Future} attempts to keep its cancellation state in sync with that of the
    * input future. That is, if the returned {@code Future} is cancelled, it will attempt to cancel
@@ -656,21 +636,16 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * Future}. If {@code input} fails, the returned {@code Future} fails with the same exception (and
    * the function is not invoked). Example usage:
    *
-   * <pre>   {@code
-   *   ListenableFuture<QueryResult> queryFuture = ...;
-   *   Function<QueryResult, List<Row>> rowsFunction =
-   *       new Function<QueryResult, List<Row>>() {
-   *         public List<Row> apply(QueryResult queryResult) {
-   *           return queryResult.getRows();
-   *         }
-   *       };
-   *   ListenableFuture<List<Row>> rowsFuture =
-   *       transform(queryFuture, rowsFunction, executor);}</pre>
+   * <pre>{@code
+   * ListenableFuture<QueryResult> queryFuture = ...;
+   * ListenableFuture<List<Row>> rowsFuture =
+   *     transform(queryFuture, QueryResult::getRows, executor);
+   * }</pre>
    *
    * <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
    * the discussion in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-   * documentation. The documentation's warnings about "lightweight listeners" refer here to the
-   * work done during {@code Function.apply}.
+   * documentation. All its warnings about heavyweight listeners are also applicable to heavyweight
+   * functions passed to this method.
    *
    * <p>The returned {@code Future} attempts to keep its cancellation state in sync with that of the
    * input future. That is, if the returned {@code Future} is cancelled, it will attempt to cancel
@@ -1148,7 +1123,8 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *
    * <p>This overload, which does not accept an executor, uses {@code directExecutor}, a dangerous
    * choice in some cases. See the discussion in the {@link ListenableFuture#addListener
-   * ListenableFuture.addListener} documentation.
+   * ListenableFuture.addListener} documentation. All its warnings about heavyweight listeners are
+   * also applicable to heavyweight callbacks passed to this method.
    *
    * <p>For a more general interface to attach a completion listener to a {@code Future}, see {@link
    * ListenableFuture#addListener addListener}.
@@ -1173,11 +1149,13 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * computation is {@linkplain java.util.concurrent.Future#isDone() complete} or, if the
    * computation is already complete, immediately.
    *
-   * <p>The callback is run in {@code executor}. There is no guaranteed ordering of execution of
+   * <p>The callback is run on {@code executor}. There is no guaranteed ordering of execution of
    * callbacks, but any callback added through this method is guaranteed to be called once the
    * computation is complete.
    *
-   * Example: <pre> {@code
+   * <p>Example:
+   *
+   * <pre>{@code
    * ListenableFuture<QueryResult> future = ...;
    * Executor e = ...
    * addCallback(future,
@@ -1188,11 +1166,13 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *       public void onFailure(Throwable t) {
    *         reportError(t);
    *       }
-   *     }, e);}</pre>
+   *     }, e);
+   * }</pre>
    *
    * <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
    * the discussion in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-   * documentation.
+   * documentation. All its warnings about heavyweight listeners are also applicable to heavyweight
+   * callbacks passed to this method.
    *
    * <p>For a more general interface to attach a completion listener to a {@code Future}, see {@link
    * ListenableFuture#addListener addListener}.

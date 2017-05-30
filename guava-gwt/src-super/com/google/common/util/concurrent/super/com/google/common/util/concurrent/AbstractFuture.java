@@ -33,10 +33,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nullable;
 
-/**
- * Emulation for AbstractFuture in GWT.
- */
-public abstract class AbstractFuture<V> implements ListenableFuture<V> {
+/** Emulation for AbstractFuture in GWT. */
+public abstract class AbstractFuture<V> extends FluentFuture<V> {
 
   abstract static class TrustedFuture<V> extends AbstractFuture<V> {
     /*

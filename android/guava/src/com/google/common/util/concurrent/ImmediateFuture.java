@@ -26,11 +26,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nullable;
 
-/**
- * Implementations of {@code Futures.immediate*}.
- */
+/** Implementations of {@code Futures.immediate*}. */
 @GwtCompatible(emulated = true)
-abstract class ImmediateFuture<V> implements ListenableFuture<V> {
+abstract class ImmediateFuture<V> extends FluentFuture<V> {
   private static final Logger log = Logger.getLogger(ImmediateFuture.class.getName());
 
   @Override
