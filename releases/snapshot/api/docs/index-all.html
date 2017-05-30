@@ -714,6 +714,12 @@
 <div class="block">Adds <code>delta</code> to the value currently associated with <code>key</code>, and returns the new
  value.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/FluentFuture.html#addCallback-com.google.common.util.concurrent.FutureCallback-java.util.concurrent.Executor-">addCallback(FutureCallback&lt;? super V&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a></dt>
+<dd>
+<div class="block">Registers separate success and failure callbacks to be run when this <code>Future</code>'s
+ computation is <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html?is-external=true#isDone--" title="class or interface in java.util.concurrent">complete</a> or, if the
+ computation is already complete, immediately.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#addCallback-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.FutureCallback-">addCallback(ListenableFuture&lt;V&gt;, FutureCallback&lt;? super V&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
@@ -2488,6 +2494,10 @@
 <dd>
 <div class="block">Utility class for converting between various ASCII case formats.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/FluentFuture.html#catching-java.lang.Class-com.google.common.base.Function-java.util.concurrent.Executor-">catching(Class&lt;X&gt;, Function&lt;? super X, ? extends V&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a></dt>
+<dd>
+<div class="block">Returns a <code>Future</code> whose result is taken from this <code>Future</code> or, if this <code>Future</code> fails with the given <code>exceptionType</code>, from the result provided by the <code>fallback</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#catching-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.base.Function-">catching(ListenableFuture&lt;? extends V&gt;, Class&lt;X&gt;, Function&lt;? super X, ? extends V&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
@@ -2502,6 +2512,10 @@
 <div class="block">Returns a <code>Future</code> whose result is taken from the given primary <code>input</code> or, if the
  primary input fails with the given <code>exceptionType</code>, from the result provided by the
  <code>fallback</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/FluentFuture.html#catchingAsync-java.lang.Class-com.google.common.util.concurrent.AsyncFunction-java.util.concurrent.Executor-">catchingAsync(Class&lt;X&gt;, AsyncFunction&lt;? super X, ? extends V&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a></dt>
+<dd>
+<div class="block">Returns a <code>Future</code> whose result is taken from this <code>Future</code> or, if the this <code>Future</code> fails with the given <code>exceptionType</code>, from the result provided by the <code>fallback</code>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#catchingAsync-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.util.concurrent.AsyncFunction-">catchingAsync(ListenableFuture&lt;? extends V&gt;, Class&lt;X&gt;, AsyncFunction&lt;? super X, ? extends V&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>
@@ -6812,6 +6826,10 @@
 <dd>
 <div class="block">Returns the largest power of two less than or equal to <code>x</code>.</div>
 </dd>
+<dt><a href="com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">FluentFuture</span></a>&lt;<a href="com/google/common/util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt; - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">A <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> that supports fluent chains of operations.</div>
+</dd>
 <dt><a href="com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect"><span class="typeNameLink">FluentIterable</span></a>&lt;<a href="com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt; - Class in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
 <div class="block">A discouraged (but not deprecated) precursor to Java's superior <a href="http://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream"><code>Stream</code></a> library.</div>
@@ -7405,6 +7423,10 @@
 <dt><span class="memberNameLink"><a href="com/google/common/reflect/Invokable.html#from-java.lang.reflect.Constructor-">from(Constructor&lt;T&gt;)</a></span> - Static method in class com.google.common.reflect.<a href="com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect">Invokable</a></dt>
 <dd>
 <div class="block">Returns <a href="com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> of <code>constructor</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/FluentFuture.html#from-com.google.common.util.concurrent.ListenableFuture-">from(ListenableFuture&lt;V&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a></dt>
+<dd>
+<div class="block">Converts the given <code>ListenableFuture</code> to an equivalent <code>FluentFuture</code>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/math/PairedStats.html#fromByteArray-byte:A-">fromByteArray(byte[])</a></span> - Static method in class com.google.common.math.<a href="com/google/common/math/PairedStats.html" title="class in com.google.common.math">PairedStats</a></dt>
 <dd>
@@ -17808,6 +17830,10 @@
 <dd>
 <div class="block">Returns the <code>y</code> corresponding to the given <code>x</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/FluentFuture.html#transform-com.google.common.base.Function-java.util.concurrent.Executor-">transform(Function&lt;? super V, T&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a></dt>
+<dd>
+<div class="block">Returns a new <code>Future</code> whose result is derived from the result of this <code>Future</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#transform-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-">transform(ListenableFuture&lt;I&gt;, Function&lt;? super I, ? extends O&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
@@ -17825,6 +17851,11 @@
 <dd>
 <div class="block">Applies <code>function</code> to each element of this fluent iterable and returns a fluent iterable
  with the concatenated combination of results.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/FluentFuture.html#transformAsync-com.google.common.util.concurrent.AsyncFunction-java.util.concurrent.Executor-">transformAsync(AsyncFunction&lt;? super V, T&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a></dt>
+<dd>
+<div class="block">Returns a new <code>Future</code> whose result is asynchronously derived from the result of this
+ <code>Future</code>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#transformAsync-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.AsyncFunction-">transformAsync(ListenableFuture&lt;I&gt;, AsyncFunction&lt;? super I, ? extends O&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>
@@ -19003,6 +19034,10 @@ the order they are declared.</div>
 <dt><span class="memberNameLink"><a href="com/google/common/math/LinearTransformation.LinearTransformationBuilder.html#withSlope-double-">withSlope(double)</a></span> - Method in class com.google.common.math.<a href="com/google/common/math/LinearTransformation.LinearTransformationBuilder.html" title="class in com.google.common.math">LinearTransformation.LinearTransformationBuilder</a></dt>
 <dd>
 <div class="block">Finish building an instance with the given slope, i.e.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/FluentFuture.html#withTimeout-long-java.util.concurrent.TimeUnit-java.util.concurrent.ScheduledExecutorService-">withTimeout(long, TimeUnit, ScheduledExecutorService)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a></dt>
+<dd>
+<div class="block">Returns a future that delegates to this future but will finish early (via a <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent"><code>TimeoutException</code></a> wrapped in an <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a>) if the specified timeout expires.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#withTimeout-com.google.common.util.concurrent.ListenableFuture-long-java.util.concurrent.TimeUnit-java.util.concurrent.ScheduledExecutorService-">withTimeout(ListenableFuture&lt;V&gt;, long, TimeUnit, ScheduledExecutorService)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>

@@ -1,1 +1,2 @@
+OK: com.google.common.util.concurrent.FluentFuture Class
 OK: com.google.common.collect.Sets Method combinations(java.util.Set<E>, int)

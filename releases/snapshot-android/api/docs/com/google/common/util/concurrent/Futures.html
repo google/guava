@@ -111,13 +111,23 @@ var activeTableTab = "activeTableTab";
 <br>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../../com/google/common/annotations/GwtCompatible.html#emulated--">emulated</a>=true)
-public final class <a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.64">Futures</a>
+public final class <a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.76">Futures</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">Static utility methods pertaining to the <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent"><code>Future</code></a> interface.
 
  <p>Many of these methods use the <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> API; consult the Guava User Guide
- article on <a href="https://github.com/google/guava/wiki/ListenableFutureExplained">
- <code>ListenableFuture</code></a>.</div>
+ article on <a href="https://github.com/google/guava/wiki/ListenableFutureExplained"><code>ListenableFuture</code></a>.
+
+ <p>The main purpose of <code>ListenableFuture</code> is to help you chain together a graph of
+ asynchronous operations. You can chain them together manually with calls to methods like <a href="../../../../../com/google/common/util/concurrent/Futures.html#transform-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-java.util.concurrent.Executor-"><code>Futures.transform</code></a>, but you will often
+ find it easier to use a framework. Frameworks automate the process, often adding features like
+ monitoring, debugging, and cancellation. Examples of frameworks include:
+
+ <ul>
+   <li><a href="http://google.github.io/dagger/producers.html">Dagger Producers</a>
+ </ul>
+
+ <p>If you do chain your operations manually, you may want to use <a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent"><code>FluentFuture</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>1.0</dd>
@@ -493,7 +503,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <h4>makeChecked</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent">CheckedFuture</a>&lt;V,X&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.140">makeChecked</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;future,
+public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent">CheckedFuture</a>&lt;V,X&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.152">makeChecked</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;future,
                                                                                                    <a href="../../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>,X&gt;&nbsp;mapper)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment"><a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent"><code>CheckedFuture</code></a> cannot properly support the chained operations that are the
      primary goal of <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>. <code>CheckedFuture</code> also encourages users to
@@ -527,7 +537,7 @@ public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>immediateFuture</h4>
-<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.150">immediateFuture</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.162">immediateFuture</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                                       V&nbsp;value)</pre>
 <div class="block">Creates a <code>ListenableFuture</code> which has its value set immediately upon construction. The
  getters just return the value. This <code>Future</code> can't be canceled or timed out and its
@@ -544,7 +554,7 @@ public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs
 <h4>immediateCheckedFuture</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent">CheckedFuture</a>&lt;V,X&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.178">immediateCheckedFuture</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent">CheckedFuture</a>&lt;V,X&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.190">immediateCheckedFuture</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                                                                                               V&nbsp;value)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment"><a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent"><code>CheckedFuture</code></a> cannot properly support the chained operations that are the
      primary goal of <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>. <code>CheckedFuture</code> also encourages users to
@@ -567,7 +577,7 @@ public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>immediateFailedFuture</h4>
-<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.190">immediateFailedFuture</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</pre>
+<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.202">immediateFailedFuture</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</pre>
 <div class="block">Returns a <code>ListenableFuture</code> which has an exception set immediately upon construction.
 
  <p>The returned <code>Future</code> can't be cancelled, and its <code>isDone()</code> method always
@@ -580,7 +590,7 @@ public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>immediateCancelledFuture</h4>
-<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.201">immediateCancelledFuture</a>()</pre>
+<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.213">immediateCancelledFuture</a>()</pre>
 <div class="block">Creates a <code>ListenableFuture</code> which is cancelled immediately upon construction, so that
  <code>isCancelled()</code> always returns <code>true</code>.</div>
 <dl>
@@ -599,7 +609,7 @@ public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs
 <h4>immediateFailedCheckedFuture</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent">CheckedFuture</a>&lt;V,X&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.224">immediateFailedCheckedFuture</a>(X&nbsp;exception)</pre>
+public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent">CheckedFuture</a>&lt;V,X&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.236">immediateFailedCheckedFuture</a>(X&nbsp;exception)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment"><a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent"><code>CheckedFuture</code></a> cannot properly support the chained operations that are the
      primary goal of <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>. <code>CheckedFuture</code> also encourages users to
      rethrow exceptions from one thread in another thread, producing misleading stack traces.
@@ -623,7 +633,7 @@ public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs
 <h4>catching</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
  @Partially.GwtIncompatible(value="AVAILABLE but requires exceptionType to be Throwable.class")
-public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.279">catching</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&nbsp;input,
+public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.286">catching</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&nbsp;input,
                                                                                                                                                                                <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;exceptionType,
                                                                                                                                                                                <a href="../../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super X,? extends V&gt;&nbsp;fallback)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Use <a href="../../../../../com/google/common/util/concurrent/Futures.html#catching-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.base.Function-java.util.concurrent.Executor-">the overload
@@ -643,17 +653,12 @@ public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs
  // Falling back to a zero counter in case an exception happens when
  // processing the RPC to fetch counters.
  ListenableFuture&lt;Integer&gt; faultTolerantFuture = Futures.catching(
-     fetchCounterFuture, FetchException.class,
-     new Function&lt;FetchException, Integer&gt;() {
-       public Integer apply(FetchException e) {
-         return 0;
-       }
-     });
+     fetchCounterFuture, FetchException.class, x -&gt; 0);
  </code></pre>
 
  <p>This overload, which does not accept an executor, uses <code>directExecutor</code>, a dangerous
- choice in some cases. See the discussion in the <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a> documentation. The documentation's warnings about "lightweight
- listeners" refer here to the work done during <code>Function.apply</code>.</div>
+ choice in some cases. See the discussion in the <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a> documentation. All its warnings about heavyweight listeners are
+ also applicable to heavyweight functions passed to this method.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>input</code> - the primary input <code>Future</code></dd>
@@ -678,7 +683,7 @@ public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs
 <li class="blockList">
 <h4>catching</h4>
 <pre>@Partially.GwtIncompatible(value="AVAILABLE but requires exceptionType to be Throwable.class")
-public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.329">catching</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&nbsp;input,
+public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.332">catching</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&nbsp;input,
                                                                                                                                                                   <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;exceptionType,
                                                                                                                                                                   <a href="../../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super X,? extends V&gt;&nbsp;fallback,
                                                                                                                                                                   <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
@@ -689,23 +694,19 @@ public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs
 
  <p>Usage example:
 
- <pre>   <code>
-   ListenableFuture&lt;Integer&gt; fetchCounterFuture = ...;
+ <pre><code>
+ ListenableFuture&lt;Integer&gt; fetchCounterFuture = ...;
 
-   // Falling back to a zero counter in case an exception happens when
-   // processing the RPC to fetch counters.
-   ListenableFuture&lt;Integer&gt; faultTolerantFuture = Futures.catching(
-       fetchCounterFuture, FetchException.class,
-       new Function&lt;FetchException, Integer&gt;() {
-         public Integer apply(FetchException e) {
-           return 0;
-         }
-       }, directExecutor());</code></pre>
+ // Falling back to a zero counter in case an exception happens when
+ // processing the RPC to fetch counters.
+ ListenableFuture&lt;Integer&gt; faultTolerantFuture = Futures.catching(
+     fetchCounterFuture, FetchException.class, x -&gt; 0, directExecutor());
+ </code></pre>
 
  <p>When selecting an executor, note that <code>directExecutor</code> is dangerous in some cases. See
  the discussion in the <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a>
- documentation. The documentation's warnings about "lightweight listeners" refer here to the
- work done during <code>Function.apply</code>.</div>
+ documentation. All its warnings about heavyweight listeners are also applicable to heavyweight
+ functions passed to this method.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>input</code> - the primary input <code>Future</code></dd>
@@ -732,7 +733,7 @@ public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs
 <h4>catchingAsync</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
  @Partially.GwtIncompatible(value="AVAILABLE but requires exceptionType to be Throwable.class")
-public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.408">catchingAsync</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&nbsp;input,
+public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.406">catchingAsync</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&nbsp;input,
                                                                                                                                                                                     <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;exceptionType,
                                                                                                                                                                                     <a href="../../../../../com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super X,? extends V&gt;&nbsp;fallback)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Use <a href="../../../../../com/google/common/util/concurrent/Futures.html#catchingAsync-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.util.concurrent.AsyncFunction-java.util.concurrent.Executor-">the overload that requires an executor</a>. For identical behavior, pass <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>, but consider whether another executor would be safer, as
@@ -753,12 +754,7 @@ public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs
  // Falling back to a zero counter in case an exception happens when
  // processing the RPC to fetch counters.
  ListenableFuture&lt;Integer&gt; faultTolerantFuture = Futures.catchingAsync(
-     fetchCounterFuture, FetchException.class,
-     new AsyncFunction&lt;FetchException, Integer&gt;() {
-       public ListenableFuture&lt;Integer&gt; apply(FetchException e) {
-         return immediateFuture(0);
-       }
-     });
+     fetchCounterFuture, FetchException.class, x -&gt; immediateFuture(0));
  </code></pre>
 
  <p>The fallback can also choose to propagate the original exception when desired:
@@ -769,22 +765,20 @@ public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs
  // Falling back to a zero counter only in case the exception was a
  // TimeoutException.
  ListenableFuture&lt;Integer&gt; faultTolerantFuture = Futures.catchingAsync(
-     fetchCounterFuture, FetchException.class,
-     new AsyncFunction&lt;FetchException, Integer&gt;() {
-       public ListenableFuture&lt;Integer&gt; apply(FetchException e)
-           throws FetchException {
-         if (omitDataOnFetchFailure) {
-           return immediateFuture(0);
-         }
-         throw e;
+     fetchCounterFuture,
+     FetchException.class,
+     e -&gt; {
+       if (omitDataOnFetchFailure) {
+         return immediateFuture(0);
        }
+       throw e;
      });
  </code></pre>
 
  <p>This overload, which does not accept an executor, uses <code>directExecutor</code>, a dangerous
- choice in some cases. See the discussion in the <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a> documentation. The documentation's warnings about "lightweight
- listeners" refer here to the work done during <code>AsyncFunction.apply</code>, not to any work done
- to complete the returned <code>Future</code>.</div>
+ choice in some cases. See the discussion in the <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a> documentation. All its warnings about heavyweight listeners are
+ also applicable to heavyweight functions passed to this method. (Specifically, <code>directExecutor</code> functions should avoid heavyweight operations inside <code>AsyncFunction.apply</code>. Any heavyweight operations should occur in other threads responsible for
+ completing the returned <code>Future</code>.)</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>input</code> - the primary input <code>Future</code></dd>
@@ -809,7 +803,7 @@ public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs
 <li class="blockList">
 <h4>catchingAsync</h4>
 <pre>@Partially.GwtIncompatible(value="AVAILABLE but requires exceptionType to be Throwable.class")
-public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.479">catchingAsync</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&nbsp;input,
+public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.474">catchingAsync</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&nbsp;input,
                                                                                                                                                                        <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;exceptionType,
                                                                                                                                                                        <a href="../../../../../com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super X,? extends V&gt;&nbsp;fallback,
                                                                                                                                                                        <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
@@ -822,43 +816,40 @@ public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs
 
  <p>Usage examples:
 
- <pre>   <code>
-   ListenableFuture&lt;Integer&gt; fetchCounterFuture = ...;
+ <pre><code>
+ ListenableFuture&lt;Integer&gt; fetchCounterFuture = ...;
 
-   // Falling back to a zero counter in case an exception happens when
-   // processing the RPC to fetch counters.
-   ListenableFuture&lt;Integer&gt; faultTolerantFuture = Futures.catchingAsync(
-       fetchCounterFuture, FetchException.class,
-       new AsyncFunction&lt;FetchException, Integer&gt;() {
-         public ListenableFuture&lt;Integer&gt; apply(FetchException e) {
-           return immediateFuture(0);
-         }
-       }, directExecutor());</code></pre>
+ // Falling back to a zero counter in case an exception happens when
+ // processing the RPC to fetch counters.
+ ListenableFuture&lt;Integer&gt; faultTolerantFuture = Futures.catchingAsync(
+     fetchCounterFuture, FetchException.class, x -&gt; immediateFuture(0), directExecutor());
+ </code></pre>
 
  <p>The fallback can also choose to propagate the original exception when desired:
 
- <pre>   <code>
-   ListenableFuture&lt;Integer&gt; fetchCounterFuture = ...;
+ <pre><code>
+ ListenableFuture&lt;Integer&gt; fetchCounterFuture = ...;
 
-   // Falling back to a zero counter only in case the exception was a
-   // TimeoutException.
-   ListenableFuture&lt;Integer&gt; faultTolerantFuture = Futures.catchingAsync(
-       fetchCounterFuture, FetchException.class,
-       new AsyncFunction&lt;FetchException, Integer&gt;() {
-         public ListenableFuture&lt;Integer&gt; apply(FetchException e)
-             throws FetchException {
-           if (omitDataOnFetchFailure) {
-             return immediateFuture(0);
-           }
-           throw e;
-         }
-       }, directExecutor());</code></pre>
+ // Falling back to a zero counter only in case the exception was a
+ // TimeoutException.
+ ListenableFuture&lt;Integer&gt; faultTolerantFuture = Futures.catchingAsync(
+     fetchCounterFuture,
+     FetchException.class,
+     e -&gt; {
+       if (omitDataOnFetchFailure) {
+         return immediateFuture(0);
+       }
+       throw e;
+     },
+     directExecutor());
+ </code></pre>
 
  <p>When selecting an executor, note that <code>directExecutor</code> is dangerous in some cases. See
  the discussion in the <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a>
- documentation. The documentation's warnings about "lightweight listeners" refer here to the
- work done during <code>AsyncFunction.apply</code>, not to any work done to complete the returned
- <code>Future</code>.</div>
+ documentation. All its warnings about heavyweight listeners are also applicable to heavyweight
+ functions passed to this method. (Specifically, <code>directExecutor</code> functions should avoid
+ heavyweight operations inside <code>AsyncFunction.apply</code>. Any heavyweight operations should
+ occur in other threads responsible for completing the returned <code>Future</code>.)</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>input</code> - the primary input <code>Future</code></dd>
@@ -884,7 +875,7 @@ public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs
 <li class="blockList">
 <h4>withTimeout</h4>
 <pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.501">withTimeout</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;delegate,
+public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.495">withTimeout</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;delegate,
                                                                    long&nbsp;time,
                                                                    <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit,
                                                                    <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a>&nbsp;scheduledExecutor)</pre>
@@ -909,7 +900,7 @@ public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util
 <li class="blockList">
 <h4>transformAsync</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public static&nbsp;&lt;I,O&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;O&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.555">transformAsync</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;I&gt;&nbsp;input,
+public static&nbsp;&lt;I,O&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;O&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.545">transformAsync</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;I&gt;&nbsp;input,
                                                                    <a href="../../../../../com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super I,? extends O&gt;&nbsp;function)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Use <a href="../../../../../com/google/common/util/concurrent/Futures.html#transformAsync-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.AsyncFunction-java.util.concurrent.Executor-">the
      overload that requires an executor</a>. For identical behavior, pass <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>, but consider whether another executor would be safer, as
@@ -925,20 +916,14 @@ public static&nbsp;&lt;I,O&gt;&nbsp;<a href="../../../../../com/google/common/ut
 
  <pre><code>
  ListenableFuture&lt;RowKey&gt; rowKeyFuture = indexService.lookUp(query);
- AsyncFunction&lt;RowKey, QueryResult&gt; queryFunction =
-     new AsyncFunction&lt;RowKey, QueryResult&gt;() {
-       public ListenableFuture&lt;QueryResult&gt; apply(RowKey rowKey) {
-         return dataService.read(rowKey);
-       }
-     };
  ListenableFuture&lt;QueryResult&gt; queryFuture =
-     transformAsync(rowKeyFuture, queryFunction);
+     transformAsync(rowKeyFuture, dataService::readFuture);
  </code></pre>
 
  <p>This overload, which does not accept an executor, uses <code>directExecutor</code>, a dangerous
- choice in some cases. See the discussion in the <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a> documentation. The documentation's warnings about "lightweight
- listeners" refer here to the work done during <code>AsyncFunction.apply</code>, not to any work done
- to complete the returned <code>Future</code>.
+ choice in some cases. See the discussion in the <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a> documentation. All its warnings about heavyweight listeners are
+ also applicable to heavyweight functions passed to this method. (Specifically, <code>directExecutor</code> functions should avoid heavyweight operations inside <code>AsyncFunction.apply</code>. Any heavyweight operations should occur in other threads responsible for
+ completing the returned <code>Future</code>.)
 
  <p>The returned <code>Future</code> attempts to keep its cancellation state in sync with that of the
  input future and that of the future returned by the function. That is, if the returned <code>Future</code> is cancelled, it will attempt to cancel the other two, and if either of the other two
@@ -963,7 +948,7 @@ public static&nbsp;&lt;I,O&gt;&nbsp;<a href="../../../../../com/google/common/ut
 <ul class="blockList">
 <li class="blockList">
 <h4>transformAsync</h4>
-<pre>public static&nbsp;&lt;I,O&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;O&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.600">transformAsync</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;I&gt;&nbsp;input,
+<pre>public static&nbsp;&lt;I,O&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;O&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.586">transformAsync</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;I&gt;&nbsp;input,
                                                        <a href="../../../../../com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super I,? extends O&gt;&nbsp;function,
                                                        <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block">Returns a new <code>Future</code> whose result is asynchronously derived from the result of the
@@ -974,22 +959,18 @@ public static&nbsp;&lt;I,O&gt;&nbsp;<a href="../../../../../com/google/common/ut
  by applying the given <code>AsyncFunction</code> to the result of the original <code>Future</code>.
  Example usage:
 
- <pre>   <code>
-   ListenableFuture&lt;RowKey&gt; rowKeyFuture = indexService.lookUp(query);
-   AsyncFunction&lt;RowKey, QueryResult&gt; queryFunction =
-       new AsyncFunction&lt;RowKey, QueryResult&gt;() {
-         public ListenableFuture&lt;QueryResult&gt; apply(RowKey rowKey) {
-           return dataService.read(rowKey);
-         }
-       };
-   ListenableFuture&lt;QueryResult&gt; queryFuture =
-       transformAsync(rowKeyFuture, queryFunction, executor);</code></pre>
+ <pre><code>
+ ListenableFuture&lt;RowKey&gt; rowKeyFuture = indexService.lookUp(query);
+ ListenableFuture&lt;QueryResult&gt; queryFuture =
+     transformAsync(rowKeyFuture, dataService::readFuture, executor);
+ </code></pre>
 
  <p>When selecting an executor, note that <code>directExecutor</code> is dangerous in some cases. See
  the discussion in the <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a>
- documentation. The documentation's warnings about "lightweight listeners" refer here to the
- work done during <code>AsyncFunction.apply</code>, not to any work done to complete the returned
- <code>Future</code>.
+ documentation. All its warnings about heavyweight listeners are also applicable to heavyweight
+ functions passed to this method. (Specifically, <code>directExecutor</code> functions should avoid
+ heavyweight operations inside <code>AsyncFunction.apply</code>. Any heavyweight operations should
+ occur in other threads responsible for completing the returned <code>Future</code>.)
 
  <p>The returned <code>Future</code> attempts to keep its cancellation state in sync with that of the
  input future and that of the future returned by the chain function. That is, if the returned
@@ -1017,7 +998,7 @@ public static&nbsp;&lt;I,O&gt;&nbsp;<a href="../../../../../com/google/common/ut
 <li class="blockList">
 <h4>transform</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public static&nbsp;&lt;I,O&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;O&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.649">transform</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;I&gt;&nbsp;input,
+public static&nbsp;&lt;I,O&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;O&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.629">transform</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;I&gt;&nbsp;input,
                                                               <a href="../../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super I,? extends O&gt;&nbsp;function)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Use <a href="../../../../../com/google/common/util/concurrent/Futures.html#transform-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-java.util.concurrent.Executor-">the overload that
      requires an executor</a>. For identical behavior, pass <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>,
@@ -1028,19 +1009,13 @@ public static&nbsp;&lt;I,O&gt;&nbsp;<a href="../../../../../com/google/common/ut
 
  <pre><code>
  ListenableFuture&lt;QueryResult&gt; queryFuture = ...;
- Function&lt;QueryResult, List&lt;Row&gt;&gt; rowsFunction =
-     new Function&lt;QueryResult, List&lt;Row&gt;&gt;() {
-       public List&lt;Row&gt; apply(QueryResult queryResult) {
-         return queryResult.getRows();
-       }
-     };
  ListenableFuture&lt;List&lt;Row&gt;&gt; rowsFuture =
-     transform(queryFuture, rowsFunction);
+     transform(queryFuture, QueryResult::getRows);
  </code></pre>
 
  <p>This overload, which does not accept an executor, uses <code>directExecutor</code>, a dangerous
- choice in some cases. See the discussion in the <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a> documentation. The documentation's warnings about "lightweight
- listeners" refer here to the work done during <code>Function.apply</code>.
+ choice in some cases. See the discussion in the <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a> documentation. All its warnings about heavyweight listeners are
+ also applicable to heavyweight functions passed to this method.
 
  <p>The returned <code>Future</code> attempts to keep its cancellation state in sync with that of the
  input future. That is, if the returned <code>Future</code> is cancelled, it will attempt to cancel
@@ -1067,27 +1042,22 @@ public static&nbsp;&lt;I,O&gt;&nbsp;<a href="../../../../../com/google/common/ut
 <ul class="blockList">
 <li class="blockList">
 <h4>transform</h4>
-<pre>public static&nbsp;&lt;I,O&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;O&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.690">transform</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;I&gt;&nbsp;input,
+<pre>public static&nbsp;&lt;I,O&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;O&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.665">transform</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;I&gt;&nbsp;input,
                                                   <a href="../../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super I,? extends O&gt;&nbsp;function,
                                                   <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block">Returns a new <code>Future</code> whose result is derived from the result of the given <code>Future</code>. If <code>input</code> fails, the returned <code>Future</code> fails with the same exception (and
  the function is not invoked). Example usage:
 
- <pre>   <code>
-   ListenableFuture&lt;QueryResult&gt; queryFuture = ...;
-   Function&lt;QueryResult, List&lt;Row&gt;&gt; rowsFunction =
-       new Function&lt;QueryResult, List&lt;Row&gt;&gt;() {
-         public List&lt;Row&gt; apply(QueryResult queryResult) {
-           return queryResult.getRows();
-         }
-       };
-   ListenableFuture&lt;List&lt;Row&gt;&gt; rowsFuture =
-       transform(queryFuture, rowsFunction, executor);</code></pre>
+ <pre><code>
+ ListenableFuture&lt;QueryResult&gt; queryFuture = ...;
+ ListenableFuture&lt;List&lt;Row&gt;&gt; rowsFuture =
+     transform(queryFuture, QueryResult::getRows, executor);
+ </code></pre>
 
  <p>When selecting an executor, note that <code>directExecutor</code> is dangerous in some cases. See
  the discussion in the <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a>
- documentation. The documentation's warnings about "lightweight listeners" refer here to the
- work done during <code>Function.apply</code>.
+ documentation. All its warnings about heavyweight listeners are also applicable to heavyweight
+ functions passed to this method.
 
  <p>The returned <code>Future</code> attempts to keep its cancellation state in sync with that of the
  input future. That is, if the returned <code>Future</code> is cancelled, it will attempt to cancel
@@ -1116,7 +1086,7 @@ public static&nbsp;&lt;I,O&gt;&nbsp;<a href="../../../../../com/google/common/ut
 <li class="blockList">
 <h4>lazyTransform</h4>
 <pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;I,O&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;O&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.716">lazyTransform</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;I&gt;&nbsp;input,
+public static&nbsp;&lt;I,O&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;O&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.691">lazyTransform</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;I&gt;&nbsp;input,
                                                              <a href="../../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super I,? extends O&gt;&nbsp;function)</pre>
 <div class="block">Like <a href="../../../../../com/google/common/util/concurrent/Futures.html#transform-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-java.util.concurrent.Executor-"><code>transform(ListenableFuture, Function, Executor)</code></a> except that the transformation
  <code>function</code> is invoked on each call to <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#get--" title="class or interface in java.util.concurrent"><code>get()</code></a> on the returned future.
@@ -1147,7 +1117,7 @@ public static&nbsp;&lt;I,O&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/doc
 <ul class="blockList">
 <li class="blockList">
 <h4>dereference</h4>
-<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.784">dereference</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&gt;&nbsp;nested)</pre>
+<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.759">dereference</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&gt;&nbsp;nested)</pre>
 <div class="block">Returns a new <code>ListenableFuture</code> whose result is the product of calling <code>get()</code> on
  the <code>Future</code> nested within the given <code>Future</code>, effectively chaining the futures one
  after the other. Example:
@@ -1182,7 +1152,7 @@ public static&nbsp;&lt;I,O&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/doc
 <h4>allAsList</h4>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/SafeVarargs.html?is-external=true" title="class or interface in java.lang">@SafeVarargs</a>
-public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;V&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.816">allAsList</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;...&nbsp;futures)</pre>
+public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;V&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.791">allAsList</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;...&nbsp;futures)</pre>
 <div class="block">Creates a new <code>ListenableFuture</code> whose value is a list containing the values of all its
  input futures, if all succeed. If any input fails, the returned future fails immediately.
 
@@ -1207,7 +1177,7 @@ public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util
 <li class="blockList">
 <h4>allAsList</h4>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;V&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.834">allAsList</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&gt;&nbsp;futures)</pre>
+public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;V&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.809">allAsList</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&gt;&nbsp;futures)</pre>
 <div class="block">Creates a new <code>ListenableFuture</code> whose value is a list containing the values of all its
  input futures, if all succeed. If any input fails, the returned future fails immediately.
 
@@ -1232,7 +1202,7 @@ public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util
 <li class="blockList">
 <h4>whenAllComplete</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/SafeVarargs.html?is-external=true" title="class or interface in java.lang">@SafeVarargs</a>
-public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent">Futures.FutureCombiner</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.846">whenAllComplete</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;...&nbsp;futures)</pre>
+public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent">Futures.FutureCombiner</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.821">whenAllComplete</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;...&nbsp;futures)</pre>
 <div class="block">Creates a <a href="../../../../../com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent"><code>Futures.FutureCombiner</code></a> that processes the completed futures whether or not they're
  successful.</div>
 <dl>
@@ -1247,7 +1217,7 @@ public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>whenAllComplete</h4>
-<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent">Futures.FutureCombiner</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.856">whenAllComplete</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&gt;&nbsp;futures)</pre>
+<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent">Futures.FutureCombiner</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.831">whenAllComplete</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&gt;&nbsp;futures)</pre>
 <div class="block">Creates a <a href="../../../../../com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent"><code>Futures.FutureCombiner</code></a> that processes the completed futures whether or not they're
  successful.</div>
 <dl>
@@ -1263,7 +1233,7 @@ public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util
 <li class="blockList">
 <h4>whenAllSucceed</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/SafeVarargs.html?is-external=true" title="class or interface in java.lang">@SafeVarargs</a>
-public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent">Futures.FutureCombiner</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.869">whenAllSucceed</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;...&nbsp;futures)</pre>
+public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent">Futures.FutureCombiner</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.844">whenAllSucceed</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;...&nbsp;futures)</pre>
 <div class="block">Creates a <a href="../../../../../com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent"><code>Futures.FutureCombiner</code></a> requiring that all passed in futures are successful.
 
  <p>If any input fails, the returned future fails immediately.</div>
@@ -1279,7 +1249,7 @@ public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>whenAllSucceed</h4>
-<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent">Futures.FutureCombiner</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.880">whenAllSucceed</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&gt;&nbsp;futures)</pre>
+<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent">Futures.FutureCombiner</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.855">whenAllSucceed</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&gt;&nbsp;futures)</pre>
 <div class="block">Creates a <a href="../../../../../com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent"><code>Futures.FutureCombiner</code></a> requiring that all passed in futures are successful.
 
  <p>If any input fails, the returned future fails immediately.</div>
@@ -1295,7 +1265,7 @@ public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>nonCancellationPropagating</h4>
-<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1006">nonCancellationPropagating</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;future)</pre>
+<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.981">nonCancellationPropagating</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;future)</pre>
 <div class="block">Returns a <code>ListenableFuture</code> whose result is set from the supplied future when it
  completes. Cancelling the supplied future will also cancel the returned future, but cancelling
  the returned future will have no effect on the supplied future.</div>
@@ -1313,7 +1283,7 @@ public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util
 <h4>successfulAsList</h4>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/SafeVarargs.html?is-external=true" title="class or interface in java.lang">@SafeVarargs</a>
-public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;V&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1047">successfulAsList</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;...&nbsp;futures)</pre>
+public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;V&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1022">successfulAsList</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;...&nbsp;futures)</pre>
 <div class="block">Creates a new <code>ListenableFuture</code> whose value is a list containing the values of all its
  successful input futures. The list of results is in the same order as the input list, and if
  any of the provided futures fails or is canceled, its corresponding position will contain
@@ -1337,7 +1307,7 @@ public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util
 <li class="blockList">
 <h4>successfulAsList</h4>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;V&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1066">successfulAsList</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&gt;&nbsp;futures)</pre>
+public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;V&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1041">successfulAsList</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&gt;&nbsp;futures)</pre>
 <div class="block">Creates a new <code>ListenableFuture</code> whose value is a list containing the values of all its
  successful input futures. The list of results is in the same order as the input list, and if
  any of the provided futures fails or is canceled, its corresponding position will contain
@@ -1361,7 +1331,7 @@ public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util
 <li class="blockList">
 <h4>inCompletionOrder</h4>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1092">inCompletionOrder</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends T&gt;&gt;&nbsp;futures)</pre>
+public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1067">inCompletionOrder</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends T&gt;&gt;&nbsp;futures)</pre>
 <div class="block">Returns a list of delegate futures that correspond to the futures received in the order that
  they complete. Delegate futures return the same value or throw the same exception as the
  corresponding input future returns/throws.
@@ -1391,7 +1361,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../../com/google/common/coll
 <li class="blockList">
 <h4>addCallback</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public static&nbsp;&lt;V&gt;&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1166">addCallback</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;future,
+public static&nbsp;&lt;V&gt;&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1142">addCallback</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;future,
                                                <a href="../../../../../com/google/common/util/concurrent/FutureCallback.html" title="interface in com.google.common.util.concurrent">FutureCallback</a>&lt;? super V&gt;&nbsp;callback)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Use <a href="../../../../../com/google/common/util/concurrent/Futures.html#addCallback-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.FutureCallback-java.util.concurrent.Executor-">the
      overload that requires an executor</a>. For identical behavior, pass <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>, but consider whether another executor would be safer, as
@@ -1420,7 +1390,8 @@ public static&nbsp;&lt;V&gt;&nbsp;void&nbsp;<a href="../../../../../src-html/com
  </code></pre>
 
  <p>This overload, which does not accept an executor, uses <code>directExecutor</code>, a dangerous
- choice in some cases. See the discussion in the <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a> documentation.
+ choice in some cases. See the discussion in the <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a> documentation. All its warnings about heavyweight listeners are
+ also applicable to heavyweight callbacks passed to this method.
 
  <p>For a more general interface to attach a completion listener to a <code>Future</code>, see <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>addListener</code></a>.</div>
 <dl>
@@ -1438,18 +1409,20 @@ public static&nbsp;&lt;V&gt;&nbsp;void&nbsp;<a href="../../../../../src-html/com
 <ul class="blockList">
 <li class="blockList">
 <h4>addCallback</h4>
-<pre>public static&nbsp;&lt;V&gt;&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1205">addCallback</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;future,
+<pre>public static&nbsp;&lt;V&gt;&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1185">addCallback</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;future,
                                    <a href="../../../../../com/google/common/util/concurrent/FutureCallback.html" title="interface in com.google.common.util.concurrent">FutureCallback</a>&lt;? super V&gt;&nbsp;callback,
                                    <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block">Registers separate success and failure callbacks to be run when the <code>Future</code>'s
  computation is <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#isDone--" title="class or interface in java.util.concurrent">complete</a> or, if the
  computation is already complete, immediately.
 
- <p>The callback is run in <code>executor</code>. There is no guaranteed ordering of execution of
+ <p>The callback is run on <code>executor</code>. There is no guaranteed ordering of execution of
  callbacks, but any callback added through this method is guaranteed to be called once the
  computation is complete.
 
- Example: <pre> <code>
+ <p>Example:
+
+ <pre><code>
  ListenableFuture&lt;QueryResult&gt; future = ...;
  Executor e = ...
  addCallback(future,
@@ -1460,11 +1433,13 @@ public static&nbsp;&lt;V&gt;&nbsp;void&nbsp;<a href="../../../../../src-html/com
        public void onFailure(Throwable t) {
          reportError(t);
        }
-     }, e);</code></pre>
+     }, e);
+ </code></pre>
 
  <p>When selecting an executor, note that <code>directExecutor</code> is dangerous in some cases. See
  the discussion in the <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a>
- documentation.
+ documentation. All its warnings about heavyweight listeners are also applicable to heavyweight
+ callbacks passed to this method.
 
  <p>For a more general interface to attach a completion listener to a <code>Future</code>, see <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>addListener</code></a>.</div>
 <dl>
@@ -1483,7 +1458,7 @@ public static&nbsp;&lt;V&gt;&nbsp;void&nbsp;<a href="../../../../../src-html/com
 <ul class="blockList">
 <li class="blockList">
 <h4>getDone</h4>
-<pre>public static&nbsp;&lt;V&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1267">getDone</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;&nbsp;future)
+<pre>public static&nbsp;&lt;V&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1247">getDone</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;&nbsp;future)
                      throws <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></pre>
 <div class="block">Returns the result of the input <code>Future</code>, which must have already completed.
 
@@ -1510,7 +1485,7 @@ public static&nbsp;&lt;V&gt;&nbsp;void&nbsp;<a href="../../../../../src-html/com
 <li class="blockList">
 <h4>getChecked</h4>
 <pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1326">getChecked</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;&nbsp;future,
+public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1306">getChecked</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;&nbsp;future,
                                                                     <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;exceptionClass)
                                                              throws X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></pre>
 <div class="block">Returns the result of <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#get--" title="class or interface in java.util.concurrent"><code>Future.get()</code></a>, converting most exceptions to a new instance of the
@@ -1560,7 +1535,7 @@ public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs
 <li class="blockList">
 <h4>getChecked</h4>
 <pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1375">getChecked</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;&nbsp;future,
+public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1355">getChecked</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;&nbsp;future,
                                                                     <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;exceptionClass,
                                                                     long&nbsp;timeout,
                                                                     <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
@@ -1613,7 +1588,7 @@ public static&nbsp;&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs
 <li class="blockList">
 <h4>getUnchecked</h4>
 <pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;V&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1415">getUnchecked</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;&nbsp;future)</pre>
+public static&nbsp;&lt;V&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.1395">getUnchecked</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;&nbsp;future)</pre>
 <div class="block">Returns the result of calling <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#get--" title="class or interface in java.util.concurrent"><code>Future.get()</code></a> uninterruptibly on a task known not to throw
  a checked exception. This makes <code>Future</code> more suitable for lightweight, fast-running
  tasks that, barring bugs in the code, will not fail. This gives it exception-handling behavior

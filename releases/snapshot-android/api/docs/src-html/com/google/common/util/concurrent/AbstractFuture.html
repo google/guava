@@ -70,7 +70,7 @@
 <span class="sourceLineNo">062</span>@DoNotMock("Use Futures.immediate*Future or SettableFuture")<a name="line.62"></a>
 <span class="sourceLineNo">063</span>@GwtCompatible(emulated = true)<a name="line.63"></a>
 <span class="sourceLineNo">064</span>@ReflectionSupport(value = ReflectionSupport.Level.FULL)<a name="line.64"></a>
-<span class="sourceLineNo">065</span>public abstract class AbstractFuture&lt;V&gt; implements ListenableFuture&lt;V&gt; {<a name="line.65"></a>
+<span class="sourceLineNo">065</span>public abstract class AbstractFuture&lt;V&gt; extends FluentFuture&lt;V&gt; {<a name="line.65"></a>
 <span class="sourceLineNo">066</span>  // NOTE: Whenever both tests are cheap and functional, it's faster to use &amp;, | instead of &amp;&amp;, ||<a name="line.66"></a>
 <span class="sourceLineNo">067</span><a name="line.67"></a>
 <span class="sourceLineNo">068</span>  private static final boolean GENERATE_CANCELLATION_CAUSES =<a name="line.68"></a>
