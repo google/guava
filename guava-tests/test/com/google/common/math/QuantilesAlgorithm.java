@@ -36,9 +36,6 @@ enum QuantilesAlgorithm {
   /**
    * Sorts the dataset, and picks values from it. When computing multiple quantiles, we sort once
    * and pick multiple values.
-   *
-   * <p>This is basically equivalent to the legacy {@code com.google.math.Sample}, except that does
-   * a copy whereas this is in-place.
    */
   SORTING {
 
@@ -75,8 +72,6 @@ enum QuantilesAlgorithm {
 
   /**
    * Uses quickselect. When calculating multiple quantiles, each quickselect starts from scratch.
-   *
-   * <p>This is basically equivalent to the legacy {@code com.google.math.Rank}.
    */
   QUICKSELECT {
 
