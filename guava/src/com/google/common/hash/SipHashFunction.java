@@ -32,7 +32,7 @@ import javax.annotation.Nullable;
  * @author Jean-Philippe Aumasson
  * @author Daniel J. Bernstein
  */
-final class SipHashFunction extends AbstractStreamingHashFunction implements Serializable {
+final class SipHashFunction extends AbstractHashFunction implements Serializable {
   static final HashFunction SIP_HASH_24 =
       new SipHashFunction(2, 4, 0x0706050403020100L, 0x0f0e0d0c0b0a0908L);
 

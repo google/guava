@@ -29,8 +29,7 @@ import java.util.Arrays;
  * @author Kevin Bourrillion
  * @author Dimitris Andreou
  */
-final class MessageDigestHashFunction extends AbstractStreamingHashFunction
-    implements Serializable {
+final class MessageDigestHashFunction extends AbstractHashFunction implements Serializable {
   private final MessageDigest prototype;
   private final int bytes;
   private final boolean supportsClone;
@@ -129,12 +128,6 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction
 
     @Override
     protected void update(byte b) {
-      checkNotDone();
-      digest.update(b);
-    }
-
-    @Override
-    protected void update(byte[] b) {
       checkNotDone();
       digest.update(b);
     }

@@ -27,7 +27,7 @@ import javax.crypto.Mac;
  *
  * @author Kurt Alfred Kluever
  */
-final class MacHashFunction extends AbstractStreamingHashFunction {
+final class MacHashFunction extends AbstractHashFunction {
   private final Mac prototype;
   private final Key key;
   private final String toString;

@@ -89,7 +89,7 @@ public class AbstractNonStreamingHashFunctionTest extends TestCase {
     assertEquals(h1.hash(), h2.hash());
   }
 
-  static class StreamingVersion extends AbstractStreamingHashFunction {
+  static class StreamingVersion extends AbstractHashFunction {
     @Override
     public int bits() {
       return 32;
@@ -100,7 +100,7 @@ public class AbstractNonStreamingHashFunctionTest extends TestCase {
       return new AbstractStreamingHasher(4, 4) {
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
         @Override
-        HashCode makeHash() {
+        protected HashCode makeHash() {
           return HashCode.fromBytes(out.toByteArray());
         }
 

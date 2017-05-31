@@ -14,6 +14,7 @@
 
 package com.google.common.hash;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.nio.charset.Charset;
@@ -25,7 +26,7 @@ import java.nio.charset.Charset;
  *
  * @author Dimitris Andreou
  */
-abstract class AbstractCompositeHashFunction extends AbstractStreamingHashFunction {
+abstract class AbstractCompositeHashFunction extends AbstractHashFunction {
   final HashFunction[] functions;
 
   AbstractCompositeHashFunction(HashFunction... functions) {
@@ -45,10 +46,24 @@ abstract class AbstractCompositeHashFunction extends AbstractStreamingHashFuncti
 
   @Override
   public Hasher newHasher() {
-    final Hasher[] hashers = new Hasher[functions.length];
+    Hasher[] hashers = new Hasher[functions.length];
     for (int i = 0; i < hashers.length; i++) {
       hashers[i] = functions[i].newHasher();
     }
+    return fromHashers(hashers);
+  }
+
+  @Override
+  public Hasher newHasher(int expectedInputSize) {
+    checkArgument(expectedInputSize >= 0);
+    Hasher[] hashers = new Hasher[functions.length];
+    for (int i = 0; i < hashers.length; i++) {
+      hashers[i] = functions[i].newHasher(expectedInputSize);
+    }
+    return fromHashers(hashers);
+  }
+
+  private Hasher fromHashers(final Hasher[] hashers) {
     return new Hasher() {
       @Override
       public Hasher putByte(byte b) {

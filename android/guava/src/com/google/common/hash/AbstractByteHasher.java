@@ -111,10 +111,4 @@ abstract class AbstractByteHasher extends AbstractHasher {
     scratch.putChar(c);
     return update(Chars.BYTES);
   }
-
-  @Override
-  public <T> Hasher putObject(T instance, Funnel<? super T> funnel) {
-    funnel.funnel(instance, this);
-    return this;
-  }
 }

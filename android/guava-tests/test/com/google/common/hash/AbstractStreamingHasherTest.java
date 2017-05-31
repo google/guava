@@ -20,7 +20,6 @@ import static com.google.common.base.Charsets.UTF_16LE;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.hash.AbstractStreamingHashFunction.AbstractStreamingHasher;
 import com.google.common.hash.HashTestUtils.RandomHasherAction;
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
@@ -197,7 +196,7 @@ public class AbstractStreamingHasherTest extends TestCase {
       this.bufferSize = chunkSize;
     }
 
-    @Override HashCode makeHash() {
+    @Override protected HashCode makeHash() {
       return HashCode.fromBytes(out.toByteArray());
     }
 
