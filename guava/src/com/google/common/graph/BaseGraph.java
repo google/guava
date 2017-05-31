@@ -24,9 +24,7 @@ import java.util.Set;
  * @author James Sexton
  * @param <N> Node parameter type
  */
-interface BaseGraph<N>
-    {
-
+interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
   //
   // Graph-level accessors
   //
@@ -77,7 +75,7 @@ interface BaseGraph<N>
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  // TODO(b/35451662): restore the @Override once the supertypes are released
+  @Override
   Set<N> predecessors(N node);
 
   /**
@@ -91,7 +89,7 @@ interface BaseGraph<N>
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  // TODO(b/35451662): restore the @Override once the supertypes are released
+  @Override
   Set<N> successors(N node);
 
   /**

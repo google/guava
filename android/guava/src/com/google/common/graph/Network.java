@@ -102,8 +102,7 @@ import javax.annotation.Nullable;
  */
 // TODO(b/35456940): Update the documentation to reflect the new interfaces
 @Beta
-public interface Network<N, E>
-    {
+public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
   //
   // Network-level accessors
   //
@@ -173,7 +172,7 @@ public interface Network<N, E>
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  // TODO(b/35451662): restore the @Override once the supertypes are released
+  @Override
   Set<N> predecessors(N node);
 
   /**
@@ -187,7 +186,7 @@ public interface Network<N, E>
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  // TODO(b/35451662): restore the @Override once the supertypes are released
+  @Override
   Set<N> successors(N node);
 
   /**
