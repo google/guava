@@ -64,7 +64,7 @@ import java.util.concurrent.TimeoutException;
  * existing {@code ListenableFuture}, implemented atop a {@link ForwardingListenableFuture} that
  * forwards to that future and adds the desired methods.
  *
- * @since 22.0
+ * @since 23.0
  */
 @Beta
 @DoNotMock("Use FluentFuture.from(Futures.immediate*Future) or SettableFuture")
