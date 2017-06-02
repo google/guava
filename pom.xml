@@ -18,7 +18,7 @@
   <properties>
     <gpg.skip>true</gpg.skip>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
-    <test.include>**/*Test.java</test.include>
+    <test.include>%regex[.*Test.class]</test.include>
     <truth.version>0.33</truth.version>
     <animal.sniffer.version>1.14</animal.sniffer.version>
   </properties>
