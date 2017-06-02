@@ -323,7 +323,7 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
     Thread t2 = newStartedThread(c2);
     awaitTermination(t1);
     awaitTermination(t2);
-    assertEquals(c1.counts + c2.counts, SIZE * COUNTDOWN);
+    assertEquals(SIZE * COUNTDOWN, c1.counts + c2.counts);
   }
 
   /**

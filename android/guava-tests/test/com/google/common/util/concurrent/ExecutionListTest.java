@@ -42,7 +42,7 @@ public class ExecutionListTest extends TestCase {
     list.add(new MockRunnable(countDownLatch), exec);
     list.add(new MockRunnable(countDownLatch), exec);
     list.add(new MockRunnable(countDownLatch), exec);
-    assertEquals(countDownLatch.getCount(), 3L);
+    assertEquals(3L, countDownLatch.getCount());
 
     list.execute();
 
