@@ -206,8 +206,8 @@ public class MinMaxPriorityQueueTest extends TestCase {
 
   public void testHeapIntact() {
     Random random = new Random(0);
-    int heapSize = 999;
-    int numberOfModifications = 500;
+    int heapSize = 99;
+    int numberOfModifications = 100;
     MinMaxPriorityQueue<Integer> mmHeap =
         MinMaxPriorityQueue.expectedSize(heapSize).create();
     /*
@@ -714,7 +714,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
   }
 
   public void testExhaustive_pollAndPush() {
-    int size = 8;
+    int size = 5;
     List<Integer> expected = createOrderedList(size);
     for (Collection<Integer> perm : Collections2.permutations(expected)) {
       MinMaxPriorityQueue<Integer> q = MinMaxPriorityQueue.create(perm);
