@@ -60,15 +60,13 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
    * @since 11.0
    */
   @Override
-  public ImmutableMap<K, V> getAllPresent(Iterable<?> keys) {
+  public ImmutableMap<K, V> getAllPresent(Iterable<? extends K> keys) {
     Map<K, V> result = Maps.newLinkedHashMap();
-    for (Object key : keys) {
+    for (K key : keys) {
       if (!result.containsKey(key)) {
-        @SuppressWarnings("unchecked")
-        K castKey = (K) key;
         V value = getIfPresent(key);
         if (value != null) {
-          result.put(castKey, value);
+          result.put(key, value);
         }
       }
     }
@@ -102,7 +100,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   }
 
   @Override
-  public void invalidate(Object key) {
+  public void invalidate(K key) {
     throw new UnsupportedOperationException();
   }
 
@@ -110,8 +108,8 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
    * @since 11.0
    */
   @Override
-  public void invalidateAll(Iterable<?> keys) {
-    for (Object key : keys) {
+  public void invalidateAll(Iterable<? extends K> keys) {
+    for (K key : keys) {
       invalidate(key);
     }
   }
