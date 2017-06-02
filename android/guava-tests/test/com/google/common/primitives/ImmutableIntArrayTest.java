@@ -436,6 +436,7 @@ public class ImmutableIntArrayTest extends TestCase {
                   CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS)
               .createTestSuite());
     }
+    suite.addTestSuite(ImmutableIntArrayTest.class);
     return suite;
   }
 

@@ -86,6 +86,7 @@ public class ListsImplTest extends TestCase {
     suite.addTest(createExampleSuite(new ArraysAsListExample("Arrays.asList")));
     suite.addTest(createExampleSuite(new ImmutableListExample("ImmutableList")));
     suite.addTest(createExampleSuite(new CopyOnWriteListExample("CopyOnWriteArrayList")));
+    suite.addTestSuite(ListsImplTest.class);
     return suite;
   }
 

@@ -472,6 +472,7 @@ public class ImmutableLongArrayTest extends TestCase {
                   CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS)
               .createTestSuite());
     }
+    suite.addTestSuite(ImmutableLongArrayTest.class);
     return suite;
   }
 

@@ -448,6 +448,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
                   CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS)
               .createTestSuite());
     }
+    suite.addTestSuite(ImmutableDoubleArrayTest.class);
     return suite;
   }
 
