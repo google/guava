@@ -293,10 +293,11 @@
               <mode>htmlunit</mode>
               <htmlunit>FF38</htmlunit>
               <productionMode>true</productionMode>
-              <testTimeOut>21600 <!-- seconds --></testTimeOut>
               <extraJvmArgs>-Xms3500m -Xmx3500m -Xss1024k</extraJvmArgs>
               <sourceLevel>1.8</sourceLevel>
-              <testMethodTimeout>360 <!-- minutes --></testMethodTimeout>
+              <!-- Keep these timeouts very large because, if we hit the timeout, the tests silently pass :( -->
+              <testTimeOut>86400 <!-- seconds --></testTimeOut>
+              <testMethodTimeout>1440 <!-- minutes --></testMethodTimeout>
             </configuration>
           </execution>
         </executions>
