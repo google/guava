@@ -188,16 +188,6 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     return unsafeDelegateList((List) Arrays.asList(elements));
   }
 
-  /**
-   * Views the array as an immutable list.  The array must have only {@code E} elements.
-   *
-   * <p>The array must be internally created.
-   */
-  @SuppressWarnings("unchecked") // caller is reponsible for getting this right
-  static <E> ImmutableList<E> asImmutableList(Object[] elements, int length) {
-    return unsafeDelegateList((List) Arrays.asList(elements).subList(0, length));
-  }
-
   public static <E extends Comparable<? super E>> ImmutableList<E> sortedCopyOf(
       Iterable<? extends E> elements) {
     Comparable[] array = Iterables.toArray(elements, new Comparable[0]);

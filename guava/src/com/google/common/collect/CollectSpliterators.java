@@ -209,7 +209,7 @@ final class CollectSpliterators {
     class FlatMapSpliterator implements Spliterator<T> {
       @Nullable Spliterator<T> prefix;
       final Spliterator<F> from;
-      final int characteristics;
+      int characteristics;
       long estimatedSize;
 
       FlatMapSpliterator(
@@ -256,6 +256,7 @@ final class CollectSpliterators {
           if (estSplitSize < Long.MAX_VALUE) {
             estSplitSize /= 2;
             this.estimatedSize -= estSplitSize;
+            this.characteristics = splitCharacteristics;
           }
           Spliterator<T> result =
               new FlatMapSpliterator(this.prefix, fromSplit, splitCharacteristics, estSplitSize);

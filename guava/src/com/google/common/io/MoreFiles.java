@@ -66,7 +66,6 @@ import javax.annotation.Nullable;
  * @author Colin Decker
  */
 @Beta
-@AndroidIncompatible
 @GwtIncompatible
 @J2ObjCIncompatible // java.nio.file
 public final class MoreFiles {

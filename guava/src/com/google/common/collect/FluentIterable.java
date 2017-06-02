@@ -187,7 +187,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    */
   @Beta
   public static <T> FluentIterable<T> concat(Iterable<? extends T> a, Iterable<? extends T> b) {
-    return concat(ImmutableList.of(a, b));
+    return concatNoDefensiveCopy(a, b);
   }
 
   /**
@@ -206,7 +206,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   @Beta
   public static <T> FluentIterable<T> concat(
       Iterable<? extends T> a, Iterable<? extends T> b, Iterable<? extends T> c) {
-    return concat(ImmutableList.of(a, b, c));
+    return concatNoDefensiveCopy(a, b, c);
   }
 
   /**
@@ -229,7 +229,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
       Iterable<? extends T> b,
       Iterable<? extends T> c,
       Iterable<? extends T> d) {
-    return concat(ImmutableList.of(a, b, c, d));
+    return concatNoDefensiveCopy(a, b, c, d);
   }
 
   /**
@@ -249,7 +249,28 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    */
   @Beta
   public static <T> FluentIterable<T> concat(Iterable<? extends T>... inputs) {
-    return concat(ImmutableList.copyOf(inputs));
+    return concatNoDefensiveCopy(Arrays.copyOf(inputs, inputs.length));
+  }
+
+  /** Concatenates a varargs array of iterables without making a defensive copy of the array. */
+  private static <T> FluentIterable<T> concatNoDefensiveCopy(
+      final Iterable<? extends T>... inputs) {
+    for (Iterable<? extends T> input : inputs) {
+      checkNotNull(input);
+    }
+    return new FluentIterable<T>() {
+      @Override
+      public Iterator<T> iterator() {
+        return Iterators.concat(
+            /* lazily generate the iterators on each input only as needed */
+            new AbstractIndexedListIterator<Iterator<? extends T>>(inputs.length) {
+              @Override
+              public Iterator<? extends T> get(int i) {
+                return inputs[i].iterator();
+              }
+            });
+      }
+    };
   }
 
   /**
@@ -273,7 +294,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
     return new FluentIterable<T>() {
       @Override
       public Iterator<T> iterator() {
-        return Iterators.concat(Iterables.transform(inputs, Iterables.<T>toIterator()).iterator());
+        return Iterators.concat(Iterators.transform(inputs.iterator(), Iterables.<T>toIterator()));
       }
     };
   }
@@ -298,7 +319,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * <p><b>{@code Stream} equivalent:</b> {@link java.util.stream.Stream#of(Object[])
    * Stream.of(T...)}.
    *
-   * @deprecated Use {@link #from(E[])} instead (but note the differences in mutability). This
+   * @deprecated Use {@link #from(Object[])} instead (but note the differences in mutability). This
    *     method will be removed in Guava release 21.0.
    * @since 18.0
    */
@@ -606,6 +627,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * <p><b>{@code Stream} equivalent:</b> pass {@link ImmutableList#toImmutableList} to {@code
    * stream.collect()}.
    *
+   * @throws NullPointerException if any element is {@code null}
    * @since 14.0 (since 12.0 as {@code toImmutableList()}).
    */
   public final ImmutableList<E> toList() {
@@ -621,7 +643,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * stream.sorted(comparator).collect()}.
    *
    * @param comparator the function by which to sort list elements
-   * @throws NullPointerException if any element is null
+   * @throws NullPointerException if any element of this iterable is {@code null}
    * @since 14.0 (since 13.0 as {@code toSortedImmutableList()}).
    */
   public final ImmutableList<E> toSortedList(Comparator<? super E> comparator) {
@@ -635,6 +657,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * <p><b>{@code Stream} equivalent:</b> pass {@link ImmutableSet#toImmutableSet} to {@code
    * stream.collect()}.
    *
+   * @throws NullPointerException if any element is {@code null}
    * @since 14.0 (since 12.0 as {@code toImmutableSet()}).
    */
   public final ImmutableSet<E> toSet() {
@@ -651,7 +674,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * ImmutableSortedSet#toImmutableSortedSet} to {@code stream.collect()}.
    *
    * @param comparator the function by which to sort set elements
-   * @throws NullPointerException if any element is null
+   * @throws NullPointerException if any element of this iterable is {@code null}
    * @since 14.0 (since 12.0 as {@code toImmutableSortedSet()}).
    */
   public final ImmutableSortedSet<E> toSortedSet(Comparator<? super E> comparator) {
@@ -665,6 +688,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * {@code
    * stream.collect()}.
    *
+   * @throws NullPointerException if any element is null
    * @since 19.0
    */
   public final ImmutableMultiset<E> toMultiset() {
@@ -705,13 +729,8 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * the order of entries).
    *
    * @param keyFunction the function used to produce the key for each value
-   * @throws NullPointerException if any of the following cases is true:
-   *     <ul>
-   *     <li>{@code keyFunction} is null
-   *     <li>An element in this fluent iterable is null
-   *     <li>{@code keyFunction} returns {@code null} for any element of this iterable
-   *     </ul>
-   *
+   * @throws NullPointerException if any element of this iterable is {@code null}, or if {@code
+   *     keyFunction} produces {@code null} for any key
    * @since 14.0
    */
   public final <K> ImmutableListMultimap<K, E> index(Function<? super E, K> keyFunction) {
@@ -744,8 +763,8 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *     in this fluent iterable to that value
    * @throws IllegalArgumentException if {@code keyFunction} produces the same key for more than one
    *     value in this fluent iterable
-   * @throws NullPointerException if any elements of this fluent iterable is null, or if {@code
-   *     keyFunction} produces {@code null} for any value
+   * @throws NullPointerException if any element of this iterable is {@code null}, or if {@code
+   *     keyFunction} produces {@code null} for any key
    * @since 14.0
    */
   public final <K> ImmutableMap<K, E> uniqueIndex(Function<? super E, K> keyFunction) {

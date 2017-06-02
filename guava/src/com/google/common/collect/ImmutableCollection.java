@@ -454,7 +454,6 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   abstract static class ArrayBasedBuilder<E> extends ImmutableCollection.Builder<E> {
     Object[] contents;
     int size;
-    boolean forceCopy;
 
     ArrayBasedBuilder(int initialCapacity) {
       checkNonnegative(initialCapacity, "initialCapacity");
@@ -463,19 +462,14 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     }
 
     /**
-     * Expand the absolute capacity of the builder so it can accept at least the specified number of
-     * elements without being resized. Also, if we've already built a collection backed by the
-     * current array, create a new array.
+     * Expand the absolute capacity of the builder so it can accept at least
+     * the specified number of elements without being resized.
      */
-    private void getReadyToExpandTo(int minCapacity) {
+    private void ensureCapacity(int minCapacity) {
       if (contents.length < minCapacity) {
         this.contents =
             Arrays.copyOf(
                 this.contents, expandedCapacity(contents.length, minCapacity));
-        forceCopy = false;
-      } else if (forceCopy) {
-        this.contents = contents.clone();
-        forceCopy = false;
       }
     }
 
@@ -483,7 +477,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     @Override
     public ArrayBasedBuilder<E> add(E element) {
       checkNotNull(element);
-      getReadyToExpandTo(size + 1);
+      ensureCapacity(size + 1);
       contents[size++] = element;
       return this;
     }
@@ -492,7 +486,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     @Override
     public Builder<E> add(E... elements) {
       checkElementsNotNull(elements);
-      getReadyToExpandTo(size + elements.length);
+      ensureCapacity(size + elements.length);
       System.arraycopy(elements, 0, contents, size, elements.length);
       size += elements.length;
       return this;
@@ -503,7 +497,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     public Builder<E> addAll(Iterable<? extends E> elements) {
       if (elements instanceof Collection) {
         Collection<?> collection = (Collection<?>) elements;
-        getReadyToExpandTo(size + collection.size());
+        ensureCapacity(size + collection.size());
       }
       super.addAll(elements);
       return this;
@@ -512,7 +506,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     @CanIgnoreReturnValue
     ArrayBasedBuilder<E> combine(ArrayBasedBuilder<E> builder) {
       checkNotNull(builder);
-      getReadyToExpandTo(size + builder.size);
+      ensureCapacity(size + builder.size);
       System.arraycopy(builder.contents, 0, this.contents, size, builder.size);
       size += builder.size;
       return this;

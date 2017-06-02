@@ -867,7 +867,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * benchmarking
    * on Open JDK 7, this method is the most efficient way to make a sorted copy of a collection.
    *
-   * @throws NullPointerException if any of {@code elements} (or {@code elements} itself) is null
+   * @throws NullPointerException if any element of {@code elements} is {@code null}
    * @since 3.0
    */
   // TODO(kevinb): rerun benchmarks including new options

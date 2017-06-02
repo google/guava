@@ -27,6 +27,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
 import javax.annotation.Nullable;
 
 /**
@@ -34,16 +35,16 @@ import javax.annotation.Nullable;
  * comparator. "Top" can mean the greatest or the lowest elements, specified in the factory used to
  * create the {@code TopKSelector} instance.
  *
- * <p>If your input data is available as an {@link Iterable} or {@link Iterator}, prefer
- * {@link Ordering#leastOf(Iterable, int)}, which provides the same implementation with an
- * interface tailored to that use case.
+ * <p>If your input data is available as a {@link Stream}, prefer passing {@link
+ * Comparators#least(int)} to {@link Stream#collect(java.util.stream.Collector)}. If it is available
+ * as an {@link Iterable} or {@link Iterator}, prefer {@link Ordering#leastOf(Iterable, int)}.
  *
  * <p>This uses the same efficient implementation as {@link Ordering#leastOf(Iterable, int)},
- * offering expected O(n + k log k) performance (worst case O(n log k)) for n calls to
- * {@link #offer} and a call to {@link #topK}, with O(k) memory. In comparison, quickselect has the
- * same asymptotics but requires O(n) memory, and a {@code PriorityQueue} implementation takes O(n
- * log k). In benchmarks, this implementation performs at least as well as either implementation,
- * and degrades more gracefully for worst-case input.
+ * offering expected O(n + k log k) performance (worst case O(n log k)) for n calls to {@link
+ * #offer} and a call to {@link #topK}, with O(k) memory. In comparison, quickselect has the same
+ * asymptotics but requires O(n) memory, and a {@code PriorityQueue} implementation takes O(n log
+ * k). In benchmarks, this implementation performs at least as well as either implementation, and
+ * degrades more gracefully for worst-case input.
  *
  * <p>The implementation does not necessarily use a <i>stable</i> sorting algorithm; when multiple
  * equivalent elements are added to it, it is undefined which will come first in the output.

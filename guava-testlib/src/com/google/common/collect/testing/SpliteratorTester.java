@@ -81,7 +81,15 @@ public final class SpliteratorTester<E> {
             prefix = trySplitTestingSize(spliterator)) {
           forEach(prefix, consumer);
         }
-        spliterator.forEachRemaining(consumer);
+        long size = spliterator.getExactSizeIfKnown();
+        long[] counter = {0};
+        spliterator.forEachRemaining(e -> {
+          consumer.accept(e);
+          counter[0]++;
+        });
+        if (size >= 0) {
+          assertEquals(size, counter[0]);
+        }
       }
     },
     ALTERNATE_ADVANCE_AND_SPLIT {

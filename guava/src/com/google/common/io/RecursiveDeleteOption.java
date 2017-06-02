@@ -29,7 +29,6 @@ import java.nio.file.SecureDirectoryStream;
  * @author Colin Decker
  */
 @Beta
-@AndroidIncompatible
 @GwtIncompatible
 @J2ObjCIncompatible // java.nio.file
 public enum RecursiveDeleteOption {

@@ -864,17 +864,5 @@ public class ImmutableListTest extends TestCase {
       ImmutableList<String> list = ImmutableList.of("a", "b");
       assertSame(list, list.asList());
     }
-
-    @GwtIncompatible("builder internals")
-    public void testReusedBuilder() {
-      ImmutableList.Builder<String> builder = new ImmutableList.Builder<String>();
-      for (int i = 0; i < 10; i++) {
-        builder.add("foo");
-      }
-      builder.add("bar");
-      RegularImmutableList<String> list = (RegularImmutableList<String>) builder.build();
-      builder.add("baz");
-      assertTrue(list.array != builder.contents);
-    }
   }
 }

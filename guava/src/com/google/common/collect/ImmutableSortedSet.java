@@ -30,6 +30,7 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NavigableSet;
@@ -372,15 +373,16 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   }
 
   /**
-   * Constructs an {@code ImmutableSortedSet} from the first {@code n} elements of {@code contents}.
-   * If {@code k} is the size of the returned {@code ImmutableSortedSet}, then the sorted unique
-   * elements are in the first {@code k} positions of {@code contents}, and {@code contents[i] ==
-   * null} for {@code k <= i < n}.
+   * Constructs an {@code ImmutableSortedSet} from the first {@code n} elements of
+   * {@code contents}.  If {@code k} is the size of the returned {@code ImmutableSortedSet}, then
+   * the sorted unique elements are in the first {@code k} positions of {@code contents}, and
+   * {@code contents[i] == null} for {@code k <= i < n}.
    *
-   * <p>This method takes ownership of {@code contents}; do not modify {@code contents} after this
-   * returns.
+   * <p>If {@code k == contents.length}, then {@code contents} may no longer be safe for
+   * modification.
    *
-   * @throws NullPointerException if any of the first {@code n} elements of {@code contents} is null
+   * @throws NullPointerException if any of the first {@code n} elements of {@code contents} is
+   *          null
    */
   static <E> ImmutableSortedSet<E> construct(
       Comparator<? super E> comparator, int n, E... contents) {
@@ -398,11 +400,6 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
       }
     }
     Arrays.fill(contents, uniques, n, null);
-    if (uniques < contents.length / 2) {
-      // Deduplication eliminated many of the elements.  We don't want to retain an arbitrarily
-      // large array relative to the number of elements, so we cap the ratio.
-      contents = Arrays.copyOf(contents, uniques);
-    }
     return new RegularImmutableSortedSet<E>(
         ImmutableList.<E>asImmutableList(contents, uniques), comparator);
   }
@@ -424,7 +421,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
    * ordered by the reverse of their natural ordering.
    */
   public static <E extends Comparable<?>> Builder<E> reverseOrder() {
-    return new Builder<E>(Ordering.natural().reverse());
+    return new Builder<E>(Collections.reverseOrder());
   }
 
   /**
@@ -545,7 +542,6 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
       E[] contentsArray = (E[]) contents;
       ImmutableSortedSet<E> result = construct(comparator, size, contentsArray);
       this.size = result.size(); // we eliminated duplicates in-place in contentsArray
-      this.forceCopy = true;
       return result;
     }
   }

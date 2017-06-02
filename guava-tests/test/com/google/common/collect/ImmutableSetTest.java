@@ -172,11 +172,11 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     assertEquals(8, ImmutableSet.chooseTableSize(4));
 
     assertEquals(1 << 29, ImmutableSet.chooseTableSize(1 << 28));
-    assertEquals(1 << 29, ImmutableSet.chooseTableSize(1 << 29 - 1));
+    assertEquals(1 << 29, ImmutableSet.chooseTableSize((1 << 29) * 3 / 5));
 
     // Now we hit the cap
     assertEquals(1 << 30, ImmutableSet.chooseTableSize(1 << 29));
-    assertEquals(1 << 30, ImmutableSet.chooseTableSize(1 << 30 - 1));
+    assertEquals(1 << 30, ImmutableSet.chooseTableSize((1 << 30) - 1));
 
     // Now we've gone too far
     try {
@@ -191,11 +191,6 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     verifyTableSize(100, 2, 4);
     verifyTableSize(100, 5, 8);
     verifyTableSize(100, 33, 64);
-    verifyTableSize(60, 60, 128);
-    verifyTableSize(120, 60, 256);
-      // if the table is only double the necessary size, we don't bother resizing it
-    verifyTableSize(180, 60, 128);
-      // but if it's even bigger than double, we rebuild the table
     verifyTableSize(17, 17, 32);
     verifyTableSize(17, 16, 32);
     verifyTableSize(17, 15, 32);
@@ -293,28 +288,5 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
         .addEqualityGroup(ImmutableSet.of(1), ImmutableSet.of(1), ImmutableSet.of(1, 1))
         .addEqualityGroup(ImmutableSet.of(1, 2, 1), ImmutableSet.of(2, 1, 1))
         .testEquals();
-  }
-
-  @GwtIncompatible("internals")
-  public void testControlsArraySize() {
-    ImmutableSet.Builder<String> builder = new ImmutableSet.Builder<String>();
-    for (int i = 0; i < 10; i++) {
-      builder.add("foo");
-    }
-    builder.add("bar");
-    RegularImmutableSet<String> set = (RegularImmutableSet<String>) builder.build();
-    assertTrue(set.elements.length <= 2 * set.size());
-  }
-
-  @GwtIncompatible("internals")
-  public void testReusedBuilder() {
-    ImmutableSet.Builder<String> builder = new ImmutableSet.Builder<String>();
-    for (int i = 0; i < 10; i++) {
-      builder.add("foo");
-    }
-    builder.add("bar");
-    RegularImmutableSet<String> set = (RegularImmutableSet<String>) builder.build();
-    builder.add("baz");
-    assertTrue(set.elements != builder.contents);
   }
 }

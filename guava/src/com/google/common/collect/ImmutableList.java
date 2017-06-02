@@ -351,12 +351,18 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     return asImmutableList(elements, elements.length);
   }
 
-  /** Views the array as an immutable list. Does not check for nulls. */
+  /**
+   * Views the array as an immutable list. Copies if the specified range does not cover the complete
+   * array. Does not check for nulls.
+   */
   static <E> ImmutableList<E> asImmutableList(Object[] elements, int length) {
     if (length == 0) {
       return of();
     }
-    return new RegularImmutableList<E>(elements, length);
+    if (length < elements.length) {
+      elements = Arrays.copyOf(elements, length);
+    }
+    return new RegularImmutableList<E>(elements);
   }
 
   ImmutableList() {}
@@ -421,14 +427,10 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     int length = toIndex - fromIndex;
     if (length == size()) {
       return this;
-    }
-    switch (length) {
-      case 0:
-        return of();
-      case 1:
-        return of(get(fromIndex));
-      default:
-        return subListUnchecked(fromIndex, toIndex);
+    } else if (length == 0) {
+      return of();
+    } else {
+      return subListUnchecked(fromIndex, toIndex);
     }
   }
 
@@ -800,7 +802,6 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
      */
     @Override
     public ImmutableList<E> build() {
-      forceCopy = true;
       return asImmutableList(contents, size);
     }
   }

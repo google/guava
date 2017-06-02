@@ -41,6 +41,7 @@ import java.nio.file.attribute.FileTime;
 import java.util.EnumSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
@@ -49,7 +50,6 @@ import junit.framework.TestSuite;
  *
  * @author Colin Decker
  */
-@AndroidIncompatible
 
 public class MoreFilesTest extends TestCase {
 
@@ -626,29 +626,32 @@ public class MoreFilesTest extends TestCase {
    */
   private static void startDirectorySymlinkSwitching(
       final Path file, final Path target, ExecutorService executor) {
-    executor.submit(new Runnable() {
-      @Override
-      public void run() {
-        boolean createSymlink = false;
-        while (!Thread.interrupted()) {
-          try {
-            // trying to switch between a real directory and a symlink (dir -> /a)
-            if (Files.deleteIfExists(file)) {
-              if (createSymlink) {
-                Files.createSymbolicLink(file, target);
-              } else {
-                Files.createDirectory(file);
-              }
-              createSymlink = !createSymlink;
-            }
-          } catch (IOException tolerated) {
-            // it's expected that some of these will fail
-          }
+    @SuppressWarnings("unused") // go/futurereturn-lsc
+    Future<?> possiblyIgnoredError =
+        executor.submit(
+            new Runnable() {
+              @Override
+              public void run() {
+                boolean createSymlink = false;
+                while (!Thread.interrupted()) {
+                  try {
+                    // trying to switch between a real directory and a symlink (dir -> /a)
+                    if (Files.deleteIfExists(file)) {
+                      if (createSymlink) {
+                        Files.createSymbolicLink(file, target);
+                      } else {
+                        Files.createDirectory(file);
+                      }
+                      createSymlink = !createSymlink;
+                    }
+                  } catch (IOException tolerated) {
+                    // it's expected that some of these will fail
+                  }
 
-          Thread.yield();
-        }
-      }
-    });
+                  Thread.yield();
+                }
+              }
+            });
   }
 
   /**
