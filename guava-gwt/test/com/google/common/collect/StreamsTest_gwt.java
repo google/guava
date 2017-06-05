@@ -43,26 +43,6 @@ public void testConcat_refStream_parallel() throws Exception {
   testCase.testConcat_refStream_parallel();
 }
 
-public void testFindLast_doubleStream() throws Exception {
-  com.google.common.collect.StreamsTest testCase = new com.google.common.collect.StreamsTest();
-  testCase.testFindLast_doubleStream();
-}
-
-public void testFindLast_intStream() throws Exception {
-  com.google.common.collect.StreamsTest testCase = new com.google.common.collect.StreamsTest();
-  testCase.testFindLast_intStream();
-}
-
-public void testFindLast_longStream() throws Exception {
-  com.google.common.collect.StreamsTest testCase = new com.google.common.collect.StreamsTest();
-  testCase.testFindLast_longStream();
-}
-
-public void testFindLast_refStream() throws Exception {
-  com.google.common.collect.StreamsTest testCase = new com.google.common.collect.StreamsTest();
-  testCase.testFindLast_refStream();
-}
-
 public void testForEachPair() throws Exception {
   com.google.common.collect.StreamsTest testCase = new com.google.common.collect.StreamsTest();
   testCase.testForEachPair();
