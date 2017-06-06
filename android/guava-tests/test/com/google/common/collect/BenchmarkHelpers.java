@@ -437,7 +437,10 @@ final class BenchmarkHelpers {
   }
 
   public enum ListSizeDistribution {
-    UNIFORM_0_TO_2(0, 2), UNIFORM_0_TO_9(0, 9), ALWAYS_0(0, 0), ALWAYS_10(10, 10);
+    UNIFORM_0_TO_2(0, 2),
+    UNIFORM_0_TO_9(0, 9),
+    ALWAYS_0(0, 0),
+    ALWAYS_10(10, 10);
 
     final int min;
     final int max;

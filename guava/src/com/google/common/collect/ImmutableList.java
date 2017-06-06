@@ -90,7 +90,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * @throws NullPointerException if {@code element} is null
    */
   public static <E> ImmutableList<E> of(E element) {
-    return construct(element);
+    return new SingletonImmutableList<E>(element);
   }
 
   /**
@@ -282,9 +282,14 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * @since 3.0
    */
   public static <E> ImmutableList<E> copyOf(E[] elements) {
-    return (elements.length == 0)
-        ? ImmutableList.<E>of()
-        : construct(elements.clone());
+    switch (elements.length) {
+      case 0:
+        return of();
+      case 1:
+        return of(elements[0]);
+      default:
+        return construct(elements.clone());
+    }
   }
 
   /**
@@ -356,13 +361,17 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * array. Does not check for nulls.
    */
   static <E> ImmutableList<E> asImmutableList(Object[] elements, int length) {
-    if (length == 0) {
-      return of();
+    switch (length) {
+      case 0:
+        return of();
+      case 1:
+        return of((E) elements[0]);
+      default:
+        if (length < elements.length) {
+          elements = Arrays.copyOf(elements, length);
+        }
+        return new RegularImmutableList<E>(elements);
     }
-    if (length < elements.length) {
-      elements = Arrays.copyOf(elements, length);
-    }
-    return new RegularImmutableList<E>(elements);
   }
 
   ImmutableList() {}
@@ -429,6 +438,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       return this;
     } else if (length == 0) {
       return of();
+    } else if (length == 1) {
+      return of(get(fromIndex));
     } else {
       return subListUnchecked(fromIndex, toIndex);
     }
