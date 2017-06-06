@@ -128,8 +128,28 @@ public class AbstractNonStreamingHashFunctionTest extends TestCase {
     }
 
     @Override
+    public HashCode hashBytes(byte[] input) {
+      return HashCode.fromBytes(input);
+    }
+
+    @Override
     public HashCode hashBytes(byte[] input, int off, int len) {
       return HashCode.fromBytes(Arrays.copyOfRange(input, off, off + len));
+    }
+
+    @Override
+    public HashCode hashString(CharSequence input, Charset charset) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public HashCode hashLong(long input) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public HashCode hashInt(int input) {
+      throw new UnsupportedOperationException();
     }
   }
 }

@@ -16,7 +16,6 @@ package com.google.common.hash;
 
 import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
 /**
@@ -61,9 +60,6 @@ public interface Hasher extends PrimitiveSink {
 
   @Override
   Hasher putBytes(byte[] bytes, int off, int len);
-
-  @Override
-  Hasher putBytes(ByteBuffer bytes);
 
   @Override
   Hasher putShort(short s);

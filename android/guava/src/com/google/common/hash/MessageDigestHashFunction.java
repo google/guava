@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import java.io.Serializable;
-import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -137,12 +136,6 @@ final class MessageDigestHashFunction extends AbstractHashFunction implements Se
     protected void update(byte[] b, int off, int len) {
       checkNotDone();
       digest.update(b, off, len);
-    }
-
-    @Override
-    protected void update(ByteBuffer bytes) {
-      checkNotDone();
-      digest.update(bytes);
     }
 
     private void checkNotDone() {

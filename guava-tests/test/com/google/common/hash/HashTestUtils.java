@@ -23,7 +23,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
 import com.google.common.testing.EqualsTester;
-import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Random;
@@ -167,24 +166,7 @@ final class HashTestUtils {
         int off = random.nextInt(value.length + 1);
         int len = random.nextInt(value.length - off + 1);
         for (PrimitiveSink sink : sinks) {
-          sink.putBytes(value, off, len);
-        }
-      }
-    },
-    PUT_BYTE_BUFFER() {
-      @Override
-      void performAction(Random random, Iterable<? extends PrimitiveSink> sinks) {
-        byte[] value = new byte[random.nextInt(128)];
-        random.nextBytes(value);
-        int pos = random.nextInt(value.length + 1);
-        int limit = pos + random.nextInt(value.length - pos + 1);
-        for (PrimitiveSink sink : sinks) {
-          ByteBuffer buffer = ByteBuffer.wrap(value);
-          buffer.position(pos);
-          buffer.limit(limit);
-          sink.putBytes(buffer);
-          assertEquals(limit, buffer.limit());
-          assertEquals(limit, buffer.position());
+          sink.putBytes(value);
         }
       }
     },

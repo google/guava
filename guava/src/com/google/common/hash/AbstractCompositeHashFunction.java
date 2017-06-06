@@ -17,7 +17,6 @@ package com.google.common.hash;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
 /**
@@ -86,16 +85,6 @@ abstract class AbstractCompositeHashFunction extends AbstractHashFunction {
       public Hasher putBytes(byte[] bytes, int off, int len) {
         for (Hasher hasher : hashers) {
           hasher.putBytes(bytes, off, len);
-        }
-        return this;
-      }
-
-      @Override
-      public Hasher putBytes(ByteBuffer bytes) {
-        int pos = bytes.position();
-        for (Hasher hasher : hashers) {
-          bytes.position(pos);
-          hasher.putBytes(bytes);
         }
         return this;
       }
