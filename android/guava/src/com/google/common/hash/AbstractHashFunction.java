@@ -17,6 +17,7 @@ package com.google.common.hash;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
 /** 
@@ -60,6 +61,11 @@ abstract class AbstractHashFunction implements HashFunction {
   public HashCode hashBytes(byte[] input, int off, int len) {
     checkPositionIndexes(off, off + len, input.length);
     return newHasher(len).putBytes(input, off, len).hash();
+  }
+
+  @Override
+  public HashCode hashBytes(ByteBuffer input) {
+    return newHasher(input.remaining()).putBytes(input).hash();
   }
 
   @Override
