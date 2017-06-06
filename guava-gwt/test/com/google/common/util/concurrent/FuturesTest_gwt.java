@@ -585,12 +585,39 @@ public void testAllAsList_singleFailure() throws Exception {
   }
 }
 
-public void testCancellingADelegateDoesNotPropagate() throws Exception {
+public void testCancellingADelegatePropagates() throws Exception {
   com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
   testCase.setUp();
   Throwable failure = null;
   try {
-    testCase.testCancellingADelegateDoesNotPropagate();
+    testCase.testCancellingADelegatePropagates();
+  } catch (Throwable t) {
+    failure = t;
+  }
+  try {
+    testCase.tearDown();
+  } catch (Throwable t) {
+    if (failure == null) {
+      failure = t;
+    }
+  }
+  if (failure instanceof Exception) {
+    throw (Exception) failure;
+  }
+  if (failure instanceof Error) {
+    throw (Error) failure;
+  }
+  if (failure != null) {
+    throw new RuntimeException(failure);
+  }
+}
+
+public void testCancellingAllDelegatesIsNotQuadratic() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.setUp();
+  Throwable failure = null;
+  try {
+    testCase.testCancellingAllDelegatesIsNotQuadratic();
   } catch (Throwable t) {
     failure = t;
   }
@@ -1509,6 +1536,33 @@ public void testCompletionOrderFutureCancelled() throws Exception {
   Throwable failure = null;
   try {
     testCase.testCompletionOrderFutureCancelled();
+  } catch (Throwable t) {
+    failure = t;
+  }
+  try {
+    testCase.tearDown();
+  } catch (Throwable t) {
+    if (failure == null) {
+      failure = t;
+    }
+  }
+  if (failure instanceof Exception) {
+    throw (Exception) failure;
+  }
+  if (failure instanceof Error) {
+    throw (Error) failure;
+  }
+  if (failure != null) {
+    throw new RuntimeException(failure);
+  }
+}
+
+public void testCompletionOrderFutureInterruption() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.setUp();
+  Throwable failure = null;
+  try {
+    testCase.testCompletionOrderFutureInterruption();
   } catch (Throwable t) {
     failure = t;
   }

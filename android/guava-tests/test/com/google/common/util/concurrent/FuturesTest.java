@@ -63,10 +63,12 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.testing.ClassSanityTester;
+import com.google.common.testing.GcFinalization;
 import com.google.common.testing.TestLogHandler;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -3407,12 +3409,31 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  public void testCancellingADelegateDoesNotPropagate() throws Exception {
+  public void testCompletionOrderFutureInterruption() throws Exception {
     SettableFuture<Long> future1 = SettableFuture.create();
     SettableFuture<Long> future2 = SettableFuture.create();
+    SettableFuture<Long> future3 = SettableFuture.create();
+
+    ImmutableList<ListenableFuture<Long>> futures = inCompletionOrder(
+        ImmutableList.<ListenableFuture<Long>>of(future1, future2, future3));
+    future2.set(1L);
+
+    futures.get(1).cancel(true);
+    futures.get(2).cancel(false);
+
+    assertTrue(future1.isCancelled());
+    assertFalse(future1.wasInterrupted());
+    assertTrue(future3.isCancelled());
+    assertFalse(future3.wasInterrupted());
+  }
+
+  public void testCancellingADelegatePropagates() throws Exception {
+    SettableFuture<Long> future1 = SettableFuture.create();
+    SettableFuture<Long> future2 = SettableFuture.create();
+    SettableFuture<Long> future3 = SettableFuture.create();
 
     ImmutableList<ListenableFuture<Long>> delegates = inCompletionOrder(
-        ImmutableList.<ListenableFuture<Long>>of(future1, future2));
+        ImmutableList.<ListenableFuture<Long>>of(future1, future2, future3));
 
     future1.set(1L);
     // Cannot cancel a complete delegate
@@ -3423,6 +3444,50 @@ public class FuturesTest extends TestCase {
     assertTrue(future2.set(2L));
     // Second check to ensure the input future was not cancelled
     assertEquals((Long) 2L, getDone(future2));
+
+    // All futures are now complete; outstanding inputs are cancelled
+    assertTrue(future3.isCancelled());
+    assertTrue(future3.wasInterrupted());
+  }
+
+  public void testCancellingAllDelegatesIsNotQuadratic() throws Exception {
+    ImmutableList.Builder<SettableFuture<Long>> builder = ImmutableList.builder();
+    for (int i = 0; i < 500_000; i++) {
+      builder.add(SettableFuture.<Long>create());
+    }
+    ImmutableList<SettableFuture<Long>> inputs = builder.build();
+    ImmutableList<ListenableFuture<Long>> delegates = inCompletionOrder(inputs);
+
+    for (ListenableFuture<?> delegate : delegates) {
+      delegate.cancel(true);
+    }
+
+    for (ListenableFuture<?> input : inputs) {
+      assertTrue(input.isDone());
+    }
+  }
+
+  @GwtIncompatible
+  public void testInputGCedIfUnreferenced() throws Exception {
+    SettableFuture<Long> future1 = SettableFuture.create();
+    SettableFuture<Long> future2 = SettableFuture.create();
+    WeakReference<SettableFuture<Long>> future1Ref = new WeakReference<>(future1);
+    WeakReference<SettableFuture<Long>> future2Ref = new WeakReference<>(future2);
+
+    ImmutableList<ListenableFuture<Long>> delegates = inCompletionOrder(
+        ImmutableList.<ListenableFuture<Long>>of(future1, future2));
+
+    future1.set(1L);
+
+    future1 = null;
+    // First future is complete, should be unreferenced
+    GcFinalization.awaitClear(future1Ref);
+    ListenableFuture<Long> outputFuture1 = delegates.get(0);
+    delegates = null;
+    future2 = null;
+    // No references to list or other output future, second future should be unreferenced
+    GcFinalization.awaitClear(future2Ref);
+    outputFuture1.get();
   }
 
   // Mostly an example of how it would look like to use a list of mixed types

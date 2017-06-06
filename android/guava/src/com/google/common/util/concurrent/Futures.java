@@ -35,6 +35,7 @@ import com.google.common.util.concurrent.ImmediateFuture.ImmediateFailedFuture;
 import com.google.common.util.concurrent.ImmediateFuture.ImmediateSuccessfulCheckedFuture;
 import com.google.common.util.concurrent.ImmediateFuture.ImmediateSuccessfulFuture;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
@@ -1056,38 +1057,42 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * the output future list. (Such races are impossible to solve without global synchronization of
    * all future completions. And they should have little practical impact.)
    *
-   * <p>Cancelling a delegate future has no effect on any input future, since the delegate future
-   * does not correspond to a specific input future until the appropriate number of input futures
-   * have completed. At that point, it is too late to cancel the input future. The input future's
-   * result, which cannot be stored into the cancelled delegate future, is ignored.
+   * <p>Cancelling a delegate future propagates to input futures once all the delegates complete,
+   * either from cancellation or because an input future has completed. If N futures are passed in,
+   * and M delegates are cancelled, the remaining M input futures will be cancelled once N - M of
+   * the input futures complete. If all the delegates are cancelled, all the input futures will be
+   * too.
    *
    * @since 17.0
    */
   @Beta
   public static <T> ImmutableList<ListenableFuture<T>> inCompletionOrder(
       Iterable<? extends ListenableFuture<? extends T>> futures) {
-    ImmutableList<ListenableFuture<? extends T>> copy = ImmutableList.copyOf(futures);
-    ImmutableList.Builder<SettableFuture<T>> delegatesBuilder = ImmutableList.builder();
-    for (int i = 0; i < copy.size(); i++) {
-      delegatesBuilder.add(SettableFuture.<T>create());
+    // Can't use Iterables.toArray because it's not gwt compatible
+    final Collection<ListenableFuture<? extends T>> collection;
+    if (futures instanceof Collection) {
+      collection = (Collection<ListenableFuture<? extends T>>) futures;
+    } else {
+      collection = ImmutableList.copyOf(futures);
     }
-    final ImmutableList<SettableFuture<T>> delegates = delegatesBuilder.build();
+    @SuppressWarnings("unchecked")
+    ListenableFuture<? extends T>[] copy =
+        (ListenableFuture<? extends T>[])
+            collection.toArray(new ListenableFuture[collection.size()]);
+    final InCompletionOrderState<T> state = new InCompletionOrderState<>(copy);
+    ImmutableList.Builder<AbstractFuture<T>> delegatesBuilder = ImmutableList.builder();
+    for (int i = 0; i < copy.length; i++) {
+      delegatesBuilder.add(new InCompletionOrderFuture<T>(state));
+    }
 
-    final AtomicInteger delegateIndex = new AtomicInteger();
-    for (final ListenableFuture<? extends T> future : copy) {
-      future.addListener(
+    final ImmutableList<AbstractFuture<T>> delegates = delegatesBuilder.build();
+    for (int i = 0; i < copy.length; i++) {
+      final int localI = i;
+      copy[i].addListener(
           new Runnable() {
             @Override
             public void run() {
-              for (int i = delegateIndex.get(); i < delegates.size(); i++) {
-                if (delegates.get(i).setFuture(future)) {
-                  // this is technically unnecessary, but should speed up later accesses
-                  delegateIndex.set(i + 1);
-                  return;
-                }
-              }
-              // if we get here it means that one of the output futures was cancelled
-              // nothing we can do
+              state.recordInputCompletion(delegates, localI);
             }
           },
           directExecutor());
@@ -1096,6 +1101,87 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     @SuppressWarnings("unchecked")
     ImmutableList<ListenableFuture<T>> delegatesCast = (ImmutableList) delegates;
     return delegatesCast;
+  }
+
+  // This can't be a TrustedFuture, because TrustedFuture has clever optimizations that
+  // mean cancel won't be called if this Future is passed into setFuture, and then
+  // cancelled.
+  private static final class InCompletionOrderFuture<T> extends AbstractFuture<T> {
+    private InCompletionOrderState<T> state;
+
+    private InCompletionOrderFuture(InCompletionOrderState<T> state) {
+      this.state = state;
+    }
+
+    @Override
+    public boolean cancel(boolean interruptIfRunning) {
+      InCompletionOrderState<T> localState = state;
+      if (super.cancel(interruptIfRunning)) {
+        localState.recordOutputCancellation(interruptIfRunning);
+        return true;
+      }
+      return false;
+    }
+
+    @Override
+    public void afterDone() {
+      state = null;
+    }
+  }
+
+  private static final class InCompletionOrderState<T> {
+    // A happens-before edge between the writes of these fields and their reads exists, because
+    // in order to read these fields, the corresponding write to incompleteOutputCount must have
+    // been read.
+    private boolean wasCancelled = false;
+    private boolean shouldInterrupt = true;
+    private final AtomicInteger incompleteOutputCount;
+    private final ListenableFuture<? extends T>[] inputFutures;
+    private volatile int delegateIndex = 0;
+
+    private InCompletionOrderState(ListenableFuture<? extends T>[] inputFutures) {
+      this.inputFutures = inputFutures;
+      incompleteOutputCount = new AtomicInteger(inputFutures.length);
+    }
+
+    private void recordOutputCancellation(boolean interruptIfRunning) {
+      wasCancelled = true;
+      // If all the futures were cancelled with interruption, cancel the input futures
+      // with interruption; otherwise cancel without
+      if (!interruptIfRunning) {
+        shouldInterrupt = false;
+      }
+      recordCompletion();
+    }
+
+    private void recordInputCompletion(
+        ImmutableList<AbstractFuture<T>> delegates, int inputFutureIndex) {
+      ListenableFuture<? extends T> inputFuture = inputFutures[inputFutureIndex];
+      // Null out our reference to this future, so it can be GCed
+      inputFutures[inputFutureIndex] = null;
+      for (int i = delegateIndex; i < delegates.size(); i++) {
+        if (delegates.get(i).setFuture(inputFuture)) {
+          recordCompletion();
+          // this is technically unnecessary, but should speed up later accesses
+          delegateIndex = i + 1;
+          return;
+        }
+      }
+      // If all the delegates were complete, no reason for the next listener to have to
+      // go through the whole list. Avoids O(n^2) behavior when the entire output list is
+      // cancelled.
+      delegateIndex = delegates.size();
+    }
+
+    private void recordCompletion() {
+      if (incompleteOutputCount.decrementAndGet() == 0 && wasCancelled) {
+        for (ListenableFuture<?> toCancel : inputFutures) {
+          if (toCancel != null) {
+            toCancel.cancel(shouldInterrupt);
+          }
+        }
+      }
+    }
   }
 
   /**

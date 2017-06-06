@@ -38,9 +38,13 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
 
   abstract static class TrustedFuture<V> extends AbstractFuture<V> {
     /*
-     * We don't need to override any of methods that we override in the prod version (and in fact we
-     * can't) because they are already final in AbstractFuture itself under GWT.
+     * We don't need to override most of methods that we override in the prod version (and in fact
+     * we can't) because they are already final in AbstractFuture itself under GWT.
      */
+    @Override
+    public final boolean cancel(boolean mayInterruptIfRunning) {
+      return super.cancel(mayInterruptIfRunning);
+    }
   }
 
   private static final Logger log = Logger.getLogger(AbstractFuture.class.getName());
@@ -58,7 +62,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
   }
 
   @Override
-  public final boolean cancel(boolean mayInterruptIfRunning) {
+  public boolean cancel(boolean mayInterruptIfRunning) {
     if (!state.permitsPublicUserToTransitionTo(State.CANCELLED)) {
       return false;
     }
