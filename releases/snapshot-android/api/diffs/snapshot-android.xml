@@ -38957,6 +38957,12 @@
       <param name="off" type="int"/>
       <param name="len" type="int"/>
     </method>
+    <method name="putBytes" return="com.google.common.hash.Hasher"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="bytes" type="java.nio.ByteBuffer"/>
+    </method>
     <method name="putShort" return="com.google.common.hash.Hasher"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -39183,6 +39189,18 @@
 
  @throws IndexOutOfBoundsException if {@code off < 0} or {@code off + len > bytes.length} or
      {@code len < 0}]]>
+      </doc>
+    </method>
+    <method name="hashBytes" return="com.google.common.hash.HashCode"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="input" type="java.nio.ByteBuffer"/>
+      <doc>
+      <![CDATA[Shortcut for {@code newHasher().putBytes(input).hash()}. The implementation <i>might</i>
+ perform better than its longhand equivalent, but should not perform worse.
+
+ @since 23.0]]>
       </doc>
     </method>
     <method name="hashUnencodedChars" return="com.google.common.hash.HashCode"
@@ -40051,6 +40069,21 @@
  @return this instance
  @throws IndexOutOfBoundsException if {@code off < 0} or {@code off + len > bytes.length} or
      {@code len < 0}]]>
+      </doc>
+    </method>
+    <method name="putBytes" return="com.google.common.hash.PrimitiveSink"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="bytes" type="java.nio.ByteBuffer"/>
+      <doc>
+      <![CDATA[Puts the remaining bytes of a byte buffer into this sink. {@code bytes.position()} is the first
+ byte written, {@code bytes.limit() - 1} is the last. The position of the buffer will be equal
+ to the limit when this method returns.
+
+ @param bytes a byte buffer
+ @return this instance
+ @since 23.0]]>
       </doc>
     </method>
     <method name="putShort" return="com.google.common.hash.PrimitiveSink"
@@ -60793,10 +60826,11 @@
  the output future list. (Such races are impossible to solve without global synchronization of
  all future completions. And they should have little practical impact.)
 
- <p>Cancelling a delegate future has no effect on any input future, since the delegate future
- does not correspond to a specific input future until the appropriate number of input futures
- have completed. At that point, it is too late to cancel the input future. The input future's
- result, which cannot be stored into the cancelled delegate future, is ignored.
+ <p>Cancelling a delegate future propagates to input futures once all the delegates complete,
+ either from cancellation or because an input future has completed. If N futures are passed in,
+ and M delegates are cancelled, the remaining M input futures will be cancelled once N - M of
+ the input futures complete. If all the delegates are cancelled, all the input futures will be
+ too.
 
  @since 17.0]]>
       </doc>
