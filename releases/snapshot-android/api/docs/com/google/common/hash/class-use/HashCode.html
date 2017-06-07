@@ -183,39 +183,33 @@
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a></code></td>
-<td class="colLast"><span class="typeNameLabel">HashFunction.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/hash/HashFunction.html#hashBytes-java.nio.ByteBuffer-">hashBytes</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;input)</code>
-<div class="block">Shortcut for <code>newHasher().putBytes(input).hash()</code>.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code><a href="../../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a></code></td>
 <td class="colLast"><span class="typeNameLabel">HashFunction.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/hash/HashFunction.html#hashInt-int-">hashInt</a></span>(int&nbsp;input)</code>
 <div class="block">Shortcut for <code>newHasher().putInt(input).hash()</code>; returns the hash code for the given
  <code>int</code> value, interpreted in little-endian byte order.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a></code></td>
 <td class="colLast"><span class="typeNameLabel">HashFunction.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/hash/HashFunction.html#hashLong-long-">hashLong</a></span>(long&nbsp;input)</code>
 <div class="block">Shortcut for <code>newHasher().putLong(input).hash()</code>; returns the hash code for the given
  <code>long</code> value, interpreted in little-endian byte order.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="../../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a></code></td>
 <td class="colLast"><span class="typeNameLabel">HashFunction.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/hash/HashFunction.html#hashObject-T-com.google.common.hash.Funnel-">hashObject</a></span>(T&nbsp;instance,
           <a href="../../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</code>
 <div class="block">Shortcut for <code>newHasher().putObject(instance, funnel).hash()</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a></code></td>
 <td class="colLast"><span class="typeNameLabel">HashFunction.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/hash/HashFunction.html#hashString-java.lang.CharSequence-java.nio.charset.Charset-">hashString</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;input,
           <a href="http://docs.oracle.com/javase/7/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset">Charset</a>&nbsp;charset)</code>
 <div class="block">Shortcut for <code>newHasher().putString(input, charset).hash()</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a></code></td>
 <td class="colLast"><span class="typeNameLabel">HashFunction.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/hash/HashFunction.html#hashUnencodedChars-java.lang.CharSequence-">hashUnencodedChars</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;input)</code>
 <div class="block">Shortcut for <code>newHasher().putUnencodedChars(input).hash()</code>.</div>
