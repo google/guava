@@ -19,6 +19,7 @@ import static java.util.concurrent.atomic.AtomicIntegerFieldUpdater.newUpdater;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.j2objc.annotations.ReflectionSupport;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
@@ -34,6 +35,7 @@ import java.util.logging.Logger;
  * </ul>
  */
 @GwtCompatible(emulated = true)
+@ReflectionSupport(value = ReflectionSupport.Level.FULL)
 abstract class AggregateFutureState {
   // Lazily initialized the first time we see an exception; not released until all the input futures
   // & this future completes. Released when the future releases the reference to the running state

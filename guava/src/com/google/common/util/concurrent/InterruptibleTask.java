@@ -17,11 +17,13 @@ package com.google.common.util.concurrent;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.j2objc.annotations.ReflectionSupport;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @GwtCompatible(emulated = true)
+@ReflectionSupport(value = ReflectionSupport.Level.FULL)
 abstract class InterruptibleTask implements Runnable {
   // These two fields are used to interrupt running tasks. The thread executing the task publishes
   // itself to the 'runner' field and the thread interrupting sets 'doneInterrupting' when it has

@@ -19,6 +19,7 @@ import static java.lang.Double.longBitsToDouble;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.j2objc.annotations.ReflectionSupport;
 import java.util.concurrent.atomic.AtomicLongFieldUpdater;
 
 /**
@@ -53,6 +54,7 @@ import java.util.concurrent.atomic.AtomicLongFieldUpdater;
  * @since 11.0
  */
 @GwtIncompatible
+@ReflectionSupport(value = ReflectionSupport.Level.FULL)
 public class AtomicDouble extends Number implements java.io.Serializable {
   private static final long serialVersionUID = 0L;
 
