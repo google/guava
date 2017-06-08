@@ -22,6 +22,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableSet.Builder;
+import com.google.common.collect.testing.AnEnum;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -267,6 +268,15 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     TypeWithDuplicates c = new TypeWithDuplicates(3, 1);
     CollectorTester.of(collector, equivalence)
         .expectCollects(ImmutableSet.of(a, b1, c), a, b1, c, b2);
+  }
+
+  public void testToImmutableEnumSet() {
+    Collector<AnEnum, ?, ImmutableSet<AnEnum>> collector = ImmutableSet.toImmutableEnumSet();
+    Equivalence<ImmutableSet<AnEnum>> equivalence =
+        Equivalence.equals().onResultOf(ImmutableSet::asList);
+    CollectorTester.of(collector, equivalence)
+        .expectCollects(ImmutableSet.of(AnEnum.A, AnEnum.B, AnEnum.C, AnEnum.D),
+            AnEnum.A, AnEnum.B, AnEnum.A, AnEnum.C, AnEnum.B, AnEnum.B, AnEnum.D);
   }
 
   @GwtIncompatible // GWT is single threaded

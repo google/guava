@@ -104,6 +104,34 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   /**
+   * Convenient method for {@code toImmutableMap} that works specifically for enum types.
+   */
+  public static <T, K extends Enum<K>, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
+      Function<? super T, K> keyFunction,
+      Function<? super T, ? extends V> valueFunction) {
+    checkNotNull(keyFunction);
+    checkNotNull(valueFunction);
+    return Collectors.collectingAndThen(
+        toImmutableMap(keyFunction, valueFunction),
+        Maps::immutableEnumMap);
+  }
+
+  /**
+   * Convenient method for {@code toImmutableMap} that works specifically for enum types.
+   */
+  public static <T, K extends Enum<K>, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
+      Function<? super T, K> keyFunction,
+      Function<? super T, ? extends V> valueFunction,
+      BinaryOperator<V> mergeFunction) {
+    checkNotNull(keyFunction);
+    checkNotNull(valueFunction);
+    checkNotNull(mergeFunction);
+    return Collectors.collectingAndThen(
+        Collectors.toMap(keyFunction, valueFunction, mergeFunction, LinkedHashMap::new),
+        Maps::immutableEnumMap);
+  }
+
+  /**
    * Returns the empty map. This map behaves and performs comparably to
    * {@link Collections#emptyMap}, and is preferable mainly for consistency
    * and maintainability of your code.
