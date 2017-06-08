@@ -43,6 +43,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+import java.util.PrimitiveIterator;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import javax.annotation.Nullable;
@@ -1441,5 +1442,39 @@ public final class Iterators {
    */
   static <T> ListIterator<T> cast(Iterator<T> iterator) {
     return (ListIterator<T>) iterator;
+  }
+  
+  
+  /**
+   * Converts an Integer iterator into a corresponding primitive iterator
+   * @param iterator iterator to convert
+   * @return converted iterator
+   */
+  public static PrimitiveIterator.OfInt toIntIterator(Iterator<Integer> iterator) {
+	  checkNotNull(iterator);
+	  List<Integer> list = Lists.newArrayList(iterator);
+	  return list.stream().mapToInt(n-> n).iterator();
+  }
+  
+  /**
+   * Converts a Long iterator into a corresponding primitive iterator
+   * @param iterator iterator to convert
+   * @return converted iterator
+   */
+  public static PrimitiveIterator.OfLong toLongIterator(Iterator<Long> iterator) {
+	  checkNotNull(iterator);
+	  List<Long> list = Lists.newArrayList(iterator);
+	  return list.stream().mapToLong(n-> n).iterator();
+  }
+  
+  /**
+   * Converts a Double iterator into a corresponding primitive iterator
+   * @param iterator iterator to convert
+   * @return converted iterator
+   */
+  public static PrimitiveIterator.OfDouble toDoubleIterator(Iterator<Double> iterator) {
+	  checkNotNull(iterator);
+	  List<Double> list = Lists.newArrayList(iterator);
+	  return list.stream().mapToDouble(n-> n).iterator();
   }
 }
