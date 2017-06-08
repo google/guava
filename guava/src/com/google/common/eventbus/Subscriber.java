@@ -43,6 +43,15 @@ class Subscriber {
         : new SynchronizedSubscriber(bus, listener, method);
   }
 
+  /**
+   * Creates a {@code Subscriber} for {@code method} on {@code listener}.
+   */
+  static Subscriber create(EventBus bus, Object listener, Method method, Executor executor) {
+    return isDeclaredThreadSafe(method)
+            ? new Subscriber(bus, listener, method, executor)
+            : new SynchronizedSubscriber(bus, listener, method, executor);
+  }
+
   /** The event bus this subscriber belongs to. */
   @Weak private EventBus bus;
 
@@ -62,6 +71,15 @@ class Subscriber {
     method.setAccessible(true);
 
     this.executor = bus.executor();
+  }
+
+  private Subscriber(EventBus bus, Object target, Method method, Executor executor) {
+    this.bus = bus;
+    this.target = checkNotNull(target);
+    this.method = method;
+    method.setAccessible(true);
+
+    this.executor = checkNotNull(executor);
   }
 
   /**
@@ -142,6 +160,10 @@ class Subscriber {
 
     private SynchronizedSubscriber(EventBus bus, Object target, Method method) {
       super(bus, target, method);
+    }
+
+    private SynchronizedSubscriber(EventBus bus, Object target, Method method, Executor executor) {
+      super(bus, target, method, executor);
     }
 
     @Override
