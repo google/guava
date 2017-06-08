@@ -16,6 +16,7 @@ package com.google.common.hash;
 
 import com.google.common.annotations.Beta;
 import com.google.common.primitives.Ints;
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
 /**
@@ -171,6 +172,14 @@ public interface HashFunction {
    *     {@code len < 0}
    */
   HashCode hashBytes(byte[] input, int off, int len);
+
+  /**
+   * Shortcut for {@code newHasher().putBytes(input).hash()}. The implementation <i>might</i>
+   * perform better than its longhand equivalent, but should not perform worse.
+   *
+   * @since 23.0
+   */
+  HashCode hashBytes(ByteBuffer input);
 
   /**
    * Shortcut for {@code newHasher().putUnencodedChars(input).hash()}. The implementation

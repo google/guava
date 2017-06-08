@@ -19,6 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
+import java.util.Arrays;
 
 /**
  * Skeleton implementation of {@link HashFunction}, appropriate for non-streaming algorithms. All
@@ -67,6 +68,11 @@ abstract class AbstractNonStreamingHashFunction extends AbstractHashFunction {
   @Override
   public abstract HashCode hashBytes(byte[] input, int off, int len);
 
+  @Override
+  public HashCode hashBytes(ByteBuffer input) {
+    return newHasher(input.remaining()).putBytes(input).hash();
+  }
+
   /** In-memory stream-based implementation of Hasher. */
   private final class BufferingHasher extends AbstractHasher {
     final ExposedByteArrayOutputStream stream;
@@ -88,6 +94,12 @@ abstract class AbstractNonStreamingHashFunction extends AbstractHashFunction {
     }
 
     @Override
+    public Hasher putBytes(ByteBuffer bytes) {
+      stream.write(bytes);
+      return this;
+    }
+
+    @Override
     public HashCode hash() {
       return hashBytes(stream.byteArray(), 0, stream.length());
     }
@@ -97,6 +109,15 @@ abstract class AbstractNonStreamingHashFunction extends AbstractHashFunction {
   private static final class ExposedByteArrayOutputStream extends ByteArrayOutputStream {
     ExposedByteArrayOutputStream(int expectedInputSize) {
       super(expectedInputSize);
+    }
+
+    void write(ByteBuffer input) {
+      int remaining = input.remaining();
+      if (count + remaining > buf.length) {
+        buf = Arrays.copyOf(buf, count + remaining);
+      }
+      input.get(buf, count, remaining);
+      count += remaining;
     }
 
     byte[] byteArray() {

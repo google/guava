@@ -56,6 +56,18 @@ abstract class AbstractByteHasher extends AbstractHasher {
     }
   }
 
+  /** Updates this hasher with bytes from the given buffer. */
+  protected void update(ByteBuffer b) {
+    if (b.hasArray()) {
+      update(b.array(), b.arrayOffset() + b.position(), b.remaining());
+      b.position(b.limit());
+    } else {
+      for (int remaining = b.remaining(); remaining > 0; remaining--) {
+        update(b.get());
+      }
+    }
+  }
+
   @Override
   public Hasher putByte(byte b) {
     update(b);
@@ -73,6 +85,12 @@ abstract class AbstractByteHasher extends AbstractHasher {
   public Hasher putBytes(byte[] bytes, int off, int len) {
     checkPositionIndexes(off, off + len, bytes.length);
     update(bytes, off, len);
+    return this;
+  }
+
+  @Override
+  public Hasher putBytes(ByteBuffer bytes) {
+    update(bytes);
     return this;
   }
 
