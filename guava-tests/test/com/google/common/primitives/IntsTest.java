@@ -497,6 +497,17 @@ public class IntsTest extends TestCase {
     assertNull("Min long", Ints.tryParse(Long.toString(Long.MIN_VALUE)));
     assertNull(Ints.tryParse("\u0662\u06f3"));
   }
+  
+  public void testTryParseNonAscii(){
+      char devanagari_digit_one = 0x0967;
+      char bengali_digit_two = 0x09e8;
+      String d1 = "" + devanagari_digit_one;
+      String b2 = "" + bengali_digit_two;
+      String db12 = d1 + b2;
+      assertFalse(new Integer(1).equals(Ints.tryParse(d1)));
+      assertFalse(new Integer(2).equals(Ints.tryParse(b2)));
+      assertFalse(new Integer(12).equals(Ints.tryParse(db12)));
+  }
 
   /**
    * Applies {@link Ints#tryParse(String)} to the given string and asserts that

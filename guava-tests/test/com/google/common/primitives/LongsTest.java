@@ -482,6 +482,17 @@ public class LongsTest extends TestCase {
         Longs.tryParse(BigInteger.valueOf(MIN_VALUE).multiply(BigInteger.TEN).toString()));
     assertNull(Longs.tryParse("\u0662\u06f3"));
   }
+  
+  public void testTryParseNonAscii(){
+      char devanagari_digit_one = 0x0967;
+      char bengali_digit_two = 0x09e8;
+      String d1 = "" + devanagari_digit_one;
+      String b2 = "" + bengali_digit_two;
+      String db12 = d1 + b2;
+      assertFalse(new Long(1).equals(Longs.tryParse(d1)));
+      assertFalse(new Long(2).equals(Longs.tryParse(b2)));
+      assertFalse(new Long(12).equals(Longs.tryParse(db12)));
+  }
 
   /**
    * Applies {@link Longs#tryParse(String)} to the given string and asserts that
