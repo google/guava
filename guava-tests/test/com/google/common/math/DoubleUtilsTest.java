@@ -22,7 +22,6 @@ import static com.google.common.math.MathTesting.POSITIVE_FINITE_DOUBLE_CANDIDAT
 
 import java.math.BigInteger;
 import junit.framework.TestCase;
-import sun.misc.FpUtils;
 
 /**
  * Tests for {@link DoubleUtils}.
@@ -33,7 +32,7 @@ public class DoubleUtilsTest extends TestCase {
   @AndroidIncompatible // no FpUtils
   public void testNextDown() {
     for (double d : FINITE_DOUBLE_CANDIDATES) {
-      assertEquals(FpUtils.nextDown(d), DoubleUtils.nextDown(d));
+      assertEquals(Math.nextDown(d), DoubleUtils.nextDown(d));
     }
   }
 
