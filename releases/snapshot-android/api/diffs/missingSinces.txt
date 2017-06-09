@@ -2,3 +2,6 @@ OK: com.google.common.util.concurrent.FluentFuture Class
 OK: com.google.common.graph.PredecessorsFunction Interface
 OK: com.google.common.graph.SuccessorsFunction Interface
 OK: com.google.common.collect.Sets Method combinations(java.util.Set<E>, int)
+OK: com.google.common.hash.HashFunction Method hashBytes(java.nio.ByteBuffer)
+NO DOC BLOCK: com.google.common.hash.Hasher Method putBytes(java.nio.ByteBuffer)
+OK: com.google.common.hash.PrimitiveSink Method putBytes(java.nio.ByteBuffer)

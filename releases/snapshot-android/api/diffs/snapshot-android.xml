@@ -38957,6 +38957,12 @@
       <param name="off" type="int"/>
       <param name="len" type="int"/>
     </method>
+    <method name="putBytes" return="com.google.common.hash.Hasher"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="bytes" type="java.nio.ByteBuffer"/>
+    </method>
     <method name="putShort" return="com.google.common.hash.Hasher"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -39183,6 +39189,18 @@
 
  @throws IndexOutOfBoundsException if {@code off < 0} or {@code off + len > bytes.length} or
      {@code len < 0}]]>
+      </doc>
+    </method>
+    <method name="hashBytes" return="com.google.common.hash.HashCode"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="input" type="java.nio.ByteBuffer"/>
+      <doc>
+      <![CDATA[Shortcut for {@code newHasher().putBytes(input).hash()}. The implementation <i>might</i>
+ perform better than its longhand equivalent, but should not perform worse.
+
+ @since 23.0]]>
       </doc>
     </method>
     <method name="hashUnencodedChars" return="com.google.common.hash.HashCode"
@@ -40051,6 +40069,21 @@
  @return this instance
  @throws IndexOutOfBoundsException if {@code off < 0} or {@code off + len > bytes.length} or
      {@code len < 0}]]>
+      </doc>
+    </method>
+    <method name="putBytes" return="com.google.common.hash.PrimitiveSink"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="bytes" type="java.nio.ByteBuffer"/>
+      <doc>
+      <![CDATA[Puts the remaining bytes of a byte buffer into this sink. {@code bytes.position()} is the first
+ byte written, {@code bytes.limit() - 1} is the last. The position of the buffer will be equal
+ to the limit when this method returns.
+
+ @param bytes a byte buffer
+ @return this instance
+ @since 23.0]]>
       </doc>
     </method>
     <method name="putShort" return="com.google.common.hash.PrimitiveSink"
