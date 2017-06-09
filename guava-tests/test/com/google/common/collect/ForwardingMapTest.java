@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static java.lang.reflect.Modifier.STATIC;
 import static org.mockito.Mockito.anyObject;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
@@ -327,6 +328,9 @@ public class ForwardingMapTest extends TestCase {
   private static <T> void callAllPublicMethods(Class<T> theClass, T object)
       throws InvocationTargetException {
     for (Method method : theClass.getMethods()) {
+      if ((method.getModifiers() & STATIC) != 0) {
+        continue;
+      }
       Class<?>[] parameterTypes = method.getParameterTypes();
       Object[] parameters = new Object[parameterTypes.length];
       for (int i = 0; i < parameterTypes.length; i++) {
