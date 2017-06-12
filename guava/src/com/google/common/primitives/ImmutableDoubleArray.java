@@ -21,6 +21,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -86,6 +87,7 @@ import javax.annotation.Nullable;
  */
 @Beta
 @GwtCompatible
+@Immutable
 public final class ImmutableDoubleArray implements Serializable {
   private static final ImmutableDoubleArray EMPTY = new ImmutableDoubleArray(new double[0]);
 
@@ -324,6 +326,9 @@ public final class ImmutableDoubleArray implements Serializable {
 
   // Instance stuff here
 
+  // The array is never mutated after storing in this field and the construction strategies ensure
+  // it doesn't escape this class
+  @SuppressWarnings("Immutable")
   private final double[] array;
 
   /*
