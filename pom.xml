@@ -234,7 +234,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>2.1.0</version>
+        <version>2.7.19</version>
         <scope>test</scope>
       </dependency>
       <dependency>
