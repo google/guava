@@ -28,6 +28,9 @@ import javax.annotation.Nullable;
 /**
  * This class provides a skeletal implementation of {@link BaseGraph}.
  *
+ * <p>The methods implemented in this class should not be overridden unless the subclass admits a
+ * more efficient implementation.
+ *
  * @author James Sexton
  * @param <N> Node parameter type
  */
