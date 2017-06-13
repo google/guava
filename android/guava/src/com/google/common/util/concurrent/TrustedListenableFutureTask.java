@@ -91,8 +91,12 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
   }
 
   @Override
-  public String toString() {
-    return super.toString() + " (delegate = " + task + ")";
+  protected String pendingToString() {
+    TrustedFutureInterruptibleTask localTask = task;
+    if (localTask != null) {
+      return "task=[" + localTask + "]";
+    }
+    return null;
   }
 
   @WeakOuter

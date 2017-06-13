@@ -983,25 +983,42 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     if (future.isDone()) {
       return future;
     }
-    return new NonCancellationPropagatingFuture<V>(future);
+    NonCancellationPropagatingFuture<V> output = new NonCancellationPropagatingFuture<V>(future);
+    future.addListener(output, directExecutor());
+    return output;
   }
 
-  /**
-   * A wrapped future that does not propagate cancellation to its delegate.
-   */
+  /** A wrapped future that does not propagate cancellation to its delegate. */
   private static final class NonCancellationPropagatingFuture<V>
-      extends AbstractFuture.TrustedFuture<V> {
+      extends AbstractFuture.TrustedFuture<V> implements Runnable {
+    private ListenableFuture<V> delegate;
+
     NonCancellationPropagatingFuture(final ListenableFuture<V> delegate) {
-      delegate.addListener(
-          new Runnable() {
-            @Override
-            public void run() {
-              // This prevents cancellation from propagating because we don't assign delegate until
-              // delegate is already done, so calling cancel() on it is a no-op.
-              setFuture(delegate);
-            }
-          },
-          directExecutor());
+      this.delegate = delegate;
+    }
+
+    @Override
+    public void run() {
+      // This prevents cancellation from propagating because we don't assign delegate until
+      // delegate is already done, so calling cancel() on it is a no-op.
+      ListenableFuture<V> localDelegate = delegate;
+      if (localDelegate != null) {
+        setFuture(localDelegate);
+      }
+    }
+
+    @Override
+    protected String pendingToString() {
+      ListenableFuture<V> localDelegate = delegate;
+      if (localDelegate != null) {
+        return "delegate=[" + localDelegate + "]";
+      }
+      return null;
+    }
+
+    @Override
+    protected void afterDone() {
+      delegate = null;
     }
   }
 
@@ -1126,6 +1143,21 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     @Override
     public void afterDone() {
       state = null;
+    }
+
+    @Override
+    protected String pendingToString() {
+      InCompletionOrderState<T> localState = state;
+      if (localState != null) {
+        // Don't print the actual array! We don't want inCompletionOrder(list).toString() to have
+        // quadratic output.
+        return "inputCount=["
+            + localState.inputFutures.length
+            + "], remaining=["
+            + localState.incompleteOutputCount.get()
+            + "]";
+      }
+      return null;
     }
   }
 

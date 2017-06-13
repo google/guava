@@ -193,6 +193,16 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
     this.function = null;
   }
 
+  @Override
+  protected String pendingToString() {
+    ListenableFuture<? extends I> localInputFuture = inputFuture;
+    F localFunction = function;
+    if (localInputFuture != null && localFunction != null) {
+      return "inputFuture=[" + localInputFuture + "], function=[" + localFunction + "]";
+    }
+    return null;
+  }
+
   /**
    * An {@link AbstractTransformFuture} that delegates to an {@link AsyncFunction} and
    * {@link #setFuture(ListenableFuture)}.

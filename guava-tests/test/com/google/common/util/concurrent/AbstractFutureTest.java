@@ -198,6 +198,50 @@ public class AbstractFutureTest extends TestCase {
     poller.join();
   }
 
+  public void testToString() throws Exception {
+    // Two futures should not have the same toString, to avoid people asserting on it
+    assertThat(SettableFuture.create().toString()).isNotEqualTo(SettableFuture.create().toString());
+
+    AbstractFuture<Object> testFuture =
+        new AbstractFuture<Object>() {
+          @Override
+          public String pendingToString() {
+            return "cause=[Because this test isn't done]";
+          }
+        };
+    assertThat(testFuture.toString())
+        .contains("status=PENDING, info=[cause=[Because this test isn't done]]");
+    try {
+      testFuture.get(1, TimeUnit.NANOSECONDS);
+      fail();
+    } catch (TimeoutException e) {
+      assertThat(e.getMessage()).contains("1 nanoseconds");
+      assertThat(e.getMessage()).contains("Because this test isn't done");
+    }
+    AbstractFuture<Object> testFuture2 =
+        new AbstractFuture<Object>() {
+          @Override
+          public String pendingToString() {
+            return "cause=[Someday...]";
+          }
+        };
+    AbstractFuture<Object> testFuture3 = new AbstractFuture<Object>() {};
+    testFuture3.setFuture(testFuture2);
+    assertThat(testFuture3.toString()).contains("status=PENDING, info=[setFuture=[");
+    assertThat(testFuture3.toString()).contains("Someday...");
+    testFuture2.set("result string");
+    assertThat(testFuture3.toString()).contains("status=SUCCESS, result=[result string]");
+
+    assertThat(
+            new AbstractFuture<Object>() {
+              @Override
+              public String pendingToString() {
+                throw new RuntimeException("I'm a misbehaving implementation");
+              }
+            }.toString())
+        .contains("PENDING");
+  }
+
   public void testCompletionFinishesWithDone() {
     ExecutorService executor = Executors.newFixedThreadPool(10);
     for (int i = 0; i < 50000; i++) {

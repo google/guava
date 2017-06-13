@@ -126,6 +126,15 @@ final class TimeoutFuture<V> extends AbstractFuture.TrustedFuture<V> {
   }
 
   @Override
+  protected String pendingToString() {
+    ListenableFuture<? extends V> localInputFuture = delegateRef;
+    if (localInputFuture != null) {
+      return "inputFuture=[" + localInputFuture + "]";
+    }
+    return null;
+  }
+
+  @Override
   protected void afterDone() {
     maybePropagateCancellation(delegateRef);
 
