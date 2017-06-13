@@ -120,7 +120,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * maintainability of your code.
    */
   public static <K, V> ImmutableMap<K, V> of(K k1, V v1) {
-    return RegularImmutableMap.fromEntries(entryOf(k1, v1));
+    return ImmutableBiMap.of(k1, v1);
   }
 
   /**
@@ -354,7 +354,14 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
             Ordering.from(valueComparator).onResultOf(Maps.<V>valueFunction()));
       }
       entriesUsed = size == entries.length;
-      return RegularImmutableMap.fromEntryArray(size, entries);
+      switch (size) {
+        case 0:
+          return of();
+        case 1:
+          return of(entries[0].getKey(), entries[0].getValue());
+        default:
+          return RegularImmutableMap.fromEntryArray(size, entries);
+      }
     }
   }
 
