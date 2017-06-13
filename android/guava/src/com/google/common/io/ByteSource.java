@@ -122,9 +122,9 @@ public abstract class ByteSource {
   }
 
   /**
-   * Returns whether the source has zero bytes. The default implementation returns true if
-   * {@link #sizeIfKnown} returns zero, falling back to opening a stream and checking for EOF if the
-   * size is not known.
+   * Returns whether the source has zero bytes. The default implementation first checks
+   * {@link #sizeIfKnown}, returning true if it's known to be zero and false if it's known to be
+   * non-zero. If the size is not known, it falls back to opening a stream and checking for EOF.
    *
    * <p>Note that, in cases where {@code sizeIfKnown} returns zero, it is <i>possible</i> that bytes
    * are actually available for reading. (For example, some special files may return a size of 0
@@ -136,8 +136,8 @@ public abstract class ByteSource {
    */
   public boolean isEmpty() throws IOException {
     Optional<Long> sizeIfKnown = sizeIfKnown();
-    if (sizeIfKnown.isPresent() && sizeIfKnown.get() == 0L) {
-      return true;
+    if (sizeIfKnown.isPresent()) {
+      return sizeIfKnown.get() == 0L;
     }
     Closer closer = Closer.create();
     try {

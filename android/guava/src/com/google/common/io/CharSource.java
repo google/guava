@@ -320,9 +320,9 @@ public abstract class CharSource {
   }
 
   /**
-   * Returns whether the source has zero chars. The default implementation returns true if
-   * {@link #lengthIfKnown} returns zero, falling back to opening a stream and checking for EOF if
-   * the length is not known.
+   * Returns whether the source has zero chars. The default implementation first checks
+   * {@link #lengthIfKnown}, returning true if it's known to be zero and false if it's known to be
+   * non-zero. If the length is not known, it falls back to opening a stream and checking for EOF.
    *
    * <p>Note that, in cases where {@code lengthIfKnown} returns zero, it is <i>possible</i> that
    * chars are actually available for reading. This means that a source may return {@code true} from
@@ -333,8 +333,8 @@ public abstract class CharSource {
    */
   public boolean isEmpty() throws IOException {
     Optional<Long> lengthIfKnown = lengthIfKnown();
-    if (lengthIfKnown.isPresent() && lengthIfKnown.get() == 0L) {
-      return true;
+    if (lengthIfKnown.isPresent()) {
+      return lengthIfKnown.get() == 0L;
     }
     Closer closer = Closer.create();
     try {
