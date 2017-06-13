@@ -130,9 +130,9 @@
 <span class="sourceLineNo">122</span>  }<a name="line.122"></a>
 <span class="sourceLineNo">123</span><a name="line.123"></a>
 <span class="sourceLineNo">124</span>  /**<a name="line.124"></a>
-<span class="sourceLineNo">125</span>   * Returns whether the source has zero bytes. The default implementation returns true if<a name="line.125"></a>
-<span class="sourceLineNo">126</span>   * {@link #sizeIfKnown} returns zero, falling back to opening a stream and checking for EOF if the<a name="line.126"></a>
-<span class="sourceLineNo">127</span>   * size is not known.<a name="line.127"></a>
+<span class="sourceLineNo">125</span>   * Returns whether the source has zero bytes. The default implementation first checks<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   * {@link #sizeIfKnown}, returning true if it's known to be zero and false if it's known to be<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   * non-zero. If the size is not known, it falls back to opening a stream and checking for EOF.<a name="line.127"></a>
 <span class="sourceLineNo">128</span>   *<a name="line.128"></a>
 <span class="sourceLineNo">129</span>   * &lt;p&gt;Note that, in cases where {@code sizeIfKnown} returns zero, it is &lt;i&gt;possible&lt;/i&gt; that bytes<a name="line.129"></a>
 <span class="sourceLineNo">130</span>   * are actually available for reading. (For example, some special files may return a size of 0<a name="line.130"></a>
@@ -144,8 +144,8 @@
 <span class="sourceLineNo">136</span>   */<a name="line.136"></a>
 <span class="sourceLineNo">137</span>  public boolean isEmpty() throws IOException {<a name="line.137"></a>
 <span class="sourceLineNo">138</span>    Optional&lt;Long&gt; sizeIfKnown = sizeIfKnown();<a name="line.138"></a>
-<span class="sourceLineNo">139</span>    if (sizeIfKnown.isPresent() &amp;&amp; sizeIfKnown.get() == 0L) {<a name="line.139"></a>
-<span class="sourceLineNo">140</span>      return true;<a name="line.140"></a>
+<span class="sourceLineNo">139</span>    if (sizeIfKnown.isPresent()) {<a name="line.139"></a>
+<span class="sourceLineNo">140</span>      return sizeIfKnown.get() == 0L;<a name="line.140"></a>
 <span class="sourceLineNo">141</span>    }<a name="line.141"></a>
 <span class="sourceLineNo">142</span>    Closer closer = Closer.create();<a name="line.142"></a>
 <span class="sourceLineNo">143</span>    try {<a name="line.143"></a>

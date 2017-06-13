@@ -395,9 +395,9 @@
 <span class="sourceLineNo">387</span>  }<a name="line.387"></a>
 <span class="sourceLineNo">388</span><a name="line.388"></a>
 <span class="sourceLineNo">389</span>  /**<a name="line.389"></a>
-<span class="sourceLineNo">390</span>   * Returns whether the source has zero chars. The default implementation returns true if<a name="line.390"></a>
-<span class="sourceLineNo">391</span>   * {@link #lengthIfKnown} returns zero, falling back to opening a stream and checking for EOF if<a name="line.391"></a>
-<span class="sourceLineNo">392</span>   * the length is not known.<a name="line.392"></a>
+<span class="sourceLineNo">390</span>   * Returns whether the source has zero chars. The default implementation first checks<a name="line.390"></a>
+<span class="sourceLineNo">391</span>   * {@link #lengthIfKnown}, returning true if it's known to be zero and false if it's known to be<a name="line.391"></a>
+<span class="sourceLineNo">392</span>   * non-zero. If the length is not known, it falls back to opening a stream and checking for EOF.<a name="line.392"></a>
 <span class="sourceLineNo">393</span>   *<a name="line.393"></a>
 <span class="sourceLineNo">394</span>   * &lt;p&gt;Note that, in cases where {@code lengthIfKnown} returns zero, it is &lt;i&gt;possible&lt;/i&gt; that<a name="line.394"></a>
 <span class="sourceLineNo">395</span>   * chars are actually available for reading. This means that a source may return {@code true} from<a name="line.395"></a>
@@ -408,8 +408,8 @@
 <span class="sourceLineNo">400</span>   */<a name="line.400"></a>
 <span class="sourceLineNo">401</span>  public boolean isEmpty() throws IOException {<a name="line.401"></a>
 <span class="sourceLineNo">402</span>    Optional&lt;Long&gt; lengthIfKnown = lengthIfKnown();<a name="line.402"></a>
-<span class="sourceLineNo">403</span>    if (lengthIfKnown.isPresent() &amp;&amp; lengthIfKnown.get() == 0L) {<a name="line.403"></a>
-<span class="sourceLineNo">404</span>      return true;<a name="line.404"></a>
+<span class="sourceLineNo">403</span>    if (lengthIfKnown.isPresent()) {<a name="line.403"></a>
+<span class="sourceLineNo">404</span>      return lengthIfKnown.get() == 0L;<a name="line.404"></a>
 <span class="sourceLineNo">405</span>    }<a name="line.405"></a>
 <span class="sourceLineNo">406</span>    Closer closer = Closer.create();<a name="line.406"></a>
 <span class="sourceLineNo">407</span>    try {<a name="line.407"></a>
