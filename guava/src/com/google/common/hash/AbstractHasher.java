@@ -16,6 +16,7 @@ package com.google.common.hash;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
 /**
@@ -64,6 +65,19 @@ abstract class AbstractHasher implements Hasher {
     Preconditions.checkPositionIndexes(off, off + len, bytes.length);
     for (int i = 0; i < len; i++) {
       putByte(bytes[off + i]);
+    }
+    return this;
+  }
+
+  @Override
+  public Hasher putBytes(ByteBuffer b) {
+    if (b.hasArray()) {
+      putBytes(b.array(), b.arrayOffset() + b.position(), b.remaining());
+      b.position(b.limit());
+    } else {
+      for (int remaining = b.remaining(); remaining > 0; remaining--) {
+        putByte(b.get());
+      }
     }
     return this;
   }
