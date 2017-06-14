@@ -619,7 +619,7 @@ final class HashTestUtils {
     int size = random.nextInt(2048);
     byte[] bytes = new byte[size];
     random.nextBytes(bytes);
-    String string = new String(bytes);
+    String string = new String(bytes, Charsets.US_ASCII);
     assertEquals(hashFunction.hashUnencodedChars(string),
         hashFunction.newHasher().putUnencodedChars(string).hash());
     for (Charset charset : CHARSETS) {

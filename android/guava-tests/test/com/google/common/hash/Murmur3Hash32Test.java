@@ -18,7 +18,9 @@ package com.google.common.hash;
 
 import static com.google.common.hash.Hashing.murmur3_32;
 
+import com.google.common.base.Charsets;
 import com.google.common.hash.HashTestUtils.HashFn;
+import java.util.Random;
 import junit.framework.TestCase;
 
 /**
@@ -51,6 +53,37 @@ public class Murmur3Hash32Test extends TestCase {
         murmur3_32().hashUnencodedChars("The quick brown fox jumps over the lazy dog"));
   }
 
+  @SuppressWarnings("deprecation")
+  public void testSimpleStringUtf8() {
+    assertEquals(
+        murmur3_32().hashBytes("ABCDefGHI\u0799".getBytes(Charsets.UTF_8)),
+        murmur3_32().hashString("ABCDefGHI\u0799", Charsets.UTF_8));
+  }
+
+  @SuppressWarnings("deprecation")
+  public void testStringInputsUtf8() {
+    Random rng = new Random(0);
+    for (int z = 0; z < 100; z++) {
+      String str;
+      int[] codePoints = new int[rng.nextInt(8)];
+      for (int i = 0; i < codePoints.length; i++) {
+        do {
+          codePoints[i] = rng.nextInt(0x800);
+        } while (!Character.isValidCodePoint(codePoints[i])
+            || (codePoints[i] >= Character.MIN_SURROGATE
+                && codePoints[i] <= Character.MAX_SURROGATE));
+      }
+      StringBuilder builder = new StringBuilder();
+      for (int i = 0; i < codePoints.length; i++) {
+        builder.appendCodePoint(codePoints[i]);
+      }
+      str = builder.toString();
+      assertEquals(
+          murmur3_32().hashBytes(str.getBytes(Charsets.UTF_8)),
+          murmur3_32().hashString(str, Charsets.UTF_8));
+    }
+  }
+
   private static void assertHash(int expected, HashCode actual) {
     assertEquals(HashCode.fromInt(expected), actual);
   }
@@ -81,5 +114,24 @@ public class Murmur3Hash32Test extends TestCase {
 
   public void testInvariants() {
     HashTestUtils.assertInvariants(murmur3_32());
+  }
+
+  @SuppressWarnings("deprecation")
+  public void testInvalidUnicodeHashString() {
+    String str =
+        new String(
+            new char[] {'a', Character.MIN_HIGH_SURROGATE, Character.MIN_HIGH_SURROGATE, 'z'});
+    assertEquals(
+        murmur3_32().hashBytes(str.getBytes(Charsets.UTF_8)),
+        murmur3_32().hashString(str, Charsets.UTF_8));
+  }
+
+  public void testInvalidUnicodeHasherPutString() {
+    String str =
+        new String(
+            new char[] {'a', Character.MIN_HIGH_SURROGATE, Character.MIN_HIGH_SURROGATE, 'z'});
+    assertEquals(
+        murmur3_32().hashBytes(str.getBytes(Charsets.UTF_8)),
+        murmur3_32().newHasher().putString(str, Charsets.UTF_8).hash());
   }
 }
