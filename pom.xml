@@ -116,7 +116,7 @@
           <configuration>
             <archive>
               <manifestEntries>
-                  <Automatic-Module-Name>com.google.guava</Automatic-Module-Name>
+                  <Automatic-Module-Name>com.google.common</Automatic-Module-Name>
               </manifestEntries>
             </archive>
             <excludes>
