@@ -159,6 +159,18 @@ public class TreeTraverserTest extends TestCase {
     assertThat(iterationOrder(ADAPTER_USING_USING.preOrderTraversal(h))).isEqualTo("hdabcegf");
   }
 
+  public void testUsingWithRelaxedChildFunction() {
+    FluentIterable<Tree> travesal = TreeTraverser.using(
+        new Function<Tree, List<? extends Tree>>() {
+          @Override
+          public List<? extends Tree> apply(Tree node) {
+            return node.children;
+          }
+        })
+        .preOrderTraversal(h);
+    assertThat(iterationOrder(travesal)).isEqualTo("hdabcegf");
+  }
+
   @GwtIncompatible // NullPointerTester
   public void testNulls() {
     NullPointerTester tester = new NullPointerTester();

@@ -78,11 +78,11 @@ public abstract class TreeTraverser<T> {
    * @since 20.0
    */
   public static <T> TreeTraverser<T> using(
-      final Function<T, ? extends Iterable<T>> nodeToChildrenFunction) {
+      final Function<T, ? extends Iterable<? extends T>> nodeToChildrenFunction) {
     checkNotNull(nodeToChildrenFunction);
     return new TreeTraverser<T>() {
       @Override
-      public Iterable<T> children(T root) {
+      public Iterable<? extends T> children(T root) {
         return nodeToChildrenFunction.apply(root);
       }
     };
@@ -91,7 +91,7 @@ public abstract class TreeTraverser<T> {
   /**
    * Returns the children of the specified node.  Must not contain null.
    */
-  public abstract Iterable<T> children(T root);
+  public abstract Iterable<? extends T> children(T root);
 
   /**
    * Returns an unmodifiable iterable over the nodes in a tree structure, using pre-order
@@ -128,10 +128,10 @@ public abstract class TreeTraverser<T> {
   }
 
   private final class PreOrderIterator extends UnmodifiableIterator<T> {
-    private final Deque<Iterator<T>> stack;
+    private final Deque<Iterator<? extends T>> stack;
 
     PreOrderIterator(T root) {
-      this.stack = new ArrayDeque<Iterator<T>>();
+      this.stack = new ArrayDeque<Iterator<? extends T>>();
       stack.addLast(Iterators.singletonIterator(checkNotNull(root)));
     }
 
@@ -142,12 +142,12 @@ public abstract class TreeTraverser<T> {
 
     @Override
     public T next() {
-      Iterator<T> itr = stack.getLast(); // throws NSEE if empty
+      Iterator<? extends T> itr = stack.getLast(); // throws NSEE if empty
       T result = checkNotNull(itr.next());
       if (!itr.hasNext()) {
         stack.removeLast();
       }
-      Iterator<T> childItr = children(result).iterator();
+      Iterator<? extends T> childItr = children(result).iterator();
       if (childItr.hasNext()) {
         stack.addLast(childItr);
       }
@@ -191,9 +191,9 @@ public abstract class TreeTraverser<T> {
 
   private static final class PostOrderNode<T> {
     final T root;
-    final Iterator<T> childIterator;
+    final Iterator<? extends T> childIterator;
 
-    PostOrderNode(T root, Iterator<T> childIterator) {
+    PostOrderNode(T root, Iterator<? extends T> childIterator) {
       this.root = checkNotNull(root);
       this.childIterator = checkNotNull(childIterator);
     }
