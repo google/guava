@@ -23,6 +23,7 @@ import static java.nio.file.Files.createDirectory;
 import static java.nio.file.Files.createFile;
 import static java.nio.file.Files.createSymbolicLink;
 import static java.nio.file.Files.createTempDirectory;
+import static java.util.logging.Level.WARNING;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
@@ -54,6 +55,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
+import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import junit.framework.TestCase;
 import org.junit.Test;
@@ -62,6 +64,7 @@ import org.junit.Test;
  * Functional tests of {@link ClassPath}.
  */
 public class ClassPathTest extends TestCase {
+  private static final Logger log = Logger.getLogger(ClassPathTest.class.getName());
 
   public void testEquals() {
     new EqualsTester()
@@ -231,7 +234,7 @@ public class ClassPathTest extends TestCase {
               new ResourceInfo("right/sibling/some.txt", loader)),
           scanner.getResources());
     } finally {
-      deleteRecursively(root);
+      deleteRecursivelyOrLog(root);
     }
   }
 
@@ -254,7 +257,7 @@ public class ClassPathTest extends TestCase {
 
       assertEquals(ImmutableSet.of(new ResourceInfo("some.txt", loader)), scanner.getResources());
     } finally {
-      deleteRecursively(root);
+      deleteRecursivelyOrLog(root);
     }
   }
 
@@ -591,5 +594,14 @@ public class ClassPathTest extends TestCase {
 
     // Special exception just to terminate the scanning when we get any jar file to use.
     private static final class StopScanningException extends RuntimeException {}
+  }
+
+  @AndroidIncompatible // Path (for symlink creation)
+  private static void deleteRecursivelyOrLog(java.nio.file.Path path) {
+    try {
+      deleteRecursively(path);
+    } catch (IOException e) {
+      log.log(WARNING, "Failure cleaning up test directory", e);
+    }
   }
 }

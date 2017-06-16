@@ -48,6 +48,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
+import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import junit.framework.TestCase;
 import org.junit.Test;
@@ -56,6 +57,7 @@ import org.junit.Test;
  * Functional tests of {@link ClassPath}.
  */
 public class ClassPathTest extends TestCase {
+  private static final Logger log = Logger.getLogger(ClassPathTest.class.getName());
 
   public void testEquals() {
     new EqualsTester()
