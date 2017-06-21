@@ -285,6 +285,21 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    */
   Set<E> edgesConnecting(N nodeU, N nodeV);
 
+  /**
+   * Returns the single edge directly connecting {@code nodeU} to {@code nodeV}, if one is present,
+   * or {@code null} if no such edge exists.
+   *
+   * <p>In an undirected network, this is equal to {@code edgeConnectingOrNull(nodeV, nodeU)}.
+   *
+   * @throws IllegalArgumentException if there are multiple parallel edges connecting {@code nodeU}
+   *     to {@code nodeV}
+   * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
+   *     network
+   * @since 23.0
+   */
+  @Nullable
+  E edgeConnectingOrNull(N nodeU, N nodeV);
+
   //
   // Network identity
   //

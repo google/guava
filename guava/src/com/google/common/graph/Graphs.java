@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
 import javax.annotation.Nullable;
@@ -488,6 +489,16 @@ public final class Graphs {
     @Override
     public Set<E> edgesConnecting(N nodeU, N nodeV) {
       return network.edgesConnecting(nodeV, nodeU); // transpose
+    }
+
+    @Override
+    public Optional<E> edgeConnecting(N nodeU, N nodeV) {
+      return network.edgeConnecting(nodeV, nodeU); // transpose
+    }
+
+    @Override
+    public E edgeConnectingOrNull(N nodeU, N nodeV) {
+      return network.edgeConnectingOrNull(nodeV, nodeU); // transpose
     }
   }
 

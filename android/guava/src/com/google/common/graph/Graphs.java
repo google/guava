@@ -489,6 +489,11 @@ public final class Graphs {
     public Set<E> edgesConnecting(N nodeU, N nodeV) {
       return network.edgesConnecting(nodeV, nodeU); // transpose
     }
+
+    @Override
+    public E edgeConnectingOrNull(N nodeU, N nodeV) {
+      return network.edgeConnectingOrNull(nodeV, nodeU); // transpose
+    }
   }
 
   // Graph copy methods

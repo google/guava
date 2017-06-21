@@ -17,6 +17,7 @@
 package com.google.common.graph;
 
 import static com.google.common.graph.GraphConstants.GRAPH_STRING_FORMAT;
+import static com.google.common.graph.GraphConstants.MULTIPLE_EDGES_CONNECTING;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
@@ -28,6 +29,7 @@ import com.google.common.math.IntMath;
 import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import javax.annotation.Nullable;
 
@@ -155,6 +157,24 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
     Set<E> endpointPairIncidentEdges =
         Sets.union(incidentEdges(endpointPair.nodeU()), incidentEdges(endpointPair.nodeV()));
     return Sets.difference(endpointPairIncidentEdges, ImmutableSet.of(edge));
+  }
+
+  @Override
+  public Optional<E> edgeConnecting(N nodeU, N nodeV) {
+    Set<E> edgesConnecting = edgesConnecting(nodeU, nodeV);
+    switch (edgesConnecting.size()) {
+      case 0:
+        return Optional.empty();
+      case 1:
+        return Optional.of(edgesConnecting.iterator().next());
+      default:
+        throw new IllegalArgumentException(String.format(MULTIPLE_EDGES_CONNECTING, nodeU, nodeV));
+    }
+  }
+
+  @Override
+  public E edgeConnectingOrNull(N nodeU, N nodeV) {
+    return edgeConnecting(nodeU, nodeV).orElse(null);
   }
 
   @Override

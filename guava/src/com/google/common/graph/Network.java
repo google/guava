@@ -17,6 +17,7 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
+import java.util.Optional;
 import java.util.Set;
 import javax.annotation.Nullable;
 
@@ -284,6 +285,34 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    *     network
    */
   Set<E> edgesConnecting(N nodeU, N nodeV);
+
+  /**
+   * Returns the single edge directly connecting {@code nodeU} to {@code nodeV}, if one is present.
+   *
+   * <p>In an undirected network, this is equal to {@code edgeConnecting(nodeV, nodeU)}.
+   *
+   * @throws IllegalArgumentException if there are multiple parallel edges connecting {@code nodeU}
+   *     to {@code nodeV}
+   * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
+   *     network
+   * @since 23.0
+   */
+  Optional<E> edgeConnecting(N nodeU, N nodeV);
+
+  /**
+   * Returns the single edge directly connecting {@code nodeU} to {@code nodeV}, if one is present,
+   * or {@code null} if no such edge exists.
+   *
+   * <p>In an undirected network, this is equal to {@code edgeConnectingOrNull(nodeV, nodeU)}.
+   *
+   * @throws IllegalArgumentException if there are multiple parallel edges connecting {@code nodeU}
+   *     to {@code nodeV}
+   * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
+   *     network
+   * @since 23.0
+   */
+  @Nullable
+  E edgeConnectingOrNull(N nodeU, N nodeV);
 
   //
   // Network identity
