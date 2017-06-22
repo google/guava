@@ -36067,6 +36067,13 @@
       deprecated="not deprecated">
       <param name="edge" type="E"/>
     </method>
+    <method name="edgeConnectingOrNull" return="E"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="nodeU" type="N"/>
+      <param name="nodeV" type="N"/>
+    </method>
     <method name="equals" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
@@ -37542,6 +37549,25 @@
 
  @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
      network]]>
+      </doc>
+    </method>
+    <method name="edgeConnectingOrNull" return="E"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="nodeU" type="N"/>
+      <param name="nodeV" type="N"/>
+      <doc>
+      <![CDATA[Returns the single edge directly connecting {@code nodeU} to {@code nodeV}, if one is present,
+ or {@code null} if no such edge exists.
+
+ <p>In an undirected network, this is equal to {@code edgeConnectingOrNull(nodeV, nodeU)}.
+
+ @throws IllegalArgumentException if there are multiple parallel edges connecting {@code nodeU}
+     to {@code nodeV}
+ @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
+     network
+ @since 23.0]]>
       </doc>
     </method>
     <method name="equals" return="boolean"
