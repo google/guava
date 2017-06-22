@@ -115,8 +115,10 @@ public final class Iterables {
   }
 
   /**
-   * Returns {@code true} if {@code iterable} contains any object for which {@code equals(element)}
-   * is true.
+   * Returns {@code true} if {@code iterable} contains any element {@code o} for which
+   * {@Objects.equals(o, element)} would return {@code true}. Otherwise returns {@code false}, even
+   * in cases where {@link Collection#contains} might throw {@link NullPointerException} or {@link
+   * ClassCastException}.
    */
   public static boolean contains(Iterable<?> iterable, @Nullable Object element) {
     if (iterable instanceof Collection) {
