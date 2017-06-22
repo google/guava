@@ -16,6 +16,8 @@
 
 package com.google.common.graph;
 
+import static com.google.common.graph.TestUtil.ERROR_NODE_NOT_IN_GRAPH;
+import static com.google.common.graph.TestUtil.assertNodeNotInGraphErrorMessage;
 import static com.google.common.graph.TestUtil.assertStronglyEquivalent;
 import static com.google.common.graph.TestUtil.sanityCheckSet;
 import static com.google.common.truth.Truth.assertThat;
@@ -59,12 +61,8 @@ public abstract class AbstractGraphTest {
   // here to provide error messages.
   // TODO(user): Some Strings used in the subclasses can be added as static Strings
   // here too.
-  static final String ERROR_ELEMENT_NOT_IN_GRAPH = "not an element of this graph";
-  static final String NODE_STRING = "Node";
   static final String ERROR_MODIFIABLE_SET = "Set returned is unexpectedly modifiable";
   static final String ERROR_SELF_LOOP = "self-loops are not allowed";
-  static final String ERROR_NODE_NOT_IN_GRAPH =
-      "Should not be allowed to pass a node that is not an element of the graph.";
   static final String ERROR_ADDED_SELF_LOOP = "Should not be allowed to add a self-loop edge.";
 
   /** Creates and returns an instance of the graph to be tested. */
@@ -413,10 +411,5 @@ public abstract class AbstractGraphTest {
     addNode(N3);
     assertThat(graph.removeEdge(N1, N3)).isFalse();
     assertThat(graph.successors(N1)).contains(N2);
-  }
-
-  static void assertNodeNotInGraphErrorMessage(Throwable throwable) {
-    assertThat(throwable.getMessage()).startsWith(NODE_STRING);
-    assertThat(throwable.getMessage()).contains(ERROR_ELEMENT_NOT_IN_GRAPH);
   }
 }

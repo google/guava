@@ -25,8 +25,28 @@ import java.util.Set;
 
 /** Utility methods used in various common.graph tests. */
 final class TestUtil {
+  static final String ERROR_ELEMENT_NOT_IN_GRAPH = "not an element of this graph";
+  static final String ERROR_NODE_NOT_IN_GRAPH =
+      "Should not be allowed to pass a node that is not an element of the graph.";
+  private static final String NODE_STRING = "Node";
+  private static final String EDGE_STRING = "Edge";
+
+  enum EdgeType {
+    UNDIRECTED,
+    DIRECTED;
+  }
 
   private TestUtil() {}
+
+  static void assertNodeNotInGraphErrorMessage(Throwable throwable) {
+    assertThat(throwable).hasMessageThat().startsWith(NODE_STRING);
+    assertThat(throwable).hasMessageThat().contains(ERROR_ELEMENT_NOT_IN_GRAPH);
+  }
+
+  static void assertEdgeNotInGraphErrorMessage(Throwable throwable) {
+    assertThat(throwable).hasMessageThat().startsWith(EDGE_STRING);
+    assertThat(throwable).hasMessageThat().contains(ERROR_ELEMENT_NOT_IN_GRAPH);
+  }
 
   static void assertStronglyEquivalent(Graph<?> graphA, Graph<?> graphB) {
     // Properties not covered by equals()
