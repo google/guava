@@ -22190,8 +22190,10 @@
       <param name="iterable" type="java.lang.Iterable&lt;?&gt;"/>
       <param name="element" type="java.lang.Object"/>
       <doc>
-      <![CDATA[Returns {@code true} if {@code iterable} contains any object for which {@code equals(element)}
- is true.]]>
+      <![CDATA[Returns {@code true} if {@code iterable} contains any element {@code o} for which
+ {@Objects.equals(o, element)} would return {@code true}. Otherwise returns {@code false}, even
+ in cases where {@link Collection#contains} might throw {@link NullPointerException} or {@link
+ ClassCastException}.]]>
       </doc>
     </method>
     <method name="removeAll" return="boolean"
