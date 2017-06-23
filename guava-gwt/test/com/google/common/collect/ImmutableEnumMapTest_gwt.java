@@ -28,6 +28,11 @@ public void testImmutableEnumMapOrdering() throws Exception {
   testCase.testImmutableEnumMapOrdering();
 }
 
+public void testIteratesOnce() throws Exception {
+  com.google.common.collect.ImmutableEnumMapTest testCase = new com.google.common.collect.ImmutableEnumMapTest();
+  testCase.testIteratesOnce();
+}
+
 public void testToImmutableEnumMap() throws Exception {
   com.google.common.collect.ImmutableEnumMapTest testCase = new com.google.common.collect.ImmutableEnumMapTest();
   testCase.testToImmutableEnumMap();

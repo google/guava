@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Predicates.compose;
+import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
 import com.google.common.annotations.Beta;
@@ -142,15 +143,26 @@ public final class Maps {
       @SuppressWarnings("unchecked") // safe covariant cast
       ImmutableEnumMap<K, V> result = (ImmutableEnumMap<K, V>) map;
       return result;
-    } else if (map.isEmpty()) {
-      return ImmutableMap.of();
-    } else {
-      for (Map.Entry<K, ? extends V> entry : map.entrySet()) {
-        checkNotNull(entry.getKey());
-        checkNotNull(entry.getValue());
-      }
-      return ImmutableEnumMap.asImmutable(new EnumMap<K, V>(map));
     }
+    Iterator<? extends Map.Entry<K, ? extends V>> entryItr = map.entrySet().iterator();
+    if (!entryItr.hasNext()) {
+      return ImmutableMap.of();
+    }
+    Map.Entry<K, ? extends V> entry1 = entryItr.next();
+    K key1 = entry1.getKey();
+    V value1 = entry1.getValue();
+    checkEntryNotNull(key1, value1);
+    Class<K> clazz = key1.getDeclaringClass();
+    EnumMap<K, V> enumMap = new EnumMap<K, V>(clazz);
+    enumMap.put(key1, value1);
+    while (entryItr.hasNext()) {
+      Entry<K, ? extends V> entry = entryItr.next();
+      K key = entry.getKey();
+      V value = entry.getValue();
+      checkEntryNotNull(key, value);
+      enumMap.put(key, value);
+    }
+    return ImmutableEnumMap.asImmutable(enumMap);
   }
 
   private static class Accumulator<K extends Enum<K>, V> {
