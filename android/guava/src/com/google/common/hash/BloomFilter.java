@@ -292,22 +292,22 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   }
 
   /**
-   * Creates a {@link BloomFilter}{@code <T>} with the expected number of insertions and
+   * Creates a {@link BloomFilter} with the expected number of insertions and
    * expected false positive probability.
    *
    * <p>Note that overflowing a {@code BloomFilter} with significantly more elements than specified,
    * will result in its saturation, and a sharp deterioration of its false positive probability.
    *
-   * <p>The constructed {@code BloomFilter<T>} will be serializable if the provided
+   * <p>The constructed {@code BloomFilter} will be serializable if the provided
    * {@code Funnel<T>} is.
    *
    * <p>It is recommended that the funnel be implemented as a Java enum. This has the benefit of
    * ensuring proper serialization and deserialization, which is important since {@link #equals}
    * also relies on object identity of funnels.
    *
-   * @param funnel the funnel of T's that the constructed {@code BloomFilter<T>} will use
+   * @param funnel the funnel of T's that the constructed {@code BloomFilter} will use
    * @param expectedInsertions the number of expected insertions to the constructed
-   *     {@code BloomFilter<T>}; must be positive
+   *     {@code BloomFilter}; must be positive
    * @param fpp the desired false positive probability (must be positive and less than 1.0)
    * @return a {@code BloomFilter}
    */
@@ -317,22 +317,22 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   }
 
   /**
-   * Creates a {@link BloomFilter}{@code <T>} with the expected number of insertions and
+   * Creates a {@link BloomFilter} with the expected number of insertions and
    * expected false positive probability.
    *
    * <p>Note that overflowing a {@code BloomFilter} with significantly more elements than specified,
    * will result in its saturation, and a sharp deterioration of its false positive probability.
    *
-   * <p>The constructed {@code BloomFilter<T>} will be serializable if the provided
+   * <p>The constructed {@code BloomFilter} will be serializable if the provided
    * {@code Funnel<T>} is.
    *
    * <p>It is recommended that the funnel be implemented as a Java enum. This has the benefit of
    * ensuring proper serialization and deserialization, which is important since {@link #equals}
    * also relies on object identity of funnels.
    *
-   * @param funnel the funnel of T's that the constructed {@code BloomFilter<T>} will use
+   * @param funnel the funnel of T's that the constructed {@code BloomFilter} will use
    * @param expectedInsertions the number of expected insertions to the constructed
-   *     {@code BloomFilter<T>}; must be positive
+   *     {@code BloomFilter}; must be positive
    * @param fpp the desired false positive probability (must be positive and less than 1.0)
    * @return a {@code BloomFilter}
    * @since 19.0
@@ -370,22 +370,22 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   }
 
   /**
-   * Creates a {@link BloomFilter}{@code <T>} with the expected number of insertions and a
+   * Creates a {@link BloomFilter} with the expected number of insertions and a
    * default expected false positive probability of 3%.
    *
    * <p>Note that overflowing a {@code BloomFilter} with significantly more elements than specified,
    * will result in its saturation, and a sharp deterioration of its false positive probability.
    *
-   * <p>The constructed {@code BloomFilter<T>} will be serializable if the provided
+   * <p>The constructed {@code BloomFilter} will be serializable if the provided
    * {@code Funnel<T>} is.
    *
    * <p>It is recommended that the funnel be implemented as a Java enum. This has the benefit of
    * ensuring proper serialization and deserialization, which is important since {@link #equals}
    * also relies on object identity of funnels.
    *
-   * @param funnel the funnel of T's that the constructed {@code BloomFilter<T>} will use
+   * @param funnel the funnel of T's that the constructed {@code BloomFilter} will use
    * @param expectedInsertions the number of expected insertions to the constructed
-   *     {@code BloomFilter<T>}; must be positive
+   *     {@code BloomFilter}; must be positive
    * @return a {@code BloomFilter}
    */
   public static <T> BloomFilter<T> create(Funnel<? super T> funnel, int expectedInsertions) {
@@ -393,22 +393,22 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   }
 
   /**
-   * Creates a {@link BloomFilter}{@code <T>} with the expected number of insertions and a
+   * Creates a {@link BloomFilter} with the expected number of insertions and a
    * default expected false positive probability of 3%.
    *
    * <p>Note that overflowing a {@code BloomFilter} with significantly more elements than specified,
    * will result in its saturation, and a sharp deterioration of its false positive probability.
    *
-   * <p>The constructed {@code BloomFilter<T>} will be serializable if the provided
+   * <p>The constructed {@code BloomFilter} will be serializable if the provided
    * {@code Funnel<T>} is.
    *
    * <p>It is recommended that the funnel be implemented as a Java enum. This has the benefit of
    * ensuring proper serialization and deserialization, which is important since {@link #equals}
    * also relies on object identity of funnels.
    *
-   * @param funnel the funnel of T's that the constructed {@code BloomFilter<T>} will use
+   * @param funnel the funnel of T's that the constructed {@code BloomFilter} will use
    * @param expectedInsertions the number of expected insertions to the constructed
-   *     {@code BloomFilter<T>}; must be positive
+   *     {@code BloomFilter}; must be positive
    * @return a {@code BloomFilter}
    * @since 19.0
    */
@@ -508,7 +508,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
 
   /**
    * Reads a byte stream, which was written by {@linkplain #writeTo(OutputStream)}, into a
-   * {@code BloomFilter<T>}.
+   * {@code BloomFilter}.
    *
    * The {@code Funnel} to be used is not encoded in the stream, so it must be provided here.
    * <b>Warning:</b> the funnel provided <b>must</b> behave identically to the one used to populate
