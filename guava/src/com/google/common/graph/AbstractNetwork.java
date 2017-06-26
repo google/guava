@@ -18,9 +18,11 @@ package com.google.common.graph;
 
 import static com.google.common.graph.GraphConstants.GRAPH_STRING_FORMAT;
 import static com.google.common.graph.GraphConstants.MULTIPLE_EDGES_CONNECTING;
+import static java.util.Collections.unmodifiableSet;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
@@ -160,6 +162,24 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
   }
 
   @Override
+  public Set<E> edgesConnecting(N nodeU, N nodeV) {
+    Set<E> outEdgesU = outEdges(nodeU);
+    Set<E> inEdgesV = inEdges(nodeV);
+    return outEdgesU.size() <= inEdgesV.size()
+        ? unmodifiableSet(Sets.filter(outEdgesU, connectedPredicate(nodeU, nodeV)))
+        : unmodifiableSet(Sets.filter(inEdgesV, connectedPredicate(nodeV, nodeU)));
+  }
+
+  private Predicate<E> connectedPredicate(final N nodePresent, final N nodeToCheck) {
+    return new Predicate<E>() {
+      @Override
+      public boolean apply(E edge) {
+        return incidentNodes(edge).adjacentNode(nodePresent).equals(nodeToCheck);
+      }
+    };
+  }
+
+  @Override
   public Optional<E> edgeConnecting(N nodeU, N nodeV) {
     Set<E> edgesConnecting = edgesConnecting(nodeU, nodeV);
     switch (edgesConnecting.size()) {
@@ -173,6 +193,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
   }
 
   @Override
+  @Nullable
   public E edgeConnectingOrNull(N nodeU, N nodeV) {
     return edgeConnecting(nodeU, nodeV).orElse(null);
   }
