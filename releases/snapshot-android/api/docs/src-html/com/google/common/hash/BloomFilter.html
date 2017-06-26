@@ -300,22 +300,22 @@
 <span class="sourceLineNo">292</span>  }<a name="line.292"></a>
 <span class="sourceLineNo">293</span><a name="line.293"></a>
 <span class="sourceLineNo">294</span>  /**<a name="line.294"></a>
-<span class="sourceLineNo">295</span>   * Creates a {@link BloomFilter}{@code &lt;T&gt;} with the expected number of insertions and<a name="line.295"></a>
+<span class="sourceLineNo">295</span>   * Creates a {@link BloomFilter} with the expected number of insertions and<a name="line.295"></a>
 <span class="sourceLineNo">296</span>   * expected false positive probability.<a name="line.296"></a>
 <span class="sourceLineNo">297</span>   *<a name="line.297"></a>
 <span class="sourceLineNo">298</span>   * &lt;p&gt;Note that overflowing a {@code BloomFilter} with significantly more elements than specified,<a name="line.298"></a>
 <span class="sourceLineNo">299</span>   * will result in its saturation, and a sharp deterioration of its false positive probability.<a name="line.299"></a>
 <span class="sourceLineNo">300</span>   *<a name="line.300"></a>
-<span class="sourceLineNo">301</span>   * &lt;p&gt;The constructed {@code BloomFilter&lt;T&gt;} will be serializable if the provided<a name="line.301"></a>
+<span class="sourceLineNo">301</span>   * &lt;p&gt;The constructed {@code BloomFilter} will be serializable if the provided<a name="line.301"></a>
 <span class="sourceLineNo">302</span>   * {@code Funnel&lt;T&gt;} is.<a name="line.302"></a>
 <span class="sourceLineNo">303</span>   *<a name="line.303"></a>
 <span class="sourceLineNo">304</span>   * &lt;p&gt;It is recommended that the funnel be implemented as a Java enum. This has the benefit of<a name="line.304"></a>
 <span class="sourceLineNo">305</span>   * ensuring proper serialization and deserialization, which is important since {@link #equals}<a name="line.305"></a>
 <span class="sourceLineNo">306</span>   * also relies on object identity of funnels.<a name="line.306"></a>
 <span class="sourceLineNo">307</span>   *<a name="line.307"></a>
-<span class="sourceLineNo">308</span>   * @param funnel the funnel of T's that the constructed {@code BloomFilter&lt;T&gt;} will use<a name="line.308"></a>
+<span class="sourceLineNo">308</span>   * @param funnel the funnel of T's that the constructed {@code BloomFilter} will use<a name="line.308"></a>
 <span class="sourceLineNo">309</span>   * @param expectedInsertions the number of expected insertions to the constructed<a name="line.309"></a>
-<span class="sourceLineNo">310</span>   *     {@code BloomFilter&lt;T&gt;}; must be positive<a name="line.310"></a>
+<span class="sourceLineNo">310</span>   *     {@code BloomFilter}; must be positive<a name="line.310"></a>
 <span class="sourceLineNo">311</span>   * @param fpp the desired false positive probability (must be positive and less than 1.0)<a name="line.311"></a>
 <span class="sourceLineNo">312</span>   * @return a {@code BloomFilter}<a name="line.312"></a>
 <span class="sourceLineNo">313</span>   */<a name="line.313"></a>
@@ -325,22 +325,22 @@
 <span class="sourceLineNo">317</span>  }<a name="line.317"></a>
 <span class="sourceLineNo">318</span><a name="line.318"></a>
 <span class="sourceLineNo">319</span>  /**<a name="line.319"></a>
-<span class="sourceLineNo">320</span>   * Creates a {@link BloomFilter}{@code &lt;T&gt;} with the expected number of insertions and<a name="line.320"></a>
+<span class="sourceLineNo">320</span>   * Creates a {@link BloomFilter} with the expected number of insertions and<a name="line.320"></a>
 <span class="sourceLineNo">321</span>   * expected false positive probability.<a name="line.321"></a>
 <span class="sourceLineNo">322</span>   *<a name="line.322"></a>
 <span class="sourceLineNo">323</span>   * &lt;p&gt;Note that overflowing a {@code BloomFilter} with significantly more elements than specified,<a name="line.323"></a>
 <span class="sourceLineNo">324</span>   * will result in its saturation, and a sharp deterioration of its false positive probability.<a name="line.324"></a>
 <span class="sourceLineNo">325</span>   *<a name="line.325"></a>
-<span class="sourceLineNo">326</span>   * &lt;p&gt;The constructed {@code BloomFilter&lt;T&gt;} will be serializable if the provided<a name="line.326"></a>
+<span class="sourceLineNo">326</span>   * &lt;p&gt;The constructed {@code BloomFilter} will be serializable if the provided<a name="line.326"></a>
 <span class="sourceLineNo">327</span>   * {@code Funnel&lt;T&gt;} is.<a name="line.327"></a>
 <span class="sourceLineNo">328</span>   *<a name="line.328"></a>
 <span class="sourceLineNo">329</span>   * &lt;p&gt;It is recommended that the funnel be implemented as a Java enum. This has the benefit of<a name="line.329"></a>
 <span class="sourceLineNo">330</span>   * ensuring proper serialization and deserialization, which is important since {@link #equals}<a name="line.330"></a>
 <span class="sourceLineNo">331</span>   * also relies on object identity of funnels.<a name="line.331"></a>
 <span class="sourceLineNo">332</span>   *<a name="line.332"></a>
-<span class="sourceLineNo">333</span>   * @param funnel the funnel of T's that the constructed {@code BloomFilter&lt;T&gt;} will use<a name="line.333"></a>
+<span class="sourceLineNo">333</span>   * @param funnel the funnel of T's that the constructed {@code BloomFilter} will use<a name="line.333"></a>
 <span class="sourceLineNo">334</span>   * @param expectedInsertions the number of expected insertions to the constructed<a name="line.334"></a>
-<span class="sourceLineNo">335</span>   *     {@code BloomFilter&lt;T&gt;}; must be positive<a name="line.335"></a>
+<span class="sourceLineNo">335</span>   *     {@code BloomFilter}; must be positive<a name="line.335"></a>
 <span class="sourceLineNo">336</span>   * @param fpp the desired false positive probability (must be positive and less than 1.0)<a name="line.336"></a>
 <span class="sourceLineNo">337</span>   * @return a {@code BloomFilter}<a name="line.337"></a>
 <span class="sourceLineNo">338</span>   * @since 19.0<a name="line.338"></a>
@@ -378,22 +378,22 @@
 <span class="sourceLineNo">370</span>  }<a name="line.370"></a>
 <span class="sourceLineNo">371</span><a name="line.371"></a>
 <span class="sourceLineNo">372</span>  /**<a name="line.372"></a>
-<span class="sourceLineNo">373</span>   * Creates a {@link BloomFilter}{@code &lt;T&gt;} with the expected number of insertions and a<a name="line.373"></a>
+<span class="sourceLineNo">373</span>   * Creates a {@link BloomFilter} with the expected number of insertions and a<a name="line.373"></a>
 <span class="sourceLineNo">374</span>   * default expected false positive probability of 3%.<a name="line.374"></a>
 <span class="sourceLineNo">375</span>   *<a name="line.375"></a>
 <span class="sourceLineNo">376</span>   * &lt;p&gt;Note that overflowing a {@code BloomFilter} with significantly more elements than specified,<a name="line.376"></a>
 <span class="sourceLineNo">377</span>   * will result in its saturation, and a sharp deterioration of its false positive probability.<a name="line.377"></a>
 <span class="sourceLineNo">378</span>   *<a name="line.378"></a>
-<span class="sourceLineNo">379</span>   * &lt;p&gt;The constructed {@code BloomFilter&lt;T&gt;} will be serializable if the provided<a name="line.379"></a>
+<span class="sourceLineNo">379</span>   * &lt;p&gt;The constructed {@code BloomFilter} will be serializable if the provided<a name="line.379"></a>
 <span class="sourceLineNo">380</span>   * {@code Funnel&lt;T&gt;} is.<a name="line.380"></a>
 <span class="sourceLineNo">381</span>   *<a name="line.381"></a>
 <span class="sourceLineNo">382</span>   * &lt;p&gt;It is recommended that the funnel be implemented as a Java enum. This has the benefit of<a name="line.382"></a>
 <span class="sourceLineNo">383</span>   * ensuring proper serialization and deserialization, which is important since {@link #equals}<a name="line.383"></a>
 <span class="sourceLineNo">384</span>   * also relies on object identity of funnels.<a name="line.384"></a>
 <span class="sourceLineNo">385</span>   *<a name="line.385"></a>
-<span class="sourceLineNo">386</span>   * @param funnel the funnel of T's that the constructed {@code BloomFilter&lt;T&gt;} will use<a name="line.386"></a>
+<span class="sourceLineNo">386</span>   * @param funnel the funnel of T's that the constructed {@code BloomFilter} will use<a name="line.386"></a>
 <span class="sourceLineNo">387</span>   * @param expectedInsertions the number of expected insertions to the constructed<a name="line.387"></a>
-<span class="sourceLineNo">388</span>   *     {@code BloomFilter&lt;T&gt;}; must be positive<a name="line.388"></a>
+<span class="sourceLineNo">388</span>   *     {@code BloomFilter}; must be positive<a name="line.388"></a>
 <span class="sourceLineNo">389</span>   * @return a {@code BloomFilter}<a name="line.389"></a>
 <span class="sourceLineNo">390</span>   */<a name="line.390"></a>
 <span class="sourceLineNo">391</span>  public static &lt;T&gt; BloomFilter&lt;T&gt; create(Funnel&lt;? super T&gt; funnel, int expectedInsertions) {<a name="line.391"></a>
@@ -401,22 +401,22 @@
 <span class="sourceLineNo">393</span>  }<a name="line.393"></a>
 <span class="sourceLineNo">394</span><a name="line.394"></a>
 <span class="sourceLineNo">395</span>  /**<a name="line.395"></a>
-<span class="sourceLineNo">396</span>   * Creates a {@link BloomFilter}{@code &lt;T&gt;} with the expected number of insertions and a<a name="line.396"></a>
+<span class="sourceLineNo">396</span>   * Creates a {@link BloomFilter} with the expected number of insertions and a<a name="line.396"></a>
 <span class="sourceLineNo">397</span>   * default expected false positive probability of 3%.<a name="line.397"></a>
 <span class="sourceLineNo">398</span>   *<a name="line.398"></a>
 <span class="sourceLineNo">399</span>   * &lt;p&gt;Note that overflowing a {@code BloomFilter} with significantly more elements than specified,<a name="line.399"></a>
 <span class="sourceLineNo">400</span>   * will result in its saturation, and a sharp deterioration of its false positive probability.<a name="line.400"></a>
 <span class="sourceLineNo">401</span>   *<a name="line.401"></a>
-<span class="sourceLineNo">402</span>   * &lt;p&gt;The constructed {@code BloomFilter&lt;T&gt;} will be serializable if the provided<a name="line.402"></a>
+<span class="sourceLineNo">402</span>   * &lt;p&gt;The constructed {@code BloomFilter} will be serializable if the provided<a name="line.402"></a>
 <span class="sourceLineNo">403</span>   * {@code Funnel&lt;T&gt;} is.<a name="line.403"></a>
 <span class="sourceLineNo">404</span>   *<a name="line.404"></a>
 <span class="sourceLineNo">405</span>   * &lt;p&gt;It is recommended that the funnel be implemented as a Java enum. This has the benefit of<a name="line.405"></a>
 <span class="sourceLineNo">406</span>   * ensuring proper serialization and deserialization, which is important since {@link #equals}<a name="line.406"></a>
 <span class="sourceLineNo">407</span>   * also relies on object identity of funnels.<a name="line.407"></a>
 <span class="sourceLineNo">408</span>   *<a name="line.408"></a>
-<span class="sourceLineNo">409</span>   * @param funnel the funnel of T's that the constructed {@code BloomFilter&lt;T&gt;} will use<a name="line.409"></a>
+<span class="sourceLineNo">409</span>   * @param funnel the funnel of T's that the constructed {@code BloomFilter} will use<a name="line.409"></a>
 <span class="sourceLineNo">410</span>   * @param expectedInsertions the number of expected insertions to the constructed<a name="line.410"></a>
-<span class="sourceLineNo">411</span>   *     {@code BloomFilter&lt;T&gt;}; must be positive<a name="line.411"></a>
+<span class="sourceLineNo">411</span>   *     {@code BloomFilter}; must be positive<a name="line.411"></a>
 <span class="sourceLineNo">412</span>   * @return a {@code BloomFilter}<a name="line.412"></a>
 <span class="sourceLineNo">413</span>   * @since 19.0<a name="line.413"></a>
 <span class="sourceLineNo">414</span>   */<a name="line.414"></a>
@@ -516,7 +516,7 @@
 <span class="sourceLineNo">508</span><a name="line.508"></a>
 <span class="sourceLineNo">509</span>  /**<a name="line.509"></a>
 <span class="sourceLineNo">510</span>   * Reads a byte stream, which was written by {@linkplain #writeTo(OutputStream)}, into a<a name="line.510"></a>
-<span class="sourceLineNo">511</span>   * {@code BloomFilter&lt;T&gt;}.<a name="line.511"></a>
+<span class="sourceLineNo">511</span>   * {@code BloomFilter}.<a name="line.511"></a>
 <span class="sourceLineNo">512</span>   *<a name="line.512"></a>
 <span class="sourceLineNo">513</span>   * The {@code Funnel} to be used is not encoded in the stream, so it must be provided here.<a name="line.513"></a>
 <span class="sourceLineNo">514</span>   * &lt;b&gt;Warning:&lt;/b&gt; the funnel provided &lt;b&gt;must&lt;/b&gt; behave identically to the one used to populate<a name="line.514"></a>

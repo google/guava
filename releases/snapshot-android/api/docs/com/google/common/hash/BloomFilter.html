@@ -193,7 +193,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/hash/BloomFilter.html#create-com.google.common.hash.Funnel-int-">create</a></span>(<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
       int&nbsp;expectedInsertions)</code>
-<div class="block">Creates a <a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a><code>&lt;T&gt;</code> with the expected number of insertions and a
+<div class="block">Creates a <a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a> with the expected number of insertions and a
  default expected false positive probability of 3%.</div>
 </td>
 </tr>
@@ -202,7 +202,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/hash/BloomFilter.html#create-com.google.common.hash.Funnel-int-double-">create</a></span>(<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
       int&nbsp;expectedInsertions,
       double&nbsp;fpp)</code>
-<div class="block">Creates a <a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a><code>&lt;T&gt;</code> with the expected number of insertions and
+<div class="block">Creates a <a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a> with the expected number of insertions and
  expected false positive probability.</div>
 </td>
 </tr>
@@ -210,7 +210,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/hash/BloomFilter.html#create-com.google.common.hash.Funnel-long-">create</a></span>(<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
       long&nbsp;expectedInsertions)</code>
-<div class="block">Creates a <a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a><code>&lt;T&gt;</code> with the expected number of insertions and a
+<div class="block">Creates a <a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a> with the expected number of insertions and a
  default expected false positive probability of 3%.</div>
 </td>
 </tr>
@@ -219,7 +219,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/hash/BloomFilter.html#create-com.google.common.hash.Funnel-long-double-">create</a></span>(<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
       long&nbsp;expectedInsertions,
       double&nbsp;fpp)</code>
-<div class="block">Creates a <a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a><code>&lt;T&gt;</code> with the expected number of insertions and
+<div class="block">Creates a <a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a> with the expected number of insertions and
  expected false positive probability.</div>
 </td>
 </tr>
@@ -271,7 +271,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/hash/BloomFilter.html#readFrom-java.io.InputStream-com.google.common.hash.Funnel-">readFrom</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;in,
         <a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</code>
 <div class="block">Reads a byte stream, which was written by <a href="../../../../com/google/common/hash/BloomFilter.html#writeTo-java.io.OutputStream-">writeTo(OutputStream)</a>, into a
- <code>BloomFilter&lt;T&gt;</code>.</div>
+ <code>BloomFilter</code>.</div>
 </td>
 </tr>
 <tr id="i15" class="rowColor">
@@ -509,13 +509,13 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.314">create</a>(<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
                                         int&nbsp;expectedInsertions,
                                         double&nbsp;fpp)</pre>
-<div class="block">Creates a <a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a><code>&lt;T&gt;</code> with the expected number of insertions and
+<div class="block">Creates a <a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a> with the expected number of insertions and
  expected false positive probability.
 
  <p>Note that overflowing a <code>BloomFilter</code> with significantly more elements than specified,
  will result in its saturation, and a sharp deterioration of its false positive probability.
 
- <p>The constructed <code>BloomFilter&lt;T&gt;</code> will be serializable if the provided
+ <p>The constructed <code>BloomFilter</code> will be serializable if the provided
  <code>Funnel&lt;T&gt;</code> is.
 
  <p>It is recommended that the funnel be implemented as a Java enum. This has the benefit of
@@ -523,9 +523,9 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
  also relies on object identity of funnels.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>funnel</code> - the funnel of T's that the constructed <code>BloomFilter&lt;T&gt;</code> will use</dd>
+<dd><code>funnel</code> - the funnel of T's that the constructed <code>BloomFilter</code> will use</dd>
 <dd><code>expectedInsertions</code> - the number of expected insertions to the constructed
-     <code>BloomFilter&lt;T&gt;</code>; must be positive</dd>
+     <code>BloomFilter</code>; must be positive</dd>
 <dd><code>fpp</code> - the desired false positive probability (must be positive and less than 1.0)</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>BloomFilter</code></dd>
@@ -541,13 +541,13 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.340">create</a>(<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
                                         long&nbsp;expectedInsertions,
                                         double&nbsp;fpp)</pre>
-<div class="block">Creates a <a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a><code>&lt;T&gt;</code> with the expected number of insertions and
+<div class="block">Creates a <a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a> with the expected number of insertions and
  expected false positive probability.
 
  <p>Note that overflowing a <code>BloomFilter</code> with significantly more elements than specified,
  will result in its saturation, and a sharp deterioration of its false positive probability.
 
- <p>The constructed <code>BloomFilter&lt;T&gt;</code> will be serializable if the provided
+ <p>The constructed <code>BloomFilter</code> will be serializable if the provided
  <code>Funnel&lt;T&gt;</code> is.
 
  <p>It is recommended that the funnel be implemented as a Java enum. This has the benefit of
@@ -555,9 +555,9 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
  also relies on object identity of funnels.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>funnel</code> - the funnel of T's that the constructed <code>BloomFilter&lt;T&gt;</code> will use</dd>
+<dd><code>funnel</code> - the funnel of T's that the constructed <code>BloomFilter</code> will use</dd>
 <dd><code>expectedInsertions</code> - the number of expected insertions to the constructed
-     <code>BloomFilter&lt;T&gt;</code>; must be positive</dd>
+     <code>BloomFilter</code>; must be positive</dd>
 <dd><code>fpp</code> - the desired false positive probability (must be positive and less than 1.0)</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>BloomFilter</code></dd>
@@ -574,13 +574,13 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <h4>create</h4>
 <pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.391">create</a>(<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
                                         int&nbsp;expectedInsertions)</pre>
-<div class="block">Creates a <a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a><code>&lt;T&gt;</code> with the expected number of insertions and a
+<div class="block">Creates a <a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a> with the expected number of insertions and a
  default expected false positive probability of 3%.
 
  <p>Note that overflowing a <code>BloomFilter</code> with significantly more elements than specified,
  will result in its saturation, and a sharp deterioration of its false positive probability.
 
- <p>The constructed <code>BloomFilter&lt;T&gt;</code> will be serializable if the provided
+ <p>The constructed <code>BloomFilter</code> will be serializable if the provided
  <code>Funnel&lt;T&gt;</code> is.
 
  <p>It is recommended that the funnel be implemented as a Java enum. This has the benefit of
@@ -588,9 +588,9 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
  also relies on object identity of funnels.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>funnel</code> - the funnel of T's that the constructed <code>BloomFilter&lt;T&gt;</code> will use</dd>
+<dd><code>funnel</code> - the funnel of T's that the constructed <code>BloomFilter</code> will use</dd>
 <dd><code>expectedInsertions</code> - the number of expected insertions to the constructed
-     <code>BloomFilter&lt;T&gt;</code>; must be positive</dd>
+     <code>BloomFilter</code>; must be positive</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>BloomFilter</code></dd>
 </dl>
@@ -604,13 +604,13 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <h4>create</h4>
 <pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.415">create</a>(<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
                                         long&nbsp;expectedInsertions)</pre>
-<div class="block">Creates a <a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a><code>&lt;T&gt;</code> with the expected number of insertions and a
+<div class="block">Creates a <a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a> with the expected number of insertions and a
  default expected false positive probability of 3%.
 
  <p>Note that overflowing a <code>BloomFilter</code> with significantly more elements than specified,
  will result in its saturation, and a sharp deterioration of its false positive probability.
 
- <p>The constructed <code>BloomFilter&lt;T&gt;</code> will be serializable if the provided
+ <p>The constructed <code>BloomFilter</code> will be serializable if the provided
  <code>Funnel&lt;T&gt;</code> is.
 
  <p>It is recommended that the funnel be implemented as a Java enum. This has the benefit of
@@ -618,9 +618,9 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
  also relies on object identity of funnels.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>funnel</code> - the funnel of T's that the constructed <code>BloomFilter&lt;T&gt;</code> will use</dd>
+<dd><code>funnel</code> - the funnel of T's that the constructed <code>BloomFilter</code> will use</dd>
 <dd><code>expectedInsertions</code> - the number of expected insertions to the constructed
-     <code>BloomFilter&lt;T&gt;</code>; must be positive</dd>
+     <code>BloomFilter</code>; must be positive</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>BloomFilter</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -657,7 +657,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
                                           <a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)
                                    throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Reads a byte stream, which was written by <a href="../../../../com/google/common/hash/BloomFilter.html#writeTo-java.io.OutputStream-">writeTo(OutputStream)</a>, into a
- <code>BloomFilter&lt;T&gt;</code>.
+ <code>BloomFilter</code>.
 
  The <code>Funnel</code> to be used is not encoded in the stream, so it must be provided here.
  <b>Warning:</b> the funnel provided <b>must</b> behave identically to the one used to populate
