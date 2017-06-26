@@ -22921,9 +22921,9 @@
       <param name="iterable" type="java.lang.Iterable&lt;?&gt;"/>
       <param name="element" type="java.lang.Object"/>
       <doc>
-      <![CDATA[Returns {@code true} if {@code iterable} contains any element {@code o} for which
- {@Objects.equals(o, element)} would return {@code true}. Otherwise returns {@code false}, even
- in cases where {@link Collection#contains} might throw {@link NullPointerException} or {@link
+      <![CDATA[Returns {@code true} if {@code iterable} contains any element {@code o} for which {@code
+ Objects.equals(o, element)} would return {@code true}. Otherwise returns {@code false}, even in
+ cases where {@link Collection#contains} might throw {@link NullPointerException} or {@link
  ClassCastException}.]]>
       </doc>
     </method>
@@ -37606,6 +37606,13 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="edge" type="E"/>
+    </method>
+    <method name="edgesConnecting" return="java.util.Set&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="nodeU" type="N"/>
+      <param name="nodeV" type="N"/>
     </method>
     <method name="edgeConnecting" return="java.util.Optional&lt;E&gt;"
       abstract="false" native="false" synchronized="false"

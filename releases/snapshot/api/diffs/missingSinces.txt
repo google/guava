@@ -6,6 +6,7 @@ NO DOC BLOCK: com.google.common.graph.AbstractNetwork Method edgeConnecting(N, N
 OK: com.google.common.graph.Network Method edgeConnecting(N, N)
 NO DOC BLOCK: com.google.common.graph.AbstractNetwork Method edgeConnectingOrNull(N, N)
 OK: com.google.common.graph.Network Method edgeConnectingOrNull(N, N)
+NO DOC BLOCK: com.google.common.graph.AbstractNetwork Method edgesConnecting(N, N)
 OK: com.google.common.hash.HashFunction Method hashBytes(java.nio.ByteBuffer)
 NO DOC BLOCK: com.google.common.hash.Hasher Method putBytes(java.nio.ByteBuffer)
 OK: com.google.common.hash.PrimitiveSink Method putBytes(java.nio.ByteBuffer)
