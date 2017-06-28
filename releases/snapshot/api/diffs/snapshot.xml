@@ -5650,7 +5650,7 @@
  use {@link #splitToList(CharSequence)}.
 
  @param sequence the sequence of characters to split
- @return an iteration over the segments split from the parameter.]]>
+ @return an iteration over the segments split from the parameter]]>
       </doc>
     </method>
     <method name="splitToList" return="java.util.List&lt;java.lang.String&gt;"
