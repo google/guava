@@ -155,11 +155,13 @@ public abstract class AbstractGraphTest {
 
       for (N predecessor : sanityCheckSet(graph.predecessors(node))) {
         assertThat(graph.successors(predecessor)).contains(node);
+        assertThat(graph.hasEdgeConnecting(predecessor, node)).isTrue();
       }
 
       for (N successor : sanityCheckSet(graph.successors(node))) {
         allEndpointPairs.add(EndpointPair.of(graph, node, successor));
         assertThat(graph.predecessors(successor)).contains(node);
+        assertThat(graph.hasEdgeConnecting(node, successor)).isTrue();
       }
     }
 

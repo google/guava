@@ -314,6 +314,17 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
   @Nullable
   E edgeConnectingOrNull(N nodeU, N nodeV);
 
+  /**
+   * Returns true if there is an edge directly connecting {@code nodeU} to {@code nodeV}. This is
+   * equivalent to {@code nodes().contains(nodeU) && successors(nodeU).contains(nodeV)},
+   * and to {@code edgeConnectingOrNull(nodeU, nodeV) != null}.
+   *
+   * <p>In an undirected graph, this is equal to {@code hasEdgeConnecting(nodeV, nodeU)}.
+   *
+   * @since 23.0
+   */
+  boolean hasEdgeConnecting(N nodeU, N nodeV);
+
   //
   // Network identity
   //

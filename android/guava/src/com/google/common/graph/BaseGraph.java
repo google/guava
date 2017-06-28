@@ -126,4 +126,14 @@ interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
   int outDegree(N node);
+
+  /**
+   * Returns true if there is an edge directly connecting {@code nodeU} to {@code nodeV}. This is
+   * equivalent to {@code nodes().contains(nodeU) && successors(nodeU).contains(nodeV)}.
+   *
+   * <p>In an undirected graph, this is equal to {@code hasEdgeConnecting(nodeV, nodeU)}.
+   *
+   * @since 23.0
+   */
+  boolean hasEdgeConnecting(N nodeU, N nodeV);
 }

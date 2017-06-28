@@ -193,6 +193,11 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
   }
 
   @Override
+  public boolean hasEdgeConnecting(N nodeU, N nodeV) {
+    return !edgesConnecting(nodeU, nodeV).isEmpty();
+  }
+
+  @Override
   public final boolean equals(@Nullable Object obj) {
     if (obj == this) {
       return true;

@@ -219,13 +219,16 @@ public abstract class AbstractNetworkTest {
             case 0:
               assertThat(network.edgeConnectingOrNull(node, otherNode)).isNull();
               assertThat(network.edgeConnecting(node, otherNode).isPresent()).isFalse();
+              assertThat(network.hasEdgeConnecting(node, otherNode)).isFalse();
               break;
             case 1:
               E edge = edgesConnecting.iterator().next();
               assertThat(network.edgeConnectingOrNull(node, otherNode)).isEqualTo(edge);
               assertThat(network.edgeConnecting(node, otherNode).get()).isEqualTo(edge);
+              assertThat(network.hasEdgeConnecting(node, otherNode)).isTrue();
               break;
             default:
+              assertThat(network.hasEdgeConnecting(node, otherNode)).isTrue();
               try {
                 network.edgeConnectingOrNull(node, otherNode);
                 fail();

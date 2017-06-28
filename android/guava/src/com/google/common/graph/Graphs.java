@@ -306,6 +306,11 @@ public final class Graphs {
     public Set<N> successors(N node) {
       return graph.predecessors(node); // transpose
     }
+
+    @Override
+    public boolean hasEdgeConnecting(N nodeU, N nodeV) {
+      return graph.hasEdgeConnecting(nodeV, nodeU); // transpose
+    }
   }
 
   /**
@@ -373,6 +378,11 @@ public final class Graphs {
     @Override
     public Set<N> successors(N node) {
       return graph.predecessors(node); // transpose
+    }
+
+    @Override
+    public boolean hasEdgeConnecting(N nodeU, N nodeV) {
+      return graph.hasEdgeConnecting(nodeV, nodeU); // transpose
     }
 
     @Override
@@ -493,6 +503,11 @@ public final class Graphs {
     @Override
     public E edgeConnectingOrNull(N nodeU, N nodeV) {
       return network.edgeConnectingOrNull(nodeV, nodeU); // transpose
+    }
+
+    @Override
+    public boolean hasEdgeConnecting(N nodeU, N nodeV) {
+      return network.hasEdgeConnecting(nodeV, nodeU); // transpose
     }
   }
 
