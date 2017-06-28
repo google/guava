@@ -370,7 +370,7 @@ public final class Splitter {
    * use {@link #splitToList(CharSequence)}.
    *
    * @param sequence the sequence of characters to split
-   * @return an iteration over the segments split from the parameter.
+   * @return an iteration over the segments split from the parameter
    */
   public Iterable<String> split(final CharSequence sequence) {
     checkNotNull(sequence);
