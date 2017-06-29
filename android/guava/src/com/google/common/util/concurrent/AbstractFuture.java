@@ -936,11 +936,12 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
 
   private void addDoneString(StringBuilder builder) {
     try {
-      builder.append("SUCCESS, result=[").append(getDone(this)).append("]");
+      V value = getDone(this);
+      builder.append("SUCCESS, result=[").append(value).append("]");
     } catch (ExecutionException e) {
       builder.append("FAILURE, cause=[").append(e.getCause()).append("]");
     } catch (CancellationException e) {
-      builder.append("CANCELLED");
+      builder.append("CANCELLED"); // shouldn't be reachable
     } catch (RuntimeException e) {
       builder.append("UNKNOWN, cause=[").append(e.getClass()).append(" thrown from get()]");
     }
