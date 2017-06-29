@@ -37628,6 +37628,13 @@
       <param name="nodeU" type="N"/>
       <param name="nodeV" type="N"/>
     </method>
+    <method name="hasEdgeConnecting" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="nodeU" type="N"/>
+      <param name="nodeV" type="N"/>
+    </method>
     <method name="equals" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
@@ -38053,6 +38060,16 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="node" type="N"/>
+      <doc>
+      <![CDATA[{@inheritDoc}]]>
+      </doc>
+    </method>
+    <method name="hasEdgeConnecting" return="boolean"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="nodeU" type="N"/>
+      <param name="nodeV" type="N"/>
       <doc>
       <![CDATA[{@inheritDoc}]]>
       </doc>
@@ -39142,6 +39159,22 @@
  @since 23.0]]>
       </doc>
     </method>
+    <method name="hasEdgeConnecting" return="boolean"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="nodeU" type="N"/>
+      <param name="nodeV" type="N"/>
+      <doc>
+      <![CDATA[Returns true if there is an edge directly connecting {@code nodeU} to {@code nodeV}. This is
+ equivalent to {@code nodes().contains(nodeU) && successors(nodeU).contains(nodeV)},
+ and to {@code edgeConnectingOrNull(nodeU, nodeV) != null}.
+
+ <p>In an undirected graph, this is equal to {@code hasEdgeConnecting(nodeV, nodeU)}.
+
+ @since 23.0]]>
+      </doc>
+    </method>
     <method name="equals" return="boolean"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -39663,6 +39696,16 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="node" type="N"/>
+      <doc>
+      <![CDATA[{@inheritDoc}]]>
+      </doc>
+    </method>
+    <method name="hasEdgeConnecting" return="boolean"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="nodeU" type="N"/>
+      <param name="nodeV" type="N"/>
       <doc>
       <![CDATA[{@inheritDoc}]]>
       </doc>

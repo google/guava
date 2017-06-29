@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":6,"i1":6,"i2":6,"i3":6,"i4":6,"i5":6,"i6":6,"i7":6,"i8":6,"i9":6,"i10":6,"i11":6,"i12":6,"i13":6,"i14":6,"i15":6,"i16":6,"i17":6,"i18":6,"i19":6,"i20":6,"i21":6,"i22":6};
+var methods = {"i0":6,"i1":6,"i2":6,"i3":6,"i4":6,"i5":6,"i6":6,"i7":6,"i8":6,"i9":6,"i10":6,"i11":6,"i12":6,"i13":6,"i14":6,"i15":6,"i16":6,"i17":6,"i18":6,"i19":6,"i20":6,"i21":6,"i22":6,"i23":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -287,78 +287,85 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 </td>
 </tr>
 <tr id="i11" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#hasEdgeConnecting-N-N-">hasEdgeConnecting</a></span>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
+                 <a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;nodeV)</code>
+<div class="block">Returns true if there is an edge directly connecting <code>nodeU</code> to <code>nodeV</code>.</div>
+</td>
+</tr>
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#hashCode--">hashCode</a></span>()</code>
 <div class="block">Returns the hash code for this network.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#incidentEdges-N-">incidentEdges</a></span>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;node)</code>
 <div class="block">Returns the edges whose <a href="../../../../com/google/common/graph/Network.html#incidentNodes-E-"><code>incident nodes</code></a> in this network include
  <code>node</code>.</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#incidentNodes-E-">incidentNodes</a></span>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&nbsp;edge)</code>
 <div class="block">Returns the nodes which are the endpoints of <code>edge</code> in this network.</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#inDegree-N-">inDegree</a></span>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;node)</code>
 <div class="block">Returns the count of <code>node</code>'s <a href="../../../../com/google/common/graph/Network.html#inEdges-N-"><code>incoming edges</code></a> in a directed
  network.</div>
 </td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#inEdges-N-">inEdges</a></span>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;node)</code>
 <div class="block">Returns all edges in this network which can be traversed in the direction (if any) of the edge
  to end at <code>node</code>.</div>
 </td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#isDirected--">isDirected</a></span>()</code>
 <div class="block">Returns true if the edges in this network are directed.</div>
 </td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#nodeOrder--">nodeOrder</a></span>()</code>
 <div class="block">Returns the order of iteration for the elements of <a href="../../../../com/google/common/graph/Network.html#nodes--"><code>nodes()</code></a>.</div>
 </td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#nodes--">nodes</a></span>()</code>
 <div class="block">Returns all nodes in this network, in the order specified by <a href="../../../../com/google/common/graph/Network.html#nodeOrder--"><code>nodeOrder()</code></a>.</div>
 </td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#outDegree-N-">outDegree</a></span>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;node)</code>
 <div class="block">Returns the count of <code>node</code>'s <a href="../../../../com/google/common/graph/Network.html#outEdges-N-"><code>outgoing edges</code></a> in a directed
  network.</div>
 </td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#outEdges-N-">outEdges</a></span>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;node)</code>
 <div class="block">Returns all edges in this network which can be traversed in the direction (if any) of the edge
  starting from <code>node</code>.</div>
 </td>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i22" class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#predecessors-N-">predecessors</a></span>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;node)</code>
 <div class="block">Returns all nodes in this network adjacent to <code>node</code> which can be reached by traversing
  <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
 </td>
 </tr>
-<tr id="i22" class="altColor">
+<tr id="i23" class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#successors-N-">successors</a></span>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;node)</code>
 <div class="block">Returns all nodes in this network adjacent to <code>node</code> which can be reached by traversing
@@ -733,13 +740,34 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 </dl>
 </li>
 </ul>
+<a name="hasEdgeConnecting-java.lang.Object-java.lang.Object-">
+<!--   -->
+</a><a name="hasEdgeConnecting-N-N-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>hasEdgeConnecting</h4>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.312">hasEdgeConnecting</a>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
+                          <a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;nodeV)</pre>
+<div class="block">Returns true if there is an edge directly connecting <code>nodeU</code> to <code>nodeV</code>. This is
+ equivalent to <code>nodes().contains(nodeU) &amp;&amp; successors(nodeU).contains(nodeV)</code>,
+ and to <code>edgeConnectingOrNull(nodeU, nodeV) != null</code>.
+
+ <p>In an undirected graph, this is equal to <code>hasEdgeConnecting(nodeV, nodeU)</code>.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>23.0</dd>
+</dl>
+</li>
+</ul>
 <a name="equals-java.lang.Object-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.328">equals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.339">equals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> that has the same elements and the
  same structural relationships as those in this network.
@@ -771,7 +799,7 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.338">hashCode</a>()</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.349">hashCode</a>()</pre>
 <div class="block">Returns the hash code for this network. The hash code of a network is defined as the hash code
  of a map from each of its <a href="../../../../com/google/common/graph/Network.html#edges--"><code>edges</code></a> to their <a href="../../../../com/google/common/graph/Network.html#incidentNodes-E-"><code>incident nodes</code></a>.
 
