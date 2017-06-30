@@ -418,7 +418,7 @@
 <span class="sourceLineNo">410</span>   */<a name="line.410"></a>
 <span class="sourceLineNo">411</span>  @Beta<a name="line.411"></a>
 <span class="sourceLineNo">412</span>  public final FluentIterable&lt;E&gt; append(Iterable&lt;? extends E&gt; other) {<a name="line.412"></a>
-<span class="sourceLineNo">413</span>    return from(FluentIterable.concat(getDelegate(), other));<a name="line.413"></a>
+<span class="sourceLineNo">413</span>    return FluentIterable.concat(getDelegate(), other);<a name="line.413"></a>
 <span class="sourceLineNo">414</span>  }<a name="line.414"></a>
 <span class="sourceLineNo">415</span><a name="line.415"></a>
 <span class="sourceLineNo">416</span>  /**<a name="line.416"></a>
@@ -431,7 +431,7 @@
 <span class="sourceLineNo">423</span>   */<a name="line.423"></a>
 <span class="sourceLineNo">424</span>  @Beta<a name="line.424"></a>
 <span class="sourceLineNo">425</span>  public final FluentIterable&lt;E&gt; append(E... elements) {<a name="line.425"></a>
-<span class="sourceLineNo">426</span>    return from(FluentIterable.concat(getDelegate(), Arrays.asList(elements)));<a name="line.426"></a>
+<span class="sourceLineNo">426</span>    return FluentIterable.concat(getDelegate(), Arrays.asList(elements));<a name="line.426"></a>
 <span class="sourceLineNo">427</span>  }<a name="line.427"></a>
 <span class="sourceLineNo">428</span><a name="line.428"></a>
 <span class="sourceLineNo">429</span>  /**<a name="line.429"></a>
@@ -523,7 +523,7 @@
 <span class="sourceLineNo">515</span>   */<a name="line.515"></a>
 <span class="sourceLineNo">516</span>  public &lt;T&gt; FluentIterable&lt;T&gt; transformAndConcat(<a name="line.516"></a>
 <span class="sourceLineNo">517</span>      Function&lt;? super E, ? extends Iterable&lt;? extends T&gt;&gt; function) {<a name="line.517"></a>
-<span class="sourceLineNo">518</span>    return from(FluentIterable.concat(transform(function)));<a name="line.518"></a>
+<span class="sourceLineNo">518</span>    return FluentIterable.concat(transform(function));<a name="line.518"></a>
 <span class="sourceLineNo">519</span>  }<a name="line.519"></a>
 <span class="sourceLineNo">520</span><a name="line.520"></a>
 <span class="sourceLineNo">521</span>  /**<a name="line.521"></a>
