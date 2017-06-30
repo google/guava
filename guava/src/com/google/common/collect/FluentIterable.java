@@ -407,7 +407,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    */
   @Beta
   public final FluentIterable<E> append(Iterable<? extends E> other) {
-    return from(FluentIterable.concat(getDelegate(), other));
+    return FluentIterable.concat(getDelegate(), other);
   }
 
   /**
@@ -420,7 +420,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    */
   @Beta
   public final FluentIterable<E> append(E... elements) {
-    return from(FluentIterable.concat(getDelegate(), Arrays.asList(elements)));
+    return FluentIterable.concat(getDelegate(), Arrays.asList(elements));
   }
 
   /**
@@ -512,7 +512,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    */
   public <T> FluentIterable<T> transformAndConcat(
       Function<? super E, ? extends Iterable<? extends T>> function) {
-    return from(FluentIterable.concat(transform(function)));
+    return FluentIterable.concat(transform(function));
   }
 
   /**
