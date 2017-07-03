@@ -17,6 +17,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import java.util.Collections;
@@ -24,7 +25,18 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 /**
- * A sorted set of contiguous values in a given {@link DiscreteDomain}.
+ * A sorted set of contiguous values in a given {@link DiscreteDomain}. Example:
+ *
+ * <pre>{@code
+ * ContiguousSet.create(Range.closed(5, 42), DiscreteDomain.integers())
+ * }</pre>
+ *
+ * <p>Note that because bounded ranges over {@code int} and {@code long} values are so common, this
+ * particular example can be written as just:
+ *
+ * <pre>{@code
+ * ContiguousSet.closed(5, 42)
+ * }</pre>
  *
  * <p><b>Warning:</b> Be extremely careful what you do with conceptually large instances (such as
  * {@code ContiguousSet.create(Range.greaterThan(0), DiscreteDomain.integers()}). Certain
@@ -73,6 +85,62 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
     return empty
         ? new EmptyContiguousSet<C>(domain)
         : new RegularContiguousSet<C>(effectiveRange, domain);
+  }
+
+  /**
+   * Returns a nonempty contiguous set containing all {@code int} values from {@code lower}
+   * (inclusive) to {@code upper} (inclusive). (These are the same values contained in {@code
+   * Range.closed(lower, upper)}.)
+   *
+   * @throws IllegalArgumentException if {@code lower} is greater than {@code upper}
+   *
+   * @since 23.0
+   */
+  @Beta
+  public static ContiguousSet<Integer> closed(int lower, int upper) {
+    return create(Range.closed(lower, upper), DiscreteDomain.integers());
+  }
+
+  /**
+   * Returns a nonempty contiguous set containing all {@code long} values from {@code lower}
+   * (inclusive) to {@code upper} (inclusive). (These are the same values contained in {@code
+   * Range.closed(lower, upper)}.)
+   *
+   * @throws IllegalArgumentException if {@code lower} is greater than {@code upper}
+   *
+   * @since 23.0
+   */
+  @Beta
+  public static ContiguousSet<Long> closed(long lower, long upper) {
+    return create(Range.closed(lower, upper), DiscreteDomain.longs());
+  }
+
+  /**
+   * Returns a contiguous set containing all {@code int} values from {@code lower} (inclusive) to
+   * {@code upper} (exclusive). If the endpoints are equal, an empty set is returned. (These are the
+   * same values contained in {@code Range.closedOpen(lower, upper)}.)
+   *
+   * @throws IllegalArgumentException if {@code lower} is greater than {@code upper}
+   *
+   * @since 23.0
+   */
+  @Beta
+  public static ContiguousSet<Integer> closedOpen(int lower, int upper) {
+    return create(Range.closedOpen(lower, upper), DiscreteDomain.integers());
+  }
+
+  /**
+   * Returns a contiguous set containing all {@code long} values from {@code lower} (inclusive) to
+   * {@code upper} (exclusive). If the endpoints are equal, an empty set is returned. (These are the
+   * same values contained in {@code Range.closedOpen(lower, upper)}.)
+   *
+   * @throws IllegalArgumentException if {@code lower} is greater than {@code upper}
+   *
+   * @since 23.0
+   */
+  @Beta
+  public static ContiguousSet<Long> closedOpen(long lower, long upper) {
+    return create(Range.closedOpen(lower, upper), DiscreteDomain.longs());
   }
 
   final DiscreteDomain<C> domain;
