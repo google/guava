@@ -1,6 +1,10 @@
 OK: com.google.common.util.concurrent.FluentFuture Class
 OK: com.google.common.graph.PredecessorsFunction Interface
 OK: com.google.common.graph.SuccessorsFunction Interface
+OK: com.google.common.collect.ContiguousSet Method closed(int, int)
+OK: com.google.common.collect.ContiguousSet Method closed(long, long)
+OK: com.google.common.collect.ContiguousSet Method closedOpen(int, int)
+OK: com.google.common.collect.ContiguousSet Method closedOpen(long, long)
 OK: com.google.common.collect.Sets Method combinations(java.util.Set<E>, int)
 NO DOC BLOCK: com.google.common.graph.AbstractNetwork Method edgeConnecting(N, N)
 OK: com.google.common.graph.Network Method edgeConnecting(N, N)
