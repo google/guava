@@ -114,6 +114,11 @@
           <artifactId>maven-jar-plugin</artifactId>
           <version>2.3.1</version>
           <configuration>
+            <archive>
+              <manifestEntries>
+                <Automatic-Module-Name>com.google.common</Automatic-Module-Name>
+              </manifestEntries>
+            </archive>
             <excludes>
               <exclude>**/ForceGuavaCompilation*</exclude>
             </excludes>
