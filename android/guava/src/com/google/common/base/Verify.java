@@ -93,6 +93,7 @@ public final class Verify {
    * message otherwise.
    *
    * @throws VerifyException if {@code expression} is {@code false}
+   * @see Preconditions#checkState Preconditions.checkState()
    */
   public static void verify(boolean expression) {
     if (!expression) {
@@ -113,6 +114,7 @@ public final class Verify {
    * @param errorMessageArgs the arguments to be substituted into the message template. Arguments
    *     are converted to strings using {@link String#valueOf(Object)}.
    * @throws VerifyException if {@code expression} is {@code false}
+   * @see Preconditions#checkState Preconditions.checkState()
    */
   public static void verify(
       boolean expression,
@@ -129,6 +131,7 @@ public final class Verify {
    *
    * @return {@code reference}, guaranteed to be non-null, for convenience
    * @throws VerifyException if {@code reference} is {@code null}
+   * @see Preconditions#checkNotNull Preconditions.checkNotNull()
    */
   @CanIgnoreReturnValue
   public static <T> T verifyNotNull(@Nullable T reference) {
@@ -148,6 +151,7 @@ public final class Verify {
    *     are converted to strings using {@link String#valueOf(Object)}.
    * @return {@code reference}, guaranteed to be non-null, for convenience
    * @throws VerifyException if {@code reference} is {@code null}
+   * @see Preconditions#checkNotNull Preconditions.checkNotNull()
    */
   @CanIgnoreReturnValue
   public static <T> T verifyNotNull(

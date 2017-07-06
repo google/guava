@@ -82,7 +82,8 @@ import javax.annotation.Nullable;
  * which are <i>not the caller's fault</i>. Doing so is <b>not recommended</b> because it is
  * misleading to future readers of the code and of stack traces. See <a
  * href="https://github.com/google/guava/wiki/ConditionalFailuresExplained">Conditional failures
- * explained</a> in the Guava User Guide for more advice.
+ * explained</a> in the Guava User Guide for more advice. Notably, {@link Verify} offers assertions
+ * similar to those in this class for non-precondition checks.
  *
  * <h3>{@code java.util.Objects.requireNonNull()}</h3>
  *
@@ -435,6 +436,7 @@ public final class Preconditions {
    *
    * @param expression a boolean expression
    * @throws IllegalStateException if {@code expression} is false
+   * @see Verify#verify Verify.verify()
    */
   public static void checkState(boolean expression) {
     if (!expression) {
@@ -450,6 +452,7 @@ public final class Preconditions {
    * @param errorMessage the exception message to use if the check fails; will be converted to a
    *     string using {@link String#valueOf(Object)}
    * @throws IllegalStateException if {@code expression} is false
+   * @see Verify#verify Verify.verify()
    */
   public static void checkState(boolean expression, @Nullable Object errorMessage) {
     if (!expression) {
@@ -472,6 +475,7 @@ public final class Preconditions {
    * @throws IllegalStateException if {@code expression} is false
    * @throws NullPointerException if the check fails and either {@code errorMessageTemplate} or
    *     {@code errorMessageArgs} is null (don't let this happen)
+   * @see Verify#verify Verify.verify()
    */
   public static void checkState(
       boolean expression,
@@ -775,6 +779,7 @@ public final class Preconditions {
    * @param reference an object reference
    * @return the non-null reference that was validated
    * @throws NullPointerException if {@code reference} is null
+   * @see Verify#verifyNotNull Verify.verifyNotNull()
    */
   @CanIgnoreReturnValue
   public static <T> T checkNotNull(T reference) {
@@ -792,6 +797,7 @@ public final class Preconditions {
    *     string using {@link String#valueOf(Object)}
    * @return the non-null reference that was validated
    * @throws NullPointerException if {@code reference} is null
+   * @see Verify#verifyNotNull Verify.verifyNotNull()
    */
   @CanIgnoreReturnValue
   public static <T> T checkNotNull(T reference, @Nullable Object errorMessage) {
@@ -814,6 +820,7 @@ public final class Preconditions {
    *     are converted to strings using {@link String#valueOf(Object)}.
    * @return the non-null reference that was validated
    * @throws NullPointerException if {@code reference} is null
+   * @see Verify#verifyNotNull Verify.verifyNotNull()
    */
   @CanIgnoreReturnValue
   public static <T> T checkNotNull(
