@@ -95,7 +95,7 @@ public class Murmur3Hash32Test extends TestCase {
       }
     };
     // Murmur3A, MurmurHash3 for x86, 32-bit (MurmurHash3_x86_32)
-    // http://code.google.com/p/smhasher/source/browse/trunk/main.cpp
+    // https://github.com/aappleby/smhasher/blob/master/src/main.cpp
     HashTestUtils.verifyHashFunction(hf, 32, 0xB0F57EE3);
   }
 
@@ -108,7 +108,7 @@ public class Murmur3Hash32Test extends TestCase {
       }
     };
     // Murmur3A, MurmurHash3 for x86, 32-bit (MurmurHash3_x86_32)
-    // http://code.google.com/p/smhasher/source/browse/trunk/main.cpp
+    // https://github.com/aappleby/smhasher/blob/master/src/main.cpp
     HashTestUtils.verifyHashFunction(hf, 32, 0xB0F57EE3);
   }
 
