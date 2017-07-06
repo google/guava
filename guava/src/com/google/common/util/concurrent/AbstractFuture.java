@@ -34,6 +34,7 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
@@ -926,10 +927,14 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
    * @return null if an explanation cannot be provided because the future is done.
    */
   @Nullable
-  String pendingToString() {
+  protected String pendingToString() {
     Object localValue = value;
     if (localValue instanceof SetFuture) {
       return "setFuture=[" + ((SetFuture) localValue).future + "]";
+    } else if (this instanceof ScheduledFuture) {
+      return "remaining delay=["
+          + ((ScheduledFuture) this).getDelay(TimeUnit.MILLISECONDS)
+          + " ms]";
     }
     return null;
   }
