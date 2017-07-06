@@ -4204,7 +4204,8 @@
  involving any parameters to the calling method.
 
  @param expression a boolean expression
- @throws IllegalStateException if {@code expression} is false]]>
+ @throws IllegalStateException if {@code expression} is false
+ @see Verify#verify Verify.verify()]]>
       </doc>
     </method>
     <method name="checkState"
@@ -4220,7 +4221,8 @@
  @param expression a boolean expression
  @param errorMessage the exception message to use if the check fails; will be converted to a
      string using {@link String#valueOf(Object)}
- @throws IllegalStateException if {@code expression} is false]]>
+ @throws IllegalStateException if {@code expression} is false
+ @see Verify#verify Verify.verify()]]>
       </doc>
     </method>
     <method name="checkState"
@@ -4244,7 +4246,8 @@
      are converted to strings using {@link String#valueOf(Object)}.
  @throws IllegalStateException if {@code expression} is false
  @throws NullPointerException if the check fails and either {@code errorMessageTemplate} or
-     {@code errorMessageArgs} is null (don't let this happen)]]>
+     {@code errorMessageArgs} is null (don't let this happen)
+ @see Verify#verify Verify.verify()]]>
       </doc>
     </method>
     <method name="checkState"
@@ -4586,7 +4589,8 @@
 
  @param reference an object reference
  @return the non-null reference that was validated
- @throws NullPointerException if {@code reference} is null]]>
+ @throws NullPointerException if {@code reference} is null
+ @see Verify#verifyNotNull Verify.verifyNotNull()]]>
       </doc>
     </method>
     <method name="checkNotNull" return="T"
@@ -4602,7 +4606,8 @@
  @param errorMessage the exception message to use if the check fails; will be converted to a
      string using {@link String#valueOf(Object)}
  @return the non-null reference that was validated
- @throws NullPointerException if {@code reference} is null]]>
+ @throws NullPointerException if {@code reference} is null
+ @see Verify#verifyNotNull Verify.verifyNotNull()]]>
       </doc>
     </method>
     <method name="checkNotNull" return="T"
@@ -4624,7 +4629,8 @@
  @param errorMessageArgs the arguments to be substituted into the message template. Arguments
      are converted to strings using {@link String#valueOf(Object)}.
  @return the non-null reference that was validated
- @throws NullPointerException if {@code reference} is null]]>
+ @throws NullPointerException if {@code reference} is null
+ @see Verify#verifyNotNull Verify.verifyNotNull()]]>
       </doc>
     </method>
     <method name="checkNotNull" return="T"
@@ -5090,7 +5096,8 @@
  which are <i>not the caller's fault</i>. Doing so is <b>not recommended</b> because it is
  misleading to future readers of the code and of stack traces. See <a
  href="https://github.com/google/guava/wiki/ConditionalFailuresExplained">Conditional failures
- explained</a> in the Guava User Guide for more advice.
+ explained</a> in the Guava User Guide for more advice. Notably, {@link Verify} offers assertions
+ similar to those in this class for non-precondition checks.
 
  <h3>{@code java.util.Objects.requireNonNull()}</h3>
 
@@ -6762,7 +6769,8 @@
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with no
  message otherwise.
 
- @throws VerifyException if {@code expression} is {@code false}]]>
+ @throws VerifyException if {@code expression} is {@code false}
+ @see Preconditions#checkState Preconditions.checkState()]]>
       </doc>
     </method>
     <method name="verify"
@@ -6784,7 +6792,8 @@
      message in square braces. Unmatched placeholders will be left as-is.
  @param errorMessageArgs the arguments to be substituted into the message template. Arguments
      are converted to strings using {@link String#valueOf(Object)}.
- @throws VerifyException if {@code expression} is {@code false}]]>
+ @throws VerifyException if {@code expression} is {@code false}
+ @see Preconditions#checkState Preconditions.checkState()]]>
       </doc>
     </method>
     <method name="verifyNotNull" return="T"
@@ -6797,7 +6806,8 @@
  message otherwise.
 
  @return {@code reference}, guaranteed to be non-null, for convenience
- @throws VerifyException if {@code reference} is {@code null}]]>
+ @throws VerifyException if {@code reference} is {@code null}
+ @see Preconditions#checkNotNull Preconditions.checkNotNull()]]>
       </doc>
     </method>
     <method name="verifyNotNull" return="T"
@@ -6819,7 +6829,8 @@
  @param errorMessageArgs the arguments to be substituted into the message template. Arguments
      are converted to strings using {@link String#valueOf(Object)}.
  @return {@code reference}, guaranteed to be non-null, for convenience
- @throws VerifyException if {@code reference} is {@code null}]]>
+ @throws VerifyException if {@code reference} is {@code null}
+ @see Preconditions#checkNotNull Preconditions.checkNotNull()]]>
       </doc>
     </method>
     <doc>
@@ -59198,6 +59209,16 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+    </method>
+    <method name="pendingToString" return="java.lang.String"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="protected"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Provide a human-readable explanation of why this future has not yet completed.
+
+ @return null if an explanation cannot be provided because the future is done.]]>
+      </doc>
     </method>
     <doc>
     <![CDATA[An abstract implementation of {@link ListenableFuture}, intended for advanced users only. More
