@@ -832,7 +832,8 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
 
   /**
    * Returns the exception that this {@code Future} completed with. This includes completion through
-   * a call to {@link setException} or {@link setFuture}{@code (failedFuture)} but not cancellation.
+   * a call to {@link #setException} or {@link #setFuture setFuture}{@code (failedFuture)} but not
+   * cancellation.
    *
    * @throws RuntimeException if the {@code Future} has not failed
    */
