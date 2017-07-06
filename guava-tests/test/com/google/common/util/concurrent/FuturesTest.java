@@ -2622,7 +2622,7 @@ public class FuturesTest extends TestCase {
   }
 
   /**
-   * {@link allAsList(Iterable)} or {@link successfulAsList(Iterable)}, hidden
+   * {@link Futures#allAsList(Iterable)} or {@link Futures#successfulAsList(Iterable)}, hidden
    * behind a common interface for testing.
    */
   @GwtIncompatible // used only in GwtIncompatible tests
