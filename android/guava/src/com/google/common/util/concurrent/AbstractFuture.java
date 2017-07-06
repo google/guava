@@ -925,6 +925,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
    * Provide a human-readable explanation of why this future has not yet completed.
    *
    * @return null if an explanation cannot be provided because the future is done.
+   * @since 23.0
    */
   @Nullable
   protected String pendingToString() {
