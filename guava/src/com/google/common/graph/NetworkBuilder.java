@@ -80,7 +80,7 @@ public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
    * #expectedNodeCount(int)}, are not set in the new builder.
    */
   public static <N, E> NetworkBuilder<N, E> from(Network<N, E> network) {
-    return new NetworkBuilder<Object, Object>(network.isDirected())
+    return new NetworkBuilder<N, E>(network.isDirected())
         .allowsParallelEdges(network.allowsParallelEdges())
         .allowsSelfLoops(network.allowsSelfLoops())
         .nodeOrder(network.nodeOrder())

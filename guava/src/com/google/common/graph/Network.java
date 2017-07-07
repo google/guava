@@ -287,7 +287,8 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
   Set<E> edgesConnecting(N nodeU, N nodeV);
 
   /**
-   * Returns the single edge directly connecting {@code nodeU} to {@code nodeV}, if one is present.
+   * Returns the single edge directly connecting {@code nodeU} to {@code nodeV}, if one is present,
+   * or {@code Optional.empty()} if no such edge exists.
    *
    * <p>In an undirected network, this is equal to {@code edgeConnecting(nodeV, nodeU)}.
    *

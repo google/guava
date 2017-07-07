@@ -26,6 +26,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayDeque;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -387,13 +388,9 @@ public final class Graphs {
     }
 
     @Override
-    public V edgeValue(N nodeU, N nodeV) {
-      return graph.edgeValue(nodeV, nodeU); // transpose
-    }
-
-    @Override
-    public V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue) {
-      return graph.edgeValueOrDefault(nodeV, nodeU, defaultValue); // transpose
+    @Nullable
+    public V edgeValueOrNull(N nodeU, N nodeV) {
+      return graph.edgeValueOrNull(nodeV, nodeU); // transpose
     }
   }
 
@@ -524,7 +521,9 @@ public final class Graphs {
    * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
    */
   public static <N> MutableGraph<N> inducedSubgraph(Graph<N> graph, Iterable<? extends N> nodes) {
-    MutableGraph<N> subgraph = GraphBuilder.from(graph).build();
+    MutableGraph<N> subgraph = (nodes instanceof Collection)
+        ? GraphBuilder.from(graph).expectedNodeCount(((Collection) nodes).size()).build()
+        : GraphBuilder.from(graph).build();
     for (N node : nodes) {
       subgraph.addNode(node);
     }
@@ -548,14 +547,16 @@ public final class Graphs {
    */
   public static <N, V> MutableValueGraph<N, V> inducedSubgraph(
       ValueGraph<N, V> graph, Iterable<? extends N> nodes) {
-    MutableValueGraph<N, V> subgraph = ValueGraphBuilder.from(graph).build();
+    MutableValueGraph<N, V> subgraph = (nodes instanceof Collection)
+        ? ValueGraphBuilder.from(graph).expectedNodeCount(((Collection) nodes).size()).build()
+        : ValueGraphBuilder.from(graph).build();
     for (N node : nodes) {
       subgraph.addNode(node);
     }
     for (N node : subgraph.nodes()) {
       for (N successorNode : graph.successors(node)) {
         if (subgraph.nodes().contains(successorNode)) {
-          subgraph.putEdgeValue(node, successorNode, graph.edgeValue(node, successorNode));
+          subgraph.putEdgeValue(node, successorNode, graph.edgeValueOrNull(node, successorNode));
         }
       }
     }
@@ -573,7 +574,9 @@ public final class Graphs {
   @GwtIncompatible
   public static <N, E> MutableNetwork<N, E> inducedSubgraph(
       Network<N, E> network, Iterable<? extends N> nodes) {
-    MutableNetwork<N, E> subgraph = NetworkBuilder.from(network).build();
+    MutableNetwork<N, E> subgraph = (nodes instanceof Collection)
+        ? NetworkBuilder.from(network).expectedNodeCount(((Collection) nodes).size()).build()
+        : NetworkBuilder.from(network).build();
     for (N node : nodes) {
       subgraph.addNode(node);
     }
@@ -608,7 +611,8 @@ public final class Graphs {
       copy.addNode(node);
     }
     for (EndpointPair<N> edge : graph.edges()) {
-      copy.putEdgeValue(edge.nodeU(), edge.nodeV(), graph.edgeValue(edge.nodeU(), edge.nodeV()));
+      copy.putEdgeValue(
+          edge.nodeU(), edge.nodeV(), graph.edgeValueOrNull(edge.nodeU(), edge.nodeV()));
     }
     return copy;
   }

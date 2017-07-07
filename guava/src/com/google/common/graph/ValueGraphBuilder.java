@@ -72,8 +72,8 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
    * interface, such as {@link ValueGraph#isDirected()}. Other properties, such as {@link
    * #expectedNodeCount(int)}, are not set in the new builder.
    */
-  public static <N> ValueGraphBuilder<N, Object> from(ValueGraph<N, ?> graph) {
-    return new ValueGraphBuilder<N, Object>(graph.isDirected())
+  public static <N, V> ValueGraphBuilder<N, V> from(ValueGraph<N, V> graph) {
+    return new ValueGraphBuilder<N, V>(graph.isDirected())
         .allowsSelfLoops(graph.allowsSelfLoops())
         .nodeOrder(graph.nodeOrder());
   }

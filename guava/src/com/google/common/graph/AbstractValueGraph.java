@@ -16,13 +16,11 @@
 
 package com.google.common.graph;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
-
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import javax.annotation.Nullable;
 
@@ -103,15 +101,8 @@ public abstract class AbstractValueGraph<N, V> extends AbstractBaseGraph<N>
   }
 
   @Override
-  public V edgeValue(N nodeU, N nodeV) {
-    V value = edgeValueOrDefault(nodeU, nodeV, null);
-    if (value == null) {
-      checkArgument(nodes().contains(nodeU), NODE_NOT_IN_GRAPH, nodeU);
-      checkArgument(nodes().contains(nodeV), NODE_NOT_IN_GRAPH, nodeV);
-      throw new IllegalArgumentException(
-          "Edge connecting " + nodeU + " to " + nodeV + " is not present in this graph.");
-    }
-    return value;
+  public Optional<V> edgeValue(N nodeU, N nodeV) {
+    return Optional.ofNullable(edgeValueOrNull(nodeU, nodeV));
   }
 
   @Override
@@ -152,7 +143,7 @@ public abstract class AbstractValueGraph<N, V> extends AbstractBaseGraph<N>
         new Function<EndpointPair<N>, V>() {
           @Override
           public V apply(EndpointPair<N> edge) {
-            return graph.edgeValue(edge.nodeU(), edge.nodeV());
+            return graph.edgeValueOrNull(edge.nodeU(), edge.nodeV());
           }
         };
     return Maps.asMap(graph.edges(), edgeToValueFn);

@@ -175,23 +175,16 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
   boolean hasEdgeConnecting(N nodeU, N nodeV);
 
   /**
-   * If there is an edge connecting {@code nodeU} to {@code nodeV}, returns the non-null value
-   * associated with that edge.
+   * Returns the value of the edge connecting {@code nodeU} to {@code nodeV}, if one is present;
+   * otherwise, returns null.
    *
-   * <p>In an undirected graph, this is equal to {@code edgeValue(nodeV, nodeU)}.
+   * <p>In an undirected graph, this is equal to {@code edgeValueOrNull(nodeV, nodeU)}.
    *
-   * @throws IllegalArgumentException if there is no edge connecting {@code nodeU} to {@code nodeV}.
+   * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
+   *     graph
    */
-  V edgeValue(N nodeU, N nodeV);
-
-  /**
-   * If there is an edge connecting {@code nodeU} to {@code nodeV}, returns the non-null value
-   * associated with that edge; otherwise, returns {@code defaultValue}.
-   *
-   * <p>In an undirected graph, this is equal to {@code edgeValueOrDefault(nodeV, nodeU,
-   * defaultValue)}.
-   */
-  V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue);
+  @Nullable
+  V edgeValueOrNull(N nodeU, N nodeV);
 
   //
   // ValueGraph identity
