@@ -6531,7 +6531,9 @@
 
  <pre>
  assertEquals("Unable to assign a customer id", Throwables.getRootCause(e).getMessage());
- </pre>]]>
+ </pre>
+
+ @throws IllegalArgumentException if there is a loop in the causal chain]]>
       </doc>
     </method>
     <method name="getCausalChain" return="java.util.List&lt;java.lang.Throwable&gt;"
@@ -6552,7 +6554,8 @@
  </pre>
 
  @param throwable the non-null {@code Throwable} to extract causes from
- @return an unmodifiable list containing the cause chain starting with {@code throwable}]]>
+ @return an unmodifiable list containing the cause chain starting with {@code throwable}
+ @throws IllegalArgumentException if there is a loop in the causal chain]]>
       </doc>
     </method>
     <method name="getCauseAs" return="X extends java.lang.Throwable"
