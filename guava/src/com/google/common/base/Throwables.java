@@ -248,11 +248,26 @@ public final class Throwables {
    * <pre>
    * assertEquals("Unable to assign a customer id", Throwables.getRootCause(e).getMessage());
    * </pre>
+   *
+   * @throws IllegalArgumentException if there is a loop in the causal chain
    */
   public static Throwable getRootCause(Throwable throwable) {
+    // Keep a second pointer that slowly walks the causal chain. If the fast pointer ever catches
+    // the slower pointer, then there's a loop.
+    Throwable slowPointer = throwable;
+    boolean advanceSlowPointer = false;
+
     Throwable cause;
     while ((cause = throwable.getCause()) != null) {
       throwable = cause;
+
+      if (throwable == slowPointer) {
+        throw new IllegalArgumentException("Loop in causal chain detected @ " + throwable);
+      }
+      if (advanceSlowPointer) {
+        slowPointer = slowPointer.getCause();
+      }
+      advanceSlowPointer = !advanceSlowPointer; // only advance every other iteration
     }
     return throwable;
   }
@@ -271,14 +286,31 @@ public final class Throwables {
    *
    * @param throwable the non-null {@code Throwable} to extract causes from
    * @return an unmodifiable list containing the cause chain starting with {@code throwable}
+   * @throws IllegalArgumentException if there is a loop in the causal chain
    */
   @Beta // TODO(kevinb): decide best return type
   public static List<Throwable> getCausalChain(Throwable throwable) {
     checkNotNull(throwable);
     List<Throwable> causes = new ArrayList<Throwable>(4);
-    while (throwable != null) {
+    causes.add(throwable);
+
+    // Keep a second pointer that slowly walks the causal chain. If the fast pointer ever catches
+    // the slower pointer, then there's a loop.
+    Throwable slowPointer = throwable;
+    boolean advanceSlowPointer = false;
+
+    Throwable cause;
+    while ((cause = throwable.getCause()) != null) {
+      throwable = cause;
       causes.add(throwable);
-      throwable = throwable.getCause();
+
+      if (throwable == slowPointer) {
+        throw new IllegalArgumentException("Loop in causal chain detected @ " + throwable);
+      }
+      if (advanceSlowPointer) {
+        slowPointer = slowPointer.getCause();
+      }
+      advanceSlowPointer = !advanceSlowPointer; // only advance every other iteration
     }
     return Collections.unmodifiableList(causes);
   }

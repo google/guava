@@ -544,6 +544,17 @@ public class ThrowablesTest extends TestCase {
     assertSame(cause, Throwables.getRootCause(exception));
   }
 
+  public void testGetRootCause_Loop() {
+    Exception cause = new Exception();
+    Exception exception = new Exception(cause);
+    cause.initCause(exception);
+    try {
+      Throwables.getRootCause(cause);
+      fail("Should have throw IAE");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
   private static class SomeError extends Error {}
   private static class SomeCheckedException extends Exception {}
   private static class SomeOtherCheckedException extends Exception {}
@@ -618,6 +629,17 @@ public class ThrowablesTest extends TestCase {
       Throwables.getCausalChain(null);
       fail("Should have throw NPE");
     } catch (NullPointerException expected) {
+    }
+  }
+
+  public void testGetCasualChainLoop() {
+    Exception cause = new Exception();
+    Exception exception = new Exception(cause);
+    cause.initCause(exception);
+    try {
+      Throwables.getCausalChain(cause);
+      fail("Should have throw IAE");
+    } catch (IllegalArgumentException expected) {
     }
   }
 
