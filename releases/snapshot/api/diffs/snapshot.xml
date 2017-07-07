@@ -39491,10 +39491,10 @@
  <p>A network built by this class will have the following properties by default:
 
  <ul>
- <li>does not allow parallel edges
- <li>does not allow self-loops
- <li>orders {@link Network#nodes()} and {@link Network#edges()} in the order in which the elements
-     were added
+   <li>does not allow parallel edges
+   <li>does not allow self-loops
+   <li>orders {@link Network#nodes()} and {@link Network#edges()} in the order in which the
+       elements were added
  </ul>
 
  <p>Example of use:
