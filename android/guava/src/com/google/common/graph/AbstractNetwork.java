@@ -16,11 +16,11 @@
 
 package com.google.common.graph;
 
-import static com.google.common.graph.GraphConstants.GRAPH_STRING_FORMAT;
 import static com.google.common.graph.GraphConstants.MULTIPLE_EDGES_CONNECTING;
 import static java.util.Collections.unmodifiableSet;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
@@ -47,6 +47,7 @@ import javax.annotation.Nullable;
  * @since 20.0
  */
 @Beta
+@GwtIncompatible
 public abstract class AbstractNetwork<N, E> implements Network<N, E> {
 
   @Override
@@ -220,12 +221,16 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
   /** Returns a string representation of this network. */
   @Override
   public String toString() {
-    String propertiesString =
-        String.format(
-            "isDirected: %s, allowsParallelEdges: %s, allowsSelfLoops: %s",
-            isDirected(), allowsParallelEdges(), allowsSelfLoops());
-    return String.format(
-        GRAPH_STRING_FORMAT, propertiesString, nodes(), edgeIncidentNodesMap(this));
+    return "isDirected: "
+        + isDirected()
+        + ", allowsParallelEdges: "
+        + allowsParallelEdges()
+        + ", allowsSelfLoops: "
+        + allowsSelfLoops()
+        + ", nodes: "
+        + nodes()
+        + ", edges: "
+        + edgeIncidentNodesMap(this);
   }
 
   private static <N, E> Map<E, EndpointPair<N>> edgeIncidentNodesMap(final Network<N, E> network) {

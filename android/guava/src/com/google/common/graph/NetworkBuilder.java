@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.Graphs.checkNonNegative;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Optional;
 
 /**
@@ -28,10 +29,10 @@ import com.google.common.base.Optional;
  * <p>A network built by this class will have the following properties by default:
  *
  * <ul>
- * <li>does not allow parallel edges
- * <li>does not allow self-loops
- * <li>orders {@link Network#nodes()} and {@link Network#edges()} in the order in which the elements
- *     were added
+ *   <li>does not allow parallel edges
+ *   <li>does not allow self-loops
+ *   <li>orders {@link Network#nodes()} and {@link Network#edges()} in the order in which the
+ *       elements were added
  * </ul>
  *
  * <p>Example of use:
@@ -49,6 +50,7 @@ import com.google.common.base.Optional;
  * @since 20.0
  */
 @Beta
+@GwtIncompatible
 public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
   boolean allowsParallelEdges = false;
   ElementOrder<? super E> edgeOrder = ElementOrder.insertion();

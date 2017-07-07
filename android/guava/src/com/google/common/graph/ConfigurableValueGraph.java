@@ -18,7 +18,6 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.GraphConstants.DEFAULT_NODE_COUNT;
-import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
 import static com.google.common.graph.Graphs.checkNonNegative;
 
 import java.util.Map;
@@ -145,7 +144,7 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
     GraphConnections<N, V> connections = nodeConnections.get(node);
     if (connections == null) {
       checkNotNull(node);
-      throw new IllegalArgumentException(String.format(NODE_NOT_IN_GRAPH, node));
+      throw new IllegalArgumentException("Node " + node + " is not an element of this graph.");
     }
     return connections;
   }

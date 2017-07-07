@@ -17,8 +17,6 @@
 package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.graph.GraphConstants.EDGE_CONNECTING_NOT_IN_GRAPH;
-import static com.google.common.graph.GraphConstants.GRAPH_STRING_FORMAT;
 import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
 
 import com.google.common.annotations.Beta;
@@ -110,7 +108,8 @@ public abstract class AbstractValueGraph<N, V> extends AbstractBaseGraph<N>
     if (value == null) {
       checkArgument(nodes().contains(nodeU), NODE_NOT_IN_GRAPH, nodeU);
       checkArgument(nodes().contains(nodeV), NODE_NOT_IN_GRAPH, nodeV);
-      throw new IllegalArgumentException(String.format(EDGE_CONNECTING_NOT_IN_GRAPH, nodeU, nodeV));
+      throw new IllegalArgumentException(
+          "Edge connecting " + nodeU + " to " + nodeV + " is not present in this graph.");
     }
     return value;
   }
@@ -138,9 +137,14 @@ public abstract class AbstractValueGraph<N, V> extends AbstractBaseGraph<N>
   /** Returns a string representation of this graph. */
   @Override
   public String toString() {
-    String propertiesString =
-        String.format("isDirected: %s, allowsSelfLoops: %s", isDirected(), allowsSelfLoops());
-    return String.format(GRAPH_STRING_FORMAT, propertiesString, nodes(), edgeValueMap(this));
+    return "isDirected: "
+        + isDirected()
+        + ", allowsSelfLoops: "
+        + allowsSelfLoops()
+        + ", nodes: "
+        + nodes()
+        + ", edges: "
+        + edgeValueMap(this);
   }
 
   private static <N, V> Map<EndpointPair<N>, V> edgeValueMap(final ValueGraph<N, V> graph) {

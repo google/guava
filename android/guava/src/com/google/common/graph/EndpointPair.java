@@ -110,8 +110,7 @@ public abstract class EndpointPair<N> implements Iterable<N> {
     } else if (node.equals(nodeV)) {
       return nodeU;
     } else {
-      throw new IllegalArgumentException(
-          String.format("EndpointPair %s does not contain node %s", this, node));
+      throw new IllegalArgumentException("EndpointPair " + this + " does not contain node " + node);
     }
   }
 
@@ -187,7 +186,7 @@ public abstract class EndpointPair<N> implements Iterable<N> {
 
     @Override
     public String toString() {
-      return String.format("<%s -> %s>", source(), target());
+      return "<" + source() + " -> " + target() + ">";
     }
   }
 
@@ -247,7 +246,7 @@ public abstract class EndpointPair<N> implements Iterable<N> {
 
     @Override
     public String toString() {
-      return String.format("[%s, %s]", nodeU(), nodeV());
+      return "[" + nodeU() + ", " + nodeV() + "]";
     }
   }
 }
