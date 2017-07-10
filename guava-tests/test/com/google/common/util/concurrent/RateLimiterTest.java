@@ -183,7 +183,7 @@ public class RateLimiterTest extends TestCase {
 
   @AndroidIncompatible // difference in String.format rounding?
   public void testWarmUp() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, 2.0, 4000, MILLISECONDS, 3.0);
+    RateLimiter limiter = RateLimiter.create(2.0, 4000, MILLISECONDS, 3.0, stopwatch);
     for (int i = 0; i < 8; i++) {
       limiter.acquire(); // #1
     }
@@ -208,7 +208,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testWarmUpWithColdFactor() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, 5.0, 4000, MILLISECONDS, 10.0);
+    RateLimiter limiter = RateLimiter.create(5.0, 4000, MILLISECONDS, 10.0, stopwatch);
     for (int i = 0; i < 8; i++) {
       limiter.acquire(); // #1
     }
@@ -233,7 +233,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testWarmUpWithColdFactor1() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, 5.0, 4000, MILLISECONDS, 1.0);
+    RateLimiter limiter = RateLimiter.create(5.0, 4000, MILLISECONDS, 1.0, stopwatch);
     for (int i = 0; i < 8; i++) {
       limiter.acquire(); // #1
     }
@@ -249,7 +249,7 @@ public class RateLimiterTest extends TestCase {
 
   @AndroidIncompatible // difference in String.format rounding?
   public void testWarmUpAndUpdate() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, 2.0, 4000, MILLISECONDS, 3.0);
+    RateLimiter limiter = RateLimiter.create(2.0, 4000, MILLISECONDS, 3.0, stopwatch);
     for (int i = 0; i < 8; i++) {
       limiter.acquire(); // // #1
     }
@@ -281,7 +281,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testWarmUpAndUpdateWithColdFactor() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, 5.0, 4000, MILLISECONDS, 10.0);
+    RateLimiter limiter = RateLimiter.create(5.0, 4000, MILLISECONDS, 10.0, stopwatch);
     for (int i = 0; i < 8; i++) {
       limiter.acquire(); // #1
     }
@@ -416,7 +416,7 @@ public class RateLimiterTest extends TestCase {
 
   public void testInfinity_WarmUp() {
     RateLimiter limiter = RateLimiter.create(
-        stopwatch, Double.POSITIVE_INFINITY, 10, SECONDS, 3.0);
+        Double.POSITIVE_INFINITY, 10, SECONDS, 3.0, stopwatch);
     limiter.acquire(Integer.MAX_VALUE / 4);
     limiter.acquire(Integer.MAX_VALUE / 2);
     limiter.acquire(Integer.MAX_VALUE);
@@ -436,7 +436,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testInfinity_WarmUpTimeElapsed() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, Double.POSITIVE_INFINITY, 10, SECONDS, 3.0);
+    RateLimiter limiter = RateLimiter.create(Double.POSITIVE_INFINITY, 10, SECONDS, 3.0, stopwatch);
     stopwatch.instant += 1000000;
     limiter.setRate(1.0);
     for (int i = 0; i < 5; i++) {
@@ -484,7 +484,7 @@ public class RateLimiterTest extends TestCase {
           // warmupPeriod = (1 + coldFactor) * warmupPermits * stableInterval / 2
           long warmupMillis = (long) ((1 + coldFactor) * warmupPermits / (2.0 * qps) * 1000.0);
           RateLimiter rateLimiter = RateLimiter.create(
-              stopwatch, qps, warmupMillis, MILLISECONDS, coldFactor);
+              qps, warmupMillis, MILLISECONDS, coldFactor, stopwatch);
           assertEquals(warmupMillis, measureTotalTimeMillis(rateLimiter, warmupPermits, random));
         }
       }
