@@ -5461,17 +5461,10 @@
 <dd>
 <div class="block">Returns the set of edges directly connecting <code>nodeU</code> to <code>nodeV</code>.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/graph/AbstractValueGraph.html#edgeValue-N-N-">edgeValue(N, N)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractValueGraph.html" title="class in com.google.common.graph">AbstractValueGraph</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="com/google/common/graph/ValueGraph.html#edgeValue-N-N-">edgeValue(N, N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a></dt>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/ValueGraph.html#edgeValueOrNull-N-N-">edgeValueOrNull(N, N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a></dt>
 <dd>
-<div class="block">If there is an edge connecting <code>nodeU</code> to <code>nodeV</code>, returns the non-null value
- associated with that edge.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="com/google/common/graph/ValueGraph.html#edgeValueOrDefault-N-N-V-">edgeValueOrDefault(N, N, V)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a></dt>
-<dd>
-<div class="block">If there is an edge connecting <code>nodeU</code> to <code>nodeV</code>, returns the non-null value
- associated with that edge; otherwise, returns <code>defaultValue</code>.</div>
+<div class="block">Returns the value of the edge connecting <code>nodeU</code> to <code>nodeV</code>, if one is present;
+ otherwise, returns null.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Stopwatch.html#elapsed-java.util.concurrent.TimeUnit-">elapsed(TimeUnit)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/Stopwatch.html" title="class in com.google.common.base">Stopwatch</a></dt>
 <dd>
@@ -7216,7 +7209,7 @@
 <dd>
 <div class="block">Returns a <a href="com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph"><code>NetworkBuilder</code></a> initialized with all properties queryable from <code>network</code>.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/graph/ValueGraphBuilder.html#from-com.google.common.graph.ValueGraph-">from(ValueGraph&lt;N, ?&gt;)</a></span> - Static method in class com.google.common.graph.<a href="com/google/common/graph/ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a></dt>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/ValueGraphBuilder.html#from-com.google.common.graph.ValueGraph-">from(ValueGraph&lt;N, V&gt;)</a></span> - Static method in class com.google.common.graph.<a href="com/google/common/graph/ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a></dt>
 <dd>
 <div class="block">Returns a <a href="com/google/common/graph/ValueGraphBuilder.html" title="class in com.google.common.graph"><code>ValueGraphBuilder</code></a> initialized with all properties queryable from <code>graph</code>.</div>
 </dd>
@@ -8889,8 +8882,8 @@
 </dd>
 <dt><a href="com/google/common/collect/ImmutableMap.Builder.html" title="class in com.google.common.collect"><span class="typeNameLink">ImmutableMap.Builder</span></a>&lt;<a href="com/google/common/collect/ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,<a href="com/google/common/collect/ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt; - Class in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
-<div class="block">A builder for creating immutable map instances, especially <code>public static final</code> maps
- ("constant maps").</div>
+<div class="block">A builder for creating immutable map instances, especially <code>public
+ static final</code> maps ("constant maps").</div>
 </dd>
 <dt><a href="com/google/common/collect/ImmutableMultimap.html" title="class in com.google.common.collect"><span class="typeNameLink">ImmutableMultimap</span></a>&lt;<a href="com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">K</a>,<a href="com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">V</a>&gt; - Class in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
@@ -10093,7 +10086,8 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableMap.html#keySet--">keySet()</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a></dt>
 <dd>
-<div class="block">Returns an immutable set of the keys in this map.</div>
+<div class="block">Returns an immutable set of the keys in this map, in the same order that they appear in
+ <a href="com/google/common/collect/ImmutableMap.html#entrySet"><code>ImmutableMap.entrySet</code></a>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableMultimap.html#keySet--">keySet()</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableMultimap.html" title="class in com.google.common.collect">ImmutableMultimap</a></dt>
 <dd>
@@ -18136,11 +18130,12 @@ the order they are declared.</div>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableBiMap.html#values--">values()</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a></dt>
 <dd>
-<div class="block">Returns an immutable set of the values in this map.</div>
+<div class="block">Returns an immutable set of the values in this map, in the same order they appear in <a href="com/google/common/collect/ImmutableMap.html#entrySet"><code>ImmutableMap.entrySet</code></a>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableMap.html#values--">values()</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a></dt>
 <dd>
-<div class="block">Returns an immutable collection of the values in this map.</div>
+<div class="block">Returns an immutable collection of the values in this map, in the same order that they appear
+ in <a href="com/google/common/collect/ImmutableMap.html#entrySet"><code>ImmutableMap.entrySet</code></a>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableMultimap.html#values--">values()</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableMultimap.html" title="class in com.google.common.collect">ImmutableMultimap</a></dt>
 <dd>

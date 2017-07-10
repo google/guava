@@ -31,7 +31,7 @@ com.google.common.graph.ValueGraph
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
 &nbsp;<A HREF="com.google.common.graph.Network.html"><B>PREV CLASS</B></A>
-&nbsp;<B>NEXT CLASS</B>&nbsp;
+&nbsp;<A HREF="com.google.common.graph.ValueGraphBuilder.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.graph.ValueGraph.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
@@ -50,6 +50,22 @@ Interface com.google.common.graph.<A HREF="../../docs/com/google/common/graph/Va
 <a NAME="constructors"></a>
 <a NAME="methods"></a>
 <p>
+<a NAME="Removed"></a>
+<TABLE summary="Removed Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Removed Methods</B></FONT></TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.graph.ValueGraph.edgeValueOrDefault_removed(N, N, V)"></A>
+  <nobr><code>V</code>&nbsp;<A HREF="../../../../22.0/api/docs/com/google/common/graph/ValueGraph.html#edgeValueOrDefault(N, N, V)" target="_top"><tt>edgeValueOrDefault</tt></A>(<code>N,</nobr> N<nobr>,</nobr> V<nobr><nobr></code>)</nobr>
+  </TD>
+  <TD VALIGN="TOP">If there is an edge connecting {@code nodeU} to {@code nodeV}, returns the non-null value
+ associated with that edge; otherwise, returns {@code defaultValue}.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<p>
 <a NAME="Added"></a>
 <TABLE summary="Added Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
@@ -57,10 +73,37 @@ Interface com.google.common.graph.<A HREF="../../docs/com/google/common/graph/Va
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.graph.ValueGraph.edgeValueOrNull_added(N, N)"></A>
+  <nobr><code>V</code>&nbsp;<A HREF="../../docs/com/google/common/graph/ValueGraph.html#edgeValueOrNull(N, N)" target="_top"><tt>edgeValueOrNull</tt></A>(<code>N,</nobr> N<nobr><nobr></code>)</nobr>
+  </TD>
+  <TD VALIGN="TOP">Returns the value of the edge connecting {@code nodeU} to {@code nodeV}, if one is present;
+ otherwise, returns null.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="com.google.common.graph.ValueGraph.hasEdgeConnecting_added(N, N)"></A>
   <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/graph/ValueGraph.html#hasEdgeConnecting(N, N)" target="_top"><tt>hasEdgeConnecting</tt></A>(<code>N,</nobr> N<nobr><nobr></code>)</nobr>
   </TD>
   <TD VALIGN="TOP">{@inheritDoc}</TD>
+</TR>
+</TABLE>
+&nbsp;
+<p>
+<a NAME="Changed"></a>
+<TABLE summary="Changed Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+  <TD VALIGN="TOP" COLSPAN=3><FONT SIZE="+1"><B>Changed Methods</B></FONT></TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.graph.ValueGraph.edgeValue_changed(N, N)"></A>
+  <nobr><code>Optional&lt;V&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/graph/ValueGraph.html#edgeValue(N, N)" target="_top"><tt>edgeValue</tt></A>(<code>N,</nobr> N<nobr><nobr></code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Change in return type from <code>V</code> to <code>Optional&lt;V&gt;</code>.<br>
+  </TD>
+  <TD VALIGN="TOP">Returns the value of the edge connecting {@code nodeU} to {@code nodeV}, if one is present;
+ otherwise, returns {@code Optional.empty()}.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -85,7 +128,7 @@ Interface com.google.common.graph.<A HREF="../../docs/com/google/common/graph/Va
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
 &nbsp;<A HREF="com.google.common.graph.Network.html"><B>PREV CLASS</B></A>
-&nbsp;<B>NEXT CLASS</B>&nbsp;
+&nbsp;<A HREF="com.google.common.graph.ValueGraphBuilder.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.graph.ValueGraph.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>

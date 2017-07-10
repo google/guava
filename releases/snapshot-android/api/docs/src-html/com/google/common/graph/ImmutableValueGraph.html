@@ -95,7 +95,7 @@
 <span class="sourceLineNo">087</span>        new Function&lt;N, V&gt;() {<a name="line.87"></a>
 <span class="sourceLineNo">088</span>          @Override<a name="line.88"></a>
 <span class="sourceLineNo">089</span>          public V apply(N successorNode) {<a name="line.89"></a>
-<span class="sourceLineNo">090</span>            return graph.edgeValue(node, successorNode);<a name="line.90"></a>
+<span class="sourceLineNo">090</span>            return graph.edgeValueOrNull(node, successorNode);<a name="line.90"></a>
 <span class="sourceLineNo">091</span>          }<a name="line.91"></a>
 <span class="sourceLineNo">092</span>        };<a name="line.92"></a>
 <span class="sourceLineNo">093</span>    return graph.isDirected()<a name="line.93"></a>

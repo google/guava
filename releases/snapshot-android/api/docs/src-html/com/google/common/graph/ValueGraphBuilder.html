@@ -80,8 +80,8 @@
 <span class="sourceLineNo">072</span>   * interface, such as {@link ValueGraph#isDirected()}. Other properties, such as {@link<a name="line.72"></a>
 <span class="sourceLineNo">073</span>   * #expectedNodeCount(int)}, are not set in the new builder.<a name="line.73"></a>
 <span class="sourceLineNo">074</span>   */<a name="line.74"></a>
-<span class="sourceLineNo">075</span>  public static &lt;N&gt; ValueGraphBuilder&lt;N, Object&gt; from(ValueGraph&lt;N, ?&gt; graph) {<a name="line.75"></a>
-<span class="sourceLineNo">076</span>    return new ValueGraphBuilder&lt;N, Object&gt;(graph.isDirected())<a name="line.76"></a>
+<span class="sourceLineNo">075</span>  public static &lt;N, V&gt; ValueGraphBuilder&lt;N, V&gt; from(ValueGraph&lt;N, V&gt; graph) {<a name="line.75"></a>
+<span class="sourceLineNo">076</span>    return new ValueGraphBuilder&lt;N, V&gt;(graph.isDirected())<a name="line.76"></a>
 <span class="sourceLineNo">077</span>        .allowsSelfLoops(graph.allowsSelfLoops())<a name="line.77"></a>
 <span class="sourceLineNo">078</span>        .nodeOrder(graph.nodeOrder());<a name="line.78"></a>
 <span class="sourceLineNo">079</span>  }<a name="line.79"></a>

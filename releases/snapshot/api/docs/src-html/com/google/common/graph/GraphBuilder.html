@@ -79,7 +79,7 @@
 <span class="sourceLineNo">071</span>   * are not set in the new builder.<a name="line.71"></a>
 <span class="sourceLineNo">072</span>   */<a name="line.72"></a>
 <span class="sourceLineNo">073</span>  public static &lt;N&gt; GraphBuilder&lt;N&gt; from(Graph&lt;N&gt; graph) {<a name="line.73"></a>
-<span class="sourceLineNo">074</span>    return new GraphBuilder&lt;Object&gt;(graph.isDirected())<a name="line.74"></a>
+<span class="sourceLineNo">074</span>    return new GraphBuilder&lt;N&gt;(graph.isDirected())<a name="line.74"></a>
 <span class="sourceLineNo">075</span>        .allowsSelfLoops(graph.allowsSelfLoops())<a name="line.75"></a>
 <span class="sourceLineNo">076</span>        .nodeOrder(graph.nodeOrder());<a name="line.76"></a>
 <span class="sourceLineNo">077</span>  }<a name="line.77"></a>

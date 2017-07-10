@@ -16296,11 +16296,15 @@
  it is a {@code SortedMap} whose comparator is not <i>consistent with
  equals</i>), the results of this method are undefined.
 
+ <p>The returned {@code BiMap} iterates over entries in the same order as the
+ {@code entrySet} of the original map.
+
  <p>Despite the method name, this method attempts to avoid actually copying
  the data when it is safe to do so. The exact circumstances under which a
  copy will or will not be performed are undocumented and subject to change.
 
- @throws IllegalArgumentException if two keys have the same value
+ @throws IllegalArgumentException if two keys have the same value or two values have the same
+     key
  @throws NullPointerException if any key or value in {@code map} is null]]>
       </doc>
     </method>
@@ -16310,7 +16314,8 @@
       deprecated="not deprecated">
       <param name="entries" type="java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends K, ? extends V&gt;&gt;"/>
       <doc>
-      <![CDATA[Returns an immutable bimap containing the given entries.
+      <![CDATA[Returns an immutable bimap containing the given entries.  The returned bimap iterates over
+ entries in the same order as the original iterable.
 
  @throws IllegalArgumentException if two keys have the same value or two
          values have the same key
@@ -16334,8 +16339,8 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns an immutable set of the values in this map. The values are in the
- same order as the parameters used to build this map.]]>
+      <![CDATA[Returns an immutable set of the values in this map, in the same order they appear in {@link
+ #entrySet}.]]>
       </doc>
     </method>
     <method name="forcePut" return="V"
@@ -16444,7 +16449,9 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns a newly-created immutable bimap.
+      <![CDATA[Returns a newly-created immutable bimap.  The iteration order of the returned bimap is
+ the order in which entries were inserted into the builder, unless
+ {@link #orderEntriesByValue} was called, in which case entries are sorted by value.
 
  @throws IllegalArgumentException if duplicate keys or values were added]]>
       </doc>
@@ -16462,6 +16469,14 @@
 
  <p>For <i>small</i> immutable bimaps, the {@code ImmutableBiMap.of()} methods
  are even more convenient.
+
+ <p>By default, a {@code Builder} will generate bimaps that iterate over entries in the order
+ they were inserted into the builder.  For example, in the above example,
+ {@code WORD_TO_INT.entrySet()} is guaranteed to iterate over the entries in the order
+ {@code "one"=1, "two"=2, "three"=3}, and {@code keySet()} and {@code values()} respect the same
+ order. If you want a different order, consider using
+ {@link #orderEntriesByValue(Comparator)}, which changes this builder to sort
+ entries by value.
 
  <p>Builder instances can be reused - it is safe to call {@link #build}
  multiple times to build multiple bimaps in series. Each bimap is a superset
@@ -16784,9 +16799,10 @@
      collection is modified.
  <li><b>Null-hostility.</b> This collection will never contain a null element.
  <li><b>Deterministic iteration.</b> The iteration order is always well-defined, depending on how
-     the collection was created (see the appropriate factory method for details). View collections
-     such as {@link ImmutableMultiset#elementSet} iterate in the same order as the parent, except
-     as noted.
+     the collection was created. Typically this is insertion order unless an explicit ordering is
+     otherwise specified (e.g. {@link ImmutableSortedSet#naturalOrder}).  See the appropriate
+     factory method for details. View collections such as {@link ImmutableMultiset#elementSet}
+     iterate in the same order as the parent, except as noted.
  <li><b>Thread safety.</b> It is safe to access this collection concurrently from multiple
      threads.
  <li><b>Integrity.</b> This type cannot be subclassed outside this package (which would allow
@@ -17585,6 +17601,9 @@
            .add(new Color(0, 191, 255))
            .build();}</pre>
 
+ <p>Elements appear in the resulting list in the same order they were added
+ to the builder.
+
  <p>Builder instances can be reused; it is safe to call {@link #build} multiple
  times to build multiple lists in series. Each new list contains all the
  elements of the ones created before it.
@@ -18117,10 +18136,11 @@
       deprecated="not deprecated">
       <param name="map" type="java.util.Map&lt;? extends K, ? extends V&gt;"/>
       <doc>
-      <![CDATA[Returns an immutable map containing the same entries as {@code map}. If
- {@code map} somehow contains entries with duplicate keys (for example, if
- it is a {@code SortedMap} whose comparator is not <i>consistent with
- equals</i>), the results of this method are undefined.
+      <![CDATA[Returns an immutable map containing the same entries as {@code map}. The returned map iterates
+ over entries in the same order as the {@code entrySet} of the original map.  If {@code map}
+ somehow contains entries with duplicate keys (for example, if it is a {@code SortedMap}
+ whose comparator is not <i>consistent with equals</i>), the results of this method are
+ undefined.
 
  <p>Despite the method name, this method attempts to avoid actually copying
  the data when it is safe to do so. The exact circumstances under which a
@@ -18344,8 +18364,8 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns an immutable set of the mappings in this map. The entries are in
- the same order as the parameters used to build this map.]]>
+      <![CDATA[Returns an immutable set of the mappings in this map.  The iteration order is specified by
+ the method used to create this map.  Typically, this is insertion order.]]>
       </doc>
     </method>
     <method name="keySet" return="com.google.common.collect.ImmutableSet&lt;K&gt;"
@@ -18353,8 +18373,8 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns an immutable set of the keys in this map. These keys are in
- the same order as the parameters used to build this map.]]>
+      <![CDATA[Returns an immutable set of the keys in this map, in the same order that they appear in
+ {@link #entrySet}.]]>
       </doc>
     </method>
     <method name="values" return="com.google.common.collect.ImmutableCollection&lt;V&gt;"
@@ -18362,8 +18382,8 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns an immutable collection of the values in this map. The values are
- in the same order as the parameters used to build this map.]]>
+      <![CDATA[Returns an immutable collection of the values in this map, in the same order that they appear
+ in {@link #entrySet}.]]>
       </doc>
     </method>
     <method name="asMultimap" return="com.google.common.collect.ImmutableSetMultimap&lt;K, V&gt;"
@@ -18490,14 +18510,16 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns a newly-created immutable map.
+      <![CDATA[Returns a newly-created immutable map.  The iteration order of the returned map is
+ the order in which entries were inserted into the builder, unless
+ {@link #orderEntriesByValue} was called, in which case entries are sorted by value.
 
  @throws IllegalArgumentException if duplicate keys were added]]>
       </doc>
     </method>
     <doc>
-    <![CDATA[A builder for creating immutable map instances, especially {@code public
- static final} maps ("constant maps"). Example: <pre>   {@code
+    <![CDATA[A builder for creating immutable map instances, especially {@code public static final} maps
+ ("constant maps"). Example: <pre>   {@code
 
    static final ImmutableMap<String, Integer> WORD_TO_INT =
        new ImmutableMap.Builder<String, Integer>()
@@ -18506,8 +18528,16 @@
            .put("three", 3)
            .build();}</pre>
 
- <p>For <i>small</i> immutable maps, the {@code ImmutableMap.of()} methods are
- even more convenient.
+ <p>For <i>small</i> immutable maps, the {@code ImmutableMap.of()} methods are even more
+ convenient.
+
+ <p>By default, a {@code Builder} will generate maps that iterate over entries in the order
+ they were inserted into the builder, equivalently to {@code LinkedHashMap}.  For example, in
+ the above example, {@code WORD_TO_INT.entrySet()} is guaranteed to iterate over the entries in
+ the order {@code "one"=1, "two"=2, "three"=3}, and {@code keySet()} and {@code values()}
+ respect the same order.   If you want a different order, consider using {@link ImmutableSortedMap} to sort
+ by keys, or call {@link #orderEntriesByValue(Comparator)}, which changes this builder to sort
+ entries by value.
 
  <p>Builder instances can be reused - it is safe to call {@link #build}
  multiple times to build multiple maps in series. Each map is a superset of
@@ -19973,10 +20003,10 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns a {@code Collector} that accumulates the input elements into a new
- {@code ImmutableSet}.  Elements are added in encounter order; if the
- elements contain duplicates (according to {@link Object#equals(Object)}),
- only the first duplicate in encounter order will appear in the result.
+      <![CDATA[Returns a {@code Collector} that accumulates the input elements into a new {@code
+ ImmutableSet}. Elements appear in the resulting set in the encounter order of the stream; if
+ the stream contains duplicates (according to {@link Object#equals(Object)}), only the first
+ duplicate in encounter order will appear in the result.
 
  @since 21.0]]>
       </doc>
@@ -20263,6 +20293,8 @@
            .addAll(WEBSAFE_COLORS)
            .add(new Color(0, 191, 255))
            .build();}</pre>
+
+ <p>Elements appear in the resulting set in the same order they were first added to the builder.
 
  <p>Building does not change the state of the builder, so it is still possible to add more
  elements and to build again.
@@ -37772,7 +37804,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="edgeValue" return="V"
+    <method name="edgeValue" return="java.util.Optional&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -39218,7 +39250,8 @@
       <param name="nodeU" type="N"/>
       <param name="nodeV" type="N"/>
       <doc>
-      <![CDATA[Returns the single edge directly connecting {@code nodeU} to {@code nodeV}, if one is present.
+      <![CDATA[Returns the single edge directly connecting {@code nodeU} to {@code nodeV}, if one is present,
+ or {@code Optional.empty()} if no such edge exists.
 
  <p>In an undirected network, this is equal to {@code edgeConnecting(nodeV, nodeU)}.
 
@@ -39799,34 +39832,36 @@
       <![CDATA[{@inheritDoc}]]>
       </doc>
     </method>
-    <method name="edgeValue" return="V"
+    <method name="edgeValue" return="java.util.Optional&lt;V&gt;"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="nodeU" type="N"/>
       <param name="nodeV" type="N"/>
       <doc>
-      <![CDATA[If there is an edge connecting {@code nodeU} to {@code nodeV}, returns the non-null value
- associated with that edge.
+      <![CDATA[Returns the value of the edge connecting {@code nodeU} to {@code nodeV}, if one is present;
+ otherwise, returns {@code Optional.empty()}.
 
  <p>In an undirected graph, this is equal to {@code edgeValue(nodeV, nodeU)}.
 
- @throws IllegalArgumentException if there is no edge connecting {@code nodeU} to {@code nodeV}.]]>
+ @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
+     graph]]>
       </doc>
     </method>
-    <method name="edgeValueOrDefault" return="V"
+    <method name="edgeValueOrNull" return="V"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="nodeU" type="N"/>
       <param name="nodeV" type="N"/>
-      <param name="defaultValue" type="V"/>
       <doc>
-      <![CDATA[If there is an edge connecting {@code nodeU} to {@code nodeV}, returns the non-null value
- associated with that edge; otherwise, returns {@code defaultValue}.
+      <![CDATA[Returns the value of the edge connecting {@code nodeU} to {@code nodeV}, if one is present;
+ otherwise, returns null.
 
- <p>In an undirected graph, this is equal to {@code edgeValueOrDefault(nodeV, nodeU,
- defaultValue)}.]]>
+ <p>In an undirected graph, this is equal to {@code edgeValueOrNull(nodeV, nodeU)}.
+
+ @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
+     graph]]>
       </doc>
     </method>
     <method name="equals" return="boolean"
@@ -39975,11 +40010,11 @@
       <![CDATA[Returns a {@link ValueGraphBuilder} for building undirected graphs.]]>
       </doc>
     </method>
-    <method name="from" return="com.google.common.graph.ValueGraphBuilder&lt;N, java.lang.Object&gt;"
+    <method name="from" return="com.google.common.graph.ValueGraphBuilder&lt;N, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.ValueGraph&lt;N, ?&gt;"/>
+      <param name="graph" type="com.google.common.graph.ValueGraph&lt;N, V&gt;"/>
       <doc>
       <![CDATA[Returns a {@link ValueGraphBuilder} initialized with all properties queryable from {@code
  graph}.

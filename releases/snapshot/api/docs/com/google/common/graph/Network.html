@@ -256,7 +256,8 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util">Optional</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Network.html#edgeConnecting-N-N-">edgeConnecting</a></span>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
               <a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;nodeV)</code>
-<div class="block">Returns the single edge directly connecting <code>nodeU</code> to <code>nodeV</code>, if one is present.</div>
+<div class="block">Returns the single edge directly connecting <code>nodeU</code> to <code>nodeV</code>, if one is present,
+ or <code>Optional.empty()</code> if no such edge exists.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
@@ -729,9 +730,10 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>edgeConnecting</h4>
-<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util">Optional</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.300">edgeConnecting</a>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
+<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util">Optional</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.301">edgeConnecting</a>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
                            <a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;nodeV)</pre>
-<div class="block">Returns the single edge directly connecting <code>nodeU</code> to <code>nodeV</code>, if one is present.
+<div class="block">Returns the single edge directly connecting <code>nodeU</code> to <code>nodeV</code>, if one is present,
+ or <code>Optional.empty()</code> if no such edge exists.
 
  <p>In an undirected network, this is equal to <code>edgeConnecting(nodeV, nodeU)</code>.</div>
 <dl>
@@ -754,7 +756,7 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 <li class="blockList">
 <h4>edgeConnectingOrNull</h4>
 <pre><a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.315">edgeConnectingOrNull</a>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
+<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.316">edgeConnectingOrNull</a>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
                                  <a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;nodeV)</pre>
 <div class="block">Returns the single edge directly connecting <code>nodeU</code> to <code>nodeV</code>, if one is present,
  or <code>null</code> if no such edge exists.
@@ -779,7 +781,7 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>hasEdgeConnecting</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.326">hasEdgeConnecting</a>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.327">hasEdgeConnecting</a>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
                           <a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;nodeV)</pre>
 <div class="block">Returns true if there is an edge directly connecting <code>nodeU</code> to <code>nodeV</code>. This is
  equivalent to <code>nodes().contains(nodeU) &amp;&amp; successors(nodeU).contains(nodeV)</code>,
@@ -798,7 +800,7 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.353">equals</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.354">equals</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> that has the same elements and the
  same structural relationships as those in this network.
@@ -830,7 +832,7 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.363">hashCode</a>()</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.364">hashCode</a>()</pre>
 <div class="block">Returns the hash code for this network. The hash code of a network is defined as the hash code
  of a map from each of its <a href="../../../../com/google/common/graph/Network.html#edges--"><code>edges</code></a> to their <a href="../../../../com/google/common/graph/Network.html#incidentNodes-E-"><code>incident nodes</code></a>.
 

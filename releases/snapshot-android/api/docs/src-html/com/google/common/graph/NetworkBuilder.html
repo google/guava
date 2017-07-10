@@ -88,7 +88,7 @@
 <span class="sourceLineNo">080</span>   * #expectedNodeCount(int)}, are not set in the new builder.<a name="line.80"></a>
 <span class="sourceLineNo">081</span>   */<a name="line.81"></a>
 <span class="sourceLineNo">082</span>  public static &lt;N, E&gt; NetworkBuilder&lt;N, E&gt; from(Network&lt;N, E&gt; network) {<a name="line.82"></a>
-<span class="sourceLineNo">083</span>    return new NetworkBuilder&lt;Object, Object&gt;(network.isDirected())<a name="line.83"></a>
+<span class="sourceLineNo">083</span>    return new NetworkBuilder&lt;N, E&gt;(network.isDirected())<a name="line.83"></a>
 <span class="sourceLineNo">084</span>        .allowsParallelEdges(network.allowsParallelEdges())<a name="line.84"></a>
 <span class="sourceLineNo">085</span>        .allowsSelfLoops(network.allowsSelfLoops())<a name="line.85"></a>
 <span class="sourceLineNo">086</span>        .nodeOrder(network.nodeOrder())<a name="line.86"></a>
