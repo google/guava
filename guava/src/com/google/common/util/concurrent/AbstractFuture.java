@@ -428,8 +428,18 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
       }
       remainingNanos = endNanos - System.nanoTime();
     }
+
+    String futureToString = toString();
+    // It's confusing to see a completed future in a timeout message; if isDone() returns false,
+    // then we know it must have given a pending toString value earlier. If not, then the future
+    // completed after the timeout expired, and the message might be success.
+    if (isDone()) {
+      throw new TimeoutException(
+          "Waited " + timeout + " " + Ascii.toLowerCase(unit.toString())
+              + " but future completed as timeout expired");
+    }
     throw new TimeoutException(
-        "Waited " + timeout + " " + Ascii.toLowerCase(unit.toString()) + " for " + toString());
+        "Waited " + timeout + " " + Ascii.toLowerCase(unit.toString()) + " for " + futureToString);
   }
 
   /**
