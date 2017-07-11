@@ -178,9 +178,9 @@
 <span class="sourceLineNo">170</span>   * they were inserted into the builder, equivalently to {@code LinkedHashMap}.  For example, in<a name="line.170"></a>
 <span class="sourceLineNo">171</span>   * the above example, {@code WORD_TO_INT.entrySet()} is guaranteed to iterate over the entries in<a name="line.171"></a>
 <span class="sourceLineNo">172</span>   * the order {@code "one"=1, "two"=2, "three"=3}, and {@code keySet()} and {@code values()}<a name="line.172"></a>
-<span class="sourceLineNo">173</span>   * respect the same order.   If you want a different order, consider using {@link ImmutableSortedMap} to sort<a name="line.173"></a>
-<span class="sourceLineNo">174</span>   * by keys, or call {@link #orderEntriesByValue(Comparator)}, which changes this builder to sort<a name="line.174"></a>
-<span class="sourceLineNo">175</span>   * entries by value.<a name="line.175"></a>
+<span class="sourceLineNo">173</span>   * respect the same order.   If you want a different order, consider using <a name="line.173"></a>
+<span class="sourceLineNo">174</span>   * {@link ImmutableSortedMap} to sort by keys, or call {@link #orderEntriesByValue(Comparator)}, <a name="line.174"></a>
+<span class="sourceLineNo">175</span>   * which changes this builder to sort entries by value.<a name="line.175"></a>
 <span class="sourceLineNo">176</span>   *<a name="line.176"></a>
 <span class="sourceLineNo">177</span>   * &lt;p&gt;Builder instances can be reused - it is safe to call {@link #build}<a name="line.177"></a>
 <span class="sourceLineNo">178</span>   * multiple times to build multiple maps in series. Each map is a superset of<a name="line.178"></a>
