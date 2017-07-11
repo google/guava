@@ -183,6 +183,7 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
    *
    * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
    *     graph
+   * @since 23.0 (since 20.0 with return type {@code V})
    */
   Optional<V> edgeValue(N nodeU, N nodeV);
 
@@ -194,6 +195,7 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
    *
    * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
    *     graph
+   * @since 23.0
    */
   @Nullable
   V edgeValueOrNull(N nodeU, N nodeV);
