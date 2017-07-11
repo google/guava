@@ -210,9 +210,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * they were inserted into the builder, equivalently to {@code LinkedHashMap}.  For example, in
    * the above example, {@code WORD_TO_INT.entrySet()} is guaranteed to iterate over the entries in
    * the order {@code "one"=1, "two"=2, "three"=3}, and {@code keySet()} and {@code values()}
-   * respect the same order.   If you want a different order, consider using {@link ImmutableSortedMap} to sort
-   * by keys, or call {@link #orderEntriesByValue(Comparator)}, which changes this builder to sort
-   * entries by value.
+   * respect the same order.   If you want a different order, consider using 
+   * {@link ImmutableSortedMap} to sort by keys, or call {@link #orderEntriesByValue(Comparator)}, 
+   * which changes this builder to sort entries by value.
    *
    * <p>Builder instances can be reused - it is safe to call {@link #build}
    * multiple times to build multiple maps in series. Each map is a superset of
