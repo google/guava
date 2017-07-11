@@ -141,6 +141,7 @@ public final class Predicates {
    * components} is empty, the returned predicate will always evaluate to {@code
    * false}.
    */
+  @SafeVarargs
   public static <T> Predicate<T> or(Predicate<? super T>... components) {
     return new OrPredicate<T>(defensiveCopy(components));
   }
