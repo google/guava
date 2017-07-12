@@ -119,15 +119,11 @@ public abstract class RateLimiter {
      * Due to the slight delay of T1, T2 would have to sleep till 2.05 seconds, and T3 would also
      * have to sleep till 3.05 seconds.
      */
-    return create(SleepingStopwatch.createFromSystemTimer(), permitsPerSecond);
+    return create(permitsPerSecond, SleepingStopwatch.createFromSystemTimer());
   }
 
-  /*
-   * TODO(cpovirk): make SleepingStopwatch the last parameter throughout the class so that the
-   * overloads follow the usual convention: Foo(int), Foo(int, SleepingStopwatch)
-   */
   @VisibleForTesting
-  static RateLimiter create(SleepingStopwatch stopwatch, double permitsPerSecond) {
+  static RateLimiter create(double permitsPerSecond, SleepingStopwatch stopwatch) {
     RateLimiter rateLimiter = new SmoothBursty(stopwatch, 1.0 /* maxBurstSeconds */);
     rateLimiter.setRate(permitsPerSecond);
     return rateLimiter;
@@ -160,16 +156,16 @@ public abstract class RateLimiter {
   public static RateLimiter create(double permitsPerSecond, long warmupPeriod, TimeUnit unit) {
     checkArgument(warmupPeriod >= 0, "warmupPeriod must not be negative: %s", warmupPeriod);
     return create(
-        SleepingStopwatch.createFromSystemTimer(), permitsPerSecond, warmupPeriod, unit, 3.0);
+        permitsPerSecond, warmupPeriod, unit, 3.0, SleepingStopwatch.createFromSystemTimer());
   }
 
   @VisibleForTesting
   static RateLimiter create(
-      SleepingStopwatch stopwatch,
       double permitsPerSecond,
       long warmupPeriod,
       TimeUnit unit,
-      double coldFactor) {
+      double coldFactor,
+      SleepingStopwatch stopwatch) {
     RateLimiter rateLimiter = new SmoothWarmingUp(stopwatch, warmupPeriod, unit, coldFactor);
     rateLimiter.setRate(permitsPerSecond);
     return rateLimiter;

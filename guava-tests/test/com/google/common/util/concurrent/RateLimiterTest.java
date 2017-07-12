@@ -49,7 +49,7 @@ public class RateLimiterTest extends TestCase {
   private final FakeStopwatch stopwatch = new FakeStopwatch();
 
   public void testSimple() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, 5.0);
+    RateLimiter limiter = RateLimiter.create(5.0, stopwatch);
     limiter.acquire(); // R0.00, since it's the first request
     limiter.acquire(); // R0.20
     limiter.acquire(); // R0.20
@@ -63,7 +63,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testDoubleMinValueCanAcquireExactlyOnce() {
-    RateLimiter r = RateLimiter.create(stopwatch, Double.MIN_VALUE);
+    RateLimiter r = RateLimiter.create(Double.MIN_VALUE, stopwatch);
     assertTrue("Unable to acquire initial permit", r.tryAcquire());
     assertFalse("Capable of acquiring an additional permit", r.tryAcquire());
     stopwatch.sleepMillis(Integer.MAX_VALUE);
@@ -121,7 +121,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testSimpleWithWait() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, 5.0);
+    RateLimiter limiter = RateLimiter.create(5.0, stopwatch);
     limiter.acquire();          // R0.00
     stopwatch.sleepMillis(200);    // U0.20, we are ready for the next request...
     limiter.acquire();          // R0.00, ...which is granted immediately
@@ -130,7 +130,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testSimpleAcquireReturnValues() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, 5.0);
+    RateLimiter limiter = RateLimiter.create(5.0, stopwatch);
     assertEquals(0.0, limiter.acquire(), EPSILON);  // R0.00
     stopwatch.sleepMillis(200);                     // U0.20, we are ready for the next request...
     assertEquals(0.0, limiter.acquire(), EPSILON);  // R0.00, ...which is granted immediately
@@ -139,7 +139,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testSimpleAcquireEarliestAvailableIsInPast() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, 5.0);
+    RateLimiter limiter = RateLimiter.create(5.0, stopwatch);
     assertEquals(0.0, limiter.acquire(), EPSILON);
     stopwatch.sleepMillis(400);
     assertEquals(0.0, limiter.acquire(), EPSILON);
@@ -148,7 +148,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testOneSecondBurst() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, 5.0);
+    RateLimiter limiter = RateLimiter.create(5.0, stopwatch);
     stopwatch.sleepMillis(1000); // max capacity reached
     stopwatch.sleepMillis(1000); // this makes no difference
     limiter.acquire(1); // R0.00, since it's the first request
@@ -183,7 +183,7 @@ public class RateLimiterTest extends TestCase {
 
   @AndroidIncompatible // difference in String.format rounding?
   public void testWarmUp() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, 2.0, 4000, MILLISECONDS, 3.0);
+    RateLimiter limiter = RateLimiter.create(2.0, 4000, MILLISECONDS, 3.0, stopwatch);
     for (int i = 0; i < 8; i++) {
       limiter.acquire(); // #1
     }
@@ -208,7 +208,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testWarmUpWithColdFactor() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, 5.0, 4000, MILLISECONDS, 10.0);
+    RateLimiter limiter = RateLimiter.create(5.0, 4000, MILLISECONDS, 10.0, stopwatch);
     for (int i = 0; i < 8; i++) {
       limiter.acquire(); // #1
     }
@@ -233,7 +233,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testWarmUpWithColdFactor1() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, 5.0, 4000, MILLISECONDS, 1.0);
+    RateLimiter limiter = RateLimiter.create(5.0, 4000, MILLISECONDS, 1.0, stopwatch);
     for (int i = 0; i < 8; i++) {
       limiter.acquire(); // #1
     }
@@ -249,7 +249,7 @@ public class RateLimiterTest extends TestCase {
 
   @AndroidIncompatible // difference in String.format rounding?
   public void testWarmUpAndUpdate() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, 2.0, 4000, MILLISECONDS, 3.0);
+    RateLimiter limiter = RateLimiter.create(2.0, 4000, MILLISECONDS, 3.0, stopwatch);
     for (int i = 0; i < 8; i++) {
       limiter.acquire(); // // #1
     }
@@ -281,7 +281,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testWarmUpAndUpdateWithColdFactor() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, 5.0, 4000, MILLISECONDS, 10.0);
+    RateLimiter limiter = RateLimiter.create(5.0, 4000, MILLISECONDS, 10.0, stopwatch);
     for (int i = 0; i < 8; i++) {
       limiter.acquire(); // #1
     }
@@ -313,7 +313,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testBurstyAndUpdate() {
-    RateLimiter rateLimiter = RateLimiter.create(stopwatch, 1.0);
+    RateLimiter rateLimiter = RateLimiter.create(1.0, stopwatch);
     rateLimiter.acquire(1); // no wait
     rateLimiter.acquire(1); // R1.00, to repay previous
 
@@ -327,7 +327,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testTryAcquire_noWaitAllowed() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, 5.0);
+    RateLimiter limiter = RateLimiter.create(5.0, stopwatch);
     assertTrue(limiter.tryAcquire(0, SECONDS));
     assertFalse(limiter.tryAcquire(0, SECONDS));
     assertFalse(limiter.tryAcquire(0, SECONDS));
@@ -336,7 +336,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testTryAcquire_someWaitAllowed() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, 5.0);
+    RateLimiter limiter = RateLimiter.create(5.0, stopwatch);
     assertTrue(limiter.tryAcquire(0, SECONDS));
     assertTrue(limiter.tryAcquire(200, MILLISECONDS));
     assertFalse(limiter.tryAcquire(100, MILLISECONDS));
@@ -345,14 +345,14 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testTryAcquire_overflow() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, 5.0);
+    RateLimiter limiter = RateLimiter.create(5.0, stopwatch);
     assertTrue(limiter.tryAcquire(0, MICROSECONDS));
     stopwatch.sleepMillis(100);
     assertTrue(limiter.tryAcquire(Long.MAX_VALUE, MICROSECONDS));
   }
 
   public void testTryAcquire_negative() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, 5.0);
+    RateLimiter limiter = RateLimiter.create(5.0, stopwatch);
     assertTrue(limiter.tryAcquire(5, 0, SECONDS));
     stopwatch.sleepMillis(900);
     assertFalse(limiter.tryAcquire(1, Long.MIN_VALUE, SECONDS));
@@ -361,7 +361,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testSimpleWeights() {
-    RateLimiter rateLimiter = RateLimiter.create(stopwatch, 1.0);
+    RateLimiter rateLimiter = RateLimiter.create(1.0, stopwatch);
     rateLimiter.acquire(1); // no wait
     rateLimiter.acquire(1); // R1.00, to repay previous
     rateLimiter.acquire(2); // R1.00, to repay previous
@@ -372,7 +372,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testInfinity_Bursty() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, Double.POSITIVE_INFINITY);
+    RateLimiter limiter = RateLimiter.create(Double.POSITIVE_INFINITY, stopwatch);
     limiter.acquire(Integer.MAX_VALUE / 4);
     limiter.acquire(Integer.MAX_VALUE / 2);
     limiter.acquire(Integer.MAX_VALUE);
@@ -400,7 +400,7 @@ public class RateLimiterTest extends TestCase {
 
   /** https://code.google.com/p/guava-libraries/issues/detail?id=1791 */
   public void testInfinity_BustyTimeElapsed() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, Double.POSITIVE_INFINITY);
+    RateLimiter limiter = RateLimiter.create(Double.POSITIVE_INFINITY, stopwatch);
     stopwatch.instant += 1000000;
     limiter.setRate(2.0);
     for (int i = 0; i < 5; i++) {
@@ -415,8 +415,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testInfinity_WarmUp() {
-    RateLimiter limiter = RateLimiter.create(
-        stopwatch, Double.POSITIVE_INFINITY, 10, SECONDS, 3.0);
+    RateLimiter limiter = RateLimiter.create(Double.POSITIVE_INFINITY, 10, SECONDS, 3.0, stopwatch);
     limiter.acquire(Integer.MAX_VALUE / 4);
     limiter.acquire(Integer.MAX_VALUE / 2);
     limiter.acquire(Integer.MAX_VALUE);
@@ -436,7 +435,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testInfinity_WarmUpTimeElapsed() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, Double.POSITIVE_INFINITY, 10, SECONDS, 3.0);
+    RateLimiter limiter = RateLimiter.create(Double.POSITIVE_INFINITY, 10, SECONDS, 3.0, stopwatch);
     stopwatch.instant += 1000000;
     limiter.setRate(1.0);
     for (int i = 0; i < 5; i++) {
@@ -450,7 +449,7 @@ public class RateLimiterTest extends TestCase {
    * rate, even when we change the rate.
    */
   public void testWeNeverGetABurstMoreThanOneSec() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, 1.0);
+    RateLimiter limiter = RateLimiter.create(1.0, stopwatch);
     int[] rates = { 1000, 1, 10, 1000000, 10, 1};
     for (int rate : rates) {
       int oneSecWorthOfWork = rate;
@@ -483,8 +482,8 @@ public class RateLimiterTest extends TestCase {
           // If warmupPermits = maxPermits - thresholdPermits then
           // warmupPeriod = (1 + coldFactor) * warmupPermits * stableInterval / 2
           long warmupMillis = (long) ((1 + coldFactor) * warmupPermits / (2.0 * qps) * 1000.0);
-          RateLimiter rateLimiter = RateLimiter.create(
-              stopwatch, qps, warmupMillis, MILLISECONDS, coldFactor);
+          RateLimiter rateLimiter =
+              RateLimiter.create(qps, warmupMillis, MILLISECONDS, coldFactor, stopwatch);
           assertEquals(warmupMillis, measureTotalTimeMillis(rateLimiter, warmupPermits, random));
         }
       }
@@ -497,11 +496,11 @@ public class RateLimiterTest extends TestCase {
         .setDefault(int.class, 1)
         .setDefault(double.class, 1.0d);
     tester.testStaticMethods(RateLimiter.class, Visibility.PACKAGE);
-    tester.testInstanceMethods(RateLimiter.create(stopwatch, 5.0), Visibility.PACKAGE);
+    tester.testInstanceMethods(RateLimiter.create(5.0, stopwatch), Visibility.PACKAGE);
   }
 
   public void testVerySmallDoubleValues() throws Exception {
-    RateLimiter rateLimiter = RateLimiter.create(stopwatch, Double.MIN_VALUE);
+    RateLimiter rateLimiter = RateLimiter.create(Double.MIN_VALUE, stopwatch);
     assertTrue("Should acquire initial permit", rateLimiter.tryAcquire());
     assertFalse("Should not acquire additional permit", rateLimiter.tryAcquire());
     stopwatch.sleepMillis(5000);
