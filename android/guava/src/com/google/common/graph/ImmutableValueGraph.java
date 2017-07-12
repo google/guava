@@ -87,7 +87,7 @@ public final class ImmutableValueGraph<N, V> extends ConfigurableValueGraph<N, V
         new Function<N, V>() {
           @Override
           public V apply(N successorNode) {
-            return graph.edgeValueOrNull(node, successorNode);
+            return graph.edgeValueOrDefault(node, successorNode, null);
           }
         };
     return graph.isDirected()

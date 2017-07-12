@@ -395,8 +395,8 @@ public final class Graphs {
 
     @Override
     @Nullable
-    public V edgeValueOrNull(N nodeU, N nodeV) {
-      return graph.edgeValueOrNull(nodeV, nodeU); // transpose
+    public V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue) {
+      return graph.edgeValueOrDefault(nodeV, nodeU, defaultValue); // transpose
     }
   }
 
@@ -567,7 +567,8 @@ public final class Graphs {
     for (N node : subgraph.nodes()) {
       for (N successorNode : graph.successors(node)) {
         if (subgraph.nodes().contains(successorNode)) {
-          subgraph.putEdgeValue(node, successorNode, graph.edgeValueOrNull(node, successorNode));
+          subgraph.putEdgeValue(
+              node, successorNode, graph.edgeValueOrDefault(node, successorNode, null));
         }
       }
     }
@@ -623,7 +624,7 @@ public final class Graphs {
     }
     for (EndpointPair<N> edge : graph.edges()) {
       copy.putEdgeValue(
-          edge.nodeU(), edge.nodeV(), graph.edgeValueOrNull(edge.nodeU(), edge.nodeV()));
+          edge.nodeU(), edge.nodeV(), graph.edgeValueOrDefault(edge.nodeU(), edge.nodeV(), null));
     }
     return copy;
   }

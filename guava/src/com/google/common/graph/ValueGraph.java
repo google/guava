@@ -189,16 +189,17 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
 
   /**
    * Returns the value of the edge connecting {@code nodeU} to {@code nodeV}, if one is present;
-   * otherwise, returns null.
+   * otherwise, returns {@code defaultValue}.
    *
-   * <p>In an undirected graph, this is equal to {@code edgeValueOrNull(nodeV, nodeU)}.
+   * <p>In an undirected graph, this is equal to {@code edgeValueOrDefault(nodeV, nodeU,
+   * defaultValue)}.
    *
    * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
    *     graph
    * @since 23.0
    */
   @Nullable
-  V edgeValueOrNull(N nodeU, N nodeV);
+  V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue);
 
   //
   // ValueGraph identity

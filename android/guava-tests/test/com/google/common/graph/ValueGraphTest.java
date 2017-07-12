@@ -54,7 +54,7 @@ public final class ValueGraphTest {
       for (Integer otherNode : graph.nodes()) {
         boolean hasEdge = graph.hasEdgeConnecting(node, otherNode);
         assertThat(hasEdge).isEqualTo(asGraph.hasEdgeConnecting(node, otherNode));
-        assertThat(graph.edgeValueOrNull(node, otherNode) != null).isEqualTo(hasEdge);
+        assertThat(graph.edgeValueOrDefault(node, otherNode, null) != null).isEqualTo(hasEdge);
       }
     }
   }
@@ -67,10 +67,10 @@ public final class ValueGraphTest {
     graph.putEdgeValue(2, 3, "valueC");
     graph.putEdgeValue(4, 4, "valueD");
 
-    assertThat(graph.edgeValueOrNull(1, 2)).isEqualTo("valueA");
-    assertThat(graph.edgeValueOrNull(2, 1)).isEqualTo("valueB");
-    assertThat(graph.edgeValueOrNull(2, 3)).isEqualTo("valueC");
-    assertThat(graph.edgeValueOrNull(4, 4)).isEqualTo("valueD");
+    assertThat(graph.edgeValueOrDefault(1, 2, null)).isEqualTo("valueA");
+    assertThat(graph.edgeValueOrDefault(2, 1, null)).isEqualTo("valueB");
+    assertThat(graph.edgeValueOrDefault(2, 3, null)).isEqualTo("valueC");
+    assertThat(graph.edgeValueOrDefault(4, 4, null)).isEqualTo("valueD");
 
     String toString = graph.toString();
     assertThat(toString).contains("valueA");
@@ -87,10 +87,10 @@ public final class ValueGraphTest {
     graph.putEdgeValue(2, 3, "valueC");
     graph.putEdgeValue(4, 4, "valueD");
 
-    assertThat(graph.edgeValueOrNull(1, 2)).isEqualTo("valueB");
-    assertThat(graph.edgeValueOrNull(2, 1)).isEqualTo("valueB");
-    assertThat(graph.edgeValueOrNull(2, 3)).isEqualTo("valueC");
-    assertThat(graph.edgeValueOrNull(4, 4)).isEqualTo("valueD");
+    assertThat(graph.edgeValueOrDefault(1, 2, null)).isEqualTo("valueB");
+    assertThat(graph.edgeValueOrDefault(2, 1, null)).isEqualTo("valueB");
+    assertThat(graph.edgeValueOrDefault(2, 3, null)).isEqualTo("valueC");
+    assertThat(graph.edgeValueOrDefault(4, 4, null)).isEqualTo("valueD");
 
     String toString = graph.toString();
     assertThat(toString).doesNotContain("valueA");
@@ -152,18 +152,18 @@ public final class ValueGraphTest {
   public void edgeValue_missing() {
     graph = ValueGraphBuilder.directed().build();
 
-    assertThat(graph.edgeValueOrNull(1, 2)).isNull();
-    assertThat(graph.edgeValueOrNull(2, 1)).isNull();
+    assertThat(graph.edgeValueOrDefault(1, 2, null)).isNull();
+    assertThat(graph.edgeValueOrDefault(2, 1, null)).isNull();
 
     graph.putEdgeValue(1, 2, "valueA");
     graph.putEdgeValue(2, 1, "valueB");
-    assertThat(graph.edgeValueOrNull(1, 2)).isEqualTo("valueA");
-    assertThat(graph.edgeValueOrNull(2, 1)).isEqualTo("valueB");
+    assertThat(graph.edgeValueOrDefault(1, 2, null)).isEqualTo("valueA");
+    assertThat(graph.edgeValueOrDefault(2, 1, null)).isEqualTo("valueB");
 
     graph.removeEdge(1, 2);
     graph.putEdgeValue(2, 1, "valueC");
-    assertThat(graph.edgeValueOrNull(1, 2)).isNull();
-    assertThat(graph.edgeValueOrNull(2, 1)).isEqualTo("valueC");
+    assertThat(graph.edgeValueOrDefault(1, 2, null)).isNull();
+    assertThat(graph.edgeValueOrDefault(2, 1, null)).isEqualTo("valueC");
   }
 
   @Test

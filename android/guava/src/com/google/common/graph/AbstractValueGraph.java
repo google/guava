@@ -137,7 +137,7 @@ public abstract class AbstractValueGraph<N, V> extends AbstractBaseGraph<N>
         new Function<EndpointPair<N>, V>() {
           @Override
           public V apply(EndpointPair<N> edge) {
-            return graph.edgeValueOrNull(edge.nodeU(), edge.nodeV());
+            return graph.edgeValueOrDefault(edge.nodeU(), edge.nodeV(), null);
           }
         };
     return Maps.asMap(graph.edges(), edgeToValueFn);
