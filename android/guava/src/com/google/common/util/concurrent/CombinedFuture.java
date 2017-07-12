@@ -150,6 +150,11 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
     void setValue() throws Exception {
       setFuture(callable.call());
     }
+
+    @Override
+    public String toString() {
+      return callable.toString();
+    }
   }
 
   @WeakOuter
@@ -163,7 +168,12 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
 
     @Override
     void setValue() throws Exception {
-      set(callable.call());
+      CombinedFuture.this.set(callable.call());
+    }
+
+    @Override
+    public String toString() {
+      return callable.toString();
     }
   }
 }

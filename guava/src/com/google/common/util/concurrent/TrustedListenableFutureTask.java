@@ -112,7 +112,7 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
       // Ensure we haven't been cancelled or already run.
       if (!isDone()) {
         try {
-          set(callable.call());
+          TrustedListenableFutureTask.this.set(callable.call());
         } catch (Throwable t) {
           setException(t);
         }
