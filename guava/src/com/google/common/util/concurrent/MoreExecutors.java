@@ -171,7 +171,7 @@ public final class MoreExecutors {
         ThreadPoolExecutor executor, long terminationTimeout, TimeUnit timeUnit) {
       useDaemonThreadFactory(executor);
       ExecutorService service = Executors.unconfigurableExecutorService(executor);
-      addDelayedShutdownHook(service, terminationTimeout, timeUnit);
+      addDelayedShutdownHook(executor, terminationTimeout, timeUnit);
       return service;
     }
 
@@ -179,7 +179,7 @@ public final class MoreExecutors {
         ScheduledThreadPoolExecutor executor, long terminationTimeout, TimeUnit timeUnit) {
       useDaemonThreadFactory(executor);
       ScheduledExecutorService service = Executors.unconfigurableScheduledExecutorService(executor);
-      addDelayedShutdownHook(service, terminationTimeout, timeUnit);
+      addDelayedShutdownHook(executor, terminationTimeout, timeUnit);
       return service;
     }
 
