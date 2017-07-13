@@ -230,6 +230,11 @@ public class GraphsTest {
     assertThat(transpose(transpose)).isSameAs(directedGraph);
     AbstractGraphTest.validateGraph(transpose);
 
+    for (Integer node : directedGraph.nodes()) {
+      assertThat(directedGraph.inDegree(node)).isSameAs(transpose.outDegree(node));
+      assertThat(directedGraph.outDegree(node)).isSameAs(transpose.inDegree(node));
+    }
+
     assertThat(transpose.successors(N1)).doesNotContain(N2);
     directedGraph.putEdge(N2, N1);
     // View should be updated.
@@ -269,6 +274,11 @@ public class GraphsTest {
     AbstractGraphTest.validateGraph(transpose.asGraph());
 
     assertThat(transpose.edgeValueOrDefault(N1, N2, null)).isNull();
+    for (Integer node : directedGraph.nodes()) {
+      assertThat(directedGraph.inDegree(node)).isSameAs(transpose.outDegree(node));
+      assertThat(directedGraph.outDegree(node)).isSameAs(transpose.inDegree(node));
+    }
+
     directedGraph.putEdgeValue(N2, N1, E21);
     // View should be updated.
     assertThat(transpose.edgeValueOrDefault(N1, N2, null)).isEqualTo(E21);
@@ -310,6 +320,11 @@ public class GraphsTest {
 
     assertThat(transpose.edgesConnecting(N1, N2)).isEmpty();
     assertThat(transpose.edgeConnectingOrNull(N1, N2)).isNull();
+
+    for (Integer node : directedGraph.nodes()) {
+      assertThat(directedGraph.inDegree(node)).isSameAs(transpose.outDegree(node));
+      assertThat(directedGraph.outDegree(node)).isSameAs(transpose.inDegree(node));
+    }
 
     directedGraph.addEdge(N2, N1, E21);
     // View should be updated.

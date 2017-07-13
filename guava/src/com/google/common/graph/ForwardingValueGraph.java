@@ -16,17 +16,20 @@
 
 package com.google.common.graph;
 
+import java.util.Optional;
 import java.util.Set;
+import javax.annotation.Nullable;
 
 /**
- * A class to allow {@link Graph} implementations to be backed by a {@link BaseGraph}. This is not
- * currently planned to be released as a general-purpose forwarding class.
+ * A class to allow {@link ValueGraph} implementations to be backed by a provided delegate. This is
+ * not currently planned to be released as a general-purpose forwarding class.
  *
  * @author James Sexton
+ * @author Joshua O'Madadhain
  */
-abstract class ForwardingGraph<N> extends AbstractGraph<N> {
+abstract class ForwardingValueGraph<N, V> extends AbstractValueGraph<N, V> {
 
-  protected abstract BaseGraph<N> delegate();
+  protected abstract ValueGraph<N, V> delegate();
 
   @Override
   public Set<N> nodes() {
@@ -34,8 +37,8 @@ abstract class ForwardingGraph<N> extends AbstractGraph<N> {
   }
 
   /**
-   * Defer to {@link AbstractGraph#edges()} (based on {@link #successors(Object)}) for full edges()
-   * implementation.
+   * Defer to {@link AbstractValueGraph#edges()} (based on {@link #successors(Object)}) for full
+   * edges() implementation.
    */
   @Override
   protected long edgeCount() {
@@ -90,5 +93,16 @@ abstract class ForwardingGraph<N> extends AbstractGraph<N> {
   @Override
   public boolean hasEdgeConnecting(N nodeU, N nodeV) {
     return delegate().hasEdgeConnecting(nodeU, nodeV);
+  }
+
+  @Override
+  public Optional<V> edgeValue(N nodeU, N nodeV) {
+    return delegate().edgeValue(nodeU, nodeV);
+  }
+
+  @Override
+  @Nullable
+  public V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue) {
+    return delegate().edgeValueOrDefault(nodeU, nodeV, defaultValue);
   }
 }

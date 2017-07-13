@@ -16,35 +16,39 @@
 
 package com.google.common.graph;
 
+import com.google.common.annotations.GwtIncompatible;
 import java.util.Set;
 
 /**
- * A class to allow {@link Graph} implementations to be backed by a {@link BaseGraph}. This is not
+ * A class to allow {@link Network} implementations to be backed by a provided delegate. This is not
  * currently planned to be released as a general-purpose forwarding class.
  *
  * @author James Sexton
+ * @author Joshua O'Madadhain
  */
-abstract class ForwardingGraph<N> extends AbstractGraph<N> {
+@GwtIncompatible
+abstract class ForwardingNetwork<N, E> extends AbstractNetwork<N, E> {
 
-  protected abstract BaseGraph<N> delegate();
+  protected abstract Network<N, E> delegate();
 
   @Override
   public Set<N> nodes() {
     return delegate().nodes();
   }
 
-  /**
-   * Defer to {@link AbstractGraph#edges()} (based on {@link #successors(Object)}) for full edges()
-   * implementation.
-   */
   @Override
-  protected long edgeCount() {
-    return delegate().edges().size();
+  public Set<E> edges() {
+    return delegate().edges();
   }
 
   @Override
   public boolean isDirected() {
     return delegate().isDirected();
+  }
+
+  @Override
+  public boolean allowsParallelEdges() {
+    return delegate().allowsParallelEdges();
   }
 
   @Override
@@ -55,6 +59,11 @@ abstract class ForwardingGraph<N> extends AbstractGraph<N> {
   @Override
   public ElementOrder<N> nodeOrder() {
     return delegate().nodeOrder();
+  }
+
+  @Override
+  public ElementOrder<E> edgeOrder() {
+    return delegate().edgeOrder();
   }
 
   @Override
@@ -73,6 +82,31 @@ abstract class ForwardingGraph<N> extends AbstractGraph<N> {
   }
 
   @Override
+  public Set<E> incidentEdges(N node) {
+    return delegate().incidentEdges(node);
+  }
+
+  @Override
+  public Set<E> inEdges(N node) {
+    return delegate().inEdges(node);
+  }
+
+  @Override
+  public Set<E> outEdges(N node) {
+    return delegate().outEdges(node);
+  }
+
+  @Override
+  public EndpointPair<N> incidentNodes(E edge) {
+    return delegate().incidentNodes(edge);
+  }
+
+  @Override
+  public Set<E> adjacentEdges(E edge) {
+    return delegate().adjacentEdges(edge);
+  }
+
+  @Override
   public int degree(N node) {
     return delegate().degree(node);
   }
@@ -85,6 +119,16 @@ abstract class ForwardingGraph<N> extends AbstractGraph<N> {
   @Override
   public int outDegree(N node) {
     return delegate().outDegree(node);
+  }
+
+  @Override
+  public Set<E> edgesConnecting(N nodeU, N nodeV) {
+    return delegate().edgesConnecting(nodeU, nodeV);
+  }
+
+  @Override
+  public E edgeConnectingOrNull(N nodeU, N nodeV) {
+    return delegate().edgeConnectingOrNull(nodeU, nodeV);
   }
 
   @Override
