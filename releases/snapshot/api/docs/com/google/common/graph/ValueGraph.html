@@ -255,10 +255,11 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">V</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/ValueGraph.html#edgeValueOrNull-N-N-">edgeValueOrNull</a></span>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
-               <a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeV)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/ValueGraph.html#edgeValueOrDefault-N-N-V-">edgeValueOrDefault</a></span>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
+                  <a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeV,
+                  <a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">V</a>&nbsp;defaultValue)</code>
 <div class="block">Returns the value of the edge connecting <code>nodeU</code> to <code>nodeV</code>, if one is present;
- otherwise, returns null.</div>
+ otherwise, returns <code>defaultValue</code>.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
@@ -538,27 +539,28 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 </dl>
 </li>
 </ul>
-<a name="edgeValueOrNull-java.lang.Object-java.lang.Object-">
+<a name="edgeValueOrDefault-java.lang.Object-java.lang.Object-java.lang.Object-">
 <!--   -->
-</a><a name="edgeValueOrNull-N-N-">
+</a><a name="edgeValueOrDefault-N-N-V-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>edgeValueOrNull</h4>
+<h4>edgeValueOrDefault</h4>
 <pre><a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">V</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.201">edgeValueOrNull</a>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
-                            <a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeV)</pre>
+<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">V</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.201">edgeValueOrDefault</a>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
+                               <a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeV,
+                               <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+                               <a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">V</a>&nbsp;defaultValue)</pre>
 <div class="block">Returns the value of the edge connecting <code>nodeU</code> to <code>nodeV</code>, if one is present;
- otherwise, returns null.
+ otherwise, returns <code>defaultValue</code>.
 
- <p>In an undirected graph, this is equal to <code>edgeValueOrNull(nodeV, nodeU)</code>.</div>
+ <p>In an undirected graph, this is equal to <code>edgeValueOrDefault(nodeV, nodeU,
+ defaultValue)</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>nodeU</code> or <code>nodeV</code> is not an element of this
      graph</dd>
-<dt><span class="simpleTagLabel">Since:</span></dt>
-<dd>23.0</dd>
 </dl>
 </li>
 </ul>

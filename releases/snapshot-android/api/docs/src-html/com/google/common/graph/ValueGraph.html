@@ -184,16 +184,16 @@
 <span class="sourceLineNo">176</span><a name="line.176"></a>
 <span class="sourceLineNo">177</span>  /**<a name="line.177"></a>
 <span class="sourceLineNo">178</span>   * Returns the value of the edge connecting {@code nodeU} to {@code nodeV}, if one is present;<a name="line.178"></a>
-<span class="sourceLineNo">179</span>   * otherwise, returns null.<a name="line.179"></a>
+<span class="sourceLineNo">179</span>   * otherwise, returns {@code defaultValue}.<a name="line.179"></a>
 <span class="sourceLineNo">180</span>   *<a name="line.180"></a>
-<span class="sourceLineNo">181</span>   * &lt;p&gt;In an undirected graph, this is equal to {@code edgeValueOrNull(nodeV, nodeU)}.<a name="line.181"></a>
-<span class="sourceLineNo">182</span>   *<a name="line.182"></a>
-<span class="sourceLineNo">183</span>   * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this<a name="line.183"></a>
-<span class="sourceLineNo">184</span>   *     graph<a name="line.184"></a>
-<span class="sourceLineNo">185</span>   * @since 23.0<a name="line.185"></a>
+<span class="sourceLineNo">181</span>   * &lt;p&gt;In an undirected graph, this is equal to {@code edgeValueOrDefault(nodeV, nodeU,<a name="line.181"></a>
+<span class="sourceLineNo">182</span>   * defaultValue)}.<a name="line.182"></a>
+<span class="sourceLineNo">183</span>   *<a name="line.183"></a>
+<span class="sourceLineNo">184</span>   * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this<a name="line.184"></a>
+<span class="sourceLineNo">185</span>   *     graph<a name="line.185"></a>
 <span class="sourceLineNo">186</span>   */<a name="line.186"></a>
 <span class="sourceLineNo">187</span>  @Nullable<a name="line.187"></a>
-<span class="sourceLineNo">188</span>  V edgeValueOrNull(N nodeU, N nodeV);<a name="line.188"></a>
+<span class="sourceLineNo">188</span>  V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue);<a name="line.188"></a>
 <span class="sourceLineNo">189</span><a name="line.189"></a>
 <span class="sourceLineNo">190</span>  //<a name="line.190"></a>
 <span class="sourceLineNo">191</span>  // ValueGraph identity<a name="line.191"></a>

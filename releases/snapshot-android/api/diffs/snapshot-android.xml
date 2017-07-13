@@ -38262,21 +38262,22 @@
       <![CDATA[{@inheritDoc}]]>
       </doc>
     </method>
-    <method name="edgeValueOrNull" return="V"
+    <method name="edgeValueOrDefault" return="V"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="nodeU" type="N"/>
       <param name="nodeV" type="N"/>
+      <param name="defaultValue" type="V"/>
       <doc>
       <![CDATA[Returns the value of the edge connecting {@code nodeU} to {@code nodeV}, if one is present;
- otherwise, returns null.
+ otherwise, returns {@code defaultValue}.
 
- <p>In an undirected graph, this is equal to {@code edgeValueOrNull(nodeV, nodeU)}.
+ <p>In an undirected graph, this is equal to {@code edgeValueOrDefault(nodeV, nodeU,
+ defaultValue)}.
 
  @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
-     graph
- @since 23.0]]>
+     graph]]>
       </doc>
     </method>
     <method name="equals" return="boolean"
