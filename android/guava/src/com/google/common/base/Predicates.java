@@ -108,6 +108,7 @@ public final class Predicates {
    * components} is empty, the returned predicate will always evaluate to {@code
    * true}.
    */
+  @SafeVarargs
   public static <T> Predicate<T> and(Predicate<? super T>... components) {
     return new AndPredicate<T>(defensiveCopy(components));
   }
