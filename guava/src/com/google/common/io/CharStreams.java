@@ -47,11 +47,14 @@ import java.util.List;
 @GwtIncompatible
 public final class CharStreams {
 
+  // 2K chars (4K bytes)
+  private static final int DEFAULT_BUF_SIZE = 0x800;
+
   /**
    * Creates a new {@code CharBuffer} for buffering reads or writes.
    */
   static CharBuffer createBuffer() {
-    return CharBuffer.allocate(0x800); // 2K chars (4K bytes)
+    return CharBuffer.allocate(DEFAULT_BUF_SIZE);
   }
 
   private CharStreams() {}
@@ -67,15 +70,86 @@ public final class CharStreams {
    */
   @CanIgnoreReturnValue
   public static long copy(Readable from, Appendable to) throws IOException {
+    // The most common case is that from is a Reader (like InputStreamReader or StringReader) so
+    // take advantage of that.
+    if (from instanceof Reader) {
+      // optimize for common output types which are optimized to deal with char[]
+      if (to instanceof StringBuilder) {
+        return copyReaderToBuilder((Reader) from, (StringBuilder) to);
+      } else {
+        return copyReaderToWriter((Reader) from, asWriter(to));
+      }
+    } else {
+      checkNotNull(from);
+      checkNotNull(to);
+      long total = 0;
+      CharBuffer buf = createBuffer();
+      while (from.read(buf) != -1) {
+        buf.flip();
+        to.append(buf);
+        total += buf.remaining();
+        buf.clear();
+      }
+      return total;
+    }
+  }
+
+  // TODO(lukes): consider allowing callers to pass in a buffer to use, some callers would be able
+  // to reuse buffers, others would be able to size them more appropriately than the constant
+  // defaults
+
+  /**
+   * Copies all characters between the {@link Reader} and {@link StringBuilder} objects. Does not
+   * close or flush the reader.
+   *
+   * <p>This is identical to {@link #copy(Readable, Appendable)} but optimized for these specific
+   * types. CharBuffer has poor performance when being written into or read out of so round tripping
+   * all the bytes through the buffer takes a long time. With these specialized types we can just
+   * use a char array.
+   *
+   * @param from the object to read from
+   * @param to the object to write to
+   * @return the number of characters copied
+   * @throws IOException if an I/O error occurs
+   */
+  @CanIgnoreReturnValue
+  static long copyReaderToBuilder(Reader from, StringBuilder to) throws IOException {
     checkNotNull(from);
     checkNotNull(to);
-    CharBuffer buf = createBuffer();
+    char[] buf = new char[DEFAULT_BUF_SIZE];
+    int nRead;
     long total = 0;
-    while (from.read(buf) != -1) {
-      buf.flip();
-      to.append(buf);
-      total += buf.remaining();
-      buf.clear();
+    while ((nRead = from.read(buf)) != -1) {
+      to.append(buf, 0, nRead);
+      total += nRead;
+    }
+    return total;
+  }
+
+  /**
+   * Copies all characters between the {@link Reader} and {@link Writer} objects. Does not close or
+   * flush the reader or writer.
+   *
+   * <p>This is identical to {@link #copy(Readable, Appendable)} but optimized for these specific
+   * types. CharBuffer has poor performance when being written into or read out of so round tripping
+   * all the bytes through the buffer takes a long time. With these specialized types we can just
+   * use a char array.
+   *
+   * @param from the object to read from
+   * @param to the object to write to
+   * @return the number of characters copied
+   * @throws IOException if an I/O error occurs
+   */
+  @CanIgnoreReturnValue
+  static long copyReaderToWriter(Reader from, Writer to) throws IOException {
+    checkNotNull(from);
+    checkNotNull(to);
+    char[] buf = new char[DEFAULT_BUF_SIZE];
+    int nRead;
+    long total = 0;
+    while ((nRead = from.read(buf)) != -1) {
+      to.write(buf, 0, nRead);
+      total += nRead;
     }
     return total;
   }
@@ -102,7 +176,11 @@ public final class CharStreams {
    */
   private static StringBuilder toStringBuilder(Readable r) throws IOException {
     StringBuilder sb = new StringBuilder();
-    copy(r, sb);
+    if (r instanceof Reader) {
+      copyReaderToBuilder((Reader) r, sb);
+    } else {
+      copy(r, sb);
+    }
     return sb;
   }
 
