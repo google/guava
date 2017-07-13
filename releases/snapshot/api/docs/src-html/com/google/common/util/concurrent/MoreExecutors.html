@@ -179,7 +179,7 @@
 <span class="sourceLineNo">171</span>        ThreadPoolExecutor executor, long terminationTimeout, TimeUnit timeUnit) {<a name="line.171"></a>
 <span class="sourceLineNo">172</span>      useDaemonThreadFactory(executor);<a name="line.172"></a>
 <span class="sourceLineNo">173</span>      ExecutorService service = Executors.unconfigurableExecutorService(executor);<a name="line.173"></a>
-<span class="sourceLineNo">174</span>      addDelayedShutdownHook(service, terminationTimeout, timeUnit);<a name="line.174"></a>
+<span class="sourceLineNo">174</span>      addDelayedShutdownHook(executor, terminationTimeout, timeUnit);<a name="line.174"></a>
 <span class="sourceLineNo">175</span>      return service;<a name="line.175"></a>
 <span class="sourceLineNo">176</span>    }<a name="line.176"></a>
 <span class="sourceLineNo">177</span><a name="line.177"></a>
@@ -187,7 +187,7 @@
 <span class="sourceLineNo">179</span>        ScheduledThreadPoolExecutor executor, long terminationTimeout, TimeUnit timeUnit) {<a name="line.179"></a>
 <span class="sourceLineNo">180</span>      useDaemonThreadFactory(executor);<a name="line.180"></a>
 <span class="sourceLineNo">181</span>      ScheduledExecutorService service = Executors.unconfigurableScheduledExecutorService(executor);<a name="line.181"></a>
-<span class="sourceLineNo">182</span>      addDelayedShutdownHook(service, terminationTimeout, timeUnit);<a name="line.182"></a>
+<span class="sourceLineNo">182</span>      addDelayedShutdownHook(executor, terminationTimeout, timeUnit);<a name="line.182"></a>
 <span class="sourceLineNo">183</span>      return service;<a name="line.183"></a>
 <span class="sourceLineNo">184</span>    }<a name="line.184"></a>
 <span class="sourceLineNo">185</span><a name="line.185"></a>

@@ -397,7 +397,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/
 <ul class="blockList">
 <li class="blockList">
 <h4>transpose</h4>
-<pre>public static&nbsp;&lt;N,V&gt;&nbsp;<a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.322">transpose</a>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,V&gt;&nbsp;graph)</pre>
+<pre>public static&nbsp;&lt;N,V&gt;&nbsp;<a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.305">transpose</a>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,V&gt;&nbsp;graph)</pre>
 <div class="block">Returns a view of <code>graph</code> with the direction (if any) of every edge reversed. All other
  properties remain intact, and further updates to <code>graph</code> will be reflected in the view.</div>
 </li>
@@ -409,7 +409,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/
 <li class="blockList">
 <h4>transpose</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.402">transpose</a>(<a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,E&gt;&nbsp;network)</pre>
+public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.368">transpose</a>(<a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,E&gt;&nbsp;network)</pre>
 <div class="block">Returns a view of <code>network</code> with the direction (if any) of every edge reversed. All other
  properties remain intact, and further updates to <code>network</code> will be reflected in the view.</div>
 </li>
@@ -420,7 +420,7 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <ul class="blockList">
 <li class="blockList">
 <h4>inducedSubgraph</h4>
-<pre>public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.523">inducedSubgraph</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph,
+<pre>public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.454">inducedSubgraph</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph,
                                                   <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends N&gt;&nbsp;nodes)</pre>
 <div class="block">Returns the subgraph of <code>graph</code> induced by <code>nodes</code>. This subgraph is a new graph
  that contains all of the nodes in <code>nodes</code>, and all of the <a href="../../../../com/google/common/graph/Graph.html#edges--"><code>edges</code></a>
@@ -437,7 +437,7 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <ul class="blockList">
 <li class="blockList">
 <h4>inducedSubgraph</h4>
-<pre>public static&nbsp;&lt;N,V&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a>&lt;N,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.548">inducedSubgraph</a>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,V&gt;&nbsp;graph,
+<pre>public static&nbsp;&lt;N,V&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a>&lt;N,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.479">inducedSubgraph</a>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,V&gt;&nbsp;graph,
                                                            <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends N&gt;&nbsp;nodes)</pre>
 <div class="block">Returns the subgraph of <code>graph</code> induced by <code>nodes</code>. This subgraph is a new graph
  that contains all of the nodes in <code>nodes</code>, and all of the <a href="../../../../com/google/common/graph/Graph.html#edges--"><code>edges</code></a>
@@ -455,7 +455,7 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <li class="blockList">
 <h4>inducedSubgraph</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.576">inducedSubgraph</a>(<a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,E&gt;&nbsp;network,
+public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.507">inducedSubgraph</a>(<a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,E&gt;&nbsp;network,
                                                                          <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends N&gt;&nbsp;nodes)</pre>
 <div class="block">Returns the subgraph of <code>network</code> induced by <code>nodes</code>. This subgraph is a new graph
  that contains all of the nodes in <code>nodes</code>, and all of the <a href="../../../../com/google/common/graph/Network.html#edges--"><code>edges</code></a>
@@ -473,7 +473,7 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.596">copyOf</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</pre>
+<pre>public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.527">copyOf</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</pre>
 <div class="block">Creates a mutable copy of <code>graph</code> with the same nodes and edges.</div>
 </li>
 </ul>
@@ -483,7 +483,7 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;&lt;N,V&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a>&lt;N,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.608">copyOf</a>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,V&gt;&nbsp;graph)</pre>
+<pre>public static&nbsp;&lt;N,V&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a>&lt;N,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.539">copyOf</a>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,V&gt;&nbsp;graph)</pre>
 <div class="block">Creates a mutable copy of <code>graph</code> with the same nodes, edges, and edge values.</div>
 </li>
 </ul>
@@ -494,7 +494,7 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <li class="blockList">
 <h4>copyOf</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.623">copyOf</a>(<a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,E&gt;&nbsp;network)</pre>
+public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.554">copyOf</a>(<a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,E&gt;&nbsp;network)</pre>
 <div class="block">Creates a mutable copy of <code>network</code> with the same nodes and edges.</div>
 </li>
 </ul>
