@@ -183,7 +183,6 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
    *
    * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
    *     graph
-   * @since 23.0
    */
   @Nullable
   V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue);
