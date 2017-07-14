@@ -399,7 +399,7 @@ public final class Throwables {
   @Beta
   @GwtIncompatible // getStackTraceElementMethod
   public static boolean lazyStackTraceIsLazy() {
-    return getStackTraceElementMethod != null & getStackTraceDepthMethod != null;
+    return getStackTraceElementMethod != null && getStackTraceDepthMethod != null;
   }
 
   @GwtIncompatible // invokeAccessibleNonThrowingMethod
