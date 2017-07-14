@@ -38,6 +38,8 @@ import static com.google.common.util.concurrent.Futures.inCompletionOrder;
 import static com.google.common.util.concurrent.Futures.lazyTransform;
 import static com.google.common.util.concurrent.Futures.makeChecked;
 import static com.google.common.util.concurrent.Futures.nonCancellationPropagating;
+import static com.google.common.util.concurrent.Futures.scheduleAsync;
+import static com.google.common.util.concurrent.Futures.submitAsync;
 import static com.google.common.util.concurrent.Futures.successfulAsList;
 import static com.google.common.util.concurrent.Futures.transform;
 import static com.google.common.util.concurrent.Futures.transformAsync;
@@ -51,6 +53,7 @@ import static com.google.common.util.concurrent.Uninterruptibles.getUninterrupti
 import static java.lang.Thread.currentThread;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
+import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -79,6 +82,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -1727,15 +1731,13 @@ public class FuturesTest extends TestCase {
 
     // Pause the executor.
     final CountDownLatch beforeFunction = new CountDownLatch(1);
-    @SuppressWarnings("unused") // go/futurereturn-lsc
-    Future<?> possiblyIgnoredError =
-        executor.submit(
-            new Runnable() {
-              @Override
-              public void run() {
-                awaitUninterruptibly(beforeFunction);
-              }
-            });
+    executor.execute(
+        new Runnable() {
+          @Override
+          public void run() {
+            awaitUninterruptibly(beforeFunction);
+          }
+        });
 
     // Cancel the future after making input available.
     inputFuture.set("value");
@@ -1743,9 +1745,231 @@ public class FuturesTest extends TestCase {
 
     // Unpause the executor.
     beforeFunction.countDown();
-    executor.awaitTermination(5, SECONDS);
+    executor.shutdown();
+    assertTrue(executor.awaitTermination(5, SECONDS));
 
     assertFalse(functionCalled.get());
+  }
+
+  public void testSubmitAsync_asyncCallable_error() throws InterruptedException {
+    final Error error = new Error("deliberate");
+    AsyncCallable<Integer> callable =
+        new AsyncCallable<Integer>() {
+          @Override
+          public ListenableFuture<Integer> call() {
+            throw error;
+          }
+        };
+    SettableFuture<String> inputFuture = SettableFuture.create();
+    ListenableFuture<Integer> outputFuture = submitAsync(callable, directExecutor());
+    inputFuture.set("value");
+    try {
+      getDone(outputFuture);
+      fail();
+    } catch (ExecutionException expected) {
+      assertSame(error, expected.getCause());
+    }
+  }
+
+  public void testSubmitAsync_asyncCallable_nullInsteadOfFuture() throws Exception {
+    ListenableFuture<?> chainedFuture = submitAsync(constantAsyncCallable(null), directExecutor());
+    try {
+      getDone(chainedFuture);
+      fail();
+    } catch (ExecutionException expected) {
+      NullPointerException cause = (NullPointerException) expected.getCause();
+      assertThat(cause)
+          .hasMessage(
+              "AsyncCallable.call returned null instead of a Future. "
+                  + "Did you mean to return immediateFuture(null)?");
+    }
+  }
+
+  @GwtIncompatible // threads
+
+  public void testSubmitAsync_asyncCallable_cancelledWhileApplyingFunction()
+      throws InterruptedException, ExecutionException {
+    final CountDownLatch inFunction = new CountDownLatch(1);
+    final CountDownLatch callableDone = new CountDownLatch(1);
+    final SettableFuture<Integer> resultFuture = SettableFuture.create();
+    AsyncCallable<Integer> callable =
+        new AsyncCallable<Integer>() {
+          @Override
+          public ListenableFuture<Integer> call() throws InterruptedException {
+            inFunction.countDown();
+            callableDone.await();
+            return resultFuture;
+          }
+        };
+    SettableFuture<String> inputFuture = SettableFuture.create();
+    ListenableFuture<Integer> future = submitAsync(callable, newSingleThreadExecutor());
+    inputFuture.set("value");
+    inFunction.await();
+    future.cancel(false);
+    callableDone.countDown();
+    try {
+      future.get();
+      fail();
+    } catch (CancellationException expected) {
+    }
+    try {
+      resultFuture.get();
+      fail();
+    } catch (CancellationException expected) {
+    }
+  }
+
+  @GwtIncompatible // threads
+
+  public void testSubmitAsync_asyncCallable_cancelledBeforeApplyingFunction()
+      throws InterruptedException {
+    final AtomicBoolean callableCalled = new AtomicBoolean();
+    AsyncCallable<Integer> callable =
+        new AsyncCallable<Integer>() {
+          @Override
+          public ListenableFuture<Integer> call() {
+            callableCalled.set(true);
+            return immediateFuture(1);
+          }
+        };
+    ExecutorService executor = newSingleThreadExecutor();
+    // Pause the executor.
+    final CountDownLatch beforeFunction = new CountDownLatch(1);
+    executor.execute(
+        new Runnable() {
+          @Override
+          public void run() {
+            awaitUninterruptibly(beforeFunction);
+          }
+        });
+    ListenableFuture<Integer> future = submitAsync(callable, executor);
+    future.cancel(false);
+
+    // Unpause the executor.
+    beforeFunction.countDown();
+    executor.shutdown();
+    assertTrue(executor.awaitTermination(5, SECONDS));
+
+    assertFalse(callableCalled.get());
+  }
+
+  @GwtIncompatible // threads
+
+  public void testScheduleAsync_asyncCallable_error() throws InterruptedException {
+    final Error error = new Error("deliberate");
+    AsyncCallable<Integer> callable =
+        new AsyncCallable<Integer>() {
+          @Override
+          public ListenableFuture<Integer> call() {
+            throw error;
+          }
+        };
+    SettableFuture<String> inputFuture = SettableFuture.create();
+    ListenableFuture<Integer> outputFuture = submitAsync(callable, directExecutor());
+    inputFuture.set("value");
+    try {
+      getDone(outputFuture);
+      fail();
+    } catch (ExecutionException expected) {
+      assertSame(error, expected.getCause());
+    }
+  }
+
+  @GwtIncompatible // threads
+
+  public void testScheduleAsync_asyncCallable_nullInsteadOfFuture() throws Exception {
+    ListenableFuture<?> chainedFuture =
+        scheduleAsync(
+            constantAsyncCallable(null),
+            1,
+            TimeUnit.NANOSECONDS,
+            newSingleThreadScheduledExecutor());
+    try {
+      chainedFuture.get();
+      fail();
+    } catch (ExecutionException expected) {
+      NullPointerException cause = (NullPointerException) expected.getCause();
+      assertThat(cause)
+          .hasMessage(
+              "AsyncCallable.call returned null instead of a Future. "
+                  + "Did you mean to return immediateFuture(null)?");
+    }
+  }
+
+  @GwtIncompatible // threads
+
+  public void testScheduleAsync_asyncCallable_cancelledWhileApplyingFunction()
+      throws InterruptedException, ExecutionException {
+    final CountDownLatch inFunction = new CountDownLatch(1);
+    final CountDownLatch callableDone = new CountDownLatch(1);
+    final SettableFuture<Integer> resultFuture = SettableFuture.create();
+    AsyncCallable<Integer> callable =
+        new AsyncCallable<Integer>() {
+          @Override
+          public ListenableFuture<Integer> call() throws InterruptedException {
+            inFunction.countDown();
+            callableDone.await();
+            return resultFuture;
+          }
+        };
+    ListenableFuture<Integer> future =
+        scheduleAsync(callable, 1, TimeUnit.NANOSECONDS, newSingleThreadScheduledExecutor());
+    inFunction.await();
+    future.cancel(false);
+    callableDone.countDown();
+    try {
+      future.get();
+      fail();
+    } catch (CancellationException expected) {
+    }
+    try {
+      resultFuture.get();
+      fail();
+    } catch (CancellationException expected) {
+    }
+  }
+
+  @GwtIncompatible // threads
+
+  public void testScheduleAsync_asyncCallable_cancelledBeforeCallingFunction()
+      throws InterruptedException {
+    final AtomicBoolean callableCalled = new AtomicBoolean();
+    AsyncCallable<Integer> callable =
+        new AsyncCallable<Integer>() {
+          @Override
+          public ListenableFuture<Integer> call() {
+            callableCalled.set(true);
+            return immediateFuture(1);
+          }
+        };
+    ScheduledExecutorService executor = newSingleThreadScheduledExecutor();
+    // Pause the executor.
+    final CountDownLatch beforeFunction = new CountDownLatch(1);
+    executor.execute(
+        new Runnable() {
+          @Override
+          public void run() {
+            awaitUninterruptibly(beforeFunction);
+          }
+        });
+    ListenableFuture<Integer> future = scheduleAsync(callable, 1, TimeUnit.NANOSECONDS, executor);
+    future.cancel(false);
+
+    // Unpause the executor.
+    beforeFunction.countDown();
+    executor.shutdown();
+    assertTrue(executor.awaitTermination(5, SECONDS));
+
+    assertFalse(callableCalled.get());
+  }
+
+  private static <T> AsyncCallable<T> constantAsyncCallable(final ListenableFuture<T> returnValue) {
+    return new AsyncCallable<T>() {
+      @Override
+      public ListenableFuture<T> call() {
+        return returnValue;
+      }
+    };
   }
 
   public void testDereference_genericsWildcard() throws Exception {

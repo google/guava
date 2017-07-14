@@ -241,6 +241,44 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   }
 
   /**
+   * Executes {@code callable} on the specified {@code executor}, returning a {@code Future}.
+   *
+   * @throws RejectedExecutionException if the task cannot be scheduled for execution
+   * @since 23.0
+   */
+  public static <O> ListenableFuture<O> submitAsync(AsyncCallable<O> callable, Executor executor) {
+    TrustedListenableFutureTask<O> task = TrustedListenableFutureTask.create(callable);
+    executor.execute(task);
+    return task;
+  }
+
+  /**
+   * Schedules {@code callable} on the specified {@code executor}, returning a {@code Future}.
+   *
+   * @throws RejectedExecutionException if the task cannot be scheduled for execution
+   * @since 23.0
+   */
+  @GwtIncompatible // java.util.concurrent.ScheduledExecutorService
+  public static <O> ListenableFuture<O> scheduleAsync(
+      AsyncCallable<O> callable,
+      long delay,
+      TimeUnit timeUnit,
+      ScheduledExecutorService executorService) {
+    TrustedListenableFutureTask<O> task = TrustedListenableFutureTask.create(callable);
+    final Future<?> scheduled = executorService.schedule(task, delay, timeUnit);
+    task.addListener(
+        new Runnable() {
+          @Override
+          public void run() {
+            // Don't want to interrupt twice
+            scheduled.cancel(false);
+          }
+        },
+        directExecutor());
+    return task;
+  }
+
+  /**
    * Returns a {@code Future} whose result is taken from the given primary {@code input} or, if the
    * primary input fails with the given {@code exceptionType}, from the result provided by the
    * {@code fallback}. {@link Function#apply} is not invoked until the primary input has failed, so

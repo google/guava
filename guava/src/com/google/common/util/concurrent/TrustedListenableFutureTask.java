@@ -33,12 +33,10 @@ import javax.annotation.Nullable;
 class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
     implements RunnableFuture<V> {
 
-  /**
-   * Creates a {@code ListenableFutureTask} that will upon running, execute the given
-   * {@code Callable}.
-   *
-   * @param callable the callable task
-   */
+  static <V> TrustedListenableFutureTask<V> create(AsyncCallable<V> callable) {
+    return new TrustedListenableFutureTask<V>(callable);
+  }
+
   static <V> TrustedListenableFutureTask<V> create(Callable<V> callable) {
     return new TrustedListenableFutureTask<V>(callable);
   }
@@ -62,15 +60,19 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
    * In certain circumstances, this field might theoretically not be visible to an afterDone() call
    * triggered by cancel(). For details, see the comments on the fields of TimeoutFuture.
    */
-  private TrustedFutureInterruptibleTask task;
+  private InterruptibleTask task;
 
   TrustedListenableFutureTask(Callable<V> callable) {
     this.task = new TrustedFutureInterruptibleTask(callable);
   }
 
+  TrustedListenableFutureTask(AsyncCallable<V> callable) {
+    this.task = new TrustedFutureInterruptibleAsyncTask(callable);
+  }
+
   @Override
   public void run() {
-    TrustedFutureInterruptibleTask localTask = task;
+    InterruptibleTask localTask = task;
     if (localTask != null) {
       localTask.run();
     }
@@ -81,7 +83,7 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
     super.afterDone();
 
     if (wasInterrupted()) {
-      TrustedFutureInterruptibleTask localTask = task;
+      InterruptibleTask localTask = task;
       if (localTask != null) {
         localTask.interruptTask();
       }
@@ -92,7 +94,7 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
 
   @Override
   protected String pendingToString() {
-    TrustedFutureInterruptibleTask localTask = task;
+    InterruptibleTask localTask = task;
     if (localTask != null) {
       return "task=[" + localTask + "]";
     }
@@ -113,6 +115,42 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
       if (!isDone()) {
         try {
           TrustedListenableFutureTask.this.set(callable.call());
+        } catch (Throwable t) {
+          setException(t);
+        }
+      }
+    }
+
+    @Override
+    boolean wasInterrupted() {
+      return TrustedListenableFutureTask.this.wasInterrupted();
+    }
+
+    @Override
+    public String toString() {
+      return callable.toString();
+    }
+  }
+
+  @WeakOuter
+  private final class TrustedFutureInterruptibleAsyncTask extends InterruptibleTask {
+    private final AsyncCallable<V> callable;
+
+    TrustedFutureInterruptibleAsyncTask(AsyncCallable<V> callable) {
+      this.callable = checkNotNull(callable);
+    }
+
+    @Override
+    void runInterruptibly() {
+      // Ensure we haven't been cancelled or already run.
+      if (!isDone()) {
+        try {
+          ListenableFuture<V> result = callable.call();
+          checkNotNull(
+              result,
+              "AsyncCallable.call returned null instead of a Future. "
+                  + "Did you mean to return immediateFuture(null)?");
+          setFuture(result);
         } catch (Throwable t) {
           setException(t);
         }
