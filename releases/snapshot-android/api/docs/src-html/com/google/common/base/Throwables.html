@@ -407,7 +407,7 @@
 <span class="sourceLineNo">399</span>  @Beta<a name="line.399"></a>
 <span class="sourceLineNo">400</span>  @GwtIncompatible // getStackTraceElementMethod<a name="line.400"></a>
 <span class="sourceLineNo">401</span>  public static boolean lazyStackTraceIsLazy() {<a name="line.401"></a>
-<span class="sourceLineNo">402</span>    return getStackTraceElementMethod != null &amp; getStackTraceDepthMethod != null;<a name="line.402"></a>
+<span class="sourceLineNo">402</span>    return getStackTraceElementMethod != null &amp;&amp; getStackTraceDepthMethod != null;<a name="line.402"></a>
 <span class="sourceLineNo">403</span>  }<a name="line.403"></a>
 <span class="sourceLineNo">404</span><a name="line.404"></a>
 <span class="sourceLineNo">405</span>  @GwtIncompatible // invokeAccessibleNonThrowingMethod<a name="line.405"></a>

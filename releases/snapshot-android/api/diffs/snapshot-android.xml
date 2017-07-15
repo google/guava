@@ -60368,6 +60368,34 @@
      themselves. This method is scheduled for removal from Guava in February 2018.]]>
       </doc>
     </method>
+    <method name="submitAsync" return="com.google.common.util.concurrent.ListenableFuture&lt;O&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="callable" type="com.google.common.util.concurrent.AsyncCallable&lt;O&gt;"/>
+      <param name="executor" type="java.util.concurrent.Executor"/>
+      <doc>
+      <![CDATA[Executes {@code callable} on the specified {@code executor}, returning a {@code Future}.
+
+ @throws RejectedExecutionException if the task cannot be scheduled for execution
+ @since 23.0]]>
+      </doc>
+    </method>
+    <method name="scheduleAsync" return="com.google.common.util.concurrent.ListenableFuture&lt;O&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="callable" type="com.google.common.util.concurrent.AsyncCallable&lt;O&gt;"/>
+      <param name="delay" type="long"/>
+      <param name="timeUnit" type="java.util.concurrent.TimeUnit"/>
+      <param name="executorService" type="java.util.concurrent.ScheduledExecutorService"/>
+      <doc>
+      <![CDATA[Schedules {@code callable} on the specified {@code executor}, returning a {@code Future}.
+
+ @throws RejectedExecutionException if the task cannot be scheduled for execution
+ @since 23.0]]>
+      </doc>
+    </method>
     <method name="catching" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
