@@ -456,6 +456,18 @@ public abstract class ByteSource {
     }
 
     @Override
+    public String read() throws IOException {
+      // Reading all the data as a byte array is more efficient than the default read()
+      // implementation because:
+      // 1. the string constructor can avoid an extra copy most of the time by correctly sizing the
+      //    internal char array (hard to avoid using StringBuilder)
+      // 2. we avoid extra copies into temporary buffers altogether
+      // The downside is that this will cause us to store the file bytes in memory twice for a short
+      // amount of time.
+      return new String(ByteSource.this.read(), charset);
+    }
+
+    @Override
     public String toString() {
       return ByteSource.this.toString() + ".asCharSource(" + charset + ")";
     }

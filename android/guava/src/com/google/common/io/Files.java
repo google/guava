@@ -176,10 +176,15 @@ public final class Files {
     }
 
     // some special files may return size 0 but have content, so read
-    // the file normally in that case
-    return expectedSize == 0
-        ? ByteStreams.toByteArray(in)
-        : ByteStreams.toByteArray(in, (int) expectedSize);
+    // the file normally in that case guessing at the buffer size to use.  Note, there is no point
+    // in calling the 'toByteArray' overload that doesn't take a size because that calls
+    // InputStream.available(), but our caller has already done that.  So instead just guess that
+    // the file is 4K bytes long and rely on the fallback in toByteArray to expand the buffer if
+    // needed.
+    // This also works around an app-engine bug where FileInputStream.available() consistently
+    // throws an IOException for certain files, even though FileInputStream.getChannel().size() does
+    // not!
+    return ByteStreams.toByteArray(in, expectedSize == 0 ? 4096 : (int) expectedSize);
   }
 
   /**
