@@ -34,6 +34,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
 import java.util.regex.Pattern;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
@@ -481,6 +483,11 @@ public final class Doubles {
     public Double get(int index) {
       checkElementIndex(index, size());
       return array[start + index];
+    }
+
+    @Override
+    public Spliterator.OfDouble spliterator() {
+      return Spliterators.spliterator(array, start, end, 0);
     }
 
     @Override
