@@ -48,7 +48,7 @@ public class SimpleAbstractMultisetTest extends TestCase {
     suite.addTest(MultisetTestSuiteBuilder.using(new TestStringMultisetGenerator() {
           @Override
           protected Multiset<String> create(String[] elements) {
-            Multiset<String> ms = new NoRemoveMultiset<String>();
+            Multiset<String> ms = new NoRemoveMultiset<>();
             Collections.addAll(ms, elements);
             return ms;
           }
@@ -76,7 +76,7 @@ public class SimpleAbstractMultisetTest extends TestCase {
   }
 
   public void testRemoveUnsupported() {
-    Multiset<String> multiset = new NoRemoveMultiset<String>();
+    Multiset<String> multiset = new NoRemoveMultiset<>();
     multiset.add("a");
     try {
       multiset.remove("a");

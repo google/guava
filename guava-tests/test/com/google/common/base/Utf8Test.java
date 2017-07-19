@@ -76,7 +76,7 @@ public class Utf8Test extends TestCase {
   }
 
   public void testEncodedLength_validStrings2() {
-    HashMap<Integer, Integer> utf8Lengths = new HashMap<Integer, Integer>();
+    HashMap<Integer, Integer> utf8Lengths = new HashMap<>();
     utf8Lengths.put(0x00, 1);
     utf8Lengths.put(0x7f, 1);
     utf8Lengths.put(0x80, 2);

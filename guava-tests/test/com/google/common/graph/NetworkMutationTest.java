@@ -60,7 +60,7 @@ public final class NetworkMutationTest {
       while (network.nodes().size() < NUM_NODES) {
         network.addNode(gen.nextInt(NODE_POOL_SIZE));
       }
-      ArrayList<Integer> nodeList = new ArrayList<Integer>(network.nodes());
+      ArrayList<Integer> nodeList = new ArrayList<>(network.nodes());
       for (int i = 0; i < NUM_EDGES; ++i) {
         // Parallel edges are allowed, so this should always succeed.
         assertThat(
@@ -68,7 +68,7 @@ public final class NetworkMutationTest {
                     getRandomElement(nodeList, gen), getRandomElement(nodeList, gen), new Object()))
             .isTrue();
       }
-      ArrayList<Object> edgeList = new ArrayList<Object>(network.edges());
+      ArrayList<Object> edgeList = new ArrayList<>(network.edges());
 
       assertThat(network.nodes()).hasSize(NUM_NODES);
       assertThat(network.edges()).hasSize(NUM_EDGES);

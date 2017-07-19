@@ -125,7 +125,7 @@ public abstract class AbstractGraphTest {
     int edgeStart = graphString.indexOf("edges:");
     String nodeString = graphString.substring(nodeStart, edgeStart);
 
-    Set<EndpointPair<N>> allEndpointPairs = new HashSet<EndpointPair<N>>();
+    Set<EndpointPair<N>> allEndpointPairs = new HashSet<>();
 
     for (N node : sanityCheckSet(graph.nodes())) {
       assertThat(nodeString).contains(node.toString());

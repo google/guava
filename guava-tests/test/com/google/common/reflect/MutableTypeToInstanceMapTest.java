@@ -52,7 +52,7 @@ public class MutableTypeToInstanceMapTest extends TestCase {
           @SuppressWarnings("unchecked")
           public Map<TypeToken, Object> create(Object... elements) {
             MutableTypeToInstanceMap<Object> map
-                = new MutableTypeToInstanceMap<Object>();
+                = new MutableTypeToInstanceMap<>();
             for (Object object : elements) {
               Entry<TypeToken, Object> entry = (Entry<TypeToken, Object>) object;
               map.putInstance(entry.getKey(), entry.getValue());

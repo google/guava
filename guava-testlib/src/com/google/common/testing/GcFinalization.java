@@ -286,8 +286,7 @@ public final class GcFinalization {
    */
   public static void awaitFullGc() {
     final CountDownLatch finalizerRan = new CountDownLatch(1);
-    WeakReference<Object> ref = new WeakReference<Object>(
-        new Object() {
+    WeakReference<Object> ref = new WeakReference<>(new Object() {
           @Override protected void finalize() { finalizerRan.countDown(); }
         });
 

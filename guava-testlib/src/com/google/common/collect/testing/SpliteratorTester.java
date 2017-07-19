@@ -166,7 +166,7 @@ public final class SpliteratorTester<E> {
     long estimatedSize = spliterator.estimateSize();
     for (SpliteratorDecompositionStrategy strategy :
         EnumSet.allOf(SpliteratorDecompositionStrategy.class)) {
-      List<E> resultsForStrategy = new ArrayList<E>();
+      List<E> resultsForStrategy = new ArrayList<>();
       strategy.forEach(spliteratorSupplier.get(), resultsForStrategy::add);
 
       // TODO(cpovirk): better failure messages

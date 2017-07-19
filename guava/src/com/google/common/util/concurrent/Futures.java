@@ -1026,7 +1026,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     if (future.isDone()) {
       return future;
     }
-    NonCancellationPropagatingFuture<V> output = new NonCancellationPropagatingFuture<V>(future);
+    NonCancellationPropagatingFuture<V> output = new NonCancellationPropagatingFuture<>(future);
     future.addListener(output, directExecutor());
     return output;
   }

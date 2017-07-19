@@ -37,8 +37,7 @@ public class ChainBenchmark {
 
   @BeforeExperiment
   void setUp() {
-    LocalCache<Object, Object> cache = new LocalCache<Object, Object>(
-        CacheBuilder.newBuilder()
+    LocalCache<Object, Object> cache = new LocalCache<>(CacheBuilder.newBuilder()
             .concurrencyLevel(1), null);
     segment = cache.segments[0];
     chain = null;

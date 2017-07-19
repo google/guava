@@ -72,13 +72,13 @@ public class GcFinalizationTest extends TestCase {
   }
 
   public void testAwaitClear() {
-    final WeakReference<Object> ref = new WeakReference<Object>(new Object());
+    final WeakReference<Object> ref = new WeakReference<>(new Object());
     GcFinalization.awaitClear(ref);
     assertNull(ref.get());
   }
 
   public void testAwaitDone_FinalizationPredicate() {
-    final WeakHashMap<Object, Object> map = new WeakHashMap<Object, Object>();
+    final WeakHashMap<Object, Object> map = new WeakHashMap<>();
     map.put(new Object(), Boolean.TRUE);
     GcFinalization.awaitDone(new FinalizationPredicate() {
       public boolean isDone() {
@@ -157,7 +157,7 @@ public class GcFinalizationTest extends TestCase {
   public void testAwaitClear_Interrupted() {
     Interruptenator interruptenator = new Interruptenator(Thread.currentThread());
     try {
-      final WeakReference<Object> ref = new WeakReference<Object>(Boolean.TRUE);
+      final WeakReference<Object> ref = new WeakReference<>(Boolean.TRUE);
       try {
         GcFinalization.awaitClear(ref);
         fail("should throw");
@@ -197,8 +197,7 @@ public class GcFinalizationTest extends TestCase {
    */
   public void testAwaitFullGc() {
     final CountDownLatch finalizerRan = new CountDownLatch(1);
-    final WeakReference<Object> ref = new WeakReference<Object>(
-        new Object() {
+    final WeakReference<Object> ref = new WeakReference<>(new Object() {
           @Override protected void finalize() { finalizerRan.countDown(); }
         });
 
