@@ -59239,7 +59239,7 @@
 
  <p>If {@link #interruptTask} is also run during completion, {@link #afterDone} runs after it.
 
- <p>The default implementation of this method in {@code AbstractFuture} does nothing.  This is
+ <p>The default implementation of this method in {@code AbstractFuture} does nothing. This is
  intended for very lightweight cleanup work, for example, timing statistics or clearing fields.
  If your task does anything heavier consider, just using a listener with an executor.
 
