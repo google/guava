@@ -17,53 +17,85 @@ package com.google.common.util.concurrent;
 import com.google.common.annotations.GwtCompatible;
 import com.google.j2objc.annotations.ReflectionSupport;
 import java.util.concurrent.atomic.AtomicReference;
+import javax.annotation.Nullable;
 
 @GwtCompatible(emulated = true)
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)
 // Some Android 5.0.x Samsung devices have bugs in JDK reflection APIs that cause
 // getDeclaredField to throw a NoSuchFieldException when the field is definitely there.
 // Since this class only needs CAS on one field, we can avoid this bug by extending AtomicReference
-// instead of using an AtomicReferenceFieldUpdater.
-abstract class InterruptibleTask extends AtomicReference<Thread> implements Runnable {
+// instead of using an AtomicReferenceFieldUpdater. This reference stores Thread instances
+// and DONE/INTERRUPTED - they have a common ancestor of Runnable.
+abstract class InterruptibleTask<T> extends AtomicReference<Runnable> implements Runnable {
+  private static final class DoNothingRunnable implements Runnable {
+    @Override
+    public void run() {}
+  }
   // The thread executing the task publishes itself to the superclass' reference and the thread
-  // interrupting sets 'doneInterrupting' when it has finished interrupting.
-  private volatile boolean doneInterrupting;
+  // interrupting sets DONE when it has finished interrupting.
+  private static final Runnable DONE = new DoNothingRunnable();
+  private static final Runnable INTERRUPTING = new DoNothingRunnable();
 
   @Override
   public final void run() {
-    if (!compareAndSet(null, Thread.currentThread())) {
+    if (isDone()) {
+      return;
+    }
+    Thread currentThread = Thread.currentThread();
+    if (!compareAndSet(null, currentThread)) {
       return; // someone else has run or is running.
     }
+
+    T result = null;
+    Throwable error = null;
     try {
-      runInterruptibly();
+      result = runInterruptibly();
+    } catch (Throwable t) {
+      error = t;
     } finally {
-      if (wasInterrupted()) {
-        // We were interrupted, it is possible that the interrupted bit hasn't been set yet. Wait
-        // for the interrupting thread to set 'doneInterrupting' to true. See interruptTask().
+      // Attempt to set the task as done so that further attempts to interrupt will fail.
+      if (!compareAndSet(currentThread, DONE)) {
+        // If we were interrupted, it is possible that the interrupted bit hasn't been set yet. Wait
+        // for the interrupting thread to set DONE. See interruptTask().
         // We want to wait so that we don't interrupt the _next_ thing run on the thread.
         // Note: We don't reset the interrupted bit, just wait for it to be set.
         // If this is a thread pool thread, the thread pool will reset it for us. Otherwise, the
         // interrupted bit may have been intended for something else, so don't clear it.
-        while (!doneInterrupting) {
+        while (get() == INTERRUPTING) {
           Thread.yield();
         }
       }
+      afterRanInterruptibly(result, error);
     }
   }
 
-  abstract void runInterruptibly();
+  /**
+   * Called before runInterruptibly - if true, runInterruptibly and afterRanInterruptibly will not
+   * be called.
+   */
+  abstract boolean isDone();
 
-  abstract boolean wasInterrupted();
+  /**
+   * Do interruptible work here - do not complete Futures here, as their listeners could be
+   * interrupted.
+   */
+  abstract T runInterruptibly() throws Exception;
+
+  /**
+   * Any interruption that happens as a result of calling interruptTask will arrive before this
+   * method is called. Complete Futures here.
+   */
+  abstract void afterRanInterruptibly(@Nullable T result, @Nullable Throwable error);
 
   final void interruptTask() {
-    // interruptTask is guaranteed to be called at most once, and if runner is non-null when that
-    // happens, then it must have been the first thread that entered run(). So there is no risk that
-    // we are interrupting the wrong thread.
-    Thread currentRunner = get();
-    if (currentRunner != null) {
-      currentRunner.interrupt();
+    // Since the Thread is replaced by DONE after runInterruptibly returns, if we succeed in this
+    // CAS there's no risk of interrupting the wrong thread, or interrupting a thread that isn't
+    // currently executing this task.
+    Runnable currentRunner = get();
+    if (currentRunner instanceof Thread && compareAndSet(currentRunner, INTERRUPTING)) {
+      ((Thread) currentRunner).interrupt();
+      set(DONE);
     }
-    doneInterrupting = true;
   }
 
   @Override

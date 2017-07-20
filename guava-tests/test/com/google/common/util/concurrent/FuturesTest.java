@@ -1855,6 +1855,19 @@ public class FuturesTest extends TestCase {
 
   @GwtIncompatible // threads
 
+  public void testSubmitAsync_asyncCallable_returnsInterruptedFuture() throws InterruptedException {
+    assertThat(Thread.interrupted()).isFalse();
+    SettableFuture<Integer> cancelledFuture = SettableFuture.create();
+    cancelledFuture.cancel(true);
+    assertThat(Thread.interrupted()).isFalse();
+    ListenableFuture<Integer> future =
+        submitAsync(constantAsyncCallable(cancelledFuture), directExecutor());
+    assertThat(future.isDone()).isTrue();
+    assertThat(Thread.interrupted()).isFalse();
+  }
+
+  @GwtIncompatible // threads
+
   public void testScheduleAsync_asyncCallable_error() throws InterruptedException {
     final Error error = new Error("deliberate");
     AsyncCallable<Integer> callable =
@@ -2454,6 +2467,25 @@ public class FuturesTest extends TestCase {
 
   private static String createCombinedResult(Integer i, Boolean b) {
     return "-" + i + "-" + b;
+  }
+
+  @GwtIncompatible // threads
+
+  public void testWhenAllComplete_noLeakInterruption() throws Exception {
+    final SettableFuture<String> stringFuture = SettableFuture.create();
+    AsyncCallable<String> combiner =
+        new AsyncCallable<String>() {
+          @Override
+          public ListenableFuture<String> call() throws Exception {
+            return stringFuture;
+          }
+        };
+
+    ListenableFuture<String> futureResult = whenAllComplete().callAsync(combiner, directExecutor());
+
+    assertThat(Thread.interrupted()).isFalse();
+    futureResult.cancel(true);
+    assertThat(Thread.interrupted()).isFalse();
   }
 
   public void testWhenAllComplete_wildcard() throws Exception {

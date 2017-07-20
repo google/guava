@@ -94,7 +94,7 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
   }
 
   @WeakOuter
-  private abstract class CombinedFutureInterruptibleTask extends InterruptibleTask {
+  private abstract class CombinedFutureInterruptibleTask<T> extends InterruptibleTask<T> {
     private final Executor listenerExecutor;
     volatile boolean thrownByExecute = true;
 
@@ -103,25 +103,8 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
     }
 
     @Override
-    final void runInterruptibly() {
-      thrownByExecute = false;
-      // Ensure we haven't been cancelled or already run.
-      if (!isDone()) {
-        try {
-          setValue();
-        } catch (ExecutionException e) {
-          setException(e.getCause());
-        } catch (CancellationException e) {
-          cancel(false);
-        } catch (Throwable e) {
-          setException(e);
-        }
-      }
-    }
-
-    @Override
-    final boolean wasInterrupted() {
-      return CombinedFuture.this.wasInterrupted();
+    final boolean isDone() {
+      return CombinedFuture.this.isDone();
     }
 
     final void execute() {
@@ -134,11 +117,27 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
       }
     }
 
-    abstract void setValue() throws Exception;
+    @Override
+    final void afterRanInterruptibly(T result, Throwable error) {
+      if (error != null) {
+        if (error instanceof ExecutionException) {
+          setException(error.getCause());
+        } else if (error instanceof CancellationException) {
+          cancel(false);
+        } else {
+          setException(error);
+        }
+      } else {
+        setValue(result);
+      }
+    }
+
+    abstract void setValue(T value);
   }
 
   @WeakOuter
-  private final class AsyncCallableInterruptibleTask extends CombinedFutureInterruptibleTask {
+  private final class AsyncCallableInterruptibleTask
+      extends CombinedFutureInterruptibleTask<ListenableFuture<V>> {
     private final AsyncCallable<V> callable;
 
     public AsyncCallableInterruptibleTask(AsyncCallable<V> callable, Executor listenerExecutor) {
@@ -147,8 +146,18 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
     }
 
     @Override
-    void setValue() throws Exception {
-      setFuture(callable.call());
+    ListenableFuture<V> runInterruptibly() throws Exception {
+      thrownByExecute = false;
+      ListenableFuture<V> result = callable.call();
+      return checkNotNull(
+          result,
+          "AsyncCallable.call returned null instead of a Future. "
+              + "Did you mean to return immediateFuture(null)?");
+    }
+
+    @Override
+    void setValue(ListenableFuture<V> value) {
+      setFuture(value);
     }
 
     @Override
@@ -158,7 +167,7 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
   }
 
   @WeakOuter
-  private final class CallableInterruptibleTask extends CombinedFutureInterruptibleTask {
+  private final class CallableInterruptibleTask extends CombinedFutureInterruptibleTask<V> {
     private final Callable<V> callable;
 
     public CallableInterruptibleTask(Callable<V> callable, Executor listenerExecutor) {
@@ -167,8 +176,14 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
     }
 
     @Override
-    void setValue() throws Exception {
-      CombinedFuture.this.set(callable.call());
+    V runInterruptibly() throws Exception {
+      thrownByExecute = false;
+      return callable.call();
+    }
+
+    @Override
+    void setValue(V value) {
+      CombinedFuture.this.set(value);
     }
 
     @Override
