@@ -18,7 +18,7 @@ Guava comes in two flavors.
 
 ## Latest release
 
-The most recent release is [Guava 22.0][], released May 22, 2017.
+The most recent release is [Guava 22.0][current release], released May 22, 2017.
 
 - 22.0 API Docs: [guava][guava-release-api-docs], [guava-testlib][testlib-release-api-docs]
 - 22.0 API Diffs from 21.0: [guava][guava-release-api-diffs]
@@ -47,7 +47,10 @@ dependencies {
   compile 'com.google.guava:guava:22.0-android'
 }
 ```
+## Upcoming release
 
+The next release of Guava is [23.0][upcoming release]. 23.0-rc1 is available through Maven using
+version numbers `23.0-rc1` or `23.0-rc1-android`.
 
 ## Snapshots
 
@@ -97,7 +100,8 @@ correctly in other environments.
 
   For the Android flavor, our unit tests run on API level 10 (Gingerbread).
 
-[Guava 22.0]: https://github.com/google/guava/wiki/Release22
+[current release]: https://github.com/google/guava/wiki/Release22
+[upcoming release]: https://github.com/google/guava/wiki/Release23
 [guava-release-api-docs]: http://google.github.io/guava/releases/22.0/api/docs/
 [testlib-release-api-docs]: http://www.javadoc.io/doc/com.google.guava/guava-testlib/22.0
 [guava-release-api-diffs]: http://google.github.io/guava/releases/22.0/api/diffs/
