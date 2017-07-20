@@ -540,6 +540,10 @@ public final class ImmutableDoubleArray implements Serializable {
     }
   }
 
+  /**
+   * Returns {@code true} if {@code object} is an {@code ImmutableDoubleArray} containing the same
+   * values as this one, in the same order. Values are compared as if by {@link Double#equals}.
+   */
   @Override
   public boolean equals(@Nullable Object object) {
     if (object == this) {

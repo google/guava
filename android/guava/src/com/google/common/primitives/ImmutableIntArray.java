@@ -483,6 +483,10 @@ public final class ImmutableIntArray implements Serializable {
     }
   }
 
+  /**
+   * Returns {@code true} if {@code object} is an {@code ImmutableIntArray} containing the same
+   * values as this one, in the same order.
+   */
   @Override
   public boolean equals(@Nullable Object object) {
     if (object == this) {
