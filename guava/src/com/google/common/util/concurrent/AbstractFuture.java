@@ -26,6 +26,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Ascii;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotMock;
+import com.google.errorprone.annotations.ForOverride;
 import com.google.j2objc.annotations.ReflectionSupport;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
@@ -830,14 +831,14 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
    *
    * <p>If {@link #interruptTask} is also run during completion, {@link #afterDone} runs after it.
    *
-   * <p>The default implementation of this method in {@code AbstractFuture} does nothing.  This is
+   * <p>The default implementation of this method in {@code AbstractFuture} does nothing. This is
    * intended for very lightweight cleanup work, for example, timing statistics or clearing fields.
    * If your task does anything heavier consider, just using a listener with an executor.
    *
    * @since 20.0
    */
-  // TODO(cpovirk): @ForOverride https://github.com/google/error-prone/issues/342
   @Beta
+  @ForOverride
   protected void afterDone() {}
 
   /**

@@ -1184,7 +1184,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     }
 
     @Override
-    public void afterDone() {
+    protected void afterDone() {
       state = null;
     }
 
