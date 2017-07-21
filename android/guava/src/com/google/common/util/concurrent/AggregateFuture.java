@@ -55,7 +55,7 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
           localRunningState.futures;
       boolean wasInterrupted = wasInterrupted();
 
-      if (wasInterrupted()) {
+      if (wasInterrupted) {
         localRunningState.interruptTask();
       }
 
