@@ -63,6 +63,7 @@ import javax.annotation.Nullable;
  * @author Luke Sandberg
  * @since 1.0
  */
+@SuppressWarnings("ShortCircuitBoolean") // we use non-short circuiting comparisons intentionally
 @DoNotMock("Use Futures.immediate*Future or SettableFuture")
 @GwtCompatible(emulated = true)
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)
@@ -270,6 +271,20 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
 
   /** A special value to represent cancellation and the 'wasInterrupted' bit. */
   private static final class Cancellation {
+    // constants to use when GENERATE_CANCELLATION_CAUSES = false
+    static final Cancellation CAUSELESS_INTERRUPTED;
+    static final Cancellation CAUSELESS_CANCELLED;
+
+    static {
+      if (GENERATE_CANCELLATION_CAUSES) {
+        CAUSELESS_CANCELLED = null;
+        CAUSELESS_INTERRUPTED = null;
+      } else {
+        CAUSELESS_CANCELLED = new Cancellation(false, null);
+        CAUSELESS_INTERRUPTED = new Cancellation(true, null);
+      }
+    }
+
     final boolean wasInterrupted;
     @Nullable final Throwable cause;
 
@@ -543,11 +558,13 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
     if (localValue == null | localValue instanceof SetFuture) {
       // Try to delay allocating the exception. At this point we may still lose the CAS, but it is
       // certainly less likely.
-      Throwable cause =
+      Object valueToSet =
           GENERATE_CANCELLATION_CAUSES
-              ? new CancellationException("Future.cancel() was called.")
-              : null;
-      Object valueToSet = new Cancellation(mayInterruptIfRunning, cause);
+              ? new Cancellation(
+                  mayInterruptIfRunning, new CancellationException("Future.cancel() was called."))
+              : (mayInterruptIfRunning
+                  ? Cancellation.CAUSELESS_INTERRUPTED
+                  : Cancellation.CAUSELESS_CANCELLED);
       AbstractFuture<?> abstractFuture = this;
       while (true) {
         if (ATOMIC_HELPER.casValue(abstractFuture, localValue, valueToSet)) {
@@ -705,6 +722,11 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
    * {@code setFuture} after any cancellation will propagate cancellation to the supplied {@code
    * Future}.
    *
+   * <p>Note that, even if the supplied future is cancelled and it causes this future to complete,
+   * it will never trigger interruption behavior. In particular, it will not cause this future to
+   * invoke the {@link #interruptTask} method, and the {@link #wasInterrupted} method will not
+   * return {@code true}.
+   *
    * @param future the future to delegate to
    * @return true if the attempt was accepted, indicating that the {@code Future} was not previously
    *     cancelled or set.
@@ -757,8 +779,8 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
   }
 
   /**
-   * Returns a value, suitable for storing in the {@link #value} field. From the given future,
-   * which is assumed to be done.
+   * Returns a value that satisfies the contract of the {@link #value} field based on the state of
+   * given future.
    *
    * <p>This is approximately the inverse of {@link #getDoneValue(Object)}
    */
@@ -769,7 +791,20 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
       // override .get() (since it is final) and therefore this is equivalent to calling .get()
       // and unpacking the exceptions like we do below (just much faster because it is a single
       // field read instead of a read, several branches and possibly creating exceptions).
-      return ((AbstractFuture<?>) future).value;
+      Object v = ((AbstractFuture<?>) future).value;
+      if (v instanceof Cancellation) {
+        // If the other future was interrupted, clear the interrupted bit while preserving the cause
+        // this will make it consistent with how non-trustedfutures work which cannot propagate the
+        // wasInterrupted bit
+        Cancellation c = (Cancellation) v;
+        if (c.wasInterrupted) {
+          v =
+              c.cause != null
+                  ? new Cancellation(/* wasInterrupted= */ false, c.cause)
+                  : Cancellation.CAUSELESS_CANCELLED;
+        }
+      }
+      return v;
     } else {
       // Otherwise calculate valueToSet by calling .get()
       try {

@@ -356,7 +356,9 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
         AbstractFuture<? extends V> other = (AbstractFuture<? extends V>) delegate;
         value = other.value;
         throwable = other.throwable;
-        mayInterruptIfRunning = other.mayInterruptIfRunning;
+        // don't copy the mayInterruptIfRunning bit, for consistency with the server, to ensure that
+        // interruptTask() is called if and only if the bit is true and because we cannot infer the
+        // interrupt status from non AbstractFuture futures.
         state = other.state;
 
         notifyAndClearListeners();

@@ -29,7 +29,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.util.concurrent.AbstractFuture.TrustedFuture;
 import com.google.common.util.concurrent.AbstractFutureTest.TimedWaiterThread;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
@@ -121,24 +120,16 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     assertCancelled(future, false);
   }
 
-  @GwtIncompatible // All GWT Futures behaves like TrustedFuture.
   public void testSetFutureDelegateAlreadyInterrupted() throws Exception {
     delegate.cancel(true /** mayInterruptIfRunning */);
     assertThat(future.setFuture(delegate)).isTrue();
-    /*
-     * Interruption of the delegate propagates to us only if the delegate was a TrustedFuture.
-     * TODO(cpovirk): Consider whether to stop copying this information from TrustedFuture so that
-     * we're consistent.
-     */
-    assertCancelled(future, delegate instanceof TrustedFuture);
+    assertCancelled(future, /* expectWasCancelled= */ false);
   }
 
-  @GwtIncompatible // All GWT Futures behaves like TrustedFuture.
   public void testSetFutureDelegateLaterInterrupted() throws Exception {
     assertThat(future.setFuture(delegate)).isTrue();
     delegate.cancel(true /** mayInterruptIfRunning */);
-    // See previous method doc.
-    assertCancelled(future, delegate instanceof TrustedFuture);
+    assertCancelled(future, /* expectWasCancelled= */ false);
   }
 
   public void testListenLaterSuccessful() {
