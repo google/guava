@@ -59245,6 +59245,11 @@
  {@code setFuture} after any cancellation will propagate cancellation to the supplied {@code
  Future}.
 
+ <p>Note that, even if the supplied future is cancelled and it causes this future to complete,
+ it will never trigger interruption behavior. In particular, it will not cause this future to
+ invoke the {@link #interruptTask} method, and the {@link #wasInterrupted} method will not
+ return {@code true}.
+
  @param future the future to delegate to
  @return true if the attempt was accepted, indicating that the {@code Future} was not previously
      cancelled or set.

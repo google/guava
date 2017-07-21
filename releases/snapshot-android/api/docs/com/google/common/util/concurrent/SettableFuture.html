@@ -333,7 +333,12 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 
  <p>If the call <code>setFuture(delegate)</code> is accepted and this <code>Future</code> is later
  cancelled, cancellation will be propagated to <code>delegate</code>. Additionally, any call to
- <code>setFuture</code> after any cancellation will propagate cancellation to the supplied <code>Future</code>.</div>
+ <code>setFuture</code> after any cancellation will propagate cancellation to the supplied <code>Future</code>.
+
+ <p>Note that, even if the supplied future is cancelled and it causes this future to complete,
+ it will never trigger interruption behavior. In particular, it will not cause this future to
+ invoke the <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#interruptTask--"><code>AbstractFuture.interruptTask()</code></a> method, and the <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#wasInterrupted--"><code>AbstractFuture.wasInterrupted()</code></a> method will not
+ return <code>true</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#setFuture-com.google.common.util.concurrent.ListenableFuture-">setFuture</a></code>&nbsp;in class&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/SettableFuture.html" title="type parameter in SettableFuture">V</a>&gt;</code></dd>
@@ -351,7 +356,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public final&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.83">get</a>()
+<pre>public final&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.84">get</a>()
             throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a>,
                    <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#get--">AbstractFuture</a></code></span></div>
@@ -376,7 +381,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public final&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.89">get</a>(long&nbsp;timeout,
+<pre>public final&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.90">get</a>(long&nbsp;timeout,
                    <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
             throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a>,
                    <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a>,
@@ -404,7 +409,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>isDone</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.95">isDone</a>()</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.96">isDone</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#isDone--" title="class or interface in java.util.concurrent">isDone</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;</code></dd>
@@ -419,7 +424,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>isCancelled</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.100">isCancelled</a>()</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.101">isCancelled</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#isCancelled--" title="class or interface in java.util.concurrent">isCancelled</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;</code></dd>
@@ -434,7 +439,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>addListener</h4>
-<pre>public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.105">addListener</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;listener,
+<pre>public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.106">addListener</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;listener,
                               <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-">AbstractFuture</a></code></span></div>
 <div class="block">Registers a listener to be <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true#execute-java.lang.Runnable-" title="class or interface in java.util.concurrent">run</a> on the given executor.
@@ -485,7 +490,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockListLast">
 <li class="blockList">
 <h4>cancel</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.111">cancel</a>(boolean&nbsp;mayInterruptIfRunning)</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.112">cancel</a>(boolean&nbsp;mayInterruptIfRunning)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#cancel-boolean-">AbstractFuture</a></code></span></div>
 <div class="block">
 
