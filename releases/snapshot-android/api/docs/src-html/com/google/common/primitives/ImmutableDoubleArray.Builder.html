@@ -496,83 +496,87 @@
 <span class="sourceLineNo">488</span>    }<a name="line.488"></a>
 <span class="sourceLineNo">489</span>  }<a name="line.489"></a>
 <span class="sourceLineNo">490</span><a name="line.490"></a>
-<span class="sourceLineNo">491</span>  @Override<a name="line.491"></a>
-<span class="sourceLineNo">492</span>  public boolean equals(@Nullable Object object) {<a name="line.492"></a>
-<span class="sourceLineNo">493</span>    if (object == this) {<a name="line.493"></a>
-<span class="sourceLineNo">494</span>      return true;<a name="line.494"></a>
-<span class="sourceLineNo">495</span>    }<a name="line.495"></a>
-<span class="sourceLineNo">496</span>    if (!(object instanceof ImmutableDoubleArray)) {<a name="line.496"></a>
-<span class="sourceLineNo">497</span>      return false;<a name="line.497"></a>
-<span class="sourceLineNo">498</span>    }<a name="line.498"></a>
-<span class="sourceLineNo">499</span>    ImmutableDoubleArray that = (ImmutableDoubleArray) object;<a name="line.499"></a>
-<span class="sourceLineNo">500</span>    if (this.length() != that.length()) {<a name="line.500"></a>
+<span class="sourceLineNo">491</span>  /**<a name="line.491"></a>
+<span class="sourceLineNo">492</span>   * Returns {@code true} if {@code object} is an {@code ImmutableDoubleArray} containing the same<a name="line.492"></a>
+<span class="sourceLineNo">493</span>   * values as this one, in the same order. Values are compared as if by {@link Double#equals}.<a name="line.493"></a>
+<span class="sourceLineNo">494</span>   */<a name="line.494"></a>
+<span class="sourceLineNo">495</span>  @Override<a name="line.495"></a>
+<span class="sourceLineNo">496</span>  public boolean equals(@Nullable Object object) {<a name="line.496"></a>
+<span class="sourceLineNo">497</span>    if (object == this) {<a name="line.497"></a>
+<span class="sourceLineNo">498</span>      return true;<a name="line.498"></a>
+<span class="sourceLineNo">499</span>    }<a name="line.499"></a>
+<span class="sourceLineNo">500</span>    if (!(object instanceof ImmutableDoubleArray)) {<a name="line.500"></a>
 <span class="sourceLineNo">501</span>      return false;<a name="line.501"></a>
 <span class="sourceLineNo">502</span>    }<a name="line.502"></a>
-<span class="sourceLineNo">503</span>    for (int i = 0; i &lt; length(); i++) {<a name="line.503"></a>
-<span class="sourceLineNo">504</span>      if (!areEqual(this.get(i), that.get(i))) {<a name="line.504"></a>
-<span class="sourceLineNo">505</span>        return false;<a name="line.505"></a>
-<span class="sourceLineNo">506</span>      }<a name="line.506"></a>
-<span class="sourceLineNo">507</span>    }<a name="line.507"></a>
-<span class="sourceLineNo">508</span>    return true;<a name="line.508"></a>
-<span class="sourceLineNo">509</span>  }<a name="line.509"></a>
-<span class="sourceLineNo">510</span><a name="line.510"></a>
-<span class="sourceLineNo">511</span>  // Match the behavior of Double.equals()<a name="line.511"></a>
-<span class="sourceLineNo">512</span>  private static boolean areEqual(double a, double b) {<a name="line.512"></a>
-<span class="sourceLineNo">513</span>    return Double.doubleToLongBits(a) == Double.doubleToLongBits(b);<a name="line.513"></a>
-<span class="sourceLineNo">514</span>  }<a name="line.514"></a>
-<span class="sourceLineNo">515</span><a name="line.515"></a>
-<span class="sourceLineNo">516</span>  /** Returns an unspecified hash code for the contents of this immutable array. */<a name="line.516"></a>
-<span class="sourceLineNo">517</span>  @Override<a name="line.517"></a>
-<span class="sourceLineNo">518</span>  public int hashCode() {<a name="line.518"></a>
-<span class="sourceLineNo">519</span>    int hash = 1;<a name="line.519"></a>
-<span class="sourceLineNo">520</span>    for (int i = start; i &lt; end; i++) {<a name="line.520"></a>
-<span class="sourceLineNo">521</span>      hash *= 31;<a name="line.521"></a>
-<span class="sourceLineNo">522</span>      hash += Doubles.hashCode(array[i]);<a name="line.522"></a>
-<span class="sourceLineNo">523</span>    }<a name="line.523"></a>
-<span class="sourceLineNo">524</span>    return hash;<a name="line.524"></a>
-<span class="sourceLineNo">525</span>  }<a name="line.525"></a>
-<span class="sourceLineNo">526</span><a name="line.526"></a>
-<span class="sourceLineNo">527</span>  /**<a name="line.527"></a>
-<span class="sourceLineNo">528</span>   * Returns a string representation of this array in the same form as {@link<a name="line.528"></a>
-<span class="sourceLineNo">529</span>   * Arrays#toString(double[])}, for example {@code "[1, 2, 3]"}.<a name="line.529"></a>
-<span class="sourceLineNo">530</span>   */<a name="line.530"></a>
-<span class="sourceLineNo">531</span>  @Override<a name="line.531"></a>
-<span class="sourceLineNo">532</span>  public String toString() {<a name="line.532"></a>
-<span class="sourceLineNo">533</span>    if (isEmpty()) {<a name="line.533"></a>
-<span class="sourceLineNo">534</span>      return "[]";<a name="line.534"></a>
-<span class="sourceLineNo">535</span>    }<a name="line.535"></a>
-<span class="sourceLineNo">536</span>    StringBuilder builder = new StringBuilder(length() * 5); // rough estimate is fine<a name="line.536"></a>
-<span class="sourceLineNo">537</span>    builder.append('[').append(array[start]);<a name="line.537"></a>
-<span class="sourceLineNo">538</span><a name="line.538"></a>
-<span class="sourceLineNo">539</span>    for (int i = start + 1; i &lt; end; i++) {<a name="line.539"></a>
-<span class="sourceLineNo">540</span>      builder.append(", ").append(array[i]);<a name="line.540"></a>
-<span class="sourceLineNo">541</span>    }<a name="line.541"></a>
-<span class="sourceLineNo">542</span>    builder.append(']');<a name="line.542"></a>
-<span class="sourceLineNo">543</span>    return builder.toString();<a name="line.543"></a>
-<span class="sourceLineNo">544</span>  }<a name="line.544"></a>
-<span class="sourceLineNo">545</span><a name="line.545"></a>
-<span class="sourceLineNo">546</span>  /**<a name="line.546"></a>
-<span class="sourceLineNo">547</span>   * Returns an immutable array containing the same values as {@code this} array. This is logically<a name="line.547"></a>
-<span class="sourceLineNo">548</span>   * a no-op, and in some circumstances {@code this} itself is returned. However, if this instance<a name="line.548"></a>
-<span class="sourceLineNo">549</span>   * is a {@link #subArray} view of a larger array, this method will copy only the appropriate range<a name="line.549"></a>
-<span class="sourceLineNo">550</span>   * of values, resulting in an equivalent array with a smaller memory footprint.<a name="line.550"></a>
-<span class="sourceLineNo">551</span>   */<a name="line.551"></a>
-<span class="sourceLineNo">552</span>  public ImmutableDoubleArray trimmed() {<a name="line.552"></a>
-<span class="sourceLineNo">553</span>    return isPartialView() ? new ImmutableDoubleArray(toArray()) : this;<a name="line.553"></a>
-<span class="sourceLineNo">554</span>  }<a name="line.554"></a>
-<span class="sourceLineNo">555</span><a name="line.555"></a>
-<span class="sourceLineNo">556</span>  private boolean isPartialView() {<a name="line.556"></a>
-<span class="sourceLineNo">557</span>    return start &gt; 0 || end &lt; array.length;<a name="line.557"></a>
+<span class="sourceLineNo">503</span>    ImmutableDoubleArray that = (ImmutableDoubleArray) object;<a name="line.503"></a>
+<span class="sourceLineNo">504</span>    if (this.length() != that.length()) {<a name="line.504"></a>
+<span class="sourceLineNo">505</span>      return false;<a name="line.505"></a>
+<span class="sourceLineNo">506</span>    }<a name="line.506"></a>
+<span class="sourceLineNo">507</span>    for (int i = 0; i &lt; length(); i++) {<a name="line.507"></a>
+<span class="sourceLineNo">508</span>      if (!areEqual(this.get(i), that.get(i))) {<a name="line.508"></a>
+<span class="sourceLineNo">509</span>        return false;<a name="line.509"></a>
+<span class="sourceLineNo">510</span>      }<a name="line.510"></a>
+<span class="sourceLineNo">511</span>    }<a name="line.511"></a>
+<span class="sourceLineNo">512</span>    return true;<a name="line.512"></a>
+<span class="sourceLineNo">513</span>  }<a name="line.513"></a>
+<span class="sourceLineNo">514</span><a name="line.514"></a>
+<span class="sourceLineNo">515</span>  // Match the behavior of Double.equals()<a name="line.515"></a>
+<span class="sourceLineNo">516</span>  private static boolean areEqual(double a, double b) {<a name="line.516"></a>
+<span class="sourceLineNo">517</span>    return Double.doubleToLongBits(a) == Double.doubleToLongBits(b);<a name="line.517"></a>
+<span class="sourceLineNo">518</span>  }<a name="line.518"></a>
+<span class="sourceLineNo">519</span><a name="line.519"></a>
+<span class="sourceLineNo">520</span>  /** Returns an unspecified hash code for the contents of this immutable array. */<a name="line.520"></a>
+<span class="sourceLineNo">521</span>  @Override<a name="line.521"></a>
+<span class="sourceLineNo">522</span>  public int hashCode() {<a name="line.522"></a>
+<span class="sourceLineNo">523</span>    int hash = 1;<a name="line.523"></a>
+<span class="sourceLineNo">524</span>    for (int i = start; i &lt; end; i++) {<a name="line.524"></a>
+<span class="sourceLineNo">525</span>      hash *= 31;<a name="line.525"></a>
+<span class="sourceLineNo">526</span>      hash += Doubles.hashCode(array[i]);<a name="line.526"></a>
+<span class="sourceLineNo">527</span>    }<a name="line.527"></a>
+<span class="sourceLineNo">528</span>    return hash;<a name="line.528"></a>
+<span class="sourceLineNo">529</span>  }<a name="line.529"></a>
+<span class="sourceLineNo">530</span><a name="line.530"></a>
+<span class="sourceLineNo">531</span>  /**<a name="line.531"></a>
+<span class="sourceLineNo">532</span>   * Returns a string representation of this array in the same form as {@link<a name="line.532"></a>
+<span class="sourceLineNo">533</span>   * Arrays#toString(double[])}, for example {@code "[1, 2, 3]"}.<a name="line.533"></a>
+<span class="sourceLineNo">534</span>   */<a name="line.534"></a>
+<span class="sourceLineNo">535</span>  @Override<a name="line.535"></a>
+<span class="sourceLineNo">536</span>  public String toString() {<a name="line.536"></a>
+<span class="sourceLineNo">537</span>    if (isEmpty()) {<a name="line.537"></a>
+<span class="sourceLineNo">538</span>      return "[]";<a name="line.538"></a>
+<span class="sourceLineNo">539</span>    }<a name="line.539"></a>
+<span class="sourceLineNo">540</span>    StringBuilder builder = new StringBuilder(length() * 5); // rough estimate is fine<a name="line.540"></a>
+<span class="sourceLineNo">541</span>    builder.append('[').append(array[start]);<a name="line.541"></a>
+<span class="sourceLineNo">542</span><a name="line.542"></a>
+<span class="sourceLineNo">543</span>    for (int i = start + 1; i &lt; end; i++) {<a name="line.543"></a>
+<span class="sourceLineNo">544</span>      builder.append(", ").append(array[i]);<a name="line.544"></a>
+<span class="sourceLineNo">545</span>    }<a name="line.545"></a>
+<span class="sourceLineNo">546</span>    builder.append(']');<a name="line.546"></a>
+<span class="sourceLineNo">547</span>    return builder.toString();<a name="line.547"></a>
+<span class="sourceLineNo">548</span>  }<a name="line.548"></a>
+<span class="sourceLineNo">549</span><a name="line.549"></a>
+<span class="sourceLineNo">550</span>  /**<a name="line.550"></a>
+<span class="sourceLineNo">551</span>   * Returns an immutable array containing the same values as {@code this} array. This is logically<a name="line.551"></a>
+<span class="sourceLineNo">552</span>   * a no-op, and in some circumstances {@code this} itself is returned. However, if this instance<a name="line.552"></a>
+<span class="sourceLineNo">553</span>   * is a {@link #subArray} view of a larger array, this method will copy only the appropriate range<a name="line.553"></a>
+<span class="sourceLineNo">554</span>   * of values, resulting in an equivalent array with a smaller memory footprint.<a name="line.554"></a>
+<span class="sourceLineNo">555</span>   */<a name="line.555"></a>
+<span class="sourceLineNo">556</span>  public ImmutableDoubleArray trimmed() {<a name="line.556"></a>
+<span class="sourceLineNo">557</span>    return isPartialView() ? new ImmutableDoubleArray(toArray()) : this;<a name="line.557"></a>
 <span class="sourceLineNo">558</span>  }<a name="line.558"></a>
 <span class="sourceLineNo">559</span><a name="line.559"></a>
-<span class="sourceLineNo">560</span>  Object writeReplace() {<a name="line.560"></a>
-<span class="sourceLineNo">561</span>    return trimmed();<a name="line.561"></a>
+<span class="sourceLineNo">560</span>  private boolean isPartialView() {<a name="line.560"></a>
+<span class="sourceLineNo">561</span>    return start &gt; 0 || end &lt; array.length;<a name="line.561"></a>
 <span class="sourceLineNo">562</span>  }<a name="line.562"></a>
 <span class="sourceLineNo">563</span><a name="line.563"></a>
-<span class="sourceLineNo">564</span>  Object readResolve() {<a name="line.564"></a>
-<span class="sourceLineNo">565</span>    return isEmpty() ? EMPTY : this;<a name="line.565"></a>
+<span class="sourceLineNo">564</span>  Object writeReplace() {<a name="line.564"></a>
+<span class="sourceLineNo">565</span>    return trimmed();<a name="line.565"></a>
 <span class="sourceLineNo">566</span>  }<a name="line.566"></a>
-<span class="sourceLineNo">567</span>}<a name="line.567"></a>
+<span class="sourceLineNo">567</span><a name="line.567"></a>
+<span class="sourceLineNo">568</span>  Object readResolve() {<a name="line.568"></a>
+<span class="sourceLineNo">569</span>    return isEmpty() ? EMPTY : this;<a name="line.569"></a>
+<span class="sourceLineNo">570</span>  }<a name="line.570"></a>
+<span class="sourceLineNo">571</span>}<a name="line.571"></a>
 
 
 

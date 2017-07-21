@@ -250,7 +250,10 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/ImmutableLongArray.html#equals-java.lang.Object-">equals</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/ImmutableLongArray.html#equals-java.lang.Object-">equals</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</code>
+<div class="block">Returns <code>true</code> if <code>object</code> is an <code>ImmutableLongArray</code> containing the same
+ values as this one, in the same order.</div>
+</td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>long</code></td>
@@ -671,8 +674,10 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.489">equals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.493">equals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                       <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
+<div class="block">Returns <code>true</code> if <code>object</code> is an <code>ImmutableLongArray</code> containing the same
+ values as this one, in the same order.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">equals</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
@@ -685,7 +690,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.510">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.514">hashCode</a>()</pre>
 <div class="block">Returns an unspecified hash code for the contents of this immutable array.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -699,7 +704,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.524">toString</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.528">toString</a>()</pre>
 <div class="block">Returns a string representation of this array in the same form as <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Arrays.html?is-external=true#toString-long:A-" title="class or interface in java.util"><code>Arrays.toString(long[])</code></a>, for example <code>"[1, 2, 3]"</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -713,7 +718,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockListLast">
 <li class="blockList">
 <h4>trimmed</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/primitives/ImmutableLongArray.html" title="class in com.google.common.primitives">ImmutableLongArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.544">trimmed</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/primitives/ImmutableLongArray.html" title="class in com.google.common.primitives">ImmutableLongArray</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/ImmutableLongArray.html#line.548">trimmed</a>()</pre>
 <div class="block">Returns an immutable array containing the same values as <code>this</code> array. This is logically
  a no-op, and in some circumstances <code>this</code> itself is returned. However, if this instance
  is a <a href="../../../../com/google/common/primitives/ImmutableLongArray.html#subArray-int-int-"><code>subArray(int, int)</code></a> view of a larger array, this method will copy only the appropriate range
