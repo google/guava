@@ -20,7 +20,6 @@ import static com.google.common.cache.CacheBuilder.EMPTY_STATS;
 import static com.google.common.cache.LocalCacheTest.SMALL_MAX_SIZE;
 import static com.google.common.cache.TestingCacheLoaders.identityLoader;
 import static com.google.common.truth.Truth.assertThat;
-
 import com.google.common.cache.LocalCache.LocalLoadingCache;
 import com.google.common.cache.LocalCache.Segment;
 import com.google.common.collect.ImmutableMap;
@@ -317,7 +316,7 @@ public class LocalLoadingCacheTest extends TestCase {
       }
     };
 
-    LoadingCache<Integer, String> recursiveCache = new CacheBuilder<Integer, String>()
+    LoadingCache<Integer, String> recursiveCache = CacheBuilder.newBuilder()
         .weakKeys()
         .weakValues()
         .build(recursiveLoader);
@@ -331,7 +330,7 @@ public class LocalLoadingCacheTest extends TestCase {
       }
     };
 
-    recursiveCache = new CacheBuilder<Integer, String>()
+    recursiveCache = CacheBuilder.newBuilder()
         .weakKeys()
         .weakValues()
         .build(recursiveLoader);
