@@ -150,55 +150,6 @@ public class SimpleTimeLimiterTest extends TestCase {
     assertThat(stopwatch.elapsed(MILLISECONDS)).isIn(Range.closed(NOT_ENOUGH_MS, DELAY_MS * 2));
   }
 
-  @Deprecated
-  public void testOldCallWithTimeout_goodCallableWithEnoughTime() throws Exception {
-    Stopwatch stopwatch = Stopwatch.createStarted();
-
-    String result =
-        service.callWithTimeout(GOOD_CALLABLE, ENOUGH_MS, MILLISECONDS, true /* interruptible */);
-
-    assertThat(result).isEqualTo(GOOD_CALLABLE_RESULT);
-    assertThat(stopwatch.elapsed(MILLISECONDS)).isIn(Range.closed(DELAY_MS, ENOUGH_MS));
-  }
-
-  @Deprecated
-  public void testOldCallWithTimeout_goodCallableWithNotEnoughTime() throws Exception {
-    Stopwatch stopwatch = Stopwatch.createStarted();
-
-    try {
-      service.callWithTimeout(
-          GOOD_CALLABLE, NOT_ENOUGH_MS, MILLISECONDS, false /* interruptible */);
-      fail("no exception thrown");
-    } catch (UncheckedTimeoutException expected) {
-    }
-
-    assertThat(stopwatch.elapsed(MILLISECONDS)).isIn(Range.closed(NOT_ENOUGH_MS, DELAY_MS * 2));
-  }
-
-  @Deprecated
-  public void testOldCallWithTimeout_badCallableWithEnoughTime() throws Exception {
-    Stopwatch stopwatch = Stopwatch.createStarted();
-    try {
-      service.callWithTimeout(BAD_CALLABLE, ENOUGH_MS, MILLISECONDS, false /* interruptible */);
-      fail("no exception thrown");
-    } catch (SampleException expected) {
-    }
-    assertThat(stopwatch.elapsed(MILLISECONDS)).isIn(Range.closed(DELAY_MS, ENOUGH_MS));
-  }
-
-  @Deprecated
-  public void testOldCallWithTimeout_badCallableWithNotEnoughTime() throws Exception {
-    Stopwatch stopwatch = Stopwatch.createStarted();
-
-    try {
-      service.callWithTimeout(BAD_CALLABLE, NOT_ENOUGH_MS, MILLISECONDS, true /* interruptible */);
-      fail("no exception thrown");
-    } catch (UncheckedTimeoutException expected) {
-    }
-
-    assertThat(stopwatch.elapsed(MILLISECONDS)).isIn(Range.closed(NOT_ENOUGH_MS, DELAY_MS * 2));
-  }
-
   public void testCallWithTimeout_goodCallableWithEnoughTime() throws Exception {
     Stopwatch stopwatch = Stopwatch.createStarted();
 
