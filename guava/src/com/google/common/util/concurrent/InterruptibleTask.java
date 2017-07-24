@@ -38,18 +38,24 @@ abstract class InterruptibleTask<T> extends AtomicReference<Runnable> implements
 
   @Override
   public final void run() {
-    if (isDone()) {
-      return;
-    }
+    /*
+     * Set runner thread before checking isDone(). If we were to check isDone() first, the task
+     * might be cancelled before we set the runner thread. That would make it impossible to
+     * interrupt, yet it will still run, since interruptTask will leave the runner value null,
+     * allowing the CAS below to succeed.
+     */
     Thread currentThread = Thread.currentThread();
     if (!compareAndSet(null, currentThread)) {
       return; // someone else has run or is running.
     }
-
+    
+    boolean run = !isDone();
     T result = null;
     Throwable error = null;
     try {
-      result = runInterruptibly();
+      if (run) {
+        result = runInterruptibly();
+      }
     } catch (Throwable t) {
       error = t;
     } finally {
@@ -64,8 +70,15 @@ abstract class InterruptibleTask<T> extends AtomicReference<Runnable> implements
         while (get() == INTERRUPTING) {
           Thread.yield();
         }
+        /*
+         * TODO(cpovirk): Clear interrupt status here? We currently don't, which means that an
+         * interrupt before, during, or after runInterruptibly() (unless it produced an
+         * InterruptedException caught above) can linger and affect listeners.
+         */
       }
-      afterRanInterruptibly(result, error);
+      if (run) {
+        afterRanInterruptibly(result, error);
+      }
     }
   }
 
@@ -88,9 +101,9 @@ abstract class InterruptibleTask<T> extends AtomicReference<Runnable> implements
   abstract void afterRanInterruptibly(@Nullable T result, @Nullable Throwable error);
 
   final void interruptTask() {
-    // Since the Thread is replaced by DONE after runInterruptibly returns, if we succeed in this
-    // CAS there's no risk of interrupting the wrong thread, or interrupting a thread that isn't
-    // currently executing this task.
+    // Since the Thread is replaced by DONE before run() invokes listeners or returns, if we succeed
+    // in this CAS, there's no risk of interrupting the wrong thread or interrupting a thread that
+    // isn't currently executing this task.
     Runnable currentRunner = get();
     if (currentRunner instanceof Thread && compareAndSet(currentRunner, INTERRUPTING)) {
       ((Thread) currentRunner).interrupt();
