@@ -21,6 +21,7 @@ import static com.google.common.cache.LocalCache.DISCARDING_QUEUE;
 import static com.google.common.cache.LocalCache.DRAIN_THRESHOLD;
 import static com.google.common.cache.LocalCache.nullEntry;
 import static com.google.common.cache.LocalCache.unset;
+import static com.google.common.cache.TestingCacheLoaders.constantLoader;
 import static com.google.common.cache.TestingCacheLoaders.identityLoader;
 import static com.google.common.cache.TestingRemovalListeners.countingRemovalListener;
 import static com.google.common.cache.TestingRemovalListeners.queuingRemovalListener;
@@ -223,7 +224,7 @@ public class LocalCacheTest extends TestCase {
   }
 
   private static CacheBuilder<Object, Object> createCacheBuilder() {
-    return new CacheBuilder<Object, Object>();
+    return CacheBuilder.newBuilder();
   }
 
   // constructor tests
