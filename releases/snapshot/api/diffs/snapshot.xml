@@ -11565,25 +11565,6 @@
     <method name="of" return="com.google.common.collect.FluentIterable&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Use {@link #from(Object[])} instead (but note the differences in mutability). This
-     method will be removed in Guava release 21.0.">
-      <param name="elements" type="E[]"/>
-      <doc>
-      <![CDATA[Returns a fluent iterable containing {@code elements} in the specified order.
-
- <p>The returned iterable is modifiable, but modifications do not affect the input array.
-
- <p><b>{@code Stream} equivalent:</b> {@link java.util.stream.Stream#of(Object[])
- Stream.of(T...)}.
-
- @deprecated Use {@link #from(Object[])} instead (but note the differences in mutability). This
-     method will be removed in Guava release 21.0.
- @since 18.0]]>
-      </doc>
-    </method>
-    <method name="of" return="com.google.common.collect.FluentIterable&lt;E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="element" type="E"/>
       <param name="elements" type="E[]"/>
@@ -61462,16 +61443,6 @@
       <param name="callable" type="java.util.concurrent.Callable&lt;T&gt;"/>
       <param name="timeoutDuration" type="long"/>
       <param name="timeoutUnit" type="java.util.concurrent.TimeUnit"/>
-      <param name="amInterruptible" type="boolean"/>
-      <exception name="Exception" type="java.lang.Exception"/>
-    </method>
-    <method name="callWithTimeout" return="T"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="callable" type="java.util.concurrent.Callable&lt;T&gt;"/>
-      <param name="timeoutDuration" type="long"/>
-      <param name="timeoutUnit" type="java.util.concurrent.TimeUnit"/>
       <exception name="ExecutionException" type="java.util.concurrent.ExecutionException"/>
     </method>
     <method name="callUninterruptiblyWithTimeout" return="T"
@@ -65927,40 +65898,6 @@
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
     <implements name="com.google.common.util.concurrent.TimeLimiter"/>
-    <constructor name="SimpleTimeLimiter" type="java.util.concurrent.ExecutorService"
-      static="false" final="false" visibility="public"
-      deprecated="Use {@link #create(ExecutorService)} instead. This method is scheduled to be
-     removed in Guava 23.0.">
-      <doc>
-      <![CDATA[Constructs a TimeLimiter instance using the given executor service to execute proxied method
- calls.
-
- <p><b>Warning:</b> using a bounded executor may be counterproductive! If the thread pool fills
- up, any time callers spend waiting for a thread may count toward their time limit, and in this
- case the call may even time out before the target method is ever invoked.
-
- @param executor the ExecutorService that will execute the method calls on the target objects;
-     for example, a {@link Executors#newCachedThreadPool()}.
- @deprecated Use {@link #create(ExecutorService)} instead. This method is scheduled to be
-     removed in Guava 23.0.]]>
-      </doc>
-    </constructor>
-    <constructor name="SimpleTimeLimiter"
-      static="false" final="false" visibility="public"
-      deprecated="Use {@link #create(ExecutorService)} instead with {@code
-     Executors.newCachedThreadPool()}. This method is scheduled to be removed in Guava 23.0.">
-      <doc>
-      <![CDATA[Constructs a TimeLimiter instance using a {@link Executors#newCachedThreadPool()} to execute
- proxied method calls.
-
- <p><b>Warning:</b> using a bounded executor may be counterproductive! If the thread pool fills
- up, any time callers spend waiting for a thread may count toward their time limit, and in this
- case the call may even time out before the target method is ever invoked.
-
- @deprecated Use {@link #create(ExecutorService)} instead with {@code
-     Executors.newCachedThreadPool()}. This method is scheduled to be removed in Guava 23.0.]]>
-      </doc>
-    </constructor>
     <method name="create" return="com.google.common.util.concurrent.SimpleTimeLimiter"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -65986,16 +65923,6 @@
       <param name="interfaceType" type="java.lang.Class&lt;T&gt;"/>
       <param name="timeoutDuration" type="long"/>
       <param name="timeoutUnit" type="java.util.concurrent.TimeUnit"/>
-    </method>
-    <method name="callWithTimeout" return="T"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="callable" type="java.util.concurrent.Callable&lt;T&gt;"/>
-      <param name="timeoutDuration" type="long"/>
-      <param name="timeoutUnit" type="java.util.concurrent.TimeUnit"/>
-      <param name="amInterruptible" type="boolean"/>
-      <exception name="Exception" type="java.lang.Exception"/>
     </method>
     <method name="callWithTimeout" return="T"
       abstract="false" native="false" synchronized="false"
@@ -66397,38 +66324,6 @@
  @return a time-limiting proxy
  @throws IllegalArgumentException if {@code interfaceType} is a regular class, enum, or
      annotation type, rather than an interface]]>
-      </doc>
-    </method>
-    <method name="callWithTimeout" return="T"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="Use one of the other {@code call[Uninterruptibly]WithTimeout()} or {@code
-     run[Uninterruptibly]WithTimeout()} methods. This method is scheduled to be removed in Guava
-     23.0.">
-      <param name="callable" type="java.util.concurrent.Callable&lt;T&gt;"/>
-      <param name="timeoutDuration" type="long"/>
-      <param name="timeoutUnit" type="java.util.concurrent.TimeUnit"/>
-      <param name="interruptible" type="boolean"/>
-      <exception name="Exception" type="java.lang.Exception"/>
-      <doc>
-      <![CDATA[Invokes a specified Callable, timing out after the specified time limit. If the target method
- call finished before the limit is reached, the return value or exception is propagated to the
- caller exactly as-is. If, on the other hand, the time limit is reached, we attempt to abort the
- call to the target, and throw an {@link UncheckedTimeoutException} to the caller.
-
- @param callable the Callable to execute
- @param timeoutDuration with timeoutUnit, the maximum length of time to wait
- @param timeoutUnit with timeoutDuration, the maximum length of time to wait
- @param interruptible whether to respond to thread interruption by aborting the operation and
-     throwing InterruptedException; if false, the operation is allowed to complete or time out,
-     and the current thread's interrupt status is re-asserted.
- @return the result returned by the Callable
- @throws InterruptedException if {@code interruptible} is true and our thread is interrupted
-     during execution
- @throws UncheckedTimeoutException if the time limit is reached
- @deprecated Use one of the other {@code call[Uninterruptibly]WithTimeout()} or {@code
-     run[Uninterruptibly]WithTimeout()} methods. This method is scheduled to be removed in Guava
-     23.0.]]>
       </doc>
     </method>
     <method name="callWithTimeout" return="T"

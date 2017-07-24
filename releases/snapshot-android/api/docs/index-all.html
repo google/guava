@@ -2372,25 +2372,10 @@
 <dd>
 <div class="block">Invokes a specified Callable, timing out after the specified time limit.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/FakeTimeLimiter.html#callWithTimeout-java.util.concurrent.Callable-long-java.util.concurrent.TimeUnit-boolean-">callWithTimeout(Callable&lt;T&gt;, long, TimeUnit, boolean)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/FakeTimeLimiter.html" title="class in com.google.common.util.concurrent">FakeTimeLimiter</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span></div>
-</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/FakeTimeLimiter.html#callWithTimeout-java.util.concurrent.Callable-long-java.util.concurrent.TimeUnit-">callWithTimeout(Callable&lt;T&gt;, long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/FakeTimeLimiter.html" title="class in com.google.common.util.concurrent">FakeTimeLimiter</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/SimpleTimeLimiter.html#callWithTimeout-java.util.concurrent.Callable-long-java.util.concurrent.TimeUnit-boolean-">callWithTimeout(Callable&lt;T&gt;, long, TimeUnit, boolean)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/SimpleTimeLimiter.html" title="class in com.google.common.util.concurrent">SimpleTimeLimiter</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span></div>
-</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/SimpleTimeLimiter.html#callWithTimeout-java.util.concurrent.Callable-long-java.util.concurrent.TimeUnit-">callWithTimeout(Callable&lt;T&gt;, long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/SimpleTimeLimiter.html" title="class in com.google.common.util.concurrent">SimpleTimeLimiter</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/TimeLimiter.html#callWithTimeout-java.util.concurrent.Callable-long-java.util.concurrent.TimeUnit-boolean-">callWithTimeout(Callable&lt;T&gt;, long, TimeUnit, boolean)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/TimeLimiter.html" title="interface in com.google.common.util.concurrent">TimeLimiter</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Use one of the other <code>call[Uninterruptibly]WithTimeout()</code> or <code>run[Uninterruptibly]WithTimeout()</code> methods. This method is scheduled to be removed in Guava
-     23.0.</span></div>
-</div>
-</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/TimeLimiter.html#callWithTimeout-java.util.concurrent.Callable-long-java.util.concurrent.TimeUnit-">callWithTimeout(Callable&lt;T&gt;, long, TimeUnit)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/TimeLimiter.html" title="interface in com.google.common.util.concurrent">TimeLimiter</a></dt>
 <dd>
 <div class="block">Invokes a specified Callable, timing out after the specified time limit.</div>
@@ -12008,13 +11993,6 @@
 <dd>
 <div class="block">Returns a fluent iterable containing no elements.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/collect/FluentIterable.html#of-E:A-">of(E[])</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Use <a href="com/google/common/collect/FluentIterable.html#from-E:A-"><code>FluentIterable.from(Object[])</code></a> instead (but note the differences in mutability). This
-     method will be removed in Guava release 21.0.</span></div>
-</div>
-</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/FluentIterable.html#of-E-E...-">of(E, E...)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a></dt>
 <dd>
 <div class="block">Returns a fluent iterable containing the specified elements in order.</div>
@@ -15377,19 +15355,6 @@
 <dt><a href="com/google/common/util/concurrent/SimpleTimeLimiter.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">SimpleTimeLimiter</span></a> - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
 <dd>
 <div class="block">A TimeLimiter that runs method calls in the background using an <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutorService</code></a>.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/SimpleTimeLimiter.html#SimpleTimeLimiter-java.util.concurrent.ExecutorService-">SimpleTimeLimiter(ExecutorService)</a></span> - Constructor for class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/SimpleTimeLimiter.html" title="class in com.google.common.util.concurrent">SimpleTimeLimiter</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Use <a href="com/google/common/util/concurrent/SimpleTimeLimiter.html#create-java.util.concurrent.ExecutorService-"><code>SimpleTimeLimiter.create(ExecutorService)</code></a> instead. This method is scheduled to be
-     removed in Guava 23.0.</span></div>
-</div>
-</dd>
-<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/SimpleTimeLimiter.html#SimpleTimeLimiter--">SimpleTimeLimiter()</a></span> - Constructor for class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/SimpleTimeLimiter.html" title="class in com.google.common.util.concurrent">SimpleTimeLimiter</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Use <a href="com/google/common/util/concurrent/SimpleTimeLimiter.html#create-java.util.concurrent.ExecutorService-"><code>SimpleTimeLimiter.create(ExecutorService)</code></a> instead with <code>Executors.newCachedThreadPool()</code>. This method is scheduled to be removed in Guava 23.0.</span></div>
-</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/io/Files.html#simplifyPath-java.lang.String-">simplifyPath(String)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/Files.html" title="class in com.google.common.io">Files</a></dt>
 <dd>
