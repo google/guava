@@ -16,7 +16,6 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -75,32 +74,6 @@ public interface TimeLimiter {
    *     annotation type, rather than an interface
    */
   <T> T newProxy(T target, Class<T> interfaceType, long timeoutDuration, TimeUnit timeoutUnit);
-
-  /**
-   * Invokes a specified Callable, timing out after the specified time limit. If the target method
-   * call finished before the limit is reached, the return value or exception is propagated to the
-   * caller exactly as-is. If, on the other hand, the time limit is reached, we attempt to abort the
-   * call to the target, and throw an {@link UncheckedTimeoutException} to the caller.
-   *
-   * @param callable the Callable to execute
-   * @param timeoutDuration with timeoutUnit, the maximum length of time to wait
-   * @param timeoutUnit with timeoutDuration, the maximum length of time to wait
-   * @param interruptible whether to respond to thread interruption by aborting the operation and
-   *     throwing InterruptedException; if false, the operation is allowed to complete or time out,
-   *     and the current thread's interrupt status is re-asserted.
-   * @return the result returned by the Callable
-   * @throws InterruptedException if {@code interruptible} is true and our thread is interrupted
-   *     during execution
-   * @throws UncheckedTimeoutException if the time limit is reached
-   * @deprecated Use one of the other {@code call[Uninterruptibly]WithTimeout()} or {@code
-   *     run[Uninterruptibly]WithTimeout()} methods. This method is scheduled to be removed in Guava
-   *     23.0.
-   */
-  @Deprecated
-  @CanIgnoreReturnValue
-  <T> T callWithTimeout(
-      Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit, boolean interruptible)
-      throws Exception;
 
   /**
    * Invokes a specified Callable, timing out after the specified time limit. If the target method
