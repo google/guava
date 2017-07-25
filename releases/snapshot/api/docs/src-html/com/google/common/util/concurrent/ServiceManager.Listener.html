@@ -746,109 +746,127 @@
 <span class="sourceLineNo">738</span>            new IllegalStateException(<a name="line.738"></a>
 <span class="sourceLineNo">739</span>                "Expected to be healthy after starting. The following services are not running: "<a name="line.739"></a>
 <span class="sourceLineNo">740</span>                    + Multimaps.filterKeys(servicesByState, not(equalTo(RUNNING))));<a name="line.740"></a>
-<span class="sourceLineNo">741</span>        throw exception;<a name="line.741"></a>
-<span class="sourceLineNo">742</span>      }<a name="line.742"></a>
-<span class="sourceLineNo">743</span>    }<a name="line.743"></a>
-<span class="sourceLineNo">744</span>  }<a name="line.744"></a>
-<span class="sourceLineNo">745</span><a name="line.745"></a>
-<span class="sourceLineNo">746</span>  /**<a name="line.746"></a>
-<span class="sourceLineNo">747</span>   * A {@link Service} that wraps another service and times how long it takes for it to start and<a name="line.747"></a>
-<span class="sourceLineNo">748</span>   * also calls the {@link ServiceManagerState#transitionService(Service, State, State)}, to record<a name="line.748"></a>
-<span class="sourceLineNo">749</span>   * the state transitions.<a name="line.749"></a>
-<span class="sourceLineNo">750</span>   */<a name="line.750"></a>
-<span class="sourceLineNo">751</span>  private static final class ServiceListener extends Service.Listener {<a name="line.751"></a>
-<span class="sourceLineNo">752</span>    final Service service;<a name="line.752"></a>
-<span class="sourceLineNo">753</span>    // We store the state in a weak reference to ensure that if something went wrong while<a name="line.753"></a>
-<span class="sourceLineNo">754</span>    // constructing the ServiceManager we don't pointlessly keep updating the state.<a name="line.754"></a>
-<span class="sourceLineNo">755</span>    final WeakReference&lt;ServiceManagerState&gt; state;<a name="line.755"></a>
-<span class="sourceLineNo">756</span><a name="line.756"></a>
-<span class="sourceLineNo">757</span>    ServiceListener(Service service, WeakReference&lt;ServiceManagerState&gt; state) {<a name="line.757"></a>
-<span class="sourceLineNo">758</span>      this.service = service;<a name="line.758"></a>
-<span class="sourceLineNo">759</span>      this.state = state;<a name="line.759"></a>
-<span class="sourceLineNo">760</span>    }<a name="line.760"></a>
-<span class="sourceLineNo">761</span><a name="line.761"></a>
-<span class="sourceLineNo">762</span>    @Override<a name="line.762"></a>
-<span class="sourceLineNo">763</span>    public void starting() {<a name="line.763"></a>
-<span class="sourceLineNo">764</span>      ServiceManagerState state = this.state.get();<a name="line.764"></a>
-<span class="sourceLineNo">765</span>      if (state != null) {<a name="line.765"></a>
-<span class="sourceLineNo">766</span>        state.transitionService(service, NEW, STARTING);<a name="line.766"></a>
-<span class="sourceLineNo">767</span>        if (!(service instanceof NoOpService)) {<a name="line.767"></a>
-<span class="sourceLineNo">768</span>          logger.log(Level.FINE, "Starting {0}.", service);<a name="line.768"></a>
-<span class="sourceLineNo">769</span>        }<a name="line.769"></a>
-<span class="sourceLineNo">770</span>      }<a name="line.770"></a>
-<span class="sourceLineNo">771</span>    }<a name="line.771"></a>
-<span class="sourceLineNo">772</span><a name="line.772"></a>
-<span class="sourceLineNo">773</span>    @Override<a name="line.773"></a>
-<span class="sourceLineNo">774</span>    public void running() {<a name="line.774"></a>
-<span class="sourceLineNo">775</span>      ServiceManagerState state = this.state.get();<a name="line.775"></a>
-<span class="sourceLineNo">776</span>      if (state != null) {<a name="line.776"></a>
-<span class="sourceLineNo">777</span>        state.transitionService(service, STARTING, RUNNING);<a name="line.777"></a>
-<span class="sourceLineNo">778</span>      }<a name="line.778"></a>
-<span class="sourceLineNo">779</span>    }<a name="line.779"></a>
-<span class="sourceLineNo">780</span><a name="line.780"></a>
-<span class="sourceLineNo">781</span>    @Override<a name="line.781"></a>
-<span class="sourceLineNo">782</span>    public void stopping(State from) {<a name="line.782"></a>
-<span class="sourceLineNo">783</span>      ServiceManagerState state = this.state.get();<a name="line.783"></a>
-<span class="sourceLineNo">784</span>      if (state != null) {<a name="line.784"></a>
-<span class="sourceLineNo">785</span>        state.transitionService(service, from, STOPPING);<a name="line.785"></a>
-<span class="sourceLineNo">786</span>      }<a name="line.786"></a>
-<span class="sourceLineNo">787</span>    }<a name="line.787"></a>
-<span class="sourceLineNo">788</span><a name="line.788"></a>
-<span class="sourceLineNo">789</span>    @Override<a name="line.789"></a>
-<span class="sourceLineNo">790</span>    public void terminated(State from) {<a name="line.790"></a>
-<span class="sourceLineNo">791</span>      ServiceManagerState state = this.state.get();<a name="line.791"></a>
-<span class="sourceLineNo">792</span>      if (state != null) {<a name="line.792"></a>
-<span class="sourceLineNo">793</span>        if (!(service instanceof NoOpService)) {<a name="line.793"></a>
-<span class="sourceLineNo">794</span>          logger.log(<a name="line.794"></a>
-<span class="sourceLineNo">795</span>              Level.FINE,<a name="line.795"></a>
-<span class="sourceLineNo">796</span>              "Service {0} has terminated. Previous state was: {1}",<a name="line.796"></a>
-<span class="sourceLineNo">797</span>              new Object[] {service, from});<a name="line.797"></a>
-<span class="sourceLineNo">798</span>        }<a name="line.798"></a>
-<span class="sourceLineNo">799</span>        state.transitionService(service, from, TERMINATED);<a name="line.799"></a>
-<span class="sourceLineNo">800</span>      }<a name="line.800"></a>
-<span class="sourceLineNo">801</span>    }<a name="line.801"></a>
-<span class="sourceLineNo">802</span><a name="line.802"></a>
-<span class="sourceLineNo">803</span>    @Override<a name="line.803"></a>
-<span class="sourceLineNo">804</span>    public void failed(State from, Throwable failure) {<a name="line.804"></a>
-<span class="sourceLineNo">805</span>      ServiceManagerState state = this.state.get();<a name="line.805"></a>
-<span class="sourceLineNo">806</span>      if (state != null) {<a name="line.806"></a>
-<span class="sourceLineNo">807</span>        // Log before the transition, so that if the process exits in response to server failure,<a name="line.807"></a>
-<span class="sourceLineNo">808</span>        // there is a higher likelihood that the cause will be in the logs.<a name="line.808"></a>
-<span class="sourceLineNo">809</span>        boolean log = !(service instanceof NoOpService);<a name="line.809"></a>
-<span class="sourceLineNo">810</span>        if (log) {<a name="line.810"></a>
-<span class="sourceLineNo">811</span>          logger.log(<a name="line.811"></a>
-<span class="sourceLineNo">812</span>              Level.SEVERE,<a name="line.812"></a>
-<span class="sourceLineNo">813</span>              "Service " + service + " has failed in the " + from + " state.",<a name="line.813"></a>
-<span class="sourceLineNo">814</span>              failure);<a name="line.814"></a>
-<span class="sourceLineNo">815</span>        }<a name="line.815"></a>
-<span class="sourceLineNo">816</span>        state.transitionService(service, from, FAILED);<a name="line.816"></a>
-<span class="sourceLineNo">817</span>      }<a name="line.817"></a>
-<span class="sourceLineNo">818</span>    }<a name="line.818"></a>
-<span class="sourceLineNo">819</span>  }<a name="line.819"></a>
-<span class="sourceLineNo">820</span><a name="line.820"></a>
-<span class="sourceLineNo">821</span>  /**<a name="line.821"></a>
-<span class="sourceLineNo">822</span>   * A {@link Service} instance that does nothing. This is only useful as a placeholder to ensure<a name="line.822"></a>
-<span class="sourceLineNo">823</span>   * that the {@link ServiceManager} functions properly even when it is managing no services.<a name="line.823"></a>
-<span class="sourceLineNo">824</span>   *<a name="line.824"></a>
-<span class="sourceLineNo">825</span>   * &lt;p&gt;The use of this class is considered an implementation detail of ServiceManager and as such<a name="line.825"></a>
-<span class="sourceLineNo">826</span>   * it is excluded from {@link #servicesByState}, {@link #startupTimes}, {@link #toString} and all<a name="line.826"></a>
-<span class="sourceLineNo">827</span>   * logging statements.<a name="line.827"></a>
-<span class="sourceLineNo">828</span>   */<a name="line.828"></a>
-<span class="sourceLineNo">829</span>  private static final class NoOpService extends AbstractService {<a name="line.829"></a>
-<span class="sourceLineNo">830</span>    @Override<a name="line.830"></a>
-<span class="sourceLineNo">831</span>    protected void doStart() {<a name="line.831"></a>
-<span class="sourceLineNo">832</span>      notifyStarted();<a name="line.832"></a>
-<span class="sourceLineNo">833</span>    }<a name="line.833"></a>
-<span class="sourceLineNo">834</span><a name="line.834"></a>
-<span class="sourceLineNo">835</span>    @Override<a name="line.835"></a>
-<span class="sourceLineNo">836</span>    protected void doStop() {<a name="line.836"></a>
-<span class="sourceLineNo">837</span>      notifyStopped();<a name="line.837"></a>
-<span class="sourceLineNo">838</span>    }<a name="line.838"></a>
-<span class="sourceLineNo">839</span>  }<a name="line.839"></a>
-<span class="sourceLineNo">840</span><a name="line.840"></a>
-<span class="sourceLineNo">841</span>  /** This is never thrown but only used for logging. */<a name="line.841"></a>
-<span class="sourceLineNo">842</span>  private static final class EmptyServiceManagerWarning extends Throwable {}<a name="line.842"></a>
-<span class="sourceLineNo">843</span>}<a name="line.843"></a>
+<span class="sourceLineNo">741</span>        for (Service service : servicesByState.get(State.FAILED)) {<a name="line.741"></a>
+<span class="sourceLineNo">742</span>          exception.addSuppressed(new FailedService(service));<a name="line.742"></a>
+<span class="sourceLineNo">743</span>        }<a name="line.743"></a>
+<span class="sourceLineNo">744</span>        throw exception;<a name="line.744"></a>
+<span class="sourceLineNo">745</span>      }<a name="line.745"></a>
+<span class="sourceLineNo">746</span>    }<a name="line.746"></a>
+<span class="sourceLineNo">747</span>  }<a name="line.747"></a>
+<span class="sourceLineNo">748</span><a name="line.748"></a>
+<span class="sourceLineNo">749</span>  /**<a name="line.749"></a>
+<span class="sourceLineNo">750</span>   * A {@link Service} that wraps another service and times how long it takes for it to start and<a name="line.750"></a>
+<span class="sourceLineNo">751</span>   * also calls the {@link ServiceManagerState#transitionService(Service, State, State)}, to record<a name="line.751"></a>
+<span class="sourceLineNo">752</span>   * the state transitions.<a name="line.752"></a>
+<span class="sourceLineNo">753</span>   */<a name="line.753"></a>
+<span class="sourceLineNo">754</span>  private static final class ServiceListener extends Service.Listener {<a name="line.754"></a>
+<span class="sourceLineNo">755</span>    final Service service;<a name="line.755"></a>
+<span class="sourceLineNo">756</span>    // We store the state in a weak reference to ensure that if something went wrong while<a name="line.756"></a>
+<span class="sourceLineNo">757</span>    // constructing the ServiceManager we don't pointlessly keep updating the state.<a name="line.757"></a>
+<span class="sourceLineNo">758</span>    final WeakReference&lt;ServiceManagerState&gt; state;<a name="line.758"></a>
+<span class="sourceLineNo">759</span><a name="line.759"></a>
+<span class="sourceLineNo">760</span>    ServiceListener(Service service, WeakReference&lt;ServiceManagerState&gt; state) {<a name="line.760"></a>
+<span class="sourceLineNo">761</span>      this.service = service;<a name="line.761"></a>
+<span class="sourceLineNo">762</span>      this.state = state;<a name="line.762"></a>
+<span class="sourceLineNo">763</span>    }<a name="line.763"></a>
+<span class="sourceLineNo">764</span><a name="line.764"></a>
+<span class="sourceLineNo">765</span>    @Override<a name="line.765"></a>
+<span class="sourceLineNo">766</span>    public void starting() {<a name="line.766"></a>
+<span class="sourceLineNo">767</span>      ServiceManagerState state = this.state.get();<a name="line.767"></a>
+<span class="sourceLineNo">768</span>      if (state != null) {<a name="line.768"></a>
+<span class="sourceLineNo">769</span>        state.transitionService(service, NEW, STARTING);<a name="line.769"></a>
+<span class="sourceLineNo">770</span>        if (!(service instanceof NoOpService)) {<a name="line.770"></a>
+<span class="sourceLineNo">771</span>          logger.log(Level.FINE, "Starting {0}.", service);<a name="line.771"></a>
+<span class="sourceLineNo">772</span>        }<a name="line.772"></a>
+<span class="sourceLineNo">773</span>      }<a name="line.773"></a>
+<span class="sourceLineNo">774</span>    }<a name="line.774"></a>
+<span class="sourceLineNo">775</span><a name="line.775"></a>
+<span class="sourceLineNo">776</span>    @Override<a name="line.776"></a>
+<span class="sourceLineNo">777</span>    public void running() {<a name="line.777"></a>
+<span class="sourceLineNo">778</span>      ServiceManagerState state = this.state.get();<a name="line.778"></a>
+<span class="sourceLineNo">779</span>      if (state != null) {<a name="line.779"></a>
+<span class="sourceLineNo">780</span>        state.transitionService(service, STARTING, RUNNING);<a name="line.780"></a>
+<span class="sourceLineNo">781</span>      }<a name="line.781"></a>
+<span class="sourceLineNo">782</span>    }<a name="line.782"></a>
+<span class="sourceLineNo">783</span><a name="line.783"></a>
+<span class="sourceLineNo">784</span>    @Override<a name="line.784"></a>
+<span class="sourceLineNo">785</span>    public void stopping(State from) {<a name="line.785"></a>
+<span class="sourceLineNo">786</span>      ServiceManagerState state = this.state.get();<a name="line.786"></a>
+<span class="sourceLineNo">787</span>      if (state != null) {<a name="line.787"></a>
+<span class="sourceLineNo">788</span>        state.transitionService(service, from, STOPPING);<a name="line.788"></a>
+<span class="sourceLineNo">789</span>      }<a name="line.789"></a>
+<span class="sourceLineNo">790</span>    }<a name="line.790"></a>
+<span class="sourceLineNo">791</span><a name="line.791"></a>
+<span class="sourceLineNo">792</span>    @Override<a name="line.792"></a>
+<span class="sourceLineNo">793</span>    public void terminated(State from) {<a name="line.793"></a>
+<span class="sourceLineNo">794</span>      ServiceManagerState state = this.state.get();<a name="line.794"></a>
+<span class="sourceLineNo">795</span>      if (state != null) {<a name="line.795"></a>
+<span class="sourceLineNo">796</span>        if (!(service instanceof NoOpService)) {<a name="line.796"></a>
+<span class="sourceLineNo">797</span>          logger.log(<a name="line.797"></a>
+<span class="sourceLineNo">798</span>              Level.FINE,<a name="line.798"></a>
+<span class="sourceLineNo">799</span>              "Service {0} has terminated. Previous state was: {1}",<a name="line.799"></a>
+<span class="sourceLineNo">800</span>              new Object[] {service, from});<a name="line.800"></a>
+<span class="sourceLineNo">801</span>        }<a name="line.801"></a>
+<span class="sourceLineNo">802</span>        state.transitionService(service, from, TERMINATED);<a name="line.802"></a>
+<span class="sourceLineNo">803</span>      }<a name="line.803"></a>
+<span class="sourceLineNo">804</span>    }<a name="line.804"></a>
+<span class="sourceLineNo">805</span><a name="line.805"></a>
+<span class="sourceLineNo">806</span>    @Override<a name="line.806"></a>
+<span class="sourceLineNo">807</span>    public void failed(State from, Throwable failure) {<a name="line.807"></a>
+<span class="sourceLineNo">808</span>      ServiceManagerState state = this.state.get();<a name="line.808"></a>
+<span class="sourceLineNo">809</span>      if (state != null) {<a name="line.809"></a>
+<span class="sourceLineNo">810</span>        // Log before the transition, so that if the process exits in response to server failure,<a name="line.810"></a>
+<span class="sourceLineNo">811</span>        // there is a higher likelihood that the cause will be in the logs.<a name="line.811"></a>
+<span class="sourceLineNo">812</span>        boolean log = !(service instanceof NoOpService);<a name="line.812"></a>
+<span class="sourceLineNo">813</span>        /*<a name="line.813"></a>
+<span class="sourceLineNo">814</span>         * We have already exposed startup exceptions to the user in the form of suppressed<a name="line.814"></a>
+<span class="sourceLineNo">815</span>         * exceptions. We don't need to log those exceptions again.<a name="line.815"></a>
+<span class="sourceLineNo">816</span>         */<a name="line.816"></a>
+<span class="sourceLineNo">817</span>        log &amp;= from != State.STARTING;<a name="line.817"></a>
+<span class="sourceLineNo">818</span>        if (log) {<a name="line.818"></a>
+<span class="sourceLineNo">819</span>          logger.log(<a name="line.819"></a>
+<span class="sourceLineNo">820</span>              Level.SEVERE,<a name="line.820"></a>
+<span class="sourceLineNo">821</span>              "Service " + service + " has failed in the " + from + " state.",<a name="line.821"></a>
+<span class="sourceLineNo">822</span>              failure);<a name="line.822"></a>
+<span class="sourceLineNo">823</span>        }<a name="line.823"></a>
+<span class="sourceLineNo">824</span>        state.transitionService(service, from, FAILED);<a name="line.824"></a>
+<span class="sourceLineNo">825</span>      }<a name="line.825"></a>
+<span class="sourceLineNo">826</span>    }<a name="line.826"></a>
+<span class="sourceLineNo">827</span>  }<a name="line.827"></a>
+<span class="sourceLineNo">828</span><a name="line.828"></a>
+<span class="sourceLineNo">829</span>  /**<a name="line.829"></a>
+<span class="sourceLineNo">830</span>   * A {@link Service} instance that does nothing. This is only useful as a placeholder to ensure<a name="line.830"></a>
+<span class="sourceLineNo">831</span>   * that the {@link ServiceManager} functions properly even when it is managing no services.<a name="line.831"></a>
+<span class="sourceLineNo">832</span>   *<a name="line.832"></a>
+<span class="sourceLineNo">833</span>   * &lt;p&gt;The use of this class is considered an implementation detail of ServiceManager and as such<a name="line.833"></a>
+<span class="sourceLineNo">834</span>   * it is excluded from {@link #servicesByState}, {@link #startupTimes}, {@link #toString} and all<a name="line.834"></a>
+<span class="sourceLineNo">835</span>   * logging statements.<a name="line.835"></a>
+<span class="sourceLineNo">836</span>   */<a name="line.836"></a>
+<span class="sourceLineNo">837</span>  private static final class NoOpService extends AbstractService {<a name="line.837"></a>
+<span class="sourceLineNo">838</span>    @Override<a name="line.838"></a>
+<span class="sourceLineNo">839</span>    protected void doStart() {<a name="line.839"></a>
+<span class="sourceLineNo">840</span>      notifyStarted();<a name="line.840"></a>
+<span class="sourceLineNo">841</span>    }<a name="line.841"></a>
+<span class="sourceLineNo">842</span><a name="line.842"></a>
+<span class="sourceLineNo">843</span>    @Override<a name="line.843"></a>
+<span class="sourceLineNo">844</span>    protected void doStop() {<a name="line.844"></a>
+<span class="sourceLineNo">845</span>      notifyStopped();<a name="line.845"></a>
+<span class="sourceLineNo">846</span>    }<a name="line.846"></a>
+<span class="sourceLineNo">847</span>  }<a name="line.847"></a>
+<span class="sourceLineNo">848</span><a name="line.848"></a>
+<span class="sourceLineNo">849</span>  /** This is never thrown but only used for logging. */<a name="line.849"></a>
+<span class="sourceLineNo">850</span>  private static final class EmptyServiceManagerWarning extends Throwable {}<a name="line.850"></a>
+<span class="sourceLineNo">851</span><a name="line.851"></a>
+<span class="sourceLineNo">852</span>  private static final class FailedService extends Throwable {<a name="line.852"></a>
+<span class="sourceLineNo">853</span>    FailedService(Service service) {<a name="line.853"></a>
+<span class="sourceLineNo">854</span>      super(<a name="line.854"></a>
+<span class="sourceLineNo">855</span>          service.toString(),<a name="line.855"></a>
+<span class="sourceLineNo">856</span>          service.failureCause(),<a name="line.856"></a>
+<span class="sourceLineNo">857</span>          false /* don't enable suppression */,<a name="line.857"></a>
+<span class="sourceLineNo">858</span>          false /* don't calculate a stack trace. */);<a name="line.858"></a>
+<span class="sourceLineNo">859</span>    }<a name="line.859"></a>
+<span class="sourceLineNo">860</span>  }<a name="line.860"></a>
+<span class="sourceLineNo">861</span>}<a name="line.861"></a>
 
 
 
