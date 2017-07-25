@@ -317,7 +317,7 @@ public class LocalLoadingCacheTest extends TestCase {
       }
     };
 
-    LoadingCache<Integer, String> recursiveCache = new CacheBuilder<Integer, String>()
+    LoadingCache<Integer, String> recursiveCache = CacheBuilder.newBuilder()
         .weakKeys()
         .weakValues()
         .build(recursiveLoader);
@@ -331,7 +331,7 @@ public class LocalLoadingCacheTest extends TestCase {
       }
     };
 
-    recursiveCache = new CacheBuilder<Integer, String>()
+    recursiveCache = CacheBuilder.newBuilder()
         .weakKeys()
         .weakValues()
         .build(recursiveLoader);
