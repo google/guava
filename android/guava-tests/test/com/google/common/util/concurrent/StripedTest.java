@@ -110,15 +110,15 @@ public class StripedTest extends TestCase {
 
   public void testWeakImplementations() {
     for (Striped<?> striped : weakImplementations()) {
-      WeakReference<Object> weakRef = new WeakReference<Object>(striped.get(new Object()));
+      WeakReference<Object> weakRef = new WeakReference<>(striped.get(new Object()));
       GcFinalization.awaitClear(weakRef);
     }
   }
 
   public void testStrongImplementations() {
     for (Striped<?> striped : strongImplementations()) {
-      WeakReference<Object> weakRef = new WeakReference<Object>(striped.get(new Object()));
-      WeakReference<Object> garbage = new WeakReference<Object>(new Object());
+      WeakReference<Object> weakRef = new WeakReference<>(striped.get(new Object()));
+      WeakReference<Object> garbage = new WeakReference<>(new Object());
       GcFinalization.awaitClear(garbage);
       assertNotNull(weakRef.get());
     }

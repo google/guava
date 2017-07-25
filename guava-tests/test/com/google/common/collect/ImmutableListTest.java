@@ -640,8 +640,7 @@ public class ImmutableListTest extends TestCase {
         final Collection<Integer> initialContents,
         final Iterable<ListFrobber> actionsToPerformConcurrently) {
       InvocationHandler invocationHandler = new InvocationHandler() {
-        final CopyOnWriteArrayList<Integer> delegate =
-            new CopyOnWriteArrayList<Integer>(initialContents);
+        final CopyOnWriteArrayList<Integer> delegate = new CopyOnWriteArrayList<>(initialContents);
 
         final Method getAllStatesMethod = getOnlyElement(asList(
             ConcurrentlyMutatedList.class.getDeclaredMethods()));

@@ -87,7 +87,7 @@ public class UninterruptiblesTest extends TestCase {
   // BlockingQueue.put() tests
   public void testPutWithNoWait() {
     Stopwatch stopwatch = Stopwatch.createStarted();
-    BlockingQueue<String> queue = new ArrayBlockingQueue<String>(999);
+    BlockingQueue<String> queue = new ArrayBlockingQueue<>(999);
     putUninterruptibly(queue, "");
     assertTimeNotPassed(stopwatch, LONG_DELAY_MS);
     assertEquals("", queue.peek());
@@ -116,7 +116,7 @@ public class UninterruptiblesTest extends TestCase {
   // BlockingQueue.take() tests
   public void testTakeWithNoWait() {
     Stopwatch stopwatch = Stopwatch.createStarted();
-    BlockingQueue<String> queue = new ArrayBlockingQueue<String>(1);
+    BlockingQueue<String> queue = new ArrayBlockingQueue<>(1);
     assertTrue(queue.offer(""));
     assertEquals("", takeUninterruptibly(queue));
     assertTimeNotPassed(stopwatch, LONG_DELAY_MS);

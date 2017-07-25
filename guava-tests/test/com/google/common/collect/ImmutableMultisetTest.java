@@ -91,7 +91,7 @@ public class ImmutableMultisetTest extends TestCase {
 
           @Override
           public List<String> order(List<String> insertionOrder) {
-            List<String> order = new ArrayList<String>();
+            List<String> order = new ArrayList<>();
             for (String s : insertionOrder) {
               int index = order.indexOf(s);
               if (index == -1) {
@@ -111,7 +111,7 @@ public class ImmutableMultisetTest extends TestCase {
 
     suite.addTest(ListTestSuiteBuilder.using(new TestStringListGenerator() {
           @Override protected List<String> create(String[] elements) {
-            Set<String> set = new HashSet<String>();
+            Set<String> set = new HashSet<>();
             ImmutableMultiset.Builder<String> builder = ImmutableMultiset.builder();
             for (String s : elements) {
               checkArgument(set.add(s));

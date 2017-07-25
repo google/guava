@@ -545,7 +545,7 @@ public class QuantilesTest extends TestCase {
   }
 
   public void testPercentiles_indexes_varargsAll_compute_doubleCollection() {
-    ArrayList<Integer> indexes = new ArrayList<Integer>();
+    ArrayList<Integer> indexes = new ArrayList<>();
     ImmutableMap.Builder<Integer, Double> expectedBuilder = ImmutableMap.builder();
     for (int index = 0; index <= 100; index++) {
       indexes.add(index);
@@ -561,7 +561,7 @@ public class QuantilesTest extends TestCase {
   @AndroidIncompatible // slow
   public void testPercentiles_indexes_varargsAll_computeInPlace() {
     double[] dataset = Doubles.toArray(PSEUDORANDOM_DATASET);
-    List<Integer> indexes = new ArrayList<Integer>();
+    List<Integer> indexes = new ArrayList<>();
     ImmutableMap.Builder<Integer, Double> expectedBuilder = ImmutableMap.builder();
     for (int index = 0; index <= 100; index++) {
       indexes.add(index);

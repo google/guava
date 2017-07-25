@@ -66,7 +66,7 @@ public class MapsCollectionTest extends TestCase {
         .using(new TestStringSortedMapGenerator() {
           @Override
           protected SortedMap<String, String> create(Entry<String, String>[] entries) {
-            SafeTreeMap<String, String> map = new SafeTreeMap<String, String>();
+            SafeTreeMap<String, String> map = new SafeTreeMap<>();
             putEntries(map, entries);
             return Maps.unmodifiableNavigableMap(map);
           }
@@ -472,7 +472,7 @@ public class MapsCollectionTest extends TestCase {
     suite.addTest(NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
       @Override
       protected NavigableMap<String, String> create(Entry<String, String>[] entries) {
-        NavigableMap<String, String> map = new SafeTreeMap<String, String>();
+        NavigableMap<String, String> map = new SafeTreeMap<>();
         putEntries(map, entries);
         map.put("banana", "toast");
         map.put("eggplant", "spam");
@@ -488,7 +488,7 @@ public class MapsCollectionTest extends TestCase {
     suite.addTest(NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
       @Override
       protected NavigableMap<String, String> create(Entry<String, String>[] entries) {
-        NavigableMap<String, String> map = new SafeTreeMap<String, String>();
+        NavigableMap<String, String> map = new SafeTreeMap<>();
         putEntries(map, entries);
         map.put("banana", "toast");
         map.put("eggplant", "spam");
@@ -504,7 +504,7 @@ public class MapsCollectionTest extends TestCase {
     suite.addTest(NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
       @Override
       protected NavigableMap<String, String> create(Entry<String, String>[] entries) {
-        NavigableMap<String, String> map = new SafeTreeMap<String, String>();
+        NavigableMap<String, String> map = new SafeTreeMap<>();
         putEntries(map, entries);
         map.put("banana", "toast");
         map.put("eggplant", "spam");
@@ -713,7 +713,7 @@ public class MapsCollectionTest extends TestCase {
     suite.addTest(NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
         @Override
         protected NavigableMap<String, String> create(Entry<String, String>[] entries) {
-          NavigableMap<String, String> map = new SafeTreeMap<String, String>();
+          NavigableMap<String, String> map = new SafeTreeMap<>();
           for (Entry<String, String> entry : entries) {
             map.put(entry.getKey(), encode(entry.getValue()));
           }
@@ -730,7 +730,7 @@ public class MapsCollectionTest extends TestCase {
     suite.addTest(NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
         @Override
         protected NavigableMap<String, String> create(Entry<String, String>[] entries) {
-          NavigableMap<String, String> map = new SafeTreeMap<String, String>();
+          NavigableMap<String, String> map = new SafeTreeMap<>();
           for (Entry<String, String> entry : entries) {
             map.put(entry.getKey(), encode(entry.getValue()));
           }

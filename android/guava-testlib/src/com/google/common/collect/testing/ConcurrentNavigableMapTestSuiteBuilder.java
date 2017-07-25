@@ -31,8 +31,7 @@ public class ConcurrentNavigableMapTestSuiteBuilder<K, V>
 
   public static <K, V> ConcurrentNavigableMapTestSuiteBuilder<K, V> using(
       TestSortedMapGenerator<K, V> generator) {
-    ConcurrentNavigableMapTestSuiteBuilder<K, V> result =
-        new ConcurrentNavigableMapTestSuiteBuilder<K, V>();
+    ConcurrentNavigableMapTestSuiteBuilder<K, V> result = new ConcurrentNavigableMapTestSuiteBuilder<>();
     result.usingGenerator(generator);
     return result;
   }

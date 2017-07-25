@@ -100,7 +100,7 @@ public abstract class FeatureSpecificTestSuiteBuilder<
 
   // Features
 
-  private Set<Feature<?>> features = new LinkedHashSet<Feature<?>>();
+  private Set<Feature<?>> features = new LinkedHashSet<>();
 
   /**
    * Configures this builder to produce tests appropriate for the given
@@ -143,7 +143,7 @@ public abstract class FeatureSpecificTestSuiteBuilder<
 
   // Test suppression
 
-  private Set<Method> suppressedTests = new HashSet<Method>();
+  private Set<Method> suppressedTests = new HashSet<>();
 
   /**
    * Prevents the given methods from being run as part of the test suite.
@@ -308,7 +308,7 @@ public abstract class FeatureSpecificTestSuiteBuilder<
   }
 
   protected static String formatFeatureSet(Set<? extends Feature<?>> features) {
-    List<String> temp = new ArrayList<String>();
+    List<String> temp = new ArrayList<>();
     for (Feature<?> feature : features) {
       Object featureAsObject = feature; // to work around bogus JDK warning
       if (featureAsObject instanceof Enum) {

@@ -524,7 +524,7 @@ public class FilesTest extends IoTestCase {
   public void testReadLines_withLineProcessor() throws IOException {
     File temp = createTempFile();
     LineProcessor<List<String>> collect = new LineProcessor<List<String>>() {
-      List<String> collector = new ArrayList<String>();
+      List<String> collector = new ArrayList<>();
 
       @Override
       public boolean processLine(String line) {
@@ -551,7 +551,7 @@ public class FilesTest extends IoTestCase {
 
     LineProcessor<List<String>> collectNonEmptyLines =
         new LineProcessor<List<String>>() {
-          List<String> collector = new ArrayList<String>();
+          List<String> collector = new ArrayList<>();
 
           @Override
           public boolean processLine(String line) {

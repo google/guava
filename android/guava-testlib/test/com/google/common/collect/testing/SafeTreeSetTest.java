@@ -53,8 +53,7 @@ public class SafeTreeSetTest extends TestCase {
             "SafeTreeSet with natural comparator").createTestSuite());
     suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
       @Override protected Set<String> create(String[] elements) {
-        NavigableSet<String> set =
-            new SafeTreeSet<String>(Ordering.natural().nullsFirst());
+        NavigableSet<String> set = new SafeTreeSet<>(Ordering.natural().nullsFirst());
         Collections.addAll(set, elements);
         return set;
       }
@@ -80,14 +79,14 @@ public class SafeTreeSetTest extends TestCase {
 
   @GwtIncompatible // SerializableTester
   public void testEmpty_serialization() {
-    SortedSet<String> set = new SafeTreeSet<String>();
+    SortedSet<String> set = new SafeTreeSet<>();
     SortedSet<String> copy = SerializableTester.reserializeAndAssert(set);
     assertEquals(set.comparator(), copy.comparator());
   }
 
   @GwtIncompatible // SerializableTester
   public void testSingle_serialization() {
-    SortedSet<String> set = new SafeTreeSet<String>();
+    SortedSet<String> set = new SafeTreeSet<>();
     set.add("e");
     SortedSet<String> copy = SerializableTester.reserializeAndAssert(set);
     assertEquals(set.comparator(), copy.comparator());
@@ -95,7 +94,7 @@ public class SafeTreeSetTest extends TestCase {
 
   @GwtIncompatible // SerializableTester
   public void testSeveral_serialization() {
-    SortedSet<String> set = new SafeTreeSet<String>();
+    SortedSet<String> set = new SafeTreeSet<>();
     set.add("a");
     set.add("b");
     set.add("c");

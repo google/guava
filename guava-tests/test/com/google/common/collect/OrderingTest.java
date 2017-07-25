@@ -907,8 +907,7 @@ public class OrderingTest extends TestCase {
     T[] emptyArray = Platform.newArray(strictlyOrderedElements, 0);
 
     // shoot me, but I didn't want to deal with wildcards through the whole test
-    @SuppressWarnings("unchecked")
-    Scenario<T> starter = new Scenario<T>((Ordering) ordering, list, emptyArray);
+    @SuppressWarnings("unchecked") Scenario<T> starter = new Scenario<>((Ordering) ordering, list, emptyArray);
     verifyScenario(starter, 0);
   }
 

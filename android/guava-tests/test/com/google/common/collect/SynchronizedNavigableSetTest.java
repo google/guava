@@ -43,8 +43,7 @@ public class SynchronizedNavigableSetTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   protected <E> NavigableSet<E> create() {
-    TestSet<E> inner = new TestSet<E>(
-        new TreeSet<E>((Comparator<E>) Ordering.natural().nullsFirst()), MUTEX);
+    TestSet<E> inner = new TestSet<>(new TreeSet<E>((Comparator<E>) Ordering.natural().nullsFirst()), MUTEX);
     NavigableSet<E> outer =
         Synchronized.navigableSet(inner, MUTEX);
     return outer;
@@ -153,9 +152,9 @@ public class SynchronizedNavigableSetTest extends TestCase {
         NavigableSetTestSuiteBuilder.using(new TestStringSortedSetGenerator() {
 
           @Override protected NavigableSet<String> create(String[] elements) {
-            NavigableSet<String> innermost = new SafeTreeSet<String>();
+            NavigableSet<String> innermost = new SafeTreeSet<>();
             Collections.addAll(innermost, elements);
-            TestSet<String> inner = new TestSet<String>(innermost, MUTEX);
+            TestSet<String> inner = new TestSet<>(innermost, MUTEX);
             NavigableSet<String> outer =
                 Synchronized.navigableSet(inner, MUTEX);
             return outer;

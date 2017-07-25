@@ -67,13 +67,13 @@ public class SortedCopyBenchmark {
   @BeforeExperiment
   void setUp() {
     checkArgument(size > 0, "empty collection not supported");
-    Set<Integer> set = new LinkedHashSet<Integer>(size);
+    Set<Integer> set = new LinkedHashSet<>(size);
 
     Random random = new Random();
     while (set.size() < size) {
       set.add(random.nextInt());
     }
-    List<Integer> list = new ArrayList<Integer>(set);
+    List<Integer> list = new ArrayList<>(set);
     inputOrder.arrange(list);
     input = ImmutableList.copyOf(list);
   }
@@ -84,13 +84,13 @@ public class SortedCopyBenchmark {
     // Yes, this could be done more elegantly
     if (mutable) {
       for (int i = 0; i < reps; i++) {
-        List<Integer> copy = new ArrayList<Integer>(input);
+        List<Integer> copy = new ArrayList<>(input);
         Collections.sort(copy);
         dummy += copy.get(0);
       }
     } else {
       for (int i = 0; i < reps; i++) {
-        List<Integer> copy = new ArrayList<Integer>(input);
+        List<Integer> copy = new ArrayList<>(input);
         Collections.sort(copy);
         dummy += ImmutableList.copyOf(copy).get(0);
       }
