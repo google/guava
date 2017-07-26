@@ -38,6 +38,21 @@ public void testConcat_refStream() throws Exception {
   testCase.testConcat_refStream();
 }
 
+public void testConcat_refStream_closeIsPropagated() throws Exception {
+  com.google.common.collect.StreamsTest testCase = new com.google.common.collect.StreamsTest();
+  testCase.testConcat_refStream_closeIsPropagated();
+}
+
+public void testConcat_refStream_closeIsPropagated_Stream_concat() throws Exception {
+  com.google.common.collect.StreamsTest testCase = new com.google.common.collect.StreamsTest();
+  testCase.testConcat_refStream_closeIsPropagated_Stream_concat();
+}
+
+public void testConcat_refStream_closeIsPropagated_Stream_flatMap() throws Exception {
+  com.google.common.collect.StreamsTest testCase = new com.google.common.collect.StreamsTest();
+  testCase.testConcat_refStream_closeIsPropagated_Stream_flatMap();
+}
+
 public void testConcat_refStream_parallel() throws Exception {
   com.google.common.collect.StreamsTest testCase = new com.google.common.collect.StreamsTest();
   testCase.testConcat_refStream_parallel();

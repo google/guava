@@ -155,12 +155,18 @@ public final class Streams {
       estimatedSize = LongMath.saturatedAdd(estimatedSize, splitr.estimateSize());
     }
     return StreamSupport.stream(
-        CollectSpliterators.flatMap(
-            splitrsBuilder.build().spliterator(),
-            splitr -> (Spliterator<T>) splitr,
-            characteristics,
-            estimatedSize),
-        isParallel);
+            CollectSpliterators.flatMap(
+                splitrsBuilder.build().spliterator(),
+                splitr -> (Spliterator<T>) splitr,
+                characteristics,
+                estimatedSize),
+            isParallel)
+        .onClose(
+            () -> {
+              for (Stream<? extends T> stream : streams) {
+                stream.close();
+              }
+            });
   }
 
   /**

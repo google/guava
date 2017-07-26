@@ -86,6 +86,41 @@ public class StreamsTest extends TestCase {
         .expect("a", "b", "c", "d");
   }
 
+  public void testConcat_refStream_closeIsPropagated() {
+    AtomicInteger closeCountB = new AtomicInteger(0);
+    Stream<String> streamB = Stream.of("b").onClose(closeCountB::incrementAndGet);
+    Stream<String> concatenated =
+        Streams.concat(Stream.of("a"), streamB, Stream.empty(), Stream.of("c", "d"));
+    assertThat(concatenated).containsExactly("a", "b", "c", "d").inOrder();
+    concatenated.close();
+    Truth.assertThat(closeCountB.get()).isEqualTo(1);
+  }
+
+  public void testConcat_refStream_closeIsPropagated_Stream_concat() {
+    // Just to demonstrate behavior of Stream::concat in the standard library
+    AtomicInteger closeCountB = new AtomicInteger(0);
+    Stream<String> streamB = Stream.of("b").onClose(closeCountB::incrementAndGet);
+    Stream<String> concatenated =
+        Stream.<Stream<String>>of(Stream.of("a"), streamB, Stream.empty(), Stream.of("c", "d"))
+            .reduce(Stream.empty(), Stream::concat);
+    assertThat(concatenated).containsExactly("a", "b", "c", "d").inOrder();
+    concatenated.close();
+    Truth.assertThat(closeCountB.get()).isEqualTo(1);
+  }
+
+  public void testConcat_refStream_closeIsPropagated_Stream_flatMap() {
+    // Just to demonstrate behavior of Stream::flatMap in the standard library
+    AtomicInteger closeCountB = new AtomicInteger(0);
+    Stream<String> streamB = Stream.of("b").onClose(closeCountB::incrementAndGet);
+    Stream<String> concatenated =
+        Stream.<Stream<String>>of(Stream.of("a"), streamB, Stream.empty(), Stream.of("c", "d"))
+            .flatMap(x -> x);
+    assertThat(concatenated).containsExactly("a", "b", "c", "d").inOrder();
+    concatenated.close();
+    // even without close, see doc for flatMap
+    Truth.assertThat(closeCountB.get()).isEqualTo(1);
+  }
+
   public void testConcat_refStream_parallel() {
     Truth.assertThat(
             Streams.concat(Stream.of("a"), Stream.of("b"), Stream.empty(), Stream.of("c", "d"))
