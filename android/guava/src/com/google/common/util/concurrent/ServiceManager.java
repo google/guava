@@ -211,8 +211,7 @@ public final class ServiceManager {
     }
     this.state = new ServiceManagerState(copy);
     this.services = copy;
-    WeakReference<ServiceManagerState> stateReference =
-        new WeakReference<ServiceManagerState>(state);
+    WeakReference<ServiceManagerState> stateReference = new WeakReference<>(state);
     for (Service service : copy) {
       service.addListener(new ServiceListener(service, stateReference), directExecutor());
       // We check the state after adding the listener as a way to ensure that our listener was added

@@ -43,7 +43,7 @@ public abstract class AbstractBiMapTester<K, V> extends AbstractMapTester<K, V> 
   @Override
   protected void expectContents(Collection<Entry<K, V>> expected) {
     super.expectContents(expected);
-    List<Entry<V, K>> reversedEntries = new ArrayList<Entry<V, K>>();
+    List<Entry<V, K>> reversedEntries = new ArrayList<>();
     for (Entry<K, V> entry : expected) {
       reversedEntries.add(reverseEntry(entry));
     }

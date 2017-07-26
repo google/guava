@@ -181,7 +181,7 @@ public final class DerivedGoogleCollectionGenerators {
       Collection<Map.Entry<K, V>> originalEntries = mapGenerator.getSampleElements(elements.length);
 
       // Create a copy of that, with the desired value for each value
-      Collection<Map.Entry<K, V>> entries = new ArrayList<Entry<K, V>>(elements.length);
+      Collection<Map.Entry<K, V>> entries = new ArrayList<>(elements.length);
       int i = 0;
       for (Map.Entry<K, V> entry : originalEntries) {
         entries.add(Helpers.mapEntry(entry.getKey(), valuesArray[i++]));

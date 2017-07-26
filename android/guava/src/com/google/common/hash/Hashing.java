@@ -581,7 +581,7 @@ public final class Hashing {
   public static HashFunction concatenating(
       HashFunction first, HashFunction second, HashFunction... rest) {
     // We can't use Lists.asList() here because there's no hash->collect dependency
-    List<HashFunction> list = new ArrayList<HashFunction>();
+    List<HashFunction> list = new ArrayList<>();
     list.add(first);
     list.add(second);
     for (HashFunction hashFunc : rest) {
@@ -603,7 +603,7 @@ public final class Hashing {
   public static HashFunction concatenating(Iterable<HashFunction> hashFunctions) {
     checkNotNull(hashFunctions);
     // We can't use Iterables.toArray() here because there's no hash->collect dependency
-    List<HashFunction> list = new ArrayList<HashFunction>();
+    List<HashFunction> list = new ArrayList<>();
     for (HashFunction hashFunction : hashFunctions) {
       list.add(hashFunction);
     }

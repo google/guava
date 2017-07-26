@@ -109,8 +109,9 @@ public final class EqualsTester {
    * Run tests on equals method, throwing a failure on an invalid test
    */
   public EqualsTester testEquals() {
-    RelationshipTester<Object> delegate = new RelationshipTester<Object>(
-        Equivalence.equals(), "Object#equals", "Object#hashCode", itemReporter);
+    RelationshipTester<Object> delegate =
+        new RelationshipTester<>(
+            Equivalence.equals(), "Object#equals", "Object#hashCode", itemReporter);
     for (List<Object> group : equalityGroups) {
       delegate.addRelatedGroup(group);
     }

@@ -72,13 +72,13 @@ public class GcFinalizationTest extends TestCase {
   }
 
   public void testAwaitClear() {
-    final WeakReference<Object> ref = new WeakReference<Object>(new Object());
+    final WeakReference<Object> ref = new WeakReference<>(new Object());
     GcFinalization.awaitClear(ref);
     assertNull(ref.get());
   }
 
   public void testAwaitDone_FinalizationPredicate() {
-    final WeakHashMap<Object, Object> map = new WeakHashMap<Object, Object>();
+    final WeakHashMap<Object, Object> map = new WeakHashMap<>();
     map.put(new Object(), Boolean.TRUE);
     GcFinalization.awaitDone(new FinalizationPredicate() {
       public boolean isDone() {

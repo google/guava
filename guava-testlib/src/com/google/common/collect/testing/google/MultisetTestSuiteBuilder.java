@@ -89,7 +89,7 @@ public class MultisetTestSuiteBuilder<E>
   }
 
   private static Set<Feature<?>> computeEntrySetFeatures(Set<Feature<?>> features) {
-    Set<Feature<?>> derivedFeatures = new HashSet<Feature<?>>();
+    Set<Feature<?>> derivedFeatures = new HashSet<>();
     derivedFeatures.addAll(features);
     derivedFeatures.remove(CollectionFeature.GENERAL_PURPOSE);
     derivedFeatures.remove(CollectionFeature.SUPPORTS_ADD);
@@ -102,7 +102,7 @@ public class MultisetTestSuiteBuilder<E>
   }
 
   static Set<Feature<?>> computeElementSetFeatures(Set<Feature<?>> features) {
-    Set<Feature<?>> derivedFeatures = new HashSet<Feature<?>>();
+    Set<Feature<?>> derivedFeatures = new HashSet<>();
     derivedFeatures.addAll(features);
     derivedFeatures.remove(CollectionFeature.GENERAL_PURPOSE);
     derivedFeatures.remove(CollectionFeature.SUPPORTS_ADD);
@@ -113,7 +113,7 @@ public class MultisetTestSuiteBuilder<E>
   }
 
   private static Set<Feature<?>> computeReserializedMultisetFeatures(Set<Feature<?>> features) {
-    Set<Feature<?>> derivedFeatures = new HashSet<Feature<?>>();
+    Set<Feature<?>> derivedFeatures = new HashSet<>();
     derivedFeatures.addAll(features);
     derivedFeatures.remove(CollectionFeature.SERIALIZABLE);
     derivedFeatures.remove(CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS);
@@ -124,8 +124,7 @@ public class MultisetTestSuiteBuilder<E>
   protected List<TestSuite> createDerivedSuites(
       FeatureSpecificTestSuiteBuilder<?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>>
           parentBuilder) {
-    List<TestSuite> derivedSuites =
-        new ArrayList<TestSuite>(super.createDerivedSuites(parentBuilder));
+    List<TestSuite> derivedSuites = new ArrayList<>(super.createDerivedSuites(parentBuilder));
 
     derivedSuites.add(createElementSetTestSuite(parentBuilder));
 
@@ -214,8 +213,8 @@ public class MultisetTestSuiteBuilder<E>
 
     @Override
     public Set<Multiset.Entry<E>> create(Object... entries) {
-      List<Object> contents = new ArrayList<Object>();
-      Set<E> elements = new HashSet<E>();
+      List<Object> contents = new ArrayList<>();
+      Set<E> elements = new HashSet<>();
       for (Object o : entries) {
         @SuppressWarnings("unchecked")
         Multiset.Entry<E> entry = (Entry<E>) o;
@@ -237,13 +236,13 @@ public class MultisetTestSuiteBuilder<E>
     @Override
     public Iterable<Entry<E>> order(List<Entry<E>> insertionOrder) {
       // We mimic the order from gen.
-      Map<E, Entry<E>> map = new LinkedHashMap<E, Entry<E>>();
+      Map<E, Entry<E>> map = new LinkedHashMap<>();
       for (Entry<E> entry : insertionOrder) {
         map.put(entry.getElement(), entry);
       }
 
-      Set<E> seen = new HashSet<E>();
-      List<Entry<E>> order = new ArrayList<Entry<E>>();
+      Set<E> seen = new HashSet<>();
+      List<Entry<E>> order = new ArrayList<>();
       for (E e : gen.order(new ArrayList<E>(map.keySet()))) {
         if (seen.add(e)) {
           order.add(map.get(e));

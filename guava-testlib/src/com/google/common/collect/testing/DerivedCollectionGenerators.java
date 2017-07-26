@@ -121,7 +121,7 @@ public final class DerivedCollectionGenerators {
       Collection<Map.Entry<K, V>> originalEntries = mapGenerator.getSampleElements(elements.length);
 
       // Create a copy of that, with the desired value for each key
-      Collection<Map.Entry<K, V>> entries = new ArrayList<Entry<K, V>>(elements.length);
+      Collection<Map.Entry<K, V>> entries = new ArrayList<>(elements.length);
       int i = 0;
       for (Map.Entry<K, V> entry : originalEntries) {
         entries.add(Helpers.mapEntry(keysArray[i++], entry.getValue()));
@@ -142,12 +142,12 @@ public final class DerivedCollectionGenerators {
     @Override
     public Iterable<K> order(List<K> insertionOrder) {
       V v = ((TestMapGenerator<K, V>) mapGenerator.getInnerGenerator()).samples().e0().getValue();
-      List<Entry<K, V>> entries = new ArrayList<Entry<K, V>>();
+      List<Entry<K, V>> entries = new ArrayList<>();
       for (K element : insertionOrder) {
         entries.add(mapEntry(element, v));
       }
 
-      List<K> keys = new ArrayList<K>();
+      List<K> keys = new ArrayList<>();
       for (Entry<K, V> entry : mapGenerator.order(entries)) {
         keys.add(entry.getKey());
       }
@@ -228,7 +228,7 @@ public final class DerivedCollectionGenerators {
       Collection<Map.Entry<K, V>> originalEntries = mapGenerator.getSampleElements(elements.length);
 
       // Create a copy of that, with the desired value for each value
-      Collection<Map.Entry<K, V>> entries = new ArrayList<Entry<K, V>>(elements.length);
+      Collection<Map.Entry<K, V>> entries = new ArrayList<>(elements.length);
       int i = 0;
       for (Map.Entry<K, V> entry : originalEntries) {
         entries.add(Helpers.mapEntry(entry.getKey(), valuesArray[i++]));
@@ -343,7 +343,7 @@ public final class DerivedCollectionGenerators {
       this.comparator = emptySet.comparator();
 
       SampleElements<E> samples = delegate.samples();
-      List<E> samplesList = new ArrayList<E>(samples.asList());
+      List<E> samplesList = new ArrayList<>(samples.asList());
       Collections.sort(samplesList, comparator);
       this.firstInclusive = samplesList.get(0);
       this.lastInclusive = samplesList.get(samplesList.size() - 1);
@@ -380,7 +380,7 @@ public final class DerivedCollectionGenerators {
     public SortedSet<E> create(Object... elements) {
       @SuppressWarnings("unchecked") // set generators must pass SampleElements values
       List<E> normalValues = (List) Arrays.asList(elements);
-      List<E> extremeValues = new ArrayList<E>();
+      List<E> extremeValues = new ArrayList<>();
 
       // nulls are usually out of bounds for a subset, so ban them altogether
       for (Object o : elements) {
@@ -402,7 +402,7 @@ public final class DerivedCollectionGenerators {
       }
 
       // the regular values should be visible after filtering
-      List<E> allEntries = new ArrayList<E>();
+      List<E> allEntries = new ArrayList<>();
       allEntries.addAll(extremeValues);
       allEntries.addAll(normalValues);
       SortedSet<E> map = delegate.create(allEntries.toArray());
@@ -481,7 +481,7 @@ public final class DerivedCollectionGenerators {
     public SortedMap<K, V> create(Object... entries) {
       @SuppressWarnings("unchecked") // map generators must past entry objects
       List<Entry<K, V>> normalValues = (List) Arrays.asList(entries);
-      List<Entry<K, V>> extremeValues = new ArrayList<Entry<K, V>>();
+      List<Entry<K, V>> extremeValues = new ArrayList<>();
 
       // prepare extreme values to be filtered out of view
       K firstExclusive = getInnerGenerator().belowSamplesGreater().getKey();
@@ -496,7 +496,7 @@ public final class DerivedCollectionGenerators {
       }
 
       // the regular values should be visible after filtering
-      List<Entry<K, V>> allEntries = new ArrayList<Entry<K, V>>();
+      List<Entry<K, V>> allEntries = new ArrayList<>();
       allEntries.addAll(extremeValues);
       allEntries.addAll(normalValues);
       SortedMap<K, V> map =

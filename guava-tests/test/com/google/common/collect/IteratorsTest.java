@@ -1270,7 +1270,7 @@ public class IteratorsTest extends TestCase {
   }
 
   private static Enumeration<Integer> enumerate(Integer... ints) {
-    Vector<Integer> vector = new Vector<Integer>();
+    Vector<Integer> vector = new Vector<>();
     vector.addAll(asList(ints));
     return vector.elements();
   }

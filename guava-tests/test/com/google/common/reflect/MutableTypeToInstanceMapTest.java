@@ -44,31 +44,31 @@ public class MutableTypeToInstanceMapTest extends TestCase {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(MutableTypeToInstanceMapTest.class);
 
-    suite.addTest(MapTestSuiteBuilder
-        .using(new TestTypeToInstanceMapGenerator() {
-          // Other tests will verify what real, warning-free usage looks like
-          // but here we have to do some serious fudging
-          @Override
-          @SuppressWarnings("unchecked")
-          public Map<TypeToken, Object> create(Object... elements) {
-            MutableTypeToInstanceMap<Object> map
-                = new MutableTypeToInstanceMap<Object>();
-            for (Object object : elements) {
-              Entry<TypeToken, Object> entry = (Entry<TypeToken, Object>) object;
-              map.putInstance(entry.getKey(), entry.getValue());
-            }
-            return (Map) map;
-          }
-        })
-        .named("MutableTypeToInstanceMap")
-        .withFeatures(
-            MapFeature.SUPPORTS_REMOVE,
-            MapFeature.RESTRICTS_KEYS,
-            MapFeature.ALLOWS_NULL_VALUES,
-            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-            CollectionSize.ANY,
-            MapFeature.ALLOWS_ANY_NULL_QUERIES)
-        .createTestSuite());
+    suite.addTest(
+        MapTestSuiteBuilder.using(
+                new TestTypeToInstanceMapGenerator() {
+                  // Other tests will verify what real, warning-free usage looks like
+                  // but here we have to do some serious fudging
+                  @Override
+                  @SuppressWarnings("unchecked")
+                  public Map<TypeToken, Object> create(Object... elements) {
+                    MutableTypeToInstanceMap<Object> map = new MutableTypeToInstanceMap<>();
+                    for (Object object : elements) {
+                      Entry<TypeToken, Object> entry = (Entry<TypeToken, Object>) object;
+                      map.putInstance(entry.getKey(), entry.getValue());
+                    }
+                    return (Map) map;
+                  }
+                })
+            .named("MutableTypeToInstanceMap")
+            .withFeatures(
+                MapFeature.SUPPORTS_REMOVE,
+                MapFeature.RESTRICTS_KEYS,
+                MapFeature.ALLOWS_NULL_VALUES,
+                CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+                CollectionSize.ANY,
+                MapFeature.ALLOWS_ANY_NULL_QUERIES)
+            .createTestSuite());
 
     return suite;
   }

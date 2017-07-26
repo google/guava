@@ -295,8 +295,7 @@ public class SuppliersTest extends TestCase {
   public void testSupplierThreadSafe(Function<Supplier<Boolean>, Supplier<Boolean>> memoizer)
       throws Throwable {
     final AtomicInteger count = new AtomicInteger(0);
-    final AtomicReference<Throwable> thrown =
-        new AtomicReference<Throwable>(null);
+    final AtomicReference<Throwable> thrown = new AtomicReference<>(null);
     final int numThreads = 3;
     final Thread[] threads = new Thread[numThreads];
     final long timeout = TimeUnit.SECONDS.toNanos(60);

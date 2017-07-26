@@ -64,7 +64,7 @@ public class CacheBuilderTest extends TestCase {
   }
 
   public void testInitialCapacity_negative() {
-    CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>();
+    CacheBuilder<Object, Object> builder = new CacheBuilder<>();
     try {
       builder.initialCapacity(-1);
       fail();
@@ -116,7 +116,7 @@ public class CacheBuilderTest extends TestCase {
   }
 
   public void testConcurrencyLevel_zero() {
-    CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>();
+    CacheBuilder<Object, Object> builder = new CacheBuilder<>();
     try {
       builder.concurrencyLevel(0);
       fail();
@@ -147,7 +147,7 @@ public class CacheBuilderTest extends TestCase {
   }
 
   public void testMaximumSize_negative() {
-    CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>();
+    CacheBuilder<Object, Object> builder = new CacheBuilder<>();
     try {
       builder.maximumSize(-1);
       fail();
@@ -174,7 +174,7 @@ public class CacheBuilderTest extends TestCase {
 
   @GwtIncompatible // maximumWeight
   public void testMaximumWeight_negative() {
-    CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>();
+    CacheBuilder<Object, Object> builder = new CacheBuilder<>();
     try {
       builder.maximumWeight(-1);
       fail();
@@ -260,7 +260,7 @@ public class CacheBuilderTest extends TestCase {
   }
 
   public void testTimeToLive_negative() {
-    CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>();
+    CacheBuilder<Object, Object> builder = new CacheBuilder<>();
     try {
       builder.expireAfterWrite(-1, SECONDS);
       fail();
@@ -285,7 +285,7 @@ public class CacheBuilderTest extends TestCase {
   }
 
   public void testTimeToIdle_negative() {
-    CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>();
+    CacheBuilder<Object, Object> builder = new CacheBuilder<>();
     try {
       builder.expireAfterAccess(-1, SECONDS);
       fail();
@@ -319,7 +319,7 @@ public class CacheBuilderTest extends TestCase {
 
   @GwtIncompatible // refreshAfterWrite
   public void testRefresh_zero() {
-    CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>();
+    CacheBuilder<Object, Object> builder = new CacheBuilder<>();
     try {
       builder.refreshAfterWrite(0, SECONDS);
       fail();
@@ -606,7 +606,7 @@ public class CacheBuilderTest extends TestCase {
   @GwtIncompatible // NullPointerTester
   public void testNullParameters() throws Exception {
     NullPointerTester tester = new NullPointerTester();
-    CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>();
+    CacheBuilder<Object, Object> builder = new CacheBuilder<>();
     tester.testAllPublicInstanceMethods(builder);
   }
 

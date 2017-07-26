@@ -929,7 +929,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
 
     @Override
     Object readResolve() {
-      Builder<Object, Object> builder = new Builder<Object, Object>(comparator);
+      Builder<Object, Object> builder = new Builder<>(comparator);
       return createMap(builder);
     }
 

@@ -445,7 +445,7 @@ public final class LinkedHashMultimap<K, V>
         }
       }
 
-      ValueEntry<K, V> newEntry = new ValueEntry<K, V>(key, value, smearedHash, rowHead);
+      ValueEntry<K, V> newEntry = new ValueEntry<>(key, value, smearedHash, rowHead);
       succeedsInValueSet(lastEntry, newEntry);
       succeedsInValueSet(newEntry, this);
       succeedsInMultimap(multimapHeaderEntry.getPredecessorInMultimap(), newEntry);
@@ -582,7 +582,7 @@ public final class LinkedHashMultimap<K, V>
     succeedsInMultimap(multimapHeaderEntry, multimapHeaderEntry);
     valueSetCapacity = DEFAULT_VALUE_SET_CAPACITY;
     int distinctKeys = stream.readInt();
-    Map<K, Collection<V>> map = new LinkedHashMap<K, Collection<V>>();
+    Map<K, Collection<V>> map = new LinkedHashMap<>();
     for (int i = 0; i < distinctKeys; i++) {
       @SuppressWarnings("unchecked")
       K key = (K) stream.readObject();

@@ -39,7 +39,7 @@ import junit.framework.TestSuite;
 public class SortedMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V> {
   public static <K, V> SortedMapTestSuiteBuilder<K, V> using(
       TestSortedMapGenerator<K, V> generator) {
-    SortedMapTestSuiteBuilder<K, V> result = new SortedMapTestSuiteBuilder<K, V>();
+    SortedMapTestSuiteBuilder<K, V> result = new SortedMapTestSuiteBuilder<>();
     result.usingGenerator(generator);
     return result;
   }
@@ -114,7 +114,7 @@ public class SortedMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V> {
     final TestSortedMapGenerator<K, V> delegate =
         (TestSortedMapGenerator<K, V>) parentBuilder.getSubjectGenerator().getInnerGenerator();
 
-    List<Feature<?>> features = new ArrayList<Feature<?>>();
+    List<Feature<?>> features = new ArrayList<>();
     features.add(NoRecurse.SUBMAP);
     features.addAll(parentBuilder.getFeatures());
 

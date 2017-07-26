@@ -171,7 +171,7 @@ public class AbstractIteratorTest extends TestCase {
         return new Object();
       }
     };
-    WeakReference<Object> ref = new WeakReference<Object>(itr.next());
+    WeakReference<Object> ref = new WeakReference<>(itr.next());
     GcFinalization.awaitClear(ref);
   }
 

@@ -38,10 +38,9 @@ public class SegmentBenchmark {
 
   @BeforeExperiment
   void setUp() {
-    LocalCache<Object, Object> cache = new LocalCache<Object, Object>(
-        CacheBuilder.newBuilder()
-            .concurrencyLevel(1)
-            .initialCapacity(capacity), null);
+    LocalCache<Object, Object> cache =
+        new LocalCache<>(
+            CacheBuilder.newBuilder().concurrencyLevel(1).initialCapacity(capacity), null);
     checkState(cache.segments.length == 1);
     segment = cache.segments[0];
     checkState(segment.table.length() == capacity);

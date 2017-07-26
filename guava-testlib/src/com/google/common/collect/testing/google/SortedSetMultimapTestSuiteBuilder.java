@@ -44,7 +44,7 @@ public class SortedSetMultimapTestSuiteBuilder<K, V>
 
   public static <K, V> SortedSetMultimapTestSuiteBuilder<K, V> using(
       TestSetMultimapGenerator<K, V> generator) {
-    SortedSetMultimapTestSuiteBuilder<K, V> result = new SortedSetMultimapTestSuiteBuilder<K, V>();
+    SortedSetMultimapTestSuiteBuilder<K, V> result = new SortedSetMultimapTestSuiteBuilder<>();
     result.usingGenerator(generator);
     return result;
   }

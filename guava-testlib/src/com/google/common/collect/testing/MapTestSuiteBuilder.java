@@ -211,7 +211,7 @@ public class MapTestSuiteBuilder<K, V>
   public static Set<Feature<?>> computeCommonDerivedCollectionFeatures(
       Set<Feature<?>> mapFeatures) {
     mapFeatures = new HashSet<Feature<?>>(mapFeatures);
-    Set<Feature<?>> derivedFeatures = new HashSet<Feature<?>>();
+    Set<Feature<?>> derivedFeatures = new HashSet<>();
     mapFeatures.remove(CollectionFeature.SERIALIZABLE);
     if (mapFeatures.remove(CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS)) {
       derivedFeatures.add(CollectionFeature.SERIALIZABLE);

@@ -51,20 +51,28 @@ public class SafeTreeSetTest extends TestCase {
         }).withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
             CollectionFeature.GENERAL_PURPOSE).named(
             "SafeTreeSet with natural comparator").createTestSuite());
-    suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
-      @Override protected Set<String> create(String[] elements) {
-        NavigableSet<String> set =
-            new SafeTreeSet<String>(Ordering.natural().nullsFirst());
-        Collections.addAll(set, elements);
-        return set;
-      }
+    suite.addTest(
+        SetTestSuiteBuilder.using(
+                new TestStringSetGenerator() {
+                  @Override
+                  protected Set<String> create(String[] elements) {
+                    NavigableSet<String> set = new SafeTreeSet<>(Ordering.natural().nullsFirst());
+                    Collections.addAll(set, elements);
+                    return set;
+                  }
 
-      @Override public List<String> order(List<String> insertionOrder) {
-        return Lists.newArrayList(Sets.newTreeSet(insertionOrder));
-      }
-    }).withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-        CollectionFeature.GENERAL_PURPOSE, CollectionFeature.ALLOWS_NULL_VALUES)
-        .named("SafeTreeSet with null-friendly comparator").createTestSuite());
+                  @Override
+                  public List<String> order(List<String> insertionOrder) {
+                    return Lists.newArrayList(Sets.newTreeSet(insertionOrder));
+                  }
+                })
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.KNOWN_ORDER,
+                CollectionFeature.GENERAL_PURPOSE,
+                CollectionFeature.ALLOWS_NULL_VALUES)
+            .named("SafeTreeSet with null-friendly comparator")
+            .createTestSuite());
     return suite;
   }
 
@@ -80,14 +88,14 @@ public class SafeTreeSetTest extends TestCase {
 
   @GwtIncompatible // SerializableTester
   public void testEmpty_serialization() {
-    SortedSet<String> set = new SafeTreeSet<String>();
+    SortedSet<String> set = new SafeTreeSet<>();
     SortedSet<String> copy = SerializableTester.reserializeAndAssert(set);
     assertEquals(set.comparator(), copy.comparator());
   }
 
   @GwtIncompatible // SerializableTester
   public void testSingle_serialization() {
-    SortedSet<String> set = new SafeTreeSet<String>();
+    SortedSet<String> set = new SafeTreeSet<>();
     set.add("e");
     SortedSet<String> copy = SerializableTester.reserializeAndAssert(set);
     assertEquals(set.comparator(), copy.comparator());
@@ -95,7 +103,7 @@ public class SafeTreeSetTest extends TestCase {
 
   @GwtIncompatible // SerializableTester
   public void testSeveral_serialization() {
-    SortedSet<String> set = new SafeTreeSet<String>();
+    SortedSet<String> set = new SafeTreeSet<>();
     set.add("a");
     set.add("b");
     set.add("c");
