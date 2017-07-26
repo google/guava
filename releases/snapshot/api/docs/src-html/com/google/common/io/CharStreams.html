@@ -204,7 +204,7 @@
 <span class="sourceLineNo">196</span>   * @throws IOException if an I/O error occurs<a name="line.196"></a>
 <span class="sourceLineNo">197</span>   */<a name="line.197"></a>
 <span class="sourceLineNo">198</span>  public static List&lt;String&gt; readLines(Readable r) throws IOException {<a name="line.198"></a>
-<span class="sourceLineNo">199</span>    List&lt;String&gt; result = new ArrayList&lt;String&gt;();<a name="line.199"></a>
+<span class="sourceLineNo">199</span>    List&lt;String&gt; result = new ArrayList&lt;&gt;();<a name="line.199"></a>
 <span class="sourceLineNo">200</span>    LineReader lineReader = new LineReader(r);<a name="line.200"></a>
 <span class="sourceLineNo">201</span>    String line;<a name="line.201"></a>
 <span class="sourceLineNo">202</span>    while ((line = lineReader.readLine()) != null) {<a name="line.202"></a>

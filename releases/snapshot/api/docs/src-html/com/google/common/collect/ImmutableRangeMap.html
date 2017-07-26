@@ -274,7 +274,7 @@
 <span class="sourceLineNo">266</span>      return ImmutableMap.of();<a name="line.266"></a>
 <span class="sourceLineNo">267</span>    }<a name="line.267"></a>
 <span class="sourceLineNo">268</span>    RegularImmutableSortedSet&lt;Range&lt;K&gt;&gt; rangeSet =<a name="line.268"></a>
-<span class="sourceLineNo">269</span>        new RegularImmutableSortedSet&lt;Range&lt;K&gt;&gt;(ranges, Range.&lt;K&gt;rangeLexOrdering());<a name="line.269"></a>
+<span class="sourceLineNo">269</span>        new RegularImmutableSortedSet&lt;&gt;(ranges, Range.&lt;K&gt;rangeLexOrdering());<a name="line.269"></a>
 <span class="sourceLineNo">270</span>    return new ImmutableSortedMap&lt;Range&lt;K&gt;, V&gt;(rangeSet, values);<a name="line.270"></a>
 <span class="sourceLineNo">271</span>  }<a name="line.271"></a>
 <span class="sourceLineNo">272</span><a name="line.272"></a>
@@ -284,128 +284,127 @@
 <span class="sourceLineNo">276</span>      return ImmutableMap.of();<a name="line.276"></a>
 <span class="sourceLineNo">277</span>    }<a name="line.277"></a>
 <span class="sourceLineNo">278</span>    RegularImmutableSortedSet&lt;Range&lt;K&gt;&gt; rangeSet =<a name="line.278"></a>
-<span class="sourceLineNo">279</span>        new RegularImmutableSortedSet&lt;Range&lt;K&gt;&gt;(<a name="line.279"></a>
-<span class="sourceLineNo">280</span>            ranges.reverse(), Range.&lt;K&gt;rangeLexOrdering().reverse());<a name="line.280"></a>
-<span class="sourceLineNo">281</span>    return new ImmutableSortedMap&lt;Range&lt;K&gt;, V&gt;(rangeSet, values.reverse());<a name="line.281"></a>
-<span class="sourceLineNo">282</span>  }<a name="line.282"></a>
-<span class="sourceLineNo">283</span><a name="line.283"></a>
-<span class="sourceLineNo">284</span>  @Override<a name="line.284"></a>
-<span class="sourceLineNo">285</span>  public ImmutableRangeMap&lt;K, V&gt; subRangeMap(final Range&lt;K&gt; range) {<a name="line.285"></a>
-<span class="sourceLineNo">286</span>    if (checkNotNull(range).isEmpty()) {<a name="line.286"></a>
-<span class="sourceLineNo">287</span>      return ImmutableRangeMap.of();<a name="line.287"></a>
-<span class="sourceLineNo">288</span>    } else if (ranges.isEmpty() || range.encloses(span())) {<a name="line.288"></a>
-<span class="sourceLineNo">289</span>      return this;<a name="line.289"></a>
-<span class="sourceLineNo">290</span>    }<a name="line.290"></a>
-<span class="sourceLineNo">291</span>    int lowerIndex =<a name="line.291"></a>
-<span class="sourceLineNo">292</span>        SortedLists.binarySearch(<a name="line.292"></a>
-<span class="sourceLineNo">293</span>            ranges,<a name="line.293"></a>
-<span class="sourceLineNo">294</span>            Range.&lt;K&gt;upperBoundFn(),<a name="line.294"></a>
-<span class="sourceLineNo">295</span>            range.lowerBound,<a name="line.295"></a>
-<span class="sourceLineNo">296</span>            KeyPresentBehavior.FIRST_AFTER,<a name="line.296"></a>
-<span class="sourceLineNo">297</span>            KeyAbsentBehavior.NEXT_HIGHER);<a name="line.297"></a>
-<span class="sourceLineNo">298</span>    int upperIndex =<a name="line.298"></a>
-<span class="sourceLineNo">299</span>        SortedLists.binarySearch(<a name="line.299"></a>
-<span class="sourceLineNo">300</span>            ranges,<a name="line.300"></a>
-<span class="sourceLineNo">301</span>            Range.&lt;K&gt;lowerBoundFn(),<a name="line.301"></a>
-<span class="sourceLineNo">302</span>            range.upperBound,<a name="line.302"></a>
-<span class="sourceLineNo">303</span>            KeyPresentBehavior.ANY_PRESENT,<a name="line.303"></a>
-<span class="sourceLineNo">304</span>            KeyAbsentBehavior.NEXT_HIGHER);<a name="line.304"></a>
-<span class="sourceLineNo">305</span>    if (lowerIndex &gt;= upperIndex) {<a name="line.305"></a>
-<span class="sourceLineNo">306</span>      return ImmutableRangeMap.of();<a name="line.306"></a>
-<span class="sourceLineNo">307</span>    }<a name="line.307"></a>
-<span class="sourceLineNo">308</span>    final int off = lowerIndex;<a name="line.308"></a>
-<span class="sourceLineNo">309</span>    final int len = upperIndex - lowerIndex;<a name="line.309"></a>
-<span class="sourceLineNo">310</span>    ImmutableList&lt;Range&lt;K&gt;&gt; subRanges =<a name="line.310"></a>
-<span class="sourceLineNo">311</span>        new ImmutableList&lt;Range&lt;K&gt;&gt;() {<a name="line.311"></a>
-<span class="sourceLineNo">312</span>          @Override<a name="line.312"></a>
-<span class="sourceLineNo">313</span>          public int size() {<a name="line.313"></a>
-<span class="sourceLineNo">314</span>            return len;<a name="line.314"></a>
-<span class="sourceLineNo">315</span>          }<a name="line.315"></a>
-<span class="sourceLineNo">316</span><a name="line.316"></a>
-<span class="sourceLineNo">317</span>          @Override<a name="line.317"></a>
-<span class="sourceLineNo">318</span>          public Range&lt;K&gt; get(int index) {<a name="line.318"></a>
-<span class="sourceLineNo">319</span>            checkElementIndex(index, len);<a name="line.319"></a>
-<span class="sourceLineNo">320</span>            if (index == 0 || index == len - 1) {<a name="line.320"></a>
-<span class="sourceLineNo">321</span>              return ranges.get(index + off).intersection(range);<a name="line.321"></a>
-<span class="sourceLineNo">322</span>            } else {<a name="line.322"></a>
-<span class="sourceLineNo">323</span>              return ranges.get(index + off);<a name="line.323"></a>
-<span class="sourceLineNo">324</span>            }<a name="line.324"></a>
-<span class="sourceLineNo">325</span>          }<a name="line.325"></a>
-<span class="sourceLineNo">326</span><a name="line.326"></a>
-<span class="sourceLineNo">327</span>          @Override<a name="line.327"></a>
-<span class="sourceLineNo">328</span>          boolean isPartialView() {<a name="line.328"></a>
-<span class="sourceLineNo">329</span>            return true;<a name="line.329"></a>
-<span class="sourceLineNo">330</span>          }<a name="line.330"></a>
-<span class="sourceLineNo">331</span>        };<a name="line.331"></a>
-<span class="sourceLineNo">332</span>    final ImmutableRangeMap&lt;K, V&gt; outer = this;<a name="line.332"></a>
-<span class="sourceLineNo">333</span>    return new ImmutableRangeMap&lt;K, V&gt;(subRanges, values.subList(lowerIndex, upperIndex)) {<a name="line.333"></a>
-<span class="sourceLineNo">334</span>      @Override<a name="line.334"></a>
-<span class="sourceLineNo">335</span>      public ImmutableRangeMap&lt;K, V&gt; subRangeMap(Range&lt;K&gt; subRange) {<a name="line.335"></a>
-<span class="sourceLineNo">336</span>        if (range.isConnected(subRange)) {<a name="line.336"></a>
-<span class="sourceLineNo">337</span>          return outer.subRangeMap(subRange.intersection(range));<a name="line.337"></a>
-<span class="sourceLineNo">338</span>        } else {<a name="line.338"></a>
-<span class="sourceLineNo">339</span>          return ImmutableRangeMap.of();<a name="line.339"></a>
-<span class="sourceLineNo">340</span>        }<a name="line.340"></a>
-<span class="sourceLineNo">341</span>      }<a name="line.341"></a>
-<span class="sourceLineNo">342</span>    };<a name="line.342"></a>
-<span class="sourceLineNo">343</span>  }<a name="line.343"></a>
-<span class="sourceLineNo">344</span><a name="line.344"></a>
-<span class="sourceLineNo">345</span>  @Override<a name="line.345"></a>
-<span class="sourceLineNo">346</span>  public int hashCode() {<a name="line.346"></a>
-<span class="sourceLineNo">347</span>    return asMapOfRanges().hashCode();<a name="line.347"></a>
-<span class="sourceLineNo">348</span>  }<a name="line.348"></a>
-<span class="sourceLineNo">349</span><a name="line.349"></a>
-<span class="sourceLineNo">350</span>  @Override<a name="line.350"></a>
-<span class="sourceLineNo">351</span>  public boolean equals(@Nullable Object o) {<a name="line.351"></a>
-<span class="sourceLineNo">352</span>    if (o instanceof RangeMap) {<a name="line.352"></a>
-<span class="sourceLineNo">353</span>      RangeMap&lt;?, ?&gt; rangeMap = (RangeMap&lt;?, ?&gt;) o;<a name="line.353"></a>
-<span class="sourceLineNo">354</span>      return asMapOfRanges().equals(rangeMap.asMapOfRanges());<a name="line.354"></a>
-<span class="sourceLineNo">355</span>    }<a name="line.355"></a>
-<span class="sourceLineNo">356</span>    return false;<a name="line.356"></a>
-<span class="sourceLineNo">357</span>  }<a name="line.357"></a>
-<span class="sourceLineNo">358</span><a name="line.358"></a>
-<span class="sourceLineNo">359</span>  @Override<a name="line.359"></a>
-<span class="sourceLineNo">360</span>  public String toString() {<a name="line.360"></a>
-<span class="sourceLineNo">361</span>    return asMapOfRanges().toString();<a name="line.361"></a>
-<span class="sourceLineNo">362</span>  }<a name="line.362"></a>
-<span class="sourceLineNo">363</span><a name="line.363"></a>
-<span class="sourceLineNo">364</span>  /**<a name="line.364"></a>
-<span class="sourceLineNo">365</span>   * This class is used to serialize ImmutableRangeMap instances.<a name="line.365"></a>
-<span class="sourceLineNo">366</span>   * Serializes the {@link #asMapOfRanges()} form.<a name="line.366"></a>
-<span class="sourceLineNo">367</span>   */<a name="line.367"></a>
-<span class="sourceLineNo">368</span>  private static class SerializedForm&lt;K extends Comparable&lt;?&gt;, V&gt; implements Serializable {<a name="line.368"></a>
-<span class="sourceLineNo">369</span><a name="line.369"></a>
-<span class="sourceLineNo">370</span>    private final ImmutableMap&lt;Range&lt;K&gt;, V&gt; mapOfRanges;<a name="line.370"></a>
-<span class="sourceLineNo">371</span><a name="line.371"></a>
-<span class="sourceLineNo">372</span>    SerializedForm(ImmutableMap&lt;Range&lt;K&gt;, V&gt; mapOfRanges) {<a name="line.372"></a>
-<span class="sourceLineNo">373</span>      this.mapOfRanges = mapOfRanges;<a name="line.373"></a>
-<span class="sourceLineNo">374</span>    }<a name="line.374"></a>
-<span class="sourceLineNo">375</span><a name="line.375"></a>
-<span class="sourceLineNo">376</span>    Object readResolve() {<a name="line.376"></a>
-<span class="sourceLineNo">377</span>      if (mapOfRanges.isEmpty()) {<a name="line.377"></a>
-<span class="sourceLineNo">378</span>        return of();<a name="line.378"></a>
-<span class="sourceLineNo">379</span>      } else {<a name="line.379"></a>
-<span class="sourceLineNo">380</span>        return createRangeMap();<a name="line.380"></a>
-<span class="sourceLineNo">381</span>      }<a name="line.381"></a>
-<span class="sourceLineNo">382</span>    }<a name="line.382"></a>
-<span class="sourceLineNo">383</span><a name="line.383"></a>
-<span class="sourceLineNo">384</span>    Object createRangeMap() {<a name="line.384"></a>
-<span class="sourceLineNo">385</span>      Builder&lt;K, V&gt; builder = new Builder&lt;K, V&gt;();<a name="line.385"></a>
-<span class="sourceLineNo">386</span>      for (Entry&lt;Range&lt;K&gt;, V&gt; entry : mapOfRanges.entrySet()) {<a name="line.386"></a>
-<span class="sourceLineNo">387</span>        builder.put(entry.getKey(), entry.getValue());<a name="line.387"></a>
-<span class="sourceLineNo">388</span>      }<a name="line.388"></a>
-<span class="sourceLineNo">389</span>      return builder.build();<a name="line.389"></a>
-<span class="sourceLineNo">390</span>    }<a name="line.390"></a>
-<span class="sourceLineNo">391</span><a name="line.391"></a>
-<span class="sourceLineNo">392</span>    private static final long serialVersionUID = 0;<a name="line.392"></a>
-<span class="sourceLineNo">393</span>  }<a name="line.393"></a>
-<span class="sourceLineNo">394</span><a name="line.394"></a>
-<span class="sourceLineNo">395</span>  Object writeReplace() {<a name="line.395"></a>
-<span class="sourceLineNo">396</span>    return new SerializedForm&lt;K, V&gt;(asMapOfRanges());<a name="line.396"></a>
-<span class="sourceLineNo">397</span>  }<a name="line.397"></a>
-<span class="sourceLineNo">398</span><a name="line.398"></a>
-<span class="sourceLineNo">399</span>  private static final long serialVersionUID = 0;<a name="line.399"></a>
-<span class="sourceLineNo">400</span>}<a name="line.400"></a>
+<span class="sourceLineNo">279</span>        new RegularImmutableSortedSet&lt;&gt;(ranges.reverse(), Range.&lt;K&gt;rangeLexOrdering().reverse());<a name="line.279"></a>
+<span class="sourceLineNo">280</span>    return new ImmutableSortedMap&lt;Range&lt;K&gt;, V&gt;(rangeSet, values.reverse());<a name="line.280"></a>
+<span class="sourceLineNo">281</span>  }<a name="line.281"></a>
+<span class="sourceLineNo">282</span><a name="line.282"></a>
+<span class="sourceLineNo">283</span>  @Override<a name="line.283"></a>
+<span class="sourceLineNo">284</span>  public ImmutableRangeMap&lt;K, V&gt; subRangeMap(final Range&lt;K&gt; range) {<a name="line.284"></a>
+<span class="sourceLineNo">285</span>    if (checkNotNull(range).isEmpty()) {<a name="line.285"></a>
+<span class="sourceLineNo">286</span>      return ImmutableRangeMap.of();<a name="line.286"></a>
+<span class="sourceLineNo">287</span>    } else if (ranges.isEmpty() || range.encloses(span())) {<a name="line.287"></a>
+<span class="sourceLineNo">288</span>      return this;<a name="line.288"></a>
+<span class="sourceLineNo">289</span>    }<a name="line.289"></a>
+<span class="sourceLineNo">290</span>    int lowerIndex =<a name="line.290"></a>
+<span class="sourceLineNo">291</span>        SortedLists.binarySearch(<a name="line.291"></a>
+<span class="sourceLineNo">292</span>            ranges,<a name="line.292"></a>
+<span class="sourceLineNo">293</span>            Range.&lt;K&gt;upperBoundFn(),<a name="line.293"></a>
+<span class="sourceLineNo">294</span>            range.lowerBound,<a name="line.294"></a>
+<span class="sourceLineNo">295</span>            KeyPresentBehavior.FIRST_AFTER,<a name="line.295"></a>
+<span class="sourceLineNo">296</span>            KeyAbsentBehavior.NEXT_HIGHER);<a name="line.296"></a>
+<span class="sourceLineNo">297</span>    int upperIndex =<a name="line.297"></a>
+<span class="sourceLineNo">298</span>        SortedLists.binarySearch(<a name="line.298"></a>
+<span class="sourceLineNo">299</span>            ranges,<a name="line.299"></a>
+<span class="sourceLineNo">300</span>            Range.&lt;K&gt;lowerBoundFn(),<a name="line.300"></a>
+<span class="sourceLineNo">301</span>            range.upperBound,<a name="line.301"></a>
+<span class="sourceLineNo">302</span>            KeyPresentBehavior.ANY_PRESENT,<a name="line.302"></a>
+<span class="sourceLineNo">303</span>            KeyAbsentBehavior.NEXT_HIGHER);<a name="line.303"></a>
+<span class="sourceLineNo">304</span>    if (lowerIndex &gt;= upperIndex) {<a name="line.304"></a>
+<span class="sourceLineNo">305</span>      return ImmutableRangeMap.of();<a name="line.305"></a>
+<span class="sourceLineNo">306</span>    }<a name="line.306"></a>
+<span class="sourceLineNo">307</span>    final int off = lowerIndex;<a name="line.307"></a>
+<span class="sourceLineNo">308</span>    final int len = upperIndex - lowerIndex;<a name="line.308"></a>
+<span class="sourceLineNo">309</span>    ImmutableList&lt;Range&lt;K&gt;&gt; subRanges =<a name="line.309"></a>
+<span class="sourceLineNo">310</span>        new ImmutableList&lt;Range&lt;K&gt;&gt;() {<a name="line.310"></a>
+<span class="sourceLineNo">311</span>          @Override<a name="line.311"></a>
+<span class="sourceLineNo">312</span>          public int size() {<a name="line.312"></a>
+<span class="sourceLineNo">313</span>            return len;<a name="line.313"></a>
+<span class="sourceLineNo">314</span>          }<a name="line.314"></a>
+<span class="sourceLineNo">315</span><a name="line.315"></a>
+<span class="sourceLineNo">316</span>          @Override<a name="line.316"></a>
+<span class="sourceLineNo">317</span>          public Range&lt;K&gt; get(int index) {<a name="line.317"></a>
+<span class="sourceLineNo">318</span>            checkElementIndex(index, len);<a name="line.318"></a>
+<span class="sourceLineNo">319</span>            if (index == 0 || index == len - 1) {<a name="line.319"></a>
+<span class="sourceLineNo">320</span>              return ranges.get(index + off).intersection(range);<a name="line.320"></a>
+<span class="sourceLineNo">321</span>            } else {<a name="line.321"></a>
+<span class="sourceLineNo">322</span>              return ranges.get(index + off);<a name="line.322"></a>
+<span class="sourceLineNo">323</span>            }<a name="line.323"></a>
+<span class="sourceLineNo">324</span>          }<a name="line.324"></a>
+<span class="sourceLineNo">325</span><a name="line.325"></a>
+<span class="sourceLineNo">326</span>          @Override<a name="line.326"></a>
+<span class="sourceLineNo">327</span>          boolean isPartialView() {<a name="line.327"></a>
+<span class="sourceLineNo">328</span>            return true;<a name="line.328"></a>
+<span class="sourceLineNo">329</span>          }<a name="line.329"></a>
+<span class="sourceLineNo">330</span>        };<a name="line.330"></a>
+<span class="sourceLineNo">331</span>    final ImmutableRangeMap&lt;K, V&gt; outer = this;<a name="line.331"></a>
+<span class="sourceLineNo">332</span>    return new ImmutableRangeMap&lt;K, V&gt;(subRanges, values.subList(lowerIndex, upperIndex)) {<a name="line.332"></a>
+<span class="sourceLineNo">333</span>      @Override<a name="line.333"></a>
+<span class="sourceLineNo">334</span>      public ImmutableRangeMap&lt;K, V&gt; subRangeMap(Range&lt;K&gt; subRange) {<a name="line.334"></a>
+<span class="sourceLineNo">335</span>        if (range.isConnected(subRange)) {<a name="line.335"></a>
+<span class="sourceLineNo">336</span>          return outer.subRangeMap(subRange.intersection(range));<a name="line.336"></a>
+<span class="sourceLineNo">337</span>        } else {<a name="line.337"></a>
+<span class="sourceLineNo">338</span>          return ImmutableRangeMap.of();<a name="line.338"></a>
+<span class="sourceLineNo">339</span>        }<a name="line.339"></a>
+<span class="sourceLineNo">340</span>      }<a name="line.340"></a>
+<span class="sourceLineNo">341</span>    };<a name="line.341"></a>
+<span class="sourceLineNo">342</span>  }<a name="line.342"></a>
+<span class="sourceLineNo">343</span><a name="line.343"></a>
+<span class="sourceLineNo">344</span>  @Override<a name="line.344"></a>
+<span class="sourceLineNo">345</span>  public int hashCode() {<a name="line.345"></a>
+<span class="sourceLineNo">346</span>    return asMapOfRanges().hashCode();<a name="line.346"></a>
+<span class="sourceLineNo">347</span>  }<a name="line.347"></a>
+<span class="sourceLineNo">348</span><a name="line.348"></a>
+<span class="sourceLineNo">349</span>  @Override<a name="line.349"></a>
+<span class="sourceLineNo">350</span>  public boolean equals(@Nullable Object o) {<a name="line.350"></a>
+<span class="sourceLineNo">351</span>    if (o instanceof RangeMap) {<a name="line.351"></a>
+<span class="sourceLineNo">352</span>      RangeMap&lt;?, ?&gt; rangeMap = (RangeMap&lt;?, ?&gt;) o;<a name="line.352"></a>
+<span class="sourceLineNo">353</span>      return asMapOfRanges().equals(rangeMap.asMapOfRanges());<a name="line.353"></a>
+<span class="sourceLineNo">354</span>    }<a name="line.354"></a>
+<span class="sourceLineNo">355</span>    return false;<a name="line.355"></a>
+<span class="sourceLineNo">356</span>  }<a name="line.356"></a>
+<span class="sourceLineNo">357</span><a name="line.357"></a>
+<span class="sourceLineNo">358</span>  @Override<a name="line.358"></a>
+<span class="sourceLineNo">359</span>  public String toString() {<a name="line.359"></a>
+<span class="sourceLineNo">360</span>    return asMapOfRanges().toString();<a name="line.360"></a>
+<span class="sourceLineNo">361</span>  }<a name="line.361"></a>
+<span class="sourceLineNo">362</span><a name="line.362"></a>
+<span class="sourceLineNo">363</span>  /**<a name="line.363"></a>
+<span class="sourceLineNo">364</span>   * This class is used to serialize ImmutableRangeMap instances.<a name="line.364"></a>
+<span class="sourceLineNo">365</span>   * Serializes the {@link #asMapOfRanges()} form.<a name="line.365"></a>
+<span class="sourceLineNo">366</span>   */<a name="line.366"></a>
+<span class="sourceLineNo">367</span>  private static class SerializedForm&lt;K extends Comparable&lt;?&gt;, V&gt; implements Serializable {<a name="line.367"></a>
+<span class="sourceLineNo">368</span><a name="line.368"></a>
+<span class="sourceLineNo">369</span>    private final ImmutableMap&lt;Range&lt;K&gt;, V&gt; mapOfRanges;<a name="line.369"></a>
+<span class="sourceLineNo">370</span><a name="line.370"></a>
+<span class="sourceLineNo">371</span>    SerializedForm(ImmutableMap&lt;Range&lt;K&gt;, V&gt; mapOfRanges) {<a name="line.371"></a>
+<span class="sourceLineNo">372</span>      this.mapOfRanges = mapOfRanges;<a name="line.372"></a>
+<span class="sourceLineNo">373</span>    }<a name="line.373"></a>
+<span class="sourceLineNo">374</span><a name="line.374"></a>
+<span class="sourceLineNo">375</span>    Object readResolve() {<a name="line.375"></a>
+<span class="sourceLineNo">376</span>      if (mapOfRanges.isEmpty()) {<a name="line.376"></a>
+<span class="sourceLineNo">377</span>        return of();<a name="line.377"></a>
+<span class="sourceLineNo">378</span>      } else {<a name="line.378"></a>
+<span class="sourceLineNo">379</span>        return createRangeMap();<a name="line.379"></a>
+<span class="sourceLineNo">380</span>      }<a name="line.380"></a>
+<span class="sourceLineNo">381</span>    }<a name="line.381"></a>
+<span class="sourceLineNo">382</span><a name="line.382"></a>
+<span class="sourceLineNo">383</span>    Object createRangeMap() {<a name="line.383"></a>
+<span class="sourceLineNo">384</span>      Builder&lt;K, V&gt; builder = new Builder&lt;&gt;();<a name="line.384"></a>
+<span class="sourceLineNo">385</span>      for (Entry&lt;Range&lt;K&gt;, V&gt; entry : mapOfRanges.entrySet()) {<a name="line.385"></a>
+<span class="sourceLineNo">386</span>        builder.put(entry.getKey(), entry.getValue());<a name="line.386"></a>
+<span class="sourceLineNo">387</span>      }<a name="line.387"></a>
+<span class="sourceLineNo">388</span>      return builder.build();<a name="line.388"></a>
+<span class="sourceLineNo">389</span>    }<a name="line.389"></a>
+<span class="sourceLineNo">390</span><a name="line.390"></a>
+<span class="sourceLineNo">391</span>    private static final long serialVersionUID = 0;<a name="line.391"></a>
+<span class="sourceLineNo">392</span>  }<a name="line.392"></a>
+<span class="sourceLineNo">393</span><a name="line.393"></a>
+<span class="sourceLineNo">394</span>  Object writeReplace() {<a name="line.394"></a>
+<span class="sourceLineNo">395</span>    return new SerializedForm&lt;K, V&gt;(asMapOfRanges());<a name="line.395"></a>
+<span class="sourceLineNo">396</span>  }<a name="line.396"></a>
+<span class="sourceLineNo">397</span><a name="line.397"></a>
+<span class="sourceLineNo">398</span>  private static final long serialVersionUID = 0;<a name="line.398"></a>
+<span class="sourceLineNo">399</span>}<a name="line.399"></a>
 
 
 

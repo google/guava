@@ -673,7 +673,7 @@
 <span class="sourceLineNo">665</span><a name="line.665"></a>
 <span class="sourceLineNo">666</span>    Object readResolve() {<a name="line.666"></a>
 <span class="sourceLineNo">667</span>      int n = elements.length;<a name="line.667"></a>
-<span class="sourceLineNo">668</span>      Builder&lt;E&gt; builder = new Builder&lt;E&gt;(comparator);<a name="line.668"></a>
+<span class="sourceLineNo">668</span>      Builder&lt;E&gt; builder = new Builder&lt;&gt;(comparator);<a name="line.668"></a>
 <span class="sourceLineNo">669</span>      for (int i = 0; i &lt; n; i++) {<a name="line.669"></a>
 <span class="sourceLineNo">670</span>        builder.addCopies(elements[i], counts[i]);<a name="line.670"></a>
 <span class="sourceLineNo">671</span>      }<a name="line.671"></a>

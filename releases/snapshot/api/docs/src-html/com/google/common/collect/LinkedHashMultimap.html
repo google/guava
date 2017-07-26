@@ -468,7 +468,7 @@
 <span class="sourceLineNo">460</span>        }<a name="line.460"></a>
 <span class="sourceLineNo">461</span>      }<a name="line.461"></a>
 <span class="sourceLineNo">462</span><a name="line.462"></a>
-<span class="sourceLineNo">463</span>      ValueEntry&lt;K, V&gt; newEntry = new ValueEntry&lt;K, V&gt;(key, value, smearedHash, rowHead);<a name="line.463"></a>
+<span class="sourceLineNo">463</span>      ValueEntry&lt;K, V&gt; newEntry = new ValueEntry&lt;&gt;(key, value, smearedHash, rowHead);<a name="line.463"></a>
 <span class="sourceLineNo">464</span>      succeedsInValueSet(lastEntry, newEntry);<a name="line.464"></a>
 <span class="sourceLineNo">465</span>      succeedsInValueSet(newEntry, this);<a name="line.465"></a>
 <span class="sourceLineNo">466</span>      succeedsInMultimap(multimapHeaderEntry.getPredecessorInMultimap(), newEntry);<a name="line.466"></a>
@@ -615,7 +615,7 @@
 <span class="sourceLineNo">607</span>    succeedsInMultimap(multimapHeaderEntry, multimapHeaderEntry);<a name="line.607"></a>
 <span class="sourceLineNo">608</span>    valueSetCapacity = DEFAULT_VALUE_SET_CAPACITY;<a name="line.608"></a>
 <span class="sourceLineNo">609</span>    int distinctKeys = stream.readInt();<a name="line.609"></a>
-<span class="sourceLineNo">610</span>    Map&lt;K, Collection&lt;V&gt;&gt; map = new LinkedHashMap&lt;K, Collection&lt;V&gt;&gt;();<a name="line.610"></a>
+<span class="sourceLineNo">610</span>    Map&lt;K, Collection&lt;V&gt;&gt; map = new LinkedHashMap&lt;&gt;();<a name="line.610"></a>
 <span class="sourceLineNo">611</span>    for (int i = 0; i &lt; distinctKeys; i++) {<a name="line.611"></a>
 <span class="sourceLineNo">612</span>      @SuppressWarnings("unchecked")<a name="line.612"></a>
 <span class="sourceLineNo">613</span>      K key = (K) stream.readObject();<a name="line.613"></a>

@@ -589,7 +589,7 @@
 <span class="sourceLineNo">581</span>  public static HashFunction concatenating(<a name="line.581"></a>
 <span class="sourceLineNo">582</span>      HashFunction first, HashFunction second, HashFunction... rest) {<a name="line.582"></a>
 <span class="sourceLineNo">583</span>    // We can't use Lists.asList() here because there's no hash-&gt;collect dependency<a name="line.583"></a>
-<span class="sourceLineNo">584</span>    List&lt;HashFunction&gt; list = new ArrayList&lt;HashFunction&gt;();<a name="line.584"></a>
+<span class="sourceLineNo">584</span>    List&lt;HashFunction&gt; list = new ArrayList&lt;&gt;();<a name="line.584"></a>
 <span class="sourceLineNo">585</span>    list.add(first);<a name="line.585"></a>
 <span class="sourceLineNo">586</span>    list.add(second);<a name="line.586"></a>
 <span class="sourceLineNo">587</span>    for (HashFunction hashFunc : rest) {<a name="line.587"></a>
@@ -611,7 +611,7 @@
 <span class="sourceLineNo">603</span>  public static HashFunction concatenating(Iterable&lt;HashFunction&gt; hashFunctions) {<a name="line.603"></a>
 <span class="sourceLineNo">604</span>    checkNotNull(hashFunctions);<a name="line.604"></a>
 <span class="sourceLineNo">605</span>    // We can't use Iterables.toArray() here because there's no hash-&gt;collect dependency<a name="line.605"></a>
-<span class="sourceLineNo">606</span>    List&lt;HashFunction&gt; list = new ArrayList&lt;HashFunction&gt;();<a name="line.606"></a>
+<span class="sourceLineNo">606</span>    List&lt;HashFunction&gt; list = new ArrayList&lt;&gt;();<a name="line.606"></a>
 <span class="sourceLineNo">607</span>    for (HashFunction hashFunction : hashFunctions) {<a name="line.607"></a>
 <span class="sourceLineNo">608</span>      list.add(hashFunction);<a name="line.608"></a>
 <span class="sourceLineNo">609</span>    }<a name="line.609"></a>

@@ -1034,7 +1034,7 @@
 <span class="sourceLineNo">1026</span>    if (future.isDone()) {<a name="line.1026"></a>
 <span class="sourceLineNo">1027</span>      return future;<a name="line.1027"></a>
 <span class="sourceLineNo">1028</span>    }<a name="line.1028"></a>
-<span class="sourceLineNo">1029</span>    NonCancellationPropagatingFuture&lt;V&gt; output = new NonCancellationPropagatingFuture&lt;V&gt;(future);<a name="line.1029"></a>
+<span class="sourceLineNo">1029</span>    NonCancellationPropagatingFuture&lt;V&gt; output = new NonCancellationPropagatingFuture&lt;&gt;(future);<a name="line.1029"></a>
 <span class="sourceLineNo">1030</span>    future.addListener(output, directExecutor());<a name="line.1030"></a>
 <span class="sourceLineNo">1031</span>    return output;<a name="line.1031"></a>
 <span class="sourceLineNo">1032</span>  }<a name="line.1032"></a>

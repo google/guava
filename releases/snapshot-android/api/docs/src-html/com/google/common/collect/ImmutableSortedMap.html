@@ -937,7 +937,7 @@
 <span class="sourceLineNo">929</span><a name="line.929"></a>
 <span class="sourceLineNo">930</span>    @Override<a name="line.930"></a>
 <span class="sourceLineNo">931</span>    Object readResolve() {<a name="line.931"></a>
-<span class="sourceLineNo">932</span>      Builder&lt;Object, Object&gt; builder = new Builder&lt;Object, Object&gt;(comparator);<a name="line.932"></a>
+<span class="sourceLineNo">932</span>      Builder&lt;Object, Object&gt; builder = new Builder&lt;&gt;(comparator);<a name="line.932"></a>
 <span class="sourceLineNo">933</span>      return createMap(builder);<a name="line.933"></a>
 <span class="sourceLineNo">934</span>    }<a name="line.934"></a>
 <span class="sourceLineNo">935</span><a name="line.935"></a>

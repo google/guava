@@ -352,7 +352,7 @@
 <span class="sourceLineNo">344</span><a name="line.344"></a>
 <span class="sourceLineNo">345</span>    // Pre-allocate space for our list of intermediate BigIntegers.<a name="line.345"></a>
 <span class="sourceLineNo">346</span>    int approxSize = IntMath.divide(n * IntMath.log2(n, CEILING), Long.SIZE, CEILING);<a name="line.346"></a>
-<span class="sourceLineNo">347</span>    ArrayList&lt;BigInteger&gt; bignums = new ArrayList&lt;BigInteger&gt;(approxSize);<a name="line.347"></a>
+<span class="sourceLineNo">347</span>    ArrayList&lt;BigInteger&gt; bignums = new ArrayList&lt;&gt;(approxSize);<a name="line.347"></a>
 <span class="sourceLineNo">348</span><a name="line.348"></a>
 <span class="sourceLineNo">349</span>    // Start from the pre-computed maximum long factorial.<a name="line.349"></a>
 <span class="sourceLineNo">350</span>    int startingNumber = LongMath.factorials.length;<a name="line.350"></a>

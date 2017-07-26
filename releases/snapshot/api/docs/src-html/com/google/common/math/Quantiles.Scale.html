@@ -388,7 +388,7 @@
 <span class="sourceLineNo">380</span>    public Map&lt;Integer, Double&gt; computeInPlace(double... dataset) {<a name="line.380"></a>
 <span class="sourceLineNo">381</span>      checkArgument(dataset.length &gt; 0, "Cannot calculate quantiles of an empty dataset");<a name="line.381"></a>
 <span class="sourceLineNo">382</span>      if (containsNaN(dataset)) {<a name="line.382"></a>
-<span class="sourceLineNo">383</span>        Map&lt;Integer, Double&gt; nanMap = new HashMap&lt;Integer, Double&gt;();<a name="line.383"></a>
+<span class="sourceLineNo">383</span>        Map&lt;Integer, Double&gt; nanMap = new HashMap&lt;&gt;();<a name="line.383"></a>
 <span class="sourceLineNo">384</span>        for (int index : indexes) {<a name="line.384"></a>
 <span class="sourceLineNo">385</span>          nanMap.put(index, NaN);<a name="line.385"></a>
 <span class="sourceLineNo">386</span>        }<a name="line.386"></a>
@@ -427,7 +427,7 @@
 <span class="sourceLineNo">419</span>      sort(requiredSelections, 0, requiredSelectionsCount);<a name="line.419"></a>
 <span class="sourceLineNo">420</span>      selectAllInPlace(<a name="line.420"></a>
 <span class="sourceLineNo">421</span>          requiredSelections, 0, requiredSelectionsCount - 1, dataset, 0, dataset.length - 1);<a name="line.421"></a>
-<span class="sourceLineNo">422</span>      Map&lt;Integer, Double&gt; ret = new HashMap&lt;Integer, Double&gt;();<a name="line.422"></a>
+<span class="sourceLineNo">422</span>      Map&lt;Integer, Double&gt; ret = new HashMap&lt;&gt;();<a name="line.422"></a>
 <span class="sourceLineNo">423</span>      for (int i = 0; i &lt; indexes.length; i++) {<a name="line.423"></a>
 <span class="sourceLineNo">424</span>        int quotient = quotients[i];<a name="line.424"></a>
 <span class="sourceLineNo">425</span>        int remainder = remainders[i];<a name="line.425"></a>
