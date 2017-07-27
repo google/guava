@@ -890,11 +890,8 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
   /**
    * If this future has been cancelled (and possibly interrupted), cancels (and possibly interrupts)
    * the given future (if available).
-   *
-   * <p>This method should be used only when this future is completed. It is designed to be called
-   * from {@code done}.
    */
-  final void maybePropagateCancellation(@Nullable Future<?> related) {
+  final void maybePropagateCancellationTo(@Nullable Future<?> related) {
     if (related != null & isCancelled()) {
       related.cancel(wasInterrupted());
     }

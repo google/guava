@@ -164,7 +164,7 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
 
   @Override
   protected final void afterDone() {
-    maybePropagateCancellation(inputFuture);
+    maybePropagateCancellationTo(inputFuture);
     this.inputFuture = null;
     this.exceptionType = null;
     this.fallback = null;

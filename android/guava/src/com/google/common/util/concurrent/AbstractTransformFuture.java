@@ -188,7 +188,7 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
 
   @Override
   protected final void afterDone() {
-    maybePropagateCancellation(inputFuture);
+    maybePropagateCancellationTo(inputFuture);
     this.inputFuture = null;
     this.function = null;
   }
