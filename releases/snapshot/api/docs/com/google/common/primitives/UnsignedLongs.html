@@ -305,10 +305,12 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>compare</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.75">compare</a>(long&nbsp;a,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.77">compare</a>(long&nbsp;a,
                           long&nbsp;b)</pre>
 <div class="block">Compares the two specified <code>long</code> values, treating them as unsigned values between
- <code>0</code> and <code>2^64 - 1</code> inclusive.</div>
+ <code>0</code> and <code>2^64 - 1</code> inclusive.
+
+ <p><b>Java 8 users:</b> use <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Long.html?is-external=true#compareUnsigned-long-long-" title="class or interface in java.lang"><code>Long.compareUnsigned(long, long)</code></a> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>a</code> - the first unsigned <code>long</code> to compare</dd>
@@ -325,7 +327,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>min</h4>
-<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.87">min</a>(long...&nbsp;array)</pre>
+<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.89">min</a>(long...&nbsp;array)</pre>
 <div class="block">Returns the least value present in <code>array</code>, treating values as unsigned.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -344,7 +346,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>max</h4>
-<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.107">max</a>(long...&nbsp;array)</pre>
+<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.109">max</a>(long...&nbsp;array)</pre>
 <div class="block">Returns the greatest value present in <code>array</code>, treating values as unsigned.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -363,7 +365,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>join</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.127">join</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator,
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.129">join</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator,
                           long...&nbsp;array)</pre>
 <div class="block">Returns a string containing the supplied unsigned <code>long</code> values separated by
  <code>separator</code>. For example, <code>join("-", 1, 2, 3)</code> returns the string <code>"1-2-3"</code>.</div>
@@ -381,7 +383,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>lexicographicalComparator</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;long[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.153">lexicographicalComparator</a>()</pre>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;long[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.155">lexicographicalComparator</a>()</pre>
 <div class="block">Returns a comparator that compares two arrays of unsigned <code>long</code> values <a
  href="http://en.wikipedia.org/wiki/Lexicographical_order">lexicographically</a>. That is, it
  compares, using <a href="../../../../com/google/common/primitives/UnsignedLongs.html#compare-long-long-"><code>compare(long, long)</code></a>), the first pair of values that follow any common
@@ -399,10 +401,12 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>divide</h4>
-<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.185">divide</a>(long&nbsp;dividend,
+<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.189">divide</a>(long&nbsp;dividend,
                           long&nbsp;divisor)</pre>
 <div class="block">Returns dividend / divisor, where the dividend and divisor are treated as unsigned 64-bit
- quantities.</div>
+ quantities.
+
+ <p><b>Java 8 users:</b> use <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Long.html?is-external=true#divideUnsigned-long-long-" title="class or interface in java.lang"><code>Long.divideUnsigned(long, long)</code></a> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>dividend</code> - the dividend (numerator)</dd>
@@ -418,10 +422,12 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>remainder</h4>
-<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.219">remainder</a>(long&nbsp;dividend,
+<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.225">remainder</a>(long&nbsp;dividend,
                              long&nbsp;divisor)</pre>
 <div class="block">Returns dividend % divisor, where the dividend and divisor are treated as unsigned 64-bit
- quantities.</div>
+ quantities.
+
+ <p><b>Java 8 users:</b> use <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Long.html?is-external=true#remainderUnsigned-long-long-" title="class or interface in java.lang"><code>Long.remainderUnsigned(long, long)</code></a> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>dividend</code> - the dividend (numerator)</dd>
@@ -439,8 +445,10 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>parseUnsignedLong</h4>
-<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.253">parseUnsignedLong</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string)</pre>
-<div class="block">Returns the unsigned <code>long</code> value represented by the given decimal string.</div>
+<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.261">parseUnsignedLong</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string)</pre>
+<div class="block">Returns the unsigned <code>long</code> value represented by the given decimal string.
+
+ <p><b>Java 8 users:</b> use <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Long.html?is-external=true#parseUnsignedLong-java.lang.String-" title="class or interface in java.lang"><code>Long.parseUnsignedLong(String)</code></a> instead.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/NumberFormatException.html?is-external=true" title="class or interface in java.lang">NumberFormatException</a></code> - if the string does not contain a valid unsigned <code>long</code>
@@ -456,7 +464,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>decode</h4>
-<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.274">decode</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;stringValue)</pre>
+<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.282">decode</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;stringValue)</pre>
 <div class="block">Returns the unsigned <code>long</code> value represented by the given string.
 
  Accepts a decimal, hexadecimal, or octal number given by specifying the following prefix:
@@ -482,9 +490,11 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>parseUnsignedLong</h4>
-<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.299">parseUnsignedLong</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string,
+<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.309">parseUnsignedLong</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string,
                                      int&nbsp;radix)</pre>
-<div class="block">Returns the unsigned <code>long</code> value represented by a string with the given radix.</div>
+<div class="block">Returns the unsigned <code>long</code> value represented by a string with the given radix.
+
+ <p><b>Java 8 users:</b> use <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Long.html?is-external=true#parseUnsignedLong-java.lang.String-int-" title="class or interface in java.lang"><code>Long.parseUnsignedLong(String, int)</code></a> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>string</code> - the string containing the unsigned <code>long</code> representation to be parsed.</dd>
@@ -504,8 +514,10 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.371">toString</a>(long&nbsp;x)</pre>
-<div class="block">Returns a string representation of x, where x is treated as unsigned.</div>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.383">toString</a>(long&nbsp;x)</pre>
+<div class="block">Returns a string representation of x, where x is treated as unsigned.
+
+ <p><b>Java 8 users:</b> use <code>Long#toUnsignedLong(long)</code> instead.</div>
 </li>
 </ul>
 <a name="toString-long-int-">
@@ -514,10 +526,12 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.384">toString</a>(long&nbsp;x,
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.398">toString</a>(long&nbsp;x,
                               int&nbsp;radix)</pre>
 <div class="block">Returns a string representation of <code>x</code> for the given radix, where <code>x</code> is treated as
- unsigned.</div>
+ unsigned.
+
+ <p><b>Java 8 users:</b> use <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Long.html?is-external=true#toUnsignedString-long-int-" title="class or interface in java.lang"><code>Long.toUnsignedString(long, int)</code></a> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>x</code> - the value to convert to a string.</dd>
