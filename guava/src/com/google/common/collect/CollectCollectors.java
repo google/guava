@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import java.util.Comparator;
 import java.util.function.Function;
 import java.util.stream.Collector;
@@ -102,6 +103,35 @@ final class CollectCollectors {
         ImmutableSortedSet.Builder::add,
         ImmutableSortedSet.Builder::combine,
         ImmutableSortedSet.Builder::build);
+  }
+
+  @GwtIncompatible
+  private static final Collector<Range<Comparable>, ?, ImmutableRangeSet<Comparable>>
+      TO_IMMUTABLE_RANGE_SET =
+          Collector.of(
+              ImmutableRangeSet::<Comparable>builder,
+              ImmutableRangeSet.Builder::add,
+              ImmutableRangeSet.Builder::combine,
+              ImmutableRangeSet.Builder::build);
+
+  @GwtIncompatible
+  static <E extends Comparable<? super E>>
+      Collector<Range<E>, ?, ImmutableRangeSet<E>> toImmutableRangeSet() {
+    return (Collector) TO_IMMUTABLE_RANGE_SET;
+  }
+
+  @GwtIncompatible
+  static <T, K extends Comparable<? super K>, V>
+      Collector<T, ?, ImmutableRangeMap<K, V>> toImmutableRangeMap(
+          Function<? super T, Range<K>> keyFunction,
+          Function<? super T, ? extends V> valueFunction) {
+    checkNotNull(keyFunction);
+    checkNotNull(valueFunction);
+    return Collector.of(
+        ImmutableRangeMap::<K, V>builder,
+        (builder, input) -> builder.put(keyFunction.apply(input), valueFunction.apply(input)),
+        ImmutableRangeMap.Builder::combine,
+        ImmutableRangeMap.Builder::build);
   }
 }
 
