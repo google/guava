@@ -19448,6 +19448,19 @@
     deprecated="not deprecated">
     <implements name="com.google.common.collect.RangeMap&lt;K, V&gt;"/>
     <implements name="java.io.Serializable"/>
+    <method name="toImmutableRangeMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableRangeMap&lt;K, V&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="keyFunction" type="java.util.function.Function&lt;? super T, com.google.common.collect.Range&lt;K&gt;&gt;"/>
+      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@code Collector} that accumulates the input elements into a new {@code
+ ImmutableRangeMap}. As in {@link Builder}, overlapping ranges are not permitted.
+
+ @since 23.0]]>
+      </doc>
+    </method>
     <method name="of" return="com.google.common.collect.ImmutableRangeMap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -19651,6 +19664,18 @@
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
     <implements name="java.io.Serializable"/>
+    <method name="toImmutableRangeSet" return="java.util.stream.Collector&lt;com.google.common.collect.Range&lt;E&gt;, ?, com.google.common.collect.ImmutableRangeSet&lt;E&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a {@code Collector} that accumulates the input elements into a new {@code
+ ImmutableRangeSet}. As in {@link Builder}, overlapping ranges are not permitted and adjacent
+ ranges will be merged.
+
+ @since 23.0]]>
+      </doc>
+    </method>
     <method name="of" return="com.google.common.collect.ImmutableRangeSet&lt;C&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"

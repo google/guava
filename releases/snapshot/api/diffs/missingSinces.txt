@@ -23,4 +23,6 @@ OK: com.google.common.util.concurrent.Futures Method scheduleAsync(com.google.co
 OK: com.google.common.util.concurrent.Futures Method submitAsync(com.google.common.util.concurrent.AsyncCallable<O>, java.util.concurrent.Executor)
 OK: com.google.common.hash.BloomFilter Method toBloomFilter(com.google.common.hash.Funnel<? super T>, long)
 OK: com.google.common.hash.BloomFilter Method toBloomFilter(com.google.common.hash.Funnel<? super T>, long, double)
+OK: com.google.common.collect.ImmutableRangeMap Method toImmutableRangeMap(java.util.function.Function<? super T, com.google.common.collect.Range<K>>, java.util.function.Function<? super T, ? extends V>)
+OK: com.google.common.collect.ImmutableRangeSet Method toImmutableRangeSet()
 NO DOC BLOCK: com.google.common.util.concurrent.AbstractFuture Method toString()
