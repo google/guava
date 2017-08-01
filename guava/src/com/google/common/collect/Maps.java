@@ -1382,6 +1382,62 @@ public final class Maps {
     }
   }
 
+  public interface KConverter<K>{
+    K convert(String key);
+  };
+
+  public interface VConverter<V>{
+    V convert(String value);
+  };
+
+  /**
+   * Creates an {@code ImmutableMap<K, V>} from a {@code Properties}
+   * instance. Properties normally derive from {@code Map<Object, Object>}, but
+   * they typically contain strings, which is awkward. This method lets you get
+   * a plain-old-{@code Map} out of a {@code Properties}.
+   *
+   * @param properties a {@code Properties} object to be converted
+   * @param kConverter a {@code KConverter<K>} key converter
+   * @param vConverter a {@code VConverter<V>} value converter
+   * @return an immutable map containing all the entries in {@code properties}
+   * @throws ClassCastException if any key in {@code Properties} is not a {@code
+   *         String}
+   * @throws NullPointerException if any key or value in {@code Properties} is
+   *         null
+   */
+  @GwtIncompatible // java.util.Properties
+  public static <K, V> ImmutableMap<K, V> fromProperties(
+          Properties properties, KConverter<K> kConverter, VConverter<V> vConverter) {
+    ImmutableMap.Builder<K, V> builder = ImmutableMap.builder();
+
+    for (Enumeration<?> e = properties.propertyNames(); e.hasMoreElements();) {
+      String key = (String) e.nextElement();
+      builder.put(kConverter.convert(key), vConverter.convert(properties.getProperty(key)));
+    }
+
+    return builder.build();
+  }
+
+  /**
+   * Creates an {@code ImmutableMap<String, V>} from a {@code Properties}
+   * instance. Properties normally derive from {@code Map<Object, Object>}, but
+   * they typically contain strings, which is awkward. This method lets you get
+   * a plain-old-{@code Map} out of a {@code Properties}.
+   *
+   * @param properties a {@code Properties} object to be converted
+   * @param vConverter a {@code VConverter<V>} value converter
+   * @return an immutable map containing all the entries in {@code properties}
+   * @throws ClassCastException if any key in {@code Properties} is not a {@code
+   *         String}
+   * @throws NullPointerException if any key or value in {@code Properties} is
+   *         null
+   */
+  @GwtIncompatible // java.util.Properties
+  public static <V> ImmutableMap<String, V> fromProperties(
+          Properties properties, VConverter<V> vConverter) {
+    return fromProperties(properties, (k) -> k, vConverter);
+  }
+
   /**
    * Creates an {@code ImmutableMap<String, String>} from a {@code Properties}
    * instance. Properties normally derive from {@code Map<Object, Object>}, but
@@ -1396,15 +1452,9 @@ public final class Maps {
    *         null
    */
   @GwtIncompatible // java.util.Properties
-  public static ImmutableMap<String, String> fromProperties(Properties properties) {
-    ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
-
-    for (Enumeration<?> e = properties.propertyNames(); e.hasMoreElements(); ) {
-      String key = (String) e.nextElement();
-      builder.put(key, properties.getProperty(key));
-    }
-
-    return builder.build();
+  public static ImmutableMap<String, String> fromProperties(
+          Properties properties) {
+    return fromProperties(properties, (k) -> k, (v) -> v);
   }
 
   /**
