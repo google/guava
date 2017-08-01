@@ -223,7 +223,7 @@ public class LocalCacheTest extends TestCase {
   }
 
   private static CacheBuilder<Object, Object> createCacheBuilder() {
-    return new CacheBuilder<Object, Object>();
+    return CacheBuilder.newBuilder();
   }
 
   // constructor tests

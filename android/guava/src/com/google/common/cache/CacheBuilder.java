@@ -235,8 +235,7 @@ public final class CacheBuilder<K, V> {
 
   Supplier<? extends StatsCounter> statsCounterSupplier = NULL_STATS_COUNTER;
 
-  // TODO(fry): make constructor private and update tests to use newBuilder
-  CacheBuilder() {}
+  private CacheBuilder() {}
 
   /**
    * Constructs a new {@code CacheBuilder} instance with default settings, including strong keys,

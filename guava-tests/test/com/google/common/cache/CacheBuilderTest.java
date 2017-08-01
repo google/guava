@@ -64,7 +64,7 @@ public class CacheBuilderTest extends TestCase {
   }
 
   public void testInitialCapacity_negative() {
-    CacheBuilder<Object, Object> builder = new CacheBuilder<>();
+    CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
     try {
       builder.initialCapacity(-1);
       fail();
@@ -72,7 +72,7 @@ public class CacheBuilderTest extends TestCase {
   }
 
   public void testInitialCapacity_setTwice() {
-    CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>().initialCapacity(16);
+    CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder().initialCapacity(16);
     try {
       // even to the same value is not allowed
       builder.initialCapacity(16);
@@ -116,7 +116,7 @@ public class CacheBuilderTest extends TestCase {
   }
 
   public void testConcurrencyLevel_zero() {
-    CacheBuilder<Object, Object> builder = new CacheBuilder<>();
+    CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
     try {
       builder.concurrencyLevel(0);
       fail();
@@ -124,7 +124,7 @@ public class CacheBuilderTest extends TestCase {
   }
 
   public void testConcurrencyLevel_setTwice() {
-    CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>().concurrencyLevel(16);
+    CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder().concurrencyLevel(16);
     try {
       // even to the same value is not allowed
       builder.concurrencyLevel(16);
@@ -147,7 +147,7 @@ public class CacheBuilderTest extends TestCase {
   }
 
   public void testMaximumSize_negative() {
-    CacheBuilder<Object, Object> builder = new CacheBuilder<>();
+    CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
     try {
       builder.maximumSize(-1);
       fail();
@@ -155,7 +155,7 @@ public class CacheBuilderTest extends TestCase {
   }
 
   public void testMaximumSize_setTwice() {
-    CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>().maximumSize(16);
+    CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder().maximumSize(16);
     try {
       // even to the same value is not allowed
       builder.maximumSize(16);
@@ -165,7 +165,7 @@ public class CacheBuilderTest extends TestCase {
 
   @GwtIncompatible // maximumWeight
   public void testMaximumSize_andWeight() {
-    CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>().maximumSize(16);
+    CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder().maximumSize(16);
     try {
       builder.maximumWeight(16);
       fail();
@@ -174,7 +174,7 @@ public class CacheBuilderTest extends TestCase {
 
   @GwtIncompatible // maximumWeight
   public void testMaximumWeight_negative() {
-    CacheBuilder<Object, Object> builder = new CacheBuilder<>();
+    CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
     try {
       builder.maximumWeight(-1);
       fail();
@@ -183,7 +183,7 @@ public class CacheBuilderTest extends TestCase {
 
   @GwtIncompatible // maximumWeight
   public void testMaximumWeight_setTwice() {
-    CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>().maximumWeight(16);
+    CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder().maximumWeight(16);
     try {
       // even to the same value is not allowed
       builder.maximumWeight(16);
@@ -197,7 +197,7 @@ public class CacheBuilderTest extends TestCase {
 
   @GwtIncompatible // maximumWeight
   public void testMaximumWeight_withoutWeigher() {
-    CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>()
+    CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder()
         .maximumWeight(1);
     try {
       builder.build(identityLoader());
@@ -207,7 +207,7 @@ public class CacheBuilderTest extends TestCase {
 
   @GwtIncompatible // weigher
   public void testWeigher_withoutMaximumWeight() {
-    CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>()
+    CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder()
         .weigher(constantWeigher(42));
     try {
       builder.build(identityLoader());
@@ -218,18 +218,18 @@ public class CacheBuilderTest extends TestCase {
   @GwtIncompatible // weigher
   public void testWeigher_withMaximumSize() {
     try {
-      new CacheBuilder<Object, Object>().weigher(constantWeigher(42)).maximumSize(1);
+      CacheBuilder.newBuilder().weigher(constantWeigher(42)).maximumSize(1);
       fail();
     } catch (IllegalStateException expected) {}
     try {
-      new CacheBuilder<Object, Object>().maximumSize(1).weigher(constantWeigher(42));
+      CacheBuilder.newBuilder().maximumSize(1).weigher(constantWeigher(42));
       fail();
     } catch (IllegalStateException expected) {}
   }
 
   @GwtIncompatible // weakKeys
   public void testKeyStrengthSetTwice() {
-    CacheBuilder<Object, Object> builder1 = new CacheBuilder<Object, Object>().weakKeys();
+    CacheBuilder<Object, Object> builder1 = CacheBuilder.newBuilder().weakKeys();
     try {
       builder1.weakKeys();
       fail();
@@ -238,7 +238,7 @@ public class CacheBuilderTest extends TestCase {
 
   @GwtIncompatible // weakValues
   public void testValueStrengthSetTwice() {
-    CacheBuilder<Object, Object> builder1 = new CacheBuilder<Object, Object>().weakValues();
+    CacheBuilder<Object, Object> builder1 = CacheBuilder.newBuilder().weakValues();
     try {
       builder1.weakValues();
       fail();
@@ -248,7 +248,7 @@ public class CacheBuilderTest extends TestCase {
       fail();
     } catch (IllegalStateException expected) {}
 
-    CacheBuilder<Object, Object> builder2 = new CacheBuilder<Object, Object>().softValues();
+    CacheBuilder<Object, Object> builder2 = CacheBuilder.newBuilder().softValues();
     try {
       builder2.softValues();
       fail();
@@ -260,7 +260,7 @@ public class CacheBuilderTest extends TestCase {
   }
 
   public void testTimeToLive_negative() {
-    CacheBuilder<Object, Object> builder = new CacheBuilder<>();
+    CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
     try {
       builder.expireAfterWrite(-1, SECONDS);
       fail();
@@ -276,7 +276,7 @@ public class CacheBuilderTest extends TestCase {
 
   public void testTimeToLive_setTwice() {
     CacheBuilder<Object, Object> builder =
-        new CacheBuilder<Object, Object>().expireAfterWrite(3600, SECONDS);
+            CacheBuilder.newBuilder().expireAfterWrite(3600, SECONDS);
     try {
       // even to the same value is not allowed
       builder.expireAfterWrite(3600, SECONDS);
@@ -285,7 +285,7 @@ public class CacheBuilderTest extends TestCase {
   }
 
   public void testTimeToIdle_negative() {
-    CacheBuilder<Object, Object> builder = new CacheBuilder<>();
+    CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
     try {
       builder.expireAfterAccess(-1, SECONDS);
       fail();
@@ -301,7 +301,7 @@ public class CacheBuilderTest extends TestCase {
 
   public void testTimeToIdle_setTwice() {
     CacheBuilder<Object, Object> builder =
-        new CacheBuilder<Object, Object>().expireAfterAccess(3600, SECONDS);
+            CacheBuilder.newBuilder().expireAfterAccess(3600, SECONDS);
     try {
       // even to the same value is not allowed
       builder.expireAfterAccess(3600, SECONDS);
@@ -319,7 +319,7 @@ public class CacheBuilderTest extends TestCase {
 
   @GwtIncompatible // refreshAfterWrite
   public void testRefresh_zero() {
-    CacheBuilder<Object, Object> builder = new CacheBuilder<>();
+    CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
     try {
       builder.refreshAfterWrite(0, SECONDS);
       fail();
@@ -329,7 +329,7 @@ public class CacheBuilderTest extends TestCase {
   @GwtIncompatible // refreshAfterWrite
   public void testRefresh_setTwice() {
     CacheBuilder<Object, Object> builder =
-        new CacheBuilder<Object, Object>().refreshAfterWrite(3600, SECONDS);
+            CacheBuilder.newBuilder().refreshAfterWrite(3600, SECONDS);
     try {
       // even to the same value is not allowed
       builder.refreshAfterWrite(3600, SECONDS);
@@ -340,7 +340,7 @@ public class CacheBuilderTest extends TestCase {
   public void testTicker_setTwice() {
     Ticker testTicker = Ticker.systemTicker();
     CacheBuilder<Object, Object> builder =
-        new CacheBuilder<Object, Object>().ticker(testTicker);
+            CacheBuilder.newBuilder().ticker(testTicker);
     try {
       // even to the same instance is not allowed
       builder.ticker(testTicker);
@@ -351,7 +351,7 @@ public class CacheBuilderTest extends TestCase {
   public void testRemovalListener_setTwice() {
     RemovalListener<Object, Object> testListener = nullRemovalListener();
     CacheBuilder<Object, Object> builder =
-        new CacheBuilder<Object, Object>().removalListener(testListener);
+            CacheBuilder.newBuilder().removalListener(testListener);
     try {
       // even to the same instance is not allowed
       builder = builder.removalListener(testListener);
@@ -360,13 +360,13 @@ public class CacheBuilderTest extends TestCase {
   }
 
   public void testValuesIsNotASet() {
-    assertFalse(new CacheBuilder<Object, Object>().build().asMap().values() instanceof Set);
+    assertFalse(CacheBuilder.newBuilder().build().asMap().values() instanceof Set);
   }
 
   @GwtIncompatible // CacheTesting
   public void testNullCache() {
     CountingRemovalListener<Object, Object> listener = countingRemovalListener();
-    LoadingCache<Object, Object> nullCache = new CacheBuilder<Object, Object>()
+    LoadingCache<Object, Object> nullCache = CacheBuilder.newBuilder()
         .maximumSize(0)
         .removalListener(listener)
         .build(identityLoader());
@@ -606,7 +606,7 @@ public class CacheBuilderTest extends TestCase {
   @GwtIncompatible // NullPointerTester
   public void testNullParameters() throws Exception {
     NullPointerTester tester = new NullPointerTester();
-    CacheBuilder<Object, Object> builder = new CacheBuilder<>();
+    CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
     tester.testAllPublicInstanceMethods(builder);
   }
 
