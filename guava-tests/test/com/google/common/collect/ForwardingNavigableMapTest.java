@@ -243,7 +243,7 @@ public class ForwardingNavigableMapTest extends TestCase {
                 new TestStringSortedMapGenerator() {
                   @Override
                   protected SortedMap<String, String> create(Entry<String, String>[] entries) {
-                    NavigableMap<String, String> map = new SafeTreeMap<String, String>();
+                    NavigableMap<String, String> map = new SafeTreeMap<>();
                     for (Entry<String, String> entry : entries) {
                       map.put(entry.getKey(), entry.getValue());
                     }
@@ -274,8 +274,7 @@ public class ForwardingNavigableMapTest extends TestCase {
 
   public void testStandardLastEntry() {
     NavigableMap<String, Integer> forwarding =
-        new StandardLastEntryForwardingNavigableMap<String, Integer>(
-            new SafeTreeMap<String, Integer>());
+        new StandardLastEntryForwardingNavigableMap<>(new SafeTreeMap<String, Integer>());
     assertNull(forwarding.lastEntry());
     forwarding.put("b", 2);
     assertEquals(immutableEntry("b", 2), forwarding.lastEntry());

@@ -392,7 +392,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
 
     @Override
     Object readResolve() {
-      Builder<Object, Object> builder = new Builder<Object, Object>();
+      Builder<Object, Object> builder = new Builder<>();
       return createMap(builder);
     }
 

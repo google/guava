@@ -66,8 +66,7 @@ public class SynchronizedBiMapTest extends SynchronizedMapTest {
   }
 
   @Override protected <K, V> BiMap<K, V> create() {
-    TestBiMap<K, V> inner =
-        new TestBiMap<K, V>(HashBiMap.<K, V>create(), mutex);
+    TestBiMap<K, V> inner = new TestBiMap<>(HashBiMap.<K, V>create(), mutex);
     BiMap<K, V> outer = Synchronized.biMap(inner, mutex);
     return outer;
   }
@@ -89,8 +88,7 @@ public class SynchronizedBiMapTest extends SynchronizedMapTest {
     @Override
     protected BiMap<String, String> create(Entry<String, String>[] entries) {
       Object mutex = new Object();
-      BiMap<String, String> backing =
-          new TestBiMap<String, String>(HashBiMap.<String, String>create(), mutex);
+      BiMap<String, String> backing = new TestBiMap<>(HashBiMap.<String, String>create(), mutex);
       BiMap<String, String> result = Synchronized.biMap(backing, mutex);
       for (Entry<String, String> entry : entries) {
         checkArgument(!result.containsKey(entry.getKey()));

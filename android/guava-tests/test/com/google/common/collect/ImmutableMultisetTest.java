@@ -81,49 +81,58 @@ public class ImmutableMultisetTest extends TestCase {
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 
-    suite.addTest(ListTestSuiteBuilder.using(new TestStringListGenerator() {
-          @Override protected List<String> create(String[] elements) {
-            return ImmutableMultiset.copyOf(elements).asList();
-          }
+    suite.addTest(
+        ListTestSuiteBuilder.using(
+                new TestStringListGenerator() {
+                  @Override
+                  protected List<String> create(String[] elements) {
+                    return ImmutableMultiset.copyOf(elements).asList();
+                  }
 
-          @Override
-          public List<String> order(List<String> insertionOrder) {
-            List<String> order = new ArrayList<String>();
-            for (String s : insertionOrder) {
-              int index = order.indexOf(s);
-              if (index == -1) {
-                order.add(s);
-              } else {
-                order.add(index, s);
-              }
-            }
-            return order;
-          }
-        })
-        .named("ImmutableMultiset.asList")
-        .withFeatures(CollectionSize.ANY,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .createTestSuite());
+                  @Override
+                  public List<String> order(List<String> insertionOrder) {
+                    List<String> order = new ArrayList<>();
+                    for (String s : insertionOrder) {
+                      int index = order.indexOf(s);
+                      if (index == -1) {
+                        order.add(s);
+                      } else {
+                        order.add(index, s);
+                      }
+                    }
+                    return order;
+                  }
+                })
+            .named("ImmutableMultiset.asList")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.SERIALIZABLE,
+                CollectionFeature.ALLOWS_NULL_QUERIES)
+            .createTestSuite());
 
-    suite.addTest(ListTestSuiteBuilder.using(new TestStringListGenerator() {
-          @Override protected List<String> create(String[] elements) {
-            Set<String> set = new HashSet<String>();
-            ImmutableMultiset.Builder<String> builder = ImmutableMultiset.builder();
-            for (String s : elements) {
-              checkArgument(set.add(s));
-              builder.addCopies(s, 2);
-            }
-            ImmutableSet<String> elementSet = (ImmutableSet<String>) builder.build().elementSet();
-            return elementSet.asList();
-          }
-        })
-        .named("ImmutableMultiset.elementSet.asList")
-        .withFeatures(CollectionSize.ANY,
-            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .createTestSuite());
+    suite.addTest(
+        ListTestSuiteBuilder.using(
+                new TestStringListGenerator() {
+                  @Override
+                  protected List<String> create(String[] elements) {
+                    Set<String> set = new HashSet<>();
+                    ImmutableMultiset.Builder<String> builder = ImmutableMultiset.builder();
+                    for (String s : elements) {
+                      checkArgument(set.add(s));
+                      builder.addCopies(s, 2);
+                    }
+                    ImmutableSet<String> elementSet =
+                        (ImmutableSet<String>) builder.build().elementSet();
+                    return elementSet.asList();
+                  }
+                })
+            .named("ImmutableMultiset.elementSet.asList")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
+                CollectionFeature.SERIALIZABLE,
+                CollectionFeature.ALLOWS_NULL_QUERIES)
+            .createTestSuite());
 
     return suite;
   }

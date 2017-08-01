@@ -18,13 +18,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.annotation.Nullable;
 
 /**
@@ -139,8 +137,8 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
       Iterable<Cell<R, C, V>> cells,
       @Nullable Comparator<? super R> rowComparator,
       @Nullable Comparator<? super C> columnComparator) {
-    Set<R> rowSpaceBuilder = new LinkedHashSet<R>();
-    Set<C> columnSpaceBuilder = new LinkedHashSet<C>();
+    Set<R> rowSpaceBuilder = new LinkedHashSet<>();
+    Set<C> columnSpaceBuilder = new LinkedHashSet<>();
     ImmutableList<Cell<R, C, V>> cellList = ImmutableList.copyOf(cells);
     for (Cell<R, C, V> cell : cells) {
       rowSpaceBuilder.add(cell.getRowKey());

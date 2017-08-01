@@ -79,9 +79,10 @@ public class ConcurrentHashMultisetTest extends TestCase {
 
   private static TestStringMultisetGenerator concurrentSkipListMultisetGenerator() {
     return new TestStringMultisetGenerator() {
-      @Override protected Multiset<String> create(String[] elements) {
-        Multiset<String> multiset = new ConcurrentHashMultiset<String>(
-            new ConcurrentSkipListMap<String, AtomicInteger>());
+      @Override
+      protected Multiset<String> create(String[] elements) {
+        Multiset<String> multiset =
+            new ConcurrentHashMultiset<>(new ConcurrentSkipListMap<String, AtomicInteger>());
         Collections.addAll(multiset, elements);
         return multiset;
       }

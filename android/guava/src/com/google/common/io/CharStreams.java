@@ -196,7 +196,7 @@ public final class CharStreams {
    * @throws IOException if an I/O error occurs
    */
   public static List<String> readLines(Readable r) throws IOException {
-    List<String> result = new ArrayList<String>();
+    List<String> result = new ArrayList<>();
     LineReader lineReader = new LineReader(r);
     String line;
     while ((line = lineReader.readLine()) != null) {

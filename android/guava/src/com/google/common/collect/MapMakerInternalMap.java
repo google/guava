@@ -423,7 +423,7 @@ class MapMakerInternalMap<
 
     StrongKeyStrongValueEntry<K, V> copy(StrongKeyStrongValueEntry<K, V> newNext) {
       StrongKeyStrongValueEntry<K, V> newEntry =
-          new StrongKeyStrongValueEntry<K, V>(this.key, this.hash, newNext);
+          new StrongKeyStrongValueEntry<>(this.key, this.hash, newNext);
       newEntry.value = this.value;
       return newEntry;
     }
@@ -517,8 +517,7 @@ class MapMakerInternalMap<
 
     StrongKeyWeakValueEntry<K, V> copy(
         ReferenceQueue<V> queueForValues, StrongKeyWeakValueEntry<K, V> newNext) {
-      StrongKeyWeakValueEntry<K, V> newEntry =
-          new StrongKeyWeakValueEntry<K, V>(key, hash, newNext);
+      StrongKeyWeakValueEntry<K, V> newEntry = new StrongKeyWeakValueEntry<>(key, hash, newNext);
       newEntry.valueReference = valueReference.copyFor(queueForValues, newEntry);
       return newEntry;
     }
@@ -793,7 +792,7 @@ class MapMakerInternalMap<
     WeakKeyStrongValueEntry<K, V> copy(
         ReferenceQueue<K> queueForKeys, WeakKeyStrongValueEntry<K, V> newNext) {
       WeakKeyStrongValueEntry<K, V> newEntry =
-          new WeakKeyStrongValueEntry<K, V>(queueForKeys, getKey(), this.hash, newNext);
+          new WeakKeyStrongValueEntry<>(queueForKeys, getKey(), this.hash, newNext);
       newEntry.setValue(value);
       return newEntry;
     }
@@ -879,7 +878,7 @@ class MapMakerInternalMap<
         ReferenceQueue<V> queueForValues,
         WeakKeyWeakValueEntry<K, V> newNext) {
       WeakKeyWeakValueEntry<K, V> newEntry =
-          new WeakKeyWeakValueEntry<K, V>(queueForKeys, getKey(), this.hash, newNext);
+          new WeakKeyWeakValueEntry<>(queueForKeys, getKey(), this.hash, newNext);
       newEntry.valueReference = valueReference.copyFor(queueForValues, newEntry);
       return newEntry;
     }
@@ -2858,7 +2857,7 @@ class MapMakerInternalMap<
 
   private static <E> ArrayList<E> toArrayList(Collection<E> c) {
     // Avoid calling ArrayList(Collection), which may call back into toArray.
-    ArrayList<E> result = new ArrayList<E>(c.size());
+    ArrayList<E> result = new ArrayList<>(c.size());
     Iterators.addAll(result, c.iterator());
     return result;
   }

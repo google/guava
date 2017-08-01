@@ -56,7 +56,7 @@ public class ListMultimapAsMapTester<K, V> extends AbstractListMultimapTester<K,
 
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testAsMapRemoveImplementsList() {
-    List<K> keys = new ArrayList<K>(multimap().keySet());
+    List<K> keys = new ArrayList<>(multimap().keySet());
     for (K key : keys) {
       resetCollection();
       assertTrue(multimap().asMap().remove(key) instanceof List);

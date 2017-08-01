@@ -28,14 +28,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.Nullable;
@@ -772,7 +769,7 @@ public abstract class Ordering<T> implements Comparator<T> {
     checkNonnegative(k, "k");
 
     if (k == 0 || !iterator.hasNext()) {
-      return ImmutableList.of();
+      return Collections.emptyList();
     } else if (k >= Integer.MAX_VALUE / 2) {
       // k is really large; just do a straightforward sorted-copy-and-sublist
       ArrayList<E> list = Lists.newArrayList(iterator);

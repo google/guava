@@ -29,6 +29,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
+import java.util.function.Function;
+import java.util.stream.Collector;
 import javax.annotation.Nullable;
 
 /**
@@ -45,6 +47,20 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   private static final ImmutableRangeMap<Comparable<?>, Object> EMPTY =
       new ImmutableRangeMap<Comparable<?>, Object>(
           ImmutableList.<Range<Comparable<?>>>of(), ImmutableList.of());
+
+  /**
+   * Returns a {@code Collector} that accumulates the input elements into a new {@code
+   * ImmutableRangeMap}. As in {@link Builder}, overlapping ranges are not permitted.
+   *
+   * @since 23.0
+   */
+  @Beta
+  public static <T, K extends Comparable<? super K>, V>
+      Collector<T, ?, ImmutableRangeMap<K, V>> toImmutableRangeMap(
+          Function<? super T, Range<K>> keyFunction,
+          Function<? super T, ? extends V> valueFunction) {
+    return CollectCollectors.toImmutableRangeMap(keyFunction, valueFunction);
+  }
 
   /**
    * Returns an empty immutable range map.
@@ -116,6 +132,12 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
       for (Entry<Range<K>, ? extends V> entry : rangeMap.asMapOfRanges().entrySet()) {
         put(entry.getKey(), entry.getValue());
       }
+      return this;
+    }
+
+    @CanIgnoreReturnValue
+    Builder<K, V> combine(Builder<K, V> builder) {
+      entries.addAll(builder.entries);
       return this;
     }
 
@@ -266,7 +288,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
       return ImmutableMap.of();
     }
     RegularImmutableSortedSet<Range<K>> rangeSet =
-        new RegularImmutableSortedSet<Range<K>>(ranges, Range.<K>rangeLexOrdering());
+        new RegularImmutableSortedSet<>(ranges, Range.<K>rangeLexOrdering());
     return new ImmutableSortedMap<Range<K>, V>(rangeSet, values);
   }
 
@@ -276,8 +298,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
       return ImmutableMap.of();
     }
     RegularImmutableSortedSet<Range<K>> rangeSet =
-        new RegularImmutableSortedSet<Range<K>>(
-            ranges.reverse(), Range.<K>rangeLexOrdering().reverse());
+        new RegularImmutableSortedSet<>(ranges.reverse(), Range.<K>rangeLexOrdering().reverse());
     return new ImmutableSortedMap<Range<K>, V>(rangeSet, values.reverse());
   }
 
@@ -382,7 +403,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
     }
 
     Object createRangeMap() {
-      Builder<K, V> builder = new Builder<K, V>();
+      Builder<K, V> builder = new Builder<>();
       for (Entry<Range<K>, V> entry : mapOfRanges.entrySet()) {
         builder.put(entry.getKey(), entry.getValue());
       }

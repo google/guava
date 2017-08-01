@@ -45,18 +45,22 @@ public class SimpleAbstractMultisetTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(SimpleAbstractMultisetTest.class);
-    suite.addTest(MultisetTestSuiteBuilder.using(new TestStringMultisetGenerator() {
-          @Override
-          protected Multiset<String> create(String[] elements) {
-            Multiset<String> ms = new NoRemoveMultiset<String>();
-            Collections.addAll(ms, elements);
-            return ms;
-          }
-        })
-        .named("NoRemoveMultiset")
-        .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_VALUES,
-            CollectionFeature.SUPPORTS_ADD)
-        .createTestSuite());
+    suite.addTest(
+        MultisetTestSuiteBuilder.using(
+                new TestStringMultisetGenerator() {
+                  @Override
+                  protected Multiset<String> create(String[] elements) {
+                    Multiset<String> ms = new NoRemoveMultiset<>();
+                    Collections.addAll(ms, elements);
+                    return ms;
+                  }
+                })
+            .named("NoRemoveMultiset")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.ALLOWS_NULL_VALUES,
+                CollectionFeature.SUPPORTS_ADD)
+            .createTestSuite());
     return suite;
   }
 
@@ -76,7 +80,7 @@ public class SimpleAbstractMultisetTest extends TestCase {
   }
 
   public void testRemoveUnsupported() {
-    Multiset<String> multiset = new NoRemoveMultiset<String>();
+    Multiset<String> multiset = new NoRemoveMultiset<>();
     multiset.add("a");
     try {
       multiset.remove("a");

@@ -17,6 +17,7 @@ package com.google.common.collect;
 import static com.google.common.collect.BoundType.OPEN;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.testing.CollectorTester;
 import com.google.common.testing.SerializableTester;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -253,5 +254,16 @@ public class ImmutableRangeMapTest extends TestCase {
     SerializableTester.reserializeAndAssert(test.keySet());
 
     SerializableTester.reserializeAndAssert(nonEmptyRangeMap);
+  }
+
+  public void testToImmutableRangeSet() {
+    Range<Integer> rangeOne = Range.closedOpen(1, 5);
+    Range<Integer> rangeTwo = Range.openClosed(6, 7);
+    ImmutableRangeMap<Integer, Integer> rangeMap =
+        new ImmutableRangeMap.Builder<Integer, Integer>().put(rangeOne, 1).put(rangeTwo, 6).build();
+    CollectorTester.of(
+            ImmutableRangeMap.<Range<Integer>, Integer, Integer>toImmutableRangeMap(
+                k -> k, k -> k.lowerEndpoint()))
+        .expectCollects(rangeMap, rangeOne, rangeTwo);
   }
 }

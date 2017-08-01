@@ -18,27 +18,26 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Comparator;
 
 /** An ordering that tries several comparators in order. */
 @GwtCompatible(serializable = true)
 final class CompoundOrdering<T> extends Ordering<T> implements Serializable {
-  final ImmutableList<Comparator<? super T>> comparators;
+  final Comparator<? super T>[] comparators;
 
   CompoundOrdering(Comparator<? super T> primary, Comparator<? super T> secondary) {
-    this.comparators = ImmutableList.<Comparator<? super T>>of(primary, secondary);
+    this.comparators = (Comparator<? super T>[]) new Comparator[] {primary, secondary};
   }
 
   CompoundOrdering(Iterable<? extends Comparator<? super T>> comparators) {
-    this.comparators = ImmutableList.copyOf(comparators);
+    this.comparators = Iterables.toArray(comparators, new Comparator[0]);
   }
 
   @Override
   public int compare(T left, T right) {
-    // Avoid using the Iterator to avoid generating garbage (issue 979).
-    int size = comparators.size();
-    for (int i = 0; i < size; i++) {
-      int result = comparators.get(i).compare(left, right);
+    for (int i = 0; i < comparators.length; i++) {
+      int result = comparators[i].compare(left, right);
       if (result != 0) {
         return result;
       }
@@ -53,19 +52,19 @@ final class CompoundOrdering<T> extends Ordering<T> implements Serializable {
     }
     if (object instanceof CompoundOrdering) {
       CompoundOrdering<?> that = (CompoundOrdering<?>) object;
-      return this.comparators.equals(that.comparators);
+      return Arrays.equals(this.comparators, that.comparators);
     }
     return false;
   }
 
   @Override
   public int hashCode() {
-    return comparators.hashCode();
+    return Arrays.hashCode(comparators);
   }
 
   @Override
   public String toString() {
-    return "Ordering.compound(" + comparators + ")";
+    return "Ordering.compound(" + Arrays.toString(comparators) + ")";
   }
 
   private static final long serialVersionUID = 0;

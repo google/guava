@@ -83,7 +83,7 @@ final class SubscriberRegistry {
       CopyOnWriteArraySet<Subscriber> eventSubscribers = subscribers.get(eventType);
 
       if (eventSubscribers == null) {
-        CopyOnWriteArraySet<Subscriber> newSet = new CopyOnWriteArraySet<Subscriber>();
+        CopyOnWriteArraySet<Subscriber> newSet = new CopyOnWriteArraySet<>();
         eventSubscribers =
             MoreObjects.firstNonNull(subscribers.putIfAbsent(eventType, newSet), newSet);
       }

@@ -105,8 +105,7 @@ public final class ListTestSuiteBuilder<E>
   protected List<TestSuite> createDerivedSuites(
       FeatureSpecificTestSuiteBuilder<?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>>
           parentBuilder) {
-    List<TestSuite> derivedSuites =
-        new ArrayList<TestSuite>(super.createDerivedSuites(parentBuilder));
+    List<TestSuite> derivedSuites = new ArrayList<>(super.createDerivedSuites(parentBuilder));
 
     if (parentBuilder.getFeatures().contains(SERIALIZABLE)) {
       derivedSuites.add(
@@ -149,7 +148,7 @@ public final class ListTestSuiteBuilder<E>
   }
 
   private static Set<Feature<?>> computeReserializedCollectionFeatures(Set<Feature<?>> features) {
-    Set<Feature<?>> derivedFeatures = new HashSet<Feature<?>>();
+    Set<Feature<?>> derivedFeatures = new HashSet<>();
     derivedFeatures.addAll(features);
     derivedFeatures.remove(SERIALIZABLE);
     derivedFeatures.remove(SERIALIZABLE_INCLUDING_VIEWS);

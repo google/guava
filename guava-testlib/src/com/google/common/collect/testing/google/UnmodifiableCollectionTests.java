@@ -111,10 +111,10 @@ public class UnmodifiableCollectionTests {
    * sampleElement} as a member.
    */
   public static <E> void assertCollectionIsUnmodifiable(Collection<E> collection, E sampleElement) {
-    Collection<E> siblingCollection = new ArrayList<E>();
+    Collection<E> siblingCollection = new ArrayList<>();
     siblingCollection.add(sampleElement);
 
-    Collection<E> copy = new ArrayList<E>();
+    Collection<E> copy = new ArrayList<>();
     // Avoid copy.addAll(collection), which runs afoul of an Android bug in older versions:
     // http://b.android.com/72073 http://r.android.com/98929
     Iterators.addAll(copy, collection.iterator());

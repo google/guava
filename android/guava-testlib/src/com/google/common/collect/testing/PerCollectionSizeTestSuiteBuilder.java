@@ -92,7 +92,7 @@ public abstract class PerCollectionSizeTestSuiteBuilder<
           Platform.format(
               "%s [collection size: %s]", name, collectionSize.toString().toLowerCase());
       OneSizeGenerator<T, E> oneSizeGenerator =
-          new OneSizeGenerator<T, E>(getSubjectGenerator(), (CollectionSize) collectionSize);
+          new OneSizeGenerator<>(getSubjectGenerator(), (CollectionSize) collectionSize);
       Set<Feature<?>> oneSizeFeatures = Helpers.copyToSet(features);
       oneSizeFeatures.add(collectionSize);
       Set<Method> oneSizeSuppressedTests = getSuppressedTests();

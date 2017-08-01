@@ -523,20 +523,21 @@ public class FilesTest extends IoTestCase {
 
   public void testReadLines_withLineProcessor() throws IOException {
     File temp = createTempFile();
-    LineProcessor<List<String>> collect = new LineProcessor<List<String>>() {
-      List<String> collector = new ArrayList<String>();
+    LineProcessor<List<String>> collect =
+        new LineProcessor<List<String>>() {
+          List<String> collector = new ArrayList<>();
 
-      @Override
-      public boolean processLine(String line) {
-        collector.add(line);
-        return true;
-      }
+          @Override
+          public boolean processLine(String line) {
+            collector.add(line);
+            return true;
+          }
 
-      @Override
-      public List<String> getResult() {
-        return collector;
-      }
-    };
+          @Override
+          public List<String> getResult() {
+            return collector;
+          }
+        };
     assertThat(Files.readLines(temp, Charsets.UTF_8, collect)).isEmpty();
 
     PrintWriter w = new PrintWriter(Files.newWriter(temp, Charsets.UTF_8));
@@ -551,7 +552,7 @@ public class FilesTest extends IoTestCase {
 
     LineProcessor<List<String>> collectNonEmptyLines =
         new LineProcessor<List<String>>() {
-          List<String> collector = new ArrayList<String>();
+          List<String> collector = new ArrayList<>();
 
           @Override
           public boolean processLine(String line) {

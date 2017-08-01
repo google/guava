@@ -39,8 +39,8 @@ final class TimeoutFuture<V> extends AbstractFuture.TrustedFuture<V> {
       long time,
       TimeUnit unit,
       ScheduledExecutorService scheduledExecutor) {
-    TimeoutFuture<V> result = new TimeoutFuture<V>(delegate);
-    Fire<V> fire = new Fire<V>(result);
+    TimeoutFuture<V> result = new TimeoutFuture<>(delegate);
+    Fire<V> fire = new Fire<>(result);
     result.timer = scheduledExecutor.schedule(fire, time, unit);
     delegate.addListener(fire, directExecutor());
     return result;

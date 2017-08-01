@@ -44,19 +44,19 @@ public class EnumsBenchmark {
         Class.forName(EnumsBenchmark.class.getCanonicalName() + "$" + enumSize + "Enum");
 
     Enum<?>[] allConstants = enumType.getEnumConstants();
-    List<String> hits = new ArrayList<String>();
+    List<String> hits = new ArrayList<>();
     for (int i = 0; i < hitRate * 256 / 3; ++i) {
       hits.add(allConstants[0].name());
       hits.add(allConstants[allConstants.length / 2].name());
       hits.add(allConstants[allConstants.length - 1].name());
     }
 
-    List<String> misses = new ArrayList<String>();
+    List<String> misses = new ArrayList<>();
     for (int i = 0; i < 256 - hits.size(); ++i) {
       misses.add("INVALID");
     }
 
-    List<String> sampleDataList = new ArrayList<String>();
+    List<String> sampleDataList = new ArrayList<>();
     sampleDataList.addAll(hits);
     sampleDataList.addAll(misses);
     Collections.shuffle(sampleDataList);

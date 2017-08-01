@@ -98,7 +98,7 @@ public class ImmutableSetMultimapTest extends TestCase {
   }
 
   public void testBuilder_withImmutableEntryAndNullContents() {
-    Builder<String, Integer> builder = new Builder<String, Integer>();
+    Builder<String, Integer> builder = new Builder<>();
     try {
       builder.put(Maps.immutableEntry("one", (Integer) null));
       fail();

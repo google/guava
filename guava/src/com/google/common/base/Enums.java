@@ -79,8 +79,7 @@ public final class Enums {
   @GwtIncompatible // java.lang.ref.WeakReference
   private static <T extends Enum<T>> Map<String, WeakReference<? extends Enum<?>>> populateCache(
       Class<T> enumClass) {
-    Map<String, WeakReference<? extends Enum<?>>> result =
-        new HashMap<String, WeakReference<? extends Enum<?>>>();
+    Map<String, WeakReference<? extends Enum<?>>> result = new HashMap<>();
     for (T enumInstance : EnumSet.allOf(enumClass)) {
       result.put(enumInstance.name(), new WeakReference<Enum<?>>(enumInstance));
     }

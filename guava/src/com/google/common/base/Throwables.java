@@ -291,7 +291,7 @@ public final class Throwables {
   @Beta // TODO(kevinb): decide best return type
   public static List<Throwable> getCausalChain(Throwable throwable) {
     checkNotNull(throwable);
-    List<Throwable> causes = new ArrayList<Throwable>(4);
+    List<Throwable> causes = new ArrayList<>(4);
     causes.add(throwable);
 
     // Keep a second pointer that slowly walks the causal chain. If the fast pointer ever catches

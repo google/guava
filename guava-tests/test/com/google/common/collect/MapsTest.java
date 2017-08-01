@@ -82,7 +82,7 @@ public class MapsTest extends TestCase {
   }
 
   public void testHashMapWithInitialMap() {
-    Map<String, Integer> original = new TreeMap<String, Integer>();
+    Map<String, Integer> original = new TreeMap<>();
     original.put("a", 1);
     original.put("b", 2);
     original.put("c", 3);
@@ -91,7 +91,7 @@ public class MapsTest extends TestCase {
   }
 
   public void testHashMapGeneralizesTypes() {
-    Map<String, Integer> original = new TreeMap<String, Integer>();
+    Map<String, Integer> original = new TreeMap<>();
     original.put("a", 1);
     original.put("b", 2);
     original.put("c", 3);
@@ -236,7 +236,7 @@ public class MapsTest extends TestCase {
   }
 
   public void testLinkedHashMapGeneralizesTypes() {
-    Map<String, Integer> original = new LinkedHashMap<String, Integer>();
+    Map<String, Integer> original = new LinkedHashMap<>();
     original.put("a", 1);
     original.put("b", 2);
     original.put("c", 3);

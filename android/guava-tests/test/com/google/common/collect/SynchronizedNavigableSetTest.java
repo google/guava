@@ -43,8 +43,8 @@ public class SynchronizedNavigableSetTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   protected <E> NavigableSet<E> create() {
-    TestSet<E> inner = new TestSet<E>(
-        new TreeSet<E>((Comparator<E>) Ordering.natural().nullsFirst()), MUTEX);
+    TestSet<E> inner =
+        new TestSet<>(new TreeSet<E>((Comparator<E>) Ordering.natural().nullsFirst()), MUTEX);
     NavigableSet<E> outer =
         Synchronized.navigableSet(inner, MUTEX);
     return outer;
@@ -150,23 +150,29 @@ public class SynchronizedNavigableSetTest extends TestCase {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(SynchronizedNavigableSetTest.class);
     suite.addTest(
-        NavigableSetTestSuiteBuilder.using(new TestStringSortedSetGenerator() {
+        NavigableSetTestSuiteBuilder.using(
+                new TestStringSortedSetGenerator() {
 
-          @Override protected NavigableSet<String> create(String[] elements) {
-            NavigableSet<String> innermost = new SafeTreeSet<String>();
-            Collections.addAll(innermost, elements);
-            TestSet<String> inner = new TestSet<String>(innermost, MUTEX);
-            NavigableSet<String> outer =
-                Synchronized.navigableSet(inner, MUTEX);
-            return outer;
-          }
+                  @Override
+                  protected NavigableSet<String> create(String[] elements) {
+                    NavigableSet<String> innermost = new SafeTreeSet<>();
+                    Collections.addAll(innermost, elements);
+                    TestSet<String> inner = new TestSet<>(innermost, MUTEX);
+                    NavigableSet<String> outer = Synchronized.navigableSet(inner, MUTEX);
+                    return outer;
+                  }
 
-          @Override public List<String> order(List<String> insertionOrder) {
-            return Ordering.natural().sortedCopy(insertionOrder);
-          }
-        }).named("Sets.synchronizedNavigableSet[SafeTreeSet]")
-            .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-                CollectionFeature.GENERAL_PURPOSE, CollectionFeature.SERIALIZABLE)
+                  @Override
+                  public List<String> order(List<String> insertionOrder) {
+                    return Ordering.natural().sortedCopy(insertionOrder);
+                  }
+                })
+            .named("Sets.synchronizedNavigableSet[SafeTreeSet]")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.KNOWN_ORDER,
+                CollectionFeature.GENERAL_PURPOSE,
+                CollectionFeature.SERIALIZABLE)
             .createTestSuite());
 
     return suite;

@@ -95,8 +95,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
         return 0;
       }
     };
-    final AtomicReference<Throwable> throwableFromOtherThread =
-        new AtomicReference<Throwable>(null);
+    final AtomicReference<Throwable> throwableFromOtherThread = new AtomicReference<>(null);
     final Runnable incrementTask =
         new Runnable() {
           @Override
@@ -167,8 +166,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
       throws Exception {
     final ExecutorService executor = newDirectExecutorService();
     final CyclicBarrier barrier = new CyclicBarrier(2);
-    final AtomicReference<Throwable> throwableFromOtherThread =
-        new AtomicReference<Throwable>(null);
+    final AtomicReference<Throwable> throwableFromOtherThread = new AtomicReference<>(null);
     final Runnable doNothingRunnable = new Runnable() {
         @Override public void run() {
         }};
@@ -490,7 +488,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
    */
   public void testInvokeAnyImpl_nullElement() throws Exception {
     ListeningExecutorService e = newDirectExecutorService();
-    List<Callable<Integer>> l = new ArrayList<Callable<Integer>>();
+    List<Callable<Integer>> l = new ArrayList<>();
     l.add(new Callable<Integer>() {
       @Override public Integer call() {
           throw new ArithmeticException("/ by zero");
@@ -511,7 +509,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
    */
   public void testInvokeAnyImpl_noTaskCompletes() throws Exception {
     ListeningExecutorService e = newDirectExecutorService();
-    List<Callable<String>> l = new ArrayList<Callable<String>>();
+    List<Callable<String>> l = new ArrayList<>();
     l.add(new NPETask());
     try {
       invokeAnyImpl(e, l, false, 0, TimeUnit.NANOSECONDS);
@@ -529,7 +527,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
   public void testInvokeAnyImpl() throws Exception {
     ListeningExecutorService e = newDirectExecutorService();
     try {
-      List<Callable<String>> l = new ArrayList<Callable<String>>();
+      List<Callable<String>> l = new ArrayList<>();
       l.add(new StringTask());
       l.add(new StringTask());
       String result = invokeAnyImpl(e, l, false, 0, TimeUnit.NANOSECONDS);

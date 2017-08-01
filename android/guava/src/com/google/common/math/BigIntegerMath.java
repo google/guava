@@ -344,7 +344,7 @@ public final class BigIntegerMath {
 
     // Pre-allocate space for our list of intermediate BigIntegers.
     int approxSize = IntMath.divide(n * IntMath.log2(n, CEILING), Long.SIZE, CEILING);
-    ArrayList<BigInteger> bignums = new ArrayList<BigInteger>(approxSize);
+    ArrayList<BigInteger> bignums = new ArrayList<>(approxSize);
 
     // Start from the pre-computed maximum long factorial.
     int startingNumber = LongMath.factorials.length;
