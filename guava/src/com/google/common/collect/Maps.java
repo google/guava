@@ -1382,16 +1382,6 @@ public final class Maps {
     }
   }
 
-  @FunctionalInterface
-  public interface KConverter<K>{
-    K convert(String key);
-  };
-
-  @FunctionalInterface
-  public interface VConverter<V>{
-    V convert(String value);
-  };
-
   /**
    * Creates an {@code ImmutableMap<K, V>} from a {@code Properties}
    * instance. Properties normally derive from {@code Map<Object, Object>}, but
@@ -1409,12 +1399,14 @@ public final class Maps {
    */
   @GwtIncompatible // java.util.Properties
   public static <K, V> ImmutableMap<K, V> fromProperties(
-          Properties properties, KConverter<K> kConverter, VConverter<V> vConverter) {
+          Properties properties, Function<String, K> kConverter, Function<String, V> vConverter) {
+    checkNotNull(kConverter);
+    checkNotNull(vConverter);
     ImmutableMap.Builder<K, V> builder = ImmutableMap.builder();
 
     for (Enumeration<?> e = properties.propertyNames(); e.hasMoreElements();) {
       String key = (String) e.nextElement();
-      builder.put(kConverter.convert(key), vConverter.convert(properties.getProperty(key)));
+      builder.put(kConverter.apply(key), vConverter.apply(properties.getProperty(key)));
     }
 
     return builder.build();
@@ -1436,7 +1428,7 @@ public final class Maps {
    */
   @GwtIncompatible // java.util.Properties
   public static <V> ImmutableMap<String, V> fromProperties(
-          Properties properties, VConverter<V> vConverter) {
+          Properties properties, Function<String, V> vConverter) {
     return fromProperties(properties, (k) -> k, vConverter);
   }
 
