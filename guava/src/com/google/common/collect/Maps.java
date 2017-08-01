@@ -1382,10 +1382,12 @@ public final class Maps {
     }
   }
 
+  @FunctionalInterface
   public interface KConverter<K>{
     K convert(String key);
   };
 
+  @FunctionalInterface
   public interface VConverter<V>{
     V convert(String value);
   };
