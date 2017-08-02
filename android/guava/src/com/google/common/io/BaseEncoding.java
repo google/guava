@@ -27,7 +27,6 @@ import static java.math.RoundingMode.UNNECESSARY;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
-import com.google.common.base.CharMatcher;
 import com.google.common.base.Objects;
 import java.io.IOException;
 import java.io.InputStream;
@@ -224,7 +223,7 @@ public abstract class BaseEncoding {
    *     encoding.
    */ final byte[] decodeChecked(CharSequence chars)
       throws DecodingException {
-    chars = padding().trimTrailingFrom(chars);
+    chars = trimTrailingPadding(chars);
     byte[] tmp = new byte[maxDecodedSize(chars.length())];
     int len = decodeTo(tmp, chars);
     return extract(tmp, len);
@@ -263,7 +262,9 @@ public abstract class BaseEncoding {
 
   abstract int decodeTo(byte[] target, CharSequence chars) throws DecodingException;
 
-  abstract CharMatcher padding();
+  CharSequence trimTrailingPadding(CharSequence chars) {
+    return checkNotNull(chars);
+  }
 
   // Modified encoding generators
 
@@ -412,7 +413,7 @@ public abstract class BaseEncoding {
     return BASE16;
   }
 
-  private static final class Alphabet extends CharMatcher {
+  private static final class Alphabet {
     private final String name;
     // this is meant to be immutable -- don't modify it!
     private final char[] chars;
@@ -450,7 +451,7 @@ public abstract class BaseEncoding {
       Arrays.fill(decodabet, (byte) -1);
       for (int i = 0; i < chars.length; i++) {
         char c = chars[i];
-        checkArgument(CharMatcher.ascii().matches(c), "Non-ASCII character: %s", c);
+        checkArgument(c < decodabet.length, "Non-ASCII character: %s", c);
         checkArgument(decodabet[c] == -1, "Duplicate character: %s", c);
         decodabet[c] = (byte) i;
       }
@@ -476,12 +477,18 @@ public abstract class BaseEncoding {
     }
 
     int decode(char ch) throws DecodingException {
-      if (ch > Ascii.MAX || decodabet[ch] == -1) {
-        throw new DecodingException(
-            "Unrecognized character: "
-                + (CharMatcher.invisible().matches(ch) ? "0x" + Integer.toHexString(ch) : ch));
+      if (ch > Ascii.MAX) {
+        throw new DecodingException("Unrecognized character: 0x" + Integer.toHexString(ch));
       }
-      return decodabet[ch];
+      int result = decodabet[ch];
+      if (result == -1) {
+        if (ch <= 0x20 || ch == Ascii.MAX) {
+          throw new DecodingException("Unrecognized character: 0x" + Integer.toHexString(ch));
+        } else {
+          throw new DecodingException("Unrecognized character: " + ch);
+        }
+      }
+      return result;
     }
 
     private boolean hasLowerCase() {
@@ -528,9 +535,8 @@ public abstract class BaseEncoding {
       }
     }
 
-    @Override
     public boolean matches(char c) {
-      return CharMatcher.ascii().matches(c) && decodabet[c] != -1;
+      return c < decodabet.length && decodabet[c] != -1;
     }
 
     @Override
@@ -570,11 +576,6 @@ public abstract class BaseEncoding {
           "Padding character %s was already in alphabet",
           paddingChar);
       this.paddingChar = paddingChar;
-    }
-
-    @Override
-    CharMatcher padding() {
-      return (paddingChar == null) ? CharMatcher.none() : CharMatcher.is(paddingChar.charValue());
     }
 
     @Override
@@ -667,8 +668,25 @@ public abstract class BaseEncoding {
     }
 
     @Override
+    CharSequence trimTrailingPadding(CharSequence chars) {
+      checkNotNull(chars);
+      if (paddingChar == null) {
+        return chars;
+      }
+      char padChar = paddingChar.charValue();
+      int l;
+      for (l = chars.length() - 1; l >= 0; l--) {
+        if (chars.charAt(l) != padChar) {
+          break;
+        }
+      }
+      return chars.subSequence(0, l + 1);
+    }
+
+    @Override
     public boolean canDecode(CharSequence chars) {
-      chars = padding().trimTrailingFrom(chars);
+      checkNotNull(chars);
+      chars = trimTrailingPadding(chars);
       if (!alphabet.isValidPaddingStartPosition(chars.length())) {
         return false;
       }
@@ -683,7 +701,7 @@ public abstract class BaseEncoding {
     @Override
     int decodeTo(byte[] target, CharSequence chars) throws DecodingException {
       checkNotNull(target);
-      chars = padding().trimTrailingFrom(chars);
+      chars = trimTrailingPadding(chars);
       if (!alphabet.isValidPaddingStartPosition(chars.length())) {
         throw new DecodingException("Invalid input length " + chars.length());
       }
@@ -705,8 +723,8 @@ public abstract class BaseEncoding {
       return bytesWritten;
     }
 
-    @GwtIncompatible // Reader,InputStream
     @Override
+    @GwtIncompatible // Reader,InputStream
     public InputStream decodingStream(final Reader reader) {
       checkNotNull(reader);
       return new InputStream() {
@@ -714,7 +732,6 @@ public abstract class BaseEncoding {
         int bitBufferLength = 0;
         int readChars = 0;
         boolean hitPadding = false;
-        final CharMatcher paddingMatcher = padding();
 
         @Override
         public int read() throws IOException {
@@ -728,7 +745,7 @@ public abstract class BaseEncoding {
             }
             readChars++;
             char ch = (char) readChar;
-            if (paddingMatcher.matches(ch)) {
+            if (paddingChar != null && paddingChar.charValue() == ch) {
               if (!hitPadding
                   && (readChars == 1 || !alphabet.isValidPaddingStartPosition(readChars - 1))) {
                 throw new DecodingException("Padding cannot start at index " + readChars);
@@ -774,10 +791,18 @@ public abstract class BaseEncoding {
 
     @Override
     public BaseEncoding withSeparator(String separator, int afterEveryChars) {
-      checkArgument(
-          padding().or(alphabet).matchesNoneOf(separator),
-          "Separator (%s) cannot contain alphabet or padding characters",
-          separator);
+      for (int i = 0; i < separator.length(); i++) {
+        checkArgument(
+            !alphabet.matches(separator.charAt(i)),
+            "Separator (%s) cannot contain alphabet characters",
+            separator);
+      }
+      if (paddingChar != null) {
+        checkArgument(
+            separator.indexOf(paddingChar.charValue()) < 0,
+            "Separator (%s) cannot contain padding character",
+            separator);
+      }
       return new SeparatedBaseEncoding(this, separator, afterEveryChars);
     }
 
@@ -917,7 +942,7 @@ public abstract class BaseEncoding {
     @Override
     int decodeTo(byte[] target, CharSequence chars) throws DecodingException {
       checkNotNull(target);
-      chars = padding().trimTrailingFrom(chars);
+      chars = trimTrailingPadding(chars);
       if (!alphabet.isValidPaddingStartPosition(chars.length())) {
         throw new DecodingException("Invalid input length " + chars.length());
       }
@@ -944,8 +969,8 @@ public abstract class BaseEncoding {
     }
   }
 
-  @GwtIncompatible // Reader
-  static Reader ignoringReader(final Reader delegate, final CharMatcher toIgnore) {
+  @GwtIncompatible
+  static Reader ignoringReader(final Reader delegate, final String toIgnore) {
     checkNotNull(delegate);
     checkNotNull(toIgnore);
     return new Reader() {
@@ -954,7 +979,7 @@ public abstract class BaseEncoding {
         int readChar;
         do {
           readChar = delegate.read();
-        } while (readChar != -1 && toIgnore.matches((char) readChar));
+        } while (readChar != -1 && toIgnore.indexOf((char) readChar) >= 0);
         return readChar;
       }
 
@@ -1033,7 +1058,6 @@ public abstract class BaseEncoding {
     private final BaseEncoding delegate;
     private final String separator;
     private final int afterEveryChars;
-    private final CharMatcher separatorChars;
 
     SeparatedBaseEncoding(BaseEncoding delegate, String separator, int afterEveryChars) {
       this.delegate = checkNotNull(delegate);
@@ -1041,12 +1065,11 @@ public abstract class BaseEncoding {
       this.afterEveryChars = afterEveryChars;
       checkArgument(
           afterEveryChars > 0, "Cannot add a separator after every %s chars", afterEveryChars);
-      this.separatorChars = CharMatcher.anyOf(separator).precomputed();
     }
 
     @Override
-    CharMatcher padding() {
-      return delegate.padding();
+    CharSequence trimTrailingPadding(CharSequence chars) {
+      return delegate.trimTrailingPadding(chars);
     }
 
     @Override
@@ -1074,18 +1097,32 @@ public abstract class BaseEncoding {
 
     @Override
     public boolean canDecode(CharSequence chars) {
-      return delegate.canDecode(separatorChars.removeFrom(chars));
+      StringBuilder builder = new StringBuilder();
+      for (int i = 0; i < chars.length(); i++) {
+        char c = chars.charAt(i);
+        if (separator.indexOf(c) < 0) {
+          builder.append(c);
+        }
+      }
+      return delegate.canDecode(builder);
     }
 
     @Override
     int decodeTo(byte[] target, CharSequence chars) throws DecodingException {
-      return delegate.decodeTo(target, separatorChars.removeFrom(chars));
+      StringBuilder stripped = new StringBuilder(chars.length());
+      for (int i = 0; i < chars.length(); i++) {
+        char c = chars.charAt(i);
+        if (separator.indexOf(c) < 0) {
+          stripped.append(c);
+        }
+      }
+      return delegate.decodeTo(target, stripped);
     }
 
-    @GwtIncompatible // Reader,InputStream
     @Override
+    @GwtIncompatible // Reader,InputStream
     public InputStream decodingStream(final Reader reader) {
-      return delegate.decodingStream(ignoringReader(reader, separatorChars));
+      return delegate.decodingStream(ignoringReader(reader, separator));
     }
 
     @Override
