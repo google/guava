@@ -60906,7 +60906,7 @@
       deprecated="Use {@link #submitAsync(AsyncCallable, Executor)} or {@link
      SettableFuture#setFuture} instead. If the cancellation of this method's output future races
      with completion of the outer input future, cancellation may not be propagated to the inner
-     input future. This method is scheduled to be removed in Guava 24.0.">
+     input future. This method is scheduled to be removed in Guava 25.0.">
       <param name="nested" type="com.google.common.util.concurrent.ListenableFuture&lt;? extends com.google.common.util.concurrent.ListenableFuture&lt;? extends V&gt;&gt;"/>
       <doc>
       <![CDATA[Returns a new {@code ListenableFuture} whose result is the product of calling {@code get()} on
@@ -60932,7 +60932,7 @@
  @deprecated Use {@link #submitAsync(AsyncCallable, Executor)} or {@link
      SettableFuture#setFuture} instead. If the cancellation of this method's output future races
      with completion of the outer input future, cancellation may not be propagated to the inner
-     input future. This method is scheduled to be removed in Guava 24.0.
+     input future. This method is scheduled to be removed in Guava 25.0.
  @param nested The nested future to transform.
  @return A future that holds result of the inner future.
  @since 13.0]]>
