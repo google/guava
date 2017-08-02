@@ -793,7 +793,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @deprecated Use {@link #submitAsync(AsyncCallable, Executor)} or {@link
    *     SettableFuture#setFuture} instead. If the cancellation of this method's output future races
    *     with completion of the outer input future, cancellation may not be propagated to the inner
-   *     input future. This method is scheduled to be removed in Guava 24.0.
+   *     input future. This method is scheduled to be removed in Guava 25.0.
    * @param nested The nested future to transform.
    * @return A future that holds result of the inner future.
    * @since 13.0
