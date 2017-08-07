@@ -17,13 +17,13 @@ Guava comes in two flavors.
 
 ## Latest release
 
-The most recent release is [Guava 22.0][current release], released May 22, 2017.
+The most recent release is [Guava 23.0][current release], released August 4, 2017.
 
-- 22.0 API Docs: [guava][guava-release-api-docs], [guava-testlib][testlib-release-api-docs]
-- 22.0 API Diffs from 21.0: [guava][guava-release-api-diffs]
+- 23.0 API Docs: [guava][guava-release-api-docs], [guava-testlib][testlib-release-api-docs]
+- 23.0 API Diffs from 22.0: [guava][guava-release-api-diffs]
 
 The Maven group ID is `com.google.guava`, and the artifact ID is `guava`. Use
-version `22.0` for the main flavor, or `22.0-android` for the Android flavor.
+version `23.0` for the main flavor, or `23.0-android` for the Android flavor.
 
 To add a dependency on Guava using Maven, use the following:
 
@@ -31,9 +31,9 @@ To add a dependency on Guava using Maven, use the following:
 <dependency>
   <groupId>com.google.guava</groupId>
   <artifactId>guava</artifactId>
-  <version>22.0</version>
+  <version>23.0</version>
   <!-- or, for Android: -->
-  <version>22.0-android</version>
+  <version>23.0-android</version>
 </dependency>
 ```
 
@@ -41,20 +41,16 @@ To add a dependency using Gradle:
 
 ```
 dependencies {
-  compile 'com.google.guava:guava:22.0'
+  compile 'com.google.guava:guava:23.0'
   // or, for Android:
-  compile 'com.google.guava:guava:22.0-android'
+  compile 'com.google.guava:guava:23.0-android'
 }
 ```
-## Upcoming release
-
-The next release of Guava is [23.0][upcoming release]. 23.0-rc1 is available through Maven using
-version numbers `23.0-rc1` or `23.0-rc1-android`.
 
 ## Snapshots
 
 Snapshots of Guava built from the `master` branch are available through Maven
-using version `23.0-SNAPSHOT`, or `23.0-android-SNAPSHOT` for the Android
+using version `24.0-SNAPSHOT`, or `24.0-android-SNAPSHOT` for the Android
 flavor.
 
 - Snapshot API Docs: [guava][guava-snapshot-api-docs]
@@ -99,11 +95,10 @@ correctly in other environments.
 
   For the Android flavor, our unit tests run on API level 10 (Gingerbread).
 
-[current release]: https://github.com/google/guava/wiki/Release22
-[upcoming release]: https://github.com/google/guava/wiki/Release23
-[guava-release-api-docs]: http://google.github.io/guava/releases/22.0/api/docs/
-[testlib-release-api-docs]: http://www.javadoc.io/doc/com.google.guava/guava-testlib/22.0
-[guava-release-api-diffs]: http://google.github.io/guava/releases/22.0/api/diffs/
+[current release]: https://github.com/google/guava/wiki/Release23
+[guava-release-api-docs]: http://google.github.io/guava/releases/23.0/api/docs/
+[testlib-release-api-docs]: http://www.javadoc.io/doc/com.google.guava/guava-testlib/23.0
+[guava-release-api-diffs]: http://google.github.io/guava/releases/23.0/api/diffs/
 [guava-snapshot-api-docs]: http://google.github.io/guava/releases/snapshot/api/docs/
 [guava-snapshot-api-diffs]: http://google.github.io/guava/releases/snapshot/api/diffs/
 [Guava Explained]: https://github.com/google/guava/wiki/Home
