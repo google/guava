@@ -378,7 +378,7 @@ public final class UnsignedLongs {
   /**
    * Returns a string representation of x, where x is treated as unsigned.
    *
-   * <p><b>Java 8 users:</b> use {@link Long#toUnsignedLong(long)} instead.
+   * <p><b>Java 8 users:</b> use {@link Long#toUnsignedString(long)} instead.
    */
   public static String toString(long x) {
     return toString(x, 10);
