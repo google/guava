@@ -55087,7 +55087,7 @@
       <doc>
       <![CDATA[Returns a string representation of x, where x is treated as unsigned.
 
- <p><b>Java 8 users:</b> use {@link Long#toUnsignedLong(long)} instead.]]>
+ <p><b>Java 8 users:</b> use {@link Long#toUnsignedString(long)} instead.]]>
       </doc>
     </method>
     <method name="toString" return="java.lang.String"

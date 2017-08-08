@@ -576,7 +576,7 @@
 <span class="sourceLineNo">568</span>        State internalState, boolean shutdownWhenStartupFinishes, @Nullable Throwable failure) {<a name="line.568"></a>
 <span class="sourceLineNo">569</span>      checkArgument(<a name="line.569"></a>
 <span class="sourceLineNo">570</span>          !shutdownWhenStartupFinishes || internalState == STARTING,<a name="line.570"></a>
-<span class="sourceLineNo">571</span>          "shudownWhenStartupFinishes can only be set if state is STARTING. Got %s instead.",<a name="line.571"></a>
+<span class="sourceLineNo">571</span>          "shutdownWhenStartupFinishes can only be set if state is STARTING. Got %s instead.",<a name="line.571"></a>
 <span class="sourceLineNo">572</span>          internalState);<a name="line.572"></a>
 <span class="sourceLineNo">573</span>      checkArgument(<a name="line.573"></a>
 <span class="sourceLineNo">574</span>          !(failure != null ^ internalState == FAILED),<a name="line.574"></a>
