@@ -3706,6 +3706,7 @@ public class FuturesTest extends TestCase {
     assertTrue(future3.wasInterrupted());
   }
 
+  @AndroidIncompatible // runs out of memory under some versions of the emulator
   public void testCancellingAllDelegatesIsNotQuadratic() throws Exception {
     ImmutableList.Builder<SettableFuture<Long>> builder = ImmutableList.builder();
     for (int i = 0; i < 500_000; i++) {
@@ -3723,6 +3724,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // reference is never cleared under some versions of the emulator
   @GwtIncompatible
   public void testInputGCedIfUnreferenced() throws Exception {
     SettableFuture<Long> future1 = SettableFuture.create();
