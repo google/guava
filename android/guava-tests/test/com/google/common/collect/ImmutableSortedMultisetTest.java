@@ -17,11 +17,9 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import com.google.common.base.Function;
-import com.google.common.collect.Multiset.Entry;
+import com.google.common.collect.ImmutableSortedMultiset.Builder;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.MinimalCollection;
 import com.google.common.collect.testing.TestStringListGenerator;
@@ -32,11 +30,9 @@ import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -308,6 +304,21 @@ public class ImmutableSortedMultisetTest extends TestCase {
     assertEquals(HashMultiset.create(asList("a", "b", "a", "c")), multiset);
   }
 
+  public void testReuseBuilder() {
+    Builder<String> builder = ImmutableSortedMultiset.<String>naturalOrder().add("a").add("b").add("a").add("c");
+    ImmutableSortedMultiset<String> multiset1 =
+        builder.build();
+    assertEquals(HashMultiset.create(asList("a", "b", "a", "c")), multiset1);
+    ImmutableSortedMultiset<String> multiset2 = builder.add("c").build();
+    assertEquals(HashMultiset.create(asList("a", "b", "a", "c")), multiset1);
+    assertEquals(HashMultiset.create(asList("a", "b", "a", "c", "c")), multiset2);
+    assertTrue(
+        ((RegularImmutableList<String>)
+                    ((RegularImmutableSortedMultiset<String>) multiset1).elementSet.elements)
+                .array
+            != builder.elements);
+  }
+
   public void testBuilderAddAll() {
     List<String> a = asList("a", "b");
     List<String> b = asList("c", "d");
@@ -341,6 +352,26 @@ public class ImmutableSortedMultisetTest extends TestCase {
   public void testBuilderSetCount() {
     ImmutableSortedMultiset<String> multiset =
         ImmutableSortedMultiset.<String>naturalOrder().add("a").setCount("a", 2).setCount("b", 3)
+            .build();
+    assertEquals(HashMultiset.create(asList("a", "a", "b", "b", "b")), multiset);
+  }
+
+  public void testBuilderSetCountZero() {
+    ImmutableSortedMultiset<String> multiset =
+        ImmutableSortedMultiset.<String>naturalOrder().add("a").setCount("a", 2).setCount("b", 3)
+        .setCount("a", 0)
+            .build();
+    assertEquals(HashMultiset.create(asList("b", "b", "b")), multiset);
+  }
+
+  public void testBuilderSetCountThenAdd() {
+    ImmutableSortedMultiset<String> multiset =
+        ImmutableSortedMultiset.<String>naturalOrder()
+            .add("a")
+            .setCount("a", 2)
+            .setCount("b", 3)
+            .setCount("a", 1)
+            .add("a")
             .build();
     assertEquals(HashMultiset.create(asList("a", "a", "b", "b", "b")), multiset);
   }
@@ -459,64 +490,6 @@ public class ImmutableSortedMultisetTest extends TestCase {
     SerializableTester.reserializeAndAssert(list);
     assertEquals(2, list.indexOf("b"));
     assertEquals(4, list.lastIndexOf("b"));
-  }
-
-  public void testCopyOfDefensiveCopy() {
-    // Depending on JDK version, either toArray() or toArray(T[]) may be called... use this class
-    // rather than mocking to ensure that one of those methods is called.
-    class TestArrayList<E> extends ArrayList<E> {
-      boolean toArrayCalled = false;
-
-      @Override
-      public Object[] toArray() {
-        toArrayCalled = true;
-        return super.toArray();
-      }
-
-      @Override
-      public <T> T[] toArray(T[] a) {
-        toArrayCalled = true;
-        return super.toArray(a);
-      }
-    }
-
-    // Test that toArray() is used to make a defensive copy in copyOf(), so concurrently modified
-    // synchronized collections can be safely copied.
-    TestArrayList<String> toCopy = new TestArrayList<String>();
-    ImmutableSortedMultiset<String> unused =
-        ImmutableSortedMultiset.copyOf(Ordering.natural(), toCopy);
-    assertTrue(toCopy.toArrayCalled);
-  }
-
-  @SuppressWarnings("unchecked")
-  public void testCopyOfSortedDefensiveCopy() {
-    // Depending on JDK version, either toArray() or toArray(T[]) may be called... use this class
-    // rather than mocking to ensure that one of those methods is called.
-    class TestHashSet<E> extends HashSet<E> {
-      boolean toArrayCalled = false;
-
-      @Override
-      public Object[] toArray() {
-        toArrayCalled = true;
-        return super.toArray();
-      }
-
-      @Override
-      public <T> T[] toArray(T[] a) {
-        toArrayCalled = true;
-        return super.toArray(a);
-      }
-    }
-
-    // Test that toArray() is used to make a defensive copy in copyOf(), so concurrently modified
-    // synchronized collections can be safely copied.
-    SortedMultiset<String> toCopy = mock(SortedMultiset.class);
-    TestHashSet<Entry<String>> entrySet = new TestHashSet<Entry<String>>();
-    when((Comparator<Comparable<String>>) toCopy.comparator())
-        .thenReturn(Ordering.<Comparable<String>>natural());
-    when(toCopy.entrySet()).thenReturn(entrySet);
-    ImmutableSortedMultiset<String> unused = ImmutableSortedMultiset.copyOfSorted(toCopy);
-    assertTrue(entrySet.toArrayCalled);
   }
 
   private static class IntegerDiv10 implements Comparable<IntegerDiv10> {

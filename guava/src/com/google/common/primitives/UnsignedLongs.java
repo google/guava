@@ -67,6 +67,8 @@ public final class UnsignedLongs {
    * Compares the two specified {@code long} values, treating them as unsigned values between
    * {@code 0} and {@code 2^64 - 1} inclusive.
    *
+   * <p><b>Java 8 users:</b> use {@link Long#compareUnsigned(long, long)} instead.
+   *
    * @param a the first unsigned {@code long} to compare
    * @param b the second unsigned {@code long} to compare
    * @return a negative value if {@code a} is less than {@code b}; a positive value if {@code a} is
@@ -178,6 +180,8 @@ public final class UnsignedLongs {
    * Returns dividend / divisor, where the dividend and divisor are treated as unsigned 64-bit
    * quantities.
    *
+   * <p><b>Java 8 users:</b> use {@link Long#divideUnsigned(long, long)} instead.
+   *
    * @param dividend the dividend (numerator)
    * @param divisor the divisor (denominator)
    * @throws ArithmeticException if divisor is 0
@@ -211,6 +215,8 @@ public final class UnsignedLongs {
    * Returns dividend % divisor, where the dividend and divisor are treated as unsigned 64-bit
    * quantities.
    *
+   * <p><b>Java 8 users:</b> use {@link Long#remainderUnsigned(long, long)} instead.
+   *
    * @param dividend the dividend (numerator)
    * @param divisor the divisor (denominator)
    * @throws ArithmeticException if divisor is 0
@@ -243,6 +249,8 @@ public final class UnsignedLongs {
 
   /**
    * Returns the unsigned {@code long} value represented by the given decimal string.
+   *
+   * <p><b>Java 8 users:</b> use {@link Long#parseUnsignedLong(String)} instead.
    *
    * @throws NumberFormatException if the string does not contain a valid unsigned {@code long}
    *     value
@@ -287,6 +295,8 @@ public final class UnsignedLongs {
   /**
    * Returns the unsigned {@code long} value represented by a string with the given radix.
    *
+   * <p><b>Java 8 users:</b> use {@link Long#parseUnsignedLong(String, int)} instead.
+   *
    * @param string the string containing the unsigned {@code long} representation to be parsed.
    * @param radix the radix to use while parsing {@code string}
    * @throws NumberFormatException if the string does not contain a valid unsigned {@code long} with
@@ -305,14 +315,14 @@ public final class UnsignedLongs {
       throw new NumberFormatException("illegal radix: " + radix);
     }
 
-    int maxSafePos = maxSafeDigits[radix] - 1;
+    int maxSafePos = ParseOverflowDetection.maxSafeDigits[radix] - 1;
     long value = 0;
     for (int pos = 0; pos < string.length(); pos++) {
       int digit = Character.digit(string.charAt(pos), radix);
       if (digit == -1) {
         throw new NumberFormatException(string);
       }
-      if (pos > maxSafePos && overflowInParse(value, digit, radix)) {
+      if (pos > maxSafePos && ParseOverflowDetection.overflowInParse(value, digit, radix)) {
         throw new NumberFormatException("Too large for unsigned long: " + string);
       }
       value = (value * radix) + digit;
@@ -320,31 +330,55 @@ public final class UnsignedLongs {
 
     return value;
   }
-
-  /**
-   * Returns true if (current * radix) + digit is a number too large to be represented by an
-   * unsigned long. This is useful for detecting overflow while parsing a string representation of a
-   * number. Does not verify whether supplied radix is valid, passing an invalid radix will give
-   * undefined results or an ArrayIndexOutOfBoundsException.
+  
+  /*
+   * We move the static constants into this class so ProGuard can inline UnsignedLongs entirely
+   * unless the user is actually calling a parse method.
    */
-  private static boolean overflowInParse(long current, int digit, int radix) {
-    if (current >= 0) {
-      if (current < maxValueDivs[radix]) {
-        return false;
+  private static final class ParseOverflowDetection {
+    private ParseOverflowDetection() {}
+    
+    // calculated as 0xffffffffffffffff / radix
+    static final long[] maxValueDivs = new long[Character.MAX_RADIX + 1];
+    static final int[] maxValueMods = new int[Character.MAX_RADIX + 1];
+    static final int[] maxSafeDigits = new int[Character.MAX_RADIX + 1];
+
+    static {
+      BigInteger overflow = new BigInteger("10000000000000000", 16);
+      for (int i = Character.MIN_RADIX; i <= Character.MAX_RADIX; i++) {
+        maxValueDivs[i] = divide(MAX_VALUE, i);
+        maxValueMods[i] = (int) remainder(MAX_VALUE, i);
+        maxSafeDigits[i] = overflow.toString(i).length() - 1;
       }
-      if (current > maxValueDivs[radix]) {
-        return true;
-      }
-      // current == maxValueDivs[radix]
-      return (digit > maxValueMods[radix]);
     }
 
-    // current < 0: high bit is set
-    return true;
+    /**
+     * Returns true if (current * radix) + digit is a number too large to be represented by an
+     * unsigned long. This is useful for detecting overflow while parsing a string representation of
+     * a number. Does not verify whether supplied radix is valid, passing an invalid radix will give
+     * undefined results or an ArrayIndexOutOfBoundsException.
+     */
+    static boolean overflowInParse(long current, int digit, int radix) {
+      if (current >= 0) {
+        if (current < maxValueDivs[radix]) {
+          return false;
+        }
+        if (current > maxValueDivs[radix]) {
+          return true;
+        }
+        // current == maxValueDivs[radix]
+        return (digit > maxValueMods[radix]);
+      }
+
+      // current < 0: high bit is set
+      return true;
+    }
   }
 
   /**
    * Returns a string representation of x, where x is treated as unsigned.
+   *
+   * <p><b>Java 8 users:</b> use {@link Long#toUnsignedString(long)} instead.
    */
   public static String toString(long x) {
     return toString(x, 10);
@@ -353,6 +387,8 @@ public final class UnsignedLongs {
   /**
    * Returns a string representation of {@code x} for the given radix, where {@code x} is treated as
    * unsigned.
+   *
+   * <p><b>Java 8 users:</b> use {@link Long#toUnsignedString(long, int)} instead.
    *
    * @param x the value to convert to a string.
    * @param radix the radix to use while working with {@code x}
@@ -401,20 +437,6 @@ public final class UnsignedLongs {
       }
       // Generate string
       return new String(buf, i, buf.length - i);
-    }
-  }
-
-  // calculated as 0xffffffffffffffff / radix
-  private static final long[] maxValueDivs = new long[Character.MAX_RADIX + 1];
-  private static final int[] maxValueMods = new int[Character.MAX_RADIX + 1];
-  private static final int[] maxSafeDigits = new int[Character.MAX_RADIX + 1];
-
-  static {
-    BigInteger overflow = new BigInteger("10000000000000000", 16);
-    for (int i = Character.MIN_RADIX; i <= Character.MAX_RADIX; i++) {
-      maxValueDivs[i] = divide(MAX_VALUE, i);
-      maxValueMods[i] = (int) remainder(MAX_VALUE, i);
-      maxSafeDigits[i] = overflow.toString(i).length() - 1;
     }
   }
 }

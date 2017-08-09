@@ -33,9 +33,13 @@ abstract class ForwardingGraph<N> extends AbstractGraph<N> {
     return delegate().nodes();
   }
 
+  /**
+   * Defer to {@link AbstractGraph#edges()} (based on {@link #successors(Object)}) for full edges()
+   * implementation.
+   */
   @Override
-  public Set<EndpointPair<N>> edges() {
-    return delegate().edges();
+  protected long edgeCount() {
+    return delegate().edges().size();
   }
 
   @Override
@@ -81,5 +85,10 @@ abstract class ForwardingGraph<N> extends AbstractGraph<N> {
   @Override
   public int outDegree(N node) {
     return delegate().outDegree(node);
+  }
+
+  @Override
+  public boolean hasEdgeConnecting(N nodeU, N nodeV) {
+    return delegate().hasEdgeConnecting(nodeU, nodeV);
   }
 }

@@ -65,6 +65,10 @@ public class DoubleUtilsTest extends TestCase {
     }
   }
 
+  public void testOneBits() {
+    assertEquals(DoubleUtils.ONE_BITS, Double.doubleToRawLongBits(1.0));
+  }
+
   private static void failFormat(String template, Object... args) {
     fail(String.format(template, args));
   }

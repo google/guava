@@ -553,8 +553,8 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
           }
           return new ImmutableSortedMap<K, V>(
               new RegularImmutableSortedSet<K>(
-                  ImmutableList.asImmutableList(sortedKeys), comparator),
-              ImmutableList.asImmutableList(sortedValues));
+                  ImmutableList.<K>asImmutableList(sortedKeys), comparator),
+              ImmutableList.<V>asImmutableList(sortedValues));
       }
     }
   }
@@ -929,7 +929,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
 
     @Override
     Object readResolve() {
-      Builder<Object, Object> builder = new Builder<Object, Object>(comparator);
+      Builder<Object, Object> builder = new Builder<>(comparator);
       return createMap(builder);
     }
 

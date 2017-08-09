@@ -17,7 +17,6 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
-import java.util.Set;
 
 /**
  * A functional interface for <a
@@ -54,10 +53,11 @@ import java.util.Set;
  * }</pre>
  *
  * <p>If you have some other mechanism for returning the predecessors of a node, or one that doesn't
- * return a {@code Set<N>}, then you can use a lambda to perform a more general transformation:
+ * return a {@code Iterable<? extends N>}, then you can use a lambda to perform a more general
+ * transformation:
  *
  * <pre>{@code
- *   someGraphAlgorithm(startNode, node -> ImmutableSet.copyOf(node.getParents());
+ *   someGraphAlgorithm(startNode, node -> ImmutableList.of(node.mother(), node.father()));
  * }</pre>
  *
  * <p>Graph algorithms that need additional capabilities (accessing both predecessors and
@@ -75,7 +75,7 @@ import java.util.Set;
  * @author Joshua O'Madadhain
  * @author Jens Nyman
  * @param <N> Node parameter type
- * @since 22.0
+ * @since 23.0
  */
 // TODO(b/35456940): Update the documentation to reflect the new interfaces
 @Beta
@@ -85,7 +85,11 @@ public interface PredecessorsFunction<N> {
    * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
    * {@code node}'s incoming edges <i>against</i> the direction (if any) of the edge.
    *
+   * <p>Some algorithms that operate on a {@code PredecessorsFunction} may produce undesired results
+   * if the returned {@link Iterable} contains duplicate elements. Implementations of such
+   * algorithms should document their behavior in the presence of duplicates.
+   *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  Set<N> predecessors(N node);
+  Iterable<? extends N> predecessors(N node);
 }

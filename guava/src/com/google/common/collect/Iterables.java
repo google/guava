@@ -26,6 +26,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Comparator;
@@ -128,8 +129,10 @@ public final class Iterables {
   }
 
   /**
-   * Returns {@code true} if {@code iterable} contains any object for which {@code equals(element)}
-   * is true.
+   * Returns {@code true} if {@code iterable} contains any element {@code o} for which {@code
+   * Objects.equals(o, element)} would return {@code true}. Otherwise returns {@code false}, even in
+   * cases where {@link Collection#contains} might throw {@link NullPointerException} or {@link
+   * ClassCastException}.
    */
   public static boolean contains(Iterable<?> iterable, @Nullable Object element) {
     if (iterable instanceof Collection) {
@@ -481,7 +484,7 @@ public final class Iterables {
    */
   @SafeVarargs
   public static <T> Iterable<T> concat(Iterable<? extends T>... inputs) {
-    return concat(ImmutableList.copyOf(inputs));
+    return FluentIterable.concat(inputs);
   }
 
   /**
@@ -607,35 +610,12 @@ public final class Iterables {
    *     (ImmutableList) stream.filter(NewType.class::isInstance).collect(toImmutableList());}
    * </pre>
    */
+  @SuppressWarnings("unchecked")
   @GwtIncompatible // Class.isInstance
   public static <T> Iterable<T> filter(final Iterable<?> unfiltered, final Class<T> desiredType) {
     checkNotNull(unfiltered);
     checkNotNull(desiredType);
-    return new FluentIterable<T>() {
-      @Override
-      public Iterator<T> iterator() {
-        return Iterators.filter(unfiltered.iterator(), desiredType);
-      }
-
-      @SuppressWarnings("unchecked")
-      @Override
-      public void forEach(Consumer<? super T> action) {
-        checkNotNull(action);
-        unfiltered.forEach(
-            (Object o) -> {
-              if (desiredType.isInstance(o)) {
-                action.accept(desiredType.cast(o));
-              }
-            });
-      }
-
-      @SuppressWarnings("unchecked")
-      @Override
-      public Spliterator<T> spliterator() {
-        return (Spliterator<T>)
-            CollectSpliterators.filter(unfiltered.spliterator(), desiredType::isInstance);
-      }
-    };
+    return (Iterable<T>) filter(unfiltered, Predicates.instanceOf(desiredType));
   }
 
   /**
@@ -906,21 +886,14 @@ public final class Iterables {
     checkNotNull(iterable);
     checkArgument(numberToSkip >= 0, "number to skip cannot be negative");
 
-    if (iterable instanceof List) {
-      final List<T> list = (List<T>) iterable;
-      return new FluentIterable<T>() {
-        @Override
-        public Iterator<T> iterator() {
-          // TODO(kevinb): Support a concurrently modified collection?
-          int toSkip = Math.min(list.size(), numberToSkip);
-          return list.subList(toSkip, list.size()).iterator();
-        }
-      };
-    }
-
     return new FluentIterable<T>() {
       @Override
       public Iterator<T> iterator() {
+        if (iterable instanceof List) {
+          final List<T> list = (List<T>) iterable;
+          int toSkip = Math.min(list.size(), numberToSkip);
+          return list.subList(toSkip, list.size()).iterator();
+        }
         final Iterator<T> iterator = iterable.iterator();
 
         Iterators.advance(iterator, numberToSkip);
@@ -955,7 +928,13 @@ public final class Iterables {
 
       @Override
       public Spliterator<T> spliterator() {
-        return Streams.stream(iterable).skip(numberToSkip).spliterator();
+        if (iterable instanceof List) {
+          final List<T> list = (List<T>) iterable;
+          int toSkip = Math.min(list.size(), numberToSkip);
+          return list.subList(toSkip, list.size()).spliterator();
+        } else {
+          return Streams.stream(iterable).skip(numberToSkip).spliterator();
+        }
       }
     };
   }
@@ -1010,26 +989,14 @@ public final class Iterables {
    * @since 2.0
    */
   public static <T> Iterable<T> consumingIterable(final Iterable<T> iterable) {
-    if (iterable instanceof Queue) {
-      return new FluentIterable<T>() {
-        @Override
-        public Iterator<T> iterator() {
-          return new ConsumingQueueIterator<>((Queue<T>) iterable);
-        }
-
-        @Override
-        public String toString() {
-          return "Iterables.consumingIterable(...)";
-        }
-      };
-    }
-
     checkNotNull(iterable);
 
     return new FluentIterable<T>() {
       @Override
       public Iterator<T> iterator() {
-        return Iterators.consumingIterator(iterable.iterator());
+        return (iterable instanceof Queue)
+            ? new ConsumingQueueIterator<>((Queue<T>) iterable)
+            : Iterators.consumingIterator(iterable.iterator());
       }
 
       @Override

@@ -29,6 +29,9 @@ import javax.annotation.Nullable;
 /**
  * This class provides a skeletal implementation of {@link BaseGraph}.
  *
+ * <p>The methods implemented in this class should not be overridden unless the subclass admits a
+ * more efficient implementation.
+ *
  * @author James Sexton
  * @param <N> Node parameter type
  */
@@ -105,7 +108,7 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
   }
 
   @Override
-  public boolean hasEdge(N nodeU, N nodeV) {
+  public boolean hasEdgeConnecting(N nodeU, N nodeV) {
     checkNotNull(nodeU);
     checkNotNull(nodeV);
     return nodes().contains(nodeU) && successors(nodeU).contains(nodeV);

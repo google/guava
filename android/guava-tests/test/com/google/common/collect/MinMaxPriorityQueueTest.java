@@ -206,8 +206,8 @@ public class MinMaxPriorityQueueTest extends TestCase {
 
   public void testHeapIntact() {
     Random random = new Random(0);
-    int heapSize = 999;
-    int numberOfModifications = 500;
+    int heapSize = 99;
+    int numberOfModifications = 100;
     MinMaxPriorityQueue<Integer> mmHeap =
         MinMaxPriorityQueue.expectedSize(heapSize).create();
     /*
@@ -604,7 +604,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
     MinMaxPriorityQueue<Integer> q = MinMaxPriorityQueue
         .create(ImmutableList.of(3, 5, 1, 4, 7));
     List<Integer> expected = ImmutableList.of(1, 3, 4, 5, 7);
-    List<Integer> actual = new ArrayList<Integer>(5);
+    List<Integer> actual = new ArrayList<>(5);
     for (int i = 0; i < expected.size(); i++) {
       actual.add(q.pollFirst());
     }
@@ -690,7 +690,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
   public void testCorrectOrdering_randomAccess() {
     long seed = new Random().nextLong();
     Random random = new Random(seed);
-    PriorityQueue<Integer> control = new PriorityQueue<Integer>();
+    PriorityQueue<Integer> control = new PriorityQueue<>();
     MinMaxPriorityQueue<Integer> q = MinMaxPriorityQueue.create();
     for (int i = 0; i < 73; i++) { // 73 is a childless uncle case.
       Integer element = random.nextInt();
@@ -714,7 +714,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
   }
 
   public void testExhaustive_pollAndPush() {
-    int size = 8;
+    int size = 5;
     List<Integer> expected = createOrderedList(size);
     for (Collection<Integer> perm : Collections2.permutations(expected)) {
       MinMaxPriorityQueue<Integer> q = MinMaxPriorityQueue.create(perm);
@@ -873,7 +873,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
   }
 
   private ArrayList<Integer> createOrderedList(int size) {
-    ArrayList<Integer> elements = new ArrayList<Integer>(size);
+    ArrayList<Integer> elements = new ArrayList<>(size);
     for (int i = 0; i < size; i++) {
       elements.add(i);
     }

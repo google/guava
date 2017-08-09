@@ -113,8 +113,10 @@ public class IntMathTest extends TestCase {
   @GwtIncompatible // BigIntegerMath // TODO(cpovirk): GWT-enable BigIntegerMath
   public void testConstantMaxPowerOfSqrt2Unsigned() {
     assertEquals(
-        BigIntegerMath.sqrt(BigInteger.ZERO.setBit(2 * Integer.SIZE - 1), FLOOR).intValue(),
-        IntMath.MAX_POWER_OF_SQRT2_UNSIGNED);
+
+        /*expected=*/ BigIntegerMath.sqrt(BigInteger.ZERO.setBit(2 * Integer.SIZE - 1), FLOOR)
+            .intValue(),
+        /*actual=*/ IntMath.MAX_POWER_OF_SQRT2_UNSIGNED);
   }
 
   @GwtIncompatible // pow()
@@ -142,7 +144,6 @@ public class IntMathTest extends TestCase {
     }
   }
 
-  @GwtIncompatible // BigIntegerMath // TODO(cpovirk): GWT-enable BigIntegerMath
   public void testConstantsBiggestBinomials() {
     for (int k = 0; k < IntMath.biggestBinomials.length; k++) {
       assertTrue(fitsInInt(BigIntegerMath.binomial(IntMath.biggestBinomials[k], k)));
@@ -158,7 +159,9 @@ public class IntMathTest extends TestCase {
 
   @GwtIncompatible // sqrt
   public void testPowersSqrtMaxInt() {
-    assertEquals(IntMath.sqrt(Integer.MAX_VALUE, FLOOR), IntMath.FLOOR_SQRT_MAX_INT);
+    assertEquals(
+        /*expected=*/ IntMath.sqrt(Integer.MAX_VALUE, FLOOR),
+        /*actual=*/ IntMath.FLOOR_SQRT_MAX_INT);
   }
 
   @AndroidIncompatible // presumably slow
@@ -619,7 +622,6 @@ public class IntMathTest extends TestCase {
   }
 
   // Depends on the correctness of BigIntegerMath.binomial.
-  @GwtIncompatible // BigIntegerMath // TODO(cpovirk): GWT-enable BigIntegerMath
   public void testBinomial() {
     for (int n = 0; n <= 50; n++) {
       for (int k = 0; k <= n; k++) {
@@ -630,7 +632,6 @@ public class IntMathTest extends TestCase {
     }
   }
 
-  @GwtIncompatible // binomial
   public void testBinomialOutside() {
     for (int n = 0; n <= 50; n++) {
       try {
@@ -644,7 +645,6 @@ public class IntMathTest extends TestCase {
     }
   }
 
-  @GwtIncompatible // binomial
   public void testBinomialNegative() {
     for (int n : NEGATIVE_INTEGER_CANDIDATES) {
       try {

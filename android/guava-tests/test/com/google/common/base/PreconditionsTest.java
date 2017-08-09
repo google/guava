@@ -456,7 +456,7 @@ public class PreconditionsTest extends TestCase {
     allOverloads.add(ImmutableList.<Class<?>>of(predicateType));
     allOverloads.add(ImmutableList.<Class<?>>of(predicateType, Object.class));
 
-    List<List<Class<?>>> typesLists = new ArrayList<List<Class<?>>>();
+    List<List<Class<?>>> typesLists = new ArrayList<>();
     for (int i = 0; i < 2; i++) {
       typesLists.add(possibleParamTypes);
       for (List<Class<?>> curr : Lists.cartesianProduct(typesLists)) {

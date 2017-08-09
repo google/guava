@@ -53,10 +53,10 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       ImmutableCollection.SPLITERATOR_CHARACTERISTICS | Spliterator.DISTINCT;
 
   /**
-   * Returns a {@code Collector} that accumulates the input elements into a new
-   * {@code ImmutableSet}.  Elements are added in encounter order; if the
-   * elements contain duplicates (according to {@link Object#equals(Object)}),
-   * only the first duplicate in encounter order will appear in the result.
+   * Returns a {@code Collector} that accumulates the input elements into a new {@code
+   * ImmutableSet}. Elements appear in the resulting set in the encounter order of the stream; if
+   * the stream contains duplicates (according to {@link Object#equals(Object)}), only the first
+   * duplicate in encounter order will appear in the result.
    *
    * @since 21.0
    */
@@ -453,6 +453,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    *           .addAll(WEBSAFE_COLORS)
    *           .add(new Color(0, 191, 255))
    *           .build();}</pre>
+   *
+   * <p>Elements appear in the resulting set in the same order they were first added to the builder.
    *
    * <p>Building does not change the state of the builder, so it is still possible to add more
    * elements and to build again.

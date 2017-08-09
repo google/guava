@@ -150,6 +150,14 @@ public class UnsignedLongsTest extends TestCase {
     assertEquals(0x6cf78a4b139a4e2aL, UnsignedLongs.parseUnsignedLong("7851896530399809066"));
   }
 
+  public void testParseLongEmptyString() {
+    try {
+      UnsignedLongs.parseUnsignedLong("");
+      fail("NumberFormatException should have been raised.");
+    } catch (NumberFormatException expected) {
+    }
+  }
+
   public void testParseLongFails() {
     try {
       // One more than maximum value
@@ -250,11 +258,12 @@ public class UnsignedLongsTest extends TestCase {
 
   public void testToString() {
     String[] tests = {
-        "ffffffffffffffff",
-        "7fffffffffffffff",
-        "ff1a618b7f65ea12",
-        "5a4316b8c153ac4d",
-        "6cf78a4b139a4e2a"
+      "0",
+      "ffffffffffffffff",
+      "7fffffffffffffff",
+      "ff1a618b7f65ea12",
+      "5a4316b8c153ac4d",
+      "6cf78a4b139a4e2a"
     };
     int[] bases = { 2, 5, 7, 8, 10, 16 };
     for (int base : bases) {

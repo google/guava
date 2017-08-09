@@ -126,7 +126,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
      * @throws IllegalArgumentException if any two ranges inserted into this builder overlap
      */
     public ImmutableRangeMap<K, V> build() {
-      Collections.sort(entries, Range.RANGE_LEX_ORDERING.onKeys());
+      Collections.sort(entries, Range.<K>rangeLexOrdering().onKeys());
       ImmutableList.Builder<Range<K>> rangesBuilder =
           new ImmutableList.Builder<Range<K>>(entries.size());
       ImmutableList.Builder<V> valuesBuilder = new ImmutableList.Builder<V>(entries.size());
@@ -266,7 +266,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
       return ImmutableMap.of();
     }
     RegularImmutableSortedSet<Range<K>> rangeSet =
-        new RegularImmutableSortedSet<Range<K>>(ranges, Range.RANGE_LEX_ORDERING);
+        new RegularImmutableSortedSet<>(ranges, Range.<K>rangeLexOrdering());
     return new ImmutableSortedMap<Range<K>, V>(rangeSet, values);
   }
 
@@ -276,8 +276,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
       return ImmutableMap.of();
     }
     RegularImmutableSortedSet<Range<K>> rangeSet =
-        new RegularImmutableSortedSet<Range<K>>(
-            ranges.reverse(), Range.RANGE_LEX_ORDERING.reverse());
+        new RegularImmutableSortedSet<>(ranges.reverse(), Range.<K>rangeLexOrdering().reverse());
     return new ImmutableSortedMap<Range<K>, V>(rangeSet, values.reverse());
   }
 
@@ -382,7 +381,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
     }
 
     Object createRangeMap() {
-      Builder<K, V> builder = new Builder<K, V>();
+      Builder<K, V> builder = new Builder<>();
       for (Entry<Range<K>, V> entry : mapOfRanges.entrySet()) {
         builder.put(entry.getKey(), entry.getValue());
       }

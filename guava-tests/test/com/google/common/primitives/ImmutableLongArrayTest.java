@@ -101,7 +101,7 @@ public class ImmutableLongArrayTest extends TestCase {
   }
 
   public void testCopyOf_iterable_notCollection_empty() {
-    Iterable<Long> iterable = iterable(Collections.emptySet());
+    Iterable<Long> iterable = iterable(Collections.<Long>emptySet());
     assertThat(ImmutableLongArray.copyOf(iterable)).isSameAs(ImmutableLongArray.of());
   }
 
@@ -277,9 +277,9 @@ public class ImmutableLongArrayTest extends TestCase {
 
   public void testGet_good() {
     ImmutableLongArray iia = ImmutableLongArray.of(0, 1, 3);
-    assertThat(iia.get(0)).isEqualTo(0);
-    assertThat(iia.get(2)).isEqualTo(3);
-    assertThat(iia.subArray(1, 3).get(1)).isEqualTo(3);
+    assertThat(iia.get(0)).isEqualTo(0L);
+    assertThat(iia.get(2)).isEqualTo(3L);
+    assertThat(iia.subArray(1, 3).get(1)).isEqualTo(3L);
   }
 
   public void testGet_bad() {
@@ -468,9 +468,11 @@ public class ImmutableLongArrayTest extends TestCase {
                   CollectionSize.SEVERAL,
                   CollectionFeature.ALLOWS_NULL_QUERIES,
                   CollectionFeature.RESTRICTS_ELEMENTS,
-                  CollectionFeature.KNOWN_ORDER /*, SERIALIZABLE_INCLUDING_VIEWS*/)
+                  CollectionFeature.KNOWN_ORDER,
+                  CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS)
               .createTestSuite());
     }
+    suite.addTestSuite(ImmutableLongArrayTest.class);
     return suite;
   }
 
@@ -567,7 +569,7 @@ public class ImmutableLongArrayTest extends TestCase {
   @GwtIncompatible // used only from suite
   public static class SampleLongs extends SampleElements<Long> {
     public SampleLongs() {
-      super(1L, 3L, 6L, 10L, 15L);
+      super(1L << 31, 1L << 33, 1L << 36, 1L << 40, 1L << 45);
     }
   }
 }

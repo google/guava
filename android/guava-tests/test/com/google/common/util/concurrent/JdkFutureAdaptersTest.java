@@ -217,8 +217,7 @@ public class JdkFutureAdaptersTest extends TestCase {
 
   public void testListenInPoolThreadRunsListenerAfterRuntimeException()
       throws Exception {
-    RuntimeExceptionThrowingFuture<String> input =
-        new RuntimeExceptionThrowingFuture<String>();
+    RuntimeExceptionThrowingFuture<String> input = new RuntimeExceptionThrowingFuture<>();
     /*
      * The compiler recognizes that "input instanceof ListenableFuture" is
      * impossible. We want the test, though, in case that changes in the future,

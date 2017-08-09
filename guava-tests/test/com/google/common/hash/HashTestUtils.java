@@ -17,12 +17,15 @@
 package com.google.common.hash;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
 import com.google.common.testing.EqualsTester;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Random;
@@ -166,7 +169,24 @@ final class HashTestUtils {
         int off = random.nextInt(value.length + 1);
         int len = random.nextInt(value.length - off + 1);
         for (PrimitiveSink sink : sinks) {
-          sink.putBytes(value);
+          sink.putBytes(value, off, len);
+        }
+      }
+    },
+    PUT_BYTE_BUFFER() {
+      @Override
+      void performAction(Random random, Iterable<? extends PrimitiveSink> sinks) {
+        byte[] value = new byte[random.nextInt(128)];
+        random.nextBytes(value);
+        int pos = random.nextInt(value.length + 1);
+        int limit = pos + random.nextInt(value.length - pos + 1);
+        for (PrimitiveSink sink : sinks) {
+          ByteBuffer buffer = ByteBuffer.wrap(value);
+          buffer.position(pos);
+          buffer.limit(limit);
+          sink.putBytes(buffer);
+          assertEquals(limit, buffer.limit());
+          assertEquals(limit, buffer.position());
         }
       }
     },
@@ -429,6 +449,53 @@ final class HashTestUtils {
     assertShortcutsAreEquivalent(hashFunction, 512);
   }
 
+  static void assertHashByteBufferInvariants(HashFunction hashFunction) {
+    assertHashByteBufferMatchesBytes(hashFunction);
+    assertHashByteBufferExhaustsBuffer(hashFunction);
+    assertHashByteBufferPreservesByteOrder(hashFunction);
+    assertHasherByteBufferPreservesByteOrder(hashFunction);
+  }
+
+  static void assertHashByteBufferMatchesBytes(HashFunction hashFunction) {
+    Random rng = new Random(0L);
+    byte[] bytes = new byte[rng.nextInt(256) + 1];
+    rng.nextBytes(bytes);
+    assertEquals(hashFunction.hashBytes(bytes), hashFunction.hashBytes(ByteBuffer.wrap(bytes)));
+  }
+
+  static void assertHashByteBufferExhaustsBuffer(HashFunction hashFunction) {
+    Random rng = new Random(0L);
+    byte[] bytes = new byte[rng.nextInt(256) + 1];
+    rng.nextBytes(bytes);
+    ByteBuffer buffer = ByteBuffer.wrap(bytes);
+    HashCode unused = hashFunction.hashBytes(buffer);
+    assertFalse(buffer.hasRemaining());
+  }
+
+  static void assertHashByteBufferPreservesByteOrder(HashFunction hashFunction) {
+    Random rng = new Random(0L);
+    byte[] bytes = new byte[rng.nextInt(256) + 1];
+    rng.nextBytes(bytes);
+    ByteBuffer littleEndian = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
+    ByteBuffer bigEndian = ByteBuffer.wrap(bytes).order(ByteOrder.BIG_ENDIAN);
+    assertEquals(hashFunction.hashBytes(littleEndian), hashFunction.hashBytes(littleEndian));
+    assertEquals(ByteOrder.LITTLE_ENDIAN, littleEndian.order());
+    assertEquals(ByteOrder.BIG_ENDIAN, littleEndian.order());
+  }
+
+  static void assertHasherByteBufferPreservesByteOrder(HashFunction hashFunction) {
+    Random rng = new Random(0L);
+    byte[] bytes = new byte[rng.nextInt(256) + 1];
+    rng.nextBytes(bytes);
+    ByteBuffer littleEndian = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
+    ByteBuffer bigEndian = ByteBuffer.wrap(bytes).order(ByteOrder.BIG_ENDIAN);
+    assertEquals(
+        hashFunction.newHasher().putBytes(littleEndian).hash(),
+        hashFunction.newHasher().putBytes(littleEndian).hash());
+    assertEquals(ByteOrder.LITTLE_ENDIAN, littleEndian.order());
+    assertEquals(ByteOrder.BIG_ENDIAN, littleEndian.order());
+  }
+
   static void assertHashBytesThrowsCorrectExceptions(HashFunction hashFunction) {
     {
       HashCode unused = hashFunction.hashBytes(new byte[64], 0, 0);
@@ -480,6 +547,7 @@ final class HashTestUtils {
     Random random = new Random(42085L);
     for (int i = 0; i < trials; i++) {
       assertHashBytesEquivalence(hashFunction, random);
+      assertHashByteBufferEquivalence(hashFunction, random);
       assertHashIntEquivalence(hashFunction, random);
       assertHashLongEquivalence(hashFunction, random);
       assertHashStringEquivalence(hashFunction, random);
@@ -497,6 +565,20 @@ final class HashTestUtils {
     int len = random.nextInt(size - off);
     assertEquals(hashFunction.hashBytes(bytes, off, len),
         hashFunction.newHasher(size).putBytes(bytes, off, len).hash());
+  }
+
+  private static void assertHashByteBufferEquivalence(HashFunction hashFunction, Random random) {
+    int size = random.nextInt(2048);
+    byte[] bytes = new byte[size];
+    random.nextBytes(bytes);
+    assertEquals(
+        hashFunction.hashBytes(ByteBuffer.wrap(bytes)),
+        hashFunction.newHasher(size).putBytes(ByteBuffer.wrap(bytes)).hash());
+    int off = random.nextInt(size);
+    int len = random.nextInt(size - off);
+    assertEquals(
+        hashFunction.hashBytes(ByteBuffer.wrap(bytes, off, len)),
+        hashFunction.newHasher(size).putBytes(ByteBuffer.wrap(bytes, off, len)).hash());
   }
 
   private static void assertHashIntEquivalence(HashFunction hashFunction, Random random) {
@@ -537,7 +619,7 @@ final class HashTestUtils {
     int size = random.nextInt(2048);
     byte[] bytes = new byte[size];
     random.nextBytes(bytes);
-    String string = new String(bytes);
+    String string = new String(bytes, Charsets.US_ASCII);
     assertEquals(hashFunction.hashUnencodedChars(string),
         hashFunction.newHasher().putUnencodedChars(string).hash());
     for (Charset charset : CHARSETS) {

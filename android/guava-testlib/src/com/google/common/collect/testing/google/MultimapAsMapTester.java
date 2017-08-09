@@ -48,7 +48,7 @@ import java.util.Set;
 public class MultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   public void testAsMapGet() {
     for (K key : sampleKeys()) {
-      List<V> expectedValues = new ArrayList<V>();
+      List<V> expectedValues = new ArrayList<>();
       for (Entry<K, V> entry : getSampleElements()) {
         if (entry.getKey().equals(key)) {
           expectedValues.add(entry.getValue());

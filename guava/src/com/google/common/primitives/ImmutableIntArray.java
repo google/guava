@@ -21,6 +21,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -86,6 +87,7 @@ import javax.annotation.Nullable;
  */
 @Beta
 @GwtCompatible
+@Immutable
 public final class ImmutableIntArray implements Serializable {
   private static final ImmutableIntArray EMPTY = new ImmutableIntArray(new int[0]);
 
@@ -321,6 +323,9 @@ public final class ImmutableIntArray implements Serializable {
 
   // Instance stuff here
 
+  // The array is never mutated after storing in this field and the construction strategies ensure
+  // it doesn't escape this class
+  @SuppressWarnings("Immutable")
   private final int[] array;
 
   /*
@@ -436,7 +441,7 @@ public final class ImmutableIntArray implements Serializable {
   /**
    * Returns an immutable <i>view</i> of this array's values as a {@code List}; note that {@code
    * int} values are boxed into {@link Integer} instances on demand, which can be very expensive.
-   * The returned list should be used once and discarded. For any usages beyond than that, pass the
+   * The returned list should be used once and discarded. For any usages beyond that, pass the
    * returned list to {@link com.google.common.collect.ImmutableList#copyOf(Collection)
    * ImmutableList.copyOf} and use that list instead.
    */
@@ -449,8 +454,7 @@ public final class ImmutableIntArray implements Serializable {
     return new AsList(this);
   }
 
-  // TODO(kevinb): Serializable
-  static class AsList extends AbstractList<Integer> implements RandomAccess {
+  static class AsList extends AbstractList<Integer> implements RandomAccess, Serializable {
     private final ImmutableIntArray parent;
 
     private AsList(ImmutableIntArray parent) {
@@ -531,6 +535,10 @@ public final class ImmutableIntArray implements Serializable {
     }
   }
 
+  /**
+   * Returns {@code true} if {@code object} is an {@code ImmutableIntArray} containing the same
+   * values as this one, in the same order.
+   */
   @Override
   public boolean equals(@Nullable Object object) {
     if (object == this) {
@@ -557,7 +565,7 @@ public final class ImmutableIntArray implements Serializable {
     int hash = 1;
     for (int i = start; i < end; i++) {
       hash *= 31;
-      hash += array[i];
+      hash += Ints.hashCode(array[i]);
     }
     return hash;
   }

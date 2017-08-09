@@ -32,6 +32,8 @@ import com.google.common.cache.LocalCache.Strength;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 import java.util.ConcurrentModificationException;
+import java.util.IdentityHashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -233,8 +235,7 @@ public final class CacheBuilder<K, V> {
 
   Supplier<? extends StatsCounter> statsCounterSupplier = NULL_STATS_COUNTER;
 
-  // TODO(fry): make constructor private and update tests to use newBuilder
-  CacheBuilder() {}
+  private CacheBuilder() {}
 
   /**
    * Constructs a new {@code CacheBuilder} instance with default settings, including strong keys,
@@ -391,9 +392,9 @@ public final class CacheBuilder<K, V> {
    * Specifies the maximum number of entries the cache may contain.
    *
    * <p>Note that the cache <b>may evict an entry before this limit is exceeded</b>. For example, in
-   * the current implementation, when {@concurrencyLevel} is greater than {@code 1}, each resulting
-   * segment inside the cache <i>independently</i> limits its own size to approximately {@code
-   * maximumSize / concurrencyLevel}.
+   * the current implementation, when {@code concurrencyLevel} is greater than {@code 1}, each
+   * resulting segment inside the cache <i>independently</i> limits its own size to approximately
+   * {@code maximumSize / concurrencyLevel}.
    *
    * <p>When eviction is necessary, the cache evicts entries that are less likely to be used again.
    * For example, the cache may evict an entry because it hasn't been used recently or very often.
@@ -427,9 +428,9 @@ public final class CacheBuilder<K, V> {
    * corresponding call to {@link #weigher} prior to calling {@link #build}.
    *
    * <p>Note that the cache <b>may evict an entry before this limit is exceeded</b>. For example, in
-   * the current implementation, when {@concurrencyLevel} is greater than {@code 1}, each resulting
-   * segment inside the cache <i>independently</i> limits its own weight to approximately {@code
-   * maximumWeight / concurrencyLevel}.
+   * the current implementation, when {@code concurrencyLevel} is greater than {@code 1}, each
+   * resulting segment inside the cache <i>independently</i> limits its own weight to approximately
+   * {@code maximumWeight / concurrencyLevel}.
    *
    * <p>When eviction is necessary, the cache evicts entries that are less likely to be used again.
    * For example, the cache may evict an entry because it hasn't been used recently or very often.
@@ -522,11 +523,13 @@ public final class CacheBuilder<K, V> {
   }
 
   /**
-   * Specifies that each key (not value) stored in the cache should be wrapped in a
-   * {@link WeakReference} (by default, strong references are used).
+   * Specifies that each key (not value) stored in the cache should be wrapped in a {@link
+   * WeakReference} (by default, strong references are used).
    *
    * <p><b>Warning:</b> when this method is used, the resulting cache will use identity ({@code ==})
-   * comparison to determine equality of keys.
+   * comparison to determine equality of keys. Its {@link Cache#asMap} view will therefore
+   * technically violate the {@link Map} specification (in the same way that {@link IdentityHashMap}
+   * does).
    *
    * <p>Entries with keys that have been garbage collected may be counted in {@link Cache#size}, but
    * will never be visible to read or write operations; such entries are cleaned up as part of the

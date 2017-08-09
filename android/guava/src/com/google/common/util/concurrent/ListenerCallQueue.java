@@ -32,7 +32,7 @@ import javax.annotation.concurrent.GuardedBy;
  * A list of listeners for implementing a concurrency friendly observable object.
  *
  * <p>Listeners are registered once via {@link #addListener} and then may be invoked by {@linkplain
- * #enqueue enqueueing} and then {@linkplain dispatch dispatching} events.
+ * #enqueue enqueueing} and then {@linkplain #dispatch dispatching} events.
  *
  * <p>The API of this class is designed to make it easy to achieve the following properties
  *

@@ -160,7 +160,7 @@ public interface Graph<N> extends BaseGraph<N> {
 
   /** {@inheritDoc} */
   @Override
-  boolean hasEdge(N nodeU, N nodeV);
+  boolean hasEdgeConnecting(N nodeU, N nodeV);
 
   //
   // Graph identity

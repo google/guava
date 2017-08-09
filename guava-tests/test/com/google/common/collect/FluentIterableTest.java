@@ -74,11 +74,6 @@ public class FluentIterableTest extends TestCase {
     }
   }
 
-  public void testOfArrayAndIteratorRemove() {
-    FluentIterable<TimeUnit> units = FluentIterable.of(TimeUnit.values());
-    assertTrue(Iterables.removeIf(units, Predicates.equalTo(TimeUnit.SECONDS)));
-  }
-
   public void testFrom() {
     assertEquals(ImmutableList.of(1, 2, 3, 4),
         Lists.newArrayList(FluentIterable.from(ImmutableList.of(1, 2, 3, 4))));
@@ -93,11 +88,6 @@ public class FluentIterableTest extends TestCase {
   public void testOf() {
     assertEquals(ImmutableList.of(1, 2, 3, 4),
         Lists.newArrayList(FluentIterable.of(1, 2, 3, 4)));
-  }
-
-  public void testOfArray() {
-    assertEquals(ImmutableList.of("1", "2", "3", "4"),
-        Lists.newArrayList(FluentIterable.of(new Object[] {"1", "2", "3", "4"})));
   }
 
   public void testFromArray() {

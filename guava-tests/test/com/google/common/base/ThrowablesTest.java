@@ -16,6 +16,7 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.StandardSystemProperty.JAVA_SPECIFICATION_VERSION;
 import static com.google.common.base.Throwables.getStackTraceAsString;
 import static com.google.common.base.Throwables.lazyStackTrace;
 import static com.google.common.base.Throwables.lazyStackTraceIsLazy;
@@ -544,6 +545,17 @@ public class ThrowablesTest extends TestCase {
     assertSame(cause, Throwables.getRootCause(exception));
   }
 
+  public void testGetRootCause_Loop() {
+    Exception cause = new Exception();
+    Exception exception = new Exception(cause);
+    cause.initCause(exception);
+    try {
+      Throwables.getRootCause(cause);
+      fail("Should have throw IAE");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
   private static class SomeError extends Error {}
   private static class SomeCheckedException extends Exception {}
   private static class SomeOtherCheckedException extends Exception {}
@@ -621,6 +633,17 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
+  public void testGetCasualChainLoop() {
+    Exception cause = new Exception();
+    Exception exception = new Exception(cause);
+    cause.initCause(exception);
+    try {
+      Throwables.getCausalChain(cause);
+      fail("Should have throw IAE");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
   @GwtIncompatible // Throwables.getCauseAs(Throwable, Class)
   public void testGetCauseAs() {
     SomeCheckedException cause = new SomeCheckedException();
@@ -641,6 +664,10 @@ public class ThrowablesTest extends TestCase {
   @AndroidIncompatible // No getJavaLangAccess in Android (at least not in the version we use).
   @GwtIncompatible // lazyStackTraceIsLazy()
   public void testLazyStackTraceWorksInProd() {
+    // TODO(b/64442212): Remove this guard once lazyStackTrace() works in Java 9.
+    if (JAVA_SPECIFICATION_VERSION.value().equals("9")) {
+      return;
+    }
     // Obviously this isn't guaranteed in every environment, but it works well enough for now:
     assertTrue(lazyStackTraceIsLazy());
   }

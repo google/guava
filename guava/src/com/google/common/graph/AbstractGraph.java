@@ -16,8 +16,6 @@
 
 package com.google.common.graph;
 
-import static com.google.common.graph.GraphConstants.GRAPH_STRING_FORMAT;
-
 import com.google.common.annotations.Beta;
 import javax.annotation.Nullable;
 
@@ -55,8 +53,13 @@ public abstract class AbstractGraph<N> extends AbstractBaseGraph<N> implements G
   /** Returns a string representation of this graph. */
   @Override
   public String toString() {
-    String propertiesString =
-        String.format("isDirected: %s, allowsSelfLoops: %s", isDirected(), allowsSelfLoops());
-    return String.format(GRAPH_STRING_FORMAT, propertiesString, nodes(), edges());
+    return "isDirected: "
+        + isDirected()
+        + ", allowsSelfLoops: "
+        + allowsSelfLoops()
+        + ", nodes: "
+        + nodes()
+        + ", edges: "
+        + edges();
   }
 }

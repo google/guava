@@ -19,9 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Predicates.compose;
-import static com.google.common.base.Predicates.equalTo;
-import static com.google.common.base.Predicates.in;
-import static com.google.common.base.Predicates.not;
+import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
 import com.google.common.annotations.Beta;
@@ -61,6 +59,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import javax.annotation.Nullable;
 
@@ -137,15 +136,26 @@ public final class Maps {
       @SuppressWarnings("unchecked") // safe covariant cast
       ImmutableEnumMap<K, V> result = (ImmutableEnumMap<K, V>) map;
       return result;
-    } else if (map.isEmpty()) {
-      return ImmutableMap.of();
-    } else {
-      for (Map.Entry<K, ? extends V> entry : map.entrySet()) {
-        checkNotNull(entry.getKey());
-        checkNotNull(entry.getValue());
-      }
-      return ImmutableEnumMap.asImmutable(new EnumMap<K, V>(map));
     }
+    Iterator<? extends Map.Entry<K, ? extends V>> entryItr = map.entrySet().iterator();
+    if (!entryItr.hasNext()) {
+      return ImmutableMap.of();
+    }
+    Map.Entry<K, ? extends V> entry1 = entryItr.next();
+    K key1 = entry1.getKey();
+    V value1 = entry1.getValue();
+    checkEntryNotNull(key1, value1);
+    Class<K> clazz = key1.getDeclaringClass();
+    EnumMap<K, V> enumMap = new EnumMap<K, V>(clazz);
+    enumMap.put(key1, value1);
+    while (entryItr.hasNext()) {
+      Entry<K, ? extends V> entry = entryItr.next();
+      K key = entry.getKey();
+      V value = entry.getValue();
+      checkEntryNotNull(key, value);
+      enumMap.put(key, value);
+    }
+    return ImmutableEnumMap.asImmutable(enumMap);
   }
 
   /**
@@ -283,22 +293,12 @@ public final class Maps {
   }
 
   /**
-   * Returns a general-purpose instance of {@code ConcurrentMap}, which supports
-   * all optional operations of the ConcurrentMap interface. It does not permit
-   * null keys or values. It is serializable.
+   * Creates a new empty {@link ConcurrentHashMap} instance.
    *
-   * <p>This is currently accomplished by calling {@link MapMaker#makeMap()}.
-   *
-   * <p>It is preferable to use {@code MapMaker} directly (rather than through
-   * this method), as it presents numerous useful configuration options,
-   * such as the concurrency level, load factor, key/value reference types,
-   * and value computation.
-   *
-   * @return a new, empty {@code ConcurrentMap}
    * @since 3.0
    */
   public static <K, V> ConcurrentMap<K, V> newConcurrentMap() {
-    return new MapMaker().<K, V>makeMap();
+    return new ConcurrentHashMap<>();
   }
 
   /**
@@ -2706,26 +2706,43 @@ public final class Maps {
 
     @Override
     public boolean remove(Object o) {
-      return Iterables.removeFirstMatching(
-              unfiltered.entrySet(),
-              Predicates.<Entry<K, V>>and(predicate, Maps.<V>valuePredicateOnEntries(equalTo(o))))
-          != null;
-    }
-
-    private boolean removeIf(Predicate<? super V> valuePredicate) {
-      return Iterables.removeIf(
-          unfiltered.entrySet(),
-          Predicates.<Entry<K, V>>and(predicate, Maps.<V>valuePredicateOnEntries(valuePredicate)));
+      Iterator<Entry<K, V>> entryItr = unfiltered.entrySet().iterator();
+      while (entryItr.hasNext()) {
+        Entry<K, V> entry = entryItr.next();
+        if (predicate.apply(entry) && Objects.equal(entry.getValue(), o)) {
+          entryItr.remove();
+          return true;
+        }
+      }
+      return false;
     }
 
     @Override
     public boolean removeAll(Collection<?> collection) {
-      return removeIf(in(collection));
+      Iterator<Entry<K, V>> entryItr = unfiltered.entrySet().iterator();
+      boolean result = false;
+      while (entryItr.hasNext()) {
+        Entry<K, V> entry = entryItr.next();
+        if (predicate.apply(entry) && collection.contains(entry.getValue())) {
+          entryItr.remove();
+          result = true;
+        }
+      }
+      return result;
     }
 
     @Override
     public boolean retainAll(Collection<?> collection) {
-      return removeIf(not(in(collection)));
+      Iterator<Entry<K, V>> entryItr = unfiltered.entrySet().iterator();
+      boolean result = false;
+      while (entryItr.hasNext()) {
+        Entry<K, V> entry = entryItr.next();
+        if (predicate.apply(entry) && !collection.contains(entry.getValue())) {
+          entryItr.remove();
+          result = true;
+        }
+      }
+      return result;
     }
 
     @Override
@@ -2820,6 +2837,34 @@ public final class Maps {
     Set<K> createKeySet() {
       return new KeySet();
     }
+    
+    static <K, V> boolean removeAllKeys(
+        Map<K, V> map, Predicate<? super Entry<K, V>> entryPredicate, Collection<?> keyCollection) {
+      Iterator<Entry<K, V>> entryItr = map.entrySet().iterator();
+      boolean result = false;
+      while (entryItr.hasNext()) {
+        Entry<K, V> entry = entryItr.next();
+        if (entryPredicate.apply(entry) && keyCollection.contains(entry.getKey())) {
+          entryItr.remove();
+          result = true;
+        }
+      }
+      return result;
+    }
+    
+    static <K, V> boolean retainAllKeys(
+        Map<K, V> map, Predicate<? super Entry<K, V>> entryPredicate, Collection<?> keyCollection) {
+      Iterator<Entry<K, V>> entryItr = map.entrySet().iterator();
+      boolean result = false;
+      while (entryItr.hasNext()) {
+        Entry<K, V> entry = entryItr.next();
+        if (entryPredicate.apply(entry) && !keyCollection.contains(entry.getKey())) {
+          entryItr.remove();
+          result = true;
+        }
+      }
+      return result;
+    }
 
     @WeakOuter
     class KeySet extends Maps.KeySet<K, V> {
@@ -2836,20 +2881,14 @@ public final class Maps {
         return false;
       }
 
-      private boolean removeIf(Predicate<? super K> keyPredicate) {
-        return Iterables.removeIf(
-            unfiltered.entrySet(),
-            Predicates.<Entry<K, V>>and(predicate, Maps.<K>keyPredicateOnEntries(keyPredicate)));
+      @Override
+      public boolean removeAll(Collection<?> collection) {
+        return removeAllKeys(unfiltered, predicate, collection);
       }
 
       @Override
-      public boolean removeAll(Collection<?> c) {
-        return removeIf(in(c));
-      }
-
-      @Override
-      public boolean retainAll(Collection<?> c) {
-        return removeIf(not(in(c)));
+      public boolean retainAll(Collection<?> collection) {
+        return retainAllKeys(unfiltered, predicate, collection);
       }
 
       @Override
@@ -3010,18 +3049,13 @@ public final class Maps {
     public NavigableSet<K> navigableKeySet() {
       return new Maps.NavigableKeySet<K, V>(this) {
         @Override
-        public boolean removeAll(Collection<?> c) {
-          return Iterators.removeIf(
-              unfiltered.entrySet().iterator(),
-              Predicates.<Entry<K, V>>and(entryPredicate, Maps.<K>keyPredicateOnEntries(in(c))));
+        public boolean removeAll(Collection<?> collection) {
+          return FilteredEntryMap.removeAllKeys(unfiltered, entryPredicate, collection);
         }
 
         @Override
-        public boolean retainAll(Collection<?> c) {
-          return Iterators.removeIf(
-              unfiltered.entrySet().iterator(),
-              Predicates.<Entry<K, V>>and(
-                  entryPredicate, Maps.<K>keyPredicateOnEntries(not(in(c)))));
+        public boolean retainAll(Collection<?> collection) {
+          return FilteredEntryMap.retainAllKeys(unfiltered, entryPredicate, collection);
         }
       };
     }

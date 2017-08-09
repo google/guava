@@ -18,6 +18,11 @@ public class ThrowablesTest_gwt extends com.google.gwt.junit.client.GWTTestCase 
 @Override public String getModuleName() {
   return "com.google.common.base.testModule";
 }
+public void testGetCasualChainLoop() throws Exception {
+  com.google.common.base.ThrowablesTest testCase = new com.google.common.base.ThrowablesTest();
+  testCase.testGetCasualChainLoop();
+}
+
 public void testGetCasualChainNull() throws Exception {
   com.google.common.base.ThrowablesTest testCase = new com.google.common.base.ThrowablesTest();
   testCase.testGetCasualChainNull();
@@ -31,6 +36,11 @@ public void testGetCausalChain() throws Exception {
 public void testGetRootCause_DoubleWrapped() throws Exception {
   com.google.common.base.ThrowablesTest testCase = new com.google.common.base.ThrowablesTest();
   testCase.testGetRootCause_DoubleWrapped();
+}
+
+public void testGetRootCause_Loop() throws Exception {
+  com.google.common.base.ThrowablesTest testCase = new com.google.common.base.ThrowablesTest();
+  testCase.testGetRootCause_Loop();
 }
 
 public void testGetRootCause_NoCause() throws Exception {

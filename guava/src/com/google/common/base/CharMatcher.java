@@ -122,8 +122,8 @@ public abstract class CharMatcher implements Predicate<Character> {
    * illustrated
    * <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.
    * This is not the same definition used by other Java APIs. (See a
-   * <a href="http://spreadsheets.google.com/pub?key=pd8dAQyHbdewRsnE5x5GzKQ">comparison of several
-   * definitions of "whitespace"</a>.)
+   * <a href="https://goo.gl/Y6SLWx">comparison of several definitions of
+   * "whitespace"</a>.)
    *
    * <p><b>Note:</b> as the Unicode definition evolves, we will modify this matcher to keep it up to
    * date.
@@ -259,8 +259,8 @@ public abstract class CharMatcher implements Predicate<Character> {
    * standard, as illustrated
    * <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.
    * This is not the same definition used by other Java APIs. (See a
-   * <a href="http://spreadsheets.google.com/pub?key=pd8dAQyHbdewRsnE5x5GzKQ">
-   * comparison of several definitions of "whitespace"</a>.)
+   * <a href="https://goo.gl/Y6SLWx">comparison of several definitions of
+   * "whitespace"</a>.)
    *
    * <p><b>Note:</b> as the Unicode definition evolves, we will modify this constant
    * to keep it up to date.

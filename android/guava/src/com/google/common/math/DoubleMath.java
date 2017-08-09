@@ -195,7 +195,11 @@ public final class DoubleMath {
    */
   @GwtIncompatible // com.google.common.math.DoubleUtils
   public static boolean isPowerOfTwo(double x) {
-    return x > 0.0 && isFinite(x) && LongMath.isPowerOfTwo(getSignificand(x));
+    if (x > 0.0 && isFinite(x)) {
+      long significand = getSignificand(x);
+      return (significand & (significand - 1)) == 0;
+    }
+    return false;
   }
 
   /**

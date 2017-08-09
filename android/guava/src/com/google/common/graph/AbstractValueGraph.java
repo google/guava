@@ -16,11 +16,6 @@
 
 package com.google.common.graph;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.graph.GraphConstants.EDGE_CONNECTING_NOT_IN_GRAPH;
-import static com.google.common.graph.GraphConstants.GRAPH_STRING_FORMAT;
-import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
-
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
@@ -31,6 +26,9 @@ import javax.annotation.Nullable;
 /**
  * This class provides a skeletal implementation of {@link ValueGraph}. It is recommended to extend
  * this class rather than implement {@link ValueGraph} directly.
+ *
+ * <p>The methods implemented in this class should not be overridden unless the subclass admits a
+ * more efficient implementation.
  *
  * @author James Sexton
  * @param <N> Node parameter type
@@ -102,17 +100,6 @@ public abstract class AbstractValueGraph<N, V> extends AbstractBaseGraph<N>
   }
 
   @Override
-  public V edgeValue(N nodeU, N nodeV) {
-    V value = edgeValueOrDefault(nodeU, nodeV, null);
-    if (value == null) {
-      checkArgument(nodes().contains(nodeU), NODE_NOT_IN_GRAPH, nodeU);
-      checkArgument(nodes().contains(nodeV), NODE_NOT_IN_GRAPH, nodeV);
-      throw new IllegalArgumentException(String.format(EDGE_CONNECTING_NOT_IN_GRAPH, nodeU, nodeV));
-    }
-    return value;
-  }
-
-  @Override
   public final boolean equals(@Nullable Object obj) {
     if (obj == this) {
       return true;
@@ -135,9 +122,14 @@ public abstract class AbstractValueGraph<N, V> extends AbstractBaseGraph<N>
   /** Returns a string representation of this graph. */
   @Override
   public String toString() {
-    String propertiesString =
-        String.format("isDirected: %s, allowsSelfLoops: %s", isDirected(), allowsSelfLoops());
-    return String.format(GRAPH_STRING_FORMAT, propertiesString, nodes(), edgeValueMap(this));
+    return "isDirected: "
+        + isDirected()
+        + ", allowsSelfLoops: "
+        + allowsSelfLoops()
+        + ", nodes: "
+        + nodes()
+        + ", edges: "
+        + edgeValueMap(this);
   }
 
   private static <N, V> Map<EndpointPair<N>, V> edgeValueMap(final ValueGraph<N, V> graph) {
@@ -145,7 +137,7 @@ public abstract class AbstractValueGraph<N, V> extends AbstractBaseGraph<N>
         new Function<EndpointPair<N>, V>() {
           @Override
           public V apply(EndpointPair<N> edge) {
-            return graph.edgeValue(edge.nodeU(), edge.nodeV());
+            return graph.edgeValueOrDefault(edge.nodeU(), edge.nodeV(), null);
           }
         };
     return Maps.asMap(graph.edges(), edgeToValueFn);

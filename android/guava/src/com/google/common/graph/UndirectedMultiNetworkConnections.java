@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.graph.GraphConstants.INNER_CAPACITY;
 import static com.google.common.graph.GraphConstants.INNER_LOAD_FACTOR;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Multiset;
@@ -39,6 +40,7 @@ import javax.annotation.Nullable;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
+@GwtIncompatible
 final class UndirectedMultiNetworkConnections<N, E>
     extends AbstractUndirectedNetworkConnections<N, E> {
 
@@ -83,7 +85,7 @@ final class UndirectedMultiNetworkConnections<N, E>
   }
 
   @Override
-  public N removeInEdge(Object edge, boolean isSelfLoop) {
+  public N removeInEdge(E edge, boolean isSelfLoop) {
     if (!isSelfLoop) {
       return removeOutEdge(edge);
     }
@@ -91,7 +93,7 @@ final class UndirectedMultiNetworkConnections<N, E>
   }
 
   @Override
-  public N removeOutEdge(Object edge) {
+  public N removeOutEdge(E edge) {
     N node = super.removeOutEdge(edge);
     Multiset<N> adjacentNodes = getReference(adjacentNodesReference);
     if (adjacentNodes != null) {

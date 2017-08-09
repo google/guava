@@ -726,7 +726,7 @@ public class CharMatcherTest extends TestCase {
   }
 
   static char[] randomChars(Random rand, int size) {
-    Set<Character> chars = new HashSet<Character>(size);
+    Set<Character> chars = new HashSet<>(size);
     for (int i = 0; i < size; i++) {
       char c;
       while (true) {

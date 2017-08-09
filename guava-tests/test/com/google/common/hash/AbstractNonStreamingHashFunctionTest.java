@@ -89,7 +89,7 @@ public class AbstractNonStreamingHashFunctionTest extends TestCase {
     assertEquals(h1.hash(), h2.hash());
   }
 
-  static class StreamingVersion extends AbstractStreamingHashFunction {
+  static class StreamingVersion extends AbstractHashFunction {
     @Override
     public int bits() {
       return 32;
@@ -100,7 +100,7 @@ public class AbstractNonStreamingHashFunctionTest extends TestCase {
       return new AbstractStreamingHasher(4, 4) {
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
         @Override
-        HashCode makeHash() {
+        protected HashCode makeHash() {
           return HashCode.fromBytes(out.toByteArray());
         }
 
@@ -128,28 +128,8 @@ public class AbstractNonStreamingHashFunctionTest extends TestCase {
     }
 
     @Override
-    public HashCode hashBytes(byte[] input) {
-      return HashCode.fromBytes(input);
-    }
-
-    @Override
     public HashCode hashBytes(byte[] input, int off, int len) {
       return HashCode.fromBytes(Arrays.copyOfRange(input, off, off + len));
-    }
-
-    @Override
-    public HashCode hashString(CharSequence input, Charset charset) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public HashCode hashLong(long input) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public HashCode hashInt(int input) {
-      throw new UnsupportedOperationException();
     }
   }
 }

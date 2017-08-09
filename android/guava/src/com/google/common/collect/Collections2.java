@@ -18,10 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Predicates.and;
-import static com.google.common.base.Predicates.not;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
-import static com.google.common.math.LongMath.binomial;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -38,6 +35,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
@@ -196,17 +194,41 @@ public final class Collections2 {
 
     @Override
     public boolean removeAll(final Collection<?> collection) {
-      return Iterables.removeIf(unfiltered, and(predicate, Predicates.<Object>in(collection)));
+      boolean changed = false;
+      Iterator<E> itr = unfiltered.iterator();
+      while (itr.hasNext()) {
+        E e = itr.next();
+        if (predicate.apply(e) && collection.contains(e)) {
+          itr.remove();
+          changed = true;
+        }
+      }
+      return changed;
     }
 
     @Override
     public boolean retainAll(final Collection<?> collection) {
-      return Iterables.removeIf(unfiltered, and(predicate, not(Predicates.<Object>in(collection))));
+      boolean changed = false;
+      Iterator<E> itr = unfiltered.iterator();
+      while (itr.hasNext()) {
+        E e = itr.next();
+        if (predicate.apply(e) && !collection.contains(e)) {
+          itr.remove();
+          changed = true;
+        }
+      }
+      return changed;
     }
 
     @Override
     public int size() {
-      return Iterators.size(iterator());
+      int size = 0;
+      for (E e : unfiltered) {
+        if (predicate.apply(e)) {
+          size++;
+        }
+      }
+      return size;
     }
 
     @Override
@@ -290,7 +312,12 @@ public final class Collections2 {
    * @param c a collection whose elements might be contained by {@code self}
    */
   static boolean containsAllImpl(Collection<?> self, Collection<?> c) {
-    return Iterables.all(c, Predicates.in(self));
+    for (Object o : c) {
+      if (!self.contains(o)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   /**
@@ -420,7 +447,7 @@ public final class Collections2 {
     final int size;
 
     OrderedPermutationCollection(Iterable<E> input, Comparator<? super E> comparator) {
-      this.inputList = Ordering.from(comparator).immutableSortedCopy(input);
+      this.inputList = ImmutableList.sortedCopyOf(comparator, input);
       this.comparator = comparator;
       this.size = calculateSize(inputList, comparator);
     }
@@ -436,27 +463,23 @@ public final class Collections2 {
      */
     private static <E> int calculateSize(
         List<E> sortedInputList, Comparator<? super E> comparator) {
-      long permutations = 1;
+      int permutations = 1;
       int n = 1;
       int r = 1;
       while (n < sortedInputList.size()) {
         int comparison = comparator.compare(sortedInputList.get(n - 1), sortedInputList.get(n));
         if (comparison < 0) {
           // We move to the next non-repeated element.
-          permutations *= binomial(n, r);
+          permutations = IntMath.saturatedMultiply(permutations, IntMath.binomial(n, r));
           r = 0;
-          if (!isPositiveInt(permutations)) {
+          if (permutations == Integer.MAX_VALUE) {
             return Integer.MAX_VALUE;
           }
         }
         n++;
         r++;
       }
-      permutations *= binomial(n, r);
-      if (!isPositiveInt(permutations)) {
-        return Integer.MAX_VALUE;
-      }
-      return (int) permutations;
+      return IntMath.saturatedMultiply(permutations, IntMath.binomial(n, r));
     }
 
     @Override
@@ -671,15 +694,14 @@ public final class Collections2 {
    * Returns {@code true} if the second list is a permutation of the first.
    */
   private static boolean isPermutation(List<?> first, List<?> second) {
-    if (first.size() != second.size()) {
-      return false;
-    }
-    Multiset<?> firstMultiset = HashMultiset.create(first);
-    Multiset<?> secondMultiset = HashMultiset.create(second);
-    return firstMultiset.equals(secondMultiset);
+    return first.size() == second.size() && counts(first).equals(counts(second));
   }
-
-  private static boolean isPositiveInt(long n) {
-    return n >= 0 && n <= Integer.MAX_VALUE;
+  
+  private static <E> Set<Multiset.Entry<E>> counts(Collection<E> collection) {
+    AbstractObjectCountMap<E> map = new ObjectCountHashMap<>();
+    for (E e : collection) {
+      map.put(e, map.get(e) + 1);
+    }
+    return map.entrySet();
   }
 }

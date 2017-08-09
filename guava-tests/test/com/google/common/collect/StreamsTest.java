@@ -14,26 +14,24 @@
 
 package com.google.common.collect;
 
-import static com.google.common.collect.Streams.findLast;
 import static com.google.common.collect.Streams.stream;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.SpliteratorTester;
 import com.google.common.primitives.Doubles;
 import com.google.common.truth.IterableSubject;
 import com.google.common.truth.Truth;
-import com.google.common.truth.Truth8;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -41,6 +39,7 @@ import java.util.stream.Stream;
 import junit.framework.TestCase;
 
 /** Unit test for {@link Streams}. */
+@GwtCompatible(emulated = true)
 public class StreamsTest extends TestCase {
   /*
    * Full and proper black-box testing of a Stream-returning method is extremely involved, and is
@@ -74,62 +73,6 @@ public class StreamsTest extends TestCase {
   public void testStream_javaOptional() {
     assertThat(stream(java.util.Optional.empty())).isEmpty();
     assertThat(stream(java.util.Optional.of("a"))).containsExactly("a");
-  }
-
-  public void testFindLast_refStream() {
-    Truth8.assertThat(findLast(Stream.of())).isEmpty();
-    Truth8.assertThat(findLast(Stream.of("a", "b", "c", "d"))).hasValue("d");
-
-    // test with a large, not-subsized Spliterator
-    List<Integer> list =
-        IntStream.rangeClosed(0, 10000).boxed().collect(Collectors.toCollection(LinkedList::new));
-    Truth8.assertThat(findLast(list.stream())).hasValue(10000);
-
-    // no way to find out the stream is empty without walking its spliterator
-    Truth8.assertThat(findLast(list.stream().filter(i -> i < 0))).isEmpty();
-  }
-
-  public void testFindLast_intStream() {
-    Truth.assertThat(findLast(IntStream.of())).isEqualTo(OptionalInt.empty());
-    Truth.assertThat(findLast(IntStream.of(1, 2, 3, 4, 5))).isEqualTo(OptionalInt.of(5));
-
-    // test with a large, not-subsized Spliterator
-    List<Integer> list =
-        IntStream.rangeClosed(0, 10000).boxed().collect(Collectors.toCollection(LinkedList::new));
-    Truth.assertThat(findLast(list.stream().mapToInt(i -> i))).isEqualTo(OptionalInt.of(10000));
-
-    // no way to find out the stream is empty without walking its spliterator
-    Truth.assertThat(findLast(list.stream().mapToInt(i -> i).filter(i -> i < 0)))
-        .isEqualTo(OptionalInt.empty());
-  }
-
-  public void testFindLast_longStream() {
-    Truth.assertThat(findLast(LongStream.of())).isEqualTo(OptionalLong.empty());
-    Truth.assertThat(findLast(LongStream.of(1, 2, 3, 4, 5))).isEqualTo(OptionalLong.of(5));
-
-    // test with a large, not-subsized Spliterator
-    List<Long> list =
-        LongStream.rangeClosed(0, 10000).boxed().collect(Collectors.toCollection(LinkedList::new));
-    Truth.assertThat(findLast(list.stream().mapToLong(i -> i))).isEqualTo(OptionalLong.of(10000));
-
-    // no way to find out the stream is empty without walking its spliterator
-    Truth.assertThat(findLast(list.stream().mapToLong(i -> i).filter(i -> i < 0)))
-        .isEqualTo(OptionalLong.empty());
-  }
-
-  public void testFindLast_doubleStream() {
-    Truth.assertThat(findLast(DoubleStream.of())).isEqualTo(OptionalDouble.empty());
-    Truth.assertThat(findLast(DoubleStream.of(1, 2, 3, 4, 5))).isEqualTo(OptionalDouble.of(5));
-
-    // test with a large, not-subsized Spliterator
-    List<Long> list =
-        LongStream.rangeClosed(0, 10000).boxed().collect(Collectors.toCollection(LinkedList::new));
-    Truth.assertThat(findLast(list.stream().mapToDouble(i -> i)))
-        .isEqualTo(OptionalDouble.of(10000));
-
-    // no way to find out the stream is empty without walking its spliterator
-    Truth.assertThat(findLast(list.stream().mapToDouble(i -> i).filter(i -> i < 0)))
-        .isEqualTo(OptionalDouble.empty());
   }
 
   public void testConcat_refStream() {
@@ -235,6 +178,7 @@ public class StreamsTest extends TestCase {
         .expect("0:0", "1:1", "2:2");
   }
 
+  @GwtIncompatible // TODO(b/38490623): reenable after GWT double-to-string conversion is fixed
   public void testMapWithIndex_doubleStream() {
     SpliteratorTester.of(
             () ->

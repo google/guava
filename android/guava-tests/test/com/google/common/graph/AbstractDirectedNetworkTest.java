@@ -16,6 +16,7 @@
 
 package com.google.common.graph;
 
+import static com.google.common.graph.TestUtil.assertEdgeNotInGraphErrorMessage;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
 

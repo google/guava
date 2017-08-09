@@ -337,8 +337,8 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
 
     @Override
     public Map<K, Collection<V>> create(Object... elements) {
-      Set<K> keySet = new HashSet<K>();
-      List<Map.Entry<K, V>> builder = new ArrayList<Entry<K, V>>();
+      Set<K> keySet = new HashSet<>();
+      List<Map.Entry<K, V>> builder = new ArrayList<>();
       for (Object o : elements) {
         Map.Entry<K, Collection<V>> entry = (Entry<K, Collection<V>>) o;
         keySet.add(entry.getKey());
@@ -358,8 +358,8 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
 
     @Override
     public Iterable<Entry<K, Collection<V>>> order(List<Entry<K, Collection<V>>> insertionOrder) {
-      Map<K, Collection<V>> map = new HashMap<K, Collection<V>>();
-      List<Map.Entry<K, V>> builder = new ArrayList<Entry<K, V>>();
+      Map<K, Collection<V>> map = new HashMap<>();
+      List<Map.Entry<K, V>> builder = new ArrayList<>();
       for (Entry<K, Collection<V>> entry : insertionOrder) {
         for (V v : entry.getValue()) {
           builder.add(mapEntry(entry.getKey(), v));
@@ -367,7 +367,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
         map.put(entry.getKey(), entry.getValue());
       }
       Iterable<Map.Entry<K, V>> ordered = multimapGenerator.order(builder);
-      LinkedHashMap<K, Collection<V>> orderedMap = new LinkedHashMap<K, Collection<V>>();
+      LinkedHashMap<K, Collection<V>> orderedMap = new LinkedHashMap<>();
       for (Map.Entry<K, V> entry : ordered) {
         orderedMap.put(entry.getKey(), map.get(entry.getKey()));
       }
@@ -462,12 +462,12 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
           ((TestMultimapGenerator<K, V, M>) multimapGenerator.getInnerGenerator())
               .sampleKeys()
               .e0();
-      List<Entry<K, V>> entries = new ArrayList<Entry<K, V>>();
+      List<Entry<K, V>> entries = new ArrayList<>();
       for (V v : insertionOrder) {
         entries.add(mapEntry(k, v));
       }
       Iterable<Entry<K, V>> ordered = multimapGenerator.order(entries);
-      List<V> orderedValues = new ArrayList<V>();
+      List<V> orderedValues = new ArrayList<>();
       for (Entry<K, V> entry : ordered) {
         orderedValues.add(entry.getValue());
       }
@@ -500,7 +500,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
        * distinct values.
        */
       Map.Entry[] entries = new Map.Entry[elements.length];
-      Map<K, Iterator<V>> valueIterators = new HashMap<K, Iterator<V>>();
+      Map<K, Iterator<V>> valueIterators = new HashMap<>();
       for (int i = 0; i < elements.length; i++) {
         @SuppressWarnings("unchecked")
         K key = (K) elements[i];
@@ -530,12 +530,12 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
     @Override
     public Iterable<K> order(List<K> insertionOrder) {
       Iterator<V> valueIter = sampleValuesIterator();
-      List<Entry<K, V>> entries = new ArrayList<Entry<K, V>>();
+      List<Entry<K, V>> entries = new ArrayList<>();
       for (K k : insertionOrder) {
         entries.add(mapEntry(k, valueIter.next()));
       }
       Iterable<Entry<K, V>> ordered = multimapGenerator.order(entries);
-      List<K> orderedValues = new ArrayList<K>();
+      List<K> orderedValues = new ArrayList<>();
       for (Entry<K, V> entry : ordered) {
         orderedValues.add(entry.getKey());
       }
@@ -570,12 +570,12 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
           ((TestMultimapGenerator<K, V, M>) multimapGenerator.getInnerGenerator())
               .sampleKeys()
               .e0();
-      List<Entry<K, V>> entries = new ArrayList<Entry<K, V>>();
+      List<Entry<K, V>> entries = new ArrayList<>();
       for (V v : insertionOrder) {
         entries.add(mapEntry(k, v));
       }
       Iterable<Entry<K, V>> orderedEntries = multimapGenerator.order(entries);
-      List<V> values = new ArrayList<V>();
+      List<V> values = new ArrayList<>();
       for (Entry<K, V> entry : orderedEntries) {
         values.add(entry.getValue());
       }

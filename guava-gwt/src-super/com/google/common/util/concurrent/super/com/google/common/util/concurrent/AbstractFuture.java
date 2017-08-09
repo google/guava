@@ -18,6 +18,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
@@ -33,16 +34,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nullable;
 
-/**
- * Emulation for AbstractFuture in GWT.
- */
-public abstract class AbstractFuture<V> implements ListenableFuture<V> {
+/** Emulation for AbstractFuture in GWT. */
+public abstract class AbstractFuture<V> extends FluentFuture<V> {
 
   abstract static class TrustedFuture<V> extends AbstractFuture<V> {
     /*
-     * We don't need to override any of methods that we override in the prod version (and in fact we
-     * can't) because they are already final in AbstractFuture itself under GWT.
+     * We don't need to override most of methods that we override in the prod version (and in fact
+     * we can't) because they are already final in AbstractFuture itself under GWT.
      */
+    @Override
+    public final boolean cancel(boolean mayInterruptIfRunning) {
+      return super.cancel(mayInterruptIfRunning);
+    }
   }
 
   private static final Logger log = Logger.getLogger(AbstractFuture.class.getName());
@@ -60,7 +63,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   }
 
   @Override
-  public final boolean cancel(boolean mayInterruptIfRunning) {
+  public boolean cancel(boolean mayInterruptIfRunning) {
     if (!state.permitsPublicUserToTransitionTo(State.CANCELLED)) {
       return false;
     }
@@ -195,6 +198,61 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     }
   }
 
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder().append(super.toString()).append("[status=");
+    if (isCancelled()) {
+      builder.append("CANCELLED");
+    } else if (isDone()) {
+      addDoneString(builder);
+    } else {
+      String pendingDescription;
+      try {
+        pendingDescription = pendingToString();
+      } catch (RuntimeException e) {
+        // Don't call getMessage or toString() on the exception, in case the exception thrown by the
+        // subclass is implemented with bugs similar to the subclass.
+        pendingDescription = "Exception thrown from implementation: " + e.getClass();
+      }
+      // The future may complete during or before the call to getPendingToString, so we use null
+      // as a signal that we should try checking if the future is done again.
+      if (!isNullOrEmpty(pendingDescription)) {
+        builder.append("PENDING, info=[").append(pendingDescription).append("]");
+      } else if (isDone()) {
+        addDoneString(builder);
+      } else {
+        builder.append("PENDING");
+      }
+    }
+    return builder.append("]").toString();
+  }
+
+  /**
+   * Provide a human-readable explanation of why this future has not yet completed.
+   *
+   * @return null if an explanation cannot be provided because the future is done.
+   */
+  @Nullable
+  String pendingToString() {
+    Object localValue = value;
+    if (localValue instanceof AbstractFuture.SetFuture) {
+      return "setFuture=[" + ((AbstractFuture.SetFuture) localValue).delegate + "]";
+    }
+    return null;
+  }
+
+  private void addDoneString(StringBuilder builder) {
+    try {
+      builder.append("SUCCESS, result=[").append(getDone(this)).append("]");
+    } catch (ExecutionException e) {
+      builder.append("FAILURE, cause=[").append(e.getCause()).append("]");
+    } catch (CancellationException e) {
+      builder.append("CANCELLED");
+    } catch (RuntimeException e) {
+      builder.append("UNKNOWN, cause=[").append(e.getClass()).append(" thrown from get()]");
+    }
+  }
+
   private enum State {
     PENDING {
       @Override
@@ -298,7 +356,9 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
         AbstractFuture<? extends V> other = (AbstractFuture<? extends V>) delegate;
         value = other.value;
         throwable = other.throwable;
-        mayInterruptIfRunning = other.mayInterruptIfRunning;
+        // don't copy the mayInterruptIfRunning bit, for consistency with the server, to ensure that
+        // interruptTask() is called if and only if the bit is true and because we cannot infer the
+        // interrupt status from non AbstractFuture futures.
         state = other.state;
 
         notifyAndClearListeners();

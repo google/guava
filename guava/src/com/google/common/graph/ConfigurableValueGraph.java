@@ -18,7 +18,6 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.GraphConstants.DEFAULT_NODE_COUNT;
-import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
 import static com.google.common.graph.Graphs.checkNonNegative;
 
 import java.util.Map;
@@ -116,7 +115,7 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
   }
 
   @Override
-  public boolean hasEdge(N nodeU, N nodeV) {
+  public boolean hasEdgeConnecting(N nodeU, N nodeV) {
     checkNotNull(nodeU);
     checkNotNull(nodeV);
     GraphConnections<N, V> connectionsU = nodeConnections.get(nodeU);
@@ -124,16 +123,14 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
   }
 
   @Override
+  @Nullable
   public V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue) {
+    checkNotNull(nodeU);
+    checkNotNull(nodeV);
     GraphConnections<N, V> connectionsU = nodeConnections.get(nodeU);
-    if (connectionsU == null) {
-      return defaultValue;
-    }
-    V value = connectionsU.value(nodeV);
-    if (value == null) {
-      return defaultValue;
-    }
-    return value;
+    return connectionsU == null
+        ? defaultValue
+        : connectionsU.value(nodeV);
   }
 
   @Override
@@ -145,7 +142,7 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
     GraphConnections<N, V> connections = nodeConnections.get(node);
     if (connections == null) {
       checkNotNull(node);
-      throw new IllegalArgumentException(String.format(NODE_NOT_IN_GRAPH, node));
+      throw new IllegalArgumentException("Node " + node + " is not an element of this graph.");
     }
     return connections;
   }

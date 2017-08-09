@@ -71,7 +71,7 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
    * are not set in the new builder.
    */
   public static <N> GraphBuilder<N> from(Graph<N> graph) {
-    return new GraphBuilder<Object>(graph.isDirected())
+    return new GraphBuilder<N>(graph.isDirected())
         .allowsSelfLoops(graph.allowsSelfLoops())
         .nodeOrder(graph.nodeOrder());
   }

@@ -21,7 +21,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import com.google.common.base.Charsets;
-import com.google.common.hash.AbstractStreamingHashFunction.AbstractStreamingHasher;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
 import java.io.OutputStream;
@@ -108,7 +107,7 @@ public class FunnelsTest extends TestCase {
 
   private static void assertNullsThrowException(Funnel<?> funnel) {
     PrimitiveSink primitiveSink = new AbstractStreamingHasher(4, 4) {
-      @Override HashCode makeHash() { throw new UnsupportedOperationException(); }
+      @Override protected HashCode makeHash() { throw new UnsupportedOperationException(); }
 
       @Override protected void process(ByteBuffer bb) {
         while (bb.hasRemaining()) {

@@ -20,12 +20,10 @@ import static com.google.common.base.Charsets.UTF_16LE;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.hash.AbstractStreamingHashFunction.AbstractStreamingHasher;
 import com.google.common.hash.HashTestUtils.RandomHasherAction;
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -197,7 +195,7 @@ public class AbstractStreamingHasherTest extends TestCase {
       this.bufferSize = chunkSize;
     }
 
-    @Override HashCode makeHash() {
+    @Override protected HashCode makeHash() {
       return HashCode.fromBytes(out.toByteArray());
     }
 
@@ -248,32 +246,12 @@ public class AbstractStreamingHasherTest extends TestCase {
   // Assumes that AbstractNonStreamingHashFunction works properly (must be tested elsewhere!)
   private static class Control extends AbstractNonStreamingHashFunction {
     @Override
-    public HashCode hashBytes(byte[] input) {
-      return HashCode.fromBytes(input);
-    }
-
-    @Override
     public HashCode hashBytes(byte[] input, int off, int len) {
-      return hashBytes(Arrays.copyOfRange(input, off, off + len));
+      return HashCode.fromBytes(Arrays.copyOfRange(input, off, off + len));
     }
 
     @Override
     public int bits() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public HashCode hashString(CharSequence input, Charset charset) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public HashCode hashLong(long input) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public HashCode hashInt(int input) {
       throw new UnsupportedOperationException();
     }
   }

@@ -190,7 +190,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    */
   @Beta
   public static <T> FluentIterable<T> concat(Iterable<? extends T> a, Iterable<? extends T> b) {
-    return concat(ImmutableList.of(a, b));
+    return concatNoDefensiveCopy(a, b);
   }
 
   /**
@@ -209,7 +209,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   @Beta
   public static <T> FluentIterable<T> concat(
       Iterable<? extends T> a, Iterable<? extends T> b, Iterable<? extends T> c) {
-    return concat(ImmutableList.of(a, b, c));
+    return concatNoDefensiveCopy(a, b, c);
   }
 
   /**
@@ -232,7 +232,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
       Iterable<? extends T> b,
       Iterable<? extends T> c,
       Iterable<? extends T> d) {
-    return concat(ImmutableList.of(a, b, c, d));
+    return concatNoDefensiveCopy(a, b, c, d);
   }
 
   /**
@@ -244,15 +244,36 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * iterator supports it.
    *
    * <p><b>{@code Stream} equivalent:</b> to concatenate an arbitrary number of streams, use {@code
-   * Stream.of(stream1, stream2, ...).flatMap(s -> s)}. If the sources are iterables, after the next
-   * release of Guava you can use {@code Stream.of(iter1, iter2, ...).flatMap(Streams::stream)}.
+   * Stream.of(stream1, stream2, ...).flatMap(s -> s)}. If the sources are iterables, use {@code
+   * Stream.of(iter1, iter2, ...).flatMap(Streams::stream)}.
    *
    * @throws NullPointerException if any of the provided iterables is {@code null}
    * @since 20.0
    */
   @Beta
   public static <T> FluentIterable<T> concat(Iterable<? extends T>... inputs) {
-    return concat(ImmutableList.copyOf(inputs));
+    return concatNoDefensiveCopy(Arrays.copyOf(inputs, inputs.length));
+  }
+
+  /** Concatenates a varargs array of iterables without making a defensive copy of the array. */
+  private static <T> FluentIterable<T> concatNoDefensiveCopy(
+      final Iterable<? extends T>... inputs) {
+    for (Iterable<? extends T> input : inputs) {
+      checkNotNull(input);
+    }
+    return new FluentIterable<T>() {
+      @Override
+      public Iterator<T> iterator() {
+        return Iterators.concat(
+            /* lazily generate the iterators on each input only as needed */
+            new AbstractIndexedListIterator<Iterator<? extends T>>(inputs.length) {
+              @Override
+              public Iterator<? extends T> get(int i) {
+                return inputs[i].iterator();
+              }
+            });
+      }
+    };
   }
 
   /**
@@ -276,7 +297,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
     return new FluentIterable<T>() {
       @Override
       public Iterator<T> iterator() {
-        return Iterators.concat(Iterables.transform(inputs, Iterables.<T>toIterator()).iterator());
+        return Iterators.concat(Iterators.transform(inputs.iterator(), Iterables.<T>toIterator()));
       }
     };
   }
@@ -291,24 +312,6 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   @Beta
   public static <E> FluentIterable<E> of() {
     return FluentIterable.from(ImmutableList.<E>of());
-  }
-
-  /**
-   * Returns a fluent iterable containing {@code elements} in the specified order.
-   *
-   * <p>The returned iterable is modifiable, but modifications do not affect the input array.
-   *
-   * <p><b>{@code Stream} equivalent:</b> {@link java.util.stream.Stream#of(Object[])
-   * Stream.of(T...)}.
-   *
-   * @deprecated Use {@link #from(E[])} instead (but note the differences in mutability). This
-   *     method will be removed in Guava release 21.0.
-   * @since 18.0
-   */
-  @Beta
-  @Deprecated
-  public static <E> FluentIterable<E> of(E[] elements) {
-    return from(Lists.newArrayList(elements));
   }
 
   /**
@@ -389,7 +392,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    */
   @Beta
   public final FluentIterable<E> append(Iterable<? extends E> other) {
-    return from(FluentIterable.concat(getDelegate(), other));
+    return FluentIterable.concat(getDelegate(), other);
   }
 
   /**
@@ -402,7 +405,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    */
   @Beta
   public final FluentIterable<E> append(E... elements) {
-    return from(FluentIterable.concat(getDelegate(), Arrays.asList(elements)));
+    return FluentIterable.concat(getDelegate(), Arrays.asList(elements));
   }
 
   /**
@@ -494,7 +497,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    */
   public <T> FluentIterable<T> transformAndConcat(
       Function<? super E, ? extends Iterable<? extends T>> function) {
-    return from(FluentIterable.concat(transform(function)));
+    return FluentIterable.concat(transform(function));
   }
 
   /**

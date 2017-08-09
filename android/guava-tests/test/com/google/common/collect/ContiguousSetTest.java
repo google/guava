@@ -77,11 +77,35 @@ public class ContiguousSetTest extends TestCase {
         }
       };
 
+  public void testInvalidIntRange() {
+    try {
+      ContiguousSet.closed(2, 1);
+      fail();
+    } catch (IllegalArgumentException expected) {}
+    try {
+      ContiguousSet.closedOpen(2, 1);
+      fail();
+    } catch (IllegalArgumentException expected) {}
+  }
+
+  public void testInvalidLongRange() {
+    try {
+      ContiguousSet.closed(2L, 1L);
+      fail();
+    } catch (IllegalArgumentException expected) {}
+    try {
+      ContiguousSet.closedOpen(2L, 1L);
+      fail();
+    } catch (IllegalArgumentException expected) {}
+  }
+
   public void testEquals() {
     new EqualsTester()
         .addEqualityGroup(
             ContiguousSet.create(Range.closed(1, 3), integers()),
+            ContiguousSet.closed(1, 3),
             ContiguousSet.create(Range.closedOpen(1, 4), integers()),
+            ContiguousSet.closedOpen(1, 4),
             ContiguousSet.create(Range.openClosed(0, 3), integers()),
             ContiguousSet.create(Range.open(0, 4), integers()),
             ContiguousSet.create(Range.closed(1, 3), NOT_EQUAL_TO_INTEGERS),
@@ -91,18 +115,20 @@ public class ContiguousSetTest extends TestCase {
             ImmutableSortedSet.of(1, 2, 3))
         .addEqualityGroup(
             ContiguousSet.create(Range.closedOpen(1, 1), integers()),
+            ContiguousSet.closedOpen(1, 1),
+            ContiguousSet.closedOpen(Integer.MIN_VALUE, Integer.MIN_VALUE),
             ImmutableSortedSet.of(),
             ImmutableSet.of())
         .testEquals();
     // not testing hashCode for these because it takes forever to compute
     assertEquals(
-        ContiguousSet.create(Range.closed(Integer.MIN_VALUE, Integer.MAX_VALUE), integers()),
+        ContiguousSet.closed(Integer.MIN_VALUE, Integer.MAX_VALUE),
         ContiguousSet.create(Range.<Integer>all(), integers()));
     assertEquals(
-        ContiguousSet.create(Range.closed(Integer.MIN_VALUE, Integer.MAX_VALUE), integers()),
+        ContiguousSet.closed(Integer.MIN_VALUE, Integer.MAX_VALUE),
         ContiguousSet.create(Range.atLeast(Integer.MIN_VALUE), integers()));
     assertEquals(
-        ContiguousSet.create(Range.closed(Integer.MIN_VALUE, Integer.MAX_VALUE), integers()),
+        ContiguousSet.closed(Integer.MIN_VALUE, Integer.MAX_VALUE),
         ContiguousSet.create(Range.atMost(Integer.MAX_VALUE), integers()));
   }
 
@@ -145,6 +171,7 @@ public class ContiguousSetTest extends TestCase {
 
   public void testCreate_empty() {
     assertEquals(ImmutableSet.of(), ContiguousSet.create(Range.closedOpen(1, 1), integers()));
+    assertEquals(ImmutableSet.of(), ContiguousSet.closedOpen(1, 1));
     assertEquals(ImmutableSet.of(), ContiguousSet.create(Range.openClosed(5, 5), integers()));
     assertEquals(ImmutableSet.of(),
         ContiguousSet.create(Range.lessThan(Integer.MIN_VALUE), integers()));
@@ -261,10 +288,11 @@ public class ContiguousSetTest extends TestCase {
   }
 
   public void testRange() {
-    assertEquals(Range.closed(1, 3),
-        ContiguousSet.create(Range.closed(1, 3), integers()).range());
+    assertEquals(Range.closed(1, 3), ContiguousSet.create(Range.closed(1, 3), integers()).range());
+    assertEquals(Range.closed(1, 3), ContiguousSet.closed(1, 3).range());
     assertEquals(Range.closed(1, 3),
         ContiguousSet.create(Range.closedOpen(1, 4), integers()).range());
+    assertEquals(Range.closed(1, 3), ContiguousSet.closedOpen(1, 4).range());
     assertEquals(Range.closed(1, 3), ContiguousSet.create(Range.open(0, 4), integers()).range());
     assertEquals(Range.closed(1, 3),
         ContiguousSet.create(Range.openClosed(0, 3), integers()).range());
@@ -309,8 +337,8 @@ public class ContiguousSetTest extends TestCase {
   }
 
   public void testIntersection_empty() {
-    ContiguousSet<Integer> set = ContiguousSet.create(Range.closed(1, 3), integers());
-    ContiguousSet<Integer> emptySet = ContiguousSet.create(Range.closedOpen(2, 2), integers());
+    ContiguousSet<Integer> set = ContiguousSet.closed(1, 3);
+    ContiguousSet<Integer> emptySet = ContiguousSet.closedOpen(2, 2);
     assertEquals(ImmutableSet.of(), set.intersection(emptySet));
     assertEquals(ImmutableSet.of(), emptySet.intersection(set));
     assertEquals(ImmutableSet.of(),

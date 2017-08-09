@@ -413,6 +413,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    *           .add(new Color(0, 191, 255))
    *           .build();}</pre>
    *
+   * <p>Elements appear in the resulting set in the same order they were first added to the builder.
+   *
    * <p>Building does not change the state of the builder, so it is still possible to add more
    * elements and to build again.
    *

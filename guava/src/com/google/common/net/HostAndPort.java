@@ -93,16 +93,6 @@ public final class HostAndPort implements Serializable {
     return host;
   }
 
-  /**
-   * Old name of {@link #getHost}.
-   *
-   * @deprecated Use {@link #getHost()} instead. This method is scheduled for removal in Guava 22.0.
-   */
-  @Deprecated
-  public String getHostText() {
-    return host;
-  }
-
   /** Return true if this instance has a defined port. */
   public boolean hasPort() {
     return port >= 0;

@@ -46,7 +46,7 @@ public class BiMapInverseTester<K, V> extends AbstractBiMapTester<K, V> {
 
   @CollectionFeature.Require(SERIALIZABLE)
   public void testInverseSerialization() {
-    BiMapPair<K, V> pair = new BiMapPair<K, V>(getMap());
+    BiMapPair<K, V> pair = new BiMapPair<>(getMap());
     BiMapPair<K, V> copy = SerializableTester.reserialize(pair);
     assertEquals(pair.forward, copy.forward);
     assertEquals(pair.backward, copy.backward);

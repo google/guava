@@ -62,7 +62,7 @@ public class MoreExecutorsDirectExecutorBenchmark {
 
   CountingRunnable countingRunnable = new CountingRunnable();
 
-  Set<Thread> threads = new HashSet<Thread>();
+  Set<Thread> threads = new HashSet<>();
 
   @BeforeExperiment void before() {
     executor = impl.executor();

@@ -58,9 +58,9 @@ public class OrderingTest extends TestCase {
     Ordering<Object> comparator = Ordering.allEqual();
     assertSame(comparator, comparator.reverse());
 
-    assertEquals(comparator.compare(null, null), 0);
-    assertEquals(comparator.compare(new Object(), new Object()), 0);
-    assertEquals(comparator.compare("apples", "oranges"), 0);
+    assertEquals(0, comparator.compare(null, null));
+    assertEquals(0, comparator.compare(new Object(), new Object()));
+    assertEquals(0, comparator.compare("apples", "oranges"));
     assertSame(comparator, reserialize(comparator));
     assertEquals("Ordering.allEqual()", comparator.toString());
 
@@ -908,7 +908,7 @@ public class OrderingTest extends TestCase {
 
     // shoot me, but I didn't want to deal with wildcards through the whole test
     @SuppressWarnings("unchecked")
-    Scenario<T> starter = new Scenario<T>((Ordering) ordering, list, emptyArray);
+    Scenario<T> starter = new Scenario<>((Ordering) ordering, list, emptyArray);
     verifyScenario(starter, 0);
   }
 

@@ -16,6 +16,7 @@ package com.google.common.hash;
 
 import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
 /**
@@ -55,6 +56,17 @@ public interface PrimitiveSink {
    *     {@code len < 0}
    */
   PrimitiveSink putBytes(byte[] bytes, int off, int len);
+
+  /**
+   * Puts the remaining bytes of a byte buffer into this sink. {@code bytes.position()} is the first
+   * byte written, {@code bytes.limit() - 1} is the last. The position of the buffer will be equal
+   * to the limit when this method returns.
+   *
+   * @param bytes a byte buffer
+   * @return this instance
+   * @since 23.0
+   */
+  PrimitiveSink putBytes(ByteBuffer bytes);
 
   /**
    * Puts a short into this sink.

@@ -91,7 +91,7 @@ public class AbstractScheduledServiceTest extends TestCase {
     // An execution exception holds a runtime exception (from throwables.propogate) that holds our
     // original exception.
     assertEquals(service.runException, service.failureCause());
-    assertEquals(service.state(), Service.State.FAILED);
+    assertEquals(Service.State.FAILED, service.state());
   }
 
   public void testFailOnExceptionFromStartUp() {

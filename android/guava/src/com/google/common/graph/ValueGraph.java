@@ -172,25 +172,19 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
 
   /** {@inheritDoc} */
   @Override
-  boolean hasEdge(N nodeU, N nodeV);
+  boolean hasEdgeConnecting(N nodeU, N nodeV);
 
   /**
-   * If there is an edge connecting {@code nodeU} to {@code nodeV}, returns the non-null value
-   * associated with that edge.
-   *
-   * <p>In an undirected graph, this is equal to {@code edgeValue(nodeV, nodeU)}.
-   *
-   * @throws IllegalArgumentException if there is no edge connecting {@code nodeU} to {@code nodeV}.
-   */
-  V edgeValue(N nodeU, N nodeV);
-
-  /**
-   * If there is an edge connecting {@code nodeU} to {@code nodeV}, returns the non-null value
-   * associated with that edge; otherwise, returns {@code defaultValue}.
+   * Returns the value of the edge connecting {@code nodeU} to {@code nodeV}, if one is present;
+   * otherwise, returns {@code defaultValue}.
    *
    * <p>In an undirected graph, this is equal to {@code edgeValueOrDefault(nodeV, nodeU,
    * defaultValue)}.
+   *
+   * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
+   *     graph
    */
+  @Nullable
   V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue);
 
   //
@@ -207,7 +201,7 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
    * <li>A and B have equal {@link #isDirected() directedness}.
    * <li>A and B have equal {@link #nodes() node sets}.
    * <li>A and B have equal {@link #edges() edge sets}.
-   * <li>Every edge in A and B are associated with equal {@link #edgeValue(Object, Object) values}.
+   * <li>The {@link #edgeValue(Object, Object) value} of a given edge is the same in both A and B.
    * </ul>
    *
    * <p>Graph properties besides {@link #isDirected() directedness} do <b>not</b> affect equality.

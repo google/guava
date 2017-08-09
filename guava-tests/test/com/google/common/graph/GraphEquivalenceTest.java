@@ -16,8 +16,11 @@
 
 package com.google.common.graph;
 
+import static com.google.common.graph.TestUtil.EdgeType.DIRECTED;
+import static com.google.common.graph.TestUtil.EdgeType.UNDIRECTED;
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.graph.TestUtil.EdgeType;
 import java.util.Arrays;
 import java.util.Collection;
 import org.junit.Test;
@@ -32,11 +35,6 @@ public final class GraphEquivalenceTest {
   private static final Integer N1 = 1;
   private static final Integer N2 = 2;
   private static final Integer N3 = 3;
-
-  enum EdgeType {
-    UNDIRECTED,
-    DIRECTED
-  }
 
   private final EdgeType edgeType;
   private final MutableGraph<Integer> graph;

@@ -73,7 +73,7 @@ public class TreeRangeMapTest extends TestCase {
         @Override
         public Iterable<Entry<Range<Integer>, String>> order(
             List<Entry<Range<Integer>, String>> insertionOrder) {
-          return Range.RANGE_LEX_ORDERING.<Range<Integer>>onKeys()
+          return Range.<Integer>rangeLexOrdering().onKeys()
               .sortedCopy(insertionOrder);
         }
 
@@ -128,7 +128,7 @@ public class TreeRangeMapTest extends TestCase {
         @Override
         public Iterable<Entry<Range<Integer>, String>> order(
             List<Entry<Range<Integer>, String>> insertionOrder) {
-          return Range.RANGE_LEX_ORDERING.<Range<Integer>>onKeys()
+          return Range.<Integer>rangeLexOrdering().onKeys()
               .sortedCopy(insertionOrder);
         }
 
@@ -182,7 +182,7 @@ public class TreeRangeMapTest extends TestCase {
         @Override
         public Iterable<Entry<Range<Integer>, String>> order(
             List<Entry<Range<Integer>, String>> insertionOrder) {
-          return Range.RANGE_LEX_ORDERING.reverse().<Range<Integer>>onKeys()
+          return Range.<Integer>rangeLexOrdering().reverse().onKeys()
               .sortedCopy(insertionOrder);
         }
 
@@ -237,7 +237,7 @@ public class TreeRangeMapTest extends TestCase {
         @Override
         public Iterable<Entry<Range<Integer>, String>> order(
             List<Entry<Range<Integer>, String>> insertionOrder) {
-          return Range.RANGE_LEX_ORDERING.reverse().<Range<Integer>>onKeys()
+          return Range.<Integer>rangeLexOrdering().reverse().onKeys()
               .sortedCopy(insertionOrder);
         }
 
@@ -263,8 +263,8 @@ public class TreeRangeMapTest extends TestCase {
   }
 
   private static final ImmutableList<Range<Integer>> RANGES;
-  private static final int MIN_BOUND = -2;
-  private static final int MAX_BOUND = 2;
+  private static final int MIN_BOUND = -1;
+  private static final int MAX_BOUND = 1;
   static {
     ImmutableList.Builder<Range<Integer>> builder = ImmutableList.builder();
 

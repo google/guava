@@ -42,6 +42,7 @@ import java.lang.reflect.WildcardType;
 import java.security.AccessControlException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import javax.annotation.Nullable;
 
@@ -295,7 +296,7 @@ final class Types {
     @Override
     public String toString() {
       StringBuilder builder = new StringBuilder();
-      if (ownerType != null) {
+      if (ownerType != null && JavaVersion.CURRENT.jdkTypeDuplicatesOwnerName()) {
         builder.append(JavaVersion.CURRENT.typeName(ownerType)).append('.');
       }
       return builder
@@ -542,7 +543,7 @@ final class Types {
     return Array.newInstance(componentType, 0).getClass();
   }
 
-  // TODO(benyu): Once we are on Java 8, delete this abstraction
+  // TODO(benyu): Once behavior is the same for all Java versions we support, delete this.
   enum JavaVersion {
     JAVA6 {
       @Override
@@ -601,13 +602,40 @@ final class Types {
           throw new RuntimeException(e);
         }
       }
+    },
+    JAVA9 {
+      @Override
+      Type newArrayType(Type componentType) {
+        return JAVA8.newArrayType(componentType);
+      }
+
+      @Override
+      Type usedInGenericType(Type type) {
+        return JAVA8.usedInGenericType(type);
+      }
+
+      @Override
+      String typeName(Type type) {
+        return JAVA8.typeName(type);
+      }
+
+      @Override
+      boolean jdkTypeDuplicatesOwnerName() {
+        return false;
+      }
     };
 
     static final JavaVersion CURRENT;
 
     static {
       if (AnnotatedElement.class.isAssignableFrom(TypeVariable.class)) {
-        CURRENT = JAVA8;
+        if (new TypeCapture<Map.Entry<String, int[][]>>() {}.capture()
+            .toString()
+            .contains("java.util.Map.java.util.Map")) {
+          CURRENT = JAVA8;
+        } else {
+          CURRENT = JAVA9;
+        }
       } else if (new TypeCapture<int[]>() {}.capture() instanceof Class) {
         CURRENT = JAVA7;
       } else {
@@ -621,6 +649,10 @@ final class Types {
 
     String typeName(Type type) {
       return Types.toString(type);
+    }
+
+    boolean jdkTypeDuplicatesOwnerName() {
+      return true;
     }
 
     final ImmutableList<Type> usedInGenericType(Type[] types) {

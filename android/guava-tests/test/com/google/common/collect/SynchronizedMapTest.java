@@ -37,7 +37,7 @@ public class SynchronizedMapTest extends TestCase {
   public final Object mutex = new Integer(1); // something Serializable
 
   protected <K, V> Map<K, V> create() {
-    TestMap<K, V> inner = new TestMap<K, V>(new HashMap<K, V>(), mutex);
+    TestMap<K, V> inner = new TestMap<>(new HashMap<K, V>(), mutex);
     Map<K, V> outer = Synchronized.map(inner, mutex);
     return outer;
   }

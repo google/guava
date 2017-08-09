@@ -16,7 +16,9 @@
 
 package com.google.common.io;
 
+import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
+import static java.lang.Integer.parseInt;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
@@ -24,7 +26,6 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.testing.TestLogHandler;
 import java.io.Closeable;
@@ -52,13 +53,26 @@ public class CloserTest extends TestCase {
   @AndroidIncompatible // TODO(cpovirk): Look up Build.VERSION.SDK_INT reflectively.
   public void testCreate() {
     Closer closer = Closer.create();
-    String javaVersion = System.getProperty("java.version");
-    String secondPart = Iterables.get(Splitter.on('.').split(javaVersion), 1);
-    int versionNumber = Integer.parseInt(secondPart);
+    int versionNumber = parseInt(javaVersion());
     if (versionNumber < 7) {
       assertThat(closer.suppressor).isInstanceOf(Closer.LoggingSuppressor.class);
     } else {
       assertThat(closer.suppressor).isInstanceOf(Closer.SuppressingSuppressor.class);
+    }
+  }
+
+  @AndroidIncompatible // TODO(cpovirk): Look up Build.VERSION.SDK_INT reflectively.
+  private static String javaVersion() {
+    String javaVersion = System.getProperty("java.version");
+    List<String> parts = Splitter.on('.').splitToList(javaVersion);
+    // Format varies by version: http://openjdk.java.net/jeps/223
+    if (parts.size() == 1) {
+      // Java 9 style: majorversion-foo
+      String major = getOnlyElement(parts);
+      return major.replaceFirst("-.*", "");
+    } else {
+      // pre-Java 8 style: 1.majorversion
+      return parts.get(1);
     }
   }
 

@@ -585,7 +585,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
 
     Object readResolve() {
       int n = elements.length;
-      Builder<E> builder = new Builder<E>(comparator);
+      Builder<E> builder = new Builder<>(comparator);
       for (int i = 0; i < n; i++) {
         builder.addCopies(elements[i], counts[i]);
       }

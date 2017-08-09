@@ -101,6 +101,9 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
     return false;
   }
 
+  // Prevent "missing hashCode" warning by explicitly forcing subclasses implement it
+  @Override public abstract int hashCode();
+
   /*
    * The implementation neither produces nor consumes any non-null instance of type C, so
    * casting the type parameter is safe.
@@ -186,6 +189,11 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
     }
 
     @Override
+    public int hashCode() {
+      return System.identityHashCode(this);
+    }
+
+    @Override
     public String toString() {
       return "-\u221e";
     }
@@ -268,6 +276,11 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
     @Override
     public int compareTo(Cut<Comparable<?>> o) {
       return (o == this) ? 0 : 1;
+    }
+
+    @Override
+    public int hashCode() {
+      return System.identityHashCode(this);
     }
 
     @Override

@@ -380,7 +380,7 @@ public final class Quantiles {
     public Map<Integer, Double> computeInPlace(double... dataset) {
       checkArgument(dataset.length > 0, "Cannot calculate quantiles of an empty dataset");
       if (containsNaN(dataset)) {
-        Map<Integer, Double> nanMap = new HashMap<Integer, Double>();
+        Map<Integer, Double> nanMap = new HashMap<>();
         for (int index : indexes) {
           nanMap.put(index, NaN);
         }
@@ -419,7 +419,7 @@ public final class Quantiles {
       sort(requiredSelections, 0, requiredSelectionsCount);
       selectAllInPlace(
           requiredSelections, 0, requiredSelectionsCount - 1, dataset, 0, dataset.length - 1);
-      Map<Integer, Double> ret = new HashMap<Integer, Double>();
+      Map<Integer, Double> ret = new HashMap<>();
       for (int i = 0; i < indexes.length; i++) {
         int quotient = quotients[i];
         int remainder = remainders[i];

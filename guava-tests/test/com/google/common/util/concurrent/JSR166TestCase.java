@@ -1199,7 +1199,7 @@ abstract class JSR166TestCase extends TestCase {
             assertNull(q.peek());
             assertNull(q.poll());
             assertNull(q.poll(0, MILLISECONDS));
-            assertEquals(q.toString(), "[]");
+      assertEquals("[]", q.toString());
             assertTrue(Arrays.equals(q.toArray(), new Object[0]));
             assertFalse(q.iterator().hasNext());
             try {

@@ -17,7 +17,7 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Optional;
+import java.util.Optional;
 import java.util.Set;
 import javax.annotation.Nullable;
 
@@ -287,7 +287,8 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
   Set<E> edgesConnecting(N nodeU, N nodeV);
 
   /**
-   * Returns the single edge directly connecting {@code nodeU} to {@code nodeV}, if one is present.
+   * Returns the single edge directly connecting {@code nodeU} to {@code nodeV}, if one is present,
+   * or {@code Optional.empty()} if no such edge exists.
    *
    * <p>In an undirected network, this is equal to {@code edgeConnecting(nodeV, nodeU)}.
    *
@@ -295,8 +296,35 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    *     to {@code nodeV}
    * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
    *     network
+   * @since 23.0
    */
   Optional<E> edgeConnecting(N nodeU, N nodeV);
+
+  /**
+   * Returns the single edge directly connecting {@code nodeU} to {@code nodeV}, if one is present,
+   * or {@code null} if no such edge exists.
+   *
+   * <p>In an undirected network, this is equal to {@code edgeConnectingOrNull(nodeV, nodeU)}.
+   *
+   * @throws IllegalArgumentException if there are multiple parallel edges connecting {@code nodeU}
+   *     to {@code nodeV}
+   * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
+   *     network
+   * @since 23.0
+   */
+  @Nullable
+  E edgeConnectingOrNull(N nodeU, N nodeV);
+
+  /**
+   * Returns true if there is an edge directly connecting {@code nodeU} to {@code nodeV}. This is
+   * equivalent to {@code nodes().contains(nodeU) && successors(nodeU).contains(nodeV)},
+   * and to {@code edgeConnectingOrNull(nodeU, nodeV) != null}.
+   *
+   * <p>In an undirected graph, this is equal to {@code hasEdgeConnecting(nodeV, nodeU)}.
+   *
+   * @since 23.0
+   */
+  boolean hasEdgeConnecting(N nodeU, N nodeV);
 
   //
   // Network identity

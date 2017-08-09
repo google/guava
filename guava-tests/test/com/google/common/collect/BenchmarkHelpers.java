@@ -50,6 +50,12 @@ final class BenchmarkHelpers {
     String name();
   }
 
+  public interface InternerImplEnum {
+    <E> Interner<E> create(Collection<E> contents);
+
+    String name();
+  }
+
   public enum SetImpl implements CollectionsImplEnum {
     HashSetImpl {
       @Override
@@ -372,12 +378,38 @@ final class BenchmarkHelpers {
         Table<R, C, V> create(Table<R, C, V> contents);
   }
 
+  public enum InternerImpl implements InternerImplEnum {
+    WeakInternerImpl {
+      @Override
+      public <E> Interner<E> create(Collection<E> contents) {
+        Interner<E> interner = Interners.newWeakInterner();
+        for (E e : contents) {
+          interner.intern(e);
+        }
+        return interner;
+      }
+    },
+    StrongInternerImpl {
+      @Override
+      public <E> Interner<E> create(Collection<E> contents) {
+        Interner<E> interner = Interners.newStrongInterner();
+        for (E e : contents) {
+          interner.intern(e);
+        }
+        return interner;
+      }
+    };
+  }
+
   public enum Value {
     INSTANCE;
   }
 
   public enum ListSizeDistribution {
-    UNIFORM_0_TO_2(0, 2), UNIFORM_0_TO_9(0, 9), ALWAYS_0(0, 0), ALWAYS_10(10, 10);
+    UNIFORM_0_TO_2(0, 2),
+    UNIFORM_0_TO_9(0, 9),
+    ALWAYS_0(0, 0),
+    ALWAYS_10(10, 10);
 
     final int min;
     final int max;

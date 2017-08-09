@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.ForOverride;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.Iterator;
@@ -140,6 +141,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * @param a the instance to convert; will never be null
    * @return the converted instance; <b>must not</b> be null
    */
+  @ForOverride
   protected abstract B doForward(A a);
 
   /**
@@ -154,6 +156,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
    *     then this is not logically a {@code Converter} at all, and should just implement {@link
    *     Function}.
    */
+  @ForOverride
   protected abstract A doBackward(B b);
 
   // API (consumer-side) methods

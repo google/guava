@@ -100,7 +100,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   public static <K, V> ImmutableMap<K, V> of(K k1, V v1) {
-    return new RegularImmutableMap<K, V>(entryOf(k1, v1));
+    return ImmutableBiMap.of(k1, v1);
   }
 
   public static <K, V> ImmutableMap<K, V> of(K k1, V v1, K k2, V v2) {

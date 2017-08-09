@@ -64,12 +64,12 @@ abstract class AbstractUndirectedNetworkConnections<N, E> implements NetworkConn
   }
 
   @Override
-  public N oppositeNode(Object edge) {
+  public N adjacentNode(E edge) {
     return checkNotNull(incidentEdgeMap.get(edge));
   }
 
   @Override
-  public N removeInEdge(Object edge, boolean isSelfLoop) {
+  public N removeInEdge(E edge, boolean isSelfLoop) {
     if (!isSelfLoop) {
       return removeOutEdge(edge);
     }
@@ -77,7 +77,7 @@ abstract class AbstractUndirectedNetworkConnections<N, E> implements NetworkConn
   }
 
   @Override
-  public N removeOutEdge(Object edge) {
+  public N removeOutEdge(E edge) {
     N previousNode = incidentEdgeMap.remove(edge);
     return checkNotNull(previousNode);
   }

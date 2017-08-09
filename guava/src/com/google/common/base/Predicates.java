@@ -108,6 +108,7 @@ public final class Predicates {
    * components} is empty, the returned predicate will always evaluate to {@code
    * true}.
    */
+  @SafeVarargs
   public static <T> Predicate<T> and(Predicate<? super T>... components) {
     return new AndPredicate<T>(defensiveCopy(components));
   }
@@ -141,6 +142,7 @@ public final class Predicates {
    * components} is empty, the returned predicate will always evaluate to {@code
    * false}.
    */
+  @SafeVarargs
   public static <T> Predicate<T> or(Predicate<? super T>... components) {
     return new OrPredicate<T>(defensiveCopy(components));
   }
@@ -367,8 +369,6 @@ public final class Predicates {
     private static final long serialVersionUID = 0;
   }
 
-  private static final Joiner COMMA_JOINER = Joiner.on(',');
-
   /** @see Predicates#and(Iterable) */
   private static class AndPredicate<T> implements Predicate<T>, Serializable {
     private final List<? extends Predicate<? super T>> components;
@@ -405,7 +405,7 @@ public final class Predicates {
 
     @Override
     public String toString() {
-      return "Predicates.and(" + COMMA_JOINER.join(components) + ")";
+      return toStringHelper("and", components);
     }
 
     private static final long serialVersionUID = 0;
@@ -447,10 +447,23 @@ public final class Predicates {
 
     @Override
     public String toString() {
-      return "Predicates.or(" + COMMA_JOINER.join(components) + ")";
+      return toStringHelper("or", components);
     }
 
     private static final long serialVersionUID = 0;
+  }
+
+  private static String toStringHelper(String methodName, Iterable<?> components) {
+    StringBuilder builder = new StringBuilder("Predicates.").append(methodName).append('(');
+    boolean first = true;
+    for (Object o : components) {
+      if (!first) {
+        builder.append(',');
+      }
+      builder.append(o);
+      first = false;
+    }
+    return builder.append(')').toString();
   }
 
   /** @see Predicates#equalTo(Object) */

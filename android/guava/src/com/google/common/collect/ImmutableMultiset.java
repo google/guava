@@ -463,6 +463,11 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     Builder(int estimatedDistinct) {
       this.contents = ObjectCountHashMap.createWithExpectedSize(estimatedDistinct);
     }
+    
+    Builder(boolean forSubtype) {
+      // for ImmutableSortedMultiset not to allocate data structures not used there
+      this.contents = null;
+    }
 
     /**
      * Adds {@code element} to the {@code ImmutableMultiset}.

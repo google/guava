@@ -432,9 +432,11 @@ public class ImmutableIntArrayTest extends TestCase {
                   CollectionSize.SEVERAL,
                   CollectionFeature.ALLOWS_NULL_QUERIES,
                   CollectionFeature.RESTRICTS_ELEMENTS,
-                  CollectionFeature.KNOWN_ORDER /*, SERIALIZABLE_INCLUDING_VIEWS*/)
+                  CollectionFeature.KNOWN_ORDER,
+                  CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS)
               .createTestSuite());
     }
+    suite.addTestSuite(ImmutableIntArrayTest.class);
     return suite;
   }
 

@@ -16,8 +16,11 @@
 
 package com.google.common.graph;
 
+import static com.google.common.graph.TestUtil.EdgeType.DIRECTED;
+import static com.google.common.graph.TestUtil.EdgeType.UNDIRECTED;
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.graph.TestUtil.EdgeType;
 import java.util.Arrays;
 import java.util.Collection;
 import org.junit.Test;
@@ -37,11 +40,6 @@ public final class NetworkEquivalenceTest {
   private static final String E12 = "1-2";
   private static final String E12_A = "1-2a";
   private static final String E13 = "1-3";
-
-  enum EdgeType {
-    UNDIRECTED,
-    DIRECTED
-  }
 
   private final EdgeType edgeType;
   private final MutableNetwork<Integer, String> network;

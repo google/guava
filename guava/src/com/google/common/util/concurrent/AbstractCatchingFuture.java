@@ -138,6 +138,23 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
     setResult(fallbackResult);
   }
 
+  @Override
+  protected String pendingToString() {
+    ListenableFuture<? extends V> localInputFuture = inputFuture;
+    Class<X> localExceptionType = exceptionType;
+    F localFallback = fallback;
+    if (localInputFuture != null && localExceptionType != null && localFallback != null) {
+      return "input=["
+          + localInputFuture
+          + "], exceptionType=["
+          + localExceptionType
+          + "], fallback=["
+          + localFallback
+          + "]";
+    }
+    return null;
+  }
+
   /** Template method for subtypes to actually run the fallback. */
   @ForOverride
   @Nullable

@@ -36,11 +36,11 @@ public class ConverterTest extends TestCase {
 
   private static final Converter<String, Long> STR_TO_LONG =
       new Converter<String, Long>() {
-        @Override public Long doForward(String object) {
+        @Override protected Long doForward(String object) {
           return Long.valueOf(object);
         }
 
-        @Override public String doBackward(Long object) {
+        @Override protected String doBackward(Long object) {
           return String.valueOf(object);
         }
 
@@ -112,11 +112,11 @@ public class ConverterTest extends TestCase {
 
   public void testAndThen() {
     Converter<StringWrapper, String> first = new Converter<StringWrapper, String>() {
-      @Override public String doForward(StringWrapper object) {
+      @Override protected String doForward(StringWrapper object) {
         return object.value;
       }
 
-      @Override public StringWrapper doBackward(String object) {
+      @Override protected StringWrapper doBackward(String object) {
         return new StringWrapper(object);
       }
 
@@ -184,10 +184,10 @@ public class ConverterTest extends TestCase {
 
   private static Converter<String, String> sillyConverter(final boolean handleNullAutomatically) {
     return new Converter<String, String>(handleNullAutomatically) {
-      @Override public String doForward(String string) {
+      @Override protected String doForward(String string) {
         return "forward";
       }
-      @Override public String doBackward(String string) {
+      @Override protected String doBackward(String string) {
         return "backward";
       }
     };

@@ -525,6 +525,7 @@ public class ListsTest extends TestCase {
     assertEquals(Collections.emptyList(), fromList);
   }
 
+  @SafeVarargs
   private static <E> List<E> list(E... elements) {
     return ImmutableList.copyOf(elements);
   }

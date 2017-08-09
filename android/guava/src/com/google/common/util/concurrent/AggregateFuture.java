@@ -55,7 +55,7 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
           localRunningState.futures;
       boolean wasInterrupted = wasInterrupted();
 
-      if (wasInterrupted()) {
+      if (wasInterrupted) {
         localRunningState.interruptTask();
       }
 
@@ -65,6 +65,20 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
         }
       }
     }
+  }
+
+  @Override
+  protected String pendingToString() {
+    RunningState localRunningState = runningState;
+    if (localRunningState == null) {
+      return null;
+    }
+    ImmutableCollection<? extends ListenableFuture<? extends InputT>> localFutures =
+        localRunningState.futures;
+    if (localFutures != null) {
+      return "futures=[" + localFutures + "]";
+    }
+    return null;
   }
 
   /**

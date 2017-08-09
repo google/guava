@@ -39,6 +39,7 @@ import com.google.common.annotations.VisibleForTesting;
  * @author Geoff Pike
  */
 final class FarmHashFingerprint64 extends AbstractNonStreamingHashFunction {
+  static final HashFunction FARMHASH_FINGERPRINT_64 = new FarmHashFingerprint64();
 
   // Some primes between 2^63 and 2^64 for various uses.
   private static final long K0 = 0xc3a5c85c97cb3127L;
