@@ -82,4 +82,13 @@ public class LocalCacheMapComputeTest extends TestCase {
     });
     assertEquals(0, cache.size());
   }
+
+  public void testComputeExceptionally() {
+    try {
+      doParallelCacheOp(count, n -> {
+        cache.asMap().compute(key, (k, v) -> { throw new RuntimeException(); });
+      });
+    } catch (RuntimeException ex) {
+    }
+  }
 }
