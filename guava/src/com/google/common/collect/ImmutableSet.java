@@ -556,6 +556,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       // construct has the side effect of deduping contents, so we update size
       // accordingly.
       size = result.size();
+      forceCopy = true;
       return result;
     }
   }

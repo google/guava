@@ -464,7 +464,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
       size += elements.length;
       return this;
     }
-
+    
     @CanIgnoreReturnValue
     @Override
     public Builder<E> addAll(Iterable<? extends E> elements) {

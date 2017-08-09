@@ -156,6 +156,18 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     assertThat(set).containsExactly("a", "b", "c").inOrder();
   }
 
+  @GwtIncompatible("Builder impl")
+  public void testBuilderForceCopy() {
+    ImmutableSet.Builder<Integer> builder = ImmutableSet.builder();
+    Object[] prevArray = null;
+    for (int i = 0; i < 10; i++) {
+      builder.add(i);
+      assertNotSame(builder.contents, prevArray);
+      prevArray = builder.contents;
+      ImmutableSet<Integer> unused = builder.build();
+    }
+  }
+
   public void testCreation_arrayOfArray() {
     String[] array = new String[] { "a" };
     Set<String[]> set = ImmutableSet.<String[]>of(array);

@@ -816,6 +816,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
      */
     @Override
     public ImmutableList<E> build() {
+      forceCopy = true;
       return asImmutableList(contents, size);
     }
   }
