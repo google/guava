@@ -3741,7 +3741,14 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       } catch (ExecutionException e) {
         previousValue = null;
       }
-      V newValue = function.apply(key, previousValue);
+      V newValue;
+      try {
+        newValue = function.apply(key, previousValue);
+      }
+      catch (Throwable th) {
+        this.setException(th);
+        throw th;
+      }
       this.set(newValue);
       return newValue;
     }
