@@ -77,7 +77,6 @@ import com.google.common.annotations.Beta;
  * @param <N> Node parameter type
  * @since 23.0
  */
-// TODO(b/35456940): Update the documentation to reflect the new interfaces
 @Beta
 public interface PredecessorsFunction<N> {
 
