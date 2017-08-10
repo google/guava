@@ -88,6 +88,7 @@ public class LocalCacheMapComputeTest extends TestCase {
       doParallelCacheOp(count, n -> {
         cache.asMap().compute(key, (k, v) -> { throw new RuntimeException(); });
       });
+      fail("Should not get here");
     } catch (RuntimeException ex) {
     }
   }
