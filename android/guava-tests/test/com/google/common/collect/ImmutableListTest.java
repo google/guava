@@ -742,6 +742,20 @@ public class ImmutableListTest extends TestCase {
       }
     }
 
+    @GwtIncompatible
+    public void testBuilderExactlySizedReusesArray() {
+      ImmutableList.Builder<Integer> builder = ImmutableList.builderWithExpectedSize(10);
+      Object[] builderArray = builder.contents;
+      for (int i = 0; i < 10; i++) {
+        builder.add(i);
+      }
+      Object[] builderArrayAfterAdds = builder.contents;
+      RegularImmutableList<Integer> list = (RegularImmutableList<Integer>) builder.build();
+      Object[] listInternalArray = list.array;
+      assertSame(builderArray, builderArrayAfterAdds);
+      assertSame(builderArray, listInternalArray);
+    }
+
     public void testBuilderAdd_varargs() {
       ImmutableList<String> list = new ImmutableList.Builder<String>()
           .add("a", "b", "a", "c")

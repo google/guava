@@ -31,7 +31,8 @@ import com.google.common.annotations.VisibleForTesting;
 class RegularImmutableList<E> extends ImmutableList<E> {
   static final ImmutableList<Object> EMPTY = new RegularImmutableList<Object>(new Object[0], 0);
 
-  @VisibleForTesting final transient Object[] array;
+  @VisibleForTesting
+  final transient Object[] array;
   private final transient int size;
 
   RegularImmutableList(Object[] array, int size) {

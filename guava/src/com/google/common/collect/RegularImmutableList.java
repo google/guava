@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
 import java.util.Spliterator;
 import java.util.Spliterators;
 
@@ -31,7 +32,8 @@ class RegularImmutableList<E> extends ImmutableList<E> {
   static final ImmutableList<Object> EMPTY =
       new RegularImmutableList<Object>(new Object[0]);
 
-  private final transient Object[] array;
+  @VisibleForTesting
+  final transient Object[] array;
 
   RegularImmutableList(Object[] array) {
     this.array = array;
