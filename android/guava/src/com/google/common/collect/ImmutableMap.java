@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
+import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -141,6 +142,24 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    */
   public static <K, V> Builder<K, V> builder() {
     return new Builder<K, V>();
+  }
+
+  /**
+   * Returns a new builder, expecting the specified number of entries to be added.
+   *
+   * <p>If {@code expectedSize} is exactly the number of entries added to the builder before {@link
+   * Builder#build} is called, the builder is likely to perform better than an unsized {@link
+   * #builder()} would have.
+   *
+   * <p>It is not specified if any performance benefits apply if {@code expectedSize} is close to,
+   * but not exactly, the number of entries added to the builder.
+   * 
+   * @since 24.0
+   */
+  @Beta
+  public static <K, V> Builder<K, V> builderWithExpectedSize(int expectedSize) {
+    checkNonnegative(expectedSize, "expectedSize");
+    return new Builder<K, V>(expectedSize);
   }
 
   static void checkNoConflict(

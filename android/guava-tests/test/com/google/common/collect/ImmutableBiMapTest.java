@@ -202,6 +202,21 @@ public class ImmutableBiMapTest extends TestCase {
           1, "one", 2, "two", 3, "three", 4, "four", 5, "five");
     }
 
+    @GwtIncompatible
+    public void testBuilderExactlySizedReusesArray() {
+      ImmutableBiMap.Builder<Integer, Integer> builder = ImmutableBiMap.builderWithExpectedSize(10);
+      Object[] builderArray = builder.alternatingKeysAndValues;
+      for (int i = 0; i < 10; i++) {
+        builder.put(i, i);
+      }
+      Object[] builderArrayAfterPuts = builder.alternatingKeysAndValues;
+      RegularImmutableBiMap<Integer, Integer> map =
+          (RegularImmutableBiMap<Integer, Integer>) builder.build();
+      Object[] mapInternalArray = map.alternatingKeysAndValues;
+      assertSame(builderArray, builderArrayAfterPuts);
+      assertSame(builderArray, mapInternalArray);
+    }
+
     public void testBuilder_orderEntriesByValue() {
       ImmutableBiMap<String, Integer> map =
           ImmutableBiMap.<String, Integer>builder()

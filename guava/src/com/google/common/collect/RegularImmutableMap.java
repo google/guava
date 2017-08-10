@@ -23,6 +23,7 @@ import static com.google.common.collect.ImmutableMapEntry.createEntryArray;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMapEntry.NonTerminalImmutableMapEntry;
 import com.google.j2objc.annotations.Weak;
 import java.io.Serializable;
@@ -44,7 +45,8 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
           (Entry<Object, Object>[]) ImmutableMap.EMPTY_ENTRY_ARRAY, null, 0);
   
   // entries in insertion order
-  private final transient Entry<K, V>[] entries;
+  @VisibleForTesting
+  final transient Entry<K, V>[] entries;
   // array of linked lists of entries
   private final transient ImmutableMapEntry<K, V>[] table;
   // 'and' with an int to get a table index

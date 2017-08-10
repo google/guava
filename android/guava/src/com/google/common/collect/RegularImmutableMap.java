@@ -21,11 +21,10 @@ import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-
+import com.google.common.annotations.VisibleForTesting;
 import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Map;
-
 import javax.annotation.Nullable;
 
 /**
@@ -59,7 +58,8 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
    */
 
   private final transient int[] hashTable;
-  private final transient Object[] alternatingKeysAndValues;
+  @VisibleForTesting
+  final transient Object[] alternatingKeysAndValues;
   private final transient int size;
 
   @SuppressWarnings("unchecked")
