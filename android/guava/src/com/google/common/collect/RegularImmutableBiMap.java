@@ -17,7 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-
+import com.google.common.annotations.VisibleForTesting;
 import javax.annotation.Nullable;
 
 /**
@@ -32,7 +32,8 @@ final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
       new RegularImmutableBiMap<Object, Object>();
 
   private final transient int[] keyHashTable;
-  private final transient Object[] alternatingKeysAndValues;
+  @VisibleForTesting
+  final transient Object[] alternatingKeysAndValues;
   private final transient int keyOffset; // 0 for K-to-V, 1 for V-to-K
   private final transient int size;
   private final transient RegularImmutableBiMap<V, K> inverse;
