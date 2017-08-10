@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":42,"i1":42,"i2":10,"i3":9,"i4":10,"i5":9,"i6":9,"i7":9,"i8":9,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":9,"i17":9,"i18":9,"i19":9,"i20":9,"i21":9,"i22":9,"i23":9,"i24":9,"i25":9,"i26":9,"i27":9,"i28":9,"i29":42,"i30":10,"i31":42,"i32":9,"i33":9,"i34":10};
+var methods = {"i0":42,"i1":42,"i2":10,"i3":9,"i4":9,"i5":10,"i6":9,"i7":9,"i8":9,"i9":9,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":9,"i18":9,"i19":9,"i20":9,"i21":9,"i22":9,"i23":9,"i24":9,"i25":9,"i26":9,"i27":9,"i28":9,"i29":9,"i30":42,"i31":10,"i32":42,"i33":9,"i34":9,"i35":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -125,7 +125,7 @@ var activeTableTab = "activeTableTab";
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable--">serializable</a>=true,
                <a href="../../../../com/google/common/annotations/GwtCompatible.html#emulated--">emulated</a>=true)
-public abstract class <a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.54">ImmutableList</a>&lt;E&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.56">ImmutableList</a>&lt;E&gt;
 extends <a href="../../../../com/google/common/collect/ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;E&gt;
 implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/RandomAccess.html?is-external=true" title="class or interface in java.util">RandomAccess</a></pre>
 <div class="block">A <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util"><code>List</code></a> whose contents will never change, with many other important properties detailed at
@@ -215,83 +215,89 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
 </td>
 </tr>
 <tr id="i4" class="altColor">
+<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.Builder.html" title="class in com.google.common.collect">ImmutableList.Builder</a>&lt;E&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#builderWithExpectedSize-int-">builderWithExpectedSize</a></span>(int&nbsp;expectedSize)</code>
+<div class="block">Returns a new builder, expecting the specified number of elements to be added.</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#contains-java.lang.Object-">contains</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</code>&nbsp;</td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#copyOf-java.util.Collection-">copyOf</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends E&gt;&nbsp;elements)</code>
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#copyOf-E:A-">copyOf</a></span>(E[]&nbsp;elements)</code>
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#copyOf-java.lang.Iterable-">copyOf</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</code>
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#copyOf-java.util.Iterator-">copyOf</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends E&gt;&nbsp;elements)</code>
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#equals-java.lang.Object-">equals</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</code>&nbsp;</td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#hashCode--">hashCode</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#indexOf-java.lang.Object-">indexOf</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</code>&nbsp;</td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#iterator--">iterator</a></span>()</code>
 <div class="block">Returns an unmodifiable iterator across the elements in this collection.</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#lastIndexOf-java.lang.Object-">lastIndexOf</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</code>&nbsp;</td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/UnmodifiableListIterator.html" title="class in com.google.common.collect">UnmodifiableListIterator</a>&lt;<a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#listIterator--">listIterator</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/UnmodifiableListIterator.html" title="class in com.google.common.collect">UnmodifiableListIterator</a>&lt;<a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#listIterator-int-">listIterator</a></span>(int&nbsp;index)</code>&nbsp;</td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#of--">of</a></span>()</code>
 <div class="block">Returns the empty immutable list.</div>
 </td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#of-E-">of</a></span>(E&nbsp;element)</code>
 <div class="block">Returns an immutable list containing a single element.</div>
 </td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#of-E-E-">of</a></span>(E&nbsp;e1,
   E&nbsp;e2)</code>
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 </td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#of-E-E-E-">of</a></span>(E&nbsp;e1,
   E&nbsp;e2,
@@ -299,7 +305,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 </td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#of-E-E-E-E-">of</a></span>(E&nbsp;e1,
   E&nbsp;e2,
@@ -308,7 +314,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 </td>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i22" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#of-E-E-E-E-E-">of</a></span>(E&nbsp;e1,
   E&nbsp;e2,
@@ -318,7 +324,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 </td>
 </tr>
-<tr id="i22" class="altColor">
+<tr id="i23" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#of-E-E-E-E-E-E-">of</a></span>(E&nbsp;e1,
   E&nbsp;e2,
@@ -329,7 +335,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 </td>
 </tr>
-<tr id="i23" class="rowColor">
+<tr id="i24" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#of-E-E-E-E-E-E-E-">of</a></span>(E&nbsp;e1,
   E&nbsp;e2,
@@ -341,7 +347,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 </td>
 </tr>
-<tr id="i24" class="altColor">
+<tr id="i25" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#of-E-E-E-E-E-E-E-E-">of</a></span>(E&nbsp;e1,
   E&nbsp;e2,
@@ -354,7 +360,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 </td>
 </tr>
-<tr id="i25" class="rowColor">
+<tr id="i26" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#of-E-E-E-E-E-E-E-E-E-">of</a></span>(E&nbsp;e1,
   E&nbsp;e2,
@@ -368,7 +374,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 </td>
 </tr>
-<tr id="i26" class="altColor">
+<tr id="i27" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#of-E-E-E-E-E-E-E-E-E-E-">of</a></span>(E&nbsp;e1,
   E&nbsp;e2,
@@ -383,7 +389,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 </td>
 </tr>
-<tr id="i27" class="rowColor">
+<tr id="i28" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#of-E-E-E-E-E-E-E-E-E-E-E-">of</a></span>(E&nbsp;e1,
   E&nbsp;e2,
@@ -399,7 +405,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 </td>
 </tr>
-<tr id="i28" class="altColor">
+<tr id="i29" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#of-E-E-E-E-E-E-E-E-E-E-E-E-E...-">of</a></span>(E&nbsp;e1,
   E&nbsp;e2,
@@ -417,7 +423,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 </td>
 </tr>
-<tr id="i29" class="rowColor">
+<tr id="i30" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#remove-int-">remove</a></span>(int&nbsp;index)</code>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
@@ -425,13 +431,13 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
 </div>
 </td>
 </tr>
-<tr id="i30" class="altColor">
+<tr id="i31" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#reverse--">reverse</a></span>()</code>
 <div class="block">Returns a view of this immutable list in reverse order.</div>
 </td>
 </tr>
-<tr id="i31" class="rowColor">
+<tr id="i32" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#set-int-E-">set</a></span>(int&nbsp;index,
    <a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&nbsp;element)</code>
@@ -440,7 +446,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
 </div>
 </td>
 </tr>
-<tr id="i32" class="altColor">
+<tr id="i33" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#sortedCopyOf-java.util.Comparator-java.lang.Iterable-">sortedCopyOf</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super E&gt;&nbsp;comparator,
             <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</code>
@@ -448,14 +454,14 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
  specified comparator.</div>
 </td>
 </tr>
-<tr id="i33" class="rowColor">
+<tr id="i34" class="altColor">
 <td class="colFirst"><code>static &lt;E extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;? super E&gt;&gt;<br><a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#sortedCopyOf-java.lang.Iterable-">sortedCopyOf</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</code>
 <div class="block">Returns an immutable list containing the given elements, sorted according to their natural
  order.</div>
 </td>
 </tr>
-<tr id="i34" class="altColor">
+<tr id="i35" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableList.html#subList-int-int-">subList</a></span>(int&nbsp;fromIndex,
        int&nbsp;toIndex)</code>
@@ -525,7 +531,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.63">of</a>()</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.65">of</a>()</pre>
 <div class="block">Returns the empty immutable list. This list behaves and performs comparably
  to <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collections.html?is-external=true#emptyList--" title="class or interface in java.util"><code>Collections.emptyList()</code></a>, and is preferable mainly for consistency
  and maintainability of your code.</div>
@@ -539,7 +545,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.75">of</a>(E&nbsp;element)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.77">of</a>(E&nbsp;element)</pre>
 <div class="block">Returns an immutable list containing a single element. This list behaves
  and performs comparably to <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collections.html?is-external=true#singleton-T-" title="class or interface in java.util"><code>Collections.singleton(T)</code></a>, but will not
  accept a null element. It is preferable mainly for consistency and
@@ -558,7 +564,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.84">of</a>(E&nbsp;e1,
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.86">of</a>(E&nbsp;e1,
                                       E&nbsp;e2)</pre>
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 <dl>
@@ -575,7 +581,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.93">of</a>(E&nbsp;e1,
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.95">of</a>(E&nbsp;e1,
                                       E&nbsp;e2,
                                       E&nbsp;e3)</pre>
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
@@ -593,7 +599,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.102">of</a>(E&nbsp;e1,
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.104">of</a>(E&nbsp;e1,
                                       E&nbsp;e2,
                                       E&nbsp;e3,
                                       E&nbsp;e4)</pre>
@@ -612,7 +618,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.111">of</a>(E&nbsp;e1,
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.113">of</a>(E&nbsp;e1,
                                       E&nbsp;e2,
                                       E&nbsp;e3,
                                       E&nbsp;e4,
@@ -632,7 +638,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.120">of</a>(E&nbsp;e1,
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.122">of</a>(E&nbsp;e1,
                                       E&nbsp;e2,
                                       E&nbsp;e3,
                                       E&nbsp;e4,
@@ -653,7 +659,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.129">of</a>(E&nbsp;e1,
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.131">of</a>(E&nbsp;e1,
                                       E&nbsp;e2,
                                       E&nbsp;e3,
                                       E&nbsp;e4,
@@ -675,7 +681,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.138">of</a>(E&nbsp;e1,
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.140">of</a>(E&nbsp;e1,
                                       E&nbsp;e2,
                                       E&nbsp;e3,
                                       E&nbsp;e4,
@@ -698,7 +704,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.147">of</a>(E&nbsp;e1,
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.149">of</a>(E&nbsp;e1,
                                       E&nbsp;e2,
                                       E&nbsp;e3,
                                       E&nbsp;e4,
@@ -722,7 +728,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.156">of</a>(E&nbsp;e1,
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.158">of</a>(E&nbsp;e1,
                                       E&nbsp;e2,
                                       E&nbsp;e3,
                                       E&nbsp;e4,
@@ -747,7 +753,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.166">of</a>(E&nbsp;e1,
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.168">of</a>(E&nbsp;e1,
                                       E&nbsp;e2,
                                       E&nbsp;e3,
                                       E&nbsp;e4,
@@ -774,7 +780,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html
 <li class="blockList">
 <h4>of</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/SafeVarargs.html?is-external=true" title="class or interface in java.lang">@SafeVarargs</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.181">of</a>(E&nbsp;e1,
+public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.183">of</a>(E&nbsp;e1,
                                                    E&nbsp;e2,
                                                    E&nbsp;e3,
                                                    E&nbsp;e4,
@@ -802,7 +808,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.208">copyOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.210">copyOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable list containing the given elements, in order. If
  <code>elements</code> is a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a>, this method behaves exactly as
  <a href="../../../../com/google/common/collect/ImmutableList.html#copyOf-java.util.Collection-"><code>copyOf(Collection)</code></a>; otherwise, it behaves exactly as <code>copyOf(elements.iterator()</code>.</div>
@@ -818,7 +824,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.234">copyOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.236">copyOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable list containing the given elements, in order.
 
  <p>Despite the method name, this method attempts to avoid actually copying
@@ -845,7 +851,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.248">copyOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.250">copyOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -861,7 +867,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.267">copyOf</a>(E[]&nbsp;elements)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.269">copyOf</a>(E[]&nbsp;elements)</pre>
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -877,7 +883,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>sortedCopyOf</h4>
-<pre>public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;? super E&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.288">sortedCopyOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre>public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;? super E&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.290">sortedCopyOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable list containing the given elements, sorted according to their natural
  order. The sorting algorithm used is stable, so elements that compare as equal will stay in the
  order in which they appear in the input.
@@ -900,7 +906,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>sortedCopyOf</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.311">sortedCopyOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super E&gt;&nbsp;comparator,
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.313">sortedCopyOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super E&gt;&nbsp;comparator,
                                                 <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable list containing the given elements, in sorted order relative to the
  specified comparator. The sorting algorithm used is stable, so elements that compare as equal
@@ -925,7 +931,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>iterator</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.350">iterator</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.352">iterator</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../com/google/common/collect/ImmutableCollection.html#iterator--">ImmutableCollection</a></code></span></div>
 <div class="block">Returns an unmodifiable iterator across the elements in this collection.</div>
 <dl>
@@ -946,7 +952,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>listIterator</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableListIterator.html" title="class in com.google.common.collect">UnmodifiableListIterator</a>&lt;<a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.355">listIterator</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableListIterator.html" title="class in com.google.common.collect">UnmodifiableListIterator</a>&lt;<a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.357">listIterator</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true#listIterator--" title="class or interface in java.util">listIterator</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
@@ -959,7 +965,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>listIterator</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableListIterator.html" title="class in com.google.common.collect">UnmodifiableListIterator</a>&lt;<a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.360">listIterator</a>(int&nbsp;index)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableListIterator.html" title="class in com.google.common.collect">UnmodifiableListIterator</a>&lt;<a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.362">listIterator</a>(int&nbsp;index)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true#listIterator-int-" title="class or interface in java.util">listIterator</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
@@ -972,7 +978,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>indexOf</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.370">indexOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.372">indexOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                    <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -986,7 +992,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>lastIndexOf</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.375">lastIndexOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.377">lastIndexOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                        <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -1000,7 +1006,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.380">contains</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.382">contains</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                         <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -1018,7 +1024,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>subList</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.393">subList</a>(int&nbsp;fromIndex,
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.395">subList</a>(int&nbsp;fromIndex,
                                 int&nbsp;toIndex)</pre>
 <div class="block">Returns an immutable list of the elements between the specified <code>fromIndex</code>, inclusive, and <code>toIndex</code>, exclusive. (If <code>fromIndex</code> and <code>toIndex</code> are equal, the empty immutable list is
  returned.)</div>
@@ -1035,7 +1041,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>addAll</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.455">addAll</a>(int&nbsp;index,
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.457">addAll</a>(int&nbsp;index,
                                         <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;newElements)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the list unmodified.</div>
@@ -1056,7 +1062,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <li class="blockList">
 <h4>set</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.468">set</a>(int&nbsp;index,
+public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.470">set</a>(int&nbsp;index,
                                <a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&nbsp;element)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the list unmodified.</div>
@@ -1077,7 +1083,7 @@ public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.h
 <li class="blockList">
 <h4>add</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.480">add</a>(int&nbsp;index,
+public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.482">add</a>(int&nbsp;index,
                                   <a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&nbsp;element)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the list unmodified.</div>
@@ -1096,7 +1102,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <li class="blockList">
 <h4>remove</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.493">remove</a>(int&nbsp;index)</pre>
+public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.495">remove</a>(int&nbsp;index)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the list unmodified.</div>
 <dl>
@@ -1113,7 +1119,7 @@ public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.h
 <ul class="blockList">
 <li class="blockList">
 <h4>asList</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.503">asList</a>()</pre>
+<pre>public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.505">asList</a>()</pre>
 <div class="block">Returns this list instance.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -1129,7 +1135,7 @@ public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.h
 <ul class="blockList">
 <li class="blockList">
 <h4>reverse</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.525">reverse</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.527">reverse</a>()</pre>
 <div class="block">Returns a view of this immutable list in reverse order. For example, <code>ImmutableList.of(1, 2, 3).reverse()</code> is equivalent to <code>ImmutableList.of(3, 2, 1)</code>.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -1145,7 +1151,7 @@ public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.h
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.590">equals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.592">equals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                       <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -1163,7 +1169,7 @@ public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.h
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.595">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.597">hashCode</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true#hashCode--" title="class or interface in java.util">hashCode</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
@@ -1177,12 +1183,32 @@ public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.h
 <a name="builder--">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>builder</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.Builder.html" title="class in com.google.common.collect">ImmutableList.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.638">builder</a>()</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.Builder.html" title="class in com.google.common.collect">ImmutableList.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.640">builder</a>()</pre>
 <div class="block">Returns a new builder. The generated builder is equivalent to the builder
  created by the <a href="../../../../com/google/common/collect/ImmutableList.Builder.html" title="class in com.google.common.collect"><code>ImmutableList.Builder</code></a> constructor.</div>
+</li>
+</ul>
+<a name="builderWithExpectedSize-int-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>builderWithExpectedSize</h4>
+<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.Builder.html" title="class in com.google.common.collect">ImmutableList.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.657">builderWithExpectedSize</a>(int&nbsp;expectedSize)</pre>
+<div class="block">Returns a new builder, expecting the specified number of elements to be added.
+
+ <p>If <code>expectedSize</code> is exactly the number of elements added to the builder before <a href="../../../../com/google/common/collect/ImmutableList.Builder.html#build--"><code>ImmutableList.Builder.build()</code></a> is called, the builder is likely to perform better than an unsized <a href="../../../../com/google/common/collect/ImmutableList.html#builder--"><code>builder()</code></a> would have.
+
+ <p>It is not specified if any performance benefits apply if <code>expectedSize</code> is close to,
+ but not exactly, the number of elements added to the builder.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>24.0</dd>
+</dl>
 </li>
 </ul>
 </li>

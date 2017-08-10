@@ -16103,6 +16103,24 @@
  created by the {@link Builder} constructor.]]>
       </doc>
     </method>
+    <method name="builderWithExpectedSize" return="com.google.common.collect.ImmutableBiMap.Builder&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expectedSize" type="int"/>
+      <doc>
+      <![CDATA[Returns a new builder, expecting the specified number of entries to be added.
+
+ <p>If {@code expectedSize} is exactly the number of entries added to the builder before {@link
+ Builder#build} is called, the builder is likely to perform better than an unsized {@link
+ #builder()} would have.
+
+ <p>It is not specified if any performance benefits apply if {@code expectedSize} is close to,
+ but not exactly, the number of entries added to the builder.
+ 
+ @since 24.0]]>
+      </doc>
+    </method>
     <method name="copyOf" return="com.google.common.collect.ImmutableBiMap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -17254,6 +17272,24 @@
  created by the {@link Builder} constructor.]]>
       </doc>
     </method>
+    <method name="builderWithExpectedSize" return="com.google.common.collect.ImmutableList.Builder&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expectedSize" type="int"/>
+      <doc>
+      <![CDATA[Returns a new builder, expecting the specified number of elements to be added.
+
+ <p>If {@code expectedSize} is exactly the number of elements added to the builder before {@link
+ Builder#build} is called, the builder is likely to perform better than an unsized {@link
+ #builder()} would have.
+
+ <p>It is not specified if any performance benefits apply if {@code expectedSize} is close to,
+ but not exactly, the number of elements added to the builder.
+
+ @since 24.0]]>
+      </doc>
+    </method>
     <doc>
     <![CDATA[A {@link List} whose contents will never change, with many other important properties detailed at
  {@link ImmutableCollection}.
@@ -17774,6 +17810,24 @@
       <doc>
       <![CDATA[Returns a new builder. The generated builder is equivalent to the builder created by the {@link
  Builder} constructor.]]>
+      </doc>
+    </method>
+    <method name="builderWithExpectedSize" return="com.google.common.collect.ImmutableMap.Builder&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expectedSize" type="int"/>
+      <doc>
+      <![CDATA[Returns a new builder, expecting the specified number of entries to be added.
+
+ <p>If {@code expectedSize} is exactly the number of entries added to the builder before {@link
+ Builder#build} is called, the builder is likely to perform better than an unsized {@link
+ #builder()} would have.
+
+ <p>It is not specified if any performance benefits apply if {@code expectedSize} is close to,
+ but not exactly, the number of entries added to the builder.
+ 
+ @since 24.0]]>
       </doc>
     </method>
     <method name="copyOf" return="com.google.common.collect.ImmutableMap&lt;K, V&gt;"
@@ -60945,7 +60999,7 @@
       <param name="futures" type="com.google.common.util.concurrent.ListenableFuture[]"/>
       <doc>
       <![CDATA[Creates a new {@code ListenableFuture} whose value is a list containing the values of all its
- input futures, if all succeed. If any input fails, the returned future fails immediately.
+ input futures, if all succeed.
 
  <p>The list of results is in the same order as the input list.
 
@@ -60964,7 +61018,7 @@
       <param name="futures" type="java.lang.Iterable&lt;? extends com.google.common.util.concurrent.ListenableFuture&lt;? extends V&gt;&gt;"/>
       <doc>
       <![CDATA[Creates a new {@code ListenableFuture} whose value is a list containing the values of all its
- input futures, if all succeed. If any input fails, the returned future fails immediately.
+ input futures, if all succeed.
 
  <p>The list of results is in the same order as the input list.
 

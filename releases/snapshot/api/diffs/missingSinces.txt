@@ -1,2 +1,5 @@
+OK: com.google.common.collect.ImmutableBiMap Method builderWithExpectedSize(int)
+OK: com.google.common.collect.ImmutableList Method builderWithExpectedSize(int)
+OK: com.google.common.collect.ImmutableMap Method builderWithExpectedSize(int)
 OK: com.google.common.collect.ImmutableRangeMap Method toImmutableRangeMap(java.util.function.Function<? super T, com.google.common.collect.Range<K>>, java.util.function.Function<? super T, ? extends V>)
 OK: com.google.common.collect.ImmutableRangeSet Method toImmutableRangeSet()
