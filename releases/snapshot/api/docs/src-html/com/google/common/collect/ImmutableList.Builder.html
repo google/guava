@@ -824,10 +824,11 @@
 <span class="sourceLineNo">816</span>     */<a name="line.816"></a>
 <span class="sourceLineNo">817</span>    @Override<a name="line.817"></a>
 <span class="sourceLineNo">818</span>    public ImmutableList&lt;E&gt; build() {<a name="line.818"></a>
-<span class="sourceLineNo">819</span>      return asImmutableList(contents, size);<a name="line.819"></a>
-<span class="sourceLineNo">820</span>    }<a name="line.820"></a>
-<span class="sourceLineNo">821</span>  }<a name="line.821"></a>
-<span class="sourceLineNo">822</span>}<a name="line.822"></a>
+<span class="sourceLineNo">819</span>      forceCopy = true;<a name="line.819"></a>
+<span class="sourceLineNo">820</span>      return asImmutableList(contents, size);<a name="line.820"></a>
+<span class="sourceLineNo">821</span>    }<a name="line.821"></a>
+<span class="sourceLineNo">822</span>  }<a name="line.822"></a>
+<span class="sourceLineNo">823</span>}<a name="line.823"></a>
 
 
 
