@@ -2124,7 +2124,7 @@ public class FuturesTest extends TestCase {
     future1.setException(exception);
     assertTrue(compound.isDone());
     assertTrue(listener.wasCalled());
-    future2.set("result2");
+    assertFalse(future2.isDone());
 
     try {
       getDone(compound);
@@ -2189,7 +2189,7 @@ public class FuturesTest extends TestCase {
     future1.cancel(true);
     assertTrue(compound.isDone());
     assertTrue(listener.wasCalled());
-    future2.setException(new Throwable("failed2"));
+    assertFalse(future2.isDone());
 
     try {
       getDone(compound);

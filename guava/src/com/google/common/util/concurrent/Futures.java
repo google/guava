@@ -819,7 +819,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
 
   /**
    * Creates a new {@code ListenableFuture} whose value is a list containing the values of all its
-   * input futures, if all succeed. If any input fails, the returned future fails immediately.
+   * input futures, if all succeed.
    *
    * <p>The list of results is in the same order as the input list.
    *
@@ -838,7 +838,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
 
   /**
    * Creates a new {@code ListenableFuture} whose value is a list containing the values of all its
-   * input futures, if all succeed. If any input fails, the returned future fails immediately.
+   * input futures, if all succeed.
    *
    * <p>The list of results is in the same order as the input list.
    *
