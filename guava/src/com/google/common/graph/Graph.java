@@ -99,7 +99,6 @@ import javax.annotation.Nullable;
  * @param <N> Node parameter type
  * @since 20.0
  */
-// TODO(b/35456940): Update the documentation to reflect the new interfaces
 @Beta
 public interface Graph<N> extends BaseGraph<N> {
   //

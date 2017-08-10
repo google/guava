@@ -20,7 +20,6 @@ import static com.google.common.graph.GraphConstants.MULTIPLE_EDGES_CONNECTING;
 import static java.util.Collections.unmodifiableSet;
 
 import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
@@ -48,7 +47,6 @@ import javax.annotation.Nullable;
  * @since 20.0
  */
 @Beta
-@GwtIncompatible
 public abstract class AbstractNetwork<N, E> implements Network<N, E> {
 
   @Override
