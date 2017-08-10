@@ -16,7 +16,6 @@
 
 package com.google.common.io;
 
-import static com.google.common.io.Files.touch;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Charsets;
@@ -299,11 +298,8 @@ public class FilesTest extends IoTestCase {
     } catch (NullPointerException expected) {
     }
 
-    BufferedReader r = Files.newReader(asciiFile, Charsets.US_ASCII);
-    try {
+    try (BufferedReader r = Files.newReader(asciiFile, Charsets.US_ASCII)) {
       assertEquals(ASCII, r.readLine());
-    } finally {
-      r.close();
     }
   }
 
@@ -321,11 +317,8 @@ public class FilesTest extends IoTestCase {
     } catch (NullPointerException expected) {
     }
 
-    BufferedWriter w = Files.newWriter(temp, Charsets.UTF_8);
-    try {
+    try (BufferedWriter w = Files.newWriter(temp, Charsets.UTF_8)) {
       w.write(I18N);
-    } finally {
-      w.close();
     }
 
     File i18nFile = getTestFile("i18n.txt");

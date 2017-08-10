@@ -70,11 +70,11 @@ public class UnicodeEscaperTest extends TestCase {
   }
 
   public void testGrowBuffer() { // need to grow past an initial 1024 byte buffer
-    StringBuffer input = new StringBuffer();
-    StringBuffer expected = new StringBuffer();
+    StringBuilder input = new StringBuilder();
+    StringBuilder expected = new StringBuilder();
     for (int i = 256; i < 1024; i++) {
       input.append((char) i);
-      expected.append("[" + i + "]");
+      expected.append("[").append(i).append("]");
     }
     assertEquals(expected.toString(), SIMPLE_ESCAPER.escape(input.toString()));
   }

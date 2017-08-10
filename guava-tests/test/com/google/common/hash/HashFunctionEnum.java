@@ -44,7 +44,7 @@ enum HashFunctionEnum {
 
   private final HashFunction hashFunction;
 
-  private HashFunctionEnum(HashFunction hashFunction) {
+  HashFunctionEnum(HashFunction hashFunction) {
     this.hashFunction = hashFunction;
   }
 

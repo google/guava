@@ -160,19 +160,13 @@ public abstract class IoTestCase extends TestCase {
   }
 
   private static void copy(URL url, File file) throws IOException {
-    InputStream in = url.openStream();
-    try {
-      OutputStream out = new FileOutputStream(file);
-      try {
+    try (InputStream in = url.openStream()) {
+      try (OutputStream out = new FileOutputStream(file)) {
         byte[] buf = new byte[4096];
         for (int read = in.read(buf); read != -1; read = in.read(buf)) {
           out.write(buf, 0, read);
         }
-      } finally {
-        out.close();
       }
-    } finally {
-      in.close();
     }
   }
 

@@ -228,7 +228,7 @@ public class CycleDetectingLockFactory {
     DISABLED {
       @Override
       public void handlePotentialDeadlock(PotentialDeadlockException e) {}
-    };
+    }
   }
 
   /**

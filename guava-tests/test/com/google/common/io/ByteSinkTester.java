@@ -84,22 +84,16 @@ public class ByteSinkTester extends SourceSinkTester<ByteSink, byte[], ByteSinkF
   }
 
   public void testOpenStream() throws IOException {
-    OutputStream out = sink.openStream();
-    try {
+    try (OutputStream out = sink.openStream()) {
       ByteStreams.copy(new ByteArrayInputStream(data), out);
-    } finally {
-      out.close();
     }
 
     assertContainsExpectedBytes();
   }
 
   public void testOpenBufferedStream() throws IOException {
-    OutputStream out = sink.openBufferedStream();
-    try {
+    try (OutputStream out = sink.openBufferedStream()) {
       ByteStreams.copy(new ByteArrayInputStream(data), out);
-    } finally {
-      out.close();
     }
 
     assertContainsExpectedBytes();

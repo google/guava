@@ -327,11 +327,8 @@ public class SourceSinkFactories {
     public ByteSource createSource(byte[] bytes) throws IOException {
       checkNotNull(bytes);
       File file = createFile();
-      OutputStream out = new FileOutputStream(file);
-      try {
+      try (OutputStream out = new FileOutputStream(file)) {
         out.write(bytes);
-      } finally {
-        out.close();
       }
       return Files.asByteSource(file);
     }
@@ -354,11 +351,8 @@ public class SourceSinkFactories {
     public ByteSink createSink() throws IOException {
       File file = createFile();
       if (initialBytes != null) {
-        FileOutputStream out = new FileOutputStream(file);
-        try {
+        try (FileOutputStream out = new FileOutputStream(file)) {
           out.write(initialBytes);
-        } finally {
-          out.close();
         }
         return Files.asByteSink(file, FileWriteMode.APPEND);
       }
@@ -397,11 +391,8 @@ public class SourceSinkFactories {
     public CharSource createSource(String string) throws IOException {
       checkNotNull(string);
       File file = createFile();
-      Writer writer = new OutputStreamWriter(new FileOutputStream(file), Charsets.UTF_8);
-      try {
+      try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), Charsets.UTF_8)) {
         writer.write(string);
-      } finally {
-        writer.close();
       }
       return Files.asCharSource(file, Charsets.UTF_8);
     }
@@ -424,11 +415,8 @@ public class SourceSinkFactories {
     public CharSink createSink() throws IOException {
       File file = createFile();
       if (initialString != null) {
-        Writer writer = new OutputStreamWriter(new FileOutputStream(file), Charsets.UTF_8);
-        try {
+        try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), Charsets.UTF_8)) {
           writer.write(initialString);
-        } finally {
-          writer.close();
         }
         return Files.asCharSink(file, Charsets.UTF_8, FileWriteMode.APPEND);
       }

@@ -94,8 +94,7 @@ public class AtomicDouble extends Number implements java.io.Serializable {
    * @param newValue the new value
    */
   public final void set(double newValue) {
-    long next = doubleToRawLongBits(newValue);
-    value = next;
+    value = doubleToRawLongBits(newValue);
   }
 
   /**
