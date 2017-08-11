@@ -54,7 +54,7 @@ using version `24.0-SNAPSHOT`, or `24.0-android-SNAPSHOT` for the Android
 flavor.
 
 - Snapshot API Docs: [guava][guava-snapshot-api-docs]
-- Snapshot API Diffs from 22.0: [guava][guava-snapshot-api-diffs]
+- Snapshot API Diffs: [guava][guava-snapshot-api-diffs]
 
 ## Learn about Guava
 
