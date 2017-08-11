@@ -20,8 +20,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 import com.google.common.testing.FakeTicker;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -438,10 +438,7 @@ public class CacheBuilderGwtTest extends TestCase {
 
     fakeTicker.advance(501, TimeUnit.MILLISECONDS);
 
-    Set<Integer> foundKeys = Sets.newHashSet();
-    for (Integer current : cache.asMap().keySet()) {
-      foundKeys.add(current);
-    }
+    Set<Integer> foundKeys = new HashSet<>(cache.asMap().keySet());
 
     assertEquals(ImmutableSet.of(20, 5), foundKeys);
   }

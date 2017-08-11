@@ -584,9 +584,7 @@ public final class Hashing {
     List<HashFunction> list = new ArrayList<>();
     list.add(first);
     list.add(second);
-    for (HashFunction hashFunc : rest) {
-      list.add(hashFunc);
-    }
+    list.addAll(Arrays.asList(rest));
     return new ConcatenatedHashFunction(list.toArray(new HashFunction[0]));
   }
 

@@ -19,7 +19,6 @@ package com.google.common.reflect;
 import static com.google.common.base.Charsets.US_ASCII;
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.Closer;
 import com.google.common.io.Files;
@@ -469,7 +468,7 @@ public class ClassPathTest extends TestCase {
   }
 
   private static Manifest manifest(String content) throws IOException {
-    InputStream in = new ByteArrayInputStream(content.getBytes(Charsets.US_ASCII));
+    InputStream in = new ByteArrayInputStream(content.getBytes(US_ASCII));
     Manifest manifest = new Manifest();
     manifest.read(in);
     return manifest;

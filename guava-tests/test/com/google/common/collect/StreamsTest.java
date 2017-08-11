@@ -123,18 +123,18 @@ public class StreamsTest extends TestCase {
   }
 
   public void testStream_optionalInt() {
-    assertThat(stream(java.util.OptionalInt.empty())).isEmpty();
-    assertThat(stream(java.util.OptionalInt.of(5))).containsExactly(5);
+    assertThat(stream(OptionalInt.empty())).isEmpty();
+    assertThat(stream(OptionalInt.of(5))).containsExactly(5);
   }
 
   public void testStream_optionalLong() {
-    assertThat(stream(java.util.OptionalLong.empty())).isEmpty();
-    assertThat(stream(java.util.OptionalLong.of(5L))).containsExactly(5L);
+    assertThat(stream(OptionalLong.empty())).isEmpty();
+    assertThat(stream(OptionalLong.of(5L))).containsExactly(5L);
   }
 
   public void testStream_optionalDouble() {
-    assertThat(stream(java.util.OptionalDouble.empty())).isEmpty();
-    assertThat(stream(java.util.OptionalDouble.of(5.0))).containsExactly(5.0);
+    assertThat(stream(OptionalDouble.empty())).isEmpty();
+    assertThat(stream(OptionalDouble.of(5.0))).containsExactly(5.0);
   }
 
   private void testMapWithIndex(Function<Collection<String>, Stream<String>> collectionImpl) {

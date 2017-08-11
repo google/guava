@@ -96,7 +96,7 @@ public class FunnelsTest extends TestCase {
     @SuppressWarnings("unchecked")
     Funnel<Object> elementFunnel = mock(Funnel.class);
     PrimitiveSink primitiveSink = mock(PrimitiveSink.class);
-    Funnel<Iterable<? extends Object>> sequential = Funnels.sequentialFunnel(elementFunnel);
+    Funnel<Iterable<?>> sequential = Funnels.sequentialFunnel(elementFunnel);
     sequential.funnel(Arrays.asList("foo", "bar", "baz", "quux"), primitiveSink);
     InOrder inOrder = inOrder(elementFunnel);
     inOrder.verify(elementFunnel).funnel("foo", primitiveSink);
