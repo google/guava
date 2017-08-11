@@ -46,6 +46,7 @@ public final class FileBackedOutputStream extends OutputStream {
   private OutputStream out;
   private MemoryOutput memory;
   private File file;
+  private File tmpDir;
 
   /** ByteArrayOutputStream that exposes its internals. */
   private static class MemoryOutput extends ByteArrayOutputStream {
@@ -71,9 +72,31 @@ public final class FileBackedOutputStream extends OutputStream {
    * @param fileThreshold the number of bytes before the stream should switch to buffering to a file
    */
   public FileBackedOutputStream(int fileThreshold) {
-    this(fileThreshold, false);
+    this(fileThreshold, null, false);
   }
-
+  
+  /**
+   * Creates a new instance that uses the given file threshold and tmpDir, and does not reset the data when the
+   * {@link ByteSource} returned by {@link #asByteSource} is finalized.
+   *
+   * @param fileThreshold the number of bytes before the stream should switch to buffering to a file
+   * @param tmpDir the directory that will be used for writing temporary files
+   */
+  public FileBackedOutputStream(int fileThreshold, File tmpDir) {
+    this(fileThreshold, tmpDir, false);
+  }
+  
+  /**
+   * Creates a new instance that uses the given file threshold and optionally resets the data when
+   * the {@link ByteSource} returned by {@link #asByteSource} is finalized.
+   *
+   * @param fileThreshold the number of bytes before the stream should switch to buffering to a file
+   * @param resetOnFinalize if true, the {@link #reset} method will be called when the
+   */
+  public FileBackedOutputStream(int fileThreshold, boolean resetOnFinalize) {
+    this(fileThreshold, null, resetOnFinalize);
+  }
+  
   /**
    * Creates a new instance that uses the given file threshold, and optionally resets the data when
    * the {@link ByteSource} returned by {@link #asByteSource} is finalized.
@@ -82,9 +105,10 @@ public final class FileBackedOutputStream extends OutputStream {
    * @param resetOnFinalize if true, the {@link #reset} method will be called when the
    *     {@link ByteSource} returned by {@link #asByteSource} is finalized
    */
-  public FileBackedOutputStream(int fileThreshold, boolean resetOnFinalize) {
+  public FileBackedOutputStream(int fileThreshold, File tmpDir, boolean resetOnFinalize) {
     this.fileThreshold = fileThreshold;
     this.resetOnFinalize = resetOnFinalize;
+    this.tmpDir = tmpDir;
     memory = new MemoryOutput();
     out = memory;
 
@@ -192,7 +216,7 @@ public final class FileBackedOutputStream extends OutputStream {
    */
   private void update(int len) throws IOException {
     if (file == null && (memory.getCount() + len > fileThreshold)) {
-      File temp = File.createTempFile("FileBackedOutputStream", null);
+      File temp = File.createTempFile("FileBackedOutputStream", null, tmpDir);
       if (resetOnFinalize) {
         // Finalizers are not guaranteed to be called on system shutdown;
         // this is insurance.
