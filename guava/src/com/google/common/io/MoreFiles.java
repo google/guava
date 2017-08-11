@@ -304,8 +304,8 @@ public final class MoreFiles {
   }
 
   /**
-   * Returns a predicate that returns the result of {@link Files#isDirectory(Path, LinkOption...)}
-   * on input paths with the given link options.
+   * Returns a predicate that returns the result of {@link java.nio.file.Files#isDirectory(Path,
+   * LinkOption...)} on input paths with the given link options.
    */
   public static Predicate<Path> isDirectory(LinkOption... options) {
     final LinkOption[] optionsCopy = options.clone();
@@ -323,8 +323,8 @@ public final class MoreFiles {
   }
 
   /**
-   * Returns a predicate that returns the result of
-   * {@link Files#isRegularFile(Path, LinkOption...)} on input paths with the given link options.
+   * Returns a predicate that returns the result of {@link java.nio.file.Files#isRegularFile(Path,
+   * LinkOption...)} on input paths with the given link options.
    */
   public static Predicate<Path> isRegularFile(LinkOption... options) {
     final LinkOption[] optionsCopy = options.clone();
