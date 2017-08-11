@@ -312,8 +312,8 @@
 <span class="sourceLineNo">304</span>  }<a name="line.304"></a>
 <span class="sourceLineNo">305</span><a name="line.305"></a>
 <span class="sourceLineNo">306</span>  /**<a name="line.306"></a>
-<span class="sourceLineNo">307</span>   * Returns a predicate that returns the result of {@link Files#isDirectory(Path, LinkOption...)}<a name="line.307"></a>
-<span class="sourceLineNo">308</span>   * on input paths with the given link options.<a name="line.308"></a>
+<span class="sourceLineNo">307</span>   * Returns a predicate that returns the result of {@link java.nio.file.Files#isDirectory(Path,<a name="line.307"></a>
+<span class="sourceLineNo">308</span>   * LinkOption...)} on input paths with the given link options.<a name="line.308"></a>
 <span class="sourceLineNo">309</span>   */<a name="line.309"></a>
 <span class="sourceLineNo">310</span>  public static Predicate&lt;Path&gt; isDirectory(LinkOption... options) {<a name="line.310"></a>
 <span class="sourceLineNo">311</span>    final LinkOption[] optionsCopy = options.clone();<a name="line.311"></a>
@@ -331,8 +331,8 @@
 <span class="sourceLineNo">323</span>  }<a name="line.323"></a>
 <span class="sourceLineNo">324</span><a name="line.324"></a>
 <span class="sourceLineNo">325</span>  /**<a name="line.325"></a>
-<span class="sourceLineNo">326</span>   * Returns a predicate that returns the result of<a name="line.326"></a>
-<span class="sourceLineNo">327</span>   * {@link Files#isRegularFile(Path, LinkOption...)} on input paths with the given link options.<a name="line.327"></a>
+<span class="sourceLineNo">326</span>   * Returns a predicate that returns the result of {@link java.nio.file.Files#isRegularFile(Path,<a name="line.326"></a>
+<span class="sourceLineNo">327</span>   * LinkOption...)} on input paths with the given link options.<a name="line.327"></a>
 <span class="sourceLineNo">328</span>   */<a name="line.328"></a>
 <span class="sourceLineNo">329</span>  public static Predicate&lt;Path&gt; isRegularFile(LinkOption... options) {<a name="line.329"></a>
 <span class="sourceLineNo">330</span>    final LinkOption[] optionsCopy = options.clone();<a name="line.330"></a>

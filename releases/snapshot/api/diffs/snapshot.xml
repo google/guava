@@ -45823,8 +45823,8 @@
       deprecated="not deprecated">
       <param name="options" type="java.nio.file.LinkOption[]"/>
       <doc>
-      <![CDATA[Returns a predicate that returns the result of {@link Files#isDirectory(Path, LinkOption...)}
- on input paths with the given link options.]]>
+      <![CDATA[Returns a predicate that returns the result of {@link java.nio.file.Files#isDirectory(Path,
+ LinkOption...)} on input paths with the given link options.]]>
       </doc>
     </method>
     <method name="isRegularFile" return="com.google.common.base.Predicate&lt;java.nio.file.Path&gt;"
@@ -45833,8 +45833,8 @@
       deprecated="not deprecated">
       <param name="options" type="java.nio.file.LinkOption[]"/>
       <doc>
-      <![CDATA[Returns a predicate that returns the result of
- {@link Files#isRegularFile(Path, LinkOption...)} on input paths with the given link options.]]>
+      <![CDATA[Returns a predicate that returns the result of {@link java.nio.file.Files#isRegularFile(Path,
+ LinkOption...)} on input paths with the given link options.]]>
       </doc>
     </method>
     <method name="equal" return="boolean"
