@@ -745,7 +745,7 @@
 <span class="sourceLineNo">737</span>   * @throws NullPointerException if the last element of the stream is null<a name="line.737"></a>
 <span class="sourceLineNo">738</span>   */<a name="line.738"></a>
 <span class="sourceLineNo">739</span>  public static &lt;T&gt; java.util.Optional&lt;T&gt; findLast(Stream&lt;T&gt; stream) {<a name="line.739"></a>
-<span class="sourceLineNo">740</span>    class OptionalState&lt;T&gt; {<a name="line.740"></a>
+<span class="sourceLineNo">740</span>    class OptionalState {<a name="line.740"></a>
 <span class="sourceLineNo">741</span>      boolean set = false;<a name="line.741"></a>
 <span class="sourceLineNo">742</span>      T value = null;<a name="line.742"></a>
 <span class="sourceLineNo">743</span><a name="line.743"></a>
@@ -759,7 +759,7 @@
 <span class="sourceLineNo">751</span>        return value;<a name="line.751"></a>
 <span class="sourceLineNo">752</span>      }<a name="line.752"></a>
 <span class="sourceLineNo">753</span>    }<a name="line.753"></a>
-<span class="sourceLineNo">754</span>    OptionalState&lt;T&gt; state = new OptionalState&lt;&gt;();<a name="line.754"></a>
+<span class="sourceLineNo">754</span>    OptionalState state = new OptionalState();<a name="line.754"></a>
 <span class="sourceLineNo">755</span><a name="line.755"></a>
 <span class="sourceLineNo">756</span>    Deque&lt;Spliterator&lt;T&gt;&gt; splits = new ArrayDeque&lt;&gt;();<a name="line.756"></a>
 <span class="sourceLineNo">757</span>    splits.addLast(stream.spliterator());<a name="line.757"></a>
