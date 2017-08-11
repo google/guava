@@ -80,7 +80,7 @@ public class AbstractPackageSanityTestsTest extends TestCase {
   }
 
   public void testFindClassesToTest_withCorrespondingTestClassAndExplicitlyTested() {
-    ImmutableList<Class<? extends Object>> classes = ImmutableList.of(Foo.class, FooTest.class);
+    ImmutableList<Class<?>> classes = ImmutableList.of(Foo.class, FooTest.class);
     assertThat(findClassesToTest(classes, "testPublic"))
         .isEmpty();
     assertThat(findClassesToTest(classes, "testNotThere", "testPublic"))

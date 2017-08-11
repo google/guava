@@ -25,7 +25,6 @@ import static java.nio.file.Files.createSymbolicLink;
 import static java.nio.file.Files.createTempDirectory;
 import static java.util.logging.Level.WARNING;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.io.Closer;
@@ -535,7 +534,7 @@ public class ClassPathTest extends TestCase {
   }
 
   private static Manifest manifest(String content) throws IOException {
-    InputStream in = new ByteArrayInputStream(content.getBytes(Charsets.US_ASCII));
+    InputStream in = new ByteArrayInputStream(content.getBytes(US_ASCII));
     Manifest manifest = new Manifest();
     manifest.read(in);
     return manifest;

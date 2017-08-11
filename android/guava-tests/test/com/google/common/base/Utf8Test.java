@@ -99,7 +99,7 @@ public class Utf8Test extends TestCase {
         if (utf8Length != Utf8.encodedLength(sb)) {
           StringBuilder repro = new StringBuilder();
           for (int j = 0; j < sb.length(); j++) {
-            repro.append(" " + (int) sb.charAt(j));  // GWT compatible
+            repro.append(" ").append((int) sb.charAt(j)); // GWT compatible
           }
           assertEquals(repro.toString(), utf8Length, Utf8.encodedLength(sb));
         }
