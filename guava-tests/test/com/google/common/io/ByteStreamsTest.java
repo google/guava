@@ -58,20 +58,14 @@ public class ByteStreamsTest extends IoTestCase {
     WritableByteChannel outChannel = Channels.newChannel(out);
 
     File testFile = createTempFile();
-    FileOutputStream fos = new FileOutputStream(testFile);
     byte[] dummyData = newPreFilledByteArray(chunkSize);
-    try {
+    try (FileOutputStream fos = new FileOutputStream(testFile)) {
       for (int i = 0; i < 500; i++) {
         fos.write(dummyData);
       }
-    } finally {
-      fos.close();
     }
-    ReadableByteChannel inChannel = new RandomAccessFile(testFile, "r").getChannel();
-    try {
+    try (ReadableByteChannel inChannel = new RandomAccessFile(testFile, "r").getChannel()) {
       ByteStreams.copy(inChannel, outChannel);
-    } finally {
-      inChannel.close();
     }
     byte[] actual = out.toByteArray();
     for (int i = 0; i < 500 * chunkSize; i += chunkSize) {

@@ -227,7 +227,7 @@ final class LittleEndianByteArray {
           sink[offset + i] = (byte) ((value & mask) >> (i * 8));
         }
       }
-    };
+    }
   }
 
   static {
@@ -241,7 +241,6 @@ final class LittleEndianByteArray {
 
         In the future, the use of Unsafe.getLong() should be replaced by ByteBuffer.getLong(), which
         will have an efficient native implementation in JDK 9.
-
       */
       final String arch = System.getProperty("os.arch");
       if ("amd64".equals(arch) || "aarch64".equals(arch)) {

@@ -118,7 +118,7 @@ public class GeneratedMonitorTest extends TestCase {
     final long millis;
     final String label;
 
-    private Timeout(long millis, String label) {
+    Timeout(long millis, String label) {
       this.millis = millis;
       this.label = label;
     }
@@ -144,7 +144,7 @@ public class GeneratedMonitorTest extends TestCase {
 
     final ImmutableList<Timeout> timeouts;
 
-    private TimeoutsToUse(Timeout... timeouts) {
+    TimeoutsToUse(Timeout... timeouts) {
       this.timeouts = ImmutableList.copyOf(timeouts);
     }
 

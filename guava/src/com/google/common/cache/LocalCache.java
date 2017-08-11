@@ -1031,7 +1031,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return (ReferenceEntry<K, V>) NullEntry.INSTANCE;
   }
 
-  static final Queue<? extends Object> DISCARDING_QUEUE =
+  static final Queue<?> DISCARDING_QUEUE =
       new AbstractQueue<Object>() {
         @Override
         public boolean offer(Object o) {

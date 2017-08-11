@@ -67,7 +67,7 @@ public class CacheLoaderTest extends TestCase {
       }
 
       @Override
-      public Map<Object, Object> loadAll(Iterable<? extends Object> keys) {
+      public Map<Object, Object> loadAll(Iterable<?> keys) {
         loadAllCount.incrementAndGet();
         return ImmutableMap.of();
       }

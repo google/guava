@@ -121,22 +121,16 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
   }
 
   public void testOpenStream() throws IOException {
-    InputStream in = source.openStream();
-    try {
+    try (InputStream in = source.openStream()) {
       byte[] readBytes = ByteStreams.toByteArray(in);
       assertExpectedBytes(readBytes);
-    } finally {
-      in.close();
     }
   }
 
   public void testOpenBufferedStream() throws IOException {
-    InputStream in = source.openBufferedStream();
-    try {
+    try (InputStream in = source.openBufferedStream()) {
       byte[] readBytes = ByteStreams.toByteArray(in);
       assertExpectedBytes(readBytes);
-    } finally {
-      in.close();
     }
   }
 

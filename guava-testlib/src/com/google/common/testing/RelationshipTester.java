@@ -142,14 +142,12 @@ final class RelationshipTester<T> {
     }
 
     @Override public String toString() {
-      return new StringBuilder()
-          .append(value)
-          .append(" [group ")
-          .append(groupNumber + 1)
-          .append(", item ")
-          .append(itemNumber + 1)
-          .append(']')
-          .toString();
+      return String.valueOf(value) +
+          " [group " +
+          (groupNumber + 1) +
+          ", item " +
+          (itemNumber + 1) +
+          ']';
     }
   }
 }

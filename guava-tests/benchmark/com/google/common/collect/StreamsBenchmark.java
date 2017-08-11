@@ -42,7 +42,7 @@ public class StreamsBenchmark {
 
     final Supplier<Collection<Object>> supplier;
 
-    private CollectionType(Supplier<Collection<Object>> supplier) {
+    CollectionType(Supplier<Collection<Object>> supplier) {
       this.supplier = supplier;
     }
   }

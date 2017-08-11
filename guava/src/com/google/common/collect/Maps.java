@@ -103,7 +103,7 @@ public final class Maps {
       public Object apply(Entry<?, ?> entry) {
         return entry.getValue();
       }
-    };
+    }
   }
 
   @SuppressWarnings("unchecked")
@@ -532,8 +532,7 @@ public final class Maps {
       Map<? extends K, ? extends V> left, Map<? extends K, ? extends V> right) {
     if (left instanceof SortedMap) {
       SortedMap<K, ? extends V> sortedLeft = (SortedMap<K, ? extends V>) left;
-      SortedMapDifference<K, V> result = difference(sortedLeft, right);
-      return result;
+      return difference(sortedLeft, right);
     }
     return difference(left, right, Equivalence.equals());
   }

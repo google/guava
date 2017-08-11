@@ -97,7 +97,7 @@ public final class Streams {
    * <p><b>Java 9 users:</b> use {@code optional.stream()} instead.
    */
   public static <T> Stream<T> stream(java.util.Optional<T> optional) {
-    return optional.isPresent() ? Stream.of(optional.get()) : Stream.of();
+    return optional.map(Stream::of).orElseGet(Stream::of);
   }
 
   /**
@@ -366,7 +366,7 @@ public final class Streams {
     class Splitr extends MapWithIndexSpliterator<Spliterator<T>, R, Splitr> implements Consumer<T> {
       T holder;
 
-      Splitr(Spliterator<T> splitr, long index) {
+      private Splitr(Spliterator<T> splitr, long index) {
         super(splitr, index);
       }
 
@@ -498,7 +498,7 @@ public final class Streams {
         implements IntConsumer, Spliterator<R> {
       int holder;
 
-      Splitr(Spliterator.OfInt splitr, long index) {
+      private Splitr(Spliterator.OfInt splitr, long index) {
         super(splitr, index);
       }
 
@@ -589,7 +589,7 @@ public final class Streams {
         implements LongConsumer, Spliterator<R> {
       long holder;
 
-      Splitr(Spliterator.OfLong splitr, long index) {
+      private Splitr(Spliterator.OfLong splitr, long index) {
         super(splitr, index);
       }
 
@@ -681,7 +681,7 @@ public final class Streams {
         implements DoubleConsumer, Spliterator<R> {
       double holder;
 
-      Splitr(Spliterator.OfDouble splitr, long index) {
+      private Splitr(Spliterator.OfDouble splitr, long index) {
         super(splitr, index);
       }
 
@@ -737,16 +737,16 @@ public final class Streams {
    * @throws NullPointerException if the last element of the stream is null
    */
   public static <T> java.util.Optional<T> findLast(Stream<T> stream) {
-    class OptionalState<T> {
+    class OptionalState<TT> {
       boolean set = false;
-      T value = null;
+      TT value = null;
 
-      void set(@Nullable T value) {
+      void set(@Nullable TT value) {
         this.set = true;
         this.value = value;
       }
 
-      T get() {
+      TT get() {
         checkState(set);
         return value;
       }
@@ -813,7 +813,7 @@ public final class Streams {
   public static OptionalInt findLast(IntStream stream) {
     // findLast(Stream) does some allocation, so we might as well box some more
     java.util.Optional<Integer> boxedLast = findLast(stream.boxed());
-    return boxedLast.isPresent() ? OptionalInt.of(boxedLast.get()) : OptionalInt.empty();
+    return boxedLast.map(OptionalInt::of).orElseGet(OptionalInt::empty);
   }
 
   /**
@@ -831,7 +831,7 @@ public final class Streams {
   public static OptionalLong findLast(LongStream stream) {
     // findLast(Stream) does some allocation, so we might as well box some more
     java.util.Optional<Long> boxedLast = findLast(stream.boxed());
-    return boxedLast.isPresent() ? OptionalLong.of(boxedLast.get()) : OptionalLong.empty();
+    return boxedLast.map(OptionalLong::of).orElseGet(OptionalLong::empty);
   }
 
   /**
@@ -849,7 +849,7 @@ public final class Streams {
   public static OptionalDouble findLast(DoubleStream stream) {
     // findLast(Stream) does some allocation, so we might as well box some more
     java.util.Optional<Double> boxedLast = findLast(stream.boxed());
-    return boxedLast.isPresent() ? OptionalDouble.of(boxedLast.get()) : OptionalDouble.empty();
+    return boxedLast.map(OptionalDouble::of).orElseGet(OptionalDouble::empty);
   }
 
   private Streams() {}

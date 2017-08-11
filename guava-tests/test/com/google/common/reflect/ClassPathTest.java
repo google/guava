@@ -16,7 +16,6 @@
 
 package com.google.common.reflect;
 
-import static com.google.common.base.Charsets.US_ASCII;
 import static com.google.common.io.MoreFiles.deleteRecursively;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.file.Files.createDirectory;

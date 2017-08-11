@@ -58,7 +58,7 @@ public class FuturesGetCheckedBenchmark {
 
     final GetCheckedTypeValidator validator;
 
-    private Validator(GetCheckedTypeValidator validator) {
+    Validator(GetCheckedTypeValidator validator) {
       this.validator = validator;
     }
   }
@@ -69,7 +69,7 @@ public class FuturesGetCheckedBenchmark {
 
     final Future<Object> future;
 
-    private Result(Future<Object> result) {
+    Result(Future<Object> result) {
       this.future = result;
     }
   }
@@ -80,7 +80,7 @@ public class FuturesGetCheckedBenchmark {
 
     final Class<? extends Exception> exceptionType;
 
-    private ExceptionType(Class<? extends Exception> exceptionType) {
+    ExceptionType(Class<? extends Exception> exceptionType) {
       this.exceptionType = exceptionType;
     }
   }

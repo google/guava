@@ -58,7 +58,7 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
     private CombinedFutureInterruptibleTask task;
 
     CombinedFutureRunningState(
-        ImmutableCollection<? extends ListenableFuture<? extends Object>> futures,
+        ImmutableCollection<? extends ListenableFuture<?>> futures,
         boolean allMustSucceed,
         CombinedFutureInterruptibleTask task) {
       super(futures, allMustSucceed, false);

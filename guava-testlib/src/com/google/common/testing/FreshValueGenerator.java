@@ -368,7 +368,7 @@ class FreshValueGenerator {
   }
 
   @Generates private Integer generateInteger() {
-    return new Integer(generateInt());
+    return generateInt();
   }
 
   @Generates private long generateLong() {
@@ -376,7 +376,7 @@ class FreshValueGenerator {
   }
 
   @Generates private Long generateLongObject() {
-    return new Long(generateLong());
+    return generateLong();
   }
 
   @Generates private float generateFloat() {
@@ -384,7 +384,7 @@ class FreshValueGenerator {
   }
 
   @Generates private Float generateFloatObject() {
-    return new Float(generateFloat());
+    return generateFloat();
   }
 
   @Generates private double generateDouble() {
@@ -392,7 +392,7 @@ class FreshValueGenerator {
   }
 
   @Generates private Double generateDoubleObject() {
-    return new Double(generateDouble());
+    return generateDouble();
   }
 
   @Generates private short generateShort() {
@@ -400,7 +400,7 @@ class FreshValueGenerator {
   }
 
   @Generates private Short generateShortObject() {
-    return new Short(generateShort());
+    return generateShort();
   }
 
   @Generates private byte generateByte() {
@@ -408,7 +408,7 @@ class FreshValueGenerator {
   }
 
   @Generates private Byte generateByteObject() {
-    return new Byte(generateByte());
+    return generateByte();
   }
 
   @Generates private char generateChar() {
@@ -416,7 +416,7 @@ class FreshValueGenerator {
   }
 
   @Generates private Character generateCharacter() {
-    return new Character(generateChar());
+    return generateChar();
   }
 
   @Generates private boolean generateBoolean() {
@@ -424,7 +424,7 @@ class FreshValueGenerator {
   }
 
   @Generates private Boolean generateBooleanObject() {
-    return new Boolean(generateBoolean());
+    return generateBoolean();
   }
 
   @Generates private UnsignedInteger generateUnsignedInteger() {

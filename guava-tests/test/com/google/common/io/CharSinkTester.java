@@ -74,22 +74,16 @@ public class CharSinkTester extends SourceSinkTester<CharSink, String, CharSinkF
   }
 
   public void testOpenStream() throws IOException {
-    Writer writer = sink.openStream();
-    try {
+    try (Writer writer = sink.openStream()) {
       writer.write(data);
-    } finally {
-      writer.close();
     }
 
     assertContainsExpectedString();
   }
 
   public void testOpenBufferedStream() throws IOException {
-    Writer writer = sink.openBufferedStream();
-    try {
+    try (Writer writer = sink.openBufferedStream()) {
       writer.write(data);
-    } finally {
-      writer.close();
     }
 
     assertContainsExpectedString();

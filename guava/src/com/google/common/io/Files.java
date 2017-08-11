@@ -742,16 +742,19 @@ public final class Files {
 
     // resolve ., .., and //
     for (String component : components) {
-      if (component.equals(".")) {
-        continue;
-      } else if (component.equals("..")) {
-        if (path.size() > 0 && !path.get(path.size() - 1).equals("..")) {
-          path.remove(path.size() - 1);
-        } else {
-          path.add("..");
-        }
-      } else {
-        path.add(component);
+      switch (component) {
+        case ".":
+          continue;
+        case "..":
+          if (path.size() > 0 && !path.get(path.size() - 1).equals("..")) {
+            path.remove(path.size() - 1);
+          } else {
+            path.add("..");
+          }
+          break;
+        default:
+          path.add(component);
+          break;
       }
     }
 
@@ -887,6 +890,6 @@ public final class Files {
       public String toString() {
         return "Files.isFile()";
       }
-    };
+    }
   }
 }
