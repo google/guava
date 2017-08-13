@@ -223,7 +223,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
 
   /**
    * Returns a new builder. The generated builder is equivalent to the builder created by the {@link
-   * Builder#Builder() ImmutableTable.Builder()} constructor.
+   * ImmutableTable.Builder#ImmutableTable.Builder() ImmutableTable.Builder()} constructor.
    */
   public static <R, C, V> Builder<R, C, V> builder() {
     return new Builder<R, C, V>();
