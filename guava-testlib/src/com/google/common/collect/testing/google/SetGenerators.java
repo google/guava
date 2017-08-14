@@ -68,6 +68,53 @@ public class SetGenerators {
     }
   }
 
+  public static class ImmutableSetUnsizedBuilderGenerator extends TestStringSetGenerator {
+    @Override
+    protected Set<String> create(String[] elements) {
+      ImmutableSet.Builder<String> builder = ImmutableSet.builder();
+      for (String e : elements) {
+        builder.add(e);
+      }
+      return builder.build();
+    }
+  }
+
+  public static class ImmutableSetSizedBuilderGenerator extends TestStringSetGenerator {
+    @Override
+    protected Set<String> create(String[] elements) {
+      ImmutableSet.Builder<String> builder =
+          ImmutableSet.builderWithExpectedSize(Sets.newHashSet(elements).size());
+      for (String e : elements) {
+        builder.add(e);
+      }
+      return builder.build();
+    }
+  }
+
+  public static class ImmutableSetTooBigBuilderGenerator extends TestStringSetGenerator {
+    @Override
+    protected Set<String> create(String[] elements) {
+      ImmutableSet.Builder<String> builder =
+          ImmutableSet.builderWithExpectedSize(Sets.newHashSet(elements).size() + 1);
+      for (String e : elements) {
+        builder.add(e);
+      }
+      return builder.build();
+    }
+  }
+
+  public static class ImmutableSetTooSmallBuilderGenerator extends TestStringSetGenerator {
+    @Override
+    protected Set<String> create(String[] elements) {
+      ImmutableSet.Builder<String> builder =
+          ImmutableSet.builderWithExpectedSize(Math.max(0, Sets.newHashSet(elements).size() - 1));
+      for (String e : elements) {
+        builder.add(e);
+      }
+      return builder.build();
+    }
+  }
+
   public static class ImmutableSetWithBadHashesGenerator extends TestCollidingSetGenerator
       // Work around a GWT compiler bug.  Not explicitly listing this will
       // cause the createArray() method missing in the generated javascript.

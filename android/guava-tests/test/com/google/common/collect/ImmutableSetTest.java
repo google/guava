@@ -28,6 +28,10 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.SetGenerators.DegeneratedImmutableSetGenerator;
 import com.google.common.collect.testing.google.SetGenerators.ImmutableSetAsListGenerator;
 import com.google.common.collect.testing.google.SetGenerators.ImmutableSetCopyOfGenerator;
+import com.google.common.collect.testing.google.SetGenerators.ImmutableSetSizedBuilderGenerator;
+import com.google.common.collect.testing.google.SetGenerators.ImmutableSetTooBigBuilderGenerator;
+import com.google.common.collect.testing.google.SetGenerators.ImmutableSetTooSmallBuilderGenerator;
+import com.google.common.collect.testing.google.SetGenerators.ImmutableSetUnsizedBuilderGenerator;
 import com.google.common.collect.testing.google.SetGenerators.ImmutableSetWithBadHashesGenerator;
 import com.google.common.testing.EqualsTester;
 import java.util.Collection;
@@ -53,6 +57,34 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
 
     suite.addTest(SetTestSuiteBuilder.using(new ImmutableSetCopyOfGenerator())
         .named(ImmutableSetTest.class.getName())
+        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .createTestSuite());
+
+    suite.addTest(SetTestSuiteBuilder.using(new ImmutableSetUnsizedBuilderGenerator())
+        .named(ImmutableSetTest.class.getName() + ", with unsized builder")
+        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .createTestSuite());
+
+    suite.addTest(SetTestSuiteBuilder.using(new ImmutableSetSizedBuilderGenerator())
+        .named(ImmutableSetTest.class.getName() + ", with exactly sized builder")
+        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .createTestSuite());
+
+    suite.addTest(SetTestSuiteBuilder.using(new ImmutableSetTooBigBuilderGenerator())
+        .named(ImmutableSetTest.class.getName() + ", with oversized builder")
+        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .createTestSuite());
+
+    suite.addTest(SetTestSuiteBuilder.using(new ImmutableSetTooSmallBuilderGenerator())
+        .named(ImmutableSetTest.class.getName() + ", with undersized builder")
         .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
             CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_QUERIES)
@@ -159,12 +191,43 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
   @GwtIncompatible("Builder impl")
   public void testBuilderForceCopy() {
     ImmutableSet.Builder<Integer> builder = ImmutableSet.builder();
+    builder.add(-1);
     Object[] prevArray = null;
     for (int i = 0; i < 10; i++) {
       builder.add(i);
       assertNotSame(builder.contents, prevArray);
       prevArray = builder.contents;
       ImmutableSet<Integer> unused = builder.build();
+    }
+  }
+
+  @GwtIncompatible("Builder impl")
+  public void testPresizedBuilderDedups() {
+    ImmutableSet.Builder<String> builder = ImmutableSet.builderWithExpectedSize(4);
+    builder.add("a");
+    assertEquals(1, builder.size);
+    builder.add("a");
+    assertEquals(1, builder.size);
+    builder.add("b", "c", "d");
+    assertEquals(4, builder.size);
+    Object[] table = builder.hashTable;
+    assertNotNull(table);
+    assertSame(table, ((RegularImmutableSet<String>) builder.build()).table);
+  }
+
+  @GwtIncompatible("Builder impl")
+  public void testPresizedBuilderForceCopy() {
+    for (int expectedSize = 1; expectedSize < 4; expectedSize++) {
+      ImmutableSet.Builder<Integer> builder = ImmutableSet.builderWithExpectedSize(expectedSize);
+      builder.add(-1);
+      Object[] prevArray = null;
+      for (int i = 0; i < 10; i++) {
+        ImmutableSet<Integer> prevBuilt = builder.build();
+        builder.add(i);
+        assertFalse(prevBuilt.contains(i));
+        assertNotSame(builder.contents, prevArray);
+        prevArray = builder.contents;
+      }
     }
   }
 
