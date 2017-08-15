@@ -313,9 +313,8 @@ public abstract class BaseEncoding {
    */
   public abstract BaseEncoding lowerCase();
 
-  private static final BaseEncoding BASE64 =
-      new Base64Encoding(
-          "base64()", "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", '=');
+  private static final ThreadLocal<BaseEncoding> BASE64 =
+      ThreadLocal.withInitial(() -> new Base64Encoding("base64()", "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", '='));
 
   /**
    * The "base64" base encoding specified by
@@ -331,7 +330,7 @@ public abstract class BaseEncoding {
    * in Encoded Data. Line feeds may be added using {@link #withSeparator(String, int)}.
    */
   public static BaseEncoding base64() {
-    return BASE64;
+    return BASE64.get();
   }
 
   private static final BaseEncoding BASE64_URL =
@@ -375,8 +374,8 @@ public abstract class BaseEncoding {
     return BASE32;
   }
 
-  private static final BaseEncoding BASE32_HEX =
-      new StandardBaseEncoding("base32Hex()", "0123456789ABCDEFGHIJKLMNOPQRSTUV", '=');
+  private static final ThreadLocal<BaseEncoding> BASE32_HEX =
+      ThreadLocal.withInitial(() -> new StandardBaseEncoding("base32Hex()", "0123456789ABCDEFGHIJKLMNOPQRSTUV", '='));
 
   /**
    * The "base32hex" encoding specified by
@@ -391,10 +390,10 @@ public abstract class BaseEncoding {
    * in Encoded Data. Line feeds may be added using {@link #withSeparator(String, int)}.
    */
   public static BaseEncoding base32Hex() {
-    return BASE32_HEX;
+    return BASE32_HEX.get();
   }
 
-  private static final BaseEncoding BASE16 = new Base16Encoding("base16()", "0123456789ABCDEF");
+  private static final ThreadLocal<BaseEncoding> BASE16 = ThreadLocal.withInitial(() -> new Base16Encoding("base16()", "0123456789ABCDEF"));
 
   /**
    * The "base16" encoding specified by <a href="http://tools.ietf.org/html/rfc4648#section-8">RFC
@@ -410,7 +409,7 @@ public abstract class BaseEncoding {
    * in Encoded Data. Line feeds may be added using {@link #withSeparator(String, int)}.
    */
   public static BaseEncoding base16() {
-    return BASE16;
+    return BASE16.get();
   }
 
   private static final class Alphabet {
