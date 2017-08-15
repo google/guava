@@ -1,3 +1,4 @@
 OK: com.google.common.collect.ImmutableBiMap Method builderWithExpectedSize(int)
 OK: com.google.common.collect.ImmutableList Method builderWithExpectedSize(int)
 OK: com.google.common.collect.ImmutableMap Method builderWithExpectedSize(int)
+OK: com.google.common.collect.ImmutableSet Method builderWithExpectedSize(int)
