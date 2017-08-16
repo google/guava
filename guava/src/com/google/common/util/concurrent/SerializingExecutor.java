@@ -51,7 +51,7 @@ final class SerializingExecutor implements Executor {
   private final Executor executor;
 
   @GuardedBy("queue")
-  private final Deque<Runnable> queue = new ArrayDeque<Runnable>();
+  private final Deque<Runnable> queue = new ArrayDeque<>();
 
   @GuardedBy("queue")
   private boolean isWorkerRunning = false;

@@ -37,7 +37,7 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
       ListenableFuture<? extends V> input,
       Class<X> exceptionType,
       Function<? super X, ? extends V> fallback) {
-    CatchingFuture<V, X> future = new CatchingFuture<V, X>(input, exceptionType, fallback);
+    CatchingFuture<V, X> future = new CatchingFuture<>(input, exceptionType, fallback);
     input.addListener(future, directExecutor());
     return future;
   }
@@ -47,7 +47,7 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
       Class<X> exceptionType,
       Function<? super X, ? extends V> fallback,
       Executor executor) {
-    CatchingFuture<V, X> future = new CatchingFuture<V, X>(input, exceptionType, fallback);
+    CatchingFuture<V, X> future = new CatchingFuture<>(input, exceptionType, fallback);
     input.addListener(future, rejectionPropagatingExecutor(executor, future));
     return future;
   }
@@ -56,8 +56,7 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
       ListenableFuture<? extends V> input,
       Class<X> exceptionType,
       AsyncFunction<? super X, ? extends V> fallback) {
-    AsyncCatchingFuture<V, X> future =
-        new AsyncCatchingFuture<V, X>(input, exceptionType, fallback);
+    AsyncCatchingFuture<V, X> future = new AsyncCatchingFuture<>(input, exceptionType, fallback);
     input.addListener(future, directExecutor());
     return future;
   }
@@ -67,8 +66,7 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
       Class<X> exceptionType,
       AsyncFunction<? super X, ? extends V> fallback,
       Executor executor) {
-    AsyncCatchingFuture<V, X> future =
-        new AsyncCatchingFuture<V, X>(input, exceptionType, fallback);
+    AsyncCatchingFuture<V, X> future = new AsyncCatchingFuture<>(input, exceptionType, fallback);
     input.addListener(future, rejectionPropagatingExecutor(executor, future));
     return future;
   }

@@ -150,7 +150,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @GwtIncompatible // TODO
   public static <V, X extends Exception> CheckedFuture<V, X> makeChecked(
       ListenableFuture<V> future, Function<? super Exception, X> mapper) {
-    return new MappingCheckedFuture<V, X>(checkNotNull(future), mapper);
+    return new MappingCheckedFuture<>(checkNotNull(future), mapper);
   }
 
   /**
@@ -188,7 +188,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @GwtIncompatible // TODO
   public static <V, X extends Exception> CheckedFuture<V, X> immediateCheckedFuture(
       @Nullable V value) {
-    return new ImmediateSuccessfulCheckedFuture<V, X>(value);
+    return new ImmediateSuccessfulCheckedFuture<>(value);
   }
 
   /**
@@ -235,7 +235,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   public static <V, X extends Exception> CheckedFuture<V, X> immediateFailedCheckedFuture(
       X exception) {
     checkNotNull(exception);
-    return new ImmediateFailedCheckedFuture<V, X>(exception);
+    return new ImmediateFailedCheckedFuture<>(exception);
   }
 
   /**

@@ -157,7 +157,7 @@ final class FuturesGetChecked {
        * weakKeys() and concurrencyLevel(1), even up to at least 12 cached exception types.
        */
       private static final Set<WeakReference<Class<? extends Exception>>> validClasses =
-          new CopyOnWriteArraySet<WeakReference<Class<? extends Exception>>>();
+          new CopyOnWriteArraySet<>();
 
       @Override
       public void validateClass(Class<? extends Exception> exceptionClass) {

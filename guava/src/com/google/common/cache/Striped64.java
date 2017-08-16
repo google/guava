@@ -118,13 +118,12 @@ abstract class Striped64 extends Number {
 
     }
 
-    /**
-     * ThreadLocal holding a single-slot int array holding hash code.
-     * Unlike the JDK8 version of this class, we use a suboptimal
-     * int[] representation to avoid introducing a new type that can
-     * impede class-unloading when ThreadLocals are not removed.
-     */
-    static final ThreadLocal<int[]> threadHashCode = new ThreadLocal<int[]>();
+  /**
+   * ThreadLocal holding a single-slot int array holding hash code. Unlike the JDK8 version of this
+   * class, we use a suboptimal int[] representation to avoid introducing a new type that can impede
+   * class-unloading when ThreadLocals are not removed.
+   */
+  static final ThreadLocal<int[]> threadHashCode = new ThreadLocal<>();
 
     /**
      * Generator of new random hash codes

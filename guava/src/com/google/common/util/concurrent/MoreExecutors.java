@@ -510,7 +510,7 @@ public final class MoreExecutors {
     public ListenableScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
       TrustedListenableFutureTask<Void> task = TrustedListenableFutureTask.create(command, null);
       ScheduledFuture<?> scheduled = delegate.schedule(task, delay, unit);
-      return new ListenableScheduledTask<Void>(task, scheduled);
+      return new ListenableScheduledTask<>(task, scheduled);
     }
 
     @Override
@@ -526,7 +526,7 @@ public final class MoreExecutors {
         Runnable command, long initialDelay, long period, TimeUnit unit) {
       NeverSuccessfulListenableFutureTask task = new NeverSuccessfulListenableFutureTask(command);
       ScheduledFuture<?> scheduled = delegate.scheduleAtFixedRate(task, initialDelay, period, unit);
-      return new ListenableScheduledTask<Void>(task, scheduled);
+      return new ListenableScheduledTask<>(task, scheduled);
     }
 
     @Override
@@ -535,7 +535,7 @@ public final class MoreExecutors {
       NeverSuccessfulListenableFutureTask task = new NeverSuccessfulListenableFutureTask(command);
       ScheduledFuture<?> scheduled =
           delegate.scheduleWithFixedDelay(task, initialDelay, delay, unit);
-      return new ListenableScheduledTask<Void>(task, scheduled);
+      return new ListenableScheduledTask<>(task, scheduled);
     }
 
     private static final class ListenableScheduledTask<V>
