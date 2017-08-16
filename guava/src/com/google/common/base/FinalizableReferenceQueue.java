@@ -155,7 +155,7 @@ public class FinalizableReferenceQueue implements Closeable {
    */
   public FinalizableReferenceQueue() {
     // We could start the finalizer lazily, but I'd rather it blow up early.
-    queue = new ReferenceQueue<Object>();
+    queue = new ReferenceQueue<>();
     frqRef = new PhantomReference<Object>(this, queue);
     boolean threadStarted = false;
     try {

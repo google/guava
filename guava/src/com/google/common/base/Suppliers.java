@@ -42,7 +42,7 @@ public final class Suppliers {
   public static <F, T> Supplier<T> compose(Function<? super F, T> function, Supplier<F> supplier) {
     Preconditions.checkNotNull(function);
     Preconditions.checkNotNull(supplier);
-    return new SupplierComposition<F, T>(function, supplier);
+    return new SupplierComposition<>(function, supplier);
   }
 
   private static class SupplierComposition<F, T> implements Supplier<T>, Serializable {

@@ -247,7 +247,7 @@ public final class Predicates {
    */
   public static <A, B> Predicate<A> compose(
       Predicate<B> predicate, Function<A, ? extends B> function) {
-    return new CompositionPredicate<A, B>(predicate, function);
+    return new CompositionPredicate<>(predicate, function);
   }
 
   /**

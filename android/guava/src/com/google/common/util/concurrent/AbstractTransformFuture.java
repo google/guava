@@ -36,7 +36,7 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
     implements Runnable {
   static <I, O> ListenableFuture<O> create(
       ListenableFuture<I> input, AsyncFunction<? super I, ? extends O> function) {
-    AsyncTransformFuture<I, O> output = new AsyncTransformFuture<I, O>(input, function);
+    AsyncTransformFuture<I, O> output = new AsyncTransformFuture<>(input, function);
     input.addListener(output, directExecutor());
     return output;
   }
@@ -46,7 +46,7 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
       AsyncFunction<? super I, ? extends O> function,
       Executor executor) {
     checkNotNull(executor);
-    AsyncTransformFuture<I, O> output = new AsyncTransformFuture<I, O>(input, function);
+    AsyncTransformFuture<I, O> output = new AsyncTransformFuture<>(input, function);
     input.addListener(output, rejectionPropagatingExecutor(executor, output));
     return output;
   }
@@ -54,7 +54,7 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
   static <I, O> ListenableFuture<O> create(
       ListenableFuture<I> input, Function<? super I, ? extends O> function) {
     checkNotNull(function);
-    TransformFuture<I, O> output = new TransformFuture<I, O>(input, function);
+    TransformFuture<I, O> output = new TransformFuture<>(input, function);
     input.addListener(output, directExecutor());
     return output;
   }
@@ -62,7 +62,7 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
   static <I, O> ListenableFuture<O> create(
       ListenableFuture<I> input, Function<? super I, ? extends O> function, Executor executor) {
     checkNotNull(function);
-    TransformFuture<I, O> output = new TransformFuture<I, O>(input, function);
+    TransformFuture<I, O> output = new TransformFuture<>(input, function);
     input.addListener(output, rejectionPropagatingExecutor(executor, output));
     return output;
   }

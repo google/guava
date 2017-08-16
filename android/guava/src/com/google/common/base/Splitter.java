@@ -408,7 +408,7 @@ public final class Splitter {
     checkNotNull(sequence);
 
     Iterator<String> iterator = splittingIterator(sequence);
-    List<String> result = new ArrayList<String>();
+    List<String> result = new ArrayList<>();
 
     while (iterator.hasNext()) {
       result.add(iterator.next());
@@ -481,7 +481,7 @@ public final class Splitter {
      *     entries, or if there are duplicate keys
      */
     public Map<String, String> split(CharSequence sequence) {
-      Map<String, String> map = new LinkedHashMap<String, String>();
+      Map<String, String> map = new LinkedHashMap<>();
       for (String entry : outerSplitter.split(sequence)) {
         Iterator<String> entryFields = entrySplitter.splittingIterator(entry);
 

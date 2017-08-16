@@ -148,7 +148,7 @@ public abstract class Equivalence<T> implements BiPredicate<T, T> {
    * @since 10.0
    */
   public final <F> Equivalence<F> onResultOf(Function<F, ? extends T> function) {
-    return new FunctionalEquivalence<F, T>(function, this);
+    return new FunctionalEquivalence<>(function, this);
   }
 
   /**

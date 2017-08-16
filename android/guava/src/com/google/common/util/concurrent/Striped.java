@@ -193,7 +193,7 @@ public abstract class Striped<L> {
    * @return a new {@code Striped<Lock>}
    */
   public static Striped<Lock> lock(int stripes) {
-    return new CompactStriped<Lock>(
+    return new CompactStriped<>(
         stripes,
         new Supplier<Lock>() {
           @Override
@@ -236,7 +236,7 @@ public abstract class Striped<L> {
    * @return a new {@code Striped<Semaphore>}
    */
   public static Striped<Semaphore> semaphore(int stripes, final int permits) {
-    return new CompactStriped<Semaphore>(
+    return new CompactStriped<>(
         stripes,
         new Supplier<Semaphore>() {
           @Override
@@ -273,7 +273,7 @@ public abstract class Striped<L> {
    * @return a new {@code Striped<ReadWriteLock>}
    */
   public static Striped<ReadWriteLock> readWriteLock(int stripes) {
-    return new CompactStriped<ReadWriteLock>(stripes, READ_WRITE_LOCK_SUPPLIER);
+    return new CompactStriped<>(stripes, READ_WRITE_LOCK_SUPPLIER);
   }
 
   /**
@@ -362,7 +362,7 @@ public abstract class Striped<L> {
     SmallLazyStriped(int stripes, Supplier<L> supplier) {
       super(stripes);
       this.size = (mask == ALL_SET) ? Integer.MAX_VALUE : mask + 1;
-      this.locks = new AtomicReferenceArray<ArrayReference<? extends L>>(size);
+      this.locks = new AtomicReferenceArray<>(size);
       this.supplier = supplier;
     }
 
