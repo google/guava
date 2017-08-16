@@ -37,7 +37,7 @@ public class LinkedHashMultimap_CustomFieldSerializer {
     LinkedHashMultimap<Object, Object> multimap = LinkedHashMultimap.create();
 
     int distinctKeys = stream.readInt();
-    Map<Object, Collection<Object>> map = new LinkedHashMap<Object, Collection<Object>>();
+    Map<Object, Collection<Object>> map = new LinkedHashMap<>();
     for (int i = 0; i < distinctKeys; i++) {
       Object key = stream.readObject();
       map.put(key, multimap.createCollection(key));

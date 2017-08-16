@@ -144,7 +144,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
     final TestMultisetGenerator<E> delegate =
         (TestMultisetGenerator<E>) parentBuilder.getSubjectGenerator();
 
-    Set<Feature<?>> features = new HashSet<Feature<?>>();
+    Set<Feature<?>> features = new HashSet<>();
     features.add(NoRecurse.SUBMULTISET);
     features.add(RESTRICTS_ELEMENTS);
     features.addAll(parentBuilder.getFeatures());
@@ -228,7 +228,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
    * navigable maps with non-string or unicode generators.
    */
   private List<String> getExtremeValues() {
-    List<String> result = new ArrayList<String>();
+    List<String> result = new ArrayList<>();
     result.add("!! a");
     result.add("!! b");
     result.add("~~ y");
@@ -240,7 +240,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
     final TestMultisetGenerator<E> delegate =
         (TestMultisetGenerator<E>) parentBuilder.getSubjectGenerator();
 
-    Set<Feature<?>> features = new HashSet<Feature<?>>();
+    Set<Feature<?>> features = new HashSet<>();
     features.add(NoRecurse.DESCENDING);
     features.addAll(parentBuilder.getFeatures());
     if (!features.remove(SERIALIZABLE_INCLUDING_VIEWS)) {
@@ -269,7 +269,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
     final TestMultisetGenerator<E> delegate =
         (TestMultisetGenerator<E>) parentBuilder.getSubjectGenerator();
 
-    Set<Feature<?>> features = new HashSet<Feature<?>>();
+    Set<Feature<?>> features = new HashSet<>();
     features.addAll(parentBuilder.getFeatures());
     features.remove(SERIALIZABLE);
     features.remove(SERIALIZABLE_INCLUDING_VIEWS);

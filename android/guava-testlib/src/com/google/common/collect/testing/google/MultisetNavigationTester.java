@@ -244,9 +244,9 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
 
   @CollectionSize.Require(SEVERAL)
   public void testDescendingNavigation() {
-    List<Entry<E>> ascending = new ArrayList<Entry<E>>();
+    List<Entry<E>> ascending = new ArrayList<>();
     Iterators.addAll(ascending, sortedMultiset.entrySet().iterator());
-    List<Entry<E>> descending = new ArrayList<Entry<E>>();
+    List<Entry<E>> descending = new ArrayList<>();
     Iterators.addAll(descending, sortedMultiset.descendingMultiset().entrySet().iterator());
     Collections.reverse(descending);
     assertEquals(ascending, descending);

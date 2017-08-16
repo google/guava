@@ -165,7 +165,7 @@ public abstract class MultimapBuilder<K0, V0> {
     return new MultimapBuilderWithKeys<K0>() {
       @Override
       <K extends K0, V> Map<K, Collection<V>> createMap() {
-        return new TreeMap<K, Collection<V>>(comparator);
+        return new TreeMap<>(comparator);
       }
     };
   }
@@ -212,7 +212,7 @@ public abstract class MultimapBuilder<K0, V0> {
 
     @Override
     public List<Object> get() {
-      return new LinkedList<Object>();
+      return new LinkedList<>();
     }
   }
 

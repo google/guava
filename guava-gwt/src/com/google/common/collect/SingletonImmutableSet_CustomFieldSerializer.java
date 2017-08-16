@@ -33,7 +33,7 @@ public class SingletonImmutableSet_CustomFieldSerializer {
   public static SingletonImmutableSet<Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
     Object element = reader.readObject();
-    return new SingletonImmutableSet<Object>(element);
+    return new SingletonImmutableSet<>(element);
   }
 
   public static void serialize(SerializationStreamWriter writer, SingletonImmutableSet<?> instance)

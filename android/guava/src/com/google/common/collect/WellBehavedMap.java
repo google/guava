@@ -49,7 +49,7 @@ final class WellBehavedMap<K, V> extends ForwardingMap<K, V> {
    * {@code Set<Entry<K, V>>}. All other invocations are delegated as-is.
    */
   static <K, V> WellBehavedMap<K, V> wrap(Map<K, V> delegate) {
-    return new WellBehavedMap<K, V>(delegate);
+    return new WellBehavedMap<>(delegate);
   }
 
   @Override

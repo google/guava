@@ -36,7 +36,7 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
   private final transient int[] axesSizeProduct;
 
   static <E> List<List<E>> create(List<? extends List<? extends E>> lists) {
-    ImmutableList.Builder<List<E>> axesBuilder = new ImmutableList.Builder<List<E>>(lists.size());
+    ImmutableList.Builder<List<E>> axesBuilder = new ImmutableList.Builder<>(lists.size());
     for (List<? extends E> list : lists) {
       List<E> copy = ImmutableList.copyOf(list);
       if (copy.isEmpty()) {

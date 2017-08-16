@@ -328,7 +328,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
           ((TestMultimapGenerator<K, V, M>) multimapGenerator.getInnerGenerator()).sampleKeys();
       SampleElements<V> sampleValues =
           ((TestMultimapGenerator<K, V, M>) multimapGenerator.getInnerGenerator()).sampleValues();
-      return new SampleElements<Entry<K, Collection<V>>>(
+      return new SampleElements<>(
           mapEntry(sampleKeys.e0(), createCollection(sampleValues.e0())),
           mapEntry(sampleKeys.e1(), createCollection(sampleValues.e1())),
           mapEntry(sampleKeys.e2(), createCollection(sampleValues.e2())),

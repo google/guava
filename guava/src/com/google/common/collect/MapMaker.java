@@ -276,7 +276,7 @@ public final class MapMaker {
    */
   public <K, V> ConcurrentMap<K, V> makeMap() {
     if (!useCustomMap) {
-      return new ConcurrentHashMap<K, V>(getInitialCapacity(), 0.75f, getConcurrencyLevel());
+      return new ConcurrentHashMap<>(getInitialCapacity(), 0.75f, getConcurrencyLevel());
     }
     return MapMakerInternalMap.create(this);
   }

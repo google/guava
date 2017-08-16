@@ -1055,8 +1055,7 @@ public final class Iterators {
   }
 
   private static final class ArrayItr<T> extends AbstractIndexedListIterator<T> {
-    static final UnmodifiableListIterator<Object> EMPTY = new ArrayItr<Object>(
-        new Object[0], 0, 0, 0);
+    static final UnmodifiableListIterator<Object> EMPTY = new ArrayItr<>(new Object[0], 0, 0, 0);
 
     private final T[] array;
     private final int offset;
@@ -1317,7 +1316,7 @@ public final class Iterators {
             }
           };
 
-      queue = new PriorityQueue<PeekingIterator<T>>(2, heapComparator);
+      queue = new PriorityQueue<>(2, heapComparator);
 
       for (Iterator<? extends T> iterator : iterators) {
         if (iterator.hasNext()) {

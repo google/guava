@@ -32,7 +32,7 @@ public class SingletonImmutableTable_CustomFieldSerializer {
     Object rowKey = reader.readObject();
     Object columnKey = reader.readObject();
     Object value = reader.readObject();
-    return new SingletonImmutableTable<Object, Object, Object>(rowKey, columnKey, value);
+    return new SingletonImmutableTable<>(rowKey, columnKey, value);
   }
 
   public static void serialize(

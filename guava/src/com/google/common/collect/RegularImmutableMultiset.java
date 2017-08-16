@@ -35,7 +35,7 @@ import javax.annotation.Nullable;
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   static final RegularImmutableMultiset<Object> EMPTY =
-      new RegularImmutableMultiset<Object>(ImmutableList.<Entry<Object>>of());
+      new RegularImmutableMultiset<>(ImmutableList.<Entry<Object>>of());
 
   private final transient Multisets.ImmutableEntry<E>[] entries;
   private final transient Multisets.ImmutableEntry<E>[] hashTable;

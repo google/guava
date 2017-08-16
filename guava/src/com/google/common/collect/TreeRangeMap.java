@@ -56,7 +56,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
   private final NavigableMap<Cut<K>, RangeMapEntry<K, V>> entriesByLowerBound;
 
   public static <K extends Comparable, V> TreeRangeMap<K, V> create() {
-    return new TreeRangeMap<K, V>();
+    return new TreeRangeMap<>();
   }
 
   private TreeRangeMap() {

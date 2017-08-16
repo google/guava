@@ -42,7 +42,7 @@ import javax.annotation.Nullable;
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   static final RegularImmutableBiMap<Object, Object> EMPTY =
-      new RegularImmutableBiMap<Object, Object>(
+      new RegularImmutableBiMap<>(
           null, null, (Entry<Object, Object>[]) ImmutableMap.EMPTY_ENTRY_ARRAY, 0, 0);
 
   static final double MAX_LOAD_FACTOR = 1.2;
@@ -101,15 +101,14 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
             reusable ? (ImmutableMapEntry<K, V>) entry : new ImmutableMapEntry<K, V>(key, value);
       } else {
         newEntry =
-            new NonTerminalImmutableBiMapEntry<K, V>(
-                key, value, nextInKeyBucket, nextInValueBucket);
+            new NonTerminalImmutableBiMapEntry<>(key, value, nextInKeyBucket, nextInValueBucket);
       }
       keyTable[keyBucket] = newEntry;
       valueTable[valueBucket] = newEntry;
       entries[i] = newEntry;
       hashCode += keyHash ^ valueHash;
     }
-    return new RegularImmutableBiMap<K, V>(keyTable, valueTable, entries, mask, hashCode);
+    return new RegularImmutableBiMap<>(keyTable, valueTable, entries, mask, hashCode);
   }
 
   private RegularImmutableBiMap(
@@ -149,7 +148,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
   @Override
   ImmutableSet<K> createKeySet() {
-    return new ImmutableMapKeySet<K, V>(this);
+    return new ImmutableMapKeySet<>(this);
   }
 
   @Override
@@ -229,7 +228,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
     @Override
     ImmutableSet<V> createKeySet() {
-      return new ImmutableMapKeySet<V, K>(this);
+      return new ImmutableMapKeySet<>(this);
     }
 
     @Override
@@ -288,7 +287,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
     @Override
     Object writeReplace() {
-      return new InverseSerializedForm<K, V>(RegularImmutableBiMap.this);
+      return new InverseSerializedForm<>(RegularImmutableBiMap.this);
     }
   }
 

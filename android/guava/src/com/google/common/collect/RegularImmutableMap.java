@@ -38,7 +38,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   @SuppressWarnings("unchecked")
   static final ImmutableMap<Object, Object> EMPTY =
-      new RegularImmutableMap<Object, Object>(null, new Object[0], 0);
+      new RegularImmutableMap<>(null, new Object[0], 0);
   
   /*
    * This is an implementation of ImmutableMap optimized especially for Android, which does not like
@@ -164,7 +164,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   @Override
   ImmutableSet<Entry<K, V>> createEntrySet() {
-    return new EntrySet<K, V>(this, alternatingKeysAndValues, 0, size);
+    return new EntrySet<>(this, alternatingKeysAndValues, 0, size);
   }
   
   static class EntrySet<K, V> extends ImmutableSet<Entry<K, V>> {

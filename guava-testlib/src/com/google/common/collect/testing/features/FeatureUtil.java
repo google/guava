@@ -39,18 +39,14 @@ import java.util.Set;
  */
 @GwtIncompatible
 public class FeatureUtil {
-  /**
-   * A cache of annotated objects (typically a Class or Method) to its
-   * set of annotations.
-   */
-  private static Map<AnnotatedElement, List<Annotation>> annotationCache =
-      new HashMap<AnnotatedElement, List<Annotation>>();
+  /** A cache of annotated objects (typically a Class or Method) to its set of annotations. */
+  private static Map<AnnotatedElement, List<Annotation>> annotationCache = new HashMap<>();
 
   private static final Map<Class<?>, TesterRequirements> classTesterRequirementsCache =
-      new HashMap<Class<?>, TesterRequirements>();
+      new HashMap<>();
 
   private static final Map<Method, TesterRequirements> methodTesterRequirementsCache =
-      new HashMap<Method, TesterRequirements>();
+      new HashMap<>();
 
   /**
    * Given a set of features, add to it all the features directly or indirectly
@@ -59,7 +55,7 @@ public class FeatureUtil {
    * @return the same set of features, expanded with all implied features
    */
   public static Set<Feature<?>> addImpliedFeatures(Set<Feature<?>> features) {
-    Queue<Feature<?>> queue = new ArrayDeque<Feature<?>>(features);
+    Queue<Feature<?>> queue = new ArrayDeque<>(features);
     while (!queue.isEmpty()) {
       Feature<?> feature = queue.remove();
       for (Feature<?> implied : feature.getImpliedFeatures()) {
@@ -78,8 +74,8 @@ public class FeatureUtil {
    * @return the implied set of features
    */
   public static Set<Feature<?>> impliedFeatures(Set<Feature<?>> features) {
-    Set<Feature<?>> impliedSet = new LinkedHashSet<Feature<?>>();
-    Queue<Feature<?>> queue = new ArrayDeque<Feature<?>>(features);
+    Set<Feature<?>> impliedSet = new LinkedHashSet<>();
+    Queue<Feature<?>> queue = new ArrayDeque<>(features);
     while (!queue.isEmpty()) {
       Feature<?> feature = queue.remove();
       for (Feature<?> implied : feature.getImpliedFeatures()) {
@@ -199,7 +195,7 @@ public class FeatureUtil {
     synchronized (annotationCache) {
       List<Annotation> annotations = annotationCache.get(classOrMethod);
       if (annotations == null) {
-        annotations = new ArrayList<Annotation>();
+        annotations = new ArrayList<>();
         for (Annotation a : classOrMethod.getDeclaredAnnotations()) {
           if (a.annotationType().isAnnotationPresent(TesterAnnotation.class)) {
             annotations.add(a);

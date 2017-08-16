@@ -131,7 +131,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    * Returns a new {@link Builder}.
    */
   public static <K, V> Builder<K, V> builder() {
-    return new Builder<K, V>();
+    return new Builder<>();
   }
 
   /**
@@ -310,7 +310,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     }
 
     ImmutableMap.Builder<K, ImmutableSet<V>> builder =
-        new ImmutableMap.Builder<K, ImmutableSet<V>>(multimap.asMap().size());
+        new ImmutableMap.Builder<>(multimap.asMap().size());
     int size = 0;
 
     for (Entry<? extends K, ? extends Collection<? extends V>> entry :
@@ -324,7 +324,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
       }
     }
 
-    return new ImmutableSetMultimap<K, V>(builder.build(), size, valueComparator);
+    return new ImmutableSetMultimap<>(builder.build(), size, valueComparator);
   }
 
   /**
@@ -437,7 +437,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   @Override
   public ImmutableSet<Entry<K, V>> entries() {
     ImmutableSet<Entry<K, V>> result = entries;
-    return result == null ? (entries = new EntrySet<K, V>(this)) : result;
+    return result == null ? (entries = new EntrySet<>(this)) : result;
   }
 
   private static final class EntrySet<K, V> extends ImmutableSet<Entry<K, V>> {

@@ -31,7 +31,7 @@ import java.util.List;
 @GwtIncompatible
 public class ConcurrentMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V> {
   public static <K, V> ConcurrentMapTestSuiteBuilder<K, V> using(TestMapGenerator<K, V> generator) {
-    ConcurrentMapTestSuiteBuilder<K, V> result = new ConcurrentMapTestSuiteBuilder<K, V>();
+    ConcurrentMapTestSuiteBuilder<K, V> result = new ConcurrentMapTestSuiteBuilder<>();
     result.usingGenerator(generator);
     return result;
   }

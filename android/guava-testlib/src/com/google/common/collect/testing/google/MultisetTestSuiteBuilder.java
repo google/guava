@@ -202,7 +202,7 @@ public class MultisetTestSuiteBuilder<E>
     @Override
     public SampleElements<Multiset.Entry<E>> samples() {
       SampleElements<E> samples = gen.samples();
-      return new SampleElements<Multiset.Entry<E>>(
+      return new SampleElements<>(
           Multisets.immutableEntry(samples.e0(), 3),
           Multisets.immutableEntry(samples.e1(), 4),
           Multisets.immutableEntry(samples.e2(), 1),

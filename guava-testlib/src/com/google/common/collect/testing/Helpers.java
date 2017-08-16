@@ -169,7 +169,7 @@ public class Helpers {
   }
 
   public static void assertContainsAllOf(Iterable<?> actual, Object... expected) {
-    List<Object> expectedList = new ArrayList<Object>();
+    List<Object> expectedList = new ArrayList<>();
     expectedList.addAll(Arrays.asList(expected));
 
     for (Object o : actual) {

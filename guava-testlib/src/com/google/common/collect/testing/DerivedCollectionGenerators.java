@@ -84,9 +84,9 @@ public final class DerivedCollectionGenerators {
     TestContainerGenerator<Map<K, V>, Entry<K, V>> generator = mapGenerator.getInnerGenerator();
     if (generator instanceof TestSortedMapGenerator
         && ((TestSortedMapGenerator<K, V>) generator).create().keySet() instanceof SortedSet) {
-      return new MapSortedKeySetGenerator<K, V>(mapGenerator);
+      return new MapSortedKeySetGenerator<>(mapGenerator);
     } else {
-      return new MapKeySetGenerator<K, V>(mapGenerator);
+      return new MapKeySetGenerator<>(mapGenerator);
     }
   }
 

@@ -50,7 +50,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
 
   /** Returns an immutable table containing a single cell. */
   public static <R, C, V> ImmutableTable<R, C, V> of(R rowKey, C columnKey, V value) {
-    return new SingletonImmutableTable<R, C, V>(rowKey, columnKey, value);
+    return new SingletonImmutableTable<>(rowKey, columnKey, value);
   }
 
   /**
@@ -92,7 +92,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
    * Builder#Builder() ImmutableTable.Builder()} constructor.
    */
   public static <R, C, V> Builder<R, C, V> builder() {
-    return new Builder<R, C, V>();
+    return new Builder<>();
   }
 
   /**
@@ -215,7 +215,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
         case 0:
           return of();
         case 1:
-          return new SingletonImmutableTable<R, C, V>(Iterables.getOnlyElement(cells));
+          return new SingletonImmutableTable<>(Iterables.getOnlyElement(cells));
         default:
           return RegularImmutableTable.forCells(cells, rowComparator, columnComparator);
       }
@@ -408,7 +408,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
         return of(rowKeys[0], columnKeys[0], cellValues[0]);
       }
       ImmutableList.Builder<Cell<Object, Object, Object>> cellListBuilder =
-          new ImmutableList.Builder<Cell<Object, Object, Object>>(cellValues.length);
+          new ImmutableList.Builder<>(cellValues.length);
       for (int i = 0; i < cellValues.length; i++) {
         cellListBuilder.add(
             cellOf(rowKeys[cellRowIndices[i]], columnKeys[cellColumnIndices[i]], cellValues[i]));

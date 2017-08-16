@@ -58,7 +58,7 @@ public final class HashMultimap<K, V> extends HashMultimapGwtSerializationDepend
    * MultimapBuilder.hashKeys().hashSetValues().build()}.
    */
   public static <K, V> HashMultimap<K, V> create() {
-    return new HashMultimap<K, V>();
+    return new HashMultimap<>();
   }
 
   /**
@@ -74,7 +74,7 @@ public final class HashMultimap<K, V> extends HashMultimapGwtSerializationDepend
    *     negative
    */
   public static <K, V> HashMultimap<K, V> create(int expectedKeys, int expectedValuesPerKey) {
-    return new HashMultimap<K, V>(expectedKeys, expectedValuesPerKey);
+    return new HashMultimap<>(expectedKeys, expectedValuesPerKey);
   }
 
   /**
@@ -88,7 +88,7 @@ public final class HashMultimap<K, V> extends HashMultimapGwtSerializationDepend
    * @param multimap the multimap whose contents are copied to this multimap
    */
   public static <K, V> HashMultimap<K, V> create(Multimap<? extends K, ? extends V> multimap) {
-    return new HashMultimap<K, V>(multimap);
+    return new HashMultimap<>(multimap);
   }
 
   private HashMultimap() {

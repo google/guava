@@ -133,7 +133,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    */
   static <K, V> Entry<K, V> entryOf(K key, V value) {
     checkEntryNotNull(key, value);
-    return new AbstractMap.SimpleImmutableEntry<K, V>(key, value);
+    return new AbstractMap.SimpleImmutableEntry<>(key, value);
   }
 
   /**
@@ -141,7 +141,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * Builder} constructor.
    */
   public static <K, V> Builder<K, V> builder() {
-    return new Builder<K, V>();
+    return new Builder<>();
   }
 
   /**
@@ -159,7 +159,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   @Beta
   public static <K, V> Builder<K, V> builderWithExpectedSize(int expectedSize) {
     checkNonnegative(expectedSize, "expectedSize");
-    return new Builder<K, V>(expectedSize);
+    return new Builder<>(expectedSize);
   }
 
   static void checkNoConflict(

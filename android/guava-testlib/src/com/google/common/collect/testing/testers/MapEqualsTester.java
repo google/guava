@@ -119,7 +119,7 @@ public class MapEqualsTester<K, V> extends AbstractMapTester<K, V> {
 
   private static <K, V> HashMap<K, V> newHashMap(
       Collection<? extends Map.Entry<? extends K, ? extends V>> entries) {
-    HashMap<K, V> map = new HashMap<K, V>();
+    HashMap<K, V> map = new HashMap<>();
     for (Map.Entry<? extends K, ? extends V> entry : entries) {
       map.put(entry.getKey(), entry.getValue());
     }

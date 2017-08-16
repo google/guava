@@ -442,7 +442,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    */
   @GwtCompatible(serializable = true)
   public <F> Ordering<F> onResultOf(Function<F, ? extends T> function) {
-    return new ByFunctionOrdering<F, T>(function, this);
+    return new ByFunctionOrdering<>(function, this);
   }
 
   <T2 extends T> Ordering<Map.Entry<T2, ?>> onKeys() {

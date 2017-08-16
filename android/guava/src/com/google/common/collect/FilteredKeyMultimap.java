@@ -102,9 +102,9 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
     if (keyPredicate.apply(key)) {
       return unfiltered.get(key);
     } else if (unfiltered instanceof SetMultimap) {
-      return new AddRejectingSet<K, V>(key);
+      return new AddRejectingSet<>(key);
     } else {
-      return new AddRejectingList<K, V>(key);
+      return new AddRejectingList<>(key);
     }
   }
 
@@ -205,7 +205,7 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
 
   @Override
   Collection<V> createValues() {
-    return new FilteredMultimapValues<K, V>(this);
+    return new FilteredMultimapValues<>(this);
   }
 
   @Override

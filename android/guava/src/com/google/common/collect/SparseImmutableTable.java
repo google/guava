@@ -26,7 +26,7 @@ import javax.annotation.concurrent.Immutable;
 @Immutable
 final class SparseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> {
   static final ImmutableTable<Object, Object, Object> EMPTY =
-      new SparseImmutableTable<Object, Object, Object>(
+      new SparseImmutableTable<>(
           ImmutableList.<Cell<Object, Object, Object>>of(), ImmutableSet.of(), ImmutableSet.of());
 
   private final ImmutableMap<R, Map<C, V>> rowMap;
@@ -77,15 +77,13 @@ final class SparseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V>
     }
     this.cellRowIndices = cellRowIndices;
     this.cellColumnInRowIndices = cellColumnInRowIndices;
-    ImmutableMap.Builder<R, Map<C, V>> rowBuilder =
-        new ImmutableMap.Builder<R, Map<C, V>>(rows.size());
+    ImmutableMap.Builder<R, Map<C, V>> rowBuilder = new ImmutableMap.Builder<>(rows.size());
     for (Map.Entry<R, Map<C, V>> row : rows.entrySet()) {
       rowBuilder.put(row.getKey(), ImmutableMap.copyOf(row.getValue()));
     }
     this.rowMap = rowBuilder.build();
 
-    ImmutableMap.Builder<C, Map<R, V>> columnBuilder =
-        new ImmutableMap.Builder<C, Map<R, V>>(columns.size());
+    ImmutableMap.Builder<C, Map<R, V>> columnBuilder = new ImmutableMap.Builder<>(columns.size());
     for (Map.Entry<C, Map<R, V>> col : columns.entrySet()) {
       columnBuilder.put(col.getKey(), ImmutableMap.copyOf(col.getValue()));
     }

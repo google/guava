@@ -34,7 +34,7 @@ public class ByFunctionOrdering_CustomFieldSerializer {
   @SuppressWarnings("unchecked") // deserialization is unsafe
   public static ByFunctionOrdering<Object, Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
-    return new ByFunctionOrdering<Object, Object>(
+    return new ByFunctionOrdering<>(
         (Function<Object, Object>) reader.readObject(), (Ordering<Object>) reader.readObject());
   }
 

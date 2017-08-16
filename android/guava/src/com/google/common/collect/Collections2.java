@@ -266,7 +266,7 @@ public final class Collections2 {
    */
   public static <F, T> Collection<T> transform(
       Collection<F> fromCollection, Function<? super F, T> function) {
-    return new TransformedCollection<F, T>(fromCollection, function);
+    return new TransformedCollection<>(fromCollection, function);
   }
 
   static class TransformedCollection<F, T> extends AbstractCollection<T> {

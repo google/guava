@@ -239,8 +239,7 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
 
   @CollectionSize.Require(SEVERAL)
   public void testDescendingNavigation() {
-    List<Entry<K, V>> descending =
-        new ArrayList<Entry<K, V>>(navigableMap.descendingMap().entrySet());
+    List<Entry<K, V>> descending = new ArrayList<>(navigableMap.descendingMap().entrySet());
     Collections.reverse(descending);
     assertEquals(entries, descending);
   }

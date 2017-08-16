@@ -176,7 +176,7 @@ public class TestsForListsInJavaUtil {
             new TestStringListGenerator() {
               @Override
               public List<String> create(String[] elements) {
-                return new ArrayList<String>(MinimalCollection.of(elements));
+                return new ArrayList<>(MinimalCollection.of(elements));
               }
             })
         .named("ArrayList")
@@ -195,7 +195,7 @@ public class TestsForListsInJavaUtil {
             new TestStringListGenerator() {
               @Override
               public List<String> create(String[] elements) {
-                return new LinkedList<String>(MinimalCollection.of(elements));
+                return new LinkedList<>(MinimalCollection.of(elements));
               }
             })
         .named("LinkedList")
@@ -214,7 +214,7 @@ public class TestsForListsInJavaUtil {
             new TestStringListGenerator() {
               @Override
               public List<String> create(String[] elements) {
-                return new CopyOnWriteArrayList<String>(MinimalCollection.of(elements));
+                return new CopyOnWriteArrayList<>(MinimalCollection.of(elements));
               }
             })
         .named("CopyOnWriteArrayList")
@@ -325,13 +325,13 @@ public class TestsForListsInJavaUtil {
   }
 
   private Test testsForVector() {
-    return ListTestSuiteBuilder
-        .using(new TestStringListGenerator() {
-          @Override
-          protected List<String> create(String[] elements) {
-            return new Vector<String>(MinimalCollection.of(elements));
-          }
-        })
+    return ListTestSuiteBuilder.using(
+            new TestStringListGenerator() {
+              @Override
+              protected List<String> create(String[] elements) {
+                return new Vector<>(MinimalCollection.of(elements));
+              }
+            })
         .named("Vector")
         .withFeatures(
             ListFeature.GENERAL_PURPOSE,
