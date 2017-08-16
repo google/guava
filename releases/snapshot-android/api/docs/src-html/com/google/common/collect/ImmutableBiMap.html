@@ -58,7 +58,7 @@
 <span class="sourceLineNo">050</span>   */<a name="line.50"></a>
 <span class="sourceLineNo">051</span>  public static &lt;K, V&gt; ImmutableBiMap&lt;K, V&gt; of(K k1, V v1) {<a name="line.51"></a>
 <span class="sourceLineNo">052</span>    checkEntryNotNull(k1, v1);<a name="line.52"></a>
-<span class="sourceLineNo">053</span>    return new RegularImmutableBiMap&lt;K, V&gt;(new Object[] {k1, v1}, 1);<a name="line.53"></a>
+<span class="sourceLineNo">053</span>    return new RegularImmutableBiMap&lt;&gt;(new Object[] {k1, v1}, 1);<a name="line.53"></a>
 <span class="sourceLineNo">054</span>  }<a name="line.54"></a>
 <span class="sourceLineNo">055</span><a name="line.55"></a>
 <span class="sourceLineNo">056</span>  /**<a name="line.56"></a>
@@ -122,7 +122,7 @@
 <span class="sourceLineNo">114</span>   * created by the {@link Builder} constructor.<a name="line.114"></a>
 <span class="sourceLineNo">115</span>   */<a name="line.115"></a>
 <span class="sourceLineNo">116</span>  public static &lt;K, V&gt; Builder&lt;K, V&gt; builder() {<a name="line.116"></a>
-<span class="sourceLineNo">117</span>    return new Builder&lt;K, V&gt;();<a name="line.117"></a>
+<span class="sourceLineNo">117</span>    return new Builder&lt;&gt;();<a name="line.117"></a>
 <span class="sourceLineNo">118</span>  }<a name="line.118"></a>
 <span class="sourceLineNo">119</span><a name="line.119"></a>
 <span class="sourceLineNo">120</span>  /**<a name="line.120"></a>
@@ -140,7 +140,7 @@
 <span class="sourceLineNo">132</span>  @Beta<a name="line.132"></a>
 <span class="sourceLineNo">133</span>  public static &lt;K, V&gt; Builder&lt;K, V&gt; builderWithExpectedSize(int expectedSize) {<a name="line.133"></a>
 <span class="sourceLineNo">134</span>    checkNonnegative(expectedSize, "expectedSize");<a name="line.134"></a>
-<span class="sourceLineNo">135</span>    return new Builder&lt;K, V&gt;(expectedSize);<a name="line.135"></a>
+<span class="sourceLineNo">135</span>    return new Builder&lt;&gt;(expectedSize);<a name="line.135"></a>
 <span class="sourceLineNo">136</span>  }<a name="line.136"></a>
 <span class="sourceLineNo">137</span><a name="line.137"></a>
 <span class="sourceLineNo">138</span>  /**<a name="line.138"></a>

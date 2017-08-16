@@ -124,7 +124,7 @@
 <span class="sourceLineNo">116</span>   * instead.<a name="line.116"></a>
 <span class="sourceLineNo">117</span>   */<a name="line.117"></a>
 <span class="sourceLineNo">118</span>  public static &lt;K, V&gt; Function&lt;K, V&gt; forMap(Map&lt;K, V&gt; map) {<a name="line.118"></a>
-<span class="sourceLineNo">119</span>    return new FunctionForMapNoDefault&lt;K, V&gt;(map);<a name="line.119"></a>
+<span class="sourceLineNo">119</span>    return new FunctionForMapNoDefault&lt;&gt;(map);<a name="line.119"></a>
 <span class="sourceLineNo">120</span>  }<a name="line.120"></a>
 <span class="sourceLineNo">121</span><a name="line.121"></a>
 <span class="sourceLineNo">122</span>  private static class FunctionForMapNoDefault&lt;K, V&gt; implements Function&lt;K, V&gt;, Serializable {<a name="line.122"></a>
@@ -177,7 +177,7 @@
 <span class="sourceLineNo">169</span>   *         defaultValue} otherwise<a name="line.169"></a>
 <span class="sourceLineNo">170</span>   */<a name="line.170"></a>
 <span class="sourceLineNo">171</span>  public static &lt;K, V&gt; Function&lt;K, V&gt; forMap(Map&lt;K, ? extends V&gt; map, @Nullable V defaultValue) {<a name="line.171"></a>
-<span class="sourceLineNo">172</span>    return new ForMapWithDefault&lt;K, V&gt;(map, defaultValue);<a name="line.172"></a>
+<span class="sourceLineNo">172</span>    return new ForMapWithDefault&lt;&gt;(map, defaultValue);<a name="line.172"></a>
 <span class="sourceLineNo">173</span>  }<a name="line.173"></a>
 <span class="sourceLineNo">174</span><a name="line.174"></a>
 <span class="sourceLineNo">175</span>  private static class ForMapWithDefault&lt;K, V&gt; implements Function&lt;K, V&gt;, Serializable {<a name="line.175"></a>
@@ -231,7 +231,7 @@
 <span class="sourceLineNo">223</span>   * @see &lt;a href="//en.wikipedia.org/wiki/Function_composition"&gt;function composition&lt;/a&gt;<a name="line.223"></a>
 <span class="sourceLineNo">224</span>   */<a name="line.224"></a>
 <span class="sourceLineNo">225</span>  public static &lt;A, B, C&gt; Function&lt;A, C&gt; compose(Function&lt;B, C&gt; g, Function&lt;A, ? extends B&gt; f) {<a name="line.225"></a>
-<span class="sourceLineNo">226</span>    return new FunctionComposition&lt;A, B, C&gt;(g, f);<a name="line.226"></a>
+<span class="sourceLineNo">226</span>    return new FunctionComposition&lt;&gt;(g, f);<a name="line.226"></a>
 <span class="sourceLineNo">227</span>  }<a name="line.227"></a>
 <span class="sourceLineNo">228</span><a name="line.228"></a>
 <span class="sourceLineNo">229</span>  private static class FunctionComposition&lt;A, B, C&gt; implements Function&lt;A, C&gt;, Serializable {<a name="line.229"></a>

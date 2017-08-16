@@ -100,7 +100,7 @@
 <span class="sourceLineNo">092</span>   * capacities.<a name="line.92"></a>
 <span class="sourceLineNo">093</span>   */<a name="line.93"></a>
 <span class="sourceLineNo">094</span>  public static &lt;K, V&gt; LinkedHashMultimap&lt;K, V&gt; create() {<a name="line.94"></a>
-<span class="sourceLineNo">095</span>    return new LinkedHashMultimap&lt;K, V&gt;(DEFAULT_KEY_CAPACITY, DEFAULT_VALUE_SET_CAPACITY);<a name="line.95"></a>
+<span class="sourceLineNo">095</span>    return new LinkedHashMultimap&lt;&gt;(DEFAULT_KEY_CAPACITY, DEFAULT_VALUE_SET_CAPACITY);<a name="line.95"></a>
 <span class="sourceLineNo">096</span>  }<a name="line.96"></a>
 <span class="sourceLineNo">097</span><a name="line.97"></a>
 <span class="sourceLineNo">098</span>  /**<a name="line.98"></a>
@@ -113,7 +113,7 @@
 <span class="sourceLineNo">105</span>   *      expectedValuesPerKey} is negative<a name="line.105"></a>
 <span class="sourceLineNo">106</span>   */<a name="line.106"></a>
 <span class="sourceLineNo">107</span>  public static &lt;K, V&gt; LinkedHashMultimap&lt;K, V&gt; create(int expectedKeys, int expectedValuesPerKey) {<a name="line.107"></a>
-<span class="sourceLineNo">108</span>    return new LinkedHashMultimap&lt;K, V&gt;(<a name="line.108"></a>
+<span class="sourceLineNo">108</span>    return new LinkedHashMultimap&lt;&gt;(<a name="line.108"></a>
 <span class="sourceLineNo">109</span>        Maps.capacity(expectedKeys), Maps.capacity(expectedValuesPerKey));<a name="line.109"></a>
 <span class="sourceLineNo">110</span>  }<a name="line.110"></a>
 <span class="sourceLineNo">111</span><a name="line.111"></a>
@@ -242,7 +242,7 @@
 <span class="sourceLineNo">234</span>    checkNonnegative(valueSetCapacity, "expectedValuesPerKey");<a name="line.234"></a>
 <span class="sourceLineNo">235</span><a name="line.235"></a>
 <span class="sourceLineNo">236</span>    this.valueSetCapacity = valueSetCapacity;<a name="line.236"></a>
-<span class="sourceLineNo">237</span>    this.multimapHeaderEntry = new ValueEntry&lt;K, V&gt;(null, null, 0, null);<a name="line.237"></a>
+<span class="sourceLineNo">237</span>    this.multimapHeaderEntry = new ValueEntry&lt;&gt;(null, null, 0, null);<a name="line.237"></a>
 <span class="sourceLineNo">238</span>    succeedsInMultimap(multimapHeaderEntry, multimapHeaderEntry);<a name="line.238"></a>
 <span class="sourceLineNo">239</span>  }<a name="line.239"></a>
 <span class="sourceLineNo">240</span><a name="line.240"></a>
@@ -611,7 +611,7 @@
 <span class="sourceLineNo">603</span>  @GwtIncompatible // java.io.ObjectInputStream<a name="line.603"></a>
 <span class="sourceLineNo">604</span>  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {<a name="line.604"></a>
 <span class="sourceLineNo">605</span>    stream.defaultReadObject();<a name="line.605"></a>
-<span class="sourceLineNo">606</span>    multimapHeaderEntry = new ValueEntry&lt;K, V&gt;(null, null, 0, null);<a name="line.606"></a>
+<span class="sourceLineNo">606</span>    multimapHeaderEntry = new ValueEntry&lt;&gt;(null, null, 0, null);<a name="line.606"></a>
 <span class="sourceLineNo">607</span>    succeedsInMultimap(multimapHeaderEntry, multimapHeaderEntry);<a name="line.607"></a>
 <span class="sourceLineNo">608</span>    valueSetCapacity = DEFAULT_VALUE_SET_CAPACITY;<a name="line.608"></a>
 <span class="sourceLineNo">609</span>    int distinctKeys = stream.readInt();<a name="line.609"></a>

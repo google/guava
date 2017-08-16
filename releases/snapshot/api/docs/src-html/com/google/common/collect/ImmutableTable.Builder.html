@@ -192,7 +192,7 @@
 <span class="sourceLineNo">184</span><a name="line.184"></a>
 <span class="sourceLineNo">185</span>  /** Returns an immutable table containing a single cell. */<a name="line.185"></a>
 <span class="sourceLineNo">186</span>  public static &lt;R, C, V&gt; ImmutableTable&lt;R, C, V&gt; of(R rowKey, C columnKey, V value) {<a name="line.186"></a>
-<span class="sourceLineNo">187</span>    return new SingletonImmutableTable&lt;R, C, V&gt;(rowKey, columnKey, value);<a name="line.187"></a>
+<span class="sourceLineNo">187</span>    return new SingletonImmutableTable&lt;&gt;(rowKey, columnKey, value);<a name="line.187"></a>
 <span class="sourceLineNo">188</span>  }<a name="line.188"></a>
 <span class="sourceLineNo">189</span><a name="line.189"></a>
 <span class="sourceLineNo">190</span>  /**<a name="line.190"></a>
@@ -234,7 +234,7 @@
 <span class="sourceLineNo">226</span>   * Builder#Builder() ImmutableTable.Builder()} constructor.<a name="line.226"></a>
 <span class="sourceLineNo">227</span>   */<a name="line.227"></a>
 <span class="sourceLineNo">228</span>  public static &lt;R, C, V&gt; Builder&lt;R, C, V&gt; builder() {<a name="line.228"></a>
-<span class="sourceLineNo">229</span>    return new Builder&lt;R, C, V&gt;();<a name="line.229"></a>
+<span class="sourceLineNo">229</span>    return new Builder&lt;&gt;();<a name="line.229"></a>
 <span class="sourceLineNo">230</span>  }<a name="line.230"></a>
 <span class="sourceLineNo">231</span><a name="line.231"></a>
 <span class="sourceLineNo">232</span>  /**<a name="line.232"></a>
@@ -362,7 +362,7 @@
 <span class="sourceLineNo">354</span>        case 0:<a name="line.354"></a>
 <span class="sourceLineNo">355</span>          return of();<a name="line.355"></a>
 <span class="sourceLineNo">356</span>        case 1:<a name="line.356"></a>
-<span class="sourceLineNo">357</span>          return new SingletonImmutableTable&lt;R, C, V&gt;(Iterables.getOnlyElement(cells));<a name="line.357"></a>
+<span class="sourceLineNo">357</span>          return new SingletonImmutableTable&lt;&gt;(Iterables.getOnlyElement(cells));<a name="line.357"></a>
 <span class="sourceLineNo">358</span>        default:<a name="line.358"></a>
 <span class="sourceLineNo">359</span>          return RegularImmutableTable.forCells(cells, rowComparator, columnComparator);<a name="line.359"></a>
 <span class="sourceLineNo">360</span>      }<a name="line.360"></a>
@@ -560,7 +560,7 @@
 <span class="sourceLineNo">552</span>        return of(rowKeys[0], columnKeys[0], cellValues[0]);<a name="line.552"></a>
 <span class="sourceLineNo">553</span>      }<a name="line.553"></a>
 <span class="sourceLineNo">554</span>      ImmutableList.Builder&lt;Cell&lt;Object, Object, Object&gt;&gt; cellListBuilder =<a name="line.554"></a>
-<span class="sourceLineNo">555</span>          new ImmutableList.Builder&lt;Cell&lt;Object, Object, Object&gt;&gt;(cellValues.length);<a name="line.555"></a>
+<span class="sourceLineNo">555</span>          new ImmutableList.Builder&lt;&gt;(cellValues.length);<a name="line.555"></a>
 <span class="sourceLineNo">556</span>      for (int i = 0; i &lt; cellValues.length; i++) {<a name="line.556"></a>
 <span class="sourceLineNo">557</span>        cellListBuilder.add(<a name="line.557"></a>
 <span class="sourceLineNo">558</span>            cellOf(rowKeys[cellRowIndices[i]], columnKeys[cellColumnIndices[i]], cellValues[i]));<a name="line.558"></a>

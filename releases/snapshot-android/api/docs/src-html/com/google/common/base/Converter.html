@@ -247,7 +247,7 @@
 <span class="sourceLineNo">239</span>  @CanIgnoreReturnValue<a name="line.239"></a>
 <span class="sourceLineNo">240</span>  public Converter&lt;B, A&gt; reverse() {<a name="line.240"></a>
 <span class="sourceLineNo">241</span>    Converter&lt;B, A&gt; result = reverse;<a name="line.241"></a>
-<span class="sourceLineNo">242</span>    return (result == null) ? reverse = new ReverseConverter&lt;A, B&gt;(this) : result;<a name="line.242"></a>
+<span class="sourceLineNo">242</span>    return (result == null) ? reverse = new ReverseConverter&lt;&gt;(this) : result;<a name="line.242"></a>
 <span class="sourceLineNo">243</span>  }<a name="line.243"></a>
 <span class="sourceLineNo">244</span><a name="line.244"></a>
 <span class="sourceLineNo">245</span>  private static final class ReverseConverter&lt;A, B&gt; extends Converter&lt;B, A&gt;<a name="line.245"></a>
@@ -329,7 +329,7 @@
 <span class="sourceLineNo">321</span>   * Package-private non-final implementation of andThen() so only we can override it.<a name="line.321"></a>
 <span class="sourceLineNo">322</span>   */<a name="line.322"></a>
 <span class="sourceLineNo">323</span>  &lt;C&gt; Converter&lt;A, C&gt; doAndThen(Converter&lt;B, C&gt; secondConverter) {<a name="line.323"></a>
-<span class="sourceLineNo">324</span>    return new ConverterComposition&lt;A, B, C&gt;(this, checkNotNull(secondConverter));<a name="line.324"></a>
+<span class="sourceLineNo">324</span>    return new ConverterComposition&lt;&gt;(this, checkNotNull(secondConverter));<a name="line.324"></a>
 <span class="sourceLineNo">325</span>  }<a name="line.325"></a>
 <span class="sourceLineNo">326</span><a name="line.326"></a>
 <span class="sourceLineNo">327</span>  private static final class ConverterComposition&lt;A, B, C&gt; extends Converter&lt;A, C&gt;<a name="line.327"></a>
@@ -439,7 +439,7 @@
 <span class="sourceLineNo">431</span>  public static &lt;A, B&gt; Converter&lt;A, B&gt; from(<a name="line.431"></a>
 <span class="sourceLineNo">432</span>      Function&lt;? super A, ? extends B&gt; forwardFunction,<a name="line.432"></a>
 <span class="sourceLineNo">433</span>      Function&lt;? super B, ? extends A&gt; backwardFunction) {<a name="line.433"></a>
-<span class="sourceLineNo">434</span>    return new FunctionBasedConverter&lt;A, B&gt;(forwardFunction, backwardFunction);<a name="line.434"></a>
+<span class="sourceLineNo">434</span>    return new FunctionBasedConverter&lt;&gt;(forwardFunction, backwardFunction);<a name="line.434"></a>
 <span class="sourceLineNo">435</span>  }<a name="line.435"></a>
 <span class="sourceLineNo">436</span><a name="line.436"></a>
 <span class="sourceLineNo">437</span>  private static final class FunctionBasedConverter&lt;A, B&gt; extends Converter&lt;A, B&gt;<a name="line.437"></a>

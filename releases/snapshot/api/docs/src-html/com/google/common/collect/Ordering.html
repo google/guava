@@ -450,7 +450,7 @@
 <span class="sourceLineNo">442</span>   */<a name="line.442"></a>
 <span class="sourceLineNo">443</span>  @GwtCompatible(serializable = true)<a name="line.443"></a>
 <span class="sourceLineNo">444</span>  public &lt;F&gt; Ordering&lt;F&gt; onResultOf(Function&lt;F, ? extends T&gt; function) {<a name="line.444"></a>
-<span class="sourceLineNo">445</span>    return new ByFunctionOrdering&lt;F, T&gt;(function, this);<a name="line.445"></a>
+<span class="sourceLineNo">445</span>    return new ByFunctionOrdering&lt;&gt;(function, this);<a name="line.445"></a>
 <span class="sourceLineNo">446</span>  }<a name="line.446"></a>
 <span class="sourceLineNo">447</span><a name="line.447"></a>
 <span class="sourceLineNo">448</span>  &lt;T2 extends T&gt; Ordering&lt;Map.Entry&lt;T2, ?&gt;&gt; onKeys() {<a name="line.448"></a>

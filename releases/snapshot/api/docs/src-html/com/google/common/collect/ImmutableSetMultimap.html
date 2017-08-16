@@ -236,7 +236,7 @@
 <span class="sourceLineNo">228</span>   * Returns a new {@link Builder}.<a name="line.228"></a>
 <span class="sourceLineNo">229</span>   */<a name="line.229"></a>
 <span class="sourceLineNo">230</span>  public static &lt;K, V&gt; Builder&lt;K, V&gt; builder() {<a name="line.230"></a>
-<span class="sourceLineNo">231</span>    return new Builder&lt;K, V&gt;();<a name="line.231"></a>
+<span class="sourceLineNo">231</span>    return new Builder&lt;&gt;();<a name="line.231"></a>
 <span class="sourceLineNo">232</span>  }<a name="line.232"></a>
 <span class="sourceLineNo">233</span><a name="line.233"></a>
 <span class="sourceLineNo">234</span>  /**<a name="line.234"></a>
@@ -422,7 +422,7 @@
 <span class="sourceLineNo">414</span>    }<a name="line.414"></a>
 <span class="sourceLineNo">415</span><a name="line.415"></a>
 <span class="sourceLineNo">416</span>    ImmutableMap.Builder&lt;K, ImmutableSet&lt;V&gt;&gt; builder =<a name="line.416"></a>
-<span class="sourceLineNo">417</span>        new ImmutableMap.Builder&lt;K, ImmutableSet&lt;V&gt;&gt;(multimap.asMap().size());<a name="line.417"></a>
+<span class="sourceLineNo">417</span>        new ImmutableMap.Builder&lt;&gt;(multimap.asMap().size());<a name="line.417"></a>
 <span class="sourceLineNo">418</span>    int size = 0;<a name="line.418"></a>
 <span class="sourceLineNo">419</span><a name="line.419"></a>
 <span class="sourceLineNo">420</span>    for (Entry&lt;? extends K, ? extends Collection&lt;? extends V&gt;&gt; entry :<a name="line.420"></a>
@@ -436,7 +436,7 @@
 <span class="sourceLineNo">428</span>      }<a name="line.428"></a>
 <span class="sourceLineNo">429</span>    }<a name="line.429"></a>
 <span class="sourceLineNo">430</span><a name="line.430"></a>
-<span class="sourceLineNo">431</span>    return new ImmutableSetMultimap&lt;K, V&gt;(builder.build(), size, valueComparator);<a name="line.431"></a>
+<span class="sourceLineNo">431</span>    return new ImmutableSetMultimap&lt;&gt;(builder.build(), size, valueComparator);<a name="line.431"></a>
 <span class="sourceLineNo">432</span>  }<a name="line.432"></a>
 <span class="sourceLineNo">433</span><a name="line.433"></a>
 <span class="sourceLineNo">434</span>  /**<a name="line.434"></a>
@@ -549,7 +549,7 @@
 <span class="sourceLineNo">541</span>  @Override<a name="line.541"></a>
 <span class="sourceLineNo">542</span>  public ImmutableSet&lt;Entry&lt;K, V&gt;&gt; entries() {<a name="line.542"></a>
 <span class="sourceLineNo">543</span>    ImmutableSet&lt;Entry&lt;K, V&gt;&gt; result = entries;<a name="line.543"></a>
-<span class="sourceLineNo">544</span>    return result == null ? (entries = new EntrySet&lt;K, V&gt;(this)) : result;<a name="line.544"></a>
+<span class="sourceLineNo">544</span>    return result == null ? (entries = new EntrySet&lt;&gt;(this)) : result;<a name="line.544"></a>
 <span class="sourceLineNo">545</span>  }<a name="line.545"></a>
 <span class="sourceLineNo">546</span><a name="line.546"></a>
 <span class="sourceLineNo">547</span>  private static final class EntrySet&lt;K, V&gt; extends ImmutableSet&lt;Entry&lt;K, V&gt;&gt; {<a name="line.547"></a>

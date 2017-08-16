@@ -518,7 +518,7 @@
 <span class="sourceLineNo">510</span>    public ListenableScheduledFuture&lt;?&gt; schedule(Runnable command, long delay, TimeUnit unit) {<a name="line.510"></a>
 <span class="sourceLineNo">511</span>      TrustedListenableFutureTask&lt;Void&gt; task = TrustedListenableFutureTask.create(command, null);<a name="line.511"></a>
 <span class="sourceLineNo">512</span>      ScheduledFuture&lt;?&gt; scheduled = delegate.schedule(task, delay, unit);<a name="line.512"></a>
-<span class="sourceLineNo">513</span>      return new ListenableScheduledTask&lt;Void&gt;(task, scheduled);<a name="line.513"></a>
+<span class="sourceLineNo">513</span>      return new ListenableScheduledTask&lt;&gt;(task, scheduled);<a name="line.513"></a>
 <span class="sourceLineNo">514</span>    }<a name="line.514"></a>
 <span class="sourceLineNo">515</span><a name="line.515"></a>
 <span class="sourceLineNo">516</span>    @Override<a name="line.516"></a>
@@ -534,7 +534,7 @@
 <span class="sourceLineNo">526</span>        Runnable command, long initialDelay, long period, TimeUnit unit) {<a name="line.526"></a>
 <span class="sourceLineNo">527</span>      NeverSuccessfulListenableFutureTask task = new NeverSuccessfulListenableFutureTask(command);<a name="line.527"></a>
 <span class="sourceLineNo">528</span>      ScheduledFuture&lt;?&gt; scheduled = delegate.scheduleAtFixedRate(task, initialDelay, period, unit);<a name="line.528"></a>
-<span class="sourceLineNo">529</span>      return new ListenableScheduledTask&lt;Void&gt;(task, scheduled);<a name="line.529"></a>
+<span class="sourceLineNo">529</span>      return new ListenableScheduledTask&lt;&gt;(task, scheduled);<a name="line.529"></a>
 <span class="sourceLineNo">530</span>    }<a name="line.530"></a>
 <span class="sourceLineNo">531</span><a name="line.531"></a>
 <span class="sourceLineNo">532</span>    @Override<a name="line.532"></a>
@@ -543,7 +543,7 @@
 <span class="sourceLineNo">535</span>      NeverSuccessfulListenableFutureTask task = new NeverSuccessfulListenableFutureTask(command);<a name="line.535"></a>
 <span class="sourceLineNo">536</span>      ScheduledFuture&lt;?&gt; scheduled =<a name="line.536"></a>
 <span class="sourceLineNo">537</span>          delegate.scheduleWithFixedDelay(task, initialDelay, delay, unit);<a name="line.537"></a>
-<span class="sourceLineNo">538</span>      return new ListenableScheduledTask&lt;Void&gt;(task, scheduled);<a name="line.538"></a>
+<span class="sourceLineNo">538</span>      return new ListenableScheduledTask&lt;&gt;(task, scheduled);<a name="line.538"></a>
 <span class="sourceLineNo">539</span>    }<a name="line.539"></a>
 <span class="sourceLineNo">540</span><a name="line.540"></a>
 <span class="sourceLineNo">541</span>    private static final class ListenableScheduledTask&lt;V&gt;<a name="line.541"></a>

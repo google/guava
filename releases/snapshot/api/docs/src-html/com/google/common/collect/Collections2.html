@@ -279,7 +279,7 @@
 <span class="sourceLineNo">271</span>   */<a name="line.271"></a>
 <span class="sourceLineNo">272</span>  public static &lt;F, T&gt; Collection&lt;T&gt; transform(<a name="line.272"></a>
 <span class="sourceLineNo">273</span>      Collection&lt;F&gt; fromCollection, Function&lt;? super F, T&gt; function) {<a name="line.273"></a>
-<span class="sourceLineNo">274</span>    return new TransformedCollection&lt;F, T&gt;(fromCollection, function);<a name="line.274"></a>
+<span class="sourceLineNo">274</span>    return new TransformedCollection&lt;&gt;(fromCollection, function);<a name="line.274"></a>
 <span class="sourceLineNo">275</span>  }<a name="line.275"></a>
 <span class="sourceLineNo">276</span><a name="line.276"></a>
 <span class="sourceLineNo">277</span>  static class TransformedCollection&lt;F, T&gt; extends AbstractCollection&lt;T&gt; {<a name="line.277"></a>

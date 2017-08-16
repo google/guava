@@ -158,7 +158,7 @@
 <span class="sourceLineNo">150</span>  @GwtIncompatible // TODO<a name="line.150"></a>
 <span class="sourceLineNo">151</span>  public static &lt;V, X extends Exception&gt; CheckedFuture&lt;V, X&gt; makeChecked(<a name="line.151"></a>
 <span class="sourceLineNo">152</span>      ListenableFuture&lt;V&gt; future, Function&lt;? super Exception, X&gt; mapper) {<a name="line.152"></a>
-<span class="sourceLineNo">153</span>    return new MappingCheckedFuture&lt;V, X&gt;(checkNotNull(future), mapper);<a name="line.153"></a>
+<span class="sourceLineNo">153</span>    return new MappingCheckedFuture&lt;&gt;(checkNotNull(future), mapper);<a name="line.153"></a>
 <span class="sourceLineNo">154</span>  }<a name="line.154"></a>
 <span class="sourceLineNo">155</span><a name="line.155"></a>
 <span class="sourceLineNo">156</span>  /**<a name="line.156"></a>
@@ -196,7 +196,7 @@
 <span class="sourceLineNo">188</span>  @GwtIncompatible // TODO<a name="line.188"></a>
 <span class="sourceLineNo">189</span>  public static &lt;V, X extends Exception&gt; CheckedFuture&lt;V, X&gt; immediateCheckedFuture(<a name="line.189"></a>
 <span class="sourceLineNo">190</span>      @Nullable V value) {<a name="line.190"></a>
-<span class="sourceLineNo">191</span>    return new ImmediateSuccessfulCheckedFuture&lt;V, X&gt;(value);<a name="line.191"></a>
+<span class="sourceLineNo">191</span>    return new ImmediateSuccessfulCheckedFuture&lt;&gt;(value);<a name="line.191"></a>
 <span class="sourceLineNo">192</span>  }<a name="line.192"></a>
 <span class="sourceLineNo">193</span><a name="line.193"></a>
 <span class="sourceLineNo">194</span>  /**<a name="line.194"></a>
@@ -243,7 +243,7 @@
 <span class="sourceLineNo">235</span>  public static &lt;V, X extends Exception&gt; CheckedFuture&lt;V, X&gt; immediateFailedCheckedFuture(<a name="line.235"></a>
 <span class="sourceLineNo">236</span>      X exception) {<a name="line.236"></a>
 <span class="sourceLineNo">237</span>    checkNotNull(exception);<a name="line.237"></a>
-<span class="sourceLineNo">238</span>    return new ImmediateFailedCheckedFuture&lt;V, X&gt;(exception);<a name="line.238"></a>
+<span class="sourceLineNo">238</span>    return new ImmediateFailedCheckedFuture&lt;&gt;(exception);<a name="line.238"></a>
 <span class="sourceLineNo">239</span>  }<a name="line.239"></a>
 <span class="sourceLineNo">240</span><a name="line.240"></a>
 <span class="sourceLineNo">241</span>  /**<a name="line.241"></a>

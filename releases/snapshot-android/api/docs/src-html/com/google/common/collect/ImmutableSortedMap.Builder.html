@@ -71,14 +71,14 @@
 <span class="sourceLineNo">063</span>  private static final Comparator&lt;Comparable&gt; NATURAL_ORDER = Ordering.natural();<a name="line.63"></a>
 <span class="sourceLineNo">064</span><a name="line.64"></a>
 <span class="sourceLineNo">065</span>  private static final ImmutableSortedMap&lt;Comparable, Object&gt; NATURAL_EMPTY_MAP =<a name="line.65"></a>
-<span class="sourceLineNo">066</span>      new ImmutableSortedMap&lt;Comparable, Object&gt;(<a name="line.66"></a>
+<span class="sourceLineNo">066</span>      new ImmutableSortedMap&lt;&gt;(<a name="line.66"></a>
 <span class="sourceLineNo">067</span>          ImmutableSortedSet.emptySet(Ordering.natural()), ImmutableList.&lt;Object&gt;of());<a name="line.67"></a>
 <span class="sourceLineNo">068</span><a name="line.68"></a>
 <span class="sourceLineNo">069</span>  static &lt;K, V&gt; ImmutableSortedMap&lt;K, V&gt; emptyMap(Comparator&lt;? super K&gt; comparator) {<a name="line.69"></a>
 <span class="sourceLineNo">070</span>    if (Ordering.natural().equals(comparator)) {<a name="line.70"></a>
 <span class="sourceLineNo">071</span>      return of();<a name="line.71"></a>
 <span class="sourceLineNo">072</span>    } else {<a name="line.72"></a>
-<span class="sourceLineNo">073</span>      return new ImmutableSortedMap&lt;K, V&gt;(<a name="line.73"></a>
+<span class="sourceLineNo">073</span>      return new ImmutableSortedMap&lt;&gt;(<a name="line.73"></a>
 <span class="sourceLineNo">074</span>          ImmutableSortedSet.emptySet(comparator), ImmutableList.&lt;V&gt;of());<a name="line.74"></a>
 <span class="sourceLineNo">075</span>    }<a name="line.75"></a>
 <span class="sourceLineNo">076</span>  }<a name="line.76"></a>
@@ -104,7 +104,7 @@
 <span class="sourceLineNo">096</span>   * Returns an immutable map containing a single entry.<a name="line.96"></a>
 <span class="sourceLineNo">097</span>   */<a name="line.97"></a>
 <span class="sourceLineNo">098</span>  private static &lt;K, V&gt; ImmutableSortedMap&lt;K, V&gt; of(Comparator&lt;? super K&gt; comparator, K k1, V v1) {<a name="line.98"></a>
-<span class="sourceLineNo">099</span>    return new ImmutableSortedMap&lt;K, V&gt;(<a name="line.99"></a>
+<span class="sourceLineNo">099</span>    return new ImmutableSortedMap&lt;&gt;(<a name="line.99"></a>
 <span class="sourceLineNo">100</span>        new RegularImmutableSortedSet&lt;K&gt;(ImmutableList.of(k1), checkNotNull(comparator)),<a name="line.100"></a>
 <span class="sourceLineNo">101</span>        ImmutableList.of(v1));<a name="line.101"></a>
 <span class="sourceLineNo">102</span>  }<a name="line.102"></a>
@@ -368,7 +368,7 @@
 <span class="sourceLineNo">360</span>            prevKey = key;<a name="line.360"></a>
 <span class="sourceLineNo">361</span>          }<a name="line.361"></a>
 <span class="sourceLineNo">362</span>        }<a name="line.362"></a>
-<span class="sourceLineNo">363</span>        return new ImmutableSortedMap&lt;K, V&gt;(<a name="line.363"></a>
+<span class="sourceLineNo">363</span>        return new ImmutableSortedMap&lt;&gt;(<a name="line.363"></a>
 <span class="sourceLineNo">364</span>            new RegularImmutableSortedSet&lt;K&gt;(ImmutableList.&lt;K&gt;asImmutableList(keys), comparator),<a name="line.364"></a>
 <span class="sourceLineNo">365</span>            ImmutableList.&lt;V&gt;asImmutableList(values));<a name="line.365"></a>
 <span class="sourceLineNo">366</span>    }<a name="line.366"></a>
@@ -380,7 +380,7 @@
 <span class="sourceLineNo">372</span>   * Ordering#natural()} as the comparator.<a name="line.372"></a>
 <span class="sourceLineNo">373</span>   */<a name="line.373"></a>
 <span class="sourceLineNo">374</span>  public static &lt;K extends Comparable&lt;?&gt;, V&gt; Builder&lt;K, V&gt; naturalOrder() {<a name="line.374"></a>
-<span class="sourceLineNo">375</span>    return new Builder&lt;K, V&gt;(Ordering.natural());<a name="line.375"></a>
+<span class="sourceLineNo">375</span>    return new Builder&lt;&gt;(Ordering.natural());<a name="line.375"></a>
 <span class="sourceLineNo">376</span>  }<a name="line.376"></a>
 <span class="sourceLineNo">377</span><a name="line.377"></a>
 <span class="sourceLineNo">378</span>  /**<a name="line.378"></a>
@@ -392,7 +392,7 @@
 <span class="sourceLineNo">384</span>   * @throws NullPointerException if {@code comparator} is null<a name="line.384"></a>
 <span class="sourceLineNo">385</span>   */<a name="line.385"></a>
 <span class="sourceLineNo">386</span>  public static &lt;K, V&gt; Builder&lt;K, V&gt; orderedBy(Comparator&lt;K&gt; comparator) {<a name="line.386"></a>
-<span class="sourceLineNo">387</span>    return new Builder&lt;K, V&gt;(comparator);<a name="line.387"></a>
+<span class="sourceLineNo">387</span>    return new Builder&lt;&gt;(comparator);<a name="line.387"></a>
 <span class="sourceLineNo">388</span>  }<a name="line.388"></a>
 <span class="sourceLineNo">389</span><a name="line.389"></a>
 <span class="sourceLineNo">390</span>  /**<a name="line.390"></a>
@@ -400,7 +400,7 @@
 <span class="sourceLineNo">392</span>   * ordered by the reverse of their natural ordering.<a name="line.392"></a>
 <span class="sourceLineNo">393</span>   */<a name="line.393"></a>
 <span class="sourceLineNo">394</span>  public static &lt;K extends Comparable&lt;?&gt;, V&gt; Builder&lt;K, V&gt; reverseOrder() {<a name="line.394"></a>
-<span class="sourceLineNo">395</span>    return new Builder&lt;K, V&gt;(Ordering.natural().reverse());<a name="line.395"></a>
+<span class="sourceLineNo">395</span>    return new Builder&lt;&gt;(Ordering.natural().reverse());<a name="line.395"></a>
 <span class="sourceLineNo">396</span>  }<a name="line.396"></a>
 <span class="sourceLineNo">397</span><a name="line.397"></a>
 <span class="sourceLineNo">398</span>  /**<a name="line.398"></a>
@@ -623,7 +623,7 @@
 <span class="sourceLineNo">615</span>        return new ImmutableList&lt;Entry&lt;K, V&gt;&gt;() {<a name="line.615"></a>
 <span class="sourceLineNo">616</span>          @Override<a name="line.616"></a>
 <span class="sourceLineNo">617</span>          public Entry&lt;K, V&gt; get(int index) {<a name="line.617"></a>
-<span class="sourceLineNo">618</span>            return new AbstractMap.SimpleImmutableEntry&lt;K, V&gt;(<a name="line.618"></a>
+<span class="sourceLineNo">618</span>            return new AbstractMap.SimpleImmutableEntry&lt;&gt;(<a name="line.618"></a>
 <span class="sourceLineNo">619</span>                keySet.asList().get(index), valueList.get(index));<a name="line.619"></a>
 <span class="sourceLineNo">620</span>          }<a name="line.620"></a>
 <span class="sourceLineNo">621</span><a name="line.621"></a>
@@ -701,7 +701,7 @@
 <span class="sourceLineNo">693</span>    } else if (fromIndex == toIndex) {<a name="line.693"></a>
 <span class="sourceLineNo">694</span>      return emptyMap(comparator());<a name="line.694"></a>
 <span class="sourceLineNo">695</span>    } else {<a name="line.695"></a>
-<span class="sourceLineNo">696</span>      return new ImmutableSortedMap&lt;K, V&gt;(<a name="line.696"></a>
+<span class="sourceLineNo">696</span>      return new ImmutableSortedMap&lt;&gt;(<a name="line.696"></a>
 <span class="sourceLineNo">697</span>          keySet.getSubSet(fromIndex, toIndex), valueList.subList(fromIndex, toIndex));<a name="line.697"></a>
 <span class="sourceLineNo">698</span>    }<a name="line.698"></a>
 <span class="sourceLineNo">699</span>  }<a name="line.699"></a>
@@ -903,7 +903,7 @@
 <span class="sourceLineNo">895</span>        return result = emptyMap(Ordering.from(comparator()).reverse());<a name="line.895"></a>
 <span class="sourceLineNo">896</span>      } else {<a name="line.896"></a>
 <span class="sourceLineNo">897</span>        return result =<a name="line.897"></a>
-<span class="sourceLineNo">898</span>            new ImmutableSortedMap&lt;K, V&gt;(<a name="line.898"></a>
+<span class="sourceLineNo">898</span>            new ImmutableSortedMap&lt;&gt;(<a name="line.898"></a>
 <span class="sourceLineNo">899</span>                (RegularImmutableSortedSet&lt;K&gt;) keySet.descendingSet(), valueList.reverse(), this);<a name="line.899"></a>
 <span class="sourceLineNo">900</span>      }<a name="line.900"></a>
 <span class="sourceLineNo">901</span>    }<a name="line.901"></a>

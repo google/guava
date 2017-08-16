@@ -125,7 +125,7 @@
 <span class="sourceLineNo">117</span>   * created by the {@link Builder} constructor.<a name="line.117"></a>
 <span class="sourceLineNo">118</span>   */<a name="line.118"></a>
 <span class="sourceLineNo">119</span>  public static &lt;K, V&gt; Builder&lt;K, V&gt; builder() {<a name="line.119"></a>
-<span class="sourceLineNo">120</span>    return new Builder&lt;K, V&gt;();<a name="line.120"></a>
+<span class="sourceLineNo">120</span>    return new Builder&lt;&gt;();<a name="line.120"></a>
 <span class="sourceLineNo">121</span>  }<a name="line.121"></a>
 <span class="sourceLineNo">122</span><a name="line.122"></a>
 <span class="sourceLineNo">123</span>  /**<a name="line.123"></a>
@@ -267,7 +267,7 @@
 <span class="sourceLineNo">259</span>    }<a name="line.259"></a>
 <span class="sourceLineNo">260</span><a name="line.260"></a>
 <span class="sourceLineNo">261</span>    ImmutableMap.Builder&lt;K, ImmutableList&lt;V&gt;&gt; builder =<a name="line.261"></a>
-<span class="sourceLineNo">262</span>        new ImmutableMap.Builder&lt;K, ImmutableList&lt;V&gt;&gt;(multimap.asMap().size());<a name="line.262"></a>
+<span class="sourceLineNo">262</span>        new ImmutableMap.Builder&lt;&gt;(multimap.asMap().size());<a name="line.262"></a>
 <span class="sourceLineNo">263</span>    int size = 0;<a name="line.263"></a>
 <span class="sourceLineNo">264</span><a name="line.264"></a>
 <span class="sourceLineNo">265</span>    for (Entry&lt;? extends K, ? extends Collection&lt;? extends V&gt;&gt; entry :<a name="line.265"></a>
@@ -279,7 +279,7 @@
 <span class="sourceLineNo">271</span>      }<a name="line.271"></a>
 <span class="sourceLineNo">272</span>    }<a name="line.272"></a>
 <span class="sourceLineNo">273</span><a name="line.273"></a>
-<span class="sourceLineNo">274</span>    return new ImmutableListMultimap&lt;K, V&gt;(builder.build(), size);<a name="line.274"></a>
+<span class="sourceLineNo">274</span>    return new ImmutableListMultimap&lt;&gt;(builder.build(), size);<a name="line.274"></a>
 <span class="sourceLineNo">275</span>  }<a name="line.275"></a>
 <span class="sourceLineNo">276</span><a name="line.276"></a>
 <span class="sourceLineNo">277</span>  /**<a name="line.277"></a>

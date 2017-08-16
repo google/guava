@@ -250,7 +250,7 @@
 <span class="sourceLineNo">242</span>   * strong values, and no automatic eviction of any kind.<a name="line.242"></a>
 <span class="sourceLineNo">243</span>   */<a name="line.243"></a>
 <span class="sourceLineNo">244</span>  public static CacheBuilder&lt;Object, Object&gt; newBuilder() {<a name="line.244"></a>
-<span class="sourceLineNo">245</span>    return new CacheBuilder&lt;Object, Object&gt;();<a name="line.245"></a>
+<span class="sourceLineNo">245</span>    return new CacheBuilder&lt;&gt;();<a name="line.245"></a>
 <span class="sourceLineNo">246</span>  }<a name="line.246"></a>
 <span class="sourceLineNo">247</span><a name="line.247"></a>
 <span class="sourceLineNo">248</span>  /**<a name="line.248"></a>
@@ -828,7 +828,7 @@
 <span class="sourceLineNo">820</span>  public &lt;K1 extends K, V1 extends V&gt; LoadingCache&lt;K1, V1&gt; build(<a name="line.820"></a>
 <span class="sourceLineNo">821</span>      CacheLoader&lt;? super K1, V1&gt; loader) {<a name="line.821"></a>
 <span class="sourceLineNo">822</span>    checkWeightWithWeigher();<a name="line.822"></a>
-<span class="sourceLineNo">823</span>    return new LocalCache.LocalLoadingCache&lt;K1, V1&gt;(this, loader);<a name="line.823"></a>
+<span class="sourceLineNo">823</span>    return new LocalCache.LocalLoadingCache&lt;&gt;(this, loader);<a name="line.823"></a>
 <span class="sourceLineNo">824</span>  }<a name="line.824"></a>
 <span class="sourceLineNo">825</span><a name="line.825"></a>
 <span class="sourceLineNo">826</span>  /**<a name="line.826"></a>
@@ -846,7 +846,7 @@
 <span class="sourceLineNo">838</span>  public &lt;K1 extends K, V1 extends V&gt; Cache&lt;K1, V1&gt; build() {<a name="line.838"></a>
 <span class="sourceLineNo">839</span>    checkWeightWithWeigher();<a name="line.839"></a>
 <span class="sourceLineNo">840</span>    checkNonLoadingCache();<a name="line.840"></a>
-<span class="sourceLineNo">841</span>    return new LocalCache.LocalManualCache&lt;K1, V1&gt;(this);<a name="line.841"></a>
+<span class="sourceLineNo">841</span>    return new LocalCache.LocalManualCache&lt;&gt;(this);<a name="line.841"></a>
 <span class="sourceLineNo">842</span>  }<a name="line.842"></a>
 <span class="sourceLineNo">843</span><a name="line.843"></a>
 <span class="sourceLineNo">844</span>  private void checkNonLoadingCache() {<a name="line.844"></a>

@@ -134,7 +134,7 @@
 <span class="sourceLineNo">126</span><a name="line.126"></a>
 <span class="sourceLineNo">127</span>  @Override<a name="line.127"></a>
 <span class="sourceLineNo">128</span>  public void putAll(Map&lt;? extends Class&lt;? extends B&gt;, ? extends B&gt; map) {<a name="line.128"></a>
-<span class="sourceLineNo">129</span>    Map&lt;Class&lt;? extends B&gt;, B&gt; copy = new LinkedHashMap&lt;Class&lt;? extends B&gt;, B&gt;(map);<a name="line.129"></a>
+<span class="sourceLineNo">129</span>    Map&lt;Class&lt;? extends B&gt;, B&gt; copy = new LinkedHashMap&lt;&gt;(map);<a name="line.129"></a>
 <span class="sourceLineNo">130</span>    for (Entry&lt;? extends Class&lt;? extends B&gt;, B&gt; entry : copy.entrySet()) {<a name="line.130"></a>
 <span class="sourceLineNo">131</span>      cast(entry.getKey(), entry.getValue());<a name="line.131"></a>
 <span class="sourceLineNo">132</span>    }<a name="line.132"></a>

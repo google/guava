@@ -146,7 +146,7 @@
 <span class="sourceLineNo">138</span>   * @return a cache loader that loads values by passing each key to {@code function}<a name="line.138"></a>
 <span class="sourceLineNo">139</span>   */<a name="line.139"></a>
 <span class="sourceLineNo">140</span>  public static &lt;K, V&gt; CacheLoader&lt;K, V&gt; from(Function&lt;K, V&gt; function) {<a name="line.140"></a>
-<span class="sourceLineNo">141</span>    return new FunctionToCacheLoader&lt;K, V&gt;(function);<a name="line.141"></a>
+<span class="sourceLineNo">141</span>    return new FunctionToCacheLoader&lt;&gt;(function);<a name="line.141"></a>
 <span class="sourceLineNo">142</span>  }<a name="line.142"></a>
 <span class="sourceLineNo">143</span><a name="line.143"></a>
 <span class="sourceLineNo">144</span>  private static final class FunctionToCacheLoader&lt;K, V&gt; extends CacheLoader&lt;K, V&gt;<a name="line.144"></a>

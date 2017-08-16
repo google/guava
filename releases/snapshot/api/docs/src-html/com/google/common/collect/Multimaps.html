@@ -219,7 +219,7 @@
 <span class="sourceLineNo">211</span>   */<a name="line.211"></a>
 <span class="sourceLineNo">212</span>  public static &lt;K, V&gt; Multimap&lt;K, V&gt; newMultimap(<a name="line.212"></a>
 <span class="sourceLineNo">213</span>      Map&lt;K, Collection&lt;V&gt;&gt; map, final Supplier&lt;? extends Collection&lt;V&gt;&gt; factory) {<a name="line.213"></a>
-<span class="sourceLineNo">214</span>    return new CustomMultimap&lt;K, V&gt;(map, factory);<a name="line.214"></a>
+<span class="sourceLineNo">214</span>    return new CustomMultimap&lt;&gt;(map, factory);<a name="line.214"></a>
 <span class="sourceLineNo">215</span>  }<a name="line.215"></a>
 <span class="sourceLineNo">216</span><a name="line.216"></a>
 <span class="sourceLineNo">217</span>  private static class CustomMultimap&lt;K, V&gt; extends AbstractMapBasedMultimap&lt;K, V&gt; {<a name="line.217"></a>
@@ -299,7 +299,7 @@
 <span class="sourceLineNo">291</span>   */<a name="line.291"></a>
 <span class="sourceLineNo">292</span>  public static &lt;K, V&gt; ListMultimap&lt;K, V&gt; newListMultimap(<a name="line.292"></a>
 <span class="sourceLineNo">293</span>      Map&lt;K, Collection&lt;V&gt;&gt; map, final Supplier&lt;? extends List&lt;V&gt;&gt; factory) {<a name="line.293"></a>
-<span class="sourceLineNo">294</span>    return new CustomListMultimap&lt;K, V&gt;(map, factory);<a name="line.294"></a>
+<span class="sourceLineNo">294</span>    return new CustomListMultimap&lt;&gt;(map, factory);<a name="line.294"></a>
 <span class="sourceLineNo">295</span>  }<a name="line.295"></a>
 <span class="sourceLineNo">296</span><a name="line.296"></a>
 <span class="sourceLineNo">297</span>  private static class CustomListMultimap&lt;K, V&gt; extends AbstractListMultimap&lt;K, V&gt; {<a name="line.297"></a>
@@ -375,7 +375,7 @@
 <span class="sourceLineNo">367</span>   */<a name="line.367"></a>
 <span class="sourceLineNo">368</span>  public static &lt;K, V&gt; SetMultimap&lt;K, V&gt; newSetMultimap(<a name="line.368"></a>
 <span class="sourceLineNo">369</span>      Map&lt;K, Collection&lt;V&gt;&gt; map, final Supplier&lt;? extends Set&lt;V&gt;&gt; factory) {<a name="line.369"></a>
-<span class="sourceLineNo">370</span>    return new CustomSetMultimap&lt;K, V&gt;(map, factory);<a name="line.370"></a>
+<span class="sourceLineNo">370</span>    return new CustomSetMultimap&lt;&gt;(map, factory);<a name="line.370"></a>
 <span class="sourceLineNo">371</span>  }<a name="line.371"></a>
 <span class="sourceLineNo">372</span><a name="line.372"></a>
 <span class="sourceLineNo">373</span>  private static class CustomSetMultimap&lt;K, V&gt; extends AbstractSetMultimap&lt;K, V&gt; {<a name="line.373"></a>
@@ -450,7 +450,7 @@
 <span class="sourceLineNo">442</span>   */<a name="line.442"></a>
 <span class="sourceLineNo">443</span>  public static &lt;K, V&gt; SortedSetMultimap&lt;K, V&gt; newSortedSetMultimap(<a name="line.443"></a>
 <span class="sourceLineNo">444</span>      Map&lt;K, Collection&lt;V&gt;&gt; map, final Supplier&lt;? extends SortedSet&lt;V&gt;&gt; factory) {<a name="line.444"></a>
-<span class="sourceLineNo">445</span>    return new CustomSortedSetMultimap&lt;K, V&gt;(map, factory);<a name="line.445"></a>
+<span class="sourceLineNo">445</span>    return new CustomSortedSetMultimap&lt;&gt;(map, factory);<a name="line.445"></a>
 <span class="sourceLineNo">446</span>  }<a name="line.446"></a>
 <span class="sourceLineNo">447</span><a name="line.447"></a>
 <span class="sourceLineNo">448</span>  private static class CustomSortedSetMultimap&lt;K, V&gt; extends AbstractSortedSetMultimap&lt;K, V&gt; {<a name="line.448"></a>
@@ -574,7 +574,7 @@
 <span class="sourceLineNo">566</span>    if (delegate instanceof UnmodifiableMultimap || delegate instanceof ImmutableMultimap) {<a name="line.566"></a>
 <span class="sourceLineNo">567</span>      return delegate;<a name="line.567"></a>
 <span class="sourceLineNo">568</span>    }<a name="line.568"></a>
-<span class="sourceLineNo">569</span>    return new UnmodifiableMultimap&lt;K, V&gt;(delegate);<a name="line.569"></a>
+<span class="sourceLineNo">569</span>    return new UnmodifiableMultimap&lt;&gt;(delegate);<a name="line.569"></a>
 <span class="sourceLineNo">570</span>  }<a name="line.570"></a>
 <span class="sourceLineNo">571</span><a name="line.571"></a>
 <span class="sourceLineNo">572</span>  /**<a name="line.572"></a>
@@ -843,7 +843,7 @@
 <span class="sourceLineNo">835</span>    if (delegate instanceof UnmodifiableSetMultimap || delegate instanceof ImmutableSetMultimap) {<a name="line.835"></a>
 <span class="sourceLineNo">836</span>      return delegate;<a name="line.836"></a>
 <span class="sourceLineNo">837</span>    }<a name="line.837"></a>
-<span class="sourceLineNo">838</span>    return new UnmodifiableSetMultimap&lt;K, V&gt;(delegate);<a name="line.838"></a>
+<span class="sourceLineNo">838</span>    return new UnmodifiableSetMultimap&lt;&gt;(delegate);<a name="line.838"></a>
 <span class="sourceLineNo">839</span>  }<a name="line.839"></a>
 <span class="sourceLineNo">840</span><a name="line.840"></a>
 <span class="sourceLineNo">841</span>  /**<a name="line.841"></a>
@@ -898,7 +898,7 @@
 <span class="sourceLineNo">890</span>    if (delegate instanceof UnmodifiableSortedSetMultimap) {<a name="line.890"></a>
 <span class="sourceLineNo">891</span>      return delegate;<a name="line.891"></a>
 <span class="sourceLineNo">892</span>    }<a name="line.892"></a>
-<span class="sourceLineNo">893</span>    return new UnmodifiableSortedSetMultimap&lt;K, V&gt;(delegate);<a name="line.893"></a>
+<span class="sourceLineNo">893</span>    return new UnmodifiableSortedSetMultimap&lt;&gt;(delegate);<a name="line.893"></a>
 <span class="sourceLineNo">894</span>  }<a name="line.894"></a>
 <span class="sourceLineNo">895</span><a name="line.895"></a>
 <span class="sourceLineNo">896</span>  /**<a name="line.896"></a>
@@ -936,7 +936,7 @@
 <span class="sourceLineNo">928</span>    if (delegate instanceof UnmodifiableListMultimap || delegate instanceof ImmutableListMultimap) {<a name="line.928"></a>
 <span class="sourceLineNo">929</span>      return delegate;<a name="line.929"></a>
 <span class="sourceLineNo">930</span>    }<a name="line.930"></a>
-<span class="sourceLineNo">931</span>    return new UnmodifiableListMultimap&lt;K, V&gt;(delegate);<a name="line.931"></a>
+<span class="sourceLineNo">931</span>    return new UnmodifiableListMultimap&lt;&gt;(delegate);<a name="line.931"></a>
 <span class="sourceLineNo">932</span>  }<a name="line.932"></a>
 <span class="sourceLineNo">933</span><a name="line.933"></a>
 <span class="sourceLineNo">934</span>  /**<a name="line.934"></a>
@@ -984,7 +984,7 @@
 <span class="sourceLineNo">976</span>    if (entries instanceof Set) {<a name="line.976"></a>
 <span class="sourceLineNo">977</span>      return Maps.unmodifiableEntrySet((Set&lt;Entry&lt;K, V&gt;&gt;) entries);<a name="line.977"></a>
 <span class="sourceLineNo">978</span>    }<a name="line.978"></a>
-<span class="sourceLineNo">979</span>    return new Maps.UnmodifiableEntries&lt;K, V&gt;(Collections.unmodifiableCollection(entries));<a name="line.979"></a>
+<span class="sourceLineNo">979</span>    return new Maps.UnmodifiableEntries&lt;&gt;(Collections.unmodifiableCollection(entries));<a name="line.979"></a>
 <span class="sourceLineNo">980</span>  }<a name="line.980"></a>
 <span class="sourceLineNo">981</span><a name="line.981"></a>
 <span class="sourceLineNo">982</span>  /**<a name="line.982"></a>
@@ -1056,7 +1056,7 @@
 <span class="sourceLineNo">1048</span>   * @param map the backing map for the returned multimap view<a name="line.1048"></a>
 <span class="sourceLineNo">1049</span>   */<a name="line.1049"></a>
 <span class="sourceLineNo">1050</span>  public static &lt;K, V&gt; SetMultimap&lt;K, V&gt; forMap(Map&lt;K, V&gt; map) {<a name="line.1050"></a>
-<span class="sourceLineNo">1051</span>    return new MapMultimap&lt;K, V&gt;(map);<a name="line.1051"></a>
+<span class="sourceLineNo">1051</span>    return new MapMultimap&lt;&gt;(map);<a name="line.1051"></a>
 <span class="sourceLineNo">1052</span>  }<a name="line.1052"></a>
 <span class="sourceLineNo">1053</span><a name="line.1053"></a>
 <span class="sourceLineNo">1054</span>  /** @see Multimaps#forMap */<a name="line.1054"></a>
@@ -1188,7 +1188,7 @@
 <span class="sourceLineNo">1180</span><a name="line.1180"></a>
 <span class="sourceLineNo">1181</span>    @Override<a name="line.1181"></a>
 <span class="sourceLineNo">1182</span>    Map&lt;K, Collection&lt;V&gt;&gt; createAsMap() {<a name="line.1182"></a>
-<span class="sourceLineNo">1183</span>      return new AsMap&lt;K, V&gt;(this);<a name="line.1183"></a>
+<span class="sourceLineNo">1183</span>      return new AsMap&lt;&gt;(this);<a name="line.1183"></a>
 <span class="sourceLineNo">1184</span>    }<a name="line.1184"></a>
 <span class="sourceLineNo">1185</span><a name="line.1185"></a>
 <span class="sourceLineNo">1186</span>    @Override<a name="line.1186"></a>
@@ -1307,7 +1307,7 @@
 <span class="sourceLineNo">1299</span>   */<a name="line.1299"></a>
 <span class="sourceLineNo">1300</span>  public static &lt;K, V1, V2&gt; Multimap&lt;K, V2&gt; transformEntries(<a name="line.1300"></a>
 <span class="sourceLineNo">1301</span>      Multimap&lt;K, V1&gt; fromMap, EntryTransformer&lt;? super K, ? super V1, V2&gt; transformer) {<a name="line.1301"></a>
-<span class="sourceLineNo">1302</span>    return new TransformedEntriesMultimap&lt;K, V1, V2&gt;(fromMap, transformer);<a name="line.1302"></a>
+<span class="sourceLineNo">1302</span>    return new TransformedEntriesMultimap&lt;&gt;(fromMap, transformer);<a name="line.1302"></a>
 <span class="sourceLineNo">1303</span>  }<a name="line.1303"></a>
 <span class="sourceLineNo">1304</span><a name="line.1304"></a>
 <span class="sourceLineNo">1305</span>  private static class TransformedEntriesMultimap&lt;K, V1, V2&gt; extends AbstractMultimap&lt;K, V2&gt; {<a name="line.1305"></a>
@@ -1524,7 +1524,7 @@
 <span class="sourceLineNo">1516</span>   */<a name="line.1516"></a>
 <span class="sourceLineNo">1517</span>  public static &lt;K, V1, V2&gt; ListMultimap&lt;K, V2&gt; transformEntries(<a name="line.1517"></a>
 <span class="sourceLineNo">1518</span>      ListMultimap&lt;K, V1&gt; fromMap, EntryTransformer&lt;? super K, ? super V1, V2&gt; transformer) {<a name="line.1518"></a>
-<span class="sourceLineNo">1519</span>    return new TransformedEntriesListMultimap&lt;K, V1, V2&gt;(fromMap, transformer);<a name="line.1519"></a>
+<span class="sourceLineNo">1519</span>    return new TransformedEntriesListMultimap&lt;&gt;(fromMap, transformer);<a name="line.1519"></a>
 <span class="sourceLineNo">1520</span>  }<a name="line.1520"></a>
 <span class="sourceLineNo">1521</span><a name="line.1521"></a>
 <span class="sourceLineNo">1522</span>  private static final class TransformedEntriesListMultimap&lt;K, V1, V2&gt;<a name="line.1522"></a>
@@ -1954,13 +1954,13 @@
 <span class="sourceLineNo">1946</span>      return filterKeys((ListMultimap&lt;K, V&gt;) unfiltered, keyPredicate);<a name="line.1946"></a>
 <span class="sourceLineNo">1947</span>    } else if (unfiltered instanceof FilteredKeyMultimap) {<a name="line.1947"></a>
 <span class="sourceLineNo">1948</span>      FilteredKeyMultimap&lt;K, V&gt; prev = (FilteredKeyMultimap&lt;K, V&gt;) unfiltered;<a name="line.1948"></a>
-<span class="sourceLineNo">1949</span>      return new FilteredKeyMultimap&lt;K, V&gt;(<a name="line.1949"></a>
+<span class="sourceLineNo">1949</span>      return new FilteredKeyMultimap&lt;&gt;(<a name="line.1949"></a>
 <span class="sourceLineNo">1950</span>          prev.unfiltered, Predicates.&lt;K&gt;and(prev.keyPredicate, keyPredicate));<a name="line.1950"></a>
 <span class="sourceLineNo">1951</span>    } else if (unfiltered instanceof FilteredMultimap) {<a name="line.1951"></a>
 <span class="sourceLineNo">1952</span>      FilteredMultimap&lt;K, V&gt; prev = (FilteredMultimap&lt;K, V&gt;) unfiltered;<a name="line.1952"></a>
 <span class="sourceLineNo">1953</span>      return filterFiltered(prev, Maps.&lt;K&gt;keyPredicateOnEntries(keyPredicate));<a name="line.1953"></a>
 <span class="sourceLineNo">1954</span>    } else {<a name="line.1954"></a>
-<span class="sourceLineNo">1955</span>      return new FilteredKeyMultimap&lt;K, V&gt;(unfiltered, keyPredicate);<a name="line.1955"></a>
+<span class="sourceLineNo">1955</span>      return new FilteredKeyMultimap&lt;&gt;(unfiltered, keyPredicate);<a name="line.1955"></a>
 <span class="sourceLineNo">1956</span>    }<a name="line.1956"></a>
 <span class="sourceLineNo">1957</span>  }<a name="line.1957"></a>
 <span class="sourceLineNo">1958</span><a name="line.1958"></a>
@@ -1998,13 +1998,13 @@
 <span class="sourceLineNo">1990</span>      SetMultimap&lt;K, V&gt; unfiltered, final Predicate&lt;? super K&gt; keyPredicate) {<a name="line.1990"></a>
 <span class="sourceLineNo">1991</span>    if (unfiltered instanceof FilteredKeySetMultimap) {<a name="line.1991"></a>
 <span class="sourceLineNo">1992</span>      FilteredKeySetMultimap&lt;K, V&gt; prev = (FilteredKeySetMultimap&lt;K, V&gt;) unfiltered;<a name="line.1992"></a>
-<span class="sourceLineNo">1993</span>      return new FilteredKeySetMultimap&lt;K, V&gt;(<a name="line.1993"></a>
+<span class="sourceLineNo">1993</span>      return new FilteredKeySetMultimap&lt;&gt;(<a name="line.1993"></a>
 <span class="sourceLineNo">1994</span>          prev.unfiltered(), Predicates.&lt;K&gt;and(prev.keyPredicate, keyPredicate));<a name="line.1994"></a>
 <span class="sourceLineNo">1995</span>    } else if (unfiltered instanceof FilteredSetMultimap) {<a name="line.1995"></a>
 <span class="sourceLineNo">1996</span>      FilteredSetMultimap&lt;K, V&gt; prev = (FilteredSetMultimap&lt;K, V&gt;) unfiltered;<a name="line.1996"></a>
 <span class="sourceLineNo">1997</span>      return filterFiltered(prev, Maps.&lt;K&gt;keyPredicateOnEntries(keyPredicate));<a name="line.1997"></a>
 <span class="sourceLineNo">1998</span>    } else {<a name="line.1998"></a>
-<span class="sourceLineNo">1999</span>      return new FilteredKeySetMultimap&lt;K, V&gt;(unfiltered, keyPredicate);<a name="line.1999"></a>
+<span class="sourceLineNo">1999</span>      return new FilteredKeySetMultimap&lt;&gt;(unfiltered, keyPredicate);<a name="line.1999"></a>
 <span class="sourceLineNo">2000</span>    }<a name="line.2000"></a>
 <span class="sourceLineNo">2001</span>  }<a name="line.2001"></a>
 <span class="sourceLineNo">2002</span><a name="line.2002"></a>
@@ -2042,10 +2042,10 @@
 <span class="sourceLineNo">2034</span>      ListMultimap&lt;K, V&gt; unfiltered, final Predicate&lt;? super K&gt; keyPredicate) {<a name="line.2034"></a>
 <span class="sourceLineNo">2035</span>    if (unfiltered instanceof FilteredKeyListMultimap) {<a name="line.2035"></a>
 <span class="sourceLineNo">2036</span>      FilteredKeyListMultimap&lt;K, V&gt; prev = (FilteredKeyListMultimap&lt;K, V&gt;) unfiltered;<a name="line.2036"></a>
-<span class="sourceLineNo">2037</span>      return new FilteredKeyListMultimap&lt;K, V&gt;(<a name="line.2037"></a>
+<span class="sourceLineNo">2037</span>      return new FilteredKeyListMultimap&lt;&gt;(<a name="line.2037"></a>
 <span class="sourceLineNo">2038</span>          prev.unfiltered(), Predicates.&lt;K&gt;and(prev.keyPredicate, keyPredicate));<a name="line.2038"></a>
 <span class="sourceLineNo">2039</span>    } else {<a name="line.2039"></a>
-<span class="sourceLineNo">2040</span>      return new FilteredKeyListMultimap&lt;K, V&gt;(unfiltered, keyPredicate);<a name="line.2040"></a>
+<span class="sourceLineNo">2040</span>      return new FilteredKeyListMultimap&lt;&gt;(unfiltered, keyPredicate);<a name="line.2040"></a>
 <span class="sourceLineNo">2041</span>    }<a name="line.2041"></a>
 <span class="sourceLineNo">2042</span>  }<a name="line.2042"></a>
 <span class="sourceLineNo">2043</span><a name="line.2043"></a>
@@ -2205,7 +2205,7 @@
 <span class="sourceLineNo">2197</span>      FilteredMultimap&lt;K, V&gt; multimap, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {<a name="line.2197"></a>
 <span class="sourceLineNo">2198</span>    Predicate&lt;Entry&lt;K, V&gt;&gt; predicate =<a name="line.2198"></a>
 <span class="sourceLineNo">2199</span>        Predicates.&lt;Entry&lt;K, V&gt;&gt;and(multimap.entryPredicate(), entryPredicate);<a name="line.2199"></a>
-<span class="sourceLineNo">2200</span>    return new FilteredEntryMultimap&lt;K, V&gt;(multimap.unfiltered(), predicate);<a name="line.2200"></a>
+<span class="sourceLineNo">2200</span>    return new FilteredEntryMultimap&lt;&gt;(multimap.unfiltered(), predicate);<a name="line.2200"></a>
 <span class="sourceLineNo">2201</span>  }<a name="line.2201"></a>
 <span class="sourceLineNo">2202</span><a name="line.2202"></a>
 <span class="sourceLineNo">2203</span>  /**<a name="line.2203"></a>
@@ -2218,7 +2218,7 @@
 <span class="sourceLineNo">2210</span>      FilteredSetMultimap&lt;K, V&gt; multimap, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {<a name="line.2210"></a>
 <span class="sourceLineNo">2211</span>    Predicate&lt;Entry&lt;K, V&gt;&gt; predicate =<a name="line.2211"></a>
 <span class="sourceLineNo">2212</span>        Predicates.&lt;Entry&lt;K, V&gt;&gt;and(multimap.entryPredicate(), entryPredicate);<a name="line.2212"></a>
-<span class="sourceLineNo">2213</span>    return new FilteredEntrySetMultimap&lt;K, V&gt;(multimap.unfiltered(), predicate);<a name="line.2213"></a>
+<span class="sourceLineNo">2213</span>    return new FilteredEntrySetMultimap&lt;&gt;(multimap.unfiltered(), predicate);<a name="line.2213"></a>
 <span class="sourceLineNo">2214</span>  }<a name="line.2214"></a>
 <span class="sourceLineNo">2215</span><a name="line.2215"></a>
 <span class="sourceLineNo">2216</span>  static boolean equalsImpl(Multimap&lt;?, ?&gt; multimap, @Nullable Object object) {<a name="line.2216"></a>

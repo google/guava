@@ -161,7 +161,7 @@
 <span class="sourceLineNo">153</span>    V value1 = entry1.getValue();<a name="line.153"></a>
 <span class="sourceLineNo">154</span>    checkEntryNotNull(key1, value1);<a name="line.154"></a>
 <span class="sourceLineNo">155</span>    Class&lt;K&gt; clazz = key1.getDeclaringClass();<a name="line.155"></a>
-<span class="sourceLineNo">156</span>    EnumMap&lt;K, V&gt; enumMap = new EnumMap&lt;K, V&gt;(clazz);<a name="line.156"></a>
+<span class="sourceLineNo">156</span>    EnumMap&lt;K, V&gt; enumMap = new EnumMap&lt;&gt;(clazz);<a name="line.156"></a>
 <span class="sourceLineNo">157</span>    enumMap.put(key1, value1);<a name="line.157"></a>
 <span class="sourceLineNo">158</span>    while (entryItr.hasNext()) {<a name="line.158"></a>
 <span class="sourceLineNo">159</span>      Entry&lt;K, ? extends V&gt; entry = entryItr.next();<a name="line.159"></a>
@@ -183,7 +183,7 @@
 <span class="sourceLineNo">175</span><a name="line.175"></a>
 <span class="sourceLineNo">176</span>    void put(K key, V value) {<a name="line.176"></a>
 <span class="sourceLineNo">177</span>      if (map == null) {<a name="line.177"></a>
-<span class="sourceLineNo">178</span>        map = new EnumMap&lt;K, V&gt;(key.getDeclaringClass());<a name="line.178"></a>
+<span class="sourceLineNo">178</span>        map = new EnumMap&lt;&gt;(key.getDeclaringClass());<a name="line.178"></a>
 <span class="sourceLineNo">179</span>      }<a name="line.179"></a>
 <span class="sourceLineNo">180</span>      map.merge(key, value, mergeFunction);<a name="line.180"></a>
 <span class="sourceLineNo">181</span>    }<a name="line.181"></a>
@@ -288,7 +288,7 @@
 <span class="sourceLineNo">280</span>   * @return a new, empty {@code HashMap}<a name="line.280"></a>
 <span class="sourceLineNo">281</span>   */<a name="line.281"></a>
 <span class="sourceLineNo">282</span>  public static &lt;K, V&gt; HashMap&lt;K, V&gt; newHashMap() {<a name="line.282"></a>
-<span class="sourceLineNo">283</span>    return new HashMap&lt;K, V&gt;();<a name="line.283"></a>
+<span class="sourceLineNo">283</span>    return new HashMap&lt;&gt;();<a name="line.283"></a>
 <span class="sourceLineNo">284</span>  }<a name="line.284"></a>
 <span class="sourceLineNo">285</span><a name="line.285"></a>
 <span class="sourceLineNo">286</span>  /**<a name="line.286"></a>
@@ -305,7 +305,7 @@
 <span class="sourceLineNo">297</span>   * @throws IllegalArgumentException if {@code expectedSize} is negative<a name="line.297"></a>
 <span class="sourceLineNo">298</span>   */<a name="line.298"></a>
 <span class="sourceLineNo">299</span>  public static &lt;K, V&gt; HashMap&lt;K, V&gt; newHashMapWithExpectedSize(int expectedSize) {<a name="line.299"></a>
-<span class="sourceLineNo">300</span>    return new HashMap&lt;K, V&gt;(capacity(expectedSize));<a name="line.300"></a>
+<span class="sourceLineNo">300</span>    return new HashMap&lt;&gt;(capacity(expectedSize));<a name="line.300"></a>
 <span class="sourceLineNo">301</span>  }<a name="line.301"></a>
 <span class="sourceLineNo">302</span><a name="line.302"></a>
 <span class="sourceLineNo">303</span>  /**<a name="line.303"></a>
@@ -346,7 +346,7 @@
 <span class="sourceLineNo">338</span>   *         map}<a name="line.338"></a>
 <span class="sourceLineNo">339</span>   */<a name="line.339"></a>
 <span class="sourceLineNo">340</span>  public static &lt;K, V&gt; HashMap&lt;K, V&gt; newHashMap(Map&lt;? extends K, ? extends V&gt; map) {<a name="line.340"></a>
-<span class="sourceLineNo">341</span>    return new HashMap&lt;K, V&gt;(map);<a name="line.341"></a>
+<span class="sourceLineNo">341</span>    return new HashMap&lt;&gt;(map);<a name="line.341"></a>
 <span class="sourceLineNo">342</span>  }<a name="line.342"></a>
 <span class="sourceLineNo">343</span><a name="line.343"></a>
 <span class="sourceLineNo">344</span>  /**<a name="line.344"></a>
@@ -364,7 +364,7 @@
 <span class="sourceLineNo">356</span>   * @return a new, empty {@code LinkedHashMap}<a name="line.356"></a>
 <span class="sourceLineNo">357</span>   */<a name="line.357"></a>
 <span class="sourceLineNo">358</span>  public static &lt;K, V&gt; LinkedHashMap&lt;K, V&gt; newLinkedHashMap() {<a name="line.358"></a>
-<span class="sourceLineNo">359</span>    return new LinkedHashMap&lt;K, V&gt;();<a name="line.359"></a>
+<span class="sourceLineNo">359</span>    return new LinkedHashMap&lt;&gt;();<a name="line.359"></a>
 <span class="sourceLineNo">360</span>  }<a name="line.360"></a>
 <span class="sourceLineNo">361</span><a name="line.361"></a>
 <span class="sourceLineNo">362</span>  /**<a name="line.362"></a>
@@ -382,7 +382,7 @@
 <span class="sourceLineNo">374</span>   * @since 19.0<a name="line.374"></a>
 <span class="sourceLineNo">375</span>   */<a name="line.375"></a>
 <span class="sourceLineNo">376</span>  public static &lt;K, V&gt; LinkedHashMap&lt;K, V&gt; newLinkedHashMapWithExpectedSize(int expectedSize) {<a name="line.376"></a>
-<span class="sourceLineNo">377</span>    return new LinkedHashMap&lt;K, V&gt;(capacity(expectedSize));<a name="line.377"></a>
+<span class="sourceLineNo">377</span>    return new LinkedHashMap&lt;&gt;(capacity(expectedSize));<a name="line.377"></a>
 <span class="sourceLineNo">378</span>  }<a name="line.378"></a>
 <span class="sourceLineNo">379</span><a name="line.379"></a>
 <span class="sourceLineNo">380</span>  /**<a name="line.380"></a>
@@ -402,7 +402,7 @@
 <span class="sourceLineNo">394</span>   *         {@code map}<a name="line.394"></a>
 <span class="sourceLineNo">395</span>   */<a name="line.395"></a>
 <span class="sourceLineNo">396</span>  public static &lt;K, V&gt; LinkedHashMap&lt;K, V&gt; newLinkedHashMap(Map&lt;? extends K, ? extends V&gt; map) {<a name="line.396"></a>
-<span class="sourceLineNo">397</span>    return new LinkedHashMap&lt;K, V&gt;(map);<a name="line.397"></a>
+<span class="sourceLineNo">397</span>    return new LinkedHashMap&lt;&gt;(map);<a name="line.397"></a>
 <span class="sourceLineNo">398</span>  }<a name="line.398"></a>
 <span class="sourceLineNo">399</span><a name="line.399"></a>
 <span class="sourceLineNo">400</span>  /**<a name="line.400"></a>
@@ -429,7 +429,7 @@
 <span class="sourceLineNo">421</span>   * @return a new, empty {@code TreeMap}<a name="line.421"></a>
 <span class="sourceLineNo">422</span>   */<a name="line.422"></a>
 <span class="sourceLineNo">423</span>  public static &lt;K extends Comparable, V&gt; TreeMap&lt;K, V&gt; newTreeMap() {<a name="line.423"></a>
-<span class="sourceLineNo">424</span>    return new TreeMap&lt;K, V&gt;();<a name="line.424"></a>
+<span class="sourceLineNo">424</span>    return new TreeMap&lt;&gt;();<a name="line.424"></a>
 <span class="sourceLineNo">425</span>  }<a name="line.425"></a>
 <span class="sourceLineNo">426</span><a name="line.426"></a>
 <span class="sourceLineNo">427</span>  /**<a name="line.427"></a>
@@ -450,7 +450,7 @@
 <span class="sourceLineNo">442</span>   *         map} and using the comparator of {@code map}<a name="line.442"></a>
 <span class="sourceLineNo">443</span>   */<a name="line.443"></a>
 <span class="sourceLineNo">444</span>  public static &lt;K, V&gt; TreeMap&lt;K, V&gt; newTreeMap(SortedMap&lt;K, ? extends V&gt; map) {<a name="line.444"></a>
-<span class="sourceLineNo">445</span>    return new TreeMap&lt;K, V&gt;(map);<a name="line.445"></a>
+<span class="sourceLineNo">445</span>    return new TreeMap&lt;&gt;(map);<a name="line.445"></a>
 <span class="sourceLineNo">446</span>  }<a name="line.446"></a>
 <span class="sourceLineNo">447</span><a name="line.447"></a>
 <span class="sourceLineNo">448</span>  /**<a name="line.448"></a>
@@ -474,7 +474,7 @@
 <span class="sourceLineNo">466</span>    // following code from being compiled:<a name="line.466"></a>
 <span class="sourceLineNo">467</span>    // Comparator&lt;Class&lt;?&gt;&gt; comparator = null;<a name="line.467"></a>
 <span class="sourceLineNo">468</span>    // Map&lt;Class&lt;? extends Throwable&gt;, String&gt; map = newTreeMap(comparator);<a name="line.468"></a>
-<span class="sourceLineNo">469</span>    return new TreeMap&lt;K, V&gt;(comparator);<a name="line.469"></a>
+<span class="sourceLineNo">469</span>    return new TreeMap&lt;&gt;(comparator);<a name="line.469"></a>
 <span class="sourceLineNo">470</span>  }<a name="line.470"></a>
 <span class="sourceLineNo">471</span><a name="line.471"></a>
 <span class="sourceLineNo">472</span>  /**<a name="line.472"></a>
@@ -484,7 +484,7 @@
 <span class="sourceLineNo">476</span>   * @return a new, empty {@code EnumMap}<a name="line.476"></a>
 <span class="sourceLineNo">477</span>   */<a name="line.477"></a>
 <span class="sourceLineNo">478</span>  public static &lt;K extends Enum&lt;K&gt;, V&gt; EnumMap&lt;K, V&gt; newEnumMap(Class&lt;K&gt; type) {<a name="line.478"></a>
-<span class="sourceLineNo">479</span>    return new EnumMap&lt;K, V&gt;(checkNotNull(type));<a name="line.479"></a>
+<span class="sourceLineNo">479</span>    return new EnumMap&lt;&gt;(checkNotNull(type));<a name="line.479"></a>
 <span class="sourceLineNo">480</span>  }<a name="line.480"></a>
 <span class="sourceLineNo">481</span><a name="line.481"></a>
 <span class="sourceLineNo">482</span>  /**<a name="line.482"></a>
@@ -502,7 +502,7 @@
 <span class="sourceLineNo">494</span>   *         instance and contains no mappings<a name="line.494"></a>
 <span class="sourceLineNo">495</span>   */<a name="line.495"></a>
 <span class="sourceLineNo">496</span>  public static &lt;K extends Enum&lt;K&gt;, V&gt; EnumMap&lt;K, V&gt; newEnumMap(Map&lt;K, ? extends V&gt; map) {<a name="line.496"></a>
-<span class="sourceLineNo">497</span>    return new EnumMap&lt;K, V&gt;(map);<a name="line.497"></a>
+<span class="sourceLineNo">497</span>    return new EnumMap&lt;&gt;(map);<a name="line.497"></a>
 <span class="sourceLineNo">498</span>  }<a name="line.498"></a>
 <span class="sourceLineNo">499</span><a name="line.499"></a>
 <span class="sourceLineNo">500</span>  /**<a name="line.500"></a>
@@ -516,7 +516,7 @@
 <span class="sourceLineNo">508</span>   * @return a new, empty {@code IdentityHashMap}<a name="line.508"></a>
 <span class="sourceLineNo">509</span>   */<a name="line.509"></a>
 <span class="sourceLineNo">510</span>  public static &lt;K, V&gt; IdentityHashMap&lt;K, V&gt; newIdentityHashMap() {<a name="line.510"></a>
-<span class="sourceLineNo">511</span>    return new IdentityHashMap&lt;K, V&gt;();<a name="line.511"></a>
+<span class="sourceLineNo">511</span>    return new IdentityHashMap&lt;&gt;();<a name="line.511"></a>
 <span class="sourceLineNo">512</span>  }<a name="line.512"></a>
 <span class="sourceLineNo">513</span><a name="line.513"></a>
 <span class="sourceLineNo">514</span>  /**<a name="line.514"></a>
@@ -568,11 +568,11 @@
 <span class="sourceLineNo">560</span>    Preconditions.checkNotNull(valueEquivalence);<a name="line.560"></a>
 <span class="sourceLineNo">561</span><a name="line.561"></a>
 <span class="sourceLineNo">562</span>    Map&lt;K, V&gt; onlyOnLeft = newLinkedHashMap();<a name="line.562"></a>
-<span class="sourceLineNo">563</span>    Map&lt;K, V&gt; onlyOnRight = new LinkedHashMap&lt;K, V&gt;(right); // will whittle it down<a name="line.563"></a>
+<span class="sourceLineNo">563</span>    Map&lt;K, V&gt; onlyOnRight = new LinkedHashMap&lt;&gt;(right); // will whittle it down<a name="line.563"></a>
 <span class="sourceLineNo">564</span>    Map&lt;K, V&gt; onBoth = newLinkedHashMap();<a name="line.564"></a>
 <span class="sourceLineNo">565</span>    Map&lt;K, MapDifference.ValueDifference&lt;V&gt;&gt; differences = newLinkedHashMap();<a name="line.565"></a>
 <span class="sourceLineNo">566</span>    doDifference(left, right, valueEquivalence, onlyOnLeft, onlyOnRight, onBoth, differences);<a name="line.566"></a>
-<span class="sourceLineNo">567</span>    return new MapDifferenceImpl&lt;K, V&gt;(onlyOnLeft, onlyOnRight, onBoth, differences);<a name="line.567"></a>
+<span class="sourceLineNo">567</span>    return new MapDifferenceImpl&lt;&gt;(onlyOnLeft, onlyOnRight, onBoth, differences);<a name="line.567"></a>
 <span class="sourceLineNo">568</span>  }<a name="line.568"></a>
 <span class="sourceLineNo">569</span><a name="line.569"></a>
 <span class="sourceLineNo">570</span>  private static &lt;K, V&gt; void doDifference(<a name="line.570"></a>
@@ -764,7 +764,7 @@
 <span class="sourceLineNo">756</span>    SortedMap&lt;K, V&gt; onBoth = Maps.newTreeMap(comparator);<a name="line.756"></a>
 <span class="sourceLineNo">757</span>    SortedMap&lt;K, MapDifference.ValueDifference&lt;V&gt;&gt; differences = Maps.newTreeMap(comparator);<a name="line.757"></a>
 <span class="sourceLineNo">758</span>    doDifference(left, right, Equivalence.equals(), onlyOnLeft, onlyOnRight, onBoth, differences);<a name="line.758"></a>
-<span class="sourceLineNo">759</span>    return new SortedMapDifferenceImpl&lt;K, V&gt;(onlyOnLeft, onlyOnRight, onBoth, differences);<a name="line.759"></a>
+<span class="sourceLineNo">759</span>    return new SortedMapDifferenceImpl&lt;&gt;(onlyOnLeft, onlyOnRight, onBoth, differences);<a name="line.759"></a>
 <span class="sourceLineNo">760</span>  }<a name="line.760"></a>
 <span class="sourceLineNo">761</span><a name="line.761"></a>
 <span class="sourceLineNo">762</span>  static class SortedMapDifferenceImpl&lt;K, V&gt; extends MapDifferenceImpl&lt;K, V&gt;<a name="line.762"></a>
@@ -839,7 +839,7 @@
 <span class="sourceLineNo">831</span>   * @since 14.0<a name="line.831"></a>
 <span class="sourceLineNo">832</span>   */<a name="line.832"></a>
 <span class="sourceLineNo">833</span>  public static &lt;K, V&gt; Map&lt;K, V&gt; asMap(Set&lt;K&gt; set, Function&lt;? super K, V&gt; function) {<a name="line.833"></a>
-<span class="sourceLineNo">834</span>    return new AsMapView&lt;K, V&gt;(set, function);<a name="line.834"></a>
+<span class="sourceLineNo">834</span>    return new AsMapView&lt;&gt;(set, function);<a name="line.834"></a>
 <span class="sourceLineNo">835</span>  }<a name="line.835"></a>
 <span class="sourceLineNo">836</span><a name="line.836"></a>
 <span class="sourceLineNo">837</span>  /**<a name="line.837"></a>
@@ -869,7 +869,7 @@
 <span class="sourceLineNo">861</span>   * @since 14.0<a name="line.861"></a>
 <span class="sourceLineNo">862</span>   */<a name="line.862"></a>
 <span class="sourceLineNo">863</span>  public static &lt;K, V&gt; SortedMap&lt;K, V&gt; asMap(SortedSet&lt;K&gt; set, Function&lt;? super K, V&gt; function) {<a name="line.863"></a>
-<span class="sourceLineNo">864</span>    return new SortedAsMapView&lt;K, V&gt;(set, function);<a name="line.864"></a>
+<span class="sourceLineNo">864</span>    return new SortedAsMapView&lt;&gt;(set, function);<a name="line.864"></a>
 <span class="sourceLineNo">865</span>  }<a name="line.865"></a>
 <span class="sourceLineNo">866</span><a name="line.866"></a>
 <span class="sourceLineNo">867</span>  /**<a name="line.867"></a>
@@ -901,7 +901,7 @@
 <span class="sourceLineNo">893</span>  @GwtIncompatible // NavigableMap<a name="line.893"></a>
 <span class="sourceLineNo">894</span>  public static &lt;K, V&gt; NavigableMap&lt;K, V&gt; asMap(<a name="line.894"></a>
 <span class="sourceLineNo">895</span>      NavigableSet&lt;K&gt; set, Function&lt;? super K, V&gt; function) {<a name="line.895"></a>
-<span class="sourceLineNo">896</span>    return new NavigableAsMapView&lt;K, V&gt;(set, function);<a name="line.896"></a>
+<span class="sourceLineNo">896</span>    return new NavigableAsMapView&lt;&gt;(set, function);<a name="line.896"></a>
 <span class="sourceLineNo">897</span>  }<a name="line.897"></a>
 <span class="sourceLineNo">898</span><a name="line.898"></a>
 <span class="sourceLineNo">899</span>  private static class AsMapView&lt;K, V&gt; extends ViewCachingAbstractMap&lt;K, V&gt; {<a name="line.899"></a>
@@ -1425,7 +1425,7 @@
 <span class="sourceLineNo">1417</span>   */<a name="line.1417"></a>
 <span class="sourceLineNo">1418</span>  @GwtCompatible(serializable = true)<a name="line.1418"></a>
 <span class="sourceLineNo">1419</span>  public static &lt;K, V&gt; Entry&lt;K, V&gt; immutableEntry(@Nullable K key, @Nullable V value) {<a name="line.1419"></a>
-<span class="sourceLineNo">1420</span>    return new ImmutableEntry&lt;K, V&gt;(key, value);<a name="line.1420"></a>
+<span class="sourceLineNo">1420</span>    return new ImmutableEntry&lt;&gt;(key, value);<a name="line.1420"></a>
 <span class="sourceLineNo">1421</span>  }<a name="line.1421"></a>
 <span class="sourceLineNo">1422</span><a name="line.1422"></a>
 <span class="sourceLineNo">1423</span>  /**<a name="line.1423"></a>
@@ -1437,7 +1437,7 @@
 <span class="sourceLineNo">1429</span>   * @return an unmodifiable view of the entries<a name="line.1429"></a>
 <span class="sourceLineNo">1430</span>   */<a name="line.1430"></a>
 <span class="sourceLineNo">1431</span>  static &lt;K, V&gt; Set&lt;Entry&lt;K, V&gt;&gt; unmodifiableEntrySet(Set&lt;Entry&lt;K, V&gt;&gt; entrySet) {<a name="line.1431"></a>
-<span class="sourceLineNo">1432</span>    return new UnmodifiableEntrySet&lt;K, V&gt;(Collections.unmodifiableSet(entrySet));<a name="line.1432"></a>
+<span class="sourceLineNo">1432</span>    return new UnmodifiableEntrySet&lt;&gt;(Collections.unmodifiableSet(entrySet));<a name="line.1432"></a>
 <span class="sourceLineNo">1433</span>  }<a name="line.1433"></a>
 <span class="sourceLineNo">1434</span><a name="line.1434"></a>
 <span class="sourceLineNo">1435</span>  /**<a name="line.1435"></a>
@@ -1543,7 +1543,7 @@
 <span class="sourceLineNo">1535</span>   */<a name="line.1535"></a>
 <span class="sourceLineNo">1536</span>  @Beta<a name="line.1536"></a>
 <span class="sourceLineNo">1537</span>  public static &lt;A, B&gt; Converter&lt;A, B&gt; asConverter(final BiMap&lt;A, B&gt; bimap) {<a name="line.1537"></a>
-<span class="sourceLineNo">1538</span>    return new BiMapConverter&lt;A, B&gt;(bimap);<a name="line.1538"></a>
+<span class="sourceLineNo">1538</span>    return new BiMapConverter&lt;&gt;(bimap);<a name="line.1538"></a>
 <span class="sourceLineNo">1539</span>  }<a name="line.1539"></a>
 <span class="sourceLineNo">1540</span><a name="line.1540"></a>
 <span class="sourceLineNo">1541</span>  private static final class BiMapConverter&lt;A, B&gt; extends Converter&lt;A, B&gt; implements Serializable {<a name="line.1541"></a>
@@ -1638,7 +1638,7 @@
 <span class="sourceLineNo">1630</span>   * @return an unmodifiable view of the specified bimap<a name="line.1630"></a>
 <span class="sourceLineNo">1631</span>   */<a name="line.1631"></a>
 <span class="sourceLineNo">1632</span>  public static &lt;K, V&gt; BiMap&lt;K, V&gt; unmodifiableBiMap(BiMap&lt;? extends K, ? extends V&gt; bimap) {<a name="line.1632"></a>
-<span class="sourceLineNo">1633</span>    return new UnmodifiableBiMap&lt;K, V&gt;(bimap, null);<a name="line.1633"></a>
+<span class="sourceLineNo">1633</span>    return new UnmodifiableBiMap&lt;&gt;(bimap, null);<a name="line.1633"></a>
 <span class="sourceLineNo">1634</span>  }<a name="line.1634"></a>
 <span class="sourceLineNo">1635</span><a name="line.1635"></a>
 <span class="sourceLineNo">1636</span>  /** @see Maps#unmodifiableBiMap(BiMap) */<a name="line.1636"></a>
@@ -1670,7 +1670,7 @@
 <span class="sourceLineNo">1662</span>    public BiMap&lt;V, K&gt; inverse() {<a name="line.1662"></a>
 <span class="sourceLineNo">1663</span>      BiMap&lt;V, K&gt; result = inverse;<a name="line.1663"></a>
 <span class="sourceLineNo">1664</span>      return (result == null)<a name="line.1664"></a>
-<span class="sourceLineNo">1665</span>          ? inverse = new UnmodifiableBiMap&lt;V, K&gt;(delegate.inverse(), this)<a name="line.1665"></a>
+<span class="sourceLineNo">1665</span>          ? inverse = new UnmodifiableBiMap&lt;&gt;(delegate.inverse(), this)<a name="line.1665"></a>
 <span class="sourceLineNo">1666</span>          : result;<a name="line.1666"></a>
 <span class="sourceLineNo">1667</span>    }<a name="line.1667"></a>
 <span class="sourceLineNo">1668</span><a name="line.1668"></a>
@@ -1868,7 +1868,7 @@
 <span class="sourceLineNo">1860</span>   */<a name="line.1860"></a>
 <span class="sourceLineNo">1861</span>  public static &lt;K, V1, V2&gt; Map&lt;K, V2&gt; transformEntries(<a name="line.1861"></a>
 <span class="sourceLineNo">1862</span>      Map&lt;K, V1&gt; fromMap, EntryTransformer&lt;? super K, ? super V1, V2&gt; transformer) {<a name="line.1862"></a>
-<span class="sourceLineNo">1863</span>    return new TransformedEntriesMap&lt;K, V1, V2&gt;(fromMap, transformer);<a name="line.1863"></a>
+<span class="sourceLineNo">1863</span>    return new TransformedEntriesMap&lt;&gt;(fromMap, transformer);<a name="line.1863"></a>
 <span class="sourceLineNo">1864</span>  }<a name="line.1864"></a>
 <span class="sourceLineNo">1865</span><a name="line.1865"></a>
 <span class="sourceLineNo">1866</span>  /**<a name="line.1866"></a>
@@ -1925,7 +1925,7 @@
 <span class="sourceLineNo">1917</span>   */<a name="line.1917"></a>
 <span class="sourceLineNo">1918</span>  public static &lt;K, V1, V2&gt; SortedMap&lt;K, V2&gt; transformEntries(<a name="line.1918"></a>
 <span class="sourceLineNo">1919</span>      SortedMap&lt;K, V1&gt; fromMap, EntryTransformer&lt;? super K, ? super V1, V2&gt; transformer) {<a name="line.1919"></a>
-<span class="sourceLineNo">1920</span>    return new TransformedEntriesSortedMap&lt;K, V1, V2&gt;(fromMap, transformer);<a name="line.1920"></a>
+<span class="sourceLineNo">1920</span>    return new TransformedEntriesSortedMap&lt;&gt;(fromMap, transformer);<a name="line.1920"></a>
 <span class="sourceLineNo">1921</span>  }<a name="line.1921"></a>
 <span class="sourceLineNo">1922</span><a name="line.1922"></a>
 <span class="sourceLineNo">1923</span>  /**<a name="line.1923"></a>
@@ -1984,7 +1984,7 @@
 <span class="sourceLineNo">1976</span>  @GwtIncompatible // NavigableMap<a name="line.1976"></a>
 <span class="sourceLineNo">1977</span>  public static &lt;K, V1, V2&gt; NavigableMap&lt;K, V2&gt; transformEntries(<a name="line.1977"></a>
 <span class="sourceLineNo">1978</span>      final NavigableMap&lt;K, V1&gt; fromMap, EntryTransformer&lt;? super K, ? super V1, V2&gt; transformer) {<a name="line.1978"></a>
-<span class="sourceLineNo">1979</span>    return new TransformedEntriesNavigableMap&lt;K, V1, V2&gt;(fromMap, transformer);<a name="line.1979"></a>
+<span class="sourceLineNo">1979</span>    return new TransformedEntriesNavigableMap&lt;&gt;(fromMap, transformer);<a name="line.1979"></a>
 <span class="sourceLineNo">1980</span>  }<a name="line.1980"></a>
 <span class="sourceLineNo">1981</span><a name="line.1981"></a>
 <span class="sourceLineNo">1982</span>  /**<a name="line.1982"></a>
@@ -2169,7 +2169,7 @@
 <span class="sourceLineNo">2161</span><a name="line.2161"></a>
 <span class="sourceLineNo">2162</span>    @Override<a name="line.2162"></a>
 <span class="sourceLineNo">2163</span>    public Collection&lt;V2&gt; values() {<a name="line.2163"></a>
-<span class="sourceLineNo">2164</span>      return new Values&lt;K, V2&gt;(this);<a name="line.2164"></a>
+<span class="sourceLineNo">2164</span>      return new Values&lt;&gt;(this);<a name="line.2164"></a>
 <span class="sourceLineNo">2165</span>    }<a name="line.2165"></a>
 <span class="sourceLineNo">2166</span>  }<a name="line.2166"></a>
 <span class="sourceLineNo">2167</span><a name="line.2167"></a>
@@ -2792,7 +2792,7 @@
 <span class="sourceLineNo">2784</span>   */<a name="line.2784"></a>
 <span class="sourceLineNo">2785</span>  private static &lt;K, V&gt; Map&lt;K, V&gt; filterFiltered(<a name="line.2785"></a>
 <span class="sourceLineNo">2786</span>      AbstractFilteredMap&lt;K, V&gt; map, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {<a name="line.2786"></a>
-<span class="sourceLineNo">2787</span>    return new FilteredEntryMap&lt;K, V&gt;(<a name="line.2787"></a>
+<span class="sourceLineNo">2787</span>    return new FilteredEntryMap&lt;&gt;(<a name="line.2787"></a>
 <span class="sourceLineNo">2788</span>        map.unfiltered, Predicates.&lt;Entry&lt;K, V&gt;&gt;and(map.predicate, entryPredicate));<a name="line.2788"></a>
 <span class="sourceLineNo">2789</span>  }<a name="line.2789"></a>
 <span class="sourceLineNo">2790</span><a name="line.2790"></a>
@@ -2850,7 +2850,7 @@
 <span class="sourceLineNo">2842</span><a name="line.2842"></a>
 <span class="sourceLineNo">2843</span>    @Override<a name="line.2843"></a>
 <span class="sourceLineNo">2844</span>    Collection&lt;V&gt; createValues() {<a name="line.2844"></a>
-<span class="sourceLineNo">2845</span>      return new FilteredMapValues&lt;K, V&gt;(this, unfiltered, predicate);<a name="line.2845"></a>
+<span class="sourceLineNo">2845</span>      return new FilteredMapValues&lt;&gt;(this, unfiltered, predicate);<a name="line.2845"></a>
 <span class="sourceLineNo">2846</span>    }<a name="line.2846"></a>
 <span class="sourceLineNo">2847</span>  }<a name="line.2847"></a>
 <span class="sourceLineNo">2848</span><a name="line.2848"></a>
@@ -3072,7 +3072,7 @@
 <span class="sourceLineNo">3064</span>  private static &lt;K, V&gt; SortedMap&lt;K, V&gt; filterFiltered(<a name="line.3064"></a>
 <span class="sourceLineNo">3065</span>      FilteredEntrySortedMap&lt;K, V&gt; map, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {<a name="line.3065"></a>
 <span class="sourceLineNo">3066</span>    Predicate&lt;Entry&lt;K, V&gt;&gt; predicate = Predicates.&lt;Entry&lt;K, V&gt;&gt;and(map.predicate, entryPredicate);<a name="line.3066"></a>
-<span class="sourceLineNo">3067</span>    return new FilteredEntrySortedMap&lt;K, V&gt;(map.sortedMap(), predicate);<a name="line.3067"></a>
+<span class="sourceLineNo">3067</span>    return new FilteredEntrySortedMap&lt;&gt;(map.sortedMap(), predicate);<a name="line.3067"></a>
 <span class="sourceLineNo">3068</span>  }<a name="line.3068"></a>
 <span class="sourceLineNo">3069</span><a name="line.3069"></a>
 <span class="sourceLineNo">3070</span>  private static class FilteredEntrySortedMap&lt;K, V&gt; extends FilteredEntryMap&lt;K, V&gt;<a name="line.3070"></a>
@@ -3156,17 +3156,17 @@
 <span class="sourceLineNo">3148</span><a name="line.3148"></a>
 <span class="sourceLineNo">3149</span>    @Override<a name="line.3149"></a>
 <span class="sourceLineNo">3150</span>    public SortedMap&lt;K, V&gt; headMap(K toKey) {<a name="line.3150"></a>
-<span class="sourceLineNo">3151</span>      return new FilteredEntrySortedMap&lt;K, V&gt;(sortedMap().headMap(toKey), predicate);<a name="line.3151"></a>
+<span class="sourceLineNo">3151</span>      return new FilteredEntrySortedMap&lt;&gt;(sortedMap().headMap(toKey), predicate);<a name="line.3151"></a>
 <span class="sourceLineNo">3152</span>    }<a name="line.3152"></a>
 <span class="sourceLineNo">3153</span><a name="line.3153"></a>
 <span class="sourceLineNo">3154</span>    @Override<a name="line.3154"></a>
 <span class="sourceLineNo">3155</span>    public SortedMap&lt;K, V&gt; subMap(K fromKey, K toKey) {<a name="line.3155"></a>
-<span class="sourceLineNo">3156</span>      return new FilteredEntrySortedMap&lt;K, V&gt;(sortedMap().subMap(fromKey, toKey), predicate);<a name="line.3156"></a>
+<span class="sourceLineNo">3156</span>      return new FilteredEntrySortedMap&lt;&gt;(sortedMap().subMap(fromKey, toKey), predicate);<a name="line.3156"></a>
 <span class="sourceLineNo">3157</span>    }<a name="line.3157"></a>
 <span class="sourceLineNo">3158</span><a name="line.3158"></a>
 <span class="sourceLineNo">3159</span>    @Override<a name="line.3159"></a>
 <span class="sourceLineNo">3160</span>    public SortedMap&lt;K, V&gt; tailMap(K fromKey) {<a name="line.3160"></a>
-<span class="sourceLineNo">3161</span>      return new FilteredEntrySortedMap&lt;K, V&gt;(sortedMap().tailMap(fromKey), predicate);<a name="line.3161"></a>
+<span class="sourceLineNo">3161</span>      return new FilteredEntrySortedMap&lt;&gt;(sortedMap().tailMap(fromKey), predicate);<a name="line.3161"></a>
 <span class="sourceLineNo">3162</span>    }<a name="line.3162"></a>
 <span class="sourceLineNo">3163</span>  }<a name="line.3163"></a>
 <span class="sourceLineNo">3164</span><a name="line.3164"></a>
@@ -3179,7 +3179,7 @@
 <span class="sourceLineNo">3171</span>      FilteredEntryNavigableMap&lt;K, V&gt; map, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {<a name="line.3171"></a>
 <span class="sourceLineNo">3172</span>    Predicate&lt;Entry&lt;K, V&gt;&gt; predicate =<a name="line.3172"></a>
 <span class="sourceLineNo">3173</span>        Predicates.&lt;Entry&lt;K, V&gt;&gt;and(map.entryPredicate, entryPredicate);<a name="line.3173"></a>
-<span class="sourceLineNo">3174</span>    return new FilteredEntryNavigableMap&lt;K, V&gt;(map.unfiltered, predicate);<a name="line.3174"></a>
+<span class="sourceLineNo">3174</span>    return new FilteredEntryNavigableMap&lt;&gt;(map.unfiltered, predicate);<a name="line.3174"></a>
 <span class="sourceLineNo">3175</span>  }<a name="line.3175"></a>
 <span class="sourceLineNo">3176</span><a name="line.3176"></a>
 <span class="sourceLineNo">3177</span>  @GwtIncompatible // NavigableMap<a name="line.3177"></a>
@@ -3198,7 +3198,7 @@
 <span class="sourceLineNo">3190</span>        NavigableMap&lt;K, V&gt; unfiltered, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {<a name="line.3190"></a>
 <span class="sourceLineNo">3191</span>      this.unfiltered = checkNotNull(unfiltered);<a name="line.3191"></a>
 <span class="sourceLineNo">3192</span>      this.entryPredicate = entryPredicate;<a name="line.3192"></a>
-<span class="sourceLineNo">3193</span>      this.filteredDelegate = new FilteredEntryMap&lt;K, V&gt;(unfiltered, entryPredicate);<a name="line.3193"></a>
+<span class="sourceLineNo">3193</span>      this.filteredDelegate = new FilteredEntryMap&lt;&gt;(unfiltered, entryPredicate);<a name="line.3193"></a>
 <span class="sourceLineNo">3194</span>    }<a name="line.3194"></a>
 <span class="sourceLineNo">3195</span><a name="line.3195"></a>
 <span class="sourceLineNo">3196</span>    @Override<a name="line.3196"></a>
@@ -3223,7 +3223,7 @@
 <span class="sourceLineNo">3215</span><a name="line.3215"></a>
 <span class="sourceLineNo">3216</span>    @Override<a name="line.3216"></a>
 <span class="sourceLineNo">3217</span>    public Collection&lt;V&gt; values() {<a name="line.3217"></a>
-<span class="sourceLineNo">3218</span>      return new FilteredMapValues&lt;K, V&gt;(this, unfiltered, entryPredicate);<a name="line.3218"></a>
+<span class="sourceLineNo">3218</span>      return new FilteredMapValues&lt;&gt;(this, unfiltered, entryPredicate);<a name="line.3218"></a>
 <span class="sourceLineNo">3219</span>    }<a name="line.3219"></a>
 <span class="sourceLineNo">3220</span><a name="line.3220"></a>
 <span class="sourceLineNo">3221</span>    @Override<a name="line.3221"></a>
@@ -3322,7 +3322,7 @@
 <span class="sourceLineNo">3314</span>  private static &lt;K, V&gt; BiMap&lt;K, V&gt; filterFiltered(<a name="line.3314"></a>
 <span class="sourceLineNo">3315</span>      FilteredEntryBiMap&lt;K, V&gt; map, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {<a name="line.3315"></a>
 <span class="sourceLineNo">3316</span>    Predicate&lt;Entry&lt;K, V&gt;&gt; predicate = Predicates.&lt;Entry&lt;K, V&gt;&gt;and(map.predicate, entryPredicate);<a name="line.3316"></a>
-<span class="sourceLineNo">3317</span>    return new FilteredEntryBiMap&lt;K, V&gt;(map.unfiltered(), predicate);<a name="line.3317"></a>
+<span class="sourceLineNo">3317</span>    return new FilteredEntryBiMap&lt;&gt;(map.unfiltered(), predicate);<a name="line.3317"></a>
 <span class="sourceLineNo">3318</span>  }<a name="line.3318"></a>
 <span class="sourceLineNo">3319</span><a name="line.3319"></a>
 <span class="sourceLineNo">3320</span>  static final class FilteredEntryBiMap&lt;K, V&gt; extends FilteredEntryMap&lt;K, V&gt;<a name="line.3320"></a>
@@ -3343,7 +3343,7 @@
 <span class="sourceLineNo">3335</span>    FilteredEntryBiMap(BiMap&lt;K, V&gt; delegate, Predicate&lt;? super Entry&lt;K, V&gt;&gt; predicate) {<a name="line.3335"></a>
 <span class="sourceLineNo">3336</span>      super(delegate, predicate);<a name="line.3336"></a>
 <span class="sourceLineNo">3337</span>      this.inverse =<a name="line.3337"></a>
-<span class="sourceLineNo">3338</span>          new FilteredEntryBiMap&lt;V, K&gt;(delegate.inverse(), inversePredicate(predicate), this);<a name="line.3338"></a>
+<span class="sourceLineNo">3338</span>          new FilteredEntryBiMap&lt;&gt;(delegate.inverse(), inversePredicate(predicate), this);<a name="line.3338"></a>
 <span class="sourceLineNo">3339</span>    }<a name="line.3339"></a>
 <span class="sourceLineNo">3340</span><a name="line.3340"></a>
 <span class="sourceLineNo">3341</span>    private FilteredEntryBiMap(<a name="line.3341"></a>
@@ -3410,7 +3410,7 @@
 <span class="sourceLineNo">3402</span>      NavigableMap&lt;K, V&gt; result = (NavigableMap) map;<a name="line.3402"></a>
 <span class="sourceLineNo">3403</span>      return result;<a name="line.3403"></a>
 <span class="sourceLineNo">3404</span>    } else {<a name="line.3404"></a>
-<span class="sourceLineNo">3405</span>      return new UnmodifiableNavigableMap&lt;K, V&gt;(map);<a name="line.3405"></a>
+<span class="sourceLineNo">3405</span>      return new UnmodifiableNavigableMap&lt;&gt;(map);<a name="line.3405"></a>
 <span class="sourceLineNo">3406</span>    }<a name="line.3406"></a>
 <span class="sourceLineNo">3407</span>  }<a name="line.3407"></a>
 <span class="sourceLineNo">3408</span><a name="line.3408"></a>
@@ -3505,7 +3505,7 @@
 <span class="sourceLineNo">3497</span>    public NavigableMap&lt;K, V&gt; descendingMap() {<a name="line.3497"></a>
 <span class="sourceLineNo">3498</span>      UnmodifiableNavigableMap&lt;K, V&gt; result = descendingMap;<a name="line.3498"></a>
 <span class="sourceLineNo">3499</span>      return (result == null)<a name="line.3499"></a>
-<span class="sourceLineNo">3500</span>          ? descendingMap = new UnmodifiableNavigableMap&lt;K, V&gt;(delegate.descendingMap(), this)<a name="line.3500"></a>
+<span class="sourceLineNo">3500</span>          ? descendingMap = new UnmodifiableNavigableMap&lt;&gt;(delegate.descendingMap(), this)<a name="line.3500"></a>
 <span class="sourceLineNo">3501</span>          : result;<a name="line.3501"></a>
 <span class="sourceLineNo">3502</span>    }<a name="line.3502"></a>
 <span class="sourceLineNo">3503</span><a name="line.3503"></a>
@@ -3641,7 +3641,7 @@
 <span class="sourceLineNo">3633</span>    }<a name="line.3633"></a>
 <span class="sourceLineNo">3634</span><a name="line.3634"></a>
 <span class="sourceLineNo">3635</span>    Set&lt;K&gt; createKeySet() {<a name="line.3635"></a>
-<span class="sourceLineNo">3636</span>      return new KeySet&lt;K, V&gt;(this);<a name="line.3636"></a>
+<span class="sourceLineNo">3636</span>      return new KeySet&lt;&gt;(this);<a name="line.3636"></a>
 <span class="sourceLineNo">3637</span>    }<a name="line.3637"></a>
 <span class="sourceLineNo">3638</span><a name="line.3638"></a>
 <span class="sourceLineNo">3639</span>    private transient Collection&lt;V&gt; values;<a name="line.3639"></a>
@@ -3653,7 +3653,7 @@
 <span class="sourceLineNo">3645</span>    }<a name="line.3645"></a>
 <span class="sourceLineNo">3646</span><a name="line.3646"></a>
 <span class="sourceLineNo">3647</span>    Collection&lt;V&gt; createValues() {<a name="line.3647"></a>
-<span class="sourceLineNo">3648</span>      return new Values&lt;K, V&gt;(this);<a name="line.3648"></a>
+<span class="sourceLineNo">3648</span>      return new Values&lt;&gt;(this);<a name="line.3648"></a>
 <span class="sourceLineNo">3649</span>    }<a name="line.3649"></a>
 <span class="sourceLineNo">3650</span>  }<a name="line.3650"></a>
 <span class="sourceLineNo">3651</span><a name="line.3651"></a>
@@ -3920,17 +3920,17 @@
 <span class="sourceLineNo">3912</span><a name="line.3912"></a>
 <span class="sourceLineNo">3913</span>    @Override<a name="line.3913"></a>
 <span class="sourceLineNo">3914</span>    public SortedSet&lt;K&gt; subSet(K fromElement, K toElement) {<a name="line.3914"></a>
-<span class="sourceLineNo">3915</span>      return new SortedKeySet&lt;K, V&gt;(map().subMap(fromElement, toElement));<a name="line.3915"></a>
+<span class="sourceLineNo">3915</span>      return new SortedKeySet&lt;&gt;(map().subMap(fromElement, toElement));<a name="line.3915"></a>
 <span class="sourceLineNo">3916</span>    }<a name="line.3916"></a>
 <span class="sourceLineNo">3917</span><a name="line.3917"></a>
 <span class="sourceLineNo">3918</span>    @Override<a name="line.3918"></a>
 <span class="sourceLineNo">3919</span>    public SortedSet&lt;K&gt; headSet(K toElement) {<a name="line.3919"></a>
-<span class="sourceLineNo">3920</span>      return new SortedKeySet&lt;K, V&gt;(map().headMap(toElement));<a name="line.3920"></a>
+<span class="sourceLineNo">3920</span>      return new SortedKeySet&lt;&gt;(map().headMap(toElement));<a name="line.3920"></a>
 <span class="sourceLineNo">3921</span>    }<a name="line.3921"></a>
 <span class="sourceLineNo">3922</span><a name="line.3922"></a>
 <span class="sourceLineNo">3923</span>    @Override<a name="line.3923"></a>
 <span class="sourceLineNo">3924</span>    public SortedSet&lt;K&gt; tailSet(K fromElement) {<a name="line.3924"></a>
-<span class="sourceLineNo">3925</span>      return new SortedKeySet&lt;K, V&gt;(map().tailMap(fromElement));<a name="line.3925"></a>
+<span class="sourceLineNo">3925</span>      return new SortedKeySet&lt;&gt;(map().tailMap(fromElement));<a name="line.3925"></a>
 <span class="sourceLineNo">3926</span>    }<a name="line.3926"></a>
 <span class="sourceLineNo">3927</span><a name="line.3927"></a>
 <span class="sourceLineNo">3928</span>    @Override<a name="line.3928"></a>
@@ -4325,7 +4325,7 @@
 <span class="sourceLineNo">4317</span>    @Override<a name="line.4317"></a>
 <span class="sourceLineNo">4318</span>    public NavigableSet&lt;K&gt; navigableKeySet() {<a name="line.4318"></a>
 <span class="sourceLineNo">4319</span>      NavigableSet&lt;K&gt; result = navigableKeySet;<a name="line.4319"></a>
-<span class="sourceLineNo">4320</span>      return (result == null) ? navigableKeySet = new NavigableKeySet&lt;K, V&gt;(this) : result;<a name="line.4320"></a>
+<span class="sourceLineNo">4320</span>      return (result == null) ? navigableKeySet = new NavigableKeySet&lt;&gt;(this) : result;<a name="line.4320"></a>
 <span class="sourceLineNo">4321</span>    }<a name="line.4321"></a>
 <span class="sourceLineNo">4322</span><a name="line.4322"></a>
 <span class="sourceLineNo">4323</span>    @Override<a name="line.4323"></a>
@@ -4366,7 +4366,7 @@
 <span class="sourceLineNo">4358</span><a name="line.4358"></a>
 <span class="sourceLineNo">4359</span>    @Override<a name="line.4359"></a>
 <span class="sourceLineNo">4360</span>    public Collection&lt;V&gt; values() {<a name="line.4360"></a>
-<span class="sourceLineNo">4361</span>      return new Values&lt;K, V&gt;(this);<a name="line.4361"></a>
+<span class="sourceLineNo">4361</span>      return new Values&lt;&gt;(this);<a name="line.4361"></a>
 <span class="sourceLineNo">4362</span>    }<a name="line.4362"></a>
 <span class="sourceLineNo">4363</span><a name="line.4363"></a>
 <span class="sourceLineNo">4364</span>    @Override<a name="line.4364"></a>
@@ -4379,7 +4379,7 @@
 <span class="sourceLineNo">4371</span>   * Returns a map from the ith element of list to i.<a name="line.4371"></a>
 <span class="sourceLineNo">4372</span>   */<a name="line.4372"></a>
 <span class="sourceLineNo">4373</span>  static &lt;E&gt; ImmutableMap&lt;E, Integer&gt; indexMap(Collection&lt;E&gt; list) {<a name="line.4373"></a>
-<span class="sourceLineNo">4374</span>    ImmutableMap.Builder&lt;E, Integer&gt; builder = new ImmutableMap.Builder&lt;E, Integer&gt;(list.size());<a name="line.4374"></a>
+<span class="sourceLineNo">4374</span>    ImmutableMap.Builder&lt;E, Integer&gt; builder = new ImmutableMap.Builder&lt;&gt;(list.size());<a name="line.4374"></a>
 <span class="sourceLineNo">4375</span>    int i = 0;<a name="line.4375"></a>
 <span class="sourceLineNo">4376</span>    for (E e : list) {<a name="line.4376"></a>
 <span class="sourceLineNo">4377</span>      builder.put(e, i++);<a name="line.4377"></a>

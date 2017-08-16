@@ -50,7 +50,7 @@
 <span class="sourceLineNo">042</span>  public static &lt;F, T&gt; Supplier&lt;T&gt; compose(Function&lt;? super F, T&gt; function, Supplier&lt;F&gt; supplier) {<a name="line.42"></a>
 <span class="sourceLineNo">043</span>    Preconditions.checkNotNull(function);<a name="line.43"></a>
 <span class="sourceLineNo">044</span>    Preconditions.checkNotNull(supplier);<a name="line.44"></a>
-<span class="sourceLineNo">045</span>    return new SupplierComposition&lt;F, T&gt;(function, supplier);<a name="line.45"></a>
+<span class="sourceLineNo">045</span>    return new SupplierComposition&lt;&gt;(function, supplier);<a name="line.45"></a>
 <span class="sourceLineNo">046</span>  }<a name="line.46"></a>
 <span class="sourceLineNo">047</span><a name="line.47"></a>
 <span class="sourceLineNo">048</span>  private static class SupplierComposition&lt;F, T&gt; implements Supplier&lt;T&gt;, Serializable {<a name="line.48"></a>

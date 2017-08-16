@@ -91,7 +91,7 @@
 <span class="sourceLineNo">083</span>   * its keys and values.<a name="line.83"></a>
 <span class="sourceLineNo">084</span>   */<a name="line.84"></a>
 <span class="sourceLineNo">085</span>  public static &lt;K extends Comparable, V extends Comparable&gt; TreeMultimap&lt;K, V&gt; create() {<a name="line.85"></a>
-<span class="sourceLineNo">086</span>    return new TreeMultimap&lt;K, V&gt;(Ordering.natural(), Ordering.natural());<a name="line.86"></a>
+<span class="sourceLineNo">086</span>    return new TreeMultimap&lt;&gt;(Ordering.natural(), Ordering.natural());<a name="line.86"></a>
 <span class="sourceLineNo">087</span>  }<a name="line.87"></a>
 <span class="sourceLineNo">088</span><a name="line.88"></a>
 <span class="sourceLineNo">089</span>  /**<a name="line.89"></a>
@@ -104,7 +104,7 @@
 <span class="sourceLineNo">096</span>   */<a name="line.96"></a>
 <span class="sourceLineNo">097</span>  public static &lt;K, V&gt; TreeMultimap&lt;K, V&gt; create(<a name="line.97"></a>
 <span class="sourceLineNo">098</span>      Comparator&lt;? super K&gt; keyComparator, Comparator&lt;? super V&gt; valueComparator) {<a name="line.98"></a>
-<span class="sourceLineNo">099</span>    return new TreeMultimap&lt;K, V&gt;(checkNotNull(keyComparator), checkNotNull(valueComparator));<a name="line.99"></a>
+<span class="sourceLineNo">099</span>    return new TreeMultimap&lt;&gt;(checkNotNull(keyComparator), checkNotNull(valueComparator));<a name="line.99"></a>
 <span class="sourceLineNo">100</span>  }<a name="line.100"></a>
 <span class="sourceLineNo">101</span><a name="line.101"></a>
 <span class="sourceLineNo">102</span>  /**<a name="line.102"></a>
@@ -115,7 +115,7 @@
 <span class="sourceLineNo">107</span>   */<a name="line.107"></a>
 <span class="sourceLineNo">108</span>  public static &lt;K extends Comparable, V extends Comparable&gt; TreeMultimap&lt;K, V&gt; create(<a name="line.108"></a>
 <span class="sourceLineNo">109</span>      Multimap&lt;? extends K, ? extends V&gt; multimap) {<a name="line.109"></a>
-<span class="sourceLineNo">110</span>    return new TreeMultimap&lt;K, V&gt;(Ordering.natural(), Ordering.natural(), multimap);<a name="line.110"></a>
+<span class="sourceLineNo">110</span>    return new TreeMultimap&lt;&gt;(Ordering.natural(), Ordering.natural(), multimap);<a name="line.110"></a>
 <span class="sourceLineNo">111</span>  }<a name="line.111"></a>
 <span class="sourceLineNo">112</span><a name="line.112"></a>
 <span class="sourceLineNo">113</span>  TreeMultimap(Comparator&lt;? super K&gt; keyComparator, Comparator&lt;? super V&gt; valueComparator) {<a name="line.113"></a>

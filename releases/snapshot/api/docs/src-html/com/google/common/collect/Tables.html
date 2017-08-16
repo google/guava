@@ -157,7 +157,7 @@
 <span class="sourceLineNo">149</span>   */<a name="line.149"></a>
 <span class="sourceLineNo">150</span>  public static &lt;R, C, V&gt; Cell&lt;R, C, V&gt; immutableCell(<a name="line.150"></a>
 <span class="sourceLineNo">151</span>      @Nullable R rowKey, @Nullable C columnKey, @Nullable V value) {<a name="line.151"></a>
-<span class="sourceLineNo">152</span>    return new ImmutableCell&lt;R, C, V&gt;(rowKey, columnKey, value);<a name="line.152"></a>
+<span class="sourceLineNo">152</span>    return new ImmutableCell&lt;&gt;(rowKey, columnKey, value);<a name="line.152"></a>
 <span class="sourceLineNo">153</span>  }<a name="line.153"></a>
 <span class="sourceLineNo">154</span><a name="line.154"></a>
 <span class="sourceLineNo">155</span>  static final class ImmutableCell&lt;R, C, V&gt; extends AbstractCell&lt;R, C, V&gt; implements Serializable {<a name="line.155"></a>
@@ -399,7 +399,7 @@
 <span class="sourceLineNo">391</span>    checkArgument(backingMap.isEmpty());<a name="line.391"></a>
 <span class="sourceLineNo">392</span>    checkNotNull(factory);<a name="line.392"></a>
 <span class="sourceLineNo">393</span>    // TODO(jlevy): Wrap factory to validate that the supplied maps are empty?<a name="line.393"></a>
-<span class="sourceLineNo">394</span>    return new StandardTable&lt;R, C, V&gt;(backingMap, factory);<a name="line.394"></a>
+<span class="sourceLineNo">394</span>    return new StandardTable&lt;&gt;(backingMap, factory);<a name="line.394"></a>
 <span class="sourceLineNo">395</span>  }<a name="line.395"></a>
 <span class="sourceLineNo">396</span><a name="line.396"></a>
 <span class="sourceLineNo">397</span>  /**<a name="line.397"></a>
@@ -431,7 +431,7 @@
 <span class="sourceLineNo">423</span>  @Beta<a name="line.423"></a>
 <span class="sourceLineNo">424</span>  public static &lt;R, C, V1, V2&gt; Table&lt;R, C, V2&gt; transformValues(<a name="line.424"></a>
 <span class="sourceLineNo">425</span>      Table&lt;R, C, V1&gt; fromTable, Function&lt;? super V1, V2&gt; function) {<a name="line.425"></a>
-<span class="sourceLineNo">426</span>    return new TransformedTable&lt;R, C, V1, V2&gt;(fromTable, function);<a name="line.426"></a>
+<span class="sourceLineNo">426</span>    return new TransformedTable&lt;&gt;(fromTable, function);<a name="line.426"></a>
 <span class="sourceLineNo">427</span>  }<a name="line.427"></a>
 <span class="sourceLineNo">428</span><a name="line.428"></a>
 <span class="sourceLineNo">429</span>  private static class TransformedTable&lt;R, C, V1, V2&gt; extends AbstractTable&lt;R, C, V2&gt; {<a name="line.429"></a>
@@ -566,7 +566,7 @@
 <span class="sourceLineNo">558</span>   */<a name="line.558"></a>
 <span class="sourceLineNo">559</span>  public static &lt;R, C, V&gt; Table&lt;R, C, V&gt; unmodifiableTable(<a name="line.559"></a>
 <span class="sourceLineNo">560</span>      Table&lt;? extends R, ? extends C, ? extends V&gt; table) {<a name="line.560"></a>
-<span class="sourceLineNo">561</span>    return new UnmodifiableTable&lt;R, C, V&gt;(table);<a name="line.561"></a>
+<span class="sourceLineNo">561</span>    return new UnmodifiableTable&lt;&gt;(table);<a name="line.561"></a>
 <span class="sourceLineNo">562</span>  }<a name="line.562"></a>
 <span class="sourceLineNo">563</span><a name="line.563"></a>
 <span class="sourceLineNo">564</span>  private static class UnmodifiableTable&lt;R, C, V&gt; extends ForwardingTable&lt;R, C, V&gt;<a name="line.564"></a>
@@ -668,7 +668,7 @@
 <span class="sourceLineNo">660</span>     * table.rowMap().comparator() could return a comparator that only works for the ? extends R.<a name="line.660"></a>
 <span class="sourceLineNo">661</span>     * Collections.unmodifiableSortedMap makes the same distinction.<a name="line.661"></a>
 <span class="sourceLineNo">662</span>     */<a name="line.662"></a>
-<span class="sourceLineNo">663</span>    return new UnmodifiableRowSortedMap&lt;R, C, V&gt;(table);<a name="line.663"></a>
+<span class="sourceLineNo">663</span>    return new UnmodifiableRowSortedMap&lt;&gt;(table);<a name="line.663"></a>
 <span class="sourceLineNo">664</span>  }<a name="line.664"></a>
 <span class="sourceLineNo">665</span><a name="line.665"></a>
 <span class="sourceLineNo">666</span>  static final class UnmodifiableRowSortedMap&lt;R, C, V&gt; extends UnmodifiableTable&lt;R, C, V&gt;<a name="line.666"></a>

@@ -92,7 +92,7 @@
 <span class="sourceLineNo">084</span><a name="line.84"></a>
 <span class="sourceLineNo">085</span>    @Override<a name="line.85"></a>
 <span class="sourceLineNo">086</span>    public TreeMap&lt;C, V&gt; get() {<a name="line.86"></a>
-<span class="sourceLineNo">087</span>      return new TreeMap&lt;C, V&gt;(comparator);<a name="line.87"></a>
+<span class="sourceLineNo">087</span>      return new TreeMap&lt;&gt;(comparator);<a name="line.87"></a>
 <span class="sourceLineNo">088</span>    }<a name="line.88"></a>
 <span class="sourceLineNo">089</span><a name="line.89"></a>
 <span class="sourceLineNo">090</span>    private static final long serialVersionUID = 0;<a name="line.90"></a>
@@ -108,7 +108,7 @@
 <span class="sourceLineNo">100</span>   * without generics.<a name="line.100"></a>
 <span class="sourceLineNo">101</span>   */<a name="line.101"></a>
 <span class="sourceLineNo">102</span>  public static &lt;R extends Comparable, C extends Comparable, V&gt; TreeBasedTable&lt;R, C, V&gt; create() {<a name="line.102"></a>
-<span class="sourceLineNo">103</span>    return new TreeBasedTable&lt;R, C, V&gt;(Ordering.natural(), Ordering.natural());<a name="line.103"></a>
+<span class="sourceLineNo">103</span>    return new TreeBasedTable&lt;&gt;(Ordering.natural(), Ordering.natural());<a name="line.103"></a>
 <span class="sourceLineNo">104</span>  }<a name="line.104"></a>
 <span class="sourceLineNo">105</span><a name="line.105"></a>
 <span class="sourceLineNo">106</span>  /**<a name="line.106"></a>
@@ -122,7 +122,7 @@
 <span class="sourceLineNo">114</span>      Comparator&lt;? super R&gt; rowComparator, Comparator&lt;? super C&gt; columnComparator) {<a name="line.114"></a>
 <span class="sourceLineNo">115</span>    checkNotNull(rowComparator);<a name="line.115"></a>
 <span class="sourceLineNo">116</span>    checkNotNull(columnComparator);<a name="line.116"></a>
-<span class="sourceLineNo">117</span>    return new TreeBasedTable&lt;R, C, V&gt;(rowComparator, columnComparator);<a name="line.117"></a>
+<span class="sourceLineNo">117</span>    return new TreeBasedTable&lt;&gt;(rowComparator, columnComparator);<a name="line.117"></a>
 <span class="sourceLineNo">118</span>  }<a name="line.118"></a>
 <span class="sourceLineNo">119</span><a name="line.119"></a>
 <span class="sourceLineNo">120</span>  /**<a name="line.120"></a>
@@ -131,7 +131,7 @@
 <span class="sourceLineNo">123</span>   */<a name="line.123"></a>
 <span class="sourceLineNo">124</span>  public static &lt;R, C, V&gt; TreeBasedTable&lt;R, C, V&gt; create(TreeBasedTable&lt;R, C, ? extends V&gt; table) {<a name="line.124"></a>
 <span class="sourceLineNo">125</span>    TreeBasedTable&lt;R, C, V&gt; result =<a name="line.125"></a>
-<span class="sourceLineNo">126</span>        new TreeBasedTable&lt;R, C, V&gt;(table.rowComparator(), table.columnComparator());<a name="line.126"></a>
+<span class="sourceLineNo">126</span>        new TreeBasedTable&lt;&gt;(table.rowComparator(), table.columnComparator());<a name="line.126"></a>
 <span class="sourceLineNo">127</span>    result.putAll(table);<a name="line.127"></a>
 <span class="sourceLineNo">128</span>    return result;<a name="line.128"></a>
 <span class="sourceLineNo">129</span>  }<a name="line.129"></a>
@@ -204,7 +204,7 @@
 <span class="sourceLineNo">196</span><a name="line.196"></a>
 <span class="sourceLineNo">197</span>    @Override<a name="line.197"></a>
 <span class="sourceLineNo">198</span>    public SortedSet&lt;C&gt; keySet() {<a name="line.198"></a>
-<span class="sourceLineNo">199</span>      return new Maps.SortedKeySet&lt;C, V&gt;(this);<a name="line.199"></a>
+<span class="sourceLineNo">199</span>      return new Maps.SortedKeySet&lt;&gt;(this);<a name="line.199"></a>
 <span class="sourceLineNo">200</span>    }<a name="line.200"></a>
 <span class="sourceLineNo">201</span><a name="line.201"></a>
 <span class="sourceLineNo">202</span>    @Override<a name="line.202"></a>

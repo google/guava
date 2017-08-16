@@ -81,7 +81,7 @@
 <span class="sourceLineNo">073</span>   * Creates an empty {@code HashBasedTable}.<a name="line.73"></a>
 <span class="sourceLineNo">074</span>   */<a name="line.74"></a>
 <span class="sourceLineNo">075</span>  public static &lt;R, C, V&gt; HashBasedTable&lt;R, C, V&gt; create() {<a name="line.75"></a>
-<span class="sourceLineNo">076</span>    return new HashBasedTable&lt;R, C, V&gt;(new LinkedHashMap&lt;R, Map&lt;C, V&gt;&gt;(), new Factory&lt;C, V&gt;(0));<a name="line.76"></a>
+<span class="sourceLineNo">076</span>    return new HashBasedTable&lt;&gt;(new LinkedHashMap&lt;R, Map&lt;C, V&gt;&gt;(), new Factory&lt;C, V&gt;(0));<a name="line.76"></a>
 <span class="sourceLineNo">077</span>  }<a name="line.77"></a>
 <span class="sourceLineNo">078</span><a name="line.78"></a>
 <span class="sourceLineNo">079</span>  /**<a name="line.79"></a>
@@ -97,7 +97,7 @@
 <span class="sourceLineNo">089</span>      int expectedRows, int expectedCellsPerRow) {<a name="line.89"></a>
 <span class="sourceLineNo">090</span>    checkNonnegative(expectedCellsPerRow, "expectedCellsPerRow");<a name="line.90"></a>
 <span class="sourceLineNo">091</span>    Map&lt;R, Map&lt;C, V&gt;&gt; backingMap = Maps.newLinkedHashMapWithExpectedSize(expectedRows);<a name="line.91"></a>
-<span class="sourceLineNo">092</span>    return new HashBasedTable&lt;R, C, V&gt;(backingMap, new Factory&lt;C, V&gt;(expectedCellsPerRow));<a name="line.92"></a>
+<span class="sourceLineNo">092</span>    return new HashBasedTable&lt;&gt;(backingMap, new Factory&lt;C, V&gt;(expectedCellsPerRow));<a name="line.92"></a>
 <span class="sourceLineNo">093</span>  }<a name="line.93"></a>
 <span class="sourceLineNo">094</span><a name="line.94"></a>
 <span class="sourceLineNo">095</span>  /**<a name="line.95"></a>

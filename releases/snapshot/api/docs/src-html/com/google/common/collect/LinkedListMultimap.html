@@ -180,7 +180,7 @@
 <span class="sourceLineNo">172</span>   * capacity.<a name="line.172"></a>
 <span class="sourceLineNo">173</span>   */<a name="line.173"></a>
 <span class="sourceLineNo">174</span>  public static &lt;K, V&gt; LinkedListMultimap&lt;K, V&gt; create() {<a name="line.174"></a>
-<span class="sourceLineNo">175</span>    return new LinkedListMultimap&lt;K, V&gt;();<a name="line.175"></a>
+<span class="sourceLineNo">175</span>    return new LinkedListMultimap&lt;&gt;();<a name="line.175"></a>
 <span class="sourceLineNo">176</span>  }<a name="line.176"></a>
 <span class="sourceLineNo">177</span><a name="line.177"></a>
 <span class="sourceLineNo">178</span>  /**<a name="line.178"></a>
@@ -191,7 +191,7 @@
 <span class="sourceLineNo">183</span>   * @throws IllegalArgumentException if {@code expectedKeys} is negative<a name="line.183"></a>
 <span class="sourceLineNo">184</span>   */<a name="line.184"></a>
 <span class="sourceLineNo">185</span>  public static &lt;K, V&gt; LinkedListMultimap&lt;K, V&gt; create(int expectedKeys) {<a name="line.185"></a>
-<span class="sourceLineNo">186</span>    return new LinkedListMultimap&lt;K, V&gt;(expectedKeys);<a name="line.186"></a>
+<span class="sourceLineNo">186</span>    return new LinkedListMultimap&lt;&gt;(expectedKeys);<a name="line.186"></a>
 <span class="sourceLineNo">187</span>  }<a name="line.187"></a>
 <span class="sourceLineNo">188</span><a name="line.188"></a>
 <span class="sourceLineNo">189</span>  /**<a name="line.189"></a>
@@ -203,7 +203,7 @@
 <span class="sourceLineNo">195</span>   */<a name="line.195"></a>
 <span class="sourceLineNo">196</span>  public static &lt;K, V&gt; LinkedListMultimap&lt;K, V&gt; create(<a name="line.196"></a>
 <span class="sourceLineNo">197</span>      Multimap&lt;? extends K, ? extends V&gt; multimap) {<a name="line.197"></a>
-<span class="sourceLineNo">198</span>    return new LinkedListMultimap&lt;K, V&gt;(multimap);<a name="line.198"></a>
+<span class="sourceLineNo">198</span>    return new LinkedListMultimap&lt;&gt;(multimap);<a name="line.198"></a>
 <span class="sourceLineNo">199</span>  }<a name="line.199"></a>
 <span class="sourceLineNo">200</span><a name="line.200"></a>
 <span class="sourceLineNo">201</span>  LinkedListMultimap() {<a name="line.201"></a>
@@ -211,7 +211,7 @@
 <span class="sourceLineNo">203</span>  }<a name="line.203"></a>
 <span class="sourceLineNo">204</span><a name="line.204"></a>
 <span class="sourceLineNo">205</span>  private LinkedListMultimap(int expectedKeys) {<a name="line.205"></a>
-<span class="sourceLineNo">206</span>    keyToKeyList = new HashMap&lt;K, KeyList&lt;K, V&gt;&gt;(expectedKeys);<a name="line.206"></a>
+<span class="sourceLineNo">206</span>    keyToKeyList = new HashMap&lt;&gt;(expectedKeys);<a name="line.206"></a>
 <span class="sourceLineNo">207</span>  }<a name="line.207"></a>
 <span class="sourceLineNo">208</span><a name="line.208"></a>
 <span class="sourceLineNo">209</span>  private LinkedListMultimap(Multimap&lt;? extends K, ? extends V&gt; multimap) {<a name="line.209"></a>
@@ -227,7 +227,7 @@
 <span class="sourceLineNo">219</span>   */<a name="line.219"></a>
 <span class="sourceLineNo">220</span>  @CanIgnoreReturnValue<a name="line.220"></a>
 <span class="sourceLineNo">221</span>  private Node&lt;K, V&gt; addNode(@Nullable K key, @Nullable V value, @Nullable Node&lt;K, V&gt; nextSibling) {<a name="line.221"></a>
-<span class="sourceLineNo">222</span>    Node&lt;K, V&gt; node = new Node&lt;K, V&gt;(key, value);<a name="line.222"></a>
+<span class="sourceLineNo">222</span>    Node&lt;K, V&gt; node = new Node&lt;&gt;(key, value);<a name="line.222"></a>
 <span class="sourceLineNo">223</span>    if (head == null) { // empty list<a name="line.223"></a>
 <span class="sourceLineNo">224</span>      head = tail = node;<a name="line.224"></a>
 <span class="sourceLineNo">225</span>      keyToKeyList.put(key, new KeyList&lt;K, V&gt;(node));<a name="line.225"></a>
@@ -238,7 +238,7 @@
 <span class="sourceLineNo">230</span>      tail = node;<a name="line.230"></a>
 <span class="sourceLineNo">231</span>      KeyList&lt;K, V&gt; keyList = keyToKeyList.get(key);<a name="line.231"></a>
 <span class="sourceLineNo">232</span>      if (keyList == null) {<a name="line.232"></a>
-<span class="sourceLineNo">233</span>        keyToKeyList.put(key, keyList = new KeyList&lt;K, V&gt;(node));<a name="line.233"></a>
+<span class="sourceLineNo">233</span>        keyToKeyList.put(key, keyList = new KeyList&lt;&gt;(node));<a name="line.233"></a>
 <span class="sourceLineNo">234</span>        modCount++;<a name="line.234"></a>
 <span class="sourceLineNo">235</span>      } else {<a name="line.235"></a>
 <span class="sourceLineNo">236</span>        keyList.count++;<a name="line.236"></a>
@@ -837,7 +837,7 @@
 <span class="sourceLineNo">829</span><a name="line.829"></a>
 <span class="sourceLineNo">830</span>  @Override<a name="line.830"></a>
 <span class="sourceLineNo">831</span>  Map&lt;K, Collection&lt;V&gt;&gt; createAsMap() {<a name="line.831"></a>
-<span class="sourceLineNo">832</span>    return new Multimaps.AsMap&lt;K, V&gt;(this);<a name="line.832"></a>
+<span class="sourceLineNo">832</span>    return new Multimaps.AsMap&lt;&gt;(this);<a name="line.832"></a>
 <span class="sourceLineNo">833</span>  }<a name="line.833"></a>
 <span class="sourceLineNo">834</span><a name="line.834"></a>
 <span class="sourceLineNo">835</span>  /**<a name="line.835"></a>

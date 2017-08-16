@@ -85,7 +85,7 @@
 <span class="sourceLineNo">077</span>   * MultimapBuilder.hashKeys().arrayListValues().build()}.<a name="line.77"></a>
 <span class="sourceLineNo">078</span>   */<a name="line.78"></a>
 <span class="sourceLineNo">079</span>  public static &lt;K, V&gt; ArrayListMultimap&lt;K, V&gt; create() {<a name="line.79"></a>
-<span class="sourceLineNo">080</span>    return new ArrayListMultimap&lt;K, V&gt;();<a name="line.80"></a>
+<span class="sourceLineNo">080</span>    return new ArrayListMultimap&lt;&gt;();<a name="line.80"></a>
 <span class="sourceLineNo">081</span>  }<a name="line.81"></a>
 <span class="sourceLineNo">082</span><a name="line.82"></a>
 <span class="sourceLineNo">083</span>  /**<a name="line.83"></a>
@@ -101,7 +101,7 @@
 <span class="sourceLineNo">093</span>   *     negative<a name="line.93"></a>
 <span class="sourceLineNo">094</span>   */<a name="line.94"></a>
 <span class="sourceLineNo">095</span>  public static &lt;K, V&gt; ArrayListMultimap&lt;K, V&gt; create(int expectedKeys, int expectedValuesPerKey) {<a name="line.95"></a>
-<span class="sourceLineNo">096</span>    return new ArrayListMultimap&lt;K, V&gt;(expectedKeys, expectedValuesPerKey);<a name="line.96"></a>
+<span class="sourceLineNo">096</span>    return new ArrayListMultimap&lt;&gt;(expectedKeys, expectedValuesPerKey);<a name="line.96"></a>
 <span class="sourceLineNo">097</span>  }<a name="line.97"></a>
 <span class="sourceLineNo">098</span><a name="line.98"></a>
 <span class="sourceLineNo">099</span>  /**<a name="line.99"></a>
@@ -113,7 +113,7 @@
 <span class="sourceLineNo">105</span>   * @param multimap the multimap whose contents are copied to this multimap<a name="line.105"></a>
 <span class="sourceLineNo">106</span>   */<a name="line.106"></a>
 <span class="sourceLineNo">107</span>  public static &lt;K, V&gt; ArrayListMultimap&lt;K, V&gt; create(Multimap&lt;? extends K, ? extends V&gt; multimap) {<a name="line.107"></a>
-<span class="sourceLineNo">108</span>    return new ArrayListMultimap&lt;K, V&gt;(multimap);<a name="line.108"></a>
+<span class="sourceLineNo">108</span>    return new ArrayListMultimap&lt;&gt;(multimap);<a name="line.108"></a>
 <span class="sourceLineNo">109</span>  }<a name="line.109"></a>
 <span class="sourceLineNo">110</span><a name="line.110"></a>
 <span class="sourceLineNo">111</span>  private ArrayListMultimap() {<a name="line.111"></a>

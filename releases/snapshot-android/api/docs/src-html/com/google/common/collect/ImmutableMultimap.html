@@ -129,7 +129,7 @@
 <span class="sourceLineNo">121</span>   * created by the {@link Builder} constructor.<a name="line.121"></a>
 <span class="sourceLineNo">122</span>   */<a name="line.122"></a>
 <span class="sourceLineNo">123</span>  public static &lt;K, V&gt; Builder&lt;K, V&gt; builder() {<a name="line.123"></a>
-<span class="sourceLineNo">124</span>    return new Builder&lt;K, V&gt;();<a name="line.124"></a>
+<span class="sourceLineNo">124</span>    return new Builder&lt;&gt;();<a name="line.124"></a>
 <span class="sourceLineNo">125</span>  }<a name="line.125"></a>
 <span class="sourceLineNo">126</span><a name="line.126"></a>
 <span class="sourceLineNo">127</span>  /**<a name="line.127"></a>
@@ -531,7 +531,7 @@
 <span class="sourceLineNo">523</span><a name="line.523"></a>
 <span class="sourceLineNo">524</span>  @Override<a name="line.524"></a>
 <span class="sourceLineNo">525</span>  ImmutableCollection&lt;Entry&lt;K, V&gt;&gt; createEntries() {<a name="line.525"></a>
-<span class="sourceLineNo">526</span>    return new EntryCollection&lt;K, V&gt;(this);<a name="line.526"></a>
+<span class="sourceLineNo">526</span>    return new EntryCollection&lt;&gt;(this);<a name="line.526"></a>
 <span class="sourceLineNo">527</span>  }<a name="line.527"></a>
 <span class="sourceLineNo">528</span><a name="line.528"></a>
 <span class="sourceLineNo">529</span>  private static class EntryCollection&lt;K, V&gt; extends ImmutableCollection&lt;Entry&lt;K, V&gt;&gt; {<a name="line.529"></a>
@@ -664,7 +664,7 @@
 <span class="sourceLineNo">656</span><a name="line.656"></a>
 <span class="sourceLineNo">657</span>  @Override<a name="line.657"></a>
 <span class="sourceLineNo">658</span>  ImmutableCollection&lt;V&gt; createValues() {<a name="line.658"></a>
-<span class="sourceLineNo">659</span>    return new Values&lt;K, V&gt;(this);<a name="line.659"></a>
+<span class="sourceLineNo">659</span>    return new Values&lt;&gt;(this);<a name="line.659"></a>
 <span class="sourceLineNo">660</span>  }<a name="line.660"></a>
 <span class="sourceLineNo">661</span><a name="line.661"></a>
 <span class="sourceLineNo">662</span>  @Override<a name="line.662"></a>

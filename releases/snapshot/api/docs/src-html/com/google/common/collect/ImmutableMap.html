@@ -182,7 +182,7 @@
 <span class="sourceLineNo">174</span>   */<a name="line.174"></a>
 <span class="sourceLineNo">175</span>  static &lt;K, V&gt; Entry&lt;K, V&gt; entryOf(K key, V value) {<a name="line.175"></a>
 <span class="sourceLineNo">176</span>    checkEntryNotNull(key, value);<a name="line.176"></a>
-<span class="sourceLineNo">177</span>    return new AbstractMap.SimpleImmutableEntry&lt;K, V&gt;(key, value);<a name="line.177"></a>
+<span class="sourceLineNo">177</span>    return new AbstractMap.SimpleImmutableEntry&lt;&gt;(key, value);<a name="line.177"></a>
 <span class="sourceLineNo">178</span>  }<a name="line.178"></a>
 <span class="sourceLineNo">179</span><a name="line.179"></a>
 <span class="sourceLineNo">180</span>  /**<a name="line.180"></a>
@@ -190,7 +190,7 @@
 <span class="sourceLineNo">182</span>   * created by the {@link Builder} constructor.<a name="line.182"></a>
 <span class="sourceLineNo">183</span>   */<a name="line.183"></a>
 <span class="sourceLineNo">184</span>  public static &lt;K, V&gt; Builder&lt;K, V&gt; builder() {<a name="line.184"></a>
-<span class="sourceLineNo">185</span>    return new Builder&lt;K, V&gt;();<a name="line.185"></a>
+<span class="sourceLineNo">185</span>    return new Builder&lt;&gt;();<a name="line.185"></a>
 <span class="sourceLineNo">186</span>  }<a name="line.186"></a>
 <span class="sourceLineNo">187</span><a name="line.187"></a>
 <span class="sourceLineNo">188</span>  /**<a name="line.188"></a>
@@ -208,7 +208,7 @@
 <span class="sourceLineNo">200</span>  @Beta<a name="line.200"></a>
 <span class="sourceLineNo">201</span>  public static &lt;K, V&gt; Builder&lt;K, V&gt; builderWithExpectedSize(int expectedSize) {<a name="line.201"></a>
 <span class="sourceLineNo">202</span>    checkNonnegative(expectedSize, "expectedSize");<a name="line.202"></a>
-<span class="sourceLineNo">203</span>    return new Builder&lt;K, V&gt;(expectedSize);<a name="line.203"></a>
+<span class="sourceLineNo">203</span>    return new Builder&lt;&gt;(expectedSize);<a name="line.203"></a>
 <span class="sourceLineNo">204</span>  }<a name="line.204"></a>
 <span class="sourceLineNo">205</span><a name="line.205"></a>
 <span class="sourceLineNo">206</span>  static void checkNoConflict(<a name="line.206"></a>

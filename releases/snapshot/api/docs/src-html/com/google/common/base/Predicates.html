@@ -255,7 +255,7 @@
 <span class="sourceLineNo">247</span>   */<a name="line.247"></a>
 <span class="sourceLineNo">248</span>  public static &lt;A, B&gt; Predicate&lt;A&gt; compose(<a name="line.248"></a>
 <span class="sourceLineNo">249</span>      Predicate&lt;B&gt; predicate, Function&lt;A, ? extends B&gt; function) {<a name="line.249"></a>
-<span class="sourceLineNo">250</span>    return new CompositionPredicate&lt;A, B&gt;(predicate, function);<a name="line.250"></a>
+<span class="sourceLineNo">250</span>    return new CompositionPredicate&lt;&gt;(predicate, function);<a name="line.250"></a>
 <span class="sourceLineNo">251</span>  }<a name="line.251"></a>
 <span class="sourceLineNo">252</span><a name="line.252"></a>
 <span class="sourceLineNo">253</span>  /**<a name="line.253"></a>
