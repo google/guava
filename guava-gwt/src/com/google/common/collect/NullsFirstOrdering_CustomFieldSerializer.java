@@ -33,7 +33,7 @@ public class NullsFirstOrdering_CustomFieldSerializer {
   @SuppressWarnings("unchecked") // deserialization is unsafe
   public static NullsFirstOrdering<Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
-    return new NullsFirstOrdering<Object>((Ordering<Object>) reader.readObject());
+    return new NullsFirstOrdering<>((Ordering<Object>) reader.readObject());
   }
 
   public static void serialize(SerializationStreamWriter writer, NullsFirstOrdering<?> instance)

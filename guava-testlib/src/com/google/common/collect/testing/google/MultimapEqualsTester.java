@@ -42,7 +42,7 @@ public class MultimapEqualsTester<K, V> extends AbstractMultimapTester<K, V, Mul
   }
 
   public void testEqualsFalse() {
-    List<Entry<K, V>> targetEntries = new ArrayList<Entry<K, V>>(getSampleElements());
+    List<Entry<K, V>> targetEntries = new ArrayList<>(getSampleElements());
     targetEntries.add(Helpers.mapEntry(k0(), v3()));
     new EqualsTester()
         .addEqualityGroup(multimap())

@@ -146,7 +146,7 @@ abstract class AbstractNavigableMap<K, V> extends IteratorBasedAbstractMap<K, V>
 
   @Override
   public NavigableSet<K> navigableKeySet() {
-    return new Maps.NavigableKeySet<K, V>(this);
+    return new Maps.NavigableKeySet<>(this);
   }
 
   @Override

@@ -87,7 +87,7 @@ public final class LinkedHashMultimap<K, V>
    * capacities.
    */
   public static <K, V> LinkedHashMultimap<K, V> create() {
-    return new LinkedHashMultimap<K, V>(DEFAULT_KEY_CAPACITY, DEFAULT_VALUE_SET_CAPACITY);
+    return new LinkedHashMultimap<>(DEFAULT_KEY_CAPACITY, DEFAULT_VALUE_SET_CAPACITY);
   }
 
   /**
@@ -100,7 +100,7 @@ public final class LinkedHashMultimap<K, V>
    *      expectedValuesPerKey} is negative
    */
   public static <K, V> LinkedHashMultimap<K, V> create(int expectedKeys, int expectedValuesPerKey) {
-    return new LinkedHashMultimap<K, V>(
+    return new LinkedHashMultimap<>(
         Maps.capacity(expectedKeys), Maps.capacity(expectedValuesPerKey));
   }
 
@@ -229,7 +229,7 @@ public final class LinkedHashMultimap<K, V>
     checkNonnegative(valueSetCapacity, "expectedValuesPerKey");
 
     this.valueSetCapacity = valueSetCapacity;
-    this.multimapHeaderEntry = new ValueEntry<K, V>(null, null, 0, null);
+    this.multimapHeaderEntry = new ValueEntry<>(null, null, 0, null);
     succeedsInMultimap(multimapHeaderEntry, multimapHeaderEntry);
   }
 
@@ -578,7 +578,7 @@ public final class LinkedHashMultimap<K, V>
   @GwtIncompatible // java.io.ObjectInputStream
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
-    multimapHeaderEntry = new ValueEntry<K, V>(null, null, 0, null);
+    multimapHeaderEntry = new ValueEntry<>(null, null, 0, null);
     succeedsInMultimap(multimapHeaderEntry, multimapHeaderEntry);
     valueSetCapacity = DEFAULT_VALUE_SET_CAPACITY;
     int distinctKeys = stream.readInt();

@@ -40,7 +40,7 @@ public class CompoundOrdering_CustomFieldSerializer {
     for (int i = 0; i < n; i++) {
       comparators.add((Comparator<Object>) reader.readObject());
     }
-    return new CompoundOrdering<Object>(comparators);
+    return new CompoundOrdering<>(comparators);
   }
 
   public static void serialize(SerializationStreamWriter writer, CompoundOrdering<?> instance)

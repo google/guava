@@ -126,7 +126,7 @@ class FilteredEntryMultimap<K, V> extends AbstractMultimap<K, V> implements Filt
 
   @Override
   Collection<V> createValues() {
-    return new FilteredMultimapValues<K, V>(this);
+    return new FilteredMultimapValues<>(this);
   }
 
   @Override

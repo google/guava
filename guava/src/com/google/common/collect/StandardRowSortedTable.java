@@ -99,7 +99,7 @@ class StandardRowSortedTable<R, C, V> extends StandardTable<R, C, V>
 
     @Override
     SortedSet<R> createKeySet() {
-      return new Maps.SortedKeySet<R, Map<C, V>>(this);
+      return new Maps.SortedKeySet<>(this);
     }
 
     @Override

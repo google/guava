@@ -70,7 +70,7 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
 
     @Override
     ImmutableList<Entry<K, V>> createAsList() {
-      return new RegularImmutableAsList<Entry<K, V>>(this, entries);
+      return new RegularImmutableAsList<>(this, entries);
     }
   }
 
@@ -112,7 +112,7 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
   @GwtIncompatible // serialization
   @Override
   Object writeReplace() {
-    return new EntrySetSerializedForm<K, V>(map());
+    return new EntrySetSerializedForm<>(map());
   }
 
   @GwtIncompatible // serialization

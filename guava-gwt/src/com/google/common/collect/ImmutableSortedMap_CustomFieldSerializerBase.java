@@ -40,7 +40,7 @@ final class ImmutableSortedMap_CustomFieldSerializerBase {
     @SuppressWarnings("unchecked")
     Comparator<Object> comparator = (Comparator<Object>) reader.readObject();
 
-    SortedMap<Object, Object> entries = new TreeMap<Object, Object>(comparator);
+    SortedMap<Object, Object> entries = new TreeMap<>(comparator);
     Map_CustomFieldSerializerBase.deserialize(reader, entries);
 
     return ImmutableSortedMap.orderedBy(comparator).putAll(entries).build();

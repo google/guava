@@ -99,7 +99,7 @@ final class SingletonImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     // racy single-check idiom
     ImmutableBiMap<V, K> result = inverse;
     if (result == null) {
-      return inverse = new SingletonImmutableBiMap<V, K>(singleValue, singleKey, this);
+      return inverse = new SingletonImmutableBiMap<>(singleValue, singleKey, this);
     } else {
       return result;
     }

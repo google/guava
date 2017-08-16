@@ -30,7 +30,7 @@ import javax.annotation.Nullable;
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   static final RegularImmutableMultiset<Object> EMPTY =
-      new RegularImmutableMultiset<Object>(ObjectCountHashMap.create());
+      new RegularImmutableMultiset<>(ObjectCountHashMap.create());
 
   private final transient ObjectCountHashMap<E> contents;
   private final transient int size;

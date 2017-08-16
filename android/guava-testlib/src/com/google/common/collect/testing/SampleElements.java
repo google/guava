@@ -90,7 +90,7 @@ public class SampleElements<E> implements Iterable<E> {
 
   public static <K, V> SampleElements<Map.Entry<K, V>> mapEntries(
       SampleElements<K> keys, SampleElements<V> values) {
-    return new SampleElements<Map.Entry<K, V>>(
+    return new SampleElements<>(
         Helpers.mapEntry(keys.e0(), values.e0()),
         Helpers.mapEntry(keys.e1(), values.e1()),
         Helpers.mapEntry(keys.e2(), values.e2()),

@@ -33,7 +33,7 @@ public abstract class TestEnumMapGenerator implements TestMapGenerator<AnEnum, S
 
   @Override
   public SampleElements<Entry<AnEnum, String>> samples() {
-    return new SampleElements<Entry<AnEnum, String>>(
+    return new SampleElements<>(
         Helpers.mapEntry(AnEnum.A, "January"),
         Helpers.mapEntry(AnEnum.B, "February"),
         Helpers.mapEntry(AnEnum.C, "March"),

@@ -49,8 +49,7 @@ public abstract class ListIteratorTester<E> extends AbstractIteratorTester<E, Li
 
   @Override
   protected final Iterable<? extends Stimulus<E, ? super ListIterator<E>>> getStimulusValues() {
-    List<Stimulus<E, ? super ListIterator<E>>> list =
-        new ArrayList<Stimulus<E, ? super ListIterator<E>>>();
+    List<Stimulus<E, ? super ListIterator<E>>> list = new ArrayList<>();
     Helpers.addAll(list, iteratorStimuli());
     Helpers.addAll(list, listIteratorStimuli());
     return list;

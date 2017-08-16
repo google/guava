@@ -37,7 +37,7 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
     implements ClassToInstanceMap<B>, Serializable {
 
   private static final ImmutableClassToInstanceMap<Object> EMPTY =
-      new ImmutableClassToInstanceMap<Object>(ImmutableMap.<Class<?>, Object>of());
+      new ImmutableClassToInstanceMap<>(ImmutableMap.<Class<?>, Object>of());
 
   /**
    * Returns an empty {@code ImmutableClassToInstanceMap}.

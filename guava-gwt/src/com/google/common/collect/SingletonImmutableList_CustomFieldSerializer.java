@@ -34,7 +34,7 @@ public class SingletonImmutableList_CustomFieldSerializer {
   public static SingletonImmutableList<Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
     Object element = reader.readObject();
-    return new SingletonImmutableList<Object>(element);
+    return new SingletonImmutableList<>(element);
   }
 
   public static void serialize(SerializationStreamWriter writer, SingletonImmutableList<?> instance)

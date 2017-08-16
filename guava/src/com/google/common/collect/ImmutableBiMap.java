@@ -72,7 +72,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
    * Returns an immutable bimap containing a single entry.
    */
   public static <K, V> ImmutableBiMap<K, V> of(K k1, V v1) {
-    return new SingletonImmutableBiMap<K, V>(k1, v1);
+    return new SingletonImmutableBiMap<>(k1, v1);
   }
 
   /**
@@ -121,7 +121,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
    * created by the {@link Builder} constructor.
    */
   public static <K, V> Builder<K, V> builder() {
-    return new Builder<K, V>();
+    return new Builder<>();
   }
 
   /**
@@ -139,7 +139,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
   @Beta
   public static <K, V> Builder<K, V> builderWithExpectedSize(int expectedSize) {
     checkNonnegative(expectedSize, "expectedSize");
-    return new Builder<K, V>(expectedSize);
+    return new Builder<>(expectedSize);
   }
 
   /**
