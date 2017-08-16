@@ -87,7 +87,7 @@ public final class Suppliers {
    * href="http://en.wikipedia.org/wiki/Memoization">memoization</a>
    *
    * <p>The returned supplier is thread-safe. The delegate's {@code get()} method will be invoked at
-   * most once unless the underlying {@code get()} threw an exception. The supplier's serialized form 
+   * most once unless the underlying {@code get()} throws an exception. The supplier's serialized form 
    * does not contain the cached value, which will be recalculated when {@code get()} is called on the 
    * reserialized instance.
    *
@@ -187,9 +187,9 @@ public final class Suppliers {
    * <a href="http://en.wikipedia.org/wiki/Memoization">memoization</a>
    *
    * <p>The returned supplier is thread-safe. The supplier's serialized form does not contain the
-   * cached value, which will be recalculated when {@code
-   * get()} is called on the reserialized instance. The actual memoization does not happen when the
-   * underlying delegate throws an exception.
+   * cached value, which will be recalculated when {@code get()} is called on the reserialized 
+   * instance. The actual memoization does not happen when the underlying delegate throws an 
+   * exception.
    *
    * <p>When the underlying delegate throws an exception then this memoizing supplier will keep
    * delegating calls until it returns valid data. 
