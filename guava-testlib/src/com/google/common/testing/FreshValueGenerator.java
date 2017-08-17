@@ -160,7 +160,7 @@ class FreshValueGenerator {
    * The freshness level at which the {@link Empty @Empty} annotated method was invoked to generate
    * instance.
    */
-  private final Map<Type, Integer> emptyInstanceGenerated = new HashMap<Type, Integer>();
+  private final Map<Type, Integer> emptyInstanceGenerated = new HashMap<>();
 
   final <T> void addSampleInstances(Class<T> type, Iterable<? extends T> instances) {
     sampleInstances.putAll(checkNotNull(type), checkNotNull(instances));

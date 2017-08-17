@@ -47,12 +47,12 @@ final class UndirectedMultiNetworkConnections<N, E>
   }
 
   static <N, E> UndirectedMultiNetworkConnections<N, E> of() {
-    return new UndirectedMultiNetworkConnections<N, E>(
+    return new UndirectedMultiNetworkConnections<>(
         new HashMap<E, N>(INNER_CAPACITY, INNER_LOAD_FACTOR));
   }
 
   static <N, E> UndirectedMultiNetworkConnections<N, E> ofImmutable(Map<E, N> incidentEdges) {
-    return new UndirectedMultiNetworkConnections<N, E>(ImmutableMap.copyOf(incidentEdges));
+    return new UndirectedMultiNetworkConnections<>(ImmutableMap.copyOf(incidentEdges));
   }
 
   @LazyInit
@@ -67,7 +67,7 @@ final class UndirectedMultiNetworkConnections<N, E>
     Multiset<N> adjacentNodes = getReference(adjacentNodesReference);
     if (adjacentNodes == null) {
       adjacentNodes = HashMultiset.create(incidentEdgeMap.values());
-      adjacentNodesReference = new SoftReference<Multiset<N>>(adjacentNodes);
+      adjacentNodesReference = new SoftReference<>(adjacentNodes);
     }
     return adjacentNodes;
   }

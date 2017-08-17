@@ -33,7 +33,7 @@ final class ConfigurableMutableGraph<N> extends ForwardingGraph<N> implements Mu
 
   /** Constructs a {@link MutableGraph} with the properties specified in {@code builder}. */
   ConfigurableMutableGraph(AbstractGraphBuilder<? super N> builder) {
-    this.backingValueGraph = new ConfigurableMutableValueGraph<N, Presence>(builder);
+    this.backingValueGraph = new ConfigurableMutableValueGraph<>(builder);
   }
 
   @Override

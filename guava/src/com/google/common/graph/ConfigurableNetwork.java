@@ -89,7 +89,7 @@ class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
         (nodeConnections instanceof TreeMap)
             ? new MapRetrievalCache<N, NetworkConnections<N, E>>(nodeConnections)
             : new MapIteratorCache<N, NetworkConnections<N, E>>(nodeConnections);
-    this.edgeToReferenceNode = new MapIteratorCache<E, N>(edgeToReferenceNode);
+    this.edgeToReferenceNode = new MapIteratorCache<>(edgeToReferenceNode);
   }
 
   @Override

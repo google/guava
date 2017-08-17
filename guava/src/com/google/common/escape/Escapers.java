@@ -90,7 +90,7 @@ public final class Escapers {
    */
   @Beta
   public static final class Builder {
-    private final Map<Character, String> replacementMap = new HashMap<Character, String>();
+    private final Map<Character, String> replacementMap = new HashMap<>();
     private char safeMin = Character.MIN_VALUE;
     private char safeMax = Character.MAX_VALUE;
     private String unsafeReplacement = null;

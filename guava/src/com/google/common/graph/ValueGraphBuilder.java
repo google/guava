@@ -56,12 +56,12 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
 
   /** Returns a {@link ValueGraphBuilder} for building directed graphs. */
   public static ValueGraphBuilder<Object, Object> directed() {
-    return new ValueGraphBuilder<Object, Object>(true);
+    return new ValueGraphBuilder<>(true);
   }
 
   /** Returns a {@link ValueGraphBuilder} for building undirected graphs. */
   public static ValueGraphBuilder<Object, Object> undirected() {
-    return new ValueGraphBuilder<Object, Object>(false);
+    return new ValueGraphBuilder<>(false);
   }
 
   /**
@@ -110,7 +110,7 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
    * ValueGraphBuilder}.
    */
   public <N1 extends N, V1 extends V> MutableValueGraph<N1, V1> build() {
-    return new ConfigurableMutableValueGraph<N1, V1>(this);
+    return new ConfigurableMutableValueGraph<>(this);
   }
 
   @SuppressWarnings("unchecked")
