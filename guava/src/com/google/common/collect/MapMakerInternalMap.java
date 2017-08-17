@@ -2272,7 +2272,7 @@ class MapMakerInternalMap<
     final WeakReference<MapMakerInternalMap<?, ?, ?, ?>> mapReference;
 
     public CleanupMapTask(MapMakerInternalMap<?, ?, ?, ?> map) {
-      this.mapReference = new WeakReference<>(map);
+      this.mapReference = new WeakReference<MapMakerInternalMap<?, ?, ?, ?>>(map);
     }
 
     @Override
