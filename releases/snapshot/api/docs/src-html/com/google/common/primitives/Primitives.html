@@ -50,8 +50,8 @@
 <span class="sourceLineNo">042</span>  // Sad that we can't use a BiMap. :(<a name="line.42"></a>
 <span class="sourceLineNo">043</span><a name="line.43"></a>
 <span class="sourceLineNo">044</span>  static {<a name="line.44"></a>
-<span class="sourceLineNo">045</span>    Map&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt; primToWrap = new HashMap&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt;(16);<a name="line.45"></a>
-<span class="sourceLineNo">046</span>    Map&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt; wrapToPrim = new HashMap&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt;(16);<a name="line.46"></a>
+<span class="sourceLineNo">045</span>    Map&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt; primToWrap = new HashMap&lt;&gt;(16);<a name="line.45"></a>
+<span class="sourceLineNo">046</span>    Map&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt; wrapToPrim = new HashMap&lt;&gt;(16);<a name="line.46"></a>
 <span class="sourceLineNo">047</span><a name="line.47"></a>
 <span class="sourceLineNo">048</span>    add(primToWrap, wrapToPrim, boolean.class, Boolean.class);<a name="line.48"></a>
 <span class="sourceLineNo">049</span>    add(primToWrap, wrapToPrim, byte.class, Byte.class);<a name="line.49"></a>

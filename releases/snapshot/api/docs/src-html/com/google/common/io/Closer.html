@@ -115,7 +115,7 @@
 <span class="sourceLineNo">107</span>  @VisibleForTesting final Suppressor suppressor;<a name="line.107"></a>
 <span class="sourceLineNo">108</span><a name="line.108"></a>
 <span class="sourceLineNo">109</span>  // only need space for 2 elements in most cases, so try to use the smallest array possible<a name="line.109"></a>
-<span class="sourceLineNo">110</span>  private final Deque&lt;Closeable&gt; stack = new ArrayDeque&lt;Closeable&gt;(4);<a name="line.110"></a>
+<span class="sourceLineNo">110</span>  private final Deque&lt;Closeable&gt; stack = new ArrayDeque&lt;&gt;(4);<a name="line.110"></a>
 <span class="sourceLineNo">111</span>  private Throwable thrown;<a name="line.111"></a>
 <span class="sourceLineNo">112</span><a name="line.112"></a>
 <span class="sourceLineNo">113</span>  @VisibleForTesting<a name="line.113"></a>

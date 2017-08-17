@@ -319,7 +319,7 @@
 <span class="sourceLineNo">311</span>      return ((TransposedValueGraph&lt;N, V&gt;) graph).graph;<a name="line.311"></a>
 <span class="sourceLineNo">312</span>    }<a name="line.312"></a>
 <span class="sourceLineNo">313</span><a name="line.313"></a>
-<span class="sourceLineNo">314</span>    return new TransposedValueGraph&lt;N, V&gt;(graph);<a name="line.314"></a>
+<span class="sourceLineNo">314</span>    return new TransposedValueGraph&lt;&gt;(graph);<a name="line.314"></a>
 <span class="sourceLineNo">315</span>  }<a name="line.315"></a>
 <span class="sourceLineNo">316</span><a name="line.316"></a>
 <span class="sourceLineNo">317</span>  // NOTE: this should work as long as the delegate graph's implementation of edges() (like that of<a name="line.317"></a>
@@ -386,7 +386,7 @@
 <span class="sourceLineNo">378</span>      return ((TransposedNetwork&lt;N, E&gt;) network).network;<a name="line.378"></a>
 <span class="sourceLineNo">379</span>    }<a name="line.379"></a>
 <span class="sourceLineNo">380</span><a name="line.380"></a>
-<span class="sourceLineNo">381</span>    return new TransposedNetwork&lt;N, E&gt;(network);<a name="line.381"></a>
+<span class="sourceLineNo">381</span>    return new TransposedNetwork&lt;&gt;(network);<a name="line.381"></a>
 <span class="sourceLineNo">382</span>  }<a name="line.382"></a>
 <span class="sourceLineNo">383</span><a name="line.383"></a>
 <span class="sourceLineNo">384</span>  private static class TransposedNetwork&lt;N, E&gt; extends ForwardingNetwork&lt;N, E&gt; {<a name="line.384"></a>

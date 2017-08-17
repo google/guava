@@ -746,7 +746,7 @@
 <span class="sourceLineNo">738</span><a name="line.738"></a>
 <span class="sourceLineNo">739</span>    // split the path apart<a name="line.739"></a>
 <span class="sourceLineNo">740</span>    Iterable&lt;String&gt; components = Splitter.on('/').omitEmptyStrings().split(pathname);<a name="line.740"></a>
-<span class="sourceLineNo">741</span>    List&lt;String&gt; path = new ArrayList&lt;String&gt;();<a name="line.741"></a>
+<span class="sourceLineNo">741</span>    List&lt;String&gt; path = new ArrayList&lt;&gt;();<a name="line.741"></a>
 <span class="sourceLineNo">742</span><a name="line.742"></a>
 <span class="sourceLineNo">743</span>    // resolve ., .., and //<a name="line.743"></a>
 <span class="sourceLineNo">744</span>    for (String component : components) {<a name="line.744"></a>
