@@ -383,41 +383,45 @@ public class AbstractFutureTest extends TestCase {
       }
     };
     final Set<Object> finalResults = Collections.synchronizedSet(Sets.newIdentityHashSet());
-    Runnable collectResultsRunnable = new Runnable() {
-      @Override public void run() {
-        try {
-          String result = Uninterruptibles.getUninterruptibly(currentFuture.get());
-          finalResults.add(result);
-        } catch (ExecutionException e) {
-          finalResults.add(e.getCause());
-        } catch (CancellationException e) {
-          finalResults.add(e.getCause());
-        } finally {
-          awaitUnchecked(barrier);
-        }
-      }
-    };
-    Runnable collectResultsTimedGetRunnable = new Runnable() {
-      @Override public void run() {
-        Future<String> future = currentFuture.get();
-        while (true) {
-          try {
-            String result = Uninterruptibles.getUninterruptibly(future, 0, TimeUnit.SECONDS);
-            finalResults.add(result);
-            break;
-          } catch (ExecutionException e) {
-            finalResults.add(e.getCause());
-            break;
-          } catch (CancellationException e) {
-            finalResults.add(e.getCause());
-            break;
-          } catch (TimeoutException e) {
-            // loop
+    Runnable collectResultsRunnable =
+        new Runnable() {
+          @Override
+          public void run() {
+            try {
+              String result = Uninterruptibles.getUninterruptibly(currentFuture.get());
+              finalResults.add(result);
+            } catch (ExecutionException e) {
+              finalResults.add(e.getCause());
+            } catch (CancellationException e) {
+              finalResults.add(CancellationException.class);
+            } finally {
+              awaitUnchecked(barrier);
+            }
           }
-        }
-        awaitUnchecked(barrier);
-      }
-    };
+        };
+    Runnable collectResultsTimedGetRunnable =
+        new Runnable() {
+          @Override
+          public void run() {
+            Future<String> future = currentFuture.get();
+            while (true) {
+              try {
+                String result = Uninterruptibles.getUninterruptibly(future, 0, TimeUnit.SECONDS);
+                finalResults.add(result);
+                break;
+              } catch (ExecutionException e) {
+                finalResults.add(e.getCause());
+                break;
+              } catch (CancellationException e) {
+                finalResults.add(CancellationException.class);
+                break;
+              } catch (TimeoutException e) {
+                // loop
+              }
+            }
+            awaitUnchecked(barrier);
+          }
+        };
     List<Callable<?>> allTasks = new ArrayList<Callable<?>>();
     allTasks.add(completeSucessFullyRunnable);
     allTasks.add(completeExceptionallyRunnable);
@@ -454,10 +458,10 @@ public class AbstractFutureTest extends TestCase {
       // inspect state and ensure it is correct!
       // asserts that all get calling threads received the same value
       Object result = Iterables.getOnlyElement(finalResults);
-      if (result instanceof CancellationException) {
+      if (result == CancellationException.class) {
         assertTrue(future.isCancelled());
         if (future.wasInterrupted()) {
-          // We were cancelled, it is possible that setFuture could have succeeded to.
+          // We were cancelled, it is possible that setFuture could have succeeded too.
           assertThat(numSuccessfulSetCalls.get()).isIn(Range.closed(1, 2));
         } else {
           assertThat(numSuccessfulSetCalls.get()).isEqualTo(1);
@@ -818,9 +822,7 @@ public class AbstractFutureTest extends TestCase {
         try {
           future.get(0, TimeUnit.SECONDS);
           return;
-        } catch (InterruptedException e) {
-          return;
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
           return;
         } catch (TimeoutException e) {
           // do nothing
