@@ -473,9 +473,7 @@ class FreshValueGenerator {
       @SuppressWarnings("unchecked") // getAvailableCurrencies() returns Set<Currency>.
       Set<Currency> currencies = (Set<Currency>) method.invoke(null);
       return pickInstance(currencies, Currency.getInstance(Locale.US));
-    } catch (NoSuchMethodException notJava7) {
-      return preJava7FreshCurrency();
-    } catch (InvocationTargetException cantCallGetAvailableCurrencies) {
+    } catch (NoSuchMethodException | InvocationTargetException notJava7) {
       return preJava7FreshCurrency();
     } catch (IllegalAccessException impossible) {
       throw new AssertionError(impossible);

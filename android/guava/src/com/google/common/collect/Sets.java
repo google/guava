@@ -1691,9 +1691,7 @@ public final class Sets {
 
       try {
         return s.size() == o.size() && s.containsAll(o);
-      } catch (NullPointerException ignored) {
-        return false;
-      } catch (ClassCastException ignored) {
+      } catch (NullPointerException | ClassCastException ignored) {
         return false;
       }
     }

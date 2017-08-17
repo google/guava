@@ -181,9 +181,7 @@ public class ConcurrentHashMultisetBenchmark {
     @Override public int count(@Nullable Object element) {
       try {
         return unbox(countMap.get(element));
-      } catch (NullPointerException e) {
-        return 0;
-      } catch (ClassCastException e) {
+      } catch (NullPointerException | ClassCastException e) {
         return 0;
       }
     }
@@ -317,9 +315,7 @@ public class ConcurrentHashMultisetBenchmark {
     private int removeAllOccurrences(@Nullable Object element) {
       try {
         return unbox(countMap.remove(element));
-      } catch (NullPointerException e) {
-        return 0;
-      } catch (ClassCastException e) {
+      } catch (NullPointerException | ClassCastException e) {
         return 0;
       }
     }
@@ -411,15 +407,16 @@ public class ConcurrentHashMultisetBenchmark {
     @Override Set<E> createElementSet() {
       final Set<E> delegate = countMap.keySet();
       return new ForwardingSet<E>() {
-        @Override protected Set<E> delegate() {
+        @Override
+        protected Set<E> delegate() {
           return delegate;
         }
-        @Override public boolean remove(Object object) {
+
+        @Override
+        public boolean remove(Object object) {
           try {
             return delegate.remove(object);
-          } catch (NullPointerException e) {
-            return false;
-          } catch (ClassCastException e) {
+          } catch (NullPointerException | ClassCastException e) {
             return false;
           }
         }

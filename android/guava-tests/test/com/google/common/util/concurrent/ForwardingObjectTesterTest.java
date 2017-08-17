@@ -29,9 +29,8 @@ public class ForwardingObjectTesterTest extends TestCase {
   public void testFailsToForward() {
     try {
       ForwardingObjectTester.testForwardingObject(FailToForward.class);
-    } catch (AssertionError expected) {
-      return;
-    } catch (UnsupportedOperationException expectedOnAndroid) {
+    } catch (AssertionError | UnsupportedOperationException expected) {
+      // UnsupportedOperationException is what we see on Android.
       return;
     }
     fail("Should have thrown");

@@ -279,13 +279,10 @@ final class FuturesGetChecked {
     }
     try {
       return constructor.newInstance(params);
-    } catch (IllegalArgumentException e) {
-      return null;
-    } catch (InstantiationException e) {
-      return null;
-    } catch (IllegalAccessException e) {
-      return null;
-    } catch (InvocationTargetException e) {
+    } catch (IllegalArgumentException
+        | InstantiationException
+        | IllegalAccessException
+        | InvocationTargetException e) {
       return null;
     }
   }

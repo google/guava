@@ -1367,10 +1367,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
       } catch (ExecutionException e) {
         callback.onFailure(e.getCause());
         return;
-      } catch (RuntimeException e) {
-        callback.onFailure(e);
-        return;
-      } catch (Error e) {
+      } catch (RuntimeException | Error e) {
         callback.onFailure(e);
         return;
       }

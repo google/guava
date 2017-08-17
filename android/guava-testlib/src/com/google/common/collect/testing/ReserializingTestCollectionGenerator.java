@@ -58,9 +58,7 @@ public class ReserializingTestCollectionGenerator<E> implements TestCollectionGe
       out.writeObject(object);
       ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bytes.toByteArray()));
       return (T) in.readObject();
-    } catch (IOException e) {
-      Helpers.fail(e, e.getMessage());
-    } catch (ClassNotFoundException e) {
+    } catch (IOException | ClassNotFoundException e) {
       Helpers.fail(e, e.getMessage());
     }
     throw new AssertionError("not reachable");

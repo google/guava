@@ -585,9 +585,7 @@ public final class Predicates {
     public boolean apply(@Nullable T t) {
       try {
         return target.contains(t);
-      } catch (NullPointerException e) {
-        return false;
-      } catch (ClassCastException e) {
+      } catch (NullPointerException | ClassCastException e) {
         return false;
       }
     }

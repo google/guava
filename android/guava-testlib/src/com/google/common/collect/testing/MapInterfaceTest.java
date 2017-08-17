@@ -694,9 +694,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       try {
         entrySet.removeAll(null);
         fail("Expected UnsupportedOperationException or NullPointerException.");
-      } catch (UnsupportedOperationException e) {
-        // Expected.
-      } catch (NullPointerException e) {
+      } catch (UnsupportedOperationException | NullPointerException e) {
         // Expected.
       }
     }
@@ -752,9 +750,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       try {
         entrySet.retainAll(null);
         // We have to tolerate a successful return (Sun bug 4802647)
-      } catch (UnsupportedOperationException e) {
-        // Expected.
-      } catch (NullPointerException e) {
+      } catch (UnsupportedOperationException | NullPointerException e) {
         // Expected.
       }
     }
@@ -792,9 +788,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     try {
       entrySet.add(entryToAdd);
       fail("Expected UnsupportedOperationException or NullPointerException.");
-    } catch (UnsupportedOperationException e) {
-      // Expected.
-    } catch (NullPointerException e) {
+    } catch (UnsupportedOperationException | NullPointerException e) {
       // Expected.
     }
     assertInvariants(map);
@@ -802,9 +796,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     try {
       entrySet.addAll(singleton(entryToAdd));
       fail("Expected UnsupportedOperationException or NullPointerException.");
-    } catch (UnsupportedOperationException e) {
-      // Expected.
-    } catch (NullPointerException e) {
+    } catch (UnsupportedOperationException | NullPointerException e) {
       // Expected.
     }
     assertInvariants(map);
@@ -1381,9 +1373,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       try {
         keySet.removeAll(null);
         fail("Expected UnsupportedOperationException or NullPointerException.");
-      } catch (UnsupportedOperationException e) {
-        // Expected.
-      } catch (NullPointerException e) {
+      } catch (UnsupportedOperationException | NullPointerException e) {
         // Expected.
       }
     }
@@ -1410,9 +1400,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       try {
         keySet.retainAll(null);
         // We have to tolerate a successful return (Sun bug 4802647)
-      } catch (UnsupportedOperationException e) {
-        // Expected.
-      } catch (NullPointerException e) {
+      } catch (UnsupportedOperationException | NullPointerException e) {
         // Expected.
       }
     }
@@ -1579,9 +1567,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       try {
         values.removeAll(null);
         // We have to tolerate a successful return (Sun bug 4802647)
-      } catch (UnsupportedOperationException e) {
-        // Expected.
-      } catch (NullPointerException e) {
+      } catch (UnsupportedOperationException | NullPointerException e) {
         // Expected.
       }
     }
@@ -1637,9 +1623,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       try {
         values.retainAll(null);
         // We have to tolerate a successful return (Sun bug 4802647)
-      } catch (UnsupportedOperationException e) {
-        // Expected.
-      } catch (NullPointerException e) {
+      } catch (UnsupportedOperationException | NullPointerException e) {
         // Expected.
       }
     }

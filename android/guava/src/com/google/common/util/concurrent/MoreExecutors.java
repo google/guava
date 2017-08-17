@@ -723,11 +723,7 @@ public final class MoreExecutors {
           Class.forName("com.google.appengine.api.ThreadManager")
               .getMethod("currentRequestThreadFactory")
               .invoke(null);
-    } catch (IllegalAccessException e) {
-      throw new RuntimeException("Couldn't invoke ThreadManager.currentRequestThreadFactory", e);
-    } catch (ClassNotFoundException e) {
-      throw new RuntimeException("Couldn't invoke ThreadManager.currentRequestThreadFactory", e);
-    } catch (NoSuchMethodException e) {
+    } catch (IllegalAccessException | ClassNotFoundException | NoSuchMethodException e) {
       throw new RuntimeException("Couldn't invoke ThreadManager.currentRequestThreadFactory", e);
     } catch (InvocationTargetException e) {
       throw Throwables.propagate(e.getCause());

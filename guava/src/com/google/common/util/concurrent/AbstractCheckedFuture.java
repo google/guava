@@ -86,9 +86,7 @@ public abstract class AbstractCheckedFuture<V, X extends Exception>
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
       throw mapException(e);
-    } catch (CancellationException e) {
-      throw mapException(e);
-    } catch (ExecutionException e) {
+    } catch (CancellationException | ExecutionException e) {
       throw mapException(e);
     }
   }
@@ -114,9 +112,7 @@ public abstract class AbstractCheckedFuture<V, X extends Exception>
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
       throw mapException(e);
-    } catch (CancellationException e) {
-      throw mapException(e);
-    } catch (ExecutionException e) {
+    } catch (CancellationException | ExecutionException e) {
       throw mapException(e);
     }
   }

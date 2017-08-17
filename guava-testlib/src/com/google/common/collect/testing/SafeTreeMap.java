@@ -104,9 +104,7 @@ public final class SafeTreeMap<K, V> implements Serializable, NavigableMap<K, V>
   public boolean containsKey(Object key) {
     try {
       return delegate.containsKey(checkValid(key));
-    } catch (NullPointerException e) {
-      return false;
-    } catch (ClassCastException e) {
+    } catch (NullPointerException | ClassCastException e) {
       return false;
     }
   }
@@ -137,9 +135,7 @@ public final class SafeTreeMap<K, V> implements Serializable, NavigableMap<K, V>
       public boolean contains(Object object) {
         try {
           return delegate().contains(object);
-        } catch (NullPointerException e) {
-          return false;
-        } catch (ClassCastException e) {
+        } catch (NullPointerException | ClassCastException e) {
           return false;
         }
       }

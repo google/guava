@@ -3703,9 +3703,7 @@ public final class Maps {
     checkNotNull(map);
     try {
       return map.get(key);
-    } catch (ClassCastException e) {
-      return null;
-    } catch (NullPointerException e) {
+    } catch (ClassCastException | NullPointerException e) {
       return null;
     }
   }
@@ -3718,9 +3716,7 @@ public final class Maps {
     checkNotNull(map);
     try {
       return map.containsKey(key);
-    } catch (ClassCastException e) {
-      return false;
-    } catch (NullPointerException e) {
+    } catch (ClassCastException | NullPointerException e) {
       return false;
     }
   }
@@ -3733,9 +3729,7 @@ public final class Maps {
     checkNotNull(map);
     try {
       return map.remove(key);
-    } catch (ClassCastException e) {
-      return null;
-    } catch (NullPointerException e) {
+    } catch (ClassCastException | NullPointerException e) {
       return null;
     }
   }

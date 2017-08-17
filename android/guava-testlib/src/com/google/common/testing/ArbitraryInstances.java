@@ -363,9 +363,7 @@ public final class ArbitraryInstances {
     constructor.setAccessible(true); // accessibility check is too slow
     try {
       return constructor.newInstance();
-    } catch (InstantiationException impossible) {
-      throw new AssertionError(impossible);
-    } catch (IllegalAccessException impossible) {
+    } catch (InstantiationException | IllegalAccessException impossible) {
       throw new AssertionError(impossible);
     } catch (InvocationTargetException e) {
       logger.log(Level.WARNING, "Exception while invoking default constructor.", e.getCause());

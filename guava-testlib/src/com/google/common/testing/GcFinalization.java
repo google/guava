@@ -146,9 +146,7 @@ public final class GcFinalization {
       try {
         future.get(1L, SECONDS);
         return;
-      } catch (CancellationException ok) {
-        return;
-      } catch (ExecutionException ok) {
+      } catch (CancellationException | ExecutionException ok) {
         return;
       } catch (InterruptedException ie) {
         throw new RuntimeException("Unexpected interrupt while waiting for future", ie);

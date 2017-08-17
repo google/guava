@@ -596,9 +596,7 @@ final class Types {
           return (String) getTypeName.invoke(type);
         } catch (NoSuchMethodException e) {
           throw new AssertionError("Type.getTypeName should be available in Java 8");
-        } catch (InvocationTargetException e) {
-          throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
+        } catch (InvocationTargetException | IllegalAccessException e) {
           throw new RuntimeException(e);
         }
       }

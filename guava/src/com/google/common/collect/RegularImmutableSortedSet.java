@@ -132,9 +132,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
           return false;
         }
       }
-    } catch (NullPointerException e) {
-      return false;
-    } catch (ClassCastException e) {
+    } catch (NullPointerException | ClassCastException e) {
       return false;
     }
   }

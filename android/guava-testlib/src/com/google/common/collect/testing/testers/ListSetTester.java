@@ -111,8 +111,7 @@ public class ListSetTester<E> extends AbstractListTester<E> {
     try {
       getList().set(0, e3());
       fail("set() should throw UnsupportedOperationException or IndexOutOfBoundsException");
-    } catch (UnsupportedOperationException tolerated) {
-    } catch (IndexOutOfBoundsException tolerated) {
+    } catch (UnsupportedOperationException | IndexOutOfBoundsException tolerated) {
     }
     expectUnchanged();
   }

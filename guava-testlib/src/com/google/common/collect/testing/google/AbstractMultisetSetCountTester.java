@@ -346,8 +346,7 @@ public abstract class AbstractMultisetSetCountTester<E> extends AbstractMultiset
   public void testSetCount_noOpNull_nullUnsupported() {
     try {
       assertSetCount(null, 0);
-    } catch (NullPointerException tolerated) {
-    } catch (UnsupportedOperationException tolerated) {
+    } catch (NullPointerException | UnsupportedOperationException tolerated) {
     }
   }
 
@@ -379,8 +378,7 @@ public abstract class AbstractMultisetSetCountTester<E> extends AbstractMultiset
       fail(
           "calling setCount() with a negative count should throw "
               + "IllegalArgumentException or UnsupportedOperationException");
-    } catch (IllegalArgumentException expected) {
-    } catch (UnsupportedOperationException expected) {
+    } catch (IllegalArgumentException | UnsupportedOperationException expected) {
     }
   }
 

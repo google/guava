@@ -45,9 +45,7 @@ final class Platform {
       ObjectInputStream in = new ObjectInputStream(
           new ByteArrayInputStream(bytes.toByteArray()));
       return (T) in.readObject();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    } catch (ClassNotFoundException e) {
+    } catch (IOException | ClassNotFoundException e) {
       throw new RuntimeException(e);
     }
   }
