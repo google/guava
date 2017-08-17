@@ -553,6 +553,7 @@ public class ThrowablesTest extends TestCase {
       Throwables.getRootCause(cause);
       fail("Should have throw IAE");
     } catch (IllegalArgumentException expected) {
+      assertThat(expected).hasCauseThat().isSameAs(cause);
     }
   }
 
@@ -641,6 +642,7 @@ public class ThrowablesTest extends TestCase {
       Throwables.getCausalChain(cause);
       fail("Should have throw IAE");
     } catch (IllegalArgumentException expected) {
+      assertThat(expected).hasCauseThat().isSameAs(cause);
     }
   }
 

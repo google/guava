@@ -262,7 +262,7 @@ public final class Throwables {
       throwable = cause;
 
       if (throwable == slowPointer) {
-        throw new IllegalArgumentException("Loop in causal chain detected @ " + throwable);
+        throw new IllegalArgumentException("Loop in causal chain detected.", throwable);
       }
       if (advanceSlowPointer) {
         slowPointer = slowPointer.getCause();
@@ -305,7 +305,7 @@ public final class Throwables {
       causes.add(throwable);
 
       if (throwable == slowPointer) {
-        throw new IllegalArgumentException("Loop in causal chain detected @ " + throwable);
+        throw new IllegalArgumentException("Loop in causal chain detected.", throwable);
       }
       if (advanceSlowPointer) {
         slowPointer = slowPointer.getCause();
