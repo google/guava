@@ -39,11 +39,11 @@ final class UndirectedNetworkConnections<N, E> extends AbstractUndirectedNetwork
   }
 
   static <N, E> UndirectedNetworkConnections<N, E> of() {
-    return new UndirectedNetworkConnections<N, E>(HashBiMap.<E, N>create(EXPECTED_DEGREE));
+    return new UndirectedNetworkConnections<>(HashBiMap.<E, N>create(EXPECTED_DEGREE));
   }
 
   static <N, E> UndirectedNetworkConnections<N, E> ofImmutable(Map<E, N> incidentEdges) {
-    return new UndirectedNetworkConnections<N, E>(ImmutableBiMap.copyOf(incidentEdges));
+    return new UndirectedNetworkConnections<>(ImmutableBiMap.copyOf(incidentEdges));
   }
 
   @Override

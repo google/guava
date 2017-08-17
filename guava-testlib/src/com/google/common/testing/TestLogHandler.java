@@ -56,7 +56,7 @@ import javax.annotation.Nullable;
 @GwtCompatible
 public class TestLogHandler extends Handler {
   /** We will keep a private list of all logged records */
-  private final List<LogRecord> list = new ArrayList<LogRecord>();
+  private final List<LogRecord> list = new ArrayList<>();
 
   /**
    * Adds the most recently logged record to our list.
@@ -87,7 +87,7 @@ public class TestLogHandler extends Handler {
    * an ImmutableList)
    */
   public synchronized List<LogRecord> getStoredLogRecords() {
-    List<LogRecord> result = new ArrayList<LogRecord>(list);
+    List<LogRecord> result = new ArrayList<>(list);
     return Collections.unmodifiableList(result);
   }
 }

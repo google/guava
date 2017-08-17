@@ -180,7 +180,7 @@ final class Types {
   @Nullable
   static Type getComponentType(Type type) {
     checkNotNull(type);
-    final AtomicReference<Type> result = new AtomicReference<Type>();
+    final AtomicReference<Type> result = new AtomicReference<>();
     new TypeVisitor() {
       @Override
       void visitTypeVariable(TypeVariable<?> t) {

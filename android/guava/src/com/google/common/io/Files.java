@@ -738,7 +738,7 @@ public final class Files {
 
     // split the path apart
     Iterable<String> components = Splitter.on('/').omitEmptyStrings().split(pathname);
-    List<String> path = new ArrayList<String>();
+    List<String> path = new ArrayList<>();
 
     // resolve ., .., and //
     for (String component : components) {

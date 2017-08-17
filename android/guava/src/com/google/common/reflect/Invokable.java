@@ -62,7 +62,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
 
   /** Returns {@link Invokable} of {@code method}. */
   public static Invokable<?, Object> from(Method method) {
-    return new MethodInvokable<Object>(method);
+    return new MethodInvokable<>(method);
   }
 
   /** Returns {@link Invokable} of {@code constructor}. */

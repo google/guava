@@ -311,7 +311,7 @@ public final class Graphs {
       return ((TransposedValueGraph<N, V>) graph).graph;
     }
 
-    return new TransposedValueGraph<N, V>(graph);
+    return new TransposedValueGraph<>(graph);
   }
 
   // NOTE: this should work as long as the delegate graph's implementation of edges() (like that of
@@ -378,7 +378,7 @@ public final class Graphs {
       return ((TransposedNetwork<N, E>) network).network;
     }
 
-    return new TransposedNetwork<N, E>(network);
+    return new TransposedNetwork<>(network);
   }
 
   private static class TransposedNetwork<N, E> extends ForwardingNetwork<N, E> {

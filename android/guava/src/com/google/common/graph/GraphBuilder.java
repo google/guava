@@ -55,12 +55,12 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
 
   /** Returns a {@link GraphBuilder} for building directed graphs. */
   public static GraphBuilder<Object> directed() {
-    return new GraphBuilder<Object>(true);
+    return new GraphBuilder<>(true);
   }
 
   /** Returns a {@link GraphBuilder} for building undirected graphs. */
   public static GraphBuilder<Object> undirected() {
-    return new GraphBuilder<Object>(false);
+    return new GraphBuilder<>(false);
   }
 
   /**

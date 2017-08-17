@@ -42,7 +42,7 @@ public class TearDownStack implements TearDownAccepter {
   private static final Logger logger = Logger.getLogger(TearDownStack.class.getName());
 
   @GuardedBy("stack")
-  final LinkedList<TearDown> stack = new LinkedList<TearDown>();
+  final LinkedList<TearDown> stack = new LinkedList<>();
 
   private final boolean suppressThrows;
 
@@ -65,7 +65,7 @@ public class TearDownStack implements TearDownAccepter {
    * Causes teardown to execute.
    */
   public final void runTearDown() {
-    List<Throwable> exceptions = new ArrayList<Throwable>();
+    List<Throwable> exceptions = new ArrayList<>();
     List<TearDown> stackCopy;
     synchronized (stack) {
       stackCopy = Lists.newArrayList(stack);
