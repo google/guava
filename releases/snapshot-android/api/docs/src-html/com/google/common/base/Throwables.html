@@ -270,7 +270,7 @@
 <span class="sourceLineNo">262</span>      throwable = cause;<a name="line.262"></a>
 <span class="sourceLineNo">263</span><a name="line.263"></a>
 <span class="sourceLineNo">264</span>      if (throwable == slowPointer) {<a name="line.264"></a>
-<span class="sourceLineNo">265</span>        throw new IllegalArgumentException("Loop in causal chain detected @ " + throwable);<a name="line.265"></a>
+<span class="sourceLineNo">265</span>        throw new IllegalArgumentException("Loop in causal chain detected.", throwable);<a name="line.265"></a>
 <span class="sourceLineNo">266</span>      }<a name="line.266"></a>
 <span class="sourceLineNo">267</span>      if (advanceSlowPointer) {<a name="line.267"></a>
 <span class="sourceLineNo">268</span>        slowPointer = slowPointer.getCause();<a name="line.268"></a>
@@ -313,7 +313,7 @@
 <span class="sourceLineNo">305</span>      causes.add(throwable);<a name="line.305"></a>
 <span class="sourceLineNo">306</span><a name="line.306"></a>
 <span class="sourceLineNo">307</span>      if (throwable == slowPointer) {<a name="line.307"></a>
-<span class="sourceLineNo">308</span>        throw new IllegalArgumentException("Loop in causal chain detected @ " + throwable);<a name="line.308"></a>
+<span class="sourceLineNo">308</span>        throw new IllegalArgumentException("Loop in causal chain detected.", throwable);<a name="line.308"></a>
 <span class="sourceLineNo">309</span>      }<a name="line.309"></a>
 <span class="sourceLineNo">310</span>      if (advanceSlowPointer) {<a name="line.310"></a>
 <span class="sourceLineNo">311</span>        slowPointer = slowPointer.getCause();<a name="line.311"></a>
