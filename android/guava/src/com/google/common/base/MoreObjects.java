@@ -88,7 +88,7 @@ public final class MoreObjects {
    *       .add("x", 1)
    *       .add("y", null)
    *       .toString();
-   *   }}</pre>
+   *   }</pre>
    *
    * <p>Note that in GWT, class names are often obfuscated.
    *
