@@ -34,7 +34,7 @@ public class ImmutableEntry_CustomFieldSerializer {
       throws SerializationException {
     Object key = reader.readObject();
     Object value = reader.readObject();
-    return new ImmutableEntry<Object, Object>(key, value);
+    return new ImmutableEntry<>(key, value);
   }
 
   public static void serialize(SerializationStreamWriter writer, ImmutableEntry<?, ?> instance)

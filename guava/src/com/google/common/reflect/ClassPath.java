@@ -485,7 +485,7 @@ public final class ClassPath {
 
     @Override
     protected void scanDirectory(ClassLoader classloader, File directory) throws IOException {
-      Set<File> currentPath = new HashSet<File>();
+      Set<File> currentPath = new HashSet<>();
       currentPath.add(directory.getCanonicalFile());
       scanDirectory(directory, classloader, "", currentPath);
     }

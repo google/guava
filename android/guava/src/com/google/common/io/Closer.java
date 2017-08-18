@@ -107,7 +107,7 @@ public final class Closer implements Closeable {
   @VisibleForTesting final Suppressor suppressor;
 
   // only need space for 2 elements in most cases, so try to use the smallest array possible
-  private final Deque<Closeable> stack = new ArrayDeque<Closeable>(4);
+  private final Deque<Closeable> stack = new ArrayDeque<>(4);
   private Throwable thrown;
 
   @VisibleForTesting

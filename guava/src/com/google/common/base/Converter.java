@@ -239,7 +239,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
   @CanIgnoreReturnValue
   public Converter<B, A> reverse() {
     Converter<B, A> result = reverse;
-    return (result == null) ? reverse = new ReverseConverter<A, B>(this) : result;
+    return (result == null) ? reverse = new ReverseConverter<>(this) : result;
   }
 
   private static final class ReverseConverter<A, B> extends Converter<B, A>
@@ -321,7 +321,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * Package-private non-final implementation of andThen() so only we can override it.
    */
   <C> Converter<A, C> doAndThen(Converter<B, C> secondConverter) {
-    return new ConverterComposition<A, B, C>(this, checkNotNull(secondConverter));
+    return new ConverterComposition<>(this, checkNotNull(secondConverter));
   }
 
   private static final class ConverterComposition<A, B, C> extends Converter<A, C>
@@ -431,7 +431,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
   public static <A, B> Converter<A, B> from(
       Function<? super A, ? extends B> forwardFunction,
       Function<? super B, ? extends A> backwardFunction) {
-    return new FunctionBasedConverter<A, B>(forwardFunction, backwardFunction);
+    return new FunctionBasedConverter<>(forwardFunction, backwardFunction);
   }
 
   private static final class FunctionBasedConverter<A, B> extends Converter<A, B>

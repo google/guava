@@ -172,7 +172,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
    * capacity.
    */
   public static <K, V> LinkedListMultimap<K, V> create() {
-    return new LinkedListMultimap<K, V>();
+    return new LinkedListMultimap<>();
   }
 
   /**
@@ -183,7 +183,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
    * @throws IllegalArgumentException if {@code expectedKeys} is negative
    */
   public static <K, V> LinkedListMultimap<K, V> create(int expectedKeys) {
-    return new LinkedListMultimap<K, V>(expectedKeys);
+    return new LinkedListMultimap<>(expectedKeys);
   }
 
   /**
@@ -195,7 +195,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
    */
   public static <K, V> LinkedListMultimap<K, V> create(
       Multimap<? extends K, ? extends V> multimap) {
-    return new LinkedListMultimap<K, V>(multimap);
+    return new LinkedListMultimap<>(multimap);
   }
 
   LinkedListMultimap() {
@@ -203,7 +203,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   private LinkedListMultimap(int expectedKeys) {
-    keyToKeyList = new HashMap<K, KeyList<K, V>>(expectedKeys);
+    keyToKeyList = new HashMap<>(expectedKeys);
   }
 
   private LinkedListMultimap(Multimap<? extends K, ? extends V> multimap) {
@@ -219,7 +219,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
    */
   @CanIgnoreReturnValue
   private Node<K, V> addNode(@Nullable K key, @Nullable V value, @Nullable Node<K, V> nextSibling) {
-    Node<K, V> node = new Node<K, V>(key, value);
+    Node<K, V> node = new Node<>(key, value);
     if (head == null) { // empty list
       head = tail = node;
       keyToKeyList.put(key, new KeyList<K, V>(node));
@@ -230,7 +230,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
       tail = node;
       KeyList<K, V> keyList = keyToKeyList.get(key);
       if (keyList == null) {
-        keyToKeyList.put(key, keyList = new KeyList<K, V>(node));
+        keyToKeyList.put(key, keyList = new KeyList<>(node));
         modCount++;
       } else {
         keyList.count++;
@@ -829,7 +829,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
 
   @Override
   Map<K, Collection<V>> createAsMap() {
-    return new Multimaps.AsMap<K, V>(this);
+    return new Multimaps.AsMap<>(this);
   }
 
   /**

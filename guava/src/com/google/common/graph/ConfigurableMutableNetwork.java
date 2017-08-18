@@ -23,7 +23,6 @@ import static com.google.common.graph.GraphConstants.PARALLEL_EDGES_NOT_ALLOWED;
 import static com.google.common.graph.GraphConstants.REUSING_EDGE;
 import static com.google.common.graph.GraphConstants.SELF_LOOPS_NOT_ALLOWED;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
@@ -40,7 +39,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-@GwtIncompatible
 final class ConfigurableMutableNetwork<N, E> extends ConfigurableNetwork<N, E>
     implements MutableNetwork<N, E> {
 

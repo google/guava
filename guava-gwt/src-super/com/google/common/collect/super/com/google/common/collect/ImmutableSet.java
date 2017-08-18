@@ -202,6 +202,10 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     return new Builder<E>();
   }
 
+  public static <E> Builder<E> builderWithExpectedSize(int size) {
+    return new Builder<E>(size);
+  }
+
   public static class Builder<E> extends ImmutableCollection.Builder<E> {
     // accessed directly by ImmutableSortedSet
     final ArrayList<E> contents;

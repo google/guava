@@ -53,7 +53,7 @@ public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>> extends Abstr
    */
   public static <K extends Enum<K>, V extends Enum<V>> EnumBiMap<K, V> create(
       Class<K> keyType, Class<V> valueType) {
-    return new EnumBiMap<K, V>(keyType, valueType);
+    return new EnumBiMap<>(keyType, valueType);
   }
 
   /**

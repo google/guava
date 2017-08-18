@@ -56,8 +56,7 @@ public class BiMapTestSuiteBuilder<K, V>
 
   @Override
   protected List<Class<? extends AbstractTester>> getTesters() {
-    List<Class<? extends AbstractTester>> testers =
-        new ArrayList<Class<? extends AbstractTester>>();
+    List<Class<? extends AbstractTester>> testers = new ArrayList<>();
     testers.add(BiMapPutTester.class);
     testers.add(BiMapInverseTester.class);
     testers.add(BiMapRemoveTester.class);
@@ -117,7 +116,7 @@ public class BiMapTestSuiteBuilder<K, V>
   }
 
   private static Set<Feature<?>> computeInverseFeatures(Set<Feature<?>> mapFeatures) {
-    Set<Feature<?>> inverseFeatures = new HashSet<Feature<?>>(mapFeatures);
+    Set<Feature<?>> inverseFeatures = new HashSet<>(mapFeatures);
 
     boolean nullKeys = inverseFeatures.remove(MapFeature.ALLOWS_NULL_KEYS);
     boolean nullValues = inverseFeatures.remove(MapFeature.ALLOWS_NULL_VALUES);

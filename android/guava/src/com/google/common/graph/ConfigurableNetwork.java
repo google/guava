@@ -23,7 +23,6 @@ import static com.google.common.graph.GraphConstants.DEFAULT_NODE_COUNT;
 import static com.google.common.graph.GraphConstants.EDGE_NOT_IN_GRAPH;
 import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableSet;
 import java.util.Map;
 import java.util.Set;
@@ -49,7 +48,6 @@ import javax.annotation.Nullable;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-@GwtIncompatible
 class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   private final boolean isDirected;
   private final boolean allowsParallelEdges;
@@ -91,7 +89,7 @@ class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
         (nodeConnections instanceof TreeMap)
             ? new MapRetrievalCache<N, NetworkConnections<N, E>>(nodeConnections)
             : new MapIteratorCache<N, NetworkConnections<N, E>>(nodeConnections);
-    this.edgeToReferenceNode = new MapIteratorCache<E, N>(edgeToReferenceNode);
+    this.edgeToReferenceNode = new MapIteratorCache<>(edgeToReferenceNode);
   }
 
   @Override

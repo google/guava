@@ -1329,8 +1329,7 @@ public final class Sets {
     private final transient CartesianList<E> delegate;
 
     static <E> Set<List<E>> create(List<? extends Set<? extends E>> sets) {
-      ImmutableList.Builder<ImmutableSet<E>> axesBuilder =
-          new ImmutableList.Builder<ImmutableSet<E>>(sets.size());
+      ImmutableList.Builder<ImmutableSet<E>> axesBuilder = new ImmutableList.Builder<>(sets.size());
       for (Set<? extends E> set : sets) {
         ImmutableSet<E> copy = ImmutableSet.copyOf(set);
         if (copy.isEmpty()) {

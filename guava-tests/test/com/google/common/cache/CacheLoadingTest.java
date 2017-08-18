@@ -416,24 +416,25 @@ public class CacheLoadingTest extends TestCase {
   }
 
   public void testBulkLoad_extra() throws ExecutionException {
-    CacheLoader<Object, Object> loader = new CacheLoader<Object, Object>() {
-      @Override
-      public Object load(Object key) throws Exception {
-        return new Object();
-      }
+    CacheLoader<Object, Object> loader =
+        new CacheLoader<Object, Object>() {
+          @Override
+          public Object load(Object key) throws Exception {
+            return new Object();
+          }
 
-      @Override
-      public Map<Object, Object> loadAll(Iterable<? extends Object> keys) throws Exception {
-        Map<Object, Object> result = Maps.newHashMap();
-        for (Object key : keys) {
-          Object value = new Object();
-          result.put(key, value);
-          // add extra entries
-          result.put(value, key);
-        }
-        return result;
-      }
-    };
+          @Override
+          public Map<Object, Object> loadAll(Iterable<?> keys) throws Exception {
+            Map<Object, Object> result = Maps.newHashMap();
+            for (Object key : keys) {
+              Object value = new Object();
+              result.put(key, value);
+              // add extra entries
+              result.put(value, key);
+            }
+            return result;
+          }
+        };
     LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().build(loader);
 
     Object[] lookupKeys = new Object[] { new Object(), new Object(), new Object() };
@@ -452,23 +453,24 @@ public class CacheLoadingTest extends TestCase {
   public void testBulkLoad_clobber() throws ExecutionException {
     final Object extraKey = new Object();
     final Object extraValue = new Object();
-    CacheLoader<Object, Object> loader = new CacheLoader<Object, Object>() {
-      @Override
-      public Object load(Object key) throws Exception {
-        throw new AssertionError();
-      }
+    CacheLoader<Object, Object> loader =
+        new CacheLoader<Object, Object>() {
+          @Override
+          public Object load(Object key) throws Exception {
+            throw new AssertionError();
+          }
 
-      @Override
-      public Map<Object, Object> loadAll(Iterable<? extends Object> keys) throws Exception {
-        Map<Object, Object> result = Maps.newHashMap();
-        for (Object key : keys) {
-          Object value = new Object();
-          result.put(key, value);
-        }
-        result.put(extraKey, extraValue);
-        return result;
-      }
-    };
+          @Override
+          public Map<Object, Object> loadAll(Iterable<?> keys) throws Exception {
+            Map<Object, Object> result = Maps.newHashMap();
+            for (Object key : keys) {
+              Object value = new Object();
+              result.put(key, value);
+            }
+            result.put(extraKey, extraValue);
+            return result;
+          }
+        };
     LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().build(loader);
     cache.asMap().put(extraKey, extraKey);
     assertSame(extraKey, cache.asMap().get(extraKey));
@@ -489,24 +491,25 @@ public class CacheLoadingTest extends TestCase {
   public void testBulkLoad_clobberNullValue() throws ExecutionException {
     final Object extraKey = new Object();
     final Object extraValue = new Object();
-    CacheLoader<Object, Object> loader = new CacheLoader<Object, Object>() {
-      @Override
-      public Object load(Object key) throws Exception {
-        throw new AssertionError();
-      }
+    CacheLoader<Object, Object> loader =
+        new CacheLoader<Object, Object>() {
+          @Override
+          public Object load(Object key) throws Exception {
+            throw new AssertionError();
+          }
 
-      @Override
-      public Map<Object, Object> loadAll(Iterable<? extends Object> keys) throws Exception {
-        Map<Object, Object> result = Maps.newHashMap();
-        for (Object key : keys) {
-          Object value = new Object();
-          result.put(key, value);
-        }
-        result.put(extraKey, extraValue);
-        result.put(extraValue, null);
-        return result;
-      }
-    };
+          @Override
+          public Map<Object, Object> loadAll(Iterable<?> keys) throws Exception {
+            Map<Object, Object> result = Maps.newHashMap();
+            for (Object key : keys) {
+              Object value = new Object();
+              result.put(key, value);
+            }
+            result.put(extraKey, extraValue);
+            result.put(extraValue, null);
+            return result;
+          }
+        };
     LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().build(loader);
     cache.asMap().put(extraKey, extraKey);
     assertSame(extraKey, cache.asMap().get(extraKey));
@@ -527,24 +530,25 @@ public class CacheLoadingTest extends TestCase {
   public void testBulkLoad_clobberNullKey() throws ExecutionException {
     final Object extraKey = new Object();
     final Object extraValue = new Object();
-    CacheLoader<Object, Object> loader = new CacheLoader<Object, Object>() {
-      @Override
-      public Object load(Object key) throws Exception {
-        throw new AssertionError();
-      }
+    CacheLoader<Object, Object> loader =
+        new CacheLoader<Object, Object>() {
+          @Override
+          public Object load(Object key) throws Exception {
+            throw new AssertionError();
+          }
 
-      @Override
-      public Map<Object, Object> loadAll(Iterable<? extends Object> keys) throws Exception {
-        Map<Object, Object> result = Maps.newHashMap();
-        for (Object key : keys) {
-          Object value = new Object();
-          result.put(key, value);
-        }
-        result.put(extraKey, extraValue);
-        result.put(null, extraKey);
-        return result;
-      }
-    };
+          @Override
+          public Map<Object, Object> loadAll(Iterable<?> keys) throws Exception {
+            Map<Object, Object> result = Maps.newHashMap();
+            for (Object key : keys) {
+              Object value = new Object();
+              result.put(key, value);
+            }
+            result.put(extraKey, extraValue);
+            result.put(null, extraKey);
+            return result;
+          }
+        };
     LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().build(loader);
     cache.asMap().put(extraKey, extraKey);
     assertSame(extraKey, cache.asMap().get(extraKey));
@@ -565,20 +569,21 @@ public class CacheLoadingTest extends TestCase {
   public void testBulkLoad_partial() throws ExecutionException {
     final Object extraKey = new Object();
     final Object extraValue = new Object();
-    CacheLoader<Object, Object> loader = new CacheLoader<Object, Object>() {
-      @Override
-      public Object load(Object key) throws Exception {
-        throw new AssertionError();
-      }
+    CacheLoader<Object, Object> loader =
+        new CacheLoader<Object, Object>() {
+          @Override
+          public Object load(Object key) throws Exception {
+            throw new AssertionError();
+          }
 
-      @Override
-      public Map<Object, Object> loadAll(Iterable<? extends Object> keys) throws Exception {
-        Map<Object, Object> result = Maps.newHashMap();
-        // ignore request keys
-        result.put(extraKey, extraValue);
-        return result;
-      }
-    };
+          @Override
+          public Map<Object, Object> loadAll(Iterable<?> keys) throws Exception {
+            Map<Object, Object> result = Maps.newHashMap();
+            // ignore request keys
+            result.put(extraKey, extraValue);
+            return result;
+          }
+        };
     LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().build(loader);
 
     Object[] lookupKeys = new Object[] { new Object(), new Object(), new Object() };
@@ -820,19 +825,21 @@ public class CacheLoadingTest extends TestCase {
   }
 
   public void testBulkLoadNullMap() throws ExecutionException {
-    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
-        .recordStats()
-        .build(new CacheLoader<Object, Object>() {
-          @Override
-          public Object load(Object key) {
-            throw new AssertionError();
-          }
+    LoadingCache<Object, Object> cache =
+        CacheBuilder.newBuilder()
+            .recordStats()
+            .build(
+                new CacheLoader<Object, Object>() {
+                  @Override
+                  public Object load(Object key) {
+                    throw new AssertionError();
+                  }
 
-          @Override
-          public Map<Object, Object> loadAll(Iterable<? extends Object> keys) {
-            return null;
-          }
-        });
+                  @Override
+                  public Map<Object, Object> loadAll(Iterable<?> keys) {
+                    return null;
+                  }
+                });
 
     CacheStats stats = cache.stats();
     assertEquals(0, stats.missCount());

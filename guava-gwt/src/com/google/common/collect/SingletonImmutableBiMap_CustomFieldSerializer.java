@@ -36,7 +36,7 @@ public class SingletonImmutableBiMap_CustomFieldSerializer {
       SerializationStreamReader reader) throws SerializationException {
     Object key = checkNotNull(reader.readObject());
     Object value = checkNotNull(reader.readObject());
-    return new SingletonImmutableBiMap<Object, Object>(key, value);
+    return new SingletonImmutableBiMap<>(key, value);
   }
 
   public static void serialize(

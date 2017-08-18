@@ -23,6 +23,7 @@ import static com.google.common.collect.ImmutableMapEntry.createEntryArray;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMapEntry.NonTerminalImmutableMapEntry;
 import com.google.j2objc.annotations.Weak;
 import java.io.Serializable;
@@ -40,11 +41,11 @@ import javax.annotation.Nullable;
 final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   @SuppressWarnings("unchecked")
   static final ImmutableMap<Object, Object> EMPTY =
-      new RegularImmutableMap<Object, Object>(
-          (Entry<Object, Object>[]) ImmutableMap.EMPTY_ENTRY_ARRAY, null, 0);
-  
+      new RegularImmutableMap<>((Entry<Object, Object>[]) ImmutableMap.EMPTY_ENTRY_ARRAY, null, 0);
+
   // entries in insertion order
-  private final transient Entry<K, V>[] entries;
+  @VisibleForTesting
+  final transient Entry<K, V>[] entries;
   // array of linked lists of entries
   private final transient ImmutableMapEntry<K, V>[] table;
   // 'and' with an int to get a table index
@@ -88,13 +89,13 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
         newEntry =
             reusable ? (ImmutableMapEntry<K, V>) entry : new ImmutableMapEntry<K, V>(key, value);
       } else {
-        newEntry = new NonTerminalImmutableMapEntry<K, V>(key, value, existing);
+        newEntry = new NonTerminalImmutableMapEntry<>(key, value, existing);
       }
       table[tableIndex] = newEntry;
       entries[entryIndex] = newEntry;
       checkNoConflictInKeyBucket(key, newEntry, existing);
     }
-    return new RegularImmutableMap<K, V>(entries, table, mask);
+    return new RegularImmutableMap<>(entries, table, mask);
   }
 
   private RegularImmutableMap(Entry<K, V>[] entries, ImmutableMapEntry<K, V>[] table, int mask) {
@@ -166,12 +167,12 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   @Override
   ImmutableSet<Entry<K, V>> createEntrySet() {
-    return new ImmutableMapEntrySet.RegularEntrySet<K, V>(this, entries);
+    return new ImmutableMapEntrySet.RegularEntrySet<>(this, entries);
   }
 
   @Override
   ImmutableSet<K> createKeySet() {
-    return new KeySet<K, V>(this);
+    return new KeySet<>(this);
   }
 
   @GwtCompatible(emulated = true)
@@ -226,7 +227,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   @Override
   ImmutableCollection<V> createValues() {
-    return new Values<K, V>(this);
+    return new Values<>(this);
   }
 
   @GwtCompatible(emulated = true)

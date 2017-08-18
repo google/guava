@@ -29,7 +29,7 @@ import javax.annotation.Nullable;
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 final class RegularImmutableSet<E> extends ImmutableSet<E> {
   static final RegularImmutableSet<Object> EMPTY =
-      new RegularImmutableSet<Object>(new Object[0], 0, null, 0, 0);
+      new RegularImmutableSet<>(new Object[0], 0, null, 0, 0);
 
   @VisibleForTesting final transient Object[] elements;
   // the same elements in hashed positions (plus nulls)

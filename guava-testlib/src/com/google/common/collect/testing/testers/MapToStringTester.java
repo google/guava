@@ -78,7 +78,7 @@ public class MapToStringTester<K, V> extends AbstractMapTester<K, V> {
   }
 
   private String expectedToString(Set<Entry<K, V>> entries) {
-    Map<K, V> reference = new LinkedHashMap<K, V>();
+    Map<K, V> reference = new LinkedHashMap<>();
     for (Map.Entry<K, V> entry : entries) {
       reference.put(entry.getKey(), entry.getValue());
     }

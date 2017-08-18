@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.graph.GraphConstants.INNER_CAPACITY;
 import static com.google.common.graph.GraphConstants.INNER_LOAD_FACTOR;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Multiset;
@@ -40,7 +39,6 @@ import javax.annotation.Nullable;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-@GwtIncompatible
 final class UndirectedMultiNetworkConnections<N, E>
     extends AbstractUndirectedNetworkConnections<N, E> {
 
@@ -49,12 +47,12 @@ final class UndirectedMultiNetworkConnections<N, E>
   }
 
   static <N, E> UndirectedMultiNetworkConnections<N, E> of() {
-    return new UndirectedMultiNetworkConnections<N, E>(
+    return new UndirectedMultiNetworkConnections<>(
         new HashMap<E, N>(INNER_CAPACITY, INNER_LOAD_FACTOR));
   }
 
   static <N, E> UndirectedMultiNetworkConnections<N, E> ofImmutable(Map<E, N> incidentEdges) {
-    return new UndirectedMultiNetworkConnections<N, E>(ImmutableMap.copyOf(incidentEdges));
+    return new UndirectedMultiNetworkConnections<>(ImmutableMap.copyOf(incidentEdges));
   }
 
   @LazyInit
@@ -69,7 +67,7 @@ final class UndirectedMultiNetworkConnections<N, E>
     Multiset<N> adjacentNodes = getReference(adjacentNodesReference);
     if (adjacentNodes == null) {
       adjacentNodes = HashMultiset.create(incidentEdgeMap.values());
-      adjacentNodesReference = new SoftReference<Multiset<N>>(adjacentNodes);
+      adjacentNodesReference = new SoftReference<>(adjacentNodes);
     }
     return adjacentNodes;
   }

@@ -100,7 +100,6 @@ import javax.annotation.Nullable;
  * @param <E> Edge parameter type
  * @since 20.0
  */
-// TODO(b/35456940): Update the documentation to reflect the new interfaces
 @Beta
 public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
   //

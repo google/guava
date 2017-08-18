@@ -40,7 +40,7 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
         Entry<K, V> entry = Iterables.getOnlyElement(map.entrySet());
         return ImmutableMap.of(entry.getKey(), entry.getValue());
       default:
-        return new ImmutableEnumMap<K, V>(map);
+        return new ImmutableEnumMap<>(map);
     }
   }
 
@@ -95,7 +95,7 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
   // All callers of the constructor are restricted to <K extends Enum<K>>.
   @Override
   Object writeReplace() {
-    return new EnumSerializedForm<K, V>(delegate);
+    return new EnumSerializedForm<>(delegate);
   }
 
   /*
@@ -109,7 +109,7 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
     }
 
     Object readResolve() {
-      return new ImmutableEnumMap<K, V>(delegate);
+      return new ImmutableEnumMap<>(delegate);
     }
 
     private static final long serialVersionUID = 0;

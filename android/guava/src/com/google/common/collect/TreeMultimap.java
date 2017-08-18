@@ -83,7 +83,7 @@ public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V>
    * its keys and values.
    */
   public static <K extends Comparable, V extends Comparable> TreeMultimap<K, V> create() {
-    return new TreeMultimap<K, V>(Ordering.natural(), Ordering.natural());
+    return new TreeMultimap<>(Ordering.natural(), Ordering.natural());
   }
 
   /**
@@ -96,7 +96,7 @@ public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V>
    */
   public static <K, V> TreeMultimap<K, V> create(
       Comparator<? super K> keyComparator, Comparator<? super V> valueComparator) {
-    return new TreeMultimap<K, V>(checkNotNull(keyComparator), checkNotNull(valueComparator));
+    return new TreeMultimap<>(checkNotNull(keyComparator), checkNotNull(valueComparator));
   }
 
   /**
@@ -107,7 +107,7 @@ public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V>
    */
   public static <K extends Comparable, V extends Comparable> TreeMultimap<K, V> create(
       Multimap<? extends K, ? extends V> multimap) {
-    return new TreeMultimap<K, V>(Ordering.natural(), Ordering.natural(), multimap);
+    return new TreeMultimap<>(Ordering.natural(), Ordering.natural(), multimap);
   }
 
   TreeMultimap(Comparator<? super K> keyComparator, Comparator<? super V> valueComparator) {

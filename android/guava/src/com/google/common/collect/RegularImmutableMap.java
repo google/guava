@@ -21,11 +21,10 @@ import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-
+import com.google.common.annotations.VisibleForTesting;
 import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Map;
-
 import javax.annotation.Nullable;
 
 /**
@@ -39,7 +38,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   @SuppressWarnings("unchecked")
   static final ImmutableMap<Object, Object> EMPTY =
-      new RegularImmutableMap<Object, Object>(null, new Object[0], 0);
+      new RegularImmutableMap<>(null, new Object[0], 0);
   
   /*
    * This is an implementation of ImmutableMap optimized especially for Android, which does not like
@@ -59,7 +58,8 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
    */
 
   private final transient int[] hashTable;
-  private final transient Object[] alternatingKeysAndValues;
+  @VisibleForTesting
+  final transient Object[] alternatingKeysAndValues;
   private final transient int size;
 
   @SuppressWarnings("unchecked")
@@ -164,7 +164,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   @Override
   ImmutableSet<Entry<K, V>> createEntrySet() {
-    return new EntrySet<K, V>(this, alternatingKeysAndValues, 0, size);
+    return new EntrySet<>(this, alternatingKeysAndValues, 0, size);
   }
   
   static class EntrySet<K, V> extends ImmutableSet<Entry<K, V>> {

@@ -42,7 +42,7 @@ public final class LineReader {
   private final CharBuffer cbuf = createBuffer();
   private final char[] buf = cbuf.array();
 
-  private final Queue<String> lines = new LinkedList<String>();
+  private final Queue<String> lines = new LinkedList<>();
   private final LineBuffer lineBuf =
       new LineBuffer() {
         @Override

@@ -322,6 +322,21 @@ public class ImmutableMapTest extends TestCase {
           "one", 1, "two", 2, "three", 3, "four", 4, "five", 5);
     }
 
+    @GwtIncompatible
+    public void testBuilderExactlySizedReusesArray() {
+      ImmutableMap.Builder<Integer, Integer> builder = ImmutableMap.builderWithExpectedSize(10);
+      Map.Entry<Integer, Integer>[] builderArray = builder.entries;
+      for (int i = 0; i < 10; i++) {
+        builder.put(i, i);
+      }
+      Map.Entry<Integer, Integer>[] builderArrayAfterPuts = builder.entries;
+      RegularImmutableMap<Integer, Integer> map =
+          (RegularImmutableMap<Integer, Integer>) builder.build();
+      Map.Entry<Integer, Integer>[] mapInternalArray = map.entries;
+      assertSame(builderArray, builderArrayAfterPuts);
+      assertSame(builderArray, mapInternalArray);
+    }
+
     public void testBuilder_orderEntriesByValue() {
       ImmutableMap<String, Integer> map = new Builder<String, Integer>()
           .orderEntriesByValue(Ordering.natural())

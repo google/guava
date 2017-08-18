@@ -139,7 +139,7 @@ public abstract class CacheLoader<K, V> {
    * @return a cache loader that loads values by passing each key to {@code function}
    */
   public static <K, V> CacheLoader<K, V> from(Function<K, V> function) {
-    return new FunctionToCacheLoader<K, V>(function);
+    return new FunctionToCacheLoader<>(function);
   }
 
   private static final class FunctionToCacheLoader<K, V> extends CacheLoader<K, V>

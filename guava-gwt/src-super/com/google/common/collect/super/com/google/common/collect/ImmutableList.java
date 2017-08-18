@@ -296,6 +296,10 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     return new Builder<E>();
   }
 
+  public static <E> Builder<E> builderWithExpectedSize(int expectedSize) {
+    return new Builder<E>(expectedSize);
+  }
+
   public static final class Builder<E> extends ImmutableCollection.Builder<E> {
     private final ArrayList<E> contents;
 

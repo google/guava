@@ -16,8 +16,6 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.util.concurrent.Futures.catchingAsync;
-import static com.google.common.util.concurrent.Futures.transformAsync;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 
@@ -152,7 +150,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @GwtIncompatible // TODO
   public static <V, X extends Exception> CheckedFuture<V, X> makeChecked(
       ListenableFuture<V> future, Function<? super Exception, X> mapper) {
-    return new MappingCheckedFuture<V, X>(checkNotNull(future), mapper);
+    return new MappingCheckedFuture<>(checkNotNull(future), mapper);
   }
 
   /**
@@ -190,7 +188,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @GwtIncompatible // TODO
   public static <V, X extends Exception> CheckedFuture<V, X> immediateCheckedFuture(
       @Nullable V value) {
-    return new ImmediateSuccessfulCheckedFuture<V, X>(value);
+    return new ImmediateSuccessfulCheckedFuture<>(value);
   }
 
   /**
@@ -237,7 +235,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   public static <V, X extends Exception> CheckedFuture<V, X> immediateFailedCheckedFuture(
       X exception) {
     checkNotNull(exception);
-    return new ImmediateFailedCheckedFuture<V, X>(exception);
+    return new ImmediateFailedCheckedFuture<>(exception);
   }
 
   /**
@@ -819,7 +817,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
 
   /**
    * Creates a new {@code ListenableFuture} whose value is a list containing the values of all its
-   * input futures, if all succeed. If any input fails, the returned future fails immediately.
+   * input futures, if all succeed.
    *
    * <p>The list of results is in the same order as the input list.
    *
@@ -838,7 +836,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
 
   /**
    * Creates a new {@code ListenableFuture} whose value is a list containing the values of all its
-   * input futures, if all succeed. If any input fails, the returned future fails immediately.
+   * input futures, if all succeed.
    *
    * <p>The list of results is in the same order as the input list.
    *

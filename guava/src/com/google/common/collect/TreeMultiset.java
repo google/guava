@@ -122,7 +122,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     this.range = GeneralRange.all(comparator);
     this.header = new AvlNode<E>(null, 1);
     successor(header, header);
-    this.rootReference = new Reference<AvlNode<E>>();
+    this.rootReference = new Reference<>();
   }
 
   /**

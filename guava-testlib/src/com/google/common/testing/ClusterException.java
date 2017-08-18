@@ -18,6 +18,7 @@ package com.google.common.testing;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -66,7 +67,7 @@ final class ClusterException extends RuntimeException {
     super(
         exceptions.size() + " exceptions were thrown. The first exception is listed as a cause.",
         exceptions.iterator().next());
-    ArrayList<Throwable> temp = new ArrayList<Throwable>();
+    ArrayList<Throwable> temp = new ArrayList<>();
     temp.addAll(exceptions);
     this.exceptions = Collections.unmodifiableCollection(temp);
   }
@@ -75,10 +76,7 @@ final class ClusterException extends RuntimeException {
    * @see #create(Collection)
    */
   public static RuntimeException create(Throwable... exceptions) {
-    ArrayList<Throwable> temp = new ArrayList<Throwable>();
-    for (Throwable exception : exceptions) {
-      temp.add(exception);
-    }
+    ArrayList<Throwable> temp = new ArrayList<>(Arrays.asList(exceptions));
     return create(temp);
   }
 

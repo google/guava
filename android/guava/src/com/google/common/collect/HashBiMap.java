@@ -70,7 +70,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
    * @throws IllegalArgumentException if the specified expected size is negative
    */
   public static <K, V> HashBiMap<K, V> create(int expectedSize) {
-    return new HashBiMap<K, V>(expectedSize);
+    return new HashBiMap<>(expectedSize);
   }
 
   /**
@@ -286,7 +286,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
       }
     }
 
-    BiEntry<K, V> newEntry = new BiEntry<K, V>(key, keyHash, value, valueHash);
+    BiEntry<K, V> newEntry = new BiEntry<>(key, keyHash, value, valueHash);
     if (oldEntryForKey != null) {
       delete(oldEntryForKey);
       insert(newEntry, oldEntryForKey);
@@ -325,7 +325,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     if (oldEntryForValue != null) {
       delete(oldEntryForValue);
     }
-    BiEntry<K, V> newEntry = new BiEntry<K, V>(key, keyHash, value, valueHash);
+    BiEntry<K, V> newEntry = new BiEntry<>(key, keyHash, value, valueHash);
     insert(newEntry, oldEntryForKey);
     if (oldEntryForKey != null) {
       oldEntryForKey.prevInKeyInsertionOrder = null;
@@ -501,8 +501,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
           }
           checkArgument(seekByValue(value, valueHash) == null, "value already present: %s", value);
           delete(delegate);
-          BiEntry<K, V> newEntry =
-              new BiEntry<K, V>(delegate.key, delegate.keyHash, value, valueHash);
+          BiEntry<K, V> newEntry = new BiEntry<>(delegate.key, delegate.keyHash, value, valueHash);
           insert(newEntry, delegate);
           delegate.prevInKeyInsertionOrder = null;
           delegate.nextInKeyInsertionOrder = null;
@@ -660,7 +659,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
                 checkArgument(seekByKey(key, keyHash) == null, "value already present: %s", key);
                 delete(delegate);
                 BiEntry<K, V> newEntry =
-                    new BiEntry<K, V>(key, keyHash, delegate.value, delegate.valueHash);
+                    new BiEntry<>(key, keyHash, delegate.value, delegate.valueHash);
                 delegate = newEntry;
                 insert(newEntry, null);
                 expectedModCount = modCount;
@@ -675,7 +674,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     }
 
     Object writeReplace() {
-      return new InverseSerializedForm<K, V>(HashBiMap.this);
+      return new InverseSerializedForm<>(HashBiMap.this);
     }
   }
 

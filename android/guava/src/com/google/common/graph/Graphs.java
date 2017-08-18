@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
 
 import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
@@ -311,7 +310,7 @@ public final class Graphs {
       return ((TransposedValueGraph<N, V>) graph).graph;
     }
 
-    return new TransposedValueGraph<N, V>(graph);
+    return new TransposedValueGraph<>(graph);
   }
 
   // NOTE: this should work as long as the delegate graph's implementation of edges() (like that of
@@ -364,7 +363,6 @@ public final class Graphs {
    * Returns a view of {@code network} with the direction (if any) of every edge reversed. All other
    * properties remain intact, and further updates to {@code network} will be reflected in the view.
    */
-  @GwtIncompatible
   public static <N, E> Network<N, E> transpose(Network<N, E> network) {
     if (!network.isDirected()) {
       return network; // the transpose of an undirected network is an identical network
@@ -374,10 +372,9 @@ public final class Graphs {
       return ((TransposedNetwork<N, E>) network).network;
     }
 
-    return new TransposedNetwork<N, E>(network);
+    return new TransposedNetwork<>(network);
   }
 
-  @GwtIncompatible
   private static class TransposedNetwork<N, E> extends ForwardingNetwork<N, E> {
     private final Network<N, E> network;
 
@@ -503,7 +500,6 @@ public final class Graphs {
    *
    * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
    */
-  @GwtIncompatible
   public static <N, E> MutableNetwork<N, E> inducedSubgraph(
       Network<N, E> network, Iterable<? extends N> nodes) {
     MutableNetwork<N, E> subgraph = (nodes instanceof Collection)
@@ -550,7 +546,6 @@ public final class Graphs {
   }
 
   /** Creates a mutable copy of {@code network} with the same nodes and edges. */
-  @GwtIncompatible
   public static <N, E> MutableNetwork<N, E> copyOf(Network<N, E> network) {
     MutableNetwork<N, E> copy =
         NetworkBuilder.from(network)

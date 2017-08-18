@@ -88,7 +88,7 @@ final class HashTestUtils {
     }
   };
 
-  static enum RandomHasherAction {
+  enum RandomHasherAction {
     PUT_BOOLEAN() {
       @Override void performAction(Random random, Iterable<? extends PrimitiveSink> sinks) {
         boolean value = random.nextBoolean();

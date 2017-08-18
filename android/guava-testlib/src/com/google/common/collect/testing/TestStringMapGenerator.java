@@ -34,7 +34,7 @@ public abstract class TestStringMapGenerator implements TestMapGenerator<String,
 
   @Override
   public SampleElements<Map.Entry<String, String>> samples() {
-    return new SampleElements<Map.Entry<String, String>>(
+    return new SampleElements<>(
         Helpers.mapEntry("one", "January"),
         Helpers.mapEntry("two", "February"),
         Helpers.mapEntry("three", "March"),

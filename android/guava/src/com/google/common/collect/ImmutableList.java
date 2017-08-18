@@ -19,9 +19,11 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
+import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 import static com.google.common.collect.RegularImmutableList.EMPTY;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.InvalidObjectException;
@@ -640,6 +642,24 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   /**
+   * Returns a new builder, expecting the specified number of elements to be added.
+   *
+   * <p>If {@code expectedSize} is exactly the number of elements added to the builder before {@link
+   * Builder#build} is called, the builder is likely to perform better than an unsized {@link
+   * #builder()} would have.
+   *
+   * <p>It is not specified if any performance benefits apply if {@code expectedSize} is close to,
+   * but not exactly, the number of elements added to the builder.
+   *
+   * @since 24.0
+   */
+  @Beta
+  public static <E> Builder<E> builderWithExpectedSize(int expectedSize) {
+    checkNonnegative(expectedSize, "expectedSize");
+    return new ImmutableList.Builder<E>(expectedSize);
+  }
+
+  /**
    * A builder for creating immutable list instances, especially {@code public
    * static final} lists ("constant lists"). Example: <pre>   {@code
    *
@@ -667,7 +687,6 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       this(DEFAULT_INITIAL_CAPACITY);
     }
 
-    // TODO(lowasser): consider exposing this
     Builder(int capacity) {
       super(capacity);
     }

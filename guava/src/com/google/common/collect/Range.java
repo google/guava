@@ -296,8 +296,7 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
     }
   }
 
-  private static final Range<Comparable> ALL =
-      new Range<Comparable>(Cut.belowAll(), Cut.aboveAll());
+  private static final Range<Comparable> ALL = new Range<>(Cut.belowAll(), Cut.aboveAll());
 
   /**
    * Returns a range that contains every value of type {@code C}.

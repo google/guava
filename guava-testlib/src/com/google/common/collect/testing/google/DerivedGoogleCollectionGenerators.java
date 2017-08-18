@@ -99,7 +99,7 @@ public final class DerivedGoogleCollectionGenerators {
     @Override
     public SampleElements<Map.Entry<V, K>> samples() {
       SampleElements<Entry<K, V>> samples = generator.samples();
-      return new SampleElements<Map.Entry<V, K>>(
+      return new SampleElements<>(
           reverse(samples.e0()),
           reverse(samples.e1()),
           reverse(samples.e2()),

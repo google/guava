@@ -17,7 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-
+import com.google.common.annotations.VisibleForTesting;
 import javax.annotation.Nullable;
 
 /**
@@ -28,11 +28,11 @@ import javax.annotation.Nullable;
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
-  static final RegularImmutableBiMap<Object, Object> EMPTY =
-      new RegularImmutableBiMap<Object, Object>();
+  static final RegularImmutableBiMap<Object, Object> EMPTY = new RegularImmutableBiMap<>();
 
   private final transient int[] keyHashTable;
-  private final transient Object[] alternatingKeysAndValues;
+  @VisibleForTesting
+  final transient Object[] alternatingKeysAndValues;
   private final transient int keyOffset; // 0 for K-to-V, 1 for V-to-K
   private final transient int size;
   private final transient RegularImmutableBiMap<V, K> inverse;
@@ -102,7 +102,7 @@ final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     ImmutableList<K> keyList =
         (ImmutableList<K>)
             new RegularImmutableMap.KeysOrValuesAsList(alternatingKeysAndValues, keyOffset, size);
-    return new RegularImmutableMap.KeySet<K>(this, keyList);
+    return new RegularImmutableMap.KeySet<>(this, keyList);
   }
 
   @Override

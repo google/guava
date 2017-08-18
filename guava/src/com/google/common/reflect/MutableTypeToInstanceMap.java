@@ -148,7 +148,7 @@ public final class MutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken<?
           new Function<Entry<K, V>, Entry<K, V>>() {
             @Override
             public Entry<K, V> apply(Entry<K, V> entry) {
-              return new UnmodifiableEntry<K, V>(entry);
+              return new UnmodifiableEntry<>(entry);
             }
           });
     }

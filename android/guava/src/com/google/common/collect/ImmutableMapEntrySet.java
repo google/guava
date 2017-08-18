@@ -94,7 +94,7 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
   @GwtIncompatible // serialization
   @Override
   Object writeReplace() {
-    return new EntrySetSerializedForm<K, V>(map());
+    return new EntrySetSerializedForm<>(map());
   }
 
   @GwtIncompatible // serialization

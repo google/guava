@@ -77,13 +77,13 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
   static <N, V> DirectedGraphConnections<N, V> of() {
     // We store predecessors and successors in the same map, so double the initial capacity.
     int initialCapacity = INNER_CAPACITY * 2;
-    return new DirectedGraphConnections<N, V>(
+    return new DirectedGraphConnections<>(
         new HashMap<N, Object>(initialCapacity, INNER_LOAD_FACTOR), 0, 0);
   }
 
   static <N, V> DirectedGraphConnections<N, V> ofImmutable(
       Set<N> predecessors, Map<N, V> successorValues) {
-    Map<N, Object> adjacentNodeValues = new HashMap<N, Object>();
+    Map<N, Object> adjacentNodeValues = new HashMap<>();
     adjacentNodeValues.putAll(successorValues);
     for (N predecessor : predecessors) {
       Object value = adjacentNodeValues.put(predecessor, PRED);
@@ -91,7 +91,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
         adjacentNodeValues.put(predecessor, new PredAndSucc(value));
       }
     }
-    return new DirectedGraphConnections<N, V>(
+    return new DirectedGraphConnections<>(
         ImmutableMap.copyOf(adjacentNodeValues), predecessors.size(), successorValues.size());
   }
 

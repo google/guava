@@ -118,7 +118,7 @@ public abstract class TreeTraverser<T> {
     private final Deque<Iterator<T>> stack;
 
     PreOrderIterator(T root) {
-      this.stack = new ArrayDeque<Iterator<T>>();
+      this.stack = new ArrayDeque<>();
       stack.addLast(Iterators.singletonIterator(checkNotNull(root)));
     }
 
@@ -178,7 +178,7 @@ public abstract class TreeTraverser<T> {
     private final ArrayDeque<PostOrderNode<T>> stack;
 
     PostOrderIterator(T root) {
-      this.stack = new ArrayDeque<PostOrderNode<T>>();
+      this.stack = new ArrayDeque<>();
       stack.addLast(expand(root));
     }
 

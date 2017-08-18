@@ -131,6 +131,10 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     return new Builder<K, V>();
   }
 
+  public static <K, V> Builder<K, V> builderWithExpectedSize(int expectedSize) {
+    return new Builder<K, V>(expectedSize);
+  }
+
   static <K, V> Entry<K, V> entryOf(K key, V value) {
     checkEntryNotNull(key, value);
     return Maps.immutableEntry(key, value);

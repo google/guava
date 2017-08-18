@@ -72,8 +72,7 @@ abstract class ImmediateFuture<V> extends FluentFuture<V> {
   }
 
   static class ImmediateSuccessfulFuture<V> extends ImmediateFuture<V> {
-    static final ImmediateSuccessfulFuture<Object> NULL =
-        new ImmediateSuccessfulFuture<Object>(null);
+    static final ImmediateSuccessfulFuture<Object> NULL = new ImmediateSuccessfulFuture<>(null);
     @Nullable private final V value;
 
     ImmediateSuccessfulFuture(@Nullable V value) {

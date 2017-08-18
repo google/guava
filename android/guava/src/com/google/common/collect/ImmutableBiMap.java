@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
+import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -49,7 +50,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    */
   public static <K, V> ImmutableBiMap<K, V> of(K k1, V v1) {
     checkEntryNotNull(k1, v1);
-    return new RegularImmutableBiMap<K, V>(new Object[] {k1, v1}, 1);
+    return new RegularImmutableBiMap<>(new Object[] {k1, v1}, 1);
   }
 
   /**
@@ -113,7 +114,25 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    * created by the {@link Builder} constructor.
    */
   public static <K, V> Builder<K, V> builder() {
-    return new Builder<K, V>();
+    return new Builder<>();
+  }
+
+  /**
+   * Returns a new builder, expecting the specified number of entries to be added.
+   *
+   * <p>If {@code expectedSize} is exactly the number of entries added to the builder before {@link
+   * Builder#build} is called, the builder is likely to perform better than an unsized {@link
+   * #builder()} would have.
+   *
+   * <p>It is not specified if any performance benefits apply if {@code expectedSize} is close to,
+   * but not exactly, the number of entries added to the builder.
+   * 
+   * @since 24.0
+   */
+  @Beta
+  public static <K, V> Builder<K, V> builderWithExpectedSize(int expectedSize) {
+    checkNonnegative(expectedSize, "expectedSize");
+    return new Builder<>(expectedSize);
   }
 
   /**

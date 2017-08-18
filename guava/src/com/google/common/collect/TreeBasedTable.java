@@ -84,7 +84,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
 
     @Override
     public TreeMap<C, V> get() {
-      return new TreeMap<C, V>(comparator);
+      return new TreeMap<>(comparator);
     }
 
     private static final long serialVersionUID = 0;
@@ -100,7 +100,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
    * without generics.
    */
   public static <R extends Comparable, C extends Comparable, V> TreeBasedTable<R, C, V> create() {
-    return new TreeBasedTable<R, C, V>(Ordering.natural(), Ordering.natural());
+    return new TreeBasedTable<>(Ordering.natural(), Ordering.natural());
   }
 
   /**
@@ -114,7 +114,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
       Comparator<? super R> rowComparator, Comparator<? super C> columnComparator) {
     checkNotNull(rowComparator);
     checkNotNull(columnComparator);
-    return new TreeBasedTable<R, C, V>(rowComparator, columnComparator);
+    return new TreeBasedTable<>(rowComparator, columnComparator);
   }
 
   /**
@@ -123,7 +123,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
    */
   public static <R, C, V> TreeBasedTable<R, C, V> create(TreeBasedTable<R, C, ? extends V> table) {
     TreeBasedTable<R, C, V> result =
-        new TreeBasedTable<R, C, V>(table.rowComparator(), table.columnComparator());
+        new TreeBasedTable<>(table.rowComparator(), table.columnComparator());
     result.putAll(table);
     return result;
   }
@@ -196,7 +196,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
 
     @Override
     public SortedSet<C> keySet() {
-      return new Maps.SortedKeySet<C, V>(this);
+      return new Maps.SortedKeySet<>(this);
     }
 
     @Override

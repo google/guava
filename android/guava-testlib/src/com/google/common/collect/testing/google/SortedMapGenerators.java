@@ -68,7 +68,7 @@ public class SortedMapGenerators {
 
     @Override
     public SampleElements<Entry<String, Integer>> samples() {
-      return new SampleElements<Entry<String, Integer>>(
+      return new SampleElements<>(
           mapEntry("foo", 5),
           mapEntry("bar", 3),
           mapEntry("baz", 17),

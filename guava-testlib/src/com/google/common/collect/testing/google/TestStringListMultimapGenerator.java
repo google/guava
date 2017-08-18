@@ -36,7 +36,7 @@ public abstract class TestStringListMultimapGenerator
 
   @Override
   public SampleElements<Map.Entry<String, String>> samples() {
-    return new SampleElements<Map.Entry<String, String>>(
+    return new SampleElements<>(
         Helpers.mapEntry("one", "January"),
         Helpers.mapEntry("two", "February"),
         Helpers.mapEntry("three", "March"),
@@ -46,12 +46,12 @@ public abstract class TestStringListMultimapGenerator
 
   @Override
   public SampleElements<String> sampleKeys() {
-    return new SampleElements<String>("one", "two", "three", "four", "five");
+    return new SampleElements<>("one", "two", "three", "four", "five");
   }
 
   @Override
   public SampleElements<String> sampleValues() {
-    return new SampleElements<String>("January", "February", "March", "April", "May");
+    return new SampleElements<>("January", "February", "March", "April", "May");
   }
 
   @Override

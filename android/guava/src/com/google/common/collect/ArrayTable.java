@@ -97,7 +97,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    */
   public static <R, C, V> ArrayTable<R, C, V> create(
       Iterable<? extends R> rowKeys, Iterable<? extends C> columnKeys) {
-    return new ArrayTable<R, C, V>(rowKeys, columnKeys);
+    return new ArrayTable<>(rowKeys, columnKeys);
   }
 
   /*
