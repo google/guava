@@ -406,6 +406,30 @@ public final class MoreExecutors {
   }
 
   /**
+   * Returns an {@link Executor} that runs each task executed sequentially, such that no
+   * two tasks are running concurrently.
+   *
+   * <p>The executor uses {@code delegate} in order to {@link Executor#execute execute} each task in
+   * turn, and does not create any threads of its own.
+   *
+   * <p>After execution starts on the {@code delegate} {@link Executor}, tasks are polled and
+   * executed from the queue until there are no more tasks. The thread will not be released until
+   * there are no more tasks to run.
+   *
+   * <p>If a task is {@linkplain Thread#interrupt interrupted}, execution of subsequent tasks
+   * continues. {@code RuntimeException}s thrown by tasks are simply logged and the executor keeps
+   * trucking. If an {@code Error} is thrown, the error will propagate and execution will stop until
+   * the next time a task is submitted.
+   *
+   * @since 24.0
+   */
+  @Beta
+  @GwtIncompatible
+  public static Executor sequentialExecutor(Executor delegate) {
+    return new SerializingExecutor(delegate);
+  }
+
+  /**
    * Creates an {@link ExecutorService} whose {@code submit} and {@code
    * invokeAll} methods submit {@link ListenableFutureTask} instances to the given delegate
    * executor. Those methods, as well as {@code execute} and {@code invokeAny}, are implemented in
