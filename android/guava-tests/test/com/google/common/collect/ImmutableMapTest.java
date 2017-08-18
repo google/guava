@@ -371,7 +371,7 @@ public class ImmutableMapTest extends TestCase {
     }
 
     public void testBuilder_withImmutableEntryAndNullContents() {
-      Builder<String, Integer> builder = new Builder<String, Integer>();
+      Builder<String, Integer> builder = new Builder<>();
       try {
         builder.put(Maps.immutableEntry("one", (Integer) null));
         fail();
@@ -389,8 +389,7 @@ public class ImmutableMapTest extends TestCase {
     }
 
     public void testBuilder_withMutableEntry() {
-      ImmutableMap.Builder<String, Integer> builder =
-          new Builder<String, Integer>();
+      ImmutableMap.Builder<String, Integer> builder = new Builder<>();
       final StringHolder holder = new StringHolder();
       holder.string = "one";
       Entry<String, Integer> entry = new AbstractMapEntry<String, Integer>() {
@@ -415,11 +414,11 @@ public class ImmutableMapTest extends TestCase {
     }
 
     public void testBuilderPutAll() {
-      Map<String, Integer> toPut = new LinkedHashMap<String, Integer>();
+      Map<String, Integer> toPut = new LinkedHashMap<>();
       toPut.put("one", 1);
       toPut.put("two", 2);
       toPut.put("three", 3);
-      Map<String, Integer> moreToPut = new LinkedHashMap<String, Integer>();
+      Map<String, Integer> moreToPut = new LinkedHashMap<>();
       moreToPut.put("four", 4);
       moreToPut.put("five", 5);
 
@@ -432,7 +431,7 @@ public class ImmutableMapTest extends TestCase {
     }
 
     public void testBuilderReuse() {
-      Builder<String, Integer> builder = new Builder<String, Integer>();
+      Builder<String, Integer> builder = new Builder<>();
       ImmutableMap<String, Integer> mapOne = builder
           .put("one", 1)
           .put("two", 2)
@@ -447,7 +446,7 @@ public class ImmutableMapTest extends TestCase {
     }
 
     public void testBuilderPutNullKeyFailsAtomically() {
-      Builder<String, Integer> builder = new Builder<String, Integer>();
+      Builder<String, Integer> builder = new Builder<>();
       try {
         builder.put(null, 1);
         fail();
@@ -457,7 +456,7 @@ public class ImmutableMapTest extends TestCase {
     }
 
     public void testBuilderPutImmutableEntryWithNullKeyFailsAtomically() {
-      Builder<String, Integer> builder = new Builder<String, Integer>();
+      Builder<String, Integer> builder = new Builder<>();
       try {
         builder.put(Maps.immutableEntry((String) null, 1));
         fail();
@@ -488,7 +487,7 @@ public class ImmutableMapTest extends TestCase {
     }
 
     public void testBuilderPutMutableEntryWithNullKeyFailsAtomically() {
-      Builder<String, Integer> builder = new Builder<String, Integer>();
+      Builder<String, Integer> builder = new Builder<>();
       try {
         builder.put(new SimpleEntry<String, Integer>(null, 1));
         fail();
@@ -498,7 +497,7 @@ public class ImmutableMapTest extends TestCase {
     }
 
     public void testBuilderPutNullKey() {
-      Builder<String, Integer> builder = new Builder<String, Integer>();
+      Builder<String, Integer> builder = new Builder<>();
       try {
         builder.put(null, 1);
         fail();
@@ -507,7 +506,7 @@ public class ImmutableMapTest extends TestCase {
     }
 
     public void testBuilderPutNullValue() {
-      Builder<String, Integer> builder = new Builder<String, Integer>();
+      Builder<String, Integer> builder = new Builder<>();
       try {
         builder.put("one", null);
         fail();
@@ -516,7 +515,7 @@ public class ImmutableMapTest extends TestCase {
     }
 
     public void testBuilderPutNullKeyViaPutAll() {
-      Builder<String, Integer> builder = new Builder<String, Integer>();
+      Builder<String, Integer> builder = new Builder<>();
       try {
         builder.putAll(Collections.<String, Integer>singletonMap(null, 1));
         fail();
@@ -525,7 +524,7 @@ public class ImmutableMapTest extends TestCase {
     }
 
     public void testBuilderPutNullValueViaPutAll() {
-      Builder<String, Integer> builder = new Builder<String, Integer>();
+      Builder<String, Integer> builder = new Builder<>();
       try {
         builder.putAll(Collections.<String, Integer>singletonMap("one", null));
         fail();
@@ -614,7 +613,7 @@ public class ImmutableMapTest extends TestCase {
     }
 
     public void testCopyOf() {
-      Map<String, Integer> original = new LinkedHashMap<String, Integer>();
+      Map<String, Integer> original = new LinkedHashMap<>();
       original.put("one", 1);
       original.put("two", 2);
       original.put("three", 3);

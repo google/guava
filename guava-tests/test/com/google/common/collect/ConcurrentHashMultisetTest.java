@@ -104,7 +104,7 @@ public class ConcurrentHashMultisetTest extends TestCase {
     backingMap = mock(ConcurrentMap.class);
     when(backingMap.isEmpty()).thenReturn(true);
 
-    multiset = new ConcurrentHashMultiset<String>(backingMap);
+    multiset = new ConcurrentHashMultiset<>(backingMap);
   }
 
   public void testCount_elementPresent() {

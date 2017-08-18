@@ -108,19 +108,25 @@ public class ForwardingSortedSetTest extends TestCase {
 
     suite.addTestSuite(ForwardingSortedSetTest.class);
     suite.addTest(
-        SortedSetTestSuiteBuilder.using(new TestStringSortedSetGenerator() {
-          @Override protected SortedSet<String> create(String[] elements) {
-            return new StandardImplForwardingSortedSet<String>(
-                new SafeTreeSet<String>(Arrays.asList(elements)));
-          }
+        SortedSetTestSuiteBuilder.using(
+                new TestStringSortedSetGenerator() {
+                  @Override
+                  protected SortedSet<String> create(String[] elements) {
+                    return new StandardImplForwardingSortedSet<>(
+                        new SafeTreeSet<String>(Arrays.asList(elements)));
+                  }
 
-          @Override public List<String> order(List<String> insertionOrder) {
-            return Lists.newArrayList(Sets.newTreeSet(insertionOrder));
-          }
-        }).named(
-            "ForwardingSortedSet[SafeTreeSet] with standard implementations")
-            .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-                CollectionFeature.GENERAL_PURPOSE).createTestSuite());
+                  @Override
+                  public List<String> order(List<String> insertionOrder) {
+                    return Lists.newArrayList(Sets.newTreeSet(insertionOrder));
+                  }
+                })
+            .named("ForwardingSortedSet[SafeTreeSet] with standard implementations")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.KNOWN_ORDER,
+                CollectionFeature.GENERAL_PURPOSE)
+            .createTestSuite());
 
     return suite;
   }

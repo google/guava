@@ -124,40 +124,49 @@ public class ForwardingMapTest extends TestCase {
     TestSuite suite = new TestSuite();
 
     suite.addTestSuite(ForwardingMapTest.class);
-    suite.addTest(MapTestSuiteBuilder.using(new TestStringMapGenerator() {
+    suite.addTest(
+        MapTestSuiteBuilder.using(
+                new TestStringMapGenerator() {
 
-      @Override protected Map<String, String> create(
-          Entry<String, String>[] entries) {
-        Map<String, String> map = Maps.newLinkedHashMap();
-        for (Entry<String, String> entry : entries) {
-          map.put(entry.getKey(), entry.getValue());
-        }
-        return new StandardImplForwardingMap<String, String>(map);
-      }
+                  @Override
+                  protected Map<String, String> create(Entry<String, String>[] entries) {
+                    Map<String, String> map = Maps.newLinkedHashMap();
+                    for (Entry<String, String> entry : entries) {
+                      map.put(entry.getKey(), entry.getValue());
+                    }
+                    return new StandardImplForwardingMap<>(map);
+                  }
+                })
+            .named("ForwardingMap[LinkedHashMap] with standard implementations")
+            .withFeatures(
+                CollectionSize.ANY,
+                MapFeature.ALLOWS_NULL_VALUES,
+                MapFeature.ALLOWS_NULL_KEYS,
+                MapFeature.ALLOWS_ANY_NULL_QUERIES,
+                MapFeature.GENERAL_PURPOSE,
+                CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+                CollectionFeature.KNOWN_ORDER)
+            .createTestSuite());
+    suite.addTest(
+        MapTestSuiteBuilder.using(
+                new TestStringMapGenerator() {
 
-    }).named("ForwardingMap[LinkedHashMap] with standard implementations")
-        .withFeatures(CollectionSize.ANY, MapFeature.ALLOWS_NULL_VALUES,
-            MapFeature.ALLOWS_NULL_KEYS, MapFeature.ALLOWS_ANY_NULL_QUERIES,
-            MapFeature.GENERAL_PURPOSE,
-            CollectionFeature.SUPPORTS_ITERATOR_REMOVE, CollectionFeature.KNOWN_ORDER)
-        .createTestSuite());
-    suite.addTest(MapTestSuiteBuilder.using(new TestStringMapGenerator() {
-
-      @Override protected Map<String, String> create(
-          Entry<String, String>[] entries) {
-        ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
-        for (Entry<String, String> entry : entries) {
-          builder.put(entry.getKey(), entry.getValue());
-        }
-        return new StandardImplForwardingMap<String, String>(builder.build());
-      }
-
-    }).named("ForwardingMap[ImmutableMap] with standard implementations")
-        .withFeatures(
-            CollectionSize.ANY, MapFeature.REJECTS_DUPLICATES_AT_CREATION,
-            MapFeature.ALLOWS_ANY_NULL_QUERIES,
-            CollectionFeature.KNOWN_ORDER)
-        .createTestSuite());
+                  @Override
+                  protected Map<String, String> create(Entry<String, String>[] entries) {
+                    ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
+                    for (Entry<String, String> entry : entries) {
+                      builder.put(entry.getKey(), entry.getValue());
+                    }
+                    return new StandardImplForwardingMap<>(builder.build());
+                  }
+                })
+            .named("ForwardingMap[ImmutableMap] with standard implementations")
+            .withFeatures(
+                CollectionSize.ANY,
+                MapFeature.REJECTS_DUPLICATES_AT_CREATION,
+                MapFeature.ALLOWS_ANY_NULL_QUERIES,
+                CollectionFeature.KNOWN_ORDER)
+            .createTestSuite());
 
     return suite;
   }
@@ -269,8 +278,7 @@ public class ForwardingMapTest extends TestCase {
     hashmap.put(null, "baz");
 
     StandardImplForwardingMap<String, String> forwardingMap =
-        new StandardImplForwardingMap<String, String>(
-            Maps.<String, String>newHashMap());
+        new StandardImplForwardingMap<>(Maps.<String, String>newHashMap());
     forwardingMap.put("foo", "bar");
     forwardingMap.put(null, "baz");
 
@@ -283,8 +291,7 @@ public class ForwardingMapTest extends TestCase {
     hashmap.put("baz", null);
 
     StandardImplForwardingMap<String, String> forwardingMap =
-        new StandardImplForwardingMap<String, String>(
-            Maps.<String, String>newHashMap());
+        new StandardImplForwardingMap<>(Maps.<String, String>newHashMap());
     forwardingMap.put("foo", "bar");
     forwardingMap.put("baz", null);
 

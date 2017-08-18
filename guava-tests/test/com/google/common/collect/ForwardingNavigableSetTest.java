@@ -151,36 +151,49 @@ public class ForwardingNavigableSetTest extends TestCase {
 
     suite.addTestSuite(ForwardingNavigableSetTest.class);
     suite.addTest(
-        SetTestSuiteBuilder.using(new TestStringSetGenerator() {
-          @Override protected Set<String> create(String[] elements) {
-            return new StandardImplForwardingNavigableSet<String>(
-                new SafeTreeSet<String>(Arrays.asList(elements)));
-          }
+        SetTestSuiteBuilder.using(
+                new TestStringSetGenerator() {
+                  @Override
+                  protected Set<String> create(String[] elements) {
+                    return new StandardImplForwardingNavigableSet<>(
+                        new SafeTreeSet<String>(Arrays.asList(elements)));
+                  }
 
-          @Override public List<String> order(List<String> insertionOrder) {
-            return Lists.newArrayList(Sets.newTreeSet(insertionOrder));
-          }
-        }).named(
-            "ForwardingNavigableSet[SafeTreeSet] with standard implementations")
-            .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-                CollectionFeature.GENERAL_PURPOSE).createTestSuite());
+                  @Override
+                  public List<String> order(List<String> insertionOrder) {
+                    return Lists.newArrayList(Sets.newTreeSet(insertionOrder));
+                  }
+                })
+            .named("ForwardingNavigableSet[SafeTreeSet] with standard implementations")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.KNOWN_ORDER,
+                CollectionFeature.GENERAL_PURPOSE)
+            .createTestSuite());
     suite.addTest(
-        SetTestSuiteBuilder.using(new TestStringSetGenerator() {
-          @Override protected Set<String> create(String[] elements) {
-            SafeTreeSet<String> set = new SafeTreeSet<String>(Ordering.natural().nullsFirst());
-            Collections.addAll(set, elements);
-            return new StandardImplForwardingNavigableSet<String>(set);
-          }
+        SetTestSuiteBuilder.using(
+                new TestStringSetGenerator() {
+                  @Override
+                  protected Set<String> create(String[] elements) {
+                    SafeTreeSet<String> set = new SafeTreeSet<>(Ordering.natural().nullsFirst());
+                    Collections.addAll(set, elements);
+                    return new StandardImplForwardingNavigableSet<>(set);
+                  }
 
-          @Override public List<String> order(List<String> insertionOrder) {
-            return Lists.newArrayList(Sets.newTreeSet(insertionOrder));
-          }
-        }).named(
-            "ForwardingNavigableSet[SafeTreeSet[Ordering.natural.nullsFirst]]"
-                + " with standard implementations")
-            .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-                CollectionFeature.GENERAL_PURPOSE, CollectionFeature.ALLOWS_NULL_VALUES)
-                .createTestSuite());
+                  @Override
+                  public List<String> order(List<String> insertionOrder) {
+                    return Lists.newArrayList(Sets.newTreeSet(insertionOrder));
+                  }
+                })
+            .named(
+                "ForwardingNavigableSet[SafeTreeSet[Ordering.natural.nullsFirst]]"
+                    + " with standard implementations")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.KNOWN_ORDER,
+                CollectionFeature.GENERAL_PURPOSE,
+                CollectionFeature.ALLOWS_NULL_VALUES)
+            .createTestSuite());
 
     return suite;
   }

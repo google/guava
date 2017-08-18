@@ -99,12 +99,12 @@ public class MinMaxPriorityQueueBenchmark {
     },
     PRIORITY_QUEUE {
       @Override public Queue<Integer> create(Comparator<Integer> comparator) {
-        return new PriorityQueue<Integer>(11, comparator);
+        return new PriorityQueue<>(11, comparator);
       }
     },
     INVERTED_MIN_MAX {
       @Override public Queue<Integer> create(Comparator<Integer> comparator) {
-        return new InvertedMinMaxPriorityQueue<Integer>(comparator);
+        return new InvertedMinMaxPriorityQueue<>(comparator);
       }
     };
 

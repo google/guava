@@ -613,7 +613,7 @@ public class MultimapsTest extends TestCase {
 
   private static class QueueSupplier extends CountingSupplier<Queue<Integer>> {
     @Override public Queue<Integer> getImpl() {
-      return new LinkedList<Integer>();
+      return new LinkedList<>();
     }
     private static final long serialVersionUID = 0;
   }
@@ -699,7 +699,7 @@ public class MultimapsTest extends TestCase {
   private static class ListSupplier extends
       CountingSupplier<LinkedList<Integer>> {
     @Override public LinkedList<Integer> getImpl() {
-      return new LinkedList<Integer>();
+      return new LinkedList<>();
     }
     private static final long serialVersionUID = 0;
   }
@@ -733,7 +733,7 @@ public class MultimapsTest extends TestCase {
 
   private static class SetSupplier extends CountingSupplier<Set<Integer>> {
     @Override public Set<Integer> getImpl() {
-      return new HashSet<Integer>(4);
+      return new HashSet<>(4);
     }
     private static final long serialVersionUID = 0;
   }

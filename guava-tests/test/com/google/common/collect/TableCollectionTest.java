@@ -357,45 +357,52 @@ public class TableCollectionTest extends TestCase {
         .withFeatures(COLLECTION_FEATURES_ORDER)
         .createTestSuite());
 
-    suite.addTest(SetTestSuiteBuilder.using(new TestCellSetGenerator() {
-          @Override public SampleElements<Cell<String, Integer, Character>>
-              samples() {
-            return new SampleElements<Cell<String, Integer, Character>>(
-                Tables.immutableCell("bar", 1, 'a'),
-                Tables.immutableCell("bar", 2, 'b'),
-                Tables.immutableCell("bar", 3, (Character) null),
-                Tables.immutableCell("bar", 4, 'b'),
-                Tables.immutableCell("bar", 5, 'b'));
-          }
-          @Override public Set<Cell<String, Integer, Character>> create(
-              Object... elements) {
-            List<Integer> columnKeys = Lists.newArrayList();
-            for (Object element : elements) {
-              @SuppressWarnings("unchecked")
-              Cell<String, Integer, Character> cell
-                  = (Cell<String, Integer, Character>) element;
-              columnKeys.add(cell.getColumnKey());
-            }
-            Table<String, Integer, Character> table
-                = ArrayTable.create(ImmutableList.of("bar"), columnKeys);
-            for (Object element : elements) {
-              @SuppressWarnings("unchecked")
-              Cell<String, Integer, Character> cell
-                  = (Cell<String, Integer, Character>) element;
-              table.put(cell.getRowKey(), cell.getColumnKey(), cell.getValue());
-            }
-            return table.cellSet();
-          }
-          @Override Table<String, Integer, Character> createTable() {
-            throw new UnsupportedOperationException();
-          }
-        })
-        .named("ArrayTable.cellSet")
-        .withFeatures(CollectionSize.ONE, CollectionSize.SEVERAL,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .createTestSuite());
+    suite.addTest(
+        SetTestSuiteBuilder.using(
+                new TestCellSetGenerator() {
+                  @Override
+                  public SampleElements<Cell<String, Integer, Character>> samples() {
+                    return new SampleElements<>(
+                        Tables.immutableCell("bar", 1, 'a'),
+                        Tables.immutableCell("bar", 2, 'b'),
+                        Tables.immutableCell("bar", 3, (Character) null),
+                        Tables.immutableCell("bar", 4, 'b'),
+                        Tables.immutableCell("bar", 5, 'b'));
+                  }
+
+                  @Override
+                  public Set<Cell<String, Integer, Character>> create(Object... elements) {
+                    List<Integer> columnKeys = Lists.newArrayList();
+                    for (Object element : elements) {
+                      @SuppressWarnings("unchecked")
+                      Cell<String, Integer, Character> cell =
+                          (Cell<String, Integer, Character>) element;
+                      columnKeys.add(cell.getColumnKey());
+                    }
+                    Table<String, Integer, Character> table =
+                        ArrayTable.create(ImmutableList.of("bar"), columnKeys);
+                    for (Object element : elements) {
+                      @SuppressWarnings("unchecked")
+                      Cell<String, Integer, Character> cell =
+                          (Cell<String, Integer, Character>) element;
+                      table.put(cell.getRowKey(), cell.getColumnKey(), cell.getValue());
+                    }
+                    return table.cellSet();
+                  }
+
+                  @Override
+                  Table<String, Integer, Character> createTable() {
+                    throw new UnsupportedOperationException();
+                  }
+                })
+            .named("ArrayTable.cellSet")
+            .withFeatures(
+                CollectionSize.ONE,
+                CollectionSize.SEVERAL,
+                CollectionFeature.KNOWN_ORDER,
+                CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
+                CollectionFeature.ALLOWS_NULL_QUERIES)
+            .createTestSuite());
 
     suite.addTest(SetTestSuiteBuilder.using(new TestCellSetGenerator() {
           @Override Table<String, Integer, Character> createTable() {
@@ -603,7 +610,7 @@ public class TableCollectionTest extends TestCase {
       implements TestSetGenerator<Cell<String, Integer, Character>> {
     @Override
     public SampleElements<Cell<String, Integer, Character>> samples() {
-      return new SampleElements<Cell<String, Integer, Character>>(
+      return new SampleElements<>(
           Tables.immutableCell("bar", 1, 'a'),
           Tables.immutableCell("bar", 2, 'b'),
           Tables.immutableCell("foo", 3, 'c'),

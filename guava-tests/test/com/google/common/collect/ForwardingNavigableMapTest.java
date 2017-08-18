@@ -247,7 +247,7 @@ public class ForwardingNavigableMapTest extends TestCase {
                     for (Entry<String, String> entry : entries) {
                       map.put(entry.getKey(), entry.getValue());
                     }
-                    return new StandardImplForwardingNavigableMap<String, String>(map);
+                    return new StandardImplForwardingNavigableMap<>(map);
                   }
                 })
             .named(

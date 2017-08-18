@@ -117,54 +117,73 @@ public class ForwardingSortedMapTest extends TestCase {
     TestSuite suite = new TestSuite();
 
     suite.addTestSuite(ForwardingSortedMapTest.class);
-    suite.addTest(SortedMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
-      @Override protected SortedMap<String, String> create(
-          Entry<String, String>[] entries) {
-        SortedMap<String, String> map = new SafeTreeMap<String, String>();
-        for (Entry<String, String> entry : entries) {
-          map.put(entry.getKey(), entry.getValue());
-        }
-        return new StandardImplForwardingSortedMap<String, String>(map);
-      }
-    }).named("ForwardingSortedMap[SafeTreeMap] with no comparator and standard "
-        + "implementations").withFeatures(CollectionSize.ANY,
-        CollectionFeature.KNOWN_ORDER, MapFeature.ALLOWS_NULL_VALUES,
-        MapFeature.GENERAL_PURPOSE, CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
-        .createTestSuite());
-    suite.addTest(SortedMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
-      private final Comparator<String> comparator = NullsBeforeTwo.INSTANCE;
+    suite.addTest(
+        SortedMapTestSuiteBuilder.using(
+                new TestStringSortedMapGenerator() {
+                  @Override
+                  protected SortedMap<String, String> create(Entry<String, String>[] entries) {
+                    SortedMap<String, String> map = new SafeTreeMap<>();
+                    for (Entry<String, String> entry : entries) {
+                      map.put(entry.getKey(), entry.getValue());
+                    }
+                    return new StandardImplForwardingSortedMap<>(map);
+                  }
+                })
+            .named(
+                "ForwardingSortedMap[SafeTreeMap] with no comparator and standard "
+                    + "implementations")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.KNOWN_ORDER,
+                MapFeature.ALLOWS_NULL_VALUES,
+                MapFeature.GENERAL_PURPOSE,
+                CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
+            .createTestSuite());
+    suite.addTest(
+        SortedMapTestSuiteBuilder.using(
+                new TestStringSortedMapGenerator() {
+                  private final Comparator<String> comparator = NullsBeforeTwo.INSTANCE;
 
-      @Override protected SortedMap<String, String> create(
-          Entry<String, String>[] entries) {
-        SortedMap<String, String> map =
-            new SafeTreeMap<String, String>(comparator);
-        for (Entry<String, String> entry : entries) {
-          map.put(entry.getKey(), entry.getValue());
-        }
-        return new StandardImplForwardingSortedMap<String, String>(map);
-      }
-    }).named("ForwardingSortedMap[SafeTreeMap] with natural comparator and "
-        + "standard implementations").withFeatures(CollectionSize.ANY,
-        CollectionFeature.KNOWN_ORDER, MapFeature.ALLOWS_NULL_VALUES,
-        MapFeature.ALLOWS_NULL_KEYS, MapFeature.ALLOWS_ANY_NULL_QUERIES,
-        MapFeature.GENERAL_PURPOSE,
-        CollectionFeature.SUPPORTS_ITERATOR_REMOVE).createTestSuite());
-    suite.addTest(SortedMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
-      @Override protected SortedMap<String, String> create(
-          Entry<String, String>[] entries) {
-        ImmutableSortedMap.Builder<String, String> builder =
-            ImmutableSortedMap.naturalOrder();
-        for (Entry<String, String> entry : entries) {
-          builder.put(entry.getKey(), entry.getValue());
-        }
-        return new StandardImplForwardingSortedMap<String, String>(
-            builder.build());
-      }
-    }).named("ForwardingSortedMap[ImmutableSortedMap] with standard "
-        + "implementations").withFeatures(
-        CollectionSize.ANY, MapFeature.REJECTS_DUPLICATES_AT_CREATION,
-        MapFeature.ALLOWS_ANY_NULL_QUERIES)
-        .createTestSuite());
+                  @Override
+                  protected SortedMap<String, String> create(Entry<String, String>[] entries) {
+                    SortedMap<String, String> map = new SafeTreeMap<>(comparator);
+                    for (Entry<String, String> entry : entries) {
+                      map.put(entry.getKey(), entry.getValue());
+                    }
+                    return new StandardImplForwardingSortedMap<>(map);
+                  }
+                })
+            .named(
+                "ForwardingSortedMap[SafeTreeMap] with natural comparator and "
+                    + "standard implementations")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.KNOWN_ORDER,
+                MapFeature.ALLOWS_NULL_VALUES,
+                MapFeature.ALLOWS_NULL_KEYS,
+                MapFeature.ALLOWS_ANY_NULL_QUERIES,
+                MapFeature.GENERAL_PURPOSE,
+                CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
+            .createTestSuite());
+    suite.addTest(
+        SortedMapTestSuiteBuilder.using(
+                new TestStringSortedMapGenerator() {
+                  @Override
+                  protected SortedMap<String, String> create(Entry<String, String>[] entries) {
+                    ImmutableSortedMap.Builder<String, String> builder =
+                        ImmutableSortedMap.naturalOrder();
+                    for (Entry<String, String> entry : entries) {
+                      builder.put(entry.getKey(), entry.getValue());
+                    }
+                    return new StandardImplForwardingSortedMap<>(builder.build());
+                  }
+                })
+            .named("ForwardingSortedMap[ImmutableSortedMap] with standard " + "implementations")
+            .withFeatures(
+                CollectionSize.ANY,
+                MapFeature.REJECTS_DUPLICATES_AT_CREATION,
+                MapFeature.ALLOWS_ANY_NULL_QUERIES)
+            .createTestSuite());
 
     return suite;
   }

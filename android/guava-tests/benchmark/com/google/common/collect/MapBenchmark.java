@@ -79,7 +79,7 @@ public class MapBenchmark {
     },
     SkipList {
       @Override Map<Element, Element> create(Collection<Element> keys) {
-        Map<Element, Element> map = new ConcurrentSkipListMap<Element, Element>();
+        Map<Element, Element> map = new ConcurrentSkipListMap<>();
         for (Element element: keys) {
           map.put(element, element);
         }
@@ -88,8 +88,7 @@ public class MapBenchmark {
     },
     ConcurrentHM1 {
       @Override Map<Element, Element> create(Collection<Element> keys) {
-        Map<Element, Element> map =
-            new ConcurrentHashMap<Element, Element>(keys.size(), 0.75f, 1);
+        Map<Element, Element> map = new ConcurrentHashMap<>(keys.size(), 0.75f, 1);
         for (Element element: keys) {
           map.put(element, element);
         }
@@ -98,8 +97,7 @@ public class MapBenchmark {
     },
     ConcurrentHM16 {
       @Override Map<Element, Element> create(Collection<Element> keys) {
-        Map<Element, Element> map =
-            new ConcurrentHashMap<Element, Element>(keys.size(), 0.75f, 16);
+        Map<Element, Element> map = new ConcurrentHashMap<>(keys.size(), 0.75f, 16);
         for (Element element: keys) {
           map.put(element, element);
         }

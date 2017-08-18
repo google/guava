@@ -49,7 +49,7 @@ public class ImmutableListCreationBenchmark {
     int size = this.size;
     int dummy = 0;
     for (int rep = 0; rep < reps; rep++) {
-      ImmutableList.Builder<Object> builder = new ImmutableList.Builder<Object>(size);
+      ImmutableList.Builder<Object> builder = new ImmutableList.Builder<>(size);
       for (int i = 0; i < size; i++) {
         builder.add(OBJECT);
       }

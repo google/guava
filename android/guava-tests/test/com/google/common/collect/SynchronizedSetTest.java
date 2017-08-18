@@ -44,7 +44,7 @@ public class SynchronizedSetTest extends TestCase {
     return SetTestSuiteBuilder.using(new TestStringSetGenerator() {
           @Override
           protected Set<String> create(String[] elements) {
-            TestSet<String> inner = new TestSet<String>(new HashSet<String>(), MUTEX);
+            TestSet<String> inner = new TestSet<>(new HashSet<String>(), MUTEX);
             Set<String> outer = Synchronized.set(inner, inner.mutex);
             Collections.addAll(outer, elements);
             return outer;

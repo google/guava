@@ -39,12 +39,10 @@ public class RegularImmutableTableTest extends AbstractImmutableTableTest {
       ImmutableSet.of(1, 2);
 
   private static final SparseImmutableTable<Character, Integer, String> SPARSE =
-      new SparseImmutableTable<Character, Integer, String>(CELLS.asList(), ROW_SPACE,
-          COLUMN_SPACE);
+      new SparseImmutableTable<>(CELLS.asList(), ROW_SPACE, COLUMN_SPACE);
 
   private static final DenseImmutableTable<Character, Integer, String> DENSE =
-      new DenseImmutableTable<Character, Integer, String>(CELLS.asList(), ROW_SPACE,
-          COLUMN_SPACE);
+      new DenseImmutableTable<>(CELLS.asList(), ROW_SPACE, COLUMN_SPACE);
 
   @Override Iterable<ImmutableTable<Character, Integer, String>>
       getTestInstances() {

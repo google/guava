@@ -29,7 +29,7 @@ import junit.framework.TestCase;
 public class SynchronizedQueueTest extends TestCase {
 
   protected Queue<String> create() {
-    TestQueue<String> inner = new TestQueue<String>();
+    TestQueue<String> inner = new TestQueue<>();
     Queue<String> outer = Synchronized.queue(inner, inner.mutex);
     outer.add("foo");  // necessary because we try to remove elements later on
     return outer;

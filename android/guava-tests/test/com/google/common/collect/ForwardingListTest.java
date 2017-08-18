@@ -136,24 +136,33 @@ public class ForwardingListTest extends TestCase {
     TestSuite suite = new TestSuite();
 
     suite.addTestSuite(ForwardingListTest.class);
-    suite.addTest(ListTestSuiteBuilder.using(new TestStringListGenerator() {
+    suite.addTest(
+        ListTestSuiteBuilder.using(
+                new TestStringListGenerator() {
 
-      @Override protected List<String> create(String[] elements) {
-        return new StandardImplForwardingList<String>(
-            Lists.newArrayList(elements));
-      }
-    }).named("ForwardingList[ArrayList] with standard implementations")
-        .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_VALUES,
-            ListFeature.GENERAL_PURPOSE).createTestSuite());
-    suite.addTest(ListTestSuiteBuilder.using(new TestStringListGenerator() {
+                  @Override
+                  protected List<String> create(String[] elements) {
+                    return new StandardImplForwardingList<>(Lists.newArrayList(elements));
+                  }
+                })
+            .named("ForwardingList[ArrayList] with standard implementations")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.ALLOWS_NULL_VALUES,
+                ListFeature.GENERAL_PURPOSE)
+            .createTestSuite());
+    suite.addTest(
+        ListTestSuiteBuilder.using(
+                new TestStringListGenerator() {
 
-      @Override protected List<String> create(String[] elements) {
-        return new StandardImplForwardingList<String>(
-            ImmutableList.copyOf(elements));
-      }
-    }).named("ForwardingList[ImmutableList] with standard implementations")
-        .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_QUERIES)
-        .createTestSuite());
+                  @Override
+                  protected List<String> create(String[] elements) {
+                    return new StandardImplForwardingList<>(ImmutableList.copyOf(elements));
+                  }
+                })
+            .named("ForwardingList[ImmutableList] with standard implementations")
+            .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_QUERIES)
+            .createTestSuite());
 
     return suite;
   }

@@ -87,12 +87,13 @@ public class MultimapsCollectionTest extends TestCase {
     MultisetTestSuiteBuilder.NoRecurse.NO_ENTRY_SET,  // Cannot create entries with count > 1
   };
 
-  static final Supplier<TreeSet<String>> STRING_TREESET_FACTORY = new Supplier<TreeSet<String>>() {
-    @Override
-    public TreeSet<String> get() {
-      return new TreeSet<String>(Ordering.natural().nullsLast());
-    }
-  };
+  static final Supplier<TreeSet<String>> STRING_TREESET_FACTORY =
+      new Supplier<TreeSet<String>>() {
+        @Override
+        public TreeSet<String> get() {
+          return new TreeSet<>(Ordering.natural().nullsLast());
+        }
+      };
 
   static void populateMultimapForGet(
       Multimap<Integer, String> multimap, String[] elements) {
@@ -139,7 +140,7 @@ public class MultimapsCollectionTest extends TestCase {
     final SetMultimap<K, V> unusableDelegate;
 
     static <K, V> PopulatableMapAsMultimap<K, V> create() {
-      return new PopulatableMapAsMultimap<K, V>();
+      return new PopulatableMapAsMultimap<>();
     }
 
     @SuppressWarnings("unchecked")  // all methods throw immediately
@@ -175,7 +176,7 @@ public class MultimapsCollectionTest extends TestCase {
       implements TestCollectionGenerator<Entry<String, Integer>> {
     @Override
     public SampleElements<Entry<String, Integer>> samples() {
-      return new SampleElements<Entry<String, Integer>>(
+      return new SampleElements<>(
           Maps.immutableEntry("bar", 1),
           Maps.immutableEntry("bar", 2),
           Maps.immutableEntry("foo", 3),
@@ -324,12 +325,12 @@ public class MultimapsCollectionTest extends TestCase {
 
     @Override
     public SampleElements<String> sampleKeys() {
-      return new SampleElements<String>("one", "two", "three", "four", "five");
+      return new SampleElements<>("one", "two", "three", "four", "five");
     }
 
     @Override
     public SampleElements<String> sampleValues() {
-      return new SampleElements<String>("january", "february", "march", "april", "may");
+      return new SampleElements<>("january", "february", "march", "april", "may");
     }
 
     @Override
@@ -339,7 +340,7 @@ public class MultimapsCollectionTest extends TestCase {
 
     @Override
     public SampleElements<Entry<String, String>> samples() {
-      return new SampleElements<Entry<String, String>>(
+      return new SampleElements<>(
           mapEntry("one", "january"),
           mapEntry("two", "february"),
           mapEntry("three", "march"),
@@ -464,7 +465,7 @@ public class MultimapsCollectionTest extends TestCase {
 
     @Override
     public SampleElements<Entry<String, Integer>> samples() {
-      return new SampleElements<Entry<String, Integer>>(
+      return new SampleElements<>(
           mapEntry("one", 114),
           mapEntry("two", 37),
           mapEntry("three", 42),
@@ -495,12 +496,12 @@ public class MultimapsCollectionTest extends TestCase {
 
     @Override
     public SampleElements<String> sampleKeys() {
-      return new SampleElements<String>("one", "two", "three", "four", "five");
+      return new SampleElements<>("one", "two", "three", "four", "five");
     }
 
     @Override
     public SampleElements<Integer> sampleValues() {
-      return new SampleElements<Integer>(114, 37, 42, 19, 82);
+      return new SampleElements<>(114, 37, 42, 19, 82);
     }
   }
 

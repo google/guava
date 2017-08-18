@@ -180,24 +180,27 @@ public class ForwardingSortedMultisetTest extends TestCase {
     TestSuite suite = new TestSuite();
 
     suite.addTestSuite(ForwardingSortedMultisetTest.class);
-    suite.addTest(SortedMultisetTestSuiteBuilder
-        .using(new TestStringMultisetGenerator() {
-          @Override
-          protected Multiset<String> create(String[] elements) {
-            return new StandardImplForwardingSortedMultiset<String>(
-                TreeMultiset.create(Arrays.asList(elements)));
-          }
+    suite.addTest(
+        SortedMultisetTestSuiteBuilder.using(
+                new TestStringMultisetGenerator() {
+                  @Override
+                  protected Multiset<String> create(String[] elements) {
+                    return new StandardImplForwardingSortedMultiset<>(
+                        TreeMultiset.create(Arrays.asList(elements)));
+                  }
 
-          @Override
-          public List<String> order(List<String> insertionOrder) {
-            return Ordering.natural().sortedCopy(insertionOrder);
-          }
-        })
-        .named("ForwardingSortedMultiset with standard impls")
-        .withFeatures(
-            CollectionSize.ANY, CollectionFeature.KNOWN_ORDER, CollectionFeature.GENERAL_PURPOSE,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .createTestSuite());
+                  @Override
+                  public List<String> order(List<String> insertionOrder) {
+                    return Ordering.natural().sortedCopy(insertionOrder);
+                  }
+                })
+            .named("ForwardingSortedMultiset with standard impls")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.KNOWN_ORDER,
+                CollectionFeature.GENERAL_PURPOSE,
+                CollectionFeature.ALLOWS_NULL_QUERIES)
+            .createTestSuite());
 
     return suite;
   }

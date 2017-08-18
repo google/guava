@@ -96,27 +96,31 @@ public class ForwardingCollectionTest extends TestCase {
 
     suite.addTestSuite(ForwardingCollectionTest.class);
     suite.addTest(
-        CollectionTestSuiteBuilder.using(new TestStringCollectionGenerator() {
-          @Override protected Collection<String> create(String[] elements) {
-            return new StandardImplForwardingCollection<String>(
-                Lists.newLinkedList(asList(elements)));
-          }
-        }).named(
-            "ForwardingCollection[LinkedList] with standard implementations")
-            .withFeatures(CollectionSize.ANY,
+        CollectionTestSuiteBuilder.using(
+                new TestStringCollectionGenerator() {
+                  @Override
+                  protected Collection<String> create(String[] elements) {
+                    return new StandardImplForwardingCollection<>(
+                        Lists.newLinkedList(asList(elements)));
+                  }
+                })
+            .named("ForwardingCollection[LinkedList] with standard implementations")
+            .withFeatures(
+                CollectionSize.ANY,
                 CollectionFeature.ALLOWS_NULL_VALUES,
-                CollectionFeature.GENERAL_PURPOSE).createTestSuite());
+                CollectionFeature.GENERAL_PURPOSE)
+            .createTestSuite());
     suite.addTest(
-        CollectionTestSuiteBuilder.using(new TestStringCollectionGenerator() {
-          @Override protected Collection<String> create(String[] elements) {
-            return new StandardImplForwardingCollection<String>(
-                MinimalCollection.of(elements));
-          }
-        }).named(
-            "ForwardingCollection[MinimalCollection] with standard"
-            + " implementations")
-            .withFeatures(CollectionSize.ANY,
-                CollectionFeature.ALLOWS_NULL_VALUES).createTestSuite());
+        CollectionTestSuiteBuilder.using(
+                new TestStringCollectionGenerator() {
+                  @Override
+                  protected Collection<String> create(String[] elements) {
+                    return new StandardImplForwardingCollection<>(MinimalCollection.of(elements));
+                  }
+                })
+            .named("ForwardingCollection[MinimalCollection] with standard" + " implementations")
+            .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_VALUES)
+            .createTestSuite());
 
     return suite;
   }

@@ -424,7 +424,7 @@ public class ImmutableSortedMultisetTest extends TestCase {
 
   public void testBuilderSetCountHandlesNullsCorrectly() {
     ImmutableSortedMultiset.Builder<String> builder =
-        new ImmutableSortedMultiset.Builder<String>(Ordering.natural().nullsFirst());
+        new ImmutableSortedMultiset.Builder<>(Ordering.natural().nullsFirst());
     try {
       builder.setCount(null, 2);
       fail("expected NullPointerException");

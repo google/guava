@@ -59,7 +59,7 @@ public class EnumHashBiMapTest extends TestCase {
 
     @Override
     public SampleElements<Entry<Country, String>> samples() {
-      return new SampleElements<Entry<Country, String>>(
+      return new SampleElements<>(
           Maps.immutableEntry(Country.CANADA, "DOLLAR"),
           Maps.immutableEntry(Country.CHILE, "PESO"),
           Maps.immutableEntry(Country.UK, "POUND"),

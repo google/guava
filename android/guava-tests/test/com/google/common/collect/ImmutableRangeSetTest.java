@@ -40,7 +40,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
   static final class ImmutableRangeSetIntegerAsSetGenerator implements TestSetGenerator<Integer> {
     @Override
     public SampleElements<Integer> samples() {
-      return new SampleElements<Integer>(1, 4, 3, 2, 5);
+      return new SampleElements<>(1, 4, 3, 2, 5);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
       implements TestSetGenerator<BigInteger> {
     @Override
     public SampleElements<BigInteger> samples() {
-      return new SampleElements<BigInteger>(
+      return new SampleElements<>(
           BigInteger.valueOf(1),
           BigInteger.valueOf(4),
           BigInteger.valueOf(3),

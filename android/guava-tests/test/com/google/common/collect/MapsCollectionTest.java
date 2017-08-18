@@ -97,183 +97,199 @@ public class MapsCollectionTest extends TestCase {
             MapFeature.REJECTS_DUPLICATES_AT_CREATION,
             CollectionFeature.SERIALIZABLE)
         .createTestSuite());
-    suite.addTest(MapTestSuiteBuilder
-        .using(new TestMapGenerator<String, Integer>() {
-          @Override
-          public SampleElements<Entry<String, Integer>> samples() {
-            return new SampleElements<Entry<String, Integer>>(
-                mapEntry("x", 1),
-                mapEntry("xxx", 3),
-                mapEntry("xx", 2),
-                mapEntry("xxxx", 4),
-                mapEntry("aaaaa", 5));
-          }
+    suite.addTest(
+        MapTestSuiteBuilder.using(
+                new TestMapGenerator<String, Integer>() {
+                  @Override
+                  public SampleElements<Entry<String, Integer>> samples() {
+                    return new SampleElements<>(
+                        mapEntry("x", 1),
+                        mapEntry("xxx", 3),
+                        mapEntry("xx", 2),
+                        mapEntry("xxxx", 4),
+                        mapEntry("aaaaa", 5));
+                  }
 
-          @Override
-          public Map<String, Integer> create(Object... elements) {
-            Set<String> set = Sets.newLinkedHashSet();
-            for (Object e : elements) {
-              Entry<?, ?> entry = (Entry<?, ?>) e;
-              checkNotNull(entry.getValue());
-              set.add((String) checkNotNull(entry.getKey()));
-            }
-            return Maps.asMap(set, new Function<String, Integer>() {
-              @Override
-              public Integer apply(String input) {
-                return input.length();
-              }
-            });
-          }
+                  @Override
+                  public Map<String, Integer> create(Object... elements) {
+                    Set<String> set = Sets.newLinkedHashSet();
+                    for (Object e : elements) {
+                      Entry<?, ?> entry = (Entry<?, ?>) e;
+                      checkNotNull(entry.getValue());
+                      set.add((String) checkNotNull(entry.getKey()));
+                    }
+                    return Maps.asMap(
+                        set,
+                        new Function<String, Integer>() {
+                          @Override
+                          public Integer apply(String input) {
+                            return input.length();
+                          }
+                        });
+                  }
 
-          @SuppressWarnings("unchecked")
-          @Override
-          public Entry<String, Integer>[] createArray(int length) {
-            return new Entry[length];
-          }
+                  @SuppressWarnings("unchecked")
+                  @Override
+                  public Entry<String, Integer>[] createArray(int length) {
+                    return new Entry[length];
+                  }
 
-          @Override
-          public Iterable<Entry<String, Integer>> order(
-              List<Entry<String, Integer>> insertionOrder) {
-            return insertionOrder;
-          }
+                  @Override
+                  public Iterable<Entry<String, Integer>> order(
+                      List<Entry<String, Integer>> insertionOrder) {
+                    return insertionOrder;
+                  }
 
-          @Override
-          public String[] createKeyArray(int length) {
-            return new String[length];
-          }
+                  @Override
+                  public String[] createKeyArray(int length) {
+                    return new String[length];
+                  }
 
-          @Override
-          public Integer[] createValueArray(int length) {
-            return new Integer[length];
-          }
-        })
-        .named("Maps.asMap[Set, Function]")
-        .withFeatures(CollectionSize.ANY,
-            MapFeature.SUPPORTS_REMOVE,
-            CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
-        .createTestSuite());
-    suite.addTest(SortedMapTestSuiteBuilder
-        .using(new TestMapGenerator<String, Integer>() {
-          @Override
-          public String[] createKeyArray(int length) {
-            return new String[length];
-          }
+                  @Override
+                  public Integer[] createValueArray(int length) {
+                    return new Integer[length];
+                  }
+                })
+            .named("Maps.asMap[Set, Function]")
+            .withFeatures(
+                CollectionSize.ANY,
+                MapFeature.SUPPORTS_REMOVE,
+                CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
+            .createTestSuite());
+    suite.addTest(
+        SortedMapTestSuiteBuilder.using(
+                new TestMapGenerator<String, Integer>() {
+                  @Override
+                  public String[] createKeyArray(int length) {
+                    return new String[length];
+                  }
 
-          @Override
-          public Integer[] createValueArray(int length) {
-            return new Integer[length];
-          }
+                  @Override
+                  public Integer[] createValueArray(int length) {
+                    return new Integer[length];
+                  }
 
-          @Override
-          public SampleElements<Entry<String, Integer>> samples() {
-            return new SampleElements<Entry<String, Integer>>(
-                mapEntry("a", 1),
-                mapEntry("aa", 2),
-                mapEntry("aba", 3),
-                mapEntry("bbbb", 4),
-                mapEntry("ccccc", 5));
-          }
+                  @Override
+                  public SampleElements<Entry<String, Integer>> samples() {
+                    return new SampleElements<>(
+                        mapEntry("a", 1),
+                        mapEntry("aa", 2),
+                        mapEntry("aba", 3),
+                        mapEntry("bbbb", 4),
+                        mapEntry("ccccc", 5));
+                  }
 
-          @Override
-          public SortedMap<String, Integer> create(Object... elements) {
-            SortedSet<String> set = new NonNavigableSortedSet();
-            for (Object e : elements) {
-              Entry<?, ?> entry = (Entry<?, ?>) e;
-              checkNotNull(entry.getValue());
-              set.add((String) checkNotNull(entry.getKey()));
-            }
-            return Maps.asMap(set, new Function<String, Integer>() {
-              @Override
-              public Integer apply(String input) {
-                return input.length();
-              }
-            });
-          }
+                  @Override
+                  public SortedMap<String, Integer> create(Object... elements) {
+                    SortedSet<String> set = new NonNavigableSortedSet();
+                    for (Object e : elements) {
+                      Entry<?, ?> entry = (Entry<?, ?>) e;
+                      checkNotNull(entry.getValue());
+                      set.add((String) checkNotNull(entry.getKey()));
+                    }
+                    return Maps.asMap(
+                        set,
+                        new Function<String, Integer>() {
+                          @Override
+                          public Integer apply(String input) {
+                            return input.length();
+                          }
+                        });
+                  }
 
-          @SuppressWarnings("unchecked")
-          @Override
-          public Entry<String, Integer>[] createArray(int length) {
-            return new Entry[length];
-          }
+                  @SuppressWarnings("unchecked")
+                  @Override
+                  public Entry<String, Integer>[] createArray(int length) {
+                    return new Entry[length];
+                  }
 
-          @Override
-          public Iterable<Entry<String, Integer>> order(
-              List<Entry<String, Integer>> insertionOrder) {
-            Collections.sort(insertionOrder, new Comparator<Entry<String, Integer>>() {
-              @Override
-              public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
-                return o1.getKey().compareTo(o2.getKey());
-              }
-            });
-            return insertionOrder;
-          }
-        })
-        .named("Maps.asMap[SortedSet, Function]")
-        .withFeatures(CollectionSize.ANY,
-            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-            MapFeature.SUPPORTS_REMOVE)
-        .createTestSuite());
-    suite.addTest(NavigableMapTestSuiteBuilder
-        .using(new TestMapGenerator<String, Integer>() {
-          @Override
-          public String[] createKeyArray(int length) {
-            return new String[length];
-          }
+                  @Override
+                  public Iterable<Entry<String, Integer>> order(
+                      List<Entry<String, Integer>> insertionOrder) {
+                    Collections.sort(
+                        insertionOrder,
+                        new Comparator<Entry<String, Integer>>() {
+                          @Override
+                          public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
+                            return o1.getKey().compareTo(o2.getKey());
+                          }
+                        });
+                    return insertionOrder;
+                  }
+                })
+            .named("Maps.asMap[SortedSet, Function]")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+                MapFeature.SUPPORTS_REMOVE)
+            .createTestSuite());
+    suite.addTest(
+        NavigableMapTestSuiteBuilder.using(
+                new TestMapGenerator<String, Integer>() {
+                  @Override
+                  public String[] createKeyArray(int length) {
+                    return new String[length];
+                  }
 
-          @Override
-          public Integer[] createValueArray(int length) {
-            return new Integer[length];
-          }
+                  @Override
+                  public Integer[] createValueArray(int length) {
+                    return new Integer[length];
+                  }
 
-          @Override
-          public SampleElements<Entry<String, Integer>> samples() {
-            return new SampleElements<Entry<String, Integer>>(
-                mapEntry("a", 1),
-                mapEntry("aa", 2),
-                mapEntry("aba", 3),
-                mapEntry("bbbb", 4),
-                mapEntry("ccccc", 5));
-          }
+                  @Override
+                  public SampleElements<Entry<String, Integer>> samples() {
+                    return new SampleElements<>(
+                        mapEntry("a", 1),
+                        mapEntry("aa", 2),
+                        mapEntry("aba", 3),
+                        mapEntry("bbbb", 4),
+                        mapEntry("ccccc", 5));
+                  }
 
-          @Override
-          public NavigableMap<String, Integer> create(Object... elements) {
-            NavigableSet<String> set = Sets.newTreeSet(Ordering.natural());
-            for (Object e : elements) {
-              Map.Entry<?, ?> entry = (Entry<?, ?>) e;
-              checkNotNull(entry.getValue());
-              set.add((String) checkNotNull(entry.getKey()));
-            }
-            return Maps.asMap(set, new Function<String, Integer>() {
-              @Override
-              public Integer apply(String input) {
-                return input.length();
-              }
-            });
-          }
+                  @Override
+                  public NavigableMap<String, Integer> create(Object... elements) {
+                    NavigableSet<String> set = Sets.newTreeSet(Ordering.natural());
+                    for (Object e : elements) {
+                      Map.Entry<?, ?> entry = (Entry<?, ?>) e;
+                      checkNotNull(entry.getValue());
+                      set.add((String) checkNotNull(entry.getKey()));
+                    }
+                    return Maps.asMap(
+                        set,
+                        new Function<String, Integer>() {
+                          @Override
+                          public Integer apply(String input) {
+                            return input.length();
+                          }
+                        });
+                  }
 
-          @SuppressWarnings("unchecked")
-          @Override
-          public Entry<String, Integer>[] createArray(int length) {
-            return new Entry[length];
-          }
+                  @SuppressWarnings("unchecked")
+                  @Override
+                  public Entry<String, Integer>[] createArray(int length) {
+                    return new Entry[length];
+                  }
 
-          @Override
-          public Iterable<Entry<String, Integer>> order(
-              List<Entry<String, Integer>> insertionOrder) {
-            Collections.sort(insertionOrder, new Comparator<Entry<String, Integer>>() {
-              @Override
-              public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
-                return o1.getKey().compareTo(o2.getKey());
-              }
-            });
-            return insertionOrder;
-          }
-        })
-        .named("Maps.asMap[NavigableSet, Function]")
-        .withFeatures(CollectionSize.ANY,
-            MapFeature.SUPPORTS_REMOVE,
-            CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
-        .createTestSuite());
+                  @Override
+                  public Iterable<Entry<String, Integer>> order(
+                      List<Entry<String, Integer>> insertionOrder) {
+                    Collections.sort(
+                        insertionOrder,
+                        new Comparator<Entry<String, Integer>>() {
+                          @Override
+                          public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
+                            return o1.getKey().compareTo(o2.getKey());
+                          }
+                        });
+                    return insertionOrder;
+                  }
+                })
+            .named("Maps.asMap[NavigableSet, Function]")
+            .withFeatures(
+                CollectionSize.ANY,
+                MapFeature.SUPPORTS_REMOVE,
+                CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
+            .createTestSuite());
     suite.addTest(filterSuite());
     suite.addTest(transformSuite());
     return suite;
@@ -590,8 +606,7 @@ public class MapsCollectionTest extends TestCase {
   private static class NonNavigableSortedMap
       extends ForwardingSortedMap<String, String> {
 
-    private final SortedMap<String, String> delegate =
-        new SafeTreeMap<String, String>(Ordering.natural());
+    private final SortedMap<String, String> delegate = new SafeTreeMap<>(Ordering.natural());
 
     @Override
     protected SortedMap<String, String> delegate() {

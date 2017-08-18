@@ -29,7 +29,7 @@ import junit.framework.TestCase;
 public class SynchronizedDequeTest extends TestCase {
 
   protected Deque<String> create() {
-    TestDeque<String> inner = new TestDeque<String>();
+    TestDeque<String> inner = new TestDeque<>();
     Deque<String> outer = Synchronized.deque(inner, inner.mutex);
     outer.add("foo");  // necessary because we try to remove elements later on
     return outer;

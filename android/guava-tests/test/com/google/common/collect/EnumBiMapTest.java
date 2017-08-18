@@ -66,7 +66,7 @@ public class EnumBiMapTest extends TestCase {
 
     @Override
     public SampleElements<Entry<Country, Currency>> samples() {
-      return new SampleElements<Entry<Country, Currency>>(
+      return new SampleElements<>(
           Helpers.mapEntry(Country.CANADA, Currency.DOLLAR),
           Helpers.mapEntry(Country.CHILE, Currency.PESO),
           Helpers.mapEntry(Country.UK, Currency.POUND),

@@ -45,26 +45,30 @@ public class SynchronizedMultimapTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(SynchronizedMultimapTest.class);
-    suite.addTest(SetMultimapTestSuiteBuilder.using(new TestStringSetMultimapGenerator() {
-        @Override
-        protected SetMultimap<String, String> create(Entry<String, String>[] entries) {
-          TestMultimap<String, String> inner = new TestMultimap<String, String>();
-          SetMultimap<String, String> outer = Synchronized.setMultimap(inner, inner.mutex);
-          for (Entry<String, String> entry : entries) {
-            outer.put(entry.getKey(), entry.getValue());
-          }
-          return outer;
-        }
-      })
-      .named("Synchronized.setMultimap")
-      .withFeatures(MapFeature.GENERAL_PURPOSE,
-          CollectionSize.ANY,
-          CollectionFeature.SERIALIZABLE,
-          CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-          MapFeature.ALLOWS_NULL_KEYS,
-          MapFeature.ALLOWS_NULL_VALUES,
-          MapFeature.ALLOWS_ANY_NULL_QUERIES)
-      .createTestSuite());
+    suite.addTest(
+        SetMultimapTestSuiteBuilder.using(
+                new TestStringSetMultimapGenerator() {
+                  @Override
+                  protected SetMultimap<String, String> create(Entry<String, String>[] entries) {
+                    TestMultimap<String, String> inner = new TestMultimap<>();
+                    SetMultimap<String, String> outer =
+                        Synchronized.setMultimap(inner, inner.mutex);
+                    for (Entry<String, String> entry : entries) {
+                      outer.put(entry.getKey(), entry.getValue());
+                    }
+                    return outer;
+                  }
+                })
+            .named("Synchronized.setMultimap")
+            .withFeatures(
+                MapFeature.GENERAL_PURPOSE,
+                CollectionSize.ANY,
+                CollectionFeature.SERIALIZABLE,
+                CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+                MapFeature.ALLOWS_NULL_KEYS,
+                MapFeature.ALLOWS_NULL_VALUES,
+                MapFeature.ALLOWS_ANY_NULL_QUERIES)
+            .createTestSuite());
     return suite;
   }
 

@@ -176,7 +176,7 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
 
     @Override
     public SampleElements<Entry<Class, Impl>> samples() {
-      return new SampleElements<Entry<Class, Impl>>(
+      return new SampleElements<>(
           immutableEntry((Class) One.class, new Impl(1)),
           immutableEntry((Class) Two.class, new Impl(2)),
           immutableEntry((Class) Three.class, new Impl(3)),

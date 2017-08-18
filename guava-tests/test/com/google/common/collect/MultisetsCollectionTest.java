@@ -98,12 +98,14 @@ public class MultisetsCollectionTest extends TestCase {
 
   private static TestStringMultisetGenerator unmodifiableMultisetGenerator() {
     return new TestStringMultisetGenerator() {
-      @Override protected Multiset<String> create(String[] elements) {
-        return Multisets.unmodifiableMultiset(
-            LinkedHashMultiset.create(asList(elements)));
+      @Override
+      protected Multiset<String> create(String[] elements) {
+        return Multisets.unmodifiableMultiset(LinkedHashMultiset.create(asList(elements)));
       }
-      @Override public List<String> order(List<String> insertionOrder) {
-        List<String> order = new ArrayList<String>();
+
+      @Override
+      public List<String> order(List<String> insertionOrder) {
+        List<String> order = new ArrayList<>();
         for (String s : insertionOrder) {
           int index = order.indexOf(s);
           if (index == -1) {

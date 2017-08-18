@@ -123,87 +123,97 @@ public class TreeMultimapNaturalTest extends TestCase {
           CollectionFeature.KNOWN_ORDER,
           CollectionSize.ANY)
       .createTestSuite());
-    suite.addTest(NavigableMapTestSuiteBuilder.using(
-      new TestSortedMapGenerator<String, Collection<String>>() {
+    suite.addTest(
+        NavigableMapTestSuiteBuilder.using(
+                new TestSortedMapGenerator<String, Collection<String>>() {
 
-        @Override
-        public String[] createKeyArray(int length) {
-          return new String[length];
-        }
+                  @Override
+                  public String[] createKeyArray(int length) {
+                    return new String[length];
+                  }
 
-        @SuppressWarnings("unchecked")
-        @Override
-        public Collection<String>[] createValueArray(int length) {
-          return new Collection[length];
-        }
+                  @SuppressWarnings("unchecked")
+                  @Override
+                  public Collection<String>[] createValueArray(int length) {
+                    return new Collection[length];
+                  }
 
-        @Override
-        public SampleElements<Entry<String, Collection<String>>> samples() {
-          return new SampleElements<Entry<String, Collection<String>>>(
-              Helpers.mapEntry("a", (Collection<String>) ImmutableSortedSet.of("alex")),
-              Helpers.mapEntry("b", (Collection<String>) ImmutableSortedSet.of("bob", "bagel")),
-              Helpers.mapEntry("c", (Collection<String>) ImmutableSortedSet.of("carl", "carol")),
-              Helpers.mapEntry("d", (Collection<String>) ImmutableSortedSet.of("david", "dead")),
-              Helpers.mapEntry("e", (Collection<String>) ImmutableSortedSet.of("eric", "elaine")));
-        }
+                  @Override
+                  public SampleElements<Entry<String, Collection<String>>> samples() {
+                    return new SampleElements<>(
+                        Helpers.mapEntry("a", (Collection<String>) ImmutableSortedSet.of("alex")),
+                        Helpers.mapEntry(
+                            "b", (Collection<String>) ImmutableSortedSet.of("bob", "bagel")),
+                        Helpers.mapEntry(
+                            "c", (Collection<String>) ImmutableSortedSet.of("carl", "carol")),
+                        Helpers.mapEntry(
+                            "d", (Collection<String>) ImmutableSortedSet.of("david", "dead")),
+                        Helpers.mapEntry(
+                            "e", (Collection<String>) ImmutableSortedSet.of("eric", "elaine")));
+                  }
 
-        @SuppressWarnings("unchecked")
-        @Override
-        public Entry<String, Collection<String>>[] createArray(int length) {
-          return new Entry[length];
-        }
+                  @SuppressWarnings("unchecked")
+                  @Override
+                  public Entry<String, Collection<String>>[] createArray(int length) {
+                    return new Entry[length];
+                  }
 
-        @Override
-        public Iterable<Entry<String, Collection<String>>> order(
-            List<Entry<String, Collection<String>>> insertionOrder) {
-          return new Ordering<Entry<String, ?>>() {
-            @Override
-            public int compare(Entry<String, ?> left, Entry<String, ?> right) {
-              return left.getKey().compareTo(right.getKey());
-            }
-          }.sortedCopy(insertionOrder);
-        }
+                  @Override
+                  public Iterable<Entry<String, Collection<String>>> order(
+                      List<Entry<String, Collection<String>>> insertionOrder) {
+                    return new Ordering<Entry<String, ?>>() {
+                      @Override
+                      public int compare(Entry<String, ?> left, Entry<String, ?> right) {
+                        return left.getKey().compareTo(right.getKey());
+                      }
+                    }.sortedCopy(insertionOrder);
+                  }
 
-        @Override
-        public NavigableMap<String, Collection<String>> create(Object... elements) {
-          TreeMultimap<String, String> multimap = TreeMultimap.create();
-          for (Object o : elements) {
-            @SuppressWarnings("unchecked")
-            Entry<String, Collection<String>> entry = (Entry<String, Collection<String>>) o;
-            checkArgument(!multimap.containsKey(entry.getKey()));
-            multimap.putAll(entry.getKey(), entry.getValue());
-          }
-          return multimap.asMap();
-        }
+                  @Override
+                  public NavigableMap<String, Collection<String>> create(Object... elements) {
+                    TreeMultimap<String, String> multimap = TreeMultimap.create();
+                    for (Object o : elements) {
+                      @SuppressWarnings("unchecked")
+                      Entry<String, Collection<String>> entry =
+                          (Entry<String, Collection<String>>) o;
+                      checkArgument(!multimap.containsKey(entry.getKey()));
+                      multimap.putAll(entry.getKey(), entry.getValue());
+                    }
+                    return multimap.asMap();
+                  }
 
-        @Override
-        public Entry<String, Collection<String>> belowSamplesLesser() {
-          return Helpers.mapEntry("-- a", (Collection<String>) ImmutableSortedSet.of("--below"));
-        }
+                  @Override
+                  public Entry<String, Collection<String>> belowSamplesLesser() {
+                    return Helpers.mapEntry(
+                        "-- a", (Collection<String>) ImmutableSortedSet.of("--below"));
+                  }
 
-        @Override
-        public Entry<String, Collection<String>> belowSamplesGreater() {
-          return Helpers.mapEntry("-- b", (Collection<String>) ImmutableSortedSet.of("--below"));
-        }
+                  @Override
+                  public Entry<String, Collection<String>> belowSamplesGreater() {
+                    return Helpers.mapEntry(
+                        "-- b", (Collection<String>) ImmutableSortedSet.of("--below"));
+                  }
 
-        @Override
-        public Entry<String, Collection<String>> aboveSamplesLesser() {
-          return Helpers.mapEntry("~~ b", (Collection<String>) ImmutableSortedSet.of("~above"));
-        }
+                  @Override
+                  public Entry<String, Collection<String>> aboveSamplesLesser() {
+                    return Helpers.mapEntry(
+                        "~~ b", (Collection<String>) ImmutableSortedSet.of("~above"));
+                  }
 
-        @Override
-        public Entry<String, Collection<String>> aboveSamplesGreater() {
-          return Helpers.mapEntry("~~ c", (Collection<String>) ImmutableSortedSet.of("~above"));
-        }
-      })
-      .named("TreeMultimap.asMap")
-      .withFeatures(
-          MapFeature.SUPPORTS_REMOVE,
-          MapFeature.REJECTS_DUPLICATES_AT_CREATION,
-          CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-          CollectionFeature.KNOWN_ORDER,
-          CollectionSize.ANY)
-      .createTestSuite());
+                  @Override
+                  public Entry<String, Collection<String>> aboveSamplesGreater() {
+                    return Helpers.mapEntry(
+                        "~~ c", (Collection<String>) ImmutableSortedSet.of("~above"));
+                  }
+                })
+            .named("TreeMultimap.asMap")
+            .withFeatures(
+                MapFeature.SUPPORTS_REMOVE,
+                MapFeature.REJECTS_DUPLICATES_AT_CREATION,
+                CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+                CollectionFeature.KNOWN_ORDER,
+                CollectionSize.ANY)
+            .createTestSuite());
     suite.addTest(NavigableSetTestSuiteBuilder.using(new TestStringSetGenerator() {
         @Override
         protected Set<String> create(String[] elements) {

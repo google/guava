@@ -182,21 +182,24 @@ public class SetsTest extends TestCase {
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 
-    suite.addTest(NavigableSetTestSuiteBuilder.using(new TestStringSetGenerator() {
-          @Override protected Set<String> create(String[] elements) {
-            SafeTreeSet<String> set = new SafeTreeSet<String>(Arrays.asList(elements));
-            return Sets.unmodifiableNavigableSet(set);
-          }
+    suite.addTest(
+        NavigableSetTestSuiteBuilder.using(
+                new TestStringSetGenerator() {
+                  @Override
+                  protected Set<String> create(String[] elements) {
+                    SafeTreeSet<String> set = new SafeTreeSet<>(Arrays.asList(elements));
+                    return Sets.unmodifiableNavigableSet(set);
+                  }
 
-          @Override
-          public List<String> order(List<String> insertionOrder) {
-            return Ordering.natural().sortedCopy(insertionOrder);
-          }
-        })
-        .named("Sets.unmodifiableNavigableSet[TreeSet]")
-        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.SERIALIZABLE)
-        .createTestSuite());
+                  @Override
+                  public List<String> order(List<String> insertionOrder) {
+                    return Ordering.natural().sortedCopy(insertionOrder);
+                  }
+                })
+            .named("Sets.unmodifiableNavigableSet[TreeSet]")
+            .withFeatures(
+                CollectionSize.ANY, CollectionFeature.KNOWN_ORDER, CollectionFeature.SERIALIZABLE)
+            .createTestSuite());
 
     suite.addTest(testsForFilter());
     suite.addTest(testsForFilterNoNulls());
@@ -636,7 +639,7 @@ public class SetsTest extends TestCase {
   }
 
   public void testNewSetFromMapIllegal() {
-    Map<Integer, Boolean> map = new LinkedHashMap<Integer, Boolean>();
+    Map<Integer, Boolean> map = new LinkedHashMap<>();
     map.put(2, true);
     try {
       Sets.newSetFromMap(map);

@@ -1049,7 +1049,7 @@ public class OrderingTest extends TestCase {
         for (int i = 0; i < scenario.strictlyOrderedList.size(); i++) {
           list.add(i);
         }
-        return new Scenario<Integer>(ordering, list, new Integer[0]);
+        return new Scenario<>(ordering, list, new Integer[0]);
       }
     },
     COMPOUND_THIS_WITH_NATURAL {

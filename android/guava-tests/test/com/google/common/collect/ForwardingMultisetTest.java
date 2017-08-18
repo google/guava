@@ -140,27 +140,32 @@ public class ForwardingMultisetTest extends TestCase {
 
     suite.addTestSuite(ForwardingMultisetTest.class);
     suite.addTest(
-        MultisetTestSuiteBuilder.using(new TestStringMultisetGenerator() {
+        MultisetTestSuiteBuilder.using(
+                new TestStringMultisetGenerator() {
 
-          @Override protected Multiset<String> create(String[] elements) {
-            return new StandardImplForwardingMultiset<String>(
-                LinkedHashMultiset.create(Arrays.asList(elements)));
-          }
-        }).named("ForwardingMultiset[LinkedHashMultiset] with standard "
-            + "implementations").withFeatures(CollectionSize.ANY,
-            CollectionFeature.ALLOWS_NULL_VALUES,
-            CollectionFeature.GENERAL_PURPOSE).createTestSuite());
+                  @Override
+                  protected Multiset<String> create(String[] elements) {
+                    return new StandardImplForwardingMultiset<>(
+                        LinkedHashMultiset.create(Arrays.asList(elements)));
+                  }
+                })
+            .named("ForwardingMultiset[LinkedHashMultiset] with standard " + "implementations")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.ALLOWS_NULL_VALUES,
+                CollectionFeature.GENERAL_PURPOSE)
+            .createTestSuite());
     suite.addTest(
-        MultisetTestSuiteBuilder.using(new TestStringMultisetGenerator() {
+        MultisetTestSuiteBuilder.using(
+                new TestStringMultisetGenerator() {
 
-          @Override protected Multiset<String> create(String[] elements) {
-            return new StandardImplForwardingMultiset<String>(
-                ImmutableMultiset.copyOf(elements));
-          }
-        }).named("ForwardingMultiset[ImmutableMultiset] with standard "
-            + "implementations")
-            .withFeatures(CollectionSize.ANY,
-                CollectionFeature.ALLOWS_NULL_QUERIES)
+                  @Override
+                  protected Multiset<String> create(String[] elements) {
+                    return new StandardImplForwardingMultiset<>(ImmutableMultiset.copyOf(elements));
+                  }
+                })
+            .named("ForwardingMultiset[ImmutableMultiset] with standard " + "implementations")
+            .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_QUERIES)
             .createTestSuite());
     suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
 

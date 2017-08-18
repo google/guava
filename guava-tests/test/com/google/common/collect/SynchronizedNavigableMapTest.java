@@ -42,9 +42,9 @@ import junit.framework.TestSuite;
 public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
   @Override protected <K, V> NavigableMap<K, V> create() {
     @SuppressWarnings("unchecked")
-    NavigableMap<K, V> innermost = new SafeTreeMap<K, V>(
-        (Comparator<? super K>) Ordering.natural().nullsFirst());
-    TestMap<K, V> inner = new TestMap<K, V>(innermost, mutex);
+    NavigableMap<K, V> innermost =
+        new SafeTreeMap<>((Comparator<? super K>) Ordering.natural().nullsFirst());
+    TestMap<K, V> inner = new TestMap<>(innermost, mutex);
     NavigableMap<K, V> outer = Synchronized.navigableMap(inner, mutex);
     return outer;
   }
@@ -227,25 +227,27 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(SynchronizedNavigableMapTest.class);
     suite.addTest(
-        NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
-          private final Object mutex = new Integer(1);
+        NavigableMapTestSuiteBuilder.using(
+                new TestStringSortedMapGenerator() {
+                  private final Object mutex = new Integer(1);
 
-          @Override protected SortedMap<String, String> create(
-              Entry<String, String>[] entries) {
-            NavigableMap<String, String> innermost =
-                new SafeTreeMap<String, String>();
-            for (Entry<String, String> entry : entries) {
-              innermost.put(entry.getKey(), entry.getValue());
-            }
-            TestMap<String, String> inner =
-                new TestMap<String, String>(innermost, mutex);
-            NavigableMap<String, String> outer =
-                Synchronized.navigableMap(inner, mutex);
-            return outer;
-          }
-        }).named("Maps.synchronizedNavigableMap[SafeTreeMap]")
-            .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-                MapFeature.GENERAL_PURPOSE, MapFeature.ALLOWS_NULL_VALUES,
+                  @Override
+                  protected SortedMap<String, String> create(Entry<String, String>[] entries) {
+                    NavigableMap<String, String> innermost = new SafeTreeMap<>();
+                    for (Entry<String, String> entry : entries) {
+                      innermost.put(entry.getKey(), entry.getValue());
+                    }
+                    TestMap<String, String> inner = new TestMap<>(innermost, mutex);
+                    NavigableMap<String, String> outer = Synchronized.navigableMap(inner, mutex);
+                    return outer;
+                  }
+                })
+            .named("Maps.synchronizedNavigableMap[SafeTreeMap]")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.KNOWN_ORDER,
+                MapFeature.GENERAL_PURPOSE,
+                MapFeature.ALLOWS_NULL_VALUES,
                 CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
             .createTestSuite());
 

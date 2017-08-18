@@ -104,26 +104,30 @@ public class ForwardingSetTest extends TestCase {
 
     suite.addTestSuite(ForwardingSetTest.class);
     suite.addTest(
-        SetTestSuiteBuilder.using(new TestStringSetGenerator() {
-          @Override protected Set<String> create(String[] elements) {
-            return new StandardImplForwardingSet<String>(
-                Sets.newLinkedHashSet(asList(elements)));
-          }
-        }).named(
-            "ForwardingSet[LinkedHashSet] with standard implementations")
-            .withFeatures(CollectionSize.ANY,
+        SetTestSuiteBuilder.using(
+                new TestStringSetGenerator() {
+                  @Override
+                  protected Set<String> create(String[] elements) {
+                    return new StandardImplForwardingSet<>(Sets.newLinkedHashSet(asList(elements)));
+                  }
+                })
+            .named("ForwardingSet[LinkedHashSet] with standard implementations")
+            .withFeatures(
+                CollectionSize.ANY,
                 CollectionFeature.ALLOWS_NULL_VALUES,
-                CollectionFeature.GENERAL_PURPOSE).createTestSuite());
+                CollectionFeature.GENERAL_PURPOSE)
+            .createTestSuite());
     suite.addTest(
-        SetTestSuiteBuilder.using(new TestStringSetGenerator() {
-          @Override protected Set<String> create(String[] elements) {
-            return new StandardImplForwardingSet<String>(
-                MinimalSet.of(elements));
-          }
-        }).named(
-            "ForwardingSet[MinimalSet] with standard implementations")
-            .withFeatures(CollectionSize.ANY,
-                CollectionFeature.ALLOWS_NULL_VALUES).createTestSuite());
+        SetTestSuiteBuilder.using(
+                new TestStringSetGenerator() {
+                  @Override
+                  protected Set<String> create(String[] elements) {
+                    return new StandardImplForwardingSet<>(MinimalSet.of(elements));
+                  }
+                })
+            .named("ForwardingSet[MinimalSet] with standard implementations")
+            .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_VALUES)
+            .createTestSuite());
 
     return suite;
   }

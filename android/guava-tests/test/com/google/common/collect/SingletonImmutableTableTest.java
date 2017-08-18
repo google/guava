@@ -31,7 +31,7 @@ import com.google.common.testing.EqualsTester;
 @GwtCompatible(emulated = true)
 public class SingletonImmutableTableTest extends AbstractImmutableTableTest {
   private final ImmutableTable<Character, Integer, String> testTable =
-      new SingletonImmutableTable<Character, Integer, String>('a', 1, "blah");
+      new SingletonImmutableTable<>('a', 1, "blah");
 
   public void testHashCode() {
     assertEquals(Objects.hashCode('a', 1, "blah"), testTable.hashCode());

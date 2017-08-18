@@ -100,7 +100,7 @@ public class ImmutableListMultimapTest extends TestCase {
   }
 
   public void testBuilder_withImmutableEntryAndNullContents() {
-    Builder<String, Integer> builder = new Builder<String, Integer>();
+    Builder<String, Integer> builder = new Builder<>();
     try {
       builder.put(Maps.immutableEntry("one", (Integer) null));
       fail();
@@ -118,8 +118,7 @@ public class ImmutableListMultimapTest extends TestCase {
   }
 
   public void testBuilder_withMutableEntry() {
-    ImmutableListMultimap.Builder<String, Integer> builder =
-        new Builder<String, Integer>();
+    ImmutableListMultimap.Builder<String, Integer> builder = new Builder<>();
     final StringHolder holder = new StringHolder();
     holder.string = "one";
     Entry<String, Integer> entry = new AbstractMapEntry<String, Integer>() {

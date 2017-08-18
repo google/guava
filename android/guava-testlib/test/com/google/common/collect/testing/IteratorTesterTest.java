@@ -139,11 +139,12 @@ public class IteratorTesterTest extends TestCase {
   public void testCanCatchSunJavaBug6529795InTargetIterator() {
     try {
       /* Choose 4 steps to get sequence [next, next, next, remove] */
-      new IteratorTester<Integer>(4, MODIFIABLE, newArrayList(1, 2),
-          IteratorTester.KnownOrder.KNOWN_ORDER) {
-        @Override protected Iterator<Integer> newTargetIterator() {
+      new IteratorTester<Integer>(
+          4, MODIFIABLE, newArrayList(1, 2), IteratorTester.KnownOrder.KNOWN_ORDER) {
+        @Override
+        protected Iterator<Integer> newTargetIterator() {
           Iterator<Integer> iterator = Lists.newArrayList(1, 2).iterator();
-          return new IteratorWithSunJavaBug6529795<Integer>(iterator);
+          return new IteratorWithSunJavaBug6529795<>(iterator);
         }
       }.test();
     } catch (AssertionFailedError e) {
@@ -233,10 +234,11 @@ public class IteratorTesterTest extends TestCase {
 
   public void testUnexpectedException() {
     IteratorTester<Integer> tester =
-        new IteratorTester<Integer>(1, MODIFIABLE, newArrayList(1),
-            IteratorTester.KnownOrder.KNOWN_ORDER) {
-          @Override protected Iterator<Integer> newTargetIterator() {
-            return new ThrowingIterator<Integer>(new IllegalStateException());
+        new IteratorTester<Integer>(
+            1, MODIFIABLE, newArrayList(1), IteratorTester.KnownOrder.KNOWN_ORDER) {
+          @Override
+          protected Iterator<Integer> newTargetIterator() {
+            return new ThrowingIterator<>(new IllegalStateException());
           }
         };
     assertFailure(tester);

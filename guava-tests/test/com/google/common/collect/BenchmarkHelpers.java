@@ -198,7 +198,7 @@ final class BenchmarkHelpers {
     ConcurrentHashMapImpl {
       @Override
       public <K extends Comparable<K>, V> Map<K, V> create(Map<K, V> map) {
-        return new ConcurrentHashMap<K, V>(map);
+        return new ConcurrentHashMap<>(map);
       }
     },
     ImmutableMapImpl {
@@ -258,7 +258,7 @@ final class BenchmarkHelpers {
     ConcurrentSkipListImpl {
       @Override
       public <K extends Comparable<K>, V> SortedMap<K, V> create(Map<K, V> map) {
-        return new ConcurrentSkipListMap<K, V>(map);
+        return new ConcurrentSkipListMap<>(map);
       }
     },
     ImmutableSortedMapImpl {

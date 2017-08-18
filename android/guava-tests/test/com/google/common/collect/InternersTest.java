@@ -93,7 +93,7 @@ public class InternersTest extends TestCase {
     Interner<Integer> pool = Interners.newWeakInterner();
     assertSame(canonical, pool.intern(canonical));
 
-    WeakReference<Integer> signal = new WeakReference<Integer>(canonical);
+    WeakReference<Integer> signal = new WeakReference<>(canonical);
     canonical = null;  // Hint to the JIT that canonical is unreachable
 
     GcFinalization.awaitClear(signal);

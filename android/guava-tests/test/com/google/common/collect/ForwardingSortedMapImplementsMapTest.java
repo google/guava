@@ -47,7 +47,7 @@ public class ForwardingSortedMapImplementsMapTest
   }
 
   @Override protected SortedMap<String, Integer> makeEmptyMap() {
-    return new SimpleForwardingSortedMap<String, Integer>(
+    return new SimpleForwardingSortedMap<>(
         new TreeMap<String, Integer>(Ordering.natural().nullsFirst()));
   }
 

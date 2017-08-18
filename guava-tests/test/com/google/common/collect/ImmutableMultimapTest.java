@@ -60,8 +60,7 @@ public class ImmutableMultimapTest extends TestCase {
   }
 
   public void testBuilder_withMutableEntry() {
-    ImmutableMultimap.Builder<String, Integer> builder =
-        new Builder<String, Integer>();
+    ImmutableMultimap.Builder<String, Integer> builder = new Builder<>();
     final StringHolder holder = new StringHolder();
     holder.string = "one";
     Entry<String, Integer> entry = new AbstractMapEntry<String, Integer>() {

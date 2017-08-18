@@ -60,7 +60,7 @@ public class ConcurrentHashMultisetBasherTest extends TestCase {
   private void testAddAndRemove(ConcurrentMap<String, AtomicInteger> map)
       throws ExecutionException, InterruptedException {
 
-    final ConcurrentHashMultiset<String> multiset = new ConcurrentHashMultiset<String>(map);
+    final ConcurrentHashMultiset<String> multiset = new ConcurrentHashMultiset<>(map);
     int nThreads = 20;
     int tasksPerThread = 10;
     int nTasks = nThreads * tasksPerThread;
