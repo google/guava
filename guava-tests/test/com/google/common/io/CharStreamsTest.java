@@ -110,8 +110,7 @@ public class CharStreamsTest extends IoTestCase {
     try {
       CharStreams.skipFully(reader, 6);
       fail("expected EOFException");
-    } catch (EOFException e) {
-      // expected
+    } catch (EOFException expected) {
     }
   }
 

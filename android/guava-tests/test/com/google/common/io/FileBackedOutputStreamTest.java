@@ -136,7 +136,6 @@ public class FileBackedOutputStreamTest extends IoTestCase {
       out.write(42);
       fail("expected exception");
     } catch (IOException expected) {
-      // expected
     }
 
     // Verify that write had no effect

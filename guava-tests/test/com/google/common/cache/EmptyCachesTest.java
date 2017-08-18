@@ -90,8 +90,7 @@ public class EmptyCachesTest extends TestCase {
       try {
         cache.get(null);
         fail("Expected NullPointerException");
-      } catch (NullPointerException e) {
-        // expected
+      } catch (NullPointerException expected) {
       }
       checkEmpty(cache);
     }
@@ -102,8 +101,7 @@ public class EmptyCachesTest extends TestCase {
       try {
         cache.getUnchecked(null);
         fail("Expected NullPointerException");
-      } catch (NullPointerException e) {
-        // expected
+      } catch (NullPointerException expected) {
       }
       checkEmpty(cache);
     }
@@ -117,8 +115,7 @@ public class EmptyCachesTest extends TestCase {
       try {
         keys.toArray(null);
         fail();
-      } catch (NullPointerException e) {
-        // expected
+      } catch (NullPointerException expected) {
       }
       checkEmpty(cache);
     }
@@ -129,15 +126,13 @@ public class EmptyCachesTest extends TestCase {
       try {
         cache.asMap().keySet().add(1);
         fail();
-      } catch (UnsupportedOperationException e) {
-        // expected
+      } catch (UnsupportedOperationException expected) {
       }
 
       try {
         cache.asMap().keySet().addAll(asList(1, 2));
         fail();
-      } catch (UnsupportedOperationException e) {
-        // expected
+      } catch (UnsupportedOperationException expected) {
       }
     }
   }
@@ -194,8 +189,7 @@ public class EmptyCachesTest extends TestCase {
       try {
         values.toArray(null);
         fail();
-      } catch (NullPointerException e) {
-        // expected
+      } catch (NullPointerException expected) {
       }
       checkEmpty(cache);
     }
@@ -206,15 +200,13 @@ public class EmptyCachesTest extends TestCase {
       try {
         cache.asMap().values().add(1);
         fail();
-      } catch (UnsupportedOperationException e) {
-        // expected
+      } catch (UnsupportedOperationException expected) {
       }
 
       try {
         cache.asMap().values().addAll(asList(1, 2));
         fail();
-      } catch (UnsupportedOperationException e) {
-        // expected
+      } catch (UnsupportedOperationException expected) {
       }
     }
   }
@@ -271,8 +263,7 @@ public class EmptyCachesTest extends TestCase {
       try {
         entries.toArray(null);
         fail();
-      } catch (NullPointerException e) {
-        // expected
+      } catch (NullPointerException expected) {
       }
       checkEmpty(cache);
     }
@@ -283,15 +274,13 @@ public class EmptyCachesTest extends TestCase {
       try {
         cache.asMap().entrySet().add(entryOf(1, 1));
         fail();
-      } catch (UnsupportedOperationException e) {
-        // expected
+      } catch (UnsupportedOperationException expected) {
       }
 
       try {
         cache.asMap().values().addAll(asList(entryOf(1, 1), entryOf(2, 2)));
         fail();
-      } catch (UnsupportedOperationException e) {
-        // expected
+      } catch (UnsupportedOperationException expected) {
       }
     }
   }

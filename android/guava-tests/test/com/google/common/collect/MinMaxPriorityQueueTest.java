@@ -335,8 +335,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
     try {
       it.next();
       fail("No exception thrown when iterating past end of heap");
-    } catch (NoSuchElementException e) {
-      // expected error
+    } catch (NoSuchElementException expected) {
     }
   }
 
@@ -351,8 +350,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
     try {
       it.next();
       fail("No exception thrown when iterating a modified heap");
-    } catch (ConcurrentModificationException e) {
-      // expected error
+    } catch (ConcurrentModificationException expected) {
     }
   }
 
@@ -906,26 +904,22 @@ public class MinMaxPriorityQueueTest extends TestCase {
     try {
       MinMaxPriorityQueue.isEvenLevel((1 << 31) - 1);
       fail("Should overflow");
-    } catch (IllegalStateException e) {
-      // expected
+    } catch (IllegalStateException expected) {
     }
     try {
       MinMaxPriorityQueue.isEvenLevel(Integer.MAX_VALUE);
       fail("Should overflow");
-    } catch (IllegalStateException e) {
-      // expected
+    } catch (IllegalStateException expected) {
     }
     try {
       MinMaxPriorityQueue.isEvenLevel(1 << 31);
       fail("Should be negative");
-    } catch (IllegalStateException e) {
-      // expected
+    } catch (IllegalStateException expected) {
     }
     try {
       MinMaxPriorityQueue.isEvenLevel(Integer.MIN_VALUE);
       fail("Should be negative");
-    } catch (IllegalStateException e) {
-      // expected
+    } catch (IllegalStateException expected) {
     }
   }
 

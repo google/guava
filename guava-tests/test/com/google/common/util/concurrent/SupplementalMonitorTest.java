@@ -41,8 +41,7 @@ public class SupplementalMonitorTest extends TestCase {
     try {
       monitor.leave();
       fail("expected IllegalMonitorStateException");
-    } catch (IllegalMonitorStateException e) {
-      // expected
+    } catch (IllegalMonitorStateException expected) {
     }
   }
 
@@ -53,8 +52,7 @@ public class SupplementalMonitorTest extends TestCase {
     try {
       monitor1.getWaitQueueLength(guard);
       fail("expected IllegalMonitorStateException");
-    } catch (IllegalMonitorStateException e) {
-      // expected
+    } catch (IllegalMonitorStateException expected) {
     }
   }
 
@@ -65,8 +63,7 @@ public class SupplementalMonitorTest extends TestCase {
     try {
       monitor1.hasWaiters(guard);
       fail("expected IllegalMonitorStateException");
-    } catch (IllegalMonitorStateException e) {
-      // expected
+    } catch (IllegalMonitorStateException expected) {
     }
   }
 
@@ -74,8 +71,7 @@ public class SupplementalMonitorTest extends TestCase {
     try {
       new FlagGuard(null);
       fail("expected NullPointerException");
-    } catch (NullPointerException e) {
-      // expected
+    } catch (NullPointerException expected) {
     }
   }
 

@@ -115,7 +115,6 @@ public abstract class AbstractListenableFutureTest extends TestCase {
       future.get(20, TimeUnit.MILLISECONDS);
       fail("Should have timed out trying to get the value.");
     } catch (TimeoutException expected) {
-      // Expected.
     } finally {
       latch.countDown();
     }

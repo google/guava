@@ -64,7 +64,6 @@ public class CacheBuilderSpecTest extends TestCase {
       parse("initialCapacity=10, initialCapacity=20");
       fail("Expected exception");
     } catch (IllegalArgumentException expected) {
-      // expected
     }
   }
 
@@ -86,7 +85,6 @@ public class CacheBuilderSpecTest extends TestCase {
       parse("maximumSize=10, maximumSize=20");
       fail("Expected exception");
     } catch (IllegalArgumentException expected) {
-      // expected
     }
   }
 
@@ -108,7 +106,6 @@ public class CacheBuilderSpecTest extends TestCase {
       parse("maximumWeight=10, maximumWeight=20");
       fail("Expected exception");
     } catch (IllegalArgumentException expected) {
-      // expected
     }
   }
 
@@ -117,7 +114,6 @@ public class CacheBuilderSpecTest extends TestCase {
       parse("maximumSize=10, maximumWeight=20");
       fail("Expected exception");
     } catch (IllegalArgumentException expected) {
-      // expected
     }
   }
 
@@ -140,7 +136,6 @@ public class CacheBuilderSpecTest extends TestCase {
       parse("concurrencyLevel=10, concurrencyLevel=20");
       fail("Expected exception");
     } catch (IllegalArgumentException expected) {
-      // expected
     }
   }
 
@@ -163,7 +158,6 @@ public class CacheBuilderSpecTest extends TestCase {
       parse("weakKeys=true");
       fail("Expected exception");
     } catch (IllegalArgumentException expected) {
-      // expected
     }
   }
 
@@ -172,7 +166,6 @@ public class CacheBuilderSpecTest extends TestCase {
       parse("weakKeys, weakKeys");
       fail("Expected exception");
     } catch (IllegalArgumentException expected) {
-      // expected
     }
   }
 
@@ -195,7 +188,6 @@ public class CacheBuilderSpecTest extends TestCase {
       parse("softValues=true");
       fail("Expected exception");
     } catch (IllegalArgumentException expected) {
-      // expected
     }
   }
 
@@ -218,7 +210,6 @@ public class CacheBuilderSpecTest extends TestCase {
       parse("weakValues=true");
       fail("Expected exception");
     } catch (IllegalArgumentException expected) {
-      // expected
     }
   }
 
@@ -227,28 +218,24 @@ public class CacheBuilderSpecTest extends TestCase {
       parse("softValues, softValues");
       fail("Expected exception");
     } catch (IllegalArgumentException expected) {
-      // expected
     }
 
     try {
       parse("softValues, weakValues");
       fail("Expected exception");
     } catch (IllegalArgumentException expected) {
-      // expected
     }
 
     try {
       parse("weakValues, softValues");
       fail("Expected exception");
     } catch (IllegalArgumentException expected) {
-      // expected
     }
 
     try {
       parse("weakValues, weakValues");
       fail("Expected exception");
     } catch (IllegalArgumentException expected) {
-      // expected
     }
   }
 
@@ -297,7 +284,6 @@ public class CacheBuilderSpecTest extends TestCase {
           "expireAfterWrite=10s,expireAfterWrite=10m");
       fail("Expected exception");
     } catch (IllegalArgumentException expected) {
-      // expected
     }
   }
 
@@ -348,7 +334,6 @@ public class CacheBuilderSpecTest extends TestCase {
           "expireAfterAccess=10s,expireAfterAccess=10m");
       fail("Expected exception");
     } catch (IllegalArgumentException expected) {
-      // expected
     }
   }
 
@@ -363,7 +348,6 @@ public class CacheBuilderSpecTest extends TestCase {
       parse("recordStats=True");
       fail("Expected exception");
     } catch (IllegalArgumentException expected) {
-      // expected
     }
   }
 
@@ -372,7 +356,6 @@ public class CacheBuilderSpecTest extends TestCase {
       parse("recordStats,recordStats");
       fail("Expected exception");
     } catch (IllegalArgumentException expected) {
-      // expected
     }
   }
 
@@ -439,7 +422,6 @@ public class CacheBuilderSpecTest extends TestCase {
       parse("foo=17");
       fail("Expected exception");
     } catch (IllegalArgumentException expected) {
-      // expected
     }
   }
 
@@ -448,21 +430,18 @@ public class CacheBuilderSpecTest extends TestCase {
       parse("weakKeys,");
       fail("Expected exception");
     } catch (IllegalArgumentException expected) {
-      // expected
     }
 
     try {
       parse(",weakKeys");
       fail("Expected exception");
     } catch (IllegalArgumentException expected) {
-      // expected
     }
 
     try {
       parse("weakKeys,,softValues");
       fail("Expected exception");
     } catch (IllegalArgumentException expected) {
-      // expected
     }
   }
 

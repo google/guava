@@ -111,15 +111,13 @@ public class AppendableWriterTest extends IoTestCase {
     try {
       writer.write(" Greg");
       fail("Should have thrown IOException due to writer already closed");
-    } catch (IOException es) {
-      // expected
+    } catch (IOException expected) {
     }
 
     try {
       writer.flush();
       fail("Should have thrown IOException due to writer already closed");
-    } catch (IOException es) {
-      // expected
+    } catch (IOException expected) {
     }
 
     // close()ing already closed writer is allowed

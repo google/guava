@@ -108,7 +108,6 @@ public class InetAddressesTest extends TestCase {
         InetAddresses.forString(bogusInputs[i]);
         fail("IllegalArgumentException expected for '" + bogusInputs[i] + "'");
       } catch (IllegalArgumentException expected) {
-        // expected behavior
       }
       assertFalse(InetAddresses.isInetAddress(bogusInputs[i]));
     }
@@ -119,7 +118,6 @@ public class InetAddressesTest extends TestCase {
       InetAddresses.forString("3ffe:::1");
       fail("IllegalArgumentException expected");
     } catch (IllegalArgumentException expected) {
-      // expected behavior
     }
     assertFalse(InetAddresses.isInetAddress("016.016.016.016"));
   }
@@ -267,78 +265,67 @@ public class InetAddressesTest extends TestCase {
     try {
       InetAddresses.forUriString("");
       fail("expected IllegalArgumentException");  // COV_NF_LINE
-    } catch (IllegalArgumentException e) {
-      // expected
+    } catch (IllegalArgumentException expected) {
     }
 
     try {
       InetAddresses.forUriString("192.168.999.888");
       fail("expected IllegalArgumentException");  // COV_NF_LINE
-    } catch (IllegalArgumentException e) {
-      // expected
+    } catch (IllegalArgumentException expected) {
     }
 
     try {
       InetAddresses.forUriString("www.google.com");
       fail("expected IllegalArgumentException");  // COV_NF_LINE
-    } catch (IllegalArgumentException e) {
-      // expected
+    } catch (IllegalArgumentException expected) {
     }
 
     try {
       InetAddresses.forUriString("[1:2e]");
       fail("expected IllegalArgumentException");  // COV_NF_LINE
-    } catch (IllegalArgumentException e) {
-      // expected
+    } catch (IllegalArgumentException expected) {
     }
 
     try {
       InetAddresses.forUriString("[192.168.1.1]");
       fail("expected IllegalArgumentException");  // COV_NF_LINE
-    } catch (IllegalArgumentException e) {
-      // expected
+    } catch (IllegalArgumentException expected) {
     }
 
     try {
       InetAddresses.forUriString("192.168.1.1]");
       fail("expected IllegalArgumentException");  // COV_NF_LINE
-    } catch (IllegalArgumentException e) {
-      // expected
+    } catch (IllegalArgumentException expected) {
     }
 
     try {
       InetAddresses.forUriString("[192.168.1.1");
       fail("expected IllegalArgumentException");  // COV_NF_LINE
-    } catch (IllegalArgumentException e) {
-      // expected
+    } catch (IllegalArgumentException expected) {
     }
 
     try {
       InetAddresses.forUriString("[3ffe:0:0:0:0:0:0:1");
       fail("expected IllegalArgumentException");  // COV_NF_LINE
-    } catch (IllegalArgumentException e) {
-      // expected
+    } catch (IllegalArgumentException expected) {
     }
 
     try {
       InetAddresses.forUriString("3ffe:0:0:0:0:0:0:1]");
       fail("expected IllegalArgumentException");  // COV_NF_LINE
-    } catch (IllegalArgumentException e) {
-      // expected
+    } catch (IllegalArgumentException expected) {
     }
 
     try {
       InetAddresses.forUriString("3ffe:0:0:0:0:0:0:1");
       fail("expected IllegalArgumentException");  // COV_NF_LINE
-    } catch (IllegalArgumentException e) {
-      // expected
+    } catch (IllegalArgumentException expected) {
     }
 
     try {
       InetAddresses.forUriString("::ffff:192.0.2.1");
       fail("expected IllegalArgumentException");  // COV_NF_LINE
-    } catch (IllegalArgumentException e) {
-      // expected
+    } catch (IllegalArgumentException expected) {
     }
   }
 
@@ -357,7 +344,6 @@ public class InetAddressesTest extends TestCase {
         fail("IllegalArgumentException expected for '" +
              nonCompatAddresses[i] + "'");
       } catch (IllegalArgumentException expected) {
-        // expected behavior
       }
     }
 
@@ -435,7 +421,6 @@ public class InetAddressesTest extends TestCase {
         fail("IllegalArgumentException expected for '" +
              non6to4Addresses[i] + "'");
       } catch (IllegalArgumentException expected) {
-        // expected behavior
       }
     }
 
@@ -464,7 +449,6 @@ public class InetAddressesTest extends TestCase {
         fail("IllegalArgumentException expected for '" +
              nonTeredoAddresses[i] + "'");
       } catch (IllegalArgumentException expected) {
-        // expected behavior
       }
     }
 
@@ -530,7 +514,6 @@ public class InetAddressesTest extends TestCase {
         fail("IllegalArgumentException expected for '" +
              nonIsatapAddresses[i] + "'");
       } catch (IllegalArgumentException expected) {
-        // expected behavior
       }
     }
   }

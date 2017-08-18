@@ -501,8 +501,7 @@ public class IteratorsTest extends TestCase {
     try {
       result.next();
       fail("Expected NFE");
-    } catch (NumberFormatException nfe) {
-      // Expected to fail.
+    } catch (NumberFormatException expected) {
     }
   }
 
@@ -1296,7 +1295,6 @@ public class IteratorsTest extends TestCase {
       Iterators.limit(list.iterator(), -1);
       fail("expected exception");
     } catch (IllegalArgumentException expected) {
-      // expected
     }
 
     assertFalse(Iterators.limit(list.iterator(), 0).hasNext());

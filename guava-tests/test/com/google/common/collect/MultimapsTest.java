@@ -649,7 +649,6 @@ public class MultimapsTest extends TestCase {
       multimap.put(Color.BLUE, -1);
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
-      // expected
     }
     multimap.put(Color.RED, 1);
     multimap.put(Color.BLUE, 2);
@@ -657,7 +656,6 @@ public class MultimapsTest extends TestCase {
       multimap.put(Color.GREEN, -1);
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
-      // expected
     }
     assertThat(multimap.entries()).containsExactly(
         Maps.immutableEntry(Color.RED, 1),

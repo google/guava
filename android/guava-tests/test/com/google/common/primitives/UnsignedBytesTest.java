@@ -178,23 +178,20 @@ public class UnsignedBytesTest extends TestCase {
     try {
       UnsignedBytes.parseUnsignedByte("0", Character.MIN_RADIX - 1);
       fail();
-    } catch (NumberFormatException nfe) {
-      // expected
+    } catch (NumberFormatException expected) {
     }
 
     try {
       UnsignedBytes.parseUnsignedByte("0", Character.MAX_RADIX + 1);
       fail();
-    } catch (NumberFormatException nfe) {
-      // expected
+    } catch (NumberFormatException expected) {
     }
 
     // The radix is used as an array index, so try a negative value.
     try {
       UnsignedBytes.parseUnsignedByte("0", -1);
       fail();
-    } catch (NumberFormatException nfe) {
-      // expected
+    } catch (NumberFormatException expected) {
     }
   }
 

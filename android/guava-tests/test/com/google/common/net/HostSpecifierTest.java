@@ -104,7 +104,6 @@ public final class HostSpecifierTest extends TestCase {
       HostSpecifier.fromValid(spec);
       fail("Should have thrown IllegalArgumentException: " + spec);
     } catch (IllegalArgumentException expected) {
-      // Expected outcome
     }
 
     try {

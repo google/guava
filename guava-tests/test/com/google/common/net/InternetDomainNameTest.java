@@ -204,7 +204,6 @@ public final class InternetDomainNameTest extends TestCase {
         InternetDomainName.from(name);
         fail("Should have been invalid: '" + name + "'");
       } catch (IllegalArgumentException expected) {
-        // Expected case
       }
     }
   }
@@ -293,7 +292,6 @@ public final class InternetDomainNameTest extends TestCase {
       domain.child("www.");
       fail("www..google.com should have been invalid");
     } catch (IllegalArgumentException expected) {
-      // Expected outcome
     }
   }
 

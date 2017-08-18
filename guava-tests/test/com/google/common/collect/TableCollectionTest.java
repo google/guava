@@ -977,8 +977,7 @@ public class TableCollectionTest extends TestCase {
         try {
           map.remove(keyToRemove);
           fail("Expected UnsupportedOperationException.");
-        } catch (UnsupportedOperationException e) {
-          // Expected.
+        } catch (UnsupportedOperationException expected) {
         }
       }
       assertInvariants(map);

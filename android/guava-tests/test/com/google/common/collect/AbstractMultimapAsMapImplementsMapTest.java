@@ -84,8 +84,7 @@ public abstract class AbstractMultimapAsMapImplementsMapTest
       try {
         map.remove(keyToRemove);
         fail("Expected UnsupportedOperationException.");
-      } catch (UnsupportedOperationException e) {
-        // Expected.
+      } catch (UnsupportedOperationException expected) {
       }
     }
     assertInvariants(map);

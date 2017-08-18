@@ -311,8 +311,7 @@ public class IterablesTest extends TestCase {
     try {
       resultIterator.next();
       fail("Expected NFE");
-    } catch (NumberFormatException nfe) {
-      // Expected to fail.
+    } catch (NumberFormatException expected) {
     }
   }
 

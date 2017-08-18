@@ -32,8 +32,7 @@ public class PatternFilenameFilterTest extends TestCase {
     try {
       new PatternFilenameFilter("(");
       fail("expected exception");
-    } catch (PatternSyntaxException e) {
-      // expected
+    } catch (PatternSyntaxException expected) {
     }
   }
 

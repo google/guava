@@ -66,8 +66,7 @@ public class FunctionsTest extends TestCase {
     try {
       Functions.toStringFunction().apply(null);
       fail("expected NullPointerException");
-    } catch (NullPointerException e) {
-      // expected
+    } catch (NullPointerException expected) {
     }
   }
 

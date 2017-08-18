@@ -666,15 +666,13 @@ public class AbstractServiceTest extends TestCase {
     try {
       service.failureCause();
       fail();
-    } catch (IllegalStateException e) {
-      // expected
+    } catch (IllegalStateException expected) {
     }
     service.startAsync().awaitRunning();
     try {
       service.failureCause();
       fail();
-    } catch (IllegalStateException e) {
-      // expected
+    } catch (IllegalStateException expected) {
     }
     try {
       service.stopAsync().awaitTerminated();
