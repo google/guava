@@ -69,34 +69,34 @@
 <span class="sourceLineNo">061</span>   *<a name="line.61"></a>
 <span class="sourceLineNo">062</span>   * &lt;p&gt;This is helpful for implementing {@link Object#toString()}. Specification by example:<a name="line.62"></a>
 <span class="sourceLineNo">063</span>   *<a name="line.63"></a>
-<span class="sourceLineNo">064</span>   * &lt;pre&gt;   {@code<a name="line.64"></a>
-<span class="sourceLineNo">065</span>   *   // Returns "ClassName{}"<a name="line.65"></a>
-<span class="sourceLineNo">066</span>   *   MoreObjects.toStringHelper(this)<a name="line.66"></a>
-<span class="sourceLineNo">067</span>   *       .toString();<a name="line.67"></a>
+<span class="sourceLineNo">064</span>   * &lt;pre&gt;{@code<a name="line.64"></a>
+<span class="sourceLineNo">065</span>   * // Returns "ClassName{}"<a name="line.65"></a>
+<span class="sourceLineNo">066</span>   * MoreObjects.toStringHelper(this)<a name="line.66"></a>
+<span class="sourceLineNo">067</span>   *     .toString();<a name="line.67"></a>
 <span class="sourceLineNo">068</span>   *<a name="line.68"></a>
-<span class="sourceLineNo">069</span>   *   // Returns "ClassName{x=1}"<a name="line.69"></a>
-<span class="sourceLineNo">070</span>   *   MoreObjects.toStringHelper(this)<a name="line.70"></a>
-<span class="sourceLineNo">071</span>   *       .add("x", 1)<a name="line.71"></a>
-<span class="sourceLineNo">072</span>   *       .toString();<a name="line.72"></a>
+<span class="sourceLineNo">069</span>   * // Returns "ClassName{x=1}"<a name="line.69"></a>
+<span class="sourceLineNo">070</span>   * MoreObjects.toStringHelper(this)<a name="line.70"></a>
+<span class="sourceLineNo">071</span>   *     .add("x", 1)<a name="line.71"></a>
+<span class="sourceLineNo">072</span>   *     .toString();<a name="line.72"></a>
 <span class="sourceLineNo">073</span>   *<a name="line.73"></a>
-<span class="sourceLineNo">074</span>   *   // Returns "MyObject{x=1}"<a name="line.74"></a>
-<span class="sourceLineNo">075</span>   *   MoreObjects.toStringHelper("MyObject")<a name="line.75"></a>
-<span class="sourceLineNo">076</span>   *       .add("x", 1)<a name="line.76"></a>
-<span class="sourceLineNo">077</span>   *       .toString();<a name="line.77"></a>
+<span class="sourceLineNo">074</span>   * // Returns "MyObject{x=1}"<a name="line.74"></a>
+<span class="sourceLineNo">075</span>   * MoreObjects.toStringHelper("MyObject")<a name="line.75"></a>
+<span class="sourceLineNo">076</span>   *     .add("x", 1)<a name="line.76"></a>
+<span class="sourceLineNo">077</span>   *     .toString();<a name="line.77"></a>
 <span class="sourceLineNo">078</span>   *<a name="line.78"></a>
-<span class="sourceLineNo">079</span>   *   // Returns "ClassName{x=1, y=foo}"<a name="line.79"></a>
-<span class="sourceLineNo">080</span>   *   MoreObjects.toStringHelper(this)<a name="line.80"></a>
-<span class="sourceLineNo">081</span>   *       .add("x", 1)<a name="line.81"></a>
-<span class="sourceLineNo">082</span>   *       .add("y", "foo")<a name="line.82"></a>
-<span class="sourceLineNo">083</span>   *       .toString();<a name="line.83"></a>
+<span class="sourceLineNo">079</span>   * // Returns "ClassName{x=1, y=foo}"<a name="line.79"></a>
+<span class="sourceLineNo">080</span>   * MoreObjects.toStringHelper(this)<a name="line.80"></a>
+<span class="sourceLineNo">081</span>   *     .add("x", 1)<a name="line.81"></a>
+<span class="sourceLineNo">082</span>   *     .add("y", "foo")<a name="line.82"></a>
+<span class="sourceLineNo">083</span>   *     .toString();<a name="line.83"></a>
 <span class="sourceLineNo">084</span>   *<a name="line.84"></a>
-<span class="sourceLineNo">085</span>   *   // Returns "ClassName{x=1}"<a name="line.85"></a>
-<span class="sourceLineNo">086</span>   *   MoreObjects.toStringHelper(this)<a name="line.86"></a>
-<span class="sourceLineNo">087</span>   *       .omitNullValues()<a name="line.87"></a>
-<span class="sourceLineNo">088</span>   *       .add("x", 1)<a name="line.88"></a>
-<span class="sourceLineNo">089</span>   *       .add("y", null)<a name="line.89"></a>
-<span class="sourceLineNo">090</span>   *       .toString();<a name="line.90"></a>
-<span class="sourceLineNo">091</span>   *   }}&lt;/pre&gt;<a name="line.91"></a>
+<span class="sourceLineNo">085</span>   * // Returns "ClassName{x=1}"<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   * MoreObjects.toStringHelper(this)<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   *     .omitNullValues()<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   *     .add("x", 1)<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   *     .add("y", null)<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   *     .toString();<a name="line.90"></a>
+<span class="sourceLineNo">091</span>   * }&lt;/pre&gt;<a name="line.91"></a>
 <span class="sourceLineNo">092</span>   *<a name="line.92"></a>
 <span class="sourceLineNo">093</span>   * &lt;p&gt;Note that in GWT, class names are often obfuscated.<a name="line.93"></a>
 <span class="sourceLineNo">094</span>   *<a name="line.94"></a>
