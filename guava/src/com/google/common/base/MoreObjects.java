@@ -61,34 +61,34 @@ public final class MoreObjects {
    *
    * <p>This is helpful for implementing {@link Object#toString()}. Specification by example:
    *
-   * <pre>   {@code
-   *   // Returns "ClassName{}"
-   *   MoreObjects.toStringHelper(this)
-   *       .toString();
+   * <pre>{@code
+   * // Returns "ClassName{}"
+   * MoreObjects.toStringHelper(this)
+   *     .toString();
    *
-   *   // Returns "ClassName{x=1}"
-   *   MoreObjects.toStringHelper(this)
-   *       .add("x", 1)
-   *       .toString();
+   * // Returns "ClassName{x=1}"
+   * MoreObjects.toStringHelper(this)
+   *     .add("x", 1)
+   *     .toString();
    *
-   *   // Returns "MyObject{x=1}"
-   *   MoreObjects.toStringHelper("MyObject")
-   *       .add("x", 1)
-   *       .toString();
+   * // Returns "MyObject{x=1}"
+   * MoreObjects.toStringHelper("MyObject")
+   *     .add("x", 1)
+   *     .toString();
    *
-   *   // Returns "ClassName{x=1, y=foo}"
-   *   MoreObjects.toStringHelper(this)
-   *       .add("x", 1)
-   *       .add("y", "foo")
-   *       .toString();
+   * // Returns "ClassName{x=1, y=foo}"
+   * MoreObjects.toStringHelper(this)
+   *     .add("x", 1)
+   *     .add("y", "foo")
+   *     .toString();
    *
-   *   // Returns "ClassName{x=1}"
-   *   MoreObjects.toStringHelper(this)
-   *       .omitNullValues()
-   *       .add("x", 1)
-   *       .add("y", null)
-   *       .toString();
-   *   }}</pre>
+   * // Returns "ClassName{x=1}"
+   * MoreObjects.toStringHelper(this)
+   *     .omitNullValues()
+   *     .add("x", 1)
+   *     .add("y", null)
+   *     .toString();
+   * }</pre>
    *
    * <p>Note that in GWT, class names are often obfuscated.
    *
