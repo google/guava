@@ -89,7 +89,7 @@ public class TypeTokenResolutionTest extends TestCase {
   }
 
   public void testTypeArgNotFound() {
-    StringFoo<Integer> foo = new StringFoo<Integer>();
+    StringFoo<Integer> foo = new StringFoo<>();
     assertEquals(String.class, foo.getClassA());
     assertEquals(String[].class, foo.getArrayClassA());
     assertEquals(Object.class, foo.getClassB());
@@ -206,7 +206,7 @@ public class TypeTokenResolutionTest extends TestCase {
   }
 
   public void testCyclicMapping() {
-    Mapping<Integer, String> mapping = new Mapping<Integer, String>();
+    Mapping<Integer, String> mapping = new Mapping<>();
     assertEquals(mapping.f, mapping.getFromType());
     assertEquals(mapping.t, mapping.getToType());
     assertEquals(mapping.f, mapping.flip().getFromType());
@@ -274,7 +274,7 @@ public class TypeTokenResolutionTest extends TestCase {
   }
 
   public void testGenericArrayType() {
-    GenericArray<?> genericArray = new GenericArray<Integer>();
+    GenericArray<?> genericArray = new GenericArray<>();
     assertEquals(GenericArray.class.getTypeParameters()[0], genericArray.t);
     assertEquals(Types.newArrayType(genericArray.t),
         genericArray.array);
@@ -339,8 +339,8 @@ public class TypeTokenResolutionTest extends TestCase {
   }
 
   public void test2() {
-    Red<String> redString = new Red<String>();
-    Red<Integer> redInteger = new Red<Integer>();
+    Red<String> redString = new Red<>();
+    Red<Integer> redInteger = new Red<>();
     Red<String>.Yellow<Integer> yellowInteger =
         redString.new Yellow<Integer>(redInteger) {};
     assertEquals(Integer.class, yellowInteger.getClassA());

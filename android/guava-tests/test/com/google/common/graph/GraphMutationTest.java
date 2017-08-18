@@ -59,12 +59,11 @@ public final class GraphMutationTest {
       while (graph.nodes().size() < NUM_NODES) {
         graph.addNode(gen.nextInt(NODE_POOL_SIZE));
       }
-      ArrayList<Integer> nodeList = new ArrayList<Integer>(graph.nodes());
+      ArrayList<Integer> nodeList = new ArrayList<>(graph.nodes());
       while (graph.edges().size() < NUM_EDGES) {
         graph.putEdge(getRandomElement(nodeList, gen), getRandomElement(nodeList, gen));
       }
-      ArrayList<EndpointPair<Integer>> edgeList =
-          new ArrayList<EndpointPair<Integer>>(graph.edges());
+      ArrayList<EndpointPair<Integer>> edgeList = new ArrayList<>(graph.edges());
 
       assertThat(graph.nodes()).hasSize(NUM_NODES);
       assertThat(graph.edges()).hasSize(NUM_EDGES);

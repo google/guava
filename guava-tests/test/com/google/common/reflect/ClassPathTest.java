@@ -545,7 +545,7 @@ public class ClassPathTest extends TestCase {
   }
 
   private static class ResourceScanner extends ClassPath.Scanner {
-    final Set<String> resources = new HashSet<String>();
+    final Set<String> resources = new HashSet<>();
 
     @Override protected void scanDirectory(ClassLoader loader, File root) throws IOException {
       URI base = root.toURI();

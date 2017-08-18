@@ -1747,7 +1747,7 @@ public class CacheLoadingTest extends TestCase {
     ConcurrentMap<Object, Object> map = cache.asMap();
 
     int iterations = 10;
-    WeakReference<Object> ref = new WeakReference<Object>(null);
+    WeakReference<Object> ref = new WeakReference<>(null);
     int expectedComputations = 0;
     for (int i = 0; i < iterations; i++) {
       // The entry should get garbage collected and recomputed.
@@ -1755,7 +1755,7 @@ public class CacheLoadingTest extends TestCase {
       if (oldValue == null) {
         expectedComputations++;
       }
-      ref = new WeakReference<Object>(cache.getUnchecked(1));
+      ref = new WeakReference<>(cache.getUnchecked(1));
       oldValue = null;
       Thread.sleep(i);
       System.gc();
@@ -1770,7 +1770,7 @@ public class CacheLoadingTest extends TestCase {
       }
       cache.refresh(1);
       checkNothingLogged();
-      ref = new WeakReference<Object>(map.get(1));
+      ref = new WeakReference<>(map.get(1));
       oldValue = null;
       Thread.sleep(i);
       System.gc();
@@ -2102,7 +2102,7 @@ public class CacheLoadingTest extends TestCase {
   private static <K> List<Object> doConcurrentGet(final LoadingCache<K, ?> cache, final K key,
       int nThreads, final CountDownLatch gettersStartedSignal) throws InterruptedException {
 
-    final AtomicReferenceArray<Object> result = new AtomicReferenceArray<Object>(nThreads);
+    final AtomicReferenceArray<Object> result = new AtomicReferenceArray<>(nThreads);
     final CountDownLatch gettersComplete = new CountDownLatch(nThreads);
     for (int i = 0; i < nThreads; i++) {
       final int index = i;
@@ -2358,7 +2358,7 @@ public class CacheLoadingTest extends TestCase {
         .weakKeys()
         .build(computeFunction);
 
-    final AtomicReferenceArray<String> result = new AtomicReferenceArray<String>(count);
+    final AtomicReferenceArray<String> result = new AtomicReferenceArray<>(count);
 
     final String key = "bar";
 
@@ -2446,7 +2446,7 @@ public class CacheLoadingTest extends TestCase {
       }
     };
 
-    final AtomicReferenceArray<String> result = new AtomicReferenceArray<String>(2);
+    final AtomicReferenceArray<String> result = new AtomicReferenceArray<>(2);
 
     final LoadingCache<String, String> cache = CacheBuilder.newBuilder()
         .build(computeFunction);

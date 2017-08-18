@@ -28,7 +28,6 @@ import com.google.common.graph.TestUtil.EdgeType;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -175,7 +174,7 @@ public final class DefaultNetworkImplementationsTest {
     }
 
     static <N, E> NetworkForTest<N, E> from(Network<N, E> network) {
-      return new NetworkForTest<N, E>(network);
+      return new NetworkForTest<>(network);
     }
 
     @Override

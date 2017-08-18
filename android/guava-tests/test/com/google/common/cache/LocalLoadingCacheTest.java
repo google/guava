@@ -42,7 +42,7 @@ public class LocalLoadingCacheTest extends TestCase {
 
   private static <K, V> LocalLoadingCache<K, V> makeCache(
       CacheBuilder<K, V> builder, CacheLoader<? super K, V> loader) {
-    return new LocalLoadingCache<K, V>(builder, loader);
+    return new LocalLoadingCache<>(builder, loader);
   }
 
   private CacheBuilder<Object, Object> createCacheBuilder() {
@@ -304,8 +304,7 @@ public class LocalLoadingCacheTest extends TestCase {
   }
 
   public void testRecursiveComputation() throws InterruptedException {
-    final AtomicReference<LoadingCache<Integer, String>> cacheRef =
-        new AtomicReference<LoadingCache<Integer, String>>();
+    final AtomicReference<LoadingCache<Integer, String>> cacheRef = new AtomicReference<>();
     CacheLoader<Integer, String> recursiveLoader = new CacheLoader<Integer, String>() {
       @Override
       public String load(Integer key) {

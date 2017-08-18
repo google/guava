@@ -155,7 +155,7 @@ public class ImmutableTypeToInstanceMapTest extends TestCase {
 
     @Override
     public SampleElements<Entry<TypeToken, Object>> samples() {
-      return new SampleElements<Entry<TypeToken, Object>>(
+      return new SampleElements<>(
           entry(TypeToken.of(Integer.class), 0),
           entry(TypeToken.of(Number.class), 1),
           entry(new TypeToken<ImmutableList<Integer>>() {}, ImmutableList.of(2)),

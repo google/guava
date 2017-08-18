@@ -118,7 +118,7 @@ public class SupplementalMonitorTest extends TestCase {
     final AtomicBoolean actualIsOccupied = new AtomicBoolean();
     final AtomicBoolean actualIsOccupiedByCurrentThread = new AtomicBoolean();
     final AtomicInteger actualOccupiedDepth = new AtomicInteger();
-    final AtomicReference<Throwable> thrown = new AtomicReference<Throwable>();
+    final AtomicReference<Throwable> thrown = new AtomicReference<>();
     joinUninterruptibly(startThread(new Runnable() {
       @Override public void run() {
         try {

@@ -168,7 +168,7 @@ public class CacheReferencesTest extends TestCase {
         }
       }
       s = Integer.toString(value);
-      toString = new WeakReference<String>(s);
+      toString = new WeakReference<>(s);
       return s;
     }
   }

@@ -89,7 +89,7 @@ public class FinalizableReferenceQueueTest extends TestCase {
    */
   private void weaklyReferenceQueue() {
     frq = new FinalizableReferenceQueue();
-    queueReference = new WeakReference<ReferenceQueue<Object>>(frq.queue);
+    queueReference = new WeakReference<>(frq.queue);
 
     /*
      * Queue and clear a reference for good measure. We test later on that

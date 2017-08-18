@@ -450,8 +450,7 @@ public class ArbitraryInstancesTest extends TestCase {
       extends WithPublicConstant {}
 
   public static class WithGenericConstant<T> {
-    public static final WithGenericConstant<String> STRING_CONSTANT =
-        new WithGenericConstant<String>();
+    public static final WithGenericConstant<String> STRING_CONSTANT = new WithGenericConstant<>();
 
     private WithGenericConstant() {}
   }

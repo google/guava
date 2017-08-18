@@ -262,30 +262,32 @@ public class UninterruptibleFutureTest extends TestCase {
 
   private static FutureTask<Boolean> untimedInterruptReporter(
       final Future<?> future, final boolean allowInterruption) {
-    return new FutureTask<Boolean>(new Callable<Boolean>() {
-      @Override
-      public Boolean call() throws Exception {
-        Object actual;
-        if (allowInterruption) {
-          actual = future.get();
-        } else {
-          actual = getUninterruptibly(future);
-        }
-        assertEquals(RESULT, actual);
-        return Thread.interrupted();
-      }
-    });
+    return new FutureTask<>(
+        new Callable<Boolean>() {
+          @Override
+          public Boolean call() throws Exception {
+            Object actual;
+            if (allowInterruption) {
+              actual = future.get();
+            } else {
+              actual = getUninterruptibly(future);
+            }
+            assertEquals(RESULT, actual);
+            return Thread.interrupted();
+          }
+        });
   }
 
   private static FutureTask<Boolean> timedInterruptReporter(
       final Future<?> future) {
-    return new FutureTask<Boolean>(new Callable<Boolean>() {
-      @Override
-      public Boolean call() throws Exception {
-        assertEquals(RESULT, getUninterruptibly(future, 10, MINUTES));
-        return Thread.interrupted();
-      }
-    });
+    return new FutureTask<>(
+        new Callable<Boolean>() {
+          @Override
+          public Boolean call() throws Exception {
+            assertEquals(RESULT, getUninterruptibly(future, 10, MINUTES));
+            return Thread.interrupted();
+          }
+        });
   }
 
   private static final String RESULT = "result";

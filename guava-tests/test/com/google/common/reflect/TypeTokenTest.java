@@ -1939,7 +1939,7 @@ public class TypeTokenTest extends TestCase {
     }
 
     static <From, To> Assignability<From, To> of() {
-      return new Assignability<From, To>();
+      return new Assignability<>();
     }
   }
 

@@ -76,7 +76,7 @@ public class MutableTypeToInstanceMapTest extends TestCase {
   private TypeToInstanceMap<Object> map;
 
   @Override protected void setUp() throws Exception {
-    map = new MutableTypeToInstanceMap<Object>();
+    map = new MutableTypeToInstanceMap<>();
   }
 
   public void testPutThrows() {

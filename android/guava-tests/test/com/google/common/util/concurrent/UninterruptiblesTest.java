@@ -414,7 +414,7 @@ public class UninterruptiblesTest extends TestCase {
     }
 
     private TimedPutQueue(long countdownInMillis) {
-      this.queue = new ArrayBlockingQueue<String>(1);
+      this.queue = new ArrayBlockingQueue<>(1);
       assertTrue(queue.offer("blocksPutCallsUntilRemoved"));
       this.completed = new Completion(countdownInMillis);
       scheduleEnableWrites(this.queue, countdownInMillis);
@@ -456,7 +456,7 @@ public class UninterruptiblesTest extends TestCase {
     }
 
     private TimedTakeQueue(long countdownInMillis) {
-      this.queue = new ArrayBlockingQueue<String>(1);
+      this.queue = new ArrayBlockingQueue<>(1);
       this.completed = new Completion(countdownInMillis);
       scheduleEnableReads(this.queue, countdownInMillis);
     }

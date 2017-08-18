@@ -60,8 +60,8 @@ public abstract class MonitorTestCase extends TestCase {
   @Override protected final void setUp() throws Exception {
     boolean fair = new Random().nextBoolean();
     monitor = new Monitor(fair);
-    tearDownStack.addTearDown(thread1 = new TestThread<Monitor>(monitor, "TestThread #1"));
-    tearDownStack.addTearDown(thread2 = new TestThread<Monitor>(monitor, "TestThread #2"));
+    tearDownStack.addTearDown(thread1 = new TestThread<>(monitor, "TestThread #1"));
+    tearDownStack.addTearDown(thread2 = new TestThread<>(monitor, "TestThread #2"));
   }
 
   @Override protected final void tearDown() {

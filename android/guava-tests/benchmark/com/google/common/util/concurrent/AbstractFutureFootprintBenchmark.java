@@ -40,7 +40,7 @@ public class AbstractFutureFootprintBenchmark {
   @Param({"0", "1", "5", "10"}) int numListeners;
   @Param({"0", "1", "5", "10"}) int numThreads;
 
-  private final Set<Thread> blockedThreads = new HashSet<Thread>();
+  private final Set<Thread> blockedThreads = new HashSet<>();
 
   @BeforeExperiment void setUp() throws Exception {
     if (state != State.NOT_DONE && (numListeners != 0 || numThreads != 0)) {

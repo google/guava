@@ -593,7 +593,7 @@ public class ClassSanityTesterTest extends TestCase {
   private static class JdkObjectFactory {
     @SuppressWarnings("unused") // Called by reflection
     public static Object create() {
-      return new ArrayList<String>();
+      return new ArrayList<>();
     }
   }
 

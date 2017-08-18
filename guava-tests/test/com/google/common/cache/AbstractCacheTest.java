@@ -33,7 +33,7 @@ import junit.framework.TestCase;
 public class AbstractCacheTest extends TestCase {
 
   public void testGetIfPresent() {
-    final AtomicReference<Object> valueRef = new AtomicReference<Object>();
+    final AtomicReference<Object> valueRef = new AtomicReference<>();
     Cache<Object, Object> cache = new AbstractCache<Object, Object>() {
       @Override
       public Object getIfPresent(Object key) {

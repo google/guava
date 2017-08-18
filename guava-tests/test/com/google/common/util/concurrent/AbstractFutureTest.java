@@ -422,7 +422,7 @@ public class AbstractFutureTest extends TestCase {
             awaitUnchecked(barrier);
           }
         };
-    List<Callable<?>> allTasks = new ArrayList<Callable<?>>();
+    List<Callable<?>> allTasks = new ArrayList<>();
     allTasks.add(completeSucessFullyRunnable);
     allTasks.add(completeExceptionallyRunnable);
     allTasks.add(cancelRunnable);
@@ -540,7 +540,7 @@ public class AbstractFutureTest extends TestCase {
         awaitUnchecked(barrier);
       }
     };
-    List<Runnable> allTasks = new ArrayList<Runnable>();
+    List<Runnable> allTasks = new ArrayList<>();
     allTasks.add(cancelRunnable);
     allTasks.add(setFutureCompleteSucessFullyRunnable);
     for (int k = 0; k < size; k++) {
@@ -641,7 +641,7 @@ public class AbstractFutureTest extends TestCase {
         }
       }
     };
-    List<Callable<?>> allTasks = new ArrayList<Callable<?>>();
+    List<Callable<?>> allTasks = new ArrayList<>();
     allTasks.add(cancelRunnable);
     allTasks.add(setFutureCompleteSucessFullyRunnable);
     allTasks.add(Executors.callable(collectResultsRunnable));

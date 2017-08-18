@@ -219,7 +219,7 @@ public class LocalCacheTest extends TestCase {
 
   private static <K, V> LocalCache<K, V> makeLocalCache(
       CacheBuilder<? super K, ? super V> builder) {
-    return new LocalCache<K, V>(builder, null);
+    return new LocalCache<>(builder, null);
   }
 
   private static CacheBuilder<Object, Object> createCacheBuilder() {
@@ -1394,7 +1394,7 @@ public class LocalCacheTest extends TestCase {
     // replaced
     Object value4 = new Object();
     DummyValueReference<Object, Object> value3Ref = DummyValueReference.create(value3);
-    valueRef = new LoadingValueReference<Object, Object>(value3Ref);
+    valueRef = new LoadingValueReference<>(value3Ref);
     entry.setValueReference(valueRef);
     table.set(index, entry);
     assertSame(value3, segment.get(key, hash));
@@ -1930,7 +1930,7 @@ public class LocalCacheTest extends TestCase {
     // active
     Object value = new Object();
     DummyValueReference<Object, Object> previousRef = DummyValueReference.create(value);
-    valueRef = new LoadingValueReference<Object, Object>(previousRef);
+    valueRef = new LoadingValueReference<>(previousRef);
     entry.setValueReference(valueRef);
     table.set(0, entry);
     segment.count = 1;
@@ -2664,7 +2664,7 @@ public class LocalCacheTest extends TestCase {
     }
 
     public static <K, V> DummyEntry<K, V> create(K key, int hash, ReferenceEntry<K, V> next) {
-      return new DummyEntry<K, V>(key, hash, next);
+      return new DummyEntry<>(key, hash, next);
     }
 
     public void clearKey() {
@@ -2784,11 +2784,11 @@ public class LocalCacheTest extends TestCase {
     }
 
     public static <K, V> DummyValueReference<K, V> create(V value) {
-      return new DummyValueReference<K, V>(value);
+      return new DummyValueReference<>(value);
     }
 
     public static <K, V> DummyValueReference<K, V> createLoading() {
-      return new DummyValueReference<K, V>();
+      return new DummyValueReference<>();
     }
 
     @Override

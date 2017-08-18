@@ -374,7 +374,7 @@ public class FuturesGetCheckedTest extends TestCase {
             Class.forName(WillBeUnloadedException.class.getName(), false, shadowLoader);
     assertNotSame(shadowClass, WillBeUnloadedException.class);
     getChecked(immediateFuture("foo"), shadowClass);
-    return new WeakReference<ClassLoader>(shadowLoader);
+    return new WeakReference<>(shadowLoader);
   }
 
   /*

@@ -728,7 +728,7 @@ public class PredicatesTest extends TestCase {
         return super.contains(element);
       }
     }
-    Collection<Integer> nums = new CollectionThatThrowsNPE<Integer>();
+    Collection<Integer> nums = new CollectionThatThrowsNPE<>();
     Predicate<Integer> isFalse = Predicates.in(nums);
     assertFalse(isFalse.apply(null));
   }
@@ -741,7 +741,7 @@ public class PredicatesTest extends TestCase {
         throw new ClassCastException("");
       }
     }
-    Collection<Integer> nums = new CollectionThatThrowsCCE<Integer>();
+    Collection<Integer> nums = new CollectionThatThrowsCCE<>();
     nums.add(3);
     Predicate<Integer> isThree = Predicates.in(nums);
     assertFalse(isThree.apply(3));

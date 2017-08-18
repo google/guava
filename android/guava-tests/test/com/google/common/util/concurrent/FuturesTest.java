@@ -851,8 +851,7 @@ public class FuturesTest extends TestCase {
 
   @GwtIncompatible // lazyTransform
   public void testLazyTransform() throws Exception {
-    FunctionSpy<Object, String> spy =
-        new FunctionSpy<Object, String>(constant("bar"));
+    FunctionSpy<Object, String> spy = new FunctionSpy<>(constant("bar"));
     Future<String> input = immediateFuture("foo");
     Future<String> transformed = lazyTransform(input, spy);
     spy.verifyCallCount(0);
@@ -906,7 +905,7 @@ public class FuturesTest extends TestCase {
   }
 
   private static <I, O> FunctionSpy<I, O> spy(Function<I, O> delegate) {
-    return new FunctionSpy<I, O>(delegate);
+    return new FunctionSpy<>(delegate);
   }
 
   private static <X extends Throwable, V> Function<X, V> unexpectedFunction() {
@@ -938,7 +937,7 @@ public class FuturesTest extends TestCase {
   }
 
   private static <X extends Throwable, V> AsyncFunctionSpy<X, V> spy(AsyncFunction<X, V> delegate) {
-    return new AsyncFunctionSpy<X, V>(delegate);
+    return new AsyncFunctionSpy<>(delegate);
   }
 
   private static <X extends Throwable, V> AsyncFunction<X, V> unexpectedAsyncFunction() {

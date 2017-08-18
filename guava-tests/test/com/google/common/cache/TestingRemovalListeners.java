@@ -31,7 +31,7 @@ class TestingRemovalListeners {
    * Returns a new no-op {@code RemovalListener}.
    */
   static <K, V> NullRemovalListener<K, V> nullRemovalListener() {
-    return new NullRemovalListener<K, V>();
+    return new NullRemovalListener<>();
   }
 
   /**
@@ -39,14 +39,14 @@ class TestingRemovalListeners {
    */
   @GwtIncompatible // ConcurrentLinkedQueue
   static <K, V> QueuingRemovalListener<K, V> queuingRemovalListener() {
-    return new QueuingRemovalListener<K,V>();
+    return new QueuingRemovalListener<>();
   }
 
   /**
    * Type-inferring factory method for creating a {@link CountingRemovalListener}.
    */
   static <K, V> CountingRemovalListener<K, V> countingRemovalListener() {
-    return new CountingRemovalListener<K,V>();
+    return new CountingRemovalListener<>();
   }
 
   /**

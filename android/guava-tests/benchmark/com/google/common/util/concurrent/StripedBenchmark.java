@@ -56,12 +56,12 @@ public class StripedBenchmark {
     },
     LAZY_SMALL {
       @Override Striped<Lock> get(int stripes) {
-        return new Striped.SmallLazyStriped<Lock>(stripes, LOCK_SUPPLIER);
+        return new Striped.SmallLazyStriped<>(stripes, LOCK_SUPPLIER);
       }
     },
     LAZY_LARGE {
       @Override Striped<Lock> get(int stripes) {
-        return new Striped.LargeLazyStriped<Lock>(stripes, LOCK_SUPPLIER);
+        return new Striped.LargeLazyStriped<>(stripes, LOCK_SUPPLIER);
       }
     };
 
@@ -90,7 +90,7 @@ public class StripedBenchmark {
   }
 
   // a place to put the locks in sizeOfPopulatedStriped so they don't get GC'd before we measure
-  final List<Lock> locks = new ArrayList<Lock>(numStripes);
+  final List<Lock> locks = new ArrayList<>(numStripes);
 
   @Footprint Object sizeOfPopulatedStriped() {
     locks.clear();
