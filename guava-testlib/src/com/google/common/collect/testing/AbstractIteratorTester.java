@@ -437,7 +437,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
          *
          * Sun bug 6665356 is an additional complication. Until OpenJDK 7, javac
          * doesn't recognize this kind of cast as unchecked cast. Neither does
-         * Eclipse 3.4. Right now, this suppression is mostly unecessary.
+         * Eclipse 3.4. Right now, this suppression is mostly unnecessary.
          */
         MultiExceptionListIterator multiExceptionListIterator =
             (MultiExceptionListIterator) reference;

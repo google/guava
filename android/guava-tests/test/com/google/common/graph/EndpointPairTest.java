@@ -114,7 +114,7 @@ public final class EndpointPairTest {
   }
 
   // Tests for Graph.edges() and Network.asGraph().edges() methods
-  // TODO(user): Move these to a more appropiate location in the test suite.
+  // TODO(user): Move these to a more appropriate location in the test suite.
 
   @Test
   public void endpointPair_directedGraph() {

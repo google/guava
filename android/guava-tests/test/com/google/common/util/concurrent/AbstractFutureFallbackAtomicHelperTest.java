@@ -80,7 +80,7 @@ public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
 
   @Override
   public void runTest() throws Exception {
-    // First ensure that our classloaders are intializing the correct helper versions
+    // First ensure that our classloaders are initializing the correct helper versions
     checkHelperVersion(getClass().getClassLoader(), "UnsafeAtomicHelper");
     checkHelperVersion(NO_UNSAFE, "SafeAtomicHelper");
     checkHelperVersion(NO_ATOMIC_REFERENCE_FIELD_UPDATER, "SynchronizedHelper");
