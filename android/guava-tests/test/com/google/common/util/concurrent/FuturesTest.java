@@ -137,11 +137,13 @@ public class FuturesTest extends TestCase {
 
     assertSame(DATA1, getDone(future));
     assertSame(DATA1, getDoneFromTimeoutOverload(future));
+    assertThat(future.toString()).contains("[status=SUCCESS, result=[" + DATA1 + "]]");
   }
 
   public void testImmediateFailedFuture() throws Exception {
     Exception exception = new Exception();
     ListenableFuture<String> future = immediateFailedFuture(exception);
+    assertThat(future.toString()).endsWith("[status=FAILURE, cause=[" + exception + "]]");
 
     try {
       getDone(future);
@@ -162,6 +164,7 @@ public class FuturesTest extends TestCase {
     CancellationException exception = new CancellationException();
     ListenableFuture<String> future = immediateFailedFuture(exception);
     assertFalse(future.isCancelled());
+    assertThat(future.toString()).endsWith("[status=FAILURE, cause=[" + exception + "]]");
 
     try {
       getDone(future);
@@ -234,6 +237,8 @@ public class FuturesTest extends TestCase {
   public void testImmediateCheckedFuture() throws Exception {
     CheckedFuture<String, MyException> future = immediateCheckedFuture(
         DATA1);
+    assertThat(future.toString())
+        .endsWith("[status=SUCCESS, result=[" + DATA1 + "]]");
 
     // Verify that the proper object is returned without waiting
     assertSame(DATA1, future.get(0L, MILLISECONDS));
@@ -259,6 +264,8 @@ public class FuturesTest extends TestCase {
     MyException exception = new MyException();
     CheckedFuture<String, MyException> future =
         immediateFailedCheckedFuture(exception);
+    assertThat(future.toString())
+        .endsWith("[status=FAILURE, cause=[" + exception + "]]");
 
     try {
       future.get(0L, MILLISECONDS);

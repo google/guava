@@ -84,6 +84,12 @@ abstract class ImmediateFuture<V> extends FluentFuture<V> {
     public V get() {
       return value;
     }
+
+    @Override
+    public String toString() {
+      // Behaviour analogous to AbstractFuture#toString().
+      return super.toString() + "[status=SUCCESS, result=[" + value + "]]";
+    }
   }
 
   @GwtIncompatible // TODO
@@ -109,6 +115,12 @@ abstract class ImmediateFuture<V> extends FluentFuture<V> {
     public V checkedGet(long timeout, TimeUnit unit) {
       checkNotNull(unit);
       return value;
+    }
+
+    @Override
+    public String toString() {
+      // Behaviour analogous to AbstractFuture#toString().
+      return super.toString() + "[status=SUCCESS, result=[" + value + "]]";
     }
   }
 
@@ -147,6 +159,12 @@ abstract class ImmediateFuture<V> extends FluentFuture<V> {
     public V checkedGet(long timeout, TimeUnit unit) throws X {
       checkNotNull(unit);
       throw thrown;
+    }
+
+    @Override
+    public String toString() {
+      // Behaviour analogous to AbstractFuture#toString().
+      return super.toString() + "[status=FAILURE, cause=[" + thrown + "]]";
     }
   }
 }

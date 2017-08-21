@@ -243,7 +243,8 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
 
   private void addDoneString(StringBuilder builder) {
     try {
-      builder.append("SUCCESS, result=[").append(getDone(this)).append("]");
+      V value = getDone(this);
+      builder.append("SUCCESS, result=[").append(value).append("]");
     } catch (ExecutionException e) {
       builder.append("FAILURE, cause=[").append(e.getCause()).append("]");
     } catch (CancellationException e) {
