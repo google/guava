@@ -223,14 +223,18 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>memoize</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.96">memoize</a>(<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate)</pre>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.100">memoize</a>(<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate)</pre>
 <div class="block">Returns a supplier which caches the instance retrieved during the first call to <code>get()</code>
  and returns that value on subsequent calls to <code>get()</code>. See: <a
  href="http://en.wikipedia.org/wiki/Memoization">memoization</a>
 
  <p>The returned supplier is thread-safe. The delegate's <code>get()</code> method will be invoked at
- most once. The supplier's serialized form does not contain the cached value, which will be
- recalculated when <code>get()</code> is called on the reserialized instance.
+ most once unless the underlying <code>get()</code> throws an exception. The supplier's serialized
+ form does not contain the cached value, which will be recalculated when <code>get()</code> is called
+ on the reserialized instance.
+
+ <p>When the underlying delegate throws an exception then this memoizing supplier will keep
+ delegating calls until it returns valid data.
 
  <p>If <code>delegate</code> is an instance created by an earlier call to <code>memoize</code>, it is
  returned directly.</div>
@@ -242,17 +246,22 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>memoizeWithExpiration</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.195">memoizeWithExpiration</a>(<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.203">memoizeWithExpiration</a>(<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate,
                                                     long&nbsp;duration,
                                                     <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Returns a supplier that caches the instance supplied by the delegate and removes the cached
  value after the specified time has passed. Subsequent calls to <code>get()</code> return the cached
  value if the expiration time has not passed. After the expiration time, a new value is
- retrieved, cached, and returned. See:
- <a href="http://en.wikipedia.org/wiki/Memoization">memoization</a>
+ retrieved, cached, and returned. See: <a
+ href="http://en.wikipedia.org/wiki/Memoization">memoization</a>
 
  <p>The returned supplier is thread-safe. The supplier's serialized form does not contain the
- cached value, which will be recalculated when <code>get()</code> is called on the reserialized instance.</div>
+ cached value, which will be recalculated when <code>get()</code> is called on the reserialized
+ instance. The actual memoization does not happen when the underlying delegate throws an
+ exception.
+
+ <p>When the underlying delegate throws an exception then this memoizing supplier will keep
+ delegating calls until it returns valid data.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>duration</code> - the length of time after a value is created that it should stop being returned
@@ -273,7 +282,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>ofInstance</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.253">ofInstance</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.261">ofInstance</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                          T&nbsp;instance)</pre>
 <div class="block">Returns a supplier that always supplies <code>instance</code>.</div>
 </li>
@@ -284,7 +293,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>synchronizedSupplier</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.295">synchronizedSupplier</a>(<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate)</pre>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.303">synchronizedSupplier</a>(<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate)</pre>
 <div class="block">Returns a supplier whose <code>get()</code> method synchronizes on <code>delegate</code> before calling
  it, making it thread-safe.</div>
 </li>
@@ -295,7 +304,7 @@ extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>supplierFunction</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;,T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.329">supplierFunction</a>()</pre>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;,T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.337">supplierFunction</a>()</pre>
 <div class="block">Returns a function that accepts a supplier and returns the result of invoking <a href="../../../../com/google/common/base/Supplier.html#get--"><code>Supplier.get()</code></a> on that supplier.
 
  <p><b>Java 8 users:</b> use the method reference <code>Supplier::get</code> instead.</div>
