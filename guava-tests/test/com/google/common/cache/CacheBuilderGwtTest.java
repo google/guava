@@ -90,7 +90,7 @@ public class CacheBuilderGwtTest extends TestCase {
     cache.put(5, 50);
 
     assertEquals(null, cache.getIfPresent(10));
-    // Order required to remove dependence on acces order / write order constraint.
+    // Order required to remove dependence on access order / write order constraint.
     assertEquals(Integer.valueOf(20), cache.getIfPresent(2));
     assertEquals(Integer.valueOf(30), cache.getIfPresent(3));
     assertEquals(Integer.valueOf(40), cache.getIfPresent(4));

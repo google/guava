@@ -65,7 +65,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
     return this;
   }
 
-  // note: overriden by {BELOW,ABOVE}_ALL
+  // note: overridden by {BELOW,ABOVE}_ALL
   @Override
   public int compareTo(Cut<C> that) {
     if (that == belowAll()) {
