@@ -22,7 +22,6 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Charsets;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Joiner;
-import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.base.Stopwatch;
@@ -223,7 +222,7 @@ public class ArbitraryInstancesTest extends TestCase {
     assertNotNull(ArbitraryInstances.get(Locale.class));
     assertNotNull(ArbitraryInstances.get(Joiner.class).join(ImmutableList.of("a")));
     assertNotNull(ArbitraryInstances.get(Splitter.class).split("a,b"));
-    assertThat(ArbitraryInstances.get(Optional.class)).isAbsent();
+    assertThat(ArbitraryInstances.get(com.google.common.base.Optional.class)).isAbsent();
     ArbitraryInstances.get(Stopwatch.class).start();
     assertNotNull(ArbitraryInstances.get(Ticker.class));
     assertFreshInstanceReturned(Random.class);

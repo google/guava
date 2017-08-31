@@ -25,7 +25,6 @@ import com.google.common.base.Charsets;
 import com.google.common.base.Defaults;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Joiner;
-import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.base.Splitter;
@@ -207,7 +206,7 @@ public final class ArbitraryInstances {
       .put(CharMatcher.class, CharMatcher.none())
       .put(Joiner.class, Joiner.on(','))
       .put(Splitter.class, Splitter.on(','))
-      .put(Optional.class, Optional.absent())
+      .put(com.google.common.base.Optional.class, com.google.common.base.Optional.absent())
       .put(Predicate.class, Predicates.alwaysTrue())
       .put(Equivalence.class, Equivalence.equals())
       .put(Ticker.class, Ticker.systemTicker())

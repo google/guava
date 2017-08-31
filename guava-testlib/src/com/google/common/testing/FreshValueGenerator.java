@@ -24,7 +24,6 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Charsets;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Joiner;
-import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.base.Ticker;
 import com.google.common.collect.ArrayListMultimap;
@@ -111,6 +110,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -494,13 +497,40 @@ class FreshValueGenerator {
     }
   }
 
-  // common.base
-  @Empty private <T> Optional<T> generateOptional() {
-    return Optional.absent();
+  @Empty
+  private <T> Optional<T> generateJavaOptional() {
+    return Optional.empty();
   }
 
-  @Generates private <T> Optional<T> generateOptional(T value) {
+  @Generates
+  private <T> Optional<T> generateJavaOptional(T value) {
     return Optional.of(value);
+  }
+
+  @Generates
+  private OptionalInt generateOptionalInt() {
+    return OptionalInt.of(generateInt());
+  }
+
+  @Generates
+  private OptionalLong generateOptionalLong() {
+    return OptionalLong.of(generateLong());
+  }
+
+  @Generates
+  private OptionalDouble generateOptionalDouble() {
+    return OptionalDouble.of(generateDouble());
+  }
+
+  // common.base
+  @Empty
+  private <T> com.google.common.base.Optional<T> generateGoogleOptional() {
+    return com.google.common.base.Optional.absent();
+  }
+
+  @Generates
+  private <T> com.google.common.base.Optional<T> generateGoogleOptional(T value) {
+    return com.google.common.base.Optional.of(value);
   }
 
   @Generates private Joiner generateJoiner() {

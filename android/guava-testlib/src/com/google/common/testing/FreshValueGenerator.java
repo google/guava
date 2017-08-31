@@ -24,7 +24,6 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Charsets;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Joiner;
-import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.base.Ticker;
 import com.google.common.collect.ArrayListMultimap;
@@ -495,12 +494,14 @@ class FreshValueGenerator {
   }
 
   // common.base
-  @Empty private <T> Optional<T> generateOptional() {
-    return Optional.absent();
+  @Empty
+  private <T> com.google.common.base.Optional<T> generateGoogleOptional() {
+    return com.google.common.base.Optional.absent();
   }
 
-  @Generates private <T> Optional<T> generateOptional(T value) {
-    return Optional.of(value);
+  @Generates
+  private <T> com.google.common.base.Optional<T> generateGoogleOptional(T value) {
+    return com.google.common.base.Optional.of(value);
   }
 
   @Generates private Joiner generateJoiner() {

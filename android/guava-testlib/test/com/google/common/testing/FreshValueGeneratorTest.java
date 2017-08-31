@@ -20,7 +20,6 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
-import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.base.Ticker;
@@ -377,23 +376,31 @@ public class FreshValueGeneratorTest extends TestCase {
     assertEqualInstance(EmptyEnum.class, null);
     assertEqualInstance(OneConstantEnum.class, OneConstantEnum.CONSTANT1);
     assertFreshInstance(TwoConstantEnum.class, 2);
-    assertFreshInstance(new TypeToken<Optional<OneConstantEnum>>() {}, 2);
+    assertFreshInstance(new TypeToken<com.google.common.base.Optional<OneConstantEnum>>() {}, 2);
     assertFreshInstance(new TypeToken<List<OneConstantEnum>>() {}, 1);
     assertFreshInstance(new TypeToken<List<TwoConstantEnum>>() {}, 2);
   }
 
   @AndroidIncompatible // problem with equality of Type objects?
-  public void testOptional() {
+  public void testGoogleOptional() {
     FreshValueGenerator generator = new FreshValueGenerator();
-    assertEquals(Optional.absent(), generator.generateFresh(new TypeToken<Optional<String>>() {}));
-    assertEquals(Optional.of("2"), generator.generateFresh(new TypeToken<Optional<String>>() {}));
-    // Test that the first generated instance for different Optional<T> is always absent().
-    // Having generated Optional<String> instances doesn't prevent absent() from being generated for
-    // other Optional types.
-    assertEquals(Optional.absent(),
-        generator.generateFresh(new TypeToken<Optional<OneConstantEnum>>() {}));
-    assertEquals(Optional.of(OneConstantEnum.CONSTANT1),
-        generator.generateFresh(new TypeToken<Optional<OneConstantEnum>>() {}));
+    assertEquals(
+        com.google.common.base.Optional.absent(),
+        generator.generateFresh(new TypeToken<com.google.common.base.Optional<String>>() {}));
+    assertEquals(
+        com.google.common.base.Optional.of("2"),
+        generator.generateFresh(new TypeToken<com.google.common.base.Optional<String>>() {}));
+    // Test that the first generated instance for different cgcb.Optional<T> is always absent().
+    // Having generated cgcb.Optional<String> instances doesn't prevent absent() from being
+    // generated for other cgcb.Optional types.
+    assertEquals(
+        com.google.common.base.Optional.absent(),
+        generator.generateFresh(
+            new TypeToken<com.google.common.base.Optional<OneConstantEnum>>() {}));
+    assertEquals(
+        com.google.common.base.Optional.of(OneConstantEnum.CONSTANT1),
+        generator.generateFresh(
+            new TypeToken<com.google.common.base.Optional<OneConstantEnum>>() {}));
   }
 
   public void testAddSampleInstances_twoInstances() {
