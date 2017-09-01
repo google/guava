@@ -426,7 +426,7 @@ public final class MoreExecutors {
   @Beta
   @GwtIncompatible
   public static Executor sequentialExecutor(Executor delegate) {
-    return new SerializingExecutor(delegate);
+    return new SequentialExecutor(delegate);
   }
 
   /**

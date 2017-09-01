@@ -16,6 +16,7 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.DoNotMock;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -26,7 +27,7 @@ import javax.annotation.concurrent.GuardedBy;
 
 /**
  * Executor ensuring that all Runnables submitted are executed in order, using the provided
- * Executor, and serially such that no two will ever be running at the same time.
+ * Executor, and sequentially such that no two will ever be running at the same time.
  *
  * <p>Tasks submitted to {@link #execute(Runnable)} are executed in FIFO order.
  *
@@ -44,8 +45,9 @@ import javax.annotation.concurrent.GuardedBy;
  * and execution will stop until it is restarted by external calls.
  */
 @GwtIncompatible
-final class SerializingExecutor implements Executor {
-  private static final Logger log = Logger.getLogger(SerializingExecutor.class.getName());
+@DoNotMock
+class SequentialExecutor implements Executor {
+  private static final Logger log = Logger.getLogger(SequentialExecutor.class.getName());
 
   /** Underlying executor that all submitted Runnable objects are run on. */
   private final Executor executor;
@@ -61,7 +63,8 @@ final class SerializingExecutor implements Executor {
 
   private final QueueWorker worker = new QueueWorker();
 
-  public SerializingExecutor(Executor executor) {
+  /** Use {@link MoreExecutors#sequentialExecutor} */
+  SequentialExecutor(Executor executor) {
     this.executor = Preconditions.checkNotNull(executor);
   }
 

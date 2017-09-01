@@ -32,11 +32,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
 
 /**
- * Tests {@link SerializingExecutor}.
+ * Tests {@link SequentialExecutor}.
  *
  * @author JJ Furman
  */
-public class SerializingExecutorTest extends TestCase {
+public class SequentialExecutorTest extends TestCase {
   private static class FakeExecutor implements Executor {
     Queue<Runnable> tasks = Queues.newArrayDeque();
     @Override public void execute(Runnable command) {
@@ -59,17 +59,17 @@ public class SerializingExecutorTest extends TestCase {
     }
   }
   private FakeExecutor fakePool;
-  private SerializingExecutor e;
+  private SequentialExecutor e;
 
   @Override
   public void setUp() {
     fakePool = new FakeExecutor();
-    e = new SerializingExecutor(fakePool);
+    e = new SequentialExecutor(fakePool);
   }
 
-  public void testSerializingNullExecutor_fails() {
+  public void testConstructingWithNullExecutor_fails() {
     try {
-      new SerializingExecutor(null);
+      new SequentialExecutor(null);
       fail("Should have failed with NullPointerException.");
     } catch (NullPointerException expected) {
     }
@@ -246,7 +246,7 @@ public class SerializingExecutorTest extends TestCase {
   public void testDelegateRejection() {
     final AtomicInteger numCalls = new AtomicInteger();
     final AtomicBoolean reject = new AtomicBoolean(true);
-    final SerializingExecutor executor = new SerializingExecutor(
+    final SequentialExecutor executor = new SequentialExecutor(
         new Executor() {
           @Override public void execute(Runnable r) {
             if (reject.get()) {
@@ -277,7 +277,7 @@ public class SerializingExecutorTest extends TestCase {
     // we need to make sure the error gets thrown on a different thread.
     ExecutorService service = Executors.newSingleThreadExecutor();
     try {
-      final SerializingExecutor executor = new SerializingExecutor(service);
+      final SequentialExecutor executor = new SequentialExecutor(service);
       Runnable errorTask = new Runnable() {
         @Override
         public void run() {
@@ -297,7 +297,7 @@ public class SerializingExecutorTest extends TestCase {
       executor.execute(errorTask);
       service.execute(barrierTask);  // submit directly to the service
       // the barrier task runs after the error task so we know that the error has been observed by
-      // SerializingExecutor by the time the barrier is satified
+      // SequentialExecutor by the time the barrier is satified
       barrier.await(10, TimeUnit.SECONDS);
       executor.execute(barrierTask);
       // timeout means the second task wasn't even tried
