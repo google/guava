@@ -132,7 +132,7 @@ public final class Multisets {
     @SuppressWarnings("unchecked")
     @Override
     protected Multiset<E> delegate() {
-      // This is safe because all non-covariant methods are overriden
+      // This is safe because all non-covariant methods are overridden
       return (Multiset<E>) delegate;
     }
 
