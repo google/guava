@@ -434,7 +434,7 @@
 <span class="sourceLineNo">426</span>  @Beta<a name="line.426"></a>
 <span class="sourceLineNo">427</span>  @GwtIncompatible<a name="line.427"></a>
 <span class="sourceLineNo">428</span>  public static Executor sequentialExecutor(Executor delegate) {<a name="line.428"></a>
-<span class="sourceLineNo">429</span>    return new SerializingExecutor(delegate);<a name="line.429"></a>
+<span class="sourceLineNo">429</span>    return new SequentialExecutor(delegate);<a name="line.429"></a>
 <span class="sourceLineNo">430</span>  }<a name="line.430"></a>
 <span class="sourceLineNo">431</span><a name="line.431"></a>
 <span class="sourceLineNo">432</span>  /**<a name="line.432"></a>
