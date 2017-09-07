@@ -305,7 +305,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
       throws Exception {
     ListeningExecutorService executor = newDirectExecutorService();
     List<Callable<T>> tasks = ImmutableList.of();
-    executor.invokeAll(tasks);
+    List<? extends Future<?>> unused = executor.invokeAll(tasks);
   }
 
   public void testListeningDecorator() throws Exception {
