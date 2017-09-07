@@ -42,8 +42,7 @@ import javax.annotation.Nullable;
   /**
    * A specification for which index to return if the list contains at least one element that
    * compares as equal to the key.
-   */
-  public enum KeyPresentBehavior {
+   */ enum KeyPresentBehavior {
     /**
      * Return the index of any list element that compares as equal to the key. No guarantees are
      * made as to which index is returned, if more than one element compares as equal to the key.
@@ -134,8 +133,7 @@ import javax.annotation.Nullable;
   /**
    * A specification for which index to return if the list contains no elements that compare as
    * equal to the key.
-   */
-  public enum KeyAbsentBehavior {
+   */ enum KeyAbsentBehavior {
     /**
      * Return the index of the next lower element in the list, or {@code -1} if there is no such
      * element.
