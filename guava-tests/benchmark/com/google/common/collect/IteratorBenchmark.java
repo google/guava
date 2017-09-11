@@ -21,6 +21,7 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Tests the speed of iteration of different iteration methods for collections.
@@ -32,7 +33,7 @@ public class IteratorBenchmark {
 
   // use concrete classes to remove any possible polymorphic overhead?
   Object[] array;
-  ArrayList<Object> arrayList;
+  List<Object> arrayList;
   LinkedList<Object> linkedList;
 
   @BeforeExperiment void setUp() {
