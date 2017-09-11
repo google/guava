@@ -97,7 +97,9 @@ public class MultisetRemoveTester<E> extends AbstractMultisetTester<E> {
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testRemove_occurrences_absent() {
+    int distinct = getMultiset().elementSet().size();
     assertEquals("multiset.remove(absent, 0) didn't return 0", 0, getMultiset().remove(e3(), 2));
+    assertEquals(distinct, getMultiset().elementSet().size());
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)

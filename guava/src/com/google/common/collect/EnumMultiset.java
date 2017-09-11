@@ -169,7 +169,9 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
     }
     int index = e.ordinal();
     int oldCount = counts[index];
-    if (oldCount <= occurrences) {
+    if (oldCount == 0) {
+      return 0;
+    } else if (oldCount <= occurrences) {
       counts[index] = 0;
       distinctElements--;
       size -= oldCount;
