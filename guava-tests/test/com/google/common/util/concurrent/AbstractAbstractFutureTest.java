@@ -123,13 +123,13 @@ abstract class AbstractAbstractFutureTest extends TestCase {
   public void testSetFutureDelegateAlreadyInterrupted() throws Exception {
     delegate.cancel(true /** mayInterruptIfRunning */);
     assertThat(future.setFuture(delegate)).isTrue();
-    assertCancelled(future, /* expectWasCancelled= */ false);
+    assertCancelled(future, /* expectWasInterrupted= */ false);
   }
 
   public void testSetFutureDelegateLaterInterrupted() throws Exception {
     assertThat(future.setFuture(delegate)).isTrue();
     delegate.cancel(true /** mayInterruptIfRunning */);
-    assertCancelled(future, /* expectWasCancelled= */ false);
+    assertCancelled(future, /* expectWasInterrupted= */ false);
   }
 
   public void testListenLaterSuccessful() {
