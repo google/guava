@@ -22,6 +22,7 @@ import static com.google.common.collect.CollectPreconditions.checkRemove;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -133,6 +134,8 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
     return counts[e.ordinal()];
   }
 
+  // Modification Operations
+  @CanIgnoreReturnValue
   @Override
   public int add(E element, int occurrences) {
     checkIsE(element);
@@ -152,6 +155,8 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
     return oldCount;
   }
 
+  // Modification Operations
+  @CanIgnoreReturnValue
   @Override
   public int remove(@Nullable Object element, int occurrences) {
     if (element == null || !isActuallyE(element)) {
@@ -175,6 +180,8 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
     return oldCount;
   }
 
+  // Modification Operations
+  @CanIgnoreReturnValue
   @Override
   public int setCount(E element, int count) {
     checkIsE(element);
