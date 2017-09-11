@@ -1389,8 +1389,9 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * the {@code Future} is already done. Second, if buggy code calls {@code getDone} on a {@code
    * Future} that is still pending, the program will throw instead of block. This can be important
    * for APIs like {@link #whenAllComplete whenAllComplete(...)}{@code .}{@link
-   * FutureCombiner#call(Callable) call(...)}, where it is easy to use a new input from the {@code
-   * call} implementation but forget to add it to the arguments of {@code whenAllComplete}.
+   * FutureCombiner#call(Callable, Executor) call(...)}, where it is easy to use a new input from
+   * the {@code call} implementation but forget to add it to the arguments of {@code
+   * whenAllComplete}.
    *
    * <p>If you are looking for a method to determine whether a given {@code Future} is done, use the
    * instance method {@link Future#isDone()}.
