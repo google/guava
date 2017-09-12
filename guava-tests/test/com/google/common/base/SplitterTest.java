@@ -50,6 +50,12 @@ public class SplitterTest extends TestCase {
     assertThat(letters).containsExactly("a", "b", "c").inOrder();
   }
 
+  public void testCharacterSimpleSplit2() {
+    String simple = "a,b,c";
+    Iterable<String> letters = COMMA_SPLITTER.split(simple);
+    assertThat(letters).containsExactly("a", "b", "c").inOrder();
+  }
+
   /**
    * All of the infrastructure of split and splitToString is identical, so we
    * do one test of splitToString. All other cases should be covered by testing
@@ -76,7 +82,19 @@ public class SplitterTest extends TestCase {
     assertThat(letters).containsExactly("a,b,c").inOrder();
   }
 
+  public void testCharacterSimpleSplitWithNoDelimiter2() {
+    String simple = "a,b,c";
+    Iterable<String> letters = Splitter.on('.').split(simple);
+    assertThat(letters).containsExactly("a,b,c").inOrder();
+  }
+
   public void testCharacterSplitWithDoubleDelimiter() {
+    String doubled = "a,,b,c";
+    Iterable<String> letters = COMMA_SPLITTER.split(doubled);
+    assertThat(letters).containsExactly("a", "", "b", "c").inOrder();
+  }
+
+  public void testCharacterSplitWithDoubleDelimiter2() {
     String doubled = "a,,b,c";
     Iterable<String> letters = COMMA_SPLITTER.split(doubled);
     assertThat(letters).containsExactly("a", "", "b", "c").inOrder();
@@ -88,7 +106,19 @@ public class SplitterTest extends TestCase {
     assertThat(letters).containsExactly("a", "", " b", "c").inOrder();
   }
 
+  public void testCharacterSplitWithDoubleDelimiterAndSpace2() {
+    String doubled = "a,, b,c";
+    Iterable<String> letters = COMMA_SPLITTER.split(doubled);
+    assertThat(letters).containsExactly("a", "", " b", "c").inOrder();
+  }
+
   public void testCharacterSplitWithTrailingDelimiter() {
+    String trailing = "a,b,c,";
+    Iterable<String> letters = COMMA_SPLITTER.split(trailing);
+    assertThat(letters).containsExactly("a", "b", "c", "").inOrder();
+  }
+
+  public void testCharacterSplitWithTrailingDelimiter2() {
     String trailing = "a,b,c,";
     Iterable<String> letters = COMMA_SPLITTER.split(trailing);
     assertThat(letters).containsExactly("a", "b", "c", "").inOrder();
@@ -100,12 +130,26 @@ public class SplitterTest extends TestCase {
     assertThat(letters).containsExactly("", "a", "b", "c").inOrder();
   }
 
+  public void testCharacterSplitWithLeadingDelimiter2() {
+    String leading = ",a,b,c";
+    Iterable<String> letters = COMMA_SPLITTER.split(leading);
+    assertThat(letters).containsExactly("", "a", "b", "c").inOrder();
+  }
+
   public void testCharacterSplitWithMulitpleLetters() {
     Iterable<String> testCharacteringMotto = Splitter.on('-').split(
         "Testing-rocks-Debugging-sucks");
     assertThat(testCharacteringMotto)
         .containsExactly("Testing", "rocks", "Debugging", "sucks")
         .inOrder();
+  }
+
+  public void testCharacterSplitWithMultipleLetters2() {
+    Iterable<String> testStringingMotto = Splitter.on('-').split(
+            "Testing-rocks-Debugging-sucks");
+    assertThat(testStringingMotto)
+            .containsExactly("Testing", "rocks", "Debugging", "sucks")
+            .inOrder();
   }
 
   public void testCharacterSplitWithMatcherDelimiter() {
@@ -124,6 +168,13 @@ public class SplitterTest extends TestCase {
     assertThat(letters).containsExactly("a", "b", "c").inOrder();
   }
 
+  public void testCharacterSplitWithDoubleDelimiterOmitEmptyStrings2() {
+    String doubled = "a..b.c";
+    Iterable<String> letters = Splitter.on('.')
+            .omitEmptyStrings().split(doubled);
+    assertThat(letters).containsExactly("a", "b", "c").inOrder();
+  }
+
   public void testCharacterSplitEmptyToken() {
     String emptyToken = "a. .c";
     Iterable<String> letters = Splitter.on('.').trimResults()
@@ -131,10 +182,24 @@ public class SplitterTest extends TestCase {
     assertThat(letters).containsExactly("a", "", "c").inOrder();
   }
 
+  public void testCharacterSplitEmptyToken2() {
+    String emptyToken = "a. .c";
+    Iterable<String> letters = Splitter.on('.').trimResults()
+            .split(emptyToken);
+    assertThat(letters).containsExactly("a", "", "c").inOrder();
+  }
+
   public void testCharacterSplitEmptyTokenOmitEmptyStrings() {
     String emptyToken = "a. .c";
     Iterable<String> letters = Splitter.on('.')
         .omitEmptyStrings().trimResults().split(emptyToken);
+    assertThat(letters).containsExactly("a", "c").inOrder();
+  }
+
+  public void testCharacterSplitEmptyTokenOmitEmptyStrings2() {
+    String emptyToken = "a. .c";
+    Iterable<String> letters = Splitter.on('.')
+            .omitEmptyStrings().trimResults().split(emptyToken);
     assertThat(letters).containsExactly("a", "c").inOrder();
   }
 
@@ -166,71 +231,6 @@ public class SplitterTest extends TestCase {
     assertThat(family)
         .containsExactly("(Marlon)", "(Michael)", "(Jackie)", "(Jemaine)", "(Tito)")
         .inOrder();
-  }
-
-  public void testCharacterSimpleSplit2() {
-    String simple = "a,b,c";
-    Iterable<String> letters = COMMA_SPLITTER.split(simple);
-    assertThat(letters).containsExactly("a", "b", "c").inOrder();
-  }
-
-  public void testCharacterSimpleSplitWithNoDelimiter2() {
-    String simple = "a,b,c";
-    Iterable<String> letters = Splitter.on('.').split(simple);
-    assertThat(letters).containsExactly("a,b,c").inOrder();
-  }
-
-  public void testCharacterSplitWithDoubleDelimiter2() {
-    String doubled = "a,,b,c";
-    Iterable<String> letters = COMMA_SPLITTER.split(doubled);
-    assertThat(letters).containsExactly("a", "", "b", "c").inOrder();
-  }
-
-  public void testCharacterSplitWithDoubleDelimiterAndSpace2() {
-    String doubled = "a,, b,c";
-    Iterable<String> letters = COMMA_SPLITTER.split(doubled);
-    assertThat(letters).containsExactly("a", "", " b", "c").inOrder();
-  }
-
-  public void testCharacterSplitWithTrailingDelimiter2() {
-    String trailing = "a,b,c,";
-    Iterable<String> letters = COMMA_SPLITTER.split(trailing);
-    assertThat(letters).containsExactly("a", "b", "c", "").inOrder();
-  }
-
-  public void testCharacterSplitWithLeadingDelimiter2() {
-    String leading = ",a,b,c";
-    Iterable<String> letters = COMMA_SPLITTER.split(leading);
-    assertThat(letters).containsExactly("", "a", "b", "c").inOrder();
-  }
-
-  public void testCharacterSplitWithMultipleLetters() {
-    Iterable<String> testStringingMotto = Splitter.on('-').split(
-        "Testing-rocks-Debugging-sucks");
-    assertThat(testStringingMotto)
-        .containsExactly("Testing", "rocks", "Debugging", "sucks")
-        .inOrder();
-  }
-
-  public void testCharacterSplitWithDoubleDelimiterOmitEmptyStrings2() {
-    String doubled = "a..b.c";
-    Iterable<String> letters = Splitter.on('.')
-        .omitEmptyStrings().split(doubled);
-    assertThat(letters).containsExactly("a", "b", "c").inOrder();
-  }
-
-  public void testCharacterSplitEmptyToken2() {
-    String emptyToken = "a. .c";
-    Iterable<String> letters = Splitter.on('.').trimResults()
-        .split(emptyToken);
-    assertThat(letters).containsExactly("a", "", "c").inOrder();
-  }
-
-  public void testCharacterSplitEmptyTokenOmitEmptyStrings2() {
-    String emptyToken = "a. .c";
-    Iterable<String> letters = Splitter.on('.')
-        .omitEmptyStrings().trimResults().split(emptyToken);
-    assertThat(letters).containsExactly("a", "c").inOrder();
   }
 
   public void testStringSplitWithLongDelimiter() {

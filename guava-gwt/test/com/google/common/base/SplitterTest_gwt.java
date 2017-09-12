@@ -380,7 +380,7 @@ public void testStringSplitWithLongTrailingDelimiter() throws Exception {
 
 public void testStringSplitWithMultipleLetters() throws Exception {
   com.google.common.base.SplitterTest testCase = new com.google.common.base.SplitterTest();
-  testCase.testCharacterSplitWithMultipleLetters();
+  testCase.testCharacterSplitWithMultipleLetters2();
 }
 
 public void testStringSplitWithTrailingDelimiter() throws Exception {
