@@ -168,43 +168,43 @@ public class SplitterTest extends TestCase {
         .inOrder();
   }
 
-  public void testStringSimpleSplit() {
+  public void testCharacterSimpleSplit2() {
     String simple = "a,b,c";
     Iterable<String> letters = COMMA_SPLITTER.split(simple);
     assertThat(letters).containsExactly("a", "b", "c").inOrder();
   }
 
-  public void testStringSimpleSplitWithNoDelimiter() {
+  public void testCharacterSimpleSplitWithNoDelimiter2() {
     String simple = "a,b,c";
     Iterable<String> letters = Splitter.on('.').split(simple);
     assertThat(letters).containsExactly("a,b,c").inOrder();
   }
 
-  public void testStringSplitWithDoubleDelimiter() {
+  public void testCharacterSplitWithDoubleDelimiter2() {
     String doubled = "a,,b,c";
     Iterable<String> letters = COMMA_SPLITTER.split(doubled);
     assertThat(letters).containsExactly("a", "", "b", "c").inOrder();
   }
 
-  public void testStringSplitWithDoubleDelimiterAndSpace() {
+  public void testCharacterSplitWithDoubleDelimiterAndSpace2() {
     String doubled = "a,, b,c";
     Iterable<String> letters = COMMA_SPLITTER.split(doubled);
     assertThat(letters).containsExactly("a", "", " b", "c").inOrder();
   }
 
-  public void testStringSplitWithTrailingDelimiter() {
+  public void testCharacterSplitWithTrailingDelimiter2() {
     String trailing = "a,b,c,";
     Iterable<String> letters = COMMA_SPLITTER.split(trailing);
     assertThat(letters).containsExactly("a", "b", "c", "").inOrder();
   }
 
-  public void testStringSplitWithLeadingDelimiter() {
+  public void testCharacterSplitWithLeadingDelimiter2() {
     String leading = ",a,b,c";
     Iterable<String> letters = COMMA_SPLITTER.split(leading);
     assertThat(letters).containsExactly("", "a", "b", "c").inOrder();
   }
 
-  public void testStringSplitWithMultipleLetters() {
+  public void testCharacterSplitWithMultipleLetters() {
     Iterable<String> testStringingMotto = Splitter.on('-').split(
         "Testing-rocks-Debugging-sucks");
     assertThat(testStringingMotto)
@@ -212,21 +212,21 @@ public class SplitterTest extends TestCase {
         .inOrder();
   }
 
-  public void testStringSplitWithDoubleDelimiterOmitEmptyStrings() {
+  public void testCharacterSplitWithDoubleDelimiterOmitEmptyStrings2() {
     String doubled = "a..b.c";
     Iterable<String> letters = Splitter.on('.')
         .omitEmptyStrings().split(doubled);
     assertThat(letters).containsExactly("a", "b", "c").inOrder();
   }
 
-  public void testStringSplitEmptyToken() {
+  public void testCharacterSplitEmptyToken2() {
     String emptyToken = "a. .c";
     Iterable<String> letters = Splitter.on('.').trimResults()
         .split(emptyToken);
     assertThat(letters).containsExactly("a", "", "c").inOrder();
   }
 
-  public void testStringSplitEmptyTokenOmitEmptyStrings() {
+  public void testCharacterSplitEmptyTokenOmitEmptyStrings2() {
     String emptyToken = "a. .c";
     Iterable<String> letters = Splitter.on('.')
         .omitEmptyStrings().trimResults().split(emptyToken);
