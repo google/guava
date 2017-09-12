@@ -91,6 +91,8 @@ public interface SuccessorsFunction<N> {
    * if the returned {@link Iterable} contains duplicate elements. Implementations of such
    * algorithms should document their behavior in the presence of duplicates.
    *
+   * <p>The returned {@code iterable} and its elements, must each be non-null.
+   *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
   Iterable<? extends N> successors(N node);
