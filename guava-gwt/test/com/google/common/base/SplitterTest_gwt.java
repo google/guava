@@ -90,7 +90,7 @@ public void testCharacterSplitWithMatcherDelimiter() throws Exception {
 
 public void testCharacterSplitWithMulitpleLetters() throws Exception {
   com.google.common.base.SplitterTest testCase = new com.google.common.base.SplitterTest();
-  testCase.testCharacterSplitWithMulitpleLetters();
+  testCase.testCharacterSplitWithMultitpleLetters();
 }
 
 public void testCharacterSplitWithTrailingDelimiter() throws Exception {
@@ -293,26 +293,6 @@ public void testSplitterIterableIsUnmodifiable_string() throws Exception {
   testCase.testSplitterIterableIsUnmodifiable_string();
 }
 
-public void testStringSimpleSplit() throws Exception {
-  com.google.common.base.SplitterTest testCase = new com.google.common.base.SplitterTest();
-  testCase.testCharacterSimpleSplit2();
-}
-
-public void testStringSimpleSplitWithNoDelimiter() throws Exception {
-  com.google.common.base.SplitterTest testCase = new com.google.common.base.SplitterTest();
-  testCase.testCharacterSimpleSplitWithNoDelimiter2();
-}
-
-public void testStringSplitEmptyToken() throws Exception {
-  com.google.common.base.SplitterTest testCase = new com.google.common.base.SplitterTest();
-  testCase.testCharacterSplitEmptyToken2();
-}
-
-public void testStringSplitEmptyTokenOmitEmptyStrings() throws Exception {
-  com.google.common.base.SplitterTest testCase = new com.google.common.base.SplitterTest();
-  testCase.testCharacterSplitEmptyTokenOmitEmptyStrings2();
-}
-
 public void testStringSplitOnEmptyString() throws Exception {
   com.google.common.base.SplitterTest testCase = new com.google.common.base.SplitterTest();
   testCase.testStringSplitOnEmptyString();
@@ -338,29 +318,9 @@ public void testStringSplitWithDelimiterSubstringInValue() throws Exception {
   testCase.testStringSplitWithDelimiterSubstringInValue();
 }
 
-public void testStringSplitWithDoubleDelimiter() throws Exception {
-  com.google.common.base.SplitterTest testCase = new com.google.common.base.SplitterTest();
-  testCase.testCharacterSplitWithDoubleDelimiter2();
-}
-
-public void testStringSplitWithDoubleDelimiterAndSpace() throws Exception {
-  com.google.common.base.SplitterTest testCase = new com.google.common.base.SplitterTest();
-  testCase.testCharacterSplitWithDoubleDelimiterAndSpace2();
-}
-
-public void testStringSplitWithDoubleDelimiterOmitEmptyStrings() throws Exception {
-  com.google.common.base.SplitterTest testCase = new com.google.common.base.SplitterTest();
-  testCase.testCharacterSplitWithDoubleDelimiterOmitEmptyStrings2();
-}
-
 public void testStringSplitWithEmptyString() throws Exception {
   com.google.common.base.SplitterTest testCase = new com.google.common.base.SplitterTest();
   testCase.testStringSplitWithEmptyString();
-}
-
-public void testStringSplitWithLeadingDelimiter() throws Exception {
-  com.google.common.base.SplitterTest testCase = new com.google.common.base.SplitterTest();
-  testCase.testCharacterSplitWithLeadingDelimiter2();
 }
 
 public void testStringSplitWithLongDelimiter() throws Exception {
@@ -376,16 +336,6 @@ public void testStringSplitWithLongLeadingDelimiter() throws Exception {
 public void testStringSplitWithLongTrailingDelimiter() throws Exception {
   com.google.common.base.SplitterTest testCase = new com.google.common.base.SplitterTest();
   testCase.testStringSplitWithLongTrailingDelimiter();
-}
-
-public void testStringSplitWithMultipleLetters() throws Exception {
-  com.google.common.base.SplitterTest testCase = new com.google.common.base.SplitterTest();
-  testCase.testCharacterSplitWithMultipleLetters2();
-}
-
-public void testStringSplitWithTrailingDelimiter() throws Exception {
-  com.google.common.base.SplitterTest testCase = new com.google.common.base.SplitterTest();
-  testCase.testCharacterSplitWithTrailingDelimiter2();
 }
 
 public void testStringSplitWithTrim() throws Exception {
