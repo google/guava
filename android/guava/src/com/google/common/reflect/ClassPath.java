@@ -16,6 +16,9 @@ package com.google.common.reflect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.StandardSystemProperty.JAVA_CLASS_PATH;
+import static com.google.common.base.StandardSystemProperty.PATH_SEPARATOR;
+import static java.util.logging.Level.WARNING;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
@@ -23,6 +26,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
@@ -55,8 +59,13 @@ import javax.annotation.Nullable;
 /**
  * Scans the source of a {@link ClassLoader} and finds all loadable classes and resources.
  *
- * <p><b>Warning:</b> Currently only {@link URLClassLoader} and only {@code file://} urls are
- * supported.
+ * <p><b>Warning:</b> Current limitations:
+ *
+ * <ul>
+ *   <li>Looks only for files and JARs in URLs available from {@link URLClassLoader} instances or
+ *       the {@linkplain ClassLoader#getSystemClassLoader() system class loader}.
+ *   <li>Only understands {@code file:} URLs.
+ * </ul>
  *
  * <p>In the case of directory classloaders, symlinks are supported but cycles are not traversed.
  * This guarantees discovery of each <em>unique</em> loadable resource. However, not all possible
@@ -91,10 +100,16 @@ public final class ClassPath {
 
   /**
    * Returns a {@code ClassPath} representing all classes and resources loadable from {@code
-   * classloader} and its parent class loaders.
+   * classloader} and its ancestor class loaders.
    *
-   * <p><b>Warning:</b> Currently only {@link URLClassLoader} and only {@code file://} urls are
-   * supported.
+   * <p><b>Warning:</b> {@code ClassPath} can find classes and resources only from:
+   *
+   * <ul>
+   *   <li>{@link URLClassLoader} instances' {@code file:} URLs
+   *   <li>the {@linkplain ClassLoader#getSystemClassLoader() system class loader}. To search the
+   *       system class loader even when it is not a {@link URLClassLoader} (as in Java 9), {@code
+   *       ClassPath} searches the files from the {@code java.class.path} system property.
+   * </ul>
    *
    * @throws IOException if the attempt to read class path resources (jar files or directories)
    *     failed.
@@ -432,18 +447,46 @@ public final class ClassPath {
       if (parent != null) {
         entries.putAll(getClassPathEntries(parent));
       }
-      if (classloader instanceof URLClassLoader) {
-        URLClassLoader urlClassLoader = (URLClassLoader) classloader;
-        for (URL entry : urlClassLoader.getURLs()) {
-          if (entry.getProtocol().equals("file")) {
-            File file = toFile(entry);
-            if (!entries.containsKey(file)) {
-              entries.put(file, classloader);
-            }
+      for (URL url : getClassLoaderUrls(classloader)) {
+        if (url.getProtocol().equals("file")) {
+          File file = toFile(url);
+          if (!entries.containsKey(file)) {
+            entries.put(file, classloader);
           }
         }
       }
       return ImmutableMap.copyOf(entries);
+    }
+
+    private static ImmutableList<URL> getClassLoaderUrls(ClassLoader classloader) {
+      if (classloader instanceof URLClassLoader) {
+        return ImmutableList.copyOf(((URLClassLoader) classloader).getURLs());
+      }
+      if (classloader.equals(ClassLoader.getSystemClassLoader())) {
+        return parseJavaClassPath();
+      }
+      return ImmutableList.of();
+    }
+
+    /**
+     * Returns the URLs in the class path specified by the {@code java.class.path} {@linkplain
+     * System#getProperty system property}.
+     */
+    @VisibleForTesting // TODO(b/65488446): Make this a public API.
+    static ImmutableList<URL> parseJavaClassPath() {
+      ImmutableList.Builder<URL> urls = ImmutableList.builder();
+      for (String entry : Splitter.on(PATH_SEPARATOR.value()).split(JAVA_CLASS_PATH.value())) {
+        try {
+          try {
+            urls.add(new File(entry).toURI().toURL());
+          } catch (SecurityException e) { // File.toURI checks to see if the file is a directory
+            urls.add(new URL("file", null, new File(entry).getAbsolutePath()));
+          }
+        } catch (MalformedURLException e) {
+          logger.log(WARNING, "malformed classpath entry: " + entry, e);
+        }
+      }
+      return urls.build();
     }
 
     /**
