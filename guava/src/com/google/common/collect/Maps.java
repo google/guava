@@ -3061,12 +3061,12 @@ public final class Maps {
       }
 
       @Override
-      public boolean removeAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> c) {
+      public boolean removeAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> collection) {
         return removeAllKeys(unfiltered, predicate, collection);
       }
 
       @Override
-      public boolean retainAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> c) {
+      public boolean retainAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> collection) {
         return retainAllKeys(unfiltered, predicate, collection);
       }
 
@@ -3075,7 +3075,6 @@ public final class Maps {
         // creating an ArrayList so filtering happens once
         return Lists.newArrayList(iterator()).toArray();
       }
-
       @Override
       public <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> T[] toArray(T[] array) {
         return Lists.newArrayList(iterator()).toArray(array);

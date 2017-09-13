@@ -264,10 +264,10 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     };
   }
 
-  @Pure
   @LazyInit
   private transient ImmutableList<E> asList;
 
+  @Pure
   @Override
   public ImmutableList<E> asList() {
     ImmutableList<E> result = asList;

@@ -586,7 +586,7 @@ public final class Sets {
    *     will be removed in December 2017.
    */
   @Deprecated
-  public static <E extends @Nullable Object> Set<E> newSetFromMap(Map<E, Boolean> map) {
+  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> Set<E> newSetFromMap(Map<E, Boolean> map) {
     return Collections.newSetFromMap(map);
   }
 
@@ -1069,7 +1069,7 @@ public final class Sets {
    * being deprecated, but we gently encourage you to migrate to streams.
    */
   // TODO(kevinb): how to omit that last sentence when building GWT javadoc?
-  public static <E extends @Nullable Object> Set<E> filter(Set<E> unfiltered, Predicate<? super E> predicate) {
+  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> Set<E> filter(Set<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof SortedSet) {
       return filter((SortedSet<E>) unfiltered, predicate);
     }

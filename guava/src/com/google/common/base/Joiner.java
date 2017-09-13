@@ -93,7 +93,7 @@ public class Joiner {
    * separator between each, to {@code appendable}.
    */
   @CanIgnoreReturnValue
-  public <A extends Appendable> A appendTo(A appendable, Iterable<? extends @Nullable Object> parts) throws IOException {
+  public <A extends Appendable> A appendTo(A appendable, Iterable<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> parts) throws IOException {
     return appendTo(appendable, parts.iterator());
   }
 
@@ -153,7 +153,7 @@ public class Joiner {
    * @since 11.0
    */
   @CanIgnoreReturnValue
-  public final StringBuilder appendTo(StringBuilder builder, Iterator<? extends @Nullable Object> parts) {
+  public final StringBuilder appendTo(StringBuilder builder, Iterator<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> parts) {
     try {
       appendTo((Appendable) builder, parts);
     } catch (IOException impossible) {

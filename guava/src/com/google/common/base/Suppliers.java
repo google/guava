@@ -100,7 +100,7 @@ public final class Suppliers {
    * <p>If {@code delegate} is an instance created by an earlier call to {@code memoize}, it is
    * returned directly.
    */
-  public static <T extends @Nullable Object> Supplier<T> memoize(Supplier<T> delegate) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Supplier<T> memoize(Supplier<T> delegate) {
     if (delegate instanceof NonSerializableMemoizingSupplier
         || delegate instanceof MemoizingSupplier) {
       return delegate;

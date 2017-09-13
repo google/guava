@@ -72,7 +72,7 @@ public final class Iterables {
   private Iterables() {}
 
   /** Returns an unmodifiable view of {@code iterable}. */
-  public static <T extends @Nullable Object> Iterable<T> unmodifiableIterable(final Iterable<? extends T> iterable) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Iterable<T> unmodifiableIterable(final Iterable<? extends T> iterable) {
     checkNotNull(iterable);
     if (iterable instanceof UnmodifiableIterable || iterable instanceof ImmutableCollection) {
       @SuppressWarnings("unchecked") // Since it's unmodifiable, the covariant cast is safe
@@ -722,7 +722,7 @@ public final class Iterables {
    *
    * <p><b>{@code Stream} equivalent:</b> {@link Stream#map}
    */
-  public static <F extends @Nullable Object, T extends @Nullable Object> Iterable<T> transform(
+  public static <F extends @org.checkerframework.checker.nullness.qual.Nullable Object, T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Iterable<T> transform(
       final Iterable<F> fromIterable, final Function<? super F, ? extends T> function) {
     checkNotNull(fromIterable);
     checkNotNull(function);
