@@ -304,11 +304,8 @@ abstract class JSR166TestCase extends TestCase {
         return new Date(System.currentTimeMillis() + delayMillis);
     }
 
-    /**
-     * The first exception encountered if any threadAssertXXX method fails.
-     */
-    private final AtomicReference<Throwable> threadFailure
-        = new AtomicReference<Throwable>(null);
+  /** The first exception encountered if any threadAssertXXX method fails. */
+  private final AtomicReference<Throwable> threadFailure = new AtomicReference<>(null);
 
     /**
      * Records an exception so that it can be rethrown later in the test
@@ -1199,7 +1196,7 @@ abstract class JSR166TestCase extends TestCase {
             assertNull(q.peek());
             assertNull(q.poll());
             assertNull(q.poll(0, MILLISECONDS));
-            assertEquals(q.toString(), "[]");
+      assertEquals("[]", q.toString());
             assertTrue(Arrays.equals(q.toArray(), new Object[0]));
             assertFalse(q.iterator().hasNext());
             try {

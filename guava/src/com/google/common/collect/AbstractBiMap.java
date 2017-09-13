@@ -106,7 +106,7 @@ abstract class AbstractBiMap<K extends /*@org.checkerframework.checker.nullness.
   }
 
   AbstractBiMap<V, K> makeInverse(Map<V, K> backward) {
-    return new Inverse<V, K>(backward, this);
+    return new Inverse<>(backward, this);
   }
 
   void setInverse(AbstractBiMap<V, K> inverse) {

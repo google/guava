@@ -596,7 +596,7 @@ final class Synchronized {
     if (multimap instanceof SynchronizedMultimap || multimap instanceof ImmutableMultimap) {
       return multimap;
     }
-    return new SynchronizedMultimap<K, V>(multimap, mutex);
+    return new SynchronizedMultimap<>(multimap, mutex);
   }
 
   private static class SynchronizedMultimap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends SynchronizedObject
@@ -757,7 +757,7 @@ final class Synchronized {
     public Map<K, Collection<V>> asMap() {
       synchronized (mutex) {
         if (asMap == null) {
-          asMap = new SynchronizedAsMap<K, V>(delegate().asMap(), mutex);
+          asMap = new SynchronizedAsMap<>(delegate().asMap(), mutex);
         }
         return asMap;
       }
@@ -800,7 +800,7 @@ final class Synchronized {
     if (multimap instanceof SynchronizedListMultimap || multimap instanceof ImmutableListMultimap) {
       return multimap;
     }
-    return new SynchronizedListMultimap<K, V>(multimap, mutex);
+    return new SynchronizedListMultimap<>(multimap, mutex);
   }
 
   private static class SynchronizedListMultimap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends SynchronizedMultimap<K, V>
@@ -842,7 +842,7 @@ final class Synchronized {
     if (multimap instanceof SynchronizedSetMultimap || multimap instanceof ImmutableSetMultimap) {
       return multimap;
     }
-    return new SynchronizedSetMultimap<K, V>(multimap, mutex);
+    return new SynchronizedSetMultimap<>(multimap, mutex);
   }
 
   private static class SynchronizedSetMultimap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends SynchronizedMultimap<K, V>
@@ -898,7 +898,7 @@ final class Synchronized {
     if (multimap instanceof SynchronizedSortedSetMultimap) {
       return multimap;
     }
-    return new SynchronizedSortedSetMultimap<K, V>(multimap, mutex);
+    return new SynchronizedSortedSetMultimap<>(multimap, mutex);
   }
 
   private static class SynchronizedSortedSetMultimap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends SynchronizedSetMultimap<K, V>
@@ -1062,7 +1062,7 @@ final class Synchronized {
 
   @VisibleForTesting
   static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Map<K, V> map(Map<K, V> map, @Nullable Object mutex) {
-    return new SynchronizedMap<K, V>(map, mutex);
+    return new SynchronizedMap<>(map, mutex);
   }
 
   private static class SynchronizedMap<K, V> extends SynchronizedObject implements Map<K, V> {
@@ -1282,7 +1282,7 @@ final class Synchronized {
   }
 
   static <K, V> SortedMap<K, V> sortedMap(SortedMap<K, V> sortedMap, @Nullable Object mutex) {
-    return new SynchronizedSortedMap<K, V>(sortedMap, mutex);
+    return new SynchronizedSortedMap<>(sortedMap, mutex);
   }
 
   static class SynchronizedSortedMap<K, V> extends SynchronizedMap<K, V>
@@ -1346,7 +1346,7 @@ final class Synchronized {
     if (bimap instanceof SynchronizedBiMap || bimap instanceof ImmutableBiMap) {
       return bimap;
     }
-    return new SynchronizedBiMap<K, V>(bimap, mutex, null);
+    return new SynchronizedBiMap<>(bimap, mutex, null);
   }
 
   @VisibleForTesting
@@ -1389,7 +1389,7 @@ final class Synchronized {
     public BiMap<V, K> inverse() {
       synchronized (mutex) {
         if (inverse == null) {
-          inverse = new SynchronizedBiMap<V, K>(delegate().inverse(), mutex, this);
+          inverse = new SynchronizedBiMap<>(delegate().inverse(), mutex, this);
         }
         return inverse;
       }
@@ -1419,7 +1419,7 @@ final class Synchronized {
     public Set<Map.Entry<K, Collection<V>>> entrySet() {
       synchronized (mutex) {
         if (asMapEntrySet == null) {
-          asMapEntrySet = new SynchronizedAsMapEntries<K, V>(delegate().entrySet(), mutex);
+          asMapEntrySet = new SynchronizedAsMapEntries<>(delegate().entrySet(), mutex);
         }
         return asMapEntrySet;
       }
@@ -1627,7 +1627,7 @@ final class Synchronized {
   @GwtIncompatible // NavigableMap
   static <K, V> NavigableMap<K, V> navigableMap(
       NavigableMap<K, V> navigableMap, @Nullable Object mutex) {
-    return new SynchronizedNavigableMap<K, V>(navigableMap, mutex);
+    return new SynchronizedNavigableMap<>(navigableMap, mutex);
   }
 
   @GwtIncompatible // NavigableMap
@@ -1815,7 +1815,7 @@ final class Synchronized {
     if (entry == null) {
       return null;
     }
-    return new SynchronizedEntry<K, V>(entry, mutex);
+    return new SynchronizedEntry<>(entry, mutex);
   }
 
   @GwtIncompatible // works but is needed only for NavigableMap
@@ -2060,7 +2060,7 @@ final class Synchronized {
   }
   
   static <R, C, V> Table<R, C, V> table(Table<R, C, V> table, Object mutex) {
-    return new SynchronizedTable<R, C, V>(table, mutex);
+    return new SynchronizedTable<>(table, mutex);
   }
 
   private static final class SynchronizedTable<R, C, V> extends SynchronizedObject

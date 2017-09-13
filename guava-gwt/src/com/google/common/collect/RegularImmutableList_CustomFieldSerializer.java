@@ -36,7 +36,7 @@ public class RegularImmutableList_CustomFieldSerializer {
 
   public static RegularImmutableList<Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
-    List<Object> elements = new ArrayList<Object>();
+    List<Object> elements = new ArrayList<>();
     Collection_CustomFieldSerializerBase.deserialize(reader, elements);
     /*
      * For this custom field serializer to be invoked, the list must have been

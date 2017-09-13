@@ -127,7 +127,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
    * created by the {@link Builder} constructor.
    */
   public static <K, V> Builder<K, V> builder() {
-    return new Builder<K, V>();
+    return new Builder<>();
   }
 
   /**
@@ -540,7 +540,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
 
   @Override
   ImmutableCollection<Entry<K, V>> createEntries() {
-    return new EntryCollection<K, V>(this);
+    return new EntryCollection<>(this);
   }
 
   private static class EntryCollection<K, V> extends ImmutableCollection<Entry<K, V>> {
@@ -698,7 +698,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
 
   @Override
   ImmutableCollection<V> createValues() {
-    return new Values<K, V>(this);
+    return new Values<>(this);
   }
 
   @Override

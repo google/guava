@@ -183,7 +183,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
 
   @SideEffectFree
   Set<K> createKeySet() {
-    return new Maps.KeySet<K, Collection<V>>(asMap());
+    return new Maps.KeySet<>(asMap());
   }
 
   private transient Multiset<K> keys;
@@ -195,7 +195,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
   }
 
   Multiset<K> createKeys() {
-    return new Multimaps.Keys<K, V>(this);
+    return new Multimaps.Keys<>(this);
   }
 
   private transient Collection<V> values;

@@ -45,7 +45,7 @@ public final class Suppliers {
   public static <F extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Supplier<T> compose(Function<? super F, T> function, Supplier<F> supplier) {
     Preconditions.checkNotNull(function);
     Preconditions.checkNotNull(supplier);
-    return new SupplierComposition<F, T>(function, supplier);
+    return new SupplierComposition<>(function, supplier);
   }
 
   private static class SupplierComposition<F extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> implements Supplier<T>, Serializable {
@@ -90,8 +90,12 @@ public final class Suppliers {
    * href="http://en.wikipedia.org/wiki/Memoization">memoization</a>
    *
    * <p>The returned supplier is thread-safe. The delegate's {@code get()} method will be invoked at
-   * most once. The supplier's serialized form does not contain the cached value, which will be
-   * recalculated when {@code get()} is called on the reserialized instance.
+   * most once unless the underlying {@code get()} throws an exception. The supplier's serialized
+   * form does not contain the cached value, which will be recalculated when {@code get()} is called
+   * on the reserialized instance.
+   *
+   * <p>When the underlying delegate throws an exception then this memoizing supplier will keep
+   * delegating calls until it returns valid data.
    *
    * <p>If {@code delegate} is an instance created by an earlier call to {@code memoize}, it is
    * returned directly.
@@ -182,12 +186,16 @@ public final class Suppliers {
    * Returns a supplier that caches the instance supplied by the delegate and removes the cached
    * value after the specified time has passed. Subsequent calls to {@code get()} return the cached
    * value if the expiration time has not passed. After the expiration time, a new value is
-   * retrieved, cached, and returned. See:
-   * <a href="http://en.wikipedia.org/wiki/Memoization">memoization</a>
+   * retrieved, cached, and returned. See: <a
+   * href="http://en.wikipedia.org/wiki/Memoization">memoization</a>
    *
    * <p>The returned supplier is thread-safe. The supplier's serialized form does not contain the
-   * cached value, which will be recalculated when {@code
-   * get()} is called on the reserialized instance.
+   * cached value, which will be recalculated when {@code get()} is called on the reserialized
+   * instance. The actual memoization does not happen when the underlying delegate throws an
+   * exception.
+   *
+   * <p>When the underlying delegate throws an exception then this memoizing supplier will keep
+   * delegating calls until it returns valid data.
    *
    * @param duration the length of time after a value is created that it should stop being returned
    *     by subsequent {@code get()} calls

@@ -149,7 +149,7 @@ public final class Tables {
    */
   public static <R, C, V> Cell<R, C, V> immutableCell(
       @Nullable R rowKey, @Nullable C columnKey, @Nullable V value) {
-    return new ImmutableCell<R, C, V>(rowKey, columnKey, value);
+    return new ImmutableCell<>(rowKey, columnKey, value);
   }
 
   static final class ImmutableCell<R, C, V> extends AbstractCell<R, C, V> implements Serializable {
@@ -391,7 +391,7 @@ public final class Tables {
     checkArgument(backingMap.isEmpty());
     checkNotNull(factory);
     // TODO(jlevy): Wrap factory to validate that the supplied maps are empty?
-    return new StandardTable<R, C, V>(backingMap, factory);
+    return new StandardTable<>(backingMap, factory);
   }
 
   /**
@@ -423,7 +423,7 @@ public final class Tables {
   @Beta
   public static <R, C, V1, V2> Table<R, C, V2> transformValues(
       Table<R, C, V1> fromTable, Function<? super V1, V2> function) {
-    return new TransformedTable<R, C, V1, V2>(fromTable, function);
+    return new TransformedTable<>(fromTable, function);
   }
 
   private static class TransformedTable<R, C, V1, V2> extends AbstractTable<R, C, V2> {
@@ -558,7 +558,7 @@ public final class Tables {
    */
   public static <R, C, V> Table<R, C, V> unmodifiableTable(
       Table<? extends R, ? extends C, ? extends V> table) {
-    return new UnmodifiableTable<R, C, V>(table);
+    return new UnmodifiableTable<>(table);
   }
 
   private static class UnmodifiableTable<R, C, V> extends ForwardingTable<R, C, V>
@@ -660,7 +660,7 @@ public final class Tables {
      * table.rowMap().comparator() could return a comparator that only works for the ? extends R.
      * Collections.unmodifiableSortedMap makes the same distinction.
      */
-    return new UnmodifiableRowSortedMap<R, C, V>(table);
+    return new UnmodifiableRowSortedMap<>(table);
   }
 
   static final class UnmodifiableRowSortedMap<R, C, V> extends UnmodifiableTable<R, C, V>

@@ -639,49 +639,47 @@ public class ImmutableListTest extends TestCase {
     private static ConcurrentlyMutatedList<Integer> newConcurrentlyMutatedList(
         final Collection<Integer> initialContents,
         final Iterable<ListFrobber> actionsToPerformConcurrently) {
-      InvocationHandler invocationHandler = new InvocationHandler() {
-        final CopyOnWriteArrayList<Integer> delegate =
-            new CopyOnWriteArrayList<Integer>(initialContents);
+      InvocationHandler invocationHandler =
+          new InvocationHandler() {
+            final CopyOnWriteArrayList<Integer> delegate =
+                new CopyOnWriteArrayList<>(initialContents);
 
-        final Method getAllStatesMethod = getOnlyElement(asList(
-            ConcurrentlyMutatedList.class.getDeclaredMethods()));
+            final Method getAllStatesMethod =
+                getOnlyElement(asList(ConcurrentlyMutatedList.class.getDeclaredMethods()));
 
-        final Iterator<ListFrobber> remainingActions =
-            actionsToPerformConcurrently.iterator();
+            final Iterator<ListFrobber> remainingActions = actionsToPerformConcurrently.iterator();
 
-        final Set<List<Integer>> allStates = newHashSet();
+            final Set<List<Integer>> allStates = newHashSet();
 
-        @Override
-        public Object invoke(Object proxy, Method method,
-            Object[] args) throws Throwable {
-          return method.equals(getAllStatesMethod)
-              ? getAllStates()
-              : invokeListMethod(method, args);
-        }
+            @Override
+            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+              return method.equals(getAllStatesMethod)
+                  ? getAllStates()
+                  : invokeListMethod(method, args);
+            }
 
-        private Set<List<Integer>> getAllStates() {
-          return allStates;
-        }
+            private Set<List<Integer>> getAllStates() {
+              return allStates;
+            }
 
-        private Object invokeListMethod(Method method, Object[] args)
-            throws Throwable {
-          try {
-            Object returnValue = method.invoke(delegate, args);
-            mutateDelegate();
-            return returnValue;
-          } catch (InvocationTargetException e) {
-            throw e.getCause();
-          } catch (IllegalAccessException e) {
-            throw new AssertionError(e);
-          }
-        }
+            private Object invokeListMethod(Method method, Object[] args) throws Throwable {
+              try {
+                Object returnValue = method.invoke(delegate, args);
+                mutateDelegate();
+                return returnValue;
+              } catch (InvocationTargetException e) {
+                throw e.getCause();
+              } catch (IllegalAccessException e) {
+                throw new AssertionError(e);
+              }
+            }
 
-        private void mutateDelegate() {
-          allStates.add(ImmutableList.copyOf(delegate));
-          remainingActions.next().perform(delegate);
-          allStates.add(ImmutableList.copyOf(delegate));
-        }
-      };
+            private void mutateDelegate() {
+              allStates.add(ImmutableList.copyOf(delegate));
+              remainingActions.next().perform(delegate);
+              allStates.add(ImmutableList.copyOf(delegate));
+            }
+          };
 
       @SuppressWarnings("unchecked")
       ConcurrentlyMutatedList<Integer> list =
@@ -735,6 +733,32 @@ public class ImmutableListTest extends TestCase {
           .add("c")
           .build();
       assertEquals(asList("a", "b", "a", "c"), list);
+    }
+
+    @GwtIncompatible("Builder impl")
+    public void testBuilderForceCopy() {
+      ImmutableList.Builder<Integer> builder = ImmutableList.builder();
+      Object[] prevArray = null;
+      for (int i = 0; i < 10; i++) {
+        builder.add(i);
+        assertNotSame(builder.contents, prevArray);
+        prevArray = builder.contents;
+        ImmutableList<Integer> unused = builder.build();
+      }
+    }
+
+    @GwtIncompatible
+    public void testBuilderExactlySizedReusesArray() {
+      ImmutableList.Builder<Integer> builder = ImmutableList.builderWithExpectedSize(10);
+      Object[] builderArray = builder.contents;
+      for (int i = 0; i < 10; i++) {
+        builder.add(i);
+      }
+      Object[] builderArrayAfterAdds = builder.contents;
+      RegularImmutableList<Integer> list = (RegularImmutableList<Integer>) builder.build();
+      Object[] listInternalArray = list.array;
+      assertSame(builderArray, builderArrayAfterAdds);
+      assertSame(builderArray, listInternalArray);
     }
 
     public void testBuilderAdd_varargs() {

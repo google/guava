@@ -71,7 +71,7 @@ import java.util.concurrent.TimeUnit;
  * Stopwatch.createStarted(
  *      new Ticker() {
  *        public long read() {
- *          return android.os.SystemClock.elapsedRealtime();
+ *          return android.os.SystemClock.elapsedRealtimeNanos();
  *        }
  *      });
  * }</pre>

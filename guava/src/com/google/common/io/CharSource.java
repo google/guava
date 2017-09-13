@@ -31,6 +31,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.io.StringReader;
 import java.io.UncheckedIOException;
 import java.io.Writer;
 import java.nio.charset.Charset;
@@ -387,9 +388,9 @@ public abstract class CharSource {
   }
 
   /**
-   * Returns whether the source has zero chars. The default implementation returns true if
-   * {@link #lengthIfKnown} returns zero, falling back to opening a stream and checking for EOF if
-   * the length is not known.
+   * Returns whether the source has zero chars. The default implementation first checks
+   * {@link #lengthIfKnown}, returning true if it's known to be zero and false if it's known to be
+   * non-zero. If the length is not known, it falls back to opening a stream and checking for EOF.
    *
    * <p>Note that, in cases where {@code lengthIfKnown} returns zero, it is <i>possible</i> that
    * chars are actually available for reading. This means that a source may return {@code true} from
@@ -400,8 +401,8 @@ public abstract class CharSource {
    */
   public boolean isEmpty() throws IOException {
     Optional<Long> lengthIfKnown = lengthIfKnown();
-    if (lengthIfKnown.isPresent() && lengthIfKnown.get() == 0L) {
-      return true;
+    if (lengthIfKnown.isPresent()) {
+      return lengthIfKnown.get() == 0L;
     }
     Closer closer = Closer.create();
     try {
@@ -475,7 +476,9 @@ public abstract class CharSource {
    * @since 15.0 (since 14.0 as {@code CharStreams.asCharSource(String)})
    */
   public static CharSource wrap(CharSequence charSequence) {
-    return new CharSequenceCharSource(charSequence);
+    return charSequence instanceof String
+        ? new StringCharSource((String) charSequence)
+        : new CharSequenceCharSource(charSequence);
   }
 
   /**
@@ -521,7 +524,7 @@ public abstract class CharSource {
 
     private static final Splitter LINE_SPLITTER = Splitter.onPattern("\r\n|\n|\r");
 
-    private final CharSequence seq;
+    protected final CharSequence seq;
 
     protected CharSequenceCharSource(CharSequence seq) {
       this.seq = checkNotNull(seq);
@@ -607,7 +610,54 @@ public abstract class CharSource {
     }
   }
 
-  private static final class EmptyCharSource extends CharSequenceCharSource {
+  /**
+   * Subclass specialized for string instances.
+   *
+   * <p>Since Strings are immutable and built into the jdk we can optimize some operations
+   *
+   * <ul>
+   *   <li>use {@link StringReader} instead of {@link CharSequenceReader}. It is faster since it can
+   *       use {@link String#getChars(int, int, char[], int)} instead of copying characters one by
+   *       one with {@link CharSequence#charAt(int)}.
+   *   <li>use {@link Appendable#append(CharSequence)} in {@link #copyTo(Appendable)} and {@link
+   *       #copyTo(CharSink)}. We know this is correct since strings are immutable and so the length
+   *       can't change, and it is faster because many writers and appendables are optimized for
+   *       appending string instances.
+   * </ul>
+   */
+  private static class StringCharSource extends CharSequenceCharSource {
+    protected StringCharSource(String seq) {
+      super(seq);
+    }
+
+    @Override
+    public Reader openStream() {
+      return new StringReader((String) seq);
+    }
+
+    @Override
+    public long copyTo(Appendable appendable) throws IOException {
+      appendable.append(seq);
+      return seq.length();
+    }
+
+    @Override
+    public long copyTo(CharSink sink) throws IOException {
+      checkNotNull(sink);
+      Closer closer = Closer.create();
+      try {
+        Writer writer = closer.register(sink.openStream());
+        writer.write((String) seq);
+        return seq.length();
+      } catch (Throwable e) {
+        throw closer.rethrow(e);
+      } finally {
+        closer.close();
+      }
+    }
+  }
+
+  private static final class EmptyCharSource extends StringCharSource {
 
     private static final EmptyCharSource INSTANCE = new EmptyCharSource();
 

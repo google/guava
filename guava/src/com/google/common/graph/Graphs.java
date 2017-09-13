@@ -21,15 +21,16 @@ import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Objects;
-import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayDeque;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
 import javax.annotation.Nullable;
@@ -257,7 +258,9 @@ public final class Graphs {
     return new TransposedGraph<N>(graph);
   }
 
-  private static class TransposedGraph<N> extends AbstractGraph<N> {
+  // NOTE: this should work as long as the delegate graph's implementation of edges() (like that of
+  // AbstractGraph) derives its behavior from calling successors().
+  private static class TransposedGraph<N> extends ForwardingGraph<N> {
     private final Graph<N> graph;
 
     TransposedGraph(Graph<N> graph) {
@@ -265,47 +268,33 @@ public final class Graphs {
     }
 
     @Override
-    public Set<N> nodes() {
-      return graph.nodes();
-    }
-
-    /**
-     * Defer to {@link AbstractGraph#edges()} (based on {@link #successors(Object)}) for full
-     * edges() implementation.
-     */
-    @Override
-    protected long edgeCount() {
-      return graph.edges().size();
-    }
-
-    @Override
-    public boolean isDirected() {
-      return graph.isDirected();
-    }
-
-    @Override
-    public boolean allowsSelfLoops() {
-      return graph.allowsSelfLoops();
-    }
-
-    @Override
-    public ElementOrder<N> nodeOrder() {
-      return graph.nodeOrder();
-    }
-
-    @Override
-    public Set<N> adjacentNodes(N node) {
-      return graph.adjacentNodes(node);
+    protected Graph<N> delegate() {
+      return graph;
     }
 
     @Override
     public Set<N> predecessors(N node) {
-      return graph.successors(node); // transpose
+      return delegate().successors(node); // transpose
     }
 
     @Override
     public Set<N> successors(N node) {
-      return graph.predecessors(node); // transpose
+      return delegate().predecessors(node); // transpose
+    }
+
+    @Override
+    public int inDegree(N node) {
+      return delegate().outDegree(node);  // transpose
+    }
+
+    @Override
+    public int outDegree(N node) {
+      return delegate().inDegree(node);  // transpose
+    }
+
+    @Override
+    public boolean hasEdgeConnecting(N nodeU, N nodeV) {
+      return delegate().hasEdgeConnecting(nodeV, nodeU); // transpose
     }
   }
 
@@ -322,10 +311,12 @@ public final class Graphs {
       return ((TransposedValueGraph<N, V>) graph).graph;
     }
 
-    return new TransposedValueGraph<N, V>(graph);
+    return new TransposedValueGraph<>(graph);
   }
 
-  private static class TransposedValueGraph<N, V> extends AbstractValueGraph<N, V> {
+  // NOTE: this should work as long as the delegate graph's implementation of edges() (like that of
+  // AbstractValueGraph) derives its behavior from calling successors().
+  private static class TransposedValueGraph<N, V> extends ForwardingValueGraph<N, V> {
     private final ValueGraph<N, V> graph;
 
     TransposedValueGraph(ValueGraph<N, V> graph) {
@@ -333,57 +324,44 @@ public final class Graphs {
     }
 
     @Override
-    public Set<N> nodes() {
-      return graph.nodes();
-    }
-
-    /**
-     * Defer to {@link AbstractGraph#edges()} (based on {@link #successors(Object)}) for full
-     * edges() implementation.
-     */
-    @Override
-    protected long edgeCount() {
-      return graph.edges().size();
-    }
-
-    @Override
-    public boolean isDirected() {
-      return graph.isDirected();
-    }
-
-    @Override
-    public boolean allowsSelfLoops() {
-      return graph.allowsSelfLoops();
-    }
-
-    @Override
-    public ElementOrder<N> nodeOrder() {
-      return graph.nodeOrder();
-    }
-
-    @Override
-    public Set<N> adjacentNodes(N node) {
-      return graph.adjacentNodes(node);
+    protected ValueGraph<N, V> delegate() {
+      return graph;
     }
 
     @Override
     public Set<N> predecessors(N node) {
-      return graph.successors(node); // transpose
+      return delegate().successors(node); // transpose
     }
 
     @Override
     public Set<N> successors(N node) {
-      return graph.predecessors(node); // transpose
+      return delegate().predecessors(node); // transpose
     }
 
     @Override
-    public V edgeValue(N nodeU, N nodeV) {
-      return graph.edgeValue(nodeV, nodeU); // transpose
+    public int inDegree(N node) {
+      return delegate().outDegree(node);  // transpose
     }
 
     @Override
+    public int outDegree(N node) {
+      return delegate().inDegree(node);  // transpose
+    }
+
+    @Override
+    public boolean hasEdgeConnecting(N nodeU, N nodeV) {
+      return delegate().hasEdgeConnecting(nodeV, nodeU); // transpose
+    }
+
+    @Override
+    public Optional<V> edgeValue(N nodeU, N nodeV) {
+      return delegate().edgeValue(nodeV, nodeU); // transpose
+    }
+
+    @Override
+    @Nullable
     public V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue) {
-      return graph.edgeValueOrDefault(nodeV, nodeU, defaultValue); // transpose
+      return delegate().edgeValueOrDefault(nodeV, nodeU, defaultValue); // transpose
     }
   }
 
@@ -400,10 +378,10 @@ public final class Graphs {
       return ((TransposedNetwork<N, E>) network).network;
     }
 
-    return new TransposedNetwork<N, E>(network);
+    return new TransposedNetwork<>(network);
   }
 
-  private static class TransposedNetwork<N, E> extends AbstractNetwork<N, E> {
+  private static class TransposedNetwork<N, E> extends ForwardingNetwork<N, E> {
     private final Network<N, E> network;
 
     TransposedNetwork(Network<N, E> network) {
@@ -411,89 +389,64 @@ public final class Graphs {
     }
 
     @Override
-    public Set<N> nodes() {
-      return network.nodes();
-    }
-
-    @Override
-    public Set<E> edges() {
-      return network.edges();
-    }
-
-    @Override
-    public boolean isDirected() {
-      return network.isDirected();
-    }
-
-    @Override
-    public boolean allowsParallelEdges() {
-      return network.allowsParallelEdges();
-    }
-
-    @Override
-    public boolean allowsSelfLoops() {
-      return network.allowsSelfLoops();
-    }
-
-    @Override
-    public ElementOrder<N> nodeOrder() {
-      return network.nodeOrder();
-    }
-
-    @Override
-    public ElementOrder<E> edgeOrder() {
-      return network.edgeOrder();
-    }
-
-    @Override
-    public Set<N> adjacentNodes(N node) {
-      return network.adjacentNodes(node);
+    protected Network<N, E> delegate() {
+      return network;
     }
 
     @Override
     public Set<N> predecessors(N node) {
-      return network.successors(node); // transpose
+      return delegate().successors(node); // transpose
     }
 
     @Override
     public Set<N> successors(N node) {
-      return network.predecessors(node); // transpose
+      return delegate().predecessors(node); // transpose
     }
 
     @Override
-    public Set<E> incidentEdges(N node) {
-      return network.incidentEdges(node);
+    public int inDegree(N node) {
+      return delegate().outDegree(node);  // transpose
+    }
+
+    @Override
+    public int outDegree(N node) {
+      return delegate().inDegree(node);  // transpose
     }
 
     @Override
     public Set<E> inEdges(N node) {
-      return network.outEdges(node); // transpose
+      return delegate().outEdges(node); // transpose
     }
 
     @Override
     public Set<E> outEdges(N node) {
-      return network.inEdges(node); // transpose
+      return delegate().inEdges(node); // transpose
     }
 
     @Override
     public EndpointPair<N> incidentNodes(E edge) {
-      EndpointPair<N> endpointPair = network.incidentNodes(edge);
+      EndpointPair<N> endpointPair = delegate().incidentNodes(edge);
       return EndpointPair.of(network, endpointPair.nodeV(), endpointPair.nodeU()); // transpose
     }
 
     @Override
-    public Set<E> adjacentEdges(E edge) {
-      return network.adjacentEdges(edge);
-    }
-
-    @Override
     public Set<E> edgesConnecting(N nodeU, N nodeV) {
-      return network.edgesConnecting(nodeV, nodeU); // transpose
+      return delegate().edgesConnecting(nodeV, nodeU); // transpose
     }
 
     @Override
     public Optional<E> edgeConnecting(N nodeU, N nodeV) {
-      return network.edgeConnecting(nodeV, nodeU); // transpose
+      return delegate().edgeConnecting(nodeV, nodeU); // transpose
+    }
+
+    @Override
+    public E edgeConnectingOrNull(N nodeU, N nodeV) {
+      return delegate().edgeConnectingOrNull(nodeV, nodeU); // transpose
+    }
+
+    @Override
+    public boolean hasEdgeConnecting(N nodeU, N nodeV) {
+      return delegate().hasEdgeConnecting(nodeV, nodeU); // transpose
     }
   }
 
@@ -507,7 +460,9 @@ public final class Graphs {
    * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
    */
   public static <N> MutableGraph<N> inducedSubgraph(Graph<N> graph, Iterable<? extends N> nodes) {
-    MutableGraph<N> subgraph = GraphBuilder.from(graph).build();
+    MutableGraph<N> subgraph = (nodes instanceof Collection)
+        ? GraphBuilder.from(graph).expectedNodeCount(((Collection) nodes).size()).build()
+        : GraphBuilder.from(graph).build();
     for (N node : nodes) {
       subgraph.addNode(node);
     }
@@ -531,14 +486,17 @@ public final class Graphs {
    */
   public static <N, V> MutableValueGraph<N, V> inducedSubgraph(
       ValueGraph<N, V> graph, Iterable<? extends N> nodes) {
-    MutableValueGraph<N, V> subgraph = ValueGraphBuilder.from(graph).build();
+    MutableValueGraph<N, V> subgraph = (nodes instanceof Collection)
+        ? ValueGraphBuilder.from(graph).expectedNodeCount(((Collection) nodes).size()).build()
+        : ValueGraphBuilder.from(graph).build();
     for (N node : nodes) {
       subgraph.addNode(node);
     }
     for (N node : subgraph.nodes()) {
       for (N successorNode : graph.successors(node)) {
         if (subgraph.nodes().contains(successorNode)) {
-          subgraph.putEdgeValue(node, successorNode, graph.edgeValue(node, successorNode));
+          subgraph.putEdgeValue(
+              node, successorNode, graph.edgeValueOrDefault(node, successorNode, null));
         }
       }
     }
@@ -555,7 +513,9 @@ public final class Graphs {
    */
   public static <N, E> MutableNetwork<N, E> inducedSubgraph(
       Network<N, E> network, Iterable<? extends N> nodes) {
-    MutableNetwork<N, E> subgraph = NetworkBuilder.from(network).build();
+    MutableNetwork<N, E> subgraph = (nodes instanceof Collection)
+        ? NetworkBuilder.from(network).expectedNodeCount(((Collection) nodes).size()).build()
+        : NetworkBuilder.from(network).build();
     for (N node : nodes) {
       subgraph.addNode(node);
     }
@@ -590,7 +550,8 @@ public final class Graphs {
       copy.addNode(node);
     }
     for (EndpointPair<N> edge : graph.edges()) {
-      copy.putEdgeValue(edge.nodeU(), edge.nodeV(), graph.edgeValue(edge.nodeU(), edge.nodeV()));
+      copy.putEdgeValue(
+          edge.nodeU(), edge.nodeV(), graph.edgeValueOrDefault(edge.nodeU(), edge.nodeV(), null));
     }
     return copy;
   }

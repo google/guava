@@ -34,7 +34,7 @@ public class LexicographicalOrdering_CustomFieldSerializer {
   @SuppressWarnings("unchecked") // deserialization is unsafe
   public static LexicographicalOrdering<Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
-    return new LexicographicalOrdering<Object>((Ordering<Object>) reader.readObject());
+    return new LexicographicalOrdering<>((Ordering<Object>) reader.readObject());
   }
 
   public static void serialize(

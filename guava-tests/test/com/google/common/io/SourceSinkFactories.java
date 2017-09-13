@@ -301,7 +301,7 @@ public class SourceSinkFactories {
 
     private static final Logger logger = Logger.getLogger(FileFactory.class.getName());
 
-    private final ThreadLocal<File> fileThreadLocal = new ThreadLocal<File>();
+    private final ThreadLocal<File> fileThreadLocal = new ThreadLocal<>();
 
     protected File createFile() throws IOException {
       File file = File.createTempFile("SinkSourceFile", "txt");

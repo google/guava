@@ -127,7 +127,7 @@ public final class TreeMultiset<E extends /*@org.checkerframework.checker.nullne
     this.range = GeneralRange.all(comparator);
     this.header = new AvlNode<E>(null, 1);
     successor(header, header);
-    this.rootReference = new Reference<AvlNode<E>>();
+    this.rootReference = new Reference<>();
   }
 
   /**
@@ -241,9 +241,7 @@ public final class TreeMultiset<E extends /*@org.checkerframework.checker.nullne
         return 0;
       }
       return root.count(comparator(), e);
-    } catch (ClassCastException e) {
-      return 0;
-    } catch (NullPointerException e) {
+    } catch (ClassCastException | NullPointerException e) {
       return 0;
     }
   }
@@ -287,9 +285,7 @@ public final class TreeMultiset<E extends /*@org.checkerframework.checker.nullne
         return 0;
       }
       newRoot = root.remove(comparator(), e, occurrences, result);
-    } catch (ClassCastException e) {
-      return 0;
-    } catch (NullPointerException e) {
+    } catch (ClassCastException | NullPointerException e) {
       return 0;
     }
     rootReference.checkAndSet(root, newRoot);

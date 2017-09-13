@@ -155,12 +155,18 @@ public final class Streams {
       estimatedSize = LongMath.saturatedAdd(estimatedSize, splitr.estimateSize());
     }
     return StreamSupport.stream(
-        CollectSpliterators.flatMap(
-            splitrsBuilder.build().spliterator(),
-            splitr -> (Spliterator<T>) splitr,
-            characteristics,
-            estimatedSize),
-        isParallel);
+            CollectSpliterators.flatMap(
+                splitrsBuilder.build().spliterator(),
+                splitr -> (Spliterator<T>) splitr,
+                characteristics,
+                estimatedSize),
+            isParallel)
+        .onClose(
+            () -> {
+              for (Stream<? extends T> stream : streams) {
+                stream.close();
+              }
+            });
   }
 
   /**
@@ -737,7 +743,7 @@ public final class Streams {
    * @throws NullPointerException if the last element of the stream is null
    */
   public static <T> java.util.Optional<T> findLast(Stream<T> stream) {
-    class OptionalState<T> {
+    class OptionalState {
       boolean set = false;
       T value = null;
 
@@ -751,7 +757,7 @@ public final class Streams {
         return value;
       }
     }
-    OptionalState<T> state = new OptionalState<>();
+    OptionalState state = new OptionalState();
 
     Deque<Spliterator<T>> splits = new ArrayDeque<>();
     splits.addLast(stream.spliterator());

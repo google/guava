@@ -195,8 +195,7 @@ public class ImmutableTableTest extends AbstractTableReadTest {
   }
 
   public void testBuilder() {
-    ImmutableTable.Builder<Character, Integer, String> builder =
-        new ImmutableTable.Builder<Character, Integer, String>();
+    ImmutableTable.Builder<Character, Integer, String> builder = new ImmutableTable.Builder<>();
     assertEquals(ImmutableTable.of(), builder.build());
     assertEquals(ImmutableTable.of('a', 1, "foo"), builder
         .put('a', 1, "foo")
@@ -214,16 +213,14 @@ public class ImmutableTableTest extends AbstractTableReadTest {
   }
 
   public void testBuilder_withImmutableCell() {
-    ImmutableTable.Builder<Character, Integer, String> builder =
-        new ImmutableTable.Builder<Character, Integer, String>();
+    ImmutableTable.Builder<Character, Integer, String> builder = new ImmutableTable.Builder<>();
     assertEquals(ImmutableTable.of('a', 1, "foo"), builder
         .put(Tables.immutableCell('a', 1, "foo"))
         .build());
   }
 
   public void testBuilder_withImmutableCellAndNullContents() {
-    ImmutableTable.Builder<Character, Integer, String> builder =
-        new ImmutableTable.Builder<Character, Integer, String>();
+    ImmutableTable.Builder<Character, Integer, String> builder = new ImmutableTable.Builder<>();
     try {
       builder.put(Tables.immutableCell((Character) null, 1, "foo"));
       fail();
@@ -249,8 +246,7 @@ public class ImmutableTableTest extends AbstractTableReadTest {
   }
 
   public void testBuilder_withMutableCell() {
-    ImmutableTable.Builder<Character, Integer, String> builder =
-        new ImmutableTable.Builder<Character, Integer, String>();
+    ImmutableTable.Builder<Character, Integer, String> builder = new ImmutableTable.Builder<>();
 
     final StringHolder holder = new StringHolder();
     holder.string = "foo";
@@ -291,8 +287,7 @@ public class ImmutableTableTest extends AbstractTableReadTest {
   }
 
   public void testBuilder_noNulls() {
-    ImmutableTable.Builder<Character, Integer, String> builder =
-        new ImmutableTable.Builder<Character, Integer, String>();
+    ImmutableTable.Builder<Character, Integer, String> builder = new ImmutableTable.Builder<>();
     try {
       builder.put(null, 1, "foo");
       fail();

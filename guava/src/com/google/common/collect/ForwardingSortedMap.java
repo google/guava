@@ -144,11 +144,7 @@ public abstract class ForwardingSortedMap<K extends /*@org.checkerframework.chec
       SortedMap<Object, V> self = (SortedMap<Object, V>) this;
       Object ceilingKey = self.tailMap(key).firstKey();
       return unsafeCompare(ceilingKey, key) == 0;
-    } catch (ClassCastException e) {
-      return false;
-    } catch (NoSuchElementException e) {
-      return false;
-    } catch (NullPointerException e) {
+    } catch (ClassCastException | NoSuchElementException | NullPointerException e) {
       return false;
     }
   }

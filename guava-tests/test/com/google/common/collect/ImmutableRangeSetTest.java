@@ -22,6 +22,7 @@ import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.TestSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.testing.CollectorTester;
 import com.google.common.testing.SerializableTester;
 import java.math.BigInteger;
 import java.util.List;
@@ -40,7 +41,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
   static final class ImmutableRangeSetIntegerAsSetGenerator implements TestSetGenerator<Integer> {
     @Override
     public SampleElements<Integer> samples() {
-      return new SampleElements<Integer>(1, 4, 3, 2, 5);
+      return new SampleElements<>(1, 4, 3, 2, 5);
     }
 
     @Override
@@ -68,7 +69,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
       implements TestSetGenerator<BigInteger> {
     @Override
     public SampleElements<BigInteger> samples() {
-      return new SampleElements<BigInteger>(
+      return new SampleElements<>(
           BigInteger.valueOf(1),
           BigInteger.valueOf(4),
           BigInteger.valueOf(3),
@@ -583,5 +584,14 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
         }
       }
     }
+  }
+
+  public void testToImmutableRangeSet() {
+    Range<Integer> rangeOne = Range.closedOpen(1, 5);
+    Range<Integer> rangeTwo = Range.openClosed(6, 7);
+    ImmutableRangeSet<Integer> ranges =
+        ImmutableRangeSet.copyOf(ImmutableList.of(rangeOne, rangeTwo));
+    CollectorTester.of(ImmutableRangeSet.<Integer>toImmutableRangeSet())
+        .expectCollects(ranges, rangeOne, rangeTwo);
   }
 }

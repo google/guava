@@ -112,6 +112,7 @@ public final class Predicates {
    * components} is empty, the returned predicate will always evaluate to {@code
    * true}.
    */
+  @SafeVarargs
   public static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Predicate<T> and(Predicate<? super T>... components) {
     return new AndPredicate<T>(defensiveCopy(components));
   }
@@ -145,6 +146,7 @@ public final class Predicates {
    * components} is empty, the returned predicate will always evaluate to {@code
    * false}.
    */
+  @SafeVarargs
   public static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Predicate<T> or(Predicate<? super T>... components) {
     return new OrPredicate<T>(defensiveCopy(components));
   }
@@ -249,7 +251,7 @@ public final class Predicates {
    */
   public static <A extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, B extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Predicate<A> compose(
       Predicate<B> predicate, Function<A, ? extends B> function) {
-    return new CompositionPredicate<A, B>(predicate, function);
+    return new CompositionPredicate<>(predicate, function);
   }
 
   /**
@@ -374,8 +376,6 @@ public final class Predicates {
     private static final long serialVersionUID = 0;
   }
 
-  private static final Joiner COMMA_JOINER = Joiner.on(',');
-
   /** @see Predicates#and(Iterable) */
   private static class AndPredicate<T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> implements Predicate<T>, Serializable {
     private final List<? extends Predicate<? super T>> components;
@@ -415,7 +415,7 @@ public final class Predicates {
     @Pure
     @Override
     public String toString() {
-      return "Predicates.and(" + COMMA_JOINER.join(components) + ")";
+      return toStringHelper("and", components);
     }
 
     private static final long serialVersionUID = 0;
@@ -460,10 +460,23 @@ public final class Predicates {
     @Pure
     @Override
     public String toString() {
-      return "Predicates.or(" + COMMA_JOINER.join(components) + ")";
+      return toStringHelper("or", components);
     }
 
     private static final long serialVersionUID = 0;
+  }
+
+  private static String toStringHelper(String methodName, Iterable<?> components) {
+    StringBuilder builder = new StringBuilder("Predicates.").append(methodName).append('(');
+    boolean first = true;
+    for (Object o : components) {
+      if (!first) {
+        builder.append(',');
+      }
+      builder.append(o);
+      first = false;
+    }
+    return builder.append(')').toString();
   }
 
   /** @see Predicates#equalTo(Object) */
@@ -591,9 +604,7 @@ public final class Predicates {
     public boolean apply(@Nullable T t) {
       try {
         return target.contains(t);
-      } catch (NullPointerException e) {
-        return false;
-      } catch (ClassCastException e) {
+      } catch (NullPointerException | ClassCastException e) {
         return false;
       }
     }

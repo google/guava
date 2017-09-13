@@ -207,6 +207,21 @@ public class ImmutableBiMapTest extends TestCase {
           1, "one", 2, "two", 3, "three", 4, "four", 5, "five");
     }
 
+    @GwtIncompatible
+    public void testBuilderExactlySizedReusesArray() {
+      ImmutableBiMap.Builder<Integer, Integer> builder = ImmutableBiMap.builderWithExpectedSize(10);
+      Map.Entry<Integer, Integer>[] builderArray = builder.entries;
+      for (int i = 0; i < 10; i++) {
+        builder.put(i, i);
+      }
+      Map.Entry<Integer, Integer>[] builderArrayAfterPuts = builder.entries;
+      RegularImmutableBiMap<Integer, Integer> map =
+          (RegularImmutableBiMap<Integer, Integer>) builder.build();
+      Map.Entry<Integer, Integer>[] mapInternalArray = map.entries;
+      assertSame(builderArray, builderArrayAfterPuts);
+      assertSame(builderArray, mapInternalArray);
+    }
+
     public void testBuilder_orderEntriesByValue() {
       ImmutableBiMap<String, Integer> map =
           ImmutableBiMap.<String, Integer>builder()
@@ -250,11 +265,11 @@ public class ImmutableBiMapTest extends TestCase {
     }
 
     public void testBuilderPutAll() {
-      Map<String, Integer> toPut = new LinkedHashMap<String, Integer>();
+      Map<String, Integer> toPut = new LinkedHashMap<>();
       toPut.put("one", 1);
       toPut.put("two", 2);
       toPut.put("three", 3);
-      Map<String, Integer> moreToPut = new LinkedHashMap<String, Integer>();
+      Map<String, Integer> moreToPut = new LinkedHashMap<>();
       moreToPut.put("four", 4);
       moreToPut.put("five", 5);
 
@@ -269,7 +284,7 @@ public class ImmutableBiMapTest extends TestCase {
     }
 
     public void testBuilderReuse() {
-      Builder<String, Integer> builder = new Builder<String, Integer>();
+      Builder<String, Integer> builder = new Builder<>();
       ImmutableBiMap<String, Integer> mapOne = builder
           .put("one", 1)
           .put("two", 2)
@@ -287,7 +302,7 @@ public class ImmutableBiMapTest extends TestCase {
     }
 
     public void testBuilderPutNullKey() {
-      Builder<String, Integer> builder = new Builder<String, Integer>();
+      Builder<String, Integer> builder = new Builder<>();
       try {
         builder.put(null, 1);
         fail();
@@ -296,7 +311,7 @@ public class ImmutableBiMapTest extends TestCase {
     }
 
     public void testBuilderPutNullValue() {
-      Builder<String, Integer> builder = new Builder<String, Integer>();
+      Builder<String, Integer> builder = new Builder<>();
       try {
         builder.put("one", null);
         fail();
@@ -305,7 +320,7 @@ public class ImmutableBiMapTest extends TestCase {
     }
 
     public void testBuilderPutNullKeyViaPutAll() {
-      Builder<String, Integer> builder = new Builder<String, Integer>();
+      Builder<String, Integer> builder = new Builder<>();
       try {
         builder.putAll(Collections.<String, Integer>singletonMap(null, 1));
         fail();
@@ -314,7 +329,7 @@ public class ImmutableBiMapTest extends TestCase {
     }
 
     public void testBuilderPutNullValueViaPutAll() {
-      Builder<String, Integer> builder = new Builder<String, Integer>();
+      Builder<String, Integer> builder = new Builder<>();
       try {
         builder.putAll(Collections.<String, Integer>singletonMap("one", null));
         fail();
@@ -424,7 +439,7 @@ public class ImmutableBiMapTest extends TestCase {
     }
 
     public void testCopyOf() {
-      Map<String, Integer> original = new LinkedHashMap<String, Integer>();
+      Map<String, Integer> original = new LinkedHashMap<>();
       original.put("one", 1);
       original.put("two", 2);
       original.put("three", 3);

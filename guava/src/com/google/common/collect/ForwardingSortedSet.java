@@ -129,11 +129,7 @@ public abstract class ForwardingSortedSet<E extends /*@org.checkerframework.chec
       SortedSet<Object> self = (SortedSet<Object>) this;
       Object ceiling = self.tailSet(object).first();
       return unsafeCompare(ceiling, object) == 0;
-    } catch (ClassCastException e) {
-      return false;
-    } catch (NoSuchElementException e) {
-      return false;
-    } catch (NullPointerException e) {
+    } catch (ClassCastException | NoSuchElementException | NullPointerException e) {
       return false;
     }
   }
@@ -160,9 +156,7 @@ public abstract class ForwardingSortedSet<E extends /*@org.checkerframework.chec
           return true;
         }
       }
-    } catch (ClassCastException e) {
-      return false;
-    } catch (NullPointerException e) {
+    } catch (ClassCastException | NullPointerException e) {
       return false;
     }
     return false;

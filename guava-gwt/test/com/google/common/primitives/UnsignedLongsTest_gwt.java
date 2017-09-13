@@ -73,6 +73,11 @@ public void testParseLong() throws Exception {
   testCase.testParseLong();
 }
 
+public void testParseLongEmptyString() throws Exception {
+  com.google.common.primitives.UnsignedLongsTest testCase = new com.google.common.primitives.UnsignedLongsTest();
+  testCase.testParseLongEmptyString();
+}
+
 public void testParseLongFails() throws Exception {
   com.google.common.primitives.UnsignedLongsTest testCase = new com.google.common.primitives.UnsignedLongsTest();
   testCase.testParseLongFails();

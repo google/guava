@@ -157,8 +157,7 @@ public class MapMergeTester<K, V> extends AbstractMapTester<K, V> {
                 throw new AssertionFailedError("Should not call merge function if value was null");
               });
       fail("Expected NullPointerException or UnsupportedOperationException");
-    } catch (NullPointerException expected) {
-    } catch (UnsupportedOperationException expected) {
+    } catch (NullPointerException | UnsupportedOperationException expected) {
     }
   }
 
@@ -166,8 +165,7 @@ public class MapMergeTester<K, V> extends AbstractMapTester<K, V> {
     try {
       getMap().merge(k0(), v3(), null);
       fail("Expected NullPointerException or UnsupportedOperationException");
-    } catch (NullPointerException expected) {
-    } catch (UnsupportedOperationException expected) {
+    } catch (NullPointerException | UnsupportedOperationException expected) {
     }
   }
 

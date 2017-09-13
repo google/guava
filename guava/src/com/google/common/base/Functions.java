@@ -122,7 +122,7 @@ public final class Functions {
    * instead.
    */
   public static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Function<K, V> forMap(Map<K, V> map) {
-    return new FunctionForMapNoDefault<K, V>(map);
+    return new FunctionForMapNoDefault<>(map);
   }
 
   private static class FunctionForMapNoDefault<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> implements Function<K, V>, Serializable {
@@ -179,7 +179,7 @@ public final class Functions {
    *         defaultValue} otherwise
    */
   public static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Function<K, V> forMap(Map<K, ? extends V> map, @Nullable V defaultValue) {
-    return new ForMapWithDefault<K, V>(map, defaultValue);
+    return new ForMapWithDefault<>(map, defaultValue);
   }
 
   private static class ForMapWithDefault<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> implements Function<K, V>, Serializable {
@@ -236,7 +236,7 @@ public final class Functions {
    * @see <a href="//en.wikipedia.org/wiki/Function_composition">function composition</a>
    */
   public static <A extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, B extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, C extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Function<A, C> compose(Function<B, C> g, Function<A, ? extends B> f) {
-    return new FunctionComposition<A, B, C>(g, f);
+    return new FunctionComposition<>(g, f);
   }
 
   private static class FunctionComposition<A extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, B extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, C extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> implements Function<A, C>, Serializable {

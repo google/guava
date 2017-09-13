@@ -30,6 +30,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
@@ -483,13 +485,16 @@ public final class Ints {
   }
 
   /**
-   * Returns a fixed-size list backed by the specified array, similar to
-   * {@link Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)}, but any
-   * attempt to set a value to {@code null} will result in a {@link NullPointerException}.
+   * Returns a fixed-size list backed by the specified array, similar to {@link
+   * Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)}, but any attempt to
+   * set a value to {@code null} will result in a {@link NullPointerException}.
    *
    * <p>The returned list maintains the values, but not the identities, of {@code Integer} objects
    * written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for
    * the returned list is unspecified.
+   *
+   * <p><b>Note:</b> when possible, you should represent your data as an {@link ImmutableIntArray}
+   * instead, which has an {@link ImmutableIntArray#asList asList} view.
    *
    * @param backingArray the array to back the list
    * @return a list view of the array
@@ -532,6 +537,11 @@ public final class Ints {
     public Integer get(int index) {
       checkElementIndex(index, size());
       return array[start + index];
+    }
+
+    @Override
+    public Spliterator.OfInt spliterator() {
+      return Spliterators.spliterator(array, start, end, 0);
     }
 
     @Override

@@ -34,7 +34,7 @@ public class ComparatorOrdering_CustomFieldSerializer {
   @SuppressWarnings("unchecked") // deserialization is unsafe
   public static ComparatorOrdering<Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
-    return new ComparatorOrdering<Object>((Comparator<Object>) reader.readObject());
+    return new ComparatorOrdering<>((Comparator<Object>) reader.readObject());
   }
 
   public static void serialize(SerializationStreamWriter writer, ComparatorOrdering<?> instance)

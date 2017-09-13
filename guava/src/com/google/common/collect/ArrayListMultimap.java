@@ -81,7 +81,7 @@ public final class ArrayListMultimap<K extends /*@org.checkerframework.checker.n
    * MultimapBuilder.hashKeys().arrayListValues().build()}.
    */
   public static <K, V> ArrayListMultimap<K, V> create() {
-    return new ArrayListMultimap<K, V>();
+    return new ArrayListMultimap<>();
   }
 
   /**
@@ -97,7 +97,7 @@ public final class ArrayListMultimap<K extends /*@org.checkerframework.checker.n
    *     negative
    */
   public static <K, V> ArrayListMultimap<K, V> create(int expectedKeys, int expectedValuesPerKey) {
-    return new ArrayListMultimap<K, V>(expectedKeys, expectedValuesPerKey);
+    return new ArrayListMultimap<>(expectedKeys, expectedValuesPerKey);
   }
 
   /**
@@ -109,7 +109,7 @@ public final class ArrayListMultimap<K extends /*@org.checkerframework.checker.n
    * @param multimap the multimap whose contents are copied to this multimap
    */
   public static <K, V> ArrayListMultimap<K, V> create(Multimap<? extends K, ? extends V> multimap) {
-    return new ArrayListMultimap<K, V>(multimap);
+    return new ArrayListMultimap<>(multimap);
   }
 
   private ArrayListMultimap() {

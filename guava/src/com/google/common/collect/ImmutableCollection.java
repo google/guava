@@ -63,9 +63,10 @@ import javax.annotation.Nullable;
  *     collection is modified.
  * <li><b>Null-hostility.</b> This collection will never contain a null element.
  * <li><b>Deterministic iteration.</b> The iteration order is always well-defined, depending on how
- *     the collection was created (see the appropriate factory method for details). View collections
- *     such as {@link ImmutableMultiset#elementSet} iterate in the same order as the parent, except
- *     as noted.
+ *     the collection was created. Typically this is insertion order unless an explicit ordering is
+ *     otherwise specified (e.g. {@link ImmutableSortedSet#naturalOrder}).  See the appropriate
+ *     factory method for details. View collections such as {@link ImmutableMultiset#elementSet}
+ *     iterate in the same order as the parent, except as noted.
  * <li><b>Thread safety.</b> It is safe to access this collection concurrently from multiple
  *     threads.
  * <li><b>Integrity.</b> This type cannot be subclassed outside this package (which would allow
@@ -459,6 +460,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   abstract static class ArrayBasedBuilder<E> extends ImmutableCollection.Builder<E> {
     Object[] contents;
     int size;
+    boolean forceCopy;
 
     ArrayBasedBuilder(int initialCapacity) {
       checkNonnegative(initialCapacity, "initialCapacity");
@@ -466,15 +468,20 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
       this.size = 0;
     }
 
-    /**
-     * Expand the absolute capacity of the builder so it can accept at least
-     * the specified number of elements without being resized.
+    /*
+     * Expand the absolute capacity of the builder so it can accept at least the specified number of
+     * elements without being resized. Also, if we've already built a collection backed by the
+     * current array, create a new array.
      */
-    private void ensureCapacity(int minCapacity) {
+    private void getReadyToExpandTo(int minCapacity) {
       if (contents.length < minCapacity) {
         this.contents =
             Arrays.copyOf(
                 this.contents, expandedCapacity(contents.length, minCapacity));
+        forceCopy = false;
+      } else if (forceCopy) {
+        this.contents = contents.clone();
+        forceCopy = false;
       }
     }
 
@@ -482,7 +489,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     @Override
     public ArrayBasedBuilder<E> add(E element) {
       checkNotNull(element);
-      ensureCapacity(size + 1);
+      getReadyToExpandTo(size + 1);
       contents[size++] = element;
       return this;
     }
@@ -491,18 +498,18 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     @Override
     public Builder<E> add(E... elements) {
       checkElementsNotNull(elements);
-      ensureCapacity(size + elements.length);
+      getReadyToExpandTo(size + elements.length);
       System.arraycopy(elements, 0, contents, size, elements.length);
       size += elements.length;
       return this;
     }
-
+    
     @CanIgnoreReturnValue
     @Override
     public Builder<E> addAll(Iterable<? extends E> elements) {
       if (elements instanceof Collection) {
         Collection<?> collection = (Collection<?>) elements;
-        ensureCapacity(size + collection.size());
+        getReadyToExpandTo(size + collection.size());
       }
       super.addAll(elements);
       return this;
@@ -511,7 +518,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     @CanIgnoreReturnValue
     ArrayBasedBuilder<E> combine(ArrayBasedBuilder<E> builder) {
       checkNotNull(builder);
-      ensureCapacity(size + builder.size);
+      getReadyToExpandTo(size + builder.size);
       System.arraycopy(builder.contents, 0, this.contents, size, builder.size);
       size += builder.size;
       return this;

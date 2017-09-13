@@ -24,7 +24,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -47,7 +46,7 @@ import javax.annotation.Nullable;
 @SuppressWarnings("serial")
 final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   static final RegularImmutableSortedSet<Comparable> NATURAL_EMPTY_SET =
-      new RegularImmutableSortedSet<Comparable>(ImmutableList.<Comparable>of(), Ordering.natural());
+      new RegularImmutableSortedSet<>(ImmutableList.<Comparable>of(), Ordering.natural());
 
   private final transient ImmutableList<E> elements;
 
@@ -141,9 +140,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
           return false;
         }
       }
-    } catch (NullPointerException e) {
-      return false;
-    } catch (ClassCastException e) {
+    } catch (NullPointerException | ClassCastException e) {
       return false;
     }
   }

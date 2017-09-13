@@ -22,7 +22,6 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Charsets;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Joiner;
-import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.base.Stopwatch;
@@ -102,6 +101,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Random;
@@ -164,6 +167,10 @@ public class ArbitraryInstancesTest extends TestCase {
     assertNotNull(ArbitraryInstances.get(Object.class));
     assertEquals(0, ArbitraryInstances.get(Number.class));
     assertEquals(Charsets.UTF_8, ArbitraryInstances.get(Charset.class));
+    assertEquals(Optional.empty(), ArbitraryInstances.get(Optional.class));
+    assertEquals(OptionalInt.empty(), ArbitraryInstances.get(OptionalInt.class));
+    assertEquals(OptionalLong.empty(), ArbitraryInstances.get(OptionalLong.class));
+    assertEquals(OptionalDouble.empty(), ArbitraryInstances.get(OptionalDouble.class));
   }
 
   public void testGet_collections() {
@@ -223,7 +230,7 @@ public class ArbitraryInstancesTest extends TestCase {
     assertNotNull(ArbitraryInstances.get(Locale.class));
     assertNotNull(ArbitraryInstances.get(Joiner.class).join(ImmutableList.of("a")));
     assertNotNull(ArbitraryInstances.get(Splitter.class).split("a,b"));
-    assertThat(ArbitraryInstances.get(Optional.class)).isAbsent();
+    assertThat(ArbitraryInstances.get(com.google.common.base.Optional.class)).isAbsent();
     ArbitraryInstances.get(Stopwatch.class).start();
     assertNotNull(ArbitraryInstances.get(Ticker.class));
     assertFreshInstanceReturned(Random.class);
@@ -450,8 +457,7 @@ public class ArbitraryInstancesTest extends TestCase {
       extends WithPublicConstant {}
 
   public static class WithGenericConstant<T> {
-    public static final WithGenericConstant<String> STRING_CONSTANT =
-        new WithGenericConstant<String>();
+    public static final WithGenericConstant<String> STRING_CONSTANT = new WithGenericConstant<>();
 
     private WithGenericConstant() {}
   }

@@ -56,7 +56,7 @@ public class MapReplaceAllTester<K, V> extends AbstractMapTester<K, V> {
               int index = keys().asList().indexOf(k);
               return values().asList().get(index + 1);
             });
-    List<Entry<K, V>> expectedEntries = new ArrayList<Entry<K, V>>();
+    List<Entry<K, V>> expectedEntries = new ArrayList<>();
     for (Entry<K, V> entry : getSampleEntries()) {
       int index = keys().asList().indexOf(entry.getKey());
       expectedEntries.add(Helpers.mapEntry(entry.getKey(), values().asList().get(index + 1)));

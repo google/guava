@@ -25,7 +25,6 @@ import com.google.common.base.Charsets;
 import com.google.common.base.Defaults;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Joiner;
-import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.base.Splitter;
@@ -119,6 +118,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
@@ -204,11 +207,15 @@ public final class ArbitraryInstances {
       .put(Charset.class, Charsets.UTF_8)
       .put(Currency.class, Currency.getInstance(Locale.US))
       .put(Locale.class, Locale.US)
+      .put(Optional.class, Optional.empty())
+      .put(OptionalInt.class, OptionalInt.empty())
+      .put(OptionalLong.class, OptionalLong.empty())
+      .put(OptionalDouble.class, OptionalDouble.empty())
       // common.base
       .put(CharMatcher.class, CharMatcher.none())
       .put(Joiner.class, Joiner.on(','))
       .put(Splitter.class, Splitter.on(','))
-      .put(Optional.class, Optional.absent())
+      .put(com.google.common.base.Optional.class, com.google.common.base.Optional.absent())
       .put(Predicate.class, Predicates.alwaysTrue())
       .put(Equivalence.class, Equivalence.equals())
       .put(Ticker.class, Ticker.systemTicker())
@@ -367,9 +374,7 @@ public final class ArbitraryInstances {
     constructor.setAccessible(true); // accessibility check is too slow
     try {
       return constructor.newInstance();
-    } catch (InstantiationException impossible) {
-      throw new AssertionError(impossible);
-    } catch (IllegalAccessException impossible) {
+    } catch (InstantiationException | IllegalAccessException impossible) {
       throw new AssertionError(impossible);
     } catch (InvocationTargetException e) {
       logger.log(Level.WARNING, "Exception while invoking default constructor.", e.getCause());

@@ -219,11 +219,11 @@ public class LocalCacheTest extends TestCase {
 
   private static <K, V> LocalCache<K, V> makeLocalCache(
       CacheBuilder<? super K, ? super V> builder) {
-    return new LocalCache<K, V>(builder, null);
+    return new LocalCache<>(builder, null);
   }
 
   private static CacheBuilder<Object, Object> createCacheBuilder() {
-    return new CacheBuilder<Object, Object>();
+    return CacheBuilder.newBuilder();
   }
 
   // constructor tests
@@ -1357,7 +1357,7 @@ public class LocalCacheTest extends TestCase {
     int index = hash & (table.length() - 1);
 
     DummyEntry<Object, Object> entry = DummyEntry.create(key, hash, null);
-    LoadingValueReference<Object, Object> valueRef = new LoadingValueReference<Object, Object>();
+    LoadingValueReference<Object, Object> valueRef = new LoadingValueReference<>();
     entry.setValueReference(valueRef);
 
     // absent
@@ -1394,7 +1394,7 @@ public class LocalCacheTest extends TestCase {
     // replaced
     Object value4 = new Object();
     DummyValueReference<Object, Object> value3Ref = DummyValueReference.create(value3);
-    valueRef = new LoadingValueReference<Object, Object>(value3Ref);
+    valueRef = new LoadingValueReference<>(value3Ref);
     entry.setValueReference(valueRef);
     table.set(index, entry);
     assertSame(value3, segment.get(key, hash));
@@ -1948,7 +1948,7 @@ public class LocalCacheTest extends TestCase {
     Object key = new Object();
     int hash = map.hash(key);
     DummyEntry<Object, Object> entry = DummyEntry.create(key, hash, null);
-    LoadingValueReference<Object, Object> valueRef = new LoadingValueReference<Object, Object>();
+    LoadingValueReference<Object, Object> valueRef = new LoadingValueReference<>();
     entry.setValueReference(valueRef);
 
     // absent
@@ -1966,7 +1966,7 @@ public class LocalCacheTest extends TestCase {
     // active
     Object value = new Object();
     DummyValueReference<Object, Object> previousRef = DummyValueReference.create(value);
-    valueRef = new LoadingValueReference<Object, Object>(previousRef);
+    valueRef = new LoadingValueReference<>(previousRef);
     entry.setValueReference(valueRef);
     table.set(0, entry);
     segment.count = 1;
@@ -2513,8 +2513,8 @@ public class LocalCacheTest extends TestCase {
 
   public void testSerializationProxyLoading() {
     CacheLoader<Object, Object> loader = new SerializableCacheLoader();
-    RemovalListener<Object, Object> listener = new SerializableRemovalListener<Object, Object>();
-    SerializableWeigher<Object, Object> weigher = new SerializableWeigher<Object, Object>();
+    RemovalListener<Object, Object> listener = new SerializableRemovalListener<>();
+    SerializableWeigher<Object, Object> weigher = new SerializableWeigher<>();
     Ticker ticker = new SerializableTicker();
     @SuppressWarnings("unchecked") // createMock
     LocalLoadingCache<Object, Object> one = (LocalLoadingCache) CacheBuilder.newBuilder()
@@ -2569,8 +2569,8 @@ public class LocalCacheTest extends TestCase {
   }
 
   public void testSerializationProxyManual() {
-    RemovalListener<Object, Object> listener = new SerializableRemovalListener<Object, Object>();
-    SerializableWeigher<Object, Object> weigher = new SerializableWeigher<Object, Object>();
+    RemovalListener<Object, Object> listener = new SerializableRemovalListener<>();
+    SerializableWeigher<Object, Object> weigher = new SerializableWeigher<>();
     Ticker ticker = new SerializableTicker();
     @SuppressWarnings("unchecked") // createMock
     LocalManualCache<Object, Object> one = (LocalManualCache) CacheBuilder.newBuilder()
@@ -2700,7 +2700,7 @@ public class LocalCacheTest extends TestCase {
     }
 
     public static <K, V> DummyEntry<K, V> create(K key, int hash, ReferenceEntry<K, V> next) {
-      return new DummyEntry<K, V>(key, hash, next);
+      return new DummyEntry<>(key, hash, next);
     }
 
     public void clearKey() {
@@ -2820,11 +2820,11 @@ public class LocalCacheTest extends TestCase {
     }
 
     public static <K, V> DummyValueReference<K, V> create(V value) {
-      return new DummyValueReference<K, V>(value);
+      return new DummyValueReference<>(value);
     }
 
     public static <K, V> DummyValueReference<K, V> createLoading() {
-      return new DummyValueReference<K, V>();
+      return new DummyValueReference<>();
     }
 
     @Override

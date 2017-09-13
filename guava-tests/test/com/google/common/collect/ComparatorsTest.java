@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static java.util.Arrays.asList;
 import static java.util.Comparator.comparing;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.CollectorTester;
 import com.google.common.testing.EqualsTester;
@@ -33,6 +34,7 @@ import junit.framework.TestCase;
  *
  * @author Louis Wasserman
  */
+@GwtCompatible
 public class ComparatorsTest extends TestCase {
   @SuppressWarnings("unchecked") // dang varargs
   public void testLexicographical() {

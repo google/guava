@@ -50,7 +50,6 @@ import junit.framework.TestSuite;
  *
  * @author Colin Decker
  */
-@AndroidIncompatible
 
 public class MoreFilesTest extends TestCase {
 
@@ -627,7 +626,7 @@ public class MoreFilesTest extends TestCase {
    */
   private static void startDirectorySymlinkSwitching(
       final Path file, final Path target, ExecutorService executor) {
-    @SuppressWarnings({"unused", "nullness"}) // go/futurereturn-lsc
+    @SuppressWarnings("unused") // go/futurereturn-lsc
     Future<?> possiblyIgnoredError =
         executor.submit(
             new Runnable() {

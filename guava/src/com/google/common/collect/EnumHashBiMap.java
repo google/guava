@@ -56,7 +56,7 @@ public final class EnumHashBiMap<K extends Enum<K>, V extends /*@org.checkerfram
    * @param keyType the key type
    */
   public static <K extends Enum<K>, V> EnumHashBiMap<K, V> create(Class<K> keyType) {
-    return new EnumHashBiMap<K, V>(keyType);
+    return new EnumHashBiMap<>(keyType);
   }
 
   /**

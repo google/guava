@@ -408,7 +408,7 @@ public class ImmutableSortedMultisetTest extends TestCase {
 
   public void testBuilderSetCountHandlesNullsCorrectly() {
     ImmutableSortedMultiset.Builder<String> builder =
-        new ImmutableSortedMultiset.Builder<String>(Ordering.natural().nullsFirst());
+        new ImmutableSortedMultiset.Builder<>(Ordering.natural().nullsFirst());
     try {
       builder.setCount(null, 2);
       fail("expected NullPointerException");
@@ -547,7 +547,7 @@ public class ImmutableSortedMultisetTest extends TestCase {
 
     // Test that toArray() is used to make a defensive copy in copyOf(), so concurrently modified
     // synchronized collections can be safely copied.
-    TestArrayList<String> toCopy = new TestArrayList<String>();
+    TestArrayList<String> toCopy = new TestArrayList<>();
     ImmutableSortedMultiset<String> unused =
         ImmutableSortedMultiset.copyOf(Ordering.natural(), toCopy);
     assertTrue(toCopy.toArrayCalled);
@@ -576,7 +576,7 @@ public class ImmutableSortedMultisetTest extends TestCase {
     // Test that toArray() is used to make a defensive copy in copyOf(), so concurrently modified
     // synchronized collections can be safely copied.
     SortedMultiset<String> toCopy = mock(SortedMultiset.class);
-    TestHashSet<Entry<String>> entrySet = new TestHashSet<Entry<String>>();
+    TestHashSet<Entry<String>> entrySet = new TestHashSet<>();
     when((Comparator<Comparable<String>>) toCopy.comparator())
         .thenReturn(Ordering.<Comparable<String>>natural());
     when(toCopy.entrySet()).thenReturn(entrySet);

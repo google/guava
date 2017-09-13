@@ -29,6 +29,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
+import java.util.function.Function;
+import java.util.stream.Collector;
 import javax.annotation.Nullable;
 
 /**
@@ -43,8 +45,21 @@ import javax.annotation.Nullable;
 public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K, V>, Serializable {
 
   private static final ImmutableRangeMap<Comparable<?>, Object> EMPTY =
-      new ImmutableRangeMap<Comparable<?>, Object>(
-          ImmutableList.<Range<Comparable<?>>>of(), ImmutableList.of());
+      new ImmutableRangeMap<>(ImmutableList.<Range<Comparable<?>>>of(), ImmutableList.of());
+
+  /**
+   * Returns a {@code Collector} that accumulates the input elements into a new {@code
+   * ImmutableRangeMap}. As in {@link Builder}, overlapping ranges are not permitted.
+   *
+   * @since 24.0
+   */
+  @Beta
+  public static <T, K extends Comparable<? super K>, V>
+      Collector<T, ?, ImmutableRangeMap<K, V>> toImmutableRangeMap(
+          Function<? super T, Range<K>> keyFunction,
+          Function<? super T, ? extends V> valueFunction) {
+    return CollectCollectors.toImmutableRangeMap(keyFunction, valueFunction);
+  }
 
   /**
    * Returns an empty immutable range map.
@@ -58,7 +73,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
    * Returns an immutable range map mapping a single range to a single value.
    */
   public static <K extends Comparable<?>, V> ImmutableRangeMap<K, V> of(Range<K> range, V value) {
-    return new ImmutableRangeMap<K, V>(ImmutableList.of(range), ImmutableList.of(value));
+    return new ImmutableRangeMap<>(ImmutableList.of(range), ImmutableList.of(value));
   }
 
   @SuppressWarnings("unchecked")
@@ -68,20 +83,20 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
       return (ImmutableRangeMap<K, V>) rangeMap;
     }
     Map<Range<K>, ? extends V> map = rangeMap.asMapOfRanges();
-    ImmutableList.Builder<Range<K>> rangesBuilder = new ImmutableList.Builder<Range<K>>(map.size());
+    ImmutableList.Builder<Range<K>> rangesBuilder = new ImmutableList.Builder<>(map.size());
     ImmutableList.Builder<V> valuesBuilder = new ImmutableList.Builder<V>(map.size());
     for (Entry<Range<K>, ? extends V> entry : map.entrySet()) {
       rangesBuilder.add(entry.getKey());
       valuesBuilder.add(entry.getValue());
     }
-    return new ImmutableRangeMap<K, V>(rangesBuilder.build(), valuesBuilder.build());
+    return new ImmutableRangeMap<>(rangesBuilder.build(), valuesBuilder.build());
   }
 
   /**
    * Returns a new builder for an immutable range map.
    */
   public static <K extends Comparable<?>, V> Builder<K, V> builder() {
-    return new Builder<K, V>();
+    return new Builder<>();
   }
 
   /**
@@ -119,6 +134,12 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
       return this;
     }
 
+    @CanIgnoreReturnValue
+    Builder<K, V> combine(Builder<K, V> builder) {
+      entries.addAll(builder.entries);
+      return this;
+    }
+
     /**
      * Returns an {@code ImmutableRangeMap} containing the associations previously added to this
      * builder.
@@ -126,9 +147,8 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
      * @throws IllegalArgumentException if any two ranges inserted into this builder overlap
      */
     public ImmutableRangeMap<K, V> build() {
-      Collections.sort(entries, Range.RANGE_LEX_ORDERING.onKeys());
-      ImmutableList.Builder<Range<K>> rangesBuilder =
-          new ImmutableList.Builder<Range<K>>(entries.size());
+      Collections.sort(entries, Range.<K>rangeLexOrdering().onKeys());
+      ImmutableList.Builder<Range<K>> rangesBuilder = new ImmutableList.Builder<>(entries.size());
       ImmutableList.Builder<V> valuesBuilder = new ImmutableList.Builder<V>(entries.size());
       for (int i = 0; i < entries.size(); i++) {
         Range<K> range = entries.get(i).getKey();
@@ -142,7 +162,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
         rangesBuilder.add(range);
         valuesBuilder.add(entries.get(i).getValue());
       }
-      return new ImmutableRangeMap<K, V>(rangesBuilder.build(), valuesBuilder.build());
+      return new ImmutableRangeMap<>(rangesBuilder.build(), valuesBuilder.build());
     }
   }
 
@@ -266,8 +286,8 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
       return ImmutableMap.of();
     }
     RegularImmutableSortedSet<Range<K>> rangeSet =
-        new RegularImmutableSortedSet<Range<K>>(ranges, Range.RANGE_LEX_ORDERING);
-    return new ImmutableSortedMap<Range<K>, V>(rangeSet, values);
+        new RegularImmutableSortedSet<>(ranges, Range.<K>rangeLexOrdering());
+    return new ImmutableSortedMap<>(rangeSet, values);
   }
 
   @Override
@@ -276,9 +296,8 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
       return ImmutableMap.of();
     }
     RegularImmutableSortedSet<Range<K>> rangeSet =
-        new RegularImmutableSortedSet<Range<K>>(
-            ranges.reverse(), Range.RANGE_LEX_ORDERING.reverse());
-    return new ImmutableSortedMap<Range<K>, V>(rangeSet, values.reverse());
+        new RegularImmutableSortedSet<>(ranges.reverse(), Range.<K>rangeLexOrdering().reverse());
+    return new ImmutableSortedMap<>(rangeSet, values.reverse());
   }
 
   @Override
@@ -382,7 +401,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
     }
 
     Object createRangeMap() {
-      Builder<K, V> builder = new Builder<K, V>();
+      Builder<K, V> builder = new Builder<>();
       for (Entry<Range<K>, V> entry : mapOfRanges.entrySet()) {
         builder.put(entry.getKey(), entry.getValue());
       }
@@ -393,7 +412,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   }
 
   Object writeReplace() {
-    return new SerializedForm<K, V>(asMapOfRanges());
+    return new SerializedForm<>(asMapOfRanges());
   }
 
   private static final long serialVersionUID = 0;

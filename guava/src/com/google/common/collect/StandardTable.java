@@ -169,7 +169,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
 
   @CanIgnoreReturnValue
   private Map<R, V> removeColumn(Object column) {
-    Map<R, V> output = new LinkedHashMap<R, V>();
+    Map<R, V> output = new LinkedHashMap<>();
     Iterator<Entry<R, Map<C, V>>> iterator = backingMap.entrySet().iterator();
     while (iterator.hasNext()) {
       Entry<R, Map<C, V>> entry = iterator.next();

@@ -78,6 +78,16 @@ public void testIntersection_empty() throws Exception {
   testCase.testIntersection_empty();
 }
 
+public void testInvalidIntRange() throws Exception {
+  com.google.common.collect.ContiguousSetTest testCase = new com.google.common.collect.ContiguousSetTest();
+  testCase.testInvalidIntRange();
+}
+
+public void testInvalidLongRange() throws Exception {
+  com.google.common.collect.ContiguousSetTest testCase = new com.google.common.collect.ContiguousSetTest();
+  testCase.testInvalidLongRange();
+}
+
 public void testLast() throws Exception {
   com.google.common.collect.ContiguousSetTest testCase = new com.google.common.collect.ContiguousSetTest();
   testCase.testLast();

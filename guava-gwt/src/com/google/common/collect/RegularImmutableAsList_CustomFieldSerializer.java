@@ -36,10 +36,10 @@ public class RegularImmutableAsList_CustomFieldSerializer {
 
   public static RegularImmutableAsList<Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
-    ArrayList<Object> elements = new ArrayList<Object>();
+    ArrayList<Object> elements = new ArrayList<>();
     Collection_CustomFieldSerializerBase.deserialize(reader, elements);
     ImmutableList<Object> delegate = ImmutableList.copyOf(elements);
-    return new RegularImmutableAsList<Object>(delegate, delegate);
+    return new RegularImmutableAsList<>(delegate, delegate);
   }
 
   public static void serialize(SerializationStreamWriter writer, RegularImmutableAsList<?> instance)
