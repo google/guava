@@ -315,18 +315,12 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
 @Override
 public boolean contains(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.contains(arg0); }
 
-@Override
-public int count(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.count(arg0); }
-
 @Pure
 @Override
 public boolean equals(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.equals(arg0); }
 
 @Override
 public boolean remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.remove(arg0); }
-
-@Override
-public int remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0, int arg1) { return super.remove(arg0, arg1); }
 
 @Pure
 @Override
