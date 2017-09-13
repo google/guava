@@ -16,18 +16,24 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.StandardSystemProperty.JAVA_CLASS_PATH;
+import static com.google.common.base.StandardSystemProperty.PATH_SEPARATOR;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.GcFinalization;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
+import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.HashSet;
 import java.util.Set;
@@ -86,8 +92,7 @@ public class EnumsTest extends TestCase {
   // cleared.
   @GwtIncompatible // weak references
   private WeakReference<?> doTestClassUnloading() throws Exception {
-    URLClassLoader myLoader = (URLClassLoader) getClass().getClassLoader();
-    URLClassLoader shadowLoader = new URLClassLoader(myLoader.getURLs(), null);
+    URLClassLoader shadowLoader = new URLClassLoader(getClassPathUrls(), null);
     @SuppressWarnings("unchecked")
     Class<TestEnum> shadowTestEnum =
         (Class<TestEnum>) Class.forName(TestEnum.class.getName(), false, shadowLoader);
@@ -178,5 +183,37 @@ public class EnumsTest extends TestCase {
     Field bar = Enums.getField(AnEnum.BAR);
     assertEquals("BAR", bar.getName());
     assertFalse(bar.isAnnotationPresent(ExampleAnnotation.class));
+  }
+
+  @GwtIncompatible // Class.getClassLoader()
+  private URL[] getClassPathUrls() {
+    ClassLoader classLoader = getClass().getClassLoader();
+    return classLoader instanceof URLClassLoader
+        ? ((URLClassLoader) classLoader).getURLs()
+        : parseJavaClassPath().toArray(new URL[0]);
+  }
+
+  /**
+   * Returns the URLs in the class path specified by the {@code java.class.path} {@linkplain
+   * System#getProperty system property}.
+   */
+  // TODO(b/65488446): Make this a public API.
+  @GwtIncompatible
+  private static ImmutableList<URL> parseJavaClassPath() {
+    ImmutableList.Builder<URL> urls = ImmutableList.builder();
+    for (String entry : Splitter.on(PATH_SEPARATOR.value()).split(JAVA_CLASS_PATH.value())) {
+      try {
+        try {
+          urls.add(new File(entry).toURI().toURL());
+        } catch (SecurityException e) { // File.toURI checks to see if the file is a directory
+          urls.add(new URL("file", null, new File(entry).getAbsolutePath()));
+        }
+      } catch (MalformedURLException e) {
+        AssertionError error = new AssertionError("malformed class path entry: " + entry);
+        error.initCause(e);
+        throw error;
+      }
+    }
+    return urls.build();
   }
 }
