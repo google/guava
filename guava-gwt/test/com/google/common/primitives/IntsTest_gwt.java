@@ -143,6 +143,16 @@ public void testMin_noArgs() throws Exception {
   testCase.testMin_noArgs();
 }
 
+public void testReverse() throws Exception {
+  com.google.common.primitives.IntsTest testCase = new com.google.common.primitives.IntsTest();
+  testCase.testReverse();
+}
+
+public void testReverseIndexed() throws Exception {
+  com.google.common.primitives.IntsTest testCase = new com.google.common.primitives.IntsTest();
+  testCase.testReverseIndexed();
+}
+
 public void testSaturatedCast() throws Exception {
   com.google.common.primitives.IntsTest testCase = new com.google.common.primitives.IntsTest();
   testCase.testSaturatedCast();

@@ -312,6 +312,35 @@ public class LongsTest extends TestCase {
     assertSame(comparator, SerializableTester.reserialize(comparator));
   }
 
+  public void testReverse() {
+    testReverse(new long[] {}, new long[] {});
+    testReverse(new long[] {1}, new long[] {1});
+    testReverse(new long[] {1, 2}, new long[] {2, 1});
+    testReverse(new long[] {3, 1, 1}, new long[] {1, 1, 3});
+    testReverse(new long[] {-1, 1, -2, 2}, new long[] {2, -2, 1, -1});
+  }
+
+  public void testReverseIndexed() {
+    testReverse(new long[] {}, 0, 0, new long[] {});
+    testReverse(new long[] {1}, 0, 1, new long[] {1});
+    testReverse(new long[] {1, 2}, 0, 2, new long[] {2, 1});
+    testReverse(new long[] {3, 1, 1}, 0, 2, new long[] {1, 3, 1});
+    testReverse(new long[] {3, 1, 1}, 0, 1, new long[] {3, 1, 1});
+    testReverse(new long[] {-1, 1, -2, 2}, 1, 3, new long[] {-1, -2, 1, 2});
+  }
+
+  private static void testReverse(long[] input, long[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Longs.reverse(input);
+    assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
+  private static void testReverse(long[] input, int fromIndex, int toIndex, long[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Longs.reverse(input, fromIndex, toIndex);
+    assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
   @GwtIncompatible // SerializableTester
   public void testStringConverterSerialization() {
     SerializableTester.reserializeAndAssert(Longs.stringConverter());

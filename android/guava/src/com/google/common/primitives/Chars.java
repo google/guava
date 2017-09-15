@@ -436,6 +436,37 @@ public final class Chars {
   }
 
   /**
+   * Reverses the elements of {@code array}. This is equivalent to {@code
+   * Collections.reverse(Chars.asList(array))}, but is likely to be more efficient.
+   *
+   * @since NEXT
+   */
+  public static void reverse(char[] array) {
+    checkNotNull(array);
+    reverse(array, 0, array.length);
+  }
+
+  /**
+   * Reverses the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+   * exclusive. This is equivalent to {@code
+   * Collections.reverse(Chars.asList(array).subList(fromIndex, toIndex))}, but is likely to be more
+   * efficient.
+   *
+   * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+   *     {@code toIndex > fromIndex}
+   * @since NEXT
+   */
+  public static void reverse(char[] array, int fromIndex, int toIndex) {
+    checkNotNull(array);
+    checkPositionIndexes(fromIndex, toIndex, array.length);
+    for (int i = fromIndex, j = toIndex - 1; i < j; i++, j--) {
+      char tmp = array[i];
+      array[i] = array[j];
+      array[j] = tmp;
+    }
+  }
+
+  /**
    * Returns a fixed-size list backed by the specified array, similar to
    * {@link Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)}, but any
    * attempt to set a value to {@code null} will result in a {@link NullPointerException}.

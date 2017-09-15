@@ -310,6 +310,36 @@ public class DoublesTest extends TestCase {
     Helpers.testComparator(comparator, ordered);
   }
 
+  public void testReverse() {
+    testReverse(new double[] {}, new double[] {});
+    testReverse(new double[] {1}, new double[] {1});
+    testReverse(new double[] {1, 2}, new double[] {2, 1});
+    testReverse(new double[] {3, 1, 1}, new double[] {1, 1, 3});
+    testReverse(new double[] {-1, 1, -2, 2}, new double[] {2, -2, 1, -1});
+  }
+
+  public void testReverseIndexed() {
+    testReverse(new double[] {}, 0, 0, new double[] {});
+    testReverse(new double[] {1}, 0, 1, new double[] {1});
+    testReverse(new double[] {1, 2}, 0, 2, new double[] {2, 1});
+    testReverse(new double[] {3, 1, 1}, 0, 2, new double[] {1, 3, 1});
+    testReverse(new double[] {3, 1, 1}, 0, 1, new double[] {3, 1, 1});
+    testReverse(new double[] {-1, 1, -2, 2}, 1, 3, new double[] {-1, -2, 1, 2});
+  }
+
+  private static void testReverse(double[] input, double[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Doubles.reverse(input);
+    assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
+  private static void testReverse(
+      double[] input, int fromIndex, int toIndex, double[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Doubles.reverse(input, fromIndex, toIndex);
+    assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
   @GwtIncompatible // SerializableTester
   public void testLexicographicalComparatorSerializable() {
     Comparator<double[]> comparator = Doubles.lexicographicalComparator();

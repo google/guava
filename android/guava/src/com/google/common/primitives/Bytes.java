@@ -367,4 +367,35 @@ public final class Bytes {
 
     private static final long serialVersionUID = 0;
   }
+
+  /**
+   * Reverses the elements of {@code array}. This is equivalent to {@code
+   * Collections.reverse(Bytes.asList(array))}, but is likely to be more efficient.
+   *
+   * @since NEXT
+   */
+  public static void reverse(byte[] array) {
+    checkNotNull(array);
+    reverse(array, 0, array.length);
+  }
+
+  /**
+   * Reverses the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+   * exclusive. This is equivalent to {@code
+   * Collections.reverse(Bytes.asList(array).subList(fromIndex, toIndex))}, but is likely to be more
+   * efficient.
+   *
+   * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+   *     {@code toIndex > fromIndex}
+   * @since NEXT
+   */
+  public static void reverse(byte[] array, int fromIndex, int toIndex) {
+    checkNotNull(array);
+    checkPositionIndexes(fromIndex, toIndex, array.length);
+    for (int i = fromIndex, j = toIndex - 1; i < j; i++, j--) {
+      byte tmp = array[i];
+      array[i] = array[j];
+      array[j] = tmp;
+    }
+  }
 }
