@@ -107,6 +107,32 @@ public class UnsignedLongsTest extends TestCase {
     Helpers.testComparator(comparator, ordered);
   }
 
+  public void testSort() {
+    testSort(new long[] {}, new long[] {});
+    testSort(new long[] {2}, new long[] {2});
+    testSort(new long[] {2, 1, 0}, new long[] {0, 1, 2});
+    testSort(new long[] {2, GREATEST, 1, LEAST}, new long[] {LEAST, 1, 2, GREATEST});
+  }
+
+  static void testSort(long[] input, long[] expected) {
+    input = Arrays.copyOf(input, input.length);
+    UnsignedLongs.sort(input);
+    assertTrue(Arrays.equals(expected, input));
+  }
+
+  public void testSortIndexed() {
+    testSort(new long[] {}, 0, 0, new long[] {});
+    testSort(new long[] {2}, 0, 1, new long[] {2});
+    testSort(new long[] {2, 1, 0}, 0, 2, new long[] {1, 2, 0});
+    testSort(new long[] {2, GREATEST, 1, LEAST}, 1, 4, new long[] {2, LEAST, 1, GREATEST});
+  }
+
+  static void testSort(long[] input, int from, int to, long[] expected) {
+    input = Arrays.copyOf(input, input.length);
+    UnsignedLongs.sort(input, from, to);
+    assertTrue(Arrays.equals(expected, input));
+  }
+
   public void testDivide() {
     assertEquals(2, UnsignedLongs.divide(14, 5));
     assertEquals(0, UnsignedLongs.divide(0, 50));

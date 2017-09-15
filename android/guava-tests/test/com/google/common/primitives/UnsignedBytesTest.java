@@ -310,6 +310,32 @@ public class UnsignedBytesTest extends TestCase {
     }
   }
 
+  public void testSort() {
+    testSort(new byte[] {}, new byte[] {});
+    testSort(new byte[] {2}, new byte[] {2});
+    testSort(new byte[] {2, 1, 0}, new byte[] {0, 1, 2});
+    testSort(new byte[] {2, GREATEST, 1, LEAST}, new byte[] {LEAST, 1, 2, GREATEST});
+  }
+
+  static void testSort(byte[] input, byte[] expected) {
+    input = Arrays.copyOf(input, input.length);
+    UnsignedBytes.sort(input);
+    assertTrue(Arrays.equals(expected, input));
+  }
+
+  public void testSortIndexed() {
+    testSort(new byte[] {}, 0, 0, new byte[] {});
+    testSort(new byte[] {2}, 0, 1, new byte[] {2});
+    testSort(new byte[] {2, 1, 0}, 0, 2, new byte[] {1, 2, 0});
+    testSort(new byte[] {2, GREATEST, 1, LEAST}, 1, 4, new byte[] {2, LEAST, 1, GREATEST});
+  }
+
+  static void testSort(byte[] input, int from, int to, byte[] expected) {
+    input = Arrays.copyOf(input, input.length);
+    UnsignedBytes.sort(input, from, to);
+    assertTrue(Arrays.equals(expected, input));
+  }
+
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(UnsignedBytes.class);
   }
