@@ -112,9 +112,8 @@ public class AggregateFutureStateFallbackAtomicHelperTest extends TestCase {
   private static ClassLoader getClassLoader(final Set<String> blacklist) {
     final String concurrentPackage = SettableFuture.class.getPackage().getName();
     ClassLoader classLoader = AggregateFutureStateFallbackAtomicHelperTest.class.getClassLoader();
-    return
     // we delegate to the current classloader so both loaders agree on classes like TestCase
-    new URLClassLoader(((URLClassLoader) classLoader).getURLs(), classLoader) {
+    return new URLClassLoader(ClassPathUtil.getClassPathUrls(), classLoader) {
       @Override
       public Class<?> loadClass(String name) throws ClassNotFoundException {
         if (blacklist.contains(name)) {

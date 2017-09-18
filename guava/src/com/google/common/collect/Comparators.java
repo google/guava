@@ -29,16 +29,15 @@ import java.util.stream.Collector;
 
 /**
  * Provides static methods for working with {@link Comparator} instances. For many other helpful
- * comparator utilities, see either {@code Comparator} itself (for Java 8 or later), or
- * {@code com.google.common.collect.Ordering} (otherwise).
+ * comparator utilities, see either {@code Comparator} itself (for Java 8 or later), or {@code
+ * com.google.common.collect.Ordering} (otherwise).
  *
  * <h3>Relationship to {@code Ordering}</h3>
  *
  * <p>In light of the significant enhancements to {@code Comparator} in Java 8, the overwhelming
- * majority of usages of {@code Ordering} can be written using only built-in JDK APIs. Because of
- * this, and because it's awkward to have to convert comparators into {@code Ordering} instances,
- * {@code Ordering} and its methods are planned for deletion. This class is intended to
- * "fill the gap" and provide those features of {@code Ordering} not already provided by the JDK.
+ * majority of usages of {@code Ordering} can be written using only built-in JDK APIs. This class is
+ * intended to "fill the gap" and provide those features of {@code Ordering} not already provided by
+ * the JDK.
  *
  * @since 21.0
  * @author Louis Wasserman
