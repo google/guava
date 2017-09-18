@@ -251,18 +251,20 @@ public final class Streams {
     Iterator<A> itrA = Spliterators.iterator(splitrA);
     Iterator<B> itrB = Spliterators.iterator(splitrB);
     return StreamSupport.stream(
-        new AbstractSpliterator<R>(
-            Math.min(splitrA.estimateSize(), splitrB.estimateSize()), characteristics) {
-          @Override
-          public boolean tryAdvance(Consumer<? super R> action) {
-            if (itrA.hasNext() && itrB.hasNext()) {
-              action.accept(function.apply(itrA.next(), itrB.next()));
-              return true;
-            }
-            return false;
-          }
-        },
-        isParallel);
+            new AbstractSpliterator<R>(
+                Math.min(splitrA.estimateSize(), splitrB.estimateSize()), characteristics) {
+              @Override
+              public boolean tryAdvance(Consumer<? super R> action) {
+                if (itrA.hasNext() && itrB.hasNext()) {
+                  action.accept(function.apply(itrA.next(), itrB.next()));
+                  return true;
+                }
+                return false;
+              }
+            },
+            isParallel)
+        .onClose(streamA::close)
+        .onClose(streamB::close);
   }
 
   /**
@@ -367,7 +369,7 @@ public final class Streams {
               return false;
             }
           },
-          isParallel);
+          isParallel).onClose(stream::close);
     }
     class Splitr extends MapWithIndexSpliterator<Spliterator<T>, R, Splitr> implements Consumer<T> {
       T holder;
@@ -399,7 +401,7 @@ public final class Streams {
         return new Splitr(from, i);
       }
     }
-    return StreamSupport.stream(new Splitr(fromSpliterator, 0), isParallel);
+    return StreamSupport.stream(new Splitr(fromSpliterator, 0), isParallel).onClose(stream::close);
   }
 
   /**
@@ -484,21 +486,22 @@ public final class Streams {
     if (!fromSpliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
       PrimitiveIterator.OfInt fromIterator = Spliterators.iterator(fromSpliterator);
       return StreamSupport.stream(
-          new AbstractSpliterator<R>(
-              fromSpliterator.estimateSize(),
-              fromSpliterator.characteristics() & (Spliterator.ORDERED | Spliterator.SIZED)) {
-            long index = 0;
+              new AbstractSpliterator<R>(
+                  fromSpliterator.estimateSize(),
+                  fromSpliterator.characteristics() & (Spliterator.ORDERED | Spliterator.SIZED)) {
+                long index = 0;
 
-            @Override
-            public boolean tryAdvance(Consumer<? super R> action) {
-              if (fromIterator.hasNext()) {
-                action.accept(function.apply(fromIterator.nextInt(), index++));
-                return true;
-              }
-              return false;
-            }
-          },
-          isParallel);
+                @Override
+                public boolean tryAdvance(Consumer<? super R> action) {
+                  if (fromIterator.hasNext()) {
+                    action.accept(function.apply(fromIterator.nextInt(), index++));
+                    return true;
+                  }
+                  return false;
+                }
+              },
+              isParallel)
+          .onClose(stream::close);
     }
     class Splitr extends MapWithIndexSpliterator<Spliterator.OfInt, R, Splitr>
         implements IntConsumer, Spliterator<R> {
@@ -527,7 +530,7 @@ public final class Streams {
         return new Splitr(from, i);
       }
     }
-    return StreamSupport.stream(new Splitr(fromSpliterator, 0), isParallel);
+    return StreamSupport.stream(new Splitr(fromSpliterator, 0), isParallel).onClose(stream::close);
   }
 
   /**
@@ -575,21 +578,22 @@ public final class Streams {
     if (!fromSpliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
       PrimitiveIterator.OfLong fromIterator = Spliterators.iterator(fromSpliterator);
       return StreamSupport.stream(
-          new AbstractSpliterator<R>(
-              fromSpliterator.estimateSize(),
-              fromSpliterator.characteristics() & (Spliterator.ORDERED | Spliterator.SIZED)) {
-            long index = 0;
+              new AbstractSpliterator<R>(
+                  fromSpliterator.estimateSize(),
+                  fromSpliterator.characteristics() & (Spliterator.ORDERED | Spliterator.SIZED)) {
+                long index = 0;
 
-            @Override
-            public boolean tryAdvance(Consumer<? super R> action) {
-              if (fromIterator.hasNext()) {
-                action.accept(function.apply(fromIterator.nextLong(), index++));
-                return true;
-              }
-              return false;
-            }
-          },
-          isParallel);
+                @Override
+                public boolean tryAdvance(Consumer<? super R> action) {
+                  if (fromIterator.hasNext()) {
+                    action.accept(function.apply(fromIterator.nextLong(), index++));
+                    return true;
+                  }
+                  return false;
+                }
+              },
+              isParallel)
+          .onClose(stream::close);
     }
     class Splitr extends MapWithIndexSpliterator<Spliterator.OfLong, R, Splitr>
         implements LongConsumer, Spliterator<R> {
@@ -618,7 +622,7 @@ public final class Streams {
         return new Splitr(from, i);
       }
     }
-    return StreamSupport.stream(new Splitr(fromSpliterator, 0), isParallel);
+    return StreamSupport.stream(new Splitr(fromSpliterator, 0), isParallel).onClose(stream::close);
   }
 
   /**
@@ -667,21 +671,22 @@ public final class Streams {
     if (!fromSpliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
       PrimitiveIterator.OfDouble fromIterator = Spliterators.iterator(fromSpliterator);
       return StreamSupport.stream(
-          new AbstractSpliterator<R>(
-              fromSpliterator.estimateSize(),
-              fromSpliterator.characteristics() & (Spliterator.ORDERED | Spliterator.SIZED)) {
-            long index = 0;
+              new AbstractSpliterator<R>(
+                  fromSpliterator.estimateSize(),
+                  fromSpliterator.characteristics() & (Spliterator.ORDERED | Spliterator.SIZED)) {
+                long index = 0;
 
-            @Override
-            public boolean tryAdvance(Consumer<? super R> action) {
-              if (fromIterator.hasNext()) {
-                action.accept(function.apply(fromIterator.nextDouble(), index++));
-                return true;
-              }
-              return false;
-            }
-          },
-          isParallel);
+                @Override
+                public boolean tryAdvance(Consumer<? super R> action) {
+                  if (fromIterator.hasNext()) {
+                    action.accept(function.apply(fromIterator.nextDouble(), index++));
+                    return true;
+                  }
+                  return false;
+                }
+              },
+              isParallel)
+          .onClose(stream::close);
     }
     class Splitr extends MapWithIndexSpliterator<Spliterator.OfDouble, R, Splitr>
         implements DoubleConsumer, Spliterator<R> {
@@ -710,7 +715,7 @@ public final class Streams {
         return new Splitr(from, i);
       }
     }
-    return StreamSupport.stream(new Splitr(fromSpliterator, 0), isParallel);
+    return StreamSupport.stream(new Splitr(fromSpliterator, 0), isParallel).onClose(stream::close);
   }
 
   /**
