@@ -108,6 +108,16 @@ public void testSaturatedCast() throws Exception {
   testCase.testSaturatedCast();
 }
 
+public void testSort() throws Exception {
+  com.google.common.primitives.UnsignedIntsTest testCase = new com.google.common.primitives.UnsignedIntsTest();
+  testCase.testSort();
+}
+
+public void testSortIndexed() throws Exception {
+  com.google.common.primitives.UnsignedIntsTest testCase = new com.google.common.primitives.UnsignedIntsTest();
+  testCase.testSortIndexed();
+}
+
 public void testToLong() throws Exception {
   com.google.common.primitives.UnsignedIntsTest testCase = new com.google.common.primitives.UnsignedIntsTest();
   testCase.testToLong();

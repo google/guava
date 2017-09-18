@@ -307,6 +307,36 @@ public class FloatsTest extends TestCase {
     assertSame(comparator, SerializableTester.reserialize(comparator));
   }
 
+  public void testReverse() {
+    testReverse(new float[] {}, new float[] {});
+    testReverse(new float[] {1}, new float[] {1});
+    testReverse(new float[] {1, 2}, new float[] {2, 1});
+    testReverse(new float[] {3, 1, 1}, new float[] {1, 1, 3});
+    testReverse(new float[] {-1, 1, -2, 2}, new float[] {2, -2, 1, -1});
+  }
+
+  public void testReverseIndexed() {
+    testReverse(new float[] {}, 0, 0, new float[] {});
+    testReverse(new float[] {1}, 0, 1, new float[] {1});
+    testReverse(new float[] {1, 2}, 0, 2, new float[] {2, 1});
+    testReverse(new float[] {3, 1, 1}, 0, 2, new float[] {1, 3, 1});
+    testReverse(new float[] {3, 1, 1}, 0, 1, new float[] {3, 1, 1});
+    testReverse(new float[] {-1, 1, -2, 2}, 1, 3, new float[] {-1, -2, 1, 2});
+  }
+
+  private static void testReverse(float[] input, float[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Floats.reverse(input);
+    assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
+  private static void testReverse(
+      float[] input, int fromIndex, int toIndex, float[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Floats.reverse(input, fromIndex, toIndex);
+    assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
   @GwtIncompatible // SerializableTester
   public void testStringConverterSerialization() {
     SerializableTester.reserializeAndAssert(Floats.stringConverter());

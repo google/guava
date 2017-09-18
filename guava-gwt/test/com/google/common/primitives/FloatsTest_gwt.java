@@ -118,6 +118,16 @@ public void testMin_noArgs() throws Exception {
   testCase.testMin_noArgs();
 }
 
+public void testReverse() throws Exception {
+  com.google.common.primitives.FloatsTest testCase = new com.google.common.primitives.FloatsTest();
+  testCase.testReverse();
+}
+
+public void testReverseIndexed() throws Exception {
+  com.google.common.primitives.FloatsTest testCase = new com.google.common.primitives.FloatsTest();
+  testCase.testReverseIndexed();
+}
+
 public void testStringConverter_convertError() throws Exception {
   com.google.common.primitives.FloatsTest testCase = new com.google.common.primitives.FloatsTest();
   testCase.testStringConverter_convertError();

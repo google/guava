@@ -16,6 +16,7 @@ package com.google.common.primitives;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -207,6 +208,33 @@ public final class UnsignedInts {
     @Override
     public String toString() {
       return "UnsignedInts.lexicographicalComparator()";
+    }
+  }
+  /**
+   * Sorts the array, treating its elements as unsigned 32-bit integers.
+   *
+   * @since NEXT
+   */
+  public static void sort(int[] array) {
+    checkNotNull(array);
+    sort(array, 0, array.length);
+  }
+
+  /**
+   * Sorts the array between {@code fromIndex} inclusive and {@code toIndex} exclusive, treating its
+   * elements as unsigned 32-bit integers.
+   *
+   * @since NEXT
+   */
+  public static void sort(int[] array, int fromIndex, int toIndex) {
+    checkNotNull(array);
+    checkPositionIndexes(fromIndex, toIndex, array.length);
+    for (int i = fromIndex; i < toIndex; i++) {
+      array[i] = flip(array[i]);
+    }
+    Arrays.sort(array, fromIndex, toIndex);
+    for (int i = fromIndex; i < toIndex; i++) {
+      array[i] = flip(array[i]);
     }
   }
 

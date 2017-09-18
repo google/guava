@@ -331,6 +331,35 @@ public class CharsTest extends TestCase {
     assertSame(comparator, SerializableTester.reserialize(comparator));
   }
 
+  public void testReverse() {
+    testReverse(new char[] {}, new char[] {});
+    testReverse(new char[] {'1'}, new char[] {'1'});
+    testReverse(new char[] {'1', '2'}, new char[] {'2', '1'});
+    testReverse(new char[] {'3', '1', '1'}, new char[] {'1', '1', '3'});
+    testReverse(new char[] {'A', '1', 'B', '2'}, new char[] {'2', 'B', '1', 'A'});
+  }
+
+  public void testReverseIndexed() {
+    testReverse(new char[] {}, 0, 0, new char[] {});
+    testReverse(new char[] {'1'}, 0, 1, new char[] {'1'});
+    testReverse(new char[] {'1', '2'}, 0, 2, new char[] {'2', '1'});
+    testReverse(new char[] {'3', '1', '1'}, 0, 2, new char[] {'1', '3', '1'});
+    testReverse(new char[] {'3', '1', '1'}, 0, 1, new char[] {'3', '1', '1'});
+    testReverse(new char[] {'A', '1', 'B', '2'}, 1, 3, new char[] {'A', 'B', '1', '2'});
+  }
+
+  private static void testReverse(char[] input, char[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Chars.reverse(input);
+    assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
+  private static void testReverse(char[] input, int fromIndex, int toIndex, char[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Chars.reverse(input, fromIndex, toIndex);
+    assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
   public void testToArray() {
     // need explicit type parameter to avoid javac warning!?
     List<Character> none = Arrays.<Character>asList();
