@@ -100,6 +100,7 @@ public class EventBus {
   private final Executor executor;
   private final SubscriberExceptionHandler exceptionHandler;
 
+  @SuppressWarnings("assignment.type.incompatible") // The SubscriberRegistry won't use the bus until it is full initialized
   private final SubscriberRegistry subscribers = new SubscriberRegistry(this);
   private final Dispatcher dispatcher;
 
