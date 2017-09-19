@@ -126,6 +126,301 @@ public final class Verify {
   }
 
   /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   */
+  public static void verify(boolean expression, @Nullable String errorMessageTemplate, char p1) {
+    if (!expression) {
+      throw new VerifyException(format(errorMessageTemplate, p1));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   */
+  public static void verify(boolean expression, @Nullable String errorMessageTemplate, int p1) {
+    if (!expression) {
+      throw new VerifyException(format(errorMessageTemplate, p1));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   */
+  public static void verify(boolean expression, @Nullable String errorMessageTemplate, long p1) {
+    if (!expression) {
+      throw new VerifyException(format(errorMessageTemplate, p1));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   */
+  public static void verify(
+      boolean expression, @Nullable String errorMessageTemplate, @Nullable Object p1) {
+    if (!expression) {
+      throw new VerifyException(format(errorMessageTemplate, p1));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   */
+  public static void verify(
+      boolean expression, @Nullable String errorMessageTemplate, char p1, char p2) {
+    if (!expression) {
+      throw new VerifyException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   */
+  public static void verify(
+      boolean expression, @Nullable String errorMessageTemplate, int p1, char p2) {
+    if (!expression) {
+      throw new VerifyException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   */
+  public static void verify(
+      boolean expression, @Nullable String errorMessageTemplate, long p1, char p2) {
+    if (!expression) {
+      throw new VerifyException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   */
+  public static void verify(
+      boolean expression, @Nullable String errorMessageTemplate, @Nullable Object p1, char p2) {
+    if (!expression) {
+      throw new VerifyException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   */
+  public static void verify(
+      boolean expression, @Nullable String errorMessageTemplate, char p1, int p2) {
+    if (!expression) {
+      throw new VerifyException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   */
+  public static void verify(
+      boolean expression, @Nullable String errorMessageTemplate, int p1, int p2) {
+    if (!expression) {
+      throw new VerifyException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   */
+  public static void verify(
+      boolean expression, @Nullable String errorMessageTemplate, long p1, int p2) {
+    if (!expression) {
+      throw new VerifyException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   */
+  public static void verify(
+      boolean expression, @Nullable String errorMessageTemplate, @Nullable Object p1, int p2) {
+    if (!expression) {
+      throw new VerifyException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   */
+  public static void verify(
+      boolean expression, @Nullable String errorMessageTemplate, char p1, long p2) {
+    if (!expression) {
+      throw new VerifyException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   */
+  public static void verify(
+      boolean expression, @Nullable String errorMessageTemplate, int p1, long p2) {
+    if (!expression) {
+      throw new VerifyException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   */
+  public static void verify(
+      boolean expression, @Nullable String errorMessageTemplate, long p1, long p2) {
+    if (!expression) {
+      throw new VerifyException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   */
+  public static void verify(
+      boolean expression, @Nullable String errorMessageTemplate, @Nullable Object p1, long p2) {
+    if (!expression) {
+      throw new VerifyException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   */
+  public static void verify(
+      boolean expression, @Nullable String errorMessageTemplate, char p1, @Nullable Object p2) {
+    if (!expression) {
+      throw new VerifyException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   */
+  public static void verify(
+      boolean expression, @Nullable String errorMessageTemplate, int p1, @Nullable Object p2) {
+    if (!expression) {
+      throw new VerifyException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   */
+  public static void verify(
+      boolean expression, @Nullable String errorMessageTemplate, long p1, @Nullable Object p2) {
+    if (!expression) {
+      throw new VerifyException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   */
+  public static void verify(
+      boolean expression,
+      @Nullable String errorMessageTemplate,
+      @Nullable Object p1,
+      @Nullable Object p2) {
+    if (!expression) {
+      throw new VerifyException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   */
+  public static void verify(
+      boolean expression,
+      @Nullable String errorMessageTemplate,
+      @Nullable Object p1,
+      @Nullable Object p2,
+      @Nullable Object p3) {
+    if (!expression) {
+      throw new VerifyException(format(errorMessageTemplate, p1, p2, p3));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   */
+  public static void verify(
+      boolean expression,
+      @Nullable String errorMessageTemplate,
+      @Nullable Object p1,
+      @Nullable Object p2,
+      @Nullable Object p3,
+      @Nullable Object p4) {
+    if (!expression) {
+      throw new VerifyException(format(errorMessageTemplate, p1, p2, p3, p4));
+    }
+  }
+
+  /**
    * Ensures that {@code reference} is non-null, throwing a {@code VerifyException} with a default
    * message otherwise.
    *
