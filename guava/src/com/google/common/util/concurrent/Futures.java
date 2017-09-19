@@ -1586,33 +1586,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * Fork-Join framework: http://docs.oracle.com/javase/tutorial/essential/concurrency/forkjoin.html
    */
 
-  private static void maybePropagateCancellation(
-      @Nullable ListenableFuture<?> from, @Nullable Future<?> to) {
-    // AbstractFuture can propagate the mayInterruptIfRunning bit.
-    if (from instanceof AbstractFuture) {
-      ((AbstractFuture<?>) from).maybePropagateCancellationTo(to);
-    } else if (from != null && from.isCancelled() && to != null) {
-      to.cancel(false);
-    }
-  }
-
-  private static final class CancellationPropagater implements Runnable {
-    ListenableFuture<?> from;
-    Future<?> to;
-
-    CancellationPropagater(ListenableFuture<?> from, Future<?> to) {
-      this.from = from;
-      this.to = to;
-    }
-
-    @Override
-    public void run() {
-      maybePropagateCancellation(from, to);
-      from = null;
-      to = null;
-    }
-  }
-
   /**
    * A checked future that uses a function to map from exceptions to the appropriate checked type.
    */
