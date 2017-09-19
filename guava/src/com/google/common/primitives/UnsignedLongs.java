@@ -205,6 +205,35 @@ public final class UnsignedLongs {
   }
 
   /**
+   * Sorts the elements of {@code array} in descending order, interpreting them as unsigned 64-bit
+   * integers.
+   *
+   * @since NEXT
+   */
+  public static void sortDescending(long[] array) {
+    checkNotNull(array);
+    sortDescending(array, 0, array.length);
+  }
+
+  /**
+   * Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+   * exclusive in descending order, interpreting them as unsigned 64-bit integers.
+   *
+   * @since NEXT
+   */
+  public static void sortDescending(long[] array, int fromIndex, int toIndex) {
+    checkNotNull(array);
+    checkPositionIndexes(fromIndex, toIndex, array.length);
+    for (int i = fromIndex; i < toIndex; i++) {
+      array[i] ^= Long.MAX_VALUE;
+    }
+    Arrays.sort(array, fromIndex, toIndex);
+    for (int i = fromIndex; i < toIndex; i++) {
+      array[i] ^= Long.MAX_VALUE;
+    }
+  }
+
+  /**
    * Returns dividend / divisor, where the dividend and divisor are treated as unsigned 64-bit
    * quantities.
    *

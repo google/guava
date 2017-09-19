@@ -133,6 +133,16 @@ public void testReverseIndexed() throws Exception {
   testCase.testReverseIndexed();
 }
 
+public void testSortDescending() throws Exception {
+  com.google.common.primitives.DoublesTest testCase = new com.google.common.primitives.DoublesTest();
+  testCase.testSortDescending();
+}
+
+public void testSortDescendingIndexed() throws Exception {
+  com.google.common.primitives.DoublesTest testCase = new com.google.common.primitives.DoublesTest();
+  testCase.testSortDescendingIndexed();
+}
+
 public void testStringConverter_convert() throws Exception {
   com.google.common.primitives.DoublesTest testCase = new com.google.common.primitives.DoublesTest();
   testCase.testStringConverter_convert();

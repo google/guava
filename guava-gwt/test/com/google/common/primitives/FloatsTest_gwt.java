@@ -128,6 +128,16 @@ public void testReverseIndexed() throws Exception {
   testCase.testReverseIndexed();
 }
 
+public void testSortDescending() throws Exception {
+  com.google.common.primitives.FloatsTest testCase = new com.google.common.primitives.FloatsTest();
+  testCase.testSortDescending();
+}
+
+public void testSortDescendingIndexed() throws Exception {
+  com.google.common.primitives.FloatsTest testCase = new com.google.common.primitives.FloatsTest();
+  testCase.testSortDescendingIndexed();
+}
+
 public void testStringConverter_convertError() throws Exception {
   com.google.common.primitives.FloatsTest testCase = new com.google.common.primitives.FloatsTest();
   testCase.testStringConverter_convertError();

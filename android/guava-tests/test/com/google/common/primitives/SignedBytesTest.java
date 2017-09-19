@@ -152,6 +152,36 @@ public class SignedBytesTest extends TestCase {
     assertSame(comparator, SerializableTester.reserialize(comparator));
   }
 
+  public void testSortDescending() {
+    testSortDescending(new byte[] {}, new byte[] {});
+    testSortDescending(new byte[] {1}, new byte[] {1});
+    testSortDescending(new byte[] {1, 2}, new byte[] {2, 1});
+    testSortDescending(new byte[] {1, 3, 1}, new byte[] {3, 1, 1});
+    testSortDescending(new byte[] {-1, 1, -2, 2}, new byte[] {2, 1, -1, -2});
+  }
+
+  public void testSortDescendingIndexed() {
+    testSortDescending(new byte[] {}, 0, 0, new byte[] {});
+    testSortDescending(new byte[] {1}, 0, 1, new byte[] {1});
+    testSortDescending(new byte[] {1, 2}, 0, 2, new byte[] {2, 1});
+    testSortDescending(new byte[] {1, 3, 1}, 0, 2, new byte[] {3, 1, 1});
+    testSortDescending(new byte[] {1, 3, 1}, 0, 1, new byte[] {1, 3, 1});
+    testSortDescending(new byte[] {-1, -2, 1, 2}, 1, 3, new byte[] {-1, 1, -2, 2});
+  }
+
+  private static void testSortDescending(byte[] input, byte[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    SignedBytes.sortDescending(input);
+    assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
+  private static void testSortDescending(
+      byte[] input, int fromIndex, int toIndex, byte[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    SignedBytes.sortDescending(input, fromIndex, toIndex);
+    assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
   @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(SignedBytes.class);

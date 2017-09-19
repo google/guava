@@ -455,6 +455,29 @@ public final class Ints {
   }
 
   /**
+   * Sorts the elements of {@code array} in descending order.
+   *
+   * @since NEXT
+   */
+  public static void sortDescending(int[] array) {
+    checkNotNull(array);
+    sortDescending(array, 0, array.length);
+  }
+
+  /**
+   * Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+   * exclusive in descending order.
+   *
+   * @since NEXT
+   */
+  public static void sortDescending(int[] array, int fromIndex, int toIndex) {
+    checkNotNull(array);
+    checkPositionIndexes(fromIndex, toIndex, array.length);
+    Arrays.sort(array, fromIndex, toIndex);
+    reverse(array, fromIndex, toIndex);
+  }
+
+  /**
    * Reverses the elements of {@code array}. This is equivalent to {@code
    * Collections.reverse(Ints.asList(array))}, but is likely to be more efficient.
    *

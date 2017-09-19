@@ -360,6 +360,36 @@ public class CharsTest extends TestCase {
     assertTrue(Arrays.equals(expectedOutput, input));
   }
 
+  public void testSortDescending() {
+    testSortDescending(new char[] {}, new char[] {});
+    testSortDescending(new char[] {'1'}, new char[] {'1'});
+    testSortDescending(new char[] {'1', '2'}, new char[] {'2', '1'});
+    testSortDescending(new char[] {'1', '3', '1'}, new char[] {'3', '1', '1'});
+    testSortDescending(new char[] {'A', '1', 'B', '2'}, new char[] {'B', 'A', '2', '1'});
+  }
+
+  public void testSortDescendingIndexed() {
+    testSortDescending(new char[] {}, 0, 0, new char[] {});
+    testSortDescending(new char[] {'1'}, 0, 1, new char[] {'1'});
+    testSortDescending(new char[] {'1', '2'}, 0, 2, new char[] {'2', '1'});
+    testSortDescending(new char[] {'1', '3', '1'}, 0, 2, new char[] {'3', '1', '1'});
+    testSortDescending(new char[] {'1', '3', '1'}, 0, 1, new char[] {'1', '3', '1'});
+    testSortDescending(new char[] {'A', '1', 'B', '2'}, 1, 3, new char[] {'A', 'B', '1', '2'});
+  }
+
+  private static void testSortDescending(char[] input, char[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Chars.sortDescending(input);
+    assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
+  private static void testSortDescending(
+      char[] input, int fromIndex, int toIndex, char[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Chars.sortDescending(input, fromIndex, toIndex);
+    assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
   public void testToArray() {
     // need explicit type parameter to avoid javac warning!?
     List<Character> none = Arrays.<Character>asList();

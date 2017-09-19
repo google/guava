@@ -341,6 +341,36 @@ public class LongsTest extends TestCase {
     assertTrue(Arrays.equals(expectedOutput, input));
   }
 
+  public void testSortDescending() {
+    testSortDescending(new long[] {}, new long[] {});
+    testSortDescending(new long[] {1}, new long[] {1});
+    testSortDescending(new long[] {1, 2}, new long[] {2, 1});
+    testSortDescending(new long[] {1, 3, 1}, new long[] {3, 1, 1});
+    testSortDescending(new long[] {-1, 1, -2, 2}, new long[] {2, 1, -1, -2});
+  }
+
+  public void testSortDescendingIndexed() {
+    testSortDescending(new long[] {}, 0, 0, new long[] {});
+    testSortDescending(new long[] {1}, 0, 1, new long[] {1});
+    testSortDescending(new long[] {1, 2}, 0, 2, new long[] {2, 1});
+    testSortDescending(new long[] {1, 3, 1}, 0, 2, new long[] {3, 1, 1});
+    testSortDescending(new long[] {1, 3, 1}, 0, 1, new long[] {1, 3, 1});
+    testSortDescending(new long[] {-1, -2, 1, 2}, 1, 3, new long[] {-1, 1, -2, 2});
+  }
+
+  private static void testSortDescending(long[] input, long[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Longs.sortDescending(input);
+    assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
+  private static void testSortDescending(
+      long[] input, int fromIndex, int toIndex, long[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Longs.sortDescending(input, fromIndex, toIndex);
+    assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
   @GwtIncompatible // SerializableTester
   public void testStringConverterSerialization() {
     SerializableTester.reserializeAndAssert(Longs.stringConverter());

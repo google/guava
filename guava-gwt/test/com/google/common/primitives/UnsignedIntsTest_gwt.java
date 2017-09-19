@@ -113,6 +113,16 @@ public void testSort() throws Exception {
   testCase.testSort();
 }
 
+public void testSortDescending() throws Exception {
+  com.google.common.primitives.UnsignedIntsTest testCase = new com.google.common.primitives.UnsignedIntsTest();
+  testCase.testSortDescending();
+}
+
+public void testSortDescendingIndexed() throws Exception {
+  com.google.common.primitives.UnsignedIntsTest testCase = new com.google.common.primitives.UnsignedIntsTest();
+  testCase.testSortDescendingIndexed();
+}
+
 public void testSortIndexed() throws Exception {
   com.google.common.primitives.UnsignedIntsTest testCase = new com.google.common.primitives.UnsignedIntsTest();
   testCase.testSortIndexed();

@@ -158,6 +158,16 @@ public void testSaturatedCast() throws Exception {
   testCase.testSaturatedCast();
 }
 
+public void testSortDescending() throws Exception {
+  com.google.common.primitives.IntsTest testCase = new com.google.common.primitives.IntsTest();
+  testCase.testSortDescending();
+}
+
+public void testSortDescendingIndexed() throws Exception {
+  com.google.common.primitives.IntsTest testCase = new com.google.common.primitives.IntsTest();
+  testCase.testSortDescendingIndexed();
+}
+
 public void testStringConverter_convert() throws Exception {
   com.google.common.primitives.IntsTest testCase = new com.google.common.primitives.IntsTest();
   testCase.testStringConverter_convert();

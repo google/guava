@@ -354,6 +354,36 @@ public class IntsTest extends TestCase {
     assertTrue(Arrays.equals(expectedOutput, input));
   }
 
+  public void testSortDescending() {
+    testSortDescending(new int[] {}, new int[] {});
+    testSortDescending(new int[] {1}, new int[] {1});
+    testSortDescending(new int[] {1, 2}, new int[] {2, 1});
+    testSortDescending(new int[] {1, 3, 1}, new int[] {3, 1, 1});
+    testSortDescending(new int[] {-1, 1, -2, 2}, new int[] {2, 1, -1, -2});
+  }
+
+  public void testSortDescendingIndexed() {
+    testSortDescending(new int[] {}, 0, 0, new int[] {});
+    testSortDescending(new int[] {1}, 0, 1, new int[] {1});
+    testSortDescending(new int[] {1, 2}, 0, 2, new int[] {2, 1});
+    testSortDescending(new int[] {1, 3, 1}, 0, 2, new int[] {3, 1, 1});
+    testSortDescending(new int[] {1, 3, 1}, 0, 1, new int[] {1, 3, 1});
+    testSortDescending(new int[] {-1, -2, 1, 2}, 1, 3, new int[] {-1, 1, -2, 2});
+  }
+
+  private static void testSortDescending(int[] input, int[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Ints.sortDescending(input);
+    assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
+  private static void testSortDescending(
+      int[] input, int fromIndex, int toIndex, int[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Ints.sortDescending(input, fromIndex, toIndex);
+    assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
   @GwtIncompatible // SerializableTester
   public void testStringConverterSerialization() {
     SerializableTester.reserializeAndAssert(Ints.stringConverter());

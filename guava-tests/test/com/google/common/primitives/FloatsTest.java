@@ -337,6 +337,46 @@ public class FloatsTest extends TestCase {
     assertTrue(Arrays.equals(expectedOutput, input));
   }
 
+  public void testSortDescending() {
+    testSortDescending(new float[] {}, new float[] {});
+    testSortDescending(new float[] {1}, new float[] {1});
+    testSortDescending(new float[] {1, 2}, new float[] {2, 1});
+    testSortDescending(new float[] {1, 3, 1}, new float[] {3, 1, 1});
+    testSortDescending(new float[] {-1, 1, -2, 2}, new float[] {2, 1, -1, -2});
+    testSortDescending(
+        new float[] {-1, 1, Float.NaN, -2, -0, 0, 2}, new float[] {Float.NaN, 2, 1, 0, -0, -1, -2});
+  }
+
+  public void testSortDescendingIndexed() {
+    testSortDescending(new float[] {}, 0, 0, new float[] {});
+    testSortDescending(new float[] {1}, 0, 1, new float[] {1});
+    testSortDescending(new float[] {1, 2}, 0, 2, new float[] {2, 1});
+    testSortDescending(new float[] {1, 3, 1}, 0, 2, new float[] {3, 1, 1});
+    testSortDescending(new float[] {1, 3, 1}, 0, 1, new float[] {1, 3, 1});
+    testSortDescending(new float[] {-1, -2, 1, 2}, 1, 3, new float[] {-1, 1, -2, 2});
+    testSortDescending(
+        new float[] {-1, 1, Float.NaN, -2, 2}, 1, 4, new float[] {-1, Float.NaN, 1, -2, 2});
+  }
+
+  private static void testSortDescending(float[] input, float[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Floats.sortDescending(input);
+    // GWT's Arrays.equals doesn't appear to handle NaN correctly, so test each element individually
+    for (int i = 0; i < input.length; i++) {
+      assertEquals(0, Float.compare(expectedOutput[i], input[i]));
+    }
+  }
+
+  private static void testSortDescending(
+      float[] input, int fromIndex, int toIndex, float[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Floats.sortDescending(input, fromIndex, toIndex);
+    // GWT's Arrays.equals doesn't appear to handle NaN correctly, so test each element individually
+    for (int i = 0; i < input.length; i++) {
+      assertEquals(0, Float.compare(expectedOutput[i], input[i]));
+    }
+  }
+
   @GwtIncompatible // SerializableTester
   public void testStringConverterSerialization() {
     SerializableTester.reserializeAndAssert(Floats.stringConverter());

@@ -367,6 +367,36 @@ public class ShortsTest extends TestCase {
     assertTrue(Arrays.equals(expectedOutput, input));
   }
 
+  public void testSortDescending() {
+    testSortDescending(new short[] {}, new short[] {});
+    testSortDescending(new short[] {1}, new short[] {1});
+    testSortDescending(new short[] {1, 2}, new short[] {2, 1});
+    testSortDescending(new short[] {1, 3, 1}, new short[] {3, 1, 1});
+    testSortDescending(new short[] {-1, 1, -2, 2}, new short[] {2, 1, -1, -2});
+  }
+
+  public void testSortDescendingIndexed() {
+    testSortDescending(new short[] {}, 0, 0, new short[] {});
+    testSortDescending(new short[] {1}, 0, 1, new short[] {1});
+    testSortDescending(new short[] {1, 2}, 0, 2, new short[] {2, 1});
+    testSortDescending(new short[] {1, 3, 1}, 0, 2, new short[] {3, 1, 1});
+    testSortDescending(new short[] {1, 3, 1}, 0, 1, new short[] {1, 3, 1});
+    testSortDescending(new short[] {-1, -2, 1, 2}, 1, 3, new short[] {-1, 1, -2, 2});
+  }
+
+  private static void testSortDescending(short[] input, short[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Shorts.sortDescending(input);
+    assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
+  private static void testSortDescending(
+      short[] input, int fromIndex, int toIndex, short[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Shorts.sortDescending(input, fromIndex, toIndex);
+    assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
   @GwtIncompatible // SerializableTester
   public void testStringConverterSerialization() {
     SerializableTester.reserializeAndAssert(Shorts.stringConverter());

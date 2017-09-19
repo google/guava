@@ -133,6 +133,42 @@ public class UnsignedLongsTest extends TestCase {
     assertTrue(Arrays.equals(expected, input));
   }
 
+  public void testSortDescending() {
+    testSortDescending(new long[] {}, new long[] {});
+    testSortDescending(new long[] {1}, new long[] {1});
+    testSortDescending(new long[] {1, 2}, new long[] {2, 1});
+    testSortDescending(new long[] {1, 3, 1}, new long[] {3, 1, 1});
+    testSortDescending(
+        new long[] {GREATEST - 1, 1, GREATEST - 2, 2},
+        new long[] {GREATEST - 1, GREATEST - 2, 2, 1});
+  }
+
+  public void testSortDescendingIndexed() {
+    testSortDescending(new long[] {}, 0, 0, new long[] {});
+    testSortDescending(new long[] {1}, 0, 1, new long[] {1});
+    testSortDescending(new long[] {1, 2}, 0, 2, new long[] {2, 1});
+    testSortDescending(new long[] {1, 3, 1}, 0, 2, new long[] {3, 1, 1});
+    testSortDescending(new long[] {1, 3, 1}, 0, 1, new long[] {1, 3, 1});
+    testSortDescending(
+        new long[] {GREATEST - 1, 1, GREATEST - 2, 2},
+        1,
+        3,
+        new long[] {GREATEST - 1, GREATEST - 2, 1, 2});
+  }
+
+  private static void testSortDescending(long[] input, long[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    UnsignedLongs.sortDescending(input);
+    assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
+  private static void testSortDescending(
+      long[] input, int fromIndex, int toIndex, long[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    UnsignedLongs.sortDescending(input, fromIndex, toIndex);
+    assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
   public void testDivide() {
     assertEquals(2, UnsignedLongs.divide(14, 5));
     assertEquals(0, UnsignedLongs.divide(0, 50));
