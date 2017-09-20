@@ -70,7 +70,9 @@ public abstract class Traverser<N> {
    * <ul>
    *   <li>Traversals require <i>O(n)</i> time (where <i>n</i> is the number of nodes reachable from
    *       the start node).
-   *   <li>While traversing, the traverser will use <i>O(1)</i> space.
+   *   <li>While traversing, the traverser will use <i>O(H)</i> space where <i>H</i> is the number
+   *       of nodes in the search horizon (the nodes seen by the algorithm that have not yet been
+   *       traversed).
    * </ul>
    *
    * <p><b>Examples</b>
