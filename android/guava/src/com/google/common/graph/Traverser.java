@@ -16,7 +16,15 @@
 
 package com.google.common.graph;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
+import com.google.common.collect.UnmodifiableIterator;
+import java.util.ArrayDeque;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Queue;
+import java.util.Set;
 
 /**
  * Provides methods for traversing a graph.
@@ -48,8 +56,7 @@ public abstract class Traverser<N> {
    * @param graph {@link SuccessorsFunction} representing a general graph that may have cycles.
    */
   public static <N> Traverser<N> forGraph(SuccessorsFunction<N> graph) {
-    // TODO(b/27898002): Implement
-    throw new UnsupportedOperationException("Not yet implemented");
+    return new GraphTraverser<>(graph);
   }
 
   /**
@@ -210,4 +217,60 @@ public abstract class Traverser<N> {
    * <p>See <a href="https://en.wikipedia.org/wiki/Depth-first_search">Wikipedia</a> for more info.
    */
   public abstract Iterable<N> depthFirstPostOrder(N startNode);
+
+  private static class GraphTraverser<N> extends Traverser<N> {
+    private final SuccessorsFunction<N> graph;
+
+    GraphTraverser(SuccessorsFunction<N> graph) {
+      this.graph = checkNotNull(graph);
+    }
+
+    @Override
+    public Iterable<N> breadthFirst(final N startNode) {
+      return new Iterable<N>() {
+        @Override
+        public Iterator<N> iterator() {
+          return new BreadthFirstIterator(startNode);
+        }
+      };
+    }
+
+    @Override
+    public Iterable<N> depthFirstPreOrder(N startNode) {
+      // TODO(b/27898002): Implement
+      throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    @Override
+    public Iterable<N> depthFirstPostOrder(N startNode) {
+      // TODO(b/27898002): Implement
+      throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    final class BreadthFirstIterator extends UnmodifiableIterator<N> {
+      final Queue<N> queue = new ArrayDeque<>();
+      final Set<N> visited = new HashSet<>();
+
+      BreadthFirstIterator(N root) {
+        queue.add(root);
+        visited.add(root);
+      }
+
+      @Override
+      public boolean hasNext() {
+        return !queue.isEmpty();
+      }
+
+      @Override
+      public N next() {
+        N current = queue.remove();
+        for (N neighbor : graph.successors(current)) {
+          if (visited.add(neighbor)) {
+            queue.add(neighbor);
+          }
+        }
+        return current;
+      }
+    }
+  }
 }
