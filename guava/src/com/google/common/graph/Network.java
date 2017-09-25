@@ -51,9 +51,9 @@ import javax.annotation.Nullable;
  *
  * <h3>Building a {@code Network}</h3>
  *
- * <p>The implementation classes that `common.graph` provides are not public, by design. To create
- * an instance of one of the built-in implementations of {@code Network}, use the {@link
- * NetworkBuilder} class:
+ * <p>The implementation classes that {@code common.graph} provides are not public, by design. To
+ * create an instance of one of the built-in implementations of {@code Network}, use the
+ * {@link NetworkBuilder} class:
  *
  * <pre>{@code
  * MutableNetwork<Integer, MyEdge> graph = NetworkBuilder.directed().build();

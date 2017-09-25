@@ -51,9 +51,9 @@ import javax.annotation.Nullable;
  *
  * <h3>Building a {@code Graph}</h3>
  *
- * <p>The implementation classes that `common.graph` provides are not public, by design. To create
- * an instance of one of the built-in implementations of {@code Graph}, use the {@link GraphBuilder}
- * class:
+ * <p>The implementation classes that {@code common.graph} provides are not public, by design. To
+ * create an instance of one of the built-in implementations of {@code Graph}, use the
+ * {@link GraphBuilder} class:
  *
  * <pre>{@code
  *   MutableGraph<Integer> graph = GraphBuilder.undirected().build();
