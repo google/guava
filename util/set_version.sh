@@ -9,9 +9,9 @@ fi
 
 version="$1"
 if [[ "${version}" =~ ^(.+)-SNAPSHOT$ ]]; then
-  android_version="${BASH_REMATCH[1]}-android-SNAPSHOT"
+  android_version="${BASH_REMATCH[1]}-ga-SNAPSHOT"
 else
-  android_version="${version}-android"
+  android_version="${version}-ga"
 fi
 
 mvn versions:set versions:commit -DnewVersion="${version}"
