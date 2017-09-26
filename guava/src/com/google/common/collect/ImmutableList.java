@@ -722,7 +722,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * <p>It is not specified if any performance benefits apply if {@code expectedSize} is close to,
    * but not exactly, the number of elements added to the builder.
    *
-   * @since 24.0
+   * @since NEXT
    */
   @Beta
   public static <E> Builder<E> builderWithExpectedSize(int expectedSize) {

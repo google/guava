@@ -126,8 +126,8 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    *
    * <p>It is not specified if any performance benefits apply if {@code expectedSize} is close to,
    * but not exactly, the number of entries added to the builder.
-   * 
-   * @since 24.0
+   *
+   * @since NEXT
    */
   @Beta
   public static <K, V> Builder<K, V> builderWithExpectedSize(int expectedSize) {
