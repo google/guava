@@ -30,7 +30,7 @@ import javax.annotation.Nullable;
 /**
  * Static utility methods pertaining to {@code Predicate} instances.
  *
- * <p>All methods returns serializable predicates as long as they're given serializable parameters.
+ * <p>All methods return serializable predicates as long as they're given serializable parameters.
  *
  * <p>See the Guava User Guide article on
  * <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of
