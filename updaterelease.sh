@@ -340,25 +340,18 @@ commit_changes() {
   fi
 }
 
-# Updates the version info (latest_release or latest_snapshot) stored in
-# _config.yml.
+# Updates the latest_release field in _config.yml if necessary.
 update_config_yml() {
-  if [[ "$RELEASE" == "snapshot" ]]; then
-    fieldtoupdate="latest_snapshot"
-    version="$(cat "$TEMPDIR/jre/VERSION")"
-  else
-    fieldtoupdate="latest_release"
-    # The release being updated currently may not be the latest release.
-    version="$(latest_release)"
-  fi
+  # The release being updated currently may not be the latest release.
+  version="$(latest_release)"
 
-  "$SED" -i'' -re "s/$fieldtoupdate:[ ]+.+/$fieldtoupdate: $version/g" _config.yml
+  "$SED" -i'' -re "s/latest_release:[ ]+.+/latest_release: $version/g" _config.yml
 
   git add _config.yml > /dev/null
 
   if ! git diff --cached --quiet ; then
-    echo -n "Updating $fieldtoupdate in _config.yml to $version..."
-    git commit -q -m "Update $fieldtoupdate version to $version"
+    echo -n "Updating latest_release in _config.yml to $version..."
+    git commit -q -m "Update latest_release version to $version"
     echo " Done."
   fi
 }
