@@ -179,30 +179,6 @@ public class SequentialExecutorTest extends TestCase {
     assertEquals(ImmutableList.of(0, 1, 2), callOrder);
   }
 
-  public void testPrependContinuation() {
-    final List<Integer> callOrder = Lists.newArrayList();
-
-    class FakeOp implements Runnable {
-      final int op;
-
-      FakeOp(int op) {
-        this.op = op;
-      }
-
-      @Override
-      public void run() {
-        callOrder.add(op);
-      }
-    }
-
-    e.execute(new FakeOp(1));
-    e.execute(new FakeOp(2));
-    e.executeFirst(new FakeOp(0));
-    fakePool.runAll();
-
-    assertEquals(ImmutableList.of(0, 1, 2), callOrder);
-  }
-
   public void testRuntimeException_doesNotStopExecution() {
 
     final AtomicInteger numCalls = new AtomicInteger();

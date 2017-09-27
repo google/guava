@@ -19,7 +19,7 @@ import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.DoNotMock;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.Queue;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,7 +53,7 @@ class SequentialExecutor implements Executor {
   private final Executor executor;
 
   @GuardedBy("queue")
-  private final Deque<Runnable> queue = new ArrayDeque<>();
+  private final Queue<Runnable> queue = new ArrayDeque<>();
 
   @GuardedBy("queue")
   private boolean isWorkerRunning = false;
@@ -78,22 +78,7 @@ class SequentialExecutor implements Executor {
   @Override
   public void execute(Runnable task) {
     synchronized (queue) {
-      queue.addLast(task);
-      if (isWorkerRunning || suspensions > 0) {
-        return;
-      }
-      isWorkerRunning = true;
-    }
-    startQueueWorker();
-  }
-
-  /**
-   * Prepends a task to the front of the queue and makes sure a worker thread is running, unless the
-   * queue has been suspended.
-   */
-  public void executeFirst(Runnable task) {
-    synchronized (queue) {
-      queue.addFirst(task);
+      queue.add(task);
       if (isWorkerRunning || suspensions > 0) {
         return;
       }
@@ -122,8 +107,8 @@ class SequentialExecutor implements Executor {
    * if the suspension counter is zero.
    *
    * <p>If this method throws, e.g. a {@code RejectedExecutionException} from the delegate executor,
-   * execution of tasks will stop until a call to this method or to {@link #execute(Runnable)} or
-   * {@link #executeFirst(Runnable)} is made.
+   * execution of tasks will stop until a call to this method or to {@link #execute(Runnable)} is
+   * made.
    *
    * @throws java.lang.IllegalStateException if this executor is not suspended.
    */
@@ -191,7 +176,7 @@ class SequentialExecutor implements Executor {
         synchronized (queue) {
           // TODO(user): How should we handle interrupts and shutdowns?
           if (suspensions == 0) {
-            task = queue.pollFirst();
+            task = queue.poll();
           }
           if (task == null) {
             isWorkerRunning = false;
