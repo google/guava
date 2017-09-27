@@ -5,7 +5,7 @@
 <api
   xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
   xsi:noNamespaceSchemaLocation='api.xsd'
-  name="Guava 24.0-android-SNAPSHOT"
+  name="Guava HEAD-android-SNAPSHOT"
   jdversion="1.1.1">
 
 <package name="com.google.common.annotations">
@@ -3842,9 +3842,7 @@
      square braces. Unmatched placeholders will be left as-is.
  @param errorMessageArgs the arguments to be substituted into the message template. Arguments
      are converted to strings using {@link String#valueOf(Object)}.
- @throws IllegalArgumentException if {@code expression} is false
- @throws NullPointerException if the check fails and either {@code errorMessageTemplate} or
-     {@code errorMessageArgs} is null (don't let this happen)]]>
+ @throws IllegalArgumentException if {@code expression} is false]]>
       </doc>
     </method>
     <method name="checkArgument"
@@ -4205,8 +4203,6 @@
  @param errorMessageArgs the arguments to be substituted into the message template. Arguments
      are converted to strings using {@link String#valueOf(Object)}.
  @throws IllegalStateException if {@code expression} is false
- @throws NullPointerException if the check fails and either {@code errorMessageTemplate} or
-     {@code errorMessageArgs} is null (don't let this happen)
  @see Verify#verify Verify.verify()]]>
       </doc>
     </method>
@@ -5411,7 +5407,7 @@
     <doc>
     <![CDATA[Static utility methods pertaining to {@code Predicate} instances.
 
- <p>All methods returns serializable predicates as long as they're given serializable parameters.
+ <p>All methods return serializable predicates as long as they're given serializable parameters.
 
  <p>See the Guava User Guide article on
  <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of
@@ -6753,6 +6749,335 @@
      are converted to strings using {@link String#valueOf(Object)}.
  @throws VerifyException if {@code expression} is {@code false}
  @see Preconditions#checkState Preconditions.checkState()]]>
+      </doc>
+    </method>
+    <method name="verify"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expression" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="char"/>
+      <doc>
+      <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+ custom message otherwise.
+
+ <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="verify"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expression" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="int"/>
+      <doc>
+      <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+ custom message otherwise.
+
+ <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="verify"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expression" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="long"/>
+      <doc>
+      <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+ custom message otherwise.
+
+ <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="verify"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expression" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+ custom message otherwise.
+
+ <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="verify"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expression" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="char"/>
+      <param name="p2" type="char"/>
+      <doc>
+      <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+ custom message otherwise.
+
+ <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="verify"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expression" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="int"/>
+      <param name="p2" type="char"/>
+      <doc>
+      <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+ custom message otherwise.
+
+ <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="verify"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expression" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="long"/>
+      <param name="p2" type="char"/>
+      <doc>
+      <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+ custom message otherwise.
+
+ <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="verify"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expression" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="char"/>
+      <doc>
+      <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+ custom message otherwise.
+
+ <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="verify"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expression" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="char"/>
+      <param name="p2" type="int"/>
+      <doc>
+      <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+ custom message otherwise.
+
+ <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="verify"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expression" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="int"/>
+      <param name="p2" type="int"/>
+      <doc>
+      <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+ custom message otherwise.
+
+ <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="verify"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expression" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="long"/>
+      <param name="p2" type="int"/>
+      <doc>
+      <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+ custom message otherwise.
+
+ <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="verify"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expression" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="int"/>
+      <doc>
+      <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+ custom message otherwise.
+
+ <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="verify"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expression" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="char"/>
+      <param name="p2" type="long"/>
+      <doc>
+      <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+ custom message otherwise.
+
+ <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="verify"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expression" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="int"/>
+      <param name="p2" type="long"/>
+      <doc>
+      <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+ custom message otherwise.
+
+ <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="verify"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expression" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="long"/>
+      <param name="p2" type="long"/>
+      <doc>
+      <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+ custom message otherwise.
+
+ <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="verify"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expression" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="long"/>
+      <doc>
+      <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+ custom message otherwise.
+
+ <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="verify"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expression" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="char"/>
+      <param name="p2" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+ custom message otherwise.
+
+ <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="verify"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expression" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="int"/>
+      <param name="p2" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+ custom message otherwise.
+
+ <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="verify"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expression" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="long"/>
+      <param name="p2" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+ custom message otherwise.
+
+ <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="verify"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expression" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+ custom message otherwise.
+
+ <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="verify"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expression" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="java.lang.Object"/>
+      <param name="p3" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+ custom message otherwise.
+
+ <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="verify"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expression" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="java.lang.Object"/>
+      <param name="p3" type="java.lang.Object"/>
+      <param name="p4" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+ custom message otherwise.
+
+ <p>See {@link #verify(boolean, String, Object...)} for details.]]>
       </doc>
     </method>
     <method name="verifyNotNull" return="T"
@@ -10212,16 +10537,15 @@
     </method>
     <doc>
     <![CDATA[Provides static methods for working with {@link Comparator} instances. For many other helpful
- comparator utilities, see either {@code Comparator} itself (for Java 8 or later), or
- {@code com.google.common.collect.Ordering} (otherwise).
+ comparator utilities, see either {@code Comparator} itself (for Java 8 or later), or {@code
+ com.google.common.collect.Ordering} (otherwise).
 
  <h3>Relationship to {@code Ordering}</h3>
 
  <p>In light of the significant enhancements to {@code Comparator} in Java 8, the overwhelming
- majority of usages of {@code Ordering} can be written using only built-in JDK APIs. Because of
- this, and because it's awkward to have to convert comparators into {@code Ordering} instances,
- {@code Ordering} and its methods are planned for deletion. This class is intended to
- "fill the gap" and provide those features of {@code Ordering} not already provided by the JDK.
+ majority of usages of {@code Ordering} can be written using only built-in JDK APIs. This class is
+ intended to "fill the gap" and provide those features of {@code Ordering} not already provided by
+ the JDK.
 
  @since 21.0
  @author Louis Wasserman]]>
@@ -11125,10 +11449,11 @@
   </class>
   <!-- end class com.google.common.collect.EnumHashBiMap -->
   <!-- start class com.google.common.collect.EnumMultiset -->
-  <class name="EnumMultiset" extends="com.google.common.collect.AbstractMapBasedMultiset&lt;E&gt;"
+  <class name="EnumMultiset" extends="com.google.common.collect.AbstractMultiset&lt;E&gt;"
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
+    <implements name="java.io.Serializable"/>
     <method name="create" return="com.google.common.collect.EnumMultiset&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -11146,8 +11471,7 @@
       <doc>
       <![CDATA[Creates a new {@code EnumMultiset} containing the specified elements.
 
- <p>This implementation is highly efficient when {@code elements} is itself a {@link
- Multiset}.
+ <p>This implementation is highly efficient when {@code elements} is itself a {@link Multiset}.
 
  @param elements the elements that the multiset should contain
  @throws IllegalArgumentException if {@code elements} is empty]]>
@@ -11160,19 +11484,56 @@
       <param name="elements" type="java.lang.Iterable&lt;E&gt;"/>
       <param name="type" type="java.lang.Class&lt;E&gt;"/>
       <doc>
-      <![CDATA[Returns a new {@code EnumMultiset} instance containing the given elements.  Unlike
- {@link EnumMultiset#create(Iterable)}, this method does not produce an exception on an empty
- iterable.
+      <![CDATA[Returns a new {@code EnumMultiset} instance containing the given elements. Unlike {@link
+ EnumMultiset#create(Iterable)}, this method does not produce an exception on an empty iterable.
 
  @since 14.0]]>
       </doc>
     </method>
+    <method name="size" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+    </method>
+    <method name="count" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="element" type="java.lang.Object"/>
+    </method>
+    <method name="add" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="element" type="E extends java.lang.Enum&lt;E&gt;"/>
+      <param name="occurrences" type="int"/>
+    </method>
+    <method name="remove" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="element" type="java.lang.Object"/>
+      <param name="occurrences" type="int"/>
+    </method>
+    <method name="setCount" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="element" type="E extends java.lang.Enum&lt;E&gt;"/>
+      <param name="count" type="int"/>
+    </method>
+    <method name="clear"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+    </method>
     <doc>
-    <![CDATA[Multiset implementation backed by an {@link EnumMap}.
+    <![CDATA[Multiset implementation specialized for enum elements, supporting all single-element operations
+ in O(1).
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">
- {@code Multiset}</a>.
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"> {@code
+ Multiset}</a>.
 
  @author Jared Levy
  @since 2.0]]>
@@ -16125,8 +16486,8 @@
 
  <p>It is not specified if any performance benefits apply if {@code expectedSize} is close to,
  but not exactly, the number of entries added to the builder.
- 
- @since 24.0]]>
+
+ @since NEXT]]>
       </doc>
     </method>
     <method name="copyOf" return="com.google.common.collect.ImmutableBiMap&lt;K, V&gt;"
@@ -17295,7 +17656,7 @@
  <p>It is not specified if any performance benefits apply if {@code expectedSize} is close to,
  but not exactly, the number of elements added to the builder.
 
- @since 24.0]]>
+ @since NEXT]]>
       </doc>
     </method>
     <doc>
@@ -17835,7 +18196,7 @@
  <p>It is not specified if any performance benefits apply if {@code expectedSize} is close to,
  but not exactly, the number of entries added to the builder.
  
- @since 24.0]]>
+ @since NEXT]]>
       </doc>
     </method>
     <method name="copyOf" return="com.google.common.collect.ImmutableMap&lt;K, V&gt;"
@@ -19742,7 +20103,7 @@
  <p>It is not specified if any performance benefits apply if {@code expectedSize} is close to,
  but not exactly, the number of distinct elements added to the builder.
 
- @since 24.0]]>
+ @since NEXT]]>
       </doc>
     </method>
     <doc>
@@ -30617,10 +30978,10 @@
  <p>The common ways to get an instance of {@code Ordering} are:
 
  <ul>
- <li>Subclass it and implement {@link #compare} instead of implementing {@link Comparator}
-     directly
- <li>Pass a <i>pre-existing</i> {@link Comparator} instance to {@link #from(Comparator)}
- <li>Use the natural ordering, {@link Ordering#natural}
+   <li>Subclass it and implement {@link #compare} instead of implementing {@link Comparator}
+       directly
+   <li>Pass a <i>pre-existing</i> {@link Comparator} instance to {@link #from(Comparator)}
+   <li>Use the natural ordering, {@link Ordering#natural}
  </ul>
 
  <h4>Chaining</h4>
@@ -30629,10 +30990,10 @@
  Ordering}, including:
 
  <ul>
- <li>{@link #reverse}
- <li>{@link #compound(Comparator)}
- <li>{@link #onResultOf(Function)}
- <li>{@link #nullsFirst} / {@link #nullsLast}
+   <li>{@link #reverse}
+   <li>{@link #compound(Comparator)}
+   <li>{@link #onResultOf(Function)}
+   <li>{@link #nullsFirst} / {@link #nullsLast}
  </ul>
 
  <h4>Using</h4>
@@ -30641,9 +31002,9 @@
  any of its special operations, such as:
 
  <ul>
- <li>{@link #immutableSortedCopy}
- <li>{@link #isOrdered} / {@link #isStrictlyOrdered}
- <li>{@link #min} / {@link #max}
+   <li>{@link #immutableSortedCopy}
+   <li>{@link #isOrdered} / {@link #isStrictlyOrdered}
+   <li>{@link #min} / {@link #max}
  </ul>
 
  <h3>Understanding complex orderings</h3>
@@ -30664,11 +31025,12 @@
  when {@code compare} is called on the above ordering:
 
  <ol>
- <li>First, if only one {@code Foo} is null, that null value is treated as <i>greater</i>
- <li>Next, non-null {@code Foo} values are passed to {@code getBarFunction} (we will be comparing
-     {@code Bar} values from now on)
- <li>Next, if only one {@code Bar} is null, that null value is treated as <i>lesser</i>
- <li>Finally, natural ordering is used (i.e. the result of {@code Bar.compareTo(Bar)} is returned)
+   <li>First, if only one {@code Foo} is null, that null value is treated as <i>greater</i>
+   <li>Next, non-null {@code Foo} values are passed to {@code getBarFunction} (we will be
+       comparing {@code Bar} values from now on)
+   <li>Next, if only one {@code Bar} is null, that null value is treated as <i>lesser</i>
+   <li>Finally, natural ordering is used (i.e. the result of {@code Bar.compareTo(Bar)} is
+       returned)
  </ol>
 
  <p>Alas, {@link #reverse} is a little different. As you read backwards through a chain and
@@ -30684,12 +31046,12 @@
 
  <h3>For Java 8 users</h3>
 
- <p>If you are using Java 8, this class is now obsolete <i>(pending a few August 2016
- updates)</i>. Most of its functionality is now provided by {@link java.util.stream.Stream Stream}
- and by {@link Comparator} itself, and the rest can now be found as static methods in our new
- {@link Comparators} class. See each method below for further instructions. Whenever possible, you
- should change any references of type {@code Ordering} to be of type {@code Comparator} instead.
- However, at this time we have no plan to <i>deprecate</i> this class.
+ <p>If you are using Java 8, this class is now obsolete. Most of its functionality is now provided
+ by {@link java.util.stream.Stream Stream} and by {@link Comparator} itself, and the rest can now
+ be found as static methods in our new {@link Comparators} class. See each method below for
+ further instructions. Whenever possible, you should change any references of type {@code
+ Ordering} to be of type {@code Comparator} instead. However, at this time we have no plan to
+ <i>deprecate</i> this class.
 
  <p>Many replacements involve adopting {@code Stream}, and these changes can sometimes make your
  code verbose. Whenever following this advice, you should check whether {@code Stream} could be
@@ -36774,9 +37136,9 @@
 
  <h3>Building a {@code Graph}</h3>
 
- <p>The implementation classes that `common.graph` provides are not public, by design. To create
- an instance of one of the built-in implementations of {@code Graph}, use the {@link GraphBuilder}
- class:
+ <p>The implementation classes that {@code common.graph} provides are not public, by design. To
+ create an instance of one of the built-in implementations of {@code Graph}, use the
+ {@link GraphBuilder} class:
 
  <pre>{@code
    MutableGraph<Integer> graph = GraphBuilder.undirected().build();
@@ -37858,9 +38220,9 @@
 
  <h3>Building a {@code Network}</h3>
 
- <p>The implementation classes that `common.graph` provides are not public, by design. To create
- an instance of one of the built-in implementations of {@code Network}, use the {@link
- NetworkBuilder} class:
+ <p>The implementation classes that {@code common.graph} provides are not public, by design. To
+ create an instance of one of the built-in implementations of {@code Network}, use the
+ {@link NetworkBuilder} class:
 
  <pre>{@code
  MutableNetwork<Integer, MyEdge> graph = NetworkBuilder.directed().build();
@@ -38059,6 +38421,15 @@
  if the returned {@link Iterable} contains duplicate elements. Implementations of such
  algorithms should document their behavior in the presence of duplicates.
 
+ <p>The elements of the returned {@code Iterable} must each be:
+
+ <ul>
+   <li>Non-null
+   <li>Usable as {@code Map} keys (see the Guava User Guide's section on <a
+       href="https://github.com/google/guava/wiki/GraphsExplained#graph-elements-nodes-and-edges">
+       graph elements</a> for details)
+ </ul>
+
  @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
       </doc>
     </method>
@@ -38143,6 +38514,15 @@
  if the returned {@link Iterable} contains duplicate elements. Implementations of such
  algorithms should document their behavior in the presence of duplicates.
 
+ <p>The elements of the returned {@code Iterable} must each be:
+
+ <ul>
+   <li>Non-null
+   <li>Usable as {@code Map} keys (see the Guava User Guide's section on <a
+       href="https://github.com/google/guava/wiki/GraphsExplained#graph-elements-nodes-and-edges">
+       graph elements</a> for details)
+ </ul>
+
  @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
       </doc>
     </method>
@@ -38207,6 +38587,221 @@
     </doc>
   </interface>
   <!-- end interface com.google.common.graph.SuccessorsFunction -->
+  <!-- start class com.google.common.graph.Traverser -->
+  <class name="Traverser" extends="java.lang.Object"
+    abstract="true"
+    static="false" final="false" visibility="public"
+    deprecated="not deprecated">
+    <constructor name="Traverser"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+    </constructor>
+    <method name="forGraph" return="com.google.common.graph.Traverser&lt;N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="graph" type="com.google.common.graph.SuccessorsFunction&lt;N&gt;"/>
+      <doc>
+      <![CDATA[Creates a new traverser for the given general {@code graph}.
+
+ <p>If {@code graph} is known to be tree-shaped, consider using {@link
+ #forTree(SuccessorsFunction)} instead.
+
+ <p><b>Performance notes</b>
+
+ <ul>
+   <li>Traversals require <i>O(n)</i> time (where <i>n</i> is the number of nodes reachable from
+       the start node), assuming that the node objects have <i>O(1)</i> {@code equals()} and
+       {@code hashCode()} implementations.
+   <li>While traversing, the traverser will use <i>O(n)</i> space (where <i>n</i> is the number
+       of nodes that have thus far been visited), plus <i>O(H)</i> space (where <i>H</i> is the
+       number of nodes that have been seen but not yet visited, that is, the "horizon").
+ </ul>
+
+ @param graph {@link SuccessorsFunction} representing a general graph that may have cycles.]]>
+      </doc>
+    </method>
+    <method name="forTree" return="com.google.common.graph.Traverser&lt;N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="tree" type="com.google.common.graph.SuccessorsFunction&lt;N&gt;"/>
+      <doc>
+      <![CDATA[Creates a new traverser for a directed acyclic graph that has at most one path from the start
+ node to any node reachable from the start node, such as a tree.
+
+ <p>Providing graphs that don't conform to the above description may lead to:
+
+ <ul>
+   <li>Traversal not terminating (if the graph has cycles)
+   <li>Nodes being visited multiple times (if multiple paths exist from the start node to any
+       node reachable from it)
+ </ul>
+
+ In these cases, use {@link #forGraph(SuccessorsFunction)} instead.
+
+ <p><b>Performance notes</b>
+
+ <ul>
+   <li>Traversals require <i>O(n)</i> time (where <i>n</i> is the number of nodes reachable from
+       the start node).
+   <li>While traversing, the traverser will use <i>O(H)</i> space (where <i>H</i> is the number
+       of nodes that have been seen but not yet visited, that is, the "horizon").
+ </ul>
+
+ <p><b>Examples</b>
+
+ <p>This is a valid input graph (all edges are directed facing downwards):
+
+ <pre>{@code
+    a     b      c
+   / \   / \     |
+  /   \ /   \    |
+ d     e     f   g
+       |
+       |
+       h
+ }</pre>
+
+ <p>This is <b>not</b> a valid input graph (all edges are directed facing downwards):
+
+ <pre>{@code
+    a     b
+   / \   / \
+  /   \ /   \
+ c     d     e
+        \   /
+         \ /
+          f
+ }</pre>
+
+ <p>because there are two paths from {@code b} to {@code f} ({@code b->d->f} and {@code
+ b->e->f}).
+
+ <p><b>Note on binary trees</b>
+
+ <p>This method can be used to traverse over a binary tree. Given methods {@code
+ leftChild(node)} and {@code rightChild(node)}, this method can be called as
+
+ <pre>{@code
+ Traverser.forTree(node -> ImmutableList.of(leftChild(node), rightChild(node)));
+ }</pre>
+
+ @param tree {@link SuccessorsFunction} representing a directed acyclic graph that has at most
+     one path between any two nodes]]>
+      </doc>
+    </method>
+    <method name="breadthFirst" return="java.lang.Iterable&lt;N&gt;"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="startNode" type="N"/>
+      <doc>
+      <![CDATA[Returns an unmodifiable iterable over the nodes in the graph, using breadth-first traversal.
+ That is, all the nodes of depth 0 are returned, then depth 1, then 2, and so on.
+
+ <p><b>Example:</b> The following graph with {@code startNode} {@code a} would return nodes in
+ the order {@code abcdef} (assuming successors are returned in alphabetical order).
+
+ <pre>{@code
+ b ---- a ---- d
+ |      |
+ |      |
+ e ---- c ---- f
+ }</pre>
+
+ <p>The behavior of this method is undefined if the nodes, or the topology of the graph, change
+ while iteration is in progress.
+
+ <p>The returned iterable can be iterated over multiple times. Every iterator will compute its
+ next element on the fly. It is thus possible to limit the traversal to a certain number of
+ nodes as follows:
+
+ <pre>{@code
+ Iterables.limit(Traverser.forGraph(graph).breadthFirst(node), maxNumberOfNodes);
+ }</pre>
+
+ <p>See <a href="https://en.wikipedia.org/wiki/Breadth-first_search">Wikipedia</a> for more
+ info.]]>
+      </doc>
+    </method>
+    <method name="depthFirstPreOrder" return="java.lang.Iterable&lt;N&gt;"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="startNode" type="N"/>
+      <doc>
+      <![CDATA[Returns an unmodifiable iterable over the nodes in the graph, using depth-first pre-order
+ traversal. That is, the nodes are returned in the order they are visited for the first time.
+
+ <p><b>Example:</b> The following graph with {@code startNode} {@code a} would return nodes in
+ the order {@code abcdef} (assuming successors are returned in alphabetical order).
+
+ <pre>{@code
+ b ---- a ---- f
+ |      |
+ |      |
+ c ---- d ---- e
+ }</pre>
+
+ <p>The behavior of this method is undefined if the nodes, or the topology of the graph, change
+ while iteration is in progress.
+
+ <p>The returned iterable can be iterated over multiple times. Every iterator will compute its
+ next element on the fly. It is thus possible to limit the traversal to a certain number of
+ nodes as follows:
+
+ <pre>{@code
+ Iterables.limit(
+     Traverser.forGraph(graph).depthFirstPreOrder(node), maxNumberOfNodes);
+ }</pre>
+
+ <p>See <a href="https://en.wikipedia.org/wiki/Depth-first_search">Wikipedia</a> for more info.]]>
+      </doc>
+    </method>
+    <method name="depthFirstPostOrder" return="java.lang.Iterable&lt;N&gt;"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="startNode" type="N"/>
+      <doc>
+      <![CDATA[Returns an unmodifiable iterable over the nodes in the graph, using depth-first post-order
+ traversal. That is, the nodes are returned in the order they are visited for the last time.
+
+ <p><b>Example:</b> The following graph with {@code startNode} {@code a} would return nodes in
+ the order {@code edcbfa} (assuming successors are returned in alphabetical order).
+
+ <pre>{@code
+ b ---- a ---- f
+ |      |
+ |      |
+ c ---- d ---- e
+ }</pre>
+
+ <p>The behavior of this method is undefined if the nodes, or the topology of the graph, change
+ while iteration is in progress.
+
+ <p>The returned iterable can be iterated over multiple times. Every iterator will compute its
+ next element on the fly. It is thus possible to limit the traversal to a certain number of
+ nodes as follows:
+
+ <pre>{@code
+ Iterables.limit(
+     Traverser.forGraph(graph).depthFirstPostOrder(node), maxNumberOfNodes);
+ }</pre>
+
+ <p>See <a href="https://en.wikipedia.org/wiki/Depth-first_search">Wikipedia</a> for more info.]]>
+      </doc>
+    </method>
+    <doc>
+    <![CDATA[Provides methods for traversing a graph.
+
+ @author Jens Nyman
+ @param <N> Node parameter type
+ @since NEXT]]>
+    </doc>
+  </class>
+  <!-- end class com.google.common.graph.Traverser -->
   <!-- start interface com.google.common.graph.ValueGraph -->
   <interface name="ValueGraph"    abstract="true"
     static="false" final="false" visibility="public"
@@ -38416,9 +39011,9 @@
 
  <h3>Building a {@code ValueGraph}</h3>
 
- <p>The implementation classes that `common.graph` provides are not public, by design. To create
- an instance of one of the built-in implementations of {@code ValueGraph}, use the {@link
- ValueGraphBuilder} class:
+ <p>The implementation classes that {@code common.graph} provides are not public, by design. To
+ create an instance of one of the built-in implementations of {@code ValueGraph}, use the
+ {@link ValueGraphBuilder} class:
 
  <pre>{@code
    MutableValueGraph<Integer, Double> graph = ValueGraphBuilder.directed().build();
@@ -38864,13 +39459,13 @@
  of the code may not be readable by older versions of the code (e.g., a serialized Bloom filter
  generated today may <i>not</i> be readable by a binary that was compiled 6 months ago).
 
- <p>As of Guava 22.0, this class is thread-safe and lock-free. It internally uses atomics and
+ <p>As of Guava 23.0, this class is thread-safe and lock-free. It internally uses atomics and
  compare-and-swap to ensure correctness when multiple threads are used to access it.
 
  @param <T> the type of instances that the {@code BloomFilter} accepts
  @author Dimitris Andreou
  @author Kevin Bourrillion
- @since 11.0 (thread-safe since 22.0)]]>
+ @since 11.0 (thread-safe since 23.0)]]>
     </doc>
   </class>
   <!-- end class com.google.common.hash.BloomFilter -->
@@ -50119,6 +50714,36 @@
  @since 16.0]]>
       </doc>
     </method>
+    <method name="reverse"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="boolean[]"/>
+      <doc>
+      <![CDATA[Reverses the elements of {@code array}. This is equivalent to {@code
+ Collections.reverse(Booleans.asList(array))}, but is likely to be more efficient.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="reverse"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="boolean[]"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Reverses the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+ exclusive. This is equivalent to {@code
+ Collections.reverse(Booleans.asList(array).subList(fromIndex, toIndex))}, but is likely to be
+ more efficient.
+
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code toIndex > fromIndex}
+ @since NEXT]]>
+      </doc>
+    </method>
     <doc>
     <![CDATA[Static utility methods pertaining to {@code boolean} primitives, that are not already found in
  either {@link Boolean} or {@link Arrays}.
@@ -50284,6 +50909,36 @@
 
  @param backingArray the array to back the list
  @return a list view of the array]]>
+      </doc>
+    </method>
+    <method name="reverse"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="byte[]"/>
+      <doc>
+      <![CDATA[Reverses the elements of {@code array}. This is equivalent to {@code
+ Collections.reverse(Bytes.asList(array))}, but is likely to be more efficient.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="reverse"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="byte[]"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Reverses the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+ exclusive. This is equivalent to {@code
+ Collections.reverse(Bytes.asList(array).subList(fromIndex, toIndex))}, but is likely to be more
+ efficient.
+
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code toIndex > fromIndex}
+ @since NEXT]]>
       </doc>
     </method>
     <doc>
@@ -50609,6 +51264,61 @@
  @throws NullPointerException if {@code collection} or any of its elements is null]]>
       </doc>
     </method>
+    <method name="sortDescending"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="char[]"/>
+      <doc>
+      <![CDATA[Sorts the elements of {@code array} in descending order.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="sortDescending"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="char[]"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+ exclusive in descending order.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="reverse"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="char[]"/>
+      <doc>
+      <![CDATA[Reverses the elements of {@code array}. This is equivalent to {@code
+ Collections.reverse(Chars.asList(array))}, but is likely to be more efficient.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="reverse"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="char[]"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Reverses the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+ exclusive. This is equivalent to {@code
+ Collections.reverse(Chars.asList(array).subList(fromIndex, toIndex))}, but is likely to be more
+ efficient.
+
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code toIndex > fromIndex}
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="asList" return="java.util.List&lt;java.lang.Character&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -50907,6 +51617,67 @@
  {@link Arrays#equals(double[], double[])}.
 
  @since 2.0]]>
+      </doc>
+    </method>
+    <method name="sortDescending"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="double[]"/>
+      <doc>
+      <![CDATA[Sorts the elements of {@code array} in descending order.
+
+ <p>Note that this method uses the total order imposed by {@link Double#compare}, which treats
+ all NaN values as equal and 0.0 as greater than -0.0.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="sortDescending"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="double[]"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+ exclusive in descending order.
+
+ <p>Note that this method uses the total order imposed by {@link Double#compare}, which treats
+ all NaN values as equal and 0.0 as greater than -0.0.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="reverse"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="double[]"/>
+      <doc>
+      <![CDATA[Reverses the elements of {@code array}. This is equivalent to {@code
+ Collections.reverse(Doubles.asList(array))}, but is likely to be more efficient.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="reverse"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="double[]"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Reverses the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+ exclusive. This is equivalent to {@code
+ Collections.reverse(Doubles.asList(array).subList(fromIndex, toIndex))}, but is likely to be
+ more efficient.
+
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code toIndex > fromIndex}
+ @since NEXT]]>
       </doc>
     </method>
     <method name="toArray" return="double[]"
@@ -51254,6 +52025,67 @@
  {@link Arrays#equals(float[], float[])}.
 
  @since 2.0]]>
+      </doc>
+    </method>
+    <method name="sortDescending"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="float[]"/>
+      <doc>
+      <![CDATA[Sorts the elements of {@code array} in descending order.
+
+ <p>Note that this method uses the total order imposed by {@link Float#compare}, which treats
+ all NaN values as equal and 0.0 as greater than -0.0.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="sortDescending"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="float[]"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+ exclusive in descending order.
+
+ <p>Note that this method uses the total order imposed by {@link Float#compare}, which treats
+ all NaN values as equal and 0.0 as greater than -0.0.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="reverse"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="float[]"/>
+      <doc>
+      <![CDATA[Reverses the elements of {@code array}. This is equivalent to {@code
+ Collections.reverse(Floats.asList(array))}, but is likely to be more efficient.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="reverse"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="float[]"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Reverses the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+ exclusive. This is equivalent to {@code
+ Collections.reverse(Floats.asList(array).subList(fromIndex, toIndex))}, but is likely to be
+ more efficient.
+
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code toIndex > fromIndex}
+ @since NEXT]]>
       </doc>
     </method>
     <method name="toArray" return="float[]"
@@ -52871,6 +53703,61 @@
  @since 2.0]]>
       </doc>
     </method>
+    <method name="sortDescending"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="int[]"/>
+      <doc>
+      <![CDATA[Sorts the elements of {@code array} in descending order.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="sortDescending"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="int[]"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+ exclusive in descending order.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="reverse"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="int[]"/>
+      <doc>
+      <![CDATA[Reverses the elements of {@code array}. This is equivalent to {@code
+ Collections.reverse(Ints.asList(array))}, but is likely to be more efficient.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="reverse"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="int[]"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Reverses the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+ exclusive. This is equivalent to {@code
+ Collections.reverse(Ints.asList(array).subList(fromIndex, toIndex))}, but is likely to be more
+ efficient.
+
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code toIndex > fromIndex}
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="toArray" return="int[]"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -53328,6 +54215,61 @@
  {@link Arrays#equals(long[], long[])}.
 
  @since 2.0]]>
+      </doc>
+    </method>
+    <method name="sortDescending"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="long[]"/>
+      <doc>
+      <![CDATA[Sorts the elements of {@code array} in descending order.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="sortDescending"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="long[]"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+ exclusive in descending order.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="reverse"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="long[]"/>
+      <doc>
+      <![CDATA[Reverses the elements of {@code array}. This is equivalent to {@code
+ Collections.reverse(Longs.asList(array))}, but is likely to be more efficient.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="reverse"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="long[]"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Reverses the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+ exclusive. This is equivalent to {@code
+ Collections.reverse(Longs.asList(array).subList(fromIndex, toIndex))}, but is likely to be more
+ efficient.
+
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code toIndex > fromIndex}
+ @since NEXT]]>
       </doc>
     </method>
     <method name="toArray" return="long[]"
@@ -53789,6 +54731,61 @@
  @since 2.0]]>
       </doc>
     </method>
+    <method name="sortDescending"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="short[]"/>
+      <doc>
+      <![CDATA[Sorts the elements of {@code array} in descending order.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="sortDescending"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="short[]"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+ exclusive in descending order.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="reverse"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="short[]"/>
+      <doc>
+      <![CDATA[Reverses the elements of {@code array}. This is equivalent to {@code
+ Collections.reverse(Shorts.asList(array))}, but is likely to be more efficient.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="reverse"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="short[]"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Reverses the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+ exclusive. This is equivalent to {@code
+ Collections.reverse(Shorts.asList(array).subList(fromIndex, toIndex))}, but is likely to be
+ more efficient.
+
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code toIndex > fromIndex}
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="toArray" return="short[]"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -53968,6 +54965,31 @@
  {@link java.util.Arrays#equals(byte[], byte[])}.
 
  @since 2.0]]>
+      </doc>
+    </method>
+    <method name="sortDescending"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="byte[]"/>
+      <doc>
+      <![CDATA[Sorts the elements of {@code array} in descending order.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="sortDescending"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="byte[]"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+ exclusive in descending order.
+
+ @since NEXT]]>
       </doc>
     </method>
     <field name="MAX_POWER_OF_TWO" type="byte"
@@ -54180,6 +55202,57 @@
  {@link java.util.Arrays#equals(byte[], byte[])}.
 
  @since 2.0]]>
+      </doc>
+    </method>
+    <method name="sort"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="byte[]"/>
+      <doc>
+      <![CDATA[Sorts the array, treating its elements as unsigned bytes.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="sort"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="byte[]"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Sorts the array between {@code fromIndex} inclusive and {@code toIndex} exclusive, treating its
+ elements as unsigned bytes.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="sortDescending"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="byte[]"/>
+      <doc>
+      <![CDATA[Sorts the elements of {@code array} in descending order, interpreting them as unsigned 8-bit
+ integers.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="sortDescending"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="byte[]"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+ exclusive in descending order, interpreting them as unsigned 8-bit integers.
+
+ @since NEXT]]>
       </doc>
     </method>
     <field name="MAX_POWER_OF_TWO" type="byte"
@@ -54591,6 +55664,57 @@
 
  <p>The returned comparator is inconsistent with {@link Object#equals(Object)} (since arrays
  support only identity equality), but it is consistent with {@link Arrays#equals(int[], int[])}.]]>
+      </doc>
+    </method>
+    <method name="sort"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="int[]"/>
+      <doc>
+      <![CDATA[Sorts the array, treating its elements as unsigned 32-bit integers.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="sort"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="int[]"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Sorts the array between {@code fromIndex} inclusive and {@code toIndex} exclusive, treating its
+ elements as unsigned 32-bit integers.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="sortDescending"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="int[]"/>
+      <doc>
+      <![CDATA[Sorts the elements of {@code array} in descending order, interpreting them as unsigned 32-bit
+ integers.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="sortDescending"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="int[]"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+ exclusive in descending order, interpreting them as unsigned 32-bit integers.
+
+ @since NEXT]]>
       </doc>
     </method>
     <method name="divide" return="int"
@@ -55066,6 +56190,57 @@
  {@link Arrays#equals(long[], long[])}.]]>
       </doc>
     </method>
+    <method name="sort"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="long[]"/>
+      <doc>
+      <![CDATA[Sorts the array, treating its elements as unsigned 64-bit integers.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="sort"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="long[]"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Sorts the array between {@code fromIndex} inclusive and {@code toIndex} exclusive, treating its
+ elements as unsigned 64-bit integers.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="sortDescending"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="long[]"/>
+      <doc>
+      <![CDATA[Sorts the elements of {@code array} in descending order, interpreting them as unsigned 64-bit
+ integers.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="sortDescending"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="long[]"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+ exclusive in descending order, interpreting them as unsigned 64-bit integers.
+
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="divide" return="long"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -55337,10 +56512,16 @@
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
       <![CDATA[Returns a {@code ClassPath} representing all classes and resources loadable from {@code
- classloader} and its parent class loaders.
+ classloader} and its ancestor class loaders.
 
- <p><b>Warning:</b> Currently only {@link URLClassLoader} and only {@code file://} urls are
- supported.
+ <p><b>Warning:</b> {@code ClassPath} can find classes and resources only from:
+
+ <ul>
+   <li>{@link URLClassLoader} instances' {@code file:} URLs
+   <li>the {@linkplain ClassLoader#getSystemClassLoader() system class loader}. To search the
+       system class loader even when it is not a {@link URLClassLoader} (as in Java 9), {@code
+       ClassPath} searches the files from the {@code java.class.path} system property.
+ </ul>
 
  @throws IOException if the attempt to read class path resources (jar files or directories)
      failed.]]>
@@ -55395,8 +56576,13 @@
     <doc>
     <![CDATA[Scans the source of a {@link ClassLoader} and finds all loadable classes and resources.
 
- <p><b>Warning:</b> Currently only {@link URLClassLoader} and only {@code file://} urls are
- supported.
+ <p><b>Warning:</b> Current limitations:
+
+ <ul>
+   <li>Looks only for files and JARs in URLs available from {@link URLClassLoader} instances or
+       the {@linkplain ClassLoader#getSystemClassLoader() system class loader}.
+   <li>Only understands {@code file:} URLs.
+ </ul>
 
  <p>In the case of directory classloaders, symlinks are supported but cycles are not traversed.
  This guarantees discovery of each <em>unique</em> loadable resource. However, not all possible
@@ -61298,8 +62484,9 @@
  the {@code Future} is already done. Second, if buggy code calls {@code getDone} on a {@code
  Future} that is still pending, the program will throw instead of block. This can be important
  for APIs like {@link #whenAllComplete whenAllComplete(...)}{@code .}{@link
- FutureCombiner#call(Callable) call(...)}, where it is easy to use a new input from the {@code
- call} implementation but forget to add it to the arguments of {@code whenAllComplete}.
+ FutureCombiner#call(Callable, Executor) call(...)}, where it is easy to use a new input from
+ the {@code call} implementation but forget to add it to the arguments of {@code
+ whenAllComplete}.
 
  <p>If you are looking for a method to determine whether a given {@code Future} is done, use the
  instance method {@link Future#isDone()}.
@@ -62758,7 +63945,7 @@
  trucking. If an {@code Error} is thrown, the error will propagate and execution will stop until
  the next time a task is submitted.
 
- @since 24.0]]>
+ @since NEXT]]>
       </doc>
     </method>
     <method name="listeningDecorator" return="com.google.common.util.concurrent.ListeningExecutorService"
