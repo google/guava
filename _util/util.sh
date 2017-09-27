@@ -72,7 +72,7 @@ function git_checkout_ref {
 # releases all get a final ".1" while "-rcN" releases get ".0N", to ensure that
 # RCs are always considered lower than final versions.
 #
-# If a release ends in "-android", the result will also end in "-android".
+# If a release ends in "-android" or "-jre", the result will also end in that.
 #
 # Examples:
 #
@@ -102,11 +102,11 @@ function expand_release {
     final="-final"
   fi
 
-  # strip -android suffix if present
-  local android=""
-  if [[ "$release" =~ ^(.+)-android$ ]]; then
+  # strip -flavor suffix if present
+  local flavor=""
+  if [[ "$release" =~ ^(.+)-(jre|android)$ ]]; then
     release="${BASH_REMATCH[1]}"
-    android="-android"
+    flavor="-${BASH_REMATCH[2]}"
   fi
 
   rc="100"
@@ -120,7 +120,7 @@ function expand_release {
     release="$release.0"
   fi
 
-  release="$release.$rc$final$android$snapshot"
+  release="$release.$rc$final$flavor$snapshot"
   echo "$release"
 }
 
@@ -149,10 +149,10 @@ function unexpand_release {
   fi
 
   # strip -android suffix if present
-  local android=""
-  if [[ "$release" =~ ^(.+)-android$ ]]; then
+  local flavor=""
+  if [[ "$release" =~ ^(.+)-(jre|android)$ ]]; then
     release="${BASH_REMATCH[1]}"
-    android="-android"
+    flavor="-${BASH_REMATCH[2]}"
   fi
 
   local release_array
@@ -172,7 +172,7 @@ function unexpand_release {
     result="$result-rc$rc"
   fi
 
-  result="$result$final$android$snapshot"
+  result="$result$final$flavor$snapshot"
   echo "$result"
 }
 
@@ -217,6 +217,11 @@ function major_version {
   echo $majorversion
 }
 
+# Ceiling to use when looking for the previous version for a HEAD snapshot.
+# This should be safe to ensure it's higher than any Guava version for a
+# while. =)
+readonly SNAPSHOT_CEILING="999.999.999"
+
 # Prints the highest non-rc release from the sorted list of releases produced
 # by sort_releases. If a release argument is provided, print the highest non-rc
 # release that has a major or minor version that is lower than the given
@@ -228,10 +233,11 @@ function major_version {
 function latest_release {
   if [[ $# == 1 ]]; then
     local ceiling="$1"
+    if [[ "$ceiling" =~ ^HEAD-(jre|android)-SNAPSHOT$ ]]; then
+      ceiling="${SNAPSHOT_CEILING}-${BASH_REMATCH[1]}"
+    fi
   else
-    # This should be safe to ensure it's higher than any Guava version for a
-    # while. =)
-    local ceiling="999.9"
+    local ceiling="${SNAPSHOT_CEILING}"
   fi
   local non_rc_releases="$(ls releases | grep -v "rc" | grep -v "snapshot")"
 

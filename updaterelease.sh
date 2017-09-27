@@ -50,7 +50,7 @@ readonly INITIAL_REF="$(current_git_ref)"
 readonly TEMPDIR="$(mktemp -d -t "guava-$RELEASE-temp.XXX")"
 readonly LOGFILE="$(mktemp -t "guava-$RELEASE-temp-log.XXX")"
 
-readonly FLAVORS=("normal" "android")
+readonly FLAVORS=("jre" "android")
 
 readonly JDIFF_PATH="_util/lib/jdiff.jar:_util/lib/xerces-for-jdiff.jar"
 
@@ -179,12 +179,12 @@ jdiff() {
   # The name of the directory (under the tempdir) where we'll put the diffs.
   local output_dir_name="$3"
 
-  # If the other we're diffing against is "snapshot", get its actual version
+  # If the other we're diffing against is "snapshot-jre", get its actual version
   # number to use. This should only happen when generating the diff between
   # snapshot-android and snapshot.
   local other_version="$other"
-  if [[ "$other" == snapshot ]]; then
-    other_version="$(cat "$TEMPDIR/normal/VERSION")"
+  if [[ "$other" == snapshot-jre ]]; then
+    other_version="$(cat "$TEMPDIR/jre/VERSION")"
   fi
 
   local version="$(cat "$tempdir/VERSION")"
@@ -260,17 +260,17 @@ jdiff_vs_previous_release() {
 # Generates the JDiff report comparing the current android version to the
 # current non-android version.
 jdiff_android_vs_non_android() {
-  local normal_version
+  local jre_version
   if [[ "$RELEASE" == "snapshot" ]]; then
-    normal_version="snapshot"
+    jre_version="snapshot-jre"
   else
-    normal_version="$(cat "$TEMPDIR/normal/VERSION")"
+    jre_version="$(cat "$TEMPDIR/jre/VERSION")"
   fi
 
   # The normal version has already been moved to its final location, so the
   # jdiff function will be able to find it the same way it finds a previous
   # version.
-  jdiff "$TEMPDIR/android" "$normal_version" "androiddiffs"
+  jdiff "$TEMPDIR/android" "$jre_version" "androiddiffs"
 }
 
 # Given a source directory and target path, moves the source to the target path,
@@ -297,11 +297,7 @@ move_generated_files() {
   # in and for the JDiff XML file.
   local version_name="$version"
   if [[ "$RELEASE" == snapshot ]]; then
-    if [[ "$flavor" == android ]]; then
-      version_name="snapshot-android"
-    else
-      version_name="snapshot"
-    fi
+    version_name="snapshot-${flavor}"
   fi
 
   # Put the generated JDiff XML file in the correct place in the diffs dir.
@@ -330,7 +326,7 @@ move_generated_files() {
 # Commits the generated Javadoc and JDiff to git.
 commit_changes() {
   # Use the non-android version number from maven for the commit message
-  local version="$(cat "$TEMPDIR/normal/VERSION")"
+  local version="$(cat "$TEMPDIR/jre/VERSION")"
 
   git add -A > /dev/null
 
@@ -349,7 +345,7 @@ commit_changes() {
 update_config_yml() {
   if [[ "$RELEASE" == "snapshot" ]]; then
     fieldtoupdate="latest_snapshot"
-    version="$(cat "$TEMPDIR/normal/VERSION")"
+    version="$(cat "$TEMPDIR/jre/VERSION")"
   else
     fieldtoupdate="latest_release"
     # The release being updated currently may not be the latest release.
@@ -376,7 +372,7 @@ main() {
   # we're building docs for and do everything that needs to be done there. The
   # temp dir should contain the following after this is done:
   #
-  # normal/
+  # jre/
   #   VERSION    # file containing only the version number from Maven
   #   classpath  # file containing the classpath for building
   #   src/       # all guava srcs for the flavor
@@ -406,7 +402,7 @@ main() {
   # Move the generated files for the non-android flavor only to their final
   # location. If there's an android flavor, there's one more thing we need to do
   # with it.
-  move_generated_files "normal"
+  move_generated_files "jre"
 
   if [[ -d "$TEMPDIR/android" ]]; then
     # If the android flavor exists for this version, we want to diff it against
