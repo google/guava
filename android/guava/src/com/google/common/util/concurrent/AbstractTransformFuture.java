@@ -35,27 +35,12 @@ import javax.annotation.Nullable;
 abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.TrustedFuture<O>
     implements Runnable {
   static <I, O> ListenableFuture<O> create(
-      ListenableFuture<I> input, AsyncFunction<? super I, ? extends O> function) {
-    AsyncTransformFuture<I, O> output = new AsyncTransformFuture<>(input, function);
-    input.addListener(output, directExecutor());
-    return output;
-  }
-
-  static <I, O> ListenableFuture<O> create(
       ListenableFuture<I> input,
       AsyncFunction<? super I, ? extends O> function,
       Executor executor) {
     checkNotNull(executor);
     AsyncTransformFuture<I, O> output = new AsyncTransformFuture<>(input, function);
     input.addListener(output, rejectionPropagatingExecutor(executor, output));
-    return output;
-  }
-
-  static <I, O> ListenableFuture<O> create(
-      ListenableFuture<I> input, Function<? super I, ? extends O> function) {
-    checkNotNull(function);
-    TransformFuture<I, O> output = new TransformFuture<>(input, function);
-    input.addListener(output, directExecutor());
     return output;
   }
 

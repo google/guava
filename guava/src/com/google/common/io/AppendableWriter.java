@@ -50,7 +50,7 @@ class AppendableWriter extends Writer {
    */
 
   @Override
-  public void write(char cbuf[], int off, int len) throws IOException {
+  public void write(char[] cbuf, int off, int len) throws IOException {
     checkNotClosed();
     // It turns out that creating a new String is usually as fast, or faster
     // than wrapping cbuf in a light-weight CharSequence.

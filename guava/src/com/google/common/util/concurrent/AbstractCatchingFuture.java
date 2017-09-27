@@ -33,15 +33,6 @@ import javax.annotation.Nullable;
 @GwtCompatible
 abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
     extends AbstractFuture.TrustedFuture<V> implements Runnable {
-  static <X extends Throwable, V> ListenableFuture<V> create(
-      ListenableFuture<? extends V> input,
-      Class<X> exceptionType,
-      Function<? super X, ? extends V> fallback) {
-    CatchingFuture<V, X> future = new CatchingFuture<>(input, exceptionType, fallback);
-    input.addListener(future, directExecutor());
-    return future;
-  }
-
   static <V, X extends Throwable> ListenableFuture<V> create(
       ListenableFuture<? extends V> input,
       Class<X> exceptionType,
@@ -49,15 +40,6 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
       Executor executor) {
     CatchingFuture<V, X> future = new CatchingFuture<>(input, exceptionType, fallback);
     input.addListener(future, rejectionPropagatingExecutor(executor, future));
-    return future;
-  }
-
-  static <X extends Throwable, V> ListenableFuture<V> create(
-      ListenableFuture<? extends V> input,
-      Class<X> exceptionType,
-      AsyncFunction<? super X, ? extends V> fallback) {
-    AsyncCatchingFuture<V, X> future = new AsyncCatchingFuture<>(input, exceptionType, fallback);
-    input.addListener(future, directExecutor());
     return future;
   }
 

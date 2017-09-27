@@ -150,7 +150,7 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
     try {
       collection.removeAll(null);
       // Returning successfully is not ideal, but tolerated.
-    } catch (NullPointerException expected) {
+    } catch (NullPointerException tolerated) {
     }
   }
 

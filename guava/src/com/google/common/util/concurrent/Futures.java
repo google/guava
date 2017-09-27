@@ -324,7 +324,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
       ListenableFuture<? extends V> input,
       Class<X> exceptionType,
       Function<? super X, ? extends V> fallback) {
-    return AbstractCatchingFuture.create(input, exceptionType, fallback);
+    return AbstractCatchingFuture.create(input, exceptionType, fallback, directExecutor());
   }
 
   /**
@@ -444,7 +444,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
       ListenableFuture<? extends V> input,
       Class<X> exceptionType,
       AsyncFunction<? super X, ? extends V> fallback) {
-    return AbstractCatchingFuture.create(input, exceptionType, fallback);
+    return AbstractCatchingFuture.create(input, exceptionType, fallback, directExecutor());
   }
 
   /**
@@ -581,7 +581,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @Deprecated
   public static <I, O> ListenableFuture<O> transformAsync(
       ListenableFuture<I> input, AsyncFunction<? super I, ? extends O> function) {
-    return AbstractTransformFuture.create(input, function);
+    return AbstractTransformFuture.create(input, function, directExecutor());
   }
 
   /**
@@ -665,7 +665,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @Deprecated
   public static <I, O> ListenableFuture<O> transform(
       ListenableFuture<I> input, Function<? super I, ? extends O> function) {
-    return AbstractTransformFuture.create(input, function);
+    return AbstractTransformFuture.create(input, function, directExecutor());
   }
 
   /**

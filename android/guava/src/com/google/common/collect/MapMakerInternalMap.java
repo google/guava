@@ -2768,7 +2768,7 @@ class MapMakerInternalMap<
     }
 
     @Override
-    public <E> E[] toArray(E[] a) {
+    public <T> T[] toArray(T[] a) {
       return toArrayList(this).toArray(a);
     }
   }
@@ -2832,7 +2832,7 @@ class MapMakerInternalMap<
     }
 
     @Override
-    public <E> E[] toArray(E[] a) {
+    public <T> T[] toArray(T[] a) {
       return toArrayList(this).toArray(a);
     }
   }
