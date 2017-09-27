@@ -375,7 +375,8 @@
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
 <div class="block"><span class="deprecationComment">Use <a href="../../../../../../com/google/common/util/concurrent/Futures.html#submitAsync-com.google.common.util.concurrent.AsyncCallable-java.util.concurrent.Executor-"><code>Futures.submitAsync(AsyncCallable, Executor)</code></a> or <a href="../../../../../../com/google/common/util/concurrent/SettableFuture.html#setFuture-com.google.common.util.concurrent.ListenableFuture-"><code>SettableFuture.setFuture(com.google.common.util.concurrent.ListenableFuture&lt;? extends V&gt;)</code></a> instead. Or, if you're dereferencing the output of <a href="../../../../../../com/google/common/util/concurrent/Futures.html#transform-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-"><code>Futures.transform(com.google.common.util.concurrent.ListenableFuture&lt;I&gt;, com.google.common.base.Function&lt;? super I, ? extends O&gt;)</code></a> or <a href="../../../../../../com/google/common/util/concurrent/Futures.html#catching-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.base.Function-"><code>Futures.catching(com.google.common.util.concurrent.ListenableFuture&lt;? extends V&gt;, java.lang.Class&lt;X&gt;, com.google.common.base.Function&lt;? super X, ? extends V&gt;)</code></a>, switch to <a href="../../../../../../com/google/common/util/concurrent/Futures.html#transformAsync-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.AsyncFunction-"><code>Futures.transformAsync(com.google.common.util.concurrent.ListenableFuture&lt;I&gt;, com.google.common.util.concurrent.AsyncFunction&lt;? super I, ? extends O&gt;)</code></a> or <a href="../../../../../../com/google/common/util/concurrent/Futures.html#catchingAsync-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.util.concurrent.AsyncFunction-"><code>Futures.catchingAsync(com.google.common.util.concurrent.ListenableFuture&lt;? extends V&gt;, java.lang.Class&lt;X&gt;, com.google.common.util.concurrent.AsyncFunction&lt;? super X, ? extends V&gt;)</code></a> (and likewise for similar APIs). If the cancellation of this method's
      output future races with completion of the outer input future, cancellation may not be
-     propagated to the inner input future. This method is scheduled to be removed in Guava 25.0.</span></div>
+     propagated to the inner input future. This method is scheduled to be removed in January
+     2018.</span></div>
 </div>
 </td>
 </tr>
@@ -430,11 +431,11 @@
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;</code></td>
-<td class="colLast"><span class="typeNameLabel">ForwardingListeningExecutorService.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/ForwardingListeningExecutorService.html#submit-java.util.concurrent.Callable-">submit</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&nbsp;task)</code>&nbsp;</td>
+<td class="colLast"><span class="typeNameLabel">ListeningExecutorService.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/ListeningExecutorService.html#submit-java.util.concurrent.Callable-">submit</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&nbsp;task)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;</code></td>
-<td class="colLast"><span class="typeNameLabel">ListeningExecutorService.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/ListeningExecutorService.html#submit-java.util.concurrent.Callable-">submit</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&nbsp;task)</code>&nbsp;</td>
+<td class="colLast"><span class="typeNameLabel">ForwardingListeningExecutorService.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/ForwardingListeningExecutorService.html#submit-java.util.concurrent.Callable-">submit</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&nbsp;task)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;</code></td>
@@ -442,11 +443,11 @@
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;</code></td>
-<td class="colLast"><span class="typeNameLabel">ForwardingListeningExecutorService.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/ForwardingListeningExecutorService.html#submit-java.lang.Runnable-">submit</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;task)</code>&nbsp;</td>
+<td class="colLast"><span class="typeNameLabel">ListeningExecutorService.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/ListeningExecutorService.html#submit-java.lang.Runnable-">submit</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;task)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;</code></td>
-<td class="colLast"><span class="typeNameLabel">ListeningExecutorService.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/ListeningExecutorService.html#submit-java.lang.Runnable-">submit</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;task)</code>&nbsp;</td>
+<td class="colLast"><span class="typeNameLabel">ForwardingListeningExecutorService.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/ForwardingListeningExecutorService.html#submit-java.lang.Runnable-">submit</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;task)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;</code></td>
@@ -454,12 +455,12 @@
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;</code></td>
-<td class="colLast"><span class="typeNameLabel">ForwardingListeningExecutorService.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/ForwardingListeningExecutorService.html#submit-java.lang.Runnable-T-">submit</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;task,
+<td class="colLast"><span class="typeNameLabel">ListeningExecutorService.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/ListeningExecutorService.html#submit-java.lang.Runnable-T-">submit</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;task,
       T&nbsp;result)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;</code></td>
-<td class="colLast"><span class="typeNameLabel">ListeningExecutorService.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/ListeningExecutorService.html#submit-java.lang.Runnable-T-">submit</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;task,
+<td class="colLast"><span class="typeNameLabel">ForwardingListeningExecutorService.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/ForwardingListeningExecutorService.html#submit-java.lang.Runnable-T-">submit</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;task,
       T&nbsp;result)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
@@ -645,7 +646,8 @@
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
 <div class="block"><span class="deprecationComment">Use <a href="../../../../../../com/google/common/util/concurrent/Futures.html#submitAsync-com.google.common.util.concurrent.AsyncCallable-java.util.concurrent.Executor-"><code>Futures.submitAsync(AsyncCallable, Executor)</code></a> or <a href="../../../../../../com/google/common/util/concurrent/SettableFuture.html#setFuture-com.google.common.util.concurrent.ListenableFuture-"><code>SettableFuture.setFuture(com.google.common.util.concurrent.ListenableFuture&lt;? extends V&gt;)</code></a> instead. Or, if you're dereferencing the output of <a href="../../../../../../com/google/common/util/concurrent/Futures.html#transform-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-"><code>Futures.transform(com.google.common.util.concurrent.ListenableFuture&lt;I&gt;, com.google.common.base.Function&lt;? super I, ? extends O&gt;)</code></a> or <a href="../../../../../../com/google/common/util/concurrent/Futures.html#catching-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.base.Function-"><code>Futures.catching(com.google.common.util.concurrent.ListenableFuture&lt;? extends V&gt;, java.lang.Class&lt;X&gt;, com.google.common.base.Function&lt;? super X, ? extends V&gt;)</code></a>, switch to <a href="../../../../../../com/google/common/util/concurrent/Futures.html#transformAsync-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.AsyncFunction-"><code>Futures.transformAsync(com.google.common.util.concurrent.ListenableFuture&lt;I&gt;, com.google.common.util.concurrent.AsyncFunction&lt;? super I, ? extends O&gt;)</code></a> or <a href="../../../../../../com/google/common/util/concurrent/Futures.html#catchingAsync-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.util.concurrent.AsyncFunction-"><code>Futures.catchingAsync(com.google.common.util.concurrent.ListenableFuture&lt;? extends V&gt;, java.lang.Class&lt;X&gt;, com.google.common.util.concurrent.AsyncFunction&lt;? super X, ? extends V&gt;)</code></a> (and likewise for similar APIs). If the cancellation of this method's
      output future races with completion of the outer input future, cancellation may not be
-     propagated to the inner input future. This method is scheduled to be removed in Guava 25.0.</span></div>
+     propagated to the inner input future. This method is scheduled to be removed in January
+     2018.</span></div>
 </div>
 </td>
 </tr>
@@ -679,16 +681,16 @@
 </td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><span class="typeNameLabel">SettableFuture.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/SettableFuture.html#setFuture-com.google.common.util.concurrent.ListenableFuture-">setFuture</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends <a href="../../../../../../com/google/common/util/concurrent/SettableFuture.html" title="type parameter in SettableFuture">V</a>&gt;&nbsp;future)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <td class="colLast"><span class="typeNameLabel">AbstractFuture.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/AbstractFuture.html#setFuture-com.google.common.util.concurrent.ListenableFuture-">setFuture</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends <a href="../../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="type parameter in AbstractFuture">V</a>&gt;&nbsp;future)</code>
 <div class="block">Sets the result of this <code>Future</code> to match the supplied input <code>Future</code> once the
  supplied <code>Future</code> is done, unless this <code>Future</code> has already been cancelled or set
  (including "set asynchronously," defined below).</div>
 </td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><span class="typeNameLabel">SettableFuture.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/SettableFuture.html#setFuture-com.google.common.util.concurrent.ListenableFuture-">setFuture</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends <a href="../../../../../../com/google/common/util/concurrent/SettableFuture.html" title="type parameter in SettableFuture">V</a>&gt;&nbsp;future)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static &lt;V&gt;&nbsp;<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;V&gt;&gt;</code></td>
@@ -782,7 +784,8 @@
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
 <div class="block"><span class="deprecationComment">Use <a href="../../../../../../com/google/common/util/concurrent/Futures.html#submitAsync-com.google.common.util.concurrent.AsyncCallable-java.util.concurrent.Executor-"><code>Futures.submitAsync(AsyncCallable, Executor)</code></a> or <a href="../../../../../../com/google/common/util/concurrent/SettableFuture.html#setFuture-com.google.common.util.concurrent.ListenableFuture-"><code>SettableFuture.setFuture(com.google.common.util.concurrent.ListenableFuture&lt;? extends V&gt;)</code></a> instead. Or, if you're dereferencing the output of <a href="../../../../../../com/google/common/util/concurrent/Futures.html#transform-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-"><code>Futures.transform(com.google.common.util.concurrent.ListenableFuture&lt;I&gt;, com.google.common.base.Function&lt;? super I, ? extends O&gt;)</code></a> or <a href="../../../../../../com/google/common/util/concurrent/Futures.html#catching-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.base.Function-"><code>Futures.catching(com.google.common.util.concurrent.ListenableFuture&lt;? extends V&gt;, java.lang.Class&lt;X&gt;, com.google.common.base.Function&lt;? super X, ? extends V&gt;)</code></a>, switch to <a href="../../../../../../com/google/common/util/concurrent/Futures.html#transformAsync-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.AsyncFunction-"><code>Futures.transformAsync(com.google.common.util.concurrent.ListenableFuture&lt;I&gt;, com.google.common.util.concurrent.AsyncFunction&lt;? super I, ? extends O&gt;)</code></a> or <a href="../../../../../../com/google/common/util/concurrent/Futures.html#catchingAsync-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.util.concurrent.AsyncFunction-"><code>Futures.catchingAsync(com.google.common.util.concurrent.ListenableFuture&lt;? extends V&gt;, java.lang.Class&lt;X&gt;, com.google.common.util.concurrent.AsyncFunction&lt;? super X, ? extends V&gt;)</code></a> (and likewise for similar APIs). If the cancellation of this method's
      output future races with completion of the outer input future, cancellation may not be
-     propagated to the inner input future. This method is scheduled to be removed in Guava 25.0.</span></div>
+     propagated to the inner input future. This method is scheduled to be removed in January
+     2018.</span></div>
 </div>
 </td>
 </tr>

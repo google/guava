@@ -3895,7 +3895,9 @@
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
- <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkArgument"
@@ -3908,7 +3910,9 @@
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
- <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkArgument"
@@ -3921,7 +3925,9 @@
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
- <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkArgument"
@@ -3934,7 +3940,9 @@
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
- <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkArgument"
@@ -3948,7 +3956,9 @@
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
- <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkArgument"
@@ -3962,7 +3972,9 @@
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
- <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkArgument"
@@ -3976,7 +3988,9 @@
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
- <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkArgument"
@@ -3990,7 +4004,9 @@
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
- <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkArgument"
@@ -4004,7 +4020,9 @@
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
- <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkArgument"
@@ -4018,7 +4036,9 @@
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
- <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkArgument"
@@ -4032,7 +4052,9 @@
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
- <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkArgument"
@@ -4046,7 +4068,9 @@
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
- <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkArgument"
@@ -4060,7 +4084,9 @@
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
- <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkArgument"
@@ -4074,7 +4100,9 @@
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
- <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkArgument"
@@ -4088,7 +4116,9 @@
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
- <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkArgument"
@@ -4102,7 +4132,9 @@
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
- <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkArgument"
@@ -4116,7 +4148,9 @@
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
- <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkArgument"
@@ -4130,7 +4164,9 @@
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
- <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkArgument"
@@ -4144,7 +4180,9 @@
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
- <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkArgument"
@@ -4158,7 +4196,9 @@
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
- <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkArgument"
@@ -4173,7 +4213,9 @@
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
- <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkArgument"
@@ -4189,7 +4231,9 @@
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
- <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkState"
@@ -4257,7 +4301,9 @@
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
 
- <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkState(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkState"
@@ -4271,7 +4317,9 @@
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
 
- <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkState(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkState"
@@ -4285,7 +4333,9 @@
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
 
- <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkState(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkState"
@@ -4299,7 +4349,9 @@
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
 
- <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkState(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkState"
@@ -4314,7 +4366,9 @@
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
 
- <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkState(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkState"
@@ -4329,7 +4383,9 @@
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
 
- <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkState(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkState"
@@ -4344,7 +4400,9 @@
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
 
- <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkState(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkState"
@@ -4359,7 +4417,9 @@
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
 
- <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkState(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkState"
@@ -4374,7 +4434,9 @@
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
 
- <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkState(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkState"
@@ -4389,7 +4451,9 @@
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
 
- <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkState(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkState"
@@ -4404,7 +4468,9 @@
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
 
- <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkState(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkState"
@@ -4419,7 +4485,9 @@
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
 
- <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkState(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkState"
@@ -4434,7 +4502,9 @@
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
 
- <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkState(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkState"
@@ -4449,7 +4519,9 @@
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
 
- <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkState(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkState"
@@ -4464,7 +4536,9 @@
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
 
- <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkState(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkState"
@@ -4479,7 +4553,9 @@
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
 
- <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkState(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkState"
@@ -4494,7 +4570,9 @@
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
 
- <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkState(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkState"
@@ -4509,7 +4587,9 @@
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
 
- <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkState(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkState"
@@ -4524,7 +4604,9 @@
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
 
- <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkState(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkState"
@@ -4539,7 +4621,9 @@
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
 
- <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkState(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkState"
@@ -4555,7 +4639,9 @@
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
 
- <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkState(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkState"
@@ -4572,7 +4658,9 @@
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
 
- <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+ <p>See {@link #checkState(boolean, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkNotNull" return="T"
@@ -4639,7 +4727,9 @@
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
- <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkNotNull" return="T"
@@ -4652,7 +4742,9 @@
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
- <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkNotNull" return="T"
@@ -4665,7 +4757,9 @@
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
- <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkNotNull" return="T"
@@ -4678,7 +4772,9 @@
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
- <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkNotNull" return="T"
@@ -4692,7 +4788,9 @@
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
- <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkNotNull" return="T"
@@ -4706,7 +4804,9 @@
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
- <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkNotNull" return="T"
@@ -4720,7 +4820,9 @@
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
- <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkNotNull" return="T"
@@ -4734,7 +4836,9 @@
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
- <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkNotNull" return="T"
@@ -4748,7 +4852,9 @@
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
- <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkNotNull" return="T"
@@ -4762,7 +4868,9 @@
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
- <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkNotNull" return="T"
@@ -4776,7 +4884,9 @@
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
- <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkNotNull" return="T"
@@ -4790,7 +4900,9 @@
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
- <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkNotNull" return="T"
@@ -4804,7 +4916,9 @@
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
- <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkNotNull" return="T"
@@ -4818,7 +4932,9 @@
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
- <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkNotNull" return="T"
@@ -4832,7 +4948,9 @@
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
- <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkNotNull" return="T"
@@ -4846,7 +4964,9 @@
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
- <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkNotNull" return="T"
@@ -4860,7 +4980,9 @@
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
- <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkNotNull" return="T"
@@ -4874,7 +4996,9 @@
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
- <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkNotNull" return="T"
@@ -4888,7 +5012,9 @@
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
- <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkNotNull" return="T"
@@ -4902,7 +5028,9 @@
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
- <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkNotNull" return="T"
@@ -4917,7 +5045,9 @@
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
- <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkNotNull" return="T"
@@ -4933,7 +5063,9 @@
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
- <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+
+ @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
     <method name="checkElementIndex" return="int"
@@ -6814,7 +6946,9 @@
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
 
- <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+ <p>See {@link #verify(boolean, String, Object...)} for details.
+
+ @since NEXT (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -6828,7 +6962,9 @@
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
 
- <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+ <p>See {@link #verify(boolean, String, Object...)} for details.
+
+ @since NEXT (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -6842,7 +6978,9 @@
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
 
- <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+ <p>See {@link #verify(boolean, String, Object...)} for details.
+
+ @since NEXT (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -6856,7 +6994,9 @@
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
 
- <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+ <p>See {@link #verify(boolean, String, Object...)} for details.
+
+ @since NEXT (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -6871,7 +7011,9 @@
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
 
- <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+ <p>See {@link #verify(boolean, String, Object...)} for details.
+
+ @since NEXT (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -6886,7 +7028,9 @@
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
 
- <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+ <p>See {@link #verify(boolean, String, Object...)} for details.
+
+ @since NEXT (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -6901,7 +7045,9 @@
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
 
- <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+ <p>See {@link #verify(boolean, String, Object...)} for details.
+
+ @since NEXT (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -6916,7 +7062,9 @@
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
 
- <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+ <p>See {@link #verify(boolean, String, Object...)} for details.
+
+ @since NEXT (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -6931,7 +7079,9 @@
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
 
- <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+ <p>See {@link #verify(boolean, String, Object...)} for details.
+
+ @since NEXT (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -6946,7 +7096,9 @@
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
 
- <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+ <p>See {@link #verify(boolean, String, Object...)} for details.
+
+ @since NEXT (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -6961,7 +7113,9 @@
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
 
- <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+ <p>See {@link #verify(boolean, String, Object...)} for details.
+
+ @since NEXT (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -6976,7 +7130,9 @@
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
 
- <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+ <p>See {@link #verify(boolean, String, Object...)} for details.
+
+ @since NEXT (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -6991,7 +7147,9 @@
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
 
- <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+ <p>See {@link #verify(boolean, String, Object...)} for details.
+
+ @since NEXT (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7006,7 +7164,9 @@
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
 
- <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+ <p>See {@link #verify(boolean, String, Object...)} for details.
+
+ @since NEXT (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7021,7 +7181,9 @@
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
 
- <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+ <p>See {@link #verify(boolean, String, Object...)} for details.
+
+ @since NEXT (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7036,7 +7198,9 @@
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
 
- <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+ <p>See {@link #verify(boolean, String, Object...)} for details.
+
+ @since NEXT (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7051,7 +7215,9 @@
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
 
- <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+ <p>See {@link #verify(boolean, String, Object...)} for details.
+
+ @since NEXT (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7066,7 +7232,9 @@
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
 
- <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+ <p>See {@link #verify(boolean, String, Object...)} for details.
+
+ @since NEXT (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7081,7 +7249,9 @@
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
 
- <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+ <p>See {@link #verify(boolean, String, Object...)} for details.
+
+ @since NEXT (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7096,7 +7266,9 @@
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
 
- <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+ <p>See {@link #verify(boolean, String, Object...)} for details.
+
+ @since NEXT (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7112,7 +7284,9 @@
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
 
- <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+ <p>See {@link #verify(boolean, String, Object...)} for details.
+
+ @since NEXT (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7129,7 +7303,9 @@
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
 
- <p>See {@link #verify(boolean, String, Object...)} for details.]]>
+ <p>See {@link #verify(boolean, String, Object...)} for details.
+
+ @since NEXT (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verifyNotNull" return="T"
@@ -16652,7 +16828,7 @@
  <p>It is not specified if any performance benefits apply if {@code expectedSize} is close to,
  but not exactly, the number of entries added to the builder.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="copyOf" return="com.google.common.collect.ImmutableBiMap&lt;K, V&gt;"
@@ -17884,7 +18060,7 @@
  <p>It is not specified if any performance benefits apply if {@code expectedSize} is close to,
  but not exactly, the number of elements added to the builder.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <doc>
@@ -18533,7 +18709,7 @@
  <p>It is not specified if any performance benefits apply if {@code expectedSize} is close to,
  but not exactly, the number of entries added to the builder.
  
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="copyOf" return="com.google.common.collect.ImmutableMap&lt;K, V&gt;"
@@ -19881,7 +20057,7 @@
       <![CDATA[Returns a {@code Collector} that accumulates the input elements into a new {@code
  ImmutableRangeMap}. As in {@link Builder}, overlapping ranges are not permitted.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableRangeMap&lt;K, V&gt;"
@@ -20096,7 +20272,7 @@
  ImmutableRangeSet}. As in {@link Builder}, overlapping ranges are not permitted and adjacent
  ranges will be merged.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableRangeSet&lt;C&gt;"
@@ -20641,7 +20817,7 @@
  <p>It is not specified if any performance benefits apply if {@code expectedSize} is close to,
  but not exactly, the number of distinct elements added to the builder.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <doc>
@@ -40393,7 +40569,7 @@
 
  @author Jens Nyman
  @param <N> Node parameter type
- @since NEXT]]>
+ @since 23.1]]>
     </doc>
   </class>
   <!-- end class com.google.common.graph.Traverser -->
@@ -52816,7 +52992,7 @@
       <![CDATA[Reverses the elements of {@code array}. This is equivalent to {@code
  Collections.reverse(Booleans.asList(array))}, but is likely to be more efficient.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="reverse"
@@ -52834,7 +53010,7 @@
 
  @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
      {@code toIndex > fromIndex}
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <doc>
@@ -53013,7 +53189,7 @@
       <![CDATA[Reverses the elements of {@code array}. This is equivalent to {@code
  Collections.reverse(Bytes.asList(array))}, but is likely to be more efficient.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="reverse"
@@ -53031,7 +53207,7 @@
 
  @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
      {@code toIndex > fromIndex}
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <doc>
@@ -53365,7 +53541,7 @@
       <doc>
       <![CDATA[Sorts the elements of {@code array} in descending order.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="sortDescending"
@@ -53379,7 +53555,7 @@
       <![CDATA[Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
  exclusive in descending order.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="reverse"
@@ -53391,7 +53567,7 @@
       <![CDATA[Reverses the elements of {@code array}. This is equivalent to {@code
  Collections.reverse(Chars.asList(array))}, but is likely to be more efficient.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="reverse"
@@ -53409,7 +53585,7 @@
 
  @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
      {@code toIndex > fromIndex}
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="asList" return="java.util.List&lt;java.lang.Character&gt;"
@@ -53723,7 +53899,7 @@
  <p>Note that this method uses the total order imposed by {@link Double#compare}, which treats
  all NaN values as equal and 0.0 as greater than -0.0.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="sortDescending"
@@ -53740,7 +53916,7 @@
  <p>Note that this method uses the total order imposed by {@link Double#compare}, which treats
  all NaN values as equal and 0.0 as greater than -0.0.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="reverse"
@@ -53752,7 +53928,7 @@
       <![CDATA[Reverses the elements of {@code array}. This is equivalent to {@code
  Collections.reverse(Doubles.asList(array))}, but is likely to be more efficient.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="reverse"
@@ -53770,7 +53946,7 @@
 
  @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
      {@code toIndex > fromIndex}
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="toArray" return="double[]"
@@ -54131,7 +54307,7 @@
  <p>Note that this method uses the total order imposed by {@link Float#compare}, which treats
  all NaN values as equal and 0.0 as greater than -0.0.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="sortDescending"
@@ -54148,7 +54324,7 @@
  <p>Note that this method uses the total order imposed by {@link Float#compare}, which treats
  all NaN values as equal and 0.0 as greater than -0.0.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="reverse"
@@ -54160,7 +54336,7 @@
       <![CDATA[Reverses the elements of {@code array}. This is equivalent to {@code
  Collections.reverse(Floats.asList(array))}, but is likely to be more efficient.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="reverse"
@@ -54178,7 +54354,7 @@
 
  @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
      {@code toIndex > fromIndex}
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="toArray" return="float[]"
@@ -55921,7 +56097,7 @@
       <doc>
       <![CDATA[Sorts the elements of {@code array} in descending order.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="sortDescending"
@@ -55935,7 +56111,7 @@
       <![CDATA[Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
  exclusive in descending order.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="reverse"
@@ -55947,7 +56123,7 @@
       <![CDATA[Reverses the elements of {@code array}. This is equivalent to {@code
  Collections.reverse(Ints.asList(array))}, but is likely to be more efficient.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="reverse"
@@ -55965,7 +56141,7 @@
 
  @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
      {@code toIndex > fromIndex}
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="toArray" return="int[]"
@@ -56435,7 +56611,7 @@
       <doc>
       <![CDATA[Sorts the elements of {@code array} in descending order.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="sortDescending"
@@ -56449,7 +56625,7 @@
       <![CDATA[Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
  exclusive in descending order.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="reverse"
@@ -56461,7 +56637,7 @@
       <![CDATA[Reverses the elements of {@code array}. This is equivalent to {@code
  Collections.reverse(Longs.asList(array))}, but is likely to be more efficient.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="reverse"
@@ -56479,7 +56655,7 @@
 
  @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
      {@code toIndex > fromIndex}
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="toArray" return="long[]"
@@ -56949,7 +57125,7 @@
       <doc>
       <![CDATA[Sorts the elements of {@code array} in descending order.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="sortDescending"
@@ -56963,7 +57139,7 @@
       <![CDATA[Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
  exclusive in descending order.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="reverse"
@@ -56975,7 +57151,7 @@
       <![CDATA[Reverses the elements of {@code array}. This is equivalent to {@code
  Collections.reverse(Shorts.asList(array))}, but is likely to be more efficient.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="reverse"
@@ -56993,7 +57169,7 @@
 
  @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
      {@code toIndex > fromIndex}
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="toArray" return="short[]"
@@ -57185,7 +57361,7 @@
       <doc>
       <![CDATA[Sorts the elements of {@code array} in descending order.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="sortDescending"
@@ -57199,7 +57375,7 @@
       <![CDATA[Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
  exclusive in descending order.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <field name="MAX_POWER_OF_TWO" type="byte"
@@ -57422,7 +57598,7 @@
       <doc>
       <![CDATA[Sorts the array, treating its elements as unsigned bytes.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="sort"
@@ -57436,7 +57612,7 @@
       <![CDATA[Sorts the array between {@code fromIndex} inclusive and {@code toIndex} exclusive, treating its
  elements as unsigned bytes.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="sortDescending"
@@ -57448,7 +57624,7 @@
       <![CDATA[Sorts the elements of {@code array} in descending order, interpreting them as unsigned 8-bit
  integers.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="sortDescending"
@@ -57462,7 +57638,7 @@
       <![CDATA[Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
  exclusive in descending order, interpreting them as unsigned 8-bit integers.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <field name="MAX_POWER_OF_TWO" type="byte"
@@ -57884,7 +58060,7 @@
       <doc>
       <![CDATA[Sorts the array, treating its elements as unsigned 32-bit integers.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="sort"
@@ -57898,7 +58074,7 @@
       <![CDATA[Sorts the array between {@code fromIndex} inclusive and {@code toIndex} exclusive, treating its
  elements as unsigned 32-bit integers.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="sortDescending"
@@ -57910,7 +58086,7 @@
       <![CDATA[Sorts the elements of {@code array} in descending order, interpreting them as unsigned 32-bit
  integers.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="sortDescending"
@@ -57924,7 +58100,7 @@
       <![CDATA[Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
  exclusive in descending order, interpreting them as unsigned 32-bit integers.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="divide" return="int"
@@ -58408,7 +58584,7 @@
       <doc>
       <![CDATA[Sorts the array, treating its elements as unsigned 64-bit integers.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="sort"
@@ -58422,7 +58598,7 @@
       <![CDATA[Sorts the array between {@code fromIndex} inclusive and {@code toIndex} exclusive, treating its
  elements as unsigned 64-bit integers.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="sortDescending"
@@ -58434,7 +58610,7 @@
       <![CDATA[Sorts the elements of {@code array} in descending order, interpreting them as unsigned 64-bit
  integers.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="sortDescending"
@@ -58448,7 +58624,7 @@
       <![CDATA[Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
  exclusive in descending order, interpreting them as unsigned 64-bit integers.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="divide" return="long"
@@ -64444,7 +64620,8 @@
      #transform} or {@link #catching}, switch to {@link #transformAsync} or {@link
      #catchingAsync} (and likewise for similar APIs). If the cancellation of this method's
      output future races with completion of the outer input future, cancellation may not be
-     propagated to the inner input future. This method is scheduled to be removed in Guava 25.0.">
+     propagated to the inner input future. This method is scheduled to be removed in January
+     2018.">
       <param name="nested" type="com.google.common.util.concurrent.ListenableFuture&lt;? extends com.google.common.util.concurrent.ListenableFuture&lt;? extends V&gt;&gt;"/>
       <doc>
       <![CDATA[Returns a new {@code ListenableFuture} whose result is the product of calling {@code get()} on
@@ -64472,7 +64649,8 @@
      #transform} or {@link #catching}, switch to {@link #transformAsync} or {@link
      #catchingAsync} (and likewise for similar APIs). If the cancellation of this method's
      output future races with completion of the outer input future, cancellation may not be
-     propagated to the inner input future. This method is scheduled to be removed in Guava 25.0.
+     propagated to the inner input future. This method is scheduled to be removed in January
+     2018.
  @param nested The nested future to transform.
  @return A future that holds result of the inner future.
  @since 13.0]]>
@@ -66226,7 +66404,7 @@
  trucking. If an {@code Error} is thrown, the error will propagate and execution will stop until
  the next time a task is submitted.
 
- @since NEXT]]>
+ @since 23.1]]>
       </doc>
     </method>
     <method name="listeningDecorator" return="com.google.common.util.concurrent.ListeningExecutorService"
