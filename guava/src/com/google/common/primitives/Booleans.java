@@ -528,7 +528,7 @@ public final class Booleans {
    * Reverses the elements of {@code array}. This is equivalent to {@code
    * Collections.reverse(Booleans.asList(array))}, but is likely to be more efficient.
    *
-   * @since NEXT
+   * @since 23.1
    */
   public static void reverse(boolean[] array) {
     checkNotNull(array);
@@ -543,7 +543,7 @@ public final class Booleans {
    *
    * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
    *     {@code toIndex > fromIndex}
-   * @since NEXT
+   * @since 23.1
    */
   public static void reverse(boolean[] array, int fromIndex, int toIndex) {
     checkNotNull(array);

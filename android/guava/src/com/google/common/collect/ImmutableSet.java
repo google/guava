@@ -420,7 +420,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * <p>It is not specified if any performance benefits apply if {@code expectedSize} is close to,
    * but not exactly, the number of distinct elements added to the builder.
    *
-   * @since NEXT
+   * @since 23.1
    */
   @Beta
   public static <E> Builder<E> builderWithExpectedSize(int expectedSize) {

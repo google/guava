@@ -406,7 +406,7 @@ public final class Doubles {
    * <p>Note that this method uses the total order imposed by {@link Double#compare}, which treats
    * all NaN values as equal and 0.0 as greater than -0.0.
    *
-   * @since NEXT
+   * @since 23.1
    */
   public static void sortDescending(double[] array) {
     checkNotNull(array);
@@ -420,7 +420,7 @@ public final class Doubles {
    * <p>Note that this method uses the total order imposed by {@link Double#compare}, which treats
    * all NaN values as equal and 0.0 as greater than -0.0.
    *
-   * @since NEXT
+   * @since 23.1
    */
   public static void sortDescending(double[] array, int fromIndex, int toIndex) {
     checkNotNull(array);
@@ -433,7 +433,7 @@ public final class Doubles {
    * Reverses the elements of {@code array}. This is equivalent to {@code
    * Collections.reverse(Doubles.asList(array))}, but is likely to be more efficient.
    *
-   * @since NEXT
+   * @since 23.1
    */
   public static void reverse(double[] array) {
     checkNotNull(array);
@@ -448,7 +448,7 @@ public final class Doubles {
    *
    * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
    *     {@code toIndex > fromIndex}
-   * @since NEXT
+   * @since 23.1
    */
   public static void reverse(double[] array, int fromIndex, int toIndex) {
     checkNotNull(array);

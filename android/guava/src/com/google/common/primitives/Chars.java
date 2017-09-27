@@ -438,7 +438,7 @@ public final class Chars {
   /**
    * Sorts the elements of {@code array} in descending order.
    *
-   * @since NEXT
+   * @since 23.1
    */
   public static void sortDescending(char[] array) {
     checkNotNull(array);
@@ -449,7 +449,7 @@ public final class Chars {
    * Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
    * exclusive in descending order.
    *
-   * @since NEXT
+   * @since 23.1
    */
   public static void sortDescending(char[] array, int fromIndex, int toIndex) {
     checkNotNull(array);
@@ -462,7 +462,7 @@ public final class Chars {
    * Reverses the elements of {@code array}. This is equivalent to {@code
    * Collections.reverse(Chars.asList(array))}, but is likely to be more efficient.
    *
-   * @since NEXT
+   * @since 23.1
    */
   public static void reverse(char[] array) {
     checkNotNull(array);
@@ -477,7 +477,7 @@ public final class Chars {
    *
    * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
    *     {@code toIndex > fromIndex}
-   * @since NEXT
+   * @since 23.1
    */
   public static void reverse(char[] array, int fromIndex, int toIndex) {
     checkNotNull(array);

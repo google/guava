@@ -404,7 +404,7 @@ public final class Floats {
    * <p>Note that this method uses the total order imposed by {@link Float#compare}, which treats
    * all NaN values as equal and 0.0 as greater than -0.0.
    *
-   * @since NEXT
+   * @since 23.1
    */
   public static void sortDescending(float[] array) {
     checkNotNull(array);
@@ -418,7 +418,7 @@ public final class Floats {
    * <p>Note that this method uses the total order imposed by {@link Float#compare}, which treats
    * all NaN values as equal and 0.0 as greater than -0.0.
    *
-   * @since NEXT
+   * @since 23.1
    */
   public static void sortDescending(float[] array, int fromIndex, int toIndex) {
     checkNotNull(array);
@@ -431,7 +431,7 @@ public final class Floats {
    * Reverses the elements of {@code array}. This is equivalent to {@code
    * Collections.reverse(Floats.asList(array))}, but is likely to be more efficient.
    *
-   * @since NEXT
+   * @since 23.1
    */
   public static void reverse(float[] array) {
     checkNotNull(array);
@@ -446,7 +446,7 @@ public final class Floats {
    *
    * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
    *     {@code toIndex > fromIndex}
-   * @since NEXT
+   * @since 23.1
    */
   public static void reverse(float[] array, int fromIndex, int toIndex) {
     checkNotNull(array);

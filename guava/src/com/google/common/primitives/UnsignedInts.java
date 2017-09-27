@@ -213,7 +213,7 @@ public final class UnsignedInts {
   /**
    * Sorts the array, treating its elements as unsigned 32-bit integers.
    *
-   * @since NEXT
+   * @since 23.1
    */
   public static void sort(int[] array) {
     checkNotNull(array);
@@ -224,7 +224,7 @@ public final class UnsignedInts {
    * Sorts the array between {@code fromIndex} inclusive and {@code toIndex} exclusive, treating its
    * elements as unsigned 32-bit integers.
    *
-   * @since NEXT
+   * @since 23.1
    */
   public static void sort(int[] array, int fromIndex, int toIndex) {
     checkNotNull(array);
@@ -242,7 +242,7 @@ public final class UnsignedInts {
    * Sorts the elements of {@code array} in descending order, interpreting them as unsigned 32-bit
    * integers.
    *
-   * @since NEXT
+   * @since 23.1
    */
   public static void sortDescending(int[] array) {
     checkNotNull(array);
@@ -253,7 +253,7 @@ public final class UnsignedInts {
    * Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
    * exclusive in descending order, interpreting them as unsigned 32-bit integers.
    *
-   * @since NEXT
+   * @since 23.1
    */
   public static void sortDescending(int[] array, int fromIndex, int toIndex) {
     checkNotNull(array);

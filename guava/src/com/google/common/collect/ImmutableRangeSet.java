@@ -59,7 +59,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
    * ImmutableRangeSet}. As in {@link Builder}, overlapping ranges are not permitted and adjacent
    * ranges will be merged.
    *
-   * @since NEXT
+   * @since 23.1
    */
   @Beta
   public static <E extends Comparable<? super E>>

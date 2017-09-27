@@ -31,7 +31,7 @@ import java.util.Set;
  *
  * @author Jens Nyman
  * @param <N> Node parameter type
- * @since NEXT
+ * @since 23.1
  */
 @Beta
 public abstract class Traverser<N> {

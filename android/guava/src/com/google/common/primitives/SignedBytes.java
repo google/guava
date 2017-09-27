@@ -197,7 +197,7 @@ public final class SignedBytes {
   /**
    * Sorts the elements of {@code array} in descending order.
    *
-   * @since NEXT
+   * @since 23.1
    */
   public static void sortDescending(byte[] array) {
     checkNotNull(array);
@@ -208,7 +208,7 @@ public final class SignedBytes {
    * Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
    * exclusive in descending order.
    *
-   * @since NEXT
+   * @since 23.1
    */
   public static void sortDescending(byte[] array, int fromIndex, int toIndex) {
     checkNotNull(array);

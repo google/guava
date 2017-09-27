@@ -372,7 +372,7 @@ public final class Bytes {
    * Reverses the elements of {@code array}. This is equivalent to {@code
    * Collections.reverse(Bytes.asList(array))}, but is likely to be more efficient.
    *
-   * @since NEXT
+   * @since 23.1
    */
   public static void reverse(byte[] array) {
     checkNotNull(array);
@@ -387,7 +387,7 @@ public final class Bytes {
    *
    * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
    *     {@code toIndex > fromIndex}
-   * @since NEXT
+   * @since 23.1
    */
   public static void reverse(byte[] array, int fromIndex, int toIndex) {
     checkNotNull(array);

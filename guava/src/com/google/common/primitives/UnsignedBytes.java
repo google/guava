@@ -455,7 +455,7 @@ public final class UnsignedBytes {
   /**
    * Sorts the array, treating its elements as unsigned bytes.
    *
-   * @since NEXT
+   * @since 23.1
    */
   public static void sort(byte[] array) {
     checkNotNull(array);
@@ -466,7 +466,7 @@ public final class UnsignedBytes {
    * Sorts the array between {@code fromIndex} inclusive and {@code toIndex} exclusive, treating its
    * elements as unsigned bytes.
    *
-   * @since NEXT
+   * @since 23.1
    */
   public static void sort(byte[] array, int fromIndex, int toIndex) {
     checkNotNull(array);
@@ -484,7 +484,7 @@ public final class UnsignedBytes {
    * Sorts the elements of {@code array} in descending order, interpreting them as unsigned 8-bit
    * integers.
    *
-   * @since NEXT
+   * @since 23.1
    */
   public static void sortDescending(byte[] array) {
     checkNotNull(array);
@@ -495,7 +495,7 @@ public final class UnsignedBytes {
    * Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
    * exclusive in descending order, interpreting them as unsigned 8-bit integers.
    *
-   * @since NEXT
+   * @since 23.1
    */
   public static void sortDescending(byte[] array, int fromIndex, int toIndex) {
     checkNotNull(array);

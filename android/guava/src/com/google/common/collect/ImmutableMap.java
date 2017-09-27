@@ -154,7 +154,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * <p>It is not specified if any performance benefits apply if {@code expectedSize} is close to,
    * but not exactly, the number of entries added to the builder.
    * 
-   * @since NEXT
+   * @since 23.1
    */
   @Beta
   public static <K, V> Builder<K, V> builderWithExpectedSize(int expectedSize) {
