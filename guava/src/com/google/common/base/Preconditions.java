@@ -162,6 +162,8 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(boolean b, @Nullable String errorMessageTemplate, char p1) {
     if (!b) {
@@ -173,6 +175,8 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(boolean b, @Nullable String errorMessageTemplate, int p1) {
     if (!b) {
@@ -184,6 +188,8 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(boolean b, @Nullable String errorMessageTemplate, long p1) {
     if (!b) {
@@ -195,6 +201,8 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1) {
@@ -207,6 +215,8 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, char p1, char p2) {
@@ -219,6 +229,8 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, char p1, int p2) {
@@ -231,6 +243,8 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, char p1, long p2) {
@@ -243,6 +257,8 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, char p1, @Nullable Object p2) {
@@ -255,6 +271,8 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, int p1, char p2) {
@@ -267,6 +285,8 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, int p1, int p2) {
@@ -279,6 +299,8 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, int p1, long p2) {
@@ -291,6 +313,8 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, int p1, @Nullable Object p2) {
@@ -303,6 +327,8 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, long p1, char p2) {
@@ -315,6 +341,8 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, long p1, int p2) {
@@ -327,6 +355,8 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, long p1, long p2) {
@@ -339,6 +369,8 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, long p1, @Nullable Object p2) {
@@ -351,6 +383,8 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1, char p2) {
@@ -363,6 +397,8 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1, int p2) {
@@ -375,6 +411,8 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1, long p2) {
@@ -387,6 +425,8 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1, @Nullable Object p2) {
@@ -399,6 +439,8 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b,
@@ -415,6 +457,8 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b,
@@ -487,6 +531,8 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(boolean b, @Nullable String errorMessageTemplate, char p1) {
     if (!b) {
@@ -499,6 +545,8 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(boolean b, @Nullable String errorMessageTemplate, int p1) {
     if (!b) {
@@ -511,6 +559,8 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(boolean b, @Nullable String errorMessageTemplate, long p1) {
     if (!b) {
@@ -523,6 +573,8 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1) {
@@ -536,6 +588,8 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b, @Nullable String errorMessageTemplate, char p1, char p2) {
@@ -549,6 +603,8 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(boolean b, @Nullable String errorMessageTemplate, char p1, int p2) {
     if (!b) {
@@ -561,6 +617,8 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b, @Nullable String errorMessageTemplate, char p1, long p2) {
@@ -574,6 +632,8 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b, @Nullable String errorMessageTemplate, char p1, @Nullable Object p2) {
@@ -587,6 +647,8 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(boolean b, @Nullable String errorMessageTemplate, int p1, char p2) {
     if (!b) {
@@ -599,6 +661,8 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(boolean b, @Nullable String errorMessageTemplate, int p1, int p2) {
     if (!b) {
@@ -611,6 +675,8 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(boolean b, @Nullable String errorMessageTemplate, int p1, long p2) {
     if (!b) {
@@ -623,6 +689,8 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b, @Nullable String errorMessageTemplate, int p1, @Nullable Object p2) {
@@ -636,6 +704,8 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b, @Nullable String errorMessageTemplate, long p1, char p2) {
@@ -649,6 +719,8 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(boolean b, @Nullable String errorMessageTemplate, long p1, int p2) {
     if (!b) {
@@ -661,6 +733,8 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b, @Nullable String errorMessageTemplate, long p1, long p2) {
@@ -674,6 +748,8 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b, @Nullable String errorMessageTemplate, long p1, @Nullable Object p2) {
@@ -687,6 +763,8 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1, char p2) {
@@ -700,6 +778,8 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1, int p2) {
@@ -713,6 +793,8 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1, long p2) {
@@ -726,6 +808,8 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1, @Nullable Object p2) {
@@ -739,6 +823,8 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b,
@@ -756,6 +842,8 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b,
@@ -831,6 +919,8 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
   public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, char p1) {
@@ -844,6 +934,8 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
   public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, int p1) {
@@ -857,6 +949,8 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
   public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, long p1) {
@@ -870,6 +964,8 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
   public static <T> T checkNotNull(
@@ -884,6 +980,8 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
   public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, char p1, char p2) {
@@ -897,6 +995,8 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
   public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, char p1, int p2) {
@@ -910,6 +1010,8 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
   public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, char p1, long p2) {
@@ -923,6 +1025,8 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
   public static <T> T checkNotNull(
@@ -937,6 +1041,8 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
   public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, int p1, char p2) {
@@ -950,6 +1056,8 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
   public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, int p1, int p2) {
@@ -963,6 +1071,8 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
   public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, int p1, long p2) {
@@ -976,6 +1086,8 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
   public static <T> T checkNotNull(
@@ -990,6 +1102,8 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
   public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, long p1, char p2) {
@@ -1003,6 +1117,8 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
   public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, long p1, int p2) {
@@ -1016,6 +1132,8 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
   public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, long p1, long p2) {
@@ -1029,6 +1147,8 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
   public static <T> T checkNotNull(
@@ -1043,6 +1163,8 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
   public static <T> T checkNotNull(
@@ -1057,6 +1179,8 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
   public static <T> T checkNotNull(
@@ -1071,6 +1195,8 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
   public static <T> T checkNotNull(
@@ -1085,6 +1211,8 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
   public static <T> T checkNotNull(
@@ -1099,6 +1227,8 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
   public static <T> T checkNotNull(
@@ -1117,6 +1247,8 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
   public static <T> T checkNotNull(

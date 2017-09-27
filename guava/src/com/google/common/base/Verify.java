@@ -130,6 +130,8 @@ public final class Verify {
    * custom message otherwise.
    *
    * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since NEXT (varargs overload since 17.0)
    */
   public static void verify(boolean expression, @Nullable String errorMessageTemplate, char p1) {
     if (!expression) {
@@ -142,6 +144,8 @@ public final class Verify {
    * custom message otherwise.
    *
    * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since NEXT (varargs overload since 17.0)
    */
   public static void verify(boolean expression, @Nullable String errorMessageTemplate, int p1) {
     if (!expression) {
@@ -154,6 +158,8 @@ public final class Verify {
    * custom message otherwise.
    *
    * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since NEXT (varargs overload since 17.0)
    */
   public static void verify(boolean expression, @Nullable String errorMessageTemplate, long p1) {
     if (!expression) {
@@ -166,6 +172,8 @@ public final class Verify {
    * custom message otherwise.
    *
    * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since NEXT (varargs overload since 17.0)
    */
   public static void verify(
       boolean expression, @Nullable String errorMessageTemplate, @Nullable Object p1) {
@@ -179,6 +187,8 @@ public final class Verify {
    * custom message otherwise.
    *
    * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since NEXT (varargs overload since 17.0)
    */
   public static void verify(
       boolean expression, @Nullable String errorMessageTemplate, char p1, char p2) {
@@ -192,6 +202,8 @@ public final class Verify {
    * custom message otherwise.
    *
    * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since NEXT (varargs overload since 17.0)
    */
   public static void verify(
       boolean expression, @Nullable String errorMessageTemplate, int p1, char p2) {
@@ -205,6 +217,8 @@ public final class Verify {
    * custom message otherwise.
    *
    * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since NEXT (varargs overload since 17.0)
    */
   public static void verify(
       boolean expression, @Nullable String errorMessageTemplate, long p1, char p2) {
@@ -218,6 +232,8 @@ public final class Verify {
    * custom message otherwise.
    *
    * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since NEXT (varargs overload since 17.0)
    */
   public static void verify(
       boolean expression, @Nullable String errorMessageTemplate, @Nullable Object p1, char p2) {
@@ -231,6 +247,8 @@ public final class Verify {
    * custom message otherwise.
    *
    * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since NEXT (varargs overload since 17.0)
    */
   public static void verify(
       boolean expression, @Nullable String errorMessageTemplate, char p1, int p2) {
@@ -244,6 +262,8 @@ public final class Verify {
    * custom message otherwise.
    *
    * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since NEXT (varargs overload since 17.0)
    */
   public static void verify(
       boolean expression, @Nullable String errorMessageTemplate, int p1, int p2) {
@@ -257,6 +277,8 @@ public final class Verify {
    * custom message otherwise.
    *
    * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since NEXT (varargs overload since 17.0)
    */
   public static void verify(
       boolean expression, @Nullable String errorMessageTemplate, long p1, int p2) {
@@ -270,6 +292,8 @@ public final class Verify {
    * custom message otherwise.
    *
    * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since NEXT (varargs overload since 17.0)
    */
   public static void verify(
       boolean expression, @Nullable String errorMessageTemplate, @Nullable Object p1, int p2) {
@@ -283,6 +307,8 @@ public final class Verify {
    * custom message otherwise.
    *
    * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since NEXT (varargs overload since 17.0)
    */
   public static void verify(
       boolean expression, @Nullable String errorMessageTemplate, char p1, long p2) {
@@ -296,6 +322,8 @@ public final class Verify {
    * custom message otherwise.
    *
    * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since NEXT (varargs overload since 17.0)
    */
   public static void verify(
       boolean expression, @Nullable String errorMessageTemplate, int p1, long p2) {
@@ -309,6 +337,8 @@ public final class Verify {
    * custom message otherwise.
    *
    * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since NEXT (varargs overload since 17.0)
    */
   public static void verify(
       boolean expression, @Nullable String errorMessageTemplate, long p1, long p2) {
@@ -322,6 +352,8 @@ public final class Verify {
    * custom message otherwise.
    *
    * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since NEXT (varargs overload since 17.0)
    */
   public static void verify(
       boolean expression, @Nullable String errorMessageTemplate, @Nullable Object p1, long p2) {
@@ -335,6 +367,8 @@ public final class Verify {
    * custom message otherwise.
    *
    * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since NEXT (varargs overload since 17.0)
    */
   public static void verify(
       boolean expression, @Nullable String errorMessageTemplate, char p1, @Nullable Object p2) {
@@ -348,6 +382,8 @@ public final class Verify {
    * custom message otherwise.
    *
    * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since NEXT (varargs overload since 17.0)
    */
   public static void verify(
       boolean expression, @Nullable String errorMessageTemplate, int p1, @Nullable Object p2) {
@@ -361,6 +397,8 @@ public final class Verify {
    * custom message otherwise.
    *
    * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since NEXT (varargs overload since 17.0)
    */
   public static void verify(
       boolean expression, @Nullable String errorMessageTemplate, long p1, @Nullable Object p2) {
@@ -374,6 +412,8 @@ public final class Verify {
    * custom message otherwise.
    *
    * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since NEXT (varargs overload since 17.0)
    */
   public static void verify(
       boolean expression,
@@ -390,6 +430,8 @@ public final class Verify {
    * custom message otherwise.
    *
    * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since NEXT (varargs overload since 17.0)
    */
   public static void verify(
       boolean expression,
@@ -407,6 +449,8 @@ public final class Verify {
    * custom message otherwise.
    *
    * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since NEXT (varargs overload since 17.0)
    */
   public static void verify(
       boolean expression,
