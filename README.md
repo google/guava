@@ -91,9 +91,8 @@ untrusted code.
 
 5. For the mainline flavor, we unit-test the libraries using only OpenJDK 1.8 on
 Linux. Some features, especially in `com.google.common.io`, may not work
-correctly in other environments.
-
-  For the Android flavor, our unit tests run on API level 10 (Gingerbread).
+correctly in other environments. For the Android flavor, our unit tests run on
+API level 15 (Ice Cream Sandwich).
 
 [current release]: https://github.com/google/guava/wiki/Release23
 [guava-release-api-docs]: http://google.github.io/guava/releases/23.0/api/docs/
