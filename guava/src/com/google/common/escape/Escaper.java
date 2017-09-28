@@ -32,7 +32,7 @@ import com.google.common.base.Function;
  *
  * <p>Because, in general, escaping operates on the code points of a string and not on its
  * individual {@code char} values, it is not safe to assume that {@code escape(s)} is equivalent to
- * {@code escape(s.substring(0, n)) + escape(s.substing(n))} for arbitrary {@code n}. This is
+ * {@code escape(s.substring(0, n)) + escape(s.substring(n))} for arbitrary {@code n}. This is
  * because of the possibility of splitting a surrogate pair. The only case in which it is safe to
  * escape strings and concatenate the results is if you can rule out this possibility, either by
  * splitting an existing long string into short strings adaptively around
