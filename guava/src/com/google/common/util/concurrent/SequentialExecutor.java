@@ -16,7 +16,6 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
-import com.google.errorprone.annotations.DoNotMock;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.ArrayDeque;
 import java.util.Queue;
@@ -31,22 +30,14 @@ import javax.annotation.concurrent.GuardedBy;
  *
  * <p>Tasks submitted to {@link #execute(Runnable)} are executed in FIFO order.
  *
- * <p>Tasks can also be prepended to the queue to be executed in LIFO order before any other
- * submitted tasks. Primarily intended for the currently executing task to be able to schedule a
- * continuation task.
- *
- * <p>Execution on the queue can be {@linkplain #suspend suspended}, e.g. while waiting for an RPC,
- * and execution can be {@linkplain #resume resumed} later.
- *
- * <p>The execution of tasks is done by one thread as long as there are tasks left in the queue and
- * execution has not been suspended. (Even if one task is {@linkplain Thread#interrupt interrupted},
- * execution of subsequent tasks continues.) {@code RuntimeException}s thrown by tasks are simply
- * logged and the executor keeps trucking. If an {@code Error} is thrown, the error will propagate
- * and execution will stop until it is restarted by external calls.
+ * <p>The execution of tasks is done by one thread as long as there are tasks left in the queue.
+ * When a task is {@linkplain Thread#interrupt interrupted}, execution of subsequent tasks
+ * continues. {@code RuntimeException}s thrown by tasks are simply logged and the executor keeps
+ * trucking. If an {@code Error} is thrown, the error will propagate and execution will stop until
+ * it is restarted by a call to {@link #execute}.
  */
 @GwtIncompatible
-@DoNotMock
-class SequentialExecutor implements Executor {
+final class SequentialExecutor implements Executor {
   private static final Logger log = Logger.getLogger(SequentialExecutor.class.getName());
 
   /** Underlying executor that all submitted Runnable objects are run on. */
@@ -58,9 +49,6 @@ class SequentialExecutor implements Executor {
   @GuardedBy("queue")
   private boolean isWorkerRunning = false;
 
-  @GuardedBy("queue")
-  private int suspensions = 0;
-
   private final QueueWorker worker = new QueueWorker();
 
   /** Use {@link MoreExecutors#sequentialExecutor} */
@@ -69,8 +57,7 @@ class SequentialExecutor implements Executor {
   }
 
   /**
-   * Adds a task to the queue and makes sure a worker thread is running, unless the queue has been
-   * suspended.
+   * Adds a task to the queue and makes sure a worker thread is running.
    *
    * <p>If this method throws, e.g. a {@code RejectedExecutionException} from the delegate executor,
    * execution of tasks will stop until a call to this method or to {@link #resume()} is made.
@@ -79,44 +66,7 @@ class SequentialExecutor implements Executor {
   public void execute(Runnable task) {
     synchronized (queue) {
       queue.add(task);
-      if (isWorkerRunning || suspensions > 0) {
-        return;
-      }
-      isWorkerRunning = true;
-    }
-    startQueueWorker();
-  }
-
-  /**
-   * Suspends the running of tasks until {@link #resume()} is called. This can be called multiple
-   * times to increase the suspensions count and execution will not continue until {@link #resume}
-   * has been called the same number of times as {@code suspend} has been.
-   *
-   * <p>Any task that has already been pulled off the queue for execution will be completed before
-   * execution is suspended.
-   */
-  public void suspend() {
-    synchronized (queue) {
-      suspensions++;
-    }
-  }
-
-  /**
-   * Continue execution of tasks after a call to {@link #suspend()}. More accurately, decreases the
-   * suspension counter, as has been incremented by calls to {@link #suspend}, and resumes execution
-   * if the suspension counter is zero.
-   *
-   * <p>If this method throws, e.g. a {@code RejectedExecutionException} from the delegate executor,
-   * execution of tasks will stop until a call to this method or to {@link #execute(Runnable)} is
-   * made.
-   *
-   * @throws java.lang.IllegalStateException if this executor is not suspended.
-   */
-  public void resume() {
-    synchronized (queue) {
-      Preconditions.checkState(suspensions > 0);
-      suspensions--;
-      if (isWorkerRunning || suspensions > 0 || queue.isEmpty()) {
+      if (isWorkerRunning) {
         return;
       }
       isWorkerRunning = true;
@@ -151,7 +101,7 @@ class SequentialExecutor implements Executor {
   }
 
   /**
-   * Worker that runs tasks off the queue until it is empty or the queue is suspended.
+   * Worker that runs tasks from {@link #queue} until it is empty.
    */
   @WeakOuter
   private final class QueueWorker implements Runnable {
@@ -175,9 +125,7 @@ class SequentialExecutor implements Executor {
         Runnable task = null;
         synchronized (queue) {
           // TODO(user): How should we handle interrupts and shutdowns?
-          if (suspensions == 0) {
-            task = queue.poll();
-          }
+          task = queue.poll();
           if (task == null) {
             isWorkerRunning = false;
             return;
