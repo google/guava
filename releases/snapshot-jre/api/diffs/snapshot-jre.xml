@@ -6948,7 +6948,7 @@
 
  <p>See {@link #verify(boolean, String, Object...)} for details.
 
- @since NEXT (varargs overload since 17.0)]]>
+ @since 23.1 (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -6964,7 +6964,7 @@
 
  <p>See {@link #verify(boolean, String, Object...)} for details.
 
- @since NEXT (varargs overload since 17.0)]]>
+ @since 23.1 (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -6980,7 +6980,7 @@
 
  <p>See {@link #verify(boolean, String, Object...)} for details.
 
- @since NEXT (varargs overload since 17.0)]]>
+ @since 23.1 (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -6996,7 +6996,7 @@
 
  <p>See {@link #verify(boolean, String, Object...)} for details.
 
- @since NEXT (varargs overload since 17.0)]]>
+ @since 23.1 (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7013,7 +7013,7 @@
 
  <p>See {@link #verify(boolean, String, Object...)} for details.
 
- @since NEXT (varargs overload since 17.0)]]>
+ @since 23.1 (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7030,7 +7030,7 @@
 
  <p>See {@link #verify(boolean, String, Object...)} for details.
 
- @since NEXT (varargs overload since 17.0)]]>
+ @since 23.1 (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7047,7 +7047,7 @@
 
  <p>See {@link #verify(boolean, String, Object...)} for details.
 
- @since NEXT (varargs overload since 17.0)]]>
+ @since 23.1 (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7064,7 +7064,7 @@
 
  <p>See {@link #verify(boolean, String, Object...)} for details.
 
- @since NEXT (varargs overload since 17.0)]]>
+ @since 23.1 (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7081,7 +7081,7 @@
 
  <p>See {@link #verify(boolean, String, Object...)} for details.
 
- @since NEXT (varargs overload since 17.0)]]>
+ @since 23.1 (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7098,7 +7098,7 @@
 
  <p>See {@link #verify(boolean, String, Object...)} for details.
 
- @since NEXT (varargs overload since 17.0)]]>
+ @since 23.1 (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7115,7 +7115,7 @@
 
  <p>See {@link #verify(boolean, String, Object...)} for details.
 
- @since NEXT (varargs overload since 17.0)]]>
+ @since 23.1 (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7132,7 +7132,7 @@
 
  <p>See {@link #verify(boolean, String, Object...)} for details.
 
- @since NEXT (varargs overload since 17.0)]]>
+ @since 23.1 (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7149,7 +7149,7 @@
 
  <p>See {@link #verify(boolean, String, Object...)} for details.
 
- @since NEXT (varargs overload since 17.0)]]>
+ @since 23.1 (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7166,7 +7166,7 @@
 
  <p>See {@link #verify(boolean, String, Object...)} for details.
 
- @since NEXT (varargs overload since 17.0)]]>
+ @since 23.1 (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7183,7 +7183,7 @@
 
  <p>See {@link #verify(boolean, String, Object...)} for details.
 
- @since NEXT (varargs overload since 17.0)]]>
+ @since 23.1 (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7200,7 +7200,7 @@
 
  <p>See {@link #verify(boolean, String, Object...)} for details.
 
- @since NEXT (varargs overload since 17.0)]]>
+ @since 23.1 (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7217,7 +7217,7 @@
 
  <p>See {@link #verify(boolean, String, Object...)} for details.
 
- @since NEXT (varargs overload since 17.0)]]>
+ @since 23.1 (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7234,7 +7234,7 @@
 
  <p>See {@link #verify(boolean, String, Object...)} for details.
 
- @since NEXT (varargs overload since 17.0)]]>
+ @since 23.1 (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7251,7 +7251,7 @@
 
  <p>See {@link #verify(boolean, String, Object...)} for details.
 
- @since NEXT (varargs overload since 17.0)]]>
+ @since 23.1 (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7268,7 +7268,7 @@
 
  <p>See {@link #verify(boolean, String, Object...)} for details.
 
- @since NEXT (varargs overload since 17.0)]]>
+ @since 23.1 (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7286,7 +7286,7 @@
 
  <p>See {@link #verify(boolean, String, Object...)} for details.
 
- @since NEXT (varargs overload since 17.0)]]>
+ @since 23.1 (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verify"
@@ -7305,7 +7305,7 @@
 
  <p>See {@link #verify(boolean, String, Object...)} for details.
 
- @since NEXT (varargs overload since 17.0)]]>
+ @since 23.1 (varargs overload since 17.0)]]>
       </doc>
     </method>
     <method name="verifyNotNull" return="T"
