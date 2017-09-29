@@ -76,10 +76,12 @@ removed, at any time. If your code is a library itself (i.e. it is
 used on the CLASSPATH of users outside your own control), you should
 not use beta APIs, unless you repackage them (e.g. using ProGuard).
 
-2. Deprecated non-beta APIs will be removed two years after the
-release in which they are first deprecated. You must fix your
-references before this time. If you don't, any manner of breakage
-could result (you are not guaranteed a compilation error).
+2. APIs without `@Beta` will remain binary-compatible for the indefinite
+future. (Previously, we sometimes removed such APIs after a deprecation period.
+The last release to remove non-`@Beta` APIs was Guava 21.0.) Even `@Deprecated`
+APIs will remain (again, unless they are `@Beta`). We have no plans to start
+removing things again, but officially, we're leaving our options open in case
+of surprises (like, say, a serious security problem).
 
 3. Serialized forms of ALL objects are subject to change unless noted
 otherwise. Do not persist these and assume they can be read by a
