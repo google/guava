@@ -268,6 +268,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * @deprecated Use {@link #whitespace()} instead. This constant is scheduled to be
    *     removed in June 2018.
    */
+  @com.google.common.annotations.Beta
   @Deprecated
   public static final CharMatcher WHITESPACE = whitespace();
 
@@ -280,6 +281,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * @deprecated Use {@link #breakingWhitespace()} instead. This constant is scheduled
    *     to be removed in June 2018.
    */
+  @com.google.common.annotations.Beta
   @Deprecated
   public static final CharMatcher BREAKING_WHITESPACE = breakingWhitespace();
 
@@ -290,6 +292,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * @deprecated Use {@link #ascii()} instead. This constant is scheduled to be
    *     removed in June 2018.
    */
+  @com.google.common.annotations.Beta
   @Deprecated
   public static final CharMatcher ASCII = ascii();
 
@@ -302,6 +305,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * @deprecated Use {@link #digit()} instead. This constant is scheduled to be
    *     removed in June 2018.
    */
+  @com.google.common.annotations.Beta
   @Deprecated
   public static final CharMatcher DIGIT = digit();
 
@@ -313,6 +317,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * @deprecated Use {@link #javaDigit()} instead. This constant is scheduled to be
    *     removed in June 2018.
    */
+  @com.google.common.annotations.Beta
   @Deprecated
   public static final CharMatcher JAVA_DIGIT = javaDigit();
 
@@ -325,6 +330,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * @deprecated Use {@link #javaLetter()} instead. This constant is scheduled to be
    *     removed in June 2018.
    */
+  @com.google.common.annotations.Beta
   @Deprecated
   public static final CharMatcher JAVA_LETTER = javaLetter();
 
@@ -335,6 +341,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * @deprecated Use {@link #javaLetterOrDigit()} instead. This constant is scheduled
    *     to be removed in June 2018.
    */
+  @com.google.common.annotations.Beta
   @Deprecated
   public static final CharMatcher JAVA_LETTER_OR_DIGIT = javaLetterOrDigit();
 
@@ -345,6 +352,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * @deprecated Use {@link #javaUpperCase()} instead. This constant is scheduled to
    *     be removed in June 2018.
    */
+  @com.google.common.annotations.Beta
   @Deprecated
   public static final CharMatcher JAVA_UPPER_CASE = javaUpperCase();
 
@@ -355,6 +363,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * @deprecated Use {@link #javaLowerCase()} instead. This constant is scheduled to
    *     be removed in June 2018.
    */
+  @com.google.common.annotations.Beta
   @Deprecated
   public static final CharMatcher JAVA_LOWER_CASE = javaLowerCase();
 
@@ -365,6 +374,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * @deprecated Use {@link #javaIsoControl()} instead. This constant is scheduled to
    *     be removed in June 2018.
    */
+  @com.google.common.annotations.Beta
   @Deprecated
   public static final CharMatcher JAVA_ISO_CONTROL = javaIsoControl();
 
@@ -376,6 +386,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * @deprecated Use {@link #invisible()} instead. This constant is scheduled to be
    *     removed in June 2018.
    */
+  @com.google.common.annotations.Beta
   @Deprecated
   public static final CharMatcher INVISIBLE = invisible();
 
@@ -390,6 +401,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * @deprecated Use {@link #singleWidth()} instead. This constant is scheduled to be
    *     removed in June 2018.
    */
+  @com.google.common.annotations.Beta
   @Deprecated
   public static final CharMatcher SINGLE_WIDTH = singleWidth();
 
@@ -399,6 +411,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * @deprecated Use {@link #any()} instead. This constant is scheduled to be
    *     removed in June 2018.
    */
+  @com.google.common.annotations.Beta
   @Deprecated
   public static final CharMatcher ANY = any();
 
@@ -408,6 +421,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * @deprecated Use {@link #none()} instead. This constant is scheduled to be
    *     removed in June 2018.
    */
+  @com.google.common.annotations.Beta
   @Deprecated
   public static final CharMatcher NONE = none();
 
