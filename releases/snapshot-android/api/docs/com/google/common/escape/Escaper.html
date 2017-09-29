@@ -129,7 +129,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 
  <p>Because, in general, escaping operates on the code points of a string and not on its
  individual <code>char</code> values, it is not safe to assume that <code>escape(s)</code> is equivalent to
- <code>escape(s.substring(0, n)) + escape(s.substing(n))</code> for arbitrary <code>n</code>. This is
+ <code>escape(s.substring(0, n)) + escape(s.substring(n))</code> for arbitrary <code>n</code>. This is
  because of the possibility of splitting a surrogate pair. The only case in which it is safe to
  escape strings and concatenate the results is if you can rule out this possibility, either by
  splitting an existing long string into short strings adaptively around
