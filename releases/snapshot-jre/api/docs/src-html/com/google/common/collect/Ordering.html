@@ -937,36 +937,35 @@
 <span class="sourceLineNo">929</span>   *<a name="line.929"></a>
 <span class="sourceLineNo">930</span>   * @param sortedList the list to be searched<a name="line.930"></a>
 <span class="sourceLineNo">931</span>   * @param key the key to be searched for<a name="line.931"></a>
-<span class="sourceLineNo">932</span>   * @deprecated Use {@link Collections#binarySearch(List, Object, Comparator)} directly. This<a name="line.932"></a>
-<span class="sourceLineNo">933</span>   * method is scheduled for deletion in June 2018.<a name="line.933"></a>
-<span class="sourceLineNo">934</span>   */<a name="line.934"></a>
-<span class="sourceLineNo">935</span>  @Deprecated<a name="line.935"></a>
-<span class="sourceLineNo">936</span>  public int binarySearch(List&lt;? extends T&gt; sortedList, @Nullable T key) {<a name="line.936"></a>
-<span class="sourceLineNo">937</span>    return Collections.binarySearch(sortedList, key, this);<a name="line.937"></a>
-<span class="sourceLineNo">938</span>  }<a name="line.938"></a>
-<span class="sourceLineNo">939</span><a name="line.939"></a>
-<span class="sourceLineNo">940</span>  /**<a name="line.940"></a>
-<span class="sourceLineNo">941</span>   * Exception thrown by a {@link Ordering#explicit(List)} or {@link<a name="line.941"></a>
-<span class="sourceLineNo">942</span>   * Ordering#explicit(Object, Object[])} comparator when comparing a value<a name="line.942"></a>
-<span class="sourceLineNo">943</span>   * outside the set of values it can compare. Extending {@link<a name="line.943"></a>
-<span class="sourceLineNo">944</span>   * ClassCastException} may seem odd, but it is required.<a name="line.944"></a>
-<span class="sourceLineNo">945</span>   */<a name="line.945"></a>
-<span class="sourceLineNo">946</span>  @VisibleForTesting<a name="line.946"></a>
-<span class="sourceLineNo">947</span>  static class IncomparableValueException extends ClassCastException {<a name="line.947"></a>
-<span class="sourceLineNo">948</span>    final Object value;<a name="line.948"></a>
-<span class="sourceLineNo">949</span><a name="line.949"></a>
-<span class="sourceLineNo">950</span>    IncomparableValueException(Object value) {<a name="line.950"></a>
-<span class="sourceLineNo">951</span>      super("Cannot compare value: " + value);<a name="line.951"></a>
-<span class="sourceLineNo">952</span>      this.value = value;<a name="line.952"></a>
-<span class="sourceLineNo">953</span>    }<a name="line.953"></a>
-<span class="sourceLineNo">954</span><a name="line.954"></a>
-<span class="sourceLineNo">955</span>    private static final long serialVersionUID = 0;<a name="line.955"></a>
-<span class="sourceLineNo">956</span>  }<a name="line.956"></a>
-<span class="sourceLineNo">957</span><a name="line.957"></a>
-<span class="sourceLineNo">958</span>  // Never make these public<a name="line.958"></a>
-<span class="sourceLineNo">959</span>  static final int LEFT_IS_GREATER = 1;<a name="line.959"></a>
-<span class="sourceLineNo">960</span>  static final int RIGHT_IS_GREATER = -1;<a name="line.960"></a>
-<span class="sourceLineNo">961</span>}<a name="line.961"></a>
+<span class="sourceLineNo">932</span>   * @deprecated Use {@link Collections#binarySearch(List, Object, Comparator)} directly.<a name="line.932"></a>
+<span class="sourceLineNo">933</span>   */<a name="line.933"></a>
+<span class="sourceLineNo">934</span>  @Deprecated<a name="line.934"></a>
+<span class="sourceLineNo">935</span>  public int binarySearch(List&lt;? extends T&gt; sortedList, @Nullable T key) {<a name="line.935"></a>
+<span class="sourceLineNo">936</span>    return Collections.binarySearch(sortedList, key, this);<a name="line.936"></a>
+<span class="sourceLineNo">937</span>  }<a name="line.937"></a>
+<span class="sourceLineNo">938</span><a name="line.938"></a>
+<span class="sourceLineNo">939</span>  /**<a name="line.939"></a>
+<span class="sourceLineNo">940</span>   * Exception thrown by a {@link Ordering#explicit(List)} or {@link<a name="line.940"></a>
+<span class="sourceLineNo">941</span>   * Ordering#explicit(Object, Object[])} comparator when comparing a value<a name="line.941"></a>
+<span class="sourceLineNo">942</span>   * outside the set of values it can compare. Extending {@link<a name="line.942"></a>
+<span class="sourceLineNo">943</span>   * ClassCastException} may seem odd, but it is required.<a name="line.943"></a>
+<span class="sourceLineNo">944</span>   */<a name="line.944"></a>
+<span class="sourceLineNo">945</span>  @VisibleForTesting<a name="line.945"></a>
+<span class="sourceLineNo">946</span>  static class IncomparableValueException extends ClassCastException {<a name="line.946"></a>
+<span class="sourceLineNo">947</span>    final Object value;<a name="line.947"></a>
+<span class="sourceLineNo">948</span><a name="line.948"></a>
+<span class="sourceLineNo">949</span>    IncomparableValueException(Object value) {<a name="line.949"></a>
+<span class="sourceLineNo">950</span>      super("Cannot compare value: " + value);<a name="line.950"></a>
+<span class="sourceLineNo">951</span>      this.value = value;<a name="line.951"></a>
+<span class="sourceLineNo">952</span>    }<a name="line.952"></a>
+<span class="sourceLineNo">953</span><a name="line.953"></a>
+<span class="sourceLineNo">954</span>    private static final long serialVersionUID = 0;<a name="line.954"></a>
+<span class="sourceLineNo">955</span>  }<a name="line.955"></a>
+<span class="sourceLineNo">956</span><a name="line.956"></a>
+<span class="sourceLineNo">957</span>  // Never make these public<a name="line.957"></a>
+<span class="sourceLineNo">958</span>  static final int LEFT_IS_GREATER = 1;<a name="line.958"></a>
+<span class="sourceLineNo">959</span>  static final int RIGHT_IS_GREATER = -1;<a name="line.959"></a>
+<span class="sourceLineNo">960</span>}<a name="line.960"></a>
 
 
 

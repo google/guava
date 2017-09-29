@@ -208,8 +208,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
 <div class="block"><span class="deprecationComment">Store the <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util"><code>Comparator</code></a> alongside the <a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect"><code>Table</code></a>. Or, if you know that the
      <a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect"><code>Table</code></a> contains at least one value, you can retrieve the <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util"><code>Comparator</code></a> with:
-     <code>((SortedMap&lt;C, V&gt;) table.rowMap().values().iterator().next()).comparator();</code>. This
-     method is scheduled for removal in April 2019.</span></div>
+     <code>((SortedMap&lt;C, V&gt;) table.rowMap().values().iterator().next()).comparator();</code>.</span></div>
 </div>
 </td>
 </tr>
@@ -330,8 +329,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/TreeBasedTable.html#rowComparator--">rowComparator</a></span>()</code>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
-<div class="block"><span class="deprecationComment">Use <code>table.rowKeySet().comparator()</code> instead. This method is scheduled for
-     removal in April 2019.</span></div>
+<div class="block"><span class="deprecationComment">Use <code>table.rowKeySet().comparator()</code> instead.</span></div>
 </div>
 </td>
 </tr>
@@ -446,9 +444,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>rowComparator</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.146">rowComparator</a>()</pre>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Use <code>table.rowKeySet().comparator()</code> instead. This method is scheduled for
-     removal in April 2019.</span></div>
+public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.145">rowComparator</a>()</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Use <code>table.rowKeySet().comparator()</code> instead.</span></div>
 <div class="block">Returns the comparator that orders the rows. With natural ordering, <a href="../../../../com/google/common/collect/Ordering.html#natural--"><code>Ordering.natural()</code></a>
  is returned.</div>
 </li>
@@ -460,11 +457,10 @@ public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparat
 <li class="blockList">
 <h4>columnComparator</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.160">columnComparator</a>()</pre>
+public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.158">columnComparator</a>()</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Store the <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util"><code>Comparator</code></a> alongside the <a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect"><code>Table</code></a>. Or, if you know that the
      <a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect"><code>Table</code></a> contains at least one value, you can retrieve the <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util"><code>Comparator</code></a> with:
-     <code>((SortedMap&lt;C, V&gt;) table.rowMap().values().iterator().next()).comparator();</code>. This
-     method is scheduled for removal in April 2019.</span></div>
+     <code>((SortedMap&lt;C, V&gt;) table.rowMap().values().iterator().next()).comparator();</code>.</span></div>
 <div class="block">Returns the comparator that orders the columns. With natural ordering, <a href="../../../../com/google/common/collect/Ordering.html#natural--"><code>Ordering.natural()</code></a> is returned.</div>
 </li>
 </ul>
@@ -476,7 +472,7 @@ public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparat
 <ul class="blockList">
 <li class="blockList">
 <h4>row</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>,<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.177">row</a>(<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&nbsp;rowKey)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>,<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.175">row</a>(<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&nbsp;rowKey)</pre>
 <div class="block">Returns a view of all mappings that have the given row key. For each row
  key / column key / value mapping in the table with that row key, the
  returned map associates the column key with the value. If no mappings in
@@ -508,7 +504,7 @@ public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparat
 <ul class="blockList">
 <li class="blockList">
 <h4>rowKeySet</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.313">rowKeySet</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.311">rowKeySet</a>()</pre>
 <div class="block">Returns a set of row keys that have one or more values in the table.
  Changes to the set will update the underlying table, and vice versa.
 
@@ -530,7 +526,7 @@ public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparat
 <ul class="blockList">
 <li class="blockList">
 <h4>rowMap</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>,<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.318">rowMap</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>,<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.316">rowMap</a>()</pre>
 <div class="block">Returns a view that associates each row key with the corresponding map from
  column keys to values. Changes to the returned map will update this table.
  The returned map does not support <code>put()</code> or <code>putAll()</code>, or

@@ -6446,7 +6446,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Use {@link #throwIfInstanceOf}, which has the same behavior but rejects {@code
-     null}. This method is scheduled to be removed in July 2018.">
+     null}.">
       <param name="throwable" type="java.lang.Throwable"/>
       <param name="declaredType" type="java.lang.Class&lt;X&gt;"/>
       <exception name="Throwable" type="java.lang.Throwable"/>
@@ -6467,7 +6467,7 @@
  </pre>
 
  @deprecated Use {@link #throwIfInstanceOf}, which has the same behavior but rejects {@code
-     null}. This method is scheduled to be removed in July 2018.]]>
+     null}.]]>
       </doc>
     </method>
     <method name="throwIfUnchecked"
@@ -6499,7 +6499,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Use {@link #throwIfUnchecked}, which has the same behavior but rejects {@code
-     null}. This method is scheduled to be removed in July 2018.">
+     null}.">
       <param name="throwable" type="java.lang.Throwable"/>
       <doc>
       <![CDATA[Propagates {@code throwable} exactly as-is, if and only if it is an instance of {@link
@@ -6517,7 +6517,7 @@
  </pre>
 
  @deprecated Use {@link #throwIfUnchecked}, which has the same behavior but rejects {@code
-     null}. This method is scheduled to be removed in July 2018.]]>
+     null}.]]>
       </doc>
     </method>
     <method name="propagateIfPossible"
@@ -6573,7 +6573,7 @@
       deprecated="Use {@code throw e} or {@code throw new RuntimeException(e)} directly, or use a
      combination of {@link #throwIfUnchecked} and {@code throw new RuntimeException(e)}. For
      background on the deprecation, read lEsS_tHaNa href=quote_cHaRhttps://goo.gl/Ivn2kcquote_cHaR>Why we deprecated
-     {@code Throwables.propagate}lEsS_tHaN/a>. This method is scheduled to be removed in July 2018.">
+     {@code Throwables.propagate}lEsS_tHaN/a>.">
       <param name="throwable" type="java.lang.Throwable"/>
       <doc>
       <![CDATA[Propagates {@code throwable} as-is if it is an instance of {@link RuntimeException} or {@link
@@ -6601,7 +6601,7 @@
  @deprecated Use {@code throw e} or {@code throw new RuntimeException(e)} directly, or use a
      combination of {@link #throwIfUnchecked} and {@code throw new RuntimeException(e)}. For
      background on the deprecation, read <a href="https://goo.gl/Ivn2kc">Why we deprecated
-     {@code Throwables.propagate}</a>. This method is scheduled to be removed in July 2018.]]>
+     {@code Throwables.propagate}</a>.]]>
       </doc>
     </method>
     <method name="getRootCause" return="java.lang.Throwable"
@@ -9771,15 +9771,13 @@
       static="false" final="false" visibility="public"
       deprecated="For a {@link ListMultimap} that automatically trims to size, use {@link
      ImmutableListMultimap}. If you need a mutable collection, remove the {@code trimToSize}
-     call, or switch to a {@code HashMaplEsS_tHaNK, ArrayListlEsS_tHaNV>>}. This method is scheduled for removal
-     in April 2019.">
+     call, or switch to a {@code HashMaplEsS_tHaNK, ArrayListlEsS_tHaNV>>}.">
       <doc>
       <![CDATA[Reduces the memory used by this {@code ArrayListMultimap}, if feasible.
 
  @deprecated For a {@link ListMultimap} that automatically trims to size, use {@link
      ImmutableListMultimap}. If you need a mutable collection, remove the {@code trimToSize}
-     call, or switch to a {@code HashMap<K, ArrayList<V>>}. This method is scheduled for removal
-     in April 2019.]]>
+     call, or switch to a {@code HashMap<K, ArrayList<V>>}.]]>
       </doc>
     </method>
     <doc>
@@ -12593,8 +12591,7 @@
     abstract="true"
     static="false" final="false" visibility="public"
     deprecated="This class has moved to {@code com.google.common.util.concurrent}. Please use {@link
-     com.google.common.util.concurrent.ForwardingBlockingDeque} instead. This class is scheduled
-     for deletion in January 2019.">
+     com.google.common.util.concurrent.ForwardingBlockingDeque} instead.">
     <implements name="java.util.concurrent.BlockingDeque&lt;E&gt;"/>
     <constructor name="ForwardingBlockingDeque"
       static="false" final="false" visibility="protected"
@@ -12737,8 +12734,7 @@
  @author Emily Soldal
  @since 14.0
  @deprecated This class has moved to {@code com.google.common.util.concurrent}. Please use {@link
-     com.google.common.util.concurrent.ForwardingBlockingDeque} instead. This class is scheduled
-     for deletion in January 2019.]]>
+     com.google.common.util.concurrent.ForwardingBlockingDeque} instead.]]>
     </doc>
   </class>
   <!-- end class com.google.common.collect.ForwardingBlockingDeque -->
@@ -31124,8 +31120,7 @@
     <method name="binarySearch" return="int"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
-      deprecated="Use {@link Collections#binarySearch(List, Object, Comparator)} directly. This
- method is scheduled for deletion in June 2018.">
+      deprecated="Use {@link Collections#binarySearch(List, Object, Comparator)} directly.">
       <param name="sortedList" type="java.util.List&lt;? extends T&gt;"/>
       <param name="key" type="T"/>
       <doc>
@@ -31135,8 +31130,7 @@
 
  @param sortedList the list to be searched
  @param key the key to be searched for
- @deprecated Use {@link Collections#binarySearch(List, Object, Comparator)} directly. This
- method is scheduled for deletion in June 2018.]]>
+ @deprecated Use {@link Collections#binarySearch(List, Object, Comparator)} directly.]]>
       </doc>
     </method>
     <doc>
@@ -33215,8 +33209,7 @@
     <method name="newSetFromMap" return="java.util.Set&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Use {@link Collections#newSetFromMap} instead. This method
-     will be removed in December 2017.">
+      deprecated="Use {@link Collections#newSetFromMap} instead.">
       <param name="map" type="java.util.Map&lt;E, java.lang.Boolean&gt;"/>
       <doc>
       <![CDATA[Returns a set backed by the specified map. The resulting set displays
@@ -33246,8 +33239,7 @@
  @param map the backing map
  @return the set backed by the map
  @throws IllegalArgumentException if {@code map} is not empty
- @deprecated Use {@link Collections#newSetFromMap} instead. This method
-     will be removed in December 2017.]]>
+ @deprecated Use {@link Collections#newSetFromMap} instead.]]>
       </doc>
     </method>
     <method name="union" return="com.google.common.collect.Sets.SetView&lt;E&gt;"
@@ -34793,14 +34785,12 @@
     <method name="rowComparator" return="java.util.Comparator&lt;? super R&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
-      deprecated="Use {@code table.rowKeySet().comparator()} instead. This method is scheduled for
-     removal in April 2019.">
+      deprecated="Use {@code table.rowKeySet().comparator()} instead.">
       <doc>
       <![CDATA[Returns the comparator that orders the rows. With natural ordering, {@link Ordering#natural()}
  is returned.
 
- @deprecated Use {@code table.rowKeySet().comparator()} instead. This method is scheduled for
-     removal in April 2019.]]>
+ @deprecated Use {@code table.rowKeySet().comparator()} instead.]]>
       </doc>
     </method>
     <method name="columnComparator" return="java.util.Comparator&lt;? super C&gt;"
@@ -34808,16 +34798,14 @@
       static="false" final="false" visibility="public"
       deprecated="Store the {@link Comparator} alongside the {@link Table}. Or, if you know that the
      {@link Table} contains at least one value, you can retrieve the {@link Comparator} with:
-     {@code ((SortedMaplEsS_tHaNC, V>) table.rowMap().values().iterator().next()).comparator();}. This
-     method is scheduled for removal in April 2019.">
+     {@code ((SortedMaplEsS_tHaNC, V>) table.rowMap().values().iterator().next()).comparator();}.">
       <doc>
       <![CDATA[Returns the comparator that orders the columns. With natural ordering, {@link
  Ordering#natural()} is returned.
 
  @deprecated Store the {@link Comparator} alongside the {@link Table}. Or, if you know that the
      {@link Table} contains at least one value, you can retrieve the {@link Comparator} with:
-     {@code ((SortedMap<C, V>) table.rowMap().values().iterator().next()).comparator();}. This
-     method is scheduled for removal in April 2019.]]>
+     {@code ((SortedMap<C, V>) table.rowMap().values().iterator().next()).comparator();}.]]>
       </doc>
     </method>
     <method name="row" return="java.util.SortedMap&lt;C, V&gt;"
@@ -34930,13 +34918,11 @@
     <method name="keyComparator" return="java.util.Comparator&lt;? super K&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
-      deprecated="Use {@code ((NavigableSetlEsS_tHaNK>) multimap.keySet()).comparator()} instead. This method
-     is scheduled for removal in April 2019.">
+      deprecated="Use {@code ((NavigableSetlEsS_tHaNK>) multimap.keySet()).comparator()} instead.">
       <doc>
       <![CDATA[Returns the comparator that orders the multimap keys.
 
- @deprecated Use {@code ((NavigableSet<K>) multimap.keySet()).comparator()} instead. This method
-     is scheduled for removal in April 2019.]]>
+ @deprecated Use {@code ((NavigableSet<K>) multimap.keySet()).comparator()} instead.]]>
       </doc>
     </method>
     <method name="valueComparator" return="java.util.Comparator&lt;? super V&gt;"
@@ -43716,8 +43702,7 @@
     <method name="toString" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Prefer {@code asCharSource(file, charset).read()}. This method is scheduled to be
-     removed in January 2019.">
+      deprecated="Prefer {@code asCharSource(file, charset).read()}.">
       <param name="file" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
       <exception name="IOException" type="java.io.IOException"/>
@@ -43729,8 +43714,7 @@
      helpful predefined constants
  @return a string containing all the characters from the file
  @throws IOException if an I/O error occurs
- @deprecated Prefer {@code asCharSource(file, charset).read()}. This method is scheduled to be
-     removed in January 2019.]]>
+ @deprecated Prefer {@code asCharSource(file, charset).read()}.]]>
       </doc>
     </method>
     <method name="write"
@@ -43799,8 +43783,7 @@
     <method name="write"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Prefer {@code asCharSink(to, charset).write(from)}. This method is scheduled to be
-     removed in January 2019.">
+      deprecated="Prefer {@code asCharSink(to, charset).write(from)}.">
       <param name="from" type="java.lang.CharSequence"/>
       <param name="to" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
@@ -43813,15 +43796,13 @@
  @param charset the charset used to encode the output stream; see {@link StandardCharsets} for
      helpful predefined constants
  @throws IOException if an I/O error occurs
- @deprecated Prefer {@code asCharSink(to, charset).write(from)}. This method is scheduled to be
-     removed in January 2019.]]>
+ @deprecated Prefer {@code asCharSink(to, charset).write(from)}.]]>
       </doc>
     </method>
     <method name="append"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Prefer {@code asCharSink(to, charset, FileWriteMode.APPEND).write(from)}. This
-     method is scheduled to be removed in January 2019.">
+      deprecated="Prefer {@code asCharSink(to, charset, FileWriteMode.APPEND).write(from)}.">
       <param name="from" type="java.lang.CharSequence"/>
       <param name="to" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
@@ -43834,15 +43815,13 @@
  @param charset the charset used to encode the output stream; see {@link StandardCharsets} for
      helpful predefined constants
  @throws IOException if an I/O error occurs
- @deprecated Prefer {@code asCharSink(to, charset, FileWriteMode.APPEND).write(from)}. This
-     method is scheduled to be removed in January 2019.]]>
+ @deprecated Prefer {@code asCharSink(to, charset, FileWriteMode.APPEND).write(from)}.]]>
       </doc>
     </method>
     <method name="copy"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Prefer {@code asCharSource(from, charset).copyTo(to)}. This method is scheduled to
-     be removed in January 2019.">
+      deprecated="Prefer {@code asCharSource(from, charset).copyTo(to)}.">
       <param name="from" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
       <param name="to" type="java.lang.Appendable"/>
@@ -43855,8 +43834,7 @@
      helpful predefined constants
  @param to the appendable object
  @throws IOException if an I/O error occurs
- @deprecated Prefer {@code asCharSource(from, charset).copyTo(to)}. This method is scheduled to
-     be removed in January 2019.]]>
+ @deprecated Prefer {@code asCharSource(from, charset).copyTo(to)}.]]>
       </doc>
     </method>
     <method name="equal" return="boolean"
@@ -43949,8 +43927,7 @@
     <method name="readFirstLine" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Prefer {@code asCharSource(file, charset).readFirstLine()}. This method is
-     scheduled to be removed in January 2019.">
+      deprecated="Prefer {@code asCharSource(file, charset).readFirstLine()}.">
       <param name="file" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
       <exception name="IOException" type="java.io.IOException"/>
@@ -43963,8 +43940,7 @@
      helpful predefined constants
  @return the first line, or null if the file is empty
  @throws IOException if an I/O error occurs
- @deprecated Prefer {@code asCharSource(file, charset).readFirstLine()}. This method is
-     scheduled to be removed in January 2019.]]>
+ @deprecated Prefer {@code asCharSource(file, charset).readFirstLine()}.]]>
       </doc>
     </method>
     <method name="readLines" return="java.util.List&lt;java.lang.String&gt;"
@@ -43994,8 +43970,7 @@
     <method name="readLines" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Prefer {@code asCharSource(file, charset).readLines(callback)}. This method is
-     scheduled to be removed in January 2019.">
+      deprecated="Prefer {@code asCharSource(file, charset).readLines(callback)}.">
       <param name="file" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
       <param name="callback" type="com.google.common.io.LineProcessor&lt;T&gt;"/>
@@ -44010,15 +43985,13 @@
  @param callback the {@link LineProcessor} to use to handle the lines
  @return the output of processing the lines
  @throws IOException if an I/O error occurs
- @deprecated Prefer {@code asCharSource(file, charset).readLines(callback)}. This method is
-     scheduled to be removed in January 2019.]]>
+ @deprecated Prefer {@code asCharSource(file, charset).readLines(callback)}.]]>
       </doc>
     </method>
     <method name="readBytes" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Prefer {@code asByteSource(file).read(processor)}. This method is scheduled to be
-     removed in January 2019.">
+      deprecated="Prefer {@code asByteSource(file).read(processor)}.">
       <param name="file" type="java.io.File"/>
       <param name="processor" type="com.google.common.io.ByteProcessor&lt;T&gt;"/>
       <exception name="IOException" type="java.io.IOException"/>
@@ -44031,15 +44004,13 @@
  @param processor the object to which the bytes of the file are passed.
  @return the result of the byte processor
  @throws IOException if an I/O error occurs
- @deprecated Prefer {@code asByteSource(file).read(processor)}. This method is scheduled to be
-     removed in January 2019.]]>
+ @deprecated Prefer {@code asByteSource(file).read(processor)}.]]>
       </doc>
     </method>
     <method name="hash" return="com.google.common.hash.HashCode"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Prefer {@code asByteSource(file).hash(hashFunction)}. This method is scheduled to
-     be removed in January 2019.">
+      deprecated="Prefer {@code asByteSource(file).hash(hashFunction)}.">
       <param name="file" type="java.io.File"/>
       <param name="hashFunction" type="com.google.common.hash.HashFunction"/>
       <exception name="IOException" type="java.io.IOException"/>
@@ -44051,8 +44022,7 @@
  @return the {@link HashCode} of all of the bytes in the file
  @throws IOException if an I/O error occurs
  @since 12.0
- @deprecated Prefer {@code asByteSource(file).hash(hashFunction)}. This method is scheduled to
-     be removed in January 2019.]]>
+ @deprecated Prefer {@code asByteSource(file).hash(hashFunction)}.]]>
       </doc>
     </method>
     <method name="map" return="java.nio.MappedByteBuffer"
@@ -45278,7 +45248,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
-     values. This method will be removed in February 2018.">
+     values.">
       <param name="values" type="double[]"/>
       <doc>
       <![CDATA[Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of
@@ -45290,14 +45260,14 @@
  @param values a nonempty series of values
  @throws IllegalArgumentException if {@code values} is empty or contains any non-finite value
  @deprecated Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
-     values. This method will be removed in February 2018.]]>
+     values.]]>
       </doc>
     </method>
     <method name="mean" return="double"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
-     values. This method will be removed in February 2018.">
+     values.">
       <param name="values" type="int[]"/>
       <doc>
       <![CDATA[Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of
@@ -45309,14 +45279,14 @@
  @param values a nonempty series of values
  @throws IllegalArgumentException if {@code values} is empty
  @deprecated Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
-     values. This method will be removed in February 2018.]]>
+     values.]]>
       </doc>
     </method>
     <method name="mean" return="double"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
-     values. This method will be removed in February 2018.">
+     values.">
       <param name="values" type="long[]"/>
       <doc>
       <![CDATA[Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of
@@ -45329,14 +45299,14 @@
      (this may cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))
  @throws IllegalArgumentException if {@code values} is empty
  @deprecated Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
-     values. This method will be removed in February 2018.]]>
+     values.]]>
       </doc>
     </method>
     <method name="mean" return="double"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
-     values. This method will be removed in February 2018.">
+     values.">
       <param name="values" type="java.lang.Iterable&lt;? extends java.lang.Number&gt;"/>
       <doc>
       <![CDATA[Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of
@@ -45349,14 +45319,14 @@
      (this may cause loss of precision)
  @throws IllegalArgumentException if {@code values} is empty or contains any non-finite value
  @deprecated Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
-     values. This method will be removed in February 2018.]]>
+     values.]]>
       </doc>
     </method>
     <method name="mean" return="double"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
-     values. This method will be removed in February 2018.">
+     values.">
       <param name="values" type="java.util.Iterator&lt;? extends java.lang.Number&gt;"/>
       <doc>
       <![CDATA[Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of
@@ -45369,7 +45339,7 @@
      (this may cause loss of precision)
  @throws IllegalArgumentException if {@code values} is empty or contains any non-finite value
  @deprecated Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
-     values. This method will be removed in February 2018.]]>
+     values.]]>
       </doc>
     </method>
     <doc>
