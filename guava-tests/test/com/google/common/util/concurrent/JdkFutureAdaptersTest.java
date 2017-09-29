@@ -25,7 +25,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.testing.ClassSanityTester;
 import com.google.common.util.concurrent.FuturesTest.ExecutorSpy;
-import com.google.common.util.concurrent.FuturesTest.SingleCallListener;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -47,6 +46,33 @@ public class JdkFutureAdaptersTest extends TestCase {
   public void testListenInPoolThreadReturnsSameFuture() throws Exception {
     ListenableFuture<String> listenableFuture = immediateFuture(DATA1);
     assertSame(listenableFuture, listenInPoolThread(listenableFuture));
+  }
+
+  private static class SingleCallListener implements Runnable {
+
+    private boolean expectCall = false;
+    private final CountDownLatch calledCountDown = new CountDownLatch(1);
+
+    @Override
+    public void run() {
+      assertTrue("Listener called before it was expected", expectCall);
+      assertFalse("Listener called more than once", wasCalled());
+      calledCountDown.countDown();
+    }
+
+    public void expectCall() {
+      assertFalse("expectCall is already true", expectCall);
+      expectCall = true;
+    }
+
+    public boolean wasCalled() {
+      return calledCountDown.getCount() == 0;
+    }
+
+    public void waitForCall() throws InterruptedException {
+      assertTrue("expectCall is false", expectCall);
+      calledCountDown.await();
+    }
   }
 
   public void testListenInPoolThreadIgnoresExecutorWhenDelegateIsDone()

@@ -2041,17 +2041,16 @@ public class FuturesTest extends TestCase {
    * Runnable which can be called a single time, and only after {@link #expectCall} is called.
    */
   // TODO(cpovirk): top-level class?
-  static class SingleCallListener implements Runnable {
+  private static class SingleCallListener implements Runnable {
 
     private boolean expectCall = false;
-    private final CountDownLatch calledCountDown =
-        new CountDownLatch(1);
+    private final AtomicBoolean called = new AtomicBoolean();
 
     @Override
     public void run() {
       assertTrue("Listener called before it was expected", expectCall);
       assertFalse("Listener called more than once", wasCalled());
-      calledCountDown.countDown();
+      called.set(true);
     }
 
     public void expectCall() {
@@ -2060,12 +2059,7 @@ public class FuturesTest extends TestCase {
     }
 
     public boolean wasCalled() {
-      return calledCountDown.getCount() == 0;
-    }
-
-    public void waitForCall() throws InterruptedException {
-      assertTrue("expectCall is false", expectCall);
-      calledCountDown.await();
+      return called.get();
     }
   }
 
