@@ -42,8 +42,7 @@ import java.util.concurrent.TimeUnit;
  * @author Emily Soldal
  * @since 14.0
  * @deprecated This class has moved to {@code com.google.common.util.concurrent}. Please use {@link
- *     com.google.common.util.concurrent.ForwardingBlockingDeque} instead. This class is scheduled
- *     for deletion in January 2019.
+ *     com.google.common.util.concurrent.ForwardingBlockingDeque} instead.
  */
 @Deprecated
 @GwtIncompatible

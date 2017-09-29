@@ -265,8 +265,7 @@ public final class Files {
    *     helpful predefined constants
    * @return a string containing all the characters from the file
    * @throws IOException if an I/O error occurs
-   * @deprecated Prefer {@code asCharSource(file, charset).read()}. This method is scheduled to be
-   *     removed in January 2019.
+   * @deprecated Prefer {@code asCharSource(file, charset).read()}.
    */
   @Deprecated
   public static String toString(File file, Charset charset) throws IOException {
@@ -333,8 +332,7 @@ public final class Files {
    * @param charset the charset used to encode the output stream; see {@link StandardCharsets} for
    *     helpful predefined constants
    * @throws IOException if an I/O error occurs
-   * @deprecated Prefer {@code asCharSink(to, charset).write(from)}. This method is scheduled to be
-   *     removed in January 2019.
+   * @deprecated Prefer {@code asCharSink(to, charset).write(from)}.
    */
   @Deprecated
   public static void write(CharSequence from, File to, Charset charset) throws IOException {
@@ -349,8 +347,7 @@ public final class Files {
    * @param charset the charset used to encode the output stream; see {@link StandardCharsets} for
    *     helpful predefined constants
    * @throws IOException if an I/O error occurs
-   * @deprecated Prefer {@code asCharSink(to, charset, FileWriteMode.APPEND).write(from)}. This
-   *     method is scheduled to be removed in January 2019.
+   * @deprecated Prefer {@code asCharSink(to, charset, FileWriteMode.APPEND).write(from)}.
    */
   @Deprecated
   public static void append(CharSequence from, File to, Charset charset) throws IOException {
@@ -365,8 +362,7 @@ public final class Files {
    *     helpful predefined constants
    * @param to the appendable object
    * @throws IOException if an I/O error occurs
-   * @deprecated Prefer {@code asCharSource(from, charset).copyTo(to)}. This method is scheduled to
-   *     be removed in January 2019.
+   * @deprecated Prefer {@code asCharSource(from, charset).copyTo(to)}.
    */
   @Deprecated
   public static void copy(File from, Charset charset, Appendable to) throws IOException {
@@ -516,8 +512,7 @@ public final class Files {
    *     helpful predefined constants
    * @return the first line, or null if the file is empty
    * @throws IOException if an I/O error occurs
-   * @deprecated Prefer {@code asCharSource(file, charset).readFirstLine()}. This method is
-   *     scheduled to be removed in January 2019.
+   * @deprecated Prefer {@code asCharSource(file, charset).readFirstLine()}.
    */
   @Deprecated
   public static String readFirstLine(File file, Charset charset) throws IOException {
@@ -571,8 +566,7 @@ public final class Files {
    * @param callback the {@link LineProcessor} to use to handle the lines
    * @return the output of processing the lines
    * @throws IOException if an I/O error occurs
-   * @deprecated Prefer {@code asCharSource(file, charset).readLines(callback)}. This method is
-   *     scheduled to be removed in January 2019.
+   * @deprecated Prefer {@code asCharSource(file, charset).readLines(callback)}.
    */
   @Deprecated
   @CanIgnoreReturnValue // some processors won't return a useful result
@@ -590,8 +584,7 @@ public final class Files {
    * @param processor the object to which the bytes of the file are passed.
    * @return the result of the byte processor
    * @throws IOException if an I/O error occurs
-   * @deprecated Prefer {@code asByteSource(file).read(processor)}. This method is scheduled to be
-   *     removed in January 2019.
+   * @deprecated Prefer {@code asByteSource(file).read(processor)}.
    */
   @Deprecated
   @CanIgnoreReturnValue // some processors won't return a useful result
@@ -607,8 +600,7 @@ public final class Files {
    * @return the {@link HashCode} of all of the bytes in the file
    * @throws IOException if an I/O error occurs
    * @since 12.0
-   * @deprecated Prefer {@code asByteSource(file).hash(hashFunction)}. This method is scheduled to
-   *     be removed in January 2019.
+   * @deprecated Prefer {@code asByteSource(file).hash(hashFunction)}.
    */
   @Deprecated
   public static HashCode hash(File file, HashFunction hashFunction) throws IOException {

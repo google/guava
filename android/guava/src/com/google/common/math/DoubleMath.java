@@ -397,7 +397,7 @@ public final class DoubleMath {
    * @param values a nonempty series of values
    * @throws IllegalArgumentException if {@code values} is empty or contains any non-finite value
    * @deprecated Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
-   *     values. This method will be removed in February 2018.
+   *     values.
    */
   @Deprecated
   // com.google.common.math.DoubleUtils
@@ -425,7 +425,7 @@ public final class DoubleMath {
    * @param values a nonempty series of values
    * @throws IllegalArgumentException if {@code values} is empty
    * @deprecated Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
-   *     values. This method will be removed in February 2018.
+   *     values.
    */
   @Deprecated
   public static double mean(int... values) {
@@ -451,7 +451,7 @@ public final class DoubleMath {
    *     (this may cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))
    * @throws IllegalArgumentException if {@code values} is empty
    * @deprecated Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
-   *     values. This method will be removed in February 2018.
+   *     values.
    */
   @Deprecated
   public static double mean(long... values) {
@@ -477,7 +477,7 @@ public final class DoubleMath {
    *     (this may cause loss of precision)
    * @throws IllegalArgumentException if {@code values} is empty or contains any non-finite value
    * @deprecated Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
-   *     values. This method will be removed in February 2018.
+   *     values.
    */
   @Deprecated
   // com.google.common.math.DoubleUtils
@@ -497,7 +497,7 @@ public final class DoubleMath {
    *     (this may cause loss of precision)
    * @throws IllegalArgumentException if {@code values} is empty or contains any non-finite value
    * @deprecated Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
-   *     values. This method will be removed in February 2018.
+   *     values.
    */
   @Deprecated
   // com.google.common.math.DoubleUtils

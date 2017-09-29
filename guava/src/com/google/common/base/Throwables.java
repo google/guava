@@ -94,7 +94,7 @@ public final class Throwables {
    * </pre>
    *
    * @deprecated Use {@link #throwIfInstanceOf}, which has the same behavior but rejects {@code
-   *     null}. This method is scheduled to be removed in July 2018.
+   *     null}.
    */
   @Deprecated
   @GwtIncompatible // throwIfInstanceOf
@@ -150,7 +150,7 @@ public final class Throwables {
    * </pre>
    *
    * @deprecated Use {@link #throwIfUnchecked}, which has the same behavior but rejects {@code
-   *     null}. This method is scheduled to be removed in July 2018.
+   *     null}.
    */
   @Deprecated
   @GwtIncompatible
@@ -231,7 +231,7 @@ public final class Throwables {
    * @deprecated Use {@code throw e} or {@code throw new RuntimeException(e)} directly, or use a
    *     combination of {@link #throwIfUnchecked} and {@code throw new RuntimeException(e)}. For
    *     background on the deprecation, read <a href="https://goo.gl/Ivn2kc">Why we deprecated
-   *     {@code Throwables.propagate}</a>. This method is scheduled to be removed in July 2018.
+   *     {@code Throwables.propagate}</a>.
    */
   @CanIgnoreReturnValue
   @GwtIncompatible

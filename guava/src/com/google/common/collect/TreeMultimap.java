@@ -148,8 +148,7 @@ public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V>
   /**
    * Returns the comparator that orders the multimap keys.
    *
-   * @deprecated Use {@code ((NavigableSet<K>) multimap.keySet()).comparator()} instead. This method
-   *     is scheduled for removal in April 2019.
+   * @deprecated Use {@code ((NavigableSet<K>) multimap.keySet()).comparator()} instead.
    */
   @Deprecated
   public Comparator<? super K> keyComparator() {
