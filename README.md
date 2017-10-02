@@ -9,7 +9,7 @@ primitives, reflection, string processing, and much more!
 
 Guava comes in two flavors.
 
-*   The main flavor requires JDK 1.8 or higher.
+*   The JRE flavor requires JDK 1.8 or higher.
 *   If you need support for JDK 1.7 or Android, use the Android flavor. You can
     find the Android Guava source in the [`android` directory].
 
@@ -17,13 +17,11 @@ Guava comes in two flavors.
 
 ## Latest release
 
-The most recent release is [Guava 23.0][current release], released August 4, 2017.
-
-- 23.0 API Docs: [guava][guava-release-api-docs], [guava-testlib][testlib-release-api-docs]
-- 23.0 API Diffs from 22.0: [guava][guava-release-api-diffs]
+The most recent release is [Guava 23.1][current release], released September 27,
+2017.
 
 The Maven group ID is `com.google.guava`, and the artifact ID is `guava`. Use
-version `23.0` for the main flavor, or `23.0-android` for the Android flavor.
+version `23.1-jre` for the JRE flavor, or `23.1-android` for the Android flavor.
 
 To add a dependency on Guava using Maven, use the following:
 
@@ -31,9 +29,9 @@ To add a dependency on Guava using Maven, use the following:
 <dependency>
   <groupId>com.google.guava</groupId>
   <artifactId>guava</artifactId>
-  <version>23.0</version>
+  <version>23.1-jre</version>
   <!-- or, for Android: -->
-  <version>23.0-android</version>
+  <version>23.1-android</version>
 </dependency>
 ```
 
@@ -41,9 +39,9 @@ To add a dependency using Gradle:
 
 ```
 dependencies {
-  compile 'com.google.guava:guava:23.0'
+  compile 'com.google.guava:guava:23.1-jre'
   // or, for Android:
-  compile 'com.google.guava:guava:23.0-android'
+  compile 'com.google.guava:guava:23.1-android'
 }
 ```
 
@@ -96,10 +94,7 @@ Linux. Some features, especially in `com.google.common.io`, may not work
 correctly in other environments. For the Android flavor, our unit tests run on
 API level 15 (Ice Cream Sandwich).
 
-[current release]: https://github.com/google/guava/wiki/Release23
-[guava-release-api-docs]: http://google.github.io/guava/releases/23.0/api/docs/
-[testlib-release-api-docs]: http://www.javadoc.io/doc/com.google.guava/guava-testlib/23.0
-[guava-release-api-diffs]: http://google.github.io/guava/releases/23.0/api/diffs/
+[current release]: https://github.com/google/guava/releases/tag/v23.1
 [guava-snapshot-api-docs]: http://google.github.io/guava/releases/snapshot/api/docs/
 [guava-snapshot-api-diffs]: http://google.github.io/guava/releases/snapshot/api/diffs/
 [Guava Explained]: https://github.com/google/guava/wiki/Home
