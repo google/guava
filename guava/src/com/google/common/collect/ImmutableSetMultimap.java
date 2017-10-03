@@ -476,7 +476,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   @Override
   public ImmutableSet<V> get(@Nullable K key) {
     // This cast is safe as its type is known in constructor.
-    /*@org.checkerframework.checker.nullness.qual.Nullable*/ ImmutableSet<V> set = (/*@org.checkerframework.checker.nullness.qual.Nullable*/ ImmutableSet<V>) map.get(key);
+    @org.checkerframework.checker.nullness.qual.Nullable ImmutableSet<V> set = (@org.checkerframework.checker.nullness.qual.Nullable ImmutableSet<V>) map.get(key);
     return MoreObjects.firstNonNull(set, emptySet);
   }
 
@@ -518,7 +518,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   @CanIgnoreReturnValue
   @Deprecated
   @Override
-  public ImmutableSet<V> removeAll(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
+  public ImmutableSet<V> removeAll(@org.checkerframework.checker.nullness.qual.Nullable Object key) {
     throw new UnsupportedOperationException();
   }
 

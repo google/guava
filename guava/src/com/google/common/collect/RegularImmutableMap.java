@@ -125,7 +125,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   private static final double MAX_LOAD_FACTOR = 1.2;
 
   @Override
-  public /*@org.checkerframework.checker.nullness.qual.Nullable*/ V get(@Nullable Object key) {
+  public @org.checkerframework.checker.nullness.qual.Nullable V get(@Nullable Object key) {
     return get(key, table, mask);
   }
 
@@ -288,7 +288,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   @Pure
   @Override
-  public boolean containsValue(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) {
+  public boolean containsValue(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) {
     return super.containsValue(arg0);
   }
 

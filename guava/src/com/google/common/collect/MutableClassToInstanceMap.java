@@ -44,7 +44,7 @@ import java.util.Spliterator;
  */
 @SuppressWarnings("serial") // using writeReplace instead of standard serialization
 @AnnotatedFor({"nullness"})
-public final class MutableClassToInstanceMap<B extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends ForwardingMap<Class<? extends B>, B>
+public final class MutableClassToInstanceMap<B extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingMap<Class<? extends B>, B>
     implements ClassToInstanceMap<B>, Serializable {
 
   /**
@@ -158,7 +158,7 @@ public final class MutableClassToInstanceMap<B extends /*@org.checkerframework.c
   }
 
   @CanIgnoreReturnValue
-  private static <B, T extends B> T cast(Class<T> type, /*@org.checkerframework.checker.nullness.qual.Nullable*/ B value) {
+  private static <B, T extends B> T cast(Class<T> type, @org.checkerframework.checker.nullness.qual.Nullable B value) {
     return Primitives.wrap(type).cast(value);
   }
 

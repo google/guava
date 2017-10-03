@@ -106,7 +106,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
-public class LinkedListMultimap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends AbstractMultimap<K, V>
+public class LinkedListMultimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractMultimap<K, V>
     implements ListMultimap<K, V>, Serializable {
   /*
    * Order is maintained using a linked list containing all key-value pairs. In
@@ -160,8 +160,8 @@ public class LinkedListMultimap<K extends /*@org.checkerframework.checker.nullne
     }
   }
 
-  private transient /*@org.checkerframework.checker.nullness.qual.Nullable*/ Node<K, V> head; // the head for all keys
-  private transient /*@org.checkerframework.checker.nullness.qual.Nullable*/ Node<K, V> tail; // the tail for all keys
+  private transient @org.checkerframework.checker.nullness.qual.Nullable Node<K, V> head; // the head for all keys
+  private transient @org.checkerframework.checker.nullness.qual.Nullable Node<K, V> tail; // the tail for all keys
   private transient Map<K, KeyList<K, V>> keyToKeyList;
   private transient int size;
 
@@ -322,8 +322,8 @@ public class LinkedListMultimap<K extends /*@org.checkerframework.checker.nullne
   /** An {@code Iterator} over all nodes. */
   private class NodeIterator implements ListIterator<Entry<K, V>> {
     int nextIndex;
-    /*@org.checkerframework.checker.nullness.qual.Nullable*/ Node<K, V> next;
-    /*@org.checkerframework.checker.nullness.qual.Nullable*/ Node<K, V> current;
+    @org.checkerframework.checker.nullness.qual.Nullable Node<K, V> next;
+    @org.checkerframework.checker.nullness.qual.Nullable Node<K, V> current;
     Node<K, V> previous;
     int expectedModCount = modCount;
 
@@ -429,8 +429,8 @@ public class LinkedListMultimap<K extends /*@org.checkerframework.checker.nullne
   /** An {@code Iterator} over distinct keys in key head order. */
   private class DistinctKeyIterator implements Iterator<K> {
     final Set<K> seenKeys = Sets.<K>newHashSetWithExpectedSize(keySet().size());
-    /*@org.checkerframework.checker.nullness.qual.Nullable*/ Node<K, V> next = head;
-    /*@org.checkerframework.checker.nullness.qual.Nullable*/ Node<K, V> current;
+    @org.checkerframework.checker.nullness.qual.Nullable Node<K, V> next = head;
+    @org.checkerframework.checker.nullness.qual.Nullable Node<K, V> current;
     int expectedModCount = modCount;
 
     private void checkForConcurrentModification() {
@@ -469,11 +469,11 @@ public class LinkedListMultimap<K extends /*@org.checkerframework.checker.nullne
 
   /** A {@code ListIterator} over values for a specified key. */
   private class ValueForKeyIterator implements ListIterator<V> {
-    final /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key;
+    final @org.checkerframework.checker.nullness.qual.Nullable Object key;
     int nextIndex;
-    /*@org.checkerframework.checker.nullness.qual.Nullable*/ Node<K, V> next;
-    /*@org.checkerframework.checker.nullness.qual.Nullable*/ Node<K, V> current;
-    /*@org.checkerframework.checker.nullness.qual.Nullable*/ Node<K, V> previous;
+    @org.checkerframework.checker.nullness.qual.Nullable Node<K, V> next;
+    @org.checkerframework.checker.nullness.qual.Nullable Node<K, V> current;
+    @org.checkerframework.checker.nullness.qual.Nullable Node<K, V> previous;
 
     /** Constructs a new iterator over all values for the specified key. */
     ValueForKeyIterator(@Nullable Object key) {
@@ -731,7 +731,7 @@ public class LinkedListMultimap<K extends /*@org.checkerframework.checker.nullne
 
       @Pure
       @Override
-      public boolean contains(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) { // for performance
+      public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object key) { // for performance
         return containsKey(key);
       }
 
@@ -886,7 +886,7 @@ public boolean containsEntry(@Nullable Object arg0, @Nullable Object arg1) { ret
 public boolean equals(@Nullable Object arg0) { return super.equals(arg0); }
 
 @Override
-public boolean remove(@Nullable Object arg0, /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg1) { return super.remove(arg0, arg1); }
+public boolean remove(@Nullable Object arg0, @org.checkerframework.checker.nullness.qual.Nullable Object arg1) { return super.remove(arg0, arg1); }
 
 @Override
 public Map<K, Collection<V>> asMap() { return super.asMap(); }

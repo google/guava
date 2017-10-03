@@ -83,17 +83,17 @@ class RegularImmutableList<E> extends ImmutableList<E> {
   // TODO(lowasser): benchmark optimizations for equals() and see if they're worthwhile
 
 @Override
-public boolean contains(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.contains(arg0); }
+public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.contains(arg0); }
 
 @Pure
 @Override
-public boolean equals(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.equals(arg0); }
+public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
 
 @Override
-public int indexOf(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.indexOf(arg0); }
+public int indexOf(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.indexOf(arg0); }
 
 @Override
-public int lastIndexOf(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.lastIndexOf(arg0); }
+public int lastIndexOf(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.lastIndexOf(arg0); }
 
 @SideEffectFree
 @Override

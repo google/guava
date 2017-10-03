@@ -214,12 +214,12 @@ public final class Multimaps {
    *     key
    * @throws IllegalArgumentException if {@code map} is not empty
    */
-  public static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Multimap<K, V> newMultimap(
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> Multimap<K, V> newMultimap(
       Map<K, Collection<V>> map, final Supplier<? extends Collection<V>> factory) {
     return new CustomMultimap<>(map, factory);
   }
 
-  private static class CustomMultimap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends AbstractMapBasedMultimap<K, V> {
+  private static class CustomMultimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractMapBasedMultimap<K, V> {
     transient Supplier<? extends Collection<V>> factory;
 
     CustomMultimap(Map<K, Collection<V>> map, Supplier<? extends Collection<V>> factory) {
@@ -294,7 +294,7 @@ public final class Multimaps {
    *     for a given key
    * @throws IllegalArgumentException if {@code map} is not empty
    */
-  public static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> ListMultimap<K, V> newListMultimap(
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> ListMultimap<K, V> newListMultimap(
       Map<K, Collection<V>> map, final Supplier<? extends List<V>> factory) {
     return new CustomListMultimap<>(map, factory);
   }
@@ -370,12 +370,12 @@ public final class Multimaps {
    *     for a given key
    * @throws IllegalArgumentException if {@code map} is not empty
    */
-  public static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> SetMultimap<K, V> newSetMultimap(
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> SetMultimap<K, V> newSetMultimap(
       Map<K, Collection<V>> map, final Supplier<? extends Set<V>> factory) {
     return new CustomSetMultimap<>(map, factory);
   }
 
-  private static class CustomSetMultimap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends AbstractSetMultimap<K, V> {
+  private static class CustomSetMultimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractSetMultimap<K, V> {
     transient Supplier<? extends Set<V>> factory;
 
     CustomSetMultimap(Map<K, Collection<V>> map, Supplier<? extends Set<V>> factory) {
@@ -445,7 +445,7 @@ public final class Multimaps {
    *     all values for a given key
    * @throws IllegalArgumentException if {@code map} is not empty
    */
-  public static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> SortedSetMultimap<K, V> newSortedSetMultimap(
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> SortedSetMultimap<K, V> newSortedSetMultimap(
       Map<K, Collection<V>> map, final Supplier<? extends SortedSet<V>> factory) {
     return new CustomSortedSetMultimap<>(map, factory);
   }
@@ -504,7 +504,7 @@ public final class Multimaps {
    * @return {@code dest}
    */
   @CanIgnoreReturnValue
-  public static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, M extends Multimap<K, V>> M invertFrom(
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object, M extends Multimap<K, V>> M invertFrom(
       Multimap<? extends V, ? extends K> source, M dest) {
     checkNotNull(dest);
     for (Map.Entry<? extends V, ? extends K> entry : source.entries()) {
@@ -546,7 +546,7 @@ public final class Multimaps {
    * @param multimap the multimap to be wrapped in a synchronized view
    * @return a synchronized view of the specified multimap
    */
-  public static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Multimap<K, V> synchronizedMultimap(Multimap<K, V> multimap) {
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> Multimap<K, V> synchronizedMultimap(Multimap<K, V> multimap) {
     return Synchronized.multimap(multimap, null);
   }
 
@@ -567,7 +567,7 @@ public final class Multimaps {
    *     returned
    * @return an unmodifiable view of the specified multimap
    */
-  public static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Multimap<K, V> unmodifiableMultimap(Multimap<K, V> delegate) {
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> Multimap<K, V> unmodifiableMultimap(Multimap<K, V> delegate) {
     if (delegate instanceof UnmodifiableMultimap || delegate instanceof ImmutableMultimap) {
       return delegate;
     }
@@ -585,7 +585,7 @@ public final class Multimaps {
     return checkNotNull(delegate);
   }
 
-  private static class UnmodifiableMultimap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends ForwardingMultimap<K, V>
+  private static class UnmodifiableMultimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingMultimap<K, V>
       implements Serializable {
     final Multimap<K, V> delegate;
     transient Collection<Entry<K, V>> entries;
@@ -638,7 +638,7 @@ public final class Multimaps {
     }
 
     @Override
-    public Collection<V> get(/*@org.checkerframework.checker.nullness.qual.Nullable*/ K key) {
+    public Collection<V> get(@org.checkerframework.checker.nullness.qual.Nullable K key) {
       return unmodifiableValueCollection(delegate.get(key));
     }
 
@@ -677,12 +677,12 @@ public final class Multimaps {
     }
 
     @Override
-    public boolean remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key, /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object value) {
+    public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object key, @org.checkerframework.checker.nullness.qual.Nullable Object value) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public Collection<V> removeAll(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
+    public Collection<V> removeAll(@org.checkerframework.checker.nullness.qual.Nullable Object key) {
       throw new UnsupportedOperationException();
     }
 
@@ -704,7 +704,7 @@ public final class Multimaps {
     private static final long serialVersionUID = 0;
   }
 
-  private static class UnmodifiableListMultimap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends UnmodifiableMultimap<K, V>
+  private static class UnmodifiableListMultimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends UnmodifiableMultimap<K, V>
       implements ListMultimap<K, V> {
     UnmodifiableListMultimap(ListMultimap<K, V> delegate) {
       super(delegate);
@@ -721,7 +721,7 @@ public final class Multimaps {
     }
 
     @Override
-    public List<V> removeAll(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
+    public List<V> removeAll(@org.checkerframework.checker.nullness.qual.Nullable Object key) {
       throw new UnsupportedOperationException();
     }
 
@@ -745,7 +745,7 @@ public final class Multimaps {
     }
 
     @Override
-    public Set<V> get(/*@org.checkerframework.checker.nullness.qual.Nullable*/ K key) {
+    public Set<V> get(@org.checkerframework.checker.nullness.qual.Nullable K key) {
       /*
        * Note that this doesn't return a SortedSet when delegate is a
        * SortedSetMultiset, unlike (SortedSet<V>) super.get().
@@ -760,7 +760,7 @@ public final class Multimaps {
     }
 
     @Override
-    public Set<V> removeAll(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
+    public Set<V> removeAll(@org.checkerframework.checker.nullness.qual.Nullable Object key) {
       throw new UnsupportedOperationException();
     }
 
@@ -772,7 +772,7 @@ public final class Multimaps {
     private static final long serialVersionUID = 0;
   }
 
-  private static class UnmodifiableSortedSetMultimap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends UnmodifiableSetMultimap<K, V>
+  private static class UnmodifiableSortedSetMultimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends UnmodifiableSetMultimap<K, V>
       implements SortedSetMultimap<K, V> {
     UnmodifiableSortedSetMultimap(SortedSetMultimap<K, V> delegate) {
       super(delegate);
@@ -789,7 +789,7 @@ public final class Multimaps {
     }
 
     @Override
-    public SortedSet<V> removeAll(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
+    public SortedSet<V> removeAll(@org.checkerframework.checker.nullness.qual.Nullable Object key) {
       throw new UnsupportedOperationException();
     }
 
@@ -799,7 +799,7 @@ public final class Multimaps {
     }
 
     @Override
-    public /*@org.checkerframework.checker.nullness.qual.Nullable*/ Comparator<? super V> valueComparator() {
+    public @org.checkerframework.checker.nullness.qual.Nullable Comparator<? super V> valueComparator() {
       return delegate().valueComparator();
     }
 
@@ -818,7 +818,7 @@ public final class Multimaps {
    * @param multimap the multimap to be wrapped
    * @return a synchronized view of the specified multimap
    */
-  public static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> SetMultimap<K, V> synchronizedSetMultimap(SetMultimap<K, V> multimap) {
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> SetMultimap<K, V> synchronizedSetMultimap(SetMultimap<K, V> multimap) {
     return Synchronized.setMultimap(multimap, null);
   }
 
@@ -840,7 +840,7 @@ public final class Multimaps {
    *     returned
    * @return an unmodifiable view of the specified multimap
    */
-  public static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> SetMultimap<K, V> unmodifiableSetMultimap(SetMultimap<K, V> delegate) {
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> SetMultimap<K, V> unmodifiableSetMultimap(SetMultimap<K, V> delegate) {
     if (delegate instanceof UnmodifiableSetMultimap || delegate instanceof ImmutableSetMultimap) {
       return delegate;
     }
@@ -871,7 +871,7 @@ public final class Multimaps {
    * @param multimap the multimap to be wrapped
    * @return a synchronized view of the specified multimap
    */
-  public static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> SortedSetMultimap<K, V> synchronizedSortedSetMultimap(
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> SortedSetMultimap<K, V> synchronizedSortedSetMultimap(
       SortedSetMultimap<K, V> multimap) {
     return Synchronized.sortedSetMultimap(multimap, null);
   }
@@ -894,7 +894,7 @@ public final class Multimaps {
    *     returned
    * @return an unmodifiable view of the specified multimap
    */
-  public static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> SortedSetMultimap<K, V> unmodifiableSortedSetMultimap(
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> SortedSetMultimap<K, V> unmodifiableSortedSetMultimap(
       SortedSetMultimap<K, V> delegate) {
     if (delegate instanceof UnmodifiableSortedSetMultimap) {
       return delegate;
@@ -911,7 +911,7 @@ public final class Multimaps {
    * @param multimap the multimap to be wrapped
    * @return a synchronized view of the specified multimap
    */
-  public static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> ListMultimap<K, V> synchronizedListMultimap(ListMultimap<K, V> multimap) {
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> ListMultimap<K, V> synchronizedListMultimap(ListMultimap<K, V> multimap) {
     return Synchronized.listMultimap(multimap, null);
   }
 
@@ -933,7 +933,7 @@ public final class Multimaps {
    *     returned
    * @return an unmodifiable view of the specified multimap
    */
-  public static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> ListMultimap<K, V> unmodifiableListMultimap(ListMultimap<K, V> delegate) {
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> ListMultimap<K, V> unmodifiableListMultimap(ListMultimap<K, V> delegate) {
     if (delegate instanceof UnmodifiableListMultimap || delegate instanceof ImmutableListMultimap) {
       return delegate;
     }
@@ -960,7 +960,7 @@ public final class Multimaps {
    * @param collection the collection for which to return an unmodifiable view
    * @return an unmodifiable view of the collection
    */
-  private static <V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Collection<V> unmodifiableValueCollection(Collection<V> collection) {
+  private static <V extends @org.checkerframework.checker.nullness.qual.Nullable Object> Collection<V> unmodifiableValueCollection(Collection<V> collection) {
     if (collection instanceof SortedSet) {
       return Collections.unmodifiableSortedSet((SortedSet<V>) collection);
     } else if (collection instanceof Set) {
@@ -980,7 +980,7 @@ public final class Multimaps {
    * @param entries the entries for which to return an unmodifiable view
    * @return an unmodifiable view of the entries
    */
-  private static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Collection<Entry<K, V>> unmodifiableEntries(
+  private static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> Collection<Entry<K, V>> unmodifiableEntries(
       Collection<Entry<K, V>> entries) {
     if (entries instanceof Set) {
       return Maps.unmodifiableEntrySet((Set<Entry<K, V>>) entries);
@@ -1056,12 +1056,12 @@ public final class Multimaps {
    *
    * @param map the backing map for the returned multimap view
    */
-  public static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> SetMultimap<K, V> forMap(Map<K, V> map) {
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> SetMultimap<K, V> forMap(Map<K, V> map) {
     return new MapMultimap<>(map);
   }
 
   /** @see Multimaps#forMap */
-  private static class MapMultimap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends AbstractMultimap<K, V>
+  private static class MapMultimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractMultimap<K, V>
       implements SetMultimap<K, V>, Serializable {
     final Map<K, V> map;
 
@@ -1077,19 +1077,19 @@ public final class Multimaps {
 
     @Pure
     @Override
-    public boolean containsKey(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
+    public boolean containsKey(@org.checkerframework.checker.nullness.qual.Nullable Object key) {
       return map.containsKey(key);
     }
 
     @Pure
     @Override
-    public boolean containsValue(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object value) {
+    public boolean containsValue(@org.checkerframework.checker.nullness.qual.Nullable Object value) {
       return map.containsValue(value);
     }
 
     @Pure
     @Override
-    public boolean containsEntry(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key, /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object value) {
+    public boolean containsEntry(@org.checkerframework.checker.nullness.qual.Nullable Object key, @org.checkerframework.checker.nullness.qual.Nullable Object value) {
       return map.entrySet().contains(Maps.immutableEntry(key, value));
     }
 
@@ -1153,12 +1153,12 @@ public final class Multimaps {
     }
 
     @Override
-    public boolean remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key, /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object value) {
+    public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object key, @org.checkerframework.checker.nullness.qual.Nullable Object value) {
       return map.entrySet().remove(Maps.immutableEntry(key, value));
     }
 
     @Override
-    public Set<V> removeAll(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
+    public Set<V> removeAll(@org.checkerframework.checker.nullness.qual.Nullable Object key) {
       Set<V> values = new HashSet<V>(2);
       if (!map.containsKey(key)) {
         return values;
@@ -1603,7 +1603,7 @@ public final class Multimaps {
    * @throws NullPointerException if any element of {@code values} is {@code null}, or if {@code
    *     keyFunction} produces {@code null} for any key
    */
-  public static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> ImmutableListMultimap<K, V> index(
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> ImmutableListMultimap<K, V> index(
       Iterable<V> values, Function<? super V, K> keyFunction) {
     return index(values.iterator(), keyFunction);
   }

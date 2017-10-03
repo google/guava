@@ -100,7 +100,7 @@ public class Finalizer implements Runnable {
   private final PhantomReference<Object> frqReference;
   private final ReferenceQueue<Object> queue;
 
-  private static final /*@org.checkerframework.checker.nullness.qual.Nullable*/ Field inheritableThreadLocals = getInheritableThreadLocalsField();
+  private static final @org.checkerframework.checker.nullness.qual.Nullable Field inheritableThreadLocals = getInheritableThreadLocalsField();
 
   /** Constructs a new finalizer thread. */
   private Finalizer(

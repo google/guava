@@ -88,7 +88,7 @@ public final class Lists {
    * of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    */
   @GwtCompatible(serializable = true)
-  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> ArrayList<E> newArrayList() {
+  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> ArrayList<E> newArrayList() {
     return new ArrayList<>();
   }
 
@@ -112,7 +112,7 @@ public final class Lists {
   @SafeVarargs
   @CanIgnoreReturnValue // TODO(kak): Remove this
   @GwtCompatible(serializable = true)
-  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> ArrayList<E> newArrayList(E... elements) {
+  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> ArrayList<E> newArrayList(E... elements) {
     checkNotNull(elements); // for GWT
     // Avoid integer overflow when a large array is passed in
     int capacity = computeArrayListCapacity(elements.length);
@@ -146,7 +146,7 @@ public final class Lists {
    */
   @CanIgnoreReturnValue // TODO(kak): Remove this
   @GwtCompatible(serializable = true)
-  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> ArrayList<E> newArrayList(Iterable<? extends E> elements) {
+  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> ArrayList<E> newArrayList(Iterable<? extends E> elements) {
     checkNotNull(elements); // for GWT
     // Let ArrayList's sizing logic work, if possible
     return (elements instanceof Collection)
@@ -164,7 +164,7 @@ public final class Lists {
    */
   @CanIgnoreReturnValue // TODO(kak): Remove this
   @GwtCompatible(serializable = true)
-  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> ArrayList<E> newArrayList(Iterator<? extends E> elements) {
+  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> ArrayList<E> newArrayList(Iterator<? extends E> elements) {
     ArrayList<E> list = newArrayList();
     Iterators.addAll(list, elements);
     return list;
@@ -235,7 +235,7 @@ public final class Lists {
    * of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    */
   @GwtCompatible(serializable = true)
-  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> LinkedList<E> newLinkedList() {
+  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> LinkedList<E> newLinkedList() {
     return new LinkedList<>();
   }
 
@@ -260,7 +260,7 @@ public final class Lists {
    * advantage of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    */
   @GwtCompatible(serializable = true)
-  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> LinkedList<E> newLinkedList(Iterable<? extends E> elements) {
+  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> LinkedList<E> newLinkedList(Iterable<? extends E> elements) {
     LinkedList<E> list = newLinkedList();
     Iterables.addAll(list, elements);
     return list;
@@ -313,12 +313,12 @@ public final class Lists {
    * @param rest an array of additional elements, possibly empty
    * @return an unmodifiable list containing the specified elements
    */
-  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> List<E> asList(@Nullable E first, E[] rest) {
+  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> List<E> asList(@Nullable E first, E[] rest) {
     return new OnePlusArrayList<>(first, rest);
   }
 
   /** @see Lists#asList(Object, Object[]) */
-  private static class OnePlusArrayList<E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends AbstractList<E>
+  private static class OnePlusArrayList<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractList<E>
       implements Serializable, RandomAccess {
     final E first;
     final E[] rest;
@@ -361,12 +361,12 @@ public final class Lists {
    * @param rest an array of additional elements, possibly empty
    * @return an unmodifiable list containing the specified elements
    */
-  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> List<E> asList(@Nullable E first, @Nullable E second, E[] rest) {
+  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> List<E> asList(@Nullable E first, @Nullable E second, E[] rest) {
     return new TwoPlusArrayList<>(first, second, rest);
   }
 
   /** @see Lists#asList(Object, Object, Object[]) */
-  private static class TwoPlusArrayList<E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends AbstractList<E>
+  private static class TwoPlusArrayList<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractList<E>
       implements Serializable, RandomAccess {
     final E first;
     final E second;
@@ -561,7 +561,7 @@ public final class Lists {
    *  by {@link java.util.stream.Stream#map}. This method is not being
    * deprecated, but we gently encourage you to migrate to streams.
    */
-  public static <F extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> List<T> transform(
+  public static <F extends @org.checkerframework.checker.nullness.qual.Nullable Object, T extends @org.checkerframework.checker.nullness.qual.Nullable Object> List<T> transform(
       List<F> fromList, Function<? super F, ? extends T> function) {
     return (fromList instanceof RandomAccess)
         ? new TransformingRandomAccessList<>(fromList, function)
@@ -573,7 +573,7 @@ public final class Lists {
    *
    * @see Lists#transform
    */
-  private static class TransformingSequentialList<F extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends AbstractSequentialList<T>
+  private static class TransformingSequentialList<F extends @org.checkerframework.checker.nullness.qual.Nullable Object, T extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractSequentialList<T>
       implements Serializable {
     final List<F> fromList;
     final Function<? super F, ? extends T> function;
@@ -625,7 +625,7 @@ public final class Lists {
    *
    * @see Lists#transform
    */
-  private static class TransformingRandomAccessList<F extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends AbstractList<T>
+  private static class TransformingRandomAccessList<F extends @org.checkerframework.checker.nullness.qual.Nullable Object, T extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractList<T>
       implements RandomAccess, Serializable {
     final List<F> fromList;
     final Function<? super F, ? extends T> function;
@@ -704,7 +704,7 @@ public final class Lists {
    * @return a list of consecutive sublists
    * @throws IllegalArgumentException if {@code partitionSize} is nonpositive
    */
-  public static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> List<List<T>> partition(List<T> list, int size) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> List<List<T>> partition(List<T> list, int size) {
     checkNotNull(list);
     checkArgument(size > 0);
     return (list instanceof RandomAccess)
@@ -712,7 +712,7 @@ public final class Lists {
         : new Partition<>(list, size);
   }
 
-  private static class Partition<T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends AbstractList<List<T>> {
+  private static class Partition<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractList<List<T>> {
     final List<T> list;
     final int size;
 
@@ -742,7 +742,7 @@ public final class Lists {
     }
   }
 
-  private static class RandomAccessPartition<T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends Partition<T> implements RandomAccess {
+  private static class RandomAccessPartition<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends Partition<T> implements RandomAccess {
     RandomAccessPartition(List<T> list, int size) {
       super(list, size);
     }

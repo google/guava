@@ -60,7 +60,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(emulated = true)
-public final class TreeMultiset<E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends AbstractSortedMultiset<E> implements Serializable {
+public final class TreeMultiset<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractSortedMultiset<E> implements Serializable {
 
   /**
    * Creates a new, empty multiset, sorted according to the elements' natural order. All elements
@@ -994,16 +994,16 @@ public final class TreeMultiset<E extends /*@org.checkerframework.checker.nullne
   private static final long serialVersionUID = 1;
 
 @Pure
-public boolean contains(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.contains(arg0); }
+public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.contains(arg0); }
 
 @Pure
-public boolean equals(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.equals(arg0); }
+public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
 
-public boolean remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.remove(arg0); }
+public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.remove(arg0); }
 
-public boolean containsAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> arg0) { return super.containsAll(arg0); }
+public boolean containsAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.containsAll(arg0); }
 
-public boolean removeAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> arg0) { return super.removeAll(arg0); }
+public boolean removeAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.removeAll(arg0); }
 
-public boolean retainAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> arg0) { return super.retainAll(arg0); }
+public boolean retainAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.retainAll(arg0); }
 }

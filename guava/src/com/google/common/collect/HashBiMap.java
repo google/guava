@@ -60,7 +60,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(emulated = true)
-public final class HashBiMap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends IteratorBasedAbstractMap<K, V>
+public final class HashBiMap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends IteratorBasedAbstractMap<K, V>
     implements BiMap<K, V>, Serializable {
 
   /**
@@ -369,7 +369,7 @@ public final class HashBiMap<K extends /*@org.checkerframework.checker.nullness.
 
   @CanIgnoreReturnValue
   @Override
-  public /*@org.checkerframework.checker.nullness.qual.Nullable*/ V remove(@Nullable Object key) {
+  public @org.checkerframework.checker.nullness.qual.Nullable V remove(@Nullable Object key) {
     BiEntry<K, V> entry = seekByKey(key, smearedHash(key));
     if (entry == null) {
       return null;

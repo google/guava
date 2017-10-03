@@ -52,7 +52,7 @@ import org.checkerframework.framework.qual.AnnotatedFor;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(emulated = true)
-abstract class AbstractBiMap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends ForwardingMap<K, V>
+abstract class AbstractBiMap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingMap<K, V>
     implements BiMap<K, V>, Serializable {
 
   private transient Map<K, V> delegate;
@@ -161,7 +161,7 @@ abstract class AbstractBiMap<K extends /*@org.checkerframework.checker.nullness.
 
   @CanIgnoreReturnValue
   @Override
-  public /*@org.checkerframework.checker.nullness.qual.Nullable*/ V remove(@Nullable Object key) {
+  public @org.checkerframework.checker.nullness.qual.Nullable V remove(@Nullable Object key) {
     return containsKey(key) ? removeFromBothMaps(key) : null;
   }
 
@@ -172,7 +172,7 @@ abstract class AbstractBiMap<K extends /*@org.checkerframework.checker.nullness.
     return oldValue;
   }
 
-  private void removeFromInverseMap(/*@org.checkerframework.checker.nullness.qual.Nullable*/ V oldValue) {
+  private void removeFromInverseMap(@org.checkerframework.checker.nullness.qual.Nullable V oldValue) {
     inverse.delegate.remove(oldValue);
   }
 
@@ -243,7 +243,7 @@ abstract class AbstractBiMap<K extends /*@org.checkerframework.checker.nullness.
     }
 
     @Override
-    public boolean remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
+    public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object key) {
       if (!contains(key)) {
         return false;
       }
@@ -252,12 +252,12 @@ abstract class AbstractBiMap<K extends /*@org.checkerframework.checker.nullness.
     }
 
     @Override
-    public boolean removeAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> keysToRemove) {
+    public boolean removeAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> keysToRemove) {
       return standardRemoveAll(keysToRemove);
     }
 
     @Override
-    public boolean retainAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> keysToRetain) {
+    public boolean retainAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> keysToRetain) {
       return standardRetainAll(keysToRetain);
     }
 
@@ -389,7 +389,7 @@ abstract class AbstractBiMap<K extends /*@org.checkerframework.checker.nullness.
     }
 
     @Override
-    public boolean remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
+    public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object object) {
       if (!esDelegate.contains(object)) {
         return false;
       }
@@ -425,23 +425,23 @@ abstract class AbstractBiMap<K extends /*@org.checkerframework.checker.nullness.
 
     @Pure
     @Override
-    public boolean contains(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object o) {
+    public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object o) {
       return Maps.containsEntryImpl(delegate(), o);
     }
 
     @Pure
     @Override
-    public boolean containsAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> c) {
+    public boolean containsAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> c) {
       return standardContainsAll(c);
     }
 
     @Override
-    public boolean removeAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> c) {
+    public boolean removeAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> c) {
       return standardRemoveAll(c);
     }
 
     @Override
-    public boolean retainAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> c) {
+    public boolean retainAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> c) {
       return standardRetainAll(c);
     }
   }

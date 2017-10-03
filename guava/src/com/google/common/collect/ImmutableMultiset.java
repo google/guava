@@ -301,7 +301,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
   @CanIgnoreReturnValue
   @Deprecated
   @Override
-  public final int remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element, int occurrences) {
+  public final int remove(@org.checkerframework.checker.nullness.qual.Nullable Object element, int occurrences) {
     throw new UnsupportedOperationException();
   }
 
@@ -399,7 +399,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
 
     @Pure
     @Override
-    public boolean contains(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object o) {
+    public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object o) {
       if (o instanceof Entry) {
         Entry<?> entry = (Entry<?>) o;
         if (entry.getCount() <= 0) {
@@ -419,7 +419,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
 
     // We can't label this with @Override, because it doesn't override anything
     // in the GWT emulated version.
-    // TODO(cpovirk): try making all copies of this method /*@GwtIncompatible*/ instead
+    // TODO(cpovirk): try making all copies of this method @GwtIncompatible instead
     Object writeReplace() {
       return new EntrySetSerializedForm<E>(ImmutableMultiset.this);
     }

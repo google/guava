@@ -145,7 +145,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible
-public abstract class Ordering<T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> implements Comparator<T> {
+public abstract class Ordering<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements Comparator<T> {
   // Natural order
 
   /**

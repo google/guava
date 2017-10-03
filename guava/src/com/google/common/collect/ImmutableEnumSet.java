@@ -91,7 +91,7 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
 
   @Pure
   @Override
-  public boolean contains(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
+  public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object object) {
     return delegate.contains(object);
   }
 
@@ -112,7 +112,7 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
 
   @Pure
   @Override
-  public boolean equals(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
+  public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object object) {
     if (object == this) {
       return true;
     }

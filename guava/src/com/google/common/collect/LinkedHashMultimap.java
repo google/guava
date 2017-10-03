@@ -88,7 +88,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
-public final class LinkedHashMultimap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object>
+public final class LinkedHashMultimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object>
     extends LinkedHashMultimapGwtSerializationDependencies<K, V> {
 
   /**
@@ -634,8 +634,8 @@ public final class LinkedHashMultimap<K extends /*@org.checkerframework.checker.
   private static final long serialVersionUID = 1;
 
 @Override
-public boolean equals(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.equals(arg0); }
+public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
 
 @Override
-public Set<V> removeAll(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.removeAll(arg0); }
+public Set<V> removeAll(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.removeAll(arg0); }
 }

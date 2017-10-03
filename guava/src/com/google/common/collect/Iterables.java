@@ -268,7 +268,7 @@ public final class Iterables {
    * @throws NoSuchElementException if the iterable is empty
    * @throws IllegalArgumentException if the iterable contains multiple elements
    */
-  public static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> T getOnlyElement(Iterable<T> iterable) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T getOnlyElement(Iterable<T> iterable) {
     return Iterators.getOnlyElement(iterable.iterator());
   }
 
@@ -282,7 +282,7 @@ public final class Iterables {
    * @throws IllegalArgumentException if the iterator contains multiple elements
    */
   @Nullable
-  public static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> T getOnlyElement(Iterable<? extends T> iterable, @Nullable T defaultValue) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T getOnlyElement(Iterable<? extends T> iterable, @Nullable T defaultValue) {
     return Iterators.getOnlyElement(iterable.iterator(), defaultValue);
   }
 
@@ -436,7 +436,7 @@ public final class Iterables {
    * <p><b>Java 8 users:</b> The {@code Stream} equivalent of this method is {@code
    * Stream.concat(a, b)}.
    */
-  public static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Iterable<T> concat(Iterable<? extends T> a, Iterable<? extends T> b) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Iterable<T> concat(Iterable<? extends T> a, Iterable<? extends T> b) {
     return FluentIterable.concat(a, b);
   }
 
@@ -451,7 +451,7 @@ public final class Iterables {
    * <p><b>Java 8 users:</b> The {@code Stream} equivalent of this method is {@code
    * Streams.concat(a, b, c)}.
    */
-  public static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Iterable<T> concat(
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Iterable<T> concat(
       Iterable<? extends T> a, Iterable<? extends T> b, Iterable<? extends T> c) {
     return FluentIterable.concat(a, b, c);
   }
@@ -468,7 +468,7 @@ public final class Iterables {
    * <p><b>Java 8 users:</b> The {@code Stream} equivalent of this method is {@code
    * Streams.concat(a, b, c, d)}.
    */
-  public static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Iterable<T> concat(
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Iterable<T> concat(
       Iterable<? extends T> a,
       Iterable<? extends T> b,
       Iterable<? extends T> c,
@@ -490,7 +490,7 @@ public final class Iterables {
    * @throws NullPointerException if any of the provided iterables is null
    */
   @SafeVarargs
-  public static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Iterable<T> concat(Iterable<? extends T>... inputs) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Iterable<T> concat(Iterable<? extends T>... inputs) {
     return FluentIterable.concat(inputs);
   }
 

@@ -79,9 +79,9 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
-public class TreeMultimap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends AbstractSortedKeySortedSetMultimap<K, V> {
-  private transient /*@org.checkerframework.checker.nullness.qual.Nullable*/ Comparator<? super K> keyComparator;
-  private transient /*@org.checkerframework.checker.nullness.qual.Nullable*/ Comparator<? super V> valueComparator;
+public class TreeMultimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractSortedKeySortedSetMultimap<K, V> {
+  private transient @org.checkerframework.checker.nullness.qual.Nullable Comparator<? super K> keyComparator;
+  private transient @org.checkerframework.checker.nullness.qual.Nullable Comparator<? super V> valueComparator;
 
   /**
    * Creates an empty {@code TreeMultimap} ordered by the natural ordering of
@@ -115,16 +115,16 @@ public class TreeMultimap<K extends /*@org.checkerframework.checker.nullness.qua
     return new TreeMultimap<>(Ordering.natural(), Ordering.natural(), multimap);
   }
 
-  TreeMultimap(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Comparator<? super K> keyComparator, /*@org.checkerframework.checker.nullness.qual.Nullable*/ Comparator<? super V> valueComparator) {
+  TreeMultimap(@org.checkerframework.checker.nullness.qual.Nullable Comparator<? super K> keyComparator, @org.checkerframework.checker.nullness.qual.Nullable Comparator<? super V> valueComparator) {
     super(new TreeMap<K, Collection<V>>(keyComparator));
     this.keyComparator = keyComparator;
     this.valueComparator = valueComparator;
   }
 
   private TreeMultimap(
-      /*@org.checkerframework.checker.nullness.qual.Nullable*/
+      @org.checkerframework.checker.nullness.qual.Nullable
       Comparator<? super K> keyComparator,
-      /*@org.checkerframework.checker.nullness.qual.Nullable*/
+      @org.checkerframework.checker.nullness.qual.Nullable
       Comparator<? super V> valueComparator,
       Multimap<? extends K, ? extends V> multimap) {
     this(keyComparator, valueComparator);
@@ -164,7 +164,7 @@ public class TreeMultimap<K extends /*@org.checkerframework.checker.nullness.qua
   }
 
   @Override
-  public /*@org.checkerframework.checker.nullness.qual.Nullable*/ Comparator<? super V> valueComparator() {
+  public @org.checkerframework.checker.nullness.qual.Nullable Comparator<? super V> valueComparator() {
     return valueComparator;
   }
 
@@ -233,7 +233,7 @@ public class TreeMultimap<K extends /*@org.checkerframework.checker.nullness.qua
   private static final long serialVersionUID = 0;
 
 @Pure
-public boolean equals(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.equals(arg0); }
+public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
 
-public SortedSet<V> removeAll(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.removeAll(arg0); }
+public SortedSet<V> removeAll(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.removeAll(arg0); }
 }

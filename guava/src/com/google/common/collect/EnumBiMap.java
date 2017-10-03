@@ -152,8 +152,8 @@ public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>> extends Abstr
 
 @Pure
 @Override
-public boolean containsValue(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.containsValue(arg0); }
+public boolean containsValue(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.containsValue(arg0); }
 
 @Override
-public /*@org.checkerframework.checker.nullness.qual.Nullable*/ V remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.remove(arg0); }
+public @org.checkerframework.checker.nullness.qual.Nullable V remove(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.remove(arg0); }
 }

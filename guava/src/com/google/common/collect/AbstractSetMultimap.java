@@ -36,7 +36,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible
-abstract class AbstractSetMultimap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends AbstractMapBasedMultimap<K, V>
+abstract class AbstractSetMultimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractMapBasedMultimap<K, V>
     implements SetMultimap<K, V> {
   /**
    * Creates a new multimap that uses the provided map.

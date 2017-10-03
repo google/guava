@@ -107,7 +107,7 @@ public final class Multisets {
    *     generated
    * @return an unmodifiable view of the multiset
    */
-  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Multiset<E> unmodifiableMultiset(Multiset<? extends E> multiset) {
+  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> Multiset<E> unmodifiableMultiset(Multiset<? extends E> multiset) {
     if (multiset instanceof UnmodifiableMultiset || multiset instanceof ImmutableMultiset) {
       @SuppressWarnings("unchecked") // Since it's unmodifiable, the covariant cast is safe
       Multiset<E> result = (Multiset<E>) multiset;
@@ -127,7 +127,7 @@ public final class Multisets {
     return checkNotNull(multiset);
   }
 
-  static class UnmodifiableMultiset<E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends ForwardingMultiset<E> implements Serializable {
+  static class UnmodifiableMultiset<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingMultiset<E> implements Serializable {
     final Multiset<? extends E> delegate;
 
     UnmodifiableMultiset(Multiset<? extends E> delegate) {
@@ -189,22 +189,22 @@ public final class Multisets {
     }
 
     @Override
-    public boolean remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element) {
+    public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object element) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public int remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element, int occurrences) {
+    public int remove(@org.checkerframework.checker.nullness.qual.Nullable Object element, int occurrences) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean removeAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> elementsToRemove) {
+    public boolean removeAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> elementsToRemove) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean retainAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> elementsToRetain) {
+    public boolean retainAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> elementsToRetain) {
       throw new UnsupportedOperationException();
     }
 
@@ -254,7 +254,7 @@ public final class Multisets {
    * @param n the count to be associated with the returned entry
    * @throws IllegalArgumentException if {@code n} is negative
    */
-  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Multiset.Entry<E> immutableEntry(@Nullable E e, int n) {
+  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> Multiset.Entry<E> immutableEntry(@Nullable E e, int n) {
     return new ImmutableEntry<E>(e, n);
   }
 
@@ -405,7 +405,7 @@ public final class Multisets {
    * elements} is an instance of {@code Multiset}; otherwise the default value
    * of 11 is returned.
    */
-  static int inferDistinctElements(Iterable<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> elements) {
+  static int inferDistinctElements(Iterable<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> elements) {
     if (elements instanceof Multiset) {
       return ((Multiset<?>) elements).elementSet().size();
     }
@@ -837,7 +837,7 @@ public final class Multisets {
    * Implementation of the {@code equals}, {@code hashCode}, and
    * {@code toString} methods of {@link Multiset.Entry}.
    */
-  abstract static class AbstractEntry<E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> implements Multiset.Entry<E> {
+  abstract static class AbstractEntry<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements Multiset.Entry<E> {
     /**
      * Indicates whether an object equals this entry, following the behavior
      * specified in {@link Multiset.Entry#equals}.
@@ -954,7 +954,7 @@ public final class Multisets {
   /**
    * An implementation of {@link Multiset#setCount(Object, int)}.
    */
-  static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> int setCountImpl(Multiset<E> self, E element, int count) {
+  static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> int setCountImpl(Multiset<E> self, E element, int count) {
     checkNonnegative(count, "count");
 
     int oldCount = self.count(element);
@@ -972,7 +972,7 @@ public final class Multisets {
   /**
    * An implementation of {@link Multiset#setCount(Object, int, int)}.
    */
-  static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> boolean setCountImpl(Multiset<E> self, E element, int oldCount, int newCount) {
+  static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> boolean setCountImpl(Multiset<E> self, E element, int oldCount, int newCount) {
     checkNonnegative(oldCount, "oldCount");
     checkNonnegative(newCount, "newCount");
 

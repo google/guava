@@ -197,7 +197,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
 
   @CanIgnoreReturnValue
   @Override
-  public final <T> /*@org.checkerframework.checker.nullness.qual.Nullable*/ T[] toArray(T[] other) {
+  public final <T> @org.checkerframework.checker.nullness.qual.Nullable T[] toArray(T[] other) {
     checkNotNull(other);
     int size = size();
     if (other.length < size) {
@@ -235,7 +235,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   @CanIgnoreReturnValue
   @Deprecated
   @Override
-  public final boolean remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
+  public final boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object object) {
     throw new UnsupportedOperationException();
   }
 

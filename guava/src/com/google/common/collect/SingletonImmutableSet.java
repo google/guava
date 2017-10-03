@@ -64,7 +64,7 @@ final class SingletonImmutableSet<E> extends ImmutableSet<E> {
 
   @Pure
   @Override
-  public boolean contains(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object target) {
+  public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object target) {
     return element.equals(target);
   }
 
@@ -113,5 +113,5 @@ final class SingletonImmutableSet<E> extends ImmutableSet<E> {
   }
 
 @Pure
-public boolean equals(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.equals(arg0); }
+public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
 }

@@ -247,7 +247,7 @@ public class FinalizableReferenceQueue implements Closeable {
 
     @Nullable
     @Override
-    public /*@org.checkerframework.checker.nullness.qual.Nullable*/ Class<?> loadFinalizer() {
+    public @org.checkerframework.checker.nullness.qual.Nullable Class<?> loadFinalizer() {
       if (disabled) {
         return null;
       }
@@ -285,7 +285,7 @@ public class FinalizableReferenceQueue implements Closeable {
 
     @Nullable
     @Override
-    public /*@org.checkerframework.checker.nullness.qual.Nullable*/ Class<?> loadFinalizer() {
+    public @org.checkerframework.checker.nullness.qual.Nullable Class<?> loadFinalizer() {
       try {
         /*
          * We use URLClassLoader because it's the only concrete class loader implementation in the

@@ -42,7 +42,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible
-public abstract class ForwardingMultimap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends ForwardingObject implements Multimap<K, V> {
+public abstract class ForwardingMultimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingObject implements Multimap<K, V> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingMultimap() {}

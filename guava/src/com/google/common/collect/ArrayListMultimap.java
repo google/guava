@@ -67,7 +67,7 @@ import java.util.Map;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
-public final class ArrayListMultimap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object>
+public final class ArrayListMultimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object>
     extends ArrayListMultimapGwtSerializationDependencies<K, V> {
   // Default from ArrayList
   private static final int DEFAULT_VALUES_PER_KEY = 3;
@@ -182,29 +182,29 @@ public final class ArrayListMultimap<K extends /*@org.checkerframework.checker.n
   private static final long serialVersionUID = 0;
 
 @Override
-public boolean containsEntry(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0, /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg1) { return super.containsEntry(arg0, arg1); }
+public boolean containsEntry(@org.checkerframework.checker.nullness.qual.Nullable Object arg0, @org.checkerframework.checker.nullness.qual.Nullable Object arg1) { return super.containsEntry(arg0, arg1); }
 
 @Override
-public boolean containsKey(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.containsKey(arg0); }
+public boolean containsKey(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.containsKey(arg0); }
 
 @Override
-public boolean containsValue(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.containsValue(arg0); }
+public boolean containsValue(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.containsValue(arg0); }
 
 @Override
-public boolean equals(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.equals(arg0); }
+public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
 
 @Pure
 @Override
 public boolean isEmpty() { return super.isEmpty(); }
 
 @Override
-public List<V> get(/*@org.checkerframework.checker.nullness.qual.Nullable*/ K arg0) { return super.get(arg0); }
+public List<V> get(@org.checkerframework.checker.nullness.qual.Nullable K arg0) { return super.get(arg0); }
 
 @Override
-public boolean remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0, /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg1) { return super.remove(arg0, arg1); }
+public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object arg0, @org.checkerframework.checker.nullness.qual.Nullable Object arg1) { return super.remove(arg0, arg1); }
 
 @Override
-public List<V> removeAll(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.removeAll(arg0); }
+public List<V> removeAll(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.removeAll(arg0); }
 
 @Pure
 @Override

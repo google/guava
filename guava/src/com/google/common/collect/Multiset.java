@@ -97,7 +97,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible
-public interface Multiset<E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends Collection<E> {
+public interface Multiset<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends Collection<E> {
   // Query Operations
 
   /**
@@ -253,7 +253,7 @@ public interface Multiset<E extends /*@org.checkerframework.checker.nullness.qua
    *
    * @since 2.0
    */
-  interface Entry<E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> {
+  interface Entry<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> {
 
     /**
      * Returns the multiset element corresponding to this entry. Multiple calls
@@ -289,7 +289,7 @@ public interface Multiset<E extends /*@org.checkerframework.checker.nullness.qua
     @Pure
     @Override
     // TODO(kevinb): check this wrt TreeMultiset?
-    boolean equals(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object o);
+    boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object o);
 
     /**
      * {@inheritDoc}
@@ -414,7 +414,7 @@ public interface Multiset<E extends /*@org.checkerframework.checker.nullness.qua
    */
   @Pure
   @Override
-  boolean containsAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> elements);
+  boolean containsAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> elements);
 
   /**
    * Adds a single occurrence of the specified element to this multiset.
@@ -472,7 +472,7 @@ public interface Multiset<E extends /*@org.checkerframework.checker.nullness.qua
    */
   @CanIgnoreReturnValue
   @Override
-  boolean removeAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> c);
+  boolean removeAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> c);
 
   /**
    * {@inheritDoc}
@@ -490,7 +490,7 @@ public interface Multiset<E extends /*@org.checkerframework.checker.nullness.qua
    */
   @CanIgnoreReturnValue
   @Override
-  boolean retainAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> c);
+  boolean retainAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> c);
 
   /**
    * {@inheritDoc}

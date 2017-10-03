@@ -372,7 +372,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
   @CanIgnoreReturnValue
   @Deprecated
   @Override
-  public ImmutableCollection<V> removeAll(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
+  public ImmutableCollection<V> removeAll(@org.checkerframework.checker.nullness.qual.Nullable Object key) {
     throw new UnsupportedOperationException();
   }
 
@@ -467,7 +467,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
   @CanIgnoreReturnValue
   @Deprecated
   @Override
-  public boolean remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key, /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object value) {
+  public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object key, @org.checkerframework.checker.nullness.qual.Nullable Object value) {
     throw new UnsupportedOperationException();
   }
 
@@ -568,7 +568,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
 
     @Pure
     @Override
-    public boolean contains(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
+    public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object object) {
       if (object instanceof Entry) {
         Entry<?, ?> entry = (Entry<?, ?>) object;
         return multimap.containsEntry(entry.getKey(), entry.getValue());
@@ -753,7 +753,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
 
   private static final long serialVersionUID = 0;
 
-public boolean containsEntry(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0, /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg1) { return super.containsEntry(arg0, arg1); }
+public boolean containsEntry(@org.checkerframework.checker.nullness.qual.Nullable Object arg0, @org.checkerframework.checker.nullness.qual.Nullable Object arg1) { return super.containsEntry(arg0, arg1); }
 
-public boolean equals(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.equals(arg0); }
+public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
 }

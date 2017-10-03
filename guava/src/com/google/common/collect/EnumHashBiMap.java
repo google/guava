@@ -47,7 +47,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(emulated = true)
-public final class EnumHashBiMap<K extends Enum<K>, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends AbstractBiMap<K, V> {
+public final class EnumHashBiMap<K extends Enum<K>, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractBiMap<K, V> {
   private transient Class<K> keyType;
 
   /**
@@ -133,5 +133,5 @@ public final class EnumHashBiMap<K extends Enum<K>, V extends /*@org.checkerfram
 
 @Pure
 @Override
-public boolean containsValue(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.containsValue(arg0); }
+public boolean containsValue(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.containsValue(arg0); }
 }

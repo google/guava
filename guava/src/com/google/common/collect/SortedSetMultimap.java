@@ -50,7 +50,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 @AnnotatedFor({"nullness"})
-public interface SortedSetMultimap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends SetMultimap<K, V> {
+public interface SortedSetMultimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends SetMultimap<K, V> {
   // Following Javadoc copied from Multimap.
 
   /**
@@ -116,5 +116,5 @@ public interface SortedSetMultimap<K extends /*@org.checkerframework.checker.nul
    * Returns the comparator that orders the multimap values, with {@code null}
    * indicating that natural ordering is used.
    */
-  /*@org.checkerframework.checker.nullness.qual.Nullable*/ Comparator<? super V> valueComparator();
+  @org.checkerframework.checker.nullness.qual.Nullable Comparator<? super V> valueComparator();
 }

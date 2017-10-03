@@ -686,7 +686,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   // Overriding to mark it Nullable
   @Override
-  public abstract /*@org.checkerframework.checker.nullness.qual.Nullable*/ V get(@Nullable Object key);
+  public abstract @org.checkerframework.checker.nullness.qual.Nullable V get(@Nullable Object key);
 
   @Override
   public final V getOrDefault(@Nullable Object key, @Nullable V defaultValue) {

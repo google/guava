@@ -57,7 +57,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible
-public abstract class ForwardingMultiset<E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends ForwardingCollection<E> implements Multiset<E> {
+public abstract class ForwardingMultiset<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingCollection<E> implements Multiset<E> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingMultiset() {}
@@ -66,7 +66,7 @@ public abstract class ForwardingMultiset<E extends /*@org.checkerframework.check
   protected abstract Multiset<E> delegate();
 
   @Override
-  public int count(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element) {
+  public int count(@org.checkerframework.checker.nullness.qual.Nullable Object element) {
     return delegate().count(element);
   }
 
@@ -78,7 +78,7 @@ public abstract class ForwardingMultiset<E extends /*@org.checkerframework.check
 
   @CanIgnoreReturnValue
   @Override
-  public int remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element, int occurrences) {
+  public int remove(@org.checkerframework.checker.nullness.qual.Nullable Object element, int occurrences) {
     return delegate().remove(element, occurrences);
   }
 

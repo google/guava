@@ -61,7 +61,7 @@ import javax.annotation.Nullable;
 @AnnotatedFor({"nullness"})
 @GwtCompatible
 @SuppressWarnings("nullness:generic.argument")
-public abstract class ForwardingList<E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends ForwardingCollection<E> implements List<E> {
+public abstract class ForwardingList<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingCollection<E> implements List<E> {
   // TODO(lowasser): identify places where thread safety is actually lost
 
   /** Constructor for use by subclasses. */
@@ -88,13 +88,13 @@ public abstract class ForwardingList<E extends /*@org.checkerframework.checker.n
 
   @Pure
   @Override
-  public int indexOf(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element) {
+  public int indexOf(@org.checkerframework.checker.nullness.qual.Nullable Object element) {
     return delegate().indexOf(element);
   }
 
   @Pure
   @Override
-  public int lastIndexOf(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element) {
+  public int lastIndexOf(@org.checkerframework.checker.nullness.qual.Nullable Object element) {
     return delegate().lastIndexOf(element);
   }
 

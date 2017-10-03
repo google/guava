@@ -53,7 +53,7 @@ import javax.annotation.Nullable;
 @AnnotatedFor({"nullness"})
 @GwtCompatible
 @SuppressWarnings("nullness:generic.argument")
-public abstract class ForwardingCollection<E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends ForwardingObject implements Collection<E> {
+public abstract class ForwardingCollection<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingObject implements Collection<E> {
   // TODO(lowasser): identify places where thread safety is actually lost
 
   /** Constructor for use by subclasses. */
@@ -87,7 +87,7 @@ public abstract class ForwardingCollection<E extends /*@org.checkerframework.che
 
   @Pure
   @Override
-  public boolean contains(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
+  public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object object) {
     return delegate().contains(object);
   }
 
@@ -101,7 +101,7 @@ public abstract class ForwardingCollection<E extends /*@org.checkerframework.che
   @Override
   @SuppressWarnings("nullness")
   // Suppressed due to the annotations on ConcurrentMap
-  public boolean remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
+  public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object object) {
     return delegate().remove(object);
   }
 
@@ -109,7 +109,7 @@ public abstract class ForwardingCollection<E extends /*@org.checkerframework.che
   @Override
   @SuppressWarnings("nullness")
   // Suppressed due to the containsAll method in Collection
-  public boolean containsAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> collection) {
+  public boolean containsAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> collection) {
     return delegate().containsAll(collection);
   }
 
@@ -123,7 +123,7 @@ public abstract class ForwardingCollection<E extends /*@org.checkerframework.che
   @Override
   @SuppressWarnings("nullness")
   // Suppressed due to the containsAll method in Collection
-  public boolean retainAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> collection) {
+  public boolean retainAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> collection) {
     return delegate().retainAll(collection);
   }
 
@@ -135,14 +135,14 @@ public abstract class ForwardingCollection<E extends /*@org.checkerframework.che
   @Override
   @SuppressWarnings("nullness")
   // Suppressed due to annotations of toArray
-  public /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object[] toArray() {
+  public @org.checkerframework.checker.nullness.qual.Nullable Object[] toArray() {
     return delegate().toArray();
   }
 
   @CanIgnoreReturnValue
   @Override
   @SuppressWarnings("nullness")
-  public <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> T[] toArray(T[] array) {
+  public <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T[] toArray(T[] array) {
     return delegate().toArray(array);
   }
 

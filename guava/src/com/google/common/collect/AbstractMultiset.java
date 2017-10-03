@@ -49,7 +49,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible
-abstract class AbstractMultiset<E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends AbstractCollection<E> implements Multiset<E> {
+abstract class AbstractMultiset<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractCollection<E> implements Multiset<E> {
   // Query Operations
 
   @Pure
@@ -139,13 +139,13 @@ abstract class AbstractMultiset<E extends /*@org.checkerframework.checker.nullne
 
   @CanIgnoreReturnValue
   @Override
-  public boolean removeAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> elementsToRemove) {
+  public boolean removeAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> elementsToRemove) {
     return Multisets.removeAllImpl(this, elementsToRemove);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public boolean retainAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> elementsToRetain) {
+  public boolean retainAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> elementsToRetain) {
     return Multisets.retainAllImpl(this, elementsToRetain);
   }
 
@@ -262,5 +262,5 @@ abstract class AbstractMultiset<E extends /*@org.checkerframework.checker.nullne
   }
 
   @Override
-  public boolean containsAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> arg0) { return super.containsAll(arg0); }
+  public boolean containsAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.containsAll(arg0); }
 }
