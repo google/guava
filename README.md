@@ -48,7 +48,7 @@ dependencies {
 ## Snapshots
 
 Snapshots of Guava built from the `master` branch are available through Maven
-using version `24.0-SNAPSHOT`, or `24.0-android-SNAPSHOT` for the Android
+using version `HEAD-jre-SNAPSHOT`, or `HEAD-android-SNAPSHOT` for the Android
 flavor.
 
 - Snapshot API Docs: [guava][guava-snapshot-api-docs]
@@ -95,6 +95,6 @@ correctly in other environments. For the Android flavor, our unit tests run on
 API level 15 (Ice Cream Sandwich).
 
 [current release]: https://github.com/google/guava/releases/tag/v23.1
-[guava-snapshot-api-docs]: http://google.github.io/guava/releases/snapshot/api/docs/
-[guava-snapshot-api-diffs]: http://google.github.io/guava/releases/snapshot/api/diffs/
+[guava-snapshot-api-docs]: http://google.github.io/guava/releases/snapshot-jre/api/docs/
+[guava-snapshot-api-diffs]: http://google.github.io/guava/releases/snapshot-jre/api/diffs/
 [Guava Explained]: https://github.com/google/guava/wiki/Home
