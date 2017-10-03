@@ -16,7 +16,8 @@
     much more.
   </description>
   <properties>
-    <annotatedJdk>${org.checkerframework:jdk7:jar}</annotatedJdk>
+    <checkerframework.version>LOCAL</checkerframework.version>
+    <annotatedJdk>${org.checkerframework:jdk8:jar}</annotatedJdk>
     <typeAnnotationsJavac>${org.checkerframework:compiler:jar}</typeAnnotationsJavac>
   </properties>
   <dependencies>
@@ -42,22 +43,24 @@
     <dependency>
       <groupId>org.checkerframework</groupId>
       <artifactId>checker-qual</artifactId>
-      <version>2.1.9</version>
+      <version>${checkerframework.version}</version>
+      <scope>system</scope>
+      <systemPath>${env.CHECKERFRAMEWORK}/checker/dist/checker-qual.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>org.checkerframework</groupId>
       <artifactId>checker</artifactId>
-      <version>2.1.9</version>
+      <version>${checkerframework.version}</version>
+      <scope>system</scope>
+      <systemPath>${env.CHECKERFRAMEWORK}/checker/dist/checker.jar</systemPath>
     </dependency>
-    <dependency>
-      <groupId>org.checkerframework</groupId>
-      <artifactId>compiler</artifactId>
-      <version>2.1.9</version>
-    </dependency>
+    <!-- The annotated JDK to use. -->
     <dependency>
       <groupId>org.checkerframework</groupId>
       <artifactId>jdk8</artifactId>
-      <version>2.1.9</version>
+      <version>${checkerframework.version}</version>
+      <scope>system</scope>
+      <systemPath>${env.CHECKERFRAMEWORK}/checker/dist/jdk8.jar</systemPath>
     </dependency>
   </dependencies>
   <build>
@@ -94,15 +97,15 @@
         <configuration>
             <source>1.8</source>
             <target>1.8</target>
-            <fork>true</fork>
             <annotationProcessors>
               <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
             </annotationProcessors>
             <compilerArgs>
               <arg>-Xbootclasspath/p:${annotatedJdk}</arg>
-              <arg>-J-Xbootclasspath/p:${typeAnnotationsJavac}</arg>
               <arg>-AuseSafeDefaultsForUnannotatedSourceCode</arg>
               <arg>-Awarns</arg>
+              <arg>-AsuppressWarnings=nullness,initialization</arg>
+              <arg>-AprintErrorStack</arg>
             </compilerArgs>
         </configuration>
       </plugin>
