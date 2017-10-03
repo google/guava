@@ -18,6 +18,7 @@
 package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.HashMultiset;
@@ -96,7 +97,7 @@ public class TraverserTest {
       createDirectedGraph("ab", "ac", "bc", "cd", "da");
 
   @Test
-  public void forGraph_breadthFirst_javadocExample_iterableCanBeIteratedMultipleTimes() {
+  public void forGraph_breadthFirst_javadocExample_canBeIteratedMultipleTimes() {
     Iterable<Character> result = Traverser.forGraph(JAVADOC_GRAPH).breadthFirst('a');
 
     assertEqualCharNodes(result, "abcdef");
@@ -145,15 +146,129 @@ public class TraverserTest {
    */
   @Test
   public void forGraph_breadthFirst_iterableIsLazy() {
-    IncrementingGraph graph = new IncrementingGraph();
-    Iterable<Integer> result = Traverser.forGraph(graph).breadthFirst(1);
+    RequestSavingGraph graph = new RequestSavingGraph(DIAMOND_GRAPH);
+    Iterable<Character> result = Traverser.forGraph(graph).breadthFirst('a');
 
-    assertThat(ImmutableList.copyOf(Iterables.limit(result, 2))).containsExactly(1, 2).inOrder();
-    assertThat(graph.requestedNodes).containsExactly(1, 2);
+    assertEqualCharNodes(Iterables.limit(result, 2), "ab");
+    assertThat(graph.requestedNodes).containsExactly('a', 'b');
 
     // Iterate again to see if calculation is done again
-    assertThat(ImmutableList.copyOf(Iterables.limit(result, 2))).containsExactly(1, 2).inOrder();
-    assertThat(graph.requestedNodes).containsExactly(1, 1, 2, 2);
+    assertEqualCharNodes(Iterables.limit(result, 2), "ab");
+    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'b', 'b');
+  }
+
+  @Test
+  public void forGraph_depthFirstPreOrder_javadocExample_canBeIteratedMultipleTimes() {
+    Iterable<Character> result = Traverser.forGraph(JAVADOC_GRAPH).depthFirstPreOrder('a');
+
+    assertEqualCharNodes(result, "abecfd");
+    assertEqualCharNodes(result, "abecfd");
+  }
+
+  @Test
+  public void forGraph_depthFirstPreOrder_diamond() {
+    Traverser<Character> traverser = Traverser.forGraph(DIAMOND_GRAPH);
+    assertEqualCharNodes(traverser.depthFirstPreOrder('a'), "abdc");
+    assertEqualCharNodes(traverser.depthFirstPreOrder('b'), "bd");
+    assertEqualCharNodes(traverser.depthFirstPreOrder('c'), "cd");
+    assertEqualCharNodes(traverser.depthFirstPreOrder('d'), "d");
+  }
+
+  @Test
+  public void forGraph_depthFirstPreOrder_multigraph() {
+    Traverser<Character> traverser = Traverser.forGraph(MULTI_GRAPH);
+    assertEqualCharNodes(traverser.depthFirstPreOrder('a'), "abdc");
+    assertEqualCharNodes(traverser.depthFirstPreOrder('b'), "bd");
+    assertEqualCharNodes(traverser.depthFirstPreOrder('c'), "cabd");
+    assertEqualCharNodes(traverser.depthFirstPreOrder('d'), "d");
+  }
+
+  @Test
+  public void forGraph_depthFirstPreOrder_cycle() {
+    Traverser<Character> traverser = Traverser.forGraph(CYCLE_GRAPH);
+    assertEqualCharNodes(traverser.depthFirstPreOrder('a'), "abcd");
+    assertEqualCharNodes(traverser.depthFirstPreOrder('b'), "bcda");
+    assertEqualCharNodes(traverser.depthFirstPreOrder('c'), "cdab");
+    assertEqualCharNodes(traverser.depthFirstPreOrder('d'), "dabc");
+  }
+
+  @Test
+  public void forGraph_depthFirstPreOrder_twoCycles() {
+    Traverser<Character> traverser = Traverser.forGraph(TWO_CYCLES_GRAPH);
+    assertEqualCharNodes(traverser.depthFirstPreOrder('a'), "abcd");
+    assertEqualCharNodes(traverser.depthFirstPreOrder('b'), "bcda");
+    assertEqualCharNodes(traverser.depthFirstPreOrder('c'), "cdab");
+    assertEqualCharNodes(traverser.depthFirstPreOrder('d'), "dabc");
+  }
+
+  @Test
+  public void forGraph_depthFirstPreOrder_iterableIsLazy() {
+    RequestSavingGraph graph = new RequestSavingGraph(DIAMOND_GRAPH);
+    Iterable<Character> result = Traverser.forGraph(graph).depthFirstPreOrder('a');
+
+    assertEqualCharNodes(Iterables.limit(result, 2), "ab");
+    assertThat(graph.requestedNodes).containsExactly('a', 'b', 'd');
+
+    // Iterate again to see if calculation is done again
+    assertEqualCharNodes(Iterables.limit(result, 2), "ab");
+    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'b', 'b', 'd', 'd');
+  }
+
+  @Test
+  public void forGraph_depthFirstPostOrder_javadocExample_canBeIteratedMultipleTimes() {
+    Iterable<Character> result = Traverser.forGraph(JAVADOC_GRAPH).depthFirstPostOrder('a');
+
+    assertEqualCharNodes(result, "fcebda");
+    assertEqualCharNodes(result, "fcebda");
+  }
+
+  @Test
+  public void forGraph_depthFirstPostOrder_diamond() {
+    Traverser<Character> traverser = Traverser.forGraph(DIAMOND_GRAPH);
+    assertEqualCharNodes(traverser.depthFirstPostOrder('a'), "dbca");
+    assertEqualCharNodes(traverser.depthFirstPostOrder('b'), "db");
+    assertEqualCharNodes(traverser.depthFirstPostOrder('c'), "dc");
+    assertEqualCharNodes(traverser.depthFirstPostOrder('d'), "d");
+  }
+
+  @Test
+  public void forGraph_depthFirstPostOrder_multigraph() {
+    Traverser<Character> traverser = Traverser.forGraph(MULTI_GRAPH);
+    assertEqualCharNodes(traverser.depthFirstPostOrder('a'), "dbca");
+    assertEqualCharNodes(traverser.depthFirstPostOrder('b'), "db");
+    assertEqualCharNodes(traverser.depthFirstPostOrder('c'), "dbac");
+    assertEqualCharNodes(traverser.depthFirstPostOrder('d'), "d");
+  }
+
+  @Test
+  public void forGraph_depthFirstPostOrder_cycle() {
+    Traverser<Character> traverser = Traverser.forGraph(CYCLE_GRAPH);
+    assertEqualCharNodes(traverser.depthFirstPostOrder('a'), "dcba");
+    assertEqualCharNodes(traverser.depthFirstPostOrder('b'), "adcb");
+    assertEqualCharNodes(traverser.depthFirstPostOrder('c'), "badc");
+    assertEqualCharNodes(traverser.depthFirstPostOrder('d'), "cbad");
+  }
+
+  @Test
+  public void forGraph_depthFirstPostOrder_twoCycles() {
+    Traverser<Character> traverser = Traverser.forGraph(TWO_CYCLES_GRAPH);
+    assertEqualCharNodes(traverser.depthFirstPostOrder('a'), "dcba");
+    assertEqualCharNodes(traverser.depthFirstPostOrder('b'), "adcb");
+    assertEqualCharNodes(traverser.depthFirstPostOrder('c'), "badc");
+    assertEqualCharNodes(traverser.depthFirstPostOrder('d'), "cbad");
+  }
+
+  @Test
+  public void forGraph_depthFirstPostOrder_iterableIsLazy() {
+    RequestSavingGraph graph = new RequestSavingGraph(DIAMOND_GRAPH);
+    Iterable<Character> result = Traverser.forGraph(graph).depthFirstPostOrder('a');
+
+    assertEqualCharNodes(Iterables.limit(result, 2), "db");
+    assertThat(graph.requestedNodes).containsExactly('a', 'b', 'd');
+
+    // Iterate again to see if calculation is done again
+    assertEqualCharNodes(Iterables.limit(result, 2), "db");
+    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'b', 'b', 'd', 'd');
   }
 
   private static SuccessorsFunction<Character> createDirectedGraph(String... edges) {
@@ -198,13 +313,18 @@ public class TraverserTest {
         .inOrder();
   }
 
-  private static class IncrementingGraph implements SuccessorsFunction<Integer> {
-    final Multiset<Integer> requestedNodes = HashMultiset.create();
+  private static class RequestSavingGraph implements SuccessorsFunction<Character> {
+    private final SuccessorsFunction<Character> delegate;
+    final Multiset<Character> requestedNodes = HashMultiset.create();
+
+    RequestSavingGraph(SuccessorsFunction<Character> delegate) {
+      this.delegate = checkNotNull(delegate);
+    }
 
     @Override
-    public Iterable<? extends Integer> successors(Integer node) {
+    public Iterable<? extends Character> successors(Character node) {
       requestedNodes.add(node);
-      return ImmutableList.of(node + 1);
+      return delegate.successors(node);
     }
   }
 }

@@ -19,8 +19,10 @@ package com.google.common.graph;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
+import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.UnmodifiableIterator;
 import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Queue;
@@ -218,7 +220,7 @@ public abstract class Traverser<N> {
    */
   public abstract Iterable<N> depthFirstPostOrder(N startNode);
 
-  private static class GraphTraverser<N> extends Traverser<N> {
+  private static final class GraphTraverser<N> extends Traverser<N> {
     private final SuccessorsFunction<N> graph;
 
     GraphTraverser(SuccessorsFunction<N> graph) {
@@ -236,20 +238,28 @@ public abstract class Traverser<N> {
     }
 
     @Override
-    public Iterable<N> depthFirstPreOrder(N startNode) {
-      // TODO(b/27898002): Implement
-      throw new UnsupportedOperationException("Not yet implemented");
+    public Iterable<N> depthFirstPreOrder(final N startNode) {
+      return new Iterable<N>() {
+        @Override
+        public Iterator<N> iterator() {
+          return new DepthFirstIterator(startNode, Order.PREORDER);
+        }
+      };
     }
 
     @Override
-    public Iterable<N> depthFirstPostOrder(N startNode) {
-      // TODO(b/27898002): Implement
-      throw new UnsupportedOperationException("Not yet implemented");
+    public Iterable<N> depthFirstPostOrder(final N startNode) {
+      return new Iterable<N>() {
+        @Override
+        public Iterator<N> iterator() {
+          return new DepthFirstIterator(startNode, Order.POSTORDER);
+        }
+      };
     }
 
-    final class BreadthFirstIterator extends UnmodifiableIterator<N> {
-      final Queue<N> queue = new ArrayDeque<>();
-      final Set<N> visited = new HashSet<>();
+    private final class BreadthFirstIterator extends UnmodifiableIterator<N> {
+      private final Queue<N> queue = new ArrayDeque<>();
+      private final Set<N> visited = new HashSet<>();
 
       BreadthFirstIterator(N root) {
         queue.add(root);
@@ -272,5 +282,64 @@ public abstract class Traverser<N> {
         return current;
       }
     }
+
+    private final class DepthFirstIterator extends AbstractIterator<N> {
+      private final Deque<NodeAndSuccessors> stack = new ArrayDeque<>();
+      private final Set<N> visited = new HashSet<>();
+      private final Order order;
+
+      DepthFirstIterator(N root, Order order) {
+        // our invariant is that in computeNext we call next on the iterator at the top first, so we
+        // need to start with one additional item on that iterator
+        stack.push(withSuccessors(root));
+        this.order = order;
+      }
+
+      @Override
+      protected N computeNext() {
+        while (true) {
+          if (stack.isEmpty()) {
+            return endOfData();
+          }
+          NodeAndSuccessors node = stack.getFirst();
+          boolean firstVisit = visited.add(node.node);
+          boolean lastVisit = !node.successors.hasNext();
+          boolean produceNode =
+              (firstVisit && order == Order.PREORDER) || (lastVisit && order == Order.POSTORDER);
+          if (lastVisit) {
+            stack.pop();
+          } else {
+            // we need to push a neighbor, but only if we haven't already seen it
+            N child = node.successors.next();
+            if (!visited.contains(child)) {
+              stack.push(withSuccessors(child));
+            }
+          }
+          if (produceNode) {
+            return node.node;
+          }
+        }
+      }
+
+      NodeAndSuccessors withSuccessors(N node) {
+        return new NodeAndSuccessors(node, graph.successors(node));
+      }
+
+      /** A simple tuple of a node and a partially iterated {@link Iterator} of its successors. */
+      private final class NodeAndSuccessors {
+        final N node;
+        final Iterator<? extends N> successors;
+
+        NodeAndSuccessors(N node, Iterable<? extends N> successors) {
+          this.node = node;
+          this.successors = successors.iterator();
+        }
+      }
+    }
+  }
+
+  private enum Order {
+    PREORDER,
+    POSTORDER
   }
 }
