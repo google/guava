@@ -17,8 +17,9 @@
   </description>
   <properties>
     <checkerframework.version>LOCAL</checkerframework.version>
+    <!-- Use -Dcheckerframework.checkers=checker to switch which checkers are run."-->
+    <checkerframework.checkers>org.checkerframework.checker.nullness.NullnessChecker</checkerframework.checkers>
     <annotatedJdk>${org.checkerframework:jdk8:jar}</annotatedJdk>
-    <typeAnnotationsJavac>${org.checkerframework:compiler:jar}</typeAnnotationsJavac>
   </properties>
   <dependencies>
     <dependency>
@@ -98,13 +99,13 @@
             <source>1.8</source>
             <target>1.8</target>
             <annotationProcessors>
-              <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
+              <annotationProcessor>${checkerframework.checkers}</annotationProcessor>
             </annotationProcessors>
             <compilerArgs>
               <arg>-Xbootclasspath/p:${annotatedJdk}</arg>
               <arg>-AuseSafeDefaultsForUnannotatedSourceCode</arg>
               <arg>-Awarns</arg>
-              <arg>-AsuppressWarnings=nullness,initialization</arg>
+              <arg>${addtionalargs}</arg>
               <arg>-AprintErrorStack</arg>
             </compilerArgs>
         </configuration>
