@@ -413,10 +413,12 @@ public final class Hashing {
    *
    * <p>This is designed for generating persistent fingerprints of strings. It isn't
    * cryptographically secure, but it produces a high-quality hash with fewer collisions than some
-   * alternatives we've used in the past. FarmHashFingerprints generated using this are byte-wise
-   * identical to those created using the C++ version, but note that this uses unsigned integers
-   * (see {@link com.google.common.primitives.UnsignedInts}). Comparisons between the two should
-   * take this into account.
+   * alternatives we've used in the past.
+   *
+   * <p>FarmHash fingerprints are encoded by {@link HashCode#asBytes} in little-endian order. This
+   * means {@link HashCode#asLong} is guaranteed to return the same value that
+   * farmhash::Fingerprint64() would for the same input (when compared using
+   * {@link com.google.common.primitives.UnsignedLongs}'s encoding of 64-bit unsigned numbers).
    *
    * <p>This function is best understood as a <a
    * href="https://en.wikipedia.org/wiki/Fingerprint_(computing)">fingerprint</a> rather than a true
