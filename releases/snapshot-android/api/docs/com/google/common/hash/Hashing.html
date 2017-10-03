@@ -791,15 +791,17 @@ public static&nbsp;<a href="../../../../com/google/common/hash/HashFunction.html
 <ul class="blockList">
 <li class="blockList">
 <h4>farmHashFingerprint64</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.427">farmHashFingerprint64</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.429">farmHashFingerprint64</a>()</pre>
 <div class="block">Returns a hash function implementing FarmHash's Fingerprint64, an open-source algorithm.
 
  <p>This is designed for generating persistent fingerprints of strings. It isn't
  cryptographically secure, but it produces a high-quality hash with fewer collisions than some
- alternatives we've used in the past. FarmHashFingerprints generated using this are byte-wise
- identical to those created using the C++ version, but note that this uses unsigned integers
- (see <a href="../../../../com/google/common/primitives/UnsignedInts.html" title="class in com.google.common.primitives"><code>UnsignedInts</code></a>). Comparisons between the two should
- take this into account.
+ alternatives we've used in the past.
+
+ <p>FarmHash fingerprints are encoded by <a href="../../../../com/google/common/hash/HashCode.html#asBytes--"><code>HashCode.asBytes()</code></a> in little-endian order. This
+ means <a href="../../../../com/google/common/hash/HashCode.html#asLong--"><code>HashCode.asLong()</code></a> is guaranteed to return the same value that
+ farmhash::Fingerprint64() would for the same input (when compared using
+ <a href="../../../../com/google/common/primitives/UnsignedLongs.html" title="class in com.google.common.primitives"><code>UnsignedLongs</code></a>'s encoding of 64-bit unsigned numbers).
 
  <p>This function is best understood as a <a
  href="https://en.wikipedia.org/wiki/Fingerprint_(computing)">fingerprint</a> rather than a true
@@ -816,7 +818,7 @@ public static&nbsp;<a href="../../../../com/google/common/hash/HashFunction.html
 <ul class="blockList">
 <li class="blockList">
 <h4>consistentHash</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.462">consistentHash</a>(<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;hashCode,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.464">consistentHash</a>(<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;hashCode,
                                  int&nbsp;buckets)</pre>
 <div class="block">Assigns to <code>hashCode</code> a "bucket" in the range <code>[0, buckets)</code>, in a uniform manner
  that minimizes the need for remapping as <code>buckets</code> grows. That is, <code>consistentHash(h, n)</code> equals:
@@ -851,7 +853,7 @@ public static&nbsp;<a href="../../../../com/google/common/hash/HashFunction.html
 <ul class="blockList">
 <li class="blockList">
 <h4>consistentHash</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.497">consistentHash</a>(long&nbsp;input,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.499">consistentHash</a>(long&nbsp;input,
                                  int&nbsp;buckets)</pre>
 <div class="block">Assigns to <code>input</code> a "bucket" in the range <code>[0, buckets)</code>, in a uniform manner that
  minimizes the need for remapping as <code>buckets</code> grows. That is, <code>consistentHash(h,
@@ -887,7 +889,7 @@ public static&nbsp;<a href="../../../../com/google/common/hash/HashFunction.html
 <ul class="blockList">
 <li class="blockList">
 <h4>combineOrdered</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.523">combineOrdered</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&gt;&nbsp;hashCodes)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.525">combineOrdered</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&gt;&nbsp;hashCodes)</pre>
 <div class="block">Returns a hash code, having the same bit length as each of the input hash codes, that combines
  the information of these hash codes in an ordered fashion. That is, whenever two equal hash
  codes are produced by two calls to this method, it is <i>as likely as possible</i> that each
@@ -905,7 +907,7 @@ public static&nbsp;<a href="../../../../com/google/common/hash/HashFunction.html
 <ul class="blockList">
 <li class="blockList">
 <h4>combineUnordered</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.548">combineUnordered</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&gt;&nbsp;hashCodes)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.550">combineUnordered</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&gt;&nbsp;hashCodes)</pre>
 <div class="block">Returns a hash code, having the same bit length as each of the input hash codes, that combines
  the information of these hash codes in an unordered fashion. That is, whenever two equal hash
  codes are produced by two calls to this method, it is <i>as likely as possible</i> that each
@@ -923,7 +925,7 @@ public static&nbsp;<a href="../../../../com/google/common/hash/HashFunction.html
 <ul class="blockList">
 <li class="blockList">
 <h4>concatenating</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.581">concatenating</a>(<a href="../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;first,
+<pre>public static&nbsp;<a href="../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.583">concatenating</a>(<a href="../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;first,
                                          <a href="../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;second,
                                          <a href="../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>...&nbsp;rest)</pre>
 <div class="block">Returns a hash function which computes its hash code by concatenating the hash codes of the
@@ -944,7 +946,7 @@ public static&nbsp;<a href="../../../../com/google/common/hash/HashFunction.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>concatenating</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.601">concatenating</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&gt;&nbsp;hashFunctions)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.603">concatenating</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&gt;&nbsp;hashFunctions)</pre>
 <div class="block">Returns a hash function which computes its hash code by concatenating the hash codes of the
  underlying hash functions together. This can be useful if you need to generate hash codes of a
  specific length.
