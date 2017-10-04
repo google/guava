@@ -57,35 +57,6 @@
       <version>2.2.1</version>
     </dependency>
   </dependencies>
-<profiles>
-    <!-- Profile to use the version of Checker Framework installed locally-->
-    <profile>
-      <id>checkerframework-local</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.checkerframework</groupId>
-          <artifactId>checker-qual</artifactId>
-          <version>0.0.0</version>
-          <scope>system</scope>
-          <systemPath>${CHECKERFRAMEWORK}/checker/dist/checker-qual.jar</systemPath>
-        </dependency>
-        <dependency>
-          <groupId>org.checkerframework</groupId>
-          <artifactId>checker</artifactId>
-          <version>0.0.0</version>
-          <scope>system</scope>
-          <systemPath>${CHECKERFRAMEWORK}/checker/dist/checker.jar</systemPath>
-        </dependency>
-        <dependency>
-          <groupId>org.checkerframework</groupId>
-          <artifactId>jdk8</artifactId>
-          <version>0.0.0</version>
-          <scope>system</scope>
-          <systemPath>${CHECKERFRAMEWORK}/checker/dist/jdk8.jar</systemPath>
-        </dependency>
-      </dependencies>
-    </profile>
-
   <build>
     <plugins>
       <plugin>
@@ -208,6 +179,33 @@
           <scope>system</scope>
           <systemPath>${java.home}/../src.zip</systemPath>
           <optional>true</optional>
+        </dependency>
+      </dependencies>
+    </profile>
+    <!-- Profile to use the version of Checker Framework installed locally-->
+    <profile>
+      <id>checkerframework-local</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.checkerframework</groupId>
+          <artifactId>checker-qual</artifactId>
+          <version>0.0.0</version>
+          <scope>system</scope>
+          <systemPath>${CHECKERFRAMEWORK}/checker/dist/checker-qual.jar</systemPath>
+        </dependency>
+        <dependency>
+          <groupId>org.checkerframework</groupId>
+          <artifactId>checker</artifactId>
+          <version>0.0.0</version>
+          <scope>system</scope>
+          <systemPath>${CHECKERFRAMEWORK}/checker/dist/checker.jar</systemPath>
+        </dependency>
+        <dependency>
+          <groupId>org.checkerframework</groupId>
+          <artifactId>jdk8</artifactId>
+          <version>0.0.0</version>
+          <scope>system</scope>
+          <systemPath>${CHECKERFRAMEWORK}/checker/dist/jdk8.jar</systemPath>
         </dependency>
       </dependencies>
     </profile>
