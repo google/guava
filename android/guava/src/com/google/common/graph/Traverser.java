@@ -167,13 +167,13 @@ public abstract class Traverser<N> {
    * {@code Iterable} in the order in which they are first visited.
    *
    * <p><b>Example:</b> The following graph with {@code startNode} {@code a} would return nodes in
-   * the order {@code abcdef} (assuming successors are returned in alphabetical order).
+   * the order {@code abecfd} (assuming successors are returned in alphabetical order).
    *
    * <pre>{@code
-   * b ---- a ---- f
+   * b ---- a ---- d
    * |      |
    * |      |
-   * c ---- d ---- e
+   * e ---- c ---- f
    * }</pre>
    *
    * <p>The behavior of this method is undefined if the nodes, or the topology of the graph, change
@@ -198,13 +198,13 @@ public abstract class Traverser<N> {
    * {@code Iterable} in the order in which they are visited for the last time.
    *
    * <p><b>Example:</b> The following graph with {@code startNode} {@code a} would return nodes in
-   * the order {@code edcbfa} (assuming successors are returned in alphabetical order).
+   * the order {@code fcebda} (assuming successors are returned in alphabetical order).
    *
    * <pre>{@code
-   * b ---- a ---- f
+   * b ---- a ---- d
    * |      |
    * |      |
-   * c ---- d ---- e
+   * e ---- c ---- f
    * }</pre>
    *
    * <p>The behavior of this method is undefined if the nodes, or the topology of the graph, change
