@@ -175,13 +175,13 @@
 <span class="sourceLineNo">167</span>   * {@code Iterable} in the order in which they are first visited.<a name="line.167"></a>
 <span class="sourceLineNo">168</span>   *<a name="line.168"></a>
 <span class="sourceLineNo">169</span>   * &lt;p&gt;&lt;b&gt;Example:&lt;/b&gt; The following graph with {@code startNode} {@code a} would return nodes in<a name="line.169"></a>
-<span class="sourceLineNo">170</span>   * the order {@code abcdef} (assuming successors are returned in alphabetical order).<a name="line.170"></a>
+<span class="sourceLineNo">170</span>   * the order {@code abecfd} (assuming successors are returned in alphabetical order).<a name="line.170"></a>
 <span class="sourceLineNo">171</span>   *<a name="line.171"></a>
 <span class="sourceLineNo">172</span>   * &lt;pre&gt;{@code<a name="line.172"></a>
-<span class="sourceLineNo">173</span>   * b ---- a ---- f<a name="line.173"></a>
+<span class="sourceLineNo">173</span>   * b ---- a ---- d<a name="line.173"></a>
 <span class="sourceLineNo">174</span>   * |      |<a name="line.174"></a>
 <span class="sourceLineNo">175</span>   * |      |<a name="line.175"></a>
-<span class="sourceLineNo">176</span>   * c ---- d ---- e<a name="line.176"></a>
+<span class="sourceLineNo">176</span>   * e ---- c ---- f<a name="line.176"></a>
 <span class="sourceLineNo">177</span>   * }&lt;/pre&gt;<a name="line.177"></a>
 <span class="sourceLineNo">178</span>   *<a name="line.178"></a>
 <span class="sourceLineNo">179</span>   * &lt;p&gt;The behavior of this method is undefined if the nodes, or the topology of the graph, change<a name="line.179"></a>
@@ -206,13 +206,13 @@
 <span class="sourceLineNo">198</span>   * {@code Iterable} in the order in which they are visited for the last time.<a name="line.198"></a>
 <span class="sourceLineNo">199</span>   *<a name="line.199"></a>
 <span class="sourceLineNo">200</span>   * &lt;p&gt;&lt;b&gt;Example:&lt;/b&gt; The following graph with {@code startNode} {@code a} would return nodes in<a name="line.200"></a>
-<span class="sourceLineNo">201</span>   * the order {@code edcbfa} (assuming successors are returned in alphabetical order).<a name="line.201"></a>
+<span class="sourceLineNo">201</span>   * the order {@code fcebda} (assuming successors are returned in alphabetical order).<a name="line.201"></a>
 <span class="sourceLineNo">202</span>   *<a name="line.202"></a>
 <span class="sourceLineNo">203</span>   * &lt;pre&gt;{@code<a name="line.203"></a>
-<span class="sourceLineNo">204</span>   * b ---- a ---- f<a name="line.204"></a>
+<span class="sourceLineNo">204</span>   * b ---- a ---- d<a name="line.204"></a>
 <span class="sourceLineNo">205</span>   * |      |<a name="line.205"></a>
 <span class="sourceLineNo">206</span>   * |      |<a name="line.206"></a>
-<span class="sourceLineNo">207</span>   * c ---- d ---- e<a name="line.207"></a>
+<span class="sourceLineNo">207</span>   * e ---- c ---- f<a name="line.207"></a>
 <span class="sourceLineNo">208</span>   * }&lt;/pre&gt;<a name="line.208"></a>
 <span class="sourceLineNo">209</span>   *<a name="line.209"></a>
 <span class="sourceLineNo">210</span>   * &lt;p&gt;The behavior of this method is undefined if the nodes, or the topology of the graph, change<a name="line.210"></a>

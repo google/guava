@@ -381,13 +381,13 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
  <code>Iterable</code> in the order in which they are first visited.
 
  <p><b>Example:</b> The following graph with <code>startNode</code> <code>a</code> would return nodes in
- the order <code>abcdef</code> (assuming successors are returned in alphabetical order).
+ the order <code>abecfd</code> (assuming successors are returned in alphabetical order).
 
  <pre><code>
- b ---- a ---- f
+ b ---- a ---- d
  |      |
  |      |
- c ---- d ---- e
+ e ---- c ---- f
  </code></pre>
 
  <p>The behavior of this method is undefined if the nodes, or the topology of the graph, change
@@ -419,13 +419,13 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
  <code>Iterable</code> in the order in which they are visited for the last time.
 
  <p><b>Example:</b> The following graph with <code>startNode</code> <code>a</code> would return nodes in
- the order <code>edcbfa</code> (assuming successors are returned in alphabetical order).
+ the order <code>fcebda</code> (assuming successors are returned in alphabetical order).
 
  <pre><code>
- b ---- a ---- f
+ b ---- a ---- d
  |      |
  |      |
- c ---- d ---- e
+ e ---- c ---- f
  </code></pre>
 
  <p>The behavior of this method is undefined if the nodes, or the topology of the graph, change
