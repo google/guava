@@ -18,6 +18,7 @@ import java.lang.ref.PhantomReference;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
@@ -75,8 +76,24 @@ public class Finalizer implements Runnable {
     }
 
     Finalizer finalizer = new Finalizer(finalizableReferenceClass, queue, frqReference);
-    Thread thread = new Thread(finalizer);
-    thread.setName(Finalizer.class.getName());
+    String threadName = Finalizer.class.getName();
+    Thread thread = null;
+    if (bigThreadConstructor != null) {
+      try {
+        boolean inheritThreadLocals = false;
+        long defaultStackSize = 0;
+        thread = bigThreadConstructor.newInstance(
+            (ThreadGroup) null, finalizer, threadName, defaultStackSize, inheritThreadLocals);
+      } catch (Throwable t) {
+        logger.log(
+            Level.INFO,
+            "Failed to create a thread without inherited thread-local values",
+            t);
+      }
+    }
+    if (thread == null) {
+      thread = new Thread((ThreadGroup) null, finalizer, threadName);
+    }
     thread.setDaemon(true);
 
     try {
@@ -97,7 +114,12 @@ public class Finalizer implements Runnable {
   private final PhantomReference<Object> frqReference;
   private final ReferenceQueue<Object> queue;
 
-  private static final Field inheritableThreadLocals = getInheritableThreadLocalsField();
+  // By preference, we will use the Thread constructor that has an `inheritThreadLocals` parameter.
+  // But before Java 9, our only way not to inherit ThreadLocals is to zap them after the thread
+  // is created, by accessing a private field.
+  private static final Constructor<Thread> bigThreadConstructor = getBigThreadConstructor();
+  private static final Field inheritableThreadLocals =
+      (bigThreadConstructor == null) ? getInheritableThreadLocalsField() : null;
 
   /** Constructs a new finalizer thread. */
   private Finalizer(
@@ -190,7 +212,7 @@ public class Finalizer implements Runnable {
   }
 
   @Nullable
-  public static Field getInheritableThreadLocalsField() {
+  private static Field getInheritableThreadLocalsField() {
     try {
       Field inheritableThreadLocals = Thread.class.getDeclaredField("inheritableThreadLocals");
       inheritableThreadLocals.setAccessible(true);
@@ -200,6 +222,17 @@ public class Finalizer implements Runnable {
           Level.INFO,
           "Couldn't access Thread.inheritableThreadLocals. Reference finalizer threads will "
               + "inherit thread local values.");
+      return null;
+    }
+  }
+
+  @Nullable
+  private static Constructor<Thread> getBigThreadConstructor() {
+    try {
+      return Thread.class.getConstructor(
+          ThreadGroup.class, Runnable.class, String.class, long.class, boolean.class);
+    } catch (Throwable t) {
+      // Probably pre Java 9. We'll fall back to Thread.inheritableThreadLocals.
       return null;
     }
   }
