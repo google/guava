@@ -131,8 +131,9 @@ public abstract class Traverser<N> {
   }
 
   /**
-   * Returns an unmodifiable iterable over the nodes in the graph, using breadth-first traversal.
-   * That is, all the nodes of depth 0 are returned, then depth 1, then 2, and so on.
+   * Returns an unmodifiable {@code Iterable} over the nodes reachable from {@code startNode}, in
+   * the order of a breadth-first traversal. That is, all the nodes of depth 0 are returned, then
+   * depth 1, then 2, and so on.
    *
    * <p><b>Example:</b> The following graph with {@code startNode} {@code a} would return nodes in
    * the order {@code abcdef} (assuming successors are returned in alphabetical order).
@@ -147,9 +148,9 @@ public abstract class Traverser<N> {
    * <p>The behavior of this method is undefined if the nodes, or the topology of the graph, change
    * while iteration is in progress.
    *
-   * <p>The returned iterable can be iterated over multiple times. Every iterator will compute its
-   * next element on the fly. It is thus possible to limit the traversal to a certain number of
-   * nodes as follows:
+   * <p>The returned {@code Iterable} can be iterated over multiple times. Every iterator will
+   * compute its next element on the fly. It is thus possible to limit the traversal to a certain
+   * number of nodes as follows:
    *
    * <pre>{@code
    * Iterables.limit(Traverser.forGraph(graph).breadthFirst(node), maxNumberOfNodes);
@@ -161,8 +162,9 @@ public abstract class Traverser<N> {
   public abstract Iterable<N> breadthFirst(N startNode);
 
   /**
-   * Returns an unmodifiable iterable over the nodes in the graph, using depth-first pre-order
-   * traversal. That is, the nodes are returned in the order they are visited for the first time.
+   * Returns an unmodifiable {@code Iterable} over the nodes reachable from {@code startNode}, in
+   * the order of a depth-first pre-order traversal. "Pre-order" implies that nodes appear in the
+   * {@code Iterable} in the order in which they are first visited.
    *
    * <p><b>Example:</b> The following graph with {@code startNode} {@code a} would return nodes in
    * the order {@code abcdef} (assuming successors are returned in alphabetical order).
@@ -177,9 +179,9 @@ public abstract class Traverser<N> {
    * <p>The behavior of this method is undefined if the nodes, or the topology of the graph, change
    * while iteration is in progress.
    *
-   * <p>The returned iterable can be iterated over multiple times. Every iterator will compute its
-   * next element on the fly. It is thus possible to limit the traversal to a certain number of
-   * nodes as follows:
+   * <p>The returned {@code Iterable} can be iterated over multiple times. Every iterator will
+   * compute its next element on the fly. It is thus possible to limit the traversal to a certain
+   * number of nodes as follows:
    *
    * <pre>{@code
    * Iterables.limit(
@@ -191,8 +193,9 @@ public abstract class Traverser<N> {
   public abstract Iterable<N> depthFirstPreOrder(N startNode);
 
   /**
-   * Returns an unmodifiable iterable over the nodes in the graph, using depth-first post-order
-   * traversal. That is, the nodes are returned in the order they are visited for the last time.
+   * Returns an unmodifiable {@code Iterable} over the nodes reachable from {@code startNode}, in
+   * the order of a depth-first post-order traversal. "Post-order" implies that nodes appear in the
+   * {@code Iterable} in the order in which they are visited for the last time.
    *
    * <p><b>Example:</b> The following graph with {@code startNode} {@code a} would return nodes in
    * the order {@code edcbfa} (assuming successors are returned in alphabetical order).
@@ -207,9 +210,9 @@ public abstract class Traverser<N> {
    * <p>The behavior of this method is undefined if the nodes, or the topology of the graph, change
    * while iteration is in progress.
    *
-   * <p>The returned iterable can be iterated over multiple times. Every iterator will compute its
-   * next element on the fly. It is thus possible to limit the traversal to a certain number of
-   * nodes as follows:
+   * <p>The returned {@code Iterable} can be iterated over multiple times. Every iterator will
+   * compute its next element on the fly. It is thus possible to limit the traversal to a certain
+   * number of nodes as follows:
    *
    * <pre>{@code
    * Iterables.limit(
