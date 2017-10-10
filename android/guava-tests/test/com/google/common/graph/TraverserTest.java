@@ -450,6 +450,86 @@ public class TraverserTest {
     assertThat(graph.requestedNodes).containsExactly('h', 'h', 'd', 'd');
   }
 
+  @Test
+  public void forTree_depthFirstPreOrder_tree() throws Exception {
+    Traverser<Character> traverser = Traverser.forTree(TREE);
+
+    assertEqualCharNodes(traverser.depthFirstPreOrder('h'), "hdabcegf");
+    assertEqualCharNodes(traverser.depthFirstPreOrder('d'), "dabc");
+    assertEqualCharNodes(traverser.depthFirstPreOrder('a'), "a");
+  }
+
+  @Test
+  public void forTree_depthFirstPreOrder_cyclicGraphContainingTree() throws Exception {
+    Traverser<Character> traverser = Traverser.forTree(CYCLIC_GRAPH_CONTAINING_TREE);
+
+    assertEqualCharNodes(traverser.depthFirstPreOrder('a'), "abcd");
+    assertEqualCharNodes(traverser.depthFirstPreOrder('b'), "bcd");
+    assertEqualCharNodes(traverser.depthFirstPreOrder('d'), "d");
+  }
+
+  @Test
+  public void forTree_depthFirstPreOrder_graphContainingTreeAndDiamond() throws Exception {
+    Traverser<Character> traverser = Traverser.forTree(GRAPH_CONTAINING_TREE_AND_DIAMOND);
+
+    assertEqualCharNodes(traverser.depthFirstPreOrder('a'), "abcd");
+    assertEqualCharNodes(traverser.depthFirstPreOrder('b'), "bcd");
+    assertEqualCharNodes(traverser.depthFirstPreOrder('d'), "d");
+  }
+
+  @Test
+  public void forTree_depthFirstPreOrder_iterableIsLazy() {
+    RequestSavingGraph graph = new RequestSavingGraph(TREE);
+    Iterable<Character> result = Traverser.forGraph(graph).depthFirstPreOrder('h');
+
+    assertEqualCharNodes(Iterables.limit(result, 2), "hd");
+    assertThat(graph.requestedNodes).containsExactly('h', 'd', 'a');
+
+    // Iterate again to see if calculation is done again
+    assertEqualCharNodes(Iterables.limit(result, 2), "hd");
+    assertThat(graph.requestedNodes).containsExactly('h', 'h', 'd', 'd', 'a', 'a');
+  }
+
+  @Test
+  public void forTree_depthFirstPostOrder_tree() throws Exception {
+    Traverser<Character> traverser = Traverser.forTree(TREE);
+
+    assertEqualCharNodes(traverser.depthFirstPostOrder('h'), "abcdefgh");
+    assertEqualCharNodes(traverser.depthFirstPostOrder('d'), "abcd");
+    assertEqualCharNodes(traverser.depthFirstPostOrder('a'), "a");
+  }
+
+  @Test
+  public void forTree_depthFirstPostOrder_cyclicGraphContainingTree() throws Exception {
+    Traverser<Character> traverser = Traverser.forTree(CYCLIC_GRAPH_CONTAINING_TREE);
+
+    assertEqualCharNodes(traverser.depthFirstPostOrder('a'), "cdba");
+    assertEqualCharNodes(traverser.depthFirstPostOrder('b'), "cdb");
+    assertEqualCharNodes(traverser.depthFirstPostOrder('d'), "d");
+  }
+
+  @Test
+  public void forTree_depthFirstPostOrder_graphContainingTreeAndDiamond() throws Exception {
+    Traverser<Character> traverser = Traverser.forTree(GRAPH_CONTAINING_TREE_AND_DIAMOND);
+
+    assertEqualCharNodes(traverser.depthFirstPostOrder('a'), "cdba");
+    assertEqualCharNodes(traverser.depthFirstPostOrder('b'), "cdb");
+    assertEqualCharNodes(traverser.depthFirstPostOrder('d'), "d");
+  }
+
+  @Test
+  public void forTree_depthFirstPostOrder_iterableIsLazy() {
+    RequestSavingGraph graph = new RequestSavingGraph(TREE);
+    Iterable<Character> result = Traverser.forGraph(graph).depthFirstPostOrder('h');
+
+    assertEqualCharNodes(Iterables.limit(result, 2), "ab");
+    assertThat(graph.requestedNodes).containsExactly('h', 'd', 'a', 'b');
+
+    // Iterate again to see if calculation is done again
+    assertEqualCharNodes(Iterables.limit(result, 2), "ab");
+    assertThat(graph.requestedNodes).containsExactly('h', 'h', 'd', 'd', 'a', 'a', 'b', 'b');
+  }
+
   private static SuccessorsFunction<Character> createDirectedGraph(String... edges) {
     return createGraph(/* directed = */ true, edges);
   }

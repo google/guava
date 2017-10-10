@@ -18,6 +18,7 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Iterators.singletonIterator;
 
 import com.google.common.annotations.Beta;
 import com.google.common.collect.AbstractIterator;
@@ -315,16 +316,16 @@ public abstract class Traverser<N> {
           }
           NodeAndSuccessors node = stack.getFirst();
           boolean firstVisit = visited.add(node.node);
-          boolean lastVisit = !node.successors.hasNext();
+          boolean lastVisit = !node.successorIterator.hasNext();
           boolean produceNode =
               (firstVisit && order == Order.PREORDER) || (lastVisit && order == Order.POSTORDER);
           if (lastVisit) {
             stack.pop();
           } else {
             // we need to push a neighbor, but only if we haven't already seen it
-            N child = node.successors.next();
-            if (!visited.contains(child)) {
-              stack.push(withSuccessors(child));
+            N successor = node.successorIterator.next();
+            if (!visited.contains(successor)) {
+              stack.push(withSuccessors(successor));
             }
           }
           if (produceNode) {
@@ -340,11 +341,11 @@ public abstract class Traverser<N> {
       /** A simple tuple of a node and a partially iterated {@link Iterator} of its successors. */
       private final class NodeAndSuccessors {
         final N node;
-        final Iterator<? extends N> successors;
+        final Iterator<? extends N> successorIterator;
 
         NodeAndSuccessors(N node, Iterable<? extends N> successors) {
           this.node = node;
-          this.successors = successors.iterator();
+          this.successorIterator = successors.iterator();
         }
       }
     }
@@ -369,14 +370,22 @@ public abstract class Traverser<N> {
 
     @Override
     public Iterable<N> depthFirstPreOrder(final N startNode) {
-      // TODO(b/27898002): Implement
-      throw new UnsupportedOperationException("Not yet implemented");
+      return new Iterable<N>() {
+        @Override
+        public Iterator<N> iterator() {
+          return new DepthFirstPreOrderIterator(startNode);
+        }
+      };
     }
 
     @Override
     public Iterable<N> depthFirstPostOrder(final N startNode) {
-      // TODO(b/27898002): Implement
-      throw new UnsupportedOperationException("Not yet implemented");
+      return new Iterable<N>() {
+        @Override
+        public Iterator<N> iterator() {
+          return new DepthFirstPostOrderIterator(startNode);
+        }
+      };
     }
 
     private final class BreadthFirstIterator extends UnmodifiableIterator<N> {
@@ -396,6 +405,71 @@ public abstract class Traverser<N> {
         N current = queue.remove();
         Iterables.addAll(queue, tree.successors(current));
         return current;
+      }
+    }
+
+    private final class DepthFirstPreOrderIterator extends UnmodifiableIterator<N> {
+      private final Deque<Iterator<? extends N>> stack = new ArrayDeque<>();
+
+      DepthFirstPreOrderIterator(N root) {
+        stack.addLast(singletonIterator(checkNotNull(root)));
+      }
+
+      @Override
+      public boolean hasNext() {
+        return !stack.isEmpty();
+      }
+
+      @Override
+      public N next() {
+        Iterator<? extends N> iterator = stack.getLast(); // throws NoSuchElementException if empty
+        N result = checkNotNull(iterator.next());
+        if (!iterator.hasNext()) {
+          stack.removeLast();
+        }
+        Iterator<? extends N> childIterator = tree.successors(result).iterator();
+        if (childIterator.hasNext()) {
+          stack.addLast(childIterator);
+        }
+        return result;
+      }
+    }
+
+    private final class DepthFirstPostOrderIterator extends AbstractIterator<N> {
+      private final ArrayDeque<NodeAndChildren> stack = new ArrayDeque<>();
+
+      DepthFirstPostOrderIterator(N root) {
+        stack.addLast(withChildren(root));
+      }
+
+      @Override
+      protected N computeNext() {
+        while (!stack.isEmpty()) {
+          NodeAndChildren top = stack.getLast();
+          if (top.childIterator.hasNext()) {
+            N child = top.childIterator.next();
+            stack.addLast(withChildren(child));
+          } else {
+            stack.removeLast();
+            return top.node;
+          }
+        }
+        return endOfData();
+      }
+
+      NodeAndChildren withChildren(N node) {
+        return new NodeAndChildren(node, tree.successors(node));
+      }
+
+      /** A simple tuple of a node and a partially iterated {@link Iterator} of its children. */
+      private final class NodeAndChildren {
+        final N node;
+        final Iterator<? extends N> childIterator;
+
+        NodeAndChildren(N node, Iterable<? extends N> children) {
+          this.node = node;
+          this.childIterator = children.iterator();
+        }
       }
     }
   }
