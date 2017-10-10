@@ -349,6 +349,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
           K prevKey = entryArray[0].getKey();
           keys[0] = prevKey;
           values[0] = entryArray[0].getValue();
+          checkEntryNotNull(keys[0], values[0]);
           for (int i = 1; i < size; i++) {
             K key = entryArray[i].getKey();
             V value = entryArray[i].getValue();

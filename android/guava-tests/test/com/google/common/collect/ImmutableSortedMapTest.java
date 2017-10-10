@@ -43,6 +43,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedMap;
+import java.util.TreeMap;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -670,6 +671,40 @@ public class ImmutableSortedMapTest extends TestCase {
     tester.testAllPublicInstanceMethods(ImmutableSortedMap.of("one", 1));
     tester.testAllPublicInstanceMethods(
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3));
+  }
+
+  public void testNullValuesInCopyOfMap() {
+    for (int i = 1; i <= 10; i++) {
+      for (int j = 0; j < i; j++) {
+        Map<Integer, Integer> source = new TreeMap<>();
+        for (int k = 0; k < i; k++) {
+          source.put(k, k);
+        }
+        source.put(j, null);
+        try {
+          ImmutableSortedMap.copyOf(source);
+          fail("Expected NullPointerException in copyOf(" + source + ")");
+        } catch (NullPointerException expected) {
+        }
+      }
+    }
+  }
+
+  public void testNullValuesInCopyOfEntries() {
+    for (int i = 1; i <= 10; i++) {
+      for (int j = 0; j < i; j++) {
+        Map<Integer, Integer> source = new TreeMap<>();
+        for (int k = 0; k < i; k++) {
+          source.put(k, k);
+        }
+        source.put(j, null);
+        try {
+          ImmutableSortedMap.copyOf(source.entrySet());
+          fail("Expected NullPointerException in copyOf(" + source.entrySet() + ")");
+        } catch (NullPointerException expected) {
+        }
+      }
+    }
   }
 
   private static <K, V> void assertMapEquals(Map<K, V> map,
