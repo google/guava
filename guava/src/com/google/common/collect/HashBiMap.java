@@ -309,29 +309,40 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     int keyHash = smearedHash(key);
 
     BiEntry<K, V> oldEntryForValue = seekByValue(value, valueHash);
+    BiEntry<K, V> oldEntryForKey = seekByKey(key, keyHash);
     if (oldEntryForValue != null
         && keyHash == oldEntryForValue.keyHash
         && Objects.equal(key, oldEntryForValue.key)) {
       return key;
+    } else if (oldEntryForKey != null && !force) {
+      throw new IllegalArgumentException("key already present: " + key);
     }
 
-    BiEntry<K, V> oldEntryForKey = seekByKey(key, keyHash);
-    if (oldEntryForKey != null) {
-      if (force) {
-        delete(oldEntryForKey);
-      } else {
-        throw new IllegalArgumentException("value already present: " + key);
-      }
-    }
+    /*
+     * The ordering here is important: if we deleted the key entry and then the value entry,
+     * the key entry's prev or next pointer might point to the dead value entry, and when we
+     * put the new entry in the key entry's position in iteration order, it might invalidate
+     * the linked list.
+     */
 
     if (oldEntryForValue != null) {
       delete(oldEntryForValue);
     }
+
+    if (oldEntryForKey != null) {
+      delete(oldEntryForKey);
+    }
+
     BiEntry<K, V> newEntry = new BiEntry<>(key, keyHash, value, valueHash);
     insert(newEntry, oldEntryForKey);
+
     if (oldEntryForKey != null) {
       oldEntryForKey.prevInKeyInsertionOrder = null;
       oldEntryForKey.nextInKeyInsertionOrder = null;
+    }
+    if (oldEntryForValue != null) {
+      oldEntryForValue.prevInKeyInsertionOrder = null;
+      oldEntryForValue.nextInKeyInsertionOrder = null;
     }
     rehashIfNecessary();
     return Maps.keyOrNull(oldEntryForValue);
