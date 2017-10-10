@@ -16,10 +16,12 @@
 
 package com.google.common.graph;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.collect.AbstractIterator;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.UnmodifiableIterator;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -58,6 +60,7 @@ public abstract class Traverser<N> {
    * @param graph {@link SuccessorsFunction} representing a general graph that may have cycles.
    */
   public static <N> Traverser<N> forGraph(SuccessorsFunction<N> graph) {
+    checkNotNull(graph);
     return new GraphTraverser<>(graph);
   }
 
@@ -126,8 +129,14 @@ public abstract class Traverser<N> {
    *     one path between any two nodes
    */
   public static <N> Traverser<N> forTree(SuccessorsFunction<N> tree) {
-    // TODO(b/27898002): Implement
-    throw new UnsupportedOperationException("Not yet implemented");
+    checkNotNull(tree);
+    if (tree instanceof BaseGraph) {
+      checkArgument(((BaseGraph<?>) tree).isDirected(), "Undirected graphs can never be trees.");
+    }
+    if (tree instanceof Network) {
+      checkArgument(((Network<?, ?>) tree).isDirected(), "Undirected networks can never be trees.");
+    }
+    return new TreeTraverser<>(tree);
   }
 
   /**
@@ -337,6 +346,56 @@ public abstract class Traverser<N> {
           this.node = node;
           this.successors = successors.iterator();
         }
+      }
+    }
+  }
+
+  private static final class TreeTraverser<N> extends Traverser<N> {
+    private final SuccessorsFunction<N> tree;
+
+    TreeTraverser(SuccessorsFunction<N> tree) {
+      this.tree = checkNotNull(tree);
+    }
+
+    @Override
+    public Iterable<N> breadthFirst(final N startNode) {
+      return new Iterable<N>() {
+        @Override
+        public Iterator<N> iterator() {
+          return new BreadthFirstIterator(startNode);
+        }
+      };
+    }
+
+    @Override
+    public Iterable<N> depthFirstPreOrder(final N startNode) {
+      // TODO(b/27898002): Implement
+      throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    @Override
+    public Iterable<N> depthFirstPostOrder(final N startNode) {
+      // TODO(b/27898002): Implement
+      throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    private final class BreadthFirstIterator extends UnmodifiableIterator<N> {
+      private final Queue<N> queue = new ArrayDeque<>();
+
+      BreadthFirstIterator(N root) {
+        queue.add(root);
+      }
+
+      @Override
+      public boolean hasNext() {
+        return !queue.isEmpty();
+      }
+
+      @Override
+      public N next() {
+        N current = queue.remove();
+        Iterables.addAll(queue, tree.successors(current));
+        return current;
       }
     }
   }

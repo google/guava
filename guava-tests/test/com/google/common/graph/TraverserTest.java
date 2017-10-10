@@ -20,6 +20,7 @@ package com.google.common.graph;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.fail;
 
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableList;
@@ -96,6 +97,55 @@ public class TraverserTest {
   private static final SuccessorsFunction<Character> TWO_CYCLES_GRAPH =
       createDirectedGraph("ab", "ac", "bc", "cd", "da");
 
+  /**
+   * A tree-shaped graph that looks as follows (all edges are directed facing downwards):
+   *
+   * <pre>{@code
+   *        h
+   *       /|\
+   *      / | \
+   *     /  |  \
+   *    d   e   g
+   *   /|\      |
+   *  / | \     |
+   * a  b  c    f
+   * }</pre>
+   */
+  private static final SuccessorsFunction<Character> TREE =
+      createDirectedGraph("hd", "he", "hg", "da", "db", "dc", "gf");
+
+  /**
+   * A graph that is not a tree (for example, it has two antiparallel edge between {@code e} and
+   * {@code f} and thus has a cycle) but is a valid input to {@link Traverser#forTree} when starting
+   * e.g. at node {@code a} (all edges without an arrow are directed facing downwards):
+   *
+   * <pre>{@code
+   *     a
+   *    /
+   *   b   e <----> f
+   *  / \ /
+   * c   d
+   * }</pre>
+   */
+  private static final SuccessorsFunction<Character> CYCLIC_GRAPH_CONTAINING_TREE =
+      createDirectedGraph("ab", "bc", "bd", "ed", "ef", "fe");
+
+  /**
+   * A graph that is not a tree (for example, {@code h} is reachable from {@code f} via both {@code
+   * e} and {@code g}) but is a valid input to {@link Traverser#forTree} when starting e.g. at node
+   * {@code a} (all edges are directed facing downwards):
+   *
+   * <pre>{@code
+   *     a   f
+   *    /   / \
+   *   b   e   g
+   *  / \ / \ /
+   * c   d   h
+   * }</pre>
+   */
+  private static final SuccessorsFunction<Character> GRAPH_CONTAINING_TREE_AND_DIAMOND =
+      createDirectedGraph("ab", "fe", "fg", "bc", "bd", "ed", "eh", "gh");
+
   @Test
   public void forGraph_breadthFirst_javadocExample_canBeIteratedMultipleTimes() {
     Iterable<Character> result = Traverser.forGraph(JAVADOC_GRAPH).breadthFirst('a');
@@ -138,6 +188,15 @@ public class TraverserTest {
     assertEqualCharNodes(traverser.breadthFirst('b'), "bcda");
     assertEqualCharNodes(traverser.breadthFirst('c'), "cdab");
     assertEqualCharNodes(traverser.breadthFirst('d'), "dabc");
+  }
+
+  @Test
+  public void forGraph_breadthFirst_tree() throws Exception {
+    Traverser<Character> traverser = Traverser.forGraph(TREE);
+
+    assertEqualCharNodes(traverser.breadthFirst('h'), "hdegabcf");
+    assertEqualCharNodes(traverser.breadthFirst('d'), "dabc");
+    assertEqualCharNodes(traverser.breadthFirst('a'), "a");
   }
 
   /**
@@ -202,6 +261,15 @@ public class TraverserTest {
   }
 
   @Test
+  public void forGraph_depthFirstPreOrder_tree() throws Exception {
+    Traverser<Character> traverser = Traverser.forGraph(TREE);
+
+    assertEqualCharNodes(traverser.depthFirstPreOrder('h'), "hdabcegf");
+    assertEqualCharNodes(traverser.depthFirstPreOrder('d'), "dabc");
+    assertEqualCharNodes(traverser.depthFirstPreOrder('a'), "a");
+  }
+
+  @Test
   public void forGraph_depthFirstPreOrder_iterableIsLazy() {
     RequestSavingGraph graph = new RequestSavingGraph(DIAMOND_GRAPH);
     Iterable<Character> result = Traverser.forGraph(graph).depthFirstPreOrder('a');
@@ -217,7 +285,6 @@ public class TraverserTest {
   @Test
   public void forGraph_depthFirstPostOrder_javadocExample_canBeIteratedMultipleTimes() {
     Iterable<Character> result = Traverser.forGraph(JAVADOC_GRAPH).depthFirstPostOrder('a');
-
     assertEqualCharNodes(result, "fcebda");
     assertEqualCharNodes(result, "fcebda");
   }
@@ -259,6 +326,15 @@ public class TraverserTest {
   }
 
   @Test
+  public void forGraph_depthFirstPostOrder_tree() throws Exception {
+    Traverser<Character> traverser = Traverser.forGraph(TREE);
+
+    assertEqualCharNodes(traverser.depthFirstPostOrder('h'), "abcdefgh");
+    assertEqualCharNodes(traverser.depthFirstPostOrder('d'), "abcd");
+    assertEqualCharNodes(traverser.depthFirstPostOrder('a'), "a");
+  }
+
+  @Test
   public void forGraph_depthFirstPostOrder_iterableIsLazy() {
     RequestSavingGraph graph = new RequestSavingGraph(DIAMOND_GRAPH);
     Iterable<Character> result = Traverser.forGraph(graph).depthFirstPostOrder('a');
@@ -269,6 +345,109 @@ public class TraverserTest {
     // Iterate again to see if calculation is done again
     assertEqualCharNodes(Iterables.limit(result, 2), "db");
     assertThat(graph.requestedNodes).containsExactly('a', 'a', 'b', 'b', 'd', 'd');
+  }
+
+  @Test
+  @SuppressWarnings("CheckReturnValue")
+  public void forTree_acceptsDirectedGraph() throws Exception {
+    MutableGraph<String> graph = GraphBuilder.directed().build();
+    graph.putEdge("a", "b");
+
+    Traverser.forTree(graph); // Does not throw
+  }
+
+  @Test
+  public void forTree_withUndirectedGraph_throws() throws Exception {
+    MutableGraph<String> graph = GraphBuilder.undirected().build();
+    graph.putEdge("a", "b");
+
+    try {
+      Traverser.forTree(graph);
+      fail("Expected exception");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  @Test
+  @SuppressWarnings("CheckReturnValue")
+  public void forTree_acceptsDirectedValueGraph() throws Exception {
+    MutableValueGraph<String, Integer> valueGraph = ValueGraphBuilder.directed().build();
+    valueGraph.putEdgeValue("a", "b", 11);
+
+    Traverser.forTree(valueGraph); // Does not throw
+  }
+
+  @Test
+  public void forTree_withUndirectedValueGraph_throws() throws Exception {
+    MutableValueGraph<String, Integer> valueGraph = ValueGraphBuilder.undirected().build();
+    valueGraph.putEdgeValue("a", "b", 11);
+
+    try {
+      Traverser.forTree(valueGraph);
+      fail("Expected exception");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  @Test
+  @SuppressWarnings("CheckReturnValue")
+  public void forTree_acceptsDirectedNetwork() throws Exception {
+    MutableNetwork<String, Integer> network = NetworkBuilder.directed().build();
+    network.addEdge("a", "b", 11);
+
+    Traverser.forTree(network); // Does not throw
+  }
+
+  @Test
+  public void forTree_withUndirectedNetwork_throws() throws Exception {
+    MutableNetwork<String, Integer> network = NetworkBuilder.undirected().build();
+    network.addEdge("a", "b", 11);
+
+    try {
+      Traverser.forTree(network);
+      fail("Expected exception");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  @Test
+  public void forTree_breadthFirst_tree() throws Exception {
+    Traverser<Character> traverser = Traverser.forTree(TREE);
+
+    assertEqualCharNodes(traverser.breadthFirst('h'), "hdegabcf");
+    assertEqualCharNodes(traverser.breadthFirst('d'), "dabc");
+    assertEqualCharNodes(traverser.breadthFirst('a'), "a");
+  }
+
+  @Test
+  public void forTree_breadthFirst_cyclicGraphContainingTree() throws Exception {
+    Traverser<Character> traverser = Traverser.forTree(CYCLIC_GRAPH_CONTAINING_TREE);
+
+    assertEqualCharNodes(traverser.breadthFirst('a'), "abcd");
+    assertEqualCharNodes(traverser.breadthFirst('b'), "bcd");
+    assertEqualCharNodes(traverser.breadthFirst('d'), "d");
+  }
+
+  @Test
+  public void forTree_breadthFirst_graphContainingTreeAndDiamond() throws Exception {
+    Traverser<Character> traverser = Traverser.forTree(GRAPH_CONTAINING_TREE_AND_DIAMOND);
+
+    assertEqualCharNodes(traverser.breadthFirst('a'), "abcd");
+    assertEqualCharNodes(traverser.breadthFirst('b'), "bcd");
+    assertEqualCharNodes(traverser.breadthFirst('d'), "d");
+  }
+
+  @Test
+  public void forTree_breadthFirst_iterableIsLazy() {
+    RequestSavingGraph graph = new RequestSavingGraph(TREE);
+    Iterable<Character> result = Traverser.forGraph(graph).breadthFirst('h');
+
+    assertEqualCharNodes(Iterables.limit(result, 2), "hd");
+    assertThat(graph.requestedNodes).containsExactly('h', 'd');
+
+    // Iterate again to see if calculation is done again
+    assertEqualCharNodes(Iterables.limit(result, 2), "hd");
+    assertThat(graph.requestedNodes).containsExactly('h', 'h', 'd', 'd');
   }
 
   private static SuccessorsFunction<Character> createDirectedGraph(String... edges) {
