@@ -967,7 +967,7 @@
 <span class="sourceLineNo">959</span>      return delegate;<a name="line.959"></a>
 <span class="sourceLineNo">960</span>    }<a name="line.960"></a>
 <span class="sourceLineNo">961</span>    return new Executor() {<a name="line.961"></a>
-<span class="sourceLineNo">962</span>      volatile boolean thrownFromDelegate = true;<a name="line.962"></a>
+<span class="sourceLineNo">962</span>      boolean thrownFromDelegate = true;<a name="line.962"></a>
 <span class="sourceLineNo">963</span><a name="line.963"></a>
 <span class="sourceLineNo">964</span>      @Override<a name="line.964"></a>
 <span class="sourceLineNo">965</span>      public void execute(final Runnable command) {<a name="line.965"></a>
