@@ -1498,12 +1498,16 @@ public abstract class CharMatcher implements Predicate<Character> {
 
   /** Implementation of {@link #digit()}. */
   private static final class Digit extends RangesMatcher {
+    // Plug the following UnicodeSet pattern into
+    // https://unicode.org/cldr/utility/list-unicodeset.jsp
+    // [[:Nd:]&[:nv=0:]&[\u0000-\uFFFF]]
+    // and get the zeroes from there.
 
     // Must be in ascending order.
     private static final String ZEROES =
-        "0\u0660\u06f0\u07c0\u0966\u09e6\u0a66\u0ae6\u0b66"
-            + "\u0be6\u0c66\u0ce6\u0d66\u0e50\u0ed0\u0f20\u1040\u1090\u17e0\u1810"
-            + "\u1946\u19d0\u1b50\u1bb0\u1c40\u1c50\ua620\ua8d0\ua900\uaa50\uff10";
+        "0\u0660\u06f0\u07c0\u0966\u09e6\u0a66\u0ae6\u0b66\u0be6\u0c66\u0ce6\u0d66\u0de6"
+            + "\u0e50\u0ed0\u0f20\u1040\u1090\u17e0\u1810\u1946\u19d0\u1a80\u1a90\u1b50\u1bb0"
+            + "\u1c40\u1c50\ua620\ua8d0\ua900\ua9d0\ua9f0\uaa50\uabf0\uff10";
 
     private static char[] zeroes() {
       return ZEROES.toCharArray();
@@ -1621,13 +1625,16 @@ public abstract class CharMatcher implements Predicate<Character> {
 
   /** Implementation of {@link #invisible()}. */
   private static final class Invisible extends RangesMatcher {
-
+    // Plug the following UnicodeSet pattern into
+    // https://unicode.org/cldr/utility/list-unicodeset.jsp
+    // [[[:Zs:][:Zl:][:Zp:][:Cc:][:Cf:][:Cs:][:Co:]]&[\u0000-\uFFFF]]
+    // with the "Abbreviate" option, and get the ranges from there.
     private static final String RANGE_STARTS =
-        "\u0000\u007f\u00ad\u0600\u061c\u06dd\u070f\u1680\u180e\u2000\u2028\u205f\u2066\u2067"
-            + "\u2068\u2069\u206a\u3000\ud800\ufeff\ufff9\ufffa";
-    private static final String RANGE_ENDS =
-        "\u0020\u00a0\u00ad\u0604\u061c\u06dd\u070f\u1680\u180e\u200f\u202f\u2064\u2066\u2067"
-            + "\u2068\u2069\u206f\u3000\uf8ff\ufeff\ufff9\ufffb";
+        "\u0000\u007f\u00ad\u0600\u061c\u06dd\u070f\u08e2\u1680\u180e\u2000\u2028\u205f\u2066"
+            + "\u3000\ud800\ufeff\ufff9";
+    private static final String RANGE_ENDS =  // inclusive ends
+        "\u0020\u00a0\u00ad\u0605\u061c\u06dd\u070f\u08e2\u1680\u180e\u200f\u202f\u2064\u206f"
+            + "\u3000\uf8ff\ufeff\ufffb";
 
     static final Invisible INSTANCE = new Invisible();
 
