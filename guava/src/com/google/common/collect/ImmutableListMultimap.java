@@ -58,7 +58,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
    * elements.
    *
    * <p>For streams with {@linkplain java.util.stream#Ordering defined encounter order}, that order
-   * is preserved, but entries are {@linkplain ImmutableMultimap#iteration grouped by key}.
+   * is preserved, but entries are <a href="ImmutableMultimap.html#iteration">grouped by key</a>.
    *
    * Example:
    * <pre>   {@code
