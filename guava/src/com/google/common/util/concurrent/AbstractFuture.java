@@ -125,10 +125,13 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
 
   static {
     AtomicHelper helper;
+    Throwable thrownUnsafeFailure = null;
+    Throwable thrownAtomicReferenceFieldUpdaterFailure = null;
 
     try {
       helper = new UnsafeAtomicHelper();
     } catch (Throwable unsafeFailure) {
+      thrownUnsafeFailure = unsafeFailure;
       // catch absolutely everything and fall through to our 'SafeAtomicHelper'
       // The access control checks that ARFU does means the caller class has to be AbstractFuture
       // instead of SafeAtomicHelper, so we annoyingly define these here
@@ -145,8 +148,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
         // getDeclaredField to throw a NoSuchFieldException when the field is definitely there.
         // For these users fallback to a suboptimal implementation, based on synchronized. This will
         // be a definite performance hit to those users.
-        log.log(Level.SEVERE, "UnsafeAtomicHelper is broken!", unsafeFailure);
-        log.log(Level.SEVERE, "SafeAtomicHelper is broken!", atomicReferenceFieldUpdaterFailure);
+        thrownAtomicReferenceFieldUpdaterFailure = atomicReferenceFieldUpdaterFailure;
         helper = new SynchronizedHelper();
       }
     }
@@ -156,6 +158,14 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
     // See: https://bugs.openjdk.java.net/browse/JDK-8074773
     @SuppressWarnings("unused")
     Class<?> ensureLoaded = LockSupport.class;
+
+    // Log after all static init is finished; if an installed logger uses any Futures methods, it
+    // shouldn't break in cases where reflection is missing/broken.
+    if (thrownAtomicReferenceFieldUpdaterFailure != null) {
+      log.log(Level.SEVERE, "UnsafeAtomicHelper is broken!", thrownUnsafeFailure);
+      log.log(
+          Level.SEVERE, "SafeAtomicHelper is broken!", thrownAtomicReferenceFieldUpdaterFailure);
+    }
   }
 
   /**
