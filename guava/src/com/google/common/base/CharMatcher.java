@@ -547,6 +547,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   /**
    * Returns a matcher that matches any character not matched by this matcher.
    */
+  // @Override under Java 8 but not under Java 7
   public CharMatcher negate() {
     return new Negated(this);
   }
