@@ -1037,7 +1037,7 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#anyOf-java.lang.CharSequence-">anyOf(CharSequence)</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
-<div class="block">Returns a <code>char</code> matcher that matches any character present in the given character
+<div class="block">Returns a <code>char</code> matcher that matches any BMP character present in the given character
  sequence.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/FluentIterable.html#append-java.lang.Iterable-">append(Iterable&lt;? extends E&gt;)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a></dt>
@@ -3300,7 +3300,7 @@
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#collapseFrom-java.lang.CharSequence-char-">collapseFrom(CharSequence, char)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
 <div class="block">Returns a string copy of the input character sequence, with each group of consecutive
- characters that match this matcher replaced by a single replacement character.</div>
+ matching BMP characters replaced by a single replacement character.</div>
 </dd>
 <dt><a href="com/google/common/collect/Collections2.html" title="class in com.google.common.collect"><span class="typeNameLink">Collections2</span></a> - Class in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
@@ -4647,7 +4647,7 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#countIn-java.lang.CharSequence-">countIn(CharSequence)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
-<div class="block">Returns the number of matching characters found in a character sequence.</div>
+<div class="block">Returns the number of matching <code>char</code>s found in a character sequence.</div>
 </dd>
 <dt><a href="com/google/common/io/CountingInputStream.html" title="class in com.google.common.io"><span class="typeNameLink">CountingInputStream</span></a> - Class in <a href="com/google/common/io/package-summary.html">com.google.common.io</a></dt>
 <dd>
@@ -5382,8 +5382,9 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#digit--">digit()</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
-<div class="block">Determines whether a character is a digit according to
- <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bdigit%7D">Unicode</a>.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment">Many digits are supplementary characters; see the class documentation.</span></div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/GraphBuilder.html#directed--">directed()</a></span> - Static method in class com.google.common.graph.<a href="com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a></dt>
 <dd>
@@ -9367,12 +9368,12 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#indexIn-java.lang.CharSequence-">indexIn(CharSequence)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
-<div class="block">Returns the index of the first matching character in a character sequence, or <code>-1</code> if no
- matching character is present.</div>
+<div class="block">Returns the index of the first matching BMP character in a character sequence,
+ or <code>-1</code> if no matching character is present.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#indexIn-java.lang.CharSequence-int-">indexIn(CharSequence, int)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
-<div class="block">Returns the index of the first matching character in a character sequence, starting from a
+<div class="block">Returns the index of the first matching BMP character in a character sequence, starting from a
  given position, or <code>-1</code> if no character matches after that position.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ForwardingList.html#indexOf-java.lang.Object-">indexOf(Object)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ForwardingList.html" title="class in com.google.common.collect">ForwardingList</a></dt>
@@ -9513,8 +9514,8 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#inRange-char-char-">inRange(char, char)</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
-<div class="block">Returns a <code>char</code> matcher that matches any character in a given range (both endpoints are
- inclusive).</div>
+<div class="block">Returns a <code>char</code> matcher that matches any character in a given BMP range (both endpoints
+ are inclusive).</div>
 </dd>
 <dt><a href="com/google/common/io/InsecureRecursiveDeleteException.html" title="class in com.google.common.io"><span class="typeNameLink">InsecureRecursiveDeleteException</span></a> - Exception in <a href="com/google/common/io/package-summary.html">com.google.common.io</a></dt>
 <dd>
@@ -9691,9 +9692,10 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#invisible--">invisible()</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
-<div class="block">Determines whether a character is invisible; that is, if its Unicode category is any of
- SPACE_SEPARATOR, LINE_SEPARATOR, PARAGRAPH_SEPARATOR, CONTROL, FORMAT, SURROGATE, and
- PRIVATE_USE according to ICU4J.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment">Most invisible characters are supplementary characters;
+     see the class documentation.</span></div>
+</div>
 </dd>
 <dt><a href="com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect"><span class="typeNameLink">Invokable</span></a>&lt;<a href="com/google/common/reflect/Invokable.html" title="type parameter in Invokable">T</a>,<a href="com/google/common/reflect/Invokable.html" title="type parameter in Invokable">R</a>&gt; - Class in <a href="com/google/common/reflect/package-summary.html">com.google.common.reflect</a></dt>
 <dd>
@@ -9732,7 +9734,7 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#is-char-">is(char)</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
-<div class="block">Returns a <code>char</code> matcher that matches only one specified character.</div>
+<div class="block">Returns a <code>char</code> matcher that matches only one specified BMP character.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/MediaType.html#is-com.google.common.net.MediaType-">is(MediaType)</a></span> - Method in class com.google.common.net.<a href="com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
 <dd>
@@ -9926,7 +9928,7 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#isNot-char-">isNot(char)</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
-<div class="block">Returns a <code>char</code> matcher that matches any character except the one specified.</div>
+<div class="block">Returns a <code>char</code> matcher that matches any character except the BMP character specified.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Predicates.html#isNull--">isNull()</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/Predicates.html" title="class in com.google.common.base">Predicates</a></dt>
 <dd>
@@ -10201,7 +10203,9 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#javaDigit--">javaDigit()</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
-<div class="block">Determines whether a character is a digit according to <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Character.html?is-external=true#isDigit-char-" title="class or interface in java.lang">Java's definition</a>.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment">Many digits are supplementary characters; see the class documentation.</span></div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#javaIsoControl--">javaIsoControl()</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
@@ -10210,17 +10214,22 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#javaLetter--">javaLetter()</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
-<div class="block">Determines whether a character is a letter according to <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Character.html?is-external=true#isLetter-char-" title="class or interface in java.lang">Java's definition</a>.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment">Most letters are supplementary characters; see the class documentation.</span></div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#javaLetterOrDigit--">javaLetterOrDigit()</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
-<div class="block">Determines whether a character is a letter or digit according to
- <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Character.html?is-external=true#isLetterOrDigit-char-" title="class or interface in java.lang">Java's definition</a>.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment">Most letters and digits are supplementary characters; see the class documentation.</span></div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#javaLowerCase--">javaLowerCase()</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
-<div class="block">Determines whether a character is lower case according to
- <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Character.html?is-external=true#isLowerCase-char-" title="class or interface in java.lang">Java's definition</a>.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment">Some lowercase characters are supplementary characters;
+     see the class documentation.</span></div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/MediaType.html#JAVASCRIPT_UTF_8">JAVASCRIPT_UTF_8</a></span> - Static variable in class com.google.common.net.<a href="com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
 <dd>
@@ -10230,8 +10239,10 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#javaUpperCase--">javaUpperCase()</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
-<div class="block">Determines whether a character is upper case according to
- <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Character.html?is-external=true#isUpperCase-char-" title="class or interface in java.lang">Java's definition</a>.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment">Some uppercase characters are supplementary characters;
+     see the class documentation.</span></div>
+</div>
 </dd>
 <dt><a href="com/google/common/util/concurrent/JdkFutureAdapters.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">JdkFutureAdapters</span></a> - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
 <dd>
@@ -10470,8 +10481,8 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#lastIndexIn-java.lang.CharSequence-">lastIndexIn(CharSequence)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
-<div class="block">Returns the index of the last matching character in a character sequence, or <code>-1</code> if no
- matching character is present.</div>
+<div class="block">Returns the index of the last matching BMP character in a character sequence,
+ or <code>-1</code> if no matching character is present.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ForwardingList.html#lastIndexOf-java.lang.Object-">lastIndexOf(Object)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ForwardingList.html" title="class in com.google.common.collect">ForwardingList</a></dt>
 <dd>&nbsp;</dd>
@@ -11124,15 +11135,15 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#matchesAllOf-java.lang.CharSequence-">matchesAllOf(CharSequence)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
-<div class="block">Returns <code>true</code> if a character sequence contains only matching characters.</div>
+<div class="block">Returns <code>true</code> if a character sequence contains only matching BMP characters.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#matchesAnyOf-java.lang.CharSequence-">matchesAnyOf(CharSequence)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
-<div class="block">Returns <code>true</code> if a character sequence contains at least one matching character.</div>
+<div class="block">Returns <code>true</code> if a character sequence contains at least one matching BMP character.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#matchesNoneOf-java.lang.CharSequence-">matchesNoneOf(CharSequence)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
-<div class="block">Returns <code>true</code> if a character sequence contains no matching characters.</div>
+<div class="block">Returns <code>true</code> if a character sequence contains no matching BMP characters.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Ascii.html#MAX">MAX</a></span> - Static variable in class com.google.common.base.<a href="com/google/common/base/Ascii.html" title="class in com.google.common.base">Ascii</a></dt>
 <dd>
@@ -12278,8 +12289,8 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#noneOf-java.lang.CharSequence-">noneOf(CharSequence)</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
-<div class="block">Returns a <code>char</code> matcher that matches any character not present in the given character
- sequence.</div>
+<div class="block">Returns a <code>char</code> matcher that matches any BMP character not present in the given
+ character sequence.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Predicates.html#not-com.google.common.base.Predicate-">not(Predicate&lt;T&gt;)</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/Predicates.html" title="class in com.google.common.base">Predicates</a></dt>
 <dd>
@@ -15000,13 +15011,13 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#replaceFrom-java.lang.CharSequence-char-">replaceFrom(CharSequence, char)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
-<div class="block">Returns a string copy of the input character sequence, with each character that matches this
- matcher replaced by a given replacement character.</div>
+<div class="block">Returns a string copy of the input character sequence, with each matching BMP character
+ replaced by a given replacement character.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#replaceFrom-java.lang.CharSequence-java.lang.CharSequence-">replaceFrom(CharSequence, CharSequence)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
-<div class="block">Returns a string copy of the input character sequence, with each character that matches this
- matcher replaced by a given replacement sequence.</div>
+<div class="block">Returns a string copy of the input character sequence, with each matching BMP character
+ replaced by a given replacement sequence.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ForwardingListMultimap.html#replaceValues-K-java.lang.Iterable-">replaceValues(K, Iterable&lt;? extends V&gt;)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ForwardingListMultimap.html" title="class in com.google.common.collect">ForwardingListMultimap</a></dt>
 <dd>&nbsp;</dd>
@@ -15134,7 +15145,7 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#retainFrom-java.lang.CharSequence-">retainFrom(CharSequence)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
-<div class="block">Returns a string containing all matching characters of a character sequence, in order.</div>
+<div class="block">Returns a string containing all matching BMP characters of a character sequence, in order.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Multisets.html#retainOccurrences-com.google.common.collect.Multiset-com.google.common.collect.Multiset-">retainOccurrences(Multiset&lt;?&gt;, Multiset&lt;?&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Multisets.html" title="class in com.google.common.collect">Multisets</a></dt>
 <dd>
@@ -15881,7 +15892,9 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#singleWidth--">singleWidth()</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
-<div class="block">Determines whether a character is single-width (not double-width).</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment">Many such characters are supplementary characters; see the class documentation.</span></div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/hash/Hashing.html#sipHash24--">sipHash24()</a></span> - Static method in class com.google.common.hash.<a href="com/google/common/hash/Hashing.html" title="class in com.google.common.hash">Hashing</a></dt>
 <dd>
@@ -18328,18 +18341,18 @@
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#trimAndCollapseFrom-java.lang.CharSequence-char-">trimAndCollapseFrom(CharSequence, char)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
 <div class="block">Collapses groups of matching characters exactly as <a href="com/google/common/base/CharMatcher.html#collapseFrom-java.lang.CharSequence-char-"><code>CharMatcher.collapseFrom(java.lang.CharSequence, char)</code></a> does, except that
- groups of matching characters at the start or end of the sequence are removed without
+ groups of matching BMP characters at the start or end of the sequence are removed without
  replacement.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#trimFrom-java.lang.CharSequence-">trimFrom(CharSequence)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
-<div class="block">Returns a substring of the input character sequence that omits all characters this matcher
- matches from the beginning and from the end of the string.</div>
+<div class="block">Returns a substring of the input character sequence that omits all matching BMP characters
+ from the beginning and from the end of the string.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#trimLeadingFrom-java.lang.CharSequence-">trimLeadingFrom(CharSequence)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
-<div class="block">Returns a substring of the input character sequence that omits all characters this matcher
- matches from the beginning of the string.</div>
+<div class="block">Returns a substring of the input character sequence that omits all matching BMP characters
+ from the beginning of the string.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/primitives/ImmutableDoubleArray.html#trimmed--">trimmed()</a></span> - Method in class com.google.common.primitives.<a href="com/google/common/primitives/ImmutableDoubleArray.html" title="class in com.google.common.primitives">ImmutableDoubleArray</a></dt>
 <dd>
@@ -18373,8 +18386,8 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#trimTrailingFrom-java.lang.CharSequence-">trimTrailingFrom(CharSequence)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
-<div class="block">Returns a substring of the input character sequence that omits all characters this matcher
- matches from the end of the string.</div>
+<div class="block">Returns a substring of the input character sequence that omits all matching BMP characters
+ from the end of the string.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/primitives/Booleans.html#trueFirst--">trueFirst()</a></span> - Static method in class com.google.common.primitives.<a href="com/google/common/primitives/Booleans.html" title="class in com.google.common.primitives">Booleans</a></dt>
 <dd>
