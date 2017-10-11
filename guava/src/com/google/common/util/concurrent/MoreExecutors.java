@@ -959,7 +959,7 @@ public final class MoreExecutors {
       return delegate;
     }
     return new Executor() {
-      volatile boolean thrownFromDelegate = true;
+      boolean thrownFromDelegate = true;
 
       @Override
       public void execute(final Runnable command) {

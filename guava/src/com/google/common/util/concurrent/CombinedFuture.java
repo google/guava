@@ -96,7 +96,7 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
   @WeakOuter
   private abstract class CombinedFutureInterruptibleTask<T> extends InterruptibleTask<T> {
     private final Executor listenerExecutor;
-    volatile boolean thrownByExecute = true;
+    boolean thrownByExecute = true;
 
     public CombinedFutureInterruptibleTask(Executor listenerExecutor) {
       this.listenerExecutor = checkNotNull(listenerExecutor);
