@@ -213,14 +213,12 @@
             <goals><goal>run</goal></goals>
             <configuration>
               <target name="copy-gwt-resources">
-                <copy toDir="${project.build.directory}/guava-gwt-sources"
-                      verbose="true">
+                <copy toDir="${project.build.directory}/guava-gwt-sources">
                   <fileset dir="${project.build.directory}/guava-sources">
                     <contains text="@GwtCompatible"/>
                   </fileset>
                 </copy>
-                <copy toDir="${project.build.directory}/guava-test-gwt-sources"
-                      verbose="true">
+                <copy toDir="${project.build.directory}/guava-test-gwt-sources">
                   <fileset dir="${project.build.directory}/guava-test-sources">
                     <contains text="@GwtCompatible"/>
                   </fileset>
