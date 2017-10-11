@@ -342,8 +342,9 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Unicode</a>. If you only care to match ASCII digits, you can use
    * {@code inRange('0', '9')}.
    *
-   * @deprecated Use {@link #digit()} instead. This constant is scheduled to be
-   *     removed in June 2018.
+   * @deprecated Many digits are supplementary characters; see the class
+   *     documentation. If you need to use this, use {@link #digit()} instead. This
+   * .   constant is scheduled to be removed in June 2018.
    */
   @com.google.common.annotations.Beta
   @Deprecated
@@ -354,8 +355,9 @@ public abstract class CharMatcher implements Predicate<Character> {
    * {@linkplain Character#isDigit(char) Java's definition}. If you only care to match
    * ASCII digits, you can use {@code inRange('0', '9')}.
    *
-   * @deprecated Use {@link #javaDigit()} instead. This constant is scheduled to be
-   *     removed in June 2018.
+   * @deprecated Many digits are supplementary characters; see the class
+   *     documentation. If you need to use this, use {@link #javaDigit()} instead.
+   *     This constant is scheduled to be removed in June 2018.
    */
   @com.google.common.annotations.Beta
   @Deprecated
@@ -367,8 +369,9 @@ public abstract class CharMatcher implements Predicate<Character> {
    * match letters of the Latin alphabet, you can use
    * {@code inRange('a', 'z').or(inRange('A', 'Z'))}.
    *
-   * @deprecated Use {@link #javaLetter()} instead. This constant is scheduled to be
-   *     removed in June 2018.
+   * @deprecated Most letters are supplementary characters; see the class
+   *     documentation. If you need to use this, use {@link #javaLetter()} instead.
+   *     This constant is scheduled to be removed in June 2018.
    */
   @com.google.common.annotations.Beta
   @Deprecated
@@ -378,8 +381,9 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Determines whether a character is a letter or digit according to
    * {@linkplain Character#isLetterOrDigit(char) Java's definition}.
    *
-   * @deprecated Use {@link #javaLetterOrDigit()} instead. This constant is scheduled
-   *     to be removed in June 2018.
+   * @deprecated Most letters and digits are supplementary characters; see the class
+   *     documentation. If you need to use this, use {@link #javaLetterOrDigit()}
+   *     instead. This constant is scheduled to be removed in June 2018.
    */
   @com.google.common.annotations.Beta
   @Deprecated
@@ -389,8 +393,9 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Determines whether a character is upper case according to
    * {@linkplain Character#isUpperCase(char) Java's definition}.
    *
-   * @deprecated Use {@link #javaUpperCase()} instead. This constant is scheduled to
-   *     be removed in June 2018.
+   * @deprecated Some uppercase letters are supplementary characters; see the class
+   *     documentation. If you need to use this, use {@link #javaUpperCase()} instead.
+   *     This constant is scheduled to be removed in June 2018.
    */
   @com.google.common.annotations.Beta
   @Deprecated
@@ -400,8 +405,9 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Determines whether a character is lower case according to
    * {@linkplain Character#isLowerCase(char) Java's definition}.
    *
-   * @deprecated Use {@link #javaLowerCase()} instead. This constant is scheduled to
-   *     be removed in June 2018.
+   * @deprecated Some lowercase letters are supplementary characters; see the class
+   *     documentation. If you need to use this, use {@link #javaLowerCase()} instead.
+   *     This constant is scheduled to be removed in June 2018.
    */
   @com.google.common.annotations.Beta
   @Deprecated
@@ -423,8 +429,9 @@ public abstract class CharMatcher implements Predicate<Character> {
    * any of SPACE_SEPARATOR, LINE_SEPARATOR, PARAGRAPH_SEPARATOR, CONTROL, FORMAT,
    * SURROGATE, and PRIVATE_USE according to ICU4J.
    *
-   * @deprecated Use {@link #invisible()} instead. This constant is scheduled to be
-   *     removed in June 2018.
+   * @deprecated Most invisible characters are supplementary characters; see the class
+   *     documentation. If you need to use this, use {@link #invisible()} instead.
+   *     This constant is scheduled to be removed in June 2018.
    */
   @com.google.common.annotations.Beta
   @Deprecated
@@ -438,8 +445,9 @@ public abstract class CharMatcher implements Predicate<Character> {
    * <p><b>Note:</b> as the reference file evolves, we will modify this constant to
    * keep it up to date.
    *
-   * @deprecated Use {@link #singleWidth()} instead. This constant is scheduled to be
-   *     removed in June 2018.
+   * @deprecated Many such characters are supplementary characters; see the class
+   *     documentation. If you need to use this, use {@link #singleWidth()} instead.
+   *     This constant is scheduled to be removed in June 2018.
    */
   @com.google.common.annotations.Beta
   @Deprecated
