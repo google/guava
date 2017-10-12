@@ -306,8 +306,8 @@ public final class InternetDomainName {
   /**
    * Indicates whether this domain name ends in a {@linkplain #isPublicSuffix() public suffix},
    * including if it is a public suffix itself. For example, returns {@code true} for
-   * {@code www.google.com}, {@code foo.co.uk} and {@code com}, but not for {@code google} or
-   * {@code google.foo}. This is the recommended method for determining whether a domain is
+   * {@code www.google.com}, {@code foo.co.uk} and {@code com}, but not for {@code invalid} or
+   * {@code google.invalid}. This is the recommended method for determining whether a domain is
    * potentially an addressable host.
    *
    * @since 6.0
