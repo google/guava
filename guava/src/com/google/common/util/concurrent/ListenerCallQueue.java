@@ -62,7 +62,7 @@ final class ListenerCallQueue<L> {
       Collections.synchronizedList(new ArrayList<PerListenerQueue<L>>());
 
   /** Method reference-compatible listener event. */
-  public interface Event<L> {
+  interface Event<L> {
     /** Call a method on the listener. */
     void call(L listener);
   }
