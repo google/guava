@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -51,22 +52,21 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * <p>The guarantee provided by this class is that equal keys lead to the same lock (or semaphore),
  * i.e. {@code if (key1.equals(key2))} then {@code striped.get(key1) == striped.get(key2)} (assuming
  * {@link Object#hashCode()} is correctly implemented for the keys). Note that if {@code key1} is
- * <strong>not</strong> equal to {@code key2}, it is <strong>not</strong> guaranteed that
- * {@code striped.get(key1) != striped.get(key2)}; the elements might nevertheless be mapped to the
- * same lock. The lower the number of stripes, the higher the probability of this happening.
+ * <strong>not</strong> equal to {@code key2}, it is <strong>not</strong> guaranteed that {@code
+ * striped.get(key1) != striped.get(key2)}; the elements might nevertheless be mapped to the same
+ * lock. The lower the number of stripes, the higher the probability of this happening.
  *
  * <p>There are three flavors of this class: {@code Striped<Lock>}, {@code Striped<Semaphore>}, and
- * {@code Striped<ReadWriteLock>}. For each type, two implementations are offered:
- * {@linkplain #lock(int) strong} and {@linkplain #lazyWeakLock(int) weak} {@code Striped<Lock>},
- * {@linkplain #semaphore(int, int) strong} and {@linkplain #lazyWeakSemaphore(int, int) weak}
- * {@code Striped<Semaphore>}, and {@linkplain #readWriteLock(int) strong} and
- * {@linkplain #lazyWeakReadWriteLock(int) weak} {@code Striped<ReadWriteLock>}. <i>Strong</i> means
- * that all stripes (locks/semaphores) are initialized eagerly, and are not reclaimed unless
- * {@code Striped} itself is reclaimable. <i>Weak</i> means that locks/semaphores are created
- * lazily, and they are allowed to be reclaimed if nobody is holding on to them. This is useful, for
- * example, if one wants to create a {@code
- * Striped<Lock>} of many locks, but worries that in most cases only a small portion of these would
- * be in use.
+ * {@code Striped<ReadWriteLock>}. For each type, two implementations are offered: {@linkplain
+ * #lock(int) strong} and {@linkplain #lazyWeakLock(int) weak} {@code Striped<Lock>}, {@linkplain
+ * #semaphore(int, int) strong} and {@linkplain #lazyWeakSemaphore(int, int) weak} {@code
+ * Striped<Semaphore>}, and {@linkplain #readWriteLock(int) strong} and {@linkplain
+ * #lazyWeakReadWriteLock(int) weak} {@code Striped<ReadWriteLock>}. <i>Strong</i> means that all
+ * stripes (locks/semaphores) are initialized eagerly, and are not reclaimed unless {@code Striped}
+ * itself is reclaimable. <i>Weak</i> means that locks/semaphores are created lazily, and they are
+ * allowed to be reclaimed if nobody is holding on to them. This is useful, for example, if one
+ * wants to create a {@code Striped<Lock>} of many locks, but worries that in most cases only a
+ * small portion of these would be in use.
  *
  * <p>Prior to this class, one might be tempted to use {@code Map<K, Lock>}, where {@code K}
  * represents the task. This maximizes concurrency by having each unique key mapped to a unique
@@ -93,8 +93,8 @@ public abstract class Striped<L> {
   private Striped() {}
 
   /**
-   * Returns the stripe that corresponds to the passed key. It is always guaranteed that if
-   * {@code key1.equals(key2)}, then {@code get(key1) == get(key2)}.
+   * Returns the stripe that corresponds to the passed key. It is always guaranteed that if {@code
+   * key1.equals(key2)}, then {@code get(key1) == get(key2)}.
    *
    * @param key an arbitrary, non-null key
    * @return the stripe that the passed key corresponds to
@@ -115,23 +115,21 @@ public abstract class Striped<L> {
    */
   abstract int indexFor(Object key);
 
-  /**
-   * Returns the total number of stripes in this instance.
-   */
+  /** Returns the total number of stripes in this instance. */
   public abstract int size();
 
   /**
-   * Returns the stripes that correspond to the passed objects, in ascending (as per
-   * {@link #getAt(int)}) order. Thus, threads that use the stripes in the order returned by this
-   * method are guaranteed to not deadlock each other.
+   * Returns the stripes that correspond to the passed objects, in ascending (as per {@link
+   * #getAt(int)}) order. Thus, threads that use the stripes in the order returned by this method
+   * are guaranteed to not deadlock each other.
    *
-   * <p>It should be noted that using a {@code Striped<L>} with relatively few stripes, and
-   * {@code bulkGet(keys)} with a relative large number of keys can cause an excessive number of
-   * shared stripes (much like the birthday paradox, where much fewer than anticipated birthdays are
-   * needed for a pair of them to match). Please consider carefully the implications of the number
-   * of stripes, the intended concurrency level, and the typical number of keys used in a
-   * {@code bulkGet(keys)} operation. See <a href="http://www.mathpages.com/home/kmath199.htm">Balls
-   * in Bins model</a> for mathematical formulas that can be used to estimate the probability of
+   * <p>It should be noted that using a {@code Striped<L>} with relatively few stripes, and {@code
+   * bulkGet(keys)} with a relative large number of keys can cause an excessive number of shared
+   * stripes (much like the birthday paradox, where much fewer than anticipated birthdays are needed
+   * for a pair of them to match). Please consider carefully the implications of the number of
+   * stripes, the intended concurrency level, and the typical number of keys used in a {@code
+   * bulkGet(keys)} operation. See <a href="http://www.mathpages.com/home/kmath199.htm">Balls in
+   * Bins model</a> for mathematical formulas that can be used to estimate the probability of
    * collisions.
    *
    * @param keys arbitrary non-null keys
@@ -287,14 +285,77 @@ public abstract class Striped<L> {
     return lazy(stripes, READ_WRITE_LOCK_SUPPLIER);
   }
 
-  // ReentrantReadWriteLock is large enough to make padding probably unnecessary
   private static final Supplier<ReadWriteLock> READ_WRITE_LOCK_SUPPLIER =
       new Supplier<ReadWriteLock>() {
         @Override
         public ReadWriteLock get() {
-          return new ReentrantReadWriteLock();
+          return new WeakSafeReadWriteLock();
         }
       };
+
+  /**
+   * ReadWriteLock implementation whose read and write locks retain a reference back to this lock.
+   * Otherwise, a reference to just the read lock or just the write lock would not suffice to ensure
+   * the {@code ReadWriteLock} is retained.
+   */
+  private static final class WeakSafeReadWriteLock implements ReadWriteLock {
+    private final ReadWriteLock delegate;
+
+    WeakSafeReadWriteLock() {
+      this.delegate = new ReentrantReadWriteLock();
+    }
+
+    @Override
+    public Lock readLock() {
+      return new WeakSafeLock(delegate.readLock(), this);
+    }
+
+    @Override
+    public Lock writeLock() {
+      return new WeakSafeLock(delegate.writeLock(), this);
+    }
+  }
+
+  /** Lock object that ensures a strong reference is retained to a specified object. */
+  private static final class WeakSafeLock extends ForwardingLock {
+    private final Lock delegate;
+
+    @SuppressWarnings("unused")
+    private final Object strongReference;
+
+    WeakSafeLock(Lock delegate, Object strongReference) {
+      this.delegate = delegate;
+      this.strongReference = strongReference;
+    }
+
+    @Override
+    Lock delegate() {
+      return delegate;
+    }
+
+    @Override
+    public Condition newCondition() {
+      return new WeakSafeCondition(delegate.newCondition(), strongReference);
+    }
+  }
+
+  /** Condition object that ensures a strong reference is retained to a specified object. */
+  private static final class WeakSafeCondition extends ForwardingCondition {
+    private final Condition delegate;
+
+    @SuppressWarnings("unused")
+    private final Object strongReference;
+
+    WeakSafeCondition(Condition delegate, Object strongReference) {
+      this.delegate = delegate;
+      this.strongReference = strongReference;
+    }
+
+    @Override
+    Condition delegate() {
+      return delegate;
+    }
+  }
 
   private abstract static class PowerOfTwoStriped<L> extends Striped<L> {
     /** Capacity (power of two) minus one, for fast mod evaluation */
@@ -457,9 +518,7 @@ public abstract class Striped<L> {
     }
   }
 
-  /**
-   * A bit mask were all bits are set.
-   */
+  /** A bit mask were all bits are set. */
   private static final int ALL_SET = ~0;
 
   private static int ceilToPowerOfTwo(int x) {
