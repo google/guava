@@ -123,21 +123,16 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
  <p>The guarantee provided by this class is that equal keys lead to the same lock (or semaphore),
  i.e. <code>if (key1.equals(key2))</code> then <code>striped.get(key1) == striped.get(key2)</code> (assuming
  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang"><code>Object.hashCode()</code></a> is correctly implemented for the keys). Note that if <code>key1</code> is
- <strong>not</strong> equal to <code>key2</code>, it is <strong>not</strong> guaranteed that
- <code>striped.get(key1) != striped.get(key2)</code>; the elements might nevertheless be mapped to the
- same lock. The lower the number of stripes, the higher the probability of this happening.
+ <strong>not</strong> equal to <code>key2</code>, it is <strong>not</strong> guaranteed that <code>striped.get(key1) != striped.get(key2)</code>; the elements might nevertheless be mapped to the same
+ lock. The lower the number of stripes, the higher the probability of this happening.
 
  <p>There are three flavors of this class: <code>Striped&lt;Lock&gt;</code>, <code>Striped&lt;Semaphore&gt;</code>, and
- <code>Striped&lt;ReadWriteLock&gt;</code>. For each type, two implementations are offered:
- <a href="../../../../../com/google/common/util/concurrent/Striped.html#lock-int-">strong</a> and <a href="../../../../../com/google/common/util/concurrent/Striped.html#lazyWeakLock-int-">weak</a> <code>Striped&lt;Lock&gt;</code>,
- <a href="../../../../../com/google/common/util/concurrent/Striped.html#semaphore-int-int-">strong</a> and <a href="../../../../../com/google/common/util/concurrent/Striped.html#lazyWeakSemaphore-int-int-">weak</a>
- <code>Striped&lt;Semaphore&gt;</code>, and <a href="../../../../../com/google/common/util/concurrent/Striped.html#readWriteLock-int-">strong</a> and
- <a href="../../../../../com/google/common/util/concurrent/Striped.html#lazyWeakReadWriteLock-int-">weak</a> <code>Striped&lt;ReadWriteLock&gt;</code>. <i>Strong</i> means
- that all stripes (locks/semaphores) are initialized eagerly, and are not reclaimed unless
- <code>Striped</code> itself is reclaimable. <i>Weak</i> means that locks/semaphores are created
- lazily, and they are allowed to be reclaimed if nobody is holding on to them. This is useful, for
- example, if one wants to create a <code>Striped&lt;Lock&gt;</code> of many locks, but worries that in most cases only a small portion of these would
- be in use.
+ <code>Striped&lt;ReadWriteLock&gt;</code>. For each type, two implementations are offered: <a href="../../../../../com/google/common/util/concurrent/Striped.html#lock-int-">strong</a> and <a href="../../../../../com/google/common/util/concurrent/Striped.html#lazyWeakLock-int-">weak</a> <code>Striped&lt;Lock&gt;</code>, <a href="../../../../../com/google/common/util/concurrent/Striped.html#semaphore-int-int-">strong</a> and <a href="../../../../../com/google/common/util/concurrent/Striped.html#lazyWeakSemaphore-int-int-">weak</a> <code>Striped&lt;Semaphore&gt;</code>, and <a href="../../../../../com/google/common/util/concurrent/Striped.html#readWriteLock-int-">strong</a> and <a href="../../../../../com/google/common/util/concurrent/Striped.html#lazyWeakReadWriteLock-int-">weak</a> <code>Striped&lt;ReadWriteLock&gt;</code>. <i>Strong</i> means that all
+ stripes (locks/semaphores) are initialized eagerly, and are not reclaimed unless <code>Striped</code>
+ itself is reclaimable. <i>Weak</i> means that locks/semaphores are created lazily, and they are
+ allowed to be reclaimed if nobody is holding on to them. This is useful, for example, if one
+ wants to create a <code>Striped&lt;Lock&gt;</code> of many locks, but worries that in most cases only a
+ small portion of these would be in use.
 
  <p>Prior to this class, one might be tempted to use <code>Map&lt;K, Lock&gt;</code>, where <code>K</code>
  represents the task. This maximizes concurrency by having each unique key mapped to a unique
@@ -174,8 +169,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <tr id="i0" class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../../com/google/common/util/concurrent/Striped.html" title="type parameter in Striped">L</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/Striped.html#bulkGet-java.lang.Iterable-">bulkGet</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;?&gt;&nbsp;keys)</code>
-<div class="block">Returns the stripes that correspond to the passed objects, in ascending (as per
- <a href="../../../../../com/google/common/util/concurrent/Striped.html#getAt-int-"><code>getAt(int)</code></a>) order.</div>
+<div class="block">Returns the stripes that correspond to the passed objects, in ascending (as per <a href="../../../../../com/google/common/util/concurrent/Striped.html#getAt-int-"><code>getAt(int)</code></a>) order.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -267,8 +261,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>get</h4>
 <pre>public abstract&nbsp;<a href="../../../../../com/google/common/util/concurrent/Striped.html" title="type parameter in Striped">L</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.102">get</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
-<div class="block">Returns the stripe that corresponds to the passed key. It is always guaranteed that if
- <code>key1.equals(key2)</code>, then <code>get(key1) == get(key2)</code>.</div>
+<div class="block">Returns the stripe that corresponds to the passed key. It is always guaranteed that if <code>key1.equals(key2)</code>, then <code>get(key1) == get(key2)</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>key</code> - an arbitrary, non-null key</dd>
@@ -300,7 +293,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre>public abstract&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.121">size</a>()</pre>
+<pre>public abstract&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.119">size</a>()</pre>
 <div class="block">Returns the total number of stripes in this instance.</div>
 </li>
 </ul>
@@ -310,18 +303,15 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>bulkGet</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../../com/google/common/util/concurrent/Striped.html" title="type parameter in Striped">L</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.141">bulkGet</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;?&gt;&nbsp;keys)</pre>
-<div class="block">Returns the stripes that correspond to the passed objects, in ascending (as per
- <a href="../../../../../com/google/common/util/concurrent/Striped.html#getAt-int-"><code>getAt(int)</code></a>) order. Thus, threads that use the stripes in the order returned by this
- method are guaranteed to not deadlock each other.
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../../com/google/common/util/concurrent/Striped.html" title="type parameter in Striped">L</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.139">bulkGet</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;?&gt;&nbsp;keys)</pre>
+<div class="block">Returns the stripes that correspond to the passed objects, in ascending (as per <a href="../../../../../com/google/common/util/concurrent/Striped.html#getAt-int-"><code>getAt(int)</code></a>) order. Thus, threads that use the stripes in the order returned by this method
+ are guaranteed to not deadlock each other.
 
- <p>It should be noted that using a <code>Striped&lt;L&gt;</code> with relatively few stripes, and
- <code>bulkGet(keys)</code> with a relative large number of keys can cause an excessive number of
- shared stripes (much like the birthday paradox, where much fewer than anticipated birthdays are
- needed for a pair of them to match). Please consider carefully the implications of the number
- of stripes, the intended concurrency level, and the typical number of keys used in a
- <code>bulkGet(keys)</code> operation. See <a href="http://www.mathpages.com/home/kmath199.htm">Balls
- in Bins model</a> for mathematical formulas that can be used to estimate the probability of
+ <p>It should be noted that using a <code>Striped&lt;L&gt;</code> with relatively few stripes, and <code>bulkGet(keys)</code> with a relative large number of keys can cause an excessive number of shared
+ stripes (much like the birthday paradox, where much fewer than anticipated birthdays are needed
+ for a pair of them to match). Please consider carefully the implications of the number of
+ stripes, the intended concurrency level, and the typical number of keys used in a <code>bulkGet(keys)</code> operation. See <a href="http://www.mathpages.com/home/kmath199.htm">Balls in
+ Bins model</a> for mathematical formulas that can be used to estimate the probability of
  collisions.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -338,7 +328,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>lock</h4>
-<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/locks/Lock.html?is-external=true" title="class or interface in java.util.concurrent.locks">Lock</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.195">lock</a>(int&nbsp;stripes)</pre>
+<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/locks/Lock.html?is-external=true" title="class or interface in java.util.concurrent.locks">Lock</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.193">lock</a>(int&nbsp;stripes)</pre>
 <div class="block">Creates a <code>Striped&lt;Lock&gt;</code> with eagerly initialized, strongly referenced locks. Every lock
  is reentrant.</div>
 <dl>
@@ -355,7 +345,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>lazyWeakLock</h4>
-<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/locks/Lock.html?is-external=true" title="class or interface in java.util.concurrent.locks">Lock</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.213">lazyWeakLock</a>(int&nbsp;stripes)</pre>
+<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/locks/Lock.html?is-external=true" title="class or interface in java.util.concurrent.locks">Lock</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.211">lazyWeakLock</a>(int&nbsp;stripes)</pre>
 <div class="block">Creates a <code>Striped&lt;Lock&gt;</code> with lazily initialized, weakly referenced locks. Every lock is
  reentrant.</div>
 <dl>
@@ -372,7 +362,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>semaphore</h4>
-<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Semaphore.html?is-external=true" title="class or interface in java.util.concurrent">Semaphore</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.238">semaphore</a>(int&nbsp;stripes,
+<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Semaphore.html?is-external=true" title="class or interface in java.util.concurrent">Semaphore</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.236">semaphore</a>(int&nbsp;stripes,
                                            int&nbsp;permits)</pre>
 <div class="block">Creates a <code>Striped&lt;Semaphore&gt;</code> with eagerly initialized, strongly referenced semaphores,
  with the specified number of permits.</div>
@@ -391,7 +381,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>lazyWeakSemaphore</h4>
-<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Semaphore.html?is-external=true" title="class or interface in java.util.concurrent">Semaphore</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.257">lazyWeakSemaphore</a>(int&nbsp;stripes,
+<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Semaphore.html?is-external=true" title="class or interface in java.util.concurrent">Semaphore</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.255">lazyWeakSemaphore</a>(int&nbsp;stripes,
                                                    int&nbsp;permits)</pre>
 <div class="block">Creates a <code>Striped&lt;Semaphore&gt;</code> with lazily initialized, weakly referenced semaphores,
  with the specified number of permits.</div>
@@ -410,7 +400,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>readWriteLock</h4>
-<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/locks/ReadWriteLock.html?is-external=true" title="class or interface in java.util.concurrent.locks">ReadWriteLock</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.275">readWriteLock</a>(int&nbsp;stripes)</pre>
+<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/locks/ReadWriteLock.html?is-external=true" title="class or interface in java.util.concurrent.locks">ReadWriteLock</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.273">readWriteLock</a>(int&nbsp;stripes)</pre>
 <div class="block">Creates a <code>Striped&lt;ReadWriteLock&gt;</code> with eagerly initialized, strongly referenced
  read-write locks. Every lock is reentrant.</div>
 <dl>
@@ -427,7 +417,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>lazyWeakReadWriteLock</h4>
-<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/locks/ReadWriteLock.html?is-external=true" title="class or interface in java.util.concurrent.locks">ReadWriteLock</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.286">lazyWeakReadWriteLock</a>(int&nbsp;stripes)</pre>
+<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/locks/ReadWriteLock.html?is-external=true" title="class or interface in java.util.concurrent.locks">ReadWriteLock</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Striped.html#line.284">lazyWeakReadWriteLock</a>(int&nbsp;stripes)</pre>
 <div class="block">Creates a <code>Striped&lt;ReadWriteLock&gt;</code> with lazily initialized, weakly referenced read-write
  locks. Every lock is reentrant.</div>
 <dl>
