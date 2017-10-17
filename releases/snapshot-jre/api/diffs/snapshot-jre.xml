@@ -40533,7 +40533,9 @@
  }</pre>
 
  <p>See <a href="https://en.wikipedia.org/wiki/Breadth-first_search">Wikipedia</a> for more
- info.]]>
+ info.
+
+ @throws IllegalArgumentException if {@code startNode} is not an element of the graph]]>
       </doc>
     </method>
     <method name="depthFirstPreOrder" return="java.lang.Iterable&lt;N&gt;"
@@ -40568,7 +40570,9 @@
      Traverser.forGraph(graph).depthFirstPreOrder(node), maxNumberOfNodes);
  }</pre>
 
- <p>See <a href="https://en.wikipedia.org/wiki/Depth-first_search">Wikipedia</a> for more info.]]>
+ <p>See <a href="https://en.wikipedia.org/wiki/Depth-first_search">Wikipedia</a> for more info.
+
+ @throws IllegalArgumentException if {@code startNode} is not an element of the graph]]>
       </doc>
     </method>
     <method name="depthFirstPostOrder" return="java.lang.Iterable&lt;N&gt;"
@@ -40603,7 +40607,9 @@
      Traverser.forGraph(graph).depthFirstPostOrder(node), maxNumberOfNodes);
  }</pre>
 
- <p>See <a href="https://en.wikipedia.org/wiki/Depth-first_search">Wikipedia</a> for more info.]]>
+ <p>See <a href="https://en.wikipedia.org/wiki/Depth-first_search">Wikipedia</a> for more info.
+
+ @throws IllegalArgumentException if {@code startNode} is not an element of the graph]]>
       </doc>
     </method>
     <doc>
