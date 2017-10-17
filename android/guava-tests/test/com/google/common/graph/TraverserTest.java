@@ -115,6 +115,18 @@ public class TraverserTest {
       createDirectedGraph("hd", "he", "hg", "da", "db", "dc", "gf");
 
   /**
+   * Two disjoint tree-shaped graphs that look as follows (all edges are directed facing downwards):
+   *
+   * <pre>{@code
+   * a   c
+   * |   |
+   * |   |
+   * b   d
+   * }</pre>
+   */
+  private static final SuccessorsFunction<Character> TWO_TREES = createDirectedGraph("ab", "cd");
+
+  /**
    * A graph that is not a tree (for example, it has two antiparallel edge between {@code e} and
    * {@code f} and thus has a cycle) but is a valid input to {@link Traverser#forTree} when starting
    * e.g. at node {@code a} (all edges without an arrow are directed facing downwards):
@@ -199,6 +211,22 @@ public class TraverserTest {
     assertEqualCharNodes(traverser.breadthFirst('a'), "a");
   }
 
+  @Test
+  public void forGraph_breadthFirst_twoTrees() {
+    Iterable<Character> result = Traverser.forGraph(TWO_TREES).breadthFirst('a');
+
+    assertEqualCharNodes(result, "ab");
+  }
+
+  @Test
+  public void forGraph_breadthFirst_emptyGraph() {
+    try {
+      Traverser.forGraph(createDirectedGraph()).breadthFirst('a');
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
   /**
    * Checks that the elements of the iterable are calculated on the fly. Concretely, that means that
    * {@link SuccessorsFunction#successors(Object)} can only be called for a subset of all nodes.
@@ -209,11 +237,11 @@ public class TraverserTest {
     Iterable<Character> result = Traverser.forGraph(graph).breadthFirst('a');
 
     assertEqualCharNodes(Iterables.limit(result, 2), "ab");
-    assertThat(graph.requestedNodes).containsExactly('a', 'b');
+    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'b');
 
     // Iterate again to see if calculation is done again
     assertEqualCharNodes(Iterables.limit(result, 2), "ab");
-    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'b', 'b');
+    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'a', 'b', 'b');
   }
 
   @Test
@@ -270,16 +298,32 @@ public class TraverserTest {
   }
 
   @Test
+  public void forGraph_depthFirstPreOrder_twoTrees() {
+    Iterable<Character> result = Traverser.forGraph(TWO_TREES).depthFirstPreOrder('a');
+
+    assertEqualCharNodes(result, "ab");
+  }
+
+  @Test
+  public void forGraph_depthFirstPreOrder_emptyGraph() {
+    try {
+      Traverser.forGraph(createDirectedGraph()).depthFirstPreOrder('a');
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  @Test
   public void forGraph_depthFirstPreOrder_iterableIsLazy() {
     RequestSavingGraph graph = new RequestSavingGraph(DIAMOND_GRAPH);
     Iterable<Character> result = Traverser.forGraph(graph).depthFirstPreOrder('a');
 
     assertEqualCharNodes(Iterables.limit(result, 2), "ab");
-    assertThat(graph.requestedNodes).containsExactly('a', 'b', 'd');
+    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'b', 'd');
 
     // Iterate again to see if calculation is done again
     assertEqualCharNodes(Iterables.limit(result, 2), "ab");
-    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'b', 'b', 'd', 'd');
+    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'a', 'b', 'b', 'd', 'd');
   }
 
   @Test
@@ -335,16 +379,32 @@ public class TraverserTest {
   }
 
   @Test
+  public void forGraph_depthFirstPostOrder_twoTrees() {
+    Iterable<Character> result = Traverser.forGraph(TWO_TREES).depthFirstPostOrder('a');
+
+    assertEqualCharNodes(result, "ba");
+  }
+
+  @Test
+  public void forGraph_depthFirstPostOrder_emptyGraph() {
+    try {
+      Traverser.forGraph(createDirectedGraph()).depthFirstPostOrder('a');
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  @Test
   public void forGraph_depthFirstPostOrder_iterableIsLazy() {
     RequestSavingGraph graph = new RequestSavingGraph(DIAMOND_GRAPH);
     Iterable<Character> result = Traverser.forGraph(graph).depthFirstPostOrder('a');
 
     assertEqualCharNodes(Iterables.limit(result, 2), "db");
-    assertThat(graph.requestedNodes).containsExactly('a', 'b', 'd');
+    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'b', 'd');
 
     // Iterate again to see if calculation is done again
     assertEqualCharNodes(Iterables.limit(result, 2), "db");
-    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'b', 'b', 'd', 'd');
+    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'a', 'b', 'b', 'd', 'd');
   }
 
   @Test
@@ -438,16 +498,32 @@ public class TraverserTest {
   }
 
   @Test
+  public void forTree_breadthFirst_twoTrees() {
+    Iterable<Character> result = Traverser.forTree(TWO_TREES).breadthFirst('a');
+
+    assertEqualCharNodes(result, "ab");
+  }
+
+  @Test
+  public void forTree_breadthFirst_emptyGraph() {
+    try {
+      Traverser.forTree(createDirectedGraph()).breadthFirst('a');
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  @Test
   public void forTree_breadthFirst_iterableIsLazy() {
     RequestSavingGraph graph = new RequestSavingGraph(TREE);
     Iterable<Character> result = Traverser.forGraph(graph).breadthFirst('h');
 
     assertEqualCharNodes(Iterables.limit(result, 2), "hd");
-    assertThat(graph.requestedNodes).containsExactly('h', 'd');
+    assertThat(graph.requestedNodes).containsExactly('h', 'h', 'd');
 
     // Iterate again to see if calculation is done again
     assertEqualCharNodes(Iterables.limit(result, 2), "hd");
-    assertThat(graph.requestedNodes).containsExactly('h', 'h', 'd', 'd');
+    assertThat(graph.requestedNodes).containsExactly('h', 'h', 'h', 'd', 'd');
   }
 
   @Test
@@ -478,16 +554,32 @@ public class TraverserTest {
   }
 
   @Test
+  public void forTree_depthFirstPreOrder_twoTrees() {
+    Iterable<Character> result = Traverser.forTree(TWO_TREES).depthFirstPreOrder('a');
+
+    assertEqualCharNodes(result, "ab");
+  }
+
+  @Test
+  public void forTree_depthFirstPreOrder_emptyGraph() {
+    try {
+      Traverser.forTree(createDirectedGraph()).depthFirstPreOrder('a');
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  @Test
   public void forTree_depthFirstPreOrder_iterableIsLazy() {
     RequestSavingGraph graph = new RequestSavingGraph(TREE);
     Iterable<Character> result = Traverser.forGraph(graph).depthFirstPreOrder('h');
 
     assertEqualCharNodes(Iterables.limit(result, 2), "hd");
-    assertThat(graph.requestedNodes).containsExactly('h', 'd', 'a');
+    assertThat(graph.requestedNodes).containsExactly('h', 'h', 'd', 'a');
 
     // Iterate again to see if calculation is done again
     assertEqualCharNodes(Iterables.limit(result, 2), "hd");
-    assertThat(graph.requestedNodes).containsExactly('h', 'h', 'd', 'd', 'a', 'a');
+    assertThat(graph.requestedNodes).containsExactly('h', 'h', 'h', 'd', 'd', 'a', 'a');
   }
 
   @Test
@@ -518,16 +610,32 @@ public class TraverserTest {
   }
 
   @Test
+  public void forTree_depthFirstPostOrder_twoTrees() {
+    Iterable<Character> result = Traverser.forTree(TWO_TREES).depthFirstPostOrder('a');
+
+    assertEqualCharNodes(result, "ba");
+  }
+
+  @Test
+  public void forTree_depthFirstPostOrder_emptyGraph() {
+    try {
+      Traverser.forTree(createDirectedGraph()).depthFirstPostOrder('a');
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  @Test
   public void forTree_depthFirstPostOrder_iterableIsLazy() {
     RequestSavingGraph graph = new RequestSavingGraph(TREE);
     Iterable<Character> result = Traverser.forGraph(graph).depthFirstPostOrder('h');
 
     assertEqualCharNodes(Iterables.limit(result, 2), "ab");
-    assertThat(graph.requestedNodes).containsExactly('h', 'd', 'a', 'b');
+    assertThat(graph.requestedNodes).containsExactly('h', 'h', 'd', 'a', 'b');
 
     // Iterate again to see if calculation is done again
     assertEqualCharNodes(Iterables.limit(result, 2), "ab");
-    assertThat(graph.requestedNodes).containsExactly('h', 'h', 'd', 'd', 'a', 'a', 'b', 'b');
+    assertThat(graph.requestedNodes).containsExactly('h', 'h', 'h', 'd', 'd', 'a', 'a', 'b', 'b');
   }
 
   private static SuccessorsFunction<Character> createDirectedGraph(String... edges) {
@@ -561,6 +669,10 @@ public class TraverserTest {
     return new SuccessorsFunction<Character>() {
       @Override
       public Iterable<? extends Character> successors(Character node) {
+        checkArgument(
+            graphMap.containsKey(node) || graphMap.containsValue(node),
+            "Node %s is not an element of this graph",
+            node);
         return Ordering.natural().immutableSortedCopy(graphMap.get(node));
       }
     };

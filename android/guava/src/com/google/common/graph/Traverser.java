@@ -168,6 +168,8 @@ public abstract class Traverser<N> {
    *
    * <p>See <a href="https://en.wikipedia.org/wiki/Breadth-first_search">Wikipedia</a> for more
    * info.
+   *
+   * @throws IllegalArgumentException if {@code startNode} is not an element of the graph
    */
   public abstract Iterable<N> breadthFirst(N startNode);
 
@@ -199,6 +201,8 @@ public abstract class Traverser<N> {
    * }</pre>
    *
    * <p>See <a href="https://en.wikipedia.org/wiki/Depth-first_search">Wikipedia</a> for more info.
+   *
+   * @throws IllegalArgumentException if {@code startNode} is not an element of the graph
    */
   public abstract Iterable<N> depthFirstPreOrder(N startNode);
 
@@ -230,6 +234,8 @@ public abstract class Traverser<N> {
    * }</pre>
    *
    * <p>See <a href="https://en.wikipedia.org/wiki/Depth-first_search">Wikipedia</a> for more info.
+   *
+   * @throws IllegalArgumentException if {@code startNode} is not an element of the graph
    */
   public abstract Iterable<N> depthFirstPostOrder(N startNode);
 
@@ -242,6 +248,8 @@ public abstract class Traverser<N> {
 
     @Override
     public Iterable<N> breadthFirst(final N startNode) {
+      checkNotNull(startNode);
+      checkThatNodeIsInGraph(startNode);
       return new Iterable<N>() {
         @Override
         public Iterator<N> iterator() {
@@ -252,6 +260,8 @@ public abstract class Traverser<N> {
 
     @Override
     public Iterable<N> depthFirstPreOrder(final N startNode) {
+      checkNotNull(startNode);
+      checkThatNodeIsInGraph(startNode);
       return new Iterable<N>() {
         @Override
         public Iterator<N> iterator() {
@@ -262,12 +272,21 @@ public abstract class Traverser<N> {
 
     @Override
     public Iterable<N> depthFirstPostOrder(final N startNode) {
+      checkNotNull(startNode);
+      checkThatNodeIsInGraph(startNode);
       return new Iterable<N>() {
         @Override
         public Iterator<N> iterator() {
           return new DepthFirstIterator(startNode, Order.POSTORDER);
         }
       };
+    }
+
+    @SuppressWarnings("CheckReturnValue")
+    private void checkThatNodeIsInGraph(N startNode) {
+      // successors() throws an IllegalArgumentException for nodes that are not an element of the
+      // graph.
+      graph.successors(startNode);
     }
 
     private final class BreadthFirstIterator extends UnmodifiableIterator<N> {
@@ -360,6 +379,8 @@ public abstract class Traverser<N> {
 
     @Override
     public Iterable<N> breadthFirst(final N startNode) {
+      checkNotNull(startNode);
+      checkThatNodeIsInTree(startNode);
       return new Iterable<N>() {
         @Override
         public Iterator<N> iterator() {
@@ -370,6 +391,8 @@ public abstract class Traverser<N> {
 
     @Override
     public Iterable<N> depthFirstPreOrder(final N startNode) {
+      checkNotNull(startNode);
+      checkThatNodeIsInTree(startNode);
       return new Iterable<N>() {
         @Override
         public Iterator<N> iterator() {
@@ -380,12 +403,21 @@ public abstract class Traverser<N> {
 
     @Override
     public Iterable<N> depthFirstPostOrder(final N startNode) {
+      checkNotNull(startNode);
+      checkThatNodeIsInTree(startNode);
       return new Iterable<N>() {
         @Override
         public Iterator<N> iterator() {
           return new DepthFirstPostOrderIterator(startNode);
         }
       };
+    }
+
+    @SuppressWarnings("CheckReturnValue")
+    private void checkThatNodeIsInTree(N startNode) {
+      // successors() throws an IllegalArgumentException for nodes that are not an element of the
+      // graph.
+      tree.successors(startNode);
     }
 
     private final class BreadthFirstIterator extends UnmodifiableIterator<N> {
