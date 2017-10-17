@@ -18,7 +18,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-
 import java.util.List;
 
 /**
@@ -74,8 +73,8 @@ final class TrieParser {
     stack.add(0, reverse(encoded.subSequence(0, idx)));
 
     if (c == '!' || c == '?' || c == ':' || c == ',') {
-      // '!' represents an interior node that represents an ICANN entry in the map.
-      // '?' represents a leaf node, which represents an ICANN entry in map.
+      // '!' represents an interior node that represents a REGISTRY entry in the map.
+      // '?' represents a leaf node, which represents a REGISTRY entry in map.
       // ':' represents an interior node that represents a private entry in the map
       // ',' represents a leaf node, which represents a private entry in the map.
       String domain = PREFIX_JOINER.join(stack);
