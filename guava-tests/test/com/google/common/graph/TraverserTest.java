@@ -127,6 +127,15 @@ public class TraverserTest {
   private static final SuccessorsFunction<Character> TWO_TREES = createDirectedGraph("ab", "cd");
 
   /**
+   * A graph consisting of a single root {@code a}:
+   *
+   * <pre>{@code
+   * a
+   * }</pre>
+   */
+  private static final SuccessorsFunction<Character> SINGLE_ROOT = createSingleRootGraph();
+
+  /**
    * A graph that is not a tree (for example, it has two antiparallel edge between {@code e} and
    * {@code f} and thus has a cycle) but is a valid input to {@link Traverser#forTree} when starting
    * e.g. at node {@code a} (all edges without an arrow are directed facing downwards):
@@ -219,6 +228,13 @@ public class TraverserTest {
   }
 
   @Test
+  public void forGraph_breadthFirst_singleRoot() {
+    Iterable<Character> result = Traverser.forGraph(SINGLE_ROOT).breadthFirst('a');
+
+    assertEqualCharNodes(result, "a");
+  }
+
+  @Test
   public void forGraph_breadthFirst_emptyGraph() {
     try {
       Traverser.forGraph(createDirectedGraph()).breadthFirst('a');
@@ -305,6 +321,13 @@ public class TraverserTest {
   }
 
   @Test
+  public void forGraph_depthFirstPreOrder_singleRoot() {
+    Iterable<Character> result = Traverser.forGraph(SINGLE_ROOT).depthFirstPreOrder('a');
+
+    assertEqualCharNodes(result, "a");
+  }
+
+  @Test
   public void forGraph_depthFirstPreOrder_emptyGraph() {
     try {
       Traverser.forGraph(createDirectedGraph()).depthFirstPreOrder('a');
@@ -383,6 +406,13 @@ public class TraverserTest {
     Iterable<Character> result = Traverser.forGraph(TWO_TREES).depthFirstPostOrder('a');
 
     assertEqualCharNodes(result, "ba");
+  }
+
+  @Test
+  public void forGraph_depthFirstPostOrder_singleRoot() {
+    Iterable<Character> result = Traverser.forGraph(SINGLE_ROOT).depthFirstPostOrder('a');
+
+    assertEqualCharNodes(result, "a");
   }
 
   @Test
@@ -505,6 +535,13 @@ public class TraverserTest {
   }
 
   @Test
+  public void forTree_breadthFirst_singleRoot() {
+    Iterable<Character> result = Traverser.forTree(SINGLE_ROOT).breadthFirst('a');
+
+    assertEqualCharNodes(result, "a");
+  }
+
+  @Test
   public void forTree_breadthFirst_emptyGraph() {
     try {
       Traverser.forTree(createDirectedGraph()).breadthFirst('a');
@@ -561,6 +598,13 @@ public class TraverserTest {
   }
 
   @Test
+  public void forTree_depthFirstPreOrder_singleRoot() {
+    Iterable<Character> result = Traverser.forTree(SINGLE_ROOT).depthFirstPreOrder('a');
+
+    assertEqualCharNodes(result, "a");
+  }
+
+  @Test
   public void forTree_depthFirstPreOrder_emptyGraph() {
     try {
       Traverser.forTree(createDirectedGraph()).depthFirstPreOrder('a');
@@ -614,6 +658,13 @@ public class TraverserTest {
     Iterable<Character> result = Traverser.forTree(TWO_TREES).depthFirstPostOrder('a');
 
     assertEqualCharNodes(result, "ba");
+  }
+
+  @Test
+  public void forTree_depthFirstPostOrder_singleRoot() {
+    Iterable<Character> result = Traverser.forTree(SINGLE_ROOT).depthFirstPostOrder('a');
+
+    assertEqualCharNodes(result, "a");
   }
 
   @Test
@@ -676,6 +727,12 @@ public class TraverserTest {
         return Ordering.natural().immutableSortedCopy(graphMap.get(node));
       }
     };
+  }
+
+  private static ImmutableGraph<Character> createSingleRootGraph() {
+    MutableGraph<Character> graph = GraphBuilder.directed().build();
+    graph.addNode('a');
+    return ImmutableGraph.copyOf(graph);
   }
 
   private static void assertEqualCharNodes(Iterable<Character> result, String expectedCharacters) {
