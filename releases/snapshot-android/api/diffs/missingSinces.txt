@@ -1,0 +1,6 @@
+OK: com.google.common.net.InternetDomainName Method hasRegistrySuffix()
+OK: com.google.common.net.InternetDomainName Method isRegistrySuffix()
+OK: com.google.common.net.InternetDomainName Method isTopDomainUnderRegistrySuffix()
+OK: com.google.common.net.InternetDomainName Method isUnderRegistrySuffix()
+OK: com.google.common.net.InternetDomainName Method registrySuffix()
+OK: com.google.common.net.InternetDomainName Method topDomainUnderRegistrySuffix()

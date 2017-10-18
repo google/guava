@@ -8567,6 +8567,11 @@
 <dd>
 <div class="block">Returns whether any threads are waiting to enter this monitor.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/net/InternetDomainName.html#hasRegistrySuffix--">hasRegistrySuffix()</a></span> - Method in class com.google.common.net.<a href="com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></dt>
+<dd>
+<div class="block">Indicates whether this domain name ends in a <a href="com/google/common/net/InternetDomainName.html#isRegistrySuffix--">registry suffix</a>,
+ including if it is a registry suffix itself.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Range.html#hasUpperBound--">hasUpperBound()</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a></dt>
 <dd>
 <div class="block">Returns <code>true</code> if this range has an upper endpoint.</div>
@@ -9742,6 +9747,11 @@
 <div class="block">Indicates whether this domain name represents a <i>public suffix</i>, as defined by the Mozilla
  Foundation's <a href="http://publicsuffix.org/">Public Suffix List</a> (PSL).</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/net/InternetDomainName.html#isRegistrySuffix--">isRegistrySuffix()</a></span> - Method in class com.google.common.net.<a href="com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></dt>
+<dd>
+<div class="block">Indicates whether this domain name represents a <i>registry suffix</i>, as defined by a subset
+ of the Mozilla Foundation's <a href="http://publicsuffix.org/">Public Suffix List</a> (PSL).</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Stopwatch.html#isRunning--">isRunning()</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/Stopwatch.html" title="class in com.google.common.base">Stopwatch</a></dt>
 <dd>
 <div class="block">Returns <code>true</code> if <a href="com/google/common/base/Stopwatch.html#start--"><code>Stopwatch.start()</code></a> has been called on this stopwatch, and <a href="com/google/common/base/Stopwatch.html#stop--"><code>Stopwatch.stop()</code></a>
@@ -9792,6 +9802,11 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ForwardingExecutorService.html#isTerminated--">isTerminated()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ForwardingExecutorService.html" title="class in com.google.common.util.concurrent">ForwardingExecutorService</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/net/InternetDomainName.html#isTopDomainUnderRegistrySuffix--">isTopDomainUnderRegistrySuffix()</a></span> - Method in class com.google.common.net.<a href="com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></dt>
+<dd>
+<div class="block">Indicates whether this domain name is composed of exactly one subdomain component followed by a
+ <a href="com/google/common/net/InternetDomainName.html#isRegistrySuffix--">registry suffix</a>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/InternetDomainName.html#isTopPrivateDomain--">isTopPrivateDomain()</a></span> - Method in class com.google.common.net.<a href="com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></dt>
 <dd>
 <div class="block">Indicates whether this domain name is composed of exactly one subdomain component followed by a
@@ -9801,6 +9816,11 @@
 <dd>
 <div class="block">Indicates whether this domain name ends in a <a href="com/google/common/net/InternetDomainName.html#isPublicSuffix--">public suffix</a>,
  while not being a public suffix itself.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/net/InternetDomainName.html#isUnderRegistrySuffix--">isUnderRegistrySuffix()</a></span> - Method in class com.google.common.net.<a href="com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></dt>
+<dd>
+<div class="block">Indicates whether this domain name ends in a <a href="com/google/common/net/InternetDomainName.html#isRegistrySuffix--">registry suffix</a>,
+ while not being a registry suffix itself.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Ascii.html#isUpperCase-char-">isUpperCase(char)</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/Ascii.html" title="class in com.google.common.base">Ascii</a></dt>
 <dd>
@@ -14272,6 +14292,11 @@
 <div class="block">Registers the given <code>closeable</code> to be closed when this <code>Closer</code> is
  <a href="com/google/common/io/Closer.html#close--">closed</a>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/net/InternetDomainName.html#registrySuffix--">registrySuffix()</a></span> - Method in class com.google.common.net.<a href="com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></dt>
+<dd>
+<div class="block">Returns the <a href="com/google/common/net/InternetDomainName.html#isRegistrySuffix--">registry suffix</a> portion of the domain name, or
+ <code>null</code> if no registry suffix is present.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/cache/CacheLoader.html#reload-K-V-">reload(K, V)</a></span> - Method in class com.google.common.cache.<a href="com/google/common/cache/CacheLoader.html" title="class in com.google.common.cache">CacheLoader</a></dt>
 <dd>
 <div class="block">Computes or retrieves a replacement value corresponding to an already-cached <code>key</code>.</div>
@@ -17185,9 +17210,13 @@
 <dd>
 <div class="block">Returns a string that can be used to parse an equivalent <code>CacheBuilderSpec</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/net/InternetDomainName.html#topDomainUnderRegistrySuffix--">topDomainUnderRegistrySuffix()</a></span> - Method in class com.google.common.net.<a href="com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></dt>
+<dd>
+<div class="block">Returns the portion of this domain name that is one level beneath the <a href="com/google/common/net/InternetDomainName.html#isRegistrySuffix--">registry suffix</a>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/InternetDomainName.html#topPrivateDomain--">topPrivateDomain()</a></span> - Method in class com.google.common.net.<a href="com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></dt>
 <dd>
-<div class="block">Returns the portion of this domain name that is one level beneath the public suffix.</div>
+<div class="block">Returns the portion of this domain name that is one level beneath the <a href="com/google/common/net/InternetDomainName.html#isPublicSuffix--">public suffix</a>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/FluentIterable.html#toSet--">toSet()</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a></dt>
 <dd>
