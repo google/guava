@@ -329,9 +329,9 @@
 <span class="sourceLineNo">321</span>    private final Lock delegate;<a name="line.321"></a>
 <span class="sourceLineNo">322</span><a name="line.322"></a>
 <span class="sourceLineNo">323</span>    @SuppressWarnings("unused")<a name="line.323"></a>
-<span class="sourceLineNo">324</span>    private final Object strongReference;<a name="line.324"></a>
+<span class="sourceLineNo">324</span>    private final WeakSafeReadWriteLock strongReference;<a name="line.324"></a>
 <span class="sourceLineNo">325</span><a name="line.325"></a>
-<span class="sourceLineNo">326</span>    WeakSafeLock(Lock delegate, Object strongReference) {<a name="line.326"></a>
+<span class="sourceLineNo">326</span>    WeakSafeLock(Lock delegate, WeakSafeReadWriteLock strongReference) {<a name="line.326"></a>
 <span class="sourceLineNo">327</span>      this.delegate = delegate;<a name="line.327"></a>
 <span class="sourceLineNo">328</span>      this.strongReference = strongReference;<a name="line.328"></a>
 <span class="sourceLineNo">329</span>    }<a name="line.329"></a>
@@ -352,9 +352,9 @@
 <span class="sourceLineNo">344</span>    private final Condition delegate;<a name="line.344"></a>
 <span class="sourceLineNo">345</span><a name="line.345"></a>
 <span class="sourceLineNo">346</span>    @SuppressWarnings("unused")<a name="line.346"></a>
-<span class="sourceLineNo">347</span>    private final Object strongReference;<a name="line.347"></a>
+<span class="sourceLineNo">347</span>    private final WeakSafeReadWriteLock strongReference;<a name="line.347"></a>
 <span class="sourceLineNo">348</span><a name="line.348"></a>
-<span class="sourceLineNo">349</span>    WeakSafeCondition(Condition delegate, Object strongReference) {<a name="line.349"></a>
+<span class="sourceLineNo">349</span>    WeakSafeCondition(Condition delegate, WeakSafeReadWriteLock strongReference) {<a name="line.349"></a>
 <span class="sourceLineNo">350</span>      this.delegate = delegate;<a name="line.350"></a>
 <span class="sourceLineNo">351</span>      this.strongReference = strongReference;<a name="line.351"></a>
 <span class="sourceLineNo">352</span>    }<a name="line.352"></a>
