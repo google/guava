@@ -51,7 +51,7 @@ final class SequentialExecutor implements Executor {
 
   private final QueueWorker worker = new QueueWorker();
 
-  /** Use {@link MoreExecutors#sequentialExecutor} */
+  /** Use {@link MoreExecutors#newSequentialExecutor} */
   SequentialExecutor(Executor executor) {
     this.executor = Preconditions.checkNotNull(executor);
   }
