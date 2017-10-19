@@ -88,9 +88,9 @@ public void testCharacterSplitWithMatcherDelimiter() throws Exception {
   testCase.testCharacterSplitWithMatcherDelimiter();
 }
 
-public void testCharacterSplitWithMultitpleLetters() throws Exception {
+public void testCharacterSplitWithMultipleLetters() throws Exception {
   com.google.common.base.SplitterTest testCase = new com.google.common.base.SplitterTest();
-  testCase.testCharacterSplitWithMultitpleLetters();
+  testCase.testCharacterSplitWithMultipleLetters();
 }
 
 public void testCharacterSplitWithTrailingDelimiter() throws Exception {
