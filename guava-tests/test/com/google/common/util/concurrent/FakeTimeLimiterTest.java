@@ -53,7 +53,7 @@ public class FakeTimeLimiterTest extends TestCase {
     Exception exception = new SampleCheckedException();
     try {
       timeLimiter.callWithTimeout(callableThrowing(exception), DELAY_MS, TimeUnit.MILLISECONDS);
-      fail("Excpected ExecutionException");
+      fail("Expected ExecutionException");
     } catch (ExecutionException e) {
       assertThat(e.getCause()).isEqualTo(exception);
     }
@@ -63,7 +63,7 @@ public class FakeTimeLimiterTest extends TestCase {
     Exception exception = new RuntimeException("test");
     try {
       timeLimiter.callWithTimeout(callableThrowing(exception), DELAY_MS, TimeUnit.MILLISECONDS);
-      fail("Excpected UncheckedExecutionException");
+      fail("Expected UncheckedExecutionException");
     } catch (UncheckedExecutionException e) {
       assertThat(e.getCause()).isEqualTo(exception);
     }
@@ -85,7 +85,7 @@ public class FakeTimeLimiterTest extends TestCase {
     RuntimeException exception = new RuntimeException("test");
     try {
       timeLimiter.runWithTimeout(runnableThrowing(exception), DELAY_MS, TimeUnit.MILLISECONDS);
-      fail("Excpected UncheckedExecutionException");
+      fail("Expected UncheckedExecutionException");
     } catch (UncheckedExecutionException e) {
       assertThat(e.getCause()).isEqualTo(exception);
     }
@@ -96,7 +96,7 @@ public class FakeTimeLimiterTest extends TestCase {
     try {
       timeLimiter.runUninterruptiblyWithTimeout(
           runnableThrowing(exception), DELAY_MS, TimeUnit.MILLISECONDS);
-      fail("Excpected UncheckedExecutionException");
+      fail("Expected UncheckedExecutionException");
     } catch (UncheckedExecutionException e) {
       assertThat(e.getCause()).isEqualTo(exception);
     }
