@@ -59,7 +59,7 @@ public class Crc32cHashFunctionTest extends TestCase {
     assertCrc(0x113fdb5c, descending);
   }
 
-  public void testScsiReadCommad() {
+  public void testScsiReadCommand() {
     // Test SCSI read command.
     byte[] scsiReadCommand = new byte[] {
         0x01, (byte) 0xc0, 0x00, 0x00,

@@ -100,7 +100,7 @@ public class SplitterTest extends TestCase {
     assertThat(letters).containsExactly("", "a", "b", "c").inOrder();
   }
 
-  public void testCharacterSplitWithMultitpleLetters() {
+  public void testCharacterSplitWithMultipleLetters() {
     Iterable<String> testCharacteringMotto = Splitter.on('-').split(
         "Testing-rocks-Debugging-sucks");
     assertThat(testCharacteringMotto)
