@@ -12158,6 +12158,11 @@
 <div class="block">Creates an <code>AtomicReferenceArray</code> instance with the same length as, and all elements
  copied from, the given array.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/MoreExecutors.html#newSequentialExecutor-java.util.concurrent.Executor-">newSequentialExecutor(Executor)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/MoreExecutors.html" title="class in com.google.common.util.concurrent">MoreExecutors</a></dt>
+<dd>
+<div class="block">Returns an <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent"><code>Executor</code></a> that runs each task executed sequentially, such that no two tasks
+ are running concurrently.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Sets.html#newSetFromMap-java.util.Map-">newSetFromMap(Map&lt;E, Boolean&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Sets.html" title="class in com.google.common.collect">Sets</a></dt>
 <dd>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
@@ -15584,8 +15589,10 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/MoreExecutors.html#sequentialExecutor-java.util.concurrent.Executor-">sequentialExecutor(Executor)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/MoreExecutors.html" title="class in com.google.common.util.concurrent">MoreExecutors</a></dt>
 <dd>
-<div class="block">Returns an <a href="http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent"><code>Executor</code></a> that runs each task executed sequentially, such that no
- two tasks are running concurrently.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment">Use <a href="com/google/common/util/concurrent/MoreExecutors.html#newSequentialExecutor-java.util.concurrent.Executor-"><code>MoreExecutors.newSequentialExecutor(java.util.concurrent.Executor)</code></a>. This method is scheduled for removal in
+     January 2018.</span></div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/hash/Funnels.html#sequentialFunnel-com.google.common.hash.Funnel-">sequentialFunnel(Funnel&lt;E&gt;)</a></span> - Static method in class com.google.common.hash.<a href="com/google/common/hash/Funnels.html" title="class in com.google.common.hash">Funnels</a></dt>
 <dd>

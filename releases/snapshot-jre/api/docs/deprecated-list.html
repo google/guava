@@ -1009,26 +1009,32 @@
 </td>
 </tr>
 <tr class="altColor">
+<td class="colOne"><a href="com/google/common/util/concurrent/MoreExecutors.html#sequentialExecutor-java.util.concurrent.Executor-">com.google.common.util.concurrent.MoreExecutors.sequentialExecutor(Executor)</a>
+<div class="block"><span class="deprecationComment">Use <a href="com/google/common/util/concurrent/MoreExecutors.html#newSequentialExecutor-java.util.concurrent.Executor-"><code>MoreExecutors.newSequentialExecutor(java.util.concurrent.Executor)</code></a>. This method is scheduled for removal in
+     January 2018.</span></div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/UnmodifiableListIterator.html#set-E-">com.google.common.collect.UnmodifiableListIterator.set(E)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableList.html#set-int-E-">com.google.common.collect.ImmutableList.set(int, E)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMultiset.html#setCount-E-int-">com.google.common.collect.ImmutableMultiset.setCount(E, int)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMultiset.html#setCount-E-int-int-">com.google.common.collect.ImmutableMultiset.setCount(E, int, int)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/hash/Hashing.html#sha1--">com.google.common.hash.Hashing.sha1()</a>
 <div class="block"><span class="deprecationComment">If you must interoperate with a system that requires SHA-1, then use this method,
      despite its deprecation. But if you can choose your hash function, avoid SHA-1, which is
@@ -1040,33 +1046,33 @@
      </ul></span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/base/CharMatcher.html#singleWidth--">com.google.common.base.CharMatcher.singleWidth()</a>
 <div class="block"><span class="deprecationComment">Many such characters are supplementary characters; see the class documentation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableList.html#sort-java.util.Comparator-">com.google.common.collect.ImmutableList.sort(Comparator&lt;? super E&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/Streams.html#stream-java.util.Collection-">com.google.common.collect.Streams.stream(Collection&lt;T&gt;)</a>
 <div class="block"><span class="deprecationComment">There is no reason to use this; just invoke <code>collection.stream()</code> directly.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/base/Equivalence.html#test-T-T-">com.google.common.base.Equivalence.test(T, T)</a>
 <div class="block"><span class="deprecationComment">Provided only to satisfy the <a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/BiPredicate.html?is-external=true" title="class or interface in java.util.function"><code>BiPredicate</code></a> interface; use
      <a href="com/google/common/base/Equivalence.html#equivalent-T-T-"><code>Equivalence.equivalent(T, T)</code></a> instead.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/io/Files.html#toString-java.io.File-java.nio.charset.Charset-">com.google.common.io.Files.toString(File, Charset)</a>
 <div class="block"><span class="deprecationComment">Prefer <code>asCharSource(file, charset).read()</code>.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/util/concurrent/Futures.html#transform-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-">com.google.common.util.concurrent.Futures.transform(ListenableFuture&lt;I&gt;, Function&lt;? super I, ? extends O&gt;)</a>
 <div class="block"><span class="deprecationComment">Use <a href="com/google/common/util/concurrent/Futures.html#transform-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-java.util.concurrent.Executor-">the overload that
      requires an executor</a>. For identical behavior, pass <a href="com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>,
@@ -1074,7 +1080,7 @@
      scheduled to be removed in April 2018.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/util/concurrent/Futures.html#transformAsync-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.AsyncFunction-">com.google.common.util.concurrent.Futures.transformAsync(ListenableFuture&lt;I&gt;, AsyncFunction&lt;? super I, ? extends O&gt;)</a>
 <div class="block"><span class="deprecationComment">Use <a href="com/google/common/util/concurrent/Futures.html#transformAsync-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.AsyncFunction-java.util.concurrent.Executor-">the
      overload that requires an executor</a>. For identical behavior, pass <a href="com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>, but consider whether another executor would be safer, as
@@ -1082,54 +1088,54 @@
      documentation. This method is scheduled to be removed in April 2018.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ArrayListMultimap.html#trimToSize--">com.google.common.collect.ArrayListMultimap.trimToSize()</a>
 <div class="block"><span class="deprecationComment">For a <a href="com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect"><code>ListMultimap</code></a> that automatically trims to size, use <a href="com/google/common/collect/ImmutableListMultimap.html" title="class in com.google.common.collect"><code>ImmutableListMultimap</code></a>. If you need a mutable collection, remove the <code>trimToSize</code>
      call, or switch to a <code>HashMap&lt;K, ArrayList&lt;V&gt;&gt;</code>.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/Iterables.html#unmodifiableIterable-com.google.common.collect.ImmutableCollection-">com.google.common.collect.Iterables.unmodifiableIterable(ImmutableCollection&lt;E&gt;)</a>
 <div class="block"><span class="deprecationComment">no need to use this</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/Iterators.html#unmodifiableIterator-com.google.common.collect.UnmodifiableIterator-">com.google.common.collect.Iterators.unmodifiableIterator(UnmodifiableIterator&lt;T&gt;)</a>
 <div class="block"><span class="deprecationComment">no need to use this</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/Multimaps.html#unmodifiableListMultimap-com.google.common.collect.ImmutableListMultimap-">com.google.common.collect.Multimaps.unmodifiableListMultimap(ImmutableListMultimap&lt;K, V&gt;)</a>
 <div class="block"><span class="deprecationComment">no need to use this</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/Multimaps.html#unmodifiableMultimap-com.google.common.collect.ImmutableMultimap-">com.google.common.collect.Multimaps.unmodifiableMultimap(ImmutableMultimap&lt;K, V&gt;)</a>
 <div class="block"><span class="deprecationComment">no need to use this</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/Multisets.html#unmodifiableMultiset-com.google.common.collect.ImmutableMultiset-">com.google.common.collect.Multisets.unmodifiableMultiset(ImmutableMultiset&lt;E&gt;)</a>
 <div class="block"><span class="deprecationComment">no need to use this</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/Multimaps.html#unmodifiableSetMultimap-com.google.common.collect.ImmutableSetMultimap-">com.google.common.collect.Multimaps.unmodifiableSetMultimap(ImmutableSetMultimap&lt;K, V&gt;)</a>
 <div class="block"><span class="deprecationComment">no need to use this</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/io/Files.html#write-java.lang.CharSequence-java.io.File-java.nio.charset.Charset-">com.google.common.io.Files.write(CharSequence, File, Charset)</a>
 <div class="block"><span class="deprecationComment">Prefer <code>asCharSink(to, charset).write(from)</code>.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/io/LittleEndianDataOutputStream.html#writeBytes-java.lang.String-">com.google.common.io.LittleEndianDataOutputStream.writeBytes(String)</a>
 <div class="block"><span class="deprecationComment">The semantics of <code>writeBytes(String s)</code> are considered dangerous. Please use
      <a href="com/google/common/io/LittleEndianDataOutputStream.html#writeUTF-java.lang.String-"><code>LittleEndianDataOutputStream.writeUTF(String s)</code></a>, <a href="com/google/common/io/LittleEndianDataOutputStream.html#writeChars-java.lang.String-"><code>LittleEndianDataOutputStream.writeChars(String s)</code></a> or another write method instead.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/io/ByteArrayDataOutput.html#writeBytes-java.lang.String-">com.google.common.io.ByteArrayDataOutput.writeBytes(String)</a>
 <div class="block"><span class="deprecationComment">This method is dangerous as it discards the high byte of every character. For
      UTF-8, use <code>write(s.getBytes(StandardCharsets.UTF_8))</code>.</span></div>
