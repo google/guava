@@ -96,33 +96,69 @@ public final class InternetDomainNameTest extends TestCase {
       ALMOST_TOO_MANY_LEVELS + "com",
       ALMOST_TOO_LONG + ".c");
 
-  private static final ImmutableSet<String> PS = ImmutableSet.of(
-      "com",
-      "co.uk",
-      "foo.bd",
-      "xxxxxx.bd",
-      "org.mK",
-      "us",
-      "uk\uFF61com.",  // Alternate dot character
-      "\u7f51\u7edc.Cn",  // "网络.Cn"
-      "j\u00f8rpeland.no",  // "jorpeland.no" (first o slashed)
-      "xn--jrpeland-54a.no"  // IDNA (punycode) encoding of above
-  );
+  private static final ImmutableSet<String> RS =
+      ImmutableSet.of(
+          "com",
+          "co.uk",
+          "foo.bd",
+          "xxxxxx.bd",
+          "org.mK",
+          "us",
+          "co.uk.", // Trailing dot
+          "co\uFF61uk", // Alternate dot character
+          "\u7f51\u7edc.Cn", // "网络.Cn"
+          "j\u00f8rpeland.no", // "jorpeland.no" (first o slashed)
+          "xn--jrpeland-54a.no"); // IDNA (punycode) encoding of above
+
+  private static final ImmutableSet<String> PS_NOT_RS =
+      ImmutableSet.of("blogspot.com", "blogspot.co.uk", "uk.com");
+
+  private static final ImmutableSet<String> PS =
+      ImmutableSet.<String>builder().addAll(RS).addAll(PS_NOT_RS).build();
 
   private static final ImmutableSet<String> NO_PS = ImmutableSet.of(
       "www", "foo.ihopethiswillneverbeapublicsuffix", "x.y.z");
 
-  private static final ImmutableSet<String> NON_PS = ImmutableSet.of(
-      "foo.bar.com", "foo.ca", "foo.bar.ca",
-      "foo.bar.co.il", "state.CA.us", "www.state.pa.us", "pvt.k12.ca.us",
-      "www.google.com", "www4.yahoo.co.uk", "home.netscape.com",
-      "web.MIT.edu", "foo.eDu.au", "utenti.blah.IT", "dominio.com.co");
+  /**
+   * Having a public suffix is equivalent to having a registry suffix, because all registry suffixes
+   * are public suffixes, and all public suffixes have registry suffixes.
+   */
+  private static final ImmutableSet<String> NO_RS = NO_PS;
 
-  private static final ImmutableSet<String> TOP_PRIVATE_DOMAIN =
+  private static final ImmutableSet<String> NON_PS =
+      ImmutableSet.of(
+          "foo.bar.com",
+          "foo.ca",
+          "foo.bar.ca",
+          "foo.blogspot.com",
+          "foo.blogspot.co.uk",
+          "foo.uk.com",
+          "foo.bar.co.il",
+          "state.CA.us",
+          "www.state.pa.us",
+          "pvt.k12.ca.us",
+          "www.google.com",
+          "www4.yahoo.co.uk",
+          "home.netscape.com",
+          "web.MIT.edu",
+          "foo.eDu.au",
+          "utenti.blah.IT",
+          "dominio.com.co");
+
+  private static final ImmutableSet<String> NON_RS =
+      ImmutableSet.<String>builder().addAll(NON_PS).addAll(PS_NOT_RS).build();
+
+  private static final ImmutableSet<String> TOP_UNDER_REGISTRY_SUFFIX =
       ImmutableSet.of("google.com", "foo.Co.uk", "foo.ca.us.");
 
-  private static final ImmutableSet<String> UNDER_PRIVATE_DOMAIN =
+  private static final ImmutableSet<String> TOP_PRIVATE_DOMAIN =
+      ImmutableSet.of("google.com", "foo.Co.uk", "foo.ca.us.", "foo.blogspot.com");
+
+  private static final ImmutableSet<String> UNDER_TOP_UNDER_REGISTRY_SUFFIX =
       ImmutableSet.of("foo.bar.google.com", "a.b.co.uk", "x.y.ca.us");
+
+  private static final ImmutableSet<String> UNDER_PRIVATE_DOMAIN =
+      ImmutableSet.of("foo.bar.google.com", "a.b.co.uk", "x.y.ca.us", "a.b.blogspot.com");
 
   private static final ImmutableSet<String> VALID_IP_ADDRS = ImmutableSet.of(
       "1.2.3.4", "127.0.0.1", "::1", "2001:db8::1");
@@ -191,6 +227,9 @@ public final class InternetDomainNameTest extends TestCase {
           "kt.co",
           "a\u7f51\u7edcA.\u7f51\u7edc.Cn"  // "a网络A.网络.Cn"
       );
+
+  private static final ImmutableSet<String> SOMEWHERE_UNDER_RS =
+      ImmutableSet.<String>builder().addAll(SOMEWHERE_UNDER_PS).addAll(PS_NOT_RS).build();
 
   public void testValid() {
     for (String name : VALID_NAME) {
@@ -262,6 +301,63 @@ public final class InternetDomainNameTest extends TestCase {
       assertTrue(name, domain.hasPublicSuffix());
       assertTrue(name, domain.isUnderPublicSuffix());
       assertFalse(name, domain.isTopPrivateDomain());
+    }
+  }
+
+  public void testRegistrySuffix() {
+    for (String name : RS) {
+      final InternetDomainName domain = InternetDomainName.from(name);
+      assertTrue(name, domain.isRegistrySuffix());
+      assertTrue(name, domain.hasRegistrySuffix());
+      assertFalse(name, domain.isUnderRegistrySuffix());
+      assertFalse(name, domain.isTopDomainUnderRegistrySuffix());
+      assertEquals(domain, domain.registrySuffix());
+    }
+
+    for (String name : NO_RS) {
+      final InternetDomainName domain = InternetDomainName.from(name);
+      assertFalse(name, domain.isRegistrySuffix());
+      assertFalse(name, domain.hasRegistrySuffix());
+      assertFalse(name, domain.isUnderRegistrySuffix());
+      assertFalse(name, domain.isTopDomainUnderRegistrySuffix());
+      assertNull(domain.registrySuffix());
+    }
+
+    for (String name : NON_RS) {
+      final InternetDomainName domain = InternetDomainName.from(name);
+      assertFalse(name, domain.isRegistrySuffix());
+      assertTrue(name, domain.hasRegistrySuffix());
+      assertTrue(name, domain.isUnderRegistrySuffix());
+    }
+  }
+
+  public void testUnderRegistrySuffix() {
+    for (String name : SOMEWHERE_UNDER_RS) {
+      final InternetDomainName domain = InternetDomainName.from(name);
+      assertFalse(name, domain.isRegistrySuffix());
+      assertTrue(name, domain.hasRegistrySuffix());
+      assertTrue(name, domain.isUnderRegistrySuffix());
+    }
+  }
+
+  public void testTopDomainUnderRegistrySuffix() {
+    for (String name : TOP_UNDER_REGISTRY_SUFFIX) {
+      final InternetDomainName domain = InternetDomainName.from(name);
+      assertFalse(name, domain.isRegistrySuffix());
+      assertTrue(name, domain.hasRegistrySuffix());
+      assertTrue(name, domain.isUnderRegistrySuffix());
+      assertTrue(name, domain.isTopDomainUnderRegistrySuffix());
+      assertEquals(domain.parent(), domain.registrySuffix());
+    }
+  }
+
+  public void testUnderTopDomainUnderRegistrySuffix() {
+    for (String name : UNDER_TOP_UNDER_REGISTRY_SUFFIX) {
+      final InternetDomainName domain = InternetDomainName.from(name);
+      assertFalse(name, domain.isRegistrySuffix());
+      assertTrue(name, domain.hasRegistrySuffix());
+      assertTrue(name, domain.isUnderRegistrySuffix());
+      assertFalse(name, domain.isTopDomainUnderRegistrySuffix());
     }
   }
 
@@ -363,7 +459,7 @@ public final class InternetDomainNameTest extends TestCase {
     }
   }
 
-  public void testExclusion() {
+  public void testPublicSuffixExclusion() {
     InternetDomainName domain = InternetDomainName.from("foo.city.yokohama.jp");
     assertTrue(domain.hasPublicSuffix());
     assertEquals("yokohama.jp", domain.publicSuffix().toString());
@@ -372,7 +468,7 @@ public final class InternetDomainNameTest extends TestCase {
     assertFalse(domain.publicSuffix().isPublicSuffix());
   }
 
-  public void testMultipleUnders() {
+  public void testPublicSuffixMultipleUnders() {
     // PSL has both *.uk and *.sch.uk; the latter should win.
     // See http://code.google.com/p/guava-libraries/issues/detail?id=1176
 
@@ -380,6 +476,25 @@ public final class InternetDomainNameTest extends TestCase {
     assertTrue(domain.hasPublicSuffix());
     assertEquals("essex.sch.uk", domain.publicSuffix().toString());
     assertEquals("www.essex.sch.uk", domain.topPrivateDomain().toString());
+  }
+
+  public void testRegistrySuffixExclusion() {
+    InternetDomainName domain = InternetDomainName.from("foo.city.yokohama.jp");
+    assertTrue(domain.hasRegistrySuffix());
+    assertEquals("yokohama.jp", domain.registrySuffix().toString());
+
+    // Behold the weirdness!
+    assertFalse(domain.registrySuffix().isRegistrySuffix());
+  }
+
+  public void testRegistrySuffixMultipleUnders() {
+    // PSL has both *.uk and *.sch.uk; the latter should win.
+    // See http://code.google.com/p/guava-libraries/issues/detail?id=1176
+
+    InternetDomainName domain = InternetDomainName.from("www.essex.sch.uk");
+    assertTrue(domain.hasRegistrySuffix());
+    assertEquals("essex.sch.uk", domain.registrySuffix().toString());
+    assertEquals("www.essex.sch.uk", domain.topDomainUnderRegistrySuffix().toString());
   }
 
   public void testEquality() {

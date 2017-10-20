@@ -115,6 +115,18 @@ public class StripedTest extends TestCase {
     }
   }
 
+  public void testWeakReadWrite() {
+    Striped<ReadWriteLock> striped = Striped.lazyWeakReadWriteLock(1000);
+    Object key = new Object();
+    Lock readLock = striped.get(key).readLock();
+    WeakReference<Object> garbage = new WeakReference<>(new Object());
+    GcFinalization.awaitClear(garbage);
+    Lock writeLock = striped.get(key).writeLock();
+    readLock.lock();
+    assertFalse(writeLock.tryLock());
+    readLock.unlock();
+  }
+
   public void testStrongImplementations() {
     for (Striped<?> striped : strongImplementations()) {
       WeakReference<Object> weakRef = new WeakReference<>(striped.get(new Object()));

@@ -54,13 +54,13 @@ import javax.annotation.Nullable;
  * of the code may not be readable by older versions of the code (e.g., a serialized Bloom filter
  * generated today may <i>not</i> be readable by a binary that was compiled 6 months ago).
  *
- * <p>As of Guava 22.0, this class is thread-safe and lock-free. It internally uses atomics and
+ * <p>As of Guava 23.0, this class is thread-safe and lock-free. It internally uses atomics and
  * compare-and-swap to ensure correctness when multiple threads are used to access it.
  *
  * @param <T> the type of instances that the {@code BloomFilter} accepts
  * @author Dimitris Andreou
  * @author Kevin Bourrillion
- * @since 11.0 (thread-safe since 22.0)
+ * @since 11.0 (thread-safe since 23.0)
  */
 @Beta
 public final class BloomFilter<T> implements Predicate<T>, Serializable {

@@ -155,7 +155,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
 
     // If this future is already cancelled, cancel the delegate.
     // TODO(cpovirk): Should we do this at the end of the method, as in the server version?
-    // TODO(cpovirk): Use maybePropagateCancellation?
+    // TODO(cpovirk): Use maybePropagateCancellationTo?
     if (isCancelled()) {
       future.cancel(mayInterruptIfRunning);
     }
@@ -192,7 +192,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
     return throwable;
   }
 
-  final void maybePropagateCancellation(@Nullable Future<?> related) {
+  final void maybePropagateCancellationTo(@Nullable Future<?> related) {
     if (related != null & isCancelled()) {
       related.cancel(wasInterrupted());
     }

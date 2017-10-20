@@ -104,10 +104,8 @@ public class AtomicDouble extends Number implements java.io.Serializable {
    * @param newValue the new value
    */
   public final void lazySet(double newValue) {
-    set(newValue);
-    // TODO(user): replace with code below when jdk5 support is dropped.
-    // long next = doubleToRawLongBits(newValue);
-    // updater.lazySet(this, next);
+    long next = doubleToRawLongBits(newValue);
+    updater.lazySet(this, next);
   }
 
   /**

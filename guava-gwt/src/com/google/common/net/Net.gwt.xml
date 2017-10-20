@@ -25,6 +25,8 @@
   <inherits name="com.google.common.escape.Escape"/>
     
   <inherits name="com.google.thirdparty.publicsuffix.PublicSuffixPatterns"/>
+   
+  <inherits name="com.google.thirdparty.publicsuffix.PublicSuffixType"/>
      
   <inherits name="com.google.gwt.core.Core"/>
    

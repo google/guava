@@ -103,6 +103,26 @@ public void testRemainder() throws Exception {
   testCase.testRemainder();
 }
 
+public void testSort() throws Exception {
+  com.google.common.primitives.UnsignedLongsTest testCase = new com.google.common.primitives.UnsignedLongsTest();
+  testCase.testSort();
+}
+
+public void testSortDescending() throws Exception {
+  com.google.common.primitives.UnsignedLongsTest testCase = new com.google.common.primitives.UnsignedLongsTest();
+  testCase.testSortDescending();
+}
+
+public void testSortDescendingIndexed() throws Exception {
+  com.google.common.primitives.UnsignedLongsTest testCase = new com.google.common.primitives.UnsignedLongsTest();
+  testCase.testSortDescendingIndexed();
+}
+
+public void testSortIndexed() throws Exception {
+  com.google.common.primitives.UnsignedLongsTest testCase = new com.google.common.primitives.UnsignedLongsTest();
+  testCase.testSortIndexed();
+}
+
 public void testToString() throws Exception {
   com.google.common.primitives.UnsignedLongsTest testCase = new com.google.common.primitives.UnsignedLongsTest();
   testCase.testToString();

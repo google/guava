@@ -155,8 +155,7 @@ public class TreeMultimap<K extends @org.checkerframework.checker.nullness.qual.
   /**
    * Returns the comparator that orders the multimap keys.
    *
-   * @deprecated Use {@code ((NavigableSet<K>) multimap.keySet()).comparator()} instead. This method
-   *     is scheduled for removal in April 2019.
+   * @deprecated Use {@code ((NavigableSet<K>) multimap.keySet()).comparator()} instead.
    */
   @Deprecated
   public @Nullable Comparator<? super K> keyComparator() {

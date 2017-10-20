@@ -59,8 +59,11 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
   /*
    * In certain circumstances, this field might theoretically not be visible to an afterDone() call
    * triggered by cancel(). For details, see the comments on the fields of TimeoutFuture.
+   *
+   * <p>{@code volatile} is required for j2objc transpiling:
+   * https://developers.google.com/j2objc/guides/j2objc-memory-model#atomicity
    */
-  private InterruptibleTask task;
+  private volatile InterruptibleTask<?> task;
 
   TrustedListenableFutureTask(Callable<V> callable) {
     this.task = new TrustedFutureInterruptibleTask(callable);

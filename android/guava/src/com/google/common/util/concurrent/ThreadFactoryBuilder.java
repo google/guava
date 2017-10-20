@@ -143,10 +143,12 @@ public final class ThreadFactoryBuilder {
    */
   @CheckReturnValue
   public ThreadFactory build() {
-    return build(this);
+    return doBuild(this);
   }
 
-  private static ThreadFactory build(ThreadFactoryBuilder builder) {
+  // Split out so that the anonymous ThreadFactory can't contain a reference back to the builder.
+  // At least, I assume that's why. TODO(cpovirk): Check, and maybe add a test for this.
+  private static ThreadFactory doBuild(ThreadFactoryBuilder builder) {
     final String nameFormat = builder.nameFormat;
     final Boolean daemon = builder.daemon;
     final Integer priority = builder.priority;

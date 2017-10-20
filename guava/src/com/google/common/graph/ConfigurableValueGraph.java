@@ -128,9 +128,8 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
     checkNotNull(nodeU);
     checkNotNull(nodeV);
     GraphConnections<N, V> connectionsU = nodeConnections.get(nodeU);
-    return connectionsU == null
-        ? defaultValue
-        : connectionsU.value(nodeV);
+    V value = (connectionsU == null) ? null : connectionsU.value(nodeV);
+    return value == null ? defaultValue : value;
   }
 
   @Override

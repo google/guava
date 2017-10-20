@@ -20,9 +20,9 @@ import static com.google.common.math.MathTesting.ALL_BIGINTEGER_CANDIDATES;
 import static com.google.common.math.MathTesting.FINITE_DOUBLE_CANDIDATES;
 import static com.google.common.math.MathTesting.POSITIVE_FINITE_DOUBLE_CANDIDATES;
 
+import java.lang.reflect.Method;
 import java.math.BigInteger;
 import junit.framework.TestCase;
-import sun.misc.FpUtils;
 
 /**
  * Tests for {@link DoubleUtils}.
@@ -30,10 +30,19 @@ import sun.misc.FpUtils;
  * @author Louis Wasserman
  */
 public class DoubleUtilsTest extends TestCase {
-  @AndroidIncompatible // no FpUtils
-  public void testNextDown() {
+  @AndroidIncompatible // no FpUtils and no Math.nextDown in old versions
+  public void testNextDown() throws Exception {
+    Method jdkNextDown = getJdkNextDown();
     for (double d : FINITE_DOUBLE_CANDIDATES) {
-      assertEquals(FpUtils.nextDown(d), DoubleUtils.nextDown(d));
+      assertEquals(jdkNextDown.invoke(null, d), DoubleUtils.nextDown(d));
+    }
+  }
+
+  private static Method getJdkNextDown() throws Exception {
+    try {
+      return Math.class.getMethod("nextDown", double.class);
+    } catch (NoSuchMethodException expectedBeforeJava8) {
+      return Class.forName("sun.misc.FpUtils").getMethod("nextDown", double.class);
     }
   }
 

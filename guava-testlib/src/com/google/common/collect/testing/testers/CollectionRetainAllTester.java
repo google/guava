@@ -287,7 +287,7 @@ public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
     try {
       collection.retainAll(null);
       // Returning successfully is not ideal, but tolerated.
-    } catch (NullPointerException expected) {
+    } catch (NullPointerException tolerated) {
     }
   }
 

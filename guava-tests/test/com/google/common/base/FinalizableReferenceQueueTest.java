@@ -150,7 +150,7 @@ public class FinalizableReferenceQueueTest extends TestCase {
     assertNotNull(getClass().getResource("internal/Finalizer.class"));
   }
 
-  public void testFinalizeClassHasNoNestedClases() throws Exception {
+  public void testFinalizeClassHasNoNestedClasses() throws Exception {
     // Ensure that the Finalizer class has no nested classes.
     // See https://code.google.com/p/guava-libraries/issues/detail?id=1505
     assertEquals(Collections.emptyList(), Arrays.asList(Finalizer.class.getDeclaredClasses()));

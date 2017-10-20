@@ -133,6 +133,26 @@ public void testMin_noArgs() throws Exception {
   testCase.testMin_noArgs();
 }
 
+public void testReverse() throws Exception {
+  com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
+  testCase.testReverse();
+}
+
+public void testReverseIndexed() throws Exception {
+  com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
+  testCase.testReverseIndexed();
+}
+
+public void testSortDescending() throws Exception {
+  com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
+  testCase.testSortDescending();
+}
+
+public void testSortDescendingIndexed() throws Exception {
+  com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
+  testCase.testSortDescendingIndexed();
+}
+
 public void testStringConverter_convert() throws Exception {
   com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
   testCase.testStringConverter_convert();

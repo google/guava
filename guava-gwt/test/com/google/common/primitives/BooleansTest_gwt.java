@@ -128,6 +128,16 @@ public void testLexicographicalComparator() throws Exception {
   testCase.testLexicographicalComparator();
 }
 
+public void testReverse() throws Exception {
+  com.google.common.primitives.BooleansTest testCase = new com.google.common.primitives.BooleansTest();
+  testCase.testReverse();
+}
+
+public void testReverseIndexed() throws Exception {
+  com.google.common.primitives.BooleansTest testCase = new com.google.common.primitives.BooleansTest();
+  testCase.testReverseIndexed();
+}
+
 public void testToArray() throws Exception {
   com.google.common.primitives.BooleansTest testCase = new com.google.common.primitives.BooleansTest();
   testCase.testToArray();

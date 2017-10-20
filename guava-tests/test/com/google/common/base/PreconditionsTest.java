@@ -76,6 +76,60 @@ public class PreconditionsTest extends TestCase {
     }
   }
 
+  public void testCheckArgument_nullMessageWithArgs_failure() {
+    try {
+      Preconditions.checkArgument(false, null, "b", "d");
+      fail("no exception thrown");
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessageThat().isEqualTo("null [b, d]");
+    }
+  }
+
+  public void testCheckArgument_nullArgs_failure() {
+    try {
+      Preconditions.checkArgument(false, "A %s C %s E", null, null);
+      fail("no exception thrown");
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessageThat().isEqualTo("A null C null E");
+    }
+  }
+
+  public void testCheckArgument_notEnoughArgs_failure() {
+    try {
+      Preconditions.checkArgument(false, "A %s C %s E", "b");
+      fail("no exception thrown");
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessageThat().isEqualTo("A b C %s E");
+    }
+  }
+
+  public void testCheckArgument_tooManyArgs_failure() {
+    try {
+      Preconditions.checkArgument(false, "A %s C %s E", "b", "d", "f");
+      fail("no exception thrown");
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessageThat().isEqualTo("A b C d E [f]");
+    }
+  }
+
+  public void testCheckArgument_singleNullArg_failure() {
+    try {
+      Preconditions.checkArgument(false, "A %s C", (Object) null);
+      fail("no exception thrown");
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessageThat().isEqualTo("A null C");
+    }
+  }
+
+  public void testCheckArgument_singleNullArray_failure() {
+    try {
+      Preconditions.checkArgument(false, "A %s C", (Object[]) null);
+      fail("no exception thrown");
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessageThat().isEqualTo("A (Object[])null C");
+    }
+  }
+
   public void testCheckArgument_complexMessage_success() {
     Preconditions.checkArgument(true, "%s", IGNORE_ME);
   }
@@ -342,6 +396,8 @@ public class PreconditionsTest extends TestCase {
     assertEquals("null [null, null]",
         Preconditions.format("%s", null, null, null));
     assertEquals("null [5, 6]", Preconditions.format(null, 5, 6));
+    assertEquals("null", Preconditions.format("%s", (Object) null));
+    assertEquals("(Object[])null", Preconditions.format("%s", (Object[]) null));
   }
 
     @GwtIncompatible("Reflection")

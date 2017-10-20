@@ -572,7 +572,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     verify(service).shutdown();
   }
 
-  public void testGetExitingExcutorService_executorSetToUseDaemonThreads() {
+  public void testGetExitingExecutorService_executorSetToUseDaemonThreads() {
     TestApplication application = new TestApplication();
     ThreadPoolExecutor executor = new ThreadPoolExecutor(
         1, 2, 3, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(1));
@@ -580,7 +580,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     assertTrue(executor.getThreadFactory().newThread(EMPTY_RUNNABLE).isDaemon());
   }
 
-  public void testGetExitingExcutorService_executorDelegatesToOriginal() {
+  public void testGetExitingExecutorService_executorDelegatesToOriginal() {
     TestApplication application = new TestApplication();
     ThreadPoolExecutor executor = mock(ThreadPoolExecutor.class);
     ThreadFactory threadFactory = mock(ThreadFactory.class);
@@ -589,7 +589,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     verify(executor).execute(EMPTY_RUNNABLE);
   }
 
-  public void testGetExitingExcutorService_shutdownHookRegistered() throws InterruptedException {
+  public void testGetExitingExecutorService_shutdownHookRegistered() throws InterruptedException {
     TestApplication application = new TestApplication();
     ThreadPoolExecutor executor = mock(ThreadPoolExecutor.class);
     ThreadFactory threadFactory = mock(ThreadFactory.class);
@@ -599,14 +599,14 @@ public class MoreExecutorsTest extends JSR166TestCase {
     verify(executor).shutdown();
   }
 
-  public void testGetExitingScheduledExcutorService_executorSetToUseDaemonThreads() {
+  public void testGetExitingScheduledExecutorService_executorSetToUseDaemonThreads() {
     TestApplication application = new TestApplication();
     ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
     assertNotNull(application.getExitingScheduledExecutorService(executor));
     assertTrue(executor.getThreadFactory().newThread(EMPTY_RUNNABLE).isDaemon());
   }
 
-  public void testGetExitingScheduledExcutorService_executorDelegatesToOriginal() {
+  public void testGetExitingScheduledExecutorService_executorDelegatesToOriginal() {
     TestApplication application = new TestApplication();
     ScheduledThreadPoolExecutor executor = mock(ScheduledThreadPoolExecutor.class);
     ThreadFactory threadFactory = mock(ThreadFactory.class);
@@ -615,7 +615,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     verify(executor).execute(EMPTY_RUNNABLE);
   }
 
-  public void testGetScheduledExitingExcutorService_shutdownHookRegistered()
+  public void testGetScheduledExitingExecutorService_shutdownHookRegistered()
       throws InterruptedException {
     TestApplication application = new TestApplication();
     ScheduledThreadPoolExecutor executor = mock(ScheduledThreadPoolExecutor.class);

@@ -48,6 +48,16 @@ public void testNullGet() throws Exception {
   testCase.testNullGet();
 }
 
+public void testNullValuesInCopyOfEntries() throws Exception {
+  com.google.common.collect.ImmutableSortedMapTest testCase = new com.google.common.collect.ImmutableSortedMapTest();
+  testCase.testNullValuesInCopyOfEntries();
+}
+
+public void testNullValuesInCopyOfMap() throws Exception {
+  com.google.common.collect.ImmutableSortedMapTest testCase = new com.google.common.collect.ImmutableSortedMapTest();
+  testCase.testNullValuesInCopyOfMap();
+}
+
 public void testSubMapExclusiveExclusive() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest testCase = new com.google.common.collect.ImmutableSortedMapTest();
   testCase.testSubMapExclusiveExclusive();

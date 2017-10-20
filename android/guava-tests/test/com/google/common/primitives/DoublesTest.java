@@ -310,6 +310,77 @@ public class DoublesTest extends TestCase {
     Helpers.testComparator(comparator, ordered);
   }
 
+  public void testReverse() {
+    testReverse(new double[] {}, new double[] {});
+    testReverse(new double[] {1}, new double[] {1});
+    testReverse(new double[] {1, 2}, new double[] {2, 1});
+    testReverse(new double[] {3, 1, 1}, new double[] {1, 1, 3});
+    testReverse(new double[] {-1, 1, -2, 2}, new double[] {2, -2, 1, -1});
+  }
+
+  public void testReverseIndexed() {
+    testReverse(new double[] {}, 0, 0, new double[] {});
+    testReverse(new double[] {1}, 0, 1, new double[] {1});
+    testReverse(new double[] {1, 2}, 0, 2, new double[] {2, 1});
+    testReverse(new double[] {3, 1, 1}, 0, 2, new double[] {1, 3, 1});
+    testReverse(new double[] {3, 1, 1}, 0, 1, new double[] {3, 1, 1});
+    testReverse(new double[] {-1, 1, -2, 2}, 1, 3, new double[] {-1, -2, 1, 2});
+  }
+
+  private static void testReverse(double[] input, double[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Doubles.reverse(input);
+    assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
+  private static void testReverse(
+      double[] input, int fromIndex, int toIndex, double[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Doubles.reverse(input, fromIndex, toIndex);
+    assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
+  public void testSortDescending() {
+    testSortDescending(new double[] {}, new double[] {});
+    testSortDescending(new double[] {1}, new double[] {1});
+    testSortDescending(new double[] {1, 2}, new double[] {2, 1});
+    testSortDescending(new double[] {1, 3, 1}, new double[] {3, 1, 1});
+    testSortDescending(new double[] {-1, 1, -2, 2}, new double[] {2, 1, -1, -2});
+    testSortDescending(
+        new double[] {-1, 1, Double.NaN, -2, -0, 0, 2},
+        new double[] {Double.NaN, 2, 1, 0, -0, -1, -2});
+  }
+
+  public void testSortDescendingIndexed() {
+    testSortDescending(new double[] {}, 0, 0, new double[] {});
+    testSortDescending(new double[] {1}, 0, 1, new double[] {1});
+    testSortDescending(new double[] {1, 2}, 0, 2, new double[] {2, 1});
+    testSortDescending(new double[] {1, 3, 1}, 0, 2, new double[] {3, 1, 1});
+    testSortDescending(new double[] {1, 3, 1}, 0, 1, new double[] {1, 3, 1});
+    testSortDescending(new double[] {-1, -2, 1, 2}, 1, 3, new double[] {-1, 1, -2, 2});
+    testSortDescending(
+        new double[] {-1, 1, Double.NaN, -2, 2}, 1, 4, new double[] {-1, Double.NaN, 1, -2, 2});
+  }
+
+  private static void testSortDescending(double[] input, double[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Doubles.sortDescending(input);
+    // GWT's Arrays.equals doesn't appear to handle NaN correctly, so test each element individually
+    for (int i = 0; i < input.length; i++) {
+      assertEquals(0, Double.compare(expectedOutput[i], input[i]));
+    }
+  }
+
+  private static void testSortDescending(
+      double[] input, int fromIndex, int toIndex, double[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Doubles.sortDescending(input, fromIndex, toIndex);
+    // GWT's Arrays.equals doesn't appear to handle NaN correctly, so test each element individually
+    for (int i = 0; i < input.length; i++) {
+      assertEquals(0, Double.compare(expectedOutput[i], input[i]));
+    }
+  }
+
   @GwtIncompatible // SerializableTester
   public void testLexicographicalComparatorSerializable() {
     Comparator<double[]> comparator = Doubles.lexicographicalComparator();

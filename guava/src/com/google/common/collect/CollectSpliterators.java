@@ -24,6 +24,7 @@ import java.util.Comparator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.IntConsumer;
 import java.util.function.IntFunction;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
@@ -49,26 +50,26 @@ final class CollectSpliterators {
       checkArgument((extraCharacteristics & (Spliterator.SORTED)) != 0);
     }
     class WithCharacteristics implements Spliterator<T> {
-      private final Spliterator<T> delegate;
+      private final Spliterator.OfInt delegate;
 
-      WithCharacteristics(Spliterator<T> delegate) {
+      WithCharacteristics(Spliterator.OfInt delegate) {
         this.delegate = delegate;
       }
 
       @Override
       public boolean tryAdvance(Consumer<? super T> action) {
-        return delegate.tryAdvance(action);
+        return delegate.tryAdvance((IntConsumer) i -> action.accept(function.apply(i)));
       }
 
       @Override
       public void forEachRemaining(Consumer<? super T> action) {
-        delegate.forEachRemaining(action);
+        delegate.forEachRemaining((IntConsumer) i -> action.accept(function.apply(i)));
       }
 
       @Override
       @Nullable
       public Spliterator<T> trySplit() {
-        Spliterator<T> split = delegate.trySplit();
+        Spliterator.OfInt split = delegate.trySplit();
         return (split == null) ? null : new WithCharacteristics(split);
       }
 
@@ -79,7 +80,10 @@ final class CollectSpliterators {
 
       @Override
       public int characteristics() {
-        return delegate.characteristics() | extraCharacteristics;
+        return Spliterator.ORDERED
+            | Spliterator.SIZED
+            | Spliterator.SUBSIZED
+            | extraCharacteristics;
       }
 
       @Override
@@ -91,7 +95,7 @@ final class CollectSpliterators {
         }
       }
     }
-    return new WithCharacteristics(IntStream.range(0, size).mapToObj(function).spliterator());
+    return new WithCharacteristics(IntStream.range(0, size).spliterator());
   }
   
   /**

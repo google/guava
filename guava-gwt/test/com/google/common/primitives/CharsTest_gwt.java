@@ -123,9 +123,29 @@ public void testMin_noArgs() throws Exception {
   testCase.testMin_noArgs();
 }
 
+public void testReverse() throws Exception {
+  com.google.common.primitives.CharsTest testCase = new com.google.common.primitives.CharsTest();
+  testCase.testReverse();
+}
+
+public void testReverseIndexed() throws Exception {
+  com.google.common.primitives.CharsTest testCase = new com.google.common.primitives.CharsTest();
+  testCase.testReverseIndexed();
+}
+
 public void testSaturatedCast() throws Exception {
   com.google.common.primitives.CharsTest testCase = new com.google.common.primitives.CharsTest();
   testCase.testSaturatedCast();
+}
+
+public void testSortDescending() throws Exception {
+  com.google.common.primitives.CharsTest testCase = new com.google.common.primitives.CharsTest();
+  testCase.testSortDescending();
+}
+
+public void testSortDescendingIndexed() throws Exception {
+  com.google.common.primitives.CharsTest testCase = new com.google.common.primitives.CharsTest();
+  testCase.testSortDescendingIndexed();
 }
 
 public void testToArray() throws Exception {

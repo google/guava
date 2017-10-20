@@ -455,6 +455,60 @@ public final class Shorts {
   }
 
   /**
+   * Sorts the elements of {@code array} in descending order.
+   *
+   * @since 23.1
+   */
+  public static void sortDescending(short[] array) {
+    checkNotNull(array);
+    sortDescending(array, 0, array.length);
+  }
+
+  /**
+   * Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+   * exclusive in descending order.
+   *
+   * @since 23.1
+   */
+  public static void sortDescending(short[] array, int fromIndex, int toIndex) {
+    checkNotNull(array);
+    checkPositionIndexes(fromIndex, toIndex, array.length);
+    Arrays.sort(array, fromIndex, toIndex);
+    reverse(array, fromIndex, toIndex);
+  }
+
+  /**
+   * Reverses the elements of {@code array}. This is equivalent to {@code
+   * Collections.reverse(Shorts.asList(array))}, but is likely to be more efficient.
+   *
+   * @since 23.1
+   */
+  public static void reverse(short[] array) {
+    checkNotNull(array);
+    reverse(array, 0, array.length);
+  }
+
+  /**
+   * Reverses the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+   * exclusive. This is equivalent to {@code
+   * Collections.reverse(Shorts.asList(array).subList(fromIndex, toIndex))}, but is likely to be
+   * more efficient.
+   *
+   * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+   *     {@code toIndex > fromIndex}
+   * @since 23.1
+   */
+  public static void reverse(short[] array, int fromIndex, int toIndex) {
+    checkNotNull(array);
+    checkPositionIndexes(fromIndex, toIndex, array.length);
+    for (int i = fromIndex, j = toIndex - 1; i < j; i++, j--) {
+      short tmp = array[i];
+      array[i] = array[j];
+      array[j] = tmp;
+    }
+  }
+
+  /**
    * Returns an array containing each value of {@code collection}, converted to a {@code short}
    * value in the manner of {@link Number#shortValue}.
    *

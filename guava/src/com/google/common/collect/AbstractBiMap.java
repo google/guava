@@ -334,6 +334,7 @@ abstract class AbstractBiMap<K extends @org.checkerframework.checker.nullness.qu
 
     @Override
     public V setValue(V value) {
+      checkValue(value);
       // Preconditions keep the map and inverse consistent.
       checkState(entrySet().contains(this), "entry no longer in map");
       // similar to putInBothMaps, but set via entry

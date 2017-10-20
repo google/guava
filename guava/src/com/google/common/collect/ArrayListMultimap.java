@@ -146,8 +146,7 @@ public final class ArrayListMultimap<K extends @org.checkerframework.checker.nul
    *
    * @deprecated For a {@link ListMultimap} that automatically trims to size, use {@link
    *     ImmutableListMultimap}. If you need a mutable collection, remove the {@code trimToSize}
-   *     call, or switch to a {@code HashMap<K, ArrayList<V>>}. This method is scheduled for removal
-   *     in April 2019.
+   *     call, or switch to a {@code HashMap<K, ArrayList<V>>}.
    */
   @Deprecated
   public void trimToSize() {

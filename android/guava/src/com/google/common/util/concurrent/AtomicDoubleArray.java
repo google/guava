@@ -113,10 +113,8 @@ public class AtomicDoubleArray implements java.io.Serializable {
    * @param newValue the new value
    */
   public final void lazySet(int i, double newValue) {
-    set(i, newValue);
-    // TODO(user): replace with code below when jdk5 support is dropped.
-    // long next = doubleToRawLongBits(newValue);
-    // longs.lazySet(i, next);
+    long next = doubleToRawLongBits(newValue);
+    longs.lazySet(i, next);
   }
 
   /**

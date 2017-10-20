@@ -57,6 +57,7 @@ public class BiMapTestSuiteBuilder<K, V>
   @Override
   protected List<Class<? extends AbstractTester>> getTesters() {
     List<Class<? extends AbstractTester>> testers = new ArrayList<>();
+    testers.add(BiMapEntrySetTester.class);
     testers.add(BiMapPutTester.class);
     testers.add(BiMapInverseTester.class);
     testers.add(BiMapRemoveTester.class);

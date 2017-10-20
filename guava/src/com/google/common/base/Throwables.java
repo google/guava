@@ -94,7 +94,7 @@ public final class Throwables {
    * </pre>
    *
    * @deprecated Use {@link #throwIfInstanceOf}, which has the same behavior but rejects {@code
-   *     null}. This method is scheduled to be removed in July 2018.
+   *     null}.
    */
   @Deprecated
   @GwtIncompatible // throwIfInstanceOf
@@ -150,7 +150,7 @@ public final class Throwables {
    * </pre>
    *
    * @deprecated Use {@link #throwIfUnchecked}, which has the same behavior but rejects {@code
-   *     null}. This method is scheduled to be removed in July 2018.
+   *     null}.
    */
   @Deprecated
   @GwtIncompatible
@@ -231,7 +231,7 @@ public final class Throwables {
    * @deprecated Use {@code throw e} or {@code throw new RuntimeException(e)} directly, or use a
    *     combination of {@link #throwIfUnchecked} and {@code throw new RuntimeException(e)}. For
    *     background on the deprecation, read <a href="https://goo.gl/Ivn2kc">Why we deprecated
-   *     {@code Throwables.propagate}</a>. This method is scheduled to be removed in July 2018.
+   *     {@code Throwables.propagate}</a>.
    */
   @CanIgnoreReturnValue
   @GwtIncompatible
@@ -505,12 +505,26 @@ public final class Throwables {
 
   /**
    * Returns the Method that can be used to return the size of a stack, or null if that method
-   * cannot be found (it is only to be found in fairly recent JDKs).
+   * cannot be found (it is only to be found in fairly recent JDKs). Tries to test method {@link
+   * sun.misc.JavaLangAccess#getStackTraceDepth(Throwable)} getStackTraceDepth} prior to return it
+   * (might fail some JDKs).
+   *
+   * <p>See <a href="https://github.com/google/guava/issues/2887">Throwables#lazyStackTrace throws
+   * UnsupportedOperationException</a>.
    */
   @GwtIncompatible // java.lang.reflect
   @Nullable
   private static Method getSizeMethod() {
-    return getJlaMethod("getStackTraceDepth", Throwable.class);
+    try {
+      Method getStackTraceDepth = getJlaMethod("getStackTraceDepth", Throwable.class);
+      if (getStackTraceDepth == null) {
+        return null;
+      }
+      getStackTraceDepth.invoke(getJLA(), new Throwable());
+      return getStackTraceDepth;
+    } catch (UnsupportedOperationException | IllegalAccessException | InvocationTargetException e) {
+      return null;
+    }
   }
 
   @GwtIncompatible // java.lang.reflect

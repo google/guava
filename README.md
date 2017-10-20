@@ -10,6 +10,7 @@ The original README.md follows.
 # Guava: Google Core Libraries for Java
 
 [![Build Status](https://travis-ci.org/google/guava.svg?branch=master)](https://travis-ci.org/google/guava)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.google.guava/guava/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.google.guava/guava)
 
 Guava is a set of core libraries that includes new collection types (such as
 multimap and multiset), immutable collections, a graph library, functional
@@ -18,7 +19,7 @@ primitives, reflection, string processing, and much more!
 
 Guava comes in two flavors.
 
-*   The main flavor requires JDK 1.8 or higher.
+*   The JRE flavor requires JDK 1.8 or higher.
 *   If you need support for JDK 1.7 or Android, use the Android flavor. You can
     find the Android Guava source in the [`android` directory].
 
@@ -26,13 +27,11 @@ Guava comes in two flavors.
 
 ## Latest release
 
-The most recent release is [Guava 23.0][current release], released August 4, 2017.
-
-- 23.0 API Docs: [guava][guava-release-api-docs], [guava-testlib][testlib-release-api-docs]
-- 23.0 API Diffs from 22.0: [guava][guava-release-api-diffs]
+The most recent release is [Guava 23.2][current release], released October 11,
+2017.
 
 The Maven group ID is `com.google.guava`, and the artifact ID is `guava`. Use
-version `23.0` for the main flavor, or `23.0-android` for the Android flavor.
+version `23.2-jre` for the JRE flavor, or `23.2-android` for the Android flavor.
 
 To add a dependency on Guava using Maven, use the following:
 
@@ -40,9 +39,9 @@ To add a dependency on Guava using Maven, use the following:
 <dependency>
   <groupId>com.google.guava</groupId>
   <artifactId>guava</artifactId>
-  <version>23.0</version>
+  <version>23.2-jre</version>
   <!-- or, for Android: -->
-  <version>23.0-android</version>
+  <version>23.2-android</version>
 </dependency>
 ```
 
@@ -50,16 +49,16 @@ To add a dependency using Gradle:
 
 ```
 dependencies {
-  compile 'com.google.guava:guava:23.0'
+  compile 'com.google.guava:guava:23.2-jre'
   // or, for Android:
-  compile 'com.google.guava:guava:23.0-android'
+  compile 'com.google.guava:guava:23.2-android'
 }
 ```
 
 ## Snapshots
 
 Snapshots of Guava built from the `master` branch are available through Maven
-using version `24.0-SNAPSHOT`, or `24.0-android-SNAPSHOT` for the Android
+using version `HEAD-jre-SNAPSHOT`, or `HEAD-android-SNAPSHOT` for the Android
 flavor.
 
 - Snapshot API Docs: [guava][guava-snapshot-api-docs]
@@ -85,10 +84,12 @@ removed, at any time. If your code is a library itself (i.e. it is
 used on the CLASSPATH of users outside your own control), you should
 not use beta APIs, unless you repackage them (e.g. using ProGuard).
 
-2. Deprecated non-beta APIs will be removed two years after the
-release in which they are first deprecated. You must fix your
-references before this time. If you don't, any manner of breakage
-could result (you are not guaranteed a compilation error).
+2. APIs without `@Beta` will remain binary-compatible for the indefinite
+future. (Previously, we sometimes removed such APIs after a deprecation period.
+The last release to remove non-`@Beta` APIs was Guava 21.0.) Even `@Deprecated`
+APIs will remain (again, unless they are `@Beta`). We have no plans to start
+removing things again, but officially, we're leaving our options open in case
+of surprises (like, say, a serious security problem).
 
 3. Serialized forms of ALL objects are subject to change unless noted
 otherwise. Do not persist these and assume they can be read by a
@@ -100,14 +101,10 @@ untrusted code.
 
 5. For the mainline flavor, we unit-test the libraries using only OpenJDK 1.8 on
 Linux. Some features, especially in `com.google.common.io`, may not work
-correctly in other environments.
+correctly in other environments. For the Android flavor, our unit tests run on
+API level 15 (Ice Cream Sandwich).
 
-  For the Android flavor, our unit tests run on API level 10 (Gingerbread).
-
-[current release]: https://github.com/google/guava/wiki/Release23
-[guava-release-api-docs]: http://google.github.io/guava/releases/23.0/api/docs/
-[testlib-release-api-docs]: http://www.javadoc.io/doc/com.google.guava/guava-testlib/23.0
-[guava-release-api-diffs]: http://google.github.io/guava/releases/23.0/api/diffs/
-[guava-snapshot-api-docs]: http://google.github.io/guava/releases/snapshot/api/docs/
-[guava-snapshot-api-diffs]: http://google.github.io/guava/releases/snapshot/api/diffs/
+[current release]: https://github.com/google/guava/releases/tag/v23.2
+[guava-snapshot-api-docs]: http://google.github.io/guava/releases/snapshot-jre/api/docs/
+[guava-snapshot-api-diffs]: http://google.github.io/guava/releases/snapshot-jre/api/diffs/
 [Guava Explained]: https://github.com/google/guava/wiki/Home

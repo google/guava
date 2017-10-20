@@ -145,6 +145,67 @@ public class UnsignedIntsTest extends TestCase {
     Helpers.testComparator(comparator, ordered);
   }
 
+  public void testSort() {
+    testSort(new int[] {}, new int[] {});
+    testSort(new int[] {2}, new int[] {2});
+    testSort(new int[] {2, 1, 0}, new int[] {0, 1, 2});
+    testSort(new int[] {2, GREATEST, 1, LEAST}, new int[] {LEAST, 1, 2, GREATEST});
+  }
+
+  static void testSort(int[] input, int[] expected) {
+    input = Arrays.copyOf(input, input.length);
+    UnsignedInts.sort(input);
+    assertTrue(Arrays.equals(expected, input));
+  }
+
+  public void testSortIndexed() {
+    testSort(new int[] {}, 0, 0, new int[] {});
+    testSort(new int[] {2}, 0, 1, new int[] {2});
+    testSort(new int[] {2, 1, 0}, 0, 2, new int[] {1, 2, 0});
+    testSort(new int[] {2, GREATEST, 1, LEAST}, 1, 4, new int[] {2, LEAST, 1, GREATEST});
+  }
+
+  static void testSort(int[] input, int from, int to, int[] expected) {
+    input = Arrays.copyOf(input, input.length);
+    UnsignedInts.sort(input, from, to);
+    assertTrue(Arrays.equals(expected, input));
+  }
+
+  public void testSortDescending() {
+    testSortDescending(new int[] {}, new int[] {});
+    testSortDescending(new int[] {1}, new int[] {1});
+    testSortDescending(new int[] {1, 2}, new int[] {2, 1});
+    testSortDescending(new int[] {1, 3, 1}, new int[] {3, 1, 1});
+    testSortDescending(
+        new int[] {GREATEST - 1, 1, GREATEST - 2, 2}, new int[] {GREATEST - 1, GREATEST - 2, 2, 1});
+  }
+
+  public void testSortDescendingIndexed() {
+    testSortDescending(new int[] {}, 0, 0, new int[] {});
+    testSortDescending(new int[] {1}, 0, 1, new int[] {1});
+    testSortDescending(new int[] {1, 2}, 0, 2, new int[] {2, 1});
+    testSortDescending(new int[] {1, 3, 1}, 0, 2, new int[] {3, 1, 1});
+    testSortDescending(new int[] {1, 3, 1}, 0, 1, new int[] {1, 3, 1});
+    testSortDescending(
+        new int[] {GREATEST - 1, 1, GREATEST - 2, 2},
+        1,
+        3,
+        new int[] {GREATEST - 1, GREATEST - 2, 1, 2});
+  }
+
+  private static void testSortDescending(int[] input, int[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    UnsignedInts.sortDescending(input);
+    assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
+  private static void testSortDescending(
+      int[] input, int fromIndex, int toIndex, int[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    UnsignedInts.sortDescending(input, fromIndex, toIndex);
+    assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
   public void testDivide() {
     for (long a : UNSIGNED_INTS) {
       for (long b : UNSIGNED_INTS) {

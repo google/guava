@@ -582,8 +582,7 @@ public final class Sets {
    * @param map the backing map
    * @return the set backed by the map
    * @throws IllegalArgumentException if {@code map} is not empty
-   * @deprecated Use {@link Collections#newSetFromMap} instead. This method
-   *     will be removed in December 2017.
+   * @deprecated Use {@link Collections#newSetFromMap} instead.
    */
   @Deprecated
   public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> Set<E> newSetFromMap(Map<E, Boolean> map) {

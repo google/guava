@@ -16,12 +16,14 @@ package com.google.common.primitives;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.nio.ByteOrder;
+import java.util.Arrays;
 import java.util.Comparator;
 import sun.misc.Unsafe;
 
@@ -443,6 +445,67 @@ public final class UnsignedBytes {
       } catch (Throwable t) { // ensure we really catch *everything*
         return lexicographicalComparatorJavaImpl();
       }
+    }
+  }
+  
+  private static byte flip(byte b) {
+    return (byte) (b ^ 0x80);
+  }
+
+  /**
+   * Sorts the array, treating its elements as unsigned bytes.
+   *
+   * @since 23.1
+   */
+  public static void sort(byte[] array) {
+    checkNotNull(array);
+    sort(array, 0, array.length);
+  }
+
+  /**
+   * Sorts the array between {@code fromIndex} inclusive and {@code toIndex} exclusive, treating its
+   * elements as unsigned bytes.
+   *
+   * @since 23.1
+   */
+  public static void sort(byte[] array, int fromIndex, int toIndex) {
+    checkNotNull(array);
+    checkPositionIndexes(fromIndex, toIndex, array.length);
+    for (int i = fromIndex; i < toIndex; i++) {
+      array[i] = flip(array[i]);
+    }
+    Arrays.sort(array, fromIndex, toIndex);
+    for (int i = fromIndex; i < toIndex; i++) {
+      array[i] = flip(array[i]);
+    }
+  }
+
+  /**
+   * Sorts the elements of {@code array} in descending order, interpreting them as unsigned 8-bit
+   * integers.
+   *
+   * @since 23.1
+   */
+  public static void sortDescending(byte[] array) {
+    checkNotNull(array);
+    sortDescending(array, 0, array.length);
+  }
+
+  /**
+   * Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+   * exclusive in descending order, interpreting them as unsigned 8-bit integers.
+   *
+   * @since 23.1
+   */
+  public static void sortDescending(byte[] array, int fromIndex, int toIndex) {
+    checkNotNull(array);
+    checkPositionIndexes(fromIndex, toIndex, array.length);
+    for (int i = fromIndex; i < toIndex; i++) {
+      array[i] ^= Byte.MAX_VALUE;
+    }
+    Arrays.sort(array, fromIndex, toIndex);
+    for (int i = fromIndex; i < toIndex; i++) {
+      array[i] ^= Byte.MAX_VALUE;
     }
   }
 }
