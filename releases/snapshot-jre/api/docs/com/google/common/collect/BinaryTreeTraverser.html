@@ -18,8 +18,8 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":6,"i3":6};
-var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"]};
+var methods = {"i0":42,"i1":42,"i2":38,"i3":38};
+var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
 var tableTab = "tableTab";
@@ -113,10 +113,17 @@ var activeTableTab = "activeTableTab";
 <ul class="blockList">
 <li class="blockList">
 <hr>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
+<div class="block"><span class="deprecationComment">Use <a href="../../../../com/google/common/graph/Traverser.html" title="class in com.google.common.graph"><code>Traverser</code></a> instead. All instance methods except
+     for <a href="../../../../com/google/common/collect/BinaryTreeTraverser.html#inOrderTraversal-T-"><code>inOrderTraversal(T)</code></a> have their equivalent on the result of <code>Traverser.forTree(tree)</code> where <code>tree</code> implements <code>SuccessorsFunction</code>, which has
+     a similar API as <a href="../../../../com/google/common/collect/BinaryTreeTraverser.html#children-T-"><code>children(T)</code></a>.
+     <p>This class is scheduled to be removed in January 2018.</span></div>
+</div>
 <br>
-<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
+ <a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/BinaryTreeTraverser.html#line.39">BinaryTreeTraverser</a>&lt;T&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/BinaryTreeTraverser.html#line.45">BinaryTreeTraverser</a>&lt;T&gt;
 extends <a href="../../../../com/google/common/collect/TreeTraverser.html" title="class in com.google.common.collect">TreeTraverser</a>&lt;T&gt;</pre>
 <div class="block">A variant of <a href="../../../../com/google/common/collect/TreeTraverser.html" title="class in com.google.common.collect"><code>TreeTraverser</code></a> for binary trees, providing additional traversals specific to
  binary trees.</div>
@@ -144,7 +151,9 @@ extends <a href="../../../../com/google/common/collect/TreeTraverser.html" title
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/BinaryTreeTraverser.html#BinaryTreeTraverser--">BinaryTreeTraverser</a></span>()</code>&nbsp;</td>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/BinaryTreeTraverser.html#BinaryTreeTraverser--">BinaryTreeTraverser</a></span>()</code>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
+&nbsp;</td>
 </tr>
 </table>
 </li>
@@ -156,7 +165,7 @@ extends <a href="../../../../com/google/common/collect/TreeTraverser.html" title
 </a>
 <h3>Method Summary</h3>
 <table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
-<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Abstract Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Abstract Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t6" class="tableTab"><span><a href="javascript:show(32);">Deprecated Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colLast" scope="col">Method and Description</th>
@@ -164,16 +173,20 @@ extends <a href="../../../../com/google/common/collect/TreeTraverser.html" title
 <tr id="i0" class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/collect/BinaryTreeTraverser.html" title="type parameter in BinaryTreeTraverser">T</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/BinaryTreeTraverser.html#children-T-">children</a></span>(<a href="../../../../com/google/common/collect/BinaryTreeTraverser.html" title="type parameter in BinaryTreeTraverser">T</a>&nbsp;root)</code>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 <div class="block">Returns the children of this node, in left-to-right order.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="../../../../com/google/common/collect/BinaryTreeTraverser.html" title="type parameter in BinaryTreeTraverser">T</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/BinaryTreeTraverser.html#inOrderTraversal-T-">inOrderTraversal</a></span>(<a href="../../../../com/google/common/collect/BinaryTreeTraverser.html" title="type parameter in BinaryTreeTraverser">T</a>&nbsp;root)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/BinaryTreeTraverser.html#inOrderTraversal-T-">inOrderTraversal</a></span>(<a href="../../../../com/google/common/collect/BinaryTreeTraverser.html" title="type parameter in BinaryTreeTraverser">T</a>&nbsp;root)</code>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
+&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>abstract <a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="../../../../com/google/common/collect/BinaryTreeTraverser.html" title="type parameter in BinaryTreeTraverser">T</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/BinaryTreeTraverser.html#leftChild-T-">leftChild</a></span>(<a href="../../../../com/google/common/collect/BinaryTreeTraverser.html" title="type parameter in BinaryTreeTraverser">T</a>&nbsp;root)</code>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 <div class="block">Returns the left child of the specified node, or <a href="../../../../com/google/common/base/Optional.html#absent--"><code>Optional.absent()</code></a> if the specified
  node has no left child.</div>
 </td>
@@ -181,6 +194,7 @@ extends <a href="../../../../com/google/common/collect/TreeTraverser.html" title
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>abstract <a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="../../../../com/google/common/collect/BinaryTreeTraverser.html" title="type parameter in BinaryTreeTraverser">T</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/BinaryTreeTraverser.html#rightChild-T-">rightChild</a></span>(<a href="../../../../com/google/common/collect/BinaryTreeTraverser.html" title="type parameter in BinaryTreeTraverser">T</a>&nbsp;root)</code>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 <div class="block">Returns the right child of the specified node, or <a href="../../../../com/google/common/base/Optional.html#absent--"><code>Optional.absent()</code></a> if the specified
  node has no right child.</div>
 </td>
@@ -220,7 +234,8 @@ extends <a href="../../../../com/google/common/collect/TreeTraverser.html" title
 <ul class="blockListLast">
 <li class="blockList">
 <h4>BinaryTreeTraverser</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/collect/BinaryTreeTraverser.html#line.39">BinaryTreeTraverser</a>()</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/collect/BinaryTreeTraverser.html#line.45">BinaryTreeTraverser</a>()</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 </li>
 </ul>
 </li>
@@ -239,7 +254,8 @@ extends <a href="../../../../com/google/common/collect/TreeTraverser.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>leftChild</h4>
-<pre>public abstract&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="../../../../com/google/common/collect/BinaryTreeTraverser.html" title="type parameter in BinaryTreeTraverser">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/BinaryTreeTraverser.html#line.45">leftChild</a>(<a href="../../../../com/google/common/collect/BinaryTreeTraverser.html" title="type parameter in BinaryTreeTraverser">T</a>&nbsp;root)</pre>
+<pre>public abstract&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="../../../../com/google/common/collect/BinaryTreeTraverser.html" title="type parameter in BinaryTreeTraverser">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/BinaryTreeTraverser.html#line.51">leftChild</a>(<a href="../../../../com/google/common/collect/BinaryTreeTraverser.html" title="type parameter in BinaryTreeTraverser">T</a>&nbsp;root)</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 <div class="block">Returns the left child of the specified node, or <a href="../../../../com/google/common/base/Optional.html#absent--"><code>Optional.absent()</code></a> if the specified
  node has no left child.</div>
 </li>
@@ -252,7 +268,8 @@ extends <a href="../../../../com/google/common/collect/TreeTraverser.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>rightChild</h4>
-<pre>public abstract&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="../../../../com/google/common/collect/BinaryTreeTraverser.html" title="type parameter in BinaryTreeTraverser">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/BinaryTreeTraverser.html#line.51">rightChild</a>(<a href="../../../../com/google/common/collect/BinaryTreeTraverser.html" title="type parameter in BinaryTreeTraverser">T</a>&nbsp;root)</pre>
+<pre>public abstract&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="../../../../com/google/common/collect/BinaryTreeTraverser.html" title="type parameter in BinaryTreeTraverser">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/BinaryTreeTraverser.html#line.57">rightChild</a>(<a href="../../../../com/google/common/collect/BinaryTreeTraverser.html" title="type parameter in BinaryTreeTraverser">T</a>&nbsp;root)</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 <div class="block">Returns the right child of the specified node, or <a href="../../../../com/google/common/base/Optional.html#absent--"><code>Optional.absent()</code></a> if the specified
  node has no right child.</div>
 </li>
@@ -265,7 +282,8 @@ extends <a href="../../../../com/google/common/collect/TreeTraverser.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>children</h4>
-<pre>public final&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/collect/BinaryTreeTraverser.html" title="type parameter in BinaryTreeTraverser">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/BinaryTreeTraverser.html#line.57">children</a>(<a href="../../../../com/google/common/collect/BinaryTreeTraverser.html" title="type parameter in BinaryTreeTraverser">T</a>&nbsp;root)</pre>
+<pre>public final&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/collect/BinaryTreeTraverser.html" title="type parameter in BinaryTreeTraverser">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/BinaryTreeTraverser.html#line.63">children</a>(<a href="../../../../com/google/common/collect/BinaryTreeTraverser.html" title="type parameter in BinaryTreeTraverser">T</a>&nbsp;root)</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 <div class="block">Returns the children of this node, in left-to-right order.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -281,7 +299,8 @@ extends <a href="../../../../com/google/common/collect/TreeTraverser.html" title
 <ul class="blockListLast">
 <li class="blockList">
 <h4>inOrderTraversal</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="../../../../com/google/common/collect/BinaryTreeTraverser.html" title="type parameter in BinaryTreeTraverser">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/BinaryTreeTraverser.html#line.174">inOrderTraversal</a>(<a href="../../../../com/google/common/collect/BinaryTreeTraverser.html" title="type parameter in BinaryTreeTraverser">T</a>&nbsp;root)</pre>
+<pre>public final&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="../../../../com/google/common/collect/BinaryTreeTraverser.html" title="type parameter in BinaryTreeTraverser">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/BinaryTreeTraverser.html#line.180">inOrderTraversal</a>(<a href="../../../../com/google/common/collect/BinaryTreeTraverser.html" title="type parameter in BinaryTreeTraverser">T</a>&nbsp;root)</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 </li>
 </ul>
 </li>
