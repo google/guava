@@ -46,6 +46,8 @@ dependencies {
 }
 ```
 
+---
+
 ## Snapshots
 
 Snapshots of Guava built from the `master` branch are available through Maven
@@ -55,10 +57,14 @@ flavor.
 - Snapshot API Docs: [guava][guava-snapshot-api-docs]
 - Snapshot API Diffs: [guava][guava-snapshot-api-diffs]
 
+---
+
 ## Learn about Guava
 
 - Our users' guide, [Guava Explained][]
 - [A nice collection](http://www.tfnico.com/presentations/google-guava) of other helpful links
+
+---
 
 ## Links
 
@@ -66,6 +72,8 @@ flavor.
 - [Issue tracker: Report a defect or feature request](https://github.com/google/guava/issues/new)
 - [StackOverflow: Ask "how-to" and "why-didn't-it-work" questions](https://stackoverflow.com/questions/ask?tags=guava+java)
 - [guava-discuss: For open-ended questions and discussion](http://groups.google.com/group/guava-discuss)
+
+---
 
 ## IMPORTANT WARNINGS
 
@@ -99,3 +107,7 @@ API level 15 (Ice Cream Sandwich).
 [guava-snapshot-api-docs]: http://google.github.io/guava/releases/snapshot-jre/api/docs/
 [guava-snapshot-api-diffs]: http://google.github.io/guava/releases/snapshot-jre/api/diffs/
 [Guava Explained]: https://github.com/google/guava/wiki/Home
+
+---
+
+<img src="https://avatars2.githubusercontent.com/u/1342004?s=200&v=4" width="50"></img>
