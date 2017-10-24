@@ -16,6 +16,17 @@ Guava comes in two flavors.
 
 [`android` directory]: https://github.com/google/guava/tree/master/android
 
+Table Of Contents (ToC)
+=======================
+
+* [Latest Release](#latest-release)
+* [Snapshots](#snapshots)
+* [Learn About Guava](#learn-about-guava)
+* [Links](#links)
+* [IMPORTANT WARNINGS](#important-warnings)
+
+---
+
 ## Latest release
 
 The most recent release is [Guava 23.2][current release], released October 11,
