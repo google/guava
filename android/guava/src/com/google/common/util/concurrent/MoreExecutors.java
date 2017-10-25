@@ -448,7 +448,7 @@ public final class MoreExecutors {
    * trucking. If an {@code Error} is thrown, the error will propagate and execution will stop until
    * the next time a task is submitted.
    *
-   * @since NEXT
+   * @since 23.3 (since 23.1 as {@link #sequentialExecutor(Executor)})
    */
   @Beta
   @GwtIncompatible
