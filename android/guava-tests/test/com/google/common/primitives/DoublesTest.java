@@ -346,9 +346,11 @@ public class DoublesTest extends TestCase {
     testSortDescending(new double[] {1, 2}, new double[] {2, 1});
     testSortDescending(new double[] {1, 3, 1}, new double[] {3, 1, 1});
     testSortDescending(new double[] {-1, 1, -2, 2}, new double[] {2, 1, -1, -2});
-    testSortDescending(
-        new double[] {-1, 1, Double.NaN, -2, -0, 0, 2},
-        new double[] {Double.NaN, 2, 1, 0, -0, -1, -2});
+    if (sortWorksWithNaN()) {
+      testSortDescending(
+          new double[] {-1, 1, Double.NaN, -2, -0, 0, 2},
+          new double[] {Double.NaN, 2, 1, 0, -0, -1, -2});
+    }
   }
 
   public void testSortDescendingIndexed() {
@@ -358,8 +360,10 @@ public class DoublesTest extends TestCase {
     testSortDescending(new double[] {1, 3, 1}, 0, 2, new double[] {3, 1, 1});
     testSortDescending(new double[] {1, 3, 1}, 0, 1, new double[] {1, 3, 1});
     testSortDescending(new double[] {-1, -2, 1, 2}, 1, 3, new double[] {-1, 1, -2, 2});
-    testSortDescending(
-        new double[] {-1, 1, Double.NaN, -2, 2}, 1, 4, new double[] {-1, Double.NaN, 1, -2, 2});
+    if (sortWorksWithNaN()) {
+      testSortDescending(
+          new double[] {-1, 1, Double.NaN, -2, 2}, 1, 4, new double[] {-1, Double.NaN, 1, -2, 2});
+    }
   }
 
   private static void testSortDescending(double[] input, double[] expectedOutput) {
@@ -379,6 +383,11 @@ public class DoublesTest extends TestCase {
     for (int i = 0; i < input.length; i++) {
       assertEquals(0, Double.compare(expectedOutput[i], input[i]));
     }
+  }
+
+  @GwtIncompatible // works with real browsers but fails with HtmlUnit
+  public void testSortWorksWithNaNNonGwt() {
+    assertTrue(sortWorksWithNaN());
   }
 
   @GwtIncompatible // SerializableTester
@@ -652,5 +661,12 @@ public class DoublesTest extends TestCase {
       fail("Expected NPE");
     } catch (NullPointerException expected) {
     }
+  }
+
+  // HtmlUnit looks to be sorting double[] wrongly. We detect that and skip our tests there.
+  private static boolean sortWorksWithNaN() {
+    double[] array = new double[] {NaN, 0};
+    Arrays.sort(array);
+    return array[0] == 0;
   }
 }

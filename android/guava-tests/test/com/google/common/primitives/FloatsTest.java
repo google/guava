@@ -343,8 +343,10 @@ public class FloatsTest extends TestCase {
     testSortDescending(new float[] {1, 2}, new float[] {2, 1});
     testSortDescending(new float[] {1, 3, 1}, new float[] {3, 1, 1});
     testSortDescending(new float[] {-1, 1, -2, 2}, new float[] {2, 1, -1, -2});
-    testSortDescending(
-        new float[] {-1, 1, Float.NaN, -2, -0, 0, 2}, new float[] {Float.NaN, 2, 1, 0, -0, -1, -2});
+    if (sortWorksWithNaN()) {
+      testSortDescending(
+          new float[] {-1, 1, Float.NaN, -2, -0, 0, 2}, new float[] {Float.NaN, 2, 1, 0, -0, -1, -2});
+    }
   }
 
   public void testSortDescendingIndexed() {
@@ -354,8 +356,10 @@ public class FloatsTest extends TestCase {
     testSortDescending(new float[] {1, 3, 1}, 0, 2, new float[] {3, 1, 1});
     testSortDescending(new float[] {1, 3, 1}, 0, 1, new float[] {1, 3, 1});
     testSortDescending(new float[] {-1, -2, 1, 2}, 1, 3, new float[] {-1, 1, -2, 2});
-    testSortDescending(
-        new float[] {-1, 1, Float.NaN, -2, 2}, 1, 4, new float[] {-1, Float.NaN, 1, -2, 2});
+    if (sortWorksWithNaN()) {
+      testSortDescending(
+          new float[] {-1, 1, Float.NaN, -2, 2}, 1, 4, new float[] {-1, Float.NaN, 1, -2, 2});
+    }
   }
 
   private static void testSortDescending(float[] input, float[] expectedOutput) {
@@ -375,6 +379,11 @@ public class FloatsTest extends TestCase {
     for (int i = 0; i < input.length; i++) {
       assertEquals(0, Float.compare(expectedOutput[i], input[i]));
     }
+  }
+
+  @GwtIncompatible // works with real browsers but fails with HtmlUnit
+  public void testSortWorksWithNaNNonGwt() {
+    assertTrue(sortWorksWithNaN());
   }
 
   @GwtIncompatible // SerializableTester
@@ -628,5 +637,12 @@ public class FloatsTest extends TestCase {
       fail("Expected NPE");
     } catch (NullPointerException expected) {
     }
+  }
+
+  // HtmlUnit looks to be sorting float[] wrongly. We detect that and skip our tests there.
+  private static boolean sortWorksWithNaN() {
+    float[] array = new float[] {NaN, 0};
+    Arrays.sort(array);
+    return array[0] == 0;
   }
 }
