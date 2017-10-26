@@ -38,7 +38,7 @@ gist:
 
 # Release data
 # Do not change! updaterelease.sh automatically updates these fields
-latest_release: 23.2-jre
+latest_release: 23.3-jre
 
 # Miscellaneous data
 email: guava-discuss@googlegroups.com
