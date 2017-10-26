@@ -444,7 +444,7 @@
 <span class="sourceLineNo">436</span>   *<a name="line.436"></a>
 <span class="sourceLineNo">437</span>   * @return {@code true} if this domain name appears exactly on the public suffix list as part of<a name="line.437"></a>
 <span class="sourceLineNo">438</span>   *     the registry suffix section (labelled "ICANN").<a name="line.438"></a>
-<span class="sourceLineNo">439</span>   * @since NEXT<a name="line.439"></a>
+<span class="sourceLineNo">439</span>   * @since 23.3<a name="line.439"></a>
 <span class="sourceLineNo">440</span>   */<a name="line.440"></a>
 <span class="sourceLineNo">441</span>  public boolean isRegistrySuffix() {<a name="line.441"></a>
 <span class="sourceLineNo">442</span>    return registrySuffixIndex == 0;<a name="line.442"></a>
@@ -459,7 +459,7 @@
 <span class="sourceLineNo">451</span>   * &lt;p&gt;Note that this method is equivalent to {@link #hasPublicSuffix()} because all registry<a name="line.451"></a>
 <span class="sourceLineNo">452</span>   * suffixes are public suffixes &lt;i&gt;and&lt;/i&gt; all public suffixes have registry suffixes.<a name="line.452"></a>
 <span class="sourceLineNo">453</span>   *<a name="line.453"></a>
-<span class="sourceLineNo">454</span>   * @since NEXT<a name="line.454"></a>
+<span class="sourceLineNo">454</span>   * @since 23.3<a name="line.454"></a>
 <span class="sourceLineNo">455</span>   */<a name="line.455"></a>
 <span class="sourceLineNo">456</span>  public boolean hasRegistrySuffix() {<a name="line.456"></a>
 <span class="sourceLineNo">457</span>    return registrySuffixIndex != NO_SUFFIX_FOUND;<a name="line.457"></a>
@@ -469,7 +469,7 @@
 <span class="sourceLineNo">461</span>   * Returns the {@linkplain #isRegistrySuffix() registry suffix} portion of the domain name, or<a name="line.461"></a>
 <span class="sourceLineNo">462</span>   * {@code null} if no registry suffix is present.<a name="line.462"></a>
 <span class="sourceLineNo">463</span>   *<a name="line.463"></a>
-<span class="sourceLineNo">464</span>   * @since NEXT<a name="line.464"></a>
+<span class="sourceLineNo">464</span>   * @since 23.3<a name="line.464"></a>
 <span class="sourceLineNo">465</span>   */<a name="line.465"></a>
 <span class="sourceLineNo">466</span>  public InternetDomainName registrySuffix() {<a name="line.466"></a>
 <span class="sourceLineNo">467</span>    return hasRegistrySuffix() ? ancestor(registrySuffixIndex) : null;<a name="line.467"></a>
@@ -481,7 +481,7 @@
 <span class="sourceLineNo">473</span>   * www.google.com}, {@code foo.co.uk} and {@code blogspot.com}, but not for {@code com}, {@code<a name="line.473"></a>
 <span class="sourceLineNo">474</span>   * co.uk}, or {@code google.invalid}.<a name="line.474"></a>
 <span class="sourceLineNo">475</span>   *<a name="line.475"></a>
-<span class="sourceLineNo">476</span>   * @since NEXT<a name="line.476"></a>
+<span class="sourceLineNo">476</span>   * @since 23.3<a name="line.476"></a>
 <span class="sourceLineNo">477</span>   */<a name="line.477"></a>
 <span class="sourceLineNo">478</span>  public boolean isUnderRegistrySuffix() {<a name="line.478"></a>
 <span class="sourceLineNo">479</span>    return registrySuffixIndex &gt; 0;<a name="line.479"></a>
@@ -496,7 +496,7 @@
 <span class="sourceLineNo">488</span>   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; This method should not be used to determine the probable highest level<a name="line.488"></a>
 <span class="sourceLineNo">489</span>   * parent domain for which cookies may be set. Use {@link #topPrivateDomain()} for that purpose.<a name="line.489"></a>
 <span class="sourceLineNo">490</span>   *<a name="line.490"></a>
-<span class="sourceLineNo">491</span>   * @since NEXT<a name="line.491"></a>
+<span class="sourceLineNo">491</span>   * @since 23.3<a name="line.491"></a>
 <span class="sourceLineNo">492</span>   */<a name="line.492"></a>
 <span class="sourceLineNo">493</span>  public boolean isTopDomainUnderRegistrySuffix() {<a name="line.493"></a>
 <span class="sourceLineNo">494</span>    return registrySuffixIndex == 1;<a name="line.494"></a>
@@ -515,7 +515,7 @@
 <span class="sourceLineNo">507</span>   * highest level for which cookies may be set. Use {@link #isTopPrivateDomain()} for that purpose.<a name="line.507"></a>
 <span class="sourceLineNo">508</span>   *<a name="line.508"></a>
 <span class="sourceLineNo">509</span>   * @throws IllegalStateException if this domain does not end with a registry suffix<a name="line.509"></a>
-<span class="sourceLineNo">510</span>   * @since NEXT<a name="line.510"></a>
+<span class="sourceLineNo">510</span>   * @since 23.3<a name="line.510"></a>
 <span class="sourceLineNo">511</span>   */<a name="line.511"></a>
 <span class="sourceLineNo">512</span>  public InternetDomainName topDomainUnderRegistrySuffix() {<a name="line.512"></a>
 <span class="sourceLineNo">513</span>    if (isTopDomainUnderRegistrySuffix()) {<a name="line.513"></a>

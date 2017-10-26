@@ -50307,6 +50307,17 @@
       <![CDATA[The HTTP {@code Referer} header field name.]]>
       </doc>
     </field>
+    <field name="REFERRER_POLICY" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://www.w3.org/TR/referrer-policy/">{@code Referrer-Policy}</a> header
+ field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="SERVICE_WORKER" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
@@ -50866,6 +50877,59 @@
     </doc>
   </class>
   <!-- end class com.google.common.net.HttpHeaders -->
+  <!-- start class com.google.common.net.HttpHeaders.ReferrerPolicyValues -->
+  <class name="HttpHeaders.ReferrerPolicyValues" extends="java.lang.Object"
+    abstract="false"
+    static="true" final="true" visibility="public"
+    deprecated="not deprecated">
+    <field name="NO_REFERRER" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+    </field>
+    <field name="NO_REFFERER_WHEN_DOWNGRADE" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+    </field>
+    <field name="SAME_ORIGIN" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+    </field>
+    <field name="ORIGIN" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+    </field>
+    <field name="STRICT_ORIGIN" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+    </field>
+    <field name="ORIGIN_WHEN_CROSS_ORIGIN" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+    </field>
+    <field name="STRICT_ORIGIN_WHEN_CROSS_ORIGIN" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+    </field>
+    <field name="UNSAFE_URL" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+    </field>
+    <doc>
+    <![CDATA[Values for the <a href="https://www.w3.org/TR/referrer-policy/">{@code Referrer-Policy}</a>
+ header.
+
+ @since NEXT]]>
+    </doc>
+  </class>
+  <!-- end class com.google.common.net.HttpHeaders.ReferrerPolicyValues -->
   <!-- start class com.google.common.net.InetAddresses -->
   <class name="InetAddresses" extends="java.lang.Object"
     abstract="false"
@@ -51581,7 +51645,7 @@
 
  @return {@code true} if this domain name appears exactly on the public suffix list as part of
      the registry suffix section (labelled "ICANN").
- @since NEXT]]>
+ @since 23.3]]>
       </doc>
     </method>
     <method name="hasRegistrySuffix" return="boolean"
@@ -51597,7 +51661,7 @@
  <p>Note that this method is equivalent to {@link #hasPublicSuffix()} because all registry
  suffixes are public suffixes <i>and</i> all public suffixes have registry suffixes.
 
- @since NEXT]]>
+ @since 23.3]]>
       </doc>
     </method>
     <method name="registrySuffix" return="com.google.common.net.InternetDomainName"
@@ -51608,7 +51672,7 @@
       <![CDATA[Returns the {@linkplain #isRegistrySuffix() registry suffix} portion of the domain name, or
  {@code null} if no registry suffix is present.
 
- @since NEXT]]>
+ @since 23.3]]>
       </doc>
     </method>
     <method name="isUnderRegistrySuffix" return="boolean"
@@ -51621,7 +51685,7 @@
  www.google.com}, {@code foo.co.uk} and {@code blogspot.com}, but not for {@code com}, {@code
  co.uk}, or {@code google.invalid}.
 
- @since NEXT]]>
+ @since 23.3]]>
       </doc>
     </method>
     <method name="isTopDomainUnderRegistrySuffix" return="boolean"
@@ -51637,7 +51701,7 @@
  <p><b>Warning:</b> This method should not be used to determine the probable highest level
  parent domain for which cookies may be set. Use {@link #topPrivateDomain()} for that purpose.
 
- @since NEXT]]>
+ @since 23.3]]>
       </doc>
     </method>
     <method name="topDomainUnderRegistrySuffix" return="com.google.common.net.InternetDomainName"
@@ -51657,7 +51721,7 @@
  highest level for which cookies may be set. Use {@link #isTopPrivateDomain()} for that purpose.
 
  @throws IllegalStateException if this domain does not end with a registry suffix
- @since NEXT]]>
+ @since 23.3]]>
       </doc>
     </method>
     <method name="hasParent" return="boolean"
@@ -66607,7 +66671,7 @@
  trucking. If an {@code Error} is thrown, the error will propagate and execution will stop until
  the next time a task is submitted.
 
- @since NEXT]]>
+ @since 23.3 (since 23.1 as {@link #sequentialExecutor(Executor)})]]>
       </doc>
     </method>
     <method name="listeningDecorator" return="com.google.common.util.concurrent.ListeningExecutorService"
