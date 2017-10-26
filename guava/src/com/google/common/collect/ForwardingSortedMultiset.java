@@ -67,6 +67,8 @@ public abstract class ForwardingSortedMultiset<E> extends ForwardingMultiset<E>
    * {@link SortedMultiset#entrySet}, and {@link SortedMultiset#remove(Object, int)}. In many
    * situations, you may wish to override {@link SortedMultiset#elementSet} to forward to this
    * implementation or a subclass thereof.
+   *
+   * @since 15.0
    */
   protected class StandardElementSet extends SortedMultisets.NavigableElementSet<E> {
     /** Constructor for use by subclasses. */
@@ -94,6 +96,8 @@ public abstract class ForwardingSortedMultiset<E> extends ForwardingMultiset<E>
    *
    * In many cases, you may wish to override {@link #descendingMultiset()} to return an instance of
    * a subclass of {@code StandardDescendingMultiset}.
+   *
+   * @since 15.0
    */
   protected abstract class StandardDescendingMultiset extends DescendingMultiset<E> {
     /** Constructor for use by subclasses. */

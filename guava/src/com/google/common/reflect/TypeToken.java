@@ -637,6 +637,8 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   /**
    * The set of interfaces and classes that {@code T} is or is a subtype of. {@link Object} is not
    * included in the set if this type is an interface.
+   *
+   * @since 13.0
    */
   public class TypeSet extends ForwardingSet<TypeToken<? super T>> implements Serializable {
 

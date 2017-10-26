@@ -101,6 +101,8 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
 
   /**
    * A builder for immutable range maps. Overlapping ranges are prohibited.
+   *
+   * @since 14.0
    */
   public static final class Builder<K extends Comparable<?>, V> {
     private final List<Map.Entry<Range<K>, V>> entries;
