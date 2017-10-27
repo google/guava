@@ -97,7 +97,7 @@ var activeTableTab = "activeTableTab";
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</a></li>
+<li><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.base.Converter&lt;A,B&gt;</li>
@@ -109,13 +109,13 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;A,B&gt;</dd>
+<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;A,B&gt;</dd>
 </dl>
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
 public abstract class <a href="../../../../src-html/com/google/common/base/Converter.html#line.116">Converter</a>&lt;A,B&gt;
-extends <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
+extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;A,B&gt;</pre>
 <div class="block">A function from <code>A</code> to <code>B</code> with an associated <i>reverse</i> function from <code>B</code>
  to <code>A</code>; used for converting back and forth between <i>different representations of the same
@@ -166,7 +166,7 @@ implements <a href="../../../../com/google/common/base/Function.html" title="int
  <li>Convert one instance in the "forward" direction using <code>converter.convert(a)</code>.
  <li>Convert multiple instances "forward" using <code>converter.convertAll(as)</code>.
  <li>Convert in the "backward" direction using <code>converter.reverse().convert(b)</code> or <code>converter.reverse().convertAll(bs)</code>.
- <li>Use <code>converter</code> or <code>converter.reverse()</code> anywhere a <a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function"><code>Function</code></a> is accepted (for example <a href="http://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html?is-external=true#map-java.util.function.Function-" title="class or interface in java.util.stream"><code>Stream.map</code></a>).
+ <li>Use <code>converter</code> or <code>converter.reverse()</code> anywhere a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function"><code>Function</code></a> is accepted (for example <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true#map-java.util.function.Function-" title="class or interface in java.util.stream"><code>Stream.map</code></a>).
  <li><b>Do not</b> call <a href="../../../../com/google/common/base/Converter.html#doForward-A-"><code>doForward(A)</code></a> or <a href="../../../../com/google/common/base/Converter.html#doBackward-B-"><code>doBackward(B)</code></a> directly; these exist only to be
      overridden.
  </ul>
@@ -258,8 +258,8 @@ implements <a href="../../../../com/google/common/base/Function.html" title="int
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/base/Converter.html#convertAll-java.lang.Iterable-">convertAll</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">A</a>&gt;&nbsp;fromIterable)</code>
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/base/Converter.html#convertAll-java.lang.Iterable-">convertAll</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">A</a>&gt;&nbsp;fromIterable)</code>
 <div class="block">Returns an iterable that applies <code>convert</code> to each element of <code>fromIterable</code>.</div>
 </td>
 </tr>
@@ -277,7 +277,7 @@ implements <a href="../../../../com/google/common/base/Function.html" title="int
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/base/Converter.html#equals-java.lang.Object-">equals</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/base/Converter.html#equals-java.lang.Object-">equals</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</code>
 <div class="block">Indicates whether another object is equal to this converter.</div>
 </td>
 </tr>
@@ -306,15 +306,15 @@ implements <a href="../../../../com/google/common/base/Function.html" title="int
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></h3>
-<code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#clone--" title="class or interface in java.lang">clone</a>, <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#finalize--" title="class or interface in java.lang">finalize</a>, <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#getClass--" title="class or interface in java.lang">getClass</a>, <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang">hashCode</a>, <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#notify--" title="class or interface in java.lang">notify</a>, <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#notifyAll--" title="class or interface in java.lang">notifyAll</a>, <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang">toString</a>, <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#wait--" title="class or interface in java.lang">wait</a>, <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#wait-long-" title="class or interface in java.lang">wait</a>, <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#wait-long-int-" title="class or interface in java.lang">wait</a></code></li>
+<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></h3>
+<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#clone--" title="class or interface in java.lang">clone</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#finalize--" title="class or interface in java.lang">finalize</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#getClass--" title="class or interface in java.lang">getClass</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang">hashCode</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notify--" title="class or interface in java.lang">notify</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notifyAll--" title="class or interface in java.lang">notifyAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang">toString</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait--" title="class or interface in java.lang">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait-long-" title="class or interface in java.lang">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait-long-int-" title="class or interface in java.lang">wait</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.util.function.Function">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.util.function.<a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a></h3>
-<code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true#andThen-java.util.function.Function-" title="class or interface in java.util.function">andThen</a>, <a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true#compose-java.util.function.Function-" title="class or interface in java.util.function">compose</a></code></li>
+<h3>Methods inherited from interface&nbsp;java.util.function.<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a></h3>
+<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true#andThen-java.util.function.Function-" title="class or interface in java.util.function">andThen</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true#compose-java.util.function.Function-" title="class or interface in java.util.function">compose</a></code></li>
 </ul>
 </li>
 </ul>
@@ -358,7 +358,7 @@ implements <a href="../../../../com/google/common/base/Function.html" title="int
 <h4>doForward</h4>
 <pre>protected abstract&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.145">doForward</a>(<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">A</a>&nbsp;a)</pre>
 <div class="block">Returns a representation of <code>a</code> as an instance of type <code>B</code>. If <code>a</code> cannot be
- converted, an unchecked exception (such as <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>) should be thrown.</div>
+ converted, an unchecked exception (such as <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>) should be thrown.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>a</code> - the instance to convert; will never be null</dd>
@@ -377,14 +377,14 @@ implements <a href="../../../../com/google/common/base/Function.html" title="int
 <h4>doBackward</h4>
 <pre>protected abstract&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">A</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.160">doBackward</a>(<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>&nbsp;b)</pre>
 <div class="block">Returns a representation of <code>b</code> as an instance of type <code>A</code>. If <code>b</code> cannot be
- converted, an unchecked exception (such as <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>) should be thrown.</div>
+ converted, an unchecked exception (such as <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>) should be thrown.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>b</code> - the instance to convert; will never be null</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the converted instance; <b>must not</b> be null</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang">UnsupportedOperationException</a></code> - if backward conversion is not implemented; this should be
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang">UnsupportedOperationException</a></code> - if backward conversion is not implemented; this should be
      very rare. Note that if backward conversion is not only unimplemented but
      unimplement<i>able</i> (for example, consider a <code>Converter&lt;Chicken, ChickenNugget&gt;</code>),
      then this is not logically a <code>Converter</code> at all, and should just implement <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base"><code>Function</code></a>.</dd>
@@ -399,8 +399,8 @@ implements <a href="../../../../com/google/common/base/Function.html" title="int
 <ul class="blockList">
 <li class="blockList">
 <h4>convert</h4>
-<pre><a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-public final&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.171">convert</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre><a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+public final&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.171">convert</a>(<a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">A</a>&nbsp;a)</pre>
 <div class="block">Returns a representation of <code>a</code> as an instance of type <code>B</code>.</div>
 <dl>
@@ -415,7 +415,7 @@ public final&nbsp;<a href="../../../../com/google/common/base/Converter.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>convertAll</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.204">convertAll</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">A</a>&gt;&nbsp;fromIterable)</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.204">convertAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">A</a>&gt;&nbsp;fromIterable)</pre>
 <div class="block">Returns an iterable that applies <code>convert</code> to each element of <code>fromIterable</code>. The
  conversion is done lazily.
 
@@ -461,14 +461,14 @@ public final&nbsp;<a href="../../../../com/google/common/base/Converter.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>apply</h4>
-<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
- <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-public final&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.395">apply</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
+ <a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+public final&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.395">apply</a>(<a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                             <a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">A</a>&nbsp;a)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Provided to satisfy the <code>Function</code> interface; use <a href="../../../../com/google/common/base/Converter.html#convert-A-"><code>convert(A)</code></a> instead.</span></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true#apply-T-" title="class or interface in java.util.function">apply</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">A</a>,<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true#apply-T-" title="class or interface in java.util.function">apply</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">A</a>,<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -478,11 +478,11 @@ public final&nbsp;<a href="../../../../com/google/common/base/Converter.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.411">equals</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-                      <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.411">equals</a>(<a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+                      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block">Indicates whether another object is equal to this converter.
 
- <p>Most implementations will have no reason to override the behavior of <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a>.
+ <p>Most implementations will have no reason to override the behavior of <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a>.
  However, an implementation may also choose to return <code>true</code> whenever <code>object</code> is a
  <a href="../../../../com/google/common/base/Converter.html" title="class in com.google.common.base"><code>Converter</code></a> that it considers <i>interchangeable</i> with this one. "Interchangeable"
  <i>typically</i> means that <code>Objects.equal(this.convert(a), that.convert(a))</code> is true for
@@ -491,7 +491,7 @@ public final&nbsp;<a href="../../../../com/google/common/base/Converter.html" ti
  interchangeable.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">equals</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -510,7 +510,7 @@ public final&nbsp;<a href="../../../../com/google/common/base/Converter.html" ti
 
  <p>These functions will never be passed <code>null</code> and must not under any circumstances
  return <code>null</code>. If a value cannot be converted, the function should throw an unchecked
- exception (typically, but not necessarily, <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>).
+ exception (typically, but not necessarily, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>).
 
  <p>The returned converter is serializable if both provided functions are.</div>
 <dl>
@@ -529,7 +529,7 @@ public final&nbsp;<a href="../../../../com/google/common/base/Converter.html" ti
 <div class="block">Returns a serializable converter that always converts or reverses an object to itself.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true#identity--" title="class or interface in java.util.function">identity</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">A</a>,<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true#identity--" title="class or interface in java.util.function">identity</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">A</a>,<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>

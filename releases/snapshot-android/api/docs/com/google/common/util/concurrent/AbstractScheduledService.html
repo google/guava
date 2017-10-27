@@ -97,7 +97,7 @@ var activeTableTab = "activeTableTab";
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</a></li>
+<li><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.util.concurrent.AbstractScheduledService</li>
@@ -116,13 +116,13 @@ var activeTableTab = "activeTableTab";
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.html#line.95">AbstractScheduledService</a>
-extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
+extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent">Service</a></pre>
 <div class="block">Base class for services that can implement <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#startUp--"><code>startUp()</code></a> and <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#shutDown--"><code>shutDown()</code></a> but while in
  the "running" state need to perform a periodic task. Subclasses can implement <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#startUp--"><code>startUp()</code></a>,
  <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#shutDown--"><code>shutDown()</code></a> and also a <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#runOneIteration--"><code>runOneIteration()</code></a> method that will be executed periodically.
 
- <p>This class uses the <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ScheduledExecutorService</code></a> returned from <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#executor--"><code>executor()</code></a> to run
+ <p>This class uses the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ScheduledExecutorService</code></a> returned from <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#executor--"><code>executor()</code></a> to run
  the <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#startUp--"><code>startUp()</code></a> and <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#shutDown--"><code>shutDown()</code></a> methods and also uses that service to schedule the
  <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#runOneIteration--"><code>runOneIteration()</code></a> that will be executed periodically as specified by its <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.Scheduler.html" title="class in com.google.common.util.concurrent"><code>AbstractScheduledService.Scheduler</code></a>. When this service is asked to stop via <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#stopAsync--"><code>stopAsync()</code></a> it will cancel the periodic
  task (but not interrupt it) and wait for it to stop before running the <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#shutDown--"><code>shutDown()</code></a> method.
@@ -248,8 +248,8 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#addListener-com.google.common.util.concurrent.Service.Listener-java.util.concurrent.Executor-">addListener</a></span>(<a href="../../../../../com/google/common/util/concurrent/Service.Listener.html" title="class in com.google.common.util.concurrent">Service.Listener</a>&nbsp;listener,
-           <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</code>
-<div class="block">Registers a <a href="../../../../../com/google/common/util/concurrent/Service.Listener.html" title="class in com.google.common.util.concurrent"><code>Service.Listener</code></a> to be <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true#execute-java.lang.Runnable-" title="class or interface in java.util.concurrent">executed</a> on the given
+           <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</code>
+<div class="block">Registers a <a href="../../../../../com/google/common/util/concurrent/Service.Listener.html" title="class in com.google.common.util.concurrent"><code>Service.Listener</code></a> to be <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true#execute-java.lang.Runnable-" title="class or interface in java.util.concurrent">executed</a> on the given
  executor.</div>
 </td>
 </tr>
@@ -262,7 +262,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#awaitRunning-long-java.util.concurrent.TimeUnit-">awaitRunning</a></span>(long&nbsp;timeout,
-            <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>
+            <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>
 <div class="block">Waits for the <a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach the <a href="../../../../../com/google/common/util/concurrent/Service.State.html#RUNNING">running state</a> for no more
  than the given time.</div>
 </td>
@@ -276,21 +276,21 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#awaitTerminated-long-java.util.concurrent.TimeUnit-">awaitTerminated</a></span>(long&nbsp;timeout,
-               <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>
+               <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>
 <div class="block">Waits for the <a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach a terminal state (either <a href="../../../../../com/google/common/util/concurrent/Service.State.html#TERMINATED"><code>terminated</code></a> or <a href="../../../../../com/google/common/util/concurrent/Service.State.html#FAILED"><code>failed</code></a>) for no more than the given time.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a></code></td>
+<td class="colFirst"><code>protected <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#executor--">executor</a></span>()</code>
-<div class="block">Returns the <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ScheduledExecutorService</code></a> that will be used to execute the <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#startUp--"><code>startUp()</code></a>,
+<div class="block">Returns the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ScheduledExecutorService</code></a> that will be used to execute the <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#startUp--"><code>startUp()</code></a>,
  <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#runOneIteration--"><code>runOneIteration()</code></a> and <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#shutDown--"><code>shutDown()</code></a> methods.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a></code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#failureCause--">failureCause</a></span>()</code>
-<div class="block">Returns the <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang"><code>Throwable</code></a> that caused this service to fail.</div>
+<div class="block">Returns the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang"><code>Throwable</code></a> that caused this service to fail.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
@@ -312,7 +312,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
 </td>
 </tr>
 <tr id="i10" class="altColor">
-<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colFirst"><code>protected <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#serviceName--">serviceName</a></span>()</code>
 <div class="block">Returns the name of this service.</div>
 </td>
@@ -350,7 +350,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
 </td>
 </tr>
 <tr id="i16" class="altColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#toString--">toString</a></span>()</code>&nbsp;</td>
 </tr>
 </table>
@@ -358,8 +358,8 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></h3>
-<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#clone--" title="class or interface in java.lang">clone</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">equals</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#finalize--" title="class or interface in java.lang">finalize</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#getClass--" title="class or interface in java.lang">getClass</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang">hashCode</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#notify--" title="class or interface in java.lang">notify</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#notifyAll--" title="class or interface in java.lang">notifyAll</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#wait--" title="class or interface in java.lang">wait</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#wait-long-" title="class or interface in java.lang">wait</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#wait-long-int-" title="class or interface in java.lang">wait</a></code></li>
+<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></h3>
+<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#clone--" title="class or interface in java.lang">clone</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">equals</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#finalize--" title="class or interface in java.lang">finalize</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#getClass--" title="class or interface in java.lang">getClass</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang">hashCode</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notify--" title="class or interface in java.lang">notify</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notifyAll--" title="class or interface in java.lang">notifyAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait--" title="class or interface in java.lang">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait-long-" title="class or interface in java.lang">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait-long-int-" title="class or interface in java.lang">wait</a></code></li>
 </ul>
 </li>
 </ul>
@@ -400,13 +400,13 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
 <li class="blockList">
 <h4>runOneIteration</h4>
 <pre>protected abstract&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.html#line.284">runOneIteration</a>()
-                                 throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></pre>
+                                 throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></pre>
 <div class="block">Run one iteration of the scheduled task. If any invocation of this method throws an exception,
  the service will transition to the <a href="../../../../../com/google/common/util/concurrent/Service.State.html#FAILED"><code>Service.State.FAILED</code></a> state and this method will no
  longer be called.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -417,13 +417,13 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
 <li class="blockList">
 <h4>startUp</h4>
 <pre>protected&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.html#line.291">startUp</a>()
-                throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></pre>
+                throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></pre>
 <div class="block">Start the service.
 
  <p>By default this method does nothing.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -434,13 +434,13 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
 <li class="blockList">
 <h4>shutDown</h4>
 <pre>protected&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.html#line.298">shutDown</a>()
-                 throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></pre>
+                 throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></pre>
 <div class="block">Stop the service. This is guaranteed not to run concurrently with <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#runOneIteration--"><code>runOneIteration()</code></a>.
 
  <p>By default this method does nothing.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -461,16 +461,16 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>executor</h4>
-<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.html#line.321">executor</a>()</pre>
-<div class="block">Returns the <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ScheduledExecutorService</code></a> that will be used to execute the <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#startUp--"><code>startUp()</code></a>,
+<pre>protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.html#line.321">executor</a>()</pre>
+<div class="block">Returns the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ScheduledExecutorService</code></a> that will be used to execute the <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#startUp--"><code>startUp()</code></a>,
  <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#runOneIteration--"><code>runOneIteration()</code></a> and <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#shutDown--"><code>shutDown()</code></a> methods. If this method is overridden the
- executor will not be <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#shutdown--" title="class or interface in java.util.concurrent">shutdown</a> when this service
- <a href="../../../../../com/google/common/util/concurrent/Service.State.html#TERMINATED">terminates</a> or <a href="../../../../../com/google/common/util/concurrent/Service.State.html#TERMINATED">fails</a>. Subclasses may override this method to supply a custom <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ScheduledExecutorService</code></a>
+ executor will not be <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#shutdown--" title="class or interface in java.util.concurrent">shutdown</a> when this service
+ <a href="../../../../../com/google/common/util/concurrent/Service.State.html#TERMINATED">terminates</a> or <a href="../../../../../com/google/common/util/concurrent/Service.State.html#TERMINATED">fails</a>. Subclasses may override this method to supply a custom <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ScheduledExecutorService</code></a>
  instance. This method is guaranteed to only be called once.
 
- <p>By default this returns a new <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ScheduledExecutorService</code></a> with a single thread thread
+ <p>By default this returns a new <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ScheduledExecutorService</code></a> with a single thread thread
  pool that sets the name of the thread to the <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#serviceName--">service name</a>. Also,
- the pool will be <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#shutdown--" title="class or interface in java.util.concurrent">shut down</a> when the service
+ the pool will be <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#shutdown--" title="class or interface in java.util.concurrent">shut down</a> when the service
  <a href="../../../../../com/google/common/util/concurrent/Service.State.html#TERMINATED">terminates</a> or <a href="../../../../../com/google/common/util/concurrent/Service.State.html#TERMINATED">fails</a>.</div>
 </li>
 </ul>
@@ -480,7 +480,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>serviceName</h4>
-<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.html#line.358">serviceName</a>()</pre>
+<pre>protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.html#line.358">serviceName</a>()</pre>
 <div class="block">Returns the name of this service. <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html" title="class in com.google.common.util.concurrent"><code>AbstractScheduledService</code></a> may include the name in
  debugging output.</div>
 <dl>
@@ -495,10 +495,10 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.html#line.363">toString</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.html#line.363">toString</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang">toString</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -539,9 +539,9 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
 <li class="blockList">
 <h4>addListener</h4>
 <pre>public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.html#line.381">addListener</a>(<a href="../../../../../com/google/common/util/concurrent/Service.Listener.html" title="class in com.google.common.util.concurrent">Service.Listener</a>&nbsp;listener,
-                              <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
+                              <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/Service.html#addListener-com.google.common.util.concurrent.Service.Listener-java.util.concurrent.Executor-">Service</a></code></span></div>
-<div class="block">Registers a <a href="../../../../../com/google/common/util/concurrent/Service.Listener.html" title="class in com.google.common.util.concurrent"><code>Service.Listener</code></a> to be <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true#execute-java.lang.Runnable-" title="class or interface in java.util.concurrent">executed</a> on the given
+<div class="block">Registers a <a href="../../../../../com/google/common/util/concurrent/Service.Listener.html" title="class in com.google.common.util.concurrent"><code>Service.Listener</code></a> to be <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true#execute-java.lang.Runnable-" title="class or interface in java.util.concurrent">executed</a> on the given
  executor. The listener will have the corresponding transition method called whenever the
  service changes state. The listener will not have previous state changes replayed, so it is
  suggested that listeners are added before the service starts.
@@ -575,9 +575,9 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>failureCause</h4>
-<pre>public final&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.html#line.389">failureCause</a>()</pre>
+<pre>public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.html#line.389">failureCause</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/Service.html#failureCause--">Service</a></code></span></div>
-<div class="block">Returns the <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang"><code>Throwable</code></a> that caused this service to fail.</div>
+<div class="block">Returns the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang"><code>Throwable</code></a> that caused this service to fail.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../com/google/common/util/concurrent/Service.html#failureCause--">failureCause</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent">Service</a></code></dd>
@@ -653,8 +653,8 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
 <li class="blockList">
 <h4>awaitRunning</h4>
 <pre>public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.html#line.425">awaitRunning</a>(long&nbsp;timeout,
-                               <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
-                        throws <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent">TimeoutException</a></pre>
+                               <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
+                        throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent">TimeoutException</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/Service.html#awaitRunning-long-java.util.concurrent.TimeUnit-">Service</a></code></span></div>
 <div class="block">Waits for the <a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach the <a href="../../../../../com/google/common/util/concurrent/Service.State.html#RUNNING">running state</a> for no more
  than the given time.</div>
@@ -665,7 +665,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
 <dd><code>timeout</code> - the maximum time to wait</dd>
 <dd><code>unit</code> - the time unit of the timeout argument</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent">TimeoutException</a></code> - if the service has not reached the given state within the deadline</dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent">TimeoutException</a></code> - if the service has not reached the given state within the deadline</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>15.0</dd>
 </dl>
@@ -695,8 +695,8 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
 <li class="blockList">
 <h4>awaitTerminated</h4>
 <pre>public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.html#line.441">awaitTerminated</a>(long&nbsp;timeout,
-                                  <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
-                           throws <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent">TimeoutException</a></pre>
+                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
+                           throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent">TimeoutException</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/Service.html#awaitTerminated-long-java.util.concurrent.TimeUnit-">Service</a></code></span></div>
 <div class="block">Waits for the <a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach a terminal state (either <a href="../../../../../com/google/common/util/concurrent/Service.State.html#TERMINATED"><code>terminated</code></a> or <a href="../../../../../com/google/common/util/concurrent/Service.State.html#FAILED"><code>failed</code></a>) for no more than the given time.</div>
 <dl>
@@ -706,7 +706,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
 <dd><code>timeout</code> - the maximum time to wait</dd>
 <dd><code>unit</code> - the time unit of the timeout argument</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent">TimeoutException</a></code> - if the service has not reached the given state within the deadline</dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent">TimeoutException</a></code> - if the service has not reached the given state within the deadline</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>15.0</dd>
 </dl>

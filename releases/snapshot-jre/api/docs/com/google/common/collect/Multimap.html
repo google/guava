@@ -111,7 +111,7 @@ var activeTableTab = "activeTableTab";
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
 public interface <a href="../../../../src-html/com/google/common/collect/Multimap.html#line.167">Multimap</a>&lt;K,V&gt;</pre>
-<div class="block">A collection that maps keys to values, similar to <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util"><code>Map</code></a>, but in which
+<div class="block">A collection that maps keys to values, similar to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util"><code>Map</code></a>, but in which
  each key may be associated with <i>multiple</i> values. You can visualize the
  contents of a multimap either as a map from keys to <i>nonempty</i>
  collections of values:
@@ -167,7 +167,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
  <ul>
  <li><a href="../../../../com/google/common/collect/Multimap.html#asMap--"><code>asMap()</code></a>, mentioned above</li>
  <li><a href="../../../../com/google/common/collect/Multimap.html#keys--"><code>keys()</code></a>, <a href="../../../../com/google/common/collect/Multimap.html#keySet--"><code>keySet()</code></a>, <a href="../../../../com/google/common/collect/Multimap.html#values--"><code>values()</code></a>, <a href="../../../../com/google/common/collect/Multimap.html#entries--"><code>entries()</code></a>, which
-     are similar to the corresponding view collections of <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util"><code>Map</code></a>
+     are similar to the corresponding view collections of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util"><code>Map</code></a>
  <li>and, notably, even the collection returned by <a href="../../../../com/google/common/collect/Multimap.html#get-K-"><code>get(key)</code></a> is an
      active view of the values corresponding to <code>key</code>
  </ul>
@@ -181,14 +181,14 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
  <p>Instead of using the <code>Multimap</code> interface directly, prefer the
  subinterfaces <a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect"><code>ListMultimap</code></a> and <a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect"><code>SetMultimap</code></a>. These take their
  names from the fact that the collections they return from <code>get</code> behave
- like (and, of course, implement) <a href="http://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util"><code>List</code></a> and <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util"><code>Set</code></a>, respectively.
+ like (and, of course, implement) <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util"><code>List</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util"><code>Set</code></a>, respectively.
 
  <p>For example, the "presidents" code snippet above used a <code>ListMultimap</code>; if it had used a <code>SetMultimap</code> instead, two presidents
  would have vanished, and last names might or might not appear in
  chronological order.
 
  <p><b>Warning:</b> instances of type <code>Multimap</code> may not implement
- <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a> in the way you expect.  Multimaps containing the same
+ <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a> in the way you expect.  Multimaps containing the same
  key-value pairs, even in the same order, may or may not be equal and may or
  may not have the same <code>hashCode</code>. The recommended subinterfaces
  provide much stronger guarantees.
@@ -214,7 +214,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 
  <p>As always, prefer the immutable implementations, <a href="../../../../com/google/common/collect/ImmutableListMultimap.html" title="class in com.google.common.collect"><code>ImmutableListMultimap</code></a> and <a href="../../../../com/google/common/collect/ImmutableSetMultimap.html" title="class in com.google.common.collect"><code>ImmutableSetMultimap</code></a>. General-purpose
  mutable implementations are listed above under "All Known Implementing
- Classes". You can also create a <i>custom</i> multimap, backed by any <code>Map</code> and <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a> types, using the <a href="../../../../com/google/common/collect/Multimaps.html#newMultimap-java.util.Map-com.google.common.base.Supplier-"><code>Multimaps.newMultimap</code></a> family of methods. Finally, another popular way to
+ Classes". You can also create a <i>custom</i> multimap, backed by any <code>Map</code> and <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a> types, using the <a href="../../../../com/google/common/collect/Multimaps.html#newMultimap-java.util.Map-com.google.common.base.Supplier-"><code>Multimaps.newMultimap</code></a> family of methods. Finally, another popular way to
  obtain a multimap is using <a href="../../../../com/google/common/collect/Multimaps.html#index-java.lang.Iterable-com.google.common.base.Function-"><code>Multimaps.index</code></a>. See
  the <a href="../../../../com/google/common/collect/Multimaps.html" title="class in com.google.common.collect"><code>Multimaps</code></a> class for these and other static utilities related
  to multimaps.
@@ -228,7 +228,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 
  <p>All methods that modify the multimap are optional. The view collections
  returned by the multimap may or may not be modifiable. Any modification
- method that is not supported will throw <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang"><code>UnsupportedOperationException</code></a>.
+ method that is not supported will throw <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang"><code>UnsupportedOperationException</code></a>.
 
  <p>See the Guava User Guide article on <a href=
  "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">
@@ -258,7 +258,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>,<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimap.html#asMap--">asMap</a></span>()</code>
 <div class="block">Returns a view of this multimap as a <code>Map</code> from each distinct key
  to the nonempty collection of that key's associated values.</div>
@@ -272,28 +272,28 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimap.html#containsEntry-java.lang.Object-java.lang.Object-">containsEntry</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key,
-             <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimap.html#containsEntry-java.lang.Object-java.lang.Object-">containsEntry</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key,
+             <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</code>
 <div class="block">Returns <code>true</code> if this multimap contains at least one key-value pair
  with the key <code>key</code> and the value <code>value</code>.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimap.html#containsKey-java.lang.Object-">containsKey</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimap.html#containsKey-java.lang.Object-">containsKey</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</code>
 <div class="block">Returns <code>true</code> if this multimap contains at least one key-value pair
  with the key <code>key</code>.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimap.html#containsValue-java.lang.Object-">containsValue</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimap.html#containsValue-java.lang.Object-">containsValue</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</code>
 <div class="block">Returns <code>true</code> if this multimap contains at least one key-value pair
  with the value <code>value</code>.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>,<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>,<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimap.html#entries--">entries</a></span>()</code>
 <div class="block">Returns a view collection of all key-value pairs contained in this
  multimap, as <code>Map.Entry</code> instances.</div>
@@ -301,18 +301,18 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimap.html#equals-java.lang.Object-">equals</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimap.html#equals-java.lang.Object-">equals</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</code>
 <div class="block">Compares the specified object with this multimap for equality.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>default void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimap.html#forEach-java.util.function.BiConsumer-">forEach</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/BiConsumer.html?is-external=true" title="class or interface in java.util.function">BiConsumer</a>&lt;? super <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>,? super <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;action)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimap.html#forEach-java.util.function.BiConsumer-">forEach</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiConsumer.html?is-external=true" title="class or interface in java.util.function">BiConsumer</a>&lt;? super <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>,? super <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;action)</code>
 <div class="block">Performs the given action for all key-value pairs contained in this multimap.</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimap.html#get-K-">get</a></span>(<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>&nbsp;key)</code>
 <div class="block">Returns a view collection of the values associated with <code>key</code> in this
  multimap, if any.</div>
@@ -338,7 +338,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 </td>
 </tr>
 <tr id="i12" class="altColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimap.html#keySet--">keySet</a></span>()</code>
 <div class="block">Returns a view collection of all <i>distinct</i> keys contained in this
  multimap.</div>
@@ -354,7 +354,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimap.html#putAll-K-java.lang.Iterable-">putAll</a></span>(<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>&nbsp;key,
-      <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;values)</code>
+      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;values)</code>
 <div class="block">Stores a key-value pair in this multimap for each of <code>values</code>, all
  using the same key, <code>key</code>.</div>
 </td>
@@ -368,22 +368,22 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 </tr>
 <tr id="i16" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimap.html#remove-java.lang.Object-java.lang.Object-">remove</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key,
-      <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimap.html#remove-java.lang.Object-java.lang.Object-">remove</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key,
+      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</code>
 <div class="block">Removes a single key-value pair with the key <code>key</code> and the value
  <code>value</code> from this multimap, if such exists.</div>
 </td>
 </tr>
 <tr id="i17" class="rowColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimap.html#removeAll-java.lang.Object-">removeAll</a></span>(<a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</code>
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimap.html#removeAll-java.lang.Object-">removeAll</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</code>
 <div class="block">Removes all values associated with the key <code>key</code>.</div>
 </td>
 </tr>
 <tr id="i18" class="altColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimap.html#replaceValues-K-java.lang.Iterable-">replaceValues</a></span>(<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>&nbsp;key,
-             <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;values)</code>
+             <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;values)</code>
 <div class="block">Stores a collection of values with the same key, replacing any existing
  values for that key.</div>
 </td>
@@ -395,7 +395,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 </td>
 </tr>
 <tr id="i20" class="altColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimap.html#values--">values</a></span>()</code>
 <div class="block">Returns a view collection containing the <i>value</i> from each key-value
  pair contained in this multimap, without collapsing duplicates (so <code>values().size() == size()</code>).</div>
@@ -448,8 +448,8 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 <ul class="blockList">
 <li class="blockList">
 <h4>containsKey</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.190">containsKey</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="K") <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-                    <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.190">containsKey</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="K") <a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+                    <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <div class="block">Returns <code>true</code> if this multimap contains at least one key-value pair
  with the key <code>key</code>.</div>
 </li>
@@ -460,8 +460,8 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 <ul class="blockList">
 <li class="blockList">
 <h4>containsValue</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.196">containsValue</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="V") <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-                      <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.196">containsValue</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="V") <a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+                      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
 <div class="block">Returns <code>true</code> if this multimap contains at least one key-value pair
  with the value <code>value</code>.</div>
 </li>
@@ -472,10 +472,10 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 <ul class="blockList">
 <li class="blockList">
 <h4>containsEntry</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.202">containsEntry</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="K") <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-                      <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key,
-                      <a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="V") <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-                      <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.202">containsEntry</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="K") <a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+                      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key,
+                      <a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="V") <a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+                      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
 <div class="block">Returns <code>true</code> if this multimap contains at least one key-value pair
  with the key <code>key</code> and the value <code>value</code>.</div>
 </li>
@@ -488,9 +488,9 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 <ul class="blockList">
 <li class="blockList">
 <h4>put</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.221">put</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.221">put</a>(<a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
             <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>&nbsp;key,
-            <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+            <a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
             <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&nbsp;value)</pre>
 <div class="block">Stores a key-value pair in this multimap.
 
@@ -512,10 +512,10 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 <ul class="blockList">
 <li class="blockList">
 <h4>remove</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.232">remove</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="K") <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key,
-               <a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="V") <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.232">remove</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="K") <a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+               <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key,
+               <a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="V") <a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+               <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
 <div class="block">Removes a single key-value pair with the key <code>key</code> and the value
  <code>value</code> from this multimap, if such exists. If multiple key-value
  pairs in the multimap fit this description, which one is removed is
@@ -534,9 +534,9 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 <ul class="blockList">
 <li class="blockList">
 <h4>putAll</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.252">putAll</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.252">putAll</a>(<a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>&nbsp;key,
-               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;values)</pre>
+               <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;values)</pre>
 <div class="block">Stores a key-value pair in this multimap for each of <code>values</code>, all
  using the same key, <code>key</code>. Equivalent to (but expected to be more
  efficient than): <pre>   <code>
@@ -575,9 +575,9 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 <ul class="blockList">
 <li class="blockList">
 <h4>replaceValues</h4>
-<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.276">replaceValues</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.276">replaceValues</a>(<a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                             <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>&nbsp;key,
-                            <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;values)</pre>
+                            <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;values)</pre>
 <div class="block">Stores a collection of values with the same key, replacing any existing
  values for that key.
 
@@ -598,8 +598,8 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 <ul class="blockList">
 <li class="blockList">
 <h4>removeAll</h4>
-<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.290">removeAll</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="K") <a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-                        <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.290">removeAll</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="K") <a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+                        <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <div class="block">Removes all values associated with the key <code>key</code>.
 
  <p>Once this method returns, <code>key</code> will not be mapped to any values,
@@ -631,7 +631,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.308">get</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.308">get</a>(<a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                   <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>&nbsp;key)</pre>
 <div class="block">Returns a view collection of the values associated with <code>key</code> in this
  multimap, if any. Note that when <code>containsKey(key)</code> is false, this
@@ -647,7 +647,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 <ul class="blockList">
 <li class="blockList">
 <h4>keySet</h4>
-<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.318">keySet</a>()</pre>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.318">keySet</a>()</pre>
 <div class="block">Returns a view collection of all <i>distinct</i> keys contained in this
  multimap. Note that the key set contains a key if and only if this multimap
  maps that key to at least one value.
@@ -679,7 +679,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 <ul class="blockList">
 <li class="blockList">
 <h4>values</h4>
-<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.341">values</a>()</pre>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.341">values</a>()</pre>
 <div class="block">Returns a view collection containing the <i>value</i> from each key-value
  pair contained in this multimap, without collapsing duplicates (so <code>values().size() == size()</code>).
 
@@ -694,7 +694,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 <ul class="blockList">
 <li class="blockList">
 <h4>entries</h4>
-<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>,<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.351">entries</a>()</pre>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>,<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.351">entries</a>()</pre>
 <div class="block">Returns a view collection of all key-value pairs contained in this
  multimap, as <code>Map.Entry</code> instances.
 
@@ -709,7 +709,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 <ul class="blockList">
 <li class="blockList">
 <h4>forEach</h4>
-<pre>default&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.363">forEach</a>(<a href="http://docs.oracle.com/javase/8/docs/api/java/util/function/BiConsumer.html?is-external=true" title="class or interface in java.util.function">BiConsumer</a>&lt;? super <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>,? super <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;action)</pre>
+<pre>default&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.363">forEach</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiConsumer.html?is-external=true" title="class or interface in java.util.function">BiConsumer</a>&lt;? super <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>,? super <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;action)</pre>
 <div class="block">Performs the given action for all key-value pairs contained in this multimap. If an ordering is
  specified by the <code>Multimap</code> implementation, actions will be performed in the order of
  iteration of <a href="../../../../com/google/common/collect/Multimap.html#entries--"><code>entries()</code></a>. Exceptions thrown by the action are relayed to the caller.
@@ -728,7 +728,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 <ul class="blockList">
 <li class="blockList">
 <h4>asMap</h4>
-<pre><a href="http://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>,<a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.380">asMap</a>()</pre>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.380">asMap</a>()</pre>
 <div class="block">Returns a view of this multimap as a <code>Map</code> from each distinct key
  to the nonempty collection of that key's associated values. Note that
  <code>this.asMap().get(k)</code> is equivalent to <code>this.get(k)</code> only when
@@ -745,8 +745,8 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.401">equals</a>(<a href="http://docs.oracle.com/javase/8/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-               <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</pre>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.401">equals</a>(<a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+               <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</pre>
 <div class="block">Compares the specified object with this multimap for equality. Two
  multimaps are equal when their map views, as returned by <a href="../../../../com/google/common/collect/Multimap.html#asMap--"><code>asMap()</code></a>,
  are also equal.
@@ -763,7 +763,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
  they both have empty <a href="../../../../com/google/common/collect/Multimap.html#asMap--"><code>asMap()</code></a> views.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">equals</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -787,7 +787,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
  for each key.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
 </dl>
 </li>
 </ul>
