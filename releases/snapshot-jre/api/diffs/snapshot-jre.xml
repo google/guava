@@ -16026,7 +16026,9 @@
  ForwardingSortedMultiset}.
 
  In many cases, you may wish to override {@link #descendingMultiset()} to return an instance of
- a subclass of {@code StandardDescendingMultiset}.]]>
+ a subclass of {@code StandardDescendingMultiset}.
+
+ @since 15.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.collect.ForwardingSortedMultiset.StandardDescendingMultiset -->
@@ -16051,7 +16053,9 @@
  {@link SortedMultiset#tailMultiset}, the {@code size()} and {@code iterator()} methods of
  {@link SortedMultiset#entrySet}, and {@link SortedMultiset#remove(Object, int)}. In many
  situations, you may wish to override {@link SortedMultiset#elementSet} to forward to this
- implementation or a subclass thereof.]]>
+ implementation or a subclass thereof.
+
+ @since 15.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.collect.ForwardingSortedMultiset.StandardElementSet -->
@@ -20311,7 +20315,9 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[A builder for immutable range maps. Overlapping ranges are prohibited.]]>
+    <![CDATA[A builder for immutable range maps. Overlapping ranges are prohibited.
+
+ @since 14.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.collect.ImmutableRangeMap.Builder -->
@@ -20653,7 +20659,9 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[A builder for immutable range sets.]]>
+    <![CDATA[A builder for immutable range sets.
+
+ @since 14.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.collect.ImmutableRangeSet.Builder -->
@@ -29120,7 +29128,9 @@
       deprecated="not deprecated">
       <param name="keyClass" type="java.lang.Class&lt;K0&gt;"/>
       <doc>
-      <![CDATA[Uses an {@link EnumMap} to map keys to value collections.]]>
+      <![CDATA[Uses an {@link EnumMap} to map keys to value collections.
+
+ @since 16.0]]>
       </doc>
     </method>
     <method name="build" return="com.google.common.collect.Multimap&lt;K, V&gt;"
@@ -29185,7 +29195,9 @@
       <param name="multimap" type="com.google.common.collect.Multimap&lt;? extends K, ? extends V&gt;"/>
     </method>
     <doc>
-    <![CDATA[A specialization of {@link MultimapBuilder} that generates {@link ListMultimap} instances.]]>
+    <![CDATA[A specialization of {@link MultimapBuilder} that generates {@link ListMultimap} instances.
+
+ @since 16.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.collect.MultimapBuilder.ListMultimapBuilder -->
@@ -29295,7 +29307,9 @@
     <![CDATA[An intermediate stage in a {@link MultimapBuilder} in which the key-value collection map
  implementation has been specified, but the value collection implementation has not.
 
- @param <K0> The upper bound on the key type of the generated multimap.]]>
+ @param <K0> The upper bound on the key type of the generated multimap.
+
+ @since 16.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.collect.MultimapBuilder.MultimapBuilderWithKeys -->
@@ -29316,7 +29330,9 @@
       <param name="multimap" type="com.google.common.collect.Multimap&lt;? extends K, ? extends V&gt;"/>
     </method>
     <doc>
-    <![CDATA[A specialization of {@link MultimapBuilder} that generates {@link SetMultimap} instances.]]>
+    <![CDATA[A specialization of {@link MultimapBuilder} that generates {@link SetMultimap} instances.
+
+ @since 16.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.collect.MultimapBuilder.SetMultimapBuilder -->
@@ -29337,7 +29353,9 @@
       <param name="multimap" type="com.google.common.collect.Multimap&lt;? extends K, ? extends V&gt;"/>
     </method>
     <doc>
-    <![CDATA[A specialization of {@link MultimapBuilder} that generates {@link SortedSetMultimap} instances.]]>
+    <![CDATA[A specialization of {@link MultimapBuilder} that generates {@link SortedSetMultimap} instances.
+
+ @since 16.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.collect.MultimapBuilder.SortedSetMultimapBuilder -->
@@ -48019,7 +48037,9 @@
     <![CDATA[This is an intermediate stage in the construction process. It is returned by
  {@link LinearTransformation#mapping}. You almost certainly don't want to keep instances around,
  but instead use method chaining. This represents a single point mapping, i.e. a mapping between
- one {@code x} and {@code y} value pair.]]>
+ one {@code x} and {@code y} value pair.
+
+ @since 20.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.math.LinearTransformation.LinearTransformationBuilder -->
@@ -48919,7 +48939,9 @@
     </method>
     <doc>
     <![CDATA[Describes the point in a fluent API chain where only the scale (i.e. the q in q-quantiles) has
- been specified.]]>
+ been specified.
+
+ @since 20.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.math.Quantiles.Scale -->
@@ -48997,7 +49019,9 @@
     </method>
     <doc>
     <![CDATA[Describes the point in a fluent API chain where the scale and a single quantile index (i.e. the
- q and the k in the kth q-quantile) have been specified.]]>
+ q and the k in the kth q-quantile) have been specified.
+
+ @since 20.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.math.Quantiles.ScaleAndIndex -->
@@ -49080,7 +49104,9 @@
     </method>
     <doc>
     <![CDATA[Describes the point in a fluent API chain where the scale and a multiple quantile indexes (i.e.
- the q and a set of values for the k in the kth q-quantile) have been specified.]]>
+ the q and a set of values for the k in the kth q-quantile) have been specified.
+
+ @since 20.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.math.Quantiles.ScaleAndIndexes -->
@@ -60504,7 +60530,9 @@
     </method>
     <doc>
     <![CDATA[The set of interfaces and classes that {@code T} is or is a subtype of. {@link Object} is not
- included in the set if this type is an interface.]]>
+ included in the set if this type is an interface.
+
+ @since 13.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.reflect.TypeToken.TypeSet -->
