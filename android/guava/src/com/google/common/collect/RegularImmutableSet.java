@@ -71,7 +71,7 @@ final class RegularImmutableSet<E> extends ImmutableSet<E> {
 
   @Override
   public UnmodifiableIterator<E> iterator() {
-    return (UnmodifiableIterator<E>) Iterators.forArray(elements, 0, size, 0);
+    return asList().iterator();
   }
 
   @Override
