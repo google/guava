@@ -40453,10 +40453,6 @@
     abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
-    <constructor name="Traverser"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-    </constructor>
     <method name="forGraph" return="com.google.common.graph.Traverser&lt;N&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
