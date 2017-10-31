@@ -239,6 +239,9 @@ public abstract class Traverser<N> {
    */
   public abstract Iterable<N> depthFirstPostOrder(N startNode);
 
+  // Avoid subclasses outside of this class
+  private Traverser() {}
+
   private static final class GraphTraverser<N> extends Traverser<N> {
     private final SuccessorsFunction<N> graph;
 
