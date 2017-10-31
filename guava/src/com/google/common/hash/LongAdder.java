@@ -11,7 +11,6 @@
 
 package com.google.common.hash;
 
-import com.google.common.annotations.GwtCompatible;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -45,7 +44,6 @@ import java.util.concurrent.atomic.AtomicLong;
  * @since 1.8
  * @author Doug Lea
  */
-@GwtCompatible(emulated = true)
 final class LongAdder extends Striped64 implements Serializable, LongAddable {
     private static final long serialVersionUID = 7249069246863182397L;
 
