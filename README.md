@@ -18,8 +18,7 @@ Guava comes in two flavors.
 
 ## Latest release
 
-The most recent release is [Guava 23.3][current release], released October 26,
-2017.
+The most recent release is [Guava 23.3][current release], released 2017-10-26.
 
 The Maven group ID is `com.google.guava`, and the artifact ID is `guava`. Use
 version `23.3-jre` for the JRE flavor, or `23.3-android` for the Android flavor.
