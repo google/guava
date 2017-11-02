@@ -513,21 +513,26 @@
 <span class="sourceLineNo">505</span>      if (elements instanceof Collection) {<a name="line.505"></a>
 <span class="sourceLineNo">506</span>        Collection&lt;?&gt; collection = (Collection&lt;?&gt;) elements;<a name="line.506"></a>
 <span class="sourceLineNo">507</span>        getReadyToExpandTo(size + collection.size());<a name="line.507"></a>
-<span class="sourceLineNo">508</span>      }<a name="line.508"></a>
-<span class="sourceLineNo">509</span>      super.addAll(elements);<a name="line.509"></a>
-<span class="sourceLineNo">510</span>      return this;<a name="line.510"></a>
-<span class="sourceLineNo">511</span>    }<a name="line.511"></a>
-<span class="sourceLineNo">512</span><a name="line.512"></a>
-<span class="sourceLineNo">513</span>    @CanIgnoreReturnValue<a name="line.513"></a>
-<span class="sourceLineNo">514</span>    ArrayBasedBuilder&lt;E&gt; combine(ArrayBasedBuilder&lt;E&gt; builder) {<a name="line.514"></a>
-<span class="sourceLineNo">515</span>      checkNotNull(builder);<a name="line.515"></a>
-<span class="sourceLineNo">516</span>      getReadyToExpandTo(size + builder.size);<a name="line.516"></a>
-<span class="sourceLineNo">517</span>      System.arraycopy(builder.contents, 0, this.contents, size, builder.size);<a name="line.517"></a>
-<span class="sourceLineNo">518</span>      size += builder.size;<a name="line.518"></a>
-<span class="sourceLineNo">519</span>      return this;<a name="line.519"></a>
-<span class="sourceLineNo">520</span>    }<a name="line.520"></a>
-<span class="sourceLineNo">521</span>  }<a name="line.521"></a>
-<span class="sourceLineNo">522</span>}<a name="line.522"></a>
+<span class="sourceLineNo">508</span>        if (collection instanceof ImmutableCollection) {<a name="line.508"></a>
+<span class="sourceLineNo">509</span>          ImmutableCollection&lt;?&gt; immutableCollection = (ImmutableCollection&lt;?&gt;) collection;<a name="line.509"></a>
+<span class="sourceLineNo">510</span>          size = immutableCollection.copyIntoArray(contents, size);<a name="line.510"></a>
+<span class="sourceLineNo">511</span>          return this;<a name="line.511"></a>
+<span class="sourceLineNo">512</span>        }<a name="line.512"></a>
+<span class="sourceLineNo">513</span>      }<a name="line.513"></a>
+<span class="sourceLineNo">514</span>      super.addAll(elements);<a name="line.514"></a>
+<span class="sourceLineNo">515</span>      return this;<a name="line.515"></a>
+<span class="sourceLineNo">516</span>    }<a name="line.516"></a>
+<span class="sourceLineNo">517</span><a name="line.517"></a>
+<span class="sourceLineNo">518</span>    @CanIgnoreReturnValue<a name="line.518"></a>
+<span class="sourceLineNo">519</span>    ArrayBasedBuilder&lt;E&gt; combine(ArrayBasedBuilder&lt;E&gt; builder) {<a name="line.519"></a>
+<span class="sourceLineNo">520</span>      checkNotNull(builder);<a name="line.520"></a>
+<span class="sourceLineNo">521</span>      getReadyToExpandTo(size + builder.size);<a name="line.521"></a>
+<span class="sourceLineNo">522</span>      System.arraycopy(builder.contents, 0, this.contents, size, builder.size);<a name="line.522"></a>
+<span class="sourceLineNo">523</span>      size += builder.size;<a name="line.523"></a>
+<span class="sourceLineNo">524</span>      return this;<a name="line.524"></a>
+<span class="sourceLineNo">525</span>    }<a name="line.525"></a>
+<span class="sourceLineNo">526</span>  }<a name="line.526"></a>
+<span class="sourceLineNo">527</span>}<a name="line.527"></a>
 
 
 

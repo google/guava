@@ -479,12 +479,17 @@
 <span class="sourceLineNo">471</span>      if (elements instanceof Collection) {<a name="line.471"></a>
 <span class="sourceLineNo">472</span>        Collection&lt;?&gt; collection = (Collection&lt;?&gt;) elements;<a name="line.472"></a>
 <span class="sourceLineNo">473</span>        getReadyToExpandTo(size + collection.size());<a name="line.473"></a>
-<span class="sourceLineNo">474</span>      }<a name="line.474"></a>
-<span class="sourceLineNo">475</span>      super.addAll(elements);<a name="line.475"></a>
-<span class="sourceLineNo">476</span>      return this;<a name="line.476"></a>
-<span class="sourceLineNo">477</span>    }<a name="line.477"></a>
-<span class="sourceLineNo">478</span>  }<a name="line.478"></a>
-<span class="sourceLineNo">479</span>}<a name="line.479"></a>
+<span class="sourceLineNo">474</span>        if (collection instanceof ImmutableCollection) {<a name="line.474"></a>
+<span class="sourceLineNo">475</span>          ImmutableCollection&lt;?&gt; immutableCollection = (ImmutableCollection&lt;?&gt;) collection;<a name="line.475"></a>
+<span class="sourceLineNo">476</span>          size = immutableCollection.copyIntoArray(contents, size);<a name="line.476"></a>
+<span class="sourceLineNo">477</span>          return this;<a name="line.477"></a>
+<span class="sourceLineNo">478</span>        }<a name="line.478"></a>
+<span class="sourceLineNo">479</span>      }<a name="line.479"></a>
+<span class="sourceLineNo">480</span>      super.addAll(elements);<a name="line.480"></a>
+<span class="sourceLineNo">481</span>      return this;<a name="line.481"></a>
+<span class="sourceLineNo">482</span>    }<a name="line.482"></a>
+<span class="sourceLineNo">483</span>  }<a name="line.483"></a>
+<span class="sourceLineNo">484</span>}<a name="line.484"></a>
 
 
 
