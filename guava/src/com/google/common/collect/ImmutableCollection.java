@@ -505,6 +505,11 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
       if (elements instanceof Collection) {
         Collection<?> collection = (Collection<?>) elements;
         getReadyToExpandTo(size + collection.size());
+        if (collection instanceof ImmutableCollection) {
+          ImmutableCollection<?> immutableCollection = (ImmutableCollection<?>) collection;
+          size = immutableCollection.copyIntoArray(contents, size);
+          return this;
+        }
       }
       super.addAll(elements);
       return this;
