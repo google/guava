@@ -209,8 +209,9 @@ public class SequentialExecutorTest extends TestCase {
     fakePool.runAll();
 
     // Check that the interruption of a SequentialExecutor's task is restored to the thread once
-    // it is yielded.
-    assertThat(Thread.currentThread().isInterrupted()).isTrue();
+    // it is yielded. Clear the bit while checking so that the test doesn't hose JUnit or some other
+    // test case.
+    assertThat(Thread.currentThread().interrupted()).isTrue();
   }
 
   public void testInterrupt_doesNotStopExecution() {
