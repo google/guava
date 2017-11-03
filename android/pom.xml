@@ -194,8 +194,8 @@
             <excludes>
               <!-- https://github.com/google/guava/issues/2840 -->
               <exclude>%regex[.*PackageSanityTests.*.class]</exclude>
-              <!-- FeatureUtilTest.ExampleDerivedInterfaceTester*, com.google.common.io.*Tester, incidentally FeatureSpecificTestSuiteBuilderTest.MyAbstractTester (but we don't care either way because it's not meant to run on its own but works OK if it does)... but not NullPointerTesterTest, etc. -->
-              <exclude>%regex[.*Tester(?!Test).*.class]</exclude>
+              <!-- FeatureUtilTest.*ExampleDerivedInterfaceTester, com.google.common.io.*Tester, incidentally FeatureSpecificTestSuiteBuilderTest.MyAbstractTester (but we don't care either way because it's not meant to run on its own but works OK if it does)... but not NullPointerTesterTest, etc. -->
+              <exclude>%regex[.*Tester.class]</exclude>
               <!-- Anonymous TestCase subclasses in GeneratedMonitorTest -->
               <exclude>%regex[.*[$]\d+.class]</exclude>
             </excludes>
