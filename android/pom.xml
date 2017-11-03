@@ -18,7 +18,7 @@
   <properties>
     <gpg.skip>true</gpg.skip>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
-    <test.include>%regex[.*Test.class]</test.include>
+    <test.include>%regex[.*.class]</test.include>
     <truth.version>0.35</truth.version>
     <animal.sniffer.version>1.14</animal.sniffer.version>
   </properties>
@@ -190,6 +190,15 @@
             <includes>
               <include>${test.include}</include>
             </includes>
+            <!-- By having our own entries here, we also override the default exclusion filter, which excludes all nested classes. -->
+            <excludes>
+              <!-- https://github.com/google/guava/issues/2840 -->
+              <exclude>%regex[.*PackageSanityTests.*.class]</exclude>
+              <!-- FeatureUtilTest.ExampleDerivedInterfaceTester*, com.google.common.io.*Tester, incidentally FeatureSpecificTestSuiteBuilderTest.MyAbstractTester (but we don't care either way because it's not meant to run on its own but works OK if it does)... but not NullPointerTesterTest, etc. -->
+              <exclude>%regex[.*Tester(?!Test).*.class]</exclude>
+              <!-- Anonymous TestCase subclasses in GeneratedMonitorTest -->
+              <exclude>%regex[.*[$]\d+.class]</exclude>
+            </excludes>
             <redirectTestOutputToFile>true</redirectTestOutputToFile>
             <runOrder>alphabetical</runOrder>
             <!-- Set max heap for tests. -->
