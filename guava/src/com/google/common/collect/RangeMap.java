@@ -141,7 +141,7 @@ public interface RangeMap<K extends Comparable, V> {
    * <p>For example, if {@code rangeMap} had the entries
    * {@code [1, 5] => "foo", (6, 8) => "bar", (10, ∞) => "baz"}
    * then {@code rangeMap.subRangeMap(Range.open(3, 12))} would return a range map
-   * with the entries {@code (3, 5) => "foo", (6, 8) => "bar", (10, 12) => "baz"}.
+   * with the entries {@code (3, 5] => "foo", (6, 8) => "bar", (10, 12) => "baz"}.
    *
    * <p>The returned range map supports all optional operations that this range map supports,
    * except for {@code asMapOfRanges().iterator().remove()}.
