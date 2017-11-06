@@ -489,7 +489,7 @@ public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Ent
  <p>For example, if <code>rangeMap</code> had the entries
  <code>[1, 5] =&gt; "foo", (6, 8) =&gt; "bar", (10, ∞) =&gt; "baz"</code>
  then <code>rangeMap.subRangeMap(Range.open(3, 12))</code> would return a range map
- with the entries <code>(3, 5) =&gt; "foo", (6, 8) =&gt; "bar", (10, 12) =&gt; "baz"</code>.
+ with the entries <code>(3, 5] =&gt; "foo", (6, 8) =&gt; "bar", (10, 12) =&gt; "baz"</code>.
 
  <p>The returned range map supports all optional operations that this range map supports,
  except for <code>asMapOfRanges().iterator().remove()</code>.
