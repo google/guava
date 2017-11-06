@@ -252,7 +252,7 @@ public final class HostAndPort implements Serializable {
    */
   public HostAndPort withDefaultPort(int defaultPort) {
     checkArgument(isValidPort(defaultPort));
-    if (hasPort() || port == defaultPort) {
+    if (hasPort()) {
       return this;
     }
     return new HostAndPort(host, defaultPort, hasBracketlessColons);
