@@ -9880,13 +9880,14 @@
       <param name="rowKeys" type="java.lang.Iterable&lt;? extends R&gt;"/>
       <param name="columnKeys" type="java.lang.Iterable&lt;? extends C&gt;"/>
       <doc>
-      <![CDATA[Creates an empty {@code ArrayTable}.
+      <![CDATA[Creates an {@code ArrayTable} filled with {@code null}.
 
  @param rowKeys row keys that may be stored in the generated table
  @param columnKeys column keys that may be stored in the generated table
  @throws NullPointerException if any of the provided keys is null
  @throws IllegalArgumentException if {@code rowKeys} or {@code columnKeys}
-     contains duplicates or is empty]]>
+     contains duplicates or if exactly one of {@code rowKeys} or {@code
+     columnKeys} is empty.]]>
       </doc>
     </method>
     <method name="create" return="com.google.common.collect.ArrayTable&lt;R, C, V&gt;"
@@ -9912,8 +9913,7 @@
  table.columnKeySet()} determines the row and column iteration ordering of
  the returned table.
 
- @throws NullPointerException if {@code table} has a null key
- @throws IllegalArgumentException if the provided table is empty]]>
+ @throws NullPointerException if {@code table} has a null key]]>
       </doc>
     </method>
     <method name="rowKeyList" return="com.google.common.collect.ImmutableList&lt;R&gt;"
@@ -9950,8 +9950,8 @@
  @param columnIndex position of the row key in {@link #columnKeyList()}
  @return the value with the specified row and column
  @throws IndexOutOfBoundsException if either index is negative, {@code
-     rowIndex} is greater then or equal to the number of allowed row keys,
-     or {@code columnIndex} is greater then or equal to the number of
+     rowIndex} is greater than or equal to the number of allowed row keys,
+     or {@code columnIndex} is greater than or equal to the number of
      allowed column keys]]>
       </doc>
     </method>
@@ -9973,8 +9973,8 @@
  @param value value to store in the table
  @return the previous value with the specified row and column
  @throws IndexOutOfBoundsException if either index is negative, {@code
-     rowIndex} is greater then or equal to the number of allowed row keys,
-     or {@code columnIndex} is greater then or equal to the number of
+     rowIndex} is greater than or equal to the number of allowed row keys,
+     or {@code columnIndex} is greater than or equal to the number of
      allowed column keys]]>
       </doc>
     </method>
@@ -10021,8 +10021,8 @@
       <param name="rowKey" type="java.lang.Object"/>
       <param name="columnKey" type="java.lang.Object"/>
       <doc>
-      <![CDATA[Returns {@code true} if the provided keys are among the keys provided when
- the table was constructed.]]>
+      <![CDATA[Returns {@code true} if the provided keys are among the keys provided
+ when the table was constructed.]]>
       </doc>
     </method>
     <method name="containsColumn" return="boolean"
@@ -10063,7 +10063,8 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Always returns {@code false}.]]>
+      <![CDATA[Returns {@code true} if {@code rowKeyList().size == 0} or {@code
+ columnKeyList().size() == 0}.]]>
       </doc>
     </method>
     <method name="put" return="V"
