@@ -852,6 +852,9 @@ public final class Files {
    * this case, iterables created by this traverser could contain files that are outside of the
    * given directory or even be infinite if there is a symbolic link loop.
    *
+   * <p>If available, consider using {@link MoreFiles#fileTraverser()} instead. It behaves the same
+   * except that it doesn't follow symbolic links and returns {@code Path} instances.
+   *
    * <p>If the {@link File} passed to one of the {@link Traverser} methods does not exist or is not
    * a directory, no exception will be thrown and the returned {@link Iterable} will contain a
    * single element: that file.
