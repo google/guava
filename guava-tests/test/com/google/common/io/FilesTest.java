@@ -45,6 +45,9 @@ import junit.framework.TestSuite;
 /**
  * Unit test for {@link Files}.
  *
+ * <p>Note: {@link Files#fileTreeTraverser()} is tested in {@link FileTreeTraverserTest} and {@link
+ * Files#fileTraverser()} is tested in {@link FilesFileTraverserTest}.
+ *
  * @author Chris Nokleberg
  */
 
