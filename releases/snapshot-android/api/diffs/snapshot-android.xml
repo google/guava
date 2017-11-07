@@ -44290,29 +44290,6 @@
  @since 15.0]]>
       </doc>
     </method>
-    <method name="fileTraverser" return="com.google.common.graph.Traverser&lt;java.io.File&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns a {@link Traverser} instance for the file and directory tree. The returned traverser
- starts from a {@link File} and will return all files and directories it encounters.
-
- <p><b>Warning:</b> {@code File} provides no support for symbolic links, and as such there is no
- way to ensure that a symbolic link to a directory is not followed when traversing the tree. In
- this case, iterables created by this traverser could contain files that are outside of the
- given directory or even be infinite if there is a symbolic link loop.
-
- <p>If the {@link File} passed to one of the {@link Traverser} methods does not exist or is not
- a directory, no exception will be thrown and the returned {@link Iterable} will contain a
- single element: that file.
-
- <p>Example: {@code Files.fileTraverser().breadthFirst("/")} may return files with the following
- paths: {@code ["/", "/etc", "/home", "/usr", "/etc/config.txt", "/etc/fonts", ...]}
-
- @since NEXT]]>
-      </doc>
-    </method>
     <method name="isDirectory" return="com.google.common.base.Predicate&lt;java.io.File&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
