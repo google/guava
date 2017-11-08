@@ -16,7 +16,6 @@
     much more.
   </description>
   <properties>
-    <checkerframework.version>LOCAL</checkerframework.version>
     <!-- Use -Dcheckerframework.checkers=checker to switch which checkers are run."-->
     <checkerframework.checkers>org.checkerframework.checker.nullness.NullnessChecker</checkerframework.checkers>
     <annotatedJdk>${org.checkerframework:jdk8:jar}</annotatedJdk>
@@ -41,20 +40,30 @@
     </dependency>
     <!-- TODO(cpovirk): does this comment belong on the <dependency> in <profiles>? -->
     <!-- TODO(cpovirk): want this only for dependency plugin but seems not to work there? Maven runs without failure, but the resulting Javadoc is missing the hoped-for inherited text -->
+    <!-- Annotations from the Checker Framework: nullness, interning, locking, ... -->
     <dependency>
       <groupId>org.checkerframework</groupId>
       <artifactId>checker-qual</artifactId>
-      <version>2.2.1</version>
+      <version>2.2.2</version>
+      <!-- To use a locally-built version of the Checker Framework: -->
+      <!-- <scope>system</scope>
+      <systemPath>${env.CHECKERFRAMEWORK}/checker/dist/checker-qual.jar</systemPath> -->
     </dependency>
     <dependency>
       <groupId>org.checkerframework</groupId>
       <artifactId>checker</artifactId>
-      <version>2.2.1</version>
+      <version>2.2.2</version>
+      <!-- To use a locally-built version of the Checker Framework: -->
+      <!-- <scope>system</scope>
+      <systemPath>${env.CHECKERFRAMEWORK}/checker/dist/checker.jar</systemPath> -->
     </dependency>
     <dependency>
       <groupId>org.checkerframework</groupId>
       <artifactId>jdk8</artifactId>
-      <version>2.2.1</version>
+      <version>2.2.2</version>
+      <!-- To use a locally-built version of the Checker Framework: -->
+      <!-- <scope>system</scope>
+      <systemPath>${env.CHECKERFRAMEWORK}/checker/dist/jdk8.jar</systemPath> -->
     </dependency>
   </dependencies>
   <build>
