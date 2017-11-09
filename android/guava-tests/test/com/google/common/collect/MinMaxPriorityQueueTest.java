@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.reduceExponentIfGwt;
+import static com.google.common.collect.Platform.reduceIterationsIfGwt;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -569,7 +571,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
     long seed = new Random().nextLong();
     Random random = new Random(seed);
     int heapSize = 999;
-    int numberOfModifications = 500;
+    int numberOfModifications = reduceIterationsIfGwt(500);
     MinMaxPriorityQueue<Integer> mmHeap =
         MinMaxPriorityQueue.expectedSize(heapSize).create();
     for (int i = 0; i < heapSize; i++) {
@@ -584,7 +586,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
   }
 
   public void testRemoveAt_exhaustive() {
-    int size = 8;
+    int size = reduceExponentIfGwt(8);
     List<Integer> expected = createOrderedList(size);
     for (Collection<Integer> perm : Collections2.permutations(expected)) {
       for (int i = 0; i < perm.size(); i++) {
@@ -640,7 +642,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
   }
 
   public void testCorrectOrdering_mediumHeapsPollFirst() {
-    for (int attempts = 0; attempts < 5000; attempts++) {
+    for (int attempts = 0; attempts < reduceIterationsIfGwt(5000); attempts++) {
       int size = new Random().nextInt(256) + 16;
       ArrayList<Integer> elements = createOrderedList(size);
       List<Integer> expected = ImmutableList.copyOf(elements);
@@ -672,7 +674,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
   }
 
   public void testCorrectOrdering_mediumHeapsPollLast() {
-    for (int attempts = 0; attempts < 5000; attempts++) {
+    for (int attempts = 0; attempts < reduceIterationsIfGwt(5000); attempts++) {
       int size = new Random().nextInt(256) + 16;
       ArrayList<Integer> elements = createOrderedList(size);
       List<Integer> expected = ImmutableList.copyOf(elements);
@@ -696,7 +698,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
       assertTrue(q.add(element));
     }
     assertTrue("State " + Arrays.toString(q.toArray()), q.isIntact());
-    for (int i = 0; i < 500000; i++) {
+    for (int i = 0; i < reduceIterationsIfGwt(500_000); i++) {
       if (random.nextBoolean()) {
         Integer element = random.nextInt();
         control.add(element);
@@ -777,7 +779,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
 
   public void testRandomRemoves() {
     Random random = new Random(0);
-    for (int attempts = 0; attempts < 1000; attempts++) {
+    for (int attempts = 0; attempts < reduceIterationsIfGwt(1000); attempts++) {
       ArrayList<Integer> elements = createOrderedList(10);
       Collections.shuffle(elements, random);
       MinMaxPriorityQueue<Integer> queue = MinMaxPriorityQueue.create(elements);
@@ -796,7 +798,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
     Multiset<Integer> elements = HashMultiset.create();
     MinMaxPriorityQueue<Integer> queue = MinMaxPriorityQueue.create();
     int range = 10_000; // range should be small enough that equal elements occur semi-frequently
-    for (int iter = 0; iter < 1000; iter++) {
+    for (int iter = 0; iter < reduceIterationsIfGwt(1000); iter++) {
       for (int i = 0; i < 100; i++) {
         Integer element = random.nextInt(range);
         elements.add(element);
@@ -828,7 +830,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
     Multiset<Element> elements = HashMultiset.create();
     MinMaxPriorityQueue<Element> queue = MinMaxPriorityQueue.create();
     int range = Element.values().length;
-    for (int iter = 0; iter < 1000; iter++) {
+    for (int iter = 0; iter < reduceIterationsIfGwt(1000); iter++) {
       for (int i = 0; i < 100; i++) {
         Element element = Element.values()[random.nextInt(range)];
         elements.add(element);
