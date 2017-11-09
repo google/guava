@@ -48245,7 +48245,7 @@
       <![CDATA[The HTTP <a href="https://www.w3.org/TR/referrer-policy/">{@code Referrer-Policy}</a> header
  field name.
 
- @since NEXT]]>
+ @since 23.4]]>
       </doc>
     </field>
     <field name="SERVICE_WORKER" type="java.lang.String"
@@ -48856,7 +48856,7 @@
     <![CDATA[Values for the <a href="https://www.w3.org/TR/referrer-policy/">{@code Referrer-Policy}</a>
  header.
 
- @since NEXT]]>
+ @since 23.4]]>
     </doc>
   </class>
   <!-- end class com.google.common.net.HttpHeaders.ReferrerPolicyValues -->
