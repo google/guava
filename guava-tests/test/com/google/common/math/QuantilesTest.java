@@ -37,7 +37,9 @@ import com.google.common.primitives.Longs;
 import com.google.common.truth.Correspondence;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import javax.annotation.Nullable;
 import junit.framework.TestCase;
@@ -287,6 +289,17 @@ public class QuantilesTest extends TestCase {
             5, SIXTEEN_SQUARES_MEDIAN,
             1, SIXTEEN_SQUARES_DECILE_1,
             8, SIXTEEN_SQUARES_DECILE_8);
+  }
+
+  public void testScale_indexes_varargs_compute_indexOrderIsMaintained() {
+    assertThat(Quantiles.scale(10).indexes(0, 10, 5, 1, 8, 1).compute(SIXTEEN_SQUARES_INTEGERS))
+        .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+        .containsExactly(
+            0, SIXTEEN_SQUARES_MIN,
+            10, SIXTEEN_SQUARES_MAX,
+            5, SIXTEEN_SQUARES_MEDIAN,
+            1, SIXTEEN_SQUARES_DECILE_1,
+            8, SIXTEEN_SQUARES_DECILE_8).inOrder();
   }
 
   public void testScale_indexes_varargs_compute_doubleVarargs() {
