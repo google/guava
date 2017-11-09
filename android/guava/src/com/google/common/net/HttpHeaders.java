@@ -117,7 +117,7 @@ public final class HttpHeaders {
    * The HTTP <a href="https://www.w3.org/TR/referrer-policy/">{@code Referrer-Policy}</a> header
    * field name.
    *
-   * @since NEXT
+   * @since 23.4
    */
   public static final String REFERRER_POLICY = "Referrer-Policy";
 
@@ -125,7 +125,7 @@ public final class HttpHeaders {
    * Values for the <a href="https://www.w3.org/TR/referrer-policy/">{@code Referrer-Policy}</a>
    * header.
    *
-   * @since NEXT
+   * @since 23.4
    */
   public static final class ReferrerPolicyValues {
     private ReferrerPolicyValues() {}
