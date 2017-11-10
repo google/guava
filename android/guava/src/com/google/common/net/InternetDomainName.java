@@ -67,7 +67,7 @@ import javax.annotation.Nullable;
  * href="http://en.wikipedia.org/wiki/Internationalized_domain_name">IDNA Punycode-encoded</a>
  * versions.
  *
- * @author Craig Berry
+ * @author Catherine Berry
  * @since 5.0
  */
 @Beta
