@@ -821,7 +821,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
 
   @Override
   public String toString() {
-    return Types.toString(runtimeType);
+    return runtimeType.getTypeName();
   }
 
   /** Implemented to support serialization of subclasses. */
