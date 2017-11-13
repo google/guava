@@ -48,6 +48,8 @@ import junit.framework.TestSuite;
 /**
  * Tests for {@link MoreFiles}.
  *
+ * <p>Note: {@link MoreFiles#fileTraverser()} is tested in {@link MoreFilesFileTraverserTest}.
+ *
  * @author Colin Decker
  */
 
