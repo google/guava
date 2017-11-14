@@ -826,15 +826,7 @@ public final class Files {
       new TreeTraverser<File>() {
         @Override
         public Iterable<File> children(File file) {
-          // check isDirectory() just because it may be faster than listFiles() on a non-directory
-          if (file.isDirectory()) {
-            File[] files = file.listFiles();
-            if (files != null) {
-              return Collections.unmodifiableList(Arrays.asList(files));
-            }
-          }
-
-          return Collections.emptyList();
+          return fileTreeChildren(file);
         }
 
         @Override
@@ -872,9 +864,21 @@ public final class Files {
       new SuccessorsFunction<File>() {
         @Override
         public Iterable<File> successors(File file) {
-          return FILE_TREE_TRAVERSER.children(file);
+          return fileTreeChildren(file);
         }
       };
+
+  private static Iterable<File> fileTreeChildren(File file) {
+    // check isDirectory() just because it may be faster than listFiles() on a non-directory
+    if (file.isDirectory()) {
+      File[] files = file.listFiles();
+      if (files != null) {
+        return Collections.unmodifiableList(Arrays.asList(files));
+      }
+    }
+
+    return Collections.emptyList();
+  }
 
   /**
    * Returns a predicate that returns the result of {@link File#isDirectory} on input files.
