@@ -18,6 +18,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
+import com.google.errorprone.annotations.CompatibleWith;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
@@ -46,7 +47,7 @@ public interface Cache<K, V> {
    * @since 11.0
    */
   @Nullable
-  V getIfPresent(Object key);
+  V getIfPresent(@CompatibleWith("K") Object key);
 
   /**
    * Returns the value associated with {@code key} in this cache, obtaining that value from {@code
@@ -129,7 +130,7 @@ public interface Cache<K, V> {
   /**
    * Discards any cached value for key {@code key}.
    */
-  void invalidate(Object key);
+  void invalidate(@CompatibleWith("K") Object key);
 
   /**
    * Discards any cached values for keys {@code keys}.

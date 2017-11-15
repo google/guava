@@ -23,7 +23,7 @@
   <inherits name="com.google.common.util.concurrent.Concurrent"/>
    
   <inherits name="java.util.Util"/>
-    
+     
   <inherits name="com.google.gwt.core.Core"/>
    
 </module>
