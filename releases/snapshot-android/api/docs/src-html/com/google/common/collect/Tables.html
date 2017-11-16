@@ -626,7 +626,7 @@
 <span class="sourceLineNo">618</span>   * Map&lt;C, V&gt; row = table.row(rowKey);  // Needn't be in synchronized block<a name="line.618"></a>
 <span class="sourceLineNo">619</span>   * ...<a name="line.619"></a>
 <span class="sourceLineNo">620</span>   * synchronized (table) {  // Synchronizing on table, not row!<a name="line.620"></a>
-<span class="sourceLineNo">621</span>   *   Iterator&lt;Map.Entry&lt;C, V&gt;&gt; i = row.entrySet().iterator(); // Must be in synchronized block<a name="line.621"></a>
+<span class="sourceLineNo">621</span>   *   Iterator&lt;Entry&lt;C, V&gt;&gt; i = row.entrySet().iterator(); // Must be in synchronized block<a name="line.621"></a>
 <span class="sourceLineNo">622</span>   *   while (i.hasNext()) {<a name="line.622"></a>
 <span class="sourceLineNo">623</span>   *     foo(i.next());<a name="line.623"></a>
 <span class="sourceLineNo">624</span>   *   }<a name="line.624"></a>

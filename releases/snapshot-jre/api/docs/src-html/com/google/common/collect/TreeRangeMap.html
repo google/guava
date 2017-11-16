@@ -118,7 +118,7 @@
 <span class="sourceLineNo">110</span>  @Override<a name="line.110"></a>
 <span class="sourceLineNo">111</span>  @Nullable<a name="line.111"></a>
 <span class="sourceLineNo">112</span>  public Entry&lt;Range&lt;K&gt;, V&gt; getEntry(K key) {<a name="line.112"></a>
-<span class="sourceLineNo">113</span>    Map.Entry&lt;Cut&lt;K&gt;, RangeMapEntry&lt;K, V&gt;&gt; mapEntry =<a name="line.113"></a>
+<span class="sourceLineNo">113</span>    Entry&lt;Cut&lt;K&gt;, RangeMapEntry&lt;K, V&gt;&gt; mapEntry =<a name="line.113"></a>
 <span class="sourceLineNo">114</span>        entriesByLowerBound.floorEntry(Cut.belowValue(key));<a name="line.114"></a>
 <span class="sourceLineNo">115</span>    if (mapEntry != null &amp;&amp; mapEntry.getValue().contains(key)) {<a name="line.115"></a>
 <span class="sourceLineNo">116</span>      return mapEntry.getValue();<a name="line.116"></a>
@@ -151,11 +151,11 @@
 <span class="sourceLineNo">143</span>  /** Computes the coalesced range for the given range+value - does not mutate the map. */<a name="line.143"></a>
 <span class="sourceLineNo">144</span>  private Range&lt;K&gt; coalescedRange(Range&lt;K&gt; range, V value) {<a name="line.144"></a>
 <span class="sourceLineNo">145</span>    Range&lt;K&gt; coalescedRange = range;<a name="line.145"></a>
-<span class="sourceLineNo">146</span>    Map.Entry&lt;Cut&lt;K&gt;, RangeMapEntry&lt;K, V&gt;&gt; lowerEntry =<a name="line.146"></a>
+<span class="sourceLineNo">146</span>    Entry&lt;Cut&lt;K&gt;, RangeMapEntry&lt;K, V&gt;&gt; lowerEntry =<a name="line.146"></a>
 <span class="sourceLineNo">147</span>        entriesByLowerBound.lowerEntry(range.lowerBound);<a name="line.147"></a>
 <span class="sourceLineNo">148</span>    coalescedRange = coalesce(coalescedRange, value, lowerEntry);<a name="line.148"></a>
 <span class="sourceLineNo">149</span><a name="line.149"></a>
-<span class="sourceLineNo">150</span>    Map.Entry&lt;Cut&lt;K&gt;, RangeMapEntry&lt;K, V&gt;&gt; higherEntry =<a name="line.150"></a>
+<span class="sourceLineNo">150</span>    Entry&lt;Cut&lt;K&gt;, RangeMapEntry&lt;K, V&gt;&gt; higherEntry =<a name="line.150"></a>
 <span class="sourceLineNo">151</span>        entriesByLowerBound.floorEntry(range.upperBound);<a name="line.151"></a>
 <span class="sourceLineNo">152</span>    coalescedRange = coalesce(coalescedRange, value, higherEntry);<a name="line.152"></a>
 <span class="sourceLineNo">153</span><a name="line.153"></a>
@@ -164,7 +164,7 @@
 <span class="sourceLineNo">156</span><a name="line.156"></a>
 <span class="sourceLineNo">157</span>  /** Returns the range that spans the given range and entry, if the entry can be coalesced. */<a name="line.157"></a>
 <span class="sourceLineNo">158</span>  private static &lt;K extends Comparable, V&gt; Range&lt;K&gt; coalesce(<a name="line.158"></a>
-<span class="sourceLineNo">159</span>      Range&lt;K&gt; range, V value, @Nullable Map.Entry&lt;Cut&lt;K&gt;, RangeMapEntry&lt;K, V&gt;&gt; entry) {<a name="line.159"></a>
+<span class="sourceLineNo">159</span>      Range&lt;K&gt; range, V value, @Nullable Entry&lt;Cut&lt;K&gt;, RangeMapEntry&lt;K, V&gt;&gt; entry) {<a name="line.159"></a>
 <span class="sourceLineNo">160</span>    if (entry != null<a name="line.160"></a>
 <span class="sourceLineNo">161</span>        &amp;&amp; entry.getValue().getKey().isConnected(range)<a name="line.161"></a>
 <span class="sourceLineNo">162</span>        &amp;&amp; entry.getValue().getValue().equals(value)) {<a name="line.162"></a>
@@ -175,7 +175,7 @@
 <span class="sourceLineNo">167</span><a name="line.167"></a>
 <span class="sourceLineNo">168</span>  @Override<a name="line.168"></a>
 <span class="sourceLineNo">169</span>  public void putAll(RangeMap&lt;K, V&gt; rangeMap) {<a name="line.169"></a>
-<span class="sourceLineNo">170</span>    for (Map.Entry&lt;Range&lt;K&gt;, V&gt; entry : rangeMap.asMapOfRanges().entrySet()) {<a name="line.170"></a>
+<span class="sourceLineNo">170</span>    for (Entry&lt;Range&lt;K&gt;, V&gt; entry : rangeMap.asMapOfRanges().entrySet()) {<a name="line.170"></a>
 <span class="sourceLineNo">171</span>      put(entry.getKey(), entry.getValue());<a name="line.171"></a>
 <span class="sourceLineNo">172</span>    }<a name="line.172"></a>
 <span class="sourceLineNo">173</span>  }<a name="line.173"></a>
@@ -210,7 +210,7 @@
 <span class="sourceLineNo">202</span>     * The comments for this method will use [ ] to indicate the bounds of rangeToRemove and ( ) to<a name="line.202"></a>
 <span class="sourceLineNo">203</span>     * indicate the bounds of ranges in the range map.<a name="line.203"></a>
 <span class="sourceLineNo">204</span>     */<a name="line.204"></a>
-<span class="sourceLineNo">205</span>    Map.Entry&lt;Cut&lt;K&gt;, RangeMapEntry&lt;K, V&gt;&gt; mapEntryBelowToTruncate =<a name="line.205"></a>
+<span class="sourceLineNo">205</span>    Entry&lt;Cut&lt;K&gt;, RangeMapEntry&lt;K, V&gt;&gt; mapEntryBelowToTruncate =<a name="line.205"></a>
 <span class="sourceLineNo">206</span>        entriesByLowerBound.lowerEntry(rangeToRemove.lowerBound);<a name="line.206"></a>
 <span class="sourceLineNo">207</span>    if (mapEntryBelowToTruncate != null) {<a name="line.207"></a>
 <span class="sourceLineNo">208</span>      // we know ( [<a name="line.208"></a>
@@ -233,7 +233,7 @@
 <span class="sourceLineNo">225</span>      }<a name="line.225"></a>
 <span class="sourceLineNo">226</span>    }<a name="line.226"></a>
 <span class="sourceLineNo">227</span><a name="line.227"></a>
-<span class="sourceLineNo">228</span>    Map.Entry&lt;Cut&lt;K&gt;, RangeMapEntry&lt;K, V&gt;&gt; mapEntryAboveToTruncate =<a name="line.228"></a>
+<span class="sourceLineNo">228</span>    Entry&lt;Cut&lt;K&gt;, RangeMapEntry&lt;K, V&gt;&gt; mapEntryAboveToTruncate =<a name="line.228"></a>
 <span class="sourceLineNo">229</span>        entriesByLowerBound.lowerEntry(rangeToRemove.upperBound);<a name="line.229"></a>
 <span class="sourceLineNo">230</span>    if (mapEntryAboveToTruncate != null) {<a name="line.230"></a>
 <span class="sourceLineNo">231</span>      // we know ( ]<a name="line.231"></a>

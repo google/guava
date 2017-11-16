@@ -54,7 +54,7 @@
 <span class="sourceLineNo">046</span>import java.util.Enumeration;<a name="line.46"></a>
 <span class="sourceLineNo">047</span>import java.util.HashSet;<a name="line.47"></a>
 <span class="sourceLineNo">048</span>import java.util.LinkedHashMap;<a name="line.48"></a>
-<span class="sourceLineNo">049</span>import java.util.Map;<a name="line.49"></a>
+<span class="sourceLineNo">049</span>import java.util.Map.Entry;<a name="line.49"></a>
 <span class="sourceLineNo">050</span>import java.util.NoSuchElementException;<a name="line.50"></a>
 <span class="sourceLineNo">051</span>import java.util.Set;<a name="line.51"></a>
 <span class="sourceLineNo">052</span>import java.util.jar.Attributes;<a name="line.52"></a>
@@ -358,7 +358,7 @@
 <span class="sourceLineNo">350</span>    private final Set&lt;File&gt; scannedUris = Sets.newHashSet();<a name="line.350"></a>
 <span class="sourceLineNo">351</span><a name="line.351"></a>
 <span class="sourceLineNo">352</span>    public final void scan(ClassLoader classloader) throws IOException {<a name="line.352"></a>
-<span class="sourceLineNo">353</span>      for (Map.Entry&lt;File, ClassLoader&gt; entry : getClassPathEntries(classloader).entrySet()) {<a name="line.353"></a>
+<span class="sourceLineNo">353</span>      for (Entry&lt;File, ClassLoader&gt; entry : getClassPathEntries(classloader).entrySet()) {<a name="line.353"></a>
 <span class="sourceLineNo">354</span>        scan(entry.getKey(), entry.getValue());<a name="line.354"></a>
 <span class="sourceLineNo">355</span>      }<a name="line.355"></a>
 <span class="sourceLineNo">356</span>    }<a name="line.356"></a>
@@ -516,7 +516,7 @@
 <span class="sourceLineNo">508</span><a name="line.508"></a>
 <span class="sourceLineNo">509</span>    ImmutableSet&lt;ResourceInfo&gt; getResources() {<a name="line.509"></a>
 <span class="sourceLineNo">510</span>      ImmutableSet.Builder&lt;ResourceInfo&gt; builder = ImmutableSet.builder();<a name="line.510"></a>
-<span class="sourceLineNo">511</span>      for (Map.Entry&lt;ClassLoader, String&gt; entry : resources.entries()) {<a name="line.511"></a>
+<span class="sourceLineNo">511</span>      for (Entry&lt;ClassLoader, String&gt; entry : resources.entries()) {<a name="line.511"></a>
 <span class="sourceLineNo">512</span>        builder.add(ResourceInfo.of(entry.getValue(), entry.getKey()));<a name="line.512"></a>
 <span class="sourceLineNo">513</span>      }<a name="line.513"></a>
 <span class="sourceLineNo">514</span>      return builder.build();<a name="line.514"></a>

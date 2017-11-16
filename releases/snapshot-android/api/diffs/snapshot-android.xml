@@ -9562,7 +9562,7 @@
     <![CDATA[A notification of the removal of a single entry. The key and/or value may be null if they were
  already garbage collected.
 
- <p>Like other {@code Map.Entry} instances associated with {@code CacheBuilder}, this class holds
+ <p>Like other {@code Entry} instances associated with {@code CacheBuilder}, this class holds
  strong references to the key and value, regardless of the type of references the cache may be
  using.
 
@@ -25840,9 +25840,9 @@
  garbage collector. Entries with reclaimed keys or values may be removed from the map on each map
  modification or on occasional map accesses; such entries may be counted by {@link Map#size}, but
  will never be visible to read or write operations. A partially-reclaimed entry is never exposed
- to the user. Any {@link java.util.Map.Entry} instance retrieved from the map's
+ to the user. Any {@link java.util.Entry} instance retrieved from the map's
  {@linkplain Map#entrySet entry set} is a snapshot of that entry's state at the time of retrieval;
- such entries do, however, support {@link java.util.Map.Entry#setValue}, which simply calls
+ such entries do, however, support {@link java.util.Entry#setValue}, which simply calls
  {@link Map#put} on the entry's key.
 
  <p>The maps produced by {@code MapMaker} are serializable, and the deserialized maps retain all
@@ -27993,7 +27993,7 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns a view collection of all key-value pairs contained in this
- multimap, as {@link Map.Entry} instances.
+ multimap, as {@link Entry} instances.
 
  <p>Changes to the returned collection or the entries it contains will
  update the underlying multimap, and vice versa. However, <i>adding</i> to
@@ -28014,7 +28014,7 @@
  <p>Changes to the returned map or the collections that serve as its values
  will update the underlying multimap, and vice versa. The map does not
  support {@code put} or {@code putAll}, nor do its entries support {@link
- Map.Entry#setValue setValue}.]]>
+ Entry#setValue setValue}.]]>
       </doc>
     </method>
     <method name="equals" return="boolean"
@@ -34798,7 +34798,7 @@
  Map<C, V> row = table.row(rowKey);  // Needn't be in synchronized block
  ...
  synchronized (table) {  // Synchronizing on table, not row!
-   Iterator<Map.Entry<C, V>> i = row.entrySet().iterator(); // Must be in synchronized block
+   Iterator<Entry<C, V>> i = row.entrySet().iterator(); // Must be in synchronized block
    while (i.hasNext()) {
      foo(i.next());
    }

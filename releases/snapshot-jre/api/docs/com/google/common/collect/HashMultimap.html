@@ -213,7 +213,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;K,V&gt;&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/HashMultimap.html#entries--">entries</a></span>()</code>
 <div class="block">Returns a view collection of all key-value pairs contained in this
- multimap, as <code>Map.Entry</code> instances.</div>
+ multimap, as <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util"><code>Map.Entry</code></a> instances.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
@@ -414,7 +414,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractSetMultimap.html#line.64">get</a>(<a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractSetMultimap.html#line.65">get</a>(<a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                   K&nbsp;key)</pre>
 <div class="block">Returns a view collection of the values associated with <code>key</code> in this
  multimap, if any. Note that when <code>containsKey(key)</code> is false, this
@@ -442,9 +442,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>entries</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;K,V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractSetMultimap.html#line.76">entries</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;K,V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractSetMultimap.html#line.77">entries</a>()</pre>
 <div class="block">Returns a view collection of all key-value pairs contained in this
- multimap, as <code>Map.Entry</code> instances.
+ multimap, as <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util"><code>Map.Entry</code></a> instances.
 
  <p>Changes to the returned collection or the entries it contains will
  update the underlying multimap, and vice versa. However, <i>adding</i> to
@@ -474,7 +474,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>removeAll</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractSetMultimap.html#line.89">removeAll</a>(<a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractSetMultimap.html#line.90">removeAll</a>(<a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                         <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <div class="block">Removes all values associated with the key <code>key</code>.
 
@@ -507,7 +507,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>replaceValues</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractSetMultimap.html#line.104">replaceValues</a>(<a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractSetMultimap.html#line.105">replaceValues</a>(<a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                             K&nbsp;key,
                             <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends V&gt;&nbsp;values)</pre>
 <div class="block">Stores a collection of values with the same key, replacing any existing
@@ -542,7 +542,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>asMap</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractSetMultimap.html#line.115">asMap</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractSetMultimap.html#line.116">asMap</a>()</pre>
 <div class="block">Returns a view of this multimap as a <code>Map</code> from each distinct key
  to the nonempty collection of that key's associated values. Note that
  <code>this.asMap().get(k)</code> is equivalent to <code>this.get(k)</code> only when
@@ -550,7 +550,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 
  <p>Changes to the returned map or the collections that serve as its values
  will update the underlying multimap, and vice versa. The map does not
- support <code>put</code> or <code>putAll</code>, nor do its entries support <code>setValue</code>.
+ support <code>put</code> or <code>putAll</code>, nor do its entries support <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true#setValue-V-" title="class or interface in java.util"><code>setValue</code></a>.
 
  <p>Though the method signature doesn't say so explicitly, the returned map
  has <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util"><code>Set</code></a> values.</div>
@@ -570,7 +570,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>put</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractSetMultimap.html#line.129">put</a>(<a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractSetMultimap.html#line.130">put</a>(<a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                    K&nbsp;key,
                    <a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                    V&nbsp;value)</pre>
@@ -593,7 +593,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractSetMultimap.html#line.141">equals</a>(<a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractSetMultimap.html#line.142">equals</a>(<a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block">Compares the specified object to this multimap for equality.
 

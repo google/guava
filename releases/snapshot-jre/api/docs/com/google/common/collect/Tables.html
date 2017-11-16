@@ -481,7 +481,7 @@ public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/col
  Map&lt;C, V&gt; row = table.row(rowKey);  // Needn't be in synchronized block
  ...
  synchronized (table) {  // Synchronizing on table, not row!
-   Iterator&lt;Map.Entry&lt;C, V&gt;&gt; i = row.entrySet().iterator(); // Must be in synchronized block
+   Iterator&lt;Entry&lt;C, V&gt;&gt; i = row.entrySet().iterator(); // Must be in synchronized block
    while (i.hasNext()) {
      foo(i.next());
    }

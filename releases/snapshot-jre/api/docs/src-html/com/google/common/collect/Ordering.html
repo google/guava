@@ -38,7 +38,7 @@
 <span class="sourceLineNo">030</span>import java.util.Comparator;<a name="line.30"></a>
 <span class="sourceLineNo">031</span>import java.util.Iterator;<a name="line.31"></a>
 <span class="sourceLineNo">032</span>import java.util.List;<a name="line.32"></a>
-<span class="sourceLineNo">033</span>import java.util.Map;<a name="line.33"></a>
+<span class="sourceLineNo">033</span>import java.util.Map.Entry;<a name="line.33"></a>
 <span class="sourceLineNo">034</span>import java.util.NoSuchElementException;<a name="line.34"></a>
 <span class="sourceLineNo">035</span>import java.util.SortedMap;<a name="line.35"></a>
 <span class="sourceLineNo">036</span>import java.util.concurrent.ConcurrentMap;<a name="line.36"></a>
@@ -454,7 +454,7 @@
 <span class="sourceLineNo">446</span>    return new ByFunctionOrdering&lt;&gt;(function, this);<a name="line.446"></a>
 <span class="sourceLineNo">447</span>  }<a name="line.447"></a>
 <span class="sourceLineNo">448</span><a name="line.448"></a>
-<span class="sourceLineNo">449</span>  &lt;T2 extends T&gt; Ordering&lt;Map.Entry&lt;T2, ?&gt;&gt; onKeys() {<a name="line.449"></a>
+<span class="sourceLineNo">449</span>  &lt;T2 extends T&gt; Ordering&lt;Entry&lt;T2, ?&gt;&gt; onKeys() {<a name="line.449"></a>
 <span class="sourceLineNo">450</span>    return onResultOf(Maps.&lt;T2&gt;keyFunction());<a name="line.450"></a>
 <span class="sourceLineNo">451</span>  }<a name="line.451"></a>
 <span class="sourceLineNo">452</span><a name="line.452"></a>

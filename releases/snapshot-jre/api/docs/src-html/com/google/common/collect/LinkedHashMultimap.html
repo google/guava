@@ -301,7 +301,7 @@
 <span class="sourceLineNo">293</span>   * collection or its iterator.<a name="line.293"></a>
 <span class="sourceLineNo">294</span>   */<a name="line.294"></a>
 <span class="sourceLineNo">295</span>  @Override<a name="line.295"></a>
-<span class="sourceLineNo">296</span>  public Set&lt;Map.Entry&lt;K, V&gt;&gt; entries() {<a name="line.296"></a>
+<span class="sourceLineNo">296</span>  public Set&lt;Entry&lt;K, V&gt;&gt; entries() {<a name="line.296"></a>
 <span class="sourceLineNo">297</span>    return super.entries();<a name="line.297"></a>
 <span class="sourceLineNo">298</span>  }<a name="line.298"></a>
 <span class="sourceLineNo">299</span><a name="line.299"></a>
@@ -539,8 +539,8 @@
 <span class="sourceLineNo">531</span>  }<a name="line.531"></a>
 <span class="sourceLineNo">532</span><a name="line.532"></a>
 <span class="sourceLineNo">533</span>  @Override<a name="line.533"></a>
-<span class="sourceLineNo">534</span>  Iterator&lt;Map.Entry&lt;K, V&gt;&gt; entryIterator() {<a name="line.534"></a>
-<span class="sourceLineNo">535</span>    return new Iterator&lt;Map.Entry&lt;K, V&gt;&gt;() {<a name="line.535"></a>
+<span class="sourceLineNo">534</span>  Iterator&lt;Entry&lt;K, V&gt;&gt; entryIterator() {<a name="line.534"></a>
+<span class="sourceLineNo">535</span>    return new Iterator&lt;Entry&lt;K, V&gt;&gt;() {<a name="line.535"></a>
 <span class="sourceLineNo">536</span>      ValueEntry&lt;K, V&gt; nextEntry = multimapHeaderEntry.successorInMultimap;<a name="line.536"></a>
 <span class="sourceLineNo">537</span>      ValueEntry&lt;K, V&gt; toRemove;<a name="line.537"></a>
 <span class="sourceLineNo">538</span><a name="line.538"></a>
@@ -550,7 +550,7 @@
 <span class="sourceLineNo">542</span>      }<a name="line.542"></a>
 <span class="sourceLineNo">543</span><a name="line.543"></a>
 <span class="sourceLineNo">544</span>      @Override<a name="line.544"></a>
-<span class="sourceLineNo">545</span>      public Map.Entry&lt;K, V&gt; next() {<a name="line.545"></a>
+<span class="sourceLineNo">545</span>      public Entry&lt;K, V&gt; next() {<a name="line.545"></a>
 <span class="sourceLineNo">546</span>        if (!hasNext()) {<a name="line.546"></a>
 <span class="sourceLineNo">547</span>          throw new NoSuchElementException();<a name="line.547"></a>
 <span class="sourceLineNo">548</span>        }<a name="line.548"></a>
@@ -602,7 +602,7 @@
 <span class="sourceLineNo">594</span>      stream.writeObject(key);<a name="line.594"></a>
 <span class="sourceLineNo">595</span>    }<a name="line.595"></a>
 <span class="sourceLineNo">596</span>    stream.writeInt(size());<a name="line.596"></a>
-<span class="sourceLineNo">597</span>    for (Map.Entry&lt;K, V&gt; entry : entries()) {<a name="line.597"></a>
+<span class="sourceLineNo">597</span>    for (Entry&lt;K, V&gt; entry : entries()) {<a name="line.597"></a>
 <span class="sourceLineNo">598</span>      stream.writeObject(entry.getKey());<a name="line.598"></a>
 <span class="sourceLineNo">599</span>      stream.writeObject(entry.getValue());<a name="line.599"></a>
 <span class="sourceLineNo">600</span>    }<a name="line.600"></a>

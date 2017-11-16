@@ -152,11 +152,11 @@
 <span class="sourceLineNo">144</span>      ImmutableEnumMap&lt;K, V&gt; result = (ImmutableEnumMap&lt;K, V&gt;) map;<a name="line.144"></a>
 <span class="sourceLineNo">145</span>      return result;<a name="line.145"></a>
 <span class="sourceLineNo">146</span>    }<a name="line.146"></a>
-<span class="sourceLineNo">147</span>    Iterator&lt;? extends Map.Entry&lt;K, ? extends V&gt;&gt; entryItr = map.entrySet().iterator();<a name="line.147"></a>
+<span class="sourceLineNo">147</span>    Iterator&lt;? extends Entry&lt;K, ? extends V&gt;&gt; entryItr = map.entrySet().iterator();<a name="line.147"></a>
 <span class="sourceLineNo">148</span>    if (!entryItr.hasNext()) {<a name="line.148"></a>
 <span class="sourceLineNo">149</span>      return ImmutableMap.of();<a name="line.149"></a>
 <span class="sourceLineNo">150</span>    }<a name="line.150"></a>
-<span class="sourceLineNo">151</span>    Map.Entry&lt;K, ? extends V&gt; entry1 = entryItr.next();<a name="line.151"></a>
+<span class="sourceLineNo">151</span>    Entry&lt;K, ? extends V&gt; entry1 = entryItr.next();<a name="line.151"></a>
 <span class="sourceLineNo">152</span>    K key1 = entry1.getKey();<a name="line.152"></a>
 <span class="sourceLineNo">153</span>    V value1 = entry1.getValue();<a name="line.153"></a>
 <span class="sourceLineNo">154</span>    checkEntryNotNull(key1, value1);<a name="line.154"></a>
@@ -3758,7 +3758,7 @@
 <span class="sourceLineNo">3750</span><a name="line.3750"></a>
 <span class="sourceLineNo">3751</span>  /**<a name="line.3751"></a>
 <span class="sourceLineNo">3752</span>   * Implements {@code Collection.contains} safely for forwarding collections of<a name="line.3752"></a>
-<span class="sourceLineNo">3753</span>   * map entries. If {@code o} is an instance of {@code Map.Entry}, it is<a name="line.3753"></a>
+<span class="sourceLineNo">3753</span>   * map entries. If {@code o} is an instance of {@code Entry}, it is<a name="line.3753"></a>
 <span class="sourceLineNo">3754</span>   * wrapped using {@link #unmodifiableEntry} to protect against a possible<a name="line.3754"></a>
 <span class="sourceLineNo">3755</span>   * nefarious equals method.<a name="line.3755"></a>
 <span class="sourceLineNo">3756</span>   *<a name="line.3756"></a>
@@ -3778,7 +3778,7 @@
 <span class="sourceLineNo">3770</span><a name="line.3770"></a>
 <span class="sourceLineNo">3771</span>  /**<a name="line.3771"></a>
 <span class="sourceLineNo">3772</span>   * Implements {@code Collection.remove} safely for forwarding collections of<a name="line.3772"></a>
-<span class="sourceLineNo">3773</span>   * map entries. If {@code o} is an instance of {@code Map.Entry}, it is<a name="line.3773"></a>
+<span class="sourceLineNo">3773</span>   * map entries. If {@code o} is an instance of {@code Entry}, it is<a name="line.3773"></a>
 <span class="sourceLineNo">3774</span>   * wrapped using {@link #unmodifiableEntry} to protect against a possible<a name="line.3774"></a>
 <span class="sourceLineNo">3775</span>   * nefarious equals method.<a name="line.3775"></a>
 <span class="sourceLineNo">3776</span>   *<a name="line.3776"></a>
@@ -3815,7 +3815,7 @@
 <span class="sourceLineNo">3807</span>  static String toStringImpl(Map&lt;?, ?&gt; map) {<a name="line.3807"></a>
 <span class="sourceLineNo">3808</span>    StringBuilder sb = Collections2.newStringBuilderForCollection(map.size()).append('{');<a name="line.3808"></a>
 <span class="sourceLineNo">3809</span>    boolean first = true;<a name="line.3809"></a>
-<span class="sourceLineNo">3810</span>    for (Map.Entry&lt;?, ?&gt; entry : map.entrySet()) {<a name="line.3810"></a>
+<span class="sourceLineNo">3810</span>    for (Entry&lt;?, ?&gt; entry : map.entrySet()) {<a name="line.3810"></a>
 <span class="sourceLineNo">3811</span>      if (!first) {<a name="line.3811"></a>
 <span class="sourceLineNo">3812</span>        sb.append(", ");<a name="line.3812"></a>
 <span class="sourceLineNo">3813</span>      }<a name="line.3813"></a>
@@ -3829,7 +3829,7 @@
 <span class="sourceLineNo">3821</span>   * An implementation of {@link Map#putAll}.<a name="line.3821"></a>
 <span class="sourceLineNo">3822</span>   */<a name="line.3822"></a>
 <span class="sourceLineNo">3823</span>  static &lt;K, V&gt; void putAllImpl(Map&lt;K, V&gt; self, Map&lt;? extends K, ? extends V&gt; map) {<a name="line.3823"></a>
-<span class="sourceLineNo">3824</span>    for (Map.Entry&lt;? extends K, ? extends V&gt; entry : map.entrySet()) {<a name="line.3824"></a>
+<span class="sourceLineNo">3824</span>    for (Entry&lt;? extends K, ? extends V&gt; entry : map.entrySet()) {<a name="line.3824"></a>
 <span class="sourceLineNo">3825</span>      self.put(entry.getKey(), entry.getValue());<a name="line.3825"></a>
 <span class="sourceLineNo">3826</span>    }<a name="line.3826"></a>
 <span class="sourceLineNo">3827</span>  }<a name="line.3827"></a>

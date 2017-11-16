@@ -222,7 +222,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>,<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingMultimap.html#entries--">entries</a></span>()</code>
 <div class="block">Returns a view collection of all key-value pairs contained in this
- multimap, as <code>Map.Entry</code> instances.</div>
+ multimap, as <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util"><code>Map.Entry</code></a> instances.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
@@ -401,7 +401,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
 
  <p>Changes to the returned map or the collections that serve as its values
  will update the underlying multimap, and vice versa. The map does not
- support <code>put</code> or <code>putAll</code>, nor do its entries support <code>setValue</code>.</div>
+ support <code>put</code> or <code>putAll</code>, nor do its entries support <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true#setValue-V-" title="class or interface in java.util"><code>setValue</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/Multimap.html#asMap--">asMap</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>,<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;</code></dd>
@@ -485,7 +485,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>,<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.74">entries</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#entries--">Multimap</a></code></span></div>
 <div class="block">Returns a view collection of all key-value pairs contained in this
- multimap, as <code>Map.Entry</code> instances.
+ multimap, as <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util"><code>Map.Entry</code></a> instances.
 
  <p>Changes to the returned collection or the entries it contains will
  update the underlying multimap, and vice versa. However, <i>adding</i> to

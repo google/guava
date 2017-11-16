@@ -97,7 +97,7 @@
 <span class="sourceLineNo">089</span>   * @since 14.0<a name="line.89"></a>
 <span class="sourceLineNo">090</span>   */<a name="line.90"></a>
 <span class="sourceLineNo">091</span>  public static final class Builder&lt;K extends Comparable&lt;?&gt;, V&gt; {<a name="line.91"></a>
-<span class="sourceLineNo">092</span>    private final List&lt;Map.Entry&lt;Range&lt;K&gt;, V&gt;&gt; entries;<a name="line.92"></a>
+<span class="sourceLineNo">092</span>    private final List&lt;Entry&lt;Range&lt;K&gt;, V&gt;&gt; entries;<a name="line.92"></a>
 <span class="sourceLineNo">093</span><a name="line.93"></a>
 <span class="sourceLineNo">094</span>    public Builder() {<a name="line.94"></a>
 <span class="sourceLineNo">095</span>      this.entries = Lists.newArrayList();<a name="line.95"></a>
@@ -182,7 +182,7 @@
 <span class="sourceLineNo">174</span><a name="line.174"></a>
 <span class="sourceLineNo">175</span>  @Override<a name="line.175"></a>
 <span class="sourceLineNo">176</span>  @Nullable<a name="line.176"></a>
-<span class="sourceLineNo">177</span>  public Map.Entry&lt;Range&lt;K&gt;, V&gt; getEntry(K key) {<a name="line.177"></a>
+<span class="sourceLineNo">177</span>  public Entry&lt;Range&lt;K&gt;, V&gt; getEntry(K key) {<a name="line.177"></a>
 <span class="sourceLineNo">178</span>    int index =<a name="line.178"></a>
 <span class="sourceLineNo">179</span>        SortedLists.binarySearch(<a name="line.179"></a>
 <span class="sourceLineNo">180</span>            ranges,<a name="line.180"></a>
