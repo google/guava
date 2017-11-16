@@ -110,7 +110,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
   @Override
   @Nullable
   public Entry<Range<K>, V> getEntry(K key) {
-    Map.Entry<Cut<K>, RangeMapEntry<K, V>> mapEntry =
+    Entry<Cut<K>, RangeMapEntry<K, V>> mapEntry =
         entriesByLowerBound.floorEntry(Cut.belowValue(key));
     if (mapEntry != null && mapEntry.getValue().contains(key)) {
       return mapEntry.getValue();
@@ -143,11 +143,11 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
   /** Computes the coalesced range for the given range+value - does not mutate the map. */
   private Range<K> coalescedRange(Range<K> range, V value) {
     Range<K> coalescedRange = range;
-    Map.Entry<Cut<K>, RangeMapEntry<K, V>> lowerEntry =
+    Entry<Cut<K>, RangeMapEntry<K, V>> lowerEntry =
         entriesByLowerBound.lowerEntry(range.lowerBound);
     coalescedRange = coalesce(coalescedRange, value, lowerEntry);
 
-    Map.Entry<Cut<K>, RangeMapEntry<K, V>> higherEntry =
+    Entry<Cut<K>, RangeMapEntry<K, V>> higherEntry =
         entriesByLowerBound.floorEntry(range.upperBound);
     coalescedRange = coalesce(coalescedRange, value, higherEntry);
 
@@ -156,7 +156,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
 
   /** Returns the range that spans the given range and entry, if the entry can be coalesced. */
   private static <K extends Comparable, V> Range<K> coalesce(
-      Range<K> range, V value, @Nullable Map.Entry<Cut<K>, RangeMapEntry<K, V>> entry) {
+      Range<K> range, V value, @Nullable Entry<Cut<K>, RangeMapEntry<K, V>> entry) {
     if (entry != null
         && entry.getValue().getKey().isConnected(range)
         && entry.getValue().getValue().equals(value)) {
@@ -167,7 +167,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
 
   @Override
   public void putAll(RangeMap<K, V> rangeMap) {
-    for (Map.Entry<Range<K>, V> entry : rangeMap.asMapOfRanges().entrySet()) {
+    for (Entry<Range<K>, V> entry : rangeMap.asMapOfRanges().entrySet()) {
       put(entry.getKey(), entry.getValue());
     }
   }
@@ -202,7 +202,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
      * The comments for this method will use [ ] to indicate the bounds of rangeToRemove and ( ) to
      * indicate the bounds of ranges in the range map.
      */
-    Map.Entry<Cut<K>, RangeMapEntry<K, V>> mapEntryBelowToTruncate =
+    Entry<Cut<K>, RangeMapEntry<K, V>> mapEntryBelowToTruncate =
         entriesByLowerBound.lowerEntry(rangeToRemove.lowerBound);
     if (mapEntryBelowToTruncate != null) {
       // we know ( [
@@ -225,7 +225,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
       }
     }
 
-    Map.Entry<Cut<K>, RangeMapEntry<K, V>> mapEntryAboveToTruncate =
+    Entry<Cut<K>, RangeMapEntry<K, V>> mapEntryAboveToTruncate =
         entriesByLowerBound.lowerEntry(rangeToRemove.upperBound);
     if (mapEntryAboveToTruncate != null) {
       // we know ( ]

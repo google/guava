@@ -31,7 +31,6 @@ import com.google.common.collect.testing.features.MapFeature;
 import java.lang.reflect.Method;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
 
 /**
@@ -245,7 +244,7 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
     expectAdded(nullKeyValueEntry);
   }
 
-  private V put(Map.Entry<K, V> entry) {
+  private V put(Entry<K, V> entry) {
     return getMap().put(entry.getKey(), entry.getValue());
   }
 

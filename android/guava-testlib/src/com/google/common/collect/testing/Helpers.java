@@ -367,8 +367,8 @@ public class Helpers {
    * possible to access the raw (modifiable) map entry via a nefarious equals
    * method.
    */
-  public static <K, V> Map.Entry<K, V> nefariousMapEntry(final K key, final V value) {
-    return new Map.Entry<K, V>() {
+  public static <K, V> Entry<K, V> nefariousMapEntry(final K key, final V value) {
+    return new Entry<K, V>() {
       @Override
       public K getKey() {
         return key;
@@ -387,8 +387,8 @@ public class Helpers {
       @SuppressWarnings("unchecked")
       @Override
       public boolean equals(Object o) {
-        if (o instanceof Map.Entry) {
-          Map.Entry<K, V> e = (Map.Entry<K, V>) o;
+        if (o instanceof Entry) {
+          Entry<K, V> e = (Entry<K, V>) o;
           e.setValue(value); // muhahaha!
 
           return equal(this.getKey(), e.getKey()) && equal(this.getValue(), e.getValue());

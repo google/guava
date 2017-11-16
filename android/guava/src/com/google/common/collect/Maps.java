@@ -137,11 +137,11 @@ public final class Maps {
       ImmutableEnumMap<K, V> result = (ImmutableEnumMap<K, V>) map;
       return result;
     }
-    Iterator<? extends Map.Entry<K, ? extends V>> entryItr = map.entrySet().iterator();
+    Iterator<? extends Entry<K, ? extends V>> entryItr = map.entrySet().iterator();
     if (!entryItr.hasNext()) {
       return ImmutableMap.of();
     }
-    Map.Entry<K, ? extends V> entry1 = entryItr.next();
+    Entry<K, ? extends V> entry1 = entryItr.next();
     K key1 = entry1.getKey();
     V value1 = entry1.getValue();
     checkEntryNotNull(key1, value1);
@@ -3567,7 +3567,7 @@ public final class Maps {
 
   /**
    * Implements {@code Collection.contains} safely for forwarding collections of
-   * map entries. If {@code o} is an instance of {@code Map.Entry}, it is
+   * map entries. If {@code o} is an instance of {@code Entry}, it is
    * wrapped using {@link #unmodifiableEntry} to protect against a possible
    * nefarious equals method.
    *
@@ -3587,7 +3587,7 @@ public final class Maps {
 
   /**
    * Implements {@code Collection.remove} safely for forwarding collections of
-   * map entries. If {@code o} is an instance of {@code Map.Entry}, it is
+   * map entries. If {@code o} is an instance of {@code Entry}, it is
    * wrapped using {@link #unmodifiableEntry} to protect against a possible
    * nefarious equals method.
    *
@@ -3624,7 +3624,7 @@ public final class Maps {
   static String toStringImpl(Map<?, ?> map) {
     StringBuilder sb = Collections2.newStringBuilderForCollection(map.size()).append('{');
     boolean first = true;
-    for (Map.Entry<?, ?> entry : map.entrySet()) {
+    for (Entry<?, ?> entry : map.entrySet()) {
       if (!first) {
         sb.append(", ");
       }
@@ -3638,7 +3638,7 @@ public final class Maps {
    * An implementation of {@link Map#putAll}.
    */
   static <K, V> void putAllImpl(Map<K, V> self, Map<? extends K, ? extends V> map) {
-    for (Map.Entry<? extends K, ? extends V> entry : map.entrySet()) {
+    for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
       self.put(entry.getKey(), entry.getValue());
     }
   }

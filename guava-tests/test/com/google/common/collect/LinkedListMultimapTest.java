@@ -41,7 +41,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.RandomAccess;
 import java.util.Set;
@@ -276,8 +275,8 @@ public class LinkedListMultimapTest extends TestCase {
     map.put("bar", 1);
     map.put("foo", 2);
     map.put("bar", 3);
-    Iterator<Map.Entry<String, Integer>> entries = map.entries().iterator();
-    Map.Entry<String, Integer> entry = entries.next();
+    Iterator<Entry<String, Integer>> entries = map.entries().iterator();
+    Entry<String, Integer> entry = entries.next();
     assertEquals("bar", entry.getKey());
     assertEquals(1, (int) entry.getValue());
     entry = entries.next();
@@ -297,9 +296,9 @@ public class LinkedListMultimapTest extends TestCase {
     map.put("bar", 1);
     map.put("foo", 2);
     map.put("bar", 3);
-    Iterator<Map.Entry<String, Collection<Integer>>> entries
+    Iterator<Entry<String, Collection<Integer>>> entries
         = map.asMap().entrySet().iterator();
-    Map.Entry<String, Collection<Integer>> entry = entries.next();
+    Entry<String, Collection<Integer>> entry = entries.next();
     assertEquals("bar", entry.getKey());
     assertThat(entry.getValue()).containsExactly(1, 3).inOrder();
     try {
@@ -318,10 +317,10 @@ public class LinkedListMultimapTest extends TestCase {
     ListMultimap<String, Integer> multimap = create();
     multimap.put("foo", 2);
     multimap.put("bar", 3);
-    Collection<Map.Entry<String, Integer>> entries = multimap.entries();
-    Iterator<Map.Entry<String, Integer>> iterator = entries.iterator();
-    Map.Entry<String, Integer> entrya = iterator.next();
-    Map.Entry<String, Integer> entryb = iterator.next();
+    Collection<Entry<String, Integer>> entries = multimap.entries();
+    Iterator<Entry<String, Integer>> iterator = entries.iterator();
+    Entry<String, Integer> entrya = iterator.next();
+    Entry<String, Integer> entryb = iterator.next();
 
     assertEquals(2, (int) multimap.get("foo").set(0, 4));
     assertFalse(multimap.containsEntry("foo", 2));

@@ -219,15 +219,15 @@ public class MultimapsCollectionTest extends TestCase {
     }
   }
 
-  private static final Predicate<Map.Entry<Integer, String>> FILTER_GET_PREDICATE
-      = new Predicate<Map.Entry<Integer, String>>() {
+  private static final Predicate<Entry<Integer, String>> FILTER_GET_PREDICATE
+      = new Predicate<Entry<Integer, String>>() {
         @Override public boolean apply(Entry<Integer, String> entry) {
           return !"badvalue".equals(entry.getValue()) && 55556 != entry.getKey();
         }
     };
 
-  private static final Predicate<Map.Entry<String, Integer>> FILTER_KEYSET_PREDICATE
-    = new Predicate<Map.Entry<String, Integer>>() {
+  private static final Predicate<Entry<String, Integer>> FILTER_KEYSET_PREDICATE
+    = new Predicate<Entry<String, Integer>>() {
       @Override public boolean apply(Entry<String, Integer> entry) {
         return !"badkey".equals(entry.getKey()) && 55556 != entry.getValue();
       }

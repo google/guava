@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.Map.Entry;
 import java.util.SortedSet;
 import junit.framework.TestCase;
 
@@ -140,9 +140,9 @@ public class TreeMultimapExplicitTest extends TestCase {
 
   public void testOrderedAsMapEntries() {
     TreeMultimap<String, Integer> multimap = createPopulate();
-    Iterator<Map.Entry<String, Collection<Integer>>> iterator =
+    Iterator<Entry<String, Collection<Integer>>> iterator =
         multimap.asMap().entrySet().iterator();
-    Map.Entry<String, Collection<Integer>> entry = iterator.next();
+    Entry<String, Collection<Integer>> entry = iterator.next();
     assertEquals(null, entry.getKey());
     assertThat(entry.getValue()).containsExactly(7, 3, 1);
     entry = iterator.next();

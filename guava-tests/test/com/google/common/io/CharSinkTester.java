@@ -22,7 +22,7 @@ import com.google.common.io.SourceSinkFactory.CharSinkFactory;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Method;
-import java.util.Map;
+import java.util.Map.Entry;
 import junit.framework.TestSuite;
 
 /**
@@ -39,7 +39,7 @@ public class CharSinkTester extends SourceSinkTester<CharSink, String, CharSinkF
 
   static TestSuite tests(String name, CharSinkFactory factory) {
     TestSuite suite = new TestSuite(name);
-    for (Map.Entry<String, String> entry : TEST_STRINGS.entrySet()) {
+    for (Entry<String, String> entry : TEST_STRINGS.entrySet()) {
       String desc = entry.getKey();
       TestSuite stringSuite = suiteForString(name, factory, entry.getValue(), desc);
       suite.addTest(stringSuite);

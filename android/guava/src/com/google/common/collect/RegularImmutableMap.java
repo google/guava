@@ -24,7 +24,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.util.AbstractMap;
 import java.util.Arrays;
-import java.util.Map;
+import java.util.Map.Entry;
 import javax.annotation.Nullable;
 
 /**
@@ -212,8 +212,8 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
     @Override
     public boolean contains(Object object) {
-      if (object instanceof Map.Entry) {
-        Map.Entry<?, ?> entry = (Map.Entry<?, ?>) object;
+      if (object instanceof Entry) {
+        Entry<?, ?> entry = (Entry<?, ?>) object;
         Object k = entry.getKey();
         Object v = entry.getValue();
         return v != null && v.equals(map.get(k));

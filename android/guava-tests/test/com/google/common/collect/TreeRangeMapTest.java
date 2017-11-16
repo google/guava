@@ -533,7 +533,7 @@ public class TreeRangeMapTest extends TestCase {
 
         for (Range<Integer> subRange : RANGES) {
           RangeMap<Integer, Integer> expected = TreeRangeMap.create();
-          for (Map.Entry<Range<Integer>, Integer> entry : rangeMap.asMapOfRanges().entrySet()) {
+          for (Entry<Range<Integer>, Integer> entry : rangeMap.asMapOfRanges().entrySet()) {
             if (entry.getKey().isConnected(subRange)) {
               expected.put(entry.getKey().intersection(subRange), entry.getValue());
             }
@@ -686,7 +686,7 @@ public class TreeRangeMapTest extends TestCase {
     for (int i = MIN_BOUND - 1; i <= MAX_BOUND + 1; i++) {
       assertEquals(model.get(i), test.get(i));
 
-      Map.Entry<Range<Integer>, Integer> entry = test.getEntry(i);
+      Entry<Range<Integer>, Integer> entry = test.getEntry(i);
       assertEquals(model.containsKey(i), entry != null);
       if (entry != null) {
         assertTrue(test.asMapOfRanges().entrySet().contains(entry));

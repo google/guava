@@ -34,6 +34,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.SortedMap;
 import javax.annotation.Nullable;
 
@@ -128,7 +129,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   /**
    * Verifies that {@code key} and {@code value} are non-null, and returns a new
    * immutable entry with those values.
-   * <p>A call to {@link Map.Entry#setValue} on the returned entry will always
+   * <p>A call to {@link Entry#setValue} on the returned entry will always
    * throw {@link UnsupportedOperationException}.
    */
   static <K, V> Entry<K, V> entryOf(K key, V value) {

@@ -93,6 +93,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
 import java.util.Set;
@@ -130,7 +131,7 @@ public class FreshValueGeneratorTest extends TestCase {
         BigInteger.class, BigDecimal.class,
         Throwable.class, Error.class, Exception.class, RuntimeException.class,
         Charset.class, Locale.class, Currency.class,
-        List.class, Map.Entry.class,
+        List.class, Entry.class,
         Object.class,
         Equivalence.class, Predicate.class, Function.class,
         Comparable.class, Comparator.class, Ordering.class,

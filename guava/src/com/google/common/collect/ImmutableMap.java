@@ -36,6 +36,7 @@ import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -169,7 +170,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * Verifies that {@code key} and {@code value} are non-null, and returns a new immutable entry
    * with those values.
    *
-   * <p>A call to {@link Map.Entry#setValue} on the returned entry will always throw {@link
+   * <p>A call to {@link Entry#setValue} on the returned entry will always throw {@link
    * UnsupportedOperationException}.
    */
   static <K, V> Entry<K, V> entryOf(K key, V value) {
@@ -453,7 +454,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   private static <K extends Enum<K>, V> ImmutableMap<K, V> copyOfEnumMap(
       EnumMap<K, ? extends V> original) {
     EnumMap<K, V> copy = new EnumMap<>(original);
-    for (Map.Entry<?, ?> entry : copy.entrySet()) {
+    for (Entry<?, ?> entry : copy.entrySet()) {
       checkEntryNotNull(entry.getKey(), entry.getValue());
     }
     return ImmutableEnumMap.asImmutable(copy);

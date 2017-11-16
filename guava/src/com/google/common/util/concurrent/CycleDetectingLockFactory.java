@@ -34,6 +34,7 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
@@ -694,7 +695,7 @@ public class CycleDetectingLockFactory {
         return found; // Found a path ending at the node!
       }
       // Recurse the edges.
-      for (Map.Entry<LockGraphNode, ExampleStackTrace> entry : allowedPriorLocks.entrySet()) {
+      for (Entry<LockGraphNode, ExampleStackTrace> entry : allowedPriorLocks.entrySet()) {
         LockGraphNode preAcquiredLock = entry.getKey();
         found = preAcquiredLock.findPathTo(node, seen);
         if (found != null) {

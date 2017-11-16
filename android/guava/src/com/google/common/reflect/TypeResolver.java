@@ -32,6 +32,7 @@ import java.lang.reflect.WildcardType;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.Nullable;
@@ -258,7 +259,7 @@ public final class TypeResolver {
     final TypeTable where(Map<TypeVariableKey, ? extends Type> mappings) {
       ImmutableMap.Builder<TypeVariableKey, Type> builder = ImmutableMap.builder();
       builder.putAll(map);
-      for (Map.Entry<TypeVariableKey, ? extends Type> mapping : mappings.entrySet()) {
+      for (Entry<TypeVariableKey, ? extends Type> mapping : mappings.entrySet()) {
         TypeVariableKey variable = mapping.getKey();
         Type type = mapping.getValue();
         checkArgument(!variable.equalsType(type), "Type variable %s bound to itself", variable);

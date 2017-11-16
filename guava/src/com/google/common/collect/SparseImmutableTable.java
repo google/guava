@@ -17,6 +17,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import javax.annotation.concurrent.Immutable;
 
 /**
@@ -78,13 +79,13 @@ final class SparseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V>
     this.cellRowIndices = cellRowIndices;
     this.cellColumnInRowIndices = cellColumnInRowIndices;
     ImmutableMap.Builder<R, Map<C, V>> rowBuilder = new ImmutableMap.Builder<>(rows.size());
-    for (Map.Entry<R, Map<C, V>> row : rows.entrySet()) {
+    for (Entry<R, Map<C, V>> row : rows.entrySet()) {
       rowBuilder.put(row.getKey(), ImmutableMap.copyOf(row.getValue()));
     }
     this.rowMap = rowBuilder.build();
 
     ImmutableMap.Builder<C, Map<R, V>> columnBuilder = new ImmutableMap.Builder<>(columns.size());
-    for (Map.Entry<C, Map<R, V>> col : columns.entrySet()) {
+    for (Entry<C, Map<R, V>> col : columns.entrySet()) {
       columnBuilder.put(col.getKey(), ImmutableMap.copyOf(col.getValue()));
     }
     this.columnMap = columnBuilder.build();
@@ -108,10 +109,10 @@ final class SparseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V>
   @Override
   Cell<R, C, V> getCell(int index) {
     int rowIndex = cellRowIndices[index];
-    Map.Entry<R, Map<C, V>> rowEntry = rowMap.entrySet().asList().get(rowIndex);
+    Entry<R, Map<C, V>> rowEntry = rowMap.entrySet().asList().get(rowIndex);
     ImmutableMap<C, V> row = (ImmutableMap<C, V>) rowEntry.getValue();
     int columnIndex = cellColumnInRowIndices[index];
-    Map.Entry<C, V> colEntry = row.entrySet().asList().get(columnIndex);
+    Entry<C, V> colEntry = row.entrySet().asList().get(columnIndex);
     return cellOf(rowEntry.getKey(), colEntry.getKey(), colEntry.getValue());
   }
 

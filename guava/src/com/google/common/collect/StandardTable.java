@@ -269,10 +269,10 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
   Spliterator<Cell<R, C, V>> cellSpliterator() {
     return CollectSpliterators.flatMap(
         backingMap.entrySet().spliterator(),
-        (Map.Entry<R, Map<C, V>> rowEntry) ->
+        (Entry<R, Map<C, V>> rowEntry) ->
             CollectSpliterators.map(
                 rowEntry.getValue().entrySet().spliterator(),
-                (Map.Entry<C, V> columnEntry) ->
+                (Entry<C, V> columnEntry) ->
                     Tables.immutableCell(
                         rowEntry.getKey(), columnEntry.getKey(), columnEntry.getValue())),
         Spliterator.DISTINCT | Spliterator.SIZED,

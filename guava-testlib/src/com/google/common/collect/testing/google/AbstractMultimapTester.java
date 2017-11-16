@@ -26,7 +26,6 @@ import com.google.common.collect.testing.SampleElements;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
 
 /**
@@ -36,7 +35,7 @@ import java.util.Map.Entry;
  */
 @GwtCompatible
 public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
-    extends AbstractContainerTester<M, Map.Entry<K, V>> {
+    extends AbstractContainerTester<M, Entry<K, V>> {
 
   private M multimap;
 
@@ -48,10 +47,10 @@ public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
    * @return an array of the proper size with {@code null} as the key of the
    * middle element.
    */
-  protected Map.Entry<K, V>[] createArrayWithNullKey() {
-    Map.Entry<K, V>[] array = createSamplesArray();
+  protected Entry<K, V>[] createArrayWithNullKey() {
+    Entry<K, V>[] array = createSamplesArray();
     final int nullKeyLocation = getNullLocation();
-    final Map.Entry<K, V> oldEntry = array[nullKeyLocation];
+    final Entry<K, V> oldEntry = array[nullKeyLocation];
     array[nullKeyLocation] = Helpers.mapEntry(null, oldEntry.getValue());
     return array;
   }
@@ -60,10 +59,10 @@ public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
    * @return an array of the proper size with {@code null} as the value of the
    * middle element.
    */
-  protected Map.Entry<K, V>[] createArrayWithNullValue() {
-    Map.Entry<K, V>[] array = createSamplesArray();
+  protected Entry<K, V>[] createArrayWithNullValue() {
+    Entry<K, V>[] array = createSamplesArray();
     final int nullValueLocation = getNullLocation();
-    final Map.Entry<K, V> oldEntry = array[nullValueLocation];
+    final Entry<K, V> oldEntry = array[nullValueLocation];
     array[nullValueLocation] = Helpers.mapEntry(oldEntry.getKey(), null);
     return array;
   }
@@ -72,8 +71,8 @@ public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
    * @return an array of the proper size with {@code null} as the key and value of the
    * middle element.
    */
-  protected Map.Entry<K, V>[] createArrayWithNullKeyAndValue() {
-    Map.Entry<K, V>[] array = createSamplesArray();
+  protected Entry<K, V>[] createArrayWithNullKeyAndValue() {
+    Entry<K, V>[] array = createSamplesArray();
     final int nullValueLocation = getNullLocation();
     array[nullValueLocation] = Helpers.mapEntry(null, null);
     return array;

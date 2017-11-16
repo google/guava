@@ -250,7 +250,7 @@ public class MapsCollectionTest extends TestCase {
                   public NavigableMap<String, Integer> create(Object... elements) {
                     NavigableSet<String> set = Sets.newTreeSet(Ordering.natural());
                     for (Object e : elements) {
-                      Map.Entry<?, ?> entry = (Entry<?, ?>) e;
+                      Entry<?, ?> entry = (Entry<?, ?>) e;
                       checkNotNull(entry.getValue());
                       set.add((String) checkNotNull(entry.getKey()));
                     }

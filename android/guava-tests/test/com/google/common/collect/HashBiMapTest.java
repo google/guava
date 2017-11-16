@@ -118,9 +118,9 @@ public class HashBiMapTest extends TestCase {
   public void testBiMapEntrySetIteratorRemove() {
     BiMap<Integer, String> map = HashBiMap.create();
     map.put(1, "one");
-    Set<Map.Entry<Integer, String>> entries = map.entrySet();
-    Iterator<Map.Entry<Integer, String>> iterator = entries.iterator();
-    Map.Entry<Integer, String> entry = iterator.next();
+    Set<Entry<Integer, String>> entries = map.entrySet();
+    Iterator<Entry<Integer, String>> iterator = entries.iterator();
+    Entry<Integer, String> entry = iterator.next();
     entry.setValue("two"); // changes the iterator's current entry value
     assertEquals("two", map.get(1));
     assertEquals(Integer.valueOf(1), map.inverse().get("two"));

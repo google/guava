@@ -89,7 +89,7 @@ public abstract class ImmutableBiMap<K, V> extends ForwardingImmutableMap<K, V>
       return this;
     }
 
-    @Override public Builder<K, V> put(Map.Entry<? extends K, ? extends V> entry) {
+    @Override public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
       super.put(entry);
       return this;
     }

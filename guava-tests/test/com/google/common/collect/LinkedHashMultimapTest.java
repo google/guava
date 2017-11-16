@@ -39,7 +39,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import junit.framework.Test;
@@ -166,7 +165,7 @@ public class LinkedHashMultimapTest extends TestCase {
     assertThat(multimap.keySet()).containsExactly("foo", "bar", "cow").inOrder();
     assertThat(multimap.values()).containsExactly(5, 4, 3, 2, 1).inOrder();
 
-    Iterator<Map.Entry<String, Integer>> entryIterator =
+    Iterator<Entry<String, Integer>> entryIterator =
         multimap.entries().iterator();
     assertEquals(Maps.immutableEntry("foo", 5), entryIterator.next());
     assertEquals(Maps.immutableEntry("bar", 4), entryIterator.next());
@@ -174,9 +173,9 @@ public class LinkedHashMultimapTest extends TestCase {
     assertEquals(Maps.immutableEntry("cow", 2), entryIterator.next());
     assertEquals(Maps.immutableEntry("bar", 1), entryIterator.next());
 
-    Iterator<Map.Entry<String, Collection<Integer>>> collectionIterator =
+    Iterator<Entry<String, Collection<Integer>>> collectionIterator =
         multimap.asMap().entrySet().iterator();
-    Map.Entry<String, Collection<Integer>> entry = collectionIterator.next();
+    Entry<String, Collection<Integer>> entry = collectionIterator.next();
     assertEquals("foo", entry.getKey());
     assertThat(entry.getValue()).containsExactly(5, 3).inOrder();
     entry = collectionIterator.next();

@@ -20,6 +20,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import javax.annotation.Nullable;
 
@@ -51,7 +52,7 @@ public interface RangeMap<K extends Comparable, V> {
    * in the range map, or {@code null} otherwise.
    */
   @Nullable
-  Map.Entry<Range<K>, V> getEntry(K key);
+  Entry<Range<K>, V> getEntry(K key);
 
   /**
    * Returns the minimal range {@linkplain Range#encloses(Range) enclosing} the ranges

@@ -47,7 +47,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import javax.annotation.Nullable;
 import junit.framework.Assert;
@@ -627,7 +627,7 @@ public final class ClassSanityTester {
         return getDummyValue(TypeToken.of(interfaceType).method(method).getReturnType());
       }
     };
-    for (Map.Entry<Class<?>, Collection<Object>> entry : distinctValues.asMap().entrySet()) {
+    for (Entry<Class<?>, Collection<Object>> entry : distinctValues.asMap().entrySet()) {
       generator.addSampleInstances((Class) entry.getKey(), entry.getValue());
     }
     return generator;

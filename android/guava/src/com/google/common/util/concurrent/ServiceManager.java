@@ -626,7 +626,7 @@ public final class ServiceManager {
               .onResultOf(
                   new Function<Entry<Service, Long>, Long>() {
                     @Override
-                    public Long apply(Map.Entry<Service, Long> input) {
+                    public Long apply(Entry<Service, Long> input) {
                       return input.getValue();
                     }
                   }));

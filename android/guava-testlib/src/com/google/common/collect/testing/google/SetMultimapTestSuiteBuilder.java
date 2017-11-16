@@ -29,7 +29,6 @@ import com.google.common.collect.testing.features.Feature;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import junit.framework.TestSuite;
@@ -96,7 +95,7 @@ public class SetMultimapTestSuiteBuilder<K, V>
   @Override
   TestSuite computeEntriesTestSuite(
       FeatureSpecificTestSuiteBuilder<
-              ?, ? extends OneSizeTestContainerGenerator<SetMultimap<K, V>, Map.Entry<K, V>>>
+              ?, ? extends OneSizeTestContainerGenerator<SetMultimap<K, V>, Entry<K, V>>>
           parentBuilder) {
     return SetTestSuiteBuilder.using(
             new EntriesGenerator<K, V>(parentBuilder.getSubjectGenerator()))

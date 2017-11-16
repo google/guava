@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -269,7 +270,7 @@ public class JoinerTest extends TestCase {
     Map<String, String> mapWithNulls = Maps.newLinkedHashMap();
     mapWithNulls.put("a", null);
     mapWithNulls.put(null, "b");
-    Set<Map.Entry<String, String>> entriesWithNulls = mapWithNulls.entrySet();
+    Set<Entry<String, String>> entriesWithNulls = mapWithNulls.entrySet();
 
     try {
       j.join(entriesWithNulls);

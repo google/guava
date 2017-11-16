@@ -24,7 +24,7 @@ import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.util.Collection;
-import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Tests {@link java.util.Map#hashCode}.
@@ -36,7 +36,7 @@ import java.util.Map;
 public class MapHashCodeTester<K, V> extends AbstractMapTester<K, V> {
   public void testHashCode() {
     int expectedHashCode = 0;
-    for (Map.Entry<K, V> entry : getSampleEntries()) {
+    for (Entry<K, V> entry : getSampleEntries()) {
       expectedHashCode += hash(entry);
     }
     assertEquals(
@@ -48,24 +48,24 @@ public class MapHashCodeTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = CollectionSize.ZERO)
   @MapFeature.Require(ALLOWS_NULL_KEYS)
   public void testHashCode_containingNullKey() {
-    Map.Entry<K, V> entryWithNull = entry(null, v3());
+    Entry<K, V> entryWithNull = entry(null, v3());
     runEntryWithNullTest(entryWithNull);
   }
 
   @CollectionSize.Require(absent = CollectionSize.ZERO)
   @MapFeature.Require(ALLOWS_NULL_VALUES)
   public void testHashCode_containingNullValue() {
-    Map.Entry<K, V> entryWithNull = entry(k3(), null);
+    Entry<K, V> entryWithNull = entry(k3(), null);
     runEntryWithNullTest(entryWithNull);
   }
 
-  private void runEntryWithNullTest(Map.Entry<K, V> entryWithNull) {
-    Collection<Map.Entry<K, V>> entries = getSampleEntries(getNumEntries() - 1);
+  private void runEntryWithNullTest(Entry<K, V> entryWithNull) {
+    Collection<Entry<K, V>> entries = getSampleEntries(getNumEntries() - 1);
 
     entries.add(entryWithNull);
 
     int expectedHashCode = 0;
-    for (Map.Entry<K, V> entry : entries) {
+    for (Entry<K, V> entry : entries) {
       expectedHashCode += hash(entry);
     }
 
@@ -77,7 +77,7 @@ public class MapHashCodeTester<K, V> extends AbstractMapTester<K, V> {
         getMap().hashCode());
   }
 
-  private static int hash(Map.Entry<?, ?> e) {
+  private static int hash(Entry<?, ?> e) {
     return (e.getKey() == null ? 0 : e.getKey().hashCode())
         ^ (e.getValue() == null ? 0 : e.getValue().hashCode());
   }

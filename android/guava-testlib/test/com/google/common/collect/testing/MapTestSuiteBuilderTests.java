@@ -31,6 +31,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -56,9 +57,9 @@ public final class MapTestSuiteBuilderTests extends TestCase {
   private abstract static class WrappedHashMapGenerator
       extends TestStringMapGenerator {
     @Override protected final Map<String, String> create(
-        Map.Entry<String, String>[] entries) {
+        Entry<String, String>[] entries) {
       HashMap<String, String> map = Maps.newHashMap();
-      for (Map.Entry<String, String> entry : entries) {
+      for (Entry<String, String> entry : entries) {
         map.put(entry.getKey(), entry.getValue());
       }
       return wrap(map);
@@ -89,7 +90,7 @@ public final class MapTestSuiteBuilderTests extends TestCase {
           throw new NullPointerException();
         }
         return new AbstractMap<String, String>() {
-          @Override public Set<Map.Entry<String, String>> entrySet() {
+          @Override public Set<Entry<String, String>> entrySet() {
             return map.entrySet();
           }
           @Override public String put(String key, String value) {
@@ -108,7 +109,7 @@ public final class MapTestSuiteBuilderTests extends TestCase {
           throw new NullPointerException();
         }
         return new AbstractMap<String, String>() {
-          @Override public Set<Map.Entry<String, String>> entrySet() {
+          @Override public Set<Entry<String, String>> entrySet() {
             return map.entrySet();
           }
           @Override public String put(String key, String value) {

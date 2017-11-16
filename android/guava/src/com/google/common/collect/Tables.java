@@ -618,7 +618,7 @@ public final class Tables {
    * Map<C, V> row = table.row(rowKey);  // Needn't be in synchronized block
    * ...
    * synchronized (table) {  // Synchronizing on table, not row!
-   *   Iterator<Map.Entry<C, V>> i = row.entrySet().iterator(); // Must be in synchronized block
+   *   Iterator<Entry<C, V>> i = row.entrySet().iterator(); // Must be in synchronized block
    *   while (i.hasNext()) {
    *     foo(i.next());
    *   }

@@ -19,7 +19,6 @@ import static com.google.common.collect.BoundType.OPEN;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.CollectorTester;
 import com.google.common.testing.SerializableTester;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import junit.framework.TestCase;
@@ -218,7 +217,7 @@ public class ImmutableRangeMapTest extends TestCase {
 
             ImmutableRangeMap.Builder<Integer, Integer> expectedBuilder =
                 ImmutableRangeMap.builder();
-            for (Map.Entry<Range<Integer>, Integer> entry : rangeMap.asMapOfRanges().entrySet()) {
+            for (Entry<Range<Integer>, Integer> entry : rangeMap.asMapOfRanges().entrySet()) {
               if (entry.getKey().isConnected(subRange)
                   && !entry.getKey().intersection(subRange).isEmpty()) {
                 expectedBuilder.put(entry.getKey().intersection(subRange), entry.getValue());

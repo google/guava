@@ -397,7 +397,7 @@ public class TreeBasedTableTest extends AbstractTableTest {
                 'X', "c", 10, 'X', "c", 20, 'X', "d", 15, 'X', "d", 20, 'X',
                 "d", 1, 'X', "e", 5, 'X');
     SortedMap<Integer, Character> row = sortedTable.row("c");
-    Set<Map.Entry<Integer, Character>> entrySet = row.entrySet();
+    Set<Entry<Integer, Character>> entrySet = row.entrySet();
     assertTrue(entrySet.contains(Maps.immutableEntry(10, 'X')));
     assertTrue(entrySet.contains(Maps.immutableEntry(20, 'X')));
     assertFalse(entrySet.contains(Maps.immutableEntry(15, 'X')));
@@ -414,7 +414,7 @@ public class TreeBasedTableTest extends AbstractTableTest {
                 'X', "c", 10, 'X', "c", 20, 'X', "d", 15, 'X', "d", 20, 'X',
                 "d", 1, 'X', "e", 5, 'X');
     SortedMap<Integer, Character> row = sortedTable.row("c");
-    Set<Map.Entry<Integer, Character>> entrySet = row.tailMap(15).entrySet();
+    Set<Entry<Integer, Character>> entrySet = row.tailMap(15).entrySet();
     assertFalse(entrySet.remove(Maps.immutableEntry(10, 'X')));
     assertTrue(entrySet.remove(Maps.immutableEntry(20, 'X')));
     assertFalse(entrySet.remove(Maps.immutableEntry(15, 'X')));

@@ -19,7 +19,7 @@ package com.google.common.collect;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
-import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * This class implements the GWT serialization of {@link LinkedListMultimap}.
@@ -45,7 +45,7 @@ public class LinkedListMultimap_CustomFieldSerializer {
   public static void serialize(SerializationStreamWriter out, LinkedListMultimap<?, ?> multimap)
       throws SerializationException {
     out.writeInt(multimap.size());
-    for (Map.Entry<?, ?> entry : multimap.entries()) {
+    for (Entry<?, ?> entry : multimap.entries()) {
       out.writeObject(entry.getKey());
       out.writeObject(entry.getValue());
     }
