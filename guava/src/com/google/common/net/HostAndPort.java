@@ -22,9 +22,9 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
+import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import javax.annotation.Nullable;
-import javax.annotation.concurrent.Immutable;
 
 /**
  * An immutable representation of a host and port.
