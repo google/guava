@@ -43,19 +43,12 @@ public abstract class AbstractMapTester<K, V>
   }
 
   @Override
-  public void setUp() throws Exception {
-    super.setUp();
-    samples = this.getSubjectGenerator().samples();
-    resetMap();
-  }
-
-  @Override
   protected Collection<Map.Entry<K, V>> actualContents() {
     return getMap().entrySet();
   }
 
   /** @see AbstractContainerTester#resetContainer() */
-  protected void resetMap() {
+  protected final void resetMap() {
     resetContainer();
   }
 

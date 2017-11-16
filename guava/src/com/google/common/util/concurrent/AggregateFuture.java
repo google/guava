@@ -21,12 +21,14 @@ import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableCollection;
+import com.google.errorprone.annotations.ForOverride;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nullable;
+import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 /**
  * A future made up of a collection of sub-futures.
@@ -268,6 +270,8 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
      *
      * TODO(user): Write tests for memory retention
      */
+    @ForOverride
+    @OverridingMethodsMustInvokeSuper
     void releaseResourcesAfterFailure() {
       this.futures = null;
     }

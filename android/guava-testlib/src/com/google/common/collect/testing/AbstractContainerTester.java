@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 /**
  * Base class for testers of classes (including {@link Collection}
@@ -39,6 +40,7 @@ public abstract class AbstractContainerTester<C, E>
   protected C container;
 
   @Override
+  @OverridingMethodsMustInvokeSuper
   public void setUp() throws Exception {
     super.setUp();
     samples = this.getSubjectGenerator().samples();
