@@ -43,7 +43,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nullable;
-import javax.annotation.concurrent.ThreadSafe;
 
 /**
  * The {@code CycleDetectingLockFactory} creates {@link ReentrantLock} instances and
@@ -160,7 +159,6 @@ import javax.annotation.concurrent.ThreadSafe;
  */
 @Beta
 @CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
-@ThreadSafe
 @GwtIncompatible
 public class CycleDetectingLockFactory {
 
@@ -172,7 +170,6 @@ public class CycleDetectingLockFactory {
    * @since 13.0
    */
   @Beta
-  @ThreadSafe
   public interface Policy {
 
     /**
