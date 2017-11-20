@@ -213,7 +213,7 @@ extends <a href="../../../../com/google/common/graph/Network.html" title="interf
 <ul class="blockList">
 <li class="blockList">
 <h4>addEdge</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableNetwork.html#line.65">addEdge</a>(<a href="../../../../com/google/common/graph/MutableNetwork.html" title="type parameter in MutableNetwork">N</a>&nbsp;nodeU,
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableNetwork.html#line.63">addEdge</a>(<a href="../../../../com/google/common/graph/MutableNetwork.html" title="type parameter in MutableNetwork">N</a>&nbsp;nodeU,
                 <a href="../../../../com/google/common/graph/MutableNetwork.html" title="type parameter in MutableNetwork">N</a>&nbsp;nodeV,
                 <a href="../../../../com/google/common/graph/MutableNetwork.html" title="type parameter in MutableNetwork">E</a>&nbsp;edge)</pre>
 <div class="block">Adds <code>edge</code> connecting <code>nodeU</code> to <code>nodeV</code>. In an undirected network, the edge
@@ -221,9 +221,8 @@ extends <a href="../../../../com/google/common/graph/Network.html" title="interf
 
  <p><b>Edges must be unique</b>, just as <code>Map</code> keys must be. They must also be non-null.
 
- <p>Behavior if <code>nodeU</code> and <code>nodeV</code> are not already present in this network is
- implementation-dependent. Suggested behaviors include (a) silently <a href="../../../../com/google/common/graph/MutableNetwork.html#addNode-N-"><code>adding</code></a> <code>nodeU</code> and <code>nodeV</code> to the network (this is the behavior of the default
- implementations) or (b) throwing <code>IllegalArgumentException</code>.
+ <p>If <code>nodeU</code> and <code>nodeV</code> are not already present in this graph, this method
+ will silently <a href="../../../../com/google/common/graph/MutableNetwork.html#addNode-N-"><code>add</code></a> <code>nodeU</code> and <code>nodeV</code> to the graph.
 
  <p>If <code>edge</code> already connects <code>nodeU</code> to <code>nodeV</code> (in the specified order if
  this network <a href="../../../../com/google/common/graph/Network.html#isDirected--"><code>Network.isDirected()</code></a>, else in any order), then this method will have no effect.</div>
@@ -243,7 +242,7 @@ extends <a href="../../../../com/google/common/graph/Network.html" title="interf
 <ul class="blockList">
 <li class="blockList">
 <h4>removeNode</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableNetwork.html#line.73">removeNode</a>(<a href="../../../../com/google/common/graph/MutableNetwork.html" title="type parameter in MutableNetwork">N</a>&nbsp;node)</pre>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableNetwork.html#line.71">removeNode</a>(<a href="../../../../com/google/common/graph/MutableNetwork.html" title="type parameter in MutableNetwork">N</a>&nbsp;node)</pre>
 <div class="block">Removes <code>node</code> if it is present; all edges incident to <code>node</code> will also be removed.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -259,7 +258,7 @@ extends <a href="../../../../com/google/common/graph/Network.html" title="interf
 <ul class="blockListLast">
 <li class="blockList">
 <h4>removeEdge</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableNetwork.html#line.81">removeEdge</a>(<a href="../../../../com/google/common/graph/MutableNetwork.html" title="type parameter in MutableNetwork">E</a>&nbsp;edge)</pre>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableNetwork.html#line.79">removeEdge</a>(<a href="../../../../com/google/common/graph/MutableNetwork.html" title="type parameter in MutableNetwork">E</a>&nbsp;edge)</pre>
 <div class="block">Removes <code>edge</code> from this network, if it is present.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
