@@ -235,7 +235,10 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMa
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingSortedMap.html#comparator--">comparator</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingSortedMap.html#comparator--">comparator</a></span>()</code>
+<div class="block">Returns the comparator used to order the keys in this map, or
+ <code>null</code> if this map uses the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">natural ordering</a> of its keys.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>protected abstract <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;</code></td>
@@ -245,15 +248,22 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMa
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingSortedMap.html#firstKey--">firstKey</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingSortedMap.html#firstKey--">firstKey</a></span>()</code>
+<div class="block">Returns the first (lowest) key currently in this map.</div>
+</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingSortedMap.html#headMap-K-">headMap</a></span>(<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;toKey)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingSortedMap.html#headMap-K-">headMap</a></span>(<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;toKey)</code>
+<div class="block">Returns a view of the portion of this map whose keys are
+ strictly less than <code>toKey</code>.</div>
+</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingSortedMap.html#lastKey--">lastKey</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingSortedMap.html#lastKey--">lastKey</a></span>()</code>
+<div class="block">Returns the last (highest) key currently in this map.</div>
+</td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>protected boolean</code></td>
@@ -272,11 +282,17 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMa
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingSortedMap.html#subMap-K-K-">subMap</a></span>(<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;fromKey,
-      <a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;toKey)</code>&nbsp;</td>
+      <a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;toKey)</code>
+<div class="block">Returns a view of the portion of this map whose keys range from
+ <code>fromKey</code>, inclusive, to <code>toKey</code>, exclusive.</div>
+</td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingSortedMap.html#tailMap-K-">tailMap</a></span>(<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;fromKey)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingSortedMap.html#tailMap-K-">tailMap</a></span>(<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;fromKey)</code>
+<div class="block">Returns a view of the portion of this map whose keys are
+ greater than or equal to <code>fromKey</code>.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -371,9 +387,16 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMa
 <li class="blockList">
 <h4>comparator</h4>
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.69">comparator</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#comparator--" title="class or interface in java.util">java.util.SortedMap</a></code></span></div>
+<div class="block">Returns the comparator used to order the keys in this map, or
+ <code>null</code> if this map uses the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">natural ordering</a> of its keys.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#comparator--" title="class or interface in java.util">comparator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the comparator used to order the keys in this map,
+         or <code>null</code> if this map uses the natural ordering
+         of its keys</dd>
 </dl>
 </li>
 </ul>
@@ -384,9 +407,13 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMa
 <li class="blockList">
 <h4>firstKey</h4>
 <pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.74">firstKey</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#firstKey--" title="class or interface in java.util">java.util.SortedMap</a></code></span></div>
+<div class="block">Returns the first (lowest) key currently in this map.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#firstKey--" title="class or interface in java.util">firstKey</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the first (lowest) key currently in this map</dd>
 </dl>
 </li>
 </ul>
@@ -399,9 +426,23 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMa
 <li class="blockList">
 <h4>headMap</h4>
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.79">headMap</a>(<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;toKey)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#headMap-K-" title="class or interface in java.util">java.util.SortedMap</a></code></span></div>
+<div class="block">Returns a view of the portion of this map whose keys are
+ strictly less than <code>toKey</code>.  The returned map is backed
+ by this map, so changes in the returned map are reflected in
+ this map, and vice-versa.  The returned map supports all
+ optional map operations that this map supports.
+
+ <p>The returned map will throw an <code>IllegalArgumentException</code>
+ on an attempt to insert a key outside its range.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#headMap-K-" title="class or interface in java.util">headMap</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>toKey</code> - high endpoint (exclusive) of the keys in the returned map</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a view of the portion of this map whose keys are strictly
+         less than <code>toKey</code></dd>
 </dl>
 </li>
 </ul>
@@ -412,9 +453,13 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMa
 <li class="blockList">
 <h4>lastKey</h4>
 <pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.84">lastKey</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#lastKey--" title="class or interface in java.util">java.util.SortedMap</a></code></span></div>
+<div class="block">Returns the last (highest) key currently in this map.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#lastKey--" title="class or interface in java.util">lastKey</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the last (highest) key currently in this map</dd>
 </dl>
 </li>
 </ul>
@@ -428,9 +473,26 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMa
 <h4>subMap</h4>
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.89">subMap</a>(<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;fromKey,
                              <a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;toKey)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#subMap-K-K-" title="class or interface in java.util">java.util.SortedMap</a></code></span></div>
+<div class="block">Returns a view of the portion of this map whose keys range from
+ <code>fromKey</code>, inclusive, to <code>toKey</code>, exclusive.  (If
+ <code>fromKey</code> and <code>toKey</code> are equal, the returned map
+ is empty.)  The returned map is backed by this map, so changes
+ in the returned map are reflected in this map, and vice-versa.
+ The returned map supports all optional map operations that this
+ map supports.
+
+ <p>The returned map will throw an <code>IllegalArgumentException</code>
+ on an attempt to insert a key outside its range.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#subMap-K-K-" title="class or interface in java.util">subMap</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>fromKey</code> - low endpoint (inclusive) of the keys in the returned map</dd>
+<dd><code>toKey</code> - high endpoint (exclusive) of the keys in the returned map</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a view of the portion of this map whose keys range from
+         <code>fromKey</code>, inclusive, to <code>toKey</code>, exclusive</dd>
 </dl>
 </li>
 </ul>
@@ -443,9 +505,23 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMa
 <li class="blockList">
 <h4>tailMap</h4>
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.94">tailMap</a>(<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;fromKey)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#tailMap-K-" title="class or interface in java.util">java.util.SortedMap</a></code></span></div>
+<div class="block">Returns a view of the portion of this map whose keys are
+ greater than or equal to <code>fromKey</code>.  The returned map is
+ backed by this map, so changes in the returned map are
+ reflected in this map, and vice-versa.  The returned map
+ supports all optional map operations that this map supports.
+
+ <p>The returned map will throw an <code>IllegalArgumentException</code>
+ on an attempt to insert a key outside its range.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#tailMap-K-" title="class or interface in java.util">tailMap</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>fromKey</code> - low endpoint (inclusive) of the keys in the returned map</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a view of the portion of this map whose keys are greater
+         than or equal to <code>fromKey</code></dd>
 </dl>
 </li>
 </ul>

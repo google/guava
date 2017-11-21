@@ -200,7 +200,9 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ForwardingFuture.html#cancel-boolean-">cancel</a></span>(boolean&nbsp;mayInterruptIfRunning)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ForwardingFuture.html#cancel-boolean-">cancel</a></span>(boolean&nbsp;mayInterruptIfRunning)</code>
+<div class="block">Attempts to cancel execution of this task.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>protected abstract <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/ForwardingFuture.html" title="type parameter in ForwardingFuture">V</a>&gt;</code></td>
@@ -210,20 +212,31 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/util/concurrent/ForwardingFuture.html" title="type parameter in ForwardingFuture">V</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ForwardingFuture.html#get--">get</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ForwardingFuture.html#get--">get</a></span>()</code>
+<div class="block">Waits if necessary for the computation to complete, and then
+ retrieves its result.</div>
+</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/util/concurrent/ForwardingFuture.html" title="type parameter in ForwardingFuture">V</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ForwardingFuture.html#get-long-java.util.concurrent.TimeUnit-">get</a></span>(long&nbsp;timeout,
-   <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>&nbsp;</td>
+   <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>
+<div class="block">Waits if necessary for at most the given time for the computation
+ to complete, and then retrieves its result, if available.</div>
+</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ForwardingFuture.html#isCancelled--">isCancelled</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ForwardingFuture.html#isCancelled--">isCancelled</a></span>()</code>
+<div class="block">Returns <code>true</code> if this task was cancelled before it completed
+ normally.</div>
+</td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ForwardingFuture.html#isDone--">isDone</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ForwardingFuture.html#isDone--">isDone</a></span>()</code>
+<div class="block">Returns <code>true</code> if this task completed.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -297,9 +310,30 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
 <li class="blockList">
 <h4>cancel</h4>
 <pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingFuture.html#line.46">cancel</a>(boolean&nbsp;mayInterruptIfRunning)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#cancel-boolean-" title="class or interface in java.util.concurrent">java.util.concurrent.Future</a></code></span></div>
+<div class="block">Attempts to cancel execution of this task.  This attempt will
+ fail if the task has already completed, has already been cancelled,
+ or could not be cancelled for some other reason. If successful,
+ and this task has not started when <code>cancel</code> is called,
+ this task should never run.  If the task has already started,
+ then the <code>mayInterruptIfRunning</code> parameter determines
+ whether the thread executing this task should be interrupted in
+ an attempt to stop the task.
+
+ <p>After this method returns, subsequent calls to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#isDone--" title="class or interface in java.util.concurrent"><code>Future.isDone()</code></a> will
+ always return <code>true</code>.  Subsequent calls to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#isCancelled--" title="class or interface in java.util.concurrent"><code>Future.isCancelled()</code></a>
+ will always return <code>true</code> if this method returned <code>true</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#cancel-boolean-" title="class or interface in java.util.concurrent">cancel</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ForwardingFuture.html" title="type parameter in ForwardingFuture">V</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>mayInterruptIfRunning</code> - <code>true</code> if the thread executing this
+ task should be interrupted; otherwise, in-progress tasks are allowed
+ to complete</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd><code>false</code> if the task could not be cancelled,
+ typically because it has already completed normally;
+ <code>true</code> otherwise</dd>
 </dl>
 </li>
 </ul>
@@ -310,9 +344,14 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
 <li class="blockList">
 <h4>isCancelled</h4>
 <pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingFuture.html#line.51">isCancelled</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#isCancelled--" title="class or interface in java.util.concurrent">java.util.concurrent.Future</a></code></span></div>
+<div class="block">Returns <code>true</code> if this task was cancelled before it completed
+ normally.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#isCancelled--" title="class or interface in java.util.concurrent">isCancelled</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ForwardingFuture.html" title="type parameter in ForwardingFuture">V</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd><code>true</code> if this task was cancelled before it completed</dd>
 </dl>
 </li>
 </ul>
@@ -323,9 +362,17 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
 <li class="blockList">
 <h4>isDone</h4>
 <pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingFuture.html#line.56">isDone</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#isDone--" title="class or interface in java.util.concurrent">java.util.concurrent.Future</a></code></span></div>
+<div class="block">Returns <code>true</code> if this task completed.
+
+ Completion may be due to normal termination, an exception, or
+ cancellation -- in all of these cases, this method will return
+ <code>true</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#isDone--" title="class or interface in java.util.concurrent">isDone</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ForwardingFuture.html" title="type parameter in ForwardingFuture">V</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd><code>true</code> if this task completed</dd>
 </dl>
 </li>
 </ul>
@@ -338,12 +385,19 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
 <pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/ForwardingFuture.html" title="type parameter in ForwardingFuture">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingFuture.html#line.61">get</a>()
       throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a>,
              <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#get--" title="class or interface in java.util.concurrent">java.util.concurrent.Future</a></code></span></div>
+<div class="block">Waits if necessary for the computation to complete, and then
+ retrieves its result.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#get--" title="class or interface in java.util.concurrent">get</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ForwardingFuture.html" title="type parameter in ForwardingFuture">V</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the computed result</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></code></dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></code> - if the current thread was interrupted
+ while waiting</dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></code> - if the computation threw an
+ exception</dd>
 </dl>
 </li>
 </ul>
@@ -358,13 +412,23 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
       throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a>,
              <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a>,
              <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent">TimeoutException</a></pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#get-long-java.util.concurrent.TimeUnit-" title="class or interface in java.util.concurrent">java.util.concurrent.Future</a></code></span></div>
+<div class="block">Waits if necessary for at most the given time for the computation
+ to complete, and then retrieves its result, if available.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#get-long-java.util.concurrent.TimeUnit-" title="class or interface in java.util.concurrent">get</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ForwardingFuture.html" title="type parameter in ForwardingFuture">V</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>timeout</code> - the maximum time to wait</dd>
+<dd><code>unit</code> - the time unit of the timeout argument</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the computed result</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></code></dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></code></dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent">TimeoutException</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></code> - if the current thread was interrupted
+ while waiting</dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></code> - if the computation threw an
+ exception</dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent">TimeoutException</a></code> - if the wait timed out</dd>
 </dl>
 </li>
 </ul>

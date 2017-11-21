@@ -214,7 +214,10 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.html#ceiling-E-">ceiling</a></span>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.html#ceiling-E-">ceiling</a></span>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</code>
+<div class="block">Returns the least element in this set greater than or equal to
+ the given element, or <code>null</code> if there is no such element.</div>
+</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></td>
@@ -285,32 +288,50 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 </tr>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>abstract <a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.html#descendingIterator--">descendingIterator</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.html#descendingIterator--">descendingIterator</a></span>()</code>
+<div class="block">Returns an iterator over the elements in this set, in descending order.</div>
+</td>
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.html#descendingSet--">descendingSet</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.html#descendingSet--">descendingSet</a></span>()</code>
+<div class="block">Returns a reverse order view of the elements contained in this set.</div>
+</td>
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.html#first--">first</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.html#first--">first</a></span>()</code>
+<div class="block">Returns the first (lowest) element currently in this set.</div>
+</td>
 </tr>
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.html#floor-E-">floor</a></span>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.html#floor-E-">floor</a></span>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</code>
+<div class="block">Returns the greatest element in this set less than or equal to
+ the given element, or <code>null</code> if there is no such element.</div>
+</td>
 </tr>
 <tr id="i16" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.html#headSet-E-">headSet</a></span>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;toElement)</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.html#headSet-E-">headSet</a></span>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;toElement)</code>
+<div class="block">Returns a view of the portion of this set whose elements are
+ strictly less than <tt>toElement</tt>.</div>
+</td>
 </tr>
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.html#headSet-E-boolean-">headSet</a></span>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;toElement,
-       boolean&nbsp;inclusive)</code>&nbsp;</td>
+       boolean&nbsp;inclusive)</code>
+<div class="block">Returns a view of the portion of this set whose elements are less than
+ (or equal to, if <code>inclusive</code> is true) <code>toElement</code>.</div>
+</td>
 </tr>
 <tr id="i18" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.html#higher-E-">higher</a></span>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.html#higher-E-">higher</a></span>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</code>
+<div class="block">Returns the least element in this set strictly greater than the
+ given element, or <code>null</code> if there is no such element.</div>
+</td>
 </tr>
 <tr id="i19" class="rowColor">
 <td class="colFirst"><code>abstract <a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></td>
@@ -320,11 +341,16 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 </tr>
 <tr id="i20" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.html#last--">last</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.html#last--">last</a></span>()</code>
+<div class="block">Returns the last (highest) element currently in this set.</div>
+</td>
 </tr>
 <tr id="i21" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.html#lower-E-">lower</a></span>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.html#lower-E-">lower</a></span>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</code>
+<div class="block">Returns the greatest element in this set strictly less than the
+ given element, or <code>null</code> if there is no such element.</div>
+</td>
 </tr>
 <tr id="i22" class="altColor">
 <td class="colFirst"><code>static &lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;<br><a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;E&gt;</code></td>
@@ -431,21 +457,34 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.html#subSet-E-boolean-E-boolean-">subSet</a></span>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement,
       boolean&nbsp;fromInclusive,
       <a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;toElement,
-      boolean&nbsp;toInclusive)</code>&nbsp;</td>
+      boolean&nbsp;toInclusive)</code>
+<div class="block">Returns a view of the portion of this set whose elements range from
+ <code>fromElement</code> to <code>toElement</code>.</div>
+</td>
 </tr>
 <tr id="i35" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.html#subSet-E-E-">subSet</a></span>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement,
-      <a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;toElement)</code></td>
+      <a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;toElement)</code>
+<div class="block">Returns a view of the portion of this set whose elements range
+ from <tt>fromElement</tt>, inclusive, to <tt>toElement</tt>,
+ exclusive.</div>
+</td>
 </tr>
 <tr id="i36" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.html#tailSet-E-">tailSet</a></span>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement)</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.html#tailSet-E-">tailSet</a></span>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement)</code>
+<div class="block">Returns a view of the portion of this set whose elements are
+ greater than or equal to <tt>fromElement</tt>.</div>
+</td>
 </tr>
 <tr id="i37" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.html#tailSet-E-boolean-">tailSet</a></span>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement,
-       boolean&nbsp;inclusive)</code>&nbsp;</td>
+       boolean&nbsp;inclusive)</code>
+<div class="block">Returns a view of the portion of this set whose elements are greater
+ than (or equal to, if <code>inclusive</code> is true) <code>fromElement</code>.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -908,6 +947,10 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#comparator--" title="class or interface in java.util">comparator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the comparator used to order the elements in this set,
+         or <tt>null</tt> if this set uses the natural ordering
+         of its elements</dd>
 </dl>
 </li>
 </ul>
@@ -931,6 +974,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true#iterator--" title="class or interface in java.util">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ImmutableSet.html#iterator--">iterator</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>an iterator over the elements contained in this collection</dd>
 </dl>
 </li>
 </ul>
@@ -943,7 +988,16 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <li class="blockList">
 <h4>headSet</h4>
 <pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.570">headSet</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;toElement)</pre>
-<div class="block">
+<div class="block">Returns a view of the portion of this set whose elements are
+ strictly less than <tt>toElement</tt>.  The returned set is
+ backed by this set, so changes in the returned set are
+ reflected in this set, and vice-versa.  The returned set
+ supports all optional set operations that this set supports.
+
+ <p>The returned set will throw an <tt>IllegalArgumentException</tt>
+ on an attempt to insert an element outside its range.
+
+ <p>Equivalent to <code>headSet(toElement, false)</code>.
 
  <p>This method returns a serializable <code>ImmutableSortedSet</code>.
 
@@ -957,6 +1011,11 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#headSet-E-" title="class or interface in java.util">headSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#headSet-E-" title="class or interface in java.util">headSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>toElement</code> - high endpoint (exclusive) of the returned set</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a view of the portion of this set whose elements are strictly
+         less than <tt>toElement</tt></dd>
 </dl>
 </li>
 </ul>
@@ -971,9 +1030,25 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.579">headSet</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;toElement,
                                                       boolean&nbsp;inclusive)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#headSet-E-boolean-" title="class or interface in java.util">java.util.NavigableSet</a></code></span></div>
+<div class="block">Returns a view of the portion of this set whose elements are less than
+ (or equal to, if <code>inclusive</code> is true) <code>toElement</code>.  The
+ returned set is backed by this set, so changes in the returned set are
+ reflected in this set, and vice-versa.  The returned set supports all
+ optional set operations that this set supports.
+
+ <p>The returned set will throw an <code>IllegalArgumentException</code>
+ on an attempt to insert an element outside its range.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#headSet-E-boolean-" title="class or interface in java.util">headSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>toElement</code> - high endpoint of the returned set</dd>
+<dd><code>inclusive</code> - <code>true</code> if the high endpoint
+        is to be included in the returned view</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a view of the portion of this set whose elements are less than
+         (or equal to, if <code>inclusive</code> is true) <code>toElement</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>12.0</dd>
 </dl>
@@ -989,7 +1064,18 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.ht
 <h4>subSet</h4>
 <pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.597">subSet</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement,
                                     <a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;toElement)</pre>
-<div class="block">
+<div class="block">Returns a view of the portion of this set whose elements range
+ from <tt>fromElement</tt>, inclusive, to <tt>toElement</tt>,
+ exclusive.  (If <tt>fromElement</tt> and <tt>toElement</tt> are
+ equal, the returned set is empty.)  The returned set is backed
+ by this set, so changes in the returned set are reflected in
+ this set, and vice-versa.  The returned set supports all
+ optional set operations that this set supports.
+
+ <p>The returned set will throw an <tt>IllegalArgumentException</tt>
+ on an attempt to insert an element outside its range.
+
+ <p>Equivalent to <code>subSet(fromElement, true, toElement, false)</code>.
 
  <p>This method returns a serializable <code>ImmutableSortedSet</code>.
 
@@ -1005,6 +1091,12 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.ht
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#subSet-E-E-" title="class or interface in java.util">subSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#subSet-E-E-" title="class or interface in java.util">subSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>fromElement</code> - low endpoint (inclusive) of the returned set</dd>
+<dd><code>toElement</code> - high endpoint (exclusive) of the returned set</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a view of the portion of this set whose elements range from
+         <tt>fromElement</tt>, inclusive, to <tt>toElement</tt>, exclusive</dd>
 </dl>
 </li>
 </ul>
@@ -1021,9 +1113,29 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.ht
                                                      boolean&nbsp;fromInclusive,
                                                      <a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;toElement,
                                                      boolean&nbsp;toInclusive)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#subSet-E-boolean-E-boolean-" title="class or interface in java.util">java.util.NavigableSet</a></code></span></div>
+<div class="block">Returns a view of the portion of this set whose elements range from
+ <code>fromElement</code> to <code>toElement</code>.  If <code>fromElement</code> and
+ <code>toElement</code> are equal, the returned set is empty unless <code>fromInclusive</code> and <code>toInclusive</code> are both true.  The returned set
+ is backed by this set, so changes in the returned set are reflected in
+ this set, and vice-versa.  The returned set supports all optional set
+ operations that this set supports.
+
+ <p>The returned set will throw an <code>IllegalArgumentException</code>
+ on an attempt to insert an element outside its range.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#subSet-E-boolean-E-boolean-" title="class or interface in java.util">subSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>fromElement</code> - low endpoint of the returned set</dd>
+<dd><code>fromInclusive</code> - <code>true</code> if the low endpoint
+        is to be included in the returned view</dd>
+<dd><code>toElement</code> - high endpoint of the returned set</dd>
+<dd><code>toInclusive</code> - <code>true</code> if the high endpoint
+        is to be included in the returned view</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a view of the portion of this set whose elements range from
+         <code>fromElement</code>, inclusive, to <code>toElement</code>, exclusive</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>12.0</dd>
 </dl>
@@ -1038,7 +1150,16 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.ht
 <li class="blockList">
 <h4>tailSet</h4>
 <pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.626">tailSet</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement)</pre>
-<div class="block">
+<div class="block">Returns a view of the portion of this set whose elements are
+ greater than or equal to <tt>fromElement</tt>.  The returned
+ set is backed by this set, so changes in the returned set are
+ reflected in this set, and vice-versa.  The returned set
+ supports all optional set operations that this set supports.
+
+ <p>The returned set will throw an <tt>IllegalArgumentException</tt>
+ on an attempt to insert an element outside its range.
+
+ <p>Equivalent to <code>tailSet(fromElement, true)</code>.
 
  <p>This method returns a serializable <code>ImmutableSortedSet</code>.
 
@@ -1052,6 +1173,11 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.ht
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#tailSet-E-" title="class or interface in java.util">tailSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#tailSet-E-" title="class or interface in java.util">tailSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>fromElement</code> - low endpoint (inclusive) of the returned set</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a view of the portion of this set whose elements are greater
+         than or equal to <tt>fromElement</tt></dd>
 </dl>
 </li>
 </ul>
@@ -1066,9 +1192,25 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.ht
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.635">tailSet</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement,
                                                       boolean&nbsp;inclusive)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#tailSet-E-boolean-" title="class or interface in java.util">java.util.NavigableSet</a></code></span></div>
+<div class="block">Returns a view of the portion of this set whose elements are greater
+ than (or equal to, if <code>inclusive</code> is true) <code>fromElement</code>.
+ The returned set is backed by this set, so changes in the returned set
+ are reflected in this set, and vice-versa.  The returned set supports
+ all optional set operations that this set supports.
+
+ <p>The returned set will throw an <code>IllegalArgumentException</code>
+ on an attempt to insert an element outside its range.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#tailSet-E-boolean-" title="class or interface in java.util">tailSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>fromElement</code> - low endpoint of the returned set</dd>
+<dd><code>inclusive</code> - <code>true</code> if the low endpoint
+        is to be included in the returned view</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a view of the portion of this set whose elements are greater
+         than or equal to <code>fromElement</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>12.0</dd>
 </dl>
@@ -1084,9 +1226,17 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.ht
 <h4>lower</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.655">lower</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#lower-E-" title="class or interface in java.util">java.util.NavigableSet</a></code></span></div>
+<div class="block">Returns the greatest element in this set strictly less than the
+ given element, or <code>null</code> if there is no such element.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#lower-E-" title="class or interface in java.util">lower</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>e</code> - the value to match</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the greatest element less than <code>e</code>,
+         or <code>null</code> if there is no such element</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>12.0</dd>
 </dl>
@@ -1102,9 +1252,17 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.ht
 <h4>floor</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.664">floor</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#floor-E-" title="class or interface in java.util">java.util.NavigableSet</a></code></span></div>
+<div class="block">Returns the greatest element in this set less than or equal to
+ the given element, or <code>null</code> if there is no such element.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#floor-E-" title="class or interface in java.util">floor</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>e</code> - the value to match</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the greatest element less than or equal to <code>e</code>,
+         or <code>null</code> if there is no such element</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>12.0</dd>
 </dl>
@@ -1120,9 +1278,17 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.ht
 <h4>ceiling</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.673">ceiling</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#ceiling-E-" title="class or interface in java.util">java.util.NavigableSet</a></code></span></div>
+<div class="block">Returns the least element in this set greater than or equal to
+ the given element, or <code>null</code> if there is no such element.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#ceiling-E-" title="class or interface in java.util">ceiling</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>e</code> - the value to match</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the least element greater than or equal to <code>e</code>,
+         or <code>null</code> if there is no such element</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>12.0</dd>
 </dl>
@@ -1138,9 +1304,17 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.ht
 <h4>higher</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.682">higher</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#higher-E-" title="class or interface in java.util">java.util.NavigableSet</a></code></span></div>
+<div class="block">Returns the least element in this set strictly greater than the
+ given element, or <code>null</code> if there is no such element.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#higher-E-" title="class or interface in java.util">higher</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>e</code> - the value to match</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the least element greater than <code>e</code>,
+         or <code>null</code> if there is no such element</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>12.0</dd>
 </dl>
@@ -1153,9 +1327,13 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.ht
 <li class="blockList">
 <h4>first</h4>
 <pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.687">first</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#first--" title="class or interface in java.util">java.util.SortedSet</a></code></span></div>
+<div class="block">Returns the first (lowest) element currently in this set.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#first--" title="class or interface in java.util">first</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the first (lowest) element currently in this set</dd>
 </dl>
 </li>
 </ul>
@@ -1166,9 +1344,13 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.ht
 <li class="blockList">
 <h4>last</h4>
 <pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.692">last</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#last--" title="class or interface in java.util">java.util.SortedSet</a></code></span></div>
+<div class="block">Returns the last (highest) element currently in this set.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#last--" title="class or interface in java.util">last</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the last (highest) element currently in this set</dd>
 </dl>
 </li>
 </ul>
@@ -1186,6 +1368,8 @@ public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableSorted
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#pollFirst--" title="class or interface in java.util">pollFirst</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the first element, or <code>null</code> if this set is empty</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang">UnsupportedOperationException</a></code> - always</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -1207,6 +1391,8 @@ public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableSorted
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#pollLast--" title="class or interface in java.util">pollLast</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the last element, or <code>null</code> if this set is empty</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang">UnsupportedOperationException</a></code> - always</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -1222,9 +1408,23 @@ public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableSorted
 <h4>descendingSet</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.735">descendingSet</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#descendingSet--" title="class or interface in java.util">java.util.NavigableSet</a></code></span></div>
+<div class="block">Returns a reverse order view of the elements contained in this set.
+ The descending set is backed by this set, so changes to the set are
+ reflected in the descending set, and vice-versa.  If either set is
+ modified while an iteration over either set is in progress (except
+ through the iterator's own <code>remove</code> operation), the results of
+ the iteration are undefined.
+
+ <p>The returned set has an ordering equivalent to
+ <tt><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#reverseOrder-java.util.Comparator-" title="class or interface in java.util"><code>Collections.reverseOrder</code></a>(comparator())</tt>.
+ The expression <code>s.descendingSet().descendingSet()</code> returns a
+ view of <code>s</code> essentially equivalent to <code>s</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#descendingSet--" title="class or interface in java.util">descendingSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a reverse order view of this set</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>12.0</dd>
 </dl>
@@ -1238,9 +1438,14 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.ht
 <h4>descendingIterator</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public abstract&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.756">descendingIterator</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#descendingIterator--" title="class or interface in java.util">java.util.NavigableSet</a></code></span></div>
+<div class="block">Returns an iterator over the elements in this set, in descending order.
+ Equivalent in effect to <code>descendingSet().iterator()</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#descendingIterator--" title="class or interface in java.util">descendingIterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>an iterator over the elements in this set, in descending order</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>12.0</dd>
 </dl>

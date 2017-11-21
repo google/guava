@@ -139,7 +139,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.ht
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/PeekingIterator.html" title="type parameter in PeekingIterator">E</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/PeekingIterator.html#next--">next</a></span>()</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/PeekingIterator.html#next--">next</a></span>()</code>
+<div class="block">Returns the next element in the iteration.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/PeekingIterator.html" title="type parameter in PeekingIterator">E</a></code></td>
@@ -149,7 +151,10 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.ht
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/PeekingIterator.html#remove--">remove</a></span>()</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/PeekingIterator.html#remove--">remove</a></span>()</code>
+<div class="block">Removes from the underlying collection the last element returned
+ by this iterator (optional operation).</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -199,12 +204,14 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.ht
 <li class="blockList">
 <h4>next</h4>
 <pre><a href="../../../../com/google/common/collect/PeekingIterator.html" title="type parameter in PeekingIterator">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/PeekingIterator.html#line.56">next</a>()</pre>
-<div class="block">
+<div class="block">Returns the next element in the iteration.
 
  <p>The objects returned by consecutive calls to <a href="../../../../com/google/common/collect/PeekingIterator.html#peek--"><code>peek()</code></a> then <a href="../../../../com/google/common/collect/PeekingIterator.html#next--"><code>next()</code></a> are guaranteed to be equal to each other.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true#next--" title="class or interface in java.util">next</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;<a href="../../../../com/google/common/collect/PeekingIterator.html" title="type parameter in PeekingIterator">E</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the next element in the iteration</dd>
 </dl>
 </li>
 </ul>
@@ -215,7 +222,12 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.ht
 <li class="blockList">
 <h4>remove</h4>
 <pre>void&nbsp;<a href="../../../../src-html/com/google/common/collect/PeekingIterator.html#line.69">remove</a>()</pre>
-<div class="block">
+<div class="block">Removes from the underlying collection the last element returned
+ by this iterator (optional operation).  This method can be called
+ only once per call to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true#next--" title="class or interface in java.util"><code>Iterator.next()</code></a>.  The behavior of an iterator
+ is unspecified if the underlying collection is modified while the
+ iteration is in progress in any way other than by calling this
+ method.
 
  <p>Implementations may or may not support removal when a call to <a href="../../../../com/google/common/collect/PeekingIterator.html#peek--"><code>peek()</code></a> has occurred since the most recent call to <a href="../../../../com/google/common/collect/PeekingIterator.html#next--"><code>next()</code></a>.</div>
 <dl>

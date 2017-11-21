@@ -168,7 +168,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Pr
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>default boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/base/Predicate.html#test-T-">test</a></span>(<a href="../../../../com/google/common/base/Predicate.html" title="type parameter in Predicate">T</a>&nbsp;input)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/base/Predicate.html#test-T-">test</a></span>(<a href="../../../../com/google/common/base/Predicate.html" title="type parameter in Predicate">T</a>&nbsp;input)</code>
+<div class="block">Evaluates this predicate on the given argument.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -237,6 +239,14 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Pr
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>object</code> - the reference object with which to compare.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd><code>true</code> if this object is the same as the obj
+          argument; <code>false</code> otherwise.</dd>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang"><code>Object.hashCode()</code></a>, 
+<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util"><code>HashMap</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -250,9 +260,16 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Pr
 <h4>test</h4>
 <pre>default&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html#line.79">test</a>(<a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                      <a href="../../../../com/google/common/base/Predicate.html" title="type parameter in Predicate">T</a>&nbsp;input)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Predicate.html?is-external=true#test-T-" title="class or interface in java.util.function">java.util.function.Predicate</a></code></span></div>
+<div class="block">Evaluates this predicate on the given argument.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Predicate.html?is-external=true#test-T-" title="class or interface in java.util.function">test</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Predicate.html?is-external=true" title="class or interface in java.util.function">Predicate</a>&lt;<a href="../../../../com/google/common/base/Predicate.html" title="type parameter in Predicate">T</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>input</code> - the input argument</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd><code>true</code> if the input argument matches the predicate,
+ otherwise <code>false</code></dd>
 </dl>
 </li>
 </ul>

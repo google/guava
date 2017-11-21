@@ -214,7 +214,10 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/base/FinalizableReferenceQueue.html#close--">close</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/base/FinalizableReferenceQueue.html#close--">close</a></span>()</code>
+<div class="block">Closes this stream and releases any system resources associated
+ with it.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -263,6 +266,16 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.
 <li class="blockList">
 <h4>close</h4>
 <pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/FinalizableReferenceQueue.html#line.178">close</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.html?is-external=true#close--" title="class or interface in java.io">java.io.Closeable</a></code></span></div>
+<div class="block">Closes this stream and releases any system resources associated
+ with it. If the stream is already closed then invoking this
+ method has no effect.
+
+ <p> As noted in <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/AutoCloseable.html?is-external=true#close--" title="class or interface in java.lang"><code>AutoCloseable.close()</code></a>, cases where the
+ close may fail require careful attention. It is strongly advised
+ to relinquish the underlying resources and to internally
+ <em>mark</em> the <code>Closeable</code> as closed, prior to throwing
+ the <code>IOException</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.html?is-external=true#close--" title="class or interface in java.io">close</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io">Closeable</a></code></dd>

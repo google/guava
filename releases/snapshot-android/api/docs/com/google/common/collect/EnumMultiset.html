@@ -171,7 +171,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/EnumMultiset.html#add-E-">add</a></span>(E&nbsp;element)</code>
-<div class="block">Adds a single occurrence of the specified element to this multiset.</div>
+<div class="block">Ensures that this collection contains the specified element (optional
+ operation).</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -183,16 +184,21 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/EnumMultiset.html#addAll-java.util.Collection-">addAll</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends E&gt;&nbsp;elementsToAdd)</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/EnumMultiset.html#addAll-java.util.Collection-">addAll</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends E&gt;&nbsp;elementsToAdd)</code>
+<div class="block">Adds all of the elements in the specified collection to this collection
+ (optional operation).</div>
+</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/EnumMultiset.html#clear--">clear</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/EnumMultiset.html#clear--">clear</a></span>()</code>
+<div class="block">Removes all of the elements from this collection (optional operation).</div>
+</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/EnumMultiset.html#contains-java.lang.Object-">contains</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element)</code>
-<div class="block">Determines whether this multiset contains the specified element.</div>
+<div class="block">Returns <tt>true</tt> if this collection contains the specified element.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
@@ -237,28 +243,32 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <tr id="i11" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/EnumMultiset.html#equals-java.lang.Object-">equals</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</code>
-<div class="block">Compares the specified object with this multiset for equality.</div>
+<div class="block">Indicates whether some other object is "equal to" this one.</div>
 </td>
 </tr>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/EnumMultiset.html#hashCode--">hashCode</a></span>()</code>
-<div class="block">Returns the hash code for this multiset.</div>
+<div class="block">Returns a hash code value for the object.</div>
 </td>
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/EnumMultiset.html#isEmpty--">isEmpty</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/EnumMultiset.html#isEmpty--">isEmpty</a></span>()</code>
+<div class="block">Returns <tt>true</tt> if this collection contains no elements.</div>
+</td>
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/EnumMultiset.html#iterator--">iterator</a></span>()</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/EnumMultiset.html#iterator--">iterator</a></span>()</code>
+<div class="block">Returns an iterator over the elements contained in this collection.</div>
+</td>
 </tr>
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/EnumMultiset.html#remove-java.lang.Object-">remove</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element)</code>
-<div class="block">Removes a <i>single</i> occurrence of the specified element from this
- multiset, if present.</div>
+<div class="block">Removes a single instance of the specified element from this
+ collection, if it is present (optional operation).</div>
 </td>
 </tr>
 <tr id="i16" class="altColor">
@@ -270,11 +280,17 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 </tr>
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/EnumMultiset.html#removeAll-java.util.Collection-">removeAll</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;elementsToRemove)</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/EnumMultiset.html#removeAll-java.util.Collection-">removeAll</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;elementsToRemove)</code>
+<div class="block">Removes all of this collection's elements that are also contained in the
+ specified collection (optional operation).</div>
+</td>
 </tr>
 <tr id="i18" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/EnumMultiset.html#retainAll-java.util.Collection-">retainAll</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;elementsToRetain)</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/EnumMultiset.html#retainAll-java.util.Collection-">retainAll</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;elementsToRetain)</code>
+<div class="block">Retains only the elements in this collection that are contained in the
+ specified collection (optional operation).</div>
+</td>
 </tr>
 <tr id="i19" class="rowColor">
 <td class="colFirst"><code>int</code></td>
@@ -297,12 +313,14 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <tr id="i21" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/EnumMultiset.html#size--">size</a></span>()</code>
-<div class="block">Returns the total number of all occurrences of all elements in this multiset.</div>
+<div class="block">Returns the number of elements in this collection.</div>
 </td>
 </tr>
 <tr id="i22" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/EnumMultiset.html#toString--">toString</a></span>()</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/EnumMultiset.html#toString--">toString</a></span>()</code>
+<div class="block">Returns a string representation of this collection.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -404,16 +422,17 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <li class="blockList">
 <h4>size</h4>
 <pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumMultiset.html#line.124">size</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#size--">Multiset</a></code></span></div>
-<div class="block">Returns the total number of all occurrences of all elements in this multiset.
-
- <p><b>Note:</b> this method does not return the number of <i>distinct elements</i> in the
- multiset, which is given by <code>entrySet().size()</code>.</div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#size--" title="class or interface in java.util">java.util.Collection</a></code></span></div>
+<div class="block">Returns the number of elements in this collection.  If this collection
+ contains more than <tt>Integer.MAX_VALUE</tt> elements, returns
+ <tt>Integer.MAX_VALUE</tt>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/Multiset.html#size--">size</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="../../../../com/google/common/collect/EnumMultiset.html" title="type parameter in EnumMultiset">E</a> extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;<a href="../../../../com/google/common/collect/EnumMultiset.html" title="type parameter in EnumMultiset">E</a>&gt;&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#size--" title="class or interface in java.util">size</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/EnumMultiset.html" title="type parameter in EnumMultiset">E</a> extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;<a href="../../../../com/google/common/collect/EnumMultiset.html" title="type parameter in EnumMultiset">E</a>&gt;&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the number of elements in this collection</dd>
 </dl>
 </li>
 </ul>
@@ -529,6 +548,19 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <li class="blockList">
 <h4>clear</h4>
 <pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumMultiset.html#line.204">clear</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#clear--" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
+<div class="block">Removes all of the elements from this collection (optional operation).
+ The collection will be empty after this method returns.
+
+ <p>This implementation iterates over this collection, removing each
+ element using the <tt>Iterator.remove</tt> operation.  Most
+ implementations will probably choose to override this method for
+ efficiency.
+
+ <p>Note that this implementation will throw an
+ <tt>UnsupportedOperationException</tt> if the iterator returned by this
+ collection's <tt>iterator</tt> method does not implement the
+ <tt>remove</tt> method and this collection is non-empty.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#clear--" title="class or interface in java.util">clear</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/EnumMultiset.html" title="type parameter in EnumMultiset">E</a> extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;<a href="../../../../com/google/common/collect/EnumMultiset.html" title="type parameter in EnumMultiset">E</a>&gt;&gt;</code></dd>
@@ -542,11 +574,17 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <li class="blockList">
 <h4>isEmpty</h4>
 <pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.56">isEmpty</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#isEmpty--" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
+<div class="block">Returns <tt>true</tt> if this collection contains no elements.
+
+ <p>This implementation returns <tt>size() == 0</tt>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#isEmpty--" title="class or interface in java.util">isEmpty</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;E&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#isEmpty--" title="class or interface in java.util">isEmpty</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util">AbstractCollection</a>&lt;E&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd><tt>true</tt> if this collection contains no elements</dd>
 </dl>
 </li>
 </ul>
@@ -558,12 +596,14 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <h4>contains</h4>
 <pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.61">contains</a>(<a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                         <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#contains-java.lang.Object-">Multiset</a></code></span></div>
-<div class="block">Determines whether this multiset contains the specified element.
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#contains-java.lang.Object-" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
+<div class="block">Returns <tt>true</tt> if this collection contains the specified element.
+ More formally, returns <tt>true</tt> if and only if this collection
+ contains at least one element <tt>e</tt> such that
+ <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e))</tt>.
 
- <p>This method refines <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#contains-java.lang.Object-" title="class or interface in java.util"><code>Collection.contains(java.lang.Object)</code></a> to further specify that
- it <b>may not</b> throw an exception in response to <code>element</code> being
- null or of the wrong type.</div>
+ <p>This implementation iterates over the elements in the collection,
+ checking each element in turn for equality with the specified element.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/Multiset.html#contains-java.lang.Object-">contains</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;</code></dd>
@@ -572,10 +612,10 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#contains-java.lang.Object-" title="class or interface in java.util">contains</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util">AbstractCollection</a>&lt;E&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>element</code> - the element to check for</dd>
+<dd><code>element</code> - element whose presence in this collection is to be tested</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this multiset contains at least one occurrence of
-     the element</dd>
+<dd><tt>true</tt> if this collection contains the specified
+         element</dd>
 </dl>
 </li>
 </ul>
@@ -586,11 +626,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <li class="blockList">
 <h4>iterator</h4>
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.66">iterator</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#iterator--">Multiset</a></code></span></div>
-<div class="block">
-
- <p>Elements that occur multiple times in the multiset will appear
- multiple times in this iterator, though not necessarily sequentially.</div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#iterator--" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
+<div class="block">Returns an iterator over the elements contained in this collection.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/Multiset.html#iterator--">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;</code></dd>
@@ -600,6 +637,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#iterator--" title="class or interface in java.util">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;E&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#iterator--" title="class or interface in java.util">iterator</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util">AbstractCollection</a>&lt;E&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>an iterator over the elements contained in this collection</dd>
 </dl>
 </li>
 </ul>
@@ -613,16 +652,27 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <h4>add</h4>
 <pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.83">add</a>(<a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                    E&nbsp;element)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#add-E-">Multiset</a></code></span></div>
-<div class="block">Adds a single occurrence of the specified element to this multiset.
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#add-E-" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
+<div class="block">Ensures that this collection contains the specified element (optional
+ operation).  Returns <tt>true</tt> if this collection changed as a
+ result of the call.  (Returns <tt>false</tt> if this collection does
+ not permit duplicates and already contains the specified element.)<p>
 
- <p>This method refines <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#add-E-" title="class or interface in java.util"><code>Collection.add(E)</code></a>, which only <i>ensures</i>
- the presence of the element, to further specify that a successful call must
- always increment the count of the element, and the overall size of the
- collection, by one.
+ Collections that support this operation may place limitations on what
+ elements may be added to this collection.  In particular, some
+ collections will refuse to add <tt>null</tt> elements, and others will
+ impose restrictions on the type of elements that may be added.
+ Collection classes should clearly specify in their documentation any
+ restrictions on what elements may be added.<p>
 
- <p>To both add the element and obtain the previous count of that element,
- use <a href="../../../../com/google/common/collect/Multiset.html#add-E-int-"><code>add</code></a><code>(element, 1)</code> instead.</div>
+ If a collection refuses to add a particular element for any reason
+ other than that it already contains the element, it <i>must</i> throw
+ an exception (rather than returning <tt>false</tt>).  This preserves
+ the invariant that a collection always contains the specified element
+ after this call returns.
+
+ <p>This implementation always throws an
+ <tt>UnsupportedOperationException</tt>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/Multiset.html#add-E-">add</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;</code></dd>
@@ -631,11 +681,10 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#add-E-" title="class or interface in java.util">add</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util">AbstractCollection</a>&lt;E&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>element</code> - the element to add one occurrence of; may be null only if
-     explicitly allowed by the implementation</dd>
+<dd><code>element</code> - element whose presence in this collection is to be ensured</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> always, since this call is required to modify the
-     multiset, unlike other <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a> types</dd>
+<dd><tt>true</tt> if this collection changed as a result of the
+         call</dd>
 </dl>
 </li>
 </ul>
@@ -647,16 +696,23 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <h4>remove</h4>
 <pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.96">remove</a>(<a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#remove-java.lang.Object-">Multiset</a></code></span></div>
-<div class="block">Removes a <i>single</i> occurrence of the specified element from this
- multiset, if present.
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#remove-java.lang.Object-" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
+<div class="block">Removes a single instance of the specified element from this
+ collection, if it is present (optional operation).  More formally,
+ removes an element <tt>e</tt> such that
+ <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e))</tt>, if
+ this collection contains one or more such elements.  Returns
+ <tt>true</tt> if this collection contained the specified element (or
+ equivalently, if this collection changed as a result of the call).
 
- <p>This method refines <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#remove-java.lang.Object-" title="class or interface in java.util"><code>Collection.remove(java.lang.Object)</code></a> to further specify that it
- <b>may not</b> throw an exception in response to <code>element</code> being null
- or of the wrong type.
+ <p>This implementation iterates over the collection looking for the
+ specified element.  If it finds the element, it removes the element
+ from the collection using the iterator's remove method.
 
- <p>To both remove the element and obtain the previous count of that element,
- use <a href="../../../../com/google/common/collect/Multiset.html#remove-java.lang.Object-int-"><code>remove</code></a><code>(element, 1)</code> instead.</div>
+ <p>Note that this implementation throws an
+ <tt>UnsupportedOperationException</tt> if the iterator returned by this
+ collection's iterator method does not implement the <tt>remove</tt>
+ method and this collection contains the specified object.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/Multiset.html#remove-java.lang.Object-">remove</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;</code></dd>
@@ -665,9 +721,9 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#remove-java.lang.Object-" title="class or interface in java.util">remove</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util">AbstractCollection</a>&lt;E&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>element</code> - the element to remove one occurrence of</dd>
+<dd><code>element</code> - element to be removed from this collection, if present</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if an occurrence was found and removed</dd>
+<dd><tt>true</tt> if an element was removed as a result of this call</dd>
 </dl>
 </li>
 </ul>
@@ -710,7 +766,19 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <li class="blockList">
 <h4>addAll</h4>
 <pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.128">addAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends E&gt;&nbsp;elementsToAdd)</pre>
-<div class="block">
+<div class="block">Adds all of the elements in the specified collection to this collection
+ (optional operation).  The behavior of this operation is undefined if
+ the specified collection is modified while the operation is in progress.
+ (This implies that the behavior of this call is undefined if the
+ specified collection is this collection, and this collection is
+ nonempty.)
+
+ <p>This implementation iterates over the specified collection, and adds
+ each object returned by the iterator to this collection, in turn.
+
+ <p>Note that this implementation will throw an
+ <tt>UnsupportedOperationException</tt> unless <tt>add</tt> is
+ overridden (assuming the specified collection is non-empty).
 
  <p>This implementation is highly efficient when <code>elementsToAdd</code>
  is itself a <a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect"><code>Multiset</code></a>.</div>
@@ -719,6 +787,12 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#addAll-java.util.Collection-" title="class or interface in java.util">addAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;E&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#addAll-java.util.Collection-" title="class or interface in java.util">addAll</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util">AbstractCollection</a>&lt;E&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>elementsToAdd</code> - collection containing elements to be added to this collection</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd><tt>true</tt> if this collection changed as a result of the call</dd>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#add-E-" title="class or interface in java.util"><code>AbstractCollection.add(Object)</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -729,17 +803,22 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <li class="blockList">
 <h4>removeAll</h4>
 <pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.134">removeAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;elementsToRemove)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#removeAll-java.util.Collection-">Multiset</a></code></span></div>
-<div class="block">
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#removeAll-java.util.Collection-" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
+<div class="block">Removes all of this collection's elements that are also contained in the
+ specified collection (optional operation).  After this call returns,
+ this collection will contain no elements in common with the specified
+ collection.
 
- <p><b>Note:</b> This method ignores how often any element might appear in
- <code>c</code>, and only cares whether or not an element appears at all.
- If you wish to remove one occurrence in this multiset for every occurrence
- in <code>c</code>, see <a href="../../../../com/google/common/collect/Multisets.html#removeOccurrences-com.google.common.collect.Multiset-com.google.common.collect.Multiset-"><code>Multisets.removeOccurrences(Multiset, Multiset)</code></a>.
+ <p>This implementation iterates over this collection, checking each
+ element returned by the iterator in turn to see if it's contained
+ in the specified collection.  If it's so contained, it's removed from
+ this collection with the iterator's <tt>remove</tt> method.
 
- <p>This method refines <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#removeAll-java.util.Collection-" title="class or interface in java.util"><code>Collection.removeAll(java.util.Collection&lt;?&gt;)</code></a> to further specify that
- it <b>may not</b> throw an exception in response to any of <code>elements</code>
- being null or of the wrong type.</div>
+ <p>Note that this implementation will throw an
+ <tt>UnsupportedOperationException</tt> if the iterator returned by the
+ <tt>iterator</tt> method does not implement the <tt>remove</tt> method
+ and this collection contains one or more elements in common with the
+ specified collection.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/Multiset.html#removeAll-java.util.Collection-">removeAll</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;</code></dd>
@@ -747,6 +826,14 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#removeAll-java.util.Collection-" title="class or interface in java.util">removeAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;E&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#removeAll-java.util.Collection-" title="class or interface in java.util">removeAll</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util">AbstractCollection</a>&lt;E&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>elementsToRemove</code> - collection containing elements to be removed from this collection</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd><tt>true</tt> if this collection changed as a result of the
+         call</dd>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#remove-java.lang.Object-" title="class or interface in java.util"><code>AbstractCollection.remove(Object)</code></a>, 
+<a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#contains-java.lang.Object-" title="class or interface in java.util"><code>AbstractCollection.contains(Object)</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -757,17 +844,22 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <li class="blockList">
 <h4>retainAll</h4>
 <pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.140">retainAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;elementsToRetain)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#retainAll-java.util.Collection-">Multiset</a></code></span></div>
-<div class="block">
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#retainAll-java.util.Collection-" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
+<div class="block">Retains only the elements in this collection that are contained in the
+ specified collection (optional operation).  In other words, removes from
+ this collection all of its elements that are not contained in the
+ specified collection.
 
- <p><b>Note:</b> This method ignores how often any element might appear in
- <code>c</code>, and only cares whether or not an element appears at all.
- If you wish to remove one occurrence in this multiset for every occurrence
- in <code>c</code>, see <a href="../../../../com/google/common/collect/Multisets.html#retainOccurrences-com.google.common.collect.Multiset-com.google.common.collect.Multiset-"><code>Multisets.retainOccurrences(Multiset, Multiset)</code></a>.
+ <p>This implementation iterates over this collection, checking each
+ element returned by the iterator in turn to see if it's contained
+ in the specified collection.  If it's not so contained, it's removed
+ from this collection with the iterator's <tt>remove</tt> method.
 
- <p>This method refines <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#retainAll-java.util.Collection-" title="class or interface in java.util"><code>Collection.retainAll(java.util.Collection&lt;?&gt;)</code></a> to further specify that
- it <b>may not</b> throw an exception in response to any of <code>elements</code>
- being null or of the wrong type.</div>
+ <p>Note that this implementation will throw an
+ <tt>UnsupportedOperationException</tt> if the iterator returned by the
+ <tt>iterator</tt> method does not implement the <tt>remove</tt> method
+ and this collection contains one or more elements not present in the
+ specified collection.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/Multiset.html#retainAll-java.util.Collection-">retainAll</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;</code></dd>
@@ -775,8 +867,13 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#retainAll-java.util.Collection-" title="class or interface in java.util">retainAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;E&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#retainAll-java.util.Collection-" title="class or interface in java.util">retainAll</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util">AbstractCollection</a>&lt;E&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>elementsToRetain</code> - collection containing elements to be retained in this collection</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd><tt>true</tt> if this collection changed as a result of the call</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="../../../../com/google/common/collect/Multisets.html#retainOccurrences-com.google.common.collect.Multiset-com.google.common.collect.Multiset-"><code>Multisets.retainOccurrences(Multiset, Multiset)</code></a></dd>
+<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#remove-java.lang.Object-" title="class or interface in java.util"><code>AbstractCollection.remove(Object)</code></a>, 
+<a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#contains-java.lang.Object-" title="class or interface in java.util"><code>AbstractCollection.contains(Object)</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -846,9 +943,44 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <h4>equals</h4>
 <pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.225">equals</a>(<a href="https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
-<div class="block">Compares the specified object with this multiset for equality. Returns
- <code>true</code> if the given object is also a multiset and contains equal
- elements with equal counts, regardless of order.
+<div class="block">Indicates whether some other object is "equal to" this one.
+ <p>
+ The <code>equals</code> method implements an equivalence relation
+ on non-null object references:
+ <ul>
+ <li>It is <i>reflexive</i>: for any non-null reference value
+     <code>x</code>, <code>x.equals(x)</code> should return
+     <code>true</code>.
+ <li>It is <i>symmetric</i>: for any non-null reference values
+     <code>x</code> and <code>y</code>, <code>x.equals(y)</code>
+     should return <code>true</code> if and only if
+     <code>y.equals(x)</code> returns <code>true</code>.
+ <li>It is <i>transitive</i>: for any non-null reference values
+     <code>x</code>, <code>y</code>, and <code>z</code>, if
+     <code>x.equals(y)</code> returns <code>true</code> and
+     <code>y.equals(z)</code> returns <code>true</code>, then
+     <code>x.equals(z)</code> should return <code>true</code>.
+ <li>It is <i>consistent</i>: for any non-null reference values
+     <code>x</code> and <code>y</code>, multiple invocations of
+     <code>x.equals(y)</code> consistently return <code>true</code>
+     or consistently return <code>false</code>, provided no
+     information used in <code>equals</code> comparisons on the
+     objects is modified.
+ <li>For any non-null reference value <code>x</code>,
+     <code>x.equals(null)</code> should return <code>false</code>.
+ </ul>
+ <p>
+ The <code>equals</code> method for class <code>Object</code> implements
+ the most discriminating possible equivalence relation on objects;
+ that is, for any non-null reference values <code>x</code> and
+ <code>y</code>, this method returns <code>true</code> if and only
+ if <code>x</code> and <code>y</code> refer to the same object
+ (<code>x == y</code> has the value <code>true</code>).
+ <p>
+ Note that it is generally necessary to override the <code>hashCode</code>
+ method whenever this method is overridden, so as to maintain the
+ general contract for the <code>hashCode</code> method, which states
+ that equal objects must have equal hash codes.
 
  <p>This implementation returns <code>true</code> if <code>object</code> is a multiset
  of the same size and if, for each element, the two multisets have the same
@@ -860,6 +992,14 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.util">equals</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;E&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>object</code> - the reference object with which to compare.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd><code>true</code> if this object is the same as the obj
+          argument; <code>false</code> otherwise.</dd>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang"><code>Object.hashCode()</code></a>, 
+<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util"><code>HashMap</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -870,13 +1010,35 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <li class="blockList">
 <h4>hashCode</h4>
 <pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.236">hashCode</a>()</pre>
-<div class="block">Returns the hash code for this multiset. This is defined as the sum of
- <pre>   <code>
-
-   ((element == null) ? 0 : element.hashCode()) ^ count(element)</code></pre>
-
- <p>over all distinct elements in the multiset. It follows that a multiset and
- its entry set always have the same hash code.
+<div class="block">Returns a hash code value for the object. This method is
+ supported for the benefit of hash tables such as those provided by
+ <a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util"><code>HashMap</code></a>.
+ <p>
+ The general contract of <code>hashCode</code> is:
+ <ul>
+ <li>Whenever it is invoked on the same object more than once during
+     an execution of a Java application, the <code>hashCode</code> method
+     must consistently return the same integer, provided no information
+     used in <code>equals</code> comparisons on the object is modified.
+     This integer need not remain consistent from one execution of an
+     application to another execution of the same application.
+ <li>If two objects are equal according to the <code>equals(Object)</code>
+     method, then calling the <code>hashCode</code> method on each of
+     the two objects must produce the same integer result.
+ <li>It is <em>not</em> required that if two objects are unequal
+     according to the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a>
+     method, then calling the <code>hashCode</code> method on each of the
+     two objects must produce distinct integer results.  However, the
+     programmer should be aware that producing distinct integer results
+     for unequal objects may improve the performance of hash tables.
+ </ul>
+ <p>
+ As much as is reasonably practical, the hashCode method defined by
+ class <code>Object</code> does return distinct integers for distinct
+ objects. (This is typically implemented by converting the internal
+ address of the object into an integer, but this implementation
+ technique is not required by the
+ Java&trade; programming language.)
 
  <p>This implementation returns the hash code of <a href="../../../../com/google/common/collect/Multiset.html#entrySet--"><code>Multiset.entrySet()</code></a>.</div>
 <dl>
@@ -886,6 +1048,11 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#hashCode--" title="class or interface in java.util">hashCode</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;E&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a hash code value for this object.</dd>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a>, 
+<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/System.html?is-external=true#identityHashCode-java.lang.Object-" title="class or interface in java.lang"><code>System.identityHashCode(java.lang.Object)</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -896,11 +1063,12 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <li class="blockList">
 <h4>toString</h4>
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.247">toString</a>()</pre>
-<div class="block">
-
- <p>It is recommended, though not mandatory, that this method return the
- result of invoking <a href="../../../../com/google/common/collect/Multiset.html#toString--"><code>Multiset.toString()</code></a> on the <a href="../../../../com/google/common/collect/Multiset.html#entrySet--"><code>Multiset.entrySet()</code></a>, yielding a
- result such as <code>[a x 3, c, d x 2, e]</code>.
+<div class="block">Returns a string representation of this collection.  The string
+ representation consists of a list of the collection's elements in the
+ order they are returned by its iterator, enclosed in square brackets
+ (<tt>"[]"</tt>).  Adjacent elements are separated by the characters
+ <tt>", "</tt> (comma and space).  Elements are converted to strings as
+ by <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true#valueOf-java.lang.Object-" title="class or interface in java.lang"><code>String.valueOf(Object)</code></a>.
 
  <p>This implementation returns the result of invoking <code>toString</code> on
  <a href="../../../../com/google/common/collect/Multiset.html#entrySet--"><code>Multiset.entrySet()</code></a>.</div>
@@ -909,6 +1077,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <dd><code><a href="../../../../com/google/common/collect/Multiset.html#toString--">toString</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#toString--" title="class or interface in java.util">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util">AbstractCollection</a>&lt;E&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a string representation of this collection</dd>
 </dl>
 </li>
 </ul>
