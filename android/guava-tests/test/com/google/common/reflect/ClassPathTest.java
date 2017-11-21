@@ -526,7 +526,7 @@ public class ClassPathTest extends TestCase {
 
     @Override protected void scanDirectory(ClassLoader loader, File root) throws IOException {
       URI base = root.toURI();
-      for (File entry : Files.fileTreeTraverser().preOrderTraversal(root)) {
+      for (File entry : Files.fileTraverser().depthFirstPreOrder(root)) {
         String resourceName = new File(base.relativize(entry.toURI()).getPath()).getPath();
         resources.add(resourceName);
       }
