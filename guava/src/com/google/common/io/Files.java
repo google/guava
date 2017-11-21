@@ -817,7 +817,11 @@ public final class Files {
    * given directory or even be infinite if there is a symbolic link loop.
    *
    * @since 15.0
+   * @deprecated The returned {@link TreeTraverser} type is deprecated. Use the replacement method
+   *     {@link #fileTraverser()} instead with the same semantics as this method. This method is
+   *     scheduled to be removed in April 2018.
    */
+  @Deprecated
   public static TreeTraverser<File> fileTreeTraverser() {
     return FILE_TREE_TRAVERSER;
   }

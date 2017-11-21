@@ -279,10 +279,15 @@ public final class MoreFiles {
    * exception will be thrown and the returned {@link Iterable} will contain a single element: that
    * path.
    *
-   * <p>{@link DirectoryIteratorException}  may be thrown when iterating {@link Iterable} instances
-   * created by this traverser if an {@link IOException} is thrown by a call to
-   * {@link #listFiles(Path)}.
+   * <p>{@link DirectoryIteratorException} may be thrown when iterating {@link Iterable} instances
+   * created by this traverser if an {@link IOException} is thrown by a call to {@link
+   * #listFiles(Path)}.
+   *
+   * @deprecated The returned {@link TreeTraverser} type is deprecated. Use the replacement method
+   *     {@link #fileTraverser()} instead with the same semantics as this method. This method is
+   *     scheduled to be removed in April 2018.
    */
+  @Deprecated
   public static TreeTraverser<Path> directoryTreeTraverser() {
     return DirectoryTreeTraverser.INSTANCE;
   }
