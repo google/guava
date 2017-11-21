@@ -46031,7 +46031,9 @@
     <method name="fileTreeTraverser" return="com.google.common.collect.TreeTraverser&lt;java.io.File&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="The returned {@link TreeTraverser} type is deprecated. Use the replacement method
+     {@link #fileTraverser()} instead with the same semantics as this method. This method is
+     scheduled to be removed in April 2018.">
       <doc>
       <![CDATA[Returns a {@link TreeTraverser} instance for {@link File} trees.
 
@@ -46040,7 +46042,10 @@
  this case, iterables created by this traverser could contain files that are outside of the
  given directory or even be infinite if there is a symbolic link loop.
 
- @since 15.0]]>
+ @since 15.0
+ @deprecated The returned {@link TreeTraverser} type is deprecated. Use the replacement method
+     {@link #fileTraverser()} instead with the same semantics as this method. This method is
+     scheduled to be removed in April 2018.]]>
       </doc>
     </method>
     <method name="fileTraverser" return="com.google.common.graph.Traverser&lt;java.io.File&gt;"
@@ -46706,7 +46711,9 @@
     <method name="directoryTreeTraverser" return="com.google.common.collect.TreeTraverser&lt;java.nio.file.Path&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="The returned {@link TreeTraverser} type is deprecated. Use the replacement method
+     {@link #fileTraverser()} instead with the same semantics as this method. This method is
+     scheduled to be removed in April 2018.">
       <doc>
       <![CDATA[Returns a {@link TreeTraverser} for traversing a directory tree. The returned traverser
  attempts to avoid following symbolic links to directories. However, the traverser cannot
@@ -46718,9 +46725,13 @@
  exception will be thrown and the returned {@link Iterable} will contain a single element: that
  path.
 
- <p>{@link DirectoryIteratorException}  may be thrown when iterating {@link Iterable} instances
- created by this traverser if an {@link IOException} is thrown by a call to
- {@link #listFiles(Path)}.]]>
+ <p>{@link DirectoryIteratorException} may be thrown when iterating {@link Iterable} instances
+ created by this traverser if an {@link IOException} is thrown by a call to {@link
+ #listFiles(Path)}.
+
+ @deprecated The returned {@link TreeTraverser} type is deprecated. Use the replacement method
+     {@link #fileTraverser()} instead with the same semantics as this method. This method is
+     scheduled to be removed in April 2018.]]>
       </doc>
     </method>
     <method name="fileTraverser" return="com.google.common.graph.Traverser&lt;java.nio.file.Path&gt;"

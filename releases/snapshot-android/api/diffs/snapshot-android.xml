@@ -44279,7 +44279,9 @@
     <method name="fileTreeTraverser" return="com.google.common.collect.TreeTraverser&lt;java.io.File&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="The returned {@link TreeTraverser} type is deprecated. Use the replacement method
+     {@link #fileTraverser()} instead with the same semantics as this method. This method is
+     scheduled to be removed in April 2018.">
       <doc>
       <![CDATA[Returns a {@link TreeTraverser} instance for {@link File} trees.
 
@@ -44288,7 +44290,10 @@
  this case, iterables created by this traverser could contain files that are outside of the
  given directory or even be infinite if there is a symbolic link loop.
 
- @since 15.0]]>
+ @since 15.0
+ @deprecated The returned {@link TreeTraverser} type is deprecated. Use the replacement method
+     {@link #fileTraverser()} instead with the same semantics as this method. This method is
+     scheduled to be removed in April 2018.]]>
       </doc>
     </method>
     <method name="fileTraverser" return="com.google.common.graph.Traverser&lt;java.io.File&gt;"
