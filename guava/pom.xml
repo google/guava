@@ -86,7 +86,7 @@
         <executions>
           <execution>
             <id>unpack-jdk-sources</id>
-            <phase>site</phase>
+            <phase>generate-sources</phase>
             <goals><goal>unpack-dependencies</goal></goals>
             <configuration>
               <includeArtifactIds>srczip</includeArtifactIds>
