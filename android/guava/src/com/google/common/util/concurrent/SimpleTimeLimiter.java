@@ -21,6 +21,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ObjectArrays;
 import com.google.common.collect.Sets;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -134,6 +135,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
     }
   }
 
+  @CanIgnoreReturnValue
   @Override
   public <T> T callWithTimeout(Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, InterruptedException, ExecutionException {
@@ -154,6 +156,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
     }
   }
 
+  @CanIgnoreReturnValue
   @Override
   public <T> T callUninterruptiblyWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
