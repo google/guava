@@ -858,7 +858,7 @@ public final class Files {
    * <p>Example: {@code Files.fileTraverser().breadthFirst("/")} may return files with the following
    * paths: {@code ["/", "/etc", "/home", "/usr", "/etc/config.txt", "/etc/fonts", ...]}
    *
-   * @since NEXT
+   * @since 23.5
    */
   public static Traverser<File> fileTraverser() {
     return Traverser.forTree(FILE_TREE);

@@ -321,6 +321,8 @@ public final class MoreFiles {
    *
    * <p>Example: {@code MoreFiles.fileTraverser().breadthFirst("/")} may return files with the
    * following paths: {@code ["/", "/etc", "/home", "/usr", "/etc/config.txt", "/etc/fonts", ...]}
+   *
+   * @since 23.5
    */
   public static Traverser<Path> fileTraverser() {
     return Traverser.forTree(FILE_TREE);

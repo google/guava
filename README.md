@@ -18,10 +18,10 @@ Guava comes in two flavors.
 
 ## Latest release
 
-The most recent release is [Guava 23.4][current release], released 2017-11-08.
+The most recent release is [Guava 23.5][current release], released 2017-11-22.
 
 The Maven group ID is `com.google.guava`, and the artifact ID is `guava`. Use
-version `23.4-jre` for the JRE flavor, or `23.4-android` for the Android flavor.
+version `23.5-jre` for the JRE flavor, or `23.5-android` for the Android flavor.
 
 To add a dependency on Guava using Maven, use the following:
 
@@ -29,9 +29,9 @@ To add a dependency on Guava using Maven, use the following:
 <dependency>
   <groupId>com.google.guava</groupId>
   <artifactId>guava</artifactId>
-  <version>23.4-jre</version>
+  <version>23.5-jre</version>
   <!-- or, for Android: -->
-  <version>23.4-android</version>
+  <version>23.5-android</version>
 </dependency>
 ```
 
@@ -39,9 +39,9 @@ To add a dependency using Gradle:
 
 ```
 dependencies {
-  compile 'com.google.guava:guava:23.4-jre'
+  compile 'com.google.guava:guava:23.5-jre'
   // or, for Android:
-  compile 'com.google.guava:guava:23.4-android'
+  compile 'com.google.guava:guava:23.5-android'
 }
 ```
 
@@ -94,7 +94,7 @@ Linux. Some features, especially in `com.google.common.io`, may not work
 correctly in other environments. For the Android flavor, our unit tests run on
 API level 15 (Ice Cream Sandwich).
 
-[current release]: https://github.com/google/guava/releases/tag/v23.4
+[current release]: https://github.com/google/guava/releases/tag/v23.5
 [guava-snapshot-api-docs]: http://google.github.io/guava/releases/snapshot-jre/api/docs/
 [guava-snapshot-api-diffs]: http://google.github.io/guava/releases/snapshot-jre/api/diffs/
 [Guava Explained]: https://github.com/google/guava/wiki/Home
