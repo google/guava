@@ -500,6 +500,23 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   @Override
   public abstract V get(@Nullable Object key);
 
+  /**
+   * {@inheritDoc}
+   *
+   * <p>See <a
+   * href="https://developer.android.com/reference/java/util/Map.html#getOrDefault%28java.lang.Object,%20V%29">{@code
+   * Map.getOrDefault}</a>.
+   *
+   * @since 23.5 (but since 21.0 in the JRE <a
+   *     href="https://github.com/google/guava#guava-google-core-libraries-for-java">flavor</a>).
+   *     Note that API Level 24 users can call this method with any version of Guava.
+   */
+  // @Override under Java 8 / API Level 24
+  public final V getOrDefault(@Nullable Object key, @Nullable V defaultValue) {
+    V result = get(key);
+    return (result != null) ? result : defaultValue;
+  }
+
   @LazyInit private transient ImmutableSet<Entry<K, V>> entrySet;
 
   /**
