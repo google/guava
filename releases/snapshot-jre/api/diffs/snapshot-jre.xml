@@ -19010,6 +19010,11 @@
       deprecated="not deprecated">
       <param name="key" type="java.lang.Object"/>
       <param name="defaultValue" type="V"/>
+      <doc>
+      <![CDATA[@since 21.0 (but only since 23.5 in the Android <a
+     href="https://github.com/google/guava#guava-google-core-libraries-for-java">flavor</a>).
+     Note, however, that Java 8 users can call this method with any version and flavor of Guava.]]>
+      </doc>
     </method>
     <method name="entrySet" return="com.google.common.collect.ImmutableSet&lt;java.util.Map.Entry&lt;K, V&gt;&gt;"
       abstract="false" native="false" synchronized="false"

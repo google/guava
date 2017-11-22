@@ -18549,6 +18549,24 @@
       deprecated="not deprecated">
       <param name="key" type="java.lang.Object"/>
     </method>
+    <method name="getOrDefault" return="V"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+      <param name="key" type="java.lang.Object"/>
+      <param name="defaultValue" type="V"/>
+      <doc>
+      <![CDATA[{@inheritDoc}
+
+ <p>See <a
+ href="https://developer.android.com/reference/java/util/Map.html#getOrDefault%28java.lang.Object,%20V%29">{@code
+ Map.getOrDefault}</a>.
+
+ @since 23.5 (but since 21.0 in the JRE <a
+     href="https://github.com/google/guava#guava-google-core-libraries-for-java">flavor</a>).
+     Note that API Level 24 users can call this method with any version of Guava.]]>
+      </doc>
+    </method>
     <method name="entrySet" return="com.google.common.collect.ImmutableSet&lt;java.util.Map.Entry&lt;K, V&gt;&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"

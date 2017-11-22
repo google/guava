@@ -508,221 +508,238 @@
 <span class="sourceLineNo">500</span>  @Override<a name="line.500"></a>
 <span class="sourceLineNo">501</span>  public abstract V get(@Nullable Object key);<a name="line.501"></a>
 <span class="sourceLineNo">502</span><a name="line.502"></a>
-<span class="sourceLineNo">503</span>  @LazyInit private transient ImmutableSet&lt;Entry&lt;K, V&gt;&gt; entrySet;<a name="line.503"></a>
-<span class="sourceLineNo">504</span><a name="line.504"></a>
-<span class="sourceLineNo">505</span>  /**<a name="line.505"></a>
-<span class="sourceLineNo">506</span>   * Returns an immutable set of the mappings in this map.  The iteration order is specified by<a name="line.506"></a>
-<span class="sourceLineNo">507</span>   * the method used to create this map.  Typically, this is insertion order.<a name="line.507"></a>
-<span class="sourceLineNo">508</span>   */<a name="line.508"></a>
-<span class="sourceLineNo">509</span>  @Override<a name="line.509"></a>
-<span class="sourceLineNo">510</span>  public ImmutableSet&lt;Entry&lt;K, V&gt;&gt; entrySet() {<a name="line.510"></a>
-<span class="sourceLineNo">511</span>    ImmutableSet&lt;Entry&lt;K, V&gt;&gt; result = entrySet;<a name="line.511"></a>
-<span class="sourceLineNo">512</span>    return (result == null) ? entrySet = createEntrySet() : result;<a name="line.512"></a>
-<span class="sourceLineNo">513</span>  }<a name="line.513"></a>
-<span class="sourceLineNo">514</span><a name="line.514"></a>
-<span class="sourceLineNo">515</span>  abstract ImmutableSet&lt;Entry&lt;K, V&gt;&gt; createEntrySet();<a name="line.515"></a>
-<span class="sourceLineNo">516</span><a name="line.516"></a>
-<span class="sourceLineNo">517</span>  @LazyInit private transient ImmutableSet&lt;K&gt; keySet;<a name="line.517"></a>
-<span class="sourceLineNo">518</span><a name="line.518"></a>
-<span class="sourceLineNo">519</span>  /**<a name="line.519"></a>
-<span class="sourceLineNo">520</span>   * Returns an immutable set of the keys in this map, in the same order that they appear in<a name="line.520"></a>
-<span class="sourceLineNo">521</span>   * {@link #entrySet}.<a name="line.521"></a>
-<span class="sourceLineNo">522</span>   */<a name="line.522"></a>
-<span class="sourceLineNo">523</span>  @Override<a name="line.523"></a>
-<span class="sourceLineNo">524</span>  public ImmutableSet&lt;K&gt; keySet() {<a name="line.524"></a>
-<span class="sourceLineNo">525</span>    ImmutableSet&lt;K&gt; result = keySet;<a name="line.525"></a>
-<span class="sourceLineNo">526</span>    return (result == null) ? keySet = createKeySet() : result;<a name="line.526"></a>
-<span class="sourceLineNo">527</span>  }<a name="line.527"></a>
-<span class="sourceLineNo">528</span><a name="line.528"></a>
-<span class="sourceLineNo">529</span>  /*<a name="line.529"></a>
-<span class="sourceLineNo">530</span>   * This could have a good default implementation of return new ImmutableKeySet&lt;K, V&gt;(this),<a name="line.530"></a>
-<span class="sourceLineNo">531</span>   * but ProGuard can't figure out how to eliminate that default when RegularImmutableMap<a name="line.531"></a>
-<span class="sourceLineNo">532</span>   * overrides it.<a name="line.532"></a>
-<span class="sourceLineNo">533</span>   */<a name="line.533"></a>
-<span class="sourceLineNo">534</span>  abstract ImmutableSet&lt;K&gt; createKeySet();<a name="line.534"></a>
+<span class="sourceLineNo">503</span>  /**<a name="line.503"></a>
+<span class="sourceLineNo">504</span>   * {@inheritDoc}<a name="line.504"></a>
+<span class="sourceLineNo">505</span>   *<a name="line.505"></a>
+<span class="sourceLineNo">506</span>   * &lt;p&gt;See &lt;a<a name="line.506"></a>
+<span class="sourceLineNo">507</span>   * href="https://developer.android.com/reference/java/util/Map.html#getOrDefault%28java.lang.Object,%20V%29"&gt;{@code<a name="line.507"></a>
+<span class="sourceLineNo">508</span>   * Map.getOrDefault}&lt;/a&gt;.<a name="line.508"></a>
+<span class="sourceLineNo">509</span>   *<a name="line.509"></a>
+<span class="sourceLineNo">510</span>   * @since 23.5 (but since 21.0 in the JRE &lt;a<a name="line.510"></a>
+<span class="sourceLineNo">511</span>   *     href="https://github.com/google/guava#guava-google-core-libraries-for-java"&gt;flavor&lt;/a&gt;).<a name="line.511"></a>
+<span class="sourceLineNo">512</span>   *     Note that API Level 24 users can call this method with any version of Guava.<a name="line.512"></a>
+<span class="sourceLineNo">513</span>   */<a name="line.513"></a>
+<span class="sourceLineNo">514</span>  // @Override under Java 8 / API Level 24<a name="line.514"></a>
+<span class="sourceLineNo">515</span>  public final V getOrDefault(@Nullable Object key, @Nullable V defaultValue) {<a name="line.515"></a>
+<span class="sourceLineNo">516</span>    V result = get(key);<a name="line.516"></a>
+<span class="sourceLineNo">517</span>    return (result != null) ? result : defaultValue;<a name="line.517"></a>
+<span class="sourceLineNo">518</span>  }<a name="line.518"></a>
+<span class="sourceLineNo">519</span><a name="line.519"></a>
+<span class="sourceLineNo">520</span>  @LazyInit private transient ImmutableSet&lt;Entry&lt;K, V&gt;&gt; entrySet;<a name="line.520"></a>
+<span class="sourceLineNo">521</span><a name="line.521"></a>
+<span class="sourceLineNo">522</span>  /**<a name="line.522"></a>
+<span class="sourceLineNo">523</span>   * Returns an immutable set of the mappings in this map.  The iteration order is specified by<a name="line.523"></a>
+<span class="sourceLineNo">524</span>   * the method used to create this map.  Typically, this is insertion order.<a name="line.524"></a>
+<span class="sourceLineNo">525</span>   */<a name="line.525"></a>
+<span class="sourceLineNo">526</span>  @Override<a name="line.526"></a>
+<span class="sourceLineNo">527</span>  public ImmutableSet&lt;Entry&lt;K, V&gt;&gt; entrySet() {<a name="line.527"></a>
+<span class="sourceLineNo">528</span>    ImmutableSet&lt;Entry&lt;K, V&gt;&gt; result = entrySet;<a name="line.528"></a>
+<span class="sourceLineNo">529</span>    return (result == null) ? entrySet = createEntrySet() : result;<a name="line.529"></a>
+<span class="sourceLineNo">530</span>  }<a name="line.530"></a>
+<span class="sourceLineNo">531</span><a name="line.531"></a>
+<span class="sourceLineNo">532</span>  abstract ImmutableSet&lt;Entry&lt;K, V&gt;&gt; createEntrySet();<a name="line.532"></a>
+<span class="sourceLineNo">533</span><a name="line.533"></a>
+<span class="sourceLineNo">534</span>  @LazyInit private transient ImmutableSet&lt;K&gt; keySet;<a name="line.534"></a>
 <span class="sourceLineNo">535</span><a name="line.535"></a>
-<span class="sourceLineNo">536</span>  UnmodifiableIterator&lt;K&gt; keyIterator() {<a name="line.536"></a>
-<span class="sourceLineNo">537</span>    final UnmodifiableIterator&lt;Entry&lt;K, V&gt;&gt; entryIterator = entrySet().iterator();<a name="line.537"></a>
-<span class="sourceLineNo">538</span>    return new UnmodifiableIterator&lt;K&gt;() {<a name="line.538"></a>
-<span class="sourceLineNo">539</span>      @Override<a name="line.539"></a>
-<span class="sourceLineNo">540</span>      public boolean hasNext() {<a name="line.540"></a>
-<span class="sourceLineNo">541</span>        return entryIterator.hasNext();<a name="line.541"></a>
-<span class="sourceLineNo">542</span>      }<a name="line.542"></a>
-<span class="sourceLineNo">543</span><a name="line.543"></a>
-<span class="sourceLineNo">544</span>      @Override<a name="line.544"></a>
-<span class="sourceLineNo">545</span>      public K next() {<a name="line.545"></a>
-<span class="sourceLineNo">546</span>        return entryIterator.next().getKey();<a name="line.546"></a>
-<span class="sourceLineNo">547</span>      }<a name="line.547"></a>
-<span class="sourceLineNo">548</span>    };<a name="line.548"></a>
-<span class="sourceLineNo">549</span>  }<a name="line.549"></a>
-<span class="sourceLineNo">550</span><a name="line.550"></a>
-<span class="sourceLineNo">551</span>  @LazyInit private transient ImmutableCollection&lt;V&gt; values;<a name="line.551"></a>
+<span class="sourceLineNo">536</span>  /**<a name="line.536"></a>
+<span class="sourceLineNo">537</span>   * Returns an immutable set of the keys in this map, in the same order that they appear in<a name="line.537"></a>
+<span class="sourceLineNo">538</span>   * {@link #entrySet}.<a name="line.538"></a>
+<span class="sourceLineNo">539</span>   */<a name="line.539"></a>
+<span class="sourceLineNo">540</span>  @Override<a name="line.540"></a>
+<span class="sourceLineNo">541</span>  public ImmutableSet&lt;K&gt; keySet() {<a name="line.541"></a>
+<span class="sourceLineNo">542</span>    ImmutableSet&lt;K&gt; result = keySet;<a name="line.542"></a>
+<span class="sourceLineNo">543</span>    return (result == null) ? keySet = createKeySet() : result;<a name="line.543"></a>
+<span class="sourceLineNo">544</span>  }<a name="line.544"></a>
+<span class="sourceLineNo">545</span><a name="line.545"></a>
+<span class="sourceLineNo">546</span>  /*<a name="line.546"></a>
+<span class="sourceLineNo">547</span>   * This could have a good default implementation of return new ImmutableKeySet&lt;K, V&gt;(this),<a name="line.547"></a>
+<span class="sourceLineNo">548</span>   * but ProGuard can't figure out how to eliminate that default when RegularImmutableMap<a name="line.548"></a>
+<span class="sourceLineNo">549</span>   * overrides it.<a name="line.549"></a>
+<span class="sourceLineNo">550</span>   */<a name="line.550"></a>
+<span class="sourceLineNo">551</span>  abstract ImmutableSet&lt;K&gt; createKeySet();<a name="line.551"></a>
 <span class="sourceLineNo">552</span><a name="line.552"></a>
-<span class="sourceLineNo">553</span>  /**<a name="line.553"></a>
-<span class="sourceLineNo">554</span>   * Returns an immutable collection of the values in this map, in the same order that they appear<a name="line.554"></a>
-<span class="sourceLineNo">555</span>   * in {@link #entrySet}.<a name="line.555"></a>
-<span class="sourceLineNo">556</span>   */<a name="line.556"></a>
-<span class="sourceLineNo">557</span>  @Override<a name="line.557"></a>
-<span class="sourceLineNo">558</span>  public ImmutableCollection&lt;V&gt; values() {<a name="line.558"></a>
-<span class="sourceLineNo">559</span>    ImmutableCollection&lt;V&gt; result = values;<a name="line.559"></a>
-<span class="sourceLineNo">560</span>    return (result == null) ? values = createValues() : result;<a name="line.560"></a>
-<span class="sourceLineNo">561</span>  }<a name="line.561"></a>
-<span class="sourceLineNo">562</span><a name="line.562"></a>
-<span class="sourceLineNo">563</span>  /*<a name="line.563"></a>
-<span class="sourceLineNo">564</span>   * This could have a good default implementation of {@code return new<a name="line.564"></a>
-<span class="sourceLineNo">565</span>   * ImmutableMapValues&lt;K, V&gt;(this)}, but ProGuard can't figure out how to eliminate that default<a name="line.565"></a>
-<span class="sourceLineNo">566</span>   * when RegularImmutableMap overrides it.<a name="line.566"></a>
-<span class="sourceLineNo">567</span>   */<a name="line.567"></a>
-<span class="sourceLineNo">568</span>  abstract ImmutableCollection&lt;V&gt; createValues();<a name="line.568"></a>
+<span class="sourceLineNo">553</span>  UnmodifiableIterator&lt;K&gt; keyIterator() {<a name="line.553"></a>
+<span class="sourceLineNo">554</span>    final UnmodifiableIterator&lt;Entry&lt;K, V&gt;&gt; entryIterator = entrySet().iterator();<a name="line.554"></a>
+<span class="sourceLineNo">555</span>    return new UnmodifiableIterator&lt;K&gt;() {<a name="line.555"></a>
+<span class="sourceLineNo">556</span>      @Override<a name="line.556"></a>
+<span class="sourceLineNo">557</span>      public boolean hasNext() {<a name="line.557"></a>
+<span class="sourceLineNo">558</span>        return entryIterator.hasNext();<a name="line.558"></a>
+<span class="sourceLineNo">559</span>      }<a name="line.559"></a>
+<span class="sourceLineNo">560</span><a name="line.560"></a>
+<span class="sourceLineNo">561</span>      @Override<a name="line.561"></a>
+<span class="sourceLineNo">562</span>      public K next() {<a name="line.562"></a>
+<span class="sourceLineNo">563</span>        return entryIterator.next().getKey();<a name="line.563"></a>
+<span class="sourceLineNo">564</span>      }<a name="line.564"></a>
+<span class="sourceLineNo">565</span>    };<a name="line.565"></a>
+<span class="sourceLineNo">566</span>  }<a name="line.566"></a>
+<span class="sourceLineNo">567</span><a name="line.567"></a>
+<span class="sourceLineNo">568</span>  @LazyInit private transient ImmutableCollection&lt;V&gt; values;<a name="line.568"></a>
 <span class="sourceLineNo">569</span><a name="line.569"></a>
-<span class="sourceLineNo">570</span>  // cached so that this.multimapView().inverse() only computes inverse once<a name="line.570"></a>
-<span class="sourceLineNo">571</span>  @LazyInit private transient ImmutableSetMultimap&lt;K, V&gt; multimapView;<a name="line.571"></a>
-<span class="sourceLineNo">572</span><a name="line.572"></a>
-<span class="sourceLineNo">573</span>  /**<a name="line.573"></a>
-<span class="sourceLineNo">574</span>   * Returns a multimap view of the map.<a name="line.574"></a>
-<span class="sourceLineNo">575</span>   *<a name="line.575"></a>
-<span class="sourceLineNo">576</span>   * @since 14.0<a name="line.576"></a>
-<span class="sourceLineNo">577</span>   */<a name="line.577"></a>
-<span class="sourceLineNo">578</span>  public ImmutableSetMultimap&lt;K, V&gt; asMultimap() {<a name="line.578"></a>
-<span class="sourceLineNo">579</span>    if (isEmpty()) {<a name="line.579"></a>
-<span class="sourceLineNo">580</span>      return ImmutableSetMultimap.of();<a name="line.580"></a>
-<span class="sourceLineNo">581</span>    }<a name="line.581"></a>
-<span class="sourceLineNo">582</span>    ImmutableSetMultimap&lt;K, V&gt; result = multimapView;<a name="line.582"></a>
-<span class="sourceLineNo">583</span>    return (result == null)<a name="line.583"></a>
-<span class="sourceLineNo">584</span>        ? (multimapView =<a name="line.584"></a>
-<span class="sourceLineNo">585</span>            new ImmutableSetMultimap&lt;&gt;(new MapViewOfValuesAsSingletonSets(), size(), null))<a name="line.585"></a>
-<span class="sourceLineNo">586</span>        : result;<a name="line.586"></a>
-<span class="sourceLineNo">587</span>  }<a name="line.587"></a>
-<span class="sourceLineNo">588</span><a name="line.588"></a>
-<span class="sourceLineNo">589</span>  @WeakOuter<a name="line.589"></a>
-<span class="sourceLineNo">590</span>  private final class MapViewOfValuesAsSingletonSets<a name="line.590"></a>
-<span class="sourceLineNo">591</span>      extends IteratorBasedImmutableMap&lt;K, ImmutableSet&lt;V&gt;&gt; {<a name="line.591"></a>
-<span class="sourceLineNo">592</span><a name="line.592"></a>
-<span class="sourceLineNo">593</span>    @Override<a name="line.593"></a>
-<span class="sourceLineNo">594</span>    public int size() {<a name="line.594"></a>
-<span class="sourceLineNo">595</span>      return ImmutableMap.this.size();<a name="line.595"></a>
-<span class="sourceLineNo">596</span>    }<a name="line.596"></a>
-<span class="sourceLineNo">597</span><a name="line.597"></a>
-<span class="sourceLineNo">598</span>    @Override<a name="line.598"></a>
-<span class="sourceLineNo">599</span>    ImmutableSet&lt;K&gt; createKeySet() {<a name="line.599"></a>
-<span class="sourceLineNo">600</span>      return ImmutableMap.this.keySet();<a name="line.600"></a>
-<span class="sourceLineNo">601</span>    }<a name="line.601"></a>
-<span class="sourceLineNo">602</span><a name="line.602"></a>
-<span class="sourceLineNo">603</span>    @Override<a name="line.603"></a>
-<span class="sourceLineNo">604</span>    public boolean containsKey(@Nullable Object key) {<a name="line.604"></a>
-<span class="sourceLineNo">605</span>      return ImmutableMap.this.containsKey(key);<a name="line.605"></a>
-<span class="sourceLineNo">606</span>    }<a name="line.606"></a>
-<span class="sourceLineNo">607</span><a name="line.607"></a>
-<span class="sourceLineNo">608</span>    @Override<a name="line.608"></a>
-<span class="sourceLineNo">609</span>    public ImmutableSet&lt;V&gt; get(@Nullable Object key) {<a name="line.609"></a>
-<span class="sourceLineNo">610</span>      V outerValue = ImmutableMap.this.get(key);<a name="line.610"></a>
-<span class="sourceLineNo">611</span>      return (outerValue == null) ? null : ImmutableSet.of(outerValue);<a name="line.611"></a>
-<span class="sourceLineNo">612</span>    }<a name="line.612"></a>
-<span class="sourceLineNo">613</span><a name="line.613"></a>
-<span class="sourceLineNo">614</span>    @Override<a name="line.614"></a>
-<span class="sourceLineNo">615</span>    boolean isPartialView() {<a name="line.615"></a>
-<span class="sourceLineNo">616</span>      return ImmutableMap.this.isPartialView();<a name="line.616"></a>
-<span class="sourceLineNo">617</span>    }<a name="line.617"></a>
-<span class="sourceLineNo">618</span><a name="line.618"></a>
-<span class="sourceLineNo">619</span>    @Override<a name="line.619"></a>
-<span class="sourceLineNo">620</span>    public int hashCode() {<a name="line.620"></a>
-<span class="sourceLineNo">621</span>      // ImmutableSet.of(value).hashCode() == value.hashCode(), so the hashes are the same<a name="line.621"></a>
-<span class="sourceLineNo">622</span>      return ImmutableMap.this.hashCode();<a name="line.622"></a>
+<span class="sourceLineNo">570</span>  /**<a name="line.570"></a>
+<span class="sourceLineNo">571</span>   * Returns an immutable collection of the values in this map, in the same order that they appear<a name="line.571"></a>
+<span class="sourceLineNo">572</span>   * in {@link #entrySet}.<a name="line.572"></a>
+<span class="sourceLineNo">573</span>   */<a name="line.573"></a>
+<span class="sourceLineNo">574</span>  @Override<a name="line.574"></a>
+<span class="sourceLineNo">575</span>  public ImmutableCollection&lt;V&gt; values() {<a name="line.575"></a>
+<span class="sourceLineNo">576</span>    ImmutableCollection&lt;V&gt; result = values;<a name="line.576"></a>
+<span class="sourceLineNo">577</span>    return (result == null) ? values = createValues() : result;<a name="line.577"></a>
+<span class="sourceLineNo">578</span>  }<a name="line.578"></a>
+<span class="sourceLineNo">579</span><a name="line.579"></a>
+<span class="sourceLineNo">580</span>  /*<a name="line.580"></a>
+<span class="sourceLineNo">581</span>   * This could have a good default implementation of {@code return new<a name="line.581"></a>
+<span class="sourceLineNo">582</span>   * ImmutableMapValues&lt;K, V&gt;(this)}, but ProGuard can't figure out how to eliminate that default<a name="line.582"></a>
+<span class="sourceLineNo">583</span>   * when RegularImmutableMap overrides it.<a name="line.583"></a>
+<span class="sourceLineNo">584</span>   */<a name="line.584"></a>
+<span class="sourceLineNo">585</span>  abstract ImmutableCollection&lt;V&gt; createValues();<a name="line.585"></a>
+<span class="sourceLineNo">586</span><a name="line.586"></a>
+<span class="sourceLineNo">587</span>  // cached so that this.multimapView().inverse() only computes inverse once<a name="line.587"></a>
+<span class="sourceLineNo">588</span>  @LazyInit private transient ImmutableSetMultimap&lt;K, V&gt; multimapView;<a name="line.588"></a>
+<span class="sourceLineNo">589</span><a name="line.589"></a>
+<span class="sourceLineNo">590</span>  /**<a name="line.590"></a>
+<span class="sourceLineNo">591</span>   * Returns a multimap view of the map.<a name="line.591"></a>
+<span class="sourceLineNo">592</span>   *<a name="line.592"></a>
+<span class="sourceLineNo">593</span>   * @since 14.0<a name="line.593"></a>
+<span class="sourceLineNo">594</span>   */<a name="line.594"></a>
+<span class="sourceLineNo">595</span>  public ImmutableSetMultimap&lt;K, V&gt; asMultimap() {<a name="line.595"></a>
+<span class="sourceLineNo">596</span>    if (isEmpty()) {<a name="line.596"></a>
+<span class="sourceLineNo">597</span>      return ImmutableSetMultimap.of();<a name="line.597"></a>
+<span class="sourceLineNo">598</span>    }<a name="line.598"></a>
+<span class="sourceLineNo">599</span>    ImmutableSetMultimap&lt;K, V&gt; result = multimapView;<a name="line.599"></a>
+<span class="sourceLineNo">600</span>    return (result == null)<a name="line.600"></a>
+<span class="sourceLineNo">601</span>        ? (multimapView =<a name="line.601"></a>
+<span class="sourceLineNo">602</span>            new ImmutableSetMultimap&lt;&gt;(new MapViewOfValuesAsSingletonSets(), size(), null))<a name="line.602"></a>
+<span class="sourceLineNo">603</span>        : result;<a name="line.603"></a>
+<span class="sourceLineNo">604</span>  }<a name="line.604"></a>
+<span class="sourceLineNo">605</span><a name="line.605"></a>
+<span class="sourceLineNo">606</span>  @WeakOuter<a name="line.606"></a>
+<span class="sourceLineNo">607</span>  private final class MapViewOfValuesAsSingletonSets<a name="line.607"></a>
+<span class="sourceLineNo">608</span>      extends IteratorBasedImmutableMap&lt;K, ImmutableSet&lt;V&gt;&gt; {<a name="line.608"></a>
+<span class="sourceLineNo">609</span><a name="line.609"></a>
+<span class="sourceLineNo">610</span>    @Override<a name="line.610"></a>
+<span class="sourceLineNo">611</span>    public int size() {<a name="line.611"></a>
+<span class="sourceLineNo">612</span>      return ImmutableMap.this.size();<a name="line.612"></a>
+<span class="sourceLineNo">613</span>    }<a name="line.613"></a>
+<span class="sourceLineNo">614</span><a name="line.614"></a>
+<span class="sourceLineNo">615</span>    @Override<a name="line.615"></a>
+<span class="sourceLineNo">616</span>    ImmutableSet&lt;K&gt; createKeySet() {<a name="line.616"></a>
+<span class="sourceLineNo">617</span>      return ImmutableMap.this.keySet();<a name="line.617"></a>
+<span class="sourceLineNo">618</span>    }<a name="line.618"></a>
+<span class="sourceLineNo">619</span><a name="line.619"></a>
+<span class="sourceLineNo">620</span>    @Override<a name="line.620"></a>
+<span class="sourceLineNo">621</span>    public boolean containsKey(@Nullable Object key) {<a name="line.621"></a>
+<span class="sourceLineNo">622</span>      return ImmutableMap.this.containsKey(key);<a name="line.622"></a>
 <span class="sourceLineNo">623</span>    }<a name="line.623"></a>
 <span class="sourceLineNo">624</span><a name="line.624"></a>
 <span class="sourceLineNo">625</span>    @Override<a name="line.625"></a>
-<span class="sourceLineNo">626</span>    boolean isHashCodeFast() {<a name="line.626"></a>
-<span class="sourceLineNo">627</span>      return ImmutableMap.this.isHashCodeFast();<a name="line.627"></a>
-<span class="sourceLineNo">628</span>    }<a name="line.628"></a>
-<span class="sourceLineNo">629</span><a name="line.629"></a>
-<span class="sourceLineNo">630</span>    @Override<a name="line.630"></a>
-<span class="sourceLineNo">631</span>    UnmodifiableIterator&lt;Entry&lt;K, ImmutableSet&lt;V&gt;&gt;&gt; entryIterator() {<a name="line.631"></a>
-<span class="sourceLineNo">632</span>      final Iterator&lt;Entry&lt;K, V&gt;&gt; backingIterator = ImmutableMap.this.entrySet().iterator();<a name="line.632"></a>
-<span class="sourceLineNo">633</span>      return new UnmodifiableIterator&lt;Entry&lt;K, ImmutableSet&lt;V&gt;&gt;&gt;() {<a name="line.633"></a>
-<span class="sourceLineNo">634</span>        @Override<a name="line.634"></a>
-<span class="sourceLineNo">635</span>        public boolean hasNext() {<a name="line.635"></a>
-<span class="sourceLineNo">636</span>          return backingIterator.hasNext();<a name="line.636"></a>
-<span class="sourceLineNo">637</span>        }<a name="line.637"></a>
-<span class="sourceLineNo">638</span><a name="line.638"></a>
-<span class="sourceLineNo">639</span>        @Override<a name="line.639"></a>
-<span class="sourceLineNo">640</span>        public Entry&lt;K, ImmutableSet&lt;V&gt;&gt; next() {<a name="line.640"></a>
-<span class="sourceLineNo">641</span>          final Entry&lt;K, V&gt; backingEntry = backingIterator.next();<a name="line.641"></a>
-<span class="sourceLineNo">642</span>          return new AbstractMapEntry&lt;K, ImmutableSet&lt;V&gt;&gt;() {<a name="line.642"></a>
-<span class="sourceLineNo">643</span>            @Override<a name="line.643"></a>
-<span class="sourceLineNo">644</span>            public K getKey() {<a name="line.644"></a>
-<span class="sourceLineNo">645</span>              return backingEntry.getKey();<a name="line.645"></a>
-<span class="sourceLineNo">646</span>            }<a name="line.646"></a>
-<span class="sourceLineNo">647</span><a name="line.647"></a>
-<span class="sourceLineNo">648</span>            @Override<a name="line.648"></a>
-<span class="sourceLineNo">649</span>            public ImmutableSet&lt;V&gt; getValue() {<a name="line.649"></a>
-<span class="sourceLineNo">650</span>              return ImmutableSet.of(backingEntry.getValue());<a name="line.650"></a>
-<span class="sourceLineNo">651</span>            }<a name="line.651"></a>
-<span class="sourceLineNo">652</span>          };<a name="line.652"></a>
-<span class="sourceLineNo">653</span>        }<a name="line.653"></a>
-<span class="sourceLineNo">654</span>      };<a name="line.654"></a>
-<span class="sourceLineNo">655</span>    }<a name="line.655"></a>
-<span class="sourceLineNo">656</span>  }<a name="line.656"></a>
-<span class="sourceLineNo">657</span><a name="line.657"></a>
-<span class="sourceLineNo">658</span>  @Override<a name="line.658"></a>
-<span class="sourceLineNo">659</span>  public boolean equals(@Nullable Object object) {<a name="line.659"></a>
-<span class="sourceLineNo">660</span>    return Maps.equalsImpl(this, object);<a name="line.660"></a>
-<span class="sourceLineNo">661</span>  }<a name="line.661"></a>
-<span class="sourceLineNo">662</span><a name="line.662"></a>
-<span class="sourceLineNo">663</span>  abstract boolean isPartialView();<a name="line.663"></a>
+<span class="sourceLineNo">626</span>    public ImmutableSet&lt;V&gt; get(@Nullable Object key) {<a name="line.626"></a>
+<span class="sourceLineNo">627</span>      V outerValue = ImmutableMap.this.get(key);<a name="line.627"></a>
+<span class="sourceLineNo">628</span>      return (outerValue == null) ? null : ImmutableSet.of(outerValue);<a name="line.628"></a>
+<span class="sourceLineNo">629</span>    }<a name="line.629"></a>
+<span class="sourceLineNo">630</span><a name="line.630"></a>
+<span class="sourceLineNo">631</span>    @Override<a name="line.631"></a>
+<span class="sourceLineNo">632</span>    boolean isPartialView() {<a name="line.632"></a>
+<span class="sourceLineNo">633</span>      return ImmutableMap.this.isPartialView();<a name="line.633"></a>
+<span class="sourceLineNo">634</span>    }<a name="line.634"></a>
+<span class="sourceLineNo">635</span><a name="line.635"></a>
+<span class="sourceLineNo">636</span>    @Override<a name="line.636"></a>
+<span class="sourceLineNo">637</span>    public int hashCode() {<a name="line.637"></a>
+<span class="sourceLineNo">638</span>      // ImmutableSet.of(value).hashCode() == value.hashCode(), so the hashes are the same<a name="line.638"></a>
+<span class="sourceLineNo">639</span>      return ImmutableMap.this.hashCode();<a name="line.639"></a>
+<span class="sourceLineNo">640</span>    }<a name="line.640"></a>
+<span class="sourceLineNo">641</span><a name="line.641"></a>
+<span class="sourceLineNo">642</span>    @Override<a name="line.642"></a>
+<span class="sourceLineNo">643</span>    boolean isHashCodeFast() {<a name="line.643"></a>
+<span class="sourceLineNo">644</span>      return ImmutableMap.this.isHashCodeFast();<a name="line.644"></a>
+<span class="sourceLineNo">645</span>    }<a name="line.645"></a>
+<span class="sourceLineNo">646</span><a name="line.646"></a>
+<span class="sourceLineNo">647</span>    @Override<a name="line.647"></a>
+<span class="sourceLineNo">648</span>    UnmodifiableIterator&lt;Entry&lt;K, ImmutableSet&lt;V&gt;&gt;&gt; entryIterator() {<a name="line.648"></a>
+<span class="sourceLineNo">649</span>      final Iterator&lt;Entry&lt;K, V&gt;&gt; backingIterator = ImmutableMap.this.entrySet().iterator();<a name="line.649"></a>
+<span class="sourceLineNo">650</span>      return new UnmodifiableIterator&lt;Entry&lt;K, ImmutableSet&lt;V&gt;&gt;&gt;() {<a name="line.650"></a>
+<span class="sourceLineNo">651</span>        @Override<a name="line.651"></a>
+<span class="sourceLineNo">652</span>        public boolean hasNext() {<a name="line.652"></a>
+<span class="sourceLineNo">653</span>          return backingIterator.hasNext();<a name="line.653"></a>
+<span class="sourceLineNo">654</span>        }<a name="line.654"></a>
+<span class="sourceLineNo">655</span><a name="line.655"></a>
+<span class="sourceLineNo">656</span>        @Override<a name="line.656"></a>
+<span class="sourceLineNo">657</span>        public Entry&lt;K, ImmutableSet&lt;V&gt;&gt; next() {<a name="line.657"></a>
+<span class="sourceLineNo">658</span>          final Entry&lt;K, V&gt; backingEntry = backingIterator.next();<a name="line.658"></a>
+<span class="sourceLineNo">659</span>          return new AbstractMapEntry&lt;K, ImmutableSet&lt;V&gt;&gt;() {<a name="line.659"></a>
+<span class="sourceLineNo">660</span>            @Override<a name="line.660"></a>
+<span class="sourceLineNo">661</span>            public K getKey() {<a name="line.661"></a>
+<span class="sourceLineNo">662</span>              return backingEntry.getKey();<a name="line.662"></a>
+<span class="sourceLineNo">663</span>            }<a name="line.663"></a>
 <span class="sourceLineNo">664</span><a name="line.664"></a>
-<span class="sourceLineNo">665</span>  @Override<a name="line.665"></a>
-<span class="sourceLineNo">666</span>  public int hashCode() {<a name="line.666"></a>
-<span class="sourceLineNo">667</span>    return Sets.hashCodeImpl(entrySet());<a name="line.667"></a>
-<span class="sourceLineNo">668</span>  }<a name="line.668"></a>
-<span class="sourceLineNo">669</span><a name="line.669"></a>
-<span class="sourceLineNo">670</span>  boolean isHashCodeFast() {<a name="line.670"></a>
-<span class="sourceLineNo">671</span>    return false;<a name="line.671"></a>
-<span class="sourceLineNo">672</span>  }<a name="line.672"></a>
-<span class="sourceLineNo">673</span><a name="line.673"></a>
-<span class="sourceLineNo">674</span>  @Override<a name="line.674"></a>
-<span class="sourceLineNo">675</span>  public String toString() {<a name="line.675"></a>
-<span class="sourceLineNo">676</span>    return Maps.toStringImpl(this);<a name="line.676"></a>
-<span class="sourceLineNo">677</span>  }<a name="line.677"></a>
-<span class="sourceLineNo">678</span><a name="line.678"></a>
-<span class="sourceLineNo">679</span>  /**<a name="line.679"></a>
-<span class="sourceLineNo">680</span>   * Serialized type for all ImmutableMap instances. It captures the logical contents and they are<a name="line.680"></a>
-<span class="sourceLineNo">681</span>   * reconstructed using public factory methods. This ensures that the implementation types remain<a name="line.681"></a>
-<span class="sourceLineNo">682</span>   * as implementation details.<a name="line.682"></a>
-<span class="sourceLineNo">683</span>   */<a name="line.683"></a>
-<span class="sourceLineNo">684</span>  static class SerializedForm implements Serializable {<a name="line.684"></a>
-<span class="sourceLineNo">685</span>    private final Object[] keys;<a name="line.685"></a>
-<span class="sourceLineNo">686</span>    private final Object[] values;<a name="line.686"></a>
-<span class="sourceLineNo">687</span><a name="line.687"></a>
-<span class="sourceLineNo">688</span>    SerializedForm(ImmutableMap&lt;?, ?&gt; map) {<a name="line.688"></a>
-<span class="sourceLineNo">689</span>      keys = new Object[map.size()];<a name="line.689"></a>
-<span class="sourceLineNo">690</span>      values = new Object[map.size()];<a name="line.690"></a>
-<span class="sourceLineNo">691</span>      int i = 0;<a name="line.691"></a>
-<span class="sourceLineNo">692</span>      for (Entry&lt;?, ?&gt; entry : map.entrySet()) {<a name="line.692"></a>
-<span class="sourceLineNo">693</span>        keys[i] = entry.getKey();<a name="line.693"></a>
-<span class="sourceLineNo">694</span>        values[i] = entry.getValue();<a name="line.694"></a>
-<span class="sourceLineNo">695</span>        i++;<a name="line.695"></a>
-<span class="sourceLineNo">696</span>      }<a name="line.696"></a>
-<span class="sourceLineNo">697</span>    }<a name="line.697"></a>
-<span class="sourceLineNo">698</span><a name="line.698"></a>
-<span class="sourceLineNo">699</span>    Object readResolve() {<a name="line.699"></a>
-<span class="sourceLineNo">700</span>      Builder&lt;Object, Object&gt; builder = new Builder&lt;&gt;(keys.length);<a name="line.700"></a>
-<span class="sourceLineNo">701</span>      return createMap(builder);<a name="line.701"></a>
-<span class="sourceLineNo">702</span>    }<a name="line.702"></a>
-<span class="sourceLineNo">703</span><a name="line.703"></a>
-<span class="sourceLineNo">704</span>    Object createMap(Builder&lt;Object, Object&gt; builder) {<a name="line.704"></a>
-<span class="sourceLineNo">705</span>      for (int i = 0; i &lt; keys.length; i++) {<a name="line.705"></a>
-<span class="sourceLineNo">706</span>        builder.put(keys[i], values[i]);<a name="line.706"></a>
-<span class="sourceLineNo">707</span>      }<a name="line.707"></a>
-<span class="sourceLineNo">708</span>      return builder.build();<a name="line.708"></a>
-<span class="sourceLineNo">709</span>    }<a name="line.709"></a>
-<span class="sourceLineNo">710</span><a name="line.710"></a>
-<span class="sourceLineNo">711</span>    private static final long serialVersionUID = 0;<a name="line.711"></a>
-<span class="sourceLineNo">712</span>  }<a name="line.712"></a>
-<span class="sourceLineNo">713</span><a name="line.713"></a>
-<span class="sourceLineNo">714</span>  Object writeReplace() {<a name="line.714"></a>
-<span class="sourceLineNo">715</span>    return new SerializedForm(this);<a name="line.715"></a>
-<span class="sourceLineNo">716</span>  }<a name="line.716"></a>
-<span class="sourceLineNo">717</span>}<a name="line.717"></a>
+<span class="sourceLineNo">665</span>            @Override<a name="line.665"></a>
+<span class="sourceLineNo">666</span>            public ImmutableSet&lt;V&gt; getValue() {<a name="line.666"></a>
+<span class="sourceLineNo">667</span>              return ImmutableSet.of(backingEntry.getValue());<a name="line.667"></a>
+<span class="sourceLineNo">668</span>            }<a name="line.668"></a>
+<span class="sourceLineNo">669</span>          };<a name="line.669"></a>
+<span class="sourceLineNo">670</span>        }<a name="line.670"></a>
+<span class="sourceLineNo">671</span>      };<a name="line.671"></a>
+<span class="sourceLineNo">672</span>    }<a name="line.672"></a>
+<span class="sourceLineNo">673</span>  }<a name="line.673"></a>
+<span class="sourceLineNo">674</span><a name="line.674"></a>
+<span class="sourceLineNo">675</span>  @Override<a name="line.675"></a>
+<span class="sourceLineNo">676</span>  public boolean equals(@Nullable Object object) {<a name="line.676"></a>
+<span class="sourceLineNo">677</span>    return Maps.equalsImpl(this, object);<a name="line.677"></a>
+<span class="sourceLineNo">678</span>  }<a name="line.678"></a>
+<span class="sourceLineNo">679</span><a name="line.679"></a>
+<span class="sourceLineNo">680</span>  abstract boolean isPartialView();<a name="line.680"></a>
+<span class="sourceLineNo">681</span><a name="line.681"></a>
+<span class="sourceLineNo">682</span>  @Override<a name="line.682"></a>
+<span class="sourceLineNo">683</span>  public int hashCode() {<a name="line.683"></a>
+<span class="sourceLineNo">684</span>    return Sets.hashCodeImpl(entrySet());<a name="line.684"></a>
+<span class="sourceLineNo">685</span>  }<a name="line.685"></a>
+<span class="sourceLineNo">686</span><a name="line.686"></a>
+<span class="sourceLineNo">687</span>  boolean isHashCodeFast() {<a name="line.687"></a>
+<span class="sourceLineNo">688</span>    return false;<a name="line.688"></a>
+<span class="sourceLineNo">689</span>  }<a name="line.689"></a>
+<span class="sourceLineNo">690</span><a name="line.690"></a>
+<span class="sourceLineNo">691</span>  @Override<a name="line.691"></a>
+<span class="sourceLineNo">692</span>  public String toString() {<a name="line.692"></a>
+<span class="sourceLineNo">693</span>    return Maps.toStringImpl(this);<a name="line.693"></a>
+<span class="sourceLineNo">694</span>  }<a name="line.694"></a>
+<span class="sourceLineNo">695</span><a name="line.695"></a>
+<span class="sourceLineNo">696</span>  /**<a name="line.696"></a>
+<span class="sourceLineNo">697</span>   * Serialized type for all ImmutableMap instances. It captures the logical contents and they are<a name="line.697"></a>
+<span class="sourceLineNo">698</span>   * reconstructed using public factory methods. This ensures that the implementation types remain<a name="line.698"></a>
+<span class="sourceLineNo">699</span>   * as implementation details.<a name="line.699"></a>
+<span class="sourceLineNo">700</span>   */<a name="line.700"></a>
+<span class="sourceLineNo">701</span>  static class SerializedForm implements Serializable {<a name="line.701"></a>
+<span class="sourceLineNo">702</span>    private final Object[] keys;<a name="line.702"></a>
+<span class="sourceLineNo">703</span>    private final Object[] values;<a name="line.703"></a>
+<span class="sourceLineNo">704</span><a name="line.704"></a>
+<span class="sourceLineNo">705</span>    SerializedForm(ImmutableMap&lt;?, ?&gt; map) {<a name="line.705"></a>
+<span class="sourceLineNo">706</span>      keys = new Object[map.size()];<a name="line.706"></a>
+<span class="sourceLineNo">707</span>      values = new Object[map.size()];<a name="line.707"></a>
+<span class="sourceLineNo">708</span>      int i = 0;<a name="line.708"></a>
+<span class="sourceLineNo">709</span>      for (Entry&lt;?, ?&gt; entry : map.entrySet()) {<a name="line.709"></a>
+<span class="sourceLineNo">710</span>        keys[i] = entry.getKey();<a name="line.710"></a>
+<span class="sourceLineNo">711</span>        values[i] = entry.getValue();<a name="line.711"></a>
+<span class="sourceLineNo">712</span>        i++;<a name="line.712"></a>
+<span class="sourceLineNo">713</span>      }<a name="line.713"></a>
+<span class="sourceLineNo">714</span>    }<a name="line.714"></a>
+<span class="sourceLineNo">715</span><a name="line.715"></a>
+<span class="sourceLineNo">716</span>    Object readResolve() {<a name="line.716"></a>
+<span class="sourceLineNo">717</span>      Builder&lt;Object, Object&gt; builder = new Builder&lt;&gt;(keys.length);<a name="line.717"></a>
+<span class="sourceLineNo">718</span>      return createMap(builder);<a name="line.718"></a>
+<span class="sourceLineNo">719</span>    }<a name="line.719"></a>
+<span class="sourceLineNo">720</span><a name="line.720"></a>
+<span class="sourceLineNo">721</span>    Object createMap(Builder&lt;Object, Object&gt; builder) {<a name="line.721"></a>
+<span class="sourceLineNo">722</span>      for (int i = 0; i &lt; keys.length; i++) {<a name="line.722"></a>
+<span class="sourceLineNo">723</span>        builder.put(keys[i], values[i]);<a name="line.723"></a>
+<span class="sourceLineNo">724</span>      }<a name="line.724"></a>
+<span class="sourceLineNo">725</span>      return builder.build();<a name="line.725"></a>
+<span class="sourceLineNo">726</span>    }<a name="line.726"></a>
+<span class="sourceLineNo">727</span><a name="line.727"></a>
+<span class="sourceLineNo">728</span>    private static final long serialVersionUID = 0;<a name="line.728"></a>
+<span class="sourceLineNo">729</span>  }<a name="line.729"></a>
+<span class="sourceLineNo">730</span><a name="line.730"></a>
+<span class="sourceLineNo">731</span>  Object writeReplace() {<a name="line.731"></a>
+<span class="sourceLineNo">732</span>    return new SerializedForm(this);<a name="line.732"></a>
+<span class="sourceLineNo">733</span>  }<a name="line.733"></a>
+<span class="sourceLineNo">734</span>}<a name="line.734"></a>
 
 
 
