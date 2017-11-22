@@ -21,6 +21,10 @@
       <artifactId>jsr305</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker-qual</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.google.errorprone</groupId>
       <artifactId>error_prone_annotations</artifactId>
     </dependency>
@@ -130,6 +134,7 @@
           </offlineLinks>
           <links>
             <link>http://errorprone.info/api/latest/</link>
+            <link>https://checkerframework.org/api/</link>
           </links>
           <!-- TODO(cpovirk): can we use includeDependencySources and a local com.oracle.java:jdk-lib:noversion:sources instead of all this unzipping and manual sourcepath modification? -->
           <!-- (We need JDK *sources*, not just -link, so that {@inheritDoc} works.) -->
