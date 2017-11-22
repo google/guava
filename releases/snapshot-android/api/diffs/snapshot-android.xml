@@ -44337,7 +44337,7 @@
  <p>Example: {@code Files.fileTraverser().breadthFirst("/")} may return files with the following
  paths: {@code ["/", "/etc", "/home", "/usr", "/etc/config.txt", "/etc/fonts", ...]}
 
- @since NEXT]]>
+ @since 23.5]]>
       </doc>
     </method>
     <method name="isDirectory" return="com.google.common.base.Predicate&lt;java.io.File&gt;"

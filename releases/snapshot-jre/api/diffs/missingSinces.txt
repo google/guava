@@ -1,2 +1,2 @@
 OK: com.google.common.io.Files Method fileTraverser()
-MISSING @SINCE TAG: com.google.common.io.MoreFiles Method fileTraverser()
+OK: com.google.common.io.MoreFiles Method fileTraverser()
