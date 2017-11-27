@@ -111,6 +111,22 @@ public class MultiInputStreamTest extends IoTestCase {
     assertEquals(20, multi.read());
   }
 
+  public void testReadSingle_noStackOverflow() throws IOException {
+    // https://github.com/google/guava/issues/2996
+    // no data, just testing that there's no StackOverflowException
+    assertEquals(-1, tenMillionEmptySources().read());
+  }
+
+  public void testReadArray_noStackOverflow() throws IOException {
+    // https://github.com/google/guava/issues/2996
+    // no data, just testing that there's no StackOverflowException
+    assertEquals(-1, tenMillionEmptySources().read(new byte[1]));
+  }
+
+  private static MultiInputStream tenMillionEmptySources() throws IOException {
+    return new MultiInputStream(Collections.nCopies(10_000_000, ByteSource.empty()).iterator());
+  }
+
   private static ByteSource newByteSource(final int start, final int size) {
     return new ByteSource() {
       @Override
