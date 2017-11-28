@@ -22,7 +22,7 @@ import com.google.common.annotations.GwtIncompatible;
 import javax.annotation.Nullable;
 
 /**
- * Implementation of {@code Map.Entry} for {@link ImmutableMap} that adds extra methods to traverse
+ * Implementation of {@code Entry} for {@link ImmutableMap} that adds extra methods to traverse
  * hash buckets for the key and the value. This allows reuse in {@link RegularImmutableMap} and
  * {@link RegularImmutableBiMap}, which don't have to recopy the entries created by their
  * {@code Builder} implementations.

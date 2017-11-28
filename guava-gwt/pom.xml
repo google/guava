@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-parent</artifactId>
-    <version>HEAD-jre-SNAPSHOT</version>
+    <version>23.5-jre</version>
   </parent>
   <artifactId>guava-gwt</artifactId>
   <name>Guava GWT compatible libs</name>
@@ -19,8 +19,8 @@
   <properties>
     <!-- We skip GWT tests by default. To run, pass -Dgwt.test.include=**/GwtTestSuite.java -->
     <gwt.test.include>**/DoesNotMatchAnyTests.java</gwt.test.include>
-    <gwt.version>2.8.0</gwt.version>
-    <gwt.plugin.version>2.8.0</gwt.plugin.version>
+    <gwt.version>2.8.2</gwt.version>
+    <gwt.plugin.version>2.8.2</gwt.plugin.version>
     <gwt.logLevel>WARN</gwt.logLevel>
   </properties>
   <repositories>

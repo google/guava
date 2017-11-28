@@ -25,6 +25,8 @@ import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.TreeTraverser;
+import com.google.common.graph.SuccessorsFunction;
+import com.google.common.graph.Traverser;
 import com.google.common.io.ByteSource.AsCharSource;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.io.IOException;
@@ -277,10 +279,15 @@ public final class MoreFiles {
    * exception will be thrown and the returned {@link Iterable} will contain a single element: that
    * path.
    *
-   * <p>{@link DirectoryIteratorException}  may be thrown when iterating {@link Iterable} instances
-   * created by this traverser if an {@link IOException} is thrown by a call to
-   * {@link #listFiles(Path)}.
+   * <p>{@link DirectoryIteratorException} may be thrown when iterating {@link Iterable} instances
+   * created by this traverser if an {@link IOException} is thrown by a call to {@link
+   * #listFiles(Path)}.
+   *
+   * @deprecated The returned {@link TreeTraverser} type is deprecated. Use the replacement method
+   *     {@link #fileTraverser()} instead with the same semantics as this method. This method is
+   *     scheduled to be removed in April 2018.
    */
+  @Deprecated
   public static TreeTraverser<Path> directoryTreeTraverser() {
     return DirectoryTreeTraverser.INSTANCE;
   }
@@ -291,16 +298,54 @@ public final class MoreFiles {
 
     @Override
     public Iterable<Path> children(Path dir) {
-      if (Files.isDirectory(dir, NOFOLLOW_LINKS)) {
-        try {
-          return listFiles(dir);
-        } catch (IOException e) {
-          // the exception thrown when iterating a DirectoryStream if an I/O exception occurs
-          throw new DirectoryIteratorException(e);
-        }
-      }
-      return ImmutableList.of();
+      return fileTreeChildren(dir);
     }
+  }
+
+  /**
+   * Returns a {@link Traverser} instance for the file and directory tree. The returned traverser
+   * starts from a {@link Path} and will return all files and directories it encounters.
+   *
+   * <p>The returned traverser attempts to avoid following symbolic links to directories. However,
+   * the traverser cannot guarantee that it will not follow symbolic links to directories as it is
+   * possible for a directory to be replaced with a symbolic link between checking if the file is a
+   * directory and actually reading the contents of that directory.
+   *
+   * <p>If the {@link Path} passed to one of the traversal methods does not exist or is not a
+   * directory, no exception will be thrown and the returned {@link Iterable} will contain a single
+   * element: that path.
+   *
+   * <p>{@link DirectoryIteratorException} may be thrown when iterating {@link Iterable} instances
+   * created by this traverser if an {@link IOException} is thrown by a call to {@link
+   * #listFiles(Path)}.
+   *
+   * <p>Example: {@code MoreFiles.fileTraverser().breadthFirst("/")} may return files with the
+   * following paths: {@code ["/", "/etc", "/home", "/usr", "/etc/config.txt", "/etc/fonts", ...]}
+   *
+   * @since 23.5
+   */
+  public static Traverser<Path> fileTraverser() {
+    return Traverser.forTree(FILE_TREE);
+  }
+
+  private static final SuccessorsFunction<Path> FILE_TREE =
+      new SuccessorsFunction<Path>() {
+        @Override
+        public Iterable<Path> successors(Path path) {
+          return fileTreeChildren(path);
+        }
+      };
+
+  private static Iterable<Path> fileTreeChildren(Path dir) {
+    if (Files.isDirectory(dir, NOFOLLOW_LINKS)) {
+      try {
+        return listFiles(dir);
+      } catch (IOException e) {
+        // the exception thrown when iterating a DirectoryStream if an I/O exception occurs
+        throw new DirectoryIteratorException(e);
+      }
+    }
+    return ImmutableList.of();
   }
 
   /**

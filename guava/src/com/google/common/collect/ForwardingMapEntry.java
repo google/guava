@@ -60,7 +60,7 @@ public abstract class ForwardingMapEntry<K extends @org.checkerframework.checker
   protected ForwardingMapEntry() {}
 
   @Override
-  protected abstract Map.Entry<K, V> delegate();
+  protected abstract Entry<K, V> delegate();
 
   @Pure
   @Override

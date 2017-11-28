@@ -132,11 +132,9 @@ public class FeatureUtilTest extends TestCase {
     }
   }
 
-  @ExampleDerivedFeature.Require(
-      absent = {ExampleDerivedFeature.DERIVED_FEATURE_2})
-  private static class ExampleDerivedInterfaceTester_Conflict
-      extends ExampleBaseInterfaceTester {
-  }
+  @ExampleDerivedFeature.Require(absent = {ExampleDerivedFeature.DERIVED_FEATURE_2})
+  private static class ConflictingRequirementsExampleDerivedInterfaceTester
+      extends ExampleBaseInterfaceTester {}
 
   public void testTestFeatureEnums() throws Exception {
     // Haha! Let's test our own test rig!
@@ -244,11 +242,11 @@ public class FeatureUtilTest extends TestCase {
   public void testBuildTesterRequirements_classClassConflict() throws Exception {
     try {
       FeatureUtil.buildTesterRequirements(
-          ExampleDerivedInterfaceTester_Conflict.class);
+          ConflictingRequirementsExampleDerivedInterfaceTester.class);
       fail("Expected ConflictingRequirementsException");
     } catch (ConflictingRequirementsException e) {
       assertThat(e.getConflicts()).contains(ExampleBaseFeature.BASE_FEATURE_1);
-      assertEquals(ExampleDerivedInterfaceTester_Conflict.class, e.getSource());
+      assertEquals(ConflictingRequirementsExampleDerivedInterfaceTester.class, e.getSource());
     }
   }
 

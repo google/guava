@@ -24,6 +24,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import javax.annotation.Nullable;
 
@@ -79,8 +80,8 @@ abstract class AbstractSetMultimap<K extends @org.checkerframework.checker.nulln
    */
   @SideEffectFree
   @Override
-  public Set<Map.Entry<K, V>> entries() {
-    return (Set<Map.Entry<K, V>>) super.entries();
+  public Set<Entry<K, V>> entries() {
+    return (Set<Entry<K, V>>) super.entries();
   }
 
   /**

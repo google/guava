@@ -42,7 +42,7 @@ import java.lang.reflect.WildcardType;
 import java.security.AccessControlException;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicReference;
 import javax.annotation.Nullable;
 
@@ -627,7 +627,7 @@ final class Types {
 
     static {
       if (AnnotatedElement.class.isAssignableFrom(TypeVariable.class)) {
-        if (new TypeCapture<Map.Entry<String, int[][]>>() {}.capture()
+        if (new TypeCapture<Entry<String, int[][]>>() {}.capture()
             .toString()
             .contains("java.util.Map.java.util.Map")) {
           CURRENT = JAVA8;

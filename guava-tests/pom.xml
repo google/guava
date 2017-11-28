@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-parent</artifactId>
-    <version>HEAD-jre-SNAPSHOT</version>
+    <version>23.5-jre</version>
   </parent>
   <artifactId>guava-tests</artifactId>
   <name>Guava Unit Tests</name>
@@ -24,6 +24,10 @@
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker-qual</artifactId>
     </dependency>
     <dependency>
       <groupId>com.google.errorprone</groupId>
@@ -80,10 +84,25 @@
         <artifactId>maven-jar-plugin</artifactId>
         <executions>
           <execution>
+            <id>default-jar</id>
+            <goals><goal>jar</goal></goals>
+            <configuration>
+              <skipIfEmpty>true</skipIfEmpty>
+            </configuration>
+          </execution>
+          <execution>
             <id>create-test-jar</id>
             <goals><goal>test-jar</goal></goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>2.8.2</version>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>

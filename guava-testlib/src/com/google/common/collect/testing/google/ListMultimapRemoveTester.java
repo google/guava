@@ -27,7 +27,7 @@ import com.google.common.collect.testing.features.MapFeature;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Testers for {@link ListMultimap#remove(Object, Object)}.
@@ -92,7 +92,7 @@ public class ListMultimapRemoveTester<K, V> extends AbstractListMultimapTester<K
       resetContainer(mapEntry(k0(), v0()), mapEntry(k0(), v1()), mapEntry(k0(), v0()));
       List<V> expectedValues = copyToList(values);
 
-      Map.Entry<K, Collection<V>> asMapEntry = multimap().asMap().entrySet().iterator().next();
+      Entry<K, Collection<V>> asMapEntry = multimap().asMap().entrySet().iterator().next();
       List<V> asMapValue = (List<V>) asMapEntry.getValue();
       asMapValue.remove(i);
       expectedValues.remove(i);

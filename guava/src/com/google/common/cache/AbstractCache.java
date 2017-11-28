@@ -18,6 +18,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
@@ -88,7 +89,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
    */
   @Override
   public void putAll(Map<? extends K, ? extends V> m) {
-    for (Map.Entry<? extends K, ? extends V> entry : m.entrySet()) {
+    for (Entry<? extends K, ? extends V> entry : m.entrySet()) {
       put(entry.getKey(), entry.getValue());
     }
   }

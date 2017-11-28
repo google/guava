@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import javax.annotation.Nullable;
 
@@ -94,7 +95,7 @@ public interface SetMultimap<K, V> extends Multimap<K, V> {
    * specified in the {@link Multimap} interface.
    */
   @Override
-  Set<Map.Entry<K, V>> entries();
+  Set<Entry<K, V>> entries();
 
   /**
    * {@inheritDoc}

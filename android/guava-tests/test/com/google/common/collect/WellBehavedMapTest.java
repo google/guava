@@ -18,7 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.EnumMap;
-import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import junit.framework.TestCase;
 
@@ -49,7 +49,7 @@ public class WellBehavedMapTest extends TestCase {
         new EnumMap<Foo, Integer>(Foo.class));
     map.putAll(ImmutableMap.of(Foo.X, 1, Foo.Y, 2, Foo.Z, 3));
 
-    for (Map.Entry<Foo, Integer> entry : map.entrySet()) {
+    for (Entry<Foo, Integer> entry : map.entrySet()) {
       entry.setValue(entry.getValue() + 5);
     }
 
@@ -61,13 +61,13 @@ public class WellBehavedMapTest extends TestCase {
         new EnumMap<Foo, Integer>(Foo.class));
     map.putAll(ImmutableMap.of(Foo.X, 1));
 
-    Map.Entry<Foo, Integer> entry1 = Iterables.getOnlyElement(map.entrySet());
-    Map.Entry<Foo, Integer> entry2 = Iterables.getOnlyElement(map.entrySet());
+    Entry<Foo, Integer> entry1 = Iterables.getOnlyElement(map.entrySet());
+    Entry<Foo, Integer> entry2 = Iterables.getOnlyElement(map.entrySet());
 
     // the entries are constructed and forgotten, thus different
     assertNotSame(entry1, entry2);
 
-    Set<Map.Entry<Foo, Integer>> entrySet = map.entrySet();
+    Set<Entry<Foo, Integer>> entrySet = map.entrySet();
 
     assertTrue(entrySet.contains(entry1));
     assertTrue(entrySet.contains(entry2));
@@ -87,10 +87,10 @@ public class WellBehavedMapTest extends TestCase {
     WellBehavedMap<Foo, Integer> map = WellBehavedMap.wrap(
         new EnumMap<Foo, Integer>(Foo.class));
     map.putAll(ImmutableMap.of(Foo.X, 1, Foo.Y, 2, Foo.Z, 3));
-    Set<Map.Entry<Foo, Integer>> entrySet = map.entrySet();
+    Set<Entry<Foo, Integer>> entrySet = map.entrySet();
 
     // removing an existing entry, verifying consistency
-    Map.Entry<Foo, Integer> entry = Maps.immutableEntry(Foo.Y, 2);
+    Entry<Foo, Integer> entry = Maps.immutableEntry(Foo.Y, 2);
     assertTrue(entrySet.remove(entry));
     assertFalse(map.containsKey(Foo.Y));
     assertNull(map.get(Foo.Y));

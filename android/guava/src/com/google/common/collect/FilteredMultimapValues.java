@@ -24,7 +24,6 @@ import com.google.j2objc.annotations.Weak;
 import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
 import javax.annotation.Nullable;
 
@@ -62,7 +61,7 @@ final class FilteredMultimapValues<K, V> extends AbstractCollection<V> {
     for (Iterator<Entry<K, V>> unfilteredItr = multimap.unfiltered().entries().iterator();
         unfilteredItr.hasNext();
         ) {
-      Map.Entry<K, V> entry = unfilteredItr.next();
+      Entry<K, V> entry = unfilteredItr.next();
       if (entryPredicate.apply(entry) && Objects.equal(entry.getValue(), o)) {
         unfilteredItr.remove();
         return true;

@@ -37,25 +37,18 @@ import java.util.Map.Entry;
  */
 @GwtCompatible
 public abstract class AbstractMapTester<K, V>
-    extends AbstractContainerTester<Map<K, V>, Map.Entry<K, V>> {
+    extends AbstractContainerTester<Map<K, V>, Entry<K, V>> {
   protected Map<K, V> getMap() {
     return container;
   }
 
   @Override
-  public void setUp() throws Exception {
-    super.setUp();
-    samples = this.getSubjectGenerator().samples();
-    resetMap();
-  }
-
-  @Override
-  protected Collection<Map.Entry<K, V>> actualContents() {
+  protected Collection<Entry<K, V>> actualContents() {
     return getMap().entrySet();
   }
 
   /** @see AbstractContainerTester#resetContainer() */
-  protected void resetMap() {
+  protected final void resetMap() {
     resetContainer();
   }
 
@@ -75,10 +68,10 @@ public abstract class AbstractMapTester<K, V>
    * @return an array of the proper size with {@code null} as the key of the
    * middle element.
    */
-  protected Map.Entry<K, V>[] createArrayWithNullKey() {
-    Map.Entry<K, V>[] array = createSamplesArray();
+  protected Entry<K, V>[] createArrayWithNullKey() {
+    Entry<K, V>[] array = createSamplesArray();
     final int nullKeyLocation = getNullLocation();
-    final Map.Entry<K, V> oldEntry = array[nullKeyLocation];
+    final Entry<K, V> oldEntry = array[nullKeyLocation];
     array[nullKeyLocation] = entry(null, oldEntry.getValue());
     return array;
   }
@@ -103,10 +96,10 @@ public abstract class AbstractMapTester<K, V>
    * @return an array of the proper size with {@code null} as the value of the
    * middle element.
    */
-  protected Map.Entry<K, V>[] createArrayWithNullValue() {
-    Map.Entry<K, V>[] array = createSamplesArray();
+  protected Entry<K, V>[] createArrayWithNullValue() {
+    Entry<K, V>[] array = createSamplesArray();
     final int nullValueLocation = getNullLocation();
-    final Map.Entry<K, V> oldEntry = array[nullValueLocation];
+    final Entry<K, V> oldEntry = array[nullValueLocation];
     array[nullValueLocation] = entry(oldEntry.getKey(), null);
     return array;
   }
@@ -151,7 +144,7 @@ public abstract class AbstractMapTester<K, V>
 
   @SuppressWarnings("unchecked")
   @Override
-  protected MinimalCollection<Map.Entry<K, V>> createDisjointCollection() {
+  protected MinimalCollection<Entry<K, V>> createDisjointCollection() {
     return MinimalCollection.of(e3(), e4());
   }
 
@@ -159,11 +152,11 @@ public abstract class AbstractMapTester<K, V>
     return getNumElements();
   }
 
-  protected Collection<Map.Entry<K, V>> getSampleEntries(int howMany) {
+  protected Collection<Entry<K, V>> getSampleEntries(int howMany) {
     return getSampleElements(howMany);
   }
 
-  protected Collection<Map.Entry<K, V>> getSampleEntries() {
+  protected Collection<Entry<K, V>> getSampleEntries() {
     return getSampleElements();
   }
 

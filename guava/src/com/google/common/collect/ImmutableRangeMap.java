@@ -101,9 +101,11 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
 
   /**
    * A builder for immutable range maps. Overlapping ranges are prohibited.
+   *
+   * @since 14.0
    */
   public static final class Builder<K extends Comparable<?>, V> {
-    private final List<Map.Entry<Range<K>, V>> entries;
+    private final List<Entry<Range<K>, V>> entries;
 
     public Builder() {
       this.entries = Lists.newArrayList();
@@ -194,7 +196,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
 
   @Override
   @Nullable
-  public Map.Entry<Range<K>, V> getEntry(K key) {
+  public Entry<Range<K>, V> getEntry(K key) {
     int index =
         SortedLists.binarySearch(
             ranges,

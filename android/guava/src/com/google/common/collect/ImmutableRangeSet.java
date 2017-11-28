@@ -707,6 +707,8 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
 
   /**
    * A builder for immutable range sets.
+   *
+   * @since 14.0
    */
   public static class Builder<C extends Comparable<?>> {
     private final List<Range<C>> ranges;

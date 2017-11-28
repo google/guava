@@ -45,6 +45,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import junit.framework.TestSuite;
 
@@ -57,7 +58,7 @@ import junit.framework.TestSuite;
 @GwtIncompatible
 public class MapTestSuiteBuilder<K, V>
     extends PerCollectionSizeTestSuiteBuilder<
-        MapTestSuiteBuilder<K, V>, TestMapGenerator<K, V>, Map<K, V>, Map.Entry<K, V>> {
+        MapTestSuiteBuilder<K, V>, TestMapGenerator<K, V>, Map<K, V>, Entry<K, V>> {
   public static <K, V> MapTestSuiteBuilder<K, V> using(TestMapGenerator<K, V> generator) {
     return new MapTestSuiteBuilder<K, V>().usingGenerator(generator);
   }
@@ -86,7 +87,7 @@ public class MapTestSuiteBuilder<K, V>
   @Override
   protected List<TestSuite> createDerivedSuites(
       FeatureSpecificTestSuiteBuilder<
-              ?, ? extends OneSizeTestContainerGenerator<Map<K, V>, Map.Entry<K, V>>>
+              ?, ? extends OneSizeTestContainerGenerator<Map<K, V>, Entry<K, V>>>
           parentBuilder) {
     // TODO: Once invariant support is added, supply invariants to each of the
     // derived suites, to check that mutations to the derived collections are
@@ -130,8 +131,8 @@ public class MapTestSuiteBuilder<K, V>
     return derivedSuites;
   }
 
-  protected SetTestSuiteBuilder<Map.Entry<K, V>> createDerivedEntrySetSuite(
-      TestSetGenerator<Map.Entry<K, V>> entrySetGenerator) {
+  protected SetTestSuiteBuilder<Entry<K, V>> createDerivedEntrySetSuite(
+      TestSetGenerator<Entry<K, V>> entrySetGenerator) {
     return SetTestSuiteBuilder.using(entrySetGenerator);
   }
 
@@ -219,25 +220,25 @@ public class MapTestSuiteBuilder<K, V>
   }
 
   private static class ReserializedMapGenerator<K, V> implements TestMapGenerator<K, V> {
-    private final OneSizeTestContainerGenerator<Map<K, V>, Map.Entry<K, V>> mapGenerator;
+    private final OneSizeTestContainerGenerator<Map<K, V>, Entry<K, V>> mapGenerator;
 
     public ReserializedMapGenerator(
-        OneSizeTestContainerGenerator<Map<K, V>, Map.Entry<K, V>> mapGenerator) {
+        OneSizeTestContainerGenerator<Map<K, V>, Entry<K, V>> mapGenerator) {
       this.mapGenerator = mapGenerator;
     }
 
     @Override
-    public SampleElements<Map.Entry<K, V>> samples() {
+    public SampleElements<Entry<K, V>> samples() {
       return mapGenerator.samples();
     }
 
     @Override
-    public Map.Entry<K, V>[] createArray(int length) {
+    public Entry<K, V>[] createArray(int length) {
       return mapGenerator.createArray(length);
     }
 
     @Override
-    public Iterable<Map.Entry<K, V>> order(List<Map.Entry<K, V>> insertionOrder) {
+    public Iterable<Entry<K, V>> order(List<Entry<K, V>> insertionOrder) {
       return mapGenerator.order(insertionOrder);
     }
 

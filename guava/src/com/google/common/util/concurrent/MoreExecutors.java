@@ -235,9 +235,7 @@ public final class MoreExecutors {
   // See newDirectExecutorService javadoc for behavioral notes.
   @GwtIncompatible // TODO
   private static final class DirectExecutorService extends AbstractListeningExecutorService {
-    /**
-     * Lock used whenever accessing the state variables (runningTasks, shutdown) of the executor
-     */
+    /** Lock used whenever accessing the state variables (runningTasks, shutdown) of the executor */
     private final Object lock = new Object();
 
     /*
@@ -326,7 +324,7 @@ public final class MoreExecutors {
       }
     }
 
-    /**
+   /**
      * Decrements the running task count.
      */
     private void endTask() {
@@ -406,20 +404,40 @@ public final class MoreExecutors {
   }
 
   /**
-   * Returns an {@link Executor} that runs each task executed sequentially, such that no
-   * two tasks are running concurrently.
+   * Returns an {@link Executor} that runs each task executed sequentially, such that no two tasks
+   * are running concurrently.
    *
    * <p>The executor uses {@code delegate} in order to {@link Executor#execute execute} each task in
    * turn, and does not create any threads of its own.
    *
-   * <p>After execution starts on the {@code delegate} {@link Executor}, tasks are polled and
-   * executed from the queue until there are no more tasks. The thread will not be released until
-   * there are no more tasks to run.
+   * <p>After execution begins on a thread from the {@code delegate} {@link Executor}, tasks are
+   * polled and executed from a task queue until there are no more tasks. The thread will not be
+   * released until there are no more tasks to run.
    *
-   * <p>If a task is {@linkplain Thread#interrupt interrupted}, execution of subsequent tasks
-   * continues. {@code RuntimeException}s thrown by tasks are simply logged and the executor keeps
-   * trucking. If an {@code Error} is thrown, the error will propagate and execution will stop until
-   * the next time a task is submitted.
+   * <p>If a task is submitted while a thread is executing tasks from the task queue, the thread
+   * will not be released until that submitted task is also complete.
+   *
+   * <p>Tasks are always started with the Thread in an uninterrupted state.
+   *
+   * <p>If the thread is {@linkplain Thread#interrupt interrupted} while a task is running or before
+   * the thread is taken by the Executor:
+   *
+   * <ol>
+   *   <li>execution will not stop until the task queue is empty.
+   *   <li>the interrupt will be restored to the thread after it completes so that its {@code
+   *       delegate} Executor may process the interrupt.
+   * </ol>
+   *
+   * <p>{@code RuntimeException}s thrown by tasks are simply logged and the executor keeps trucking.
+   * If an {@code Error} is thrown, the error will propagate and execution will stop until the next
+   * time a task is submitted.
+   *
+   * <p>When an {@code Error} is thrown by an executed task, previously submitted tasks may never
+   * run. An attempt will be made to restart execution on the next call to {@code execute}. If the
+   * {@code delegate} has begun to reject execution, the previously submitted tasks may never run,
+   * despite not throwing a RejectedExecutionException synchronously with the call to {@code
+   * execute}. If this behaviour is problematic, use an Executor with a single thread (e.g. {@link
+   * Executors#newSingleThreadExecutor}).
    *
    * @deprecated Use {@link #newSequentialExecutor}. This method is scheduled for removal in
    *     January 2018.
@@ -439,16 +457,38 @@ public final class MoreExecutors {
    * <p>The executor uses {@code delegate} in order to {@link Executor#execute execute} each task in
    * turn, and does not create any threads of its own.
    *
-   * <p>After execution starts on the {@code delegate} {@link Executor}, tasks are polled and
-   * executed from the queue until there are no more tasks. The thread will not be released until
-   * there are no more tasks to run.
+   * <p>After execution begins on a thread from the {@code delegate} {@link Executor}, tasks are
+   * polled and executed from a task queue until there are no more tasks. The thread will not be
+   * released until there are no more tasks to run.
    *
-   * <p>If a task is {@linkplain Thread#interrupt interrupted}, execution of subsequent tasks
-   * continues. {@code RuntimeException}s thrown by tasks are simply logged and the executor keeps
-   * trucking. If an {@code Error} is thrown, the error will propagate and execution will stop until
-   * the next time a task is submitted.
+   * <p>If a task is submitted while a thread is executing tasks from the task queue, the thread
+   * will not be released until that submitted task is also complete.
    *
-   * @since NEXT
+   * <p>If a task is {@linkplain Thread#interrupt interrupted} while a task is running:
+   *
+   * <ol>
+   *   <li>execution will not stop until the task queue is empty.
+   *   <li>tasks will begin execution with the thread marked as not interrupted - any interruption
+   *       applies only to the task that was running at the point of interruption.
+   *   <li>if the thread was interrupted before the SequentialExecutor's worker begins execution,
+   *       the interrupt will be restored to the thread after it completes so that its {@code
+   *       delegate} Executor may process the interrupt.
+   *   <li>subtasks are run with the thread uninterrupted and interrupts received during execution
+   *       of a task are ignored.
+   * </ol>
+   *
+   * <p>{@code RuntimeException}s thrown by tasks are simply logged and the executor keeps trucking.
+   * If an {@code Error} is thrown, the error will propagate and execution will stop until the next
+   * time a task is submitted.
+   *
+   * <p>When an {@code Error} is thrown by an executed task, previously submitted tasks may never
+   * run. An attempt will be made to restart execution on the next call to {@code execute}. If the
+   * {@code delegate} has begun to reject execution, the previously submitted tasks may never run,
+   * despite not throwing a RejectedExecutionException synchronously with the call to {@code
+   * execute}. If this behaviour is problematic, use an Executor with a single thread (e.g. {@link
+   * Executors#newSingleThreadExecutor}).
+   *
+   * @since 23.3 (since 23.1 as {@link #sequentialExecutor(Executor)})
    */
   @Beta
   @GwtIncompatible

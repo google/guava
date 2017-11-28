@@ -198,6 +198,28 @@ public class ArrayTableTest extends AbstractTableTest {
     } catch (IllegalArgumentException expected) {}
   }
 
+  public void testCreateEmptyRowsXColumns() {
+    ArrayTable<String, String, Character> table =
+        ArrayTable.create(Arrays.<String>asList(), Arrays.<String>asList());
+    assertThat(table).isEmpty();
+    assertThat(table).hasSize(0);
+    assertThat(table.columnKeyList()).isEmpty();
+    assertThat(table.rowKeyList()).isEmpty();
+    assertThat(table.columnKeySet()).isEmpty();
+    assertThat(table.rowKeySet()).isEmpty();
+    try {
+      table.at(0, 0);
+      fail();
+    } catch (IndexOutOfBoundsException expected) {}
+  }
+
+  @GwtIncompatible // toArray
+  public void testEmptyToArry() {
+    ArrayTable<String, String, Character> table =
+        ArrayTable.create(Arrays.<String>asList(), Arrays.<String>asList());
+    assertThat(table.toArray(Character.class)).asList().isEmpty();
+  }
+
   public void testCreateCopyArrayTable() {
     Table<String, Integer, Character> original
         = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
@@ -230,10 +252,19 @@ public class ArrayTableTest extends AbstractTableTest {
 
   public void testCreateCopyEmptyTable() {
     Table<String, Integer, Character> original = HashBasedTable.create();
-    try {
-      ArrayTable.create(original);
-      fail();
-    } catch (IllegalArgumentException expected) {}
+    ArrayTable<String, Integer, Character> copy = ArrayTable.create(original);
+    assertThat(copy).isEqualTo(original);
+    assertThat(copy)
+        .isEqualTo(ArrayTable.create(Arrays.<String>asList(), Arrays.<Integer>asList()));
+    assertThat(copy).isEmpty();
+  }
+
+  public void testCreateCopyEmptyArrayTable() {
+    Table<String, Integer, Character> original =
+        ArrayTable.create(Arrays.<String>asList(), Arrays.<Integer>asList());
+    ArrayTable<String, Integer, Character> copy = ArrayTable.create(original);
+    assertThat(copy).isEqualTo(original);
+    assertThat(copy).isEmpty();
   }
 
   public void testSerialization() {

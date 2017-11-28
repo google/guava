@@ -51,5 +51,13 @@ final class Platform {
     return mapMaker;
   }
 
+  static int reduceIterationsIfGwt(int iterations) {
+    return iterations / 10;
+  }
+
+  static int reduceExponentIfGwt(int exponent) {
+    return exponent / 2;
+  }
+
   private Platform() {}
 }

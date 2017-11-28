@@ -46,7 +46,7 @@ import java.nio.charset.Charset;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.jar.Attributes;
@@ -350,7 +350,7 @@ public final class ClassPath {
     private final Set<File> scannedUris = Sets.newHashSet();
 
     public final void scan(ClassLoader classloader) throws IOException {
-      for (Map.Entry<File, ClassLoader> entry : getClassPathEntries(classloader).entrySet()) {
+      for (Entry<File, ClassLoader> entry : getClassPathEntries(classloader).entrySet()) {
         scan(entry.getKey(), entry.getValue());
       }
     }
@@ -508,7 +508,7 @@ public final class ClassPath {
 
     ImmutableSet<ResourceInfo> getResources() {
       ImmutableSet.Builder<ResourceInfo> builder = ImmutableSet.builder();
-      for (Map.Entry<ClassLoader, String> entry : resources.entries()) {
+      for (Entry<ClassLoader, String> entry : resources.entries()) {
         builder.add(ResourceInfo.of(entry.getValue(), entry.getKey()));
       }
       return builder.build();

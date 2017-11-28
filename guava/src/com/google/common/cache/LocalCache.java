@@ -4261,7 +4261,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     stopwatch.stop();
     // TODO(fry): batch by segment
     boolean nullsPresent = false;
-    for (Map.Entry<K, V> entry : result.entrySet()) {
+    for (Entry<K, V> entry : result.entrySet()) {
       K key = entry.getKey();
       V value = entry.getValue();
       if (key == null || value == null) {

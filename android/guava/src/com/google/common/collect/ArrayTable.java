@@ -87,13 +87,14 @@ import javax.annotation.Nullable;
 public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements Serializable {
 
   /**
-   * Creates an empty {@code ArrayTable}.
+   * Creates an {@code ArrayTable} filled with {@code null}.
    *
    * @param rowKeys row keys that may be stored in the generated table
    * @param columnKeys column keys that may be stored in the generated table
    * @throws NullPointerException if any of the provided keys is null
    * @throws IllegalArgumentException if {@code rowKeys} or {@code columnKeys}
-   *     contains duplicates or is empty
+   *     contains duplicates or if exactly one of {@code rowKeys} or {@code
+   *     columnKeys} is empty.
    */
   public static <R, C, V> ArrayTable<R, C, V> create(
       Iterable<? extends R> rowKeys, Iterable<? extends C> columnKeys) {
@@ -126,7 +127,6 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    * the returned table.
    *
    * @throws NullPointerException if {@code table} has a null key
-   * @throws IllegalArgumentException if the provided table is empty
    */
   public static <R, C, V> ArrayTable<R, C, V> create(Table<R, C, V> table) {
     return (table instanceof ArrayTable<?, ?, ?>)
@@ -145,13 +145,13 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   private ArrayTable(Iterable<? extends R> rowKeys, Iterable<? extends C> columnKeys) {
     this.rowList = ImmutableList.copyOf(rowKeys);
     this.columnList = ImmutableList.copyOf(columnKeys);
-    checkArgument(!rowList.isEmpty());
-    checkArgument(!columnList.isEmpty());
+    checkArgument(rowList.isEmpty() == columnList.isEmpty());
 
     /*
-     * TODO(jlevy): Support empty rowKeys or columnKeys? If we do, when
-     * columnKeys is empty but rowKeys isn't, the table is empty but
-     * containsRow() can return true and rowKeySet() isn't empty.
+     * TODO(jlevy): Support only one of rowKey / columnKey being empty? If we
+     * do, when columnKeys is empty but rowKeys isn't, rowKeyList() can contain
+     * elements but rowKeySet() will be empty and containsRow() won't
+     * acknolwedge them.
      */
     rowKeyToIndex = Maps.indexMap(rowList);
     columnKeyToIndex = Maps.indexMap(columnList);
@@ -176,8 +176,6 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
     @SuppressWarnings("unchecked")
     V[][] copy = (V[][]) new Object[rowList.size()][columnList.size()];
     array = copy;
-    // Necessary because in GWT the arrays are initialized with "undefined" instead of null.
-    eraseAll();
     for (int i = 0; i < rowList.size(); i++) {
       System.arraycopy(table.array[i], 0, copy[i], 0, table.array[i].length);
     }
@@ -311,8 +309,8 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    * @param columnIndex position of the row key in {@link #columnKeyList()}
    * @return the value with the specified row and column
    * @throws IndexOutOfBoundsException if either index is negative, {@code
-   *     rowIndex} is greater then or equal to the number of allowed row keys,
-   *     or {@code columnIndex} is greater then or equal to the number of
+   *     rowIndex} is greater than or equal to the number of allowed row keys,
+   *     or {@code columnIndex} is greater than or equal to the number of
    *     allowed column keys
    */
   public V at(int rowIndex, int columnIndex) {
@@ -333,8 +331,8 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    * @param value value to store in the table
    * @return the previous value with the specified row and column
    * @throws IndexOutOfBoundsException if either index is negative, {@code
-   *     rowIndex} is greater then or equal to the number of allowed row keys,
-   *     or {@code columnIndex} is greater then or equal to the number of
+   *     rowIndex} is greater than or equal to the number of allowed row keys,
+   *     or {@code columnIndex} is greater than or equal to the number of
    *     allowed column keys
    */
   @CanIgnoreReturnValue
@@ -390,8 +388,8 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   }
 
   /**
-   * Returns {@code true} if the provided keys are among the keys provided when
-   * the table was constructed.
+   * Returns {@code true} if the provided keys are among the keys provided
+   * when the table was constructed.
    */
   @Override
   public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
@@ -436,11 +434,12 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   }
 
   /**
-   * Always returns {@code false}.
+   * Returns {@code true} if {@code rowKeyList().size == 0} or {@code
+   * columnKeyList().size() == 0}.
    */
   @Override
   public boolean isEmpty() {
-    return false;
+    return rowList.isEmpty() || columnList.isEmpty();
   }
 
   /**

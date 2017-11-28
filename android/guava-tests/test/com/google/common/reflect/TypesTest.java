@@ -34,6 +34,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import junit.framework.TestCase;
 
 /**
@@ -45,9 +46,9 @@ import junit.framework.TestCase;
 public class TypesTest extends TestCase {
   public void testNewParameterizedType_ownerTypeImplied() throws Exception {
     ParameterizedType jvmType = (ParameterizedType)
-        new TypeCapture<Map.Entry<String, Integer>>() {}.capture();
+        new TypeCapture<Entry<String, Integer>>() {}.capture();
     ParameterizedType ourType = Types.newParameterizedType(
-        Map.Entry.class, String.class, Integer.class);
+        Entry.class, String.class, Integer.class);
     assertEquals(jvmType, ourType);
     assertEquals(Map.class, ourType.getOwnerType());
   }
@@ -93,18 +94,18 @@ public class TypesTest extends TestCase {
 
   public void testNewParameterizedTypeWithOwner() {
     ParameterizedType jvmType = (ParameterizedType)
-        new TypeCapture<Map.Entry<String, int[][]>>() {}.capture();
+        new TypeCapture<Entry<String, int[][]>>() {}.capture();
     ParameterizedType ourType = Types.newParameterizedTypeWithOwner(
-        Map.class, Map.Entry.class, String.class, int[][].class);
+        Map.class, Entry.class, String.class, int[][].class);
 
     new EqualsTester()
         .addEqualityGroup(jvmType, ourType)
-        .addEqualityGroup(new TypeCapture<Map.Entry<String, String>>() {}.capture())
+        .addEqualityGroup(new TypeCapture<Entry<String, String>>() {}.capture())
         .addEqualityGroup(new TypeCapture<Map<String, Integer>>() {}.capture())
         .testEquals();
     assertEquals(jvmType.toString(), ourType.toString());
     assertEquals(Map.class, ourType.getOwnerType());
-    assertEquals(Map.Entry.class, ourType.getRawType());
+    assertEquals(Entry.class, ourType.getRawType());
     assertThat(ourType.getActualTypeArguments())
         .asList()
         .containsExactlyElementsIn(asList(jvmType.getActualTypeArguments()))
@@ -113,7 +114,7 @@ public class TypesTest extends TestCase {
 
   public void testNewParameterizedType_serializable() {
     SerializableTester.reserializeAndAssert(Types.newParameterizedType(
-        Map.Entry.class, String.class, Integer.class));
+        Entry.class, String.class, Integer.class));
   }
 
   public void testNewParameterizedType_ownerMismatch() {
@@ -126,15 +127,15 @@ public class TypesTest extends TestCase {
 
   public void testNewParameterizedType_ownerMissing() {
     assertEquals(
-        Types.newParameterizedType(Map.Entry.class, String.class, Integer.class),
+        Types.newParameterizedType(Entry.class, String.class, Integer.class),
         Types.newParameterizedTypeWithOwner(
-            null, Map.Entry.class, String.class, Integer.class));
+            null, Entry.class, String.class, Integer.class));
   }
 
   public void testNewParameterizedType_invalidTypeParameters() {
     try {
       Types.newParameterizedTypeWithOwner(
-          Map.class, Map.Entry.class, String.class);
+          Map.class, Entry.class, String.class);
       fail();
     } catch (IllegalArgumentException expected) {}
   }
@@ -142,7 +143,7 @@ public class TypesTest extends TestCase {
   public void testNewParameterizedType_primitiveTypeParameters() {
     try {
       Types.newParameterizedTypeWithOwner(
-          Map.class, Map.Entry.class, int.class, int.class);
+          Map.class, Entry.class, int.class, int.class);
       fail();
     } catch (IllegalArgumentException expected) {}
   }

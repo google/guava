@@ -21,7 +21,7 @@ import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
 import java.util.Collection;
-import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * This class contains static utility methods for writing {@code Multimap} GWT
@@ -68,7 +68,7 @@ public final class Multimap_CustomFieldSerializerBase {
   public static void serialize(SerializationStreamWriter writer, Multimap<?, ?> instance)
       throws SerializationException {
     writer.writeInt(instance.asMap().size());
-    for (Map.Entry<?, ? extends Collection<?>> entry : instance.asMap().entrySet()) {
+    for (Entry<?, ? extends Collection<?>> entry : instance.asMap().entrySet()) {
       writer.writeObject(entry.getKey());
       writer.writeInt(entry.getValue().size());
       for (Object value : entry.getValue()) {

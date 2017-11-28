@@ -282,10 +282,18 @@ public abstract class Striped<L> {
    * @return a new {@code Striped<ReadWriteLock>}
    */
   public static Striped<ReadWriteLock> lazyWeakReadWriteLock(int stripes) {
-    return lazy(stripes, READ_WRITE_LOCK_SUPPLIER);
+    return lazy(stripes, WEAK_SAFE_READ_WRITE_LOCK_SUPPLIER);
   }
 
   private static final Supplier<ReadWriteLock> READ_WRITE_LOCK_SUPPLIER =
+      new Supplier<ReadWriteLock>() {
+        @Override
+        public ReadWriteLock get() {
+          return new ReentrantReadWriteLock();
+        }
+      };
+
+  private static final Supplier<ReadWriteLock> WEAK_SAFE_READ_WRITE_LOCK_SUPPLIER =
       new Supplier<ReadWriteLock>() {
         @Override
         public ReadWriteLock get() {

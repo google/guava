@@ -31,7 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
-import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import junit.framework.TestSuite;
 
@@ -51,7 +51,7 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
 
   static TestSuite tests(String name, ByteSourceFactory factory, boolean testAsCharSource) {
     TestSuite suite = new TestSuite(name);
-    for (Map.Entry<String, String> entry : TEST_STRINGS.entrySet()) {
+    for (Entry<String, String> entry : TEST_STRINGS.entrySet()) {
       if (testAsCharSource) {
         suite.addTest(suiteForString(factory, entry.getValue(), name, entry.getKey()));
       } else {

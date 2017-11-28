@@ -69,9 +69,11 @@ import javax.annotation.Nullable;
  *
  * <h4>"Interfaces", not implementations</h4>
  *
- * <p>Each public class, such as {@link ImmutableSet}, is a <i>type</i> offering meaningful
- * behavioral guarantees -- not merely a specific <i>implementation</i> as in the case of, say,
- * {@link ArrayList}. You should treat them as interfaces in every important sense of the word.
+ * <p>These are classes instead of interfaces to prevent external subtyping, but should be thought
+ * of as interfaces in every important sense. Each public class such as {@link ImmutableSet} is a
+ * <i>type</i> offering meaningful behavioral guarantees. This is substantially different from the
+ * case of (say) {@link HashSet}, which is an <i>implementation</i>, with semantics that were
+ * largely defined by its supertype.
  *
  * <p>For field types and method return types, you should generally use the immutable type (such as
  * {@link ImmutableList}) instead of the general collection interface type (such as {@link List}).
@@ -81,6 +83,11 @@ import javax.annotation.Nullable;
  * <p>On the other hand, a <i>parameter</i> type of {@link ImmutableList} is generally a nuisance to
  * callers. Instead, accept {@link Iterable} and have your method or constructor body pass it to the
  * appropriate {@code copyOf} method itself.
+ *
+ * <p>Expressing the immutability guarantee directly in the type that user code references is a
+ * powerful advantage. Although Java 9 offers certain immutable collection factory methods, like
+ * <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html#immutable">{@code Set.of}</a>,
+ * we recommend continuing to use these immutable collection classes for this reason.
  *
  * <h4>Creation</h4>
  *
@@ -471,6 +478,11 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
       if (elements instanceof Collection) {
         Collection<?> collection = (Collection<?>) elements;
         getReadyToExpandTo(size + collection.size());
+        if (collection instanceof ImmutableCollection) {
+          ImmutableCollection<?> immutableCollection = (ImmutableCollection<?>) collection;
+          size = immutableCollection.copyIntoArray(contents, size);
+          return this;
+        }
       }
       super.addAll(elements);
       return this;

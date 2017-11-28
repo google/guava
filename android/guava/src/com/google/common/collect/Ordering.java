@@ -30,7 +30,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
 import java.util.concurrent.ConcurrentMap;
@@ -446,7 +446,7 @@ public abstract class Ordering<T> implements Comparator<T> {
     return new ByFunctionOrdering<>(function, this);
   }
 
-  <T2 extends T> Ordering<Map.Entry<T2, ?>> onKeys() {
+  <T2 extends T> Ordering<Entry<T2, ?>> onKeys() {
     return onResultOf(Maps.<T2>keyFunction());
   }
 

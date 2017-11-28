@@ -90,7 +90,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
   @Override
   public boolean putAll(Multimap<? extends K, ? extends V> multimap) {
     boolean changed = false;
-    for (Map.Entry<? extends K, ? extends V> entry : multimap.entries()) {
+    for (Entry<? extends K, ? extends V> entry : multimap.entries()) {
       changed |= put(entry.getKey(), entry.getValue());
     }
     return changed;

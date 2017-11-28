@@ -162,7 +162,7 @@ public class LocalLoadingCacheTest extends TestCase {
     assertThat(map).containsEntry(one, two);
 
     //TODO(cgruber): Confirm with fry@ that this is a reasonable substitute.
-    //Set<Map.Entry<Object, Object>> entries = map.entrySet();
+    //Set<Entry<Object, Object>> entries = map.entrySet();
     //assertThat(entries).containsExactly(
     //    Maps.immutableEntry(three, one), Maps.immutableEntry(one, two));
     //Set<Object> keys = map.keySet();

@@ -22,7 +22,6 @@ import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.Iterables.getOnlyElement;
 
 import com.google.common.annotations.Beta;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
@@ -38,7 +37,6 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
-
 import javax.annotation.Nullable;
 
 /**
@@ -228,7 +226,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       return kvMap;
     } else if (map instanceof EnumMap) {
       EnumMap<?, ?> enumMap = (EnumMap<?, ?>) map;
-      for (Map.Entry<?, ?> entry : enumMap.entrySet()) {
+      for (Entry<?, ?> entry : enumMap.entrySet()) {
         checkNotNull(entry.getKey());
         checkNotNull(entry.getValue());
       }

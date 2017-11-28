@@ -22,6 +22,7 @@ import com.google.gwt.user.client.rpc.SerializationStreamWriter;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * This class implements the GWT serialization of {@link LinkedHashMultimap}.
@@ -60,7 +61,7 @@ public class LinkedHashMultimap_CustomFieldSerializer {
       stream.writeObject(key);
     }
     stream.writeInt(multimap.size());
-    for (Map.Entry<?, ?> entry : multimap.entries()) {
+    for (Entry<?, ?> entry : multimap.entries()) {
       stream.writeObject(entry.getKey());
       stream.writeObject(entry.getValue());
     }

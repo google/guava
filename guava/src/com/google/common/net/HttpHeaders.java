@@ -114,6 +114,33 @@ public final class HttpHeaders {
   /** The HTTP {@code Referer} header field name. */
   public static final String REFERER = "Referer";
   /**
+   * The HTTP <a href="https://www.w3.org/TR/referrer-policy/">{@code Referrer-Policy}</a> header
+   * field name.
+   *
+   * @since 23.4
+   */
+  public static final String REFERRER_POLICY = "Referrer-Policy";
+
+  /**
+   * Values for the <a href="https://www.w3.org/TR/referrer-policy/">{@code Referrer-Policy}</a>
+   * header.
+   *
+   * @since 23.4
+   */
+  public static final class ReferrerPolicyValues {
+    private ReferrerPolicyValues() {}
+
+    public static final String NO_REFERRER = "no-referrer";
+    public static final String NO_REFFERER_WHEN_DOWNGRADE = "no-referrer-when-downgrade";
+    public static final String SAME_ORIGIN = "same-origin";
+    public static final String ORIGIN = "origin";
+    public static final String STRICT_ORIGIN = "strict-origin";
+    public static final String ORIGIN_WHEN_CROSS_ORIGIN = "origin-when-cross-origin";
+    public static final String STRICT_ORIGIN_WHEN_CROSS_ORIGIN = "strict-origin-when-cross-origin";
+    public static final String UNSAFE_URL = "unsafe-url";
+  }
+
+  /**
    * The HTTP <a href="https://www.w3.org/TR/service-workers/#update-algorithm">
    * {@code Service-Worker}</a> header field name.
    */

@@ -23,7 +23,7 @@ import com.google.common.annotations.GwtCompatible;
  *
  * <p>Specifies the type of a top-level domain definition.
  *
- * @since NEXT
+ * @since 23.3
  */
 @Beta
 @GwtCompatible

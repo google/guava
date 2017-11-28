@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
@@ -358,14 +359,33 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     return listIterator(0);
   }
 
+  /** A singleton implementation of iterator() for the empty ImmutableList. */
+  private static final UnmodifiableListIterator<Object> EMPTY_ITR =
+      new Itr<Object>(RegularImmutableList.EMPTY, 0);
+
+  @SuppressWarnings("unchecked")
   @Override
   public UnmodifiableListIterator<E> listIterator(int index) {
-    return new AbstractIndexedListIterator<E>(size(), index) {
-      @Override
-      protected E get(int index) {
-        return ImmutableList.this.get(index);
-      }
-    };
+    checkPositionIndex(index, size());
+    if (isEmpty()) {
+      return (UnmodifiableListIterator<E>) EMPTY_ITR;
+    } else {
+      return new Itr<E>(this, index);
+    }
+  }
+
+  static class Itr<E> extends AbstractIndexedListIterator<E> {
+    private final ImmutableList<E> list;
+
+    Itr(ImmutableList<E> list, int index) {
+      super(list.size(), index);
+      this.list = list;
+    }
+
+    @Override
+    protected E get(int index) {
+      return list.get(index);
+    }
   }
 
   @Override

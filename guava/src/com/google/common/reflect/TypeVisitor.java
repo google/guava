@@ -21,7 +21,6 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 import java.util.Set;
-import javax.annotation.concurrent.NotThreadSafe;
 
 /**
  * Based on what a {@link Type} is, dispatch it to the corresponding {@code visit*} method. By
@@ -53,7 +52,6 @@ import javax.annotation.concurrent.NotThreadSafe;
  *
  * @author Ben Yu
  */
-@NotThreadSafe
 abstract class TypeVisitor {
 
   private final Set<Type> visited = Sets.newHashSet();

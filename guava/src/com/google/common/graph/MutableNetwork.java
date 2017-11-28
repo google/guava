@@ -48,10 +48,8 @@ public interface MutableNetwork<N, E> extends Network<N, E> {
    *
    * <p><b>Edges must be unique</b>, just as {@code Map} keys must be. They must also be non-null.
    *
-   * <p>Behavior if {@code nodeU} and {@code nodeV} are not already present in this network is
-   * implementation-dependent. Suggested behaviors include (a) silently {@link #addNode(Object)
-   * adding} {@code nodeU} and {@code nodeV} to the network (this is the behavior of the default
-   * implementations) or (b) throwing {@code IllegalArgumentException}.
+   * <p>If {@code nodeU} and {@code nodeV} are not already present in this graph, this method
+   * will silently {@link #addNode(Object) add} {@code nodeU} and {@code nodeV} to the graph.
    *
    * <p>If {@code edge} already connects {@code nodeU} to {@code nodeV} (in the specified order if
    * this network {@link #isDirected()}, else in any order), then this method will have no effect.

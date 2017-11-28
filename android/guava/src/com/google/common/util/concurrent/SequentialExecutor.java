@@ -32,9 +32,11 @@ import javax.annotation.concurrent.GuardedBy;
  *
  * <p>The execution of tasks is done by one thread as long as there are tasks left in the queue.
  * When a task is {@linkplain Thread#interrupt interrupted}, execution of subsequent tasks
- * continues. {@code RuntimeException}s thrown by tasks are simply logged and the executor keeps
- * trucking. If an {@code Error} is thrown, the error will propagate and execution will stop until
- * it is restarted by a call to {@link #execute}.
+ * continues. See {@link QueueWorker#workOnQueue} for details.
+ *
+ * <p>{@code RuntimeException}s thrown by tasks are simply logged and the executor keeps trucking.
+ * If an {@code Error} is thrown, the error will propagate and execution will stop until it is
+ * restarted by a call to {@link #execute}.
  */
 @GwtIncompatible
 final class SequentialExecutor implements Executor {
@@ -78,7 +80,6 @@ final class SequentialExecutor implements Executor {
    * Starts a worker.  This should only be called if:
    *
    * <ul>
-   *   <li>{@code suspensions == 0}
    *   <li>{@code isWorkerRunning == true}
    *   <li>{@code !queue.isEmpty()}
    *   <li>the {@link #worker} lock is not held
@@ -100,9 +101,7 @@ final class SequentialExecutor implements Executor {
     }
   }
 
-  /**
-   * Worker that runs tasks from {@link #queue} until it is empty.
-   */
+  /** Worker that runs tasks from {@link #queue} until it is empty. */
   @WeakOuter
   private final class QueueWorker implements Runnable {
     @Override
@@ -120,21 +119,47 @@ final class SequentialExecutor implements Executor {
       }
     }
 
+    /**
+     * Continues executing tasks from {@link #queue} until it is empty.
+     *
+     * <p>The thread's interrupt bit is cleared before execution of each task.
+     *
+     * <p>If the Thread in use is interrupted before or during execution of the tasks in
+     * {@link #queue}, the Executor will complete its tasks, and then restore the interruption.
+     * This means that once the Thread returns to the Executor that this Executor composes, the
+     * interruption will still be present. If the composed Executor is an ExecutorService, it can
+     * respond to shutdown() by returning tasks queued on that Thread after {@link #worker} drains
+     * the queue.
+     */
     private void workOnQueue() {
-      while (true) {
-        Runnable task = null;
-        synchronized (queue) {
-          // TODO(user): How should we handle interrupts and shutdowns?
-          task = queue.poll();
-          if (task == null) {
-            isWorkerRunning = false;
-            return;
+      boolean interruptedDuringTask = false;
+
+      try {
+        while (true) {
+          // Remove the interrupt bit before each task. The interrupt is for the "current task" when
+          // it is sent, so subsequent tasks in the queue should not be caused to be interrupted
+          // by a previous one in the queue being interrupted.
+          interruptedDuringTask |= Thread.interrupted();
+          Runnable task;
+          synchronized (queue) {
+            task = queue.poll();
+            if (task == null) {
+              isWorkerRunning = false;
+              return;
+            }
+          }
+          try {
+            task.run();
+          } catch (RuntimeException e) {
+            log.log(Level.SEVERE, "Exception while executing runnable " + task, e);
           }
         }
-        try {
-          task.run();
-        } catch (RuntimeException e) {
-          log.log(Level.SEVERE, "Exception while executing runnable " + task, e);
+      } finally {
+        // Ensure that if the thread was interrupted at all while processing the task queue, it
+        // is returned to the delegate Executor interrupted so that it may handle the
+        // interruption if it likes.
+        if (interruptedDuringTask) {
+          Thread.currentThread().interrupt();
         }
       }
     }

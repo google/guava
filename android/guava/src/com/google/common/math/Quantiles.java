@@ -161,6 +161,8 @@ public final class Quantiles {
   /**
    * Describes the point in a fluent API chain where only the scale (i.e. the q in q-quantiles) has
    * been specified.
+   *
+   * @since 20.0
    */
   public static final class Scale {
 
@@ -208,6 +210,8 @@ public final class Quantiles {
   /**
    * Describes the point in a fluent API chain where the scale and a single quantile index (i.e. the
    * q and the k in the kth q-quantile) have been specified.
+   *
+   * @since 20.0
    */
   public static final class ScaleAndIndex {
 
@@ -305,6 +309,8 @@ public final class Quantiles {
   /**
    * Describes the point in a fluent API chain where the scale and a multiple quantile indexes (i.e.
    * the q and a set of values for the k in the kth q-quantile) have been specified.
+   *
+   * @since 20.0
    */
   public static final class ScaleAndIndexes {
 

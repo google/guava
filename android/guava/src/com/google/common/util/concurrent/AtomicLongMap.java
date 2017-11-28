@@ -25,6 +25,7 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -233,7 +234,7 @@ public final class AtomicLongMap<K> implements Serializable {
    * if the specified map is modified while the operation is in progress.
    */
   public void putAll(Map<? extends K, ? extends Long> m) {
-    for (Map.Entry<? extends K, ? extends Long> entry : m.entrySet()) {
+    for (Entry<? extends K, ? extends Long> entry : m.entrySet()) {
       put(entry.getKey(), entry.getValue());
     }
   }
@@ -278,9 +279,9 @@ public final class AtomicLongMap<K> implements Serializable {
    * zero values have been removed and others have not.
    */
   public void removeAllZeros() {
-    Iterator<Map.Entry<K, AtomicLong>> entryIterator = map.entrySet().iterator();
+    Iterator<Entry<K, AtomicLong>> entryIterator = map.entrySet().iterator();
     while (entryIterator.hasNext()) {
-      Map.Entry<K, AtomicLong> entry = entryIterator.next();
+      Entry<K, AtomicLong> entry = entryIterator.next();
       AtomicLong atomic = entry.getValue();
       if (atomic != null && atomic.get() == 0L) {
         entryIterator.remove();

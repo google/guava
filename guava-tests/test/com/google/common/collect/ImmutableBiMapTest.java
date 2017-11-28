@@ -210,14 +210,14 @@ public class ImmutableBiMapTest extends TestCase {
     @GwtIncompatible
     public void testBuilderExactlySizedReusesArray() {
       ImmutableBiMap.Builder<Integer, Integer> builder = ImmutableBiMap.builderWithExpectedSize(10);
-      Map.Entry<Integer, Integer>[] builderArray = builder.entries;
+      Entry<Integer, Integer>[] builderArray = builder.entries;
       for (int i = 0; i < 10; i++) {
         builder.put(i, i);
       }
-      Map.Entry<Integer, Integer>[] builderArrayAfterPuts = builder.entries;
+      Entry<Integer, Integer>[] builderArrayAfterPuts = builder.entries;
       RegularImmutableBiMap<Integer, Integer> map =
           (RegularImmutableBiMap<Integer, Integer>) builder.build();
-      Map.Entry<Integer, Integer>[] mapInternalArray = map.entries;
+      Entry<Integer, Integer>[] mapInternalArray = map.entries;
       assertSame(builderArray, builderArrayAfterPuts);
       assertSame(builderArray, mapInternalArray);
     }

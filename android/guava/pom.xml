@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-parent</artifactId>
-    <version>HEAD-android-SNAPSHOT</version>
+    <version>23.5-android</version>
   </parent>
   <artifactId>guava</artifactId>
   <packaging>bundle</packaging>
@@ -19,6 +19,10 @@
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker-qual</artifactId>
     </dependency>
     <dependency>
       <groupId>com.google.errorprone</groupId>
@@ -86,7 +90,7 @@
         <executions>
           <execution>
             <id>unpack-jdk-sources</id>
-            <phase>site</phase>
+            <phase>generate-sources</phase>
             <goals><goal>unpack-dependencies</goal></goals>
             <configuration>
               <includeArtifactIds>srczip</includeArtifactIds>
@@ -111,13 +115,29 @@
           <additionalparam>-Xdoclint:-html</additionalparam>
           <excludePackageNames>com.google.common.base.internal</excludePackageNames>
           <linksource>true</linksource>
+          <!-- We add the link ourselves, both so that we can choose Java 9 over the version that -source suggests and so that we can solve the JSR305 problem described below. -->
+          <detectJavaApiLink>false</detectJavaApiLink>
+          <offlineLinks>
+            <offlineLink>
+              <url>https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/</url>
+              <location>${project.basedir}/javadoc-link/jsr305</location>
+            </offlineLink>
+            <offlineLink>
+              <url>https://static.javadoc.io/com.google.j2objc/j2objc-annotations/1.1/</url>
+              <location>${project.basedir}/javadoc-link/j2objc-annotations</location>
+            </offlineLink>
+            <!-- The JDK doc must be listed after JSR305 (and as an <offlineLink>, not a <link>) so that JSR305 "claims" javax.annotation. -->
+            <offlineLink>
+              <url>https://docs.oracle.com/javase/9/docs/api/</url>
+              <location>https://docs.oracle.com/javase/9/docs/api/</location>
+            </offlineLink>
+          </offlineLinks>
           <links>
-            <link>http://docs.oracle.com/javase/7/docs/api/</link>
-            <link>http://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/</link>
             <link>http://errorprone.info/api/latest/</link>
-            <link>http://static.javadoc.io/com.google.j2objc/j2objc-annotations/1.1/</link>
+            <link>https://checkerframework.org/api/</link>
           </links>
           <!-- TODO(cpovirk): can we use includeDependencySources and a local com.oracle.java:jdk-lib:noversion:sources instead of all this unzipping and manual sourcepath modification? -->
+          <!-- (We need JDK *sources*, not just -link, so that {@inheritDoc} works.) -->
           <sourcepath>${project.build.sourceDirectory}:${project.build.directory}/jdk-sources</sourcepath>
           <subpackages>com.google.common</subpackages>
         </configuration>

@@ -298,7 +298,7 @@ public final class LinkedHashMultimap<K extends @org.checkerframework.checker.nu
    */
   @SideEffectFree
   @Override
-  public Set<Map.Entry<K, V>> entries() {
+  public Set<Entry<K, V>> entries() {
     return super.entries();
   }
 
@@ -537,8 +537,8 @@ public final class LinkedHashMultimap<K extends @org.checkerframework.checker.nu
   }
 
   @Override
-  Iterator<Map.Entry<K, V>> entryIterator() {
-    return new Iterator<Map.Entry<K, V>>() {
+  Iterator<Entry<K, V>> entryIterator() {
+    return new Iterator<Entry<K, V>>() {
       ValueEntry<K, V> nextEntry = multimapHeaderEntry.successorInMultimap;
       ValueEntry<K, V> toRemove;
 
@@ -548,7 +548,7 @@ public final class LinkedHashMultimap<K extends @org.checkerframework.checker.nu
       }
 
       @Override
-      public Map.Entry<K, V> next() {
+      public Entry<K, V> next() {
         if (!hasNext()) {
           throw new NoSuchElementException();
         }
@@ -600,7 +600,7 @@ public final class LinkedHashMultimap<K extends @org.checkerframework.checker.nu
       stream.writeObject(key);
     }
     stream.writeInt(size());
-    for (Map.Entry<K, V> entry : entries()) {
+    for (Entry<K, V> entry : entries()) {
       stream.writeObject(entry.getKey());
       stream.writeObject(entry.getValue());
     }

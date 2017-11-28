@@ -45,10 +45,8 @@ public interface MutableGraph<N> extends Graph<N> {
    * Adds an edge connecting {@code nodeU} to {@code nodeV} if one is not already present. In an
    * undirected graph, the edge will also connect {@code nodeV} to {@code nodeU}.
    *
-   * <p>Behavior if {@code nodeU} and {@code nodeV} are not already present in this graph is
-   * implementation-dependent. Suggested behaviors include (a) silently {@link #addNode(Object)
-   * adding} {@code nodeU} and {@code nodeV} to the graph (this is the behavior of the default
-   * implementations) or (b) throwing {@code IllegalArgumentException}.
+   * <p>If {@code nodeU} and {@code nodeV} are not already present in this graph, this method
+   * will silently {@link #addNode(Object) add} {@code nodeU} and {@code nodeV} to the graph.
    *
    * @return {@code true} if the graph was modified as a result of this call
    * @throws IllegalArgumentException if the introduction of the edge would violate {@link

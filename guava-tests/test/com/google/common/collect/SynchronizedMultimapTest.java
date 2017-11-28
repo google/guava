@@ -184,7 +184,7 @@ public class SynchronizedMultimapTest extends TestCase {
       return super.values();
     }
 
-    @Override public Set<Map.Entry<K, V>> entries() {
+    @Override public Set<Entry<K, V>> entries() {
       assertTrue(Thread.holdsLock(mutex));
       /* TODO: verify that the Collection is also synchronized? */
       return super.entries();

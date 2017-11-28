@@ -14,7 +14,6 @@
 
 package com.google.common.hash;
 
-import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Supplier;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -23,7 +22,6 @@ import java.util.concurrent.atomic.AtomicLong;
  *
  * @author Louis Wasserman
  */
-@GwtCompatible(emulated = true)
 final class LongAddables {
   private static final Supplier<LongAddable> SUPPLIER;
 

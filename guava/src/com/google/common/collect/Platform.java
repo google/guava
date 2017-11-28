@@ -56,5 +56,13 @@ final class Platform {
     return mapMaker.weakKeys();
   }
 
+  static int reduceIterationsIfGwt(int iterations) {
+    return iterations;
+  }
+
+  static int reduceExponentIfGwt(int exponent) {
+    return exponent;
+  }
+
   private Platform() {}
 }

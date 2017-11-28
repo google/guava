@@ -26,7 +26,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
-import java.util.Map;
+import java.util.Map.Entry;
 import junit.framework.TestSuite;
 
 /**
@@ -44,7 +44,7 @@ public class ByteSinkTester extends SourceSinkTester<ByteSink, byte[], ByteSinkF
 
   static TestSuite tests(String name, ByteSinkFactory factory) {
     TestSuite suite = new TestSuite(name);
-    for (Map.Entry<String, String> entry : TEST_STRINGS.entrySet()) {
+    for (Entry<String, String> entry : TEST_STRINGS.entrySet()) {
       String desc = entry.getKey();
       TestSuite stringSuite = suiteForString(name, factory, entry.getValue(), desc);
       suite.addTest(stringSuite);

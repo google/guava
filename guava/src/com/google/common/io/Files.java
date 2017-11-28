@@ -27,6 +27,8 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.TreeTraverser;
+import com.google.common.graph.SuccessorsFunction;
+import com.google.common.graph.Traverser;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -815,7 +817,11 @@ public final class Files {
    * given directory or even be infinite if there is a symbolic link loop.
    *
    * @since 15.0
+   * @deprecated The returned {@link TreeTraverser} type is deprecated. Use the replacement method
+   *     {@link #fileTraverser()} instead with the same semantics as this method. This method is
+   *     scheduled to be removed in April 2018.
    */
+  @Deprecated
   public static TreeTraverser<File> fileTreeTraverser() {
     return FILE_TREE_TRAVERSER;
   }
@@ -824,15 +830,7 @@ public final class Files {
       new TreeTraverser<File>() {
         @Override
         public Iterable<File> children(File file) {
-          // check isDirectory() just because it may be faster than listFiles() on a non-directory
-          if (file.isDirectory()) {
-            File[] files = file.listFiles();
-            if (files != null) {
-              return Collections.unmodifiableList(Arrays.asList(files));
-            }
-          }
-
-          return Collections.emptyList();
+          return fileTreeChildren(file);
         }
 
         @Override
@@ -840,6 +838,51 @@ public final class Files {
           return "Files.fileTreeTraverser()";
         }
       };
+
+  /**
+   * Returns a {@link Traverser} instance for the file and directory tree. The returned traverser
+   * starts from a {@link File} and will return all files and directories it encounters.
+   *
+   * <p><b>Warning:</b> {@code File} provides no support for symbolic links, and as such there is no
+   * way to ensure that a symbolic link to a directory is not followed when traversing the tree. In
+   * this case, iterables created by this traverser could contain files that are outside of the
+   * given directory or even be infinite if there is a symbolic link loop.
+   *
+   * <p>If available, consider using {@link MoreFiles#fileTraverser()} instead. It behaves the same
+   * except that it doesn't follow symbolic links and returns {@code Path} instances.
+   *
+   * <p>If the {@link File} passed to one of the {@link Traverser} methods does not exist or is not
+   * a directory, no exception will be thrown and the returned {@link Iterable} will contain a
+   * single element: that file.
+   *
+   * <p>Example: {@code Files.fileTraverser().breadthFirst("/")} may return files with the following
+   * paths: {@code ["/", "/etc", "/home", "/usr", "/etc/config.txt", "/etc/fonts", ...]}
+   *
+   * @since 23.5
+   */
+  public static Traverser<File> fileTraverser() {
+    return Traverser.forTree(FILE_TREE);
+  }
+
+  private static final SuccessorsFunction<File> FILE_TREE =
+      new SuccessorsFunction<File>() {
+        @Override
+        public Iterable<File> successors(File file) {
+          return fileTreeChildren(file);
+        }
+      };
+
+  private static Iterable<File> fileTreeChildren(File file) {
+    // check isDirectory() just because it may be faster than listFiles() on a non-directory
+    if (file.isDirectory()) {
+      File[] files = file.listFiles();
+      if (files != null) {
+        return Collections.unmodifiableList(Arrays.asList(files));
+      }
+    }
+
+    return Collections.emptyList();
+  }
 
   /**
    * Returns a predicate that returns the result of {@link File#isDirectory} on input files.

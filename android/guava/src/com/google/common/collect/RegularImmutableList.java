@@ -64,13 +64,5 @@ class RegularImmutableList<E> extends ImmutableList<E> {
     return (E) array[index];
   }
 
-  @SuppressWarnings("unchecked")
-  @Override
-  public UnmodifiableListIterator<E> listIterator(int index) {
-    // for performance
-    // The fake cast to E is safe because the creation methods only allow E's
-    return (UnmodifiableListIterator<E>) Iterators.forArray(array, 0, size, index);
-  }
-
   // TODO(lowasser): benchmark optimizations for equals() and see if they're worthwhile
 }

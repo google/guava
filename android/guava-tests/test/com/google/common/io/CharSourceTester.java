@@ -28,7 +28,7 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.util.List;
-import java.util.Map;
+import java.util.Map.Entry;
 import junit.framework.TestSuite;
 
 /**
@@ -46,7 +46,7 @@ public class CharSourceTester extends SourceSinkTester<CharSource, String, CharS
 
   static TestSuite tests(String name, CharSourceFactory factory, boolean testAsByteSource) {
     TestSuite suite = new TestSuite(name);
-    for (Map.Entry<String, String> entry : TEST_STRINGS.entrySet()) {
+    for (Entry<String, String> entry : TEST_STRINGS.entrySet()) {
       if (testAsByteSource) {
         suite.addTest(suiteForBytes(factory,
             entry.getValue().getBytes(Charsets.UTF_8), name, entry.getKey(), true));

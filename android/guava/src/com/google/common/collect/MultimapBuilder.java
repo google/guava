@@ -172,6 +172,8 @@ public abstract class MultimapBuilder<K0, V0> {
 
   /**
    * Uses an {@link EnumMap} to map keys to value collections.
+   *
+   * @since 16.0
    */
   public static <K0 extends Enum<K0>> MultimapBuilderWithKeys<K0> enumKeys(
       final Class<K0> keyClass) {
@@ -274,6 +276,8 @@ public abstract class MultimapBuilder<K0, V0> {
    * implementation has been specified, but the value collection implementation has not.
    *
    * @param <K0> The upper bound on the key type of the generated multimap.
+   *
+   * @since 16.0
    */
   public abstract static class MultimapBuilderWithKeys<K0> {
 
@@ -433,6 +437,8 @@ public abstract class MultimapBuilder<K0, V0> {
 
   /**
    * A specialization of {@link MultimapBuilder} that generates {@link ListMultimap} instances.
+   *
+   * @since 16.0
    */
   public abstract static class ListMultimapBuilder<K0, V0> extends MultimapBuilder<K0, V0> {
     ListMultimapBuilder() {}
@@ -449,6 +455,8 @@ public abstract class MultimapBuilder<K0, V0> {
 
   /**
    * A specialization of {@link MultimapBuilder} that generates {@link SetMultimap} instances.
+   *
+   * @since 16.0
    */
   public abstract static class SetMultimapBuilder<K0, V0> extends MultimapBuilder<K0, V0> {
     SetMultimapBuilder() {}
@@ -465,6 +473,8 @@ public abstract class MultimapBuilder<K0, V0> {
 
   /**
    * A specialization of {@link MultimapBuilder} that generates {@link SortedSetMultimap} instances.
+   *
+   * @since 16.0
    */
   public abstract static class SortedSetMultimapBuilder<K0, V0> extends SetMultimapBuilder<K0, V0> {
     SortedSetMultimapBuilder() {}

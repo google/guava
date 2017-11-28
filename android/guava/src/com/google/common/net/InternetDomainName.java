@@ -67,7 +67,7 @@ import javax.annotation.Nullable;
  * href="http://en.wikipedia.org/wiki/Internationalized_domain_name">IDNA Punycode-encoded</a>
  * versions.
  *
- * @author Craig Berry
+ * @author Catherine Berry
  * @since 5.0
  */
 @Beta
@@ -436,7 +436,7 @@ public final class InternetDomainName {
    *
    * @return {@code true} if this domain name appears exactly on the public suffix list as part of
    *     the registry suffix section (labelled "ICANN").
-   * @since NEXT
+   * @since 23.3
    */
   public boolean isRegistrySuffix() {
     return registrySuffixIndex == 0;
@@ -451,7 +451,7 @@ public final class InternetDomainName {
    * <p>Note that this method is equivalent to {@link #hasPublicSuffix()} because all registry
    * suffixes are public suffixes <i>and</i> all public suffixes have registry suffixes.
    *
-   * @since NEXT
+   * @since 23.3
    */
   public boolean hasRegistrySuffix() {
     return registrySuffixIndex != NO_SUFFIX_FOUND;
@@ -461,7 +461,7 @@ public final class InternetDomainName {
    * Returns the {@linkplain #isRegistrySuffix() registry suffix} portion of the domain name, or
    * {@code null} if no registry suffix is present.
    *
-   * @since NEXT
+   * @since 23.3
    */
   public InternetDomainName registrySuffix() {
     return hasRegistrySuffix() ? ancestor(registrySuffixIndex) : null;
@@ -473,7 +473,7 @@ public final class InternetDomainName {
    * www.google.com}, {@code foo.co.uk} and {@code blogspot.com}, but not for {@code com}, {@code
    * co.uk}, or {@code google.invalid}.
    *
-   * @since NEXT
+   * @since 23.3
    */
   public boolean isUnderRegistrySuffix() {
     return registrySuffixIndex > 0;
@@ -488,7 +488,7 @@ public final class InternetDomainName {
    * <p><b>Warning:</b> This method should not be used to determine the probable highest level
    * parent domain for which cookies may be set. Use {@link #topPrivateDomain()} for that purpose.
    *
-   * @since NEXT
+   * @since 23.3
    */
   public boolean isTopDomainUnderRegistrySuffix() {
     return registrySuffixIndex == 1;
@@ -507,7 +507,7 @@ public final class InternetDomainName {
    * highest level for which cookies may be set. Use {@link #isTopPrivateDomain()} for that purpose.
    *
    * @throws IllegalStateException if this domain does not end with a registry suffix
-   * @since NEXT
+   * @since 23.3
    */
   public InternetDomainName topDomainUnderRegistrySuffix() {
     if (isTopDomainUnderRegistrySuffix()) {

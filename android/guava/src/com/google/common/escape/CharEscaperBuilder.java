@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Simple helper class to build a "sparse" array of objects based on the indexes that were added to
@@ -115,7 +116,7 @@ public final class CharEscaperBuilder {
    */
   public char[][] toArray() {
     char[][] result = new char[max + 1][];
-    for (Map.Entry<Character, String> entry : map.entrySet()) {
+    for (Entry<Character, String> entry : map.entrySet()) {
       result[entry.getKey()] = entry.getValue().toCharArray();
     }
     return result;

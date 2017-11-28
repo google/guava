@@ -336,7 +336,7 @@ public class PopulatedCachesTest extends TestCase {
             DurationSpec.of(1, DAYS)));
   }
 
-  private List<Map.Entry<Object, Object>> warmUp(LoadingCache<Object, Object> cache) {
+  private List<Entry<Object, Object>> warmUp(LoadingCache<Object, Object> cache) {
     return warmUp(cache, WARMUP_MIN, WARMUP_MAX);
   }
 
@@ -344,10 +344,10 @@ public class PopulatedCachesTest extends TestCase {
    * Returns the entries that were added to the map, so they won't fall out of a map with weak or
    * soft references until the caller drops the reference to the returned entries.
    */
-  private List<Map.Entry<Object, Object>> warmUp(
+  private List<Entry<Object, Object>> warmUp(
       LoadingCache<Object, Object> cache, int minimum, int maximum) {
 
-    List<Map.Entry<Object, Object>> entries = Lists.newArrayList();
+    List<Entry<Object, Object>> entries = Lists.newArrayList();
     for (int i = minimum; i < maximum; i++) {
       Object key = i;
       Object value = cache.getUnchecked(key);

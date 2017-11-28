@@ -20,6 +20,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import javax.annotation.Nullable;
 
@@ -51,7 +52,7 @@ public interface RangeMap<K extends Comparable, V> {
    * in the range map, or {@code null} otherwise.
    */
   @Nullable
-  Map.Entry<Range<K>, V> getEntry(K key);
+  Entry<Range<K>, V> getEntry(K key);
 
   /**
    * Returns the minimal range {@linkplain Range#encloses(Range) enclosing} the ranges
@@ -141,7 +142,7 @@ public interface RangeMap<K extends Comparable, V> {
    * <p>For example, if {@code rangeMap} had the entries
    * {@code [1, 5] => "foo", (6, 8) => "bar", (10, ∞) => "baz"}
    * then {@code rangeMap.subRangeMap(Range.open(3, 12))} would return a range map
-   * with the entries {@code (3, 5) => "foo", (6, 8) => "bar", (10, 12) => "baz"}.
+   * with the entries {@code (3, 5] => "foo", (6, 8) => "bar", (10, 12) => "baz"}.
    *
    * <p>The returned range map supports all optional operations that this range map supports,
    * except for {@code asMapOfRanges().iterator().remove()}.

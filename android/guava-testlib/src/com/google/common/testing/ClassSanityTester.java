@@ -47,9 +47,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
-import javax.annotation.Nullable;
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
 
@@ -157,7 +156,7 @@ public final class ClassSanityTester {
 
   /**
    * Tests that {@code cls} properly checks null on all constructor and method parameters that
-   * aren't annotated with {@link Nullable}. In details:
+   * aren't annotated with {@link javax.annotation.Nullable}. In details:
    * <ul>
    * <li>All non-private static methods are checked such that passing null for any parameter that's
    *     not annotated with {@link javax.annotation.Nullable} should throw {@link
@@ -317,7 +316,7 @@ public final class ClassSanityTester {
    * @return The instantiated instance, or {@code null} if the class has no non-private constructor
    *         or factory method to be constructed.
    */
-  @Nullable <T> T instantiate(Class<T> cls)
+  @javax.annotation.Nullable <T> T instantiate(Class<T> cls)
       throws ParameterNotInstantiableException, IllegalAccessException,
              InvocationTargetException, FactoryMethodReturnsNullException {
     if (cls.isEnum()) {
@@ -524,7 +523,7 @@ public final class ClassSanityTester {
   }
 
   /**
-   * Instantiates using {@code factory}. If {@code factory} is annotated with {@link Nullable} and
+   * Instantiates using {@code factory}. If {@code factory} is annotated with {@link javax.annotation.Nullable} and
    * returns null, null will be returned.
    *
    * @throws ParameterNotInstantiableException if the static methods cannot be invoked because
@@ -533,7 +532,7 @@ public final class ClassSanityTester {
    *         class, preventing its methods from being accessible.
    * @throws InvocationTargetException if a static method threw exception.
    */
-  @Nullable private <T> T instantiate(Invokable<?, ? extends T> factory)
+  @javax.annotation.Nullable private <T> T instantiate(Invokable<?, ? extends T> factory)
       throws ParameterNotInstantiableException, InvocationTargetException,
       IllegalAccessException {
     return invoke(factory, getDummyArguments(factory));
@@ -627,15 +626,15 @@ public final class ClassSanityTester {
         return getDummyValue(TypeToken.of(interfaceType).method(method).getReturnType());
       }
     };
-    for (Map.Entry<Class<?>, Collection<Object>> entry : distinctValues.asMap().entrySet()) {
+    for (Entry<Class<?>, Collection<Object>> entry : distinctValues.asMap().entrySet()) {
       generator.addSampleInstances((Class) entry.getKey(), entry.getValue());
     }
     return generator;
   }
 
-  @Nullable private static Object generateDummyArg(Parameter param, FreshValueGenerator generator)
+  @javax.annotation.Nullable private static Object generateDummyArg(Parameter param, FreshValueGenerator generator)
       throws ParameterNotInstantiableException {
-    if (param.isAnnotationPresent(Nullable.class)) {
+    if (param.isAnnotationPresent(javax.annotation.Nullable.class)) {
       return null;
     }
     Object arg = generator.generateFresh(param.getType());
@@ -687,7 +686,7 @@ public final class ClassSanityTester {
       throws ParameterNotInstantiableException {
     List<Object> args = Lists.newArrayList();
     for (Parameter param : invokable.getParameters()) {
-      if (param.isAnnotationPresent(Nullable.class)) {
+      if (param.isAnnotationPresent(javax.annotation.Nullable.class)) {
         args.add(null);
         continue;
       }
@@ -727,12 +726,12 @@ public final class ClassSanityTester {
     return instance;
   }
 
-  @Nullable private static <T> T invoke(Invokable<?, ? extends T> factory, List<?> args)
+  @javax.annotation.Nullable private static <T> T invoke(Invokable<?, ? extends T> factory, List<?> args)
       throws InvocationTargetException, IllegalAccessException {
     T returnValue = factory.invoke(null, args.toArray());
     if (returnValue == null) {
       Assert.assertTrue(factory + " returns null but it's not annotated with @Nullable",
-          factory.isAnnotationPresent(Nullable.class));
+          factory.isAnnotationPresent(javax.annotation.Nullable.class));
     }
     return returnValue;
   }
