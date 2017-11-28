@@ -1325,7 +1325,7 @@ public final class Preconditions {
     return index;
   }
 
-  private static String badElementIndex(int index, int size, String desc) {
+  private static String badElementIndex(int index, int size, @Nullable String desc) {
     if (index < 0) {
       return format("%s (%s) must not be negative", desc, index);
     } else if (size < 0) {
@@ -1370,7 +1370,7 @@ public final class Preconditions {
     return index;
   }
 
-  private static String badPositionIndex(int index, int size, String desc) {
+  private static String badPositionIndex(int index, int size, @Nullable String desc) {
     if (index < 0) {
       return format("%s (%s) must not be negative", desc, index);
     } else if (size < 0) {
