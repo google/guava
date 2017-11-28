@@ -1398,13 +1398,8 @@ final class Synchronized {
     private static final long serialVersionUID = 0;
   }
 
-<<<<<<< HEAD
-  private static class SynchronizedAsMap<K, V> extends SynchronizedMap<K, Collection<V>> {
-    transient Set<Map.Entry<K, Collection<V>>> asMapEntrySet;
-=======
   private static class SynchronizedAsMap<K, V> extends SynchronizedMap<K, Collection<V>> {
     transient Set<Entry<K, Collection<V>>> asMapEntrySet;
->>>>>>> v23.5
     transient Collection<Collection<V>> asMapValues;
 
     SynchronizedAsMap(Map<K, Collection<V>> delegate, @Nullable Object mutex) {
