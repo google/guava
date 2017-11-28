@@ -104,7 +104,7 @@
 <span class="sourceLineNo">096</span><a name="line.96"></a>
 <span class="sourceLineNo">097</span>  // unsafe, but worst case is a CCE is thrown, which callers will be expecting<a name="line.97"></a>
 <span class="sourceLineNo">098</span>  @SuppressWarnings("unchecked")<a name="line.98"></a>
-<span class="sourceLineNo">099</span>  private int unsafeCompare(Object o1, Object o2) {<a name="line.99"></a>
+<span class="sourceLineNo">099</span>  private int unsafeCompare(@Nullable Object o1, @Nullable Object o2) {<a name="line.99"></a>
 <span class="sourceLineNo">100</span>    Comparator&lt;? super E&gt; comparator = comparator();<a name="line.100"></a>
 <span class="sourceLineNo">101</span>    return (comparator == null)<a name="line.101"></a>
 <span class="sourceLineNo">102</span>        ? ((Comparable&lt;Object&gt;) o1).compareTo(o2)<a name="line.102"></a>
