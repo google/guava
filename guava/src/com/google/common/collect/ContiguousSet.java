@@ -203,14 +203,14 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
    * These methods perform most headSet, subSet, and tailSet logic, besides parameter validation.
    */
   // TODO(kevinb): we can probably make these real @Overrides now
-  @Override 
+  /* @Override */
   abstract ContiguousSet<C> headSetImpl(C toElement, boolean inclusive);
 
-  @Override 
+  /* @Override */
   abstract ContiguousSet<C> subSetImpl(
       C fromElement, boolean fromInclusive, C toElement, boolean toInclusive);
 
-  @Override 
+  /* @Override */
   abstract ContiguousSet<C> tailSetImpl(C fromElement, boolean inclusive);
 
   /**

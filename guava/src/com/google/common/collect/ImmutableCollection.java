@@ -192,7 +192,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   private static final Object[] EMPTY_ARRAY = {};
 
   @Override
-  public final @Nullable Object[] toArray() {
+  public final @org.checkerframework.checker.nullness.qual.Nullable Object[] toArray() {
     int size = size();
     if (size == 0) {
       return EMPTY_ARRAY;

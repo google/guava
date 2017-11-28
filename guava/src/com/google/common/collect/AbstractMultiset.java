@@ -260,7 +260,4 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
   public String toString() {
     return entrySet().toString();
   }
-
-  @Override
-  public boolean containsAll(Collection<?> arg0) { return super.containsAll(arg0); }
 }

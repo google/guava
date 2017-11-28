@@ -121,7 +121,7 @@ public class Joiner {
    * separator between each, to {@code appendable}.
    */
   @CanIgnoreReturnValue
-  public final <A extends Appendable> A appendTo(A appendable, @Nullable Object[] parts) throws IOException {
+  public final <A extends Appendable> A appendTo(A appendable, @org.checkerframework.checker.nullness.qual.Nullable Object[] parts) throws IOException {
     return appendTo(appendable, Arrays.asList(parts));
   }
 
@@ -168,7 +168,7 @@ public class Joiner {
    * {@link #appendTo(Appendable, Iterable)}, except that it does not throw {@link IOException}.
    */
   @CanIgnoreReturnValue
-  public final StringBuilder appendTo(StringBuilder builder, @Nullable Object[] parts) {
+  public final StringBuilder appendTo(StringBuilder builder, @org.checkerframework.checker.nullness.qual.Nullable Object[] parts) {
     return appendTo(builder, Arrays.asList(parts));
   }
 
@@ -213,7 +213,7 @@ public class Joiner {
    * Returns a string containing the string representation of each argument, using the previously
    * configured separator between each.
    */
-  public final String join(@Nullable Object first, @Nullable Object second, @Nullable Object... rest) {
+  public final String join(@Nullable Object first, @Nullable Object second, @org.checkerframework.checker.nullness.qual.Nullable Object... rest) {
     return join(iterable(first, second, rest));
   }
 
