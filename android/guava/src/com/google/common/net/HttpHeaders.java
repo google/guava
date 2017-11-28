@@ -255,6 +255,13 @@ public final class HttpHeaders {
   /** The HTTP {@code Server} header field name. */
   public static final String SERVER = "Server";
   /**
+   * The HTTP <a href="https://www.w3.org/TR/server-timing/">
+   * {@code Server-Timing}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SERVER_TIMING = "Server-Timing";
+  /**
    * The HTTP <a href="https://www.w3.org/TR/service-workers/#update-algorithm">
    * {@code Service-Worker-Allowed}</a> header field name.
    *
