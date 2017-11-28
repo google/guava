@@ -48603,6 +48603,17 @@
       <![CDATA[The HTTP {@code Server} header field name.]]>
       </doc>
     </field>
+    <field name="SERVER_TIMING" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://www.w3.org/TR/server-timing/">
+ {@code Server-Timing}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="SERVICE_WORKER_ALLOWED" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
