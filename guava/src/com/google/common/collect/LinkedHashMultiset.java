@@ -46,7 +46,7 @@ import java.util.LinkedHashMap;
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
-public final class LinkedHashMultiset<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractMapBasedMultiset<E> {
+public final class LinkedHashMultiset<E> extends AbstractMapBasedMultiset<E> {
 
   /**
    * Creates a new, empty {@code LinkedHashMultiset} using the default initial
@@ -129,11 +129,11 @@ public int remove(@org.checkerframework.checker.nullness.qual.Nullable Object ar
 
 @Pure
 @Override
-public boolean containsAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.containsAll(arg0); }
+public boolean containsAll(Collection<?> arg0) { return super.containsAll(arg0); }
 
 @Override
-public boolean removeAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.removeAll(arg0); }
+public boolean removeAll(Collection<?> arg0) { return super.removeAll(arg0); }
 
 @Override
-public boolean retainAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.retainAll(arg0); }
+public boolean retainAll(Collection<?> arg0) { return super.retainAll(arg0); }
 }

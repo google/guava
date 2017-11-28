@@ -67,7 +67,7 @@ import java.util.Map;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
-public final class ArrayListMultimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object>
+public final class ArrayListMultimap<K, V>
     extends ArrayListMultimapGwtSerializationDependencies<K, V> {
   // Default from ArrayList
   private static final int DEFAULT_VALUES_PER_KEY = 3;

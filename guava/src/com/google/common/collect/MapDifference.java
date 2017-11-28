@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 @AnnotatedFor({"nullness"})
-public interface MapDifference<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> {
+public interface MapDifference<K, V> {
   /**
    * Returns {@code true} if there are no differences between the two maps;
    * that is, if the maps are equal.

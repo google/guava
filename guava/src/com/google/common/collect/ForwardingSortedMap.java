@@ -60,7 +60,7 @@ import javax.annotation.Nullable;
 @AnnotatedFor({"nullness"})
 @GwtCompatible
 @SuppressWarnings("nullness:generic.argument")
-public abstract class ForwardingSortedMap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingMap<K, V>
+public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
     implements SortedMap<K, V> {
   // TODO(lowasser): identify places where thread safety is actually lost
 

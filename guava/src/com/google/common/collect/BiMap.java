@@ -38,7 +38,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 @AnnotatedFor({"nullness"})
-public interface BiMap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends Map<K, V> {
+public interface BiMap<K, V> extends Map<K, V> {
   // Modification Operations
 
   /**

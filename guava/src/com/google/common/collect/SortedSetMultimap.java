@@ -50,7 +50,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 @AnnotatedFor({"nullness"})
-public interface SortedSetMultimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends SetMultimap<K, V> {
+public interface SortedSetMultimap<K, V> extends SetMultimap<K, V> {
   // Following Javadoc copied from Multimap.
 
   /**

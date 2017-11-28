@@ -49,7 +49,7 @@ import java.util.Queue;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible
-public abstract class ForwardingQueue<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingCollection<E> implements Queue<E> {
+public abstract class ForwardingQueue<E> extends ForwardingCollection<E> implements Queue<E> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingQueue() {}

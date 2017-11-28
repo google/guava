@@ -79,7 +79,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
-public class TreeMultimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractSortedKeySortedSetMultimap<K, V> {
+public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V> {
   private transient @org.checkerframework.checker.nullness.qual.Nullable Comparator<? super K> keyComparator;
   private transient @org.checkerframework.checker.nullness.qual.Nullable Comparator<? super V> valueComparator;
 

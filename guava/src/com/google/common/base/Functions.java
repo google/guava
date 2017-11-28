@@ -87,7 +87,7 @@ public final class Functions {
    */
   // implementation is "fully variant"; E has become a "pass-through" type
   @SuppressWarnings("unchecked")
-  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> Function<E, E> identity() {
+  public static <E> Function<E, E> identity() {
     return (Function<E, E>) IdentityFunction.INSTANCE;
   }
 
@@ -121,11 +121,11 @@ public final class Functions {
    * key (instead of an exception being thrown), you can use the method reference {@code map::get}
    * instead.
    */
-  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> Function<K, V> forMap(Map<K, V> map) {
+  public static <K, V> Function<K, V> forMap(Map<K, V> map) {
     return new FunctionForMapNoDefault<>(map);
   }
 
-  private static class FunctionForMapNoDefault<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements Function<K, V>, Serializable {
+  private static class FunctionForMapNoDefault<K, V> implements Function<K, V>, Serializable {
     final Map<K, V> map;
 
     FunctionForMapNoDefault(Map<K, V> map) {
@@ -178,11 +178,11 @@ public final class Functions {
    * @return function that returns {@code map.get(a)} when {@code a} is a key, or {@code
    *         defaultValue} otherwise
    */
-  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> Function<K, V> forMap(Map<K, ? extends V> map, @Nullable V defaultValue) {
+  public static <K, V> Function<K, V> forMap(Map<K, ? extends V> map, @Nullable V defaultValue) {
     return new ForMapWithDefault<>(map, defaultValue);
   }
 
-  private static class ForMapWithDefault<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements Function<K, V>, Serializable {
+  private static class ForMapWithDefault<K, V> implements Function<K, V>, Serializable {
     final Map<K, ? extends V> map;
     final V defaultValue;
 
@@ -235,11 +235,11 @@ public final class Functions {
    * @return the composition of {@code f} and {@code g}
    * @see <a href="//en.wikipedia.org/wiki/Function_composition">function composition</a>
    */
-  public static <A extends @org.checkerframework.checker.nullness.qual.Nullable Object, B extends @org.checkerframework.checker.nullness.qual.Nullable Object, C extends @org.checkerframework.checker.nullness.qual.Nullable Object> Function<A, C> compose(Function<B, C> g, Function<A, ? extends B> f) {
+  public static <A, B, C> Function<A, C> compose(Function<B, C> g, Function<A, ? extends B> f) {
     return new FunctionComposition<>(g, f);
   }
 
-  private static class FunctionComposition<A extends @org.checkerframework.checker.nullness.qual.Nullable Object, B extends @org.checkerframework.checker.nullness.qual.Nullable Object, C extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements Function<A, C>, Serializable {
+  private static class FunctionComposition<A, B, C> implements Function<A, C>, Serializable {
     private final Function<B, C> g;
     private final Function<A, ? extends B> f;
 
@@ -287,12 +287,12 @@ public final class Functions {
    *
    * <p><b>Java 8 users:</b> use the method reference {@code predicate::test} instead.
    */
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Function<T, Boolean> forPredicate(Predicate<T> predicate) {
+  public static <T> Function<T, Boolean> forPredicate(Predicate<T> predicate) {
     return new PredicateFunction<T>(predicate);
   }
 
   /** @see Functions#forPredicate */
-  private static class PredicateFunction<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements Function<T, Boolean>, Serializable {
+  private static class PredicateFunction<T> implements Function<T, Boolean>, Serializable {
     private final Predicate<T> predicate;
 
     private PredicateFunction(Predicate<T> predicate) {
@@ -337,11 +337,11 @@ public final class Functions {
    * @param value the constant value for the function to return
    * @return a function that always returns {@code value}
    */
-  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> Function<Object, E> constant(@Nullable E value) {
+  public static <E> Function<Object, E> constant(@Nullable E value) {
     return new ConstantFunction<E>(value);
   }
 
-  private static class ConstantFunction<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements Function<Object, E>, Serializable {
+  private static class ConstantFunction<E> implements Function<Object, E>, Serializable {
     private final E value;
 
     public ConstantFunction(@Nullable E value) {

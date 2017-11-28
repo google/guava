@@ -41,7 +41,7 @@ import java.util.concurrent.ConcurrentMap;
 @AnnotatedFor({"nullness"})
 @GwtCompatible
 @SuppressWarnings("nullness:generic.argument")
-public abstract class ForwardingConcurrentMap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingMap<K, V>
+public abstract class ForwardingConcurrentMap<K, V> extends ForwardingMap<K, V>
     implements ConcurrentMap<K, V> {
 
   /** Constructor for use by subclasses. */

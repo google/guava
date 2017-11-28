@@ -47,7 +47,7 @@ import javax.annotation.Nullable;
 @GwtCompatible
 @AnnotatedFor({"nullness"})
 @FunctionalInterface
-public interface Function<F extends @org.checkerframework.checker.nullness.qual.Nullable Object, T extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends java.util.function.Function<F, T> {
+public interface Function<F, T> extends java.util.function.Function<F, T> {
   @Override
   @Nullable
   @CanIgnoreReturnValue // TODO(kevinb): remove this

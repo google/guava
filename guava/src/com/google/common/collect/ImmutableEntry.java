@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true)
-class ImmutableEntry<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractMapEntry<K, V> implements Serializable {
+class ImmutableEntry<K, V> extends AbstractMapEntry<K, V> implements Serializable {
   final K key;
   final V value;
 

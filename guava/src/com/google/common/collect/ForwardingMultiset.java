@@ -57,7 +57,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible
-public abstract class ForwardingMultiset<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingCollection<E> implements Multiset<E> {
+public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> implements Multiset<E> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingMultiset() {}

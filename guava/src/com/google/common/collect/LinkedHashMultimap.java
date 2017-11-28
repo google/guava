@@ -88,7 +88,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
-public final class LinkedHashMultimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object>
+public final class LinkedHashMultimap<K, V>
     extends LinkedHashMultimapGwtSerializationDependencies<K, V> {
 
   /**

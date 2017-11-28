@@ -60,7 +60,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(emulated = true)
-public final class HashBiMap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends IteratorBasedAbstractMap<K, V>
+public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     implements BiMap<K, V>, Serializable {
 
   /**

@@ -41,7 +41,7 @@ import java.util.ListIterator;
 @AnnotatedFor({"nullness"})
 @GwtCompatible
 @SuppressWarnings("nullness:generic.argument")
-public abstract class ForwardingListIterator<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingIterator<E>
+public abstract class ForwardingListIterator<E> extends ForwardingIterator<E>
     implements ListIterator<E> {
 
   /** Constructor for use by subclasses. */

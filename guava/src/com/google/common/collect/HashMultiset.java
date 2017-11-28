@@ -34,7 +34,7 @@ import java.util.HashMap;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
-public final class HashMultiset<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractMapBasedMultiset<E> {
+public final class HashMultiset<E> extends AbstractMapBasedMultiset<E> {
 
   /**
    * Creates a new, empty {@code HashMultiset} using the default initial

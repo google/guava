@@ -52,7 +52,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible
-public abstract class ForwardingSet<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingCollection<E> implements Set<E> {
+public abstract class ForwardingSet<E> extends ForwardingCollection<E> implements Set<E> {
   // TODO(lowasser): identify places where thread safety is actually lost
 
   /** Constructor for use by subclasses. */

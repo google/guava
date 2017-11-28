@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
 /** An ordering that treats {@code null} as greater than all other values. */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true)
-final class NullsLastOrdering<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends Ordering<T> implements Serializable {
+final class NullsLastOrdering<T> extends Ordering<T> implements Serializable {
   final Ordering<? super T> ordering;
 
   NullsLastOrdering(Ordering<? super T> ordering) {

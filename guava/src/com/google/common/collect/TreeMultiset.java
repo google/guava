@@ -60,7 +60,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(emulated = true)
-public final class TreeMultiset<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractSortedMultiset<E> implements Serializable {
+public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements Serializable {
 
   /**
    * Creates a new, empty multiset, sorted according to the elements' natural order. All elements
@@ -1001,9 +1001,9 @@ public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Objec
 
 public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.remove(arg0); }
 
-public boolean containsAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.containsAll(arg0); }
+public boolean containsAll(Collection<?> arg0) { return super.containsAll(arg0); }
 
-public boolean removeAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.removeAll(arg0); }
+public boolean removeAll(Collection<?> arg0) { return super.removeAll(arg0); }
 
-public boolean retainAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.retainAll(arg0); }
+public boolean retainAll(Collection<?> arg0) { return super.retainAll(arg0); }
 }

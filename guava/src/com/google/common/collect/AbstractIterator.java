@@ -70,7 +70,7 @@ import java.util.NoSuchElementException;
 // com.google.common.base.AbstractIterator
 @AnnotatedFor({"nullness"})
 @GwtCompatible
-public abstract class AbstractIterator<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends UnmodifiableIterator<T> {
+public abstract class AbstractIterator<T> extends UnmodifiableIterator<T> {
   private State state = State.NOT_READY;
 
   /** Constructor for use by subclasses. */

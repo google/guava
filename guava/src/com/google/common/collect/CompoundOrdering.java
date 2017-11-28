@@ -27,7 +27,7 @@ import java.util.Comparator;
 /** An ordering that tries several comparators in order. */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true)
-final class CompoundOrdering<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends Ordering<T> implements Serializable {
+final class CompoundOrdering<T> extends Ordering<T> implements Serializable {
   final Comparator<? super T>[] comparators;
 
   CompoundOrdering(Comparator<? super T> primary, Comparator<? super T> secondary) {

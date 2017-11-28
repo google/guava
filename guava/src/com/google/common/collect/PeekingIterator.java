@@ -35,7 +35,7 @@ import java.util.NoSuchElementException;
  */
 @GwtCompatible
 @AnnotatedFor({"nullness"})
-public interface PeekingIterator<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends Iterator<E> {
+public interface PeekingIterator<E> extends Iterator<E> {
   /**
    * Returns the next element in the iteration, without advancing the iteration.
    *

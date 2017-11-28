@@ -48,7 +48,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 @AnnotatedFor({"nullness"})
-public interface ClassToInstanceMap<B extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends Map<Class<? extends B>, B> {
+public interface ClassToInstanceMap<B> extends Map<Class<? extends B>, B> {
   /**
    * Returns the value the specified class is mapped to, or {@code null} if no
    * entry for this class is present. This will only return a value that was

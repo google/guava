@@ -325,11 +325,11 @@ public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Objec
 
 @Pure
 @Override
-public boolean containsAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.containsAll(arg0); }
+public boolean containsAll(Collection<?> arg0) { return super.containsAll(arg0); }
 
 @Override
-public boolean removeAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.removeAll(arg0); }
+public boolean removeAll(Collection<?> arg0) { return super.removeAll(arg0); }
 
 @Override
-public boolean retainAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.retainAll(arg0); }
+public boolean retainAll(Collection<?> arg0) { return super.retainAll(arg0); }
 }

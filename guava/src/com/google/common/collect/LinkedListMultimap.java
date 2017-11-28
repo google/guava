@@ -106,7 +106,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
-public class LinkedListMultimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractMultimap<K, V>
+public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
     implements ListMultimap<K, V>, Serializable {
   /*
    * Order is maintained using a linked list containing all key-value pairs. In

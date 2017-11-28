@@ -47,7 +47,7 @@ import javax.annotation.Nullable;
 @FunctionalInterface
 @GwtCompatible
 @AnnotatedFor({"nullness"})
-public interface Predicate<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends java.util.function.Predicate<T> {
+public interface Predicate<T> extends java.util.function.Predicate<T> {
   /**
    * Returns the result of applying this predicate to {@code input} (Java 8 users, see notes in the
    * class documentation above). This method is <i>generally expected</i>, but not absolutely

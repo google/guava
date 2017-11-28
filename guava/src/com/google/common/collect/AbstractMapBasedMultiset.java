@@ -50,7 +50,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(emulated = true)
-abstract class AbstractMapBasedMultiset<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractMultiset<E> implements Serializable {
+abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E> implements Serializable {
   // TODO(lowasser): consider overhauling this back to Map<E, Integer>
   private transient Map<E, Count> backingMap;
 

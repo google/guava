@@ -54,7 +54,7 @@ public final class Predicates {
    * Returns a predicate that always evaluates to {@code true}.
    */
   @GwtCompatible(serializable = true)
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Predicate<T> alwaysTrue() {
+  public static <T> Predicate<T> alwaysTrue() {
     return ObjectPredicate.ALWAYS_TRUE.withNarrowedType();
   }
 
@@ -62,7 +62,7 @@ public final class Predicates {
    * Returns a predicate that always evaluates to {@code false}.
    */
   @GwtCompatible(serializable = true)
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Predicate<T> alwaysFalse() {
+  public static <T> Predicate<T> alwaysFalse() {
     return ObjectPredicate.ALWAYS_FALSE.withNarrowedType();
   }
 
@@ -71,7 +71,7 @@ public final class Predicates {
    * null.
    */
   @GwtCompatible(serializable = true)
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Predicate<T> isNull() {
+  public static <T> Predicate<T> isNull() {
     return ObjectPredicate.IS_NULL.withNarrowedType();
   }
 
@@ -80,7 +80,7 @@ public final class Predicates {
    * null.
    */
   @GwtCompatible(serializable = true)
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Predicate<T> notNull() {
+  public static <T> Predicate<T> notNull() {
     return ObjectPredicate.NOT_NULL.withNarrowedType();
   }
 
@@ -88,7 +88,7 @@ public final class Predicates {
    * Returns a predicate that evaluates to {@code true} if the given predicate evaluates to
    * {@code false}.
    */
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Predicate<T> not(Predicate<T> predicate) {
+  public static <T> Predicate<T> not(Predicate<T> predicate) {
     return new NotPredicate<T>(predicate);
   }
 
@@ -100,7 +100,7 @@ public final class Predicates {
    * components} is empty, the returned predicate will always evaluate to {@code
    * true}.
    */
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Predicate<T> and(Iterable<? extends Predicate<? super T>> components) {
+  public static <T> Predicate<T> and(Iterable<? extends Predicate<? super T>> components) {
     return new AndPredicate<T>(defensiveCopy(components));
   }
 
@@ -113,7 +113,7 @@ public final class Predicates {
    * true}.
    */
   @SafeVarargs
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Predicate<T> and(Predicate<? super T>... components) {
+  public static <T> Predicate<T> and(Predicate<? super T>... components) {
     return new AndPredicate<T>(defensiveCopy(components));
   }
 
@@ -122,7 +122,7 @@ public final class Predicates {
    * {@code true}. The components are evaluated in order, and evaluation will be "short-circuited"
    * as soon as a false predicate is found.
    */
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Predicate<T> and(Predicate<? super T> first, Predicate<? super T> second) {
+  public static <T> Predicate<T> and(Predicate<? super T> first, Predicate<? super T> second) {
     return new AndPredicate<T>(Predicates.<T>asList(checkNotNull(first), checkNotNull(second)));
   }
 
@@ -134,7 +134,7 @@ public final class Predicates {
    * components} is empty, the returned predicate will always evaluate to {@code
    * false}.
    */
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Predicate<T> or(Iterable<? extends Predicate<? super T>> components) {
+  public static <T> Predicate<T> or(Iterable<? extends Predicate<? super T>> components) {
     return new OrPredicate<T>(defensiveCopy(components));
   }
 
@@ -147,7 +147,7 @@ public final class Predicates {
    * false}.
    */
   @SafeVarargs
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Predicate<T> or(Predicate<? super T>... components) {
+  public static <T> Predicate<T> or(Predicate<? super T>... components) {
     return new OrPredicate<T>(defensiveCopy(components));
   }
 
@@ -156,7 +156,7 @@ public final class Predicates {
    * {@code true}. The components are evaluated in order, and evaluation will be "short-circuited"
    * as soon as a true predicate is found.
    */
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Predicate<T> or(Predicate<? super T> first, Predicate<? super T> second) {
+  public static <T> Predicate<T> or(Predicate<? super T> first, Predicate<? super T> second) {
     return new OrPredicate<T>(Predicates.<T>asList(checkNotNull(first), checkNotNull(second)));
   }
 
@@ -164,7 +164,7 @@ public final class Predicates {
    * Returns a predicate that evaluates to {@code true} if the object being tested {@code equals()}
    * the given target or both are null.
    */
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Predicate<T> equalTo(@Nullable T target) {
+  public static <T> Predicate<T> equalTo(@Nullable T target) {
     return (target == null) ? Predicates.<T>isNull() : new IsEqualToPredicate<T>(target);
   }
 
@@ -239,7 +239,7 @@ public final class Predicates {
    *
    * @param target the collection that may contain the function input
    */
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Predicate<T> in(Collection<? extends T> target) {
+  public static <T> Predicate<T> in(Collection<? extends T> target) {
     return new InPredicate<T>(target);
   }
 
@@ -249,7 +249,7 @@ public final class Predicates {
    *
    * @return the composition of the provided function and predicate
    */
-  public static <A extends @org.checkerframework.checker.nullness.qual.Nullable Object, B extends @org.checkerframework.checker.nullness.qual.Nullable Object> Predicate<A> compose(
+  public static <A, B> Predicate<A> compose(
       Predicate<B> predicate, Function<A, ? extends B> function) {
     return new CompositionPredicate<>(predicate, function);
   }
@@ -339,7 +339,7 @@ public final class Predicates {
   }
 
   /** @see Predicates#not(Predicate) */
-  private static class NotPredicate<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements Predicate<T>, Serializable {
+  private static class NotPredicate<T> implements Predicate<T>, Serializable {
     final Predicate<T> predicate;
 
     NotPredicate(Predicate<T> predicate) {
@@ -377,7 +377,7 @@ public final class Predicates {
   }
 
   /** @see Predicates#and(Iterable) */
-  private static class AndPredicate<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements Predicate<T>, Serializable {
+  private static class AndPredicate<T> implements Predicate<T>, Serializable {
     private final List<? extends Predicate<? super T>> components;
 
     private AndPredicate(List<? extends Predicate<? super T>> components) {
@@ -422,7 +422,7 @@ public final class Predicates {
   }
 
   /** @see Predicates#or(Iterable) */
-  private static class OrPredicate<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements Predicate<T>, Serializable {
+  private static class OrPredicate<T> implements Predicate<T>, Serializable {
     private final List<? extends Predicate<? super T>> components;
 
     private OrPredicate(List<? extends Predicate<? super T>> components) {
@@ -480,7 +480,7 @@ public final class Predicates {
   }
 
   /** @see Predicates#equalTo(Object) */
-  private static class IsEqualToPredicate<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements Predicate<T>, Serializable {
+  private static class IsEqualToPredicate<T> implements Predicate<T>, Serializable {
     private final T target;
 
     private IsEqualToPredicate(T target) {
@@ -593,10 +593,10 @@ public final class Predicates {
   }
 
   /** @see Predicates#in(Collection) */
-  private static class InPredicate<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements Predicate<T>, Serializable {
-    private final Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> target;
+  private static class InPredicate<T> implements Predicate<T>, Serializable {
+    private final Collection<?> target;
 
-    private InPredicate(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> target) {
+    private InPredicate(Collection<?> target) {
       this.target = checkNotNull(target);
     }
 
@@ -635,7 +635,7 @@ public final class Predicates {
   }
 
   /** @see Predicates#compose(Predicate, Function) */
-  private static class CompositionPredicate<A extends @org.checkerframework.checker.nullness.qual.Nullable Object, B extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements Predicate<A>, Serializable {
+  private static class CompositionPredicate<A, B> implements Predicate<A>, Serializable {
     final Predicate<B> p;
     final Function<A, ? extends B> f;
 
@@ -739,7 +739,7 @@ public final class Predicates {
     private static final long serialVersionUID = 0;
   }
 
-  private static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> List<Predicate<? super T>> asList(
+  private static <T> List<Predicate<? super T>> asList(
       Predicate<? super T> first, Predicate<? super T> second) {
     // TODO(kevinb): understand why we still get a warning despite @SafeVarargs!
     return Arrays.<Predicate<? super T>>asList(first, second);

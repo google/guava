@@ -33,7 +33,7 @@ import java.util.Iterator;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible
-public abstract class UnmodifiableIterator<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements Iterator<E> {
+public abstract class UnmodifiableIterator<E> implements Iterator<E> {
   /** Constructor for use by subclasses. */
   protected UnmodifiableIterator() {}
 

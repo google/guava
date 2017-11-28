@@ -48,7 +48,7 @@ public final class ObjectArrays {
    */
   @GwtIncompatible // Array.newInstance(Class, int)
   @SuppressWarnings("unchecked")
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T[] newArray(Class<T> type, int length) {
+  public static <T> T[] newArray(Class<T> type, int length) {
     return (T[]) Array.newInstance(type, length);
   }
 
@@ -59,7 +59,7 @@ public final class ObjectArrays {
    * @param reference any array of the desired type
    * @param length the length of the new array
    */
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T[] newArray(T[] reference, int length) {
+  public static <T> T[] newArray(T[] reference, int length) {
     return Platform.newArray(reference, length);
   }
 
@@ -71,7 +71,7 @@ public final class ObjectArrays {
    * @param type the component type of the returned array
    */
   @GwtIncompatible // Array.newInstance(Class, int)
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T[] concat(T[] first, T[] second, Class<T> type) {
+  public static <T> T[] concat(T[] first, T[] second, Class<T> type) {
     T[] result = newArray(type, first.length + second.length);
     System.arraycopy(first, 0, result, 0, first.length);
     System.arraycopy(second, 0, result, first.length, second.length);
@@ -87,7 +87,7 @@ public final class ObjectArrays {
    *     {@code element} occupying the first position, and the
    *     elements of {@code array} occupying the remaining elements.
    */
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T[] concat(@Nullable T element, T[] array) {
+  public static <T> T[] concat(@Nullable T element, T[] array) {
     T[] result = newArray(array, array.length + 1);
     result[0] = element;
     System.arraycopy(array, 0, result, 1, array.length);
@@ -103,7 +103,7 @@ public final class ObjectArrays {
    *     the same contents as {@code array}, plus {@code element} occupying the
    *     last position.
    */
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T[] concat(T[] array, @Nullable T element) {
+  public static <T> T[] concat(T[] array, @Nullable T element) {
     T[] result = Arrays.copyOf(array, array.length + 1);
     result[array.length] = element;
     return result;
@@ -134,7 +134,7 @@ public final class ObjectArrays {
    *     collection
    */
   // Annotation here is not technically correct; see note on toArray
-  static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T[] toArrayImpl(Collection<?> c, @org.checkerframework.checker.nullness.qual.Nullable T[] array) {
+  static <T> T[] toArrayImpl(Collection<?> c, @org.checkerframework.checker.nullness.qual.Nullable T[] array) {
     int size = c.size();
     if (array.length < size) {
       array = newArray(array, size);
@@ -182,7 +182,7 @@ public final class ObjectArrays {
    *
    * @param c the collection for which to return an array of elements
    */
-  static @org.checkerframework.checker.nullness.qual.Nullable Object[] toArrayImpl(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> c) {
+  static @org.checkerframework.checker.nullness.qual.Nullable Object[] toArrayImpl(Collection<?> c) {
     return fillArray(c, new Object[c.size()]);
   }
 
