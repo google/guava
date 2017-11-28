@@ -1333,7 +1333,7 @@
 <span class="sourceLineNo">1325</span>    return index;<a name="line.1325"></a>
 <span class="sourceLineNo">1326</span>  }<a name="line.1326"></a>
 <span class="sourceLineNo">1327</span><a name="line.1327"></a>
-<span class="sourceLineNo">1328</span>  private static String badElementIndex(int index, int size, String desc) {<a name="line.1328"></a>
+<span class="sourceLineNo">1328</span>  private static String badElementIndex(int index, int size, @Nullable String desc) {<a name="line.1328"></a>
 <span class="sourceLineNo">1329</span>    if (index &lt; 0) {<a name="line.1329"></a>
 <span class="sourceLineNo">1330</span>      return format("%s (%s) must not be negative", desc, index);<a name="line.1330"></a>
 <span class="sourceLineNo">1331</span>    } else if (size &lt; 0) {<a name="line.1331"></a>
@@ -1378,7 +1378,7 @@
 <span class="sourceLineNo">1370</span>    return index;<a name="line.1370"></a>
 <span class="sourceLineNo">1371</span>  }<a name="line.1371"></a>
 <span class="sourceLineNo">1372</span><a name="line.1372"></a>
-<span class="sourceLineNo">1373</span>  private static String badPositionIndex(int index, int size, String desc) {<a name="line.1373"></a>
+<span class="sourceLineNo">1373</span>  private static String badPositionIndex(int index, int size, @Nullable String desc) {<a name="line.1373"></a>
 <span class="sourceLineNo">1374</span>    if (index &lt; 0) {<a name="line.1374"></a>
 <span class="sourceLineNo">1375</span>      return format("%s (%s) must not be negative", desc, index);<a name="line.1375"></a>
 <span class="sourceLineNo">1376</span>    } else if (size &lt; 0) {<a name="line.1376"></a>
