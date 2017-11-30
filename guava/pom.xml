@@ -26,10 +26,6 @@
       <artifactId>jsr305</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.checkerframework</groupId>
-      <artifactId>checker-qual</artifactId>
-    </dependency>
-    <dependency>
       <groupId>com.google.errorprone</groupId>
       <artifactId>error_prone_annotations</artifactId>
     </dependency>
@@ -107,14 +103,17 @@
         <configuration>
             <source>1.8</source>
             <target>1.8</target>
+            <compilerArguments>
+              <Xmaxerrs>10000</Xmaxerrs>
+              <Xmaxwarns>10000</Xmaxwarns>
+            </compilerArguments>
             <annotationProcessors>
               <annotationProcessor>${checkerframework.checkers}</annotationProcessor>
             </annotationProcessors>
             <compilerArgs>
               <arg>-Xbootclasspath/p:${annotatedJdk}</arg>
-              <arg>-AuseSafeDefaultsForUnannotatedSourceCode</arg>
-              <arg>-Awarns</arg>
               <arg>${addtionalargs}</arg>
+              <arg>-AuseDefaultsForUncheckedCode=source,bytecode</arg>
               <arg>-AprintErrorStack</arg>
             </compilerArgs>
         </configuration>
@@ -126,6 +125,11 @@
       <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
+          <execution>
+            <goals>
+              <goal>properties</goal>
+            </goals>
+          </execution>
           <execution>
             <id>unpack-jdk-sources</id>
             <phase>generate-sources</phase>
