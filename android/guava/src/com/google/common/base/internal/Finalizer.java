@@ -117,7 +117,9 @@ public class Finalizer implements Runnable {
   // By preference, we will use the Thread constructor that has an `inheritThreadLocals` parameter.
   // But before Java 9, our only way not to inherit ThreadLocals is to zap them after the thread
   // is created, by accessing a private field.
+  @Nullable
   private static final Constructor<Thread> bigThreadConstructor = getBigThreadConstructor();
+  @Nullable
   private static final Field inheritableThreadLocals =
       (bigThreadConstructor == null) ? getInheritableThreadLocalsField() : null;
 
