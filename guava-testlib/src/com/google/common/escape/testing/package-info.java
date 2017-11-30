@@ -23,4 +23,4 @@
 @CheckReturnValue
 package com.google.common.escape.testing;
 
-import javax.annotation.CheckReturnValue;
+import com.google.errorprone.annotations.CheckReturnValue;

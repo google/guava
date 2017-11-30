@@ -21,6 +21,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.util.AbstractList;
@@ -32,7 +33,6 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.DoubleConsumer;
 import java.util.stream.DoubleStream;
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**

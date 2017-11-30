@@ -245,5 +245,5 @@
 @ParametersAreNonnullByDefault
 package com.google.common.eventbus;
 
-import javax.annotation.CheckReturnValue;
+import com.google.errorprone.annotations.CheckReturnValue;
 import javax.annotation.ParametersAreNonnullByDefault;

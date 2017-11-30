@@ -63,5 +63,5 @@
 @CheckReturnValue
 package com.google.common.primitives;
 
-import javax.annotation.CheckReturnValue;
+import com.google.errorprone.annotations.CheckReturnValue;
 import javax.annotation.ParametersAreNonnullByDefault;

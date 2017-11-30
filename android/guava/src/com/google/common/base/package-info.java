@@ -59,5 +59,5 @@
 @ParametersAreNonnullByDefault
 package com.google.common.base;
 
-import javax.annotation.CheckReturnValue;
+import com.google.errorprone.annotations.CheckReturnValue;
 import javax.annotation.ParametersAreNonnullByDefault;

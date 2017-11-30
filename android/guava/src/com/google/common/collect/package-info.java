@@ -222,5 +222,5 @@
 @ParametersAreNonnullByDefault
 package com.google.common.collect;
 
-import javax.annotation.CheckReturnValue;
+import com.google.errorprone.annotations.CheckReturnValue;
 import javax.annotation.ParametersAreNonnullByDefault;
