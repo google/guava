@@ -17,12 +17,12 @@
 package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.OverridingMethodsMustInvokeSuper;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 /**
  * Base class for testers of classes (including {@link Collection}
