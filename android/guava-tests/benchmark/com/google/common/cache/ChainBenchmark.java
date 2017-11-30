@@ -19,7 +19,6 @@ package com.google.common.cache;
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.common.cache.LocalCache.ReferenceEntry;
 import com.google.common.cache.LocalCache.Segment;
 
 /**

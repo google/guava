@@ -23,7 +23,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 
 import com.google.common.cache.CacheTesting.Receiver;
-import com.google.common.cache.LocalCache.ReferenceEntry;
 import com.google.common.cache.TestingCacheLoaders.IdentityLoader;
 import com.google.common.cache.TestingRemovalListeners.CountingRemovalListener;
 import java.util.List;

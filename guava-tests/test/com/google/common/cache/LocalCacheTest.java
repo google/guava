@@ -38,7 +38,6 @@ import com.google.common.cache.LocalCache.EntryFactory;
 import com.google.common.cache.LocalCache.LoadingValueReference;
 import com.google.common.cache.LocalCache.LocalLoadingCache;
 import com.google.common.cache.LocalCache.LocalManualCache;
-import com.google.common.cache.LocalCache.ReferenceEntry;
 import com.google.common.cache.LocalCache.Segment;
 import com.google.common.cache.LocalCache.Strength;
 import com.google.common.cache.LocalCache.ValueReference;
