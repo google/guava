@@ -423,9 +423,10 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.
 <ul class="blockList">
 <li class="blockList">
 <h4>add</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.144">add</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-        <a href="../../../../com/google/common/collect/Multiset.html" title="type parameter in Multiset">E</a>&nbsp;element,
-        int&nbsp;occurrences)</pre>
+<pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.144">add</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+                              <a href="../../../../com/google/common/collect/Multiset.html" title="type parameter in Multiset">E</a>&nbsp;element,
+                              int&nbsp;occurrences)</pre>
 <div class="block">Adds a number of occurrences of an element to this multiset. Note that if
  <code>occurrences == 1</code>, this method has the identical effect to <a href="../../../../com/google/common/collect/Multiset.html#add-E-"><code>add(Object)</code></a>. This method is functionally equivalent (except in the case
  of overflow) to the call <code>addAll(Collections.nCopies(element,
@@ -453,9 +454,10 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.
 <ul class="blockList">
 <li class="blockList">
 <h4>remove</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.159">remove</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a> <a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="E")
-           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element,
-           int&nbsp;occurrences)</pre>
+<pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.159">remove</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a> <a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="E")
+                                 <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element,
+                                 int&nbsp;occurrences)</pre>
 <div class="block">Removes a number of occurrences of the specified element from this multiset. If the multiset
  contains fewer than this number of occurrences to begin with, all occurrences will be removed.
  Note that if <code>occurrences == 1</code>, this is functionally equivalent to the call <code>remove(element)</code>.</div>
@@ -479,8 +481,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.
 <ul class="blockList">
 <li class="blockList">
 <h4>setCount</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.175">setCount</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="type parameter in Multiset">E</a>&nbsp;element,
-             int&nbsp;count)</pre>
+<pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.175">setCount</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="type parameter in Multiset">E</a>&nbsp;element,
+                                   int&nbsp;count)</pre>
 <div class="block">Adds or removes the necessary occurrences of an element such that the
  element attains the desired count.</div>
 <dl>
@@ -505,9 +508,10 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.
 <ul class="blockList">
 <li class="blockList">
 <h4>setCount</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.198">setCount</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="type parameter in Multiset">E</a>&nbsp;element,
-                 int&nbsp;oldCount,
-                 int&nbsp;newCount)</pre>
+<pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.198">setCount</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="type parameter in Multiset">E</a>&nbsp;element,
+                                       int&nbsp;oldCount,
+                                       int&nbsp;newCount)</pre>
 <div class="block">Conditionally sets the count of an element to a new value, as described in
  <a href="../../../../com/google/common/collect/Multiset.html#setCount-E-int-"><code>setCount(Object, int)</code></a>, provided that the element has the expected
  current count. If the current count is not <code>oldCount</code>, no change is
@@ -780,7 +784,8 @@ default&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/M
 <ul class="blockList">
 <li class="blockList">
 <h4>add</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.428">add</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="type parameter in Multiset">E</a>&nbsp;element)</pre>
+<pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.428">add</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="type parameter in Multiset">E</a>&nbsp;element)</pre>
 <div class="block">Adds a single occurrence of the specified element to this multiset.
 
  <p>This method refines <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#add-E-" title="class or interface in java.util"><code>Collection.add(E)</code></a>, which only <i>ensures</i>
@@ -813,8 +818,9 @@ default&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/M
 <ul class="blockList">
 <li class="blockList">
 <h4>remove</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.446">remove</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-               <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element)</pre>
+<pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.446">remove</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+                                     <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element)</pre>
 <div class="block">Removes a <i>single</i> occurrence of the specified element from this
  multiset, if present.
 
@@ -840,7 +846,8 @@ default&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/M
 <ul class="blockList">
 <li class="blockList">
 <h4>removeAll</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.462">removeAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;c)</pre>
+<pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.462">removeAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;c)</pre>
 <div class="block">Removes all of this collection's elements that are also contained in the
  specified collection (optional operation).  After this call returns,
  this collection will contain no elements in common with the specified
@@ -874,7 +881,8 @@ default&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/M
 <ul class="blockList">
 <li class="blockList">
 <h4>retainAll</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.480">retainAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;c)</pre>
+<pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.480">retainAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;c)</pre>
 <div class="block">Retains only the elements in this collection that are contained in the
  specified collection (optional operation).  In other words, removes from
  this collection all of its elements that are not contained in the

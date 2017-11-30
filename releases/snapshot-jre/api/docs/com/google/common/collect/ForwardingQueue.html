@@ -350,7 +350,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>offer</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.59">offer</a>(<a href="../../../../com/google/common/collect/ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&nbsp;o)</pre>
+<pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.59">offer</a>(<a href="../../../../com/google/common/collect/ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&nbsp;o)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true#offer-E-" title="class or interface in java.util">java.util.Queue</a></code></span></div>
 <div class="block">Inserts the specified element into this queue if it is possible to do
  so immediately without violating capacity restrictions.
@@ -374,7 +375,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>poll</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.65">poll</a>()</pre>
+<pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+public&nbsp;<a href="../../../../com/google/common/collect/ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.65">poll</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true#poll--" title="class or interface in java.util">java.util.Queue</a></code></span></div>
 <div class="block">Retrieves and removes the head of this queue,
  or returns <code>null</code> if this queue is empty.</div>
@@ -392,7 +394,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>remove</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.71">remove</a>()</pre>
+<pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+public&nbsp;<a href="../../../../com/google/common/collect/ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.71">remove</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true#remove--" title="class or interface in java.util">java.util.Queue</a></code></span></div>
 <div class="block">Retrieves and removes the head of this queue.  This method differs
  from <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true#poll--" title="class or interface in java.util"><code>poll</code></a> only in that it throws an exception if this

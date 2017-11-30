@@ -480,11 +480,12 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/
 <ul class="blockList">
 <li class="blockList">
 <h4>invoke</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/reflect/Invokable.html" title="type parameter in Invokable">R</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.98">invoke</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-                      <a href="../../../../com/google/common/reflect/Invokable.html" title="type parameter in Invokable">T</a>&nbsp;receiver,
-                      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>...&nbsp;args)
-               throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/InvocationTargetException.html?is-external=true" title="class or interface in java.lang.reflect">InvocationTargetException</a>,
-                      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalAccessException.html?is-external=true" title="class or interface in java.lang">IllegalAccessException</a></pre>
+<pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+public final&nbsp;<a href="../../../../com/google/common/reflect/Invokable.html" title="type parameter in Invokable">R</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.98">invoke</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+                                            <a href="../../../../com/google/common/reflect/Invokable.html" title="type parameter in Invokable">T</a>&nbsp;receiver,
+                                            <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>...&nbsp;args)
+                                     throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/InvocationTargetException.html?is-external=true" title="class or interface in java.lang.reflect">InvocationTargetException</a>,
+                                            <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalAccessException.html?is-external=true" title="class or interface in java.lang">IllegalAccessException</a></pre>
 <div class="block">Invokes with <code>receiver</code> as 'this' and <code>args</code> passed to the underlying method and
  returns the return value; or calls the underlying constructor with <code>args</code> and returns the
  constructed instance.</div>

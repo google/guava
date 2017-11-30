@@ -201,8 +201,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>setSafeRange</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/escape/Escapers.Builder.html" title="class in com.google.common.escape">Escapers.Builder</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/Escapers.Builder.html#line.111">setSafeRange</a>(char&nbsp;safeMin,
-                                     char&nbsp;safeMax)</pre>
+<pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+public&nbsp;<a href="../../../../com/google/common/escape/Escapers.Builder.html" title="class in com.google.common.escape">Escapers.Builder</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/Escapers.Builder.html#line.111">setSafeRange</a>(char&nbsp;safeMin,
+                                                           char&nbsp;safeMax)</pre>
 <div class="block">Sets the safe range of characters for the escaper. Characters in this range that have no
  explicit replacement are considered 'safe' and remain unescaped in the output. If
  <code>safeMax &lt; safeMin</code> then the safe range is empty.</div>
@@ -221,8 +222,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>setUnsafeReplacement</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/escape/Escapers.Builder.html" title="class in com.google.common.escape">Escapers.Builder</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/Escapers.Builder.html#line.126">setUnsafeReplacement</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-                                             <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;unsafeReplacement)</pre>
+<pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+public&nbsp;<a href="../../../../com/google/common/escape/Escapers.Builder.html" title="class in com.google.common.escape">Escapers.Builder</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/Escapers.Builder.html#line.126">setUnsafeReplacement</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+                                                                   <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;unsafeReplacement)</pre>
 <div class="block">Sets the replacement string for any characters outside the 'safe' range that have no explicit
  replacement. If <code>unsafeReplacement</code> is <code>null</code> then no replacement will occur, if
  it is <code>""</code> then the unsafe characters are removed from the output.</div>
@@ -240,8 +242,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>addEscape</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/escape/Escapers.Builder.html" title="class in com.google.common.escape">Escapers.Builder</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/Escapers.Builder.html#line.142">addEscape</a>(char&nbsp;c,
-                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;replacement)</pre>
+<pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+public&nbsp;<a href="../../../../com/google/common/escape/Escapers.Builder.html" title="class in com.google.common.escape">Escapers.Builder</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/Escapers.Builder.html#line.142">addEscape</a>(char&nbsp;c,
+                                                        <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;replacement)</pre>
 <div class="block">Adds a replacement string for the given input character. The specified character will be
  replaced by the given string whenever it occurs in the input, irrespective of whether it lies
  inside or outside the 'safe' range.</div>

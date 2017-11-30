@@ -202,8 +202,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Pr
 <ul class="blockList">
 <li class="blockList">
 <h4>apply</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html#line.63">apply</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-              <a href="../../../../com/google/common/base/Predicate.html" title="type parameter in Predicate">T</a>&nbsp;input)</pre>
+<pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html#line.63">apply</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+                                    <a href="../../../../com/google/common/base/Predicate.html" title="type parameter in Predicate">T</a>&nbsp;input)</pre>
 <div class="block">Returns the result of applying this predicate to <code>input</code> (Java 8 users, see notes in the
  class documentation above). This method is <i>generally expected</i>, but not absolutely
  required, to have the following properties:

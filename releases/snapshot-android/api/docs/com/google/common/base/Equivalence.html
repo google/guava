@@ -331,8 +331,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>doEquivalent</h4>
-<pre>protected abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.81">doEquivalent</a>(<a href="../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;a,
-                                        <a href="../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;b)</pre>
+<pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/ForOverride.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@ForOverride</a>
+protected abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.81">doEquivalent</a>(<a href="../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;a,
+                                                     <a href="../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;b)</pre>
 <div class="block"><p>This method should not be called except by <a href="../../../../com/google/common/base/Equivalence.html#equivalent-T-T-"><code>equivalent(T, T)</code></a>. When <a href="../../../../com/google/common/base/Equivalence.html#equivalent-T-T-"><code>equivalent(T, T)</code></a>
  calls this method, <code>a</code> and <code>b</code> are guaranteed to be distinct, non-null instances.</div>
 <dl>
@@ -375,7 +376,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>doHash</h4>
-<pre>protected abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.116">doHash</a>(<a href="../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;t)</pre>
+<pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/ForOverride.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@ForOverride</a>
+protected abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.116">doHash</a>(<a href="../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;t)</pre>
 <div class="block">Implemented by the user to return a hash code for <code>t</code>, subject to the requirements
  specified in <a href="../../../../com/google/common/base/Equivalence.html#hash-T-"><code>hash(T)</code></a>.
 

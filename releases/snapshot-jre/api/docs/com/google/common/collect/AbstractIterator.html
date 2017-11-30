@@ -322,7 +322,8 @@ extends <a href="../../../../com/google/common/collect/UnmodifiableIterator.html
 <ul class="blockList">
 <li class="blockList">
 <h4>endOfData</h4>
-<pre>protected final&nbsp;<a href="../../../../com/google/common/collect/AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.124">endOfData</a>()</pre>
+<pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+protected final&nbsp;<a href="../../../../com/google/common/collect/AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.124">endOfData</a>()</pre>
 <div class="block">Implementations of <a href="../../../../com/google/common/collect/AbstractIterator.html#computeNext--"><code>computeNext()</code></a> <b>must</b> invoke this method when
  there are no elements left in the iteration.</div>
 <dl>
@@ -338,7 +339,8 @@ extends <a href="../../../../com/google/common/collect/UnmodifiableIterator.html
 <ul class="blockList">
 <li class="blockList">
 <h4>hasNext</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.131">hasNext</a>()</pre>
+<pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.131">hasNext</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true#hasNext--" title="class or interface in java.util">java.util.Iterator</a></code></span></div>
 <div class="block">Returns <code>true</code> if the iteration has more elements.
  (In other words, returns <code>true</code> if <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true#next--" title="class or interface in java.util"><code>Iterator.next()</code></a> would
@@ -355,7 +357,8 @@ extends <a href="../../../../com/google/common/collect/UnmodifiableIterator.html
 <ul class="blockList">
 <li class="blockList">
 <h4>next</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/collect/AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.155">next</a>()</pre>
+<pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+public final&nbsp;<a href="../../../../com/google/common/collect/AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.155">next</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true#next--" title="class or interface in java.util">java.util.Iterator</a></code></span></div>
 <div class="block">Returns the next element in the iteration.</div>
 <dl>
