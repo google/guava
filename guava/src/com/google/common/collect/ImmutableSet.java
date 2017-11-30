@@ -360,6 +360,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   public abstract UnmodifiableIterator<E> iterator();
 
   @LazyInit
+  @Nullable
   @RetainedWith
   private transient ImmutableList<E> asList;
 
@@ -480,6 +481,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * @since 2.0
    */
   public static class Builder<E> extends ImmutableCollection.ArrayBasedBuilder<E> {
+    @Nullable
     @VisibleForTesting
     Object[] hashTable;
     private int hashCode;
