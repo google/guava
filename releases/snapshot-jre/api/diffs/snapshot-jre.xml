@@ -39208,35 +39208,37 @@
     <method name="equivalent" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Use {@link Graph#equals(Object)} instead. This method will be removed in late 2017.">
+      deprecated="Use {@link Graph#equals(Object)} instead. This method will be removed in January
+     2018.">
       <param name="graphA" type="com.google.common.graph.Graph&lt;?&gt;"/>
       <param name="graphB" type="com.google.common.graph.Graph&lt;?&gt;"/>
       <doc>
-      <![CDATA[@deprecated Use {@link Graph#equals(Object)} instead. This method will be removed in late 2017.]]>
+      <![CDATA[@deprecated Use {@link Graph#equals(Object)} instead. This method will be removed in January
+     2018.]]>
       </doc>
     </method>
     <method name="equivalent" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Use {@link ValueGraph#equals(Object)} instead. This method will be removed in late
- 2017.">
+      deprecated="Use {@link ValueGraph#equals(Object)} instead. This method will be removed in
+     January 2018.">
       <param name="graphA" type="com.google.common.graph.ValueGraph&lt;?, ?&gt;"/>
       <param name="graphB" type="com.google.common.graph.ValueGraph&lt;?, ?&gt;"/>
       <doc>
-      <![CDATA[@deprecated Use {@link ValueGraph#equals(Object)} instead. This method will be removed in late
- 2017.]]>
+      <![CDATA[@deprecated Use {@link ValueGraph#equals(Object)} instead. This method will be removed in
+     January 2018.]]>
       </doc>
     </method>
     <method name="equivalent" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Use {@link Network#equals(Object)} instead. This method will be removed in late
- 2017.">
+      deprecated="Use {@link Network#equals(Object)} instead. This method will be removed in January
+     2018.">
       <param name="networkA" type="com.google.common.graph.Network&lt;?, ?&gt;"/>
       <param name="networkB" type="com.google.common.graph.Network&lt;?, ?&gt;"/>
       <doc>
-      <![CDATA[@deprecated Use {@link Network#equals(Object)} instead. This method will be removed in late
- 2017.]]>
+      <![CDATA[@deprecated Use {@link Network#equals(Object)} instead. This method will be removed in January
+     2018.]]>
       </doc>
     </method>
     <method name="transpose" return="com.google.common.graph.Graph&lt;N&gt;"
