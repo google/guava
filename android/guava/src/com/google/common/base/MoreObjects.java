@@ -53,7 +53,13 @@ public final class MoreObjects {
    * @since 18.0 (since 3.0 as {@code Objects.firstNonNull()}).
    */
   public static <T> T firstNonNull(@Nullable T first, @Nullable T second) {
-    return first != null ? first : checkNotNull(second);
+    if (first != null) {
+      return first;
+    }
+    if (second != null) {
+      return second;
+    }
+    throw new NullPointerException("Both parameters are null");
   }
 
   /**
@@ -374,8 +380,11 @@ public final class MoreObjects {
     }
 
     private static final class ValueHolder {
+      @Nullable
       String name;
+      @Nullable
       Object value;
+      @Nullable
       ValueHolder next;
     }
   }
