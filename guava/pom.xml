@@ -114,6 +114,7 @@
               <arg>-Xbootclasspath/p:${annotatedJdk}</arg>
               <arg>${addtionalargs}</arg>
               <arg>-AuseDefaultsForUncheckedCode=source,bytecode</arg>
+              <arg>-Awarns</arg>
               <arg>-AprintErrorStack</arg>
             </compilerArgs>
         </configuration>
