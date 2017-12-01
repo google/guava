@@ -16,7 +16,6 @@
   <name>Guava Maven Parent</name>
   <url>https://github.com/google/guava</url>
   <properties>
-    <gpg.skip>true</gpg.skip>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>%regex[.*.class]</test.include>
     <truth.version>0.35</truth.version>
@@ -87,19 +86,6 @@
       </testResource>
     </testResources>
 
-    <plugins>
-      <plugin>
-        <artifactId>maven-gpg-plugin</artifactId>
-        <version>1.4</version>
-        <executions>
-          <execution>
-            <id>sign-artifacts</id>
-            <phase>verify</phase>
-            <goals><goal>sign</goal></goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
     <pluginManagement>
       <plugins>
         <plugin>
