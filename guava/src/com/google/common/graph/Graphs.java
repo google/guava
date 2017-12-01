@@ -208,7 +208,8 @@ public final class Graphs {
   }
 
   /**
-   * @deprecated Use {@link Graph#equals(Object)} instead. This method will be removed in late 2017.
+   * @deprecated Use {@link Graph#equals(Object)} instead. This method will be removed in January
+   *     2018.
    */
   // TODO(user): Delete this method.
   @Deprecated
@@ -217,8 +218,8 @@ public final class Graphs {
   }
 
   /**
-   * @deprecated Use {@link ValueGraph#equals(Object)} instead. This method will be removed in late
-   * 2017.
+   * @deprecated Use {@link ValueGraph#equals(Object)} instead. This method will be removed in
+   *     January 2018.
    */
   // TODO(user): Delete this method.
   @Deprecated
@@ -228,8 +229,8 @@ public final class Graphs {
   }
 
   /**
-   * @deprecated Use {@link Network#equals(Object)} instead. This method will be removed in late
-   * 2017.
+   * @deprecated Use {@link Network#equals(Object)} instead. This method will be removed in January
+   *     2018.
    */
   // TODO(user): Delete this method.
   @Deprecated
