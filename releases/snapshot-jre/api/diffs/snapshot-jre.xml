@@ -5537,7 +5537,8 @@
     <method name="assignableFrom" return="com.google.common.base.Predicate&lt;java.lang.Class&lt;?&gt;&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Use the correctly-named method {@link #subtypeOf} instead.">
+      deprecated="Use the correctly-named method {@link #subtypeOf} instead. This method is scheduled
+     to be removed in January 2018.">
       <param name="clazz" type="java.lang.Class&lt;?&gt;"/>
       <doc>
       <![CDATA[Returns a predicate that evaluates to {@code true} if the class being tested is assignable
@@ -5553,7 +5554,8 @@
 
  <p>The returned predicate does not allow null inputs.
 
- @deprecated Use the correctly-named method {@link #subtypeOf} instead.
+ @deprecated Use the correctly-named method {@link #subtypeOf} instead. This method is scheduled
+     to be removed in January 2018.
  @since 10.0]]>
       </doc>
     </method>
