@@ -1551,7 +1551,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @since 10.0
    */
   @CanIgnoreReturnValue
-  @GwtIncompatible // TODO
   public static <V> V getUnchecked(Future<V> future) {
     checkNotNull(future);
     try {
@@ -1562,7 +1561,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     }
   }
 
-  @GwtIncompatible // TODO
   private static void wrapAndThrowUnchecked(Throwable cause) {
     if (cause instanceof Error) {
       throw new ExecutionError((Error) cause);
