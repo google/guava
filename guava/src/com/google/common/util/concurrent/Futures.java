@@ -988,7 +988,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
      *
      * <p>Canceling this future will attempt to cancel all the component futures.
      */
-    @CanIgnoreReturnValue
+    @CanIgnoreReturnValue // TODO(cpovirk): Remove this
     public <C> ListenableFuture<C> call(Callable<C> combiner, Executor executor) {
       return new CombinedFuture<C>(futures, allMustSucceed, executor, combiner);
     }
@@ -1003,17 +1003,32 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
      *     ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
      *     scheduled to be removed in April 2018.
      */
-    @CanIgnoreReturnValue
+    @CanIgnoreReturnValue // TODO(cpovirk): Remove this
     @Deprecated
     public <C> ListenableFuture<C> call(Callable<C> combiner) {
       return call(combiner, directExecutor());
     }
 
-    /*
-     * TODO(cpovirk): Evaluate demand for a run(Runnable) version. Would it allow us to remove
-     * @CanIgnoreReturnValue from the call() methods above?
-     * https://github.com/google/guava/issues/2371
+    /**
+     * Creates the {@link ListenableFuture} which will return the result of running {@code combiner}
+     * when all Futures complete. {@code combiner} will run using {@code executor}.
+     *
+     * <p>If the combiner throws a {@code CancellationException}, the returned future will be
+     * cancelled.
+     *
+     * <p>Canceling this Future will attempt to cancel all the component futures.
      */
+    public ListenableFuture<?> run(final Runnable combiner, Executor executor) {
+      return call(
+          new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+              combiner.run();
+              return null;
+            }
+          },
+          executor);
+    }
   }
 
   /**

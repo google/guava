@@ -2634,6 +2634,141 @@ public class FuturesTest extends TestCase {
     gotException.await();
   }
 
+  public void testWhenAllComplete_runnableResult() throws Exception {
+    final SettableFuture<Integer> futureInteger = SettableFuture.create();
+    final SettableFuture<Boolean> futureBoolean = SettableFuture.create();
+    final String[] result = new String[1];
+    Runnable combiner =
+        new Runnable() {
+          @Override
+          public void run() {
+            assertTrue(futureInteger.isDone());
+            assertTrue(futureBoolean.isDone());
+            result[0] =
+                createCombinedResult(
+                    Futures.getUnchecked(futureInteger), Futures.getUnchecked(futureBoolean));
+          }
+        };
+
+    ListenableFuture<?> futureResult =
+        whenAllComplete(futureInteger, futureBoolean).run(combiner, directExecutor());
+    Integer integerPartial = 1;
+    futureInteger.set(integerPartial);
+    Boolean booleanPartial = true;
+    futureBoolean.set(booleanPartial);
+    futureResult.get();
+    assertEquals(createCombinedResult(integerPartial, booleanPartial), result[0]);
+  }
+
+  public void testWhenAllComplete_runnableError() throws Exception {
+    final RuntimeException thrown = new RuntimeException("test");
+
+    final SettableFuture<Integer> futureInteger = SettableFuture.create();
+    final SettableFuture<Boolean> futureBoolean = SettableFuture.create();
+    Runnable combiner =
+        new Runnable() {
+          @Override
+          public void run() {
+            assertTrue(futureInteger.isDone());
+            assertTrue(futureBoolean.isDone());
+            throw thrown;
+          }
+        };
+
+    ListenableFuture<?> futureResult =
+        whenAllComplete(futureInteger, futureBoolean).run(combiner, directExecutor());
+    Integer integerPartial = 1;
+    futureInteger.set(integerPartial);
+    Boolean booleanPartial = true;
+    futureBoolean.set(booleanPartial);
+
+    try {
+      getDone(futureResult);
+      fail();
+    } catch (ExecutionException expected) {
+      assertSame(thrown, expected.getCause());
+    }
+  }
+
+  @GwtIncompatible // threads
+
+  public void testWhenAllCompleteRunnable_resultCanceledWithoutInterrupt_doesNotInterruptRunnable()
+      throws Exception {
+    SettableFuture<String> stringFuture = SettableFuture.create();
+    SettableFuture<Boolean> booleanFuture = SettableFuture.create();
+    final CountDownLatch inFunction = new CountDownLatch(1);
+    final CountDownLatch shouldCompleteFunction = new CountDownLatch(1);
+    final CountDownLatch combinerCompletedWithoutInterrupt = new CountDownLatch(1);
+    Runnable combiner =
+        new Runnable() {
+          @Override
+          public void run() {
+            inFunction.countDown();
+            try {
+              shouldCompleteFunction.await();
+              combinerCompletedWithoutInterrupt.countDown();
+            } catch (InterruptedException e) {
+              // Ensure the thread's interrupt status is preserved.
+              Thread.currentThread().interrupt();
+              throw new RuntimeException(e);
+            }
+          }
+        };
+
+    ListenableFuture<?> futureResult =
+        whenAllComplete(stringFuture, booleanFuture).run(combiner, newSingleThreadExecutor());
+
+    stringFuture.set("value");
+    booleanFuture.set(true);
+    inFunction.await();
+    futureResult.cancel(false);
+    shouldCompleteFunction.countDown();
+    try {
+      futureResult.get();
+      fail();
+    } catch (CancellationException expected) {
+    }
+    combinerCompletedWithoutInterrupt.await();
+  }
+
+  @GwtIncompatible // threads
+
+  public void testWhenAllCompleteRunnable_resultCanceledWithInterrupt_InterruptsRunnable()
+      throws Exception {
+    SettableFuture<String> stringFuture = SettableFuture.create();
+    SettableFuture<Boolean> booleanFuture = SettableFuture.create();
+    final CountDownLatch inFunction = new CountDownLatch(1);
+    final CountDownLatch gotException = new CountDownLatch(1);
+    Runnable combiner =
+        new Runnable() {
+          @Override
+          public void run() {
+            inFunction.countDown();
+            try {
+              new CountDownLatch(1).await(); // wait for interrupt
+            } catch (InterruptedException expected) {
+              // Ensure the thread's interrupt status is preserved.
+              Thread.currentThread().interrupt();
+              gotException.countDown();
+            }
+          }
+        };
+
+    ListenableFuture<?> futureResult =
+        whenAllComplete(stringFuture, booleanFuture).run(combiner, newSingleThreadExecutor());
+
+    stringFuture.set("value");
+    booleanFuture.set(true);
+    inFunction.await();
+    futureResult.cancel(true);
+    try {
+      futureResult.get();
+      fail();
+    } catch (CancellationException expected) {
+    }
+    gotException.await();
+  }
+
   public void testWhenAllSucceed()  throws Exception {
     class PartialResultException extends Exception {
 
