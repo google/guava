@@ -1559,63 +1559,61 @@
 <span class="sourceLineNo">1551</span>   * @since 10.0<a name="line.1551"></a>
 <span class="sourceLineNo">1552</span>   */<a name="line.1552"></a>
 <span class="sourceLineNo">1553</span>  @CanIgnoreReturnValue<a name="line.1553"></a>
-<span class="sourceLineNo">1554</span>  @GwtIncompatible // TODO<a name="line.1554"></a>
-<span class="sourceLineNo">1555</span>  public static &lt;V&gt; V getUnchecked(Future&lt;V&gt; future) {<a name="line.1555"></a>
-<span class="sourceLineNo">1556</span>    checkNotNull(future);<a name="line.1556"></a>
-<span class="sourceLineNo">1557</span>    try {<a name="line.1557"></a>
-<span class="sourceLineNo">1558</span>      return getUninterruptibly(future);<a name="line.1558"></a>
-<span class="sourceLineNo">1559</span>    } catch (ExecutionException e) {<a name="line.1559"></a>
-<span class="sourceLineNo">1560</span>      wrapAndThrowUnchecked(e.getCause());<a name="line.1560"></a>
-<span class="sourceLineNo">1561</span>      throw new AssertionError();<a name="line.1561"></a>
-<span class="sourceLineNo">1562</span>    }<a name="line.1562"></a>
-<span class="sourceLineNo">1563</span>  }<a name="line.1563"></a>
-<span class="sourceLineNo">1564</span><a name="line.1564"></a>
-<span class="sourceLineNo">1565</span>  @GwtIncompatible // TODO<a name="line.1565"></a>
-<span class="sourceLineNo">1566</span>  private static void wrapAndThrowUnchecked(Throwable cause) {<a name="line.1566"></a>
-<span class="sourceLineNo">1567</span>    if (cause instanceof Error) {<a name="line.1567"></a>
-<span class="sourceLineNo">1568</span>      throw new ExecutionError((Error) cause);<a name="line.1568"></a>
-<span class="sourceLineNo">1569</span>    }<a name="line.1569"></a>
-<span class="sourceLineNo">1570</span>    /*<a name="line.1570"></a>
-<span class="sourceLineNo">1571</span>     * It's an Exception. (Or it's a non-Error, non-Exception Throwable. From my survey of such<a name="line.1571"></a>
-<span class="sourceLineNo">1572</span>     * classes, I believe that most users intended to extend Exception, so we'll treat it like an<a name="line.1572"></a>
-<span class="sourceLineNo">1573</span>     * Exception.)<a name="line.1573"></a>
-<span class="sourceLineNo">1574</span>     */<a name="line.1574"></a>
-<span class="sourceLineNo">1575</span>    throw new UncheckedExecutionException(cause);<a name="line.1575"></a>
-<span class="sourceLineNo">1576</span>  }<a name="line.1576"></a>
-<span class="sourceLineNo">1577</span><a name="line.1577"></a>
-<span class="sourceLineNo">1578</span>  /*<a name="line.1578"></a>
-<span class="sourceLineNo">1579</span>   * Arguably we don't need a timed getUnchecked because any operation slow enough to require a<a name="line.1579"></a>
-<span class="sourceLineNo">1580</span>   * timeout is heavyweight enough to throw a checked exception and therefore be inappropriate to<a name="line.1580"></a>
-<span class="sourceLineNo">1581</span>   * use with getUnchecked. Further, it's not clear that converting the checked TimeoutException to<a name="line.1581"></a>
-<span class="sourceLineNo">1582</span>   * a RuntimeException -- especially to an UncheckedExecutionException, since it wasn't thrown by<a name="line.1582"></a>
-<span class="sourceLineNo">1583</span>   * the computation -- makes sense, and if we don't convert it, the user still has to write a<a name="line.1583"></a>
-<span class="sourceLineNo">1584</span>   * try-catch block.<a name="line.1584"></a>
-<span class="sourceLineNo">1585</span>   *<a name="line.1585"></a>
-<span class="sourceLineNo">1586</span>   * If you think you would use this method, let us know. You might also also look into the<a name="line.1586"></a>
-<span class="sourceLineNo">1587</span>   * Fork-Join framework: http://docs.oracle.com/javase/tutorial/essential/concurrency/forkjoin.html<a name="line.1587"></a>
-<span class="sourceLineNo">1588</span>   */<a name="line.1588"></a>
-<span class="sourceLineNo">1589</span><a name="line.1589"></a>
-<span class="sourceLineNo">1590</span>  /**<a name="line.1590"></a>
-<span class="sourceLineNo">1591</span>   * A checked future that uses a function to map from exceptions to the appropriate checked type.<a name="line.1591"></a>
-<span class="sourceLineNo">1592</span>   */<a name="line.1592"></a>
-<span class="sourceLineNo">1593</span>  @GwtIncompatible // TODO<a name="line.1593"></a>
-<span class="sourceLineNo">1594</span>  private static class MappingCheckedFuture&lt;V, X extends Exception&gt;<a name="line.1594"></a>
-<span class="sourceLineNo">1595</span>      extends AbstractCheckedFuture&lt;V, X&gt; {<a name="line.1595"></a>
+<span class="sourceLineNo">1554</span>  public static &lt;V&gt; V getUnchecked(Future&lt;V&gt; future) {<a name="line.1554"></a>
+<span class="sourceLineNo">1555</span>    checkNotNull(future);<a name="line.1555"></a>
+<span class="sourceLineNo">1556</span>    try {<a name="line.1556"></a>
+<span class="sourceLineNo">1557</span>      return getUninterruptibly(future);<a name="line.1557"></a>
+<span class="sourceLineNo">1558</span>    } catch (ExecutionException e) {<a name="line.1558"></a>
+<span class="sourceLineNo">1559</span>      wrapAndThrowUnchecked(e.getCause());<a name="line.1559"></a>
+<span class="sourceLineNo">1560</span>      throw new AssertionError();<a name="line.1560"></a>
+<span class="sourceLineNo">1561</span>    }<a name="line.1561"></a>
+<span class="sourceLineNo">1562</span>  }<a name="line.1562"></a>
+<span class="sourceLineNo">1563</span><a name="line.1563"></a>
+<span class="sourceLineNo">1564</span>  private static void wrapAndThrowUnchecked(Throwable cause) {<a name="line.1564"></a>
+<span class="sourceLineNo">1565</span>    if (cause instanceof Error) {<a name="line.1565"></a>
+<span class="sourceLineNo">1566</span>      throw new ExecutionError((Error) cause);<a name="line.1566"></a>
+<span class="sourceLineNo">1567</span>    }<a name="line.1567"></a>
+<span class="sourceLineNo">1568</span>    /*<a name="line.1568"></a>
+<span class="sourceLineNo">1569</span>     * It's an Exception. (Or it's a non-Error, non-Exception Throwable. From my survey of such<a name="line.1569"></a>
+<span class="sourceLineNo">1570</span>     * classes, I believe that most users intended to extend Exception, so we'll treat it like an<a name="line.1570"></a>
+<span class="sourceLineNo">1571</span>     * Exception.)<a name="line.1571"></a>
+<span class="sourceLineNo">1572</span>     */<a name="line.1572"></a>
+<span class="sourceLineNo">1573</span>    throw new UncheckedExecutionException(cause);<a name="line.1573"></a>
+<span class="sourceLineNo">1574</span>  }<a name="line.1574"></a>
+<span class="sourceLineNo">1575</span><a name="line.1575"></a>
+<span class="sourceLineNo">1576</span>  /*<a name="line.1576"></a>
+<span class="sourceLineNo">1577</span>   * Arguably we don't need a timed getUnchecked because any operation slow enough to require a<a name="line.1577"></a>
+<span class="sourceLineNo">1578</span>   * timeout is heavyweight enough to throw a checked exception and therefore be inappropriate to<a name="line.1578"></a>
+<span class="sourceLineNo">1579</span>   * use with getUnchecked. Further, it's not clear that converting the checked TimeoutException to<a name="line.1579"></a>
+<span class="sourceLineNo">1580</span>   * a RuntimeException -- especially to an UncheckedExecutionException, since it wasn't thrown by<a name="line.1580"></a>
+<span class="sourceLineNo">1581</span>   * the computation -- makes sense, and if we don't convert it, the user still has to write a<a name="line.1581"></a>
+<span class="sourceLineNo">1582</span>   * try-catch block.<a name="line.1582"></a>
+<span class="sourceLineNo">1583</span>   *<a name="line.1583"></a>
+<span class="sourceLineNo">1584</span>   * If you think you would use this method, let us know. You might also also look into the<a name="line.1584"></a>
+<span class="sourceLineNo">1585</span>   * Fork-Join framework: http://docs.oracle.com/javase/tutorial/essential/concurrency/forkjoin.html<a name="line.1585"></a>
+<span class="sourceLineNo">1586</span>   */<a name="line.1586"></a>
+<span class="sourceLineNo">1587</span><a name="line.1587"></a>
+<span class="sourceLineNo">1588</span>  /**<a name="line.1588"></a>
+<span class="sourceLineNo">1589</span>   * A checked future that uses a function to map from exceptions to the appropriate checked type.<a name="line.1589"></a>
+<span class="sourceLineNo">1590</span>   */<a name="line.1590"></a>
+<span class="sourceLineNo">1591</span>  @GwtIncompatible // TODO<a name="line.1591"></a>
+<span class="sourceLineNo">1592</span>  private static class MappingCheckedFuture&lt;V, X extends Exception&gt;<a name="line.1592"></a>
+<span class="sourceLineNo">1593</span>      extends AbstractCheckedFuture&lt;V, X&gt; {<a name="line.1593"></a>
+<span class="sourceLineNo">1594</span><a name="line.1594"></a>
+<span class="sourceLineNo">1595</span>    final Function&lt;? super Exception, X&gt; mapper;<a name="line.1595"></a>
 <span class="sourceLineNo">1596</span><a name="line.1596"></a>
-<span class="sourceLineNo">1597</span>    final Function&lt;? super Exception, X&gt; mapper;<a name="line.1597"></a>
-<span class="sourceLineNo">1598</span><a name="line.1598"></a>
-<span class="sourceLineNo">1599</span>    MappingCheckedFuture(ListenableFuture&lt;V&gt; delegate, Function&lt;? super Exception, X&gt; mapper) {<a name="line.1599"></a>
-<span class="sourceLineNo">1600</span>      super(delegate);<a name="line.1600"></a>
-<span class="sourceLineNo">1601</span><a name="line.1601"></a>
-<span class="sourceLineNo">1602</span>      this.mapper = checkNotNull(mapper);<a name="line.1602"></a>
-<span class="sourceLineNo">1603</span>    }<a name="line.1603"></a>
-<span class="sourceLineNo">1604</span><a name="line.1604"></a>
-<span class="sourceLineNo">1605</span>    @Override<a name="line.1605"></a>
-<span class="sourceLineNo">1606</span>    protected X mapException(Exception e) {<a name="line.1606"></a>
-<span class="sourceLineNo">1607</span>      return mapper.apply(e);<a name="line.1607"></a>
-<span class="sourceLineNo">1608</span>    }<a name="line.1608"></a>
-<span class="sourceLineNo">1609</span>  }<a name="line.1609"></a>
-<span class="sourceLineNo">1610</span>}<a name="line.1610"></a>
+<span class="sourceLineNo">1597</span>    MappingCheckedFuture(ListenableFuture&lt;V&gt; delegate, Function&lt;? super Exception, X&gt; mapper) {<a name="line.1597"></a>
+<span class="sourceLineNo">1598</span>      super(delegate);<a name="line.1598"></a>
+<span class="sourceLineNo">1599</span><a name="line.1599"></a>
+<span class="sourceLineNo">1600</span>      this.mapper = checkNotNull(mapper);<a name="line.1600"></a>
+<span class="sourceLineNo">1601</span>    }<a name="line.1601"></a>
+<span class="sourceLineNo">1602</span><a name="line.1602"></a>
+<span class="sourceLineNo">1603</span>    @Override<a name="line.1603"></a>
+<span class="sourceLineNo">1604</span>    protected X mapException(Exception e) {<a name="line.1604"></a>
+<span class="sourceLineNo">1605</span>      return mapper.apply(e);<a name="line.1605"></a>
+<span class="sourceLineNo">1606</span>    }<a name="line.1606"></a>
+<span class="sourceLineNo">1607</span>  }<a name="line.1607"></a>
+<span class="sourceLineNo">1608</span>}<a name="line.1608"></a>
 
 
 
