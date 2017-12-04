@@ -152,6 +152,36 @@ public final class Bytes {
   }
 
   /**
+   * Returns the first position of the last occurrence of the specified {@code
+   * target} within {@code array}, or {@code -1} if there is no such occurrence.
+   *
+   * <p>More formally, returns the greatest index {@code i} such that
+   * {@code Arrays.copyOfRange(array, i, i + target.length)} contains exactly the same elements as
+   * {@code target}.
+   *
+   * @param array the array to search for the sequence {@code target}
+   * @param target the array to search for as a sub-sequence of {@code array}
+   */
+  public static int lastIndexOf(byte[] array, byte[] target) {
+    checkNotNull(array, "array");
+    checkNotNull(target, "target");
+    if (target.length == 0) {
+      return array.length;
+    }
+
+    outer:
+    for (int i = array.length - target.length; i >= 0; i--) {
+      for (int j = 0; j < target.length; j++) {
+        if (array[i + j] != target[j]) {
+          continue outer;
+        }
+      }
+      return i;
+    }
+    return -1;
+  }
+
+  /**
    * Returns the values from each provided array combined into a single array. For example,
    * {@code concat(new byte[] {a, b}, new byte[] {}, new byte[] {c}} returns the array {@code {a, b,
    * c}}.
