@@ -553,7 +553,8 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
 
   @Override
   public BiMap<V, K> inverse() {
-    return (inverse == null) ? inverse = new Inverse() : inverse;
+    BiMap<V, K> result = inverse;
+    return (result == null) ? inverse = new Inverse() : result;
   }
 
   private final class Inverse extends IteratorBasedAbstractMap<V, K>
@@ -688,8 +689,6 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
             delegate = newEntry;
             insert(newEntry, null);
             expectedModCount = modCount;
-            // This is safe because entries can only get bumped up to earlier in the iteration,
-            // so they can't get revisited.
             return oldKey;
           }
         }
@@ -741,8 +740,8 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
   @GwtIncompatible // java.io.ObjectInputStream
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
-    init(16);
     int size = Serialization.readCount(stream);
+    init(16); // resist hostile attempts to allocate gratuitous heap
     Serialization.populateMap(this, stream, size);
   }
 

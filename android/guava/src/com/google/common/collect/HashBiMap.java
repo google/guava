@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.j2objc.annotations.RetainedWith;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -869,7 +870,7 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
     }
   }
 
-  private transient BiMap<V, K> inverse;
+  @RetainedWith private transient BiMap<V, K> inverse;
 
   @Override
   public BiMap<V, K> inverse() {
