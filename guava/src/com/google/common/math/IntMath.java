@@ -40,9 +40,9 @@ import java.math.RoundingMode;
  * <p>The implementations of many methods in this class are based on material from Henry S. Warren,
  * Jr.'s <i>Hacker's Delight</i>, (Addison Wesley, 2002).
  *
- * <p>Similar functionality for {@code long} and for {@link BigInteger} can be found in
- * {@link LongMath} and {@link BigIntegerMath} respectively. For other common operations on
- * {@code int} values, see {@link com.google.common.primitives.Ints}.
+ * <p>Similar functionality for {@code long} and for {@link BigInteger} can be found in {@link
+ * LongMath} and {@link BigIntegerMath} respectively. For other common operations on {@code int}
+ * values, see {@link com.google.common.primitives.Ints}.
  *
  * @author Louis Wasserman
  * @since 11.0
@@ -54,12 +54,12 @@ public final class IntMath {
   @VisibleForTesting static final int MAX_SIGNED_POWER_OF_TWO = 1 << (Integer.SIZE - 2);
 
   /**
-   * Returns the smallest power of two greater than or equal to {@code x}.  This is equivalent to
+   * Returns the smallest power of two greater than or equal to {@code x}. This is equivalent to
    * {@code checkedPow(2, log2(x, CEILING))}.
    *
    * @throws IllegalArgumentException if {@code x <= 0}
-   * @throws ArithmeticException of the next-higher power of two is not representable as an
-   *         {@code int}, i.e. when {@code x > 2^30}
+   * @throws ArithmeticException of the next-higher power of two is not representable as an {@code
+   *     int}, i.e. when {@code x > 2^30}
    * @since 20.0
    */
   @Beta
@@ -72,8 +72,8 @@ public final class IntMath {
   }
 
   /**
-   * Returns the largest power of two less than or equal to {@code x}.  This is equivalent to
-   * {@code checkedPow(2, log2(x, FLOOR))}.
+   * Returns the largest power of two less than or equal to {@code x}. This is equivalent to {@code
+   * checkedPow(2, log2(x, FLOOR))}.
    *
    * @throws IllegalArgumentException if {@code x <= 0}
    * @since 20.0
@@ -87,9 +87,8 @@ public final class IntMath {
   /**
    * Returns {@code true} if {@code x} represents a power of two.
    *
-   * <p>This differs from {@code Integer.bitCount(x) == 1}, because
-   * {@code Integer.bitCount(Integer.MIN_VALUE) == 1}, but {@link Integer#MIN_VALUE} is not a power
-   * of two.
+   * <p>This differs from {@code Integer.bitCount(x) == 1}, because {@code
+   * Integer.bitCount(Integer.MIN_VALUE) == 1}, but {@link Integer#MIN_VALUE} is not a power of two.
    */
   public static boolean isPowerOfTwo(int x) {
     return x > 0 & (x & (x - 1)) == 0;
@@ -262,8 +261,8 @@ public final class IntMath {
    * Returns the square root of {@code x}, rounded with the specified rounding mode.
    *
    * @throws IllegalArgumentException if {@code x < 0}
-   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and
-   *     {@code sqrt(x)} is not an integer
+   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code
+   *     sqrt(x)} is not an integer
    */
   @GwtIncompatible // need BigIntegerMath to adequately test
   @SuppressWarnings("fallthrough")
@@ -307,8 +306,8 @@ public final class IntMath {
   }
 
   /**
-   * Returns the result of dividing {@code p} by {@code q}, rounding using the specified
-   * {@code RoundingMode}.
+   * Returns the result of dividing {@code p} by {@code q}, rounding using the specified {@code
+   * RoundingMode}.
    *
    * @throws ArithmeticException if {@code q == 0}, or if {@code mode == UNNECESSARY} and {@code a}
    *     is not an integer multiple of {@code b}
@@ -371,16 +370,18 @@ public final class IntMath {
   }
 
   /**
-   * Returns {@code x mod m}, a non-negative value less than {@code m}. This differs from
-   * {@code x % m}, which might be negative.
+   * Returns {@code x mod m}, a non-negative value less than {@code m}. This differs from {@code x %
+   * m}, which might be negative.
    *
-   * <p>For example:<pre> {@code
+   * <p>For example:
    *
+   * <pre>{@code
    * mod(7, 4) == 3
    * mod(-7, 4) == 1
    * mod(-1, 4) == 3
    * mod(-8, 4) == 0
-   * mod(8, 4) == 0}</pre>
+   * mod(8, 4) == 0
+   * }</pre>
    *
    * @throws ArithmeticException if {@code m <= 0}
    * @see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3">
@@ -395,8 +396,8 @@ public final class IntMath {
   }
 
   /**
-   * Returns the greatest common divisor of {@code a, b}. Returns {@code 0} if
-   * {@code a == 0 && b == 0}.
+   * Returns the greatest common divisor of {@code a, b}. Returns {@code 0} if {@code a == 0 && b ==
+   * 0}.
    *
    * @throws IllegalArgumentException if {@code a < 0} or {@code b < 0}
    */
@@ -483,8 +484,8 @@ public final class IntMath {
    *
    * <p>{@link #pow} may be faster, but does not check for overflow.
    *
-   * @throws ArithmeticException if {@code b} to the {@code k}th power overflows in signed
-   *     {@code int} arithmetic
+   * @throws ArithmeticException if {@code b} to the {@code k}th power overflows in signed {@code
+   *     int} arithmetic
    */
   public static int checkedPow(int b, int k) {
     checkNonNegative("exponent", k);
@@ -706,11 +707,11 @@ public final class IntMath {
   }
 
   /**
-   * Returns {@code true} if {@code n} is a
-   * <a href="http://mathworld.wolfram.com/PrimeNumber.html">prime number</a>: an integer <i>greater
+   * Returns {@code true} if {@code n} is a <a
+   * href="http://mathworld.wolfram.com/PrimeNumber.html">prime number</a>: an integer <i>greater
    * than one</i> that cannot be factored into a product of <i>smaller</i> positive integers.
-   * Returns {@code false} if {@code n} is zero, one, or a composite number (one which <i>can</i>
-   * be factored into smaller positive integers).
+   * Returns {@code false} if {@code n} is zero, one, or a composite number (one which <i>can</i> be
+   * factored into smaller positive integers).
    *
    * <p>To test larger numbers, use {@link LongMath#isPrime} or {@link BigInteger#isProbablePrime}.
    *

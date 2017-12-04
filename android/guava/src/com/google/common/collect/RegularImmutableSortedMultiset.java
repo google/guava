@@ -37,8 +37,7 @@ final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E>
   static final ImmutableSortedMultiset<Comparable> NATURAL_EMPTY_MULTISET =
       new RegularImmutableSortedMultiset<>(Ordering.natural());
 
-  @VisibleForTesting
-  final transient RegularImmutableSortedSet<E> elementSet;
+  @VisibleForTesting final transient RegularImmutableSortedSet<E> elementSet;
   private final transient long[] cumulativeCounts;
   private final transient int offset;
   private final transient int length;

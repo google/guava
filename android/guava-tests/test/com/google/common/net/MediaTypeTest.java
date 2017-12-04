@@ -66,8 +66,10 @@ public class MediaTypeTest extends TestCase {
   @GwtIncompatible // reflection
   public void testCreate_useConstants() throws Exception {
     for (MediaType constant : getConstants()) {
-      assertSame(constant, MediaType.create(constant.type(), constant.subtype())
-          .withParameters(constant.parameters()));
+      assertSame(
+          constant,
+          MediaType.create(constant.type(), constant.subtype())
+              .withParameters(constant.parameters()));
     }
   }
 
@@ -91,13 +93,17 @@ public class MediaTypeTest extends TestCase {
   @GwtIncompatible // reflection
   private static FluentIterable<Field> getConstantFields() {
     return FluentIterable.from(asList(MediaType.class.getDeclaredFields()))
-        .filter(new Predicate<Field>() {
-          @Override public boolean apply(Field input) {
-            int modifiers = input.getModifiers();
-            return isPublic(modifiers) && isStatic(modifiers) && isFinal(modifiers)
-                && MediaType.class.equals(input.getType());
-          }
-        });
+        .filter(
+            new Predicate<Field>() {
+              @Override
+              public boolean apply(Field input) {
+                int modifiers = input.getModifiers();
+                return isPublic(modifiers)
+                    && isStatic(modifiers)
+                    && isFinal(modifiers)
+                    && MediaType.class.equals(input.getType());
+              }
+            });
   }
 
   @GwtIncompatible // reflection
@@ -120,21 +126,24 @@ public class MediaTypeTest extends TestCase {
     try {
       MediaType.create("te><t", "plaintext");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testCreate_invalidSubtype() {
     try {
       MediaType.create("text", "pl@intext");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testCreate_wildcardTypeDeclaredSubtype() {
     try {
       MediaType.create("*", "text");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testCreateApplicationType() {
@@ -169,14 +178,12 @@ public class MediaTypeTest extends TestCase {
 
   public void testGetType() {
     assertEquals("text", MediaType.parse("text/plain").type());
-    assertEquals("application",
-        MediaType.parse("application/atom+xml; charset=utf-8").type());
+    assertEquals("application", MediaType.parse("application/atom+xml; charset=utf-8").type());
   }
 
   public void testGetSubtype() {
     assertEquals("plain", MediaType.parse("text/plain").subtype());
-    assertEquals("atom+xml",
-        MediaType.parse("application/atom+xml; charset=utf-8").subtype());
+    assertEquals("atom+xml", MediaType.parse("application/atom+xml; charset=utf-8").subtype());
   }
 
   private static final ImmutableListMultimap<String, String> PARAMETERS =
@@ -184,23 +191,24 @@ public class MediaTypeTest extends TestCase {
 
   public void testGetParameters() {
     assertEquals(ImmutableListMultimap.of(), MediaType.parse("text/plain").parameters());
-    assertEquals(ImmutableListMultimap.of("charset", "utf-8"),
+    assertEquals(
+        ImmutableListMultimap.of("charset", "utf-8"),
         MediaType.parse("application/atom+xml; charset=utf-8").parameters());
-    assertEquals(PARAMETERS,
-        MediaType.parse("application/atom+xml; a=1; a=2; b=3").parameters());
+    assertEquals(PARAMETERS, MediaType.parse("application/atom+xml; a=1; a=2; b=3").parameters());
   }
 
   public void testWithoutParameters() {
-    assertSame(MediaType.parse("image/gif"),
-        MediaType.parse("image/gif").withoutParameters());
-    assertEquals(MediaType.parse("image/gif"),
-        MediaType.parse("image/gif; foo=bar").withoutParameters());
+    assertSame(MediaType.parse("image/gif"), MediaType.parse("image/gif").withoutParameters());
+    assertEquals(
+        MediaType.parse("image/gif"), MediaType.parse("image/gif; foo=bar").withoutParameters());
   }
 
   public void testWithParameters() {
-    assertEquals(MediaType.parse("text/plain; a=1; a=2; b=3"),
+    assertEquals(
+        MediaType.parse("text/plain; a=1; a=2; b=3"),
         MediaType.parse("text/plain").withParameters(PARAMETERS));
-    assertEquals(MediaType.parse("text/plain; a=1; a=2; b=3"),
+    assertEquals(
+        MediaType.parse("text/plain; a=1; a=2; b=3"),
         MediaType.parse("text/plain; a=1; a=2; b=3").withParameters(PARAMETERS));
   }
 
@@ -211,17 +219,21 @@ public class MediaTypeTest extends TestCase {
     try {
       mediaType.withParameters(parameters);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testWithParameter() {
-    assertEquals(MediaType.parse("text/plain; a=1"),
-        MediaType.parse("text/plain").withParameter("a", "1"));
-    assertEquals(MediaType.parse("text/plain; a=1"),
+    assertEquals(
+        MediaType.parse("text/plain; a=1"), MediaType.parse("text/plain").withParameter("a", "1"));
+    assertEquals(
+        MediaType.parse("text/plain; a=1"),
         MediaType.parse("text/plain; a=1; a=2").withParameter("a", "1"));
-    assertEquals(MediaType.parse("text/plain; a=3"),
+    assertEquals(
+        MediaType.parse("text/plain; a=3"),
         MediaType.parse("text/plain; a=1; a=2").withParameter("a", "3"));
-    assertEquals(MediaType.parse("text/plain; a=1; a=2; b=3"),
+    assertEquals(
+        MediaType.parse("text/plain; a=1; a=2; b=3"),
         MediaType.parse("text/plain; a=1; a=2").withParameter("b", "3"));
   }
 
@@ -230,13 +242,16 @@ public class MediaTypeTest extends TestCase {
     try {
       mediaType.withParameter("@", "2");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testWithCharset() {
-    assertEquals(MediaType.parse("text/plain; charset=utf-8"),
+    assertEquals(
+        MediaType.parse("text/plain; charset=utf-8"),
         MediaType.parse("text/plain").withCharset(UTF_8));
-    assertEquals(MediaType.parse("text/plain; charset=utf-8"),
+    assertEquals(
+        MediaType.parse("text/plain; charset=utf-8"),
         MediaType.parse("text/plain; charset=utf-16").withCharset(UTF_8));
   }
 
@@ -270,74 +285,91 @@ public class MediaTypeTest extends TestCase {
     try {
       MediaType.parse("");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testParse_badInput() {
     try {
       MediaType.parse("/");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
     try {
       MediaType.parse("text");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
     try {
       MediaType.parse("text/");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
     try {
       MediaType.parse("te<t/plain");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
     try {
       MediaType.parse("text/pl@in");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
     try {
       MediaType.parse("text/plain;");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
     try {
       MediaType.parse("text/plain; ");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
     try {
       MediaType.parse("text/plain; a");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
     try {
       MediaType.parse("text/plain; a=");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
     try {
       MediaType.parse("text/plain; a=@");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
     try {
       MediaType.parse("text/plain; a=\"@");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
     try {
       MediaType.parse("text/plain; a=1;");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
     try {
       MediaType.parse("text/plain; a=1; ");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
     try {
       MediaType.parse("text/plain; a=1; b");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
     try {
       MediaType.parse("text/plain; a=1; b=");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
     try {
       MediaType.parse("text/plain; a=\u2025");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testGetCharset() {
@@ -355,25 +387,26 @@ public class MediaTypeTest extends TestCase {
     try {
       mediaType.charset();
       fail();
-    } catch (IllegalStateException expected) {}
+    } catch (IllegalStateException expected) {
+    }
   }
 
   public void testGetCharset_illegalCharset() {
-    MediaType mediaType = MediaType.parse(
-        "text/plain; charset=\"!@#$%^&*()\"");
+    MediaType mediaType = MediaType.parse("text/plain; charset=\"!@#$%^&*()\"");
     try {
       mediaType.charset();
       fail();
-    } catch (IllegalCharsetNameException expected) {}
+    } catch (IllegalCharsetNameException expected) {
+    }
   }
 
   public void testGetCharset_unsupportedCharset() {
-    MediaType mediaType = MediaType.parse(
-        "text/plain; charset=utf-wtf");
+    MediaType mediaType = MediaType.parse("text/plain; charset=utf-wtf");
     try {
       mediaType.charset();
       fail();
-    } catch (UnsupportedCharsetException expected) {}
+    } catch (UnsupportedCharsetException expected) {
+    }
   }
 
   public void testEquals() {
@@ -435,7 +468,8 @@ public class MediaTypeTest extends TestCase {
 
   public void testToString() {
     assertEquals("text/plain", MediaType.create("text", "plain").toString());
-    assertEquals("text/plain; something=\"cr@zy\"; something-else=\"crazy with spaces\"",
+    assertEquals(
+        "text/plain; something=\"cr@zy\"; something-else=\"crazy with spaces\"",
         MediaType.create("text", "plain")
             .withParameter("something", "cr@zy")
             .withParameter("something-else", "crazy with spaces")

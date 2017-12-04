@@ -45,15 +45,15 @@ public class CacheStatsTest extends TestCase {
     CacheStats stats = new CacheStats(11, 13, 17, 19, 23, 27);
     assertEquals(24, stats.requestCount());
     assertEquals(11, stats.hitCount());
-    assertEquals(11.0/24, stats.hitRate());
+    assertEquals(11.0 / 24, stats.hitRate());
     assertEquals(13, stats.missCount());
-    assertEquals(13.0/24, stats.missRate());
+    assertEquals(13.0 / 24, stats.missRate());
     assertEquals(17, stats.loadSuccessCount());
     assertEquals(19, stats.loadExceptionCount());
-    assertEquals(19.0/36, stats.loadExceptionRate());
+    assertEquals(19.0 / 36, stats.loadExceptionRate());
     assertEquals(17 + 19, stats.loadCount());
     assertEquals(23, stats.totalLoadTime());
-    assertEquals(23.0/(17 + 19), stats.averageLoadPenalty());
+    assertEquals(23.0 / (17 + 19), stats.averageLoadPenalty());
     assertEquals(27, stats.evictionCount());
   }
 
@@ -64,15 +64,15 @@ public class CacheStatsTest extends TestCase {
     CacheStats diff = two.minus(one);
     assertEquals(76, diff.requestCount());
     assertEquals(42, diff.hitCount());
-    assertEquals(42.0/76, diff.hitRate());
+    assertEquals(42.0 / 76, diff.hitRate());
     assertEquals(34, diff.missCount());
-    assertEquals(34.0/76, diff.missRate());
+    assertEquals(34.0 / 76, diff.missRate());
     assertEquals(26, diff.loadSuccessCount());
     assertEquals(22, diff.loadExceptionCount());
-    assertEquals(22.0/48, diff.loadExceptionRate());
+    assertEquals(22.0 / 48, diff.loadExceptionRate());
     assertEquals(26 + 22, diff.loadCount());
     assertEquals(14, diff.totalLoadTime());
-    assertEquals(14.0/(26 + 22), diff.averageLoadPenalty());
+    assertEquals(14.0 / (26 + 22), diff.averageLoadPenalty());
     assertEquals(4, diff.evictionCount());
 
     assertEquals(new CacheStats(0, 0, 0, 0, 0, 0), one.minus(two));
@@ -85,15 +85,15 @@ public class CacheStatsTest extends TestCase {
     CacheStats sum = two.plus(one);
     assertEquals(124, sum.requestCount());
     assertEquals(64, sum.hitCount());
-    assertEquals(64.0/124, sum.hitRate());
+    assertEquals(64.0 / 124, sum.hitRate());
     assertEquals(60, sum.missCount());
-    assertEquals(60.0/124, sum.missRate());
+    assertEquals(60.0 / 124, sum.missRate());
     assertEquals(56, sum.loadSuccessCount());
     assertEquals(52, sum.loadExceptionCount());
-    assertEquals(52.0/108, sum.loadExceptionRate());
+    assertEquals(52.0 / 108, sum.loadExceptionRate());
     assertEquals(56 + 52, sum.loadCount());
     assertEquals(48, sum.totalLoadTime());
-    assertEquals(48.0/(56 + 52), sum.averageLoadPenalty());
+    assertEquals(48.0 / (56 + 52), sum.averageLoadPenalty());
     assertEquals(44, sum.evictionCount());
 
     assertEquals(sum, one.plus(two));

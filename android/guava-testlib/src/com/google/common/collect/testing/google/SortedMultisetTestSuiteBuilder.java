@@ -46,8 +46,8 @@ import java.util.Set;
 import junit.framework.TestSuite;
 
 /**
- * Creates, based on your criteria, a JUnit test suite that exhaustively tests a
- * {@code SortedMultiset} implementation.
+ * Creates, based on your criteria, a JUnit test suite that exhaustively tests a {@code
+ * SortedMultiset} implementation.
  *
  * <p><b>Warning:</b> expects that {@code E} is a String.
  *
@@ -92,8 +92,8 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
   }
 
   /**
-   * To avoid infinite recursion, test suites with these marker features won't
-   * have derived suites created for them.
+   * To avoid infinite recursion, test suites with these marker features won't have derived suites
+   * created for them.
    */
   enum NoRecurse implements Feature<Void> {
     SUBMULTISET,
@@ -105,9 +105,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
     }
   }
 
-  /**
-   * Two bounds (from and to) define how to build a subMultiset.
-   */
+  /** Two bounds (from and to) define how to build a subMultiset. */
   enum Bound {
     INCLUSIVE,
     EXCLUSIVE,
@@ -219,13 +217,12 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
   }
 
   /**
-   * Returns an array of four bogus elements that will always be too high or too
-   * low for the display. This includes two values for each extreme.
+   * Returns an array of four bogus elements that will always be too high or too low for the
+   * display. This includes two values for each extreme.
    *
-   * <p>
-   * This method (dangerously) assume that the strings {@code "!! a"} and
-   * {@code "~~ z"} will work for this purpose, which may cause problems for
-   * navigable maps with non-string or unicode generators.
+   * <p>This method (dangerously) assume that the strings {@code "!! a"} and {@code "~~ z"} will
+   * work for this purpose, which may cause problems for navigable maps with non-string or unicode
+   * generators.
    */
   private List<String> getExtremeValues() {
     List<String> result = new ArrayList<>();

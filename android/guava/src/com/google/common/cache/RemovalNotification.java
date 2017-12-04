@@ -37,8 +37,8 @@ public final class RemovalNotification<K, V> extends SimpleImmutableEntry<K, V> 
 
   /**
    * Creates a new {@code RemovalNotification} for the given {@code key}/{@code value} pair, with
-   * the given {@code cause} for the removal. The {@code key} and/or {@code value} may be
-   * {@code null} if they were already garbage collected.
+   * the given {@code cause} for the removal. The {@code key} and/or {@code value} may be {@code
+   * null} if they were already garbage collected.
    *
    * @since 19.0
    */
@@ -52,9 +52,7 @@ public final class RemovalNotification<K, V> extends SimpleImmutableEntry<K, V> 
     this.cause = checkNotNull(cause);
   }
 
-  /**
-   * Returns the cause for which the entry was removed.
-   */
+  /** Returns the cause for which the entry was removed. */
   public RemovalCause getCause() {
     return cause;
   }

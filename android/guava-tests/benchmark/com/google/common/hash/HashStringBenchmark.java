@@ -22,9 +22,7 @@ import com.google.caliper.Param;
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
-/**
- * Benchmarks for the hashing of UTF-8 strings.
- */
+/** Benchmarks for the hashing of UTF-8 strings. */
 public class HashStringBenchmark {
   static class MaxCodePoint {
     final int value;

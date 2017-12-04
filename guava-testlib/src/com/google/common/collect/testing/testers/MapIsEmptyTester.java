@@ -23,9 +23,8 @@ import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.features.CollectionSize;
 
 /**
- * A generic JUnit test which tests {@code isEmpty()} operations on a
- * map. Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code isEmpty()} operations on a map. Can't be invoked
+ * directly; please see {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
  *
  * @author Kevin Bourrillion
  */

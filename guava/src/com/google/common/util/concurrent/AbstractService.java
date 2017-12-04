@@ -452,17 +452,13 @@ public abstract class AbstractService implements Service {
     return snapshot.externalState();
   }
 
-  /**
-   * @since 14.0
-   */
+  /** @since 14.0 */
   @Override
   public final Throwable failureCause() {
     return snapshot.failureCause();
   }
 
-  /**
-   * @since 13.0
-   */
+  /** @since 13.0 */
   @Override
   public final void addListener(Listener listener, Executor executor) {
     listeners.addListener(listener, executor);
@@ -548,9 +544,7 @@ public abstract class AbstractService implements Service {
      */
     final State state;
 
-    /**
-     * If true, the user requested a shutdown while the service was still starting up.
-     */
+    /** If true, the user requested a shutdown while the service was still starting up. */
     final boolean shutdownWhenStartupFinishes;
 
     /**

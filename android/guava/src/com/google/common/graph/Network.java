@@ -51,8 +51,8 @@ import javax.annotation.Nullable;
  * <h3>Building a {@code Network}</h3>
  *
  * <p>The implementation classes that {@code common.graph} provides are not public, by design. To
- * create an instance of one of the built-in implementations of {@code Network}, use the
- * {@link NetworkBuilder} class:
+ * create an instance of one of the built-in implementations of {@code Network}, use the {@link
+ * NetworkBuilder} class:
  *
  * <pre>{@code
  * MutableNetwork<Integer, MyEdge> graph = NetworkBuilder.directed().build();
@@ -301,8 +301,8 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
 
   /**
    * Returns true if there is an edge directly connecting {@code nodeU} to {@code nodeV}. This is
-   * equivalent to {@code nodes().contains(nodeU) && successors(nodeU).contains(nodeV)},
-   * and to {@code edgeConnectingOrNull(nodeU, nodeV) != null}.
+   * equivalent to {@code nodes().contains(nodeU) && successors(nodeU).contains(nodeV)}, and to
+   * {@code edgeConnectingOrNull(nodeU, nodeV) != null}.
    *
    * <p>In an undirected graph, this is equal to {@code hasEdgeConnecting(nodeV, nodeU)}.
    *
@@ -321,10 +321,10 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * <p>Thus, two networks A and B are equal if <b>all</b> of the following are true:
    *
    * <ul>
-   * <li>A and B have equal {@link #isDirected() directedness}.
-   * <li>A and B have equal {@link #nodes() node sets}.
-   * <li>A and B have equal {@link #edges() edge sets}.
-   * <li>Every edge in A and B connects the same nodes in the same direction (if any).
+   *   <li>A and B have equal {@link #isDirected() directedness}.
+   *   <li>A and B have equal {@link #nodes() node sets}.
+   *   <li>A and B have equal {@link #edges() edge sets}.
+   *   <li>Every edge in A and B connects the same nodes in the same direction (if any).
    * </ul>
    *
    * <p>Network properties besides {@link #isDirected() directedness} do <b>not</b> affect equality.

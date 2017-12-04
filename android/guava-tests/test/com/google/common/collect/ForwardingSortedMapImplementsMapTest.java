@@ -28,16 +28,17 @@ import java.util.TreeMap;
  * @author George van den Driessche
  */
 @GwtCompatible
-public class ForwardingSortedMapImplementsMapTest
-    extends SortedMapInterfaceTest<String, Integer> {
+public class ForwardingSortedMapImplementsMapTest extends SortedMapInterfaceTest<String, Integer> {
 
-  private static class SimpleForwardingSortedMap<K, V>
-      extends ForwardingSortedMap<K, V> {
+  private static class SimpleForwardingSortedMap<K, V> extends ForwardingSortedMap<K, V> {
     final SortedMap<K, V> delegate;
+
     SimpleForwardingSortedMap(SortedMap<K, V> delegate) {
       this.delegate = delegate;
     }
-    @Override protected SortedMap<K, V> delegate() {
+
+    @Override
+    protected SortedMap<K, V> delegate() {
       return delegate;
     }
   }
@@ -46,12 +47,14 @@ public class ForwardingSortedMapImplementsMapTest
     super(true, true, true, true, true);
   }
 
-  @Override protected SortedMap<String, Integer> makeEmptyMap() {
+  @Override
+  protected SortedMap<String, Integer> makeEmptyMap() {
     return new SimpleForwardingSortedMap<>(
         new TreeMap<String, Integer>(Ordering.natural().nullsFirst()));
   }
 
-  @Override protected SortedMap<String, Integer> makePopulatedMap() {
+  @Override
+  protected SortedMap<String, Integer> makePopulatedMap() {
     final SortedMap<String, Integer> sortedMap = makeEmptyMap();
     sortedMap.put("one", 1);
     sortedMap.put("two", 2);
@@ -59,31 +62,34 @@ public class ForwardingSortedMapImplementsMapTest
     return sortedMap;
   }
 
-  @Override protected String getKeyNotInPopulatedMap()
-      throws UnsupportedOperationException {
+  @Override
+  protected String getKeyNotInPopulatedMap() throws UnsupportedOperationException {
     return "minus one";
   }
 
-  @Override protected Integer getValueNotInPopulatedMap()
-      throws UnsupportedOperationException {
+  @Override
+  protected Integer getValueNotInPopulatedMap() throws UnsupportedOperationException {
     return -1;
   }
 
-  @Override public void testContainsKey() {
+  @Override
+  public void testContainsKey() {
     try {
       super.testContainsKey();
     } catch (ClassCastException tolerated) {
     }
   }
 
-  @Override public void testEntrySetContainsEntryIncompatibleKey() {
+  @Override
+  public void testEntrySetContainsEntryIncompatibleKey() {
     try {
       super.testEntrySetContainsEntryIncompatibleKey();
     } catch (ClassCastException tolerated) {
     }
   }
 
-  @Override public void testEntrySetRemoveAllNullFromEmpty() {
+  @Override
+  public void testEntrySetRemoveAllNullFromEmpty() {
     try {
       super.testEntrySetRemoveAllNullFromEmpty();
     } catch (RuntimeException tolerated) {
@@ -91,7 +97,8 @@ public class ForwardingSortedMapImplementsMapTest
     }
   }
 
-  @Override public void testEntrySetRetainAllNullFromEmpty() {
+  @Override
+  public void testEntrySetRetainAllNullFromEmpty() {
     try {
       super.testEntrySetRetainAllNullFromEmpty();
     } catch (RuntimeException tolerated) {
@@ -99,7 +106,8 @@ public class ForwardingSortedMapImplementsMapTest
     }
   }
 
-  @Override public void testKeySetRemoveAllNullFromEmpty() {
+  @Override
+  public void testKeySetRemoveAllNullFromEmpty() {
     try {
       super.testKeySetRemoveAllNullFromEmpty();
     } catch (RuntimeException tolerated) {
@@ -107,7 +115,8 @@ public class ForwardingSortedMapImplementsMapTest
     }
   }
 
-  @Override public void testKeySetRetainAllNullFromEmpty() {
+  @Override
+  public void testKeySetRetainAllNullFromEmpty() {
     try {
       super.testKeySetRetainAllNullFromEmpty();
     } catch (RuntimeException tolerated) {
@@ -115,7 +124,8 @@ public class ForwardingSortedMapImplementsMapTest
     }
   }
 
-  @Override public void testValuesRemoveAllNullFromEmpty() {
+  @Override
+  public void testValuesRemoveAllNullFromEmpty() {
     try {
       super.testValuesRemoveAllNullFromEmpty();
     } catch (RuntimeException tolerated) {
@@ -123,7 +133,8 @@ public class ForwardingSortedMapImplementsMapTest
     }
   }
 
-  @Override public void testValuesRetainAllNullFromEmpty() {
+  @Override
+  public void testValuesRetainAllNullFromEmpty() {
     try {
       super.testValuesRemoveAllNullFromEmpty();
     } catch (RuntimeException tolerated) {

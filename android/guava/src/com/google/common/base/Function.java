@@ -24,9 +24,8 @@ import javax.annotation.Nullable;
  *
  * <p>The {@link Functions} class provides common functions and related utilities.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code
- * Function}</a>.
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code Function}</a>.
  *
  * <h3>For Java 8+ users</h3>
  *
@@ -51,10 +50,10 @@ public interface Function<F, T> {
    * expected</i>, but not absolutely required, to have the following properties:
    *
    * <ul>
-   * <li>Its execution does not cause any observable side effects.
-   * <li>The computation is <i>consistent with equals</i>; that is, {@link Objects#equal
-   *     Objects.equal}{@code (a, b)} implies that {@code Objects.equal(function.apply(a),
-   *     function.apply(b))}.
+   *   <li>Its execution does not cause any observable side effects.
+   *   <li>The computation is <i>consistent with equals</i>; that is, {@link Objects#equal
+   *       Objects.equal}{@code (a, b)} implies that {@code Objects.equal(function.apply(a),
+   *       function.apply(b))}.
    * </ul>
    *
    * @throws NullPointerException if {@code input} is null and this function does not accept null

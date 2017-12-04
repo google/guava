@@ -26,8 +26,8 @@ import com.google.common.annotations.GwtCompatible;
 @GwtCompatible
 public class TransposedTableTest extends AbstractTableTest {
 
-  @Override protected Table<String, Integer, Character> create(
-      Object... data) {
+  @Override
+  protected Table<String, Integer, Character> create(Object... data) {
     Table<Integer, String, Character> original = HashBasedTable.create();
     Table<String, Integer, Character> table = Tables.transpose(original);
     table.clear();

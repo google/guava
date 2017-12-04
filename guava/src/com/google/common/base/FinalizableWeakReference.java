@@ -20,8 +20,8 @@ import java.lang.ref.WeakReference;
 
 /**
  * Weak reference with a {@code finalizeReferent()} method which a background thread invokes after
- * the garbage collector reclaims the referent. This is a simpler alternative to using a
- * {@link ReferenceQueue}.
+ * the garbage collector reclaims the referent. This is a simpler alternative to using a {@link
+ * ReferenceQueue}.
  *
  * @author Bob Lee
  * @since 2.0

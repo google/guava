@@ -24,23 +24,21 @@ import java.util.List;
 import java.util.Spliterator;
 import junit.framework.TestCase;
 
-/**
- * Tests for {@code CollectSpliterators}.
- */
+/** Tests for {@code CollectSpliterators}. */
 @GwtCompatible
 public class CollectSpliteratorsTest extends TestCase {
   public void testMap() {
     SpliteratorTester.of(
-            ()
-                -> CollectSpliterators.map(
+            () ->
+                CollectSpliterators.map(
                     Arrays.spliterator(new String[] {"a", "b", "c", "d", "e"}), Ascii::toUpperCase))
         .expect("A", "B", "C", "D", "E");
   }
 
   public void testFlatMap() {
     SpliteratorTester.of(
-            ()
-                -> CollectSpliterators.flatMap(
+            () ->
+                CollectSpliterators.flatMap(
                     Arrays.spliterator(new String[] {"abc", "", "de", "f", "g", ""}),
                     (String str) -> Lists.charactersOf(str).spliterator(),
                     Spliterator.SIZED | Spliterator.DISTINCT | Spliterator.NONNULL,
@@ -56,12 +54,6 @@ public class CollectSpliteratorsTest extends TestCase {
 
     List<String> actualValues = Lists.newArrayList();
     multiset.spliterator().forEachRemaining(actualValues::add);
-    assertThat(multiset).containsExactly(
-        "a",
-        "a",
-        "a",
-        "b",
-        "c",
-        "c").inOrder();
+    assertThat(multiset).containsExactly("a", "a", "a", "b", "c", "c").inOrder();
   }
 }

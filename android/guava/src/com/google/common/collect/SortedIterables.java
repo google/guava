@@ -30,8 +30,8 @@ final class SortedIterables {
   private SortedIterables() {}
 
   /**
-   * Returns {@code true} if {@code elements} is a sorted collection using an ordering equivalent
-   * to {@code comparator}.
+   * Returns {@code true} if {@code elements} is a sorted collection using an ordering equivalent to
+   * {@code comparator}.
    */
   public static boolean hasSameComparator(Comparator<?> comparator, Iterable<?> elements) {
     checkNotNull(comparator);

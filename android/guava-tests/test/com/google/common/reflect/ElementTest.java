@@ -180,14 +180,13 @@ public class ElementTest extends TestCase {
   }
 
   public void testNulls() {
-    new NullPointerTester()
-        .testAllPublicStaticMethods(Element.class);
+    new NullPointerTester().testAllPublicStaticMethods(Element.class);
   }
 
   @Retention(RetentionPolicy.RUNTIME)
   private @interface Tested {}
 
-  private static abstract class A {
+  private abstract static class A {
     @Tested private boolean privateField;
     @Tested int packagePrivateField;
     @Tested protected int protectedField;
@@ -197,19 +196,25 @@ public class ElementTest extends TestCase {
     private volatile char volatileField;
     private transient long transientField;
 
-    @Tested public A(Object finalField) {
+    @Tested
+    public A(Object finalField) {
       this.finalField = finalField;
     }
 
-    @Tested abstract void abstractMethod();
+    @Tested
+    abstract void abstractMethod();
 
-    @Tested void overridableMethod() {}
+    @Tested
+    void overridableMethod() {}
 
-    @Tested protected void protectedMethod() {}
+    @Tested
+    protected void protectedMethod() {}
 
-    @Tested private void privateMethod() {}
+    @Tested
+    private void privateMethod() {}
 
-    @Tested public final void publicFinalMethod() {}
+    @Tested
+    public final void publicFinalMethod() {}
 
     void notAnnotatedMethod() {}
 

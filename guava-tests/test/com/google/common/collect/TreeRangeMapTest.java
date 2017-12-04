@@ -275,6 +275,7 @@ public class TreeRangeMapTest extends TestCase {
   private static final ImmutableList<Range<Integer>> RANGES;
   private static final int MIN_BOUND = -2;
   private static final int MAX_BOUND = 2;
+
   static {
     ImmutableList.Builder<Range<Integer>> builder = ImmutableList.builder();
 
@@ -542,7 +543,8 @@ public class TreeRangeMapTest extends TestCase {
           assertEquals(expected, subRangeMap);
           assertEquals(expected.asMapOfRanges(), subRangeMap.asMapOfRanges());
           assertEquals(expected.asDescendingMapOfRanges(), subRangeMap.asDescendingMapOfRanges());
-          assertEquals(ImmutableList.copyOf(subRangeMap.asMapOfRanges().entrySet()).reverse(),
+          assertEquals(
+              ImmutableList.copyOf(subRangeMap.asMapOfRanges().entrySet()).reverse(),
               ImmutableList.copyOf(subRangeMap.asDescendingMapOfRanges().entrySet()));
 
           if (!expected.asMapOfRanges().isEmpty()) {
@@ -555,8 +557,7 @@ public class TreeRangeMapTest extends TestCase {
 
           for (Range<Integer> query : RANGES) {
             assertEquals(
-                expected.asMapOfRanges().get(query),
-                subRangeMap.asMapOfRanges().get(query));
+                expected.asMapOfRanges().get(query), subRangeMap.asMapOfRanges().get(query));
           }
         }
       }
@@ -569,11 +570,11 @@ public class TreeRangeMapTest extends TestCase {
     rangeMap.put(Range.closed(9, 10), 2);
     rangeMap.put(Range.closed(12, 16), 3);
     RangeMap<Integer, Integer> sub1 = rangeMap.subRangeMap(Range.closed(5, 11));
-    assertEquals(ImmutableMap.of(Range.closedOpen(5, 7), 1, Range.closed(9, 10), 2),
-        sub1.asMapOfRanges());
+    assertEquals(
+        ImmutableMap.of(Range.closedOpen(5, 7), 1, Range.closed(9, 10), 2), sub1.asMapOfRanges());
     RangeMap<Integer, Integer> sub2 = sub1.subRangeMap(Range.open(6, 15));
-    assertEquals(ImmutableMap.of(Range.open(6, 7), 1, Range.closed(9, 10), 2),
-        sub2.asMapOfRanges());
+    assertEquals(
+        ImmutableMap.of(Range.open(6, 7), 1, Range.closed(9, 10), 2), sub2.asMapOfRanges());
   }
 
   public void testSubRangeMapPut() {
@@ -582,16 +583,23 @@ public class TreeRangeMapTest extends TestCase {
     rangeMap.put(Range.closed(9, 10), 2);
     rangeMap.put(Range.closed(12, 16), 3);
     RangeMap<Integer, Integer> sub = rangeMap.subRangeMap(Range.closed(5, 11));
-    assertEquals(ImmutableMap.of(Range.closedOpen(5, 7), 1, Range.closed(9, 10), 2),
-        sub.asMapOfRanges());
+    assertEquals(
+        ImmutableMap.of(Range.closedOpen(5, 7), 1, Range.closed(9, 10), 2), sub.asMapOfRanges());
     sub.put(Range.closed(7, 9), 4);
     assertEquals(
         ImmutableMap.of(
             Range.closedOpen(5, 7), 1, Range.closed(7, 9), 4, Range.openClosed(9, 10), 2),
         sub.asMapOfRanges());
     assertEquals(
-        ImmutableMap.of(Range.open(3, 7), 1, Range.closed(7, 9), 4, Range.openClosed(9, 10), 2,
-            Range.closed(12, 16), 3),
+        ImmutableMap.of(
+            Range.open(3, 7),
+            1,
+            Range.closed(7, 9),
+            4,
+            Range.openClosed(9, 10),
+            2,
+            Range.closed(12, 16),
+            3),
         rangeMap.asMapOfRanges());
 
     try {
@@ -603,8 +611,15 @@ public class TreeRangeMapTest extends TestCase {
     sub = sub.subRangeMap(Range.closedOpen(5, 5));
     sub.put(Range.closedOpen(5, 5), 6); // should be a no-op
     assertEquals(
-        ImmutableMap.of(Range.open(3, 7), 1, Range.closed(7, 9), 4, Range.openClosed(9, 10), 2,
-            Range.closed(12, 16), 3),
+        ImmutableMap.of(
+            Range.open(3, 7),
+            1,
+            Range.closed(7, 9),
+            4,
+            Range.openClosed(9, 10),
+            2,
+            Range.closed(12, 16),
+            3),
         rangeMap.asMapOfRanges());
   }
 
@@ -651,8 +666,8 @@ public class TreeRangeMapTest extends TestCase {
     rangeMap.put(Range.closed(9, 10), 2);
     rangeMap.put(Range.closed(12, 16), 3);
     RangeMap<Integer, Integer> sub = rangeMap.subRangeMap(Range.closed(5, 11));
-    assertEquals(ImmutableMap.of(Range.closedOpen(5, 7), 1, Range.closed(9, 10), 2),
-        sub.asMapOfRanges());
+    assertEquals(
+        ImmutableMap.of(Range.closedOpen(5, 7), 1, Range.closed(9, 10), 2), sub.asMapOfRanges());
     sub.remove(Range.closed(7, 9));
     assertEquals(
         ImmutableMap.of(Range.closedOpen(5, 7), 1, Range.openClosed(9, 10), 2),
@@ -662,9 +677,7 @@ public class TreeRangeMapTest extends TestCase {
         rangeMap.asMapOfRanges());
 
     sub.remove(Range.closed(3, 9));
-    assertEquals(
-        ImmutableMap.of(Range.openClosed(9, 10), 2),
-        sub.asMapOfRanges());
+    assertEquals(ImmutableMap.of(Range.openClosed(9, 10), 2), sub.asMapOfRanges());
     assertEquals(
         ImmutableMap.of(Range.open(3, 5), 1, Range.openClosed(9, 10), 2, Range.closed(12, 16), 3),
         rangeMap.asMapOfRanges());
@@ -678,8 +691,7 @@ public class TreeRangeMapTest extends TestCase {
     RangeMap<Integer, Integer> sub = rangeMap.subRangeMap(Range.closed(5, 11));
     sub.clear();
     assertEquals(
-        ImmutableMap.of(Range.open(3, 5), 1, Range.closed(12, 16), 3),
-        rangeMap.asMapOfRanges());
+        ImmutableMap.of(Range.open(3, 5), 1, Range.closed(12, 16), 3), rangeMap.asMapOfRanges());
   }
 
   private void verify(Map<Integer, Integer> model, RangeMap<Integer, Integer> test) {

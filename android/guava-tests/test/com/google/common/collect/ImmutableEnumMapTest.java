@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_QUERIES;
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
 import static com.google.common.truth.Truth.assertThat;
@@ -57,26 +56,29 @@ public class ImmutableEnumMapTest extends TestCase {
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    suite.addTest(MapTestSuiteBuilder.using(new ImmutableEnumMapGenerator())
-      .named("Maps.immutableEnumMap")
-      .withFeatures(CollectionSize.ANY,
-          SERIALIZABLE,
-          ALLOWS_NULL_QUERIES)
-      .createTestSuite());
+    suite.addTest(
+        MapTestSuiteBuilder.using(new ImmutableEnumMapGenerator())
+            .named("Maps.immutableEnumMap")
+            .withFeatures(CollectionSize.ANY, SERIALIZABLE, ALLOWS_NULL_QUERIES)
+            .createTestSuite());
     suite.addTestSuite(ImmutableEnumMapTest.class);
     return suite;
   }
 
   public void testIteratesOnce() {
-    Map<AnEnum, AnEnum> map = Maps.asMap(ImmutableSet.of(AnEnum.A), new Function<AnEnum, AnEnum>() {
-      boolean used = false;
+    Map<AnEnum, AnEnum> map =
+        Maps.asMap(
+            ImmutableSet.of(AnEnum.A),
+            new Function<AnEnum, AnEnum>() {
+              boolean used = false;
 
-      @Override public AnEnum apply(AnEnum ae) {
-        checkState(!used, "should not be applied more than once");
-        used = true;
-        return ae;
-      }
-    });
+              @Override
+              public AnEnum apply(AnEnum ae) {
+                checkState(!used, "should not be applied more than once");
+                used = true;
+                return ae;
+              }
+            });
     ImmutableMap<AnEnum, AnEnum> copy = Maps.immutableEnumMap(map);
     assertThat(copy.entrySet()).containsExactly(Helpers.mapEntry(AnEnum.A, AnEnum.A));
   }
@@ -87,12 +89,14 @@ public class ImmutableEnumMapTest extends TestCase {
   }
 
   public void testImmutableEnumMapOrdering() {
-    ImmutableMap<AnEnum, String> map = Maps.immutableEnumMap(
-        ImmutableMap.of(AnEnum.C, "c", AnEnum.A, "a", AnEnum.E, "e"));
+    ImmutableMap<AnEnum, String> map =
+        Maps.immutableEnumMap(ImmutableMap.of(AnEnum.C, "c", AnEnum.A, "a", AnEnum.E, "e"));
 
-    assertThat(map.entrySet()).containsExactly(
-        Helpers.mapEntry(AnEnum.A, "a"),
-        Helpers.mapEntry(AnEnum.C, "c"),
-        Helpers.mapEntry(AnEnum.E, "e")).inOrder();
+    assertThat(map.entrySet())
+        .containsExactly(
+            Helpers.mapEntry(AnEnum.A, "a"),
+            Helpers.mapEntry(AnEnum.C, "c"),
+            Helpers.mapEntry(AnEnum.E, "e"))
+        .inOrder();
   }
 }

@@ -90,9 +90,7 @@ final class SingletonImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     return ImmutableSet.of(singleKey);
   }
 
-  @LazyInit
-  @RetainedWith
-  transient ImmutableBiMap<V, K> inverse;
+  @LazyInit @RetainedWith transient ImmutableBiMap<V, K> inverse;
 
   @Override
   public ImmutableBiMap<V, K> inverse() {

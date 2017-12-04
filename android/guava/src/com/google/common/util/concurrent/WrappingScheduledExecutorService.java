@@ -11,6 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
@@ -21,8 +22,8 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 /**
- * An abstract {@code ScheduledExecutorService} that allows subclasses to
- * {@linkplain #wrapTask(Callable) wrap} tasks before they are submitted to the underlying executor.
+ * An abstract {@code ScheduledExecutorService} that allows subclasses to {@linkplain
+ * #wrapTask(Callable) wrap} tasks before they are submitted to the underlying executor.
  *
  * <p>Note that task wrapping may occur even if the task is never executed.
  *

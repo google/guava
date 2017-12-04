@@ -29,9 +29,8 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 /**
- * A generic JUnit test which tests {@code add(Object)} operations on a list.
- * Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.ListTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code add(Object)} operations on a list. Can't be invoked
+ * directly; please see {@link com.google.common.collect.testing.ListTestSuiteBuilder}.
  *
  * @author Chris Povirk
  */
@@ -72,9 +71,8 @@ public class ListAddTester<E> extends AbstractListTester<E> {
   }
 
   /**
-   * Returns the {@link Method} instance for
-   * {@link #testAdd_supportedNullPresent()} so that tests can suppress it. See
-   * {@link CollectionAddTester#getAddNullSupportedMethod()} for details.
+   * Returns the {@link Method} instance for {@link #testAdd_supportedNullPresent()} so that tests
+   * can suppress it. See {@link CollectionAddTester#getAddNullSupportedMethod()} for details.
    */
   @GwtIncompatible // reflection
   public static Method getAddSupportedNullPresentMethod() {

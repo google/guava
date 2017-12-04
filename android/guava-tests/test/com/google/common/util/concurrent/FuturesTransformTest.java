@@ -30,17 +30,17 @@ import java.lang.reflect.UndeclaredThrowableException;
 public class FuturesTransformTest extends AbstractChainedListenableFutureTest<String> {
   private static final String RESULT_DATA = "SUCCESS";
 
-  @Override protected ListenableFuture<String> buildChainingFuture(
-      ListenableFuture<Integer> inputFuture) {
+  @Override
+  protected ListenableFuture<String> buildChainingFuture(ListenableFuture<Integer> inputFuture) {
     return transform(inputFuture, new ComposeFunction(), directExecutor());
   }
 
-  @Override protected String getSuccessfulResult() {
+  @Override
+  protected String getSuccessfulResult() {
     return RESULT_DATA;
   }
 
-  private class ComposeFunction
-      implements Function<Integer, String> {
+  private class ComposeFunction implements Function<Integer, String> {
     @Override
     public String apply(Integer input) {
       if (input.intValue() == VALID_INPUT_DATA) {

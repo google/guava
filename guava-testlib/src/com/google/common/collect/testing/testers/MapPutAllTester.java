@@ -40,9 +40,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * A generic JUnit test which tests {@code putAll} operations on a map. Can't be
- * invoked directly; please see
- * {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code putAll} operations on a map. Can't be invoked directly;
+ * please see {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
  *
  * @author Chris Povirk
  * @author Kevin Bourrillion
@@ -191,11 +190,9 @@ public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
   }
 
   /**
-   * Returns the {@link Method} instance for {@link
-   * #testPutAll_nullKeyUnsupported()} so that tests can suppress it with {@code
-   * FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045147">Sun
-   * bug 5045147</a> is fixed.
+   * Returns the {@link Method} instance for {@link #testPutAll_nullKeyUnsupported()} so that tests
+   * can suppress it with {@code FeatureSpecificTestSuiteBuilder.suppressing()} until <a
+   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045147">Sun bug 5045147</a> is fixed.
    */
   @GwtIncompatible // reflection
   public static Method getPutAllNullKeyUnsupportedMethod() {

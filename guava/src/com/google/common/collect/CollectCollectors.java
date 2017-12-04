@@ -24,9 +24,7 @@ import java.util.Comparator;
 import java.util.function.Function;
 import java.util.stream.Collector;
 
-/**
- * Collectors utilities for {@code common.collect} internals.
- */
+/** Collectors utilities for {@code common.collect} internals. */
 @GwtCompatible
 final class CollectCollectors {
   static <T, K, V> Collector<T, ?, ImmutableBiMap<K, V>> toImmutableBiMap(
@@ -64,7 +62,7 @@ final class CollectCollectors {
         ImmutableMap.Builder::combine,
         ImmutableMap.Builder::build);
   }
-  
+
   private static final Collector<Object, ?, ImmutableSet<Object>> TO_IMMUTABLE_SET =
       Collector.of(
           ImmutableSet::<Object>builder,
@@ -134,4 +132,3 @@ final class CollectCollectors {
         ImmutableRangeMap.Builder::build);
   }
 }
-

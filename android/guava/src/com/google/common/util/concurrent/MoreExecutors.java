@@ -324,9 +324,7 @@ public final class MoreExecutors {
       }
     }
 
-   /**
-     * Decrements the running task count.
-     */
+    /** Decrements the running task count. */
     private void endTask() {
       synchronized (lock) {
         int numRunning = --runningTasks;
@@ -338,12 +336,11 @@ public final class MoreExecutors {
   }
 
   /**
-   * Creates an executor service that runs each task in the thread that invokes
-   * {@code execute/submit}, as in {@link CallerRunsPolicy} This applies both to individually
-   * submitted tasks and to collections of tasks submitted via {@code invokeAll} or
-   * {@code invokeAny}. In the latter case, tasks will run serially on the calling thread. Tasks are
-   * run to completion before a {@code Future} is returned to the caller (unless the executor has
-   * been shutdown).
+   * Creates an executor service that runs each task in the thread that invokes {@code
+   * execute/submit}, as in {@link CallerRunsPolicy} This applies both to individually submitted
+   * tasks and to collections of tasks submitted via {@code invokeAll} or {@code invokeAny}. In the
+   * latter case, tasks will run serially on the calling thread. Tasks are run to completion before
+   * a {@code Future} is returned to the caller (unless the executor has been shutdown).
    *
    * <p>Although all tasks are immediately executed in the thread that submitted the task, this
    * {@code ExecutorService} imposes a small locking overhead on each task submission in order to
@@ -353,13 +350,13 @@ public final class MoreExecutors {
    * the {@code shutdownNow} method. First, "best-effort" with regards to canceling running tasks is
    * implemented as "no-effort". No interrupts or other attempts are made to stop threads executing
    * tasks. Second, the returned list will always be empty, as any submitted task is considered to
-   * have started execution. This applies also to tasks given to {@code invokeAll} or
-   * {@code invokeAny} which are pending serial execution, even the subset of the tasks that have
-   * not yet started execution. It is unclear from the {@code ExecutorService} specification if
-   * these should be included, and it's much easier to implement the interpretation that they not
-   * be. Finally, a call to {@code shutdown} or {@code shutdownNow} may result in concurrent calls
-   * to {@code invokeAll/invokeAny} throwing RejectedExecutionException, although a subset of the
-   * tasks may already have been executed.
+   * have started execution. This applies also to tasks given to {@code invokeAll} or {@code
+   * invokeAny} which are pending serial execution, even the subset of the tasks that have not yet
+   * started execution. It is unclear from the {@code ExecutorService} specification if these should
+   * be included, and it's much easier to implement the interpretation that they not be. Finally, a
+   * call to {@code shutdown} or {@code shutdownNow} may result in concurrent calls to {@code
+   * invokeAll/invokeAny} throwing RejectedExecutionException, although a subset of the tasks may
+   * already have been executed.
    *
    * @since 18.0 (present as MoreExecutors.sameThreadExecutor() since 10.0)
    */
@@ -369,18 +366,22 @@ public final class MoreExecutors {
   }
 
   /**
-   * Returns an {@link Executor} that runs each task in the thread that invokes
-   * {@link Executor#execute execute}, as in {@link CallerRunsPolicy}.
+   * Returns an {@link Executor} that runs each task in the thread that invokes {@link
+   * Executor#execute execute}, as in {@link CallerRunsPolicy}.
    *
-   * <p>This instance is equivalent to: <pre>   {@code
-   *   final class DirectExecutor implements Executor {
-   *     public void execute(Runnable r) {
-   *       r.run();
-   *     }
-   *   }}</pre>
+   * <p>This instance is equivalent to:
+   *
+   * <pre>{@code
+   * final class DirectExecutor implements Executor {
+   *   public void execute(Runnable r) {
+   *     r.run();
+   *   }
+   * }
+   * }</pre>
    *
    * <p>This should be preferred to {@link #newDirectExecutorService()} because implementing the
    * {@link ExecutorService} subinterface necessitates significant performance overhead.
+   *
    *
    * @since 18.0
    */
@@ -439,8 +440,8 @@ public final class MoreExecutors {
    * execute}. If this behaviour is problematic, use an Executor with a single thread (e.g. {@link
    * Executors#newSingleThreadExecutor}).
    *
-   * @deprecated Use {@link #newSequentialExecutor}. This method is scheduled for removal in
-   *     January 2018.
+   * @deprecated Use {@link #newSequentialExecutor}. This method is scheduled for removal in January
+   *     2018.
    * @since 23.1
    */
   @Beta
@@ -497,20 +498,17 @@ public final class MoreExecutors {
   }
 
   /**
-   * Creates an {@link ExecutorService} whose {@code submit} and {@code
-   * invokeAll} methods submit {@link ListenableFutureTask} instances to the given delegate
-   * executor. Those methods, as well as {@code execute} and {@code invokeAny}, are implemented in
-   * terms of calls to {@code
+   * Creates an {@link ExecutorService} whose {@code submit} and {@code invokeAll} methods submit
+   * {@link ListenableFutureTask} instances to the given delegate executor. Those methods, as well
+   * as {@code execute} and {@code invokeAny}, are implemented in terms of calls to {@code
    * delegate.execute}. All other methods are forwarded unchanged to the delegate. This implies that
-   * the returned {@code ListeningExecutorService} never calls the delegate's {@code submit},
-   * {@code invokeAll}, and {@code
-   * invokeAny} methods, so any special handling of tasks must be implemented in the delegate's
-   * {@code execute} method or by wrapping the returned {@code
+   * the returned {@code ListeningExecutorService} never calls the delegate's {@code submit}, {@code
+   * invokeAll}, and {@code invokeAny} methods, so any special handling of tasks must be implemented
+   * in the delegate's {@code execute} method or by wrapping the returned {@code
    * ListeningExecutorService}.
    *
-   * <p>If the delegate executor was already an instance of {@code
-   * ListeningExecutorService}, it is returned untouched, and the rest of this documentation does
-   * not apply.
+   * <p>If the delegate executor was already an instance of {@code ListeningExecutorService}, it is
+   * returned untouched, and the rest of this documentation does not apply.
    *
    * @since 10.0
    */
@@ -968,16 +966,17 @@ public final class MoreExecutors {
    * necessary, cancelling remaining tasks.
    *
    * <p>The method takes the following steps:
+   *
    * <ol>
-   * <li>calls {@link ExecutorService#shutdown()}, disabling acceptance of new submitted tasks.
-   * <li>awaits executor service termination for half of the specified timeout.
-   * <li>if the timeout expires, it calls {@link ExecutorService#shutdownNow()}, cancelling pending
-   * tasks and interrupting running tasks.
-   * <li>awaits executor service termination for the other half of the specified timeout.
+   *   <li>calls {@link ExecutorService#shutdown()}, disabling acceptance of new submitted tasks.
+   *   <li>awaits executor service termination for half of the specified timeout.
+   *   <li>if the timeout expires, it calls {@link ExecutorService#shutdownNow()}, cancelling
+   *       pending tasks and interrupting running tasks.
+   *   <li>awaits executor service termination for the other half of the specified timeout.
    * </ol>
    *
-   * <p>If, at any step of the process, the calling thread is interrupted, the method calls
-   * {@link ExecutorService#shutdownNow()} and returns.
+   * <p>If, at any step of the process, the calling thread is interrupted, the method calls {@link
+   * ExecutorService#shutdownNow()} and returns.
    *
    * @param service the {@code ExecutorService} to shut down
    * @param timeout the maximum time to wait for the {@code ExecutorService} to terminate

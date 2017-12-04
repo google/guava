@@ -30,13 +30,14 @@ import com.google.common.escape.UnicodeEscaper;
  * considered 'safe', this class has a minimal set of restrictions.
  *
  * <p>When escaping a String, the following rules apply:
+ *
  * <ul>
- * <li>All specified safe characters remain unchanged.
- * <li>If {@code plusForSpace} was specified, the space character " " is converted into a plus sign
- *     {@code "+"}.
- * <li>All other characters are converted into one or more bytes using UTF-8 encoding and each byte
- *     is then represented by the 3-character string "%XX", where "XX" is the two-digit, uppercase,
- *     hexadecimal representation of the byte value.
+ *   <li>All specified safe characters remain unchanged.
+ *   <li>If {@code plusForSpace} was specified, the space character " " is converted into a plus
+ *       sign {@code "+"}.
+ *   <li>All other characters are converted into one or more bytes using UTF-8 encoding and each
+ *       byte is then represented by the 3-character string "%XX", where "XX" is the two-digit,
+ *       uppercase, hexadecimal representation of the byte value.
  * </ul>
  *
  * <p>For performance reasons the only currently supported character encoding of this class is
@@ -58,9 +59,7 @@ public final class PercentEscaper extends UnicodeEscaper {
   // Percent escapers output upper case hex digits (uri escapers require this).
   private static final char[] UPPER_HEX_DIGITS = "0123456789ABCDEF".toCharArray();
 
-  /**
-   * If true we should convert space to the {@code +} character.
-   */
+  /** If true we should convert space to the {@code +} character. */
   private final boolean plusForSpace;
 
   /**
@@ -154,9 +153,7 @@ public final class PercentEscaper extends UnicodeEscaper {
     return s;
   }
 
-  /**
-   * Escapes the given Unicode code point in UTF-8.
-   */
+  /** Escapes the given Unicode code point in UTF-8. */
   @Override
   protected char[] escape(int cp) {
     // We should never get negative values here but if we do it will throw an

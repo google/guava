@@ -27,8 +27,7 @@ import java.lang.reflect.Array;
 @GwtCompatible(emulated = true)
 final class Platform {
   /**
-   * Returns a new array of the given length with the same type as a reference
-   * array.
+   * Returns a new array of the given length with the same type as a reference array.
    *
    * @param reference any array of the desired type
    * @param length the length of the new array
@@ -44,10 +43,9 @@ final class Platform {
   }
 
   /**
-   * Configures the given map maker to use weak keys, if possible; does nothing
-   * otherwise (i.e., in GWT). This is sometimes acceptable, when only
-   * server-side code could generate enough volume that reclamation becomes
-   * important.
+   * Configures the given map maker to use weak keys, if possible; does nothing otherwise (i.e., in
+   * GWT). This is sometimes acceptable, when only server-side code could generate enough volume
+   * that reclamation becomes important.
    */
   static MapMaker tryWeakKeys(MapMaker mapMaker) {
     return mapMaker.weakKeys();

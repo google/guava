@@ -63,7 +63,8 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
     };
   }
 
-  @Override public Spliterator<V> spliterator() {
+  @Override
+  public Spliterator<V> spliterator() {
     return CollectSpliterators.map(map.entrySet().spliterator(), Entry::getValue);
   }
 

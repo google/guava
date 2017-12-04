@@ -49,35 +49,37 @@ public class TreeBasedTableTest extends AbstractTableTest {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(TreeBasedTableTest.class);
     suite.addTestSuite(TreeRowTest.class);
-    suite.addTest(SortedMapTestSuiteBuilder
-        .using(new TestStringSortedMapGenerator() {
-          @Override protected SortedMap<String, String> create(
-              Entry<String, String>[] entries) {
-            TreeBasedTable<String, String, String> table =
-                TreeBasedTable.create();
-            table.put("a", "b", "c");
-            table.put("c", "b", "a");
-            table.put("a", "a", "d");
-            for (Entry<String, String> entry : entries) {
-              table.put("b", entry.getKey(), entry.getValue());
-            }
-            return table.row("b");
-          }
-        }).withFeatures(
-            MapFeature.GENERAL_PURPOSE,
-            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-            CollectionSize.ANY)
-        .named("RowMapTestSuite").createTestSuite());
+    suite.addTest(
+        SortedMapTestSuiteBuilder.using(
+                new TestStringSortedMapGenerator() {
+                  @Override
+                  protected SortedMap<String, String> create(Entry<String, String>[] entries) {
+                    TreeBasedTable<String, String, String> table = TreeBasedTable.create();
+                    table.put("a", "b", "c");
+                    table.put("c", "b", "a");
+                    table.put("a", "a", "d");
+                    for (Entry<String, String> entry : entries) {
+                      table.put("b", entry.getKey(), entry.getValue());
+                    }
+                    return table.row("b");
+                  }
+                })
+            .withFeatures(
+                MapFeature.GENERAL_PURPOSE,
+                CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+                CollectionSize.ANY)
+            .named("RowMapTestSuite")
+            .createTestSuite());
     return suite;
   }
 
-  public static class TreeRowTest extends
-      SortedMapInterfaceTest<String, String> {
+  public static class TreeRowTest extends SortedMapInterfaceTest<String, String> {
     public TreeRowTest() {
       super(false, false, true, true, true);
     }
 
-    @Override protected SortedMap<String, String> makeEmptyMap() {
+    @Override
+    protected SortedMap<String, String> makeEmptyMap() {
       TreeBasedTable<String, String, String> table = TreeBasedTable.create();
       table.put("a", "b", "c");
       table.put("c", "b", "a");
@@ -85,7 +87,8 @@ public class TreeBasedTableTest extends AbstractTableTest {
       return table.row("b");
     }
 
-    @Override protected SortedMap<String, String> makePopulatedMap() {
+    @Override
+    protected SortedMap<String, String> makePopulatedMap() {
       TreeBasedTable<String, String, String> table = TreeBasedTable.create();
       table.put("a", "b", "c");
       table.put("c", "b", "a");
@@ -96,11 +99,13 @@ public class TreeBasedTableTest extends AbstractTableTest {
       return table.row("b");
     }
 
-    @Override protected String getKeyNotInPopulatedMap() {
+    @Override
+    protected String getKeyNotInPopulatedMap() {
       return "q";
     }
 
-    @Override protected String getValueNotInPopulatedMap() {
+    @Override
+    protected String getValueNotInPopulatedMap() {
       return "p";
     }
 
@@ -123,9 +128,9 @@ public class TreeBasedTableTest extends AbstractTableTest {
   private TreeBasedTable<String, Integer, Character> sortedTable;
 
   protected TreeBasedTable<String, Integer, Character> create(
-    Comparator<? super String> rowComparator,
-    Comparator<? super Integer> columnComparator,
-    Object... data) {
+      Comparator<? super String> rowComparator,
+      Comparator<? super Integer> columnComparator,
+      Object... data) {
     TreeBasedTable<String, Integer, Character> table =
         TreeBasedTable.create(rowComparator, columnComparator);
     table.put("foo", 4, 'a');
@@ -135,8 +140,8 @@ public class TreeBasedTableTest extends AbstractTableTest {
     return table;
   }
 
-  @Override protected TreeBasedTable<String, Integer, Character> create(
-      Object... data) {
+  @Override
+  protected TreeBasedTable<String, Integer, Character> create(Object... data) {
     TreeBasedTable<String, Integer, Character> table = TreeBasedTable.create();
     table.put("foo", 4, 'a');
     table.put("cat", 1, 'b');
@@ -146,8 +151,7 @@ public class TreeBasedTableTest extends AbstractTableTest {
   }
 
   public void testCreateExplicitComparators() {
-    table = TreeBasedTable.create(
-        Collections.reverseOrder(), Ordering.usingToString());
+    table = TreeBasedTable.create(Collections.reverseOrder(), Ordering.usingToString());
     table.put("foo", 3, 'a');
     table.put("foo", 12, 'b');
     table.put("bar", 5, 'c');
@@ -157,8 +161,8 @@ public class TreeBasedTableTest extends AbstractTableTest {
   }
 
   public void testCreateCopy() {
-    TreeBasedTable<String, Integer, Character> original = TreeBasedTable.create(
-        Collections.reverseOrder(), Ordering.usingToString());
+    TreeBasedTable<String, Integer, Character> original =
+        TreeBasedTable.create(Collections.reverseOrder(), Ordering.usingToString());
     original.put("foo", 3, 'a');
     original.put("foo", 12, 'b');
     original.put("bar", 5, 'c');
@@ -183,8 +187,7 @@ public class TreeBasedTableTest extends AbstractTableTest {
 
   public void testCellSetToString_ordered() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    assertEquals("[(bar,1)=b, (foo,1)=a, (foo,3)=c]",
-        table.cellSet().toString());
+    assertEquals("[(bar,1)=b, (foo,1)=a, (foo,3)=c]", table.cellSet().toString());
   }
 
   public void testRowKeySetToString_ordered() {
@@ -201,8 +204,7 @@ public class TreeBasedTableTest extends AbstractTableTest {
     sortedTable = TreeBasedTable.create();
     assertSame(Ordering.natural(), sortedTable.rowComparator());
 
-    sortedTable = TreeBasedTable.create(
-        Collections.reverseOrder(), Ordering.usingToString());
+    sortedTable = TreeBasedTable.create(Collections.reverseOrder(), Ordering.usingToString());
     assertSame(Collections.reverseOrder(), sortedTable.rowComparator());
   }
 
@@ -215,8 +217,7 @@ public class TreeBasedTableTest extends AbstractTableTest {
         ((SortedMap<Integer, Character>) sortedTable.rowMap().values().iterator().next())
             .comparator());
 
-    sortedTable = TreeBasedTable.create(
-        Collections.reverseOrder(), Ordering.usingToString());
+    sortedTable = TreeBasedTable.create(Collections.reverseOrder(), Ordering.usingToString());
     sortedTable.put("", 42, 'x');
     assertSame(Ordering.usingToString(), sortedTable.columnComparator());
     assertSame(
@@ -227,13 +228,10 @@ public class TreeBasedTableTest extends AbstractTableTest {
 
   public void testRowKeySetComparator() {
     sortedTable = TreeBasedTable.create();
-    assertSame(Ordering.natural(),
-        sortedTable.rowKeySet().comparator());
+    assertSame(Ordering.natural(), sortedTable.rowKeySet().comparator());
 
-    sortedTable = TreeBasedTable.create(
-        Collections.reverseOrder(), Ordering.usingToString());
-    assertSame(Collections.reverseOrder(),
-        sortedTable.rowKeySet().comparator());
+    sortedTable = TreeBasedTable.create(Collections.reverseOrder(), Ordering.usingToString());
+    assertSame(Collections.reverseOrder(), sortedTable.rowKeySet().comparator());
   }
 
   public void testRowKeySetFirst() {
@@ -265,8 +263,7 @@ public class TreeBasedTableTest extends AbstractTableTest {
   }
 
   public void testRowKeySetSubSet() {
-    sortedTable = create(
-        "foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c', "dog", 2, 'd');
+    sortedTable = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c', "dog", 2, 'd');
     Set<String> set = sortedTable.rowKeySet().subSet("cat", "egg");
     assertEquals(Collections.singleton("dog"), set);
     set.clear();
@@ -278,8 +275,7 @@ public class TreeBasedTableTest extends AbstractTableTest {
     sortedTable = TreeBasedTable.create();
     assertSame(Ordering.natural(), sortedTable.rowMap().comparator());
 
-    sortedTable = TreeBasedTable.create(
-        Collections.reverseOrder(), Ordering.usingToString());
+    sortedTable = TreeBasedTable.create(Collections.reverseOrder(), Ordering.usingToString());
     assertSame(Collections.reverseOrder(), sortedTable.rowMap().comparator());
   }
 
@@ -295,8 +291,7 @@ public class TreeBasedTableTest extends AbstractTableTest {
 
   public void testRowKeyMapHeadMap() {
     sortedTable = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    Map<String, Map<Integer, Character>> map
-        = sortedTable.rowMap().headMap("cat");
+    Map<String, Map<Integer, Character>> map = sortedTable.rowMap().headMap("cat");
     assertEquals(1, map.size());
     assertEquals(ImmutableMap.of(1, 'b'), map.get("bar"));
     map.clear();
@@ -306,8 +301,7 @@ public class TreeBasedTableTest extends AbstractTableTest {
 
   public void testRowKeyMapTailMap() {
     sortedTable = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    Map<String, Map<Integer, Character>> map
-        = sortedTable.rowMap().tailMap("cat");
+    Map<String, Map<Integer, Character>> map = sortedTable.rowMap().tailMap("cat");
     assertEquals(1, map.size());
     assertEquals(ImmutableMap.of(1, 'a', 3, 'c'), map.get("foo"));
     map.clear();
@@ -316,10 +310,8 @@ public class TreeBasedTableTest extends AbstractTableTest {
   }
 
   public void testRowKeyMapSubMap() {
-    sortedTable = create(
-        "foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c', "dog", 2, 'd');
-    Map<String, Map<Integer, Character>> map
-        = sortedTable.rowMap().subMap("cat", "egg");
+    sortedTable = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c', "dog", 2, 'd');
+    Map<String, Map<Integer, Character>> map = sortedTable.rowMap().subMap("cat", "egg");
     assertEquals(ImmutableMap.of(2, 'd'), map.get("dog"));
     map.clear();
     assertTrue(map.isEmpty());
@@ -327,42 +319,56 @@ public class TreeBasedTableTest extends AbstractTableTest {
   }
 
   public void testRowMapValuesAreSorted() {
-    sortedTable = create(
-        "foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c', "dog", 2, 'd');
+    sortedTable = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c', "dog", 2, 'd');
     assertTrue(sortedTable.rowMap().get("foo") instanceof SortedMap);
   }
 
   public void testColumnKeySet_isSorted() {
-    table = create("a", 2,  'X',
-                   "a", 2,  'X',
-                   "b", 3,  'X',
-                   "b", 2,  'X',
-                   "c", 10, 'X',
-                   "c", 10, 'X',
-                   "c", 20, 'X',
-                   "d", 15, 'X',
-                   "d", 20, 'X',
-                   "d", 1,  'X',
-                   "e", 5,  'X'
-                  );
+    table =
+        create(
+            "a", 2, 'X', "a", 2, 'X', "b", 3, 'X', "b", 2, 'X', "c", 10, 'X', "c", 10, 'X', "c", 20,
+            'X', "d", 15, 'X', "d", 20, 'X', "d", 1, 'X', "e", 5, 'X');
     assertEquals("[1, 2, 3, 5, 10, 15, 20]", table.columnKeySet().toString());
   }
 
   public void testColumnKeySet_isSortedWithRealComparator() {
-    table = create(String.CASE_INSENSITIVE_ORDER,
-                   Ordering.natural().reverse(),
-                   "a", 2,  'X',
-                   "a", 2,  'X',
-                   "b", 3,  'X',
-                   "b", 2,  'X',
-                   "c", 10, 'X',
-                   "c", 10, 'X',
-                   "c", 20, 'X',
-                   "d", 15, 'X',
-                   "d", 20, 'X',
-                   "d", 1,  'X',
-                   "e", 5,  'X'
-                  );
+    table =
+        create(
+            String.CASE_INSENSITIVE_ORDER,
+            Ordering.natural().reverse(),
+            "a",
+            2,
+            'X',
+            "a",
+            2,
+            'X',
+            "b",
+            3,
+            'X',
+            "b",
+            2,
+            'X',
+            "c",
+            10,
+            'X',
+            "c",
+            10,
+            'X',
+            "c",
+            20,
+            'X',
+            "d",
+            15,
+            'X',
+            "d",
+            20,
+            'X',
+            "d",
+            1,
+            'X',
+            "e",
+            5,
+            'X');
     assertEquals("[20, 15, 10, 5, 3, 2, 1]", table.columnKeySet().toString());
   }
 
@@ -372,30 +378,26 @@ public class TreeBasedTableTest extends AbstractTableTest {
   }
 
   public void testColumnKeySet_oneRow() {
-    table = create("a", 2,  'X',
-                   "a", 1,  'X'
-                  );
+    table = create("a", 2, 'X', "a", 1, 'X');
     assertEquals("[1, 2]", table.columnKeySet().toString());
   }
 
   public void testColumnKeySet_oneColumn() {
-    table = create("a", 1,  'X',
-                   "b", 1,  'X'
-                  );
+    table = create("a", 1, 'X', "b", 1, 'X');
     assertEquals("[1]", table.columnKeySet().toString());
   }
 
   public void testColumnKeySet_oneEntry() {
-    table = create("a", 1,  'X');
+    table = create("a", 1, 'X');
     assertEquals("[1]", table.columnKeySet().toString());
   }
 
   public void testRowEntrySetContains() {
     table =
         sortedTable =
-            create("a", 2, 'X', "a", 2, 'X', "b", 3, 'X', "b", 2, 'X', "c", 10,
-                'X', "c", 10, 'X', "c", 20, 'X', "d", 15, 'X', "d", 20, 'X',
-                "d", 1, 'X', "e", 5, 'X');
+            create(
+                "a", 2, 'X', "a", 2, 'X', "b", 3, 'X', "b", 2, 'X', "c", 10, 'X', "c", 10, 'X', "c",
+                20, 'X', "d", 15, 'X', "d", 20, 'X', "d", 1, 'X', "e", 5, 'X');
     SortedMap<Integer, Character> row = sortedTable.row("c");
     Set<Entry<Integer, Character>> entrySet = row.entrySet();
     assertTrue(entrySet.contains(Maps.immutableEntry(10, 'X')));
@@ -410,9 +412,9 @@ public class TreeBasedTableTest extends AbstractTableTest {
   public void testRowEntrySetRemove() {
     table =
         sortedTable =
-            create("a", 2, 'X', "a", 2, 'X', "b", 3, 'X', "b", 2, 'X', "c", 10,
-                'X', "c", 10, 'X', "c", 20, 'X', "d", 15, 'X', "d", 20, 'X',
-                "d", 1, 'X', "e", 5, 'X');
+            create(
+                "a", 2, 'X', "a", 2, 'X', "b", 3, 'X', "b", 2, 'X', "c", 10, 'X', "c", 10, 'X', "c",
+                20, 'X', "d", 15, 'X', "d", 20, 'X', "d", 1, 'X', "e", 5, 'X');
     SortedMap<Integer, Character> row = sortedTable.row("c");
     Set<Entry<Integer, Character>> entrySet = row.tailMap(15).entrySet();
     assertFalse(entrySet.remove(Maps.immutableEntry(10, 'X')));
@@ -427,9 +429,9 @@ public class TreeBasedTableTest extends AbstractTableTest {
   public void testRowSize() {
     table =
         sortedTable =
-            create("a", 2, 'X', "a", 2, 'X', "b", 3, 'X', "b", 2, 'X', "c", 10,
-                'X', "c", 10, 'X', "c", 20, 'X', "d", 15, 'X', "d", 20, 'X',
-                "d", 1, 'X', "e", 5, 'X');
+            create(
+                "a", 2, 'X', "a", 2, 'X', "b", 3, 'X', "b", 2, 'X', "c", 10, 'X', "c", 10, 'X', "c",
+                20, 'X', "d", 15, 'X', "d", 20, 'X', "d", 1, 'X', "e", 5, 'X');
     SortedMap<Integer, Character> row = sortedTable.row("c");
     assertEquals(2, row.size());
     assertEquals(1, row.tailMap(15).size());

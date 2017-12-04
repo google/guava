@@ -32,9 +32,8 @@ import java.util.List;
 import java.util.Map.Entry;
 
 /**
- * A generic JUnit test which tests {@code replaceAll()} operations on a map.
- * Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code replaceAll()} operations on a map. Can't be invoked
+ * directly; please see {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
  *
  * @author Louis Wasserman
  */

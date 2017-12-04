@@ -382,8 +382,8 @@ public abstract class Ordering<T> implements Comparator<T> {
   // Constructor
 
   /**
-   * Constructs a new instance of this class (only invokable by the subclass
-   * constructor, typically implicit).
+   * Constructs a new instance of this class (only invokable by the subclass constructor, typically
+   * implicit).
    */
   protected Ordering() {}
 
@@ -649,8 +649,8 @@ public abstract class Ordering<T> implements Comparator<T> {
   }
 
   /**
-   * Returns the greatest of the specified values according to this ordering. If
-   * there are multiple greatest values, the first of those is returned.
+   * Returns the greatest of the specified values according to this ordering. If there are multiple
+   * greatest values, the first of those is returned.
    *
    * <p><b>Java 8 users:</b> If {@code iterable} is a {@link Collection}, use {@code
    * Collections.max(collection, thisComparator)} instead. Otherwise, continue to use this method
@@ -660,8 +660,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    *
    * @param iterable the iterable whose maximum element is to be determined
    * @throws NoSuchElementException if {@code iterable} is empty
-   * @throws ClassCastException if the parameters are not <i>mutually
-   *     comparable</i> under this ordering.
+   * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
+   *     ordering.
    */
   @CanIgnoreReturnValue // TODO(kak): Consider removing this
   public <E extends T> E max(Iterable<E> iterable) {
@@ -923,9 +923,8 @@ public abstract class Ordering<T> implements Comparator<T> {
   }
 
   /**
-   * {@link Collections#binarySearch(List, Object, Comparator) Searches}
-   * {@code sortedList} for {@code key} using the binary search algorithm. The
-   * list must be sorted using this ordering.
+   * {@link Collections#binarySearch(List, Object, Comparator) Searches} {@code sortedList} for
+   * {@code key} using the binary search algorithm. The list must be sorted using this ordering.
    *
    * @param sortedList the list to be searched
    * @param key the key to be searched for
@@ -937,10 +936,9 @@ public abstract class Ordering<T> implements Comparator<T> {
   }
 
   /**
-   * Exception thrown by a {@link Ordering#explicit(List)} or {@link
-   * Ordering#explicit(Object, Object[])} comparator when comparing a value
-   * outside the set of values it can compare. Extending {@link
-   * ClassCastException} may seem odd, but it is required.
+   * Exception thrown by a {@link Ordering#explicit(List)} or {@link Ordering#explicit(Object,
+   * Object[])} comparator when comparing a value outside the set of values it can compare.
+   * Extending {@link ClassCastException} may seem odd, but it is required.
    */
   @VisibleForTesting
   static class IncomparableValueException extends ClassCastException {

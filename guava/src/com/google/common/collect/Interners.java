@@ -44,8 +44,7 @@ public final class Interners {
     private final MapMaker mapMaker = new MapMaker();
     private boolean strong = true;
 
-    private InternerBuilder() {
-    }
+    private InternerBuilder() {}
 
     /**
      * Instructs the {@link InternerBuilder} to build a strong interner.
@@ -103,8 +102,8 @@ public final class Interners {
   /**
    * Returns a new thread-safe interner which retains a weak reference to each instance it has
    * interned, and so does not prevent these instances from being garbage-collected. This most
-   * likely does not perform as well as {@link #newStrongInterner}, but is the best alternative
-   * when the memory usage of that implementation is unacceptable.
+   * likely does not perform as well as {@link #newStrongInterner}, but is the best alternative when
+   * the memory usage of that implementation is unacceptable.
    */
   @GwtIncompatible("java.lang.ref.WeakReference")
   public static <E> Interner<E> newWeakInterner() {
@@ -114,12 +113,11 @@ public final class Interners {
   @VisibleForTesting
   static final class InternerImpl<E> implements Interner<E> {
     // MapMaker is our friend, we know about this type
-    @VisibleForTesting
-    final MapMakerInternalMap<E, Dummy, ?, ?> map;
+    @VisibleForTesting final MapMakerInternalMap<E, Dummy, ?, ?> map;
 
     private InternerImpl(MapMaker mapMaker) {
-      this.map = MapMakerInternalMap.createWithDummyValues(
-          mapMaker.keyEquivalence(Equivalence.equals()));
+      this.map =
+          MapMakerInternalMap.createWithDummyValues(mapMaker.keyEquivalence(Equivalence.equals()));
     }
 
     @Override

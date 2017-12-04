@@ -42,8 +42,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   private final transient int size;
   private final transient int hashCode;
 
-  @LazyInit
-  private transient ImmutableSet<E> elementSet;
+  @LazyInit private transient ImmutableSet<E> elementSet;
 
   RegularImmutableMultiset(Collection<? extends Entry<? extends E>> entries) {
     int distinct = entries.size();

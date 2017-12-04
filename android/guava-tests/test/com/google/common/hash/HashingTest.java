@@ -120,7 +120,8 @@ public class HashingTest extends TestCase {
     HashTestUtils.checkNo2BitCharacteristics(Hashing.sipHash24());
     HashTestUtils.checkNoFunnels(Hashing.sipHash24());
     HashTestUtils.assertInvariants(Hashing.sipHash24());
-    assertEquals("Hashing.sipHash24(506097522914230528, 1084818905618843912)",
+    assertEquals(
+        "Hashing.sipHash24(506097522914230528, 1084818905618843912)",
         Hashing.sipHash24().toString());
   }
 
@@ -161,7 +162,7 @@ public class HashingTest extends TestCase {
   }
 
   public void testConsistentHash_correctness() {
-    long[] interestingValues = { -1, 0, 1, 2, Long.MAX_VALUE, Long.MIN_VALUE };
+    long[] interestingValues = {-1, 0, 1, 2, Long.MAX_VALUE, Long.MIN_VALUE};
     for (long h : interestingValues) {
       checkConsistentHashCorrectness(h);
     }
@@ -227,13 +228,14 @@ public class HashingTest extends TestCase {
   }
 
   /**
-   * Check a few "golden" values to see that implementations across languages
-   * are equivalent.
+   * Check a few "golden" values to see that implementations across languages are equivalent.
+   *
    */
   public void testConsistentHash_linearCongruentialGeneratorCompatibility() {
-    int[] golden100 =
-        { 0, 55, 62, 8, 45, 59, 86, 97, 82, 59,
-          73, 37, 17, 56, 86, 21, 90, 37, 38, 83 };
+    int[] golden100 = {
+      0, 55, 62, 8, 45, 59, 86, 97, 82, 59,
+      73, 37, 17, 56, 86, 21, 90, 37, 38, 83
+    };
     for (int i = 0; i < golden100.length; i++) {
       assertEquals(golden100[i], Hashing.consistentHash(i, 100));
     }
@@ -269,13 +271,15 @@ public class HashingTest extends TestCase {
     HashCode hash31 = HashCode.fromInt(31);
     HashCode hash32 = HashCode.fromInt(32);
     assertEquals(hash32, Hashing.combineOrdered(ImmutableList.of(hash32)));
-    assertEquals(HashCode.fromBytes(new byte[] { (byte) 0x80, 0, 0, 0 }),
+    assertEquals(
+        HashCode.fromBytes(new byte[] {(byte) 0x80, 0, 0, 0}),
         Hashing.combineOrdered(ImmutableList.of(hash32, hash32)));
-    assertEquals(HashCode.fromBytes(new byte[] { (byte) 0xa0, 0, 0, 0 }),
+    assertEquals(
+        HashCode.fromBytes(new byte[] {(byte) 0xa0, 0, 0, 0}),
         Hashing.combineOrdered(ImmutableList.of(hash32, hash32, hash32)));
     assertFalse(
-        Hashing.combineOrdered(ImmutableList.of(hash31, hash32)).equals(
-        Hashing.combineOrdered(ImmutableList.of(hash32, hash31))));
+        Hashing.combineOrdered(ImmutableList.of(hash31, hash32))
+            .equals(Hashing.combineOrdered(ImmutableList.of(hash32, hash31))));
   }
 
   public void testCombineOrdered_randomHashCodes() {
@@ -313,8 +317,8 @@ public class HashingTest extends TestCase {
     HashCode hash32 = HashCode.fromInt(32);
     assertEquals(hash32, Hashing.combineUnordered(ImmutableList.of(hash32)));
     assertEquals(HashCode.fromInt(64), Hashing.combineUnordered(ImmutableList.of(hash32, hash32)));
-    assertEquals(HashCode.fromInt(96),
-        Hashing.combineUnordered(ImmutableList.of(hash32, hash32, hash32)));
+    assertEquals(
+        HashCode.fromInt(96), Hashing.combineUnordered(ImmutableList.of(hash32, hash32, hash32)));
     assertEquals(
         Hashing.combineUnordered(ImmutableList.of(hash31, hash32)),
         Hashing.combineUnordered(ImmutableList.of(hash32, hash31)));
@@ -359,8 +363,8 @@ public class HashingTest extends TestCase {
         Hashing.concatenating(asList(Hashing.md5(), Hashing.murmur3_32())).bits());
     assertEquals(
         Hashing.md5().bits() + Hashing.murmur3_32().bits() + Hashing.murmur3_128().bits(),
-        Hashing.concatenating(
-            asList(Hashing.md5(), Hashing.murmur3_32(), Hashing.murmur3_128())).bits());
+        Hashing.concatenating(asList(Hashing.md5(), Hashing.murmur3_32(), Hashing.murmur3_128()))
+            .bits());
   }
 
   public void testConcatenatingVarArgs_bits() {
@@ -384,10 +388,10 @@ public class HashingTest extends TestCase {
     buffer.put(murmur3Hash);
     HashCode expected = HashCode.fromBytes(combined);
 
-    assertEquals(expected,
-        Hashing.concatenating(Hashing.md5(), Hashing.murmur3_32()).hashLong(42L));
-    assertEquals(expected,
-        Hashing.concatenating(asList(Hashing.md5(), Hashing.murmur3_32())).hashLong(42L));
+    assertEquals(
+        expected, Hashing.concatenating(Hashing.md5(), Hashing.murmur3_32()).hashLong(42L));
+    assertEquals(
+        expected, Hashing.concatenating(asList(Hashing.md5(), Hashing.murmur3_32())).hashLong(42L));
   }
 
   public void testHashIntReverseBytesVsHashBytesIntsToByteArray() {
@@ -496,7 +500,8 @@ public class HashingTest extends TestCase {
           && method.getParameterTypes().length == 0 // only the seed-less grapes^W hash functions
           && !legacyHashingMethodNames.contains(method.getName())) {
         HashFunction hashFunction = (HashFunction) method.invoke(Hashing.class);
-        assertTrue("There should be at least 3 entries in KNOWN_HASHES for " + hashFunction,
+        assertTrue(
+            "There should be at least 3 entries in KNOWN_HASHES for " + hashFunction,
             KNOWN_HASHES.row(hashFunction).size() >= 3);
       }
     }
@@ -515,9 +520,10 @@ public class HashingTest extends TestCase {
   }
 
   public void testNullPointers() {
-    NullPointerTester tester = new NullPointerTester()
-        .setDefault(byte[].class, "secret key".getBytes(UTF_8))
-        .setDefault(HashCode.class, HashCode.fromLong(0));
+    NullPointerTester tester =
+        new NullPointerTester()
+            .setDefault(byte[].class, "secret key".getBytes(UTF_8))
+            .setDefault(HashCode.class, HashCode.fromLong(0));
     tester.testAllPublicStaticMethods(Hashing.class);
   }
 
@@ -567,9 +573,7 @@ public class HashingTest extends TestCase {
         HashFunction hashFunction1a = (HashFunction) method.invoke(clazz);
         HashFunction hashFunction1b = (HashFunction) method.invoke(clazz);
 
-        new EqualsTester()
-            .addEqualityGroup(hashFunction1a, hashFunction1b)
-            .testEquals();
+        new EqualsTester().addEqualityGroup(hashFunction1a, hashFunction1b).testEquals();
 
         // Make sure we're returning not only equal instances, but constants.
         assertSame(hashFunction1a, hashFunction1b);

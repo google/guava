@@ -40,7 +40,6 @@ public final class PatternFilenameFilter implements FilenameFilter {
    * Constructs a pattern file name filter object.
    *
    * @param patternStr the pattern string on which to filter file names
-   *
    * @throws PatternSyntaxException if pattern compilation fails (runtime)
    */
   public PatternFilenameFilter(String patternStr) {

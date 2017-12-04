@@ -152,22 +152,19 @@ public class SubscriberRegistryTest extends TestCase {
   public static class StringSubscriber {
 
     @Subscribe
-    public void handle(String s) {
-    }
+    public void handle(String s) {}
   }
 
   public static class IntegerSubscriber {
 
     @Subscribe
-    public void handle(Integer i) {
-    }
+    public void handle(Integer i) {}
   }
 
   public static class ObjectSubscriber {
 
     @Subscribe
-    public void handle(Object o) {
-    }
+    public void handle(Object o) {}
   }
 
   public void testFlattenHierarchy() {
@@ -185,13 +182,11 @@ public class SubscriberRegistryTest extends TestCase {
     // Exists only for hierarchy mapping; no members.
   }
 
-  private interface HierarchyFixtureSubinterface
-      extends HierarchyFixtureInterface {
+  private interface HierarchyFixtureSubinterface extends HierarchyFixtureInterface {
     // Exists only for hierarchy mapping; no members.
   }
 
-  private static class HierarchyFixtureParent
-      implements HierarchyFixtureSubinterface {
+  private static class HierarchyFixtureParent implements HierarchyFixtureSubinterface {
     // Exists only for hierarchy mapping; no members.
   }
 

@@ -20,8 +20,8 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
 /**
- * An abstract implementation of {@link Hasher}, which only requires subtypes to implement
- * {@link #putByte}.  Subtypes may provide more efficient implementations, however.
+ * An abstract implementation of {@link Hasher}, which only requires subtypes to implement {@link
+ * #putByte}. Subtypes may provide more efficient implementations, however.
  *
  * @author Dimitris Andreou
  */

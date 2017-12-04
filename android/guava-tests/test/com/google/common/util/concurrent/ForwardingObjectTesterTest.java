@@ -41,14 +41,18 @@ public class ForwardingObjectTesterTest extends TestCase {
     ForwardingObjectTester.testForwardingObject(ForwardToDelegate.class);
   }
 
-  private static abstract class FailToForward extends ForwardingObject implements Runnable {
-    @Override public void run() {}
+  private abstract static class FailToForward extends ForwardingObject implements Runnable {
+    @Override
+    public void run() {}
   }
 
-  private static abstract class ForwardToDelegate extends ForwardingObject implements Runnable {
-    @Override public void run() {
+  private abstract static class ForwardToDelegate extends ForwardingObject implements Runnable {
+    @Override
+    public void run() {
       delegate().run();
     }
-    @Override protected abstract Runnable delegate();
+
+    @Override
+    protected abstract Runnable delegate();
   }
 }

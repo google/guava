@@ -93,7 +93,7 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
     this.enumConstants = type.getEnumConstants();
     this.counts = new int[enumConstants.length];
   }
-  
+
   private boolean isActuallyE(@Nullable Object o) {
     if (o instanceof Enum) {
       Enum<?> e = (Enum<?>) o;
@@ -104,8 +104,8 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
   }
 
   /**
-   * Returns {@code element} cast to {@code E}, if it actually is a nonnull E.
-   * Otherwise, throws either a NullPointerException or a ClassCastException as appropriate.
+   * Returns {@code element} cast to {@code E}, if it actually is a nonnull E. Otherwise, throws
+   * either a NullPointerException or a ClassCastException as appropriate.
    */
   @SuppressWarnings("unchecked")
   void checkIsE(@Nullable Object element) {

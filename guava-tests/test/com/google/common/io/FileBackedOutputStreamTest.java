@@ -54,12 +54,13 @@ public class FileBackedOutputStreamTest extends IoTestCase {
     out = null;
 
     // times out and throws RuntimeException on failure
-    GcFinalization.awaitDone(new GcFinalization.FinalizationPredicate() {
-      @Override
-      public boolean isDone() {
-        return !file.exists();
-      }
-    });
+    GcFinalization.awaitDone(
+        new GcFinalization.FinalizationPredicate() {
+          @Override
+          public boolean isDone() {
+            return !file.exists();
+          }
+        });
   }
 
   public void testThreshold_resetOnFinalize() throws Exception {
@@ -73,8 +74,9 @@ public class FileBackedOutputStreamTest extends IoTestCase {
     testThreshold(1000, 100, false, true);
   }
 
-  private void testThreshold(int fileThreshold, int dataSize, boolean singleByte,
-      boolean resetOnFinalize) throws IOException {
+  private void testThreshold(
+      int fileThreshold, int dataSize, boolean singleByte, boolean resetOnFinalize)
+      throws IOException {
     byte[] data = newPreFilledByteArray(dataSize);
     FileBackedOutputStream out = new FileBackedOutputStream(fileThreshold, resetOnFinalize);
     ByteSource source = out.asByteSource();
@@ -108,8 +110,7 @@ public class FileBackedOutputStreamTest extends IoTestCase {
     }
   }
 
-  private static void write(
-      OutputStream out, byte[] b, int off, int len, boolean singleByte)
+  private static void write(OutputStream out, byte[] b, int off, int len, boolean singleByte)
       throws IOException {
     if (singleByte) {
       for (int i = off; i < off + len; i++) {

@@ -96,9 +96,7 @@ final class Types {
     return new ParameterizedTypeImpl(ownerType, rawType, arguments);
   }
 
-  /**
-   * Returns a type where {@code rawType} is parameterized by {@code arguments}.
-   */
+  /** Returns a type where {@code rawType} is parameterized by {@code arguments}. */
   static ParameterizedType newParameterizedType(Class<?> rawType, Type... arguments) {
     return new ParameterizedTypeImpl(
         ClassOwnership.JVM_BEHAVIOR.getOwnerType(rawType), rawType, arguments);
@@ -167,10 +165,11 @@ final class Types {
 
   /**
    * Returns human readable string representation of {@code type}.
+   *
    * <ul>
-   * <li>For array type {@code Foo[]}, {@code "com.mypackage.Foo[]"} are returned.
-   * <li>For any class, {@code theClass.getName()} are returned.
-   * <li>For all other types, {@code type.toString()} are returned.
+   *   <li>For array type {@code Foo[]}, {@code "com.mypackage.Foo[]"} are returned.
+   *   <li>For any class, {@code theClass.getName()} are returned.
+   *   <li>For all other types, {@code type.toString()} are returned.
    * </ul>
    */
   static String toString(Type type) {
@@ -350,11 +349,11 @@ final class Types {
    * that an abstract method is unimplemented. So instead we use a dynamic proxy to get an
    * implementation. If the method being called on the {@code TypeVariable} instance has the same
    * name as one of the public methods of {@link TypeVariableImpl}, the proxy calls the same method
-   * on its instance of {@code TypeVariableImpl}. Otherwise it throws
-   * {@link UnsupportedOperationException}; this should only apply to {@code getAnnotatedBounds()}.
-   * This does mean that users on Java 8 who obtain an instance of {@code TypeVariable} from
-   * {@link TypeResolver#resolveType} will not be able to call {@code getAnnotatedBounds()} on it,
-   * but that should hopefully be rare.
+   * on its instance of {@code TypeVariableImpl}. Otherwise it throws {@link
+   * UnsupportedOperationException}; this should only apply to {@code getAnnotatedBounds()}. This
+   * does mean that users on Java 8 who obtain an instance of {@code TypeVariable} from {@link
+   * TypeResolver#resolveType} will not be able to call {@code getAnnotatedBounds()} on it, but that
+   * should hopefully be rare.
    *
    * <p>This workaround should be removed at a distant future time when we no longer support Java
    * versions earlier than 8.
@@ -674,8 +673,8 @@ final class Types {
    */
   static final class NativeTypeVariableEquals<X> {
     static final boolean NATIVE_TYPE_VARIABLE_ONLY =
-        !NativeTypeVariableEquals.class.getTypeParameters()[0]
-            .equals(newArtificialTypeVariable(NativeTypeVariableEquals.class, "X"));
+        !NativeTypeVariableEquals.class.getTypeParameters()[0].equals(
+            newArtificialTypeVariable(NativeTypeVariableEquals.class, "X"));
   }
 
   private Types() {}

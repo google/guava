@@ -28,10 +28,9 @@ import com.google.common.collect.testing.features.MapFeature;
 import java.util.Map;
 
 /**
- * A generic JUnit test which tests {@link Map#putIfAbsent}. Can't be
- * invoked directly; please see
+ * A generic JUnit test which tests {@link Map#putIfAbsent}. Can't be invoked directly; please see
  * {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
- * 
+ *
  * @author Louis Wasserman
  */
 @GwtCompatible
@@ -39,16 +38,18 @@ public class MapPutIfAbsentTester<K, V> extends AbstractMapTester<K, V> {
 
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutIfAbsent_supportedAbsent() {
-    assertNull("putIfAbsent(notPresent, value) should return null", 
-        getMap().putIfAbsent(k3(), v3()));
+    assertNull(
+        "putIfAbsent(notPresent, value) should return null", getMap().putIfAbsent(k3(), v3()));
     expectAdded(e3());
   }
-  
+
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)
   public void testPutIfAbsent_supportedPresent() {
-    assertEquals("putIfAbsent(present, value) should return existing value", 
-        v0(), getMap().putIfAbsent(k0(), v3()));
+    assertEquals(
+        "putIfAbsent(present, value) should return existing value",
+        v0(),
+        getMap().putIfAbsent(k0(), v3()));
     expectUnchanged();
   }
 
@@ -67,8 +68,10 @@ public class MapPutIfAbsentTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = ZERO)
   public void testPutIfAbsent_unsupportedPresentExistingValue() {
     try {
-      assertEquals("putIfAbsent(present, existingValue) should return present or throw",
-          v0(), getMap().putIfAbsent(k0(), v0()));
+      assertEquals(
+          "putIfAbsent(present, existingValue) should return present or throw",
+          v0(),
+          getMap().putIfAbsent(k0(), v0()));
     } catch (UnsupportedOperationException tolerated) {
     }
     expectUnchanged();

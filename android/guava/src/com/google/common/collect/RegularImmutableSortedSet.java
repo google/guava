@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-
 import com.google.common.annotations.VisibleForTesting;
 import java.util.Collection;
 import java.util.Collections;
@@ -31,8 +30,8 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * An immutable sorted set with one or more elements. TODO(jlevy): Consider
- * separate class for a single-element sorted set.
+ * An immutable sorted set with one or more elements. TODO(jlevy): Consider separate class for a
+ * single-element sorted set.
  *
  * @author Jared Levy
  * @author Louis Wasserman
@@ -43,8 +42,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   static final RegularImmutableSortedSet<Comparable> NATURAL_EMPTY_SET =
       new RegularImmutableSortedSet<>(ImmutableList.<Comparable>of(), Ordering.natural());
 
-  @VisibleForTesting
-  final transient ImmutableList<E> elements;
+  @VisibleForTesting final transient ImmutableList<E> elements;
 
   RegularImmutableSortedSet(ImmutableList<E> elements, Comparator<? super E> comparator) {
     super(comparator);
@@ -94,14 +92,14 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
      * in O(n) time stepping through the two collections.
      */
     Iterator<E> thisIterator = iterator();
-    
-    Iterator<?> thatIterator = targets.iterator(); 
+
+    Iterator<?> thatIterator = targets.iterator();
     // known nonempty since we checked targets.size() > 1
-    
+
     if (!thisIterator.hasNext()) {
       return false;
     }
-    
+
     Object target = thatIterator.next();
     E current = thisIterator.next();
     try {

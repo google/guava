@@ -23,19 +23,18 @@ import javax.annotation.Nullable;
  *
  * <p>The {@link Functions} class provides common functions and related utilities.
  *
- * <p>As this interface extends {@link java.util.function.Function}, an instance of this type
- * can be used as a {@code java.util.function.Function} directly.  To use a
- * {@code java.util.function.Function} in a context where a
- * {@code com.google.common.base.Function} is needed, use {@code function::apply}.
+ * <p>As this interface extends {@link java.util.function.Function}, an instance of this type can be
+ * used as a {@code java.util.function.Function} directly. To use a {@code
+ * java.util.function.Function} in a context where a {@code com.google.common.base.Function} is
+ * needed, use {@code function::apply}.
  *
  * <p>This interface is now a legacy type. Use {@code java.util.function.Function} (or the
  * appropriate primitive specialization such as {@code ToIntFunction}) instead whenever possible.
  * Otherwise, at least reduce <i>explicit</i> dependencies on this type by using lambda expressions
  * or method references instead of classes, leaving your code easier to migrate in the future.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code
- * Function}</a>.
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code Function}</a>.
  *
  * @author Kevin Bourrillion
  * @since 2.0

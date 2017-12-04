@@ -40,9 +40,8 @@ public class ListHashCodeTester<E> extends AbstractListTester<E> {
   }
 
   /**
-   * Returns the {@link Method} instance for {@link #testHashCode()} so that
-   * list tests on unhashable objects can suppress it with
-   * {@code FeatureSpecificTestSuiteBuilder.suppressing()}.
+   * Returns the {@link Method} instance for {@link #testHashCode()} so that list tests on
+   * unhashable objects can suppress it with {@code FeatureSpecificTestSuiteBuilder.suppressing()}.
    */
   @GwtIncompatible // reflection
   public static Method getHashCodeMethod() {

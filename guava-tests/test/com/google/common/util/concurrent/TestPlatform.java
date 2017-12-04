@@ -32,9 +32,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
 import junit.framework.AssertionFailedError;
 
-/**
- * Methods factored out so that they can be emulated differently in GWT.
- */
+/** Methods factored out so that they can be emulated differently in GWT. */
 @GwtCompatible(emulated = true)
 final class TestPlatform {
   static void verifyGetOnPendingFuture(Future<?> future) {

@@ -20,8 +20,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 
 /**
- * An {@link ImmutableAsList} implementation specialized for when the delegate collection is
- * already backed by an {@code ImmutableList} or array.
+ * An {@link ImmutableAsList} implementation specialized for when the delegate collection is already
+ * backed by an {@code ImmutableList} or array.
  *
  * @author Louis Wasserman
  */

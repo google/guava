@@ -109,26 +109,38 @@ abstract class AbstractAbstractFutureTest extends TestCase {
   }
 
   public void testSetFutureDelegateAlreadyCancelled() throws Exception {
-    delegate.cancel(false /** mayInterruptIfRunning */);
+    delegate.cancel(
+        false
+        /** mayInterruptIfRunning */
+        );
     assertThat(future.setFuture(delegate)).isTrue();
     assertCancelled(future, false);
   }
 
   public void testSetFutureDelegateLaterCancelled() throws Exception {
     assertThat(future.setFuture(delegate)).isTrue();
-    delegate.cancel(false /** mayInterruptIfRunning */);
+    delegate.cancel(
+        false
+        /** mayInterruptIfRunning */
+        );
     assertCancelled(future, false);
   }
 
   public void testSetFutureDelegateAlreadyInterrupted() throws Exception {
-    delegate.cancel(true /** mayInterruptIfRunning */);
+    delegate.cancel(
+        true
+        /** mayInterruptIfRunning */
+        );
     assertThat(future.setFuture(delegate)).isTrue();
     assertCancelled(future, /* expectWasInterrupted= */ false);
   }
 
   public void testSetFutureDelegateLaterInterrupted() throws Exception {
     assertThat(future.setFuture(delegate)).isTrue();
-    delegate.cancel(true /** mayInterruptIfRunning */);
+    delegate.cancel(
+        true
+        /** mayInterruptIfRunning */
+        );
     assertCancelled(future, /* expectWasInterrupted= */ false);
   }
 
@@ -279,31 +291,31 @@ abstract class AbstractAbstractFutureTest extends TestCase {
   }
 
   public void testMisbehavingListenerAlreadyDone() {
-    class BadRunnableException extends RuntimeException {
-    }
+    class BadRunnableException extends RuntimeException {}
 
-    Runnable bad = new Runnable() {
-      @Override
-      public void run() {
-        throw new BadRunnableException();
-      }
-    };
+    Runnable bad =
+        new Runnable() {
+          @Override
+          public void run() {
+            throw new BadRunnableException();
+          }
+        };
 
     future.set(1);
     future.addListener(bad, directExecutor()); // BadRunnableException must not propagate.
   }
 
   public void testMisbehavingListenerLaterDone() {
-    class BadRunnableException extends RuntimeException {
-    }
+    class BadRunnableException extends RuntimeException {}
 
     CountingRunnable before = new CountingRunnable();
-    Runnable bad = new Runnable() {
-      @Override
-      public void run() {
-        throw new BadRunnableException();
-      }
-    };
+    Runnable bad =
+        new Runnable() {
+          @Override
+          public void run() {
+            throw new BadRunnableException();
+          }
+        };
     CountingRunnable after = new CountingRunnable();
 
     future.addListener(before, directExecutor());
@@ -391,9 +403,7 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     assertSuccessful(future, 1);
   }
 
-  /**
-   * Concrete subclass for testing.
-   */
+  /** Concrete subclass for testing. */
   private static class TestedFuture<V> extends AbstractFuture<V> {
     private static <V> TestedFuture<V> create() {
       return new TestedFuture<V>();

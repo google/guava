@@ -49,34 +49,32 @@ import java.util.Arrays;
 @GwtIncompatible
 public final class ByteStreams {
 
-  /**
-   * Creates a new byte array for buffering reads or writes.
-   */
+  /** Creates a new byte array for buffering reads or writes. */
   static byte[] createBuffer() {
     return new byte[8192];
   }
 
   /**
-   * There are three methods to implement
-   * {@link FileChannel#transferTo(long, long, WritableByteChannel)}:
+   * There are three methods to implement {@link FileChannel#transferTo(long, long,
+   * WritableByteChannel)}:
    *
    * <ol>
-   * <li>Use sendfile(2) or equivalent. Requires that both the input channel and the output channel
-   *     have their own file descriptors. Generally this only happens when both channels are files
-   *     or sockets. This performs zero copies - the bytes never enter userspace.
-   * <li>Use mmap(2) or equivalent. Requires that either the input channel or the output channel
-   *     have file descriptors. Bytes are copied from the file into a kernel buffer, then directly
-   *     into the other buffer (userspace). Note that if the file is very large, a naive
-   *     implementation will effectively put the whole file in memory. On many systems with paging
-   *     and virtual memory, this is not a problem - because it is mapped read-only, the kernel can
-   *     always page it to disk "for free". However, on systems where killing processes happens all
-   *     the time in normal conditions (i.e., android) the OS must make a tradeoff between paging
-   *     memory and killing other processes - so allocating a gigantic buffer and then sequentially
-   *     accessing it could result in other processes dying. This is solvable via madvise(2), but
-   *     that obviously doesn't exist in java.
-   * <li>Ordinary copy. Kernel copies bytes into a kernel buffer, from a kernel buffer into a
-   *     userspace buffer (byte[] or ByteBuffer), then copies them from that buffer into the
-   *     destination channel.
+   *   <li>Use sendfile(2) or equivalent. Requires that both the input channel and the output
+   *       channel have their own file descriptors. Generally this only happens when both channels
+   *       are files or sockets. This performs zero copies - the bytes never enter userspace.
+   *   <li>Use mmap(2) or equivalent. Requires that either the input channel or the output channel
+   *       have file descriptors. Bytes are copied from the file into a kernel buffer, then directly
+   *       into the other buffer (userspace). Note that if the file is very large, a naive
+   *       implementation will effectively put the whole file in memory. On many systems with paging
+   *       and virtual memory, this is not a problem - because it is mapped read-only, the kernel
+   *       can always page it to disk "for free". However, on systems where killing processes
+   *       happens all the time in normal conditions (i.e., android) the OS must make a tradeoff
+   *       between paging memory and killing other processes - so allocating a gigantic buffer and
+   *       then sequentially accessing it could result in other processes dying. This is solvable
+   *       via madvise(2), but that obviously doesn't exist in java.
+   *   <li>Ordinary copy. Kernel copies bytes into a kernel buffer, from a kernel buffer into a
+   *       userspace buffer (byte[] or ByteBuffer), then copies them from that buffer into the
+   *       destination channel.
    * </ol>
    *
    * This value is intended to be large enough to make the overhead of system calls negligible,
@@ -204,9 +202,7 @@ public final class ByteStreams {
     return result;
   }
 
-  /**
-   * BAOS that provides limited access to its internal byte array.
-   */
+  /** BAOS that provides limited access to its internal byte array. */
   private static final class FastByteArrayOutputStream extends ByteArrayOutputStream {
     /**
      * Writes the contents of the internal buffer to the given array starting at the given offset.
@@ -255,8 +251,8 @@ public final class ByteStreams {
   }
 
   /**
-   * Returns a new {@link ByteArrayDataInput} instance to read from the given
-   * {@code ByteArrayInputStream}. The given input stream is not reset before being read from by the
+   * Returns a new {@link ByteArrayDataInput} instance to read from the given {@code
+   * ByteArrayInputStream}. The given input stream is not reset before being read from by the
    * returned {@code ByteArrayDataInput}.
    *
    * @since 17.0
@@ -410,9 +406,7 @@ public final class ByteStreams {
     }
   }
 
-  /**
-   * Returns a new {@link ByteArrayDataOutput} instance with a default size.
-   */
+  /** Returns a new {@link ByteArrayDataOutput} instance with a default size. */
   public static ByteArrayDataOutput newDataOutput() {
     return newDataOutput(new ByteArrayOutputStream());
   }
@@ -433,14 +427,14 @@ public final class ByteStreams {
   }
 
   /**
-   * Returns a new {@link ByteArrayDataOutput} instance which writes to the given
-   * {@code ByteArrayOutputStream}. The given output stream is not reset before being written to by
-   * the returned {@code ByteArrayDataOutput} and new data will be appended to any existing content.
+   * Returns a new {@link ByteArrayDataOutput} instance which writes to the given {@code
+   * ByteArrayOutputStream}. The given output stream is not reset before being written to by the
+   * returned {@code ByteArrayDataOutput} and new data will be appended to any existing content.
    *
-   * <p>Note that if the given output stream was not empty or is modified after the
-   * {@code ByteArrayDataOutput} is created, the contract for
-   * {@link ByteArrayDataOutput#toByteArray} will not be honored (the bytes returned in the byte
-   * array may not be exactly what was written via calls to {@code ByteArrayDataOutput}).
+   * <p>Note that if the given output stream was not empty or is modified after the {@code
+   * ByteArrayDataOutput} is created, the contract for {@link ByteArrayDataOutput#toByteArray} will
+   * not be honored (the bytes returned in the byte array may not be exactly what was written via
+   * calls to {@code ByteArrayDataOutput}).
    *
    * @since 17.0
    */
@@ -723,9 +717,9 @@ public final class ByteStreams {
   }
 
   /**
-   * Attempts to read {@code len} bytes from the stream into the given array starting at
-   * {@code off}, with the same behavior as {@link DataInput#readFully(byte[], int, int)}. Does not
-   * close the stream.
+   * Attempts to read {@code len} bytes from the stream into the given array starting at {@code
+   * off}, with the same behavior as {@link DataInput#readFully(byte[], int, int)}. Does not close
+   * the stream.
    *
    * @param in the input stream to read from.
    * @param b the buffer into which the data is read.
@@ -789,11 +783,11 @@ public final class ByteStreams {
   }
 
   /**
-   * Attempts to skip up to {@code n} bytes from the given input stream, but not more than
-   * {@code in.available()} bytes. This prevents {@code FileInputStream} from skipping more bytes
-   * than actually remain in the file, something that it {@linkplain
-   * java.io.FileInputStream#skip(long) specifies} it can do in its Javadoc despite the fact that
-   * it is violating the contract of {@code InputStream.skip()}.
+   * Attempts to skip up to {@code n} bytes from the given input stream, but not more than {@code
+   * in.available()} bytes. This prevents {@code FileInputStream} from skipping more bytes than
+   * actually remain in the file, something that it {@linkplain java.io.FileInputStream#skip(long)
+   * specifies} it can do in its Javadoc despite the fact that it is violating the contract of
+   * {@code InputStream.skip()}.
    */
   private static long skipSafely(InputStream in, long n) throws IOException {
     int available = in.available();
@@ -832,11 +826,10 @@ public final class ByteStreams {
    * calls on the same stream will return zero.
    *
    * <p>If {@code b} is null, a {@code NullPointerException} is thrown. If {@code off} is negative,
-   * or {@code len} is negative, or {@code off+len} is greater than the length of the array
-   * {@code b}, then an {@code IndexOutOfBoundsException} is thrown. If {@code len} is zero, then no
-   * bytes are read. Otherwise, the first byte read is stored into element {@code b[off]}, the next
-   * one into {@code b[off+1]}, and so on. The number of bytes read is, at most, equal to
-   * {@code len}.
+   * or {@code len} is negative, or {@code off+len} is greater than the length of the array {@code
+   * b}, then an {@code IndexOutOfBoundsException} is thrown. If {@code len} is zero, then no bytes
+   * are read. Otherwise, the first byte read is stored into element {@code b[off]}, the next one
+   * into {@code b[off+1]}, and so on. The number of bytes read is, at most, equal to {@code len}.
    *
    * @param in the input stream to read from
    * @param b the buffer into which the data is read

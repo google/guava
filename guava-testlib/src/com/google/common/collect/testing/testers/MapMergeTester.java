@@ -33,9 +33,8 @@ import java.util.Map;
 import junit.framework.AssertionFailedError;
 
 /**
- * A generic JUnit test which tests {@link Map#merge}. Can't be
- * invoked directly; please see
- * {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
+ * A generic JUnit test which tests {@link Map#merge}. Can't be invoked directly; please see {@link
+ * com.google.common.collect.testing.MapTestSuiteBuilder}.
  *
  * @author Louis Wasserman
  */

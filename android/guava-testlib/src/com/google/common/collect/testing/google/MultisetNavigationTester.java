@@ -51,9 +51,7 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
   private Entry<E> b;
   private Entry<E> c;
 
-  /**
-   * Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557
-   */
+  /** Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557 */
   static <T> SortedMultiset<T> cast(Multiset<T> iterable) {
     return (SortedMultiset<T>) iterable;
   }
@@ -78,9 +76,7 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
     }
   }
 
-  /**
-   * Resets the contents of sortedMultiset to have entries a, c, for the navigation tests.
-   */
+  /** Resets the contents of sortedMultiset to have entries a, c, for the navigation tests. */
   @SuppressWarnings("unchecked")
   // Needed to stop Eclipse whining
   private void resetWithHole() {

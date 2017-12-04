@@ -35,7 +35,8 @@ public class SipHashFunctionTest extends TestCase {
 
   // These constants were originally ported from https://www.131002.net/siphash/siphash24.c. See:
   // https://github.com/nahi/siphash-java-inline/blob/master/src/test/java/SipHashInlineTest.java
-  private static final long[] EXPECTED = new long[] {
+  private static final long[] EXPECTED =
+      new long[] {
         0x726fdb47dd0e0e31L,
         0x74f839c593dc67fdL,
         0x0d6c8009d9a94f5aL,
@@ -100,7 +101,7 @@ public class SipHashFunctionTest extends TestCase {
         0x9f626da15c9625f3L,
         0xe51b38608ef25f57L,
         0x958a324ceb064572L
-  };
+      };
 
   public void testVectors() {
     for (int i = 0; i < EXPECTED.length; ++i) {
@@ -115,8 +116,10 @@ public class SipHashFunctionTest extends TestCase {
   // This test data comes from "SipHash: a fast short-input PRF", "Appendix A: Test values".
   // It can be downloaded here: https://131002.net/siphash/siphash.pdf
   public void test15ByteStringFromSipHashPaper() {
-    byte[] message = new byte[] {
-        0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e };
+    byte[] message =
+        new byte[] {
+          0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e
+        };
     long k0 = 0x0706050403020100L;
     long k1 = 0x0f0e0d0c0b0a0908L;
 
@@ -125,8 +128,8 @@ public class SipHashFunctionTest extends TestCase {
 
   // From https://github.com/BrandonHaynes/siphash-csharp/blob/master/tests/Tests.cs
   public void testKnownValues() {
-    assertSip(new byte[] { }, 0x726fdb47dd0e0e31L);
-    assertSip(new byte[] { 0x61 }, 0x2ba3e8e9a71148caL);
+    assertSip(new byte[] {}, 0x726fdb47dd0e0e31L);
+    assertSip(new byte[] {0x61}, 0x2ba3e8e9a71148caL);
     assertSip(new byte[1000000], 0x28205108397aa742L);
     assertSip("12345678", 0x02130609caea37ebL);
     assertSip("abcdef", 0x2a6e77e733c7c05dL);
@@ -143,14 +146,15 @@ public class SipHashFunctionTest extends TestCase {
   // (3) 00 01 02 03 04 05 06 07 ff (or anything in between)
   // A fault implementation will generate collisions for these inputs.
   public void testCollisionsDueToIncorrectSignExtension() {
-    byte[] col1 = new byte[] { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, (byte) 0x80 };
-    byte[] col2 = new byte[] { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, (byte) 0x81 };
-    byte[] col3 = new byte[] { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, (byte) 0xff };
+    byte[] col1 = new byte[] {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, (byte) 0x80};
+    byte[] col2 = new byte[] {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, (byte) 0x81};
+    byte[] col3 = new byte[] {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, (byte) 0xff};
 
-    ImmutableSet<HashCode> hashCodes = ImmutableSet.of(
-        SIP_WITH_KEY.hashBytes(col1),
-        SIP_WITH_KEY.hashBytes(col2),
-        SIP_WITH_KEY.hashBytes(col3));
+    ImmutableSet<HashCode> hashCodes =
+        ImmutableSet.of(
+            SIP_WITH_KEY.hashBytes(col1),
+            SIP_WITH_KEY.hashBytes(col2),
+            SIP_WITH_KEY.hashBytes(col3));
     assertEquals(3, hashCodes.size());
   }
 

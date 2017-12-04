@@ -43,12 +43,11 @@ import java.util.SortedSet;
 import javax.annotation.Nullable;
 
 /**
- * Synchronized collection views. The returned synchronized collection views are
- * serializable if the backing collection and the mutex are serializable.
+ * Synchronized collection views. The returned synchronized collection views are serializable if the
+ * backing collection and the mutex are serializable.
  *
- * <p>If {@code null} is passed as the {@code mutex} parameter to any of this
- * class's top-level methods or inner class constructors, the created object
- * uses itself as the synchronization mutex.
+ * <p>If {@code null} is passed as the {@code mutex} parameter to any of this class's top-level
+ * methods or inner class constructors, the created object uses itself as the synchronization mutex.
  *
  * <p>This class should be used by other collection classes only.
  *
@@ -1159,8 +1158,7 @@ final class Synchronized {
   static class SynchronizedBiMap<K, V> extends SynchronizedMap<K, V>
       implements BiMap<K, V>, Serializable {
     private transient Set<V> valueSet;
-    @RetainedWith
-    private transient BiMap<V, K> inverse;
+    @RetainedWith private transient BiMap<V, K> inverse;
 
     private SynchronizedBiMap(
         BiMap<K, V> delegate, @Nullable Object mutex, @Nullable BiMap<V, K> inverse) {
@@ -1831,7 +1829,7 @@ final class Synchronized {
 
     private static final long serialVersionUID = 0;
   }
-  
+
   static <R, C, V> Table<R, C, V> table(Table<R, C, V> table, Object mutex) {
     return new SynchronizedTable<>(table, mutex);
   }

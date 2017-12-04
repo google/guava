@@ -64,8 +64,7 @@ public class FinalizableReferenceQueueClassLoaderUnloadingTest extends TestCase 
     }
 
     @Override
-    public void finalizeReferent() {
-    }
+    public void finalizeReferent() {}
   }
 
   private static class PermissivePolicy extends Policy {
@@ -112,8 +111,9 @@ public class FinalizableReferenceQueueClassLoaderUnloadingTest extends TestCase 
     assertSame(sepLoader, sepStopwatchC.getClassLoader());
     AtomicReference<Object> sepStopwatchA =
         new AtomicReference<Object>(sepStopwatchC.getMethod("createUnstarted").invoke(null));
-    AtomicReference<WeakReference<?>> sepStopwatchRef = new AtomicReference<WeakReference<?>>(
-        (WeakReference<?>) sepFwrCons.newInstance(sepStopwatchA.get(), sepFrqA.get()));
+    AtomicReference<WeakReference<?>> sepStopwatchRef =
+        new AtomicReference<WeakReference<?>>(
+            (WeakReference<?>) sepFwrCons.newInstance(sepStopwatchA.get(), sepFrqA.get()));
     assertNotNull(sepStopwatchA.get());
     // Clear all references to the Stopwatch and wait for it to be gc'd.
     sepStopwatchA.set(null);
@@ -164,12 +164,13 @@ public class FinalizableReferenceQueueClassLoaderUnloadingTest extends TestCase 
 
     @Override
     public WeakReference<Object> call() {
-      WeakReference<Object> wr = new FinalizableWeakReference<Object>(new Integer(23), frq) {
-        @Override
-        public void finalizeReferent() {
-          finalized.release();
-        }
-      };
+      WeakReference<Object> wr =
+          new FinalizableWeakReference<Object>(new Integer(23), frq) {
+            @Override
+            public void finalizeReferent() {
+              finalized.release();
+            }
+          };
       return wr;
     }
   }

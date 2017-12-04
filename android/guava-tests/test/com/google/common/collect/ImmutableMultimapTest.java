@@ -35,9 +35,8 @@ import junit.framework.TestCase;
 public class ImmutableMultimapTest extends TestCase {
 
   public void testBuilder_withImmutableEntry() {
-    ImmutableMultimap<String, Integer> multimap = new Builder<String, Integer>()
-        .put(Maps.immutableEntry("one", 1))
-        .build();
+    ImmutableMultimap<String, Integer> multimap =
+        new Builder<String, Integer>().put(Maps.immutableEntry("one", 1)).build();
     assertEquals(Arrays.asList(1), multimap.get("one"));
   }
 
@@ -63,14 +62,18 @@ public class ImmutableMultimapTest extends TestCase {
     ImmutableMultimap.Builder<String, Integer> builder = new Builder<>();
     final StringHolder holder = new StringHolder();
     holder.string = "one";
-    Entry<String, Integer> entry = new AbstractMapEntry<String, Integer>() {
-      @Override public String getKey() {
-        return holder.string;
-      }
-      @Override public Integer getValue() {
-        return 1;
-      }
-    };
+    Entry<String, Integer> entry =
+        new AbstractMapEntry<String, Integer>() {
+          @Override
+          public String getKey() {
+            return holder.string;
+          }
+
+          @Override
+          public Integer getValue() {
+            return 1;
+          }
+        };
 
     builder.put(entry);
     holder.string = "two";
@@ -80,33 +83,33 @@ public class ImmutableMultimapTest extends TestCase {
   // TODO: test ImmutableMultimap builder and factory methods
 
   public void testCopyOf() {
-    ImmutableSetMultimap<String, String> setMultimap
-        = ImmutableSetMultimap.of("k1", "v1");
-    ImmutableMultimap<String, String> setMultimapCopy
-        = ImmutableMultimap.copyOf(setMultimap);
-    assertSame("copyOf(ImmutableSetMultimap) should not create a new instance",
-        setMultimap, setMultimapCopy);
+    ImmutableSetMultimap<String, String> setMultimap = ImmutableSetMultimap.of("k1", "v1");
+    ImmutableMultimap<String, String> setMultimapCopy = ImmutableMultimap.copyOf(setMultimap);
+    assertSame(
+        "copyOf(ImmutableSetMultimap) should not create a new instance",
+        setMultimap,
+        setMultimapCopy);
 
-    ImmutableListMultimap<String, String> listMultimap
-        = ImmutableListMultimap.of("k1", "v1");
-    ImmutableMultimap<String, String> listMultimapCopy
-        = ImmutableMultimap.copyOf(listMultimap);
-    assertSame("copyOf(ImmutableListMultimap) should not create a new instance",
-        listMultimap, listMultimapCopy);
+    ImmutableListMultimap<String, String> listMultimap = ImmutableListMultimap.of("k1", "v1");
+    ImmutableMultimap<String, String> listMultimapCopy = ImmutableMultimap.copyOf(listMultimap);
+    assertSame(
+        "copyOf(ImmutableListMultimap) should not create a new instance",
+        listMultimap,
+        listMultimapCopy);
   }
 
   public void testUnhashableSingletonValue() {
     SampleElements<UnhashableObject> unhashables = new Unhashables();
-    Multimap<Integer, UnhashableObject> multimap = ImmutableMultimap.of(
-        0, unhashables.e0());
+    Multimap<Integer, UnhashableObject> multimap = ImmutableMultimap.of(0, unhashables.e0());
     assertEquals(1, multimap.get(0).size());
     assertTrue(multimap.get(0).contains(unhashables.e0()));
   }
 
   public void testUnhashableMixedValues() {
     SampleElements<UnhashableObject> unhashables = new Unhashables();
-    Multimap<Integer, Object> multimap = ImmutableMultimap.<Integer, Object>of(
-        0, unhashables.e0(), 2, "hey you", 0, unhashables.e1());
+    Multimap<Integer, Object> multimap =
+        ImmutableMultimap.<Integer, Object>of(
+            0, unhashables.e0(), 2, "hey you", 0, unhashables.e1());
     assertEquals(2, multimap.get(0).size());
     assertTrue(multimap.get(0).contains(unhashables.e0()));
     assertTrue(multimap.get(0).contains(unhashables.e1()));
@@ -118,8 +121,7 @@ public class ImmutableMultimapTest extends TestCase {
         .addEqualityGroup(ImmutableMultimap.of(), ImmutableMultimap.of())
         .addEqualityGroup(ImmutableMultimap.of(1, "a"), ImmutableMultimap.of(1, "a"))
         .addEqualityGroup(
-            ImmutableMultimap.of(1, "a", 2, "b"),
-            ImmutableMultimap.of(2, "b", 1, "a"))
+            ImmutableMultimap.of(1, "a", 2, "b"), ImmutableMultimap.of(2, "b", 1, "a"))
         .testEquals();
   }
 }

@@ -34,9 +34,9 @@ import java.util.Queue;
  * (first-in-first-out). This data structure is logically equivalent to a circular buffer (i.e.,
  * cyclic buffer or ring buffer).
  *
- * <p>An evicting queue must be configured with a maximum size. Each time an element is added
- * to a full queue, the queue automatically removes its head element. This is different from
- * conventional bounded queues, which either block or reject new elements when full.
+ * <p>An evicting queue must be configured with a maximum size. Each time an element is added to a
+ * full queue, the queue automatically removes its head element. This is different from conventional
+ * bounded queues, which either block or reject new elements when full.
  *
  * <p>This class is not thread-safe, and does not accept null elements.
  *
@@ -68,8 +68,8 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
   }
 
   /**
-   * Returns the number of additional elements that this queue can accept without evicting;
-   * zero if the queue is currently full.
+   * Returns the number of additional elements that this queue can accept without evicting; zero if
+   * the queue is currently full.
    *
    * @since 16.0
    */

@@ -25,7 +25,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -49,7 +48,8 @@ import javax.annotation.Nullable;
  * <p><b>Note:</b> every {@link ImmutableMultimap} offers an {@link #inverse} view, so there is no
  * need for a distinct {@code ImmutableBiMultimap} type.
  *
- * <a name="iteration"></a>
+ * <p><a name="iteration"></a>
+ *
  * <p><b>Key-grouped iteration.</b> All view collections follow the same iteration order. In all
  * current implementations, the iteration order always keeps multiple entries with the same key
  * together. Any creation method that would customarily respect insertion order (such as {@link
@@ -57,8 +57,7 @@ import javax.annotation.Nullable;
  * immediately after the last entry having that key.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">
- * immutable collections</a>.
+ * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
  *
  * @author Jared Levy
  * @since 2.0
@@ -72,42 +71,35 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
     return ImmutableListMultimap.of();
   }
 
-  /**
-   * Returns an immutable multimap containing a single entry.
-   */
+  /** Returns an immutable multimap containing a single entry. */
   public static <K, V> ImmutableMultimap<K, V> of(K k1, V v1) {
     return ImmutableListMultimap.of(k1, v1);
   }
 
-  /**
-   * Returns an immutable multimap containing the given entries, in order.
-   */
+  /** Returns an immutable multimap containing the given entries, in order. */
   public static <K, V> ImmutableMultimap<K, V> of(K k1, V v1, K k2, V v2) {
     return ImmutableListMultimap.of(k1, v1, k2, v2);
   }
 
   /**
-   * Returns an immutable multimap containing the given entries, in the
-   * "key-grouped" insertion order described in the
-   * <a href="#iteration">class documentation</a>.
+   * Returns an immutable multimap containing the given entries, in the "key-grouped" insertion
+   * order described in the <a href="#iteration">class documentation</a>.
    */
   public static <K, V> ImmutableMultimap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3) {
     return ImmutableListMultimap.of(k1, v1, k2, v2, k3, v3);
   }
 
   /**
-   * Returns an immutable multimap containing the given entries, in the
-   * "key-grouped" insertion order described in the
-   * <a href="#iteration">class documentation</a>.
+   * Returns an immutable multimap containing the given entries, in the "key-grouped" insertion
+   * order described in the <a href="#iteration">class documentation</a>.
    */
   public static <K, V> ImmutableMultimap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
     return ImmutableListMultimap.of(k1, v1, k2, v2, k3, v3, k4, v4);
   }
 
   /**
-   * Returns an immutable multimap containing the given entries, in the
-   * "key-grouped" insertion order described in the
-   * <a href="#iteration">class documentation</a>.
+   * Returns an immutable multimap containing the given entries, in the "key-grouped" insertion
+   * order described in the <a href="#iteration">class documentation</a>.
    */
   public static <K, V> ImmutableMultimap<K, V> of(
       K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {
@@ -117,28 +109,29 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
   // looking for of() with > 5 entries? Use the builder instead.
 
   /**
-   * Returns a new builder. The generated builder is equivalent to the builder
-   * created by the {@link Builder} constructor.
+   * Returns a new builder. The generated builder is equivalent to the builder created by the {@link
+   * Builder} constructor.
    */
   public static <K, V> Builder<K, V> builder() {
     return new Builder<>();
   }
 
   /**
-   * A builder for creating immutable multimap instances, especially
-   * {@code public static final} multimaps ("constant multimaps"). Example:
-   * <pre>   {@code
+   * A builder for creating immutable multimap instances, especially {@code public static final}
+   * multimaps ("constant multimaps"). Example:
    *
-   *   static final Multimap<String, Integer> STRING_TO_INTEGER_MULTIMAP =
-   *       new ImmutableMultimap.Builder<String, Integer>()
-   *           .put("one", 1)
-   *           .putAll("several", 1, 2, 3)
-   *           .putAll("many", 1, 2, 3, 4, 5)
-   *           .build();}</pre>
+   * <pre>{@code
+   * static final Multimap<String, Integer> STRING_TO_INTEGER_MULTIMAP =
+   *     new ImmutableMultimap.Builder<String, Integer>()
+   *         .put("one", 1)
+   *         .putAll("several", 1, 2, 3)
+   *         .putAll("many", 1, 2, 3, 4, 5)
+   *         .build();
+   * }</pre>
    *
-   * <p>Builder instances can be reused; it is safe to call {@link #build} multiple
-   * times to build multiple multimaps in series. Each multimap contains the
-   * key-value mappings in the previously created multimaps.
+   * <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
+   * multiple multimaps in series. Each multimap contains the key-value mappings in the previously
+   * created multimaps.
    *
    * @since 2.0
    */
@@ -148,8 +141,8 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
     Comparator<? super V> valueComparator;
 
     /**
-     * Creates a new builder. The returned builder is equivalent to the builder
-     * generated by {@link ImmutableMultimap#builder}.
+     * Creates a new builder. The returned builder is equivalent to the builder generated by {@link
+     * ImmutableMultimap#builder}.
      */
     public Builder() {
       this(MultimapBuilder.linkedHashKeys().arrayListValues().<K, V>build());
@@ -159,9 +152,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
       this.builderMultimap = builderMultimap;
     }
 
-    /**
-     * Adds a key-value mapping to the built multimap.
-     */
+    /** Adds a key-value mapping to the built multimap. */
     @CanIgnoreReturnValue
     public Builder<K, V> put(K key, V value) {
       checkEntryNotNull(key, value);
@@ -196,9 +187,8 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
     /**
      * Stores a collection of values with the same key in the built multimap.
      *
-     * @throws NullPointerException if {@code key}, {@code values}, or any
-     *     element in {@code values} is null. The builder is left in an invalid
-     *     state.
+     * @throws NullPointerException if {@code key}, {@code values}, or any element in {@code values}
+     *     is null. The builder is left in an invalid state.
      */
     @CanIgnoreReturnValue
     public Builder<K, V> putAll(K key, Iterable<? extends V> values) {
@@ -216,8 +206,8 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
     /**
      * Stores an array of values with the same key in the built multimap.
      *
-     * @throws NullPointerException if the key or any value is null. The builder
-     *     is left in an invalid state.
+     * @throws NullPointerException if the key or any value is null. The builder is left in an
+     *     invalid state.
      */
     @CanIgnoreReturnValue
     public Builder<K, V> putAll(K key, V... values) {
@@ -225,13 +215,12 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
     }
 
     /**
-     * Stores another multimap's entries in the built multimap. The generated
-     * multimap's key and value orderings correspond to the iteration ordering
-     * of the {@code multimap.asMap()} view, with new keys and values following
-     * any existing keys and values.
+     * Stores another multimap's entries in the built multimap. The generated multimap's key and
+     * value orderings correspond to the iteration ordering of the {@code multimap.asMap()} view,
+     * with new keys and values following any existing keys and values.
      *
-     * @throws NullPointerException if any key or value in {@code multimap} is
-     *     null. The builder is left in an invalid state.
+     * @throws NullPointerException if any key or value in {@code multimap} is null. The builder is
+     *     left in an invalid state.
      */
     @CanIgnoreReturnValue
     public Builder<K, V> putAll(Multimap<? extends K, ? extends V> multimap) {
@@ -264,9 +253,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
       return this;
     }
 
-    /**
-     * Returns a newly-created immutable multimap.
-     */
+    /** Returns a newly-created immutable multimap. */
     public ImmutableMultimap<K, V> build() {
       if (valueComparator != null) {
         for (Collection<V> values : builderMultimap.asMap().values()) {
@@ -291,16 +278,14 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   /**
-   * Returns an immutable multimap containing the same mappings as {@code
-   * multimap}, in the "key-grouped" iteration order described in the class
-   * documentation.
+   * Returns an immutable multimap containing the same mappings as {@code multimap}, in the
+   * "key-grouped" iteration order described in the class documentation.
    *
-   * <p>Despite the method name, this method attempts to avoid actually copying
-   * the data when it is safe to do so. The exact circumstances under which a
-   * copy will or will not be performed are undocumented and subject to change.
+   * <p>Despite the method name, this method attempts to avoid actually copying the data when it is
+   * safe to do so. The exact circumstances under which a copy will or will not be performed are
+   * undocumented and subject to change.
    *
-   * @throws NullPointerException if any key or value in {@code multimap} is
-   *         null
+   * @throws NullPointerException if any key or value in {@code multimap} is null
    */
   public static <K, V> ImmutableMultimap<K, V> copyOf(Multimap<? extends K, ? extends V> multimap) {
     if (multimap instanceof ImmutableMultimap) {
@@ -314,10 +299,9 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   /**
-   * Returns an immutable multimap containing the specified entries.  The
-   * returned multimap iterates over keys in the order they were first
-   * encountered in the input, and the values for each key are iterated in the
-   * order they were encountered.
+   * Returns an immutable multimap containing the specified entries. The returned multimap iterates
+   * over keys in the order they were first encountered in the input, and the values for each key
+   * are iterated in the order they were encountered.
    *
    * @throws NullPointerException if any key, value, or entry is null
    * @since 19.0
@@ -390,18 +374,16 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   /**
-   * Returns an immutable collection of the values for the given key.  If no
-   * mappings in the multimap have the provided key, an empty immutable
-   * collection is returned. The values are in the same order as the parameters
-   * used to build this multimap.
+   * Returns an immutable collection of the values for the given key. If no mappings in the multimap
+   * have the provided key, an empty immutable collection is returned. The values are in the same
+   * order as the parameters used to build this multimap.
    */
   @Override
   public abstract ImmutableCollection<V> get(K key);
 
   /**
-   * Returns an immutable multimap which is the inverse of this one. For every
-   * key-value mapping in the original, the result will have a mapping with
-   * key and value reversed.
+   * Returns an immutable multimap which is the inverse of this one. For every key-value mapping in
+   * the original, the result will have a mapping with key and value reversed.
    *
    * @since 11.0
    */
@@ -461,8 +443,8 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
 
   /**
    * Returns {@code true} if this immutable multimap's implementation contains references to
-   * user-created objects that aren't accessible via this multimap's methods. This is generally
-   * used to determine whether {@code copyOf} implementations should make an explicit copy to avoid
+   * user-created objects that aren't accessible via this multimap's methods. This is generally used
+   * to determine whether {@code copyOf} implementations should make an explicit copy to avoid
    * memory leaks.
    */
   boolean isPartialView() {
@@ -489,8 +471,8 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
   // views
 
   /**
-   * Returns an immutable set of the distinct keys in this multimap, in the same
-   * order as they appear in this multimap.
+   * Returns an immutable set of the distinct keys in this multimap, in the same order as they
+   * appear in this multimap.
    */
   @Override
   public ImmutableSet<K> keySet() {
@@ -498,9 +480,8 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   /**
-   * Returns an immutable map that associates each key with its corresponding
-   * values in the multimap. Keys and values appear in the same order as in this
-   * multimap.
+   * Returns an immutable map that associates each key with its corresponding values in the
+   * multimap. Keys and values appear in the same order as in this multimap.
    */
   @Override
   @SuppressWarnings("unchecked") // a widening cast
@@ -513,9 +494,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
     throw new AssertionError("should never be called");
   }
 
-  /**
-   * Returns an immutable collection of all key-value pairs in the multimap.
-   */
+  /** Returns an immutable collection of all key-value pairs in the multimap. */
   @Override
   public ImmutableCollection<Entry<K, V>> entries() {
     return (ImmutableCollection<Entry<K, V>>) super.entries();
@@ -594,9 +573,9 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   /**
-   * Returns an immutable multiset containing all the keys in this multimap, in
-   * the same order and with the same frequencies as they appear in this
-   * multimap; to get only a single occurrence of each key, use {@link #keySet}.
+   * Returns an immutable multiset containing all the keys in this multimap, in the same order and
+   * with the same frequencies as they appear in this multimap; to get only a single occurrence of
+   * each key, use {@link #keySet}.
    */
   @Override
   public ImmutableMultiset<K> keys() {
@@ -645,9 +624,8 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   /**
-   * Returns an immutable collection of the values in this multimap. Its
-   * iterator traverses the values for the first key, the values for the second
-   * key, and so on.
+   * Returns an immutable collection of the values in this multimap. Its iterator traverses the
+   * values for the first key, the values for the second key, and so on.
    */
   @Override
   public ImmutableCollection<V> values() {

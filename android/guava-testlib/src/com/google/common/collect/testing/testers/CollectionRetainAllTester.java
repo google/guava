@@ -32,9 +32,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * A generic JUnit test which tests {@code retainAll} operations on a
- * collection. Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code retainAll} operations on a collection. Can't be invoked
+ * directly; please see {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
  *
  * @author Chris Povirk
  */
@@ -42,10 +41,7 @@ import java.util.List;
 @GwtCompatible
 public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
 
-  /**
-   * A collection of elements to retain, along with a description for use in
-   * failure messages.
-   */
+  /** A collection of elements to retain, along with a description for use in failure messages. */
   private class Target {
     private final Collection<E> toRetain;
     private final String description;

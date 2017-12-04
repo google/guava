@@ -40,8 +40,8 @@ import org.junit.Test;
  * graph. The following test cases are left for the subclasses to handle:
  *
  * <ul>
- * <li>Test cases related to whether the graph is directed, undirected, mutable, or immutable.
- * <li>Test cases related to the specific implementation of the {@link Graph} interface.
+ *   <li>Test cases related to whether the graph is directed, undirected, mutable, or immutable.
+ *   <li>Test cases related to the specific implementation of the {@link Graph} interface.
  * </ul>
  *
  * TODO(user): Make this class generic (using <N, E>) for all node and edge types.

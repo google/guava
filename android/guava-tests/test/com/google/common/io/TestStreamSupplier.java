@@ -25,13 +25,9 @@ package com.google.common.io;
  */
 public interface TestStreamSupplier {
 
-  /**
-   * Returns whether or not a new stream was opened.
-   */
+  /** Returns whether or not a new stream was opened. */
   boolean wasStreamOpened();
 
-  /**
-   * Returns whether or not an open stream was closed.
-   */
+  /** Returns whether or not an open stream was closed. */
   boolean wasStreamClosed();
 }

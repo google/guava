@@ -28,8 +28,8 @@ import com.google.common.collect.testing.features.MapFeature;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * Tester for {@link ConcurrentMap#remove}.  Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.ConcurrentMapTestSuiteBuilder}.
+ * Tester for {@link ConcurrentMap#remove}. Can't be invoked directly; please see {@link
+ * com.google.common.collect.testing.ConcurrentMapTestSuiteBuilder}.
  *
  * @author Louis Wasserman
  */

@@ -21,8 +21,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 /**
- * Validate that {@link EventBus} behaves carefully when listeners publish
- * their own events.
+ * Validate that {@link EventBus} behaves carefully when listeners publish their own events.
  *
  * @author Jesse Wilson
  */
@@ -39,8 +38,10 @@ public class ReentrantEventsTest extends TestCase {
 
     bus.post(FIRST);
 
-    assertEquals("ReentrantEventHater expected 2 events",
-        Lists.<Object>newArrayList(FIRST, SECOND), hater.eventsReceived);
+    assertEquals(
+        "ReentrantEventHater expected 2 events",
+        Lists.<Object>newArrayList(FIRST, SECOND),
+        hater.eventsReceived);
   }
 
   public class ReentrantEventsHater {
@@ -74,19 +75,24 @@ public class ReentrantEventsTest extends TestCase {
 
     bus.post(FIRST);
 
-    assertEquals("EventRecorder expected events in order",
-        Lists.<Object>newArrayList(FIRST, SECOND), recorder.eventsReceived);
+    assertEquals(
+        "EventRecorder expected events in order",
+        Lists.<Object>newArrayList(FIRST, SECOND),
+        recorder.eventsReceived);
   }
 
   public class EventProcessor {
-    @Subscribe public void listenForStrings(String event) {
+    @Subscribe
+    public void listenForStrings(String event) {
       bus.post(SECOND);
     }
   }
 
   public class EventRecorder {
     List<Object> eventsReceived = Lists.newArrayList();
-    @Subscribe public void listenForEverything(Object event) {
+
+    @Subscribe
+    public void listenForEverything(Object event) {
       eventsReceived.add(event);
     }
   }

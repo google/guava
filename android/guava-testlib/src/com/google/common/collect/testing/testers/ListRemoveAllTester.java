@@ -26,9 +26,8 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 
 /**
- * A generic JUnit test which tests removeAll operations on a list. Can't be
- * invoked directly; please see
- * {@link com.google.common.collect.testing.ListTestSuiteBuilder}.
+ * A generic JUnit test which tests removeAll operations on a list. Can't be invoked directly;
+ * please see {@link com.google.common.collect.testing.ListTestSuiteBuilder}.
  *
  * @author George van den Driessche
  */

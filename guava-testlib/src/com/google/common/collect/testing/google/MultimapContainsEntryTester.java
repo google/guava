@@ -75,8 +75,8 @@ public class MultimapContainsEntryTester<K, V>
   }
 
   /**
-   * Copy of the {@link #testContainsEntryNullDisallowed} test. Needed because
-   * "optional" feature requirements are not supported.
+   * Copy of the {@link #testContainsEntryNullDisallowed} test. Needed because "optional" feature
+   * requirements are not supported.
    */
   @MapFeature.Require(absent = ALLOWS_NULL_VALUE_QUERIES)
   public void testContainsEntryNullDisallowedBecauseValueQueriesDisallowed() {

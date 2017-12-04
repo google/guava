@@ -27,5 +27,4 @@ public class InterruptibleMonitorTest extends MonitorTestCase {
   public InterruptibleMonitorTest() {
     super(true);
   }
-
 }

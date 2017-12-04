@@ -34,8 +34,7 @@ public class SerializableTesterTest extends TestCase {
   }
 
   public void testClassWhichDoesNotImplementEquals() {
-    ClassWhichDoesNotImplementEquals orig =
-        new ClassWhichDoesNotImplementEquals();
+    ClassWhichDoesNotImplementEquals orig = new ClassWhichDoesNotImplementEquals();
     boolean errorNotThrown = false;
     try {
       SerializableTester.reserializeAndAssert(orig);
@@ -62,8 +61,7 @@ public class SerializableTesterTest extends TestCase {
   }
 
   public void testObjectWhichIsEqualButChangesClass() {
-    ObjectWhichIsEqualButChangesClass orig =
-        new ObjectWhichIsEqualButChangesClass();
+    ObjectWhichIsEqualButChangesClass orig = new ObjectWhichIsEqualButChangesClass();
     boolean errorNotThrown = false;
     try {
       SerializableTester.reserializeAndAssert(orig);
@@ -75,13 +73,11 @@ public class SerializableTesterTest extends TestCase {
     assertFalse(errorNotThrown);
   }
 
-  private static class ClassWhichDoesNotImplementEquals
-      implements Serializable {
+  private static class ClassWhichDoesNotImplementEquals implements Serializable {
     private static final long serialVersionUID = 1L;
   }
 
-  private static class ClassWhichIsAlwaysEqualButHasDifferentHashcodes
-      implements Serializable {
+  private static class ClassWhichIsAlwaysEqualButHasDifferentHashcodes implements Serializable {
     private static final long serialVersionUID = 2L;
 
     @Override
@@ -90,14 +86,12 @@ public class SerializableTesterTest extends TestCase {
     }
   }
 
-  private static class ObjectWhichIsEqualButChangesClass
-      implements Serializable {
+  private static class ObjectWhichIsEqualButChangesClass implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Override
     public boolean equals(Object other) {
-      return (other instanceof ObjectWhichIsEqualButChangesClass
-          || other instanceof OtherForm);
+      return (other instanceof ObjectWhichIsEqualButChangesClass || other instanceof OtherForm);
     }
 
     @Override
@@ -112,8 +106,7 @@ public class SerializableTesterTest extends TestCase {
     private static class OtherForm implements Serializable {
       @Override
       public boolean equals(Object other) {
-        return (other instanceof ObjectWhichIsEqualButChangesClass
-            || other instanceof OtherForm);
+        return (other instanceof ObjectWhichIsEqualButChangesClass || other instanceof OtherForm);
       }
 
       @Override

@@ -29,16 +29,14 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * This class provides a skeletal implementation of the {@link Multiset}
- * interface. A new multiset implementation can be created easily by extending
- * this class and implementing the {@link Multiset#entrySet()} method, plus
- * optionally overriding {@link #add(Object, int)} and
- * {@link #remove(Object, int)} to enable modifications to the multiset.
+ * This class provides a skeletal implementation of the {@link Multiset} interface. A new multiset
+ * implementation can be created easily by extending this class and implementing the {@link
+ * Multiset#entrySet()} method, plus optionally overriding {@link #add(Object, int)} and {@link
+ * #remove(Object, int)} to enable modifications to the multiset.
  *
- * <p>The {@link #count} and {@link #size} implementations all iterate across
- * the set returned by {@link Multiset#entrySet()}, as do many methods acting on
- * the set returned by {@link #elementSet()}. Override those methods for better
- * performance.
+ * <p>The {@link #count} and {@link #size} implementations all iterate across the set returned by
+ * {@link Multiset#entrySet()}, as do many methods acting on the set returned by {@link
+ * #elementSet()}. Override those methods for better performance.
  *
  * @author Kevin Bourrillion
  * @author Louis Wasserman
@@ -120,8 +118,8 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
   /**
    * {@inheritDoc}
    *
-   * <p>This implementation is highly efficient when {@code elementsToAdd}
-   * is itself a {@link Multiset}.
+   * <p>This implementation is highly efficient when {@code elementsToAdd} is itself a {@link
+   * Multiset}.
    */
   @CanIgnoreReturnValue
   @Override
@@ -160,8 +158,8 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
   }
 
   /**
-   * Creates a new instance of this multiset's element set, which will be
-   * returned by {@link #elementSet()}.
+   * Creates a new instance of this multiset's element set, which will be returned by {@link
+   * #elementSet()}.
    */
   Set<E> createElementSet() {
     return new ElementSet();
@@ -217,9 +215,8 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
   /**
    * {@inheritDoc}
    *
-   * <p>This implementation returns {@code true} if {@code object} is a multiset
-   * of the same size and if, for each element, the two multisets have the same
-   * count.
+   * <p>This implementation returns {@code true} if {@code object} is a multiset of the same size
+   * and if, for each element, the two multisets have the same count.
    */
   @Override
   public boolean equals(@Nullable Object object) {
@@ -229,8 +226,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
   /**
    * {@inheritDoc}
    *
-   * <p>This implementation returns the hash code of {@link
-   * Multiset#entrySet()}.
+   * <p>This implementation returns the hash code of {@link Multiset#entrySet()}.
    */
   @Override
   public int hashCode() {
@@ -240,8 +236,8 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
   /**
    * {@inheritDoc}
    *
-   * <p>This implementation returns the result of invoking {@code toString} on
-   * {@link Multiset#entrySet()}.
+   * <p>This implementation returns the result of invoking {@code toString} on {@link
+   * Multiset#entrySet()}.
    */
   @Override
   public String toString() {

@@ -1425,7 +1425,7 @@ public final class Preconditions {
   static String format(@Nullable String template, @Nullable Object... args) {
     template = String.valueOf(template); // null -> "null"
 
-    args = args == null ? new Object[]{"(Object[])null"} : args;
+    args = args == null ? new Object[] {"(Object[])null"} : args;
 
     // start substituting the arguments into the '%s' placeholders
     StringBuilder builder = new StringBuilder(template.length() + 16 * args.length);

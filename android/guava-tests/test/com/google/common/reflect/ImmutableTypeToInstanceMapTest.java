@@ -45,30 +45,31 @@ public class ImmutableTypeToInstanceMapTest extends TestCase {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableTypeToInstanceMapTest.class);
 
-    suite.addTest(MapTestSuiteBuilder
-        .using(new TestTypeToInstanceMapGenerator() {
-          // Other tests will verify what real, warning-free usage looks like
-          // but here we have to do some serious fudging
-          @Override
-          @SuppressWarnings("unchecked")
-          public Map<TypeToken, Object> create(Object... elements) {
-            ImmutableTypeToInstanceMap.Builder<Object> builder
-                = ImmutableTypeToInstanceMap.builder();
-            for (Object object : elements) {
-              Entry<TypeToken, Object> entry = (Entry<TypeToken, Object>) object;
-              builder.put(entry.getKey(), entry.getValue());
-            }
-            return (Map) builder.build();
-          }
-        })
-        .named("ImmutableTypeToInstanceMap")
-        .withFeatures(
-            MapFeature.REJECTS_DUPLICATES_AT_CREATION,
-            MapFeature.RESTRICTS_KEYS,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionSize.ANY,
-            MapFeature.ALLOWS_ANY_NULL_QUERIES)
-        .createTestSuite());
+    suite.addTest(
+        MapTestSuiteBuilder.using(
+                new TestTypeToInstanceMapGenerator() {
+                  // Other tests will verify what real, warning-free usage looks like
+                  // but here we have to do some serious fudging
+                  @Override
+                  @SuppressWarnings("unchecked")
+                  public Map<TypeToken, Object> create(Object... elements) {
+                    ImmutableTypeToInstanceMap.Builder<Object> builder =
+                        ImmutableTypeToInstanceMap.builder();
+                    for (Object object : elements) {
+                      Entry<TypeToken, Object> entry = (Entry<TypeToken, Object>) object;
+                      builder.put(entry.getKey(), entry.getValue());
+                    }
+                    return (Map) builder.build();
+                  }
+                })
+            .named("ImmutableTypeToInstanceMap")
+            .withFeatures(
+                MapFeature.REJECTS_DUPLICATES_AT_CREATION,
+                MapFeature.RESTRICTS_KEYS,
+                CollectionFeature.KNOWN_ORDER,
+                CollectionSize.ANY,
+                MapFeature.ALLOWS_ANY_NULL_QUERIES)
+            .createTestSuite());
 
     return suite;
   }
@@ -78,10 +79,11 @@ public class ImmutableTypeToInstanceMapTest extends TestCase {
   }
 
   public void testPrimitiveAndWrapper() {
-    ImmutableTypeToInstanceMap<Number> map = ImmutableTypeToInstanceMap.<Number>builder()
-        .put(Integer.class, 0)
-        .put(int.class, 1)
-        .build();
+    ImmutableTypeToInstanceMap<Number> map =
+        ImmutableTypeToInstanceMap.<Number>builder()
+            .put(Integer.class, 0)
+            .put(int.class, 1)
+            .build();
     assertEquals(2, map.size());
 
     assertEquals(0, (int) map.getInstance(Integer.class));
@@ -92,9 +94,8 @@ public class ImmutableTypeToInstanceMapTest extends TestCase {
 
   public void testParameterizedType() {
     TypeToken<ImmutableList<Integer>> type = new TypeToken<ImmutableList<Integer>>() {};
-    ImmutableTypeToInstanceMap<Iterable<?>> map = ImmutableTypeToInstanceMap.<Iterable<?>>builder()
-        .put(type, ImmutableList.of(1))
-        .build();
+    ImmutableTypeToInstanceMap<Iterable<?>> map =
+        ImmutableTypeToInstanceMap.<Iterable<?>>builder().put(type, ImmutableList.of(1)).build();
     assertEquals(1, map.size());
     assertEquals(ImmutableList.of(1), map.getInstance(type));
   }
@@ -104,9 +105,7 @@ public class ImmutableTypeToInstanceMapTest extends TestCase {
     ImmutableList<Integer>[] array = new ImmutableList[] {ImmutableList.of(1)};
     TypeToken<ImmutableList<Integer>[]> type = new TypeToken<ImmutableList<Integer>[]>() {};
     ImmutableTypeToInstanceMap<Iterable<?>[]> map =
-        ImmutableTypeToInstanceMap.<Iterable<?>[]>builder()
-            .put(type, array)
-            .build();
+        ImmutableTypeToInstanceMap.<Iterable<?>[]>builder().put(type, array).build();
     assertEquals(1, map.size());
     // Redundant cast works around a javac bug.
     assertThat((Iterable<?>[]) map.getInstance(type)).asList().containsExactly(array[0]);
@@ -114,9 +113,8 @@ public class ImmutableTypeToInstanceMapTest extends TestCase {
 
   public void testWildcardType() {
     TypeToken<ImmutableList<?>> type = new TypeToken<ImmutableList<?>>() {};
-    ImmutableTypeToInstanceMap<Iterable<?>> map = ImmutableTypeToInstanceMap.<Iterable<?>>builder()
-            .put(type, ImmutableList.of(1))
-            .build();
+    ImmutableTypeToInstanceMap<Iterable<?>> map =
+        ImmutableTypeToInstanceMap.<Iterable<?>>builder().put(type, ImmutableList.of(1)).build();
     assertEquals(1, map.size());
     assertEquals(ImmutableList.of(1), map.getInstance(type));
   }
@@ -126,7 +124,8 @@ public class ImmutableTypeToInstanceMapTest extends TestCase {
     try {
       map.getInstance(this.<Number>anyIterableType());
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testPut_containsTypeVariable() {
@@ -135,7 +134,8 @@ public class ImmutableTypeToInstanceMapTest extends TestCase {
     try {
       builder.put(this.<Integer>anyIterableType(), ImmutableList.of(1));
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   private <T> TypeToken<Iterable<T>> anyIterableType() {
@@ -145,11 +145,13 @@ public class ImmutableTypeToInstanceMapTest extends TestCase {
   abstract static class TestTypeToInstanceMapGenerator
       implements TestMapGenerator<TypeToken, Object> {
 
-    @Override public TypeToken[] createKeyArray(int length) {
+    @Override
+    public TypeToken[] createKeyArray(int length) {
       return new TypeToken[length];
     }
 
-    @Override public Object[] createValueArray(int length) {
+    @Override
+    public Object[] createValueArray(int length) {
       return new Object[length];
     }
 

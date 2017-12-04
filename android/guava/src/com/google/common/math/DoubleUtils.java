@@ -56,9 +56,7 @@ final class DoubleUtils {
 
   static final int EXPONENT_BIAS = 1023;
 
-  /**
-   * The implicit 1 bit that is omitted in significands of normal doubles.
-   */
+  /** The implicit 1 bit that is omitted in significands of normal doubles. */
   static final long IMPLICIT_BIT = SIGNIFICAND_MASK + 1;
 
   static long getSignificand(double d) {
@@ -66,9 +64,7 @@ final class DoubleUtils {
     int exponent = getExponent(d);
     long bits = doubleToRawLongBits(d);
     bits &= SIGNIFICAND_MASK;
-    return (exponent == MIN_EXPONENT - 1)
-        ? bits << 1
-        : bits | IMPLICIT_BIT;
+    return (exponent == MIN_EXPONENT - 1) ? bits << 1 : bits | IMPLICIT_BIT;
   }
 
   static boolean isFinite(double d) {
@@ -132,9 +128,7 @@ final class DoubleUtils {
     return longBitsToDouble(bits);
   }
 
-  /**
-   * Returns its argument if it is non-negative, zero if it is negative.
-   */
+  /** Returns its argument if it is non-negative, zero if it is negative. */
   static double ensureNonNegative(double value) {
     checkArgument(!isNaN(value));
     if (value > 0.0) {
@@ -144,6 +138,5 @@ final class DoubleUtils {
     }
   }
 
-  @VisibleForTesting
-  static final long ONE_BITS = 0x3ff0000000000000L;
+  @VisibleForTesting static final long ONE_BITS = 0x3ff0000000000000L;
 }

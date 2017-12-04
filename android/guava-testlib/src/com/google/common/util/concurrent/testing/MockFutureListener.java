@@ -27,8 +27,7 @@ import java.util.concurrent.TimeUnit;
 import junit.framework.Assert;
 
 /**
- * A simple mock implementation of {@code Runnable} that can be used for
- * testing ListenableFutures.
+ * A simple mock implementation of {@code Runnable} that can be used for testing ListenableFutures.
  *
  * @author Nishant Thakkar
  * @since 10.0
@@ -52,10 +51,11 @@ public class MockFutureListener implements Runnable {
   }
 
   /**
-   * Verify that the listener completes in a reasonable amount of time, and
-   * Asserts that the future returns the expected data.
-   * @throws Throwable if the listener isn't called or if it resulted in a
-   *     throwable or if the result doesn't match the expected value.
+   * Verify that the listener completes in a reasonable amount of time, and Asserts that the future
+   * returns the expected data.
+   *
+   * @throws Throwable if the listener isn't called or if it resulted in a throwable or if the
+   *     result doesn't match the expected value.
    */
   public void assertSuccess(Object expectedData) throws Throwable {
     // Verify that the listener executed in a reasonable amount of time.
@@ -69,9 +69,9 @@ public class MockFutureListener implements Runnable {
   }
 
   /**
-   * Verify that the listener completes in a reasonable amount of time, and
-   * Asserts that the future throws an {@code ExecutableException} and that the
-   * cause of the {@code ExecutableException} is {@code expectedCause}.
+   * Verify that the listener completes in a reasonable amount of time, and Asserts that the future
+   * throws an {@code ExecutableException} and that the cause of the {@code ExecutableException} is
+   * {@code expectedCause}.
    */
   public void assertException(Throwable expectedCause) throws Exception {
     // Verify that the listener executed in a reasonable amount of time.

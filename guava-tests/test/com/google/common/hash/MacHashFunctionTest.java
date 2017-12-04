@@ -60,9 +60,8 @@ public class MacHashFunctionTest extends TestCase {
           .build();
 
   public void testNulls() {
-    NullPointerTester tester = new NullPointerTester()
-        .setDefault(String.class, "HmacMD5")
-        .setDefault(Key.class, MD5_KEY);
+    NullPointerTester tester =
+        new NullPointerTester().setDefault(String.class, "HmacMD5").setDefault(Key.class, MD5_KEY);
     tester.testAllPublicConstructors(MacHashFunction.class);
     tester.testAllPublicInstanceMethods(new MacHashFunction("HmacMD5", MD5_KEY, "toString"));
   }
@@ -99,7 +98,8 @@ public class MacHashFunctionTest extends TestCase {
 
     assertEquals(
         HashCode.fromBytes(mac.doFinal()),
-        Hashing.hmacSha1(SHA1_KEY).newHasher()
+        Hashing.hmacSha1(SHA1_KEY)
+            .newHasher()
             .putString("hello", UTF_8)
             .putString("world", UTF_8)
             .hash());
@@ -113,7 +113,8 @@ public class MacHashFunctionTest extends TestCase {
 
     assertEquals(
         HashCode.fromBytes(mac.doFinal("!!!".getBytes(UTF_8))),
-        Hashing.hmacSha1(SHA1_KEY).newHasher()
+        Hashing.hmacSha1(SHA1_KEY)
+            .newHasher()
             .putString("hello", UTF_8)
             .putString("world", UTF_8)
             .putString("!!!", UTF_8)
@@ -121,35 +122,48 @@ public class MacHashFunctionTest extends TestCase {
   }
 
   public void testCustomKey() throws Exception {
-    SecretKey customKey = new SecretKey() {
-      @Override public String getAlgorithm() {
-        return "HmacMD5";
-      }
-      @Override public byte[] getEncoded() {
-        return new byte[8];
-      }
-      @Override public String getFormat() {
-        return "RAW";
-      }
-    };
-    assertEquals("ad262969c53bc16032f160081c4a07a0",
+    SecretKey customKey =
+        new SecretKey() {
+          @Override
+          public String getAlgorithm() {
+            return "HmacMD5";
+          }
+
+          @Override
+          public byte[] getEncoded() {
+            return new byte[8];
+          }
+
+          @Override
+          public String getFormat() {
+            return "RAW";
+          }
+        };
+    assertEquals(
+        "ad262969c53bc16032f160081c4a07a0",
         Hashing.hmacMd5(customKey)
             .hashString("The quick brown fox jumps over the lazy dog", UTF_8)
             .toString());
   }
 
   public void testBadKey_emptyKey() throws Exception {
-    SecretKey badKey = new SecretKey() {
-      @Override public String getAlgorithm() {
-        return "HmacMD5";
-      }
-      @Override public byte[] getEncoded() {
-        return null;
-      }
-      @Override public String getFormat() {
-        return "RAW";
-      }
-    };
+    SecretKey badKey =
+        new SecretKey() {
+          @Override
+          public String getAlgorithm() {
+            return "HmacMD5";
+          }
+
+          @Override
+          public byte[] getEncoded() {
+            return null;
+          }
+
+          @Override
+          public String getFormat() {
+            return "RAW";
+          }
+        };
     try {
       Hashing.hmacMd5(badKey);
       fail();
@@ -200,14 +214,15 @@ public class MacHashFunctionTest extends TestCase {
     assertEquals(knownOutput, HashCode.fromBytes(mac.doFinal()).toString());
     assertEquals(knownOutput, HashCode.fromBytes(mac.doFinal(input.getBytes(UTF_8))).toString());
     assertEquals(knownOutput, Hashing.hmacMd5(SHA1_KEY).hashString(input, UTF_8).toString());
-    assertEquals(knownOutput,
-        Hashing.hmacMd5(SHA1_KEY).hashBytes(input.getBytes(UTF_8)).toString());
+    assertEquals(
+        knownOutput, Hashing.hmacMd5(SHA1_KEY).hashBytes(input.getBytes(UTF_8)).toString());
   }
 
   public void testPutAfterHash() {
     Hasher hasher = Hashing.hmacMd5(MD5_KEY).newHasher();
 
-    assertEquals("9753980fe94daa8ecaa82216519393a9",
+    assertEquals(
+        "9753980fe94daa8ecaa82216519393a9",
         hasher.putString("The quick brown fox jumps over the lazy dog", UTF_8).hash().toString());
     try {
       hasher.putInt(42);
@@ -219,7 +234,8 @@ public class MacHashFunctionTest extends TestCase {
   public void testHashTwice() {
     Hasher hasher = Hashing.hmacMd5(MD5_KEY).newHasher();
 
-    assertEquals("9753980fe94daa8ecaa82216519393a9",
+    assertEquals(
+        "9753980fe94daa8ecaa82216519393a9",
         hasher.putString("The quick brown fox jumps over the lazy dog", UTF_8).hash().toString());
     try {
       hasher.hash();
@@ -232,11 +248,9 @@ public class MacHashFunctionTest extends TestCase {
     byte[] keyData = "secret key".getBytes(UTF_8);
 
     assertEquals(
-        "Hashing.hmacMd5(Key[algorithm=HmacMD5, format=RAW])",
-        Hashing.hmacMd5(MD5_KEY).toString());
+        "Hashing.hmacMd5(Key[algorithm=HmacMD5, format=RAW])", Hashing.hmacMd5(MD5_KEY).toString());
     assertEquals(
-        "Hashing.hmacMd5(Key[algorithm=HmacMD5, format=RAW])",
-        Hashing.hmacMd5(keyData).toString());
+        "Hashing.hmacMd5(Key[algorithm=HmacMD5, format=RAW])", Hashing.hmacMd5(keyData).toString());
 
     assertEquals(
         "Hashing.hmacSha1(Key[algorithm=HmacSHA1, format=RAW])",

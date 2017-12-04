@@ -16,7 +16,6 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.Futures.getDone;
-import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.MoreExecutors.rejectionPropagatingExecutor;
 
 import com.google.common.annotations.GwtCompatible;
@@ -28,9 +27,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import javax.annotation.Nullable;
 
-/**
- * Implementations of {@code Futures.transform*}.
- */
+/** Implementations of {@code Futures.transform*}. */
 @GwtCompatible
 abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.TrustedFuture<O>
     implements Runnable {
@@ -189,8 +186,8 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
   }
 
   /**
-   * An {@link AbstractTransformFuture} that delegates to an {@link AsyncFunction} and
-   * {@link #setFuture(ListenableFuture)}.
+   * An {@link AbstractTransformFuture} that delegates to an {@link AsyncFunction} and {@link
+   * #setFuture(ListenableFuture)}.
    */
   private static final class AsyncTransformFuture<I, O>
       extends AbstractTransformFuture<
@@ -218,8 +215,8 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
   }
 
   /**
-   * An {@link AbstractTransformFuture} that delegates to a {@link Function} and
-   * {@link #set(Object)}.
+   * An {@link AbstractTransformFuture} that delegates to a {@link Function} and {@link
+   * #set(Object)}.
    */
   private static final class TransformFuture<I, O>
       extends AbstractTransformFuture<I, O, Function<? super I, ? extends O>, O> {

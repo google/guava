@@ -28,9 +28,8 @@ import com.google.common.collect.testing.features.CollectionSize;
 import java.util.NoSuchElementException;
 
 /**
- * A generic JUnit test which tests {@code remove()} operations on a queue.
- * Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code remove()} operations on a queue. Can't be invoked
+ * directly; please see {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
  *
  * @author Jared Levy
  */

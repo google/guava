@@ -40,7 +40,8 @@ import junit.framework.TestSuite;
  * @author Louis Wasserman
  */
 public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
-  @Override protected <K, V> NavigableMap<K, V> create() {
+  @Override
+  protected <K, V> NavigableMap<K, V> create() {
     @SuppressWarnings("unchecked")
     NavigableMap<K, V> innermost =
         new SafeTreeMap<>((Comparator<? super K>) Ordering.natural().nullsFirst());
@@ -49,8 +50,7 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
     return outer;
   }
 
-  static class TestEntry<K, V> extends ForwardingMapEntry<K, V>
-      implements Serializable {
+  static class TestEntry<K, V> extends ForwardingMapEntry<K, V> implements Serializable {
     private final Entry<K, V> delegate;
     private final Object mutex;
 
@@ -59,31 +59,37 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
       this.mutex = mutex;
     }
 
-    @Override protected Entry<K, V> delegate() {
+    @Override
+    protected Entry<K, V> delegate() {
       return delegate;
     }
 
-    @Override public boolean equals(Object object) {
+    @Override
+    public boolean equals(Object object) {
       assertTrue(Thread.holdsLock(mutex));
       return super.equals(object);
     }
 
-    @Override public K getKey() {
+    @Override
+    public K getKey() {
       assertTrue(Thread.holdsLock(mutex));
       return super.getKey();
     }
 
-    @Override public V getValue() {
+    @Override
+    public V getValue() {
       assertTrue(Thread.holdsLock(mutex));
       return super.getValue();
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       assertTrue(Thread.holdsLock(mutex));
       return super.hashCode();
     }
 
-    @Override public V setValue(V value) {
+    @Override
+    public V setValue(V value) {
       assertTrue(Thread.holdsLock(mutex));
       return super.setValue(value);
     }
@@ -98,124 +104,149 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
       super(delegate, mutex);
     }
 
-    @Override protected NavigableMap<K, V> delegate() {
+    @Override
+    protected NavigableMap<K, V> delegate() {
       return (NavigableMap<K, V>) super.delegate();
     }
 
-    @Override public Entry<K, V> ceilingEntry(K key) {
+    @Override
+    public Entry<K, V> ceilingEntry(K key) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().ceilingEntry(key);
     }
 
-    @Override public K ceilingKey(K key) {
+    @Override
+    public K ceilingKey(K key) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().ceilingKey(key);
     }
 
-    @Override public NavigableSet<K> descendingKeySet() {
+    @Override
+    public NavigableSet<K> descendingKeySet() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().descendingKeySet();
     }
 
-    @Override public NavigableMap<K, V> descendingMap() {
+    @Override
+    public NavigableMap<K, V> descendingMap() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().descendingMap();
     }
 
-    @Override public Entry<K, V> firstEntry() {
+    @Override
+    public Entry<K, V> firstEntry() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().firstEntry();
     }
 
-    @Override public Entry<K, V> floorEntry(K key) {
+    @Override
+    public Entry<K, V> floorEntry(K key) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().floorEntry(key);
     }
 
-    @Override public K floorKey(K key) {
+    @Override
+    public K floorKey(K key) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().floorKey(key);
     }
 
-    @Override public NavigableMap<K, V> headMap(K toKey, boolean inclusive) {
+    @Override
+    public NavigableMap<K, V> headMap(K toKey, boolean inclusive) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().headMap(toKey, inclusive);
     }
 
-    @Override public SortedMap<K, V> headMap(K toKey) {
+    @Override
+    public SortedMap<K, V> headMap(K toKey) {
       return headMap(toKey, false);
     }
 
-    @Override public Entry<K, V> higherEntry(K key) {
+    @Override
+    public Entry<K, V> higherEntry(K key) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().higherEntry(key);
     }
 
-    @Override public K higherKey(K key) {
+    @Override
+    public K higherKey(K key) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().higherKey(key);
     }
 
-    @Override public Entry<K, V> lastEntry() {
+    @Override
+    public Entry<K, V> lastEntry() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().lastEntry();
     }
 
-    @Override public Entry<K, V> lowerEntry(K key) {
+    @Override
+    public Entry<K, V> lowerEntry(K key) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().lowerEntry(key);
     }
 
-    @Override public K lowerKey(K key) {
+    @Override
+    public K lowerKey(K key) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().lowerKey(key);
     }
 
-    @Override public NavigableSet<K> navigableKeySet() {
+    @Override
+    public NavigableSet<K> navigableKeySet() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().navigableKeySet();
     }
 
-    @Override public Entry<K, V> pollFirstEntry() {
+    @Override
+    public Entry<K, V> pollFirstEntry() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().pollFirstEntry();
     }
 
-    @Override public Entry<K, V> pollLastEntry() {
+    @Override
+    public Entry<K, V> pollLastEntry() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().pollLastEntry();
     }
 
-    @Override public NavigableMap<K, V> subMap(
+    @Override
+    public NavigableMap<K, V> subMap(
         K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().subMap(fromKey, fromInclusive, toKey, toInclusive);
     }
 
-    @Override public SortedMap<K, V> subMap(K fromKey, K toKey) {
+    @Override
+    public SortedMap<K, V> subMap(K fromKey, K toKey) {
       return delegate().subMap(fromKey, true, toKey, false);
     }
 
-    @Override public NavigableMap<K, V> tailMap(K fromKey, boolean inclusive) {
+    @Override
+    public NavigableMap<K, V> tailMap(K fromKey, boolean inclusive) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().tailMap(fromKey, inclusive);
     }
 
-    @Override public SortedMap<K, V> tailMap(K fromKey) {
+    @Override
+    public SortedMap<K, V> tailMap(K fromKey) {
       return tailMap(fromKey, true);
     }
 
-    @Override public Comparator<? super K> comparator() {
+    @Override
+    public Comparator<? super K> comparator() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().comparator();
     }
 
-    @Override public K firstKey() {
+    @Override
+    public K firstKey() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().firstKey();
     }
 
-    @Override public K lastKey() {
+    @Override
+    public K lastKey() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().lastKey();
     }
@@ -270,16 +301,14 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
     NavigableMap<String, Integer> map = create();
     NavigableSet<String> descendingKeySet = map.descendingKeySet();
     assertTrue(descendingKeySet instanceof SynchronizedNavigableSet);
-    assertSame(
-        mutex, ((SynchronizedNavigableSet<String>) descendingKeySet).mutex);
+    assertSame(mutex, ((SynchronizedNavigableSet<String>) descendingKeySet).mutex);
   }
 
   public void testDescendingMap() {
     NavigableMap<String, Integer> map = create();
     NavigableMap<String, Integer> descendingMap = map.descendingMap();
     assertTrue(descendingMap instanceof SynchronizedNavigableMap);
-    assertSame(mutex,
-        ((SynchronizedNavigableMap<String, Integer>) descendingMap).mutex);
+    assertSame(mutex, ((SynchronizedNavigableMap<String, Integer>) descendingMap).mutex);
   }
 
   public void testFirstEntry() {
@@ -311,8 +340,7 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
     NavigableMap<String, Integer> map = create();
     NavigableMap<String, Integer> headMap = map.headMap("a", true);
     assertTrue(headMap instanceof SynchronizedNavigableMap);
-    assertSame(
-        mutex, ((SynchronizedNavigableMap<String, Integer>) headMap).mutex);
+    assertSame(mutex, ((SynchronizedNavigableMap<String, Integer>) headMap).mutex);
   }
 
   public void testHigherEntry() {
@@ -345,8 +373,7 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
     NavigableMap<String, Integer> map = create();
     NavigableSet<String> navigableKeySet = map.navigableKeySet();
     assertTrue(navigableKeySet instanceof SynchronizedNavigableSet);
-    assertSame(
-        mutex, ((SynchronizedNavigableSet<String>) navigableKeySet).mutex);
+    assertSame(mutex, ((SynchronizedNavigableSet<String>) navigableKeySet).mutex);
   }
 
   public void testPollFirstEntry() {
@@ -368,8 +395,7 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
     NavigableMap<String, Integer> map = create();
     NavigableMap<String, Integer> subMap = map.subMap("a", true, "b", false);
     assertTrue(subMap instanceof SynchronizedNavigableMap);
-    assertSame(
-        mutex, ((SynchronizedNavigableMap<String, Integer>) subMap).mutex);
+    assertSame(mutex, ((SynchronizedNavigableMap<String, Integer>) subMap).mutex);
   }
 
   public void testTailMap_K() {
@@ -383,11 +409,11 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
     NavigableMap<String, Integer> map = create();
     NavigableMap<String, Integer> subMap = map.tailMap("a", true);
     assertTrue(subMap instanceof SynchronizedNavigableMap);
-    assertSame(
-        mutex, ((SynchronizedNavigableMap<String, Integer>) subMap).mutex);
+    assertSame(mutex, ((SynchronizedNavigableMap<String, Integer>) subMap).mutex);
   }
 
-  @Override public void testSerialization() {
+  @Override
+  public void testSerialization() {
     SerializableTester.reserializeAndAssert(create());
   }
 }

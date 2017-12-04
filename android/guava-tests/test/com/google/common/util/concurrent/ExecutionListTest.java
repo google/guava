@@ -52,11 +52,14 @@ public class ExecutionListTest extends TestCase {
 
   public void testExecute_idempotent() {
     final AtomicInteger runCalled = new AtomicInteger();
-    list.add(new Runnable() {
-      @Override public void run() {
-        runCalled.getAndIncrement();
-      }
-    }, directExecutor());
+    list.add(
+        new Runnable() {
+          @Override
+          public void run() {
+            runCalled.getAndIncrement();
+          }
+        },
+        directExecutor());
     list.execute();
     assertEquals(1, runCalled.get());
     list.execute();
@@ -66,22 +69,27 @@ public class ExecutionListTest extends TestCase {
   public void testExecute_idempotentConcurrently() throws InterruptedException {
     final CountDownLatch okayToRun = new CountDownLatch(1);
     final AtomicInteger runCalled = new AtomicInteger();
-    list.add(new Runnable() {
-      @Override public void run() {
-        try {
-          okayToRun.await();
-        } catch (InterruptedException e) {
-          Thread.currentThread().interrupt();
-          throw new RuntimeException(e);
-        }
-        runCalled.getAndIncrement();
-      }
-    }, directExecutor());
-    Runnable execute = new Runnable() {
-      @Override public void run() {
-        list.execute();
-      }
-    };
+    list.add(
+        new Runnable() {
+          @Override
+          public void run() {
+            try {
+              okayToRun.await();
+            } catch (InterruptedException e) {
+              Thread.currentThread().interrupt();
+              throw new RuntimeException(e);
+            }
+            runCalled.getAndIncrement();
+          }
+        },
+        directExecutor());
+    Runnable execute =
+        new Runnable() {
+          @Override
+          public void run() {
+            list.execute();
+          }
+        };
     Thread thread1 = new Thread(execute);
     Thread thread2 = new Thread(execute);
     thread1.start();
@@ -99,7 +107,7 @@ public class ExecutionListTest extends TestCase {
 
     // If it passed, then verify an Add will be executed without calling run
     CountDownLatch countDownLatch = new CountDownLatch(1);
-    list.add(new MockRunnable(countDownLatch),  Executors.newCachedThreadPool());
+    list.add(new MockRunnable(countDownLatch), Executors.newCachedThreadPool());
     assertTrue(countDownLatch.await(1L, TimeUnit.SECONDS));
   }
 
@@ -109,7 +117,8 @@ public class ExecutionListTest extends TestCase {
       final int expectedCount = i;
       list.add(
           new Runnable() {
-            @Override public void run() {
+            @Override
+            public void run() {
               integer.compareAndSet(expectedCount, expectedCount + 1);
             }
           },
@@ -126,7 +135,8 @@ public class ExecutionListTest extends TestCase {
       this.countDownLatch = countDownLatch;
     }
 
-    @Override public void run() {
+    @Override
+    public void run() {
       countDownLatch.countDown();
     }
   }
@@ -141,9 +151,11 @@ public class ExecutionListTest extends TestCase {
     new NullPointerTester().testAllPublicInstanceMethods(new ExecutionList());
   }
 
-  private static final Runnable THROWING_RUNNABLE = new Runnable() {
-    @Override public void run() {
-      throw new RuntimeException();
-    }
-  };
+  private static final Runnable THROWING_RUNNABLE =
+      new Runnable() {
+        @Override
+        public void run() {
+          throw new RuntimeException();
+        }
+      };
 }

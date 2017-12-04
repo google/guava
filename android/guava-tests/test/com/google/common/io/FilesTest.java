@@ -55,18 +55,26 @@ public class FilesTest extends IoTestCase {
 
   public static TestSuite suite() {
     TestSuite suite = new TestSuite();
-    suite.addTest(ByteSourceTester.tests("Files.asByteSource[File]",
-        SourceSinkFactories.fileByteSourceFactory(), true));
-    suite.addTest(ByteSinkTester.tests("Files.asByteSink[File]",
-        SourceSinkFactories.fileByteSinkFactory()));
-    suite.addTest(ByteSinkTester.tests("Files.asByteSink[File, APPEND]",
-        SourceSinkFactories.appendingFileByteSinkFactory()));
-    suite.addTest(CharSourceTester.tests("Files.asCharSource[File, Charset]",
-        SourceSinkFactories.fileCharSourceFactory(), false));
-    suite.addTest(CharSinkTester.tests("Files.asCharSink[File, Charset]",
-        SourceSinkFactories.fileCharSinkFactory()));
-    suite.addTest(CharSinkTester.tests("Files.asCharSink[File, Charset, APPEND]",
-        SourceSinkFactories.appendingFileCharSinkFactory()));
+    suite.addTest(
+        ByteSourceTester.tests(
+            "Files.asByteSource[File]", SourceSinkFactories.fileByteSourceFactory(), true));
+    suite.addTest(
+        ByteSinkTester.tests("Files.asByteSink[File]", SourceSinkFactories.fileByteSinkFactory()));
+    suite.addTest(
+        ByteSinkTester.tests(
+            "Files.asByteSink[File, APPEND]", SourceSinkFactories.appendingFileByteSinkFactory()));
+    suite.addTest(
+        CharSourceTester.tests(
+            "Files.asCharSource[File, Charset]",
+            SourceSinkFactories.fileCharSourceFactory(),
+            false));
+    suite.addTest(
+        CharSinkTester.tests(
+            "Files.asCharSink[File, Charset]", SourceSinkFactories.fileCharSinkFactory()));
+    suite.addTest(
+        CharSinkTester.tests(
+            "Files.asCharSink[File, Charset, APPEND]",
+            SourceSinkFactories.appendingFileCharSinkFactory()));
     suite.addTestSuite(FilesTest.class);
     return suite;
   }
@@ -74,19 +82,15 @@ public class FilesTest extends IoTestCase {
   public void testRoundTripSources() throws Exception {
     File asciiFile = getTestFile("ascii.txt");
     ByteSource byteSource = Files.asByteSource(asciiFile);
-    assertSame(byteSource,
-        byteSource.asCharSource(Charsets.UTF_8).asByteSource(Charsets.UTF_8));
+    assertSame(byteSource, byteSource.asCharSource(Charsets.UTF_8).asByteSource(Charsets.UTF_8));
   }
 
   public void testToByteArray() throws IOException {
     File asciiFile = getTestFile("ascii.txt");
     File i18nFile = getTestFile("i18n.txt");
-    assertTrue(Arrays.equals(ASCII.getBytes(Charsets.US_ASCII),
-        Files.toByteArray(asciiFile)));
-    assertTrue(Arrays.equals(I18N.getBytes(Charsets.UTF_8),
-        Files.toByteArray(i18nFile)));
-    assertTrue(Arrays.equals(I18N.getBytes(Charsets.UTF_8),
-        Files.asByteSource(i18nFile).read()));
+    assertTrue(Arrays.equals(ASCII.getBytes(Charsets.US_ASCII), Files.toByteArray(asciiFile)));
+    assertTrue(Arrays.equals(I18N.getBytes(Charsets.UTF_8), Files.toByteArray(i18nFile)));
+    assertTrue(Arrays.equals(I18N.getBytes(Charsets.UTF_8), Files.asByteSource(i18nFile).read()));
   }
 
   public void testReadFile_withCorrectSize() throws IOException {
@@ -149,9 +153,7 @@ public class FilesTest extends IoTestCase {
     }
   }
 
-  /**
-   * A {@link File} that provides a specialized value for {@link File#length()}.
-   */
+  /** A {@link File} that provides a specialized value for {@link File#length()}. */
   private static class BadLengthFile extends File {
 
     private final long badLength;
@@ -174,8 +176,7 @@ public class FilesTest extends IoTestCase {
     File i18nFile = getTestFile("i18n.txt");
     assertEquals(ASCII, Files.toString(asciiFile, Charsets.US_ASCII));
     assertEquals(I18N, Files.toString(i18nFile, Charsets.UTF_8));
-    assertThat(Files.toString(i18nFile, Charsets.US_ASCII))
-        .isNotEqualTo(I18N);
+    assertThat(Files.toString(i18nFile, Charsets.US_ASCII)).isNotEqualTo(I18N);
   }
 
   public void testWriteString() throws IOException {
@@ -281,8 +282,7 @@ public class FilesTest extends IoTestCase {
     assertEquals(asciiFile.length(), temp.length());
     assertFalse(Files.equal(asciiFile, temp));
 
-    assertTrue(Files.asByteSource(asciiFile)
-        .contentEquals(Files.asByteSource(asciiFile)));
+    assertTrue(Files.asByteSource(asciiFile).contentEquals(Files.asByteSource(asciiFile)));
 
     // 0-length files have special treatment (/proc, etc.)
     assertTrue(Files.equal(asciiFile, new BadLengthFile(asciiFile, 0)));
@@ -346,14 +346,15 @@ public class FilesTest extends IoTestCase {
     assertTrue(temp.exists());
 
     try {
-      Files.touch(new File(temp.getPath()) {
-        @Override
-        public boolean setLastModified(long t) {
-          return false;
-        }
+      Files.touch(
+          new File(temp.getPath()) {
+            @Override
+            public boolean setLastModified(long t) {
+              return false;
+            }
 
-        private static final long serialVersionUID = 0;
-      });
+            private static final long serialVersionUID = 0;
+          });
       fail("expected exception");
     } catch (IOException expected) {
     }
@@ -453,8 +454,8 @@ public class FilesTest extends IoTestCase {
     File temp2 = createTempFile();
 
     moveHelper(false, new UnmovableFile(temp1, false, false), temp2);
-    moveHelper(false, new UnmovableFile(temp1, false, false),
-        new UnmovableFile(temp2, true, false));
+    moveHelper(
+        false, new UnmovableFile(temp1, false, false), new UnmovableFile(temp2, true, false));
 
     try {
       File asciiFile = getTestFile("ascii.txt");
@@ -464,8 +465,7 @@ public class FilesTest extends IoTestCase {
     }
   }
 
-  private void moveHelper(boolean success, File from, File to)
-      throws IOException {
+  private void moveHelper(boolean success, File from, File to) throws IOException {
     try {
       Files.move(from, to);
       if (success) {
@@ -518,8 +518,8 @@ public class FilesTest extends IoTestCase {
     w.close();
 
     assertEquals("hello", Files.readFirstLine(temp, Charsets.UTF_8));
-    assertEquals(ImmutableList.of("hello", "", " world  ", ""),
-        Files.readLines(temp, Charsets.UTF_8));
+    assertEquals(
+        ImmutableList.of("hello", "", " world  ", ""), Files.readLines(temp, Charsets.UTF_8));
 
     assertTrue(temp.delete());
   }
@@ -550,8 +550,7 @@ public class FilesTest extends IoTestCase {
     w.println("");
     w.close();
     Files.readLines(temp, Charsets.UTF_8, collect);
-    assertThat(collect.getResult())
-        .containsExactly("hello", "", " world  ", "").inOrder();
+    assertThat(collect.getResult()).containsExactly("hello", "", " world  ", "").inOrder();
 
     LineProcessor<List<String>> collectNonEmptyLines =
         new LineProcessor<List<String>>() {
@@ -571,8 +570,7 @@ public class FilesTest extends IoTestCase {
           }
         };
     Files.readLines(temp, Charsets.UTF_8, collectNonEmptyLines);
-    assertThat(collectNonEmptyLines.getResult()).containsExactly(
-        "hello", " world  ").inOrder();
+    assertThat(collectNonEmptyLines.getResult()).containsExactly("hello", " world  ").inOrder();
 
     assertTrue(temp.delete());
   }
@@ -715,22 +713,23 @@ public class FilesTest extends IoTestCase {
   }
 
   public void testReadBytes() throws IOException {
-    ByteProcessor<byte[]> processor = new ByteProcessor<byte[]>() {
-      private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+    ByteProcessor<byte[]> processor =
+        new ByteProcessor<byte[]>() {
+          private final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-      @Override
-      public boolean processBytes(byte[] buffer, int offset, int length) throws IOException {
-        if (length >= 0) {
-          out.write(buffer, offset, length);
-        }
-        return true;
-      }
+          @Override
+          public boolean processBytes(byte[] buffer, int offset, int length) throws IOException {
+            if (length >= 0) {
+              out.write(buffer, offset, length);
+            }
+            return true;
+          }
 
-      @Override
-      public byte[] getResult() {
-        return out.toByteArray();
-      }
-    };
+          @Override
+          public byte[] getResult() {
+            return out.toByteArray();
+          }
+        };
 
     File asciiFile = getTestFile("ascii.txt");
     byte[] result = Files.readBytes(asciiFile, processor);
@@ -738,24 +737,25 @@ public class FilesTest extends IoTestCase {
   }
 
   public void testReadBytes_returnFalse() throws IOException {
-    ByteProcessor<byte[]> processor = new ByteProcessor<byte[]>() {
-      private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+    ByteProcessor<byte[]> processor =
+        new ByteProcessor<byte[]>() {
+          private final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-      @Override
-      public boolean processBytes(byte[] buffer, int offset, int length) throws IOException {
-        if (length > 0) {
-          out.write(buffer, offset, 1);
-          return false;
-        } else {
-          return true;
-        }
-      }
+          @Override
+          public boolean processBytes(byte[] buffer, int offset, int length) throws IOException {
+            if (length > 0) {
+              out.write(buffer, offset, 1);
+              return false;
+            } else {
+              return true;
+            }
+          }
 
-      @Override
-      public byte[] getResult() {
-        return out.toByteArray();
-      }
-    };
+          @Override
+          public byte[] getResult() {
+            return out.toByteArray();
+          }
+        };
 
     File asciiFile = getTestFile("ascii.txt");
     byte[] result = Files.readBytes(asciiFile, processor);
@@ -772,23 +772,17 @@ public class FilesTest extends IoTestCase {
     assertTrue(Files.isFile().apply(asciiFile));
   }
 
-  /**
-   * Returns a root path for the file system.
-   */
+  /** Returns a root path for the file system. */
   private static File root() {
     return File.listRoots()[0];
   }
 
-  /**
-   * Returns a {@code File} object for the given path parts.
-   */
+  /** Returns a {@code File} object for the given path parts. */
   private static File file(String first, String... more) {
     return file(new File(first), more);
   }
 
-  /**
-   * Returns a {@code File} object for the given path parts.
-   */
+  /** Returns a {@code File} object for the given path parts. */
   private static File file(File first, String... more) {
     // not very efficient, but should definitely be correct
     File file = first;

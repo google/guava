@@ -57,8 +57,8 @@ import java.nio.ByteOrder;
 import junit.framework.TestCase;
 
 /**
- * Tests for {@link PairedStats}. This tests instances created by
- * {@link PairedStatsAccumulator#snapshot}.
+ * Tests for {@link PairedStats}. This tests instances created by {@link
+ * PairedStatsAccumulator#snapshot}.
  *
  * @author Pete Gillin
  */
@@ -263,10 +263,8 @@ public class PairedStatsTest extends TestCase {
             new PairedStats(OTHER_MANY_VALUES_STATS, MANY_VALUES_STATS_ITERABLE, 1.23))
         .addEqualityGroup(
             new PairedStats(MANY_VALUES_STATS_ITERABLE, MANY_VALUES_STATS_ITERABLE, 1.23))
-        .addEqualityGroup(
-            new PairedStats(TWO_VALUES_STATS, MANY_VALUES_STATS_ITERABLE, 1.23))
-        .addEqualityGroup(
-            new PairedStats(MANY_VALUES_STATS_ITERABLE, ONE_VALUE_STATS, 1.23))
+        .addEqualityGroup(new PairedStats(TWO_VALUES_STATS, MANY_VALUES_STATS_ITERABLE, 1.23))
+        .addEqualityGroup(new PairedStats(MANY_VALUES_STATS_ITERABLE, ONE_VALUE_STATS, 1.23))
         .addEqualityGroup(
             new PairedStats(MANY_VALUES_STATS_ITERABLE, MANY_VALUES_STATS_ITERABLE, 1.234))
         .testEquals();
@@ -312,7 +310,7 @@ public class PairedStatsTest extends TestCase {
   }
 
   public void testFromByteArray_withEmptyArrayInputThrowsIllegalArgumentException() {
-   try {
+    try {
       PairedStats.fromByteArray(new byte[0]);
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
@@ -321,24 +319,26 @@ public class PairedStatsTest extends TestCase {
 
   public void testFromByteArray_withTooLongArrayInputThrowsIllegalArgumentException() {
     byte[] buffer = MANY_VALUES_PAIRED_STATS.toByteArray();
-    byte[] tooLongByteArray = ByteBuffer.allocate(buffer.length + 2)
-        .order(ByteOrder.LITTLE_ENDIAN)
-        .put(buffer)
-        .putChar('.')
-        .array();
-      try {
-        PairedStats.fromByteArray(tooLongByteArray);
-        fail("Expected IllegalArgumentException");
-      } catch (IllegalArgumentException expected) {
-      }
+    byte[] tooLongByteArray =
+        ByteBuffer.allocate(buffer.length + 2)
+            .order(ByteOrder.LITTLE_ENDIAN)
+            .put(buffer)
+            .putChar('.')
+            .array();
+    try {
+      PairedStats.fromByteArray(tooLongByteArray);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testFromByteArrayWithTooShortArrayInputThrowsIllegalArgumentException() {
     byte[] buffer = MANY_VALUES_PAIRED_STATS.toByteArray();
-    byte[] tooShortByteArray = ByteBuffer.allocate(buffer.length - 1)
-        .order(ByteOrder.LITTLE_ENDIAN)
-        .put(buffer, 0, buffer.length - 1)
-        .array();
+    byte[] tooShortByteArray =
+        ByteBuffer.allocate(buffer.length - 1)
+            .order(ByteOrder.LITTLE_ENDIAN)
+            .put(buffer, 0, buffer.length - 1)
+            .array();
     try {
       PairedStats.fromByteArray(tooShortByteArray);
       fail("Expected IllegalArgumentException");

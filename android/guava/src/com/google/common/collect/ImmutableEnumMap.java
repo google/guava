@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -24,8 +25,7 @@ import java.util.EnumMap;
 import javax.annotation.Nullable;
 
 /**
- * Implementation of {@link ImmutableMap} backed by a non-empty {@link
- * java.util.EnumMap}.
+ * Implementation of {@link ImmutableMap} backed by a non-empty {@link java.util.EnumMap}.
  *
  * @author Louis Wasserman
  */

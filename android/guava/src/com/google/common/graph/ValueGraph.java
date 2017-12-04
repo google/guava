@@ -56,11 +56,11 @@ import javax.annotation.Nullable;
  * <h3>Building a {@code ValueGraph}</h3>
  *
  * <p>The implementation classes that {@code common.graph} provides are not public, by design. To
- * create an instance of one of the built-in implementations of {@code ValueGraph}, use the
- * {@link ValueGraphBuilder} class:
+ * create an instance of one of the built-in implementations of {@code ValueGraph}, use the {@link
+ * ValueGraphBuilder} class:
  *
  * <pre>{@code
- *   MutableValueGraph<Integer, Double> graph = ValueGraphBuilder.directed().build();
+ * MutableValueGraph<Integer, Double> graph = ValueGraphBuilder.directed().build();
  * }</pre>
  *
  * <p>{@link ValueGraphBuilder#build()} returns an instance of {@link MutableValueGraph}, which is a
@@ -73,7 +73,7 @@ import javax.annotation.Nullable;
  * ImmutableValueGraph#copyOf(ValueGraph)}:
  *
  * <pre>{@code
- *   ImmutableValueGraph<Integer, Double> immutableGraph = ImmutableValueGraph.copyOf(graph);
+ * ImmutableValueGraph<Integer, Double> immutableGraph = ImmutableValueGraph.copyOf(graph);
  * }</pre>
  *
  * <p>Instances of {@link ImmutableValueGraph} do not implement {@link MutableValueGraph}
@@ -197,10 +197,10 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
    * <p>Thus, two value graphs A and B are equal if <b>all</b> of the following are true:
    *
    * <ul>
-   * <li>A and B have equal {@link #isDirected() directedness}.
-   * <li>A and B have equal {@link #nodes() node sets}.
-   * <li>A and B have equal {@link #edges() edge sets}.
-   * <li>The {@link #edgeValue(Object, Object) value} of a given edge is the same in both A and B.
+   *   <li>A and B have equal {@link #isDirected() directedness}.
+   *   <li>A and B have equal {@link #nodes() node sets}.
+   *   <li>A and B have equal {@link #edges() edge sets}.
+   *   <li>The {@link #edgeValue(Object, Object) value} of a given edge is the same in both A and B.
    * </ul>
    *
    * <p>Graph properties besides {@link #isDirected() directedness} do <b>not</b> affect equality.

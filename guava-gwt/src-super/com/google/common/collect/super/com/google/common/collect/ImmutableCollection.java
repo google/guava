@@ -32,13 +32,12 @@ import javax.annotation.Nullable;
  * @author Jesse Wilson
  */
 @SuppressWarnings("serial") // we're overriding default serialization
-public abstract class ImmutableCollection<E> extends AbstractCollection<E>
-    implements Serializable {
+public abstract class ImmutableCollection<E> extends AbstractCollection<E> implements Serializable {
   static final int SPLITERATOR_CHARACTERISTICS =
       Spliterator.IMMUTABLE | Spliterator.NONNULL | Spliterator.ORDERED;
 
-  static final ImmutableCollection<Object> EMPTY_IMMUTABLE_COLLECTION
-      = new ForwardingImmutableCollection<Object>(Collections.emptyList());
+  static final ImmutableCollection<Object> EMPTY_IMMUTABLE_COLLECTION =
+      new ForwardingImmutableCollection<Object>(Collections.emptyList());
 
   ImmutableCollection() {}
 
@@ -89,6 +88,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E>
         return new RegularImmutableAsList<E>(this, toArray());
     }
   }
+
   static <E> ImmutableCollection<E> unsafeDelegate(Collection<E> delegate) {
     return new ForwardingImmutableCollection<E>(delegate);
   }
@@ -97,9 +97,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E>
     return false;
   }
 
-  /**
-   * GWT emulated version of {@link ImmutableCollection.Builder}.
-   */
+  /** GWT emulated version of {@link ImmutableCollection.Builder}. */
   public abstract static class Builder<E> {
 
     Builder() {}

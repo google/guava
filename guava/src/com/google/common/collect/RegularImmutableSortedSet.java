@@ -31,8 +31,8 @@ import java.util.function.Consumer;
 import javax.annotation.Nullable;
 
 /**
- * An immutable sorted set with one or more elements. TODO(jlevy): Consider
- * separate class for a single-element sorted set.
+ * An immutable sorted set with one or more elements. TODO(jlevy): Consider separate class for a
+ * single-element sorted set.
  *
  * @author Jared Levy
  * @author Louis Wasserman
@@ -103,14 +103,14 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
      * in O(n) time stepping through the two collections.
      */
     Iterator<E> thisIterator = iterator();
-    
-    Iterator<?> thatIterator = targets.iterator(); 
+
+    Iterator<?> thatIterator = targets.iterator();
     // known nonempty since we checked targets.size() > 1
-    
+
     if (!thisIterator.hasNext()) {
       return false;
     }
-    
+
     Object target = thatIterator.next();
     E current = thisIterator.next();
     try {

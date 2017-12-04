@@ -36,9 +36,8 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * A generic JUnit test which tests addAll operations on a collection. Can't be
- * invoked directly; please see
- * {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
+ * A generic JUnit test which tests addAll operations on a collection. Can't be invoked directly;
+ * please see {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
  *
  * @author Chris Povirk
  * @author Kevin Bourrillion
@@ -163,11 +162,9 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
   }
 
   /**
-   * Returns the {@link Method} instance for {@link
-   * #testAddAll_nullUnsupported()} so that tests can suppress it with {@code
-   * FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045147">Sun
-   * bug 5045147</a> is fixed.
+   * Returns the {@link Method} instance for {@link #testAddAll_nullUnsupported()} so that tests can
+   * suppress it with {@code FeatureSpecificTestSuiteBuilder.suppressing()} until <a
+   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045147">Sun bug 5045147</a> is fixed.
    */
   @GwtIncompatible // reflection
   public static Method getAddAllNullUnsupportedMethod() {
@@ -175,11 +172,10 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
   }
 
   /**
-   * Returns the {@link Method} instance for {@link
-   * #testAddAll_unsupportedNonePresent()} so that tests can suppress it with
-   * {@code FeatureSpecificTestSuiteBuilder.suppressing()} while we figure out
-   * what to do with <a href="http://goo.gl/qJBruX">{@code ConcurrentHashMap}
-   * support for {@code entrySet().add()}</a>.
+   * Returns the {@link Method} instance for {@link #testAddAll_unsupportedNonePresent()} so that
+   * tests can suppress it with {@code FeatureSpecificTestSuiteBuilder.suppressing()} while we
+   * figure out what to do with <a href="http://goo.gl/qJBruX">{@code ConcurrentHashMap} support for
+   * {@code entrySet().add()}</a>.
    */
   @GwtIncompatible // reflection
   public static Method getAddAllUnsupportedNonePresentMethod() {
@@ -187,11 +183,10 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
   }
 
   /**
-   * Returns the {@link Method} instance for {@link
-   * #testAddAll_unsupportedSomePresent()} so that tests can suppress it with
-   * {@code FeatureSpecificTestSuiteBuilder.suppressing()} while we figure out
-   * what to do with <a href="http://goo.gl/qJBruX">{@code ConcurrentHashMap}
-   * support for {@code entrySet().add()}</a>.
+   * Returns the {@link Method} instance for {@link #testAddAll_unsupportedSomePresent()} so that
+   * tests can suppress it with {@code FeatureSpecificTestSuiteBuilder.suppressing()} while we
+   * figure out what to do with <a href="http://goo.gl/qJBruX">{@code ConcurrentHashMap} support for
+   * {@code entrySet().add()}</a>.
    */
   @GwtIncompatible // reflection
   public static Method getAddAllUnsupportedSomePresentMethod() {

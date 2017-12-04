@@ -25,11 +25,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- * An implementation of {@link DataOutput} that uses little-endian byte ordering for writing
- * {@code char}, {@code short}, {@code int}, {@code float}, {@code double}, and {@code long} values.
+ * An implementation of {@link DataOutput} that uses little-endian byte ordering for writing {@code
+ * char}, {@code short}, {@code int}, {@code float}, {@code double}, and {@code long} values.
  *
- * <p><b>Note:</b> This class intentionally violates the specification of its supertype
- * {@code DataOutput}, which explicitly requires big-endian byte order.
+ * <p><b>Note:</b> This class intentionally violates the specification of its supertype {@code
+ * DataOutput}, which explicitly requires big-endian byte order.
  *
  * @author Chris Nokleberg
  * @author Keith Bottner

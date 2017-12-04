@@ -55,9 +55,7 @@ public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
    */
   public abstract Optional<T> rightChild(T root);
 
-  /**
-   * Returns the children of this node, in left-to-right order.
-   */
+  /** Returns the children of this node, in left-to-right order. */
   @Override
   public final Iterable<T> children(final T root) {
     checkNotNull(root);

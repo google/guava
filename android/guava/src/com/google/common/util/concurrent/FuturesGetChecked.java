@@ -38,9 +38,7 @@ import java.util.concurrent.TimeoutException;
 import javax.annotation.Nullable;
 import org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement;
 
-/**
- * Static methods used to implement {@link Futures#getChecked(Future, Class)}.
- */
+/** Static methods used to implement {@link Futures#getChecked(Future, Class)}. */
 @GwtIncompatible
 final class FuturesGetChecked {
   @CanIgnoreReturnValue
@@ -48,9 +46,7 @@ final class FuturesGetChecked {
     return getChecked(bestGetCheckedTypeValidator(), future, exceptionClass);
   }
 
-  /**
-   * Implementation of {@link Futures#getChecked(Future, Class)}.
-   */
+  /** Implementation of {@link Futures#getChecked(Future, Class)}. */
   @CanIgnoreReturnValue
   @VisibleForTesting
   static <V, X extends Exception> V getChecked(
@@ -67,9 +63,7 @@ final class FuturesGetChecked {
     }
   }
 
-  /**
-   * Implementation of {@link Futures#getChecked(Future, Class, long, TimeUnit)}.
-   */
+  /** Implementation of {@link Futures#getChecked(Future, Class, long, TimeUnit)}. */
   @CanIgnoreReturnValue
   static <V, X extends Exception> V getChecked(
       Future<V> future, Class<X> exceptionClass, long timeout, TimeUnit unit) throws X {
@@ -109,8 +103,8 @@ final class FuturesGetChecked {
   }
 
   /**
-   * Provides a check of whether an exception type is valid for use with
-   * {@link FuturesGetChecked#getChecked(Future, Class)}, possibly using caching.
+   * Provides a check of whether an exception type is valid for use with {@link
+   * FuturesGetChecked#getChecked(Future, Class)}, possibly using caching.
    *
    * <p>Uses reflection to gracefully fall back to when certain implementations aren't available.
    */

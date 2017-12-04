@@ -114,9 +114,7 @@ final class MessageDigestHashFunction extends AbstractHashFunction implements Se
     return new SerializedForm(prototype.getAlgorithm(), bytes, toString);
   }
 
-  /**
-   * Hasher that updates a message digest.
-   */
+  /** Hasher that updates a message digest. */
   private static final class MessageDigestHasher extends AbstractByteHasher {
     private final MessageDigest digest;
     private final int bytes;

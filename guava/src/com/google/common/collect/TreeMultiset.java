@@ -38,17 +38,17 @@ import javax.annotation.Nullable;
 
 /**
  * A multiset which maintains the ordering of its elements, according to either their natural order
- * or an explicit {@link Comparator}. In all cases, this implementation uses
- * {@link Comparable#compareTo} or {@link Comparator#compare} instead of {@link Object#equals} to
- * determine equivalence of instances.
+ * or an explicit {@link Comparator}. In all cases, this implementation uses {@link
+ * Comparable#compareTo} or {@link Comparator#compare} instead of {@link Object#equals} to determine
+ * equivalence of instances.
  *
  * <p><b>Warning:</b> The comparison must be <i>consistent with equals</i> as explained by the
- * {@link Comparable} class specification. Otherwise, the resulting multiset will violate the
- * {@link java.util.Collection} contract, which is specified in terms of {@link Object#equals}.
+ * {@link Comparable} class specification. Otherwise, the resulting multiset will violate the {@link
+ * java.util.Collection} contract, which is specified in terms of {@link Object#equals}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">
- * {@code Multiset}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"> {@code
+ * Multiset}</a>.
  *
  * @author Louis Wasserman
  * @author Jared Levy
@@ -62,9 +62,9 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
    * inserted into the multiset must implement the {@code Comparable} interface. Furthermore, all
    * such elements must be <i>mutually comparable</i>: {@code e1.compareTo(e2)} must not throw a
    * {@code ClassCastException} for any elements {@code e1} and {@code e2} in the multiset. If the
-   * user attempts to add an element to the multiset that violates this constraint (for example,
-   * the user attempts to add a string element to a set whose elements are integers), the
-   * {@code add(Object)} call will throw a {@code ClassCastException}.
+   * user attempts to add an element to the multiset that violates this constraint (for example, the
+   * user attempts to add a string element to a set whose elements are integers), the {@code
+   * add(Object)} call will throw a {@code ClassCastException}.
    *
    * <p>The type specification is {@code <E extends Comparable>}, instead of the more specific
    * {@code <E extends Comparable<? super E>>}, to support classes defined without generics.
@@ -125,9 +125,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     this.rootReference = new Reference<>();
   }
 
-  /**
-   * A function which can be summed across a subtree.
-   */
+  /** A function which can be summed across a subtree. */
   private enum Aggregate {
     SIZE {
       @Override
@@ -351,9 +349,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     };
   }
 
-  /**
-   * Returns the first node in the tree that is in range.
-   */
+  /** Returns the first node in the tree that is in range. */
   @Nullable
   private AvlNode<E> firstNode() {
     AvlNode<E> root = rootReference.get();
@@ -958,7 +954,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
 
   /**
    * @serialData the comparator, the number of distinct elements, the first element, its count, the
-   *             second element, its count, and so on
+   *     second element, its count, and so on
    */
   @GwtIncompatible // java.io.ObjectOutputStream
   private void writeObject(ObjectOutputStream stream) throws IOException {

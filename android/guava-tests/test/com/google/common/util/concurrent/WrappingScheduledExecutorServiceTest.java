@@ -36,11 +36,11 @@ import junit.framework.TestCase;
  * @author Luke Sandberg
  */
 public class WrappingScheduledExecutorServiceTest extends TestCase {
-  private static final Runnable DO_NOTHING = new Runnable() {
-    @Override
-    public void run() {
-    }
-  };
+  private static final Runnable DO_NOTHING =
+      new Runnable() {
+        @Override
+        public void run() {}
+      };
 
   public void testSchedule() {
     MockExecutor mock = new MockExecutor();
@@ -106,7 +106,8 @@ public class WrappingScheduledExecutorServiceTest extends TestCase {
       return new WrappedCallable<T>(callable);
     }
 
-    @Override protected Runnable wrapTask(Runnable command) {
+    @Override
+    protected Runnable wrapTask(Runnable command) {
       return new WrappedRunnable(command);
     }
   }
@@ -240,6 +241,5 @@ public class WrappingScheduledExecutorServiceTest extends TestCase {
     public void execute(Runnable command) {
       throw new UnsupportedOperationException();
     }
-
   }
 }

@@ -194,9 +194,8 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E> implement
   /**
    * {@inheritDoc}
    *
-   * @throws IllegalArgumentException if the call would result in more than
-   *     {@link Integer#MAX_VALUE} occurrences of {@code element} in this
-   *     multiset.
+   * @throws IllegalArgumentException if the call would result in more than {@link
+   *     Integer#MAX_VALUE} occurrences of {@code element} in this multiset.
    */
   @CanIgnoreReturnValue
   @Override

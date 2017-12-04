@@ -187,40 +187,36 @@ public class ToStringHelperTest extends TestCase {
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToString_complexFields() {
 
-    Map<String, Integer> map = ImmutableMap.<String, Integer>builder()
-        .put("abc", 1)
-        .put("def", 2)
-        .put("ghi", 3)
-        .build();
+    Map<String, Integer> map =
+        ImmutableMap.<String, Integer>builder().put("abc", 1).put("def", 2).put("ghi", 3).build();
     String toTest =
         MoreObjects.toStringHelper(new TestClass())
             .add("field1", "This is string.")
             .add("field2", Arrays.asList("abc", "def", "ghi"))
             .add("field3", map)
             .toString();
-    final String expected = "TestClass{"
-        + "field1=This is string., field2=[abc, def, ghi], field3={abc=1, def=2, ghi=3}}";
+    final String expected =
+        "TestClass{"
+            + "field1=This is string., field2=[abc, def, ghi], field3={abc=1, def=2, ghi=3}}";
 
     assertEquals(expected, toTest);
   }
 
   public void testToStringLenient_complexFields() {
 
-    Map<String, Integer> map = ImmutableMap.<String, Integer>builder()
-        .put("abc", 1)
-        .put("def", 2)
-        .put("ghi", 3)
-        .build();
+    Map<String, Integer> map =
+        ImmutableMap.<String, Integer>builder().put("abc", 1).put("def", 2).put("ghi", 3).build();
     String toTest =
         MoreObjects.toStringHelper(new TestClass())
             .add("field1", "This is string.")
             .add("field2", Arrays.asList("abc", "def", "ghi"))
             .add("field3", map)
             .toString();
-    final String expectedRegex = ".*\\{"
-        + "field1\\=This is string\\., "
-        + "field2\\=\\[abc, def, ghi\\], "
-        + "field3=\\{abc\\=1, def\\=2, ghi\\=3\\}\\}";
+    final String expectedRegex =
+        ".*\\{"
+            + "field1\\=This is string\\., "
+            + "field2\\=\\[abc, def, ghi\\], "
+            + "field3=\\{abc\\=1, def\\=2, ghi\\=3\\}\\}";
 
     assertTrue(toTest, toTest.matches(expectedRegex));
   }
@@ -424,13 +420,9 @@ public class ToStringHelperTest extends TestCase {
             .omitNullValues()
             .add("field3", "World")
             .toString();
-    assertEquals("TestClass{field1=Hello, field2=Googley, field3=World}",
-        toTest);
+    assertEquals("TestClass{field1=Hello, field2=Googley, field3=World}", toTest);
   }
 
-  /**
-   * Test class for testing formatting of inner classes.
-   */
+  /** Test class for testing formatting of inner classes. */
   private static class TestClass {}
-
 }

@@ -60,7 +60,8 @@ public class SubscriberTest extends TestCase {
     subscriber.invokeSubscriberMethod(FIXTURE_ARGUMENT);
 
     assertTrue("Subscriber must call provided method", methodCalled);
-    assertTrue("Subscriber argument must be exactly the provided object.",
+    assertTrue(
+        "Subscriber argument must be exactly the provided object.",
         methodArgument == FIXTURE_ARGUMENT);
   }
 
@@ -107,7 +108,7 @@ public class SubscriberTest extends TestCase {
   }
 
   /**
-   * Records the provided object in {@link #methodArgument} and sets {@link #methodCalled}.  This
+   * Records the provided object in {@link #methodArgument} and sets {@link #methodCalled}. This
    * method is called reflectively by Subscriber during tests, and must remain public.
    *
    * @param arg argument to record.
@@ -124,9 +125,7 @@ public class SubscriberTest extends TestCase {
     throw new IntentionalException();
   }
 
-  /**
-   * Local exception subclass to check variety of exception thrown.
-   */
+  /** Local exception subclass to check variety of exception thrown. */
   class IntentionalException extends Exception {
 
     private static final long serialVersionUID = -2500191180248181379L;
@@ -137,13 +136,11 @@ public class SubscriberTest extends TestCase {
     throw new JudgmentError();
   }
 
-  @Subscribe @AllowConcurrentEvents
-  public void threadSafeMethod(Object arg) {
-  }
+  @Subscribe
+  @AllowConcurrentEvents
+  public void threadSafeMethod(Object arg) {}
 
-  /**
-   * Local Error subclass to check variety of error thrown.
-   */
+  /** Local Error subclass to check variety of error thrown. */
   class JudgmentError extends Error {
 
     private static final long serialVersionUID = 634248373797713373L;

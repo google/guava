@@ -27,9 +27,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionException;
 import javax.annotation.Nullable;
 
-/**
- * Aggregate future that computes its value by calling a callable.
- */
+/** Aggregate future that computes its value by calling a callable. */
 @GwtCompatible
 final class CombinedFuture<V> extends AggregateFuture<Object, V> {
   CombinedFuture(

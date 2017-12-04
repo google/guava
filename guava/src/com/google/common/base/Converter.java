@@ -37,9 +37,9 @@ import javax.annotation.Nullable;
  * example round-trip using {@link com.google.common.primitives.Doubles#stringConverter}:
  *
  * <ol>
- * <li>{@code stringConverter().convert("1.00")} returns the {@code Double} value {@code 1.0}
- * <li>{@code stringConverter().reverse().convert(1.0)} returns the string {@code "1.0"} --
- *     <i>not</i> the same string ({@code "1.00"}) we started with
+ *   <li>{@code stringConverter().convert("1.00")} returns the {@code Double} value {@code 1.0}
+ *   <li>{@code stringConverter().reverse().convert(1.0)} returns the string {@code "1.0"} --
+ *       <i>not</i> the same string ({@code "1.00"}) we started with
  * </ol>
  *
  * <p>Note that it should still be the case that the round-tripped and original objects are
@@ -60,30 +60,30 @@ import javax.annotation.Nullable;
  * <p>Getting a converter:
  *
  * <ul>
- * <li>Use a provided converter implementation, such as {@link Enums#stringConverter}, {@link
- *     com.google.common.primitives.Ints#stringConverter Ints.stringConverter} or the {@linkplain
- *     #reverse reverse} views of these.
- * <li>Convert between specific preset values using {@link
- *     com.google.common.collect.Maps#asConverter Maps.asConverter}. For example, use this to create
- *     a "fake" converter for a unit test. It is unnecessary (and confusing) to <i>mock</i> the
- *     {@code Converter} type using a mocking framework.
- * <li>Extend this class and implement its {@link #doForward} and {@link #doBackward} methods.
- * <li><b>Java 8 users:</b> you may prefer to pass two lambda expressions or method references to
- *     the {@link #from from} factory method.
+ *   <li>Use a provided converter implementation, such as {@link Enums#stringConverter}, {@link
+ *       com.google.common.primitives.Ints#stringConverter Ints.stringConverter} or the {@linkplain
+ *       #reverse reverse} views of these.
+ *   <li>Convert between specific preset values using {@link
+ *       com.google.common.collect.Maps#asConverter Maps.asConverter}. For example, use this to
+ *       create a "fake" converter for a unit test. It is unnecessary (and confusing) to <i>mock</i>
+ *       the {@code Converter} type using a mocking framework.
+ *   <li>Extend this class and implement its {@link #doForward} and {@link #doBackward} methods.
+ *   <li><b>Java 8 users:</b> you may prefer to pass two lambda expressions or method references to
+ *       the {@link #from from} factory method.
  * </ul>
  *
  * <p>Using a converter:
  *
  * <ul>
- * <li>Convert one instance in the "forward" direction using {@code converter.convert(a)}.
- * <li>Convert multiple instances "forward" using {@code converter.convertAll(as)}.
- * <li>Convert in the "backward" direction using {@code converter.reverse().convert(b)} or {@code
- *     converter.reverse().convertAll(bs)}.
- * <li>Use {@code converter} or {@code converter.reverse()} anywhere a {@link
- *     java.util.function.Function} is accepted (for example {@link java.util.stream.Stream#map
- *     Stream.map}).
- * <li><b>Do not</b> call {@link #doForward} or {@link #doBackward} directly; these exist only to be
- *     overridden.
+ *   <li>Convert one instance in the "forward" direction using {@code converter.convert(a)}.
+ *   <li>Convert multiple instances "forward" using {@code converter.convertAll(as)}.
+ *   <li>Convert in the "backward" direction using {@code converter.reverse().convert(b)} or {@code
+ *       converter.reverse().convertAll(bs)}.
+ *   <li>Use {@code converter} or {@code converter.reverse()} anywhere a {@link
+ *       java.util.function.Function} is accepted (for example {@link java.util.stream.Stream#map
+ *       Stream.map}).
+ *   <li><b>Do not</b> call {@link #doForward} or {@link #doBackward} directly; these exist only to
+ *       be overridden.
  * </ul>
  *
  * <h3>Example</h3>
@@ -117,17 +117,14 @@ public abstract class Converter<A, B> implements Function<A, B> {
   private final boolean handleNullAutomatically;
 
   // We lazily cache the reverse view to avoid allocating on every call to reverse().
-  @LazyInit
-  private transient Converter<B, A> reverse;
+  @LazyInit private transient Converter<B, A> reverse;
 
   /** Constructor for use by subclasses. */
   protected Converter() {
     this(true);
   }
 
-  /**
-   * Constructor used only by {@code LegacyConverter} to suspend automatic null-handling.
-   */
+  /** Constructor used only by {@code LegacyConverter} to suspend automatic null-handling. */
   Converter(boolean handleNullAutomatically) {
     this.handleNullAutomatically = handleNullAutomatically;
   }
@@ -317,9 +314,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
     return doAndThen(secondConverter);
   }
 
-  /**
-   * Package-private non-final implementation of andThen() so only we can override it.
-   */
+  /** Package-private non-final implementation of andThen() so only we can override it. */
   <C> Converter<A, C> doAndThen(Converter<B, C> secondConverter) {
     return new ConverterComposition<>(this, checkNotNull(secondConverter));
   }
@@ -477,9 +472,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
     }
   }
 
-  /**
-   * Returns a serializable converter that always converts or reverses an object to itself.
-   */
+  /** Returns a serializable converter that always converts or reverses an object to itself. */
   @SuppressWarnings("unchecked") // implementation is "fully variant"
   public static <T> Converter<T, T> identity() {
     return (IdentityConverter<T>) IdentityConverter.INSTANCE;

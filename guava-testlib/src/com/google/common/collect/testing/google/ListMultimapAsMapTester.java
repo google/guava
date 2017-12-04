@@ -66,9 +66,7 @@ public class ListMultimapAsMapTester<K, V> extends AbstractListMultimapTester<K,
   @CollectionSize.Require(SEVERAL)
   public void testEquals() {
     resetContainer(
-        Helpers.mapEntry(k0(), v0()),
-        Helpers.mapEntry(k1(), v0()),
-        Helpers.mapEntry(k0(), v3()));
+        Helpers.mapEntry(k0(), v0()), Helpers.mapEntry(k1(), v0()), Helpers.mapEntry(k0(), v3()));
     Map<K, Collection<V>> expected = Maps.newHashMap();
     expected.put(k0(), Lists.newArrayList(v0(), v3()));
     expected.put(k1(), Lists.newArrayList(v0()));
@@ -78,9 +76,7 @@ public class ListMultimapAsMapTester<K, V> extends AbstractListMultimapTester<K,
   @CollectionSize.Require(SEVERAL)
   public void testEntrySetEquals() {
     resetContainer(
-        Helpers.mapEntry(k0(), v0()),
-        Helpers.mapEntry(k1(), v0()),
-        Helpers.mapEntry(k0(), v3()));
+        Helpers.mapEntry(k0(), v0()), Helpers.mapEntry(k1(), v0()), Helpers.mapEntry(k0(), v3()));
     Set<Entry<K, Collection<V>>> expected = Sets.newHashSet();
     expected.add(Helpers.mapEntry(k0(), (Collection<V>) Lists.newArrayList(v0(), v3())));
     expected.add(Helpers.mapEntry(k1(), (Collection<V>) Lists.newArrayList(v0())));
@@ -91,9 +87,7 @@ public class ListMultimapAsMapTester<K, V> extends AbstractListMultimapTester<K,
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testValuesRemove() {
     resetContainer(
-        Helpers.mapEntry(k0(), v0()),
-        Helpers.mapEntry(k1(), v0()),
-        Helpers.mapEntry(k0(), v3()));
+        Helpers.mapEntry(k0(), v0()), Helpers.mapEntry(k1(), v0()), Helpers.mapEntry(k0(), v3()));
     assertTrue(multimap().asMap().values().remove(Collections.singletonList(v0())));
     assertEquals(2, multimap().size());
     assertEquals(

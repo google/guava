@@ -38,37 +38,38 @@ import junit.framework.TestCase;
 @AndroidIncompatible // Android doesn't understand tests that lack default constructors.
 public class SourceSinkTester<S, T, F extends SourceSinkFactory<S, T>> extends TestCase {
 
-  static final String LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing "
-      + "elit. Cras fringilla elit ac ipsum adipiscing vulputate. Maecenas in lorem nulla, ac "
-      + "sollicitudin quam. Praesent neque elit, sodales quis vestibulum vel, pellentesque nec "
-      + "erat. Proin cursus commodo lacus eget congue. Aliquam erat volutpat. Fusce ut leo sed "
-      + "risus tempor vehicula et a odio. Nam aliquet dolor viverra libero rutrum accumsan quis "
-      + "in augue. Suspendisse id dui in lorem tristique placerat eget vel risus. Sed metus neque, "
-      + "scelerisque in molestie ac, mattis quis lectus. Pellentesque viverra justo commodo quam "
-      + "bibendum ut gravida leo accumsan. Nullam malesuada sagittis diam, quis suscipit mauris "
-      + "euismod vulputate. Pellentesque ultrices tellus sed lorem aliquet pulvinar. Nam lorem "
-      + "nunc, ultrices at auctor non, scelerisque eget turpis. Nullam eget varius erat. Sed a "
-      + "lorem id arcu dictum euismod. Fusce lectus odio, elementum ullamcorper mattis viverra, "
-      + "dictum sit amet lacus.\n"
-      + "\n"
-      + "Nunc quis lacus est. Sed aliquam pretium cursus. Sed eu libero eros. In hac habitasse "
-      + "platea dictumst. Pellentesque molestie, nibh nec iaculis luctus, justo sem lobortis enim, "
-      + "at feugiat leo magna nec libero. Mauris quis odio eget nisl rutrum cursus nec eget augue. "
-      + "Sed nec arcu sem. In hac habitasse platea dictumst.";
+  static final String LOREM_IPSUM =
+      "Lorem ipsum dolor sit amet, consectetur adipiscing "
+          + "elit. Cras fringilla elit ac ipsum adipiscing vulputate. Maecenas in lorem nulla, ac "
+          + "sollicitudin quam. Praesent neque elit, sodales quis vestibulum vel, pellentesque nec "
+          + "erat. Proin cursus commodo lacus eget congue. Aliquam erat volutpat. Fusce ut leo sed "
+          + "risus tempor vehicula et a odio. Nam aliquet dolor viverra libero rutrum accumsan "
+          + "quis in augue. Suspendisse id dui in lorem tristique placerat eget vel risus. Sed "
+          + "metus neque, scelerisque in molestie ac, mattis quis lectus. Pellentesque viverra "
+          + "justo commodo quam bibendum ut gravida leo accumsan. Nullam malesuada sagittis diam, "
+          + "quis suscipit mauris euismod vulputate. Pellentesque ultrices tellus sed lorem "
+          + "aliquet pulvinar. Nam lorem nunc, ultrices at auctor non, scelerisque eget turpis. "
+          + "Nullam eget varius erat. Sed a lorem id arcu dictum euismod. Fusce lectus odio, "
+          + "elementum ullamcorper mattis viverra, dictum sit amet lacus.\n"
+          + "\n"
+          + "Nunc quis lacus est. Sed aliquam pretium cursus. Sed eu libero eros. In hac habitasse "
+          + "platea dictumst. Pellentesque molestie, nibh nec iaculis luctus, justo sem lobortis "
+          + "enim, at feugiat leo magna nec libero. Mauris quis odio eget nisl rutrum cursus nec "
+          + "eget augue. Sed nec arcu sem. In hac habitasse platea dictumst.";
 
-  static final ImmutableMap<String, String> TEST_STRINGS
-      = ImmutableMap.<String, String>builder()
-      .put("empty", "")
-      .put("1 char", "0")
-      .put("1 word", "hello")
-      .put("2 words", "hello world")
-      .put("\\n line break", "hello\nworld")
-      .put("\\r line break", "hello\rworld")
-      .put("\\r\\n line break", "hello\r\nworld")
-      .put("\\n at EOF", "hello\nworld\n")
-      .put("\\r at EOF", "hello\nworld\r")
-      .put("lorem ipsum", LOREM_IPSUM)
-      .build();
+  static final ImmutableMap<String, String> TEST_STRINGS =
+      ImmutableMap.<String, String>builder()
+          .put("empty", "")
+          .put("1 char", "0")
+          .put("1 word", "hello")
+          .put("2 words", "hello world")
+          .put("\\n line break", "hello\nworld")
+          .put("\\r line break", "hello\rworld")
+          .put("\\r\\n line break", "hello\r\nworld")
+          .put("\\n at EOF", "hello\nworld\n")
+          .put("\\r at EOF", "hello\nworld\r")
+          .put("lorem ipsum", LOREM_IPSUM)
+          .build();
 
   protected final F factory;
   protected final T data;

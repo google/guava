@@ -82,9 +82,7 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
     this.columnMap = new ColumnMap();
   }
 
-  /**
-   * An immutable map implementation backed by an indexed nullable array.
-   */
+  /** An immutable map implementation backed by an indexed nullable array. */
   private abstract static class ImmutableArrayMap<K, V> extends IteratorBasedImmutableMap<K, V> {
     private final int size;
 

@@ -56,9 +56,7 @@ final class MultiInputStream extends InputStream {
     }
   }
 
-  /**
-   * Closes the current input stream and opens the next one, if any.
-   */
+  /** Closes the current input stream and opens the next one, if any. */
   private void advance() throws IOException {
     close();
     if (it.hasNext()) {

@@ -50,28 +50,33 @@ public class ConcurrentHashMultisetTest extends TestCase {
 
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    suite.addTest(MultisetTestSuiteBuilder.using(concurrentHashMultisetGenerator())
-        .withFeatures(CollectionSize.ANY,
-            CollectionFeature.GENERAL_PURPOSE,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ConcurrentHashMultiset")
-        .createTestSuite());
-    suite.addTest(MultisetTestSuiteBuilder.using(concurrentSkipListMultisetGenerator())
-        .withFeatures(CollectionSize.ANY,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.GENERAL_PURPOSE,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ConcurrentSkipListMultiset")
-        .createTestSuite());
+    suite.addTest(
+        MultisetTestSuiteBuilder.using(concurrentHashMultisetGenerator())
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.GENERAL_PURPOSE,
+                CollectionFeature.SERIALIZABLE,
+                CollectionFeature.ALLOWS_NULL_QUERIES)
+            .named("ConcurrentHashMultiset")
+            .createTestSuite());
+    suite.addTest(
+        MultisetTestSuiteBuilder.using(concurrentSkipListMultisetGenerator())
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.KNOWN_ORDER,
+                CollectionFeature.GENERAL_PURPOSE,
+                CollectionFeature.SERIALIZABLE,
+                CollectionFeature.ALLOWS_NULL_QUERIES)
+            .named("ConcurrentSkipListMultiset")
+            .createTestSuite());
     suite.addTestSuite(ConcurrentHashMultisetTest.class);
     return suite;
   }
 
   private static TestStringMultisetGenerator concurrentHashMultisetGenerator() {
     return new TestStringMultisetGenerator() {
-      @Override protected Multiset<String> create(String[] elements) {
+      @Override
+      protected Multiset<String> create(String[] elements) {
         return ConcurrentHashMultiset.create(asList(elements));
       }
     };
@@ -100,7 +105,8 @@ public class ConcurrentHashMultisetTest extends TestCase {
   ConcurrentHashMultiset<String> multiset;
 
   @SuppressWarnings("unchecked")
-  @Override protected void setUp() {
+  @Override
+  protected void setUp() {
     backingMap = mock(ConcurrentMap.class);
     when(backingMap.isEmpty()).thenReturn(true);
 
@@ -163,8 +169,8 @@ public class ConcurrentHashMultisetTest extends TestCase {
   /**
    * Simulate some of the races that can happen on add. We can't easily simulate the race that
    * happens when an {@link AtomicInteger#compareAndSet} fails, but we can simulate the case where
-   * the putIfAbsent returns a non-null value, and the case where the replace() of an observed
-   * zero fails.
+   * the putIfAbsent returns a non-null value, and the case where the replace() of an observed zero
+   * fails.
    */
   public void testAdd_withFailures() {
     AtomicInteger existing = new AtomicInteger(12);
@@ -243,7 +249,8 @@ public class ConcurrentHashMultisetTest extends TestCase {
     try {
       cms.removeExactly("a", -2);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
 
     assertTrue(cms.removeExactly("a", 0));
     assertEquals(2, cms.count("a"));
@@ -312,8 +319,7 @@ public class ConcurrentHashMultisetTest extends TestCase {
 
   public void testCreateFromIterable() {
     Iterable<Integer> iterable = asList(1, 2, 2, 3, 4);
-    ConcurrentHashMultiset<Integer> multiset
-        = ConcurrentHashMultiset.create(iterable);
+    ConcurrentHashMultiset<Integer> multiset = ConcurrentHashMultiset.create(iterable);
     assertEquals(2, multiset.count(2));
     reserializeAndAssert(multiset);
   }
@@ -326,8 +332,7 @@ public class ConcurrentHashMultisetTest extends TestCase {
     testIdentityKeyEquality(WEAK);
   }
 
-  private void testIdentityKeyEquality(
-      MapMakerInternalMap.Strength keyStrength) {
+  private void testIdentityKeyEquality(MapMakerInternalMap.Strength keyStrength) {
 
     ConcurrentMap<String, AtomicInteger> map =
         new MapMaker().setKeyStrength(keyStrength).keyEquivalence(Equivalence.identity()).makeMap();
@@ -363,8 +368,7 @@ public class ConcurrentHashMultisetTest extends TestCase {
     testLogicalKeyEquality(WEAK);
   }
 
-  private void testLogicalKeyEquality(
-      MapMakerInternalMap.Strength keyStrength) {
+  private void testLogicalKeyEquality(MapMakerInternalMap.Strength keyStrength) {
 
     ConcurrentMap<String, AtomicInteger> map =
         new MapMaker().setKeyStrength(keyStrength).keyEquivalence(Equivalence.equals()).makeMap();

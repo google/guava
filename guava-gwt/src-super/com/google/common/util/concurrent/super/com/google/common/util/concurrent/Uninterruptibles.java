@@ -19,13 +19,10 @@ package com.google.common.util.concurrent;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-/**
- * Emulation of Uninterruptibles in GWT.
- */
+/** Emulation of Uninterruptibles in GWT. */
 public final class Uninterruptibles {
 
-  private Uninterruptibles() {
-  }
+  private Uninterruptibles() {}
 
   public static <V> V getUninterruptibly(Future<V> future) throws ExecutionException {
     try {

@@ -391,15 +391,14 @@ class FilteredEntryMultimap<K, V> extends AbstractMultimap<K, V> implements Filt
         }
 
         private boolean removeEntriesIf(final Predicate<? super Multiset.Entry<K>> predicate) {
-          return FilteredEntryMultimap.this
-              .removeEntriesIf(
-                  new Predicate<Map.Entry<K, Collection<V>>>() {
-                    @Override
-                    public boolean apply(Map.Entry<K, Collection<V>> entry) {
-                      return predicate.apply(
-                          Multisets.immutableEntry(entry.getKey(), entry.getValue().size()));
-                    }
-                  });
+          return FilteredEntryMultimap.this.removeEntriesIf(
+              new Predicate<Map.Entry<K, Collection<V>>>() {
+                @Override
+                public boolean apply(Map.Entry<K, Collection<V>> entry) {
+                  return predicate.apply(
+                      Multisets.immutableEntry(entry.getKey(), entry.getValue().size()));
+                }
+              });
         }
 
         @Override

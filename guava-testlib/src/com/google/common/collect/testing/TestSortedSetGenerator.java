@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
@@ -29,26 +30,26 @@ public interface TestSortedSetGenerator<E> extends TestSetGenerator<E> {
   SortedSet<E> create(Object... elements);
 
   /**
-   * Returns an element less than the {@link #samples()} and less than
-   * {@link #belowSamplesGreater()}.
+   * Returns an element less than the {@link #samples()} and less than {@link
+   * #belowSamplesGreater()}.
    */
   E belowSamplesLesser();
 
   /**
-   * Returns an element less than the {@link #samples()} but greater than
-   * {@link #belowSamplesLesser()}.
+   * Returns an element less than the {@link #samples()} but greater than {@link
+   * #belowSamplesLesser()}.
    */
   E belowSamplesGreater();
 
   /**
-   * Returns an element greater than the {@link #samples()} but less than
-   * {@link #aboveSamplesGreater()}.
+   * Returns an element greater than the {@link #samples()} but less than {@link
+   * #aboveSamplesGreater()}.
    */
   E aboveSamplesLesser();
 
   /**
-   * Returns an element greater than the {@link #samples()} and greater than
-   * {@link #aboveSamplesLesser()}.
+   * Returns an element greater than the {@link #samples()} and greater than {@link
+   * #aboveSamplesLesser()}.
    */
   E aboveSamplesGreater();
 }

@@ -59,8 +59,7 @@ final class DirectedMultiNetworkConnections<N, E> extends AbstractDirectedNetwor
         ImmutableMap.copyOf(inEdges), ImmutableMap.copyOf(outEdges), selfLoopCount);
   }
 
-  @LazyInit
-  private transient Reference<Multiset<N>> predecessorsReference;
+  @LazyInit private transient Reference<Multiset<N>> predecessorsReference;
 
   @Override
   public Set<N> predecessors() {
@@ -76,8 +75,7 @@ final class DirectedMultiNetworkConnections<N, E> extends AbstractDirectedNetwor
     return predecessors;
   }
 
-  @LazyInit
-  private transient Reference<Multiset<N>> successorsReference;
+  @LazyInit private transient Reference<Multiset<N>> successorsReference;
 
   @Override
   public Set<N> successors() {

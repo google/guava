@@ -33,9 +33,7 @@ import javax.annotation.Nullable;
 public final class Callables {
   private Callables() {}
 
-  /**
-   * Creates a {@code Callable} which immediately returns a preset value each time it is called.
-   */
+  /** Creates a {@code Callable} which immediately returns a preset value each time it is called. */
   public static <T> Callable<T> returning(@Nullable final T value) {
     return new Callable<T>() {
       @Override
@@ -48,16 +46,15 @@ public final class Callables {
   /**
    * Creates an {@link AsyncCallable} from a {@link Callable}.
    *
-   * <p>The {@link AsyncCallable} returns the {@link ListenableFuture} resulting from
-   * {@link ListeningExecutorService#submit(Callable)}.
+   * <p>The {@link AsyncCallable} returns the {@link ListenableFuture} resulting from {@link
+   * ListeningExecutorService#submit(Callable)}.
    *
    * @since 20.0
    */
   @Beta
   @GwtIncompatible
   public static <T> AsyncCallable<T> asAsyncCallable(
-      final Callable<T> callable,
-      final ListeningExecutorService listeningExecutorService) {
+      final Callable<T> callable, final ListeningExecutorService listeningExecutorService) {
     checkNotNull(callable);
     checkNotNull(listeningExecutorService);
     return new AsyncCallable<T>() {

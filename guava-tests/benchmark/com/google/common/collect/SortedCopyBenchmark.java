@@ -29,12 +29,13 @@ import java.util.TreeSet;
 
 /**
  * Provides supporting data for performance notes in the documentation of {@link
- * Ordering#sortedCopy} and {@link Ordering#immutableSortedCopy}, as well as for
- * automated code suggestions.
+ * Ordering#sortedCopy} and {@link Ordering#immutableSortedCopy}, as well as for automated code
+ * suggestions.
  *
  */
 public class SortedCopyBenchmark {
-  @Param({"1", "10", "1000", "1000000"}) int size; // logarithmic triangular
+  @Param({"1", "10", "1000", "1000000"})
+  int size; // logarithmic triangular
 
   @Param boolean mutable;
 
@@ -42,12 +43,14 @@ public class SortedCopyBenchmark {
 
   enum InputOrder {
     SORTED {
-      @Override void arrange(List<Integer> list) {
+      @Override
+      void arrange(List<Integer> list) {
         Collections.sort(list);
       }
     },
     ALMOST_SORTED {
-      @Override void arrange(List<Integer> list) {
+      @Override
+      void arrange(List<Integer> list) {
         Collections.sort(list);
         if (list.size() > 1) {
           int i = (list.size() - 1) / 2;
@@ -56,7 +59,8 @@ public class SortedCopyBenchmark {
       }
     },
     RANDOM {
-      @Override void arrange(List<Integer> list) {}
+      @Override
+      void arrange(List<Integer> list) {}
     };
 
     abstract void arrange(List<Integer> list);

@@ -30,7 +30,7 @@ import com.google.common.annotations.Beta;
  * Given an algorithm, for example:
  *
  * <pre>{@code
- *   public <N> someGraphAlgorithm(N startNode, PredecessorsFunction<N> predecessorsFunction);
+ * public <N> someGraphAlgorithm(N startNode, PredecessorsFunction<N> predecessorsFunction);
  * }</pre>
  *
  * you will invoke it depending on the graph representation you're using.
@@ -39,7 +39,7 @@ import com.google.common.annotations.Beta;
  * {@link ValueGraph}, and {@link Network}):
  *
  * <pre>{@code
- *   someGraphAlgorithm(startNode, graph);
+ * someGraphAlgorithm(startNode, graph);
  * }</pre>
  *
  * This works because those types each implement {@code PredecessorsFunction}. It will also work
@@ -49,7 +49,7 @@ import com.google.common.annotations.Beta;
  * which has a method {@code getParents()} that retrieves its predecessors in a graph:
  *
  * <pre>{@code
- *   someGraphAlgorithm(startNode, MyNode::getParents);
+ * someGraphAlgorithm(startNode, MyNode::getParents);
  * }</pre>
  *
  * <p>If you have some other mechanism for returning the predecessors of a node, or one that doesn't
@@ -57,7 +57,7 @@ import com.google.common.annotations.Beta;
  * transformation:
  *
  * <pre>{@code
- *   someGraphAlgorithm(startNode, node -> ImmutableList.of(node.mother(), node.father()));
+ * someGraphAlgorithm(startNode, node -> ImmutableList.of(node.mother(), node.father()));
  * }</pre>
  *
  * <p>Graph algorithms that need additional capabilities (accessing both predecessors and

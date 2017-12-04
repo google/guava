@@ -38,8 +38,7 @@ final class SingletonImmutableSet<E> extends ImmutableSet<E> {
   // is zero and recalculate it themselves, or two threads will see it at
   // the same time, and both recalculate it.  If the cachedHashCode is 0,
   // it will always be recalculated, unfortunately.
-  @LazyInit
-  private transient int cachedHashCode;
+  @LazyInit private transient int cachedHashCode;
 
   SingletonImmutableSet(E element) {
     this.element = Preconditions.checkNotNull(element);

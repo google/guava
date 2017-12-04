@@ -22,8 +22,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * GWT emulation of {@link ImmutableEnumMap}. The type parameter is not bounded
- * by {@code Enum<E>} to avoid code-size bloat.
+ * GWT emulation of {@link ImmutableEnumMap}. The type parameter is not bounded by {@code Enum<E>}
+ * to avoid code-size bloat.
  *
  * @author Hayward Chan
  */

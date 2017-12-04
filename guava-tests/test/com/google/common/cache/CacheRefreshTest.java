@@ -30,12 +30,13 @@ public class CacheRefreshTest extends TestCase {
   public void testAutoRefresh() {
     FakeTicker ticker = new FakeTicker();
     IncrementingLoader loader = incrementingLoader();
-    LoadingCache<Integer, Integer> cache = CacheBuilder.newBuilder()
-        .refreshAfterWrite(3, MILLISECONDS)
-        .expireAfterWrite(6, MILLISECONDS)
-        .lenientParsing()
-        .ticker(ticker)
-        .build(loader);
+    LoadingCache<Integer, Integer> cache =
+        CacheBuilder.newBuilder()
+            .refreshAfterWrite(3, MILLISECONDS)
+            .expireAfterWrite(6, MILLISECONDS)
+            .lenientParsing()
+            .ticker(ticker)
+            .build(loader);
     int expectedLoads = 0;
     int expectedReloads = 0;
     for (int i = 0; i < 3; i++) {

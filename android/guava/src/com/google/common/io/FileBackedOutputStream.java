@@ -79,8 +79,8 @@ public final class FileBackedOutputStream extends OutputStream {
    * the {@link ByteSource} returned by {@link #asByteSource} is finalized.
    *
    * @param fileThreshold the number of bytes before the stream should switch to buffering to a file
-   * @param resetOnFinalize if true, the {@link #reset} method will be called when the
-   *     {@link ByteSource} returned by {@link #asByteSource} is finalized
+   * @param resetOnFinalize if true, the {@link #reset} method will be called when the {@link
+   *     ByteSource} returned by {@link #asByteSource} is finalized
    */
   public FileBackedOutputStream(int fileThreshold, boolean resetOnFinalize) {
     this.fileThreshold = fileThreshold;

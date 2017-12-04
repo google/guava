@@ -49,9 +49,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
 
-/**
- * Unit tests for {@link Futures#getChecked(Future, Class)}.
- */
+/** Unit tests for {@link Futures#getChecked(Future, Class)}. */
 public class FuturesGetCheckedTest extends TestCase {
   // Boring untimed-get tests:
 

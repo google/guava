@@ -25,9 +25,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
 
-/**
- * Methods factored out so that they can be emulated differently in GWT.
- */
+/** Methods factored out so that they can be emulated differently in GWT. */
 final class TestPlatform {
   static void verifyGetOnPendingFuture(Future<?> future) {
     try {

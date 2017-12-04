@@ -22,8 +22,7 @@ import java.util.List;
 import java.util.SortedSet;
 
 /**
- * Create string sets for testing collections that are sorted by natural
- * ordering.
+ * Create string sets for testing collections that are sorted by natural ordering.
  *
  * @author Jared Levy
  */

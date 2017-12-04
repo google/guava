@@ -22,9 +22,9 @@ import java.util.function.Function;
 import java.util.stream.Collector;
 
 /**
- * "Overrides" the {@link ImmutableMap} static methods that lack
- * {@link ImmutableBiMap} equivalents with deprecated, exception-throwing
- * versions. See {@link ImmutableSortedSetFauxverideShim} for details.
+ * "Overrides" the {@link ImmutableMap} static methods that lack {@link ImmutableBiMap} equivalents
+ * with deprecated, exception-throwing versions. See {@link ImmutableSortedSetFauxverideShim} for
+ * details.
  *
  * @author Louis Wasserman
  */
@@ -44,7 +44,7 @@ abstract class ImmutableBiMapFauxverideShim<K, V> extends ImmutableMap<K, V> {
       Function<? super T, ? extends V> valueFunction) {
     throw new UnsupportedOperationException();
   }
-  
+
   /**
    * Not supported. This method does not make sense for {@code BiMap}. This method exists only to
    * hide {@link ImmutableMap#toImmutableMap(Function, Function, BinaryOperator)} from consumers of

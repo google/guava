@@ -29,8 +29,8 @@ import java.util.List;
 import junit.framework.Test;
 
 /**
- * Tests the {@link List} implementations of {@link java.util}, suppressing
- * tests that trip known OpenJDK 6 bugs.
+ * Tests the {@link List} implementations of {@link java.util}, suppressing tests that trip known
+ * OpenJDK 6 bugs.
  *
  * @author Kevin Bourrillion
  */
@@ -39,12 +39,13 @@ public class OpenJdk6ListTests extends TestsForListsInJavaUtil {
     return new OpenJdk6ListTests().allTests();
   }
 
-  @Override protected Collection<Method> suppressForArraysAsList() {
-    return Arrays.asList(
-        getToArrayIsPlainObjectArrayMethod());
+  @Override
+  protected Collection<Method> suppressForArraysAsList() {
+    return Arrays.asList(getToArrayIsPlainObjectArrayMethod());
   }
 
-  @Override protected Collection<Method> suppressForCheckedList() {
+  @Override
+  protected Collection<Method> suppressForCheckedList() {
     return Arrays.asList(
         CollectionAddTester.getAddNullSupportedMethod(),
         getAddSupportedNullPresentMethod(),

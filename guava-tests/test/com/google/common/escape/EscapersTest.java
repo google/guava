@@ -22,9 +22,7 @@ import com.google.common.escape.testing.EscaperAsserts;
 import java.io.IOException;
 import junit.framework.TestCase;
 
-/**
- * @author David Beaumont
- */
+/** @author David Beaumont */
 @GwtCompatible
 public class EscapersTest extends TestCase {
   public void testNullEscaper() throws IOException {
@@ -51,17 +49,14 @@ public class EscapersTest extends TestCase {
     Escapers.Builder builder = Escapers.builder();
     builder.setSafeRange('a', 'z');
     builder.setUnsafeReplacement("X");
-    assertEquals("XheXXuickXXrownXXoxX",
-        builder.build().escape("The Quick Brown Fox!"));
+    assertEquals("XheXXuickXXrownXXoxX", builder.build().escape("The Quick Brown Fox!"));
     // Explicit replacements take priority over unsafe characters.
     builder.addEscape(' ', "_");
     builder.addEscape('!', "_");
-    assertEquals("Xhe_Xuick_Xrown_Xox_",
-        builder.build().escape("The Quick Brown Fox!"));
+    assertEquals("Xhe_Xuick_Xrown_Xox_", builder.build().escape("The Quick Brown Fox!"));
     // Explicit replacements take priority over safe characters.
     builder.setSafeRange(' ', '~');
-    assertEquals("The_Quick_Brown_Fox_",
-        builder.build().escape("The Quick Brown Fox!"));
+    assertEquals("The_Quick_Brown_Fox_", builder.build().escape("The Quick Brown Fox!"));
   }
 
   public void testBuilderCreatesIndependentEscapers() {
@@ -84,12 +79,13 @@ public class EscapersTest extends TestCase {
   }
 
   public void testAsUnicodeEscaper() throws IOException {
-    CharEscaper charEscaper = createSimpleCharEscaper(
-        ImmutableMap.<Character, char[]>builder()
-            .put('x', "<hello>".toCharArray())
-            .put('\uD800', "<hi>".toCharArray())
-            .put('\uDC00', "<lo>".toCharArray())
-            .build());
+    CharEscaper charEscaper =
+        createSimpleCharEscaper(
+            ImmutableMap.<Character, char[]>builder()
+                .put('x', "<hello>".toCharArray())
+                .put('\uD800', "<hi>".toCharArray())
+                .put('\uDC00', "<lo>".toCharArray())
+                .build());
     UnicodeEscaper unicodeEscaper = Escapers.asUnicodeEscaper(charEscaper);
     EscaperAsserts.assertBasic(unicodeEscaper);
     assertEquals("<hello><hi><lo>", charEscaper.escape("x\uD800\uDC00"));
@@ -113,10 +109,10 @@ public class EscapersTest extends TestCase {
   }
 
   // A trival non-optimized escaper for testing.
-  static CharEscaper createSimpleCharEscaper(
-      final ImmutableMap<Character, char[]> replacementMap) {
+  static CharEscaper createSimpleCharEscaper(final ImmutableMap<Character, char[]> replacementMap) {
     return new CharEscaper() {
-      @Override protected char[] escape(char c) {
+      @Override
+      protected char[] escape(char c) {
         return replacementMap.get(c);
       }
     };
@@ -126,7 +122,8 @@ public class EscapersTest extends TestCase {
   static UnicodeEscaper createSimpleUnicodeEscaper(
       final ImmutableMap<Integer, char[]> replacementMap) {
     return new UnicodeEscaper() {
-      @Override protected char[] escape(int cp) {
+      @Override
+      protected char[] escape(int cp) {
         return replacementMap.get(cp);
       }
     };

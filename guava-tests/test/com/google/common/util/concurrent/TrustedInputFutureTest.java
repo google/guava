@@ -20,8 +20,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.util.concurrent.AbstractFuture.TrustedFuture;
 
 /**
- * Tests for {@link AbstractFuture} that use a {@link TrustedFuture} for
- * {@link AbstractFuture#setFuture} calls.
+ * Tests for {@link AbstractFuture} that use a {@link TrustedFuture} for {@link
+ * AbstractFuture#setFuture} calls.
  */
 @GwtCompatible
 public class TrustedInputFutureTest extends AbstractAbstractFutureTest {

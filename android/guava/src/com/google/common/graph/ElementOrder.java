@@ -57,9 +57,9 @@ public final class ElementOrder<T> {
    * The type of ordering that this object specifies.
    *
    * <ul>
-   * <li>UNORDERED: no order is guaranteed.
-   * <li>INSERTION: insertion ordering is guaranteed.
-   * <li>SORTED: ordering according to a supplied comparator is guaranteed.
+   *   <li>UNORDERED: no order is guaranteed.
+   *   <li>INSERTION: insertion ordering is guaranteed.
+   *   <li>SORTED: ordering according to a supplied comparator is guaranteed.
    * </ul>
    */
   public enum Type {

@@ -38,9 +38,8 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
- * A generic JUnit test which tests {@code listIterator} operations on a list.
- * Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.ListTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code listIterator} operations on a list. Can't be invoked
+ * directly; please see {@link com.google.common.collect.testing.ListTestSuiteBuilder}.
  *
  * @author Chris Povirk
  * @author Kevin Bourrillion
@@ -105,12 +104,10 @@ public class ListListIteratorTester<E> extends AbstractListTester<E> {
   }
 
   /**
-   * Returns the {@link Method} instance for
-   * {@link #testListIterator_fullyModifiable()} so that tests of
-   * {@link CopyOnWriteArraySet} can suppress it with
-   * {@code FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570575">Sun bug
-   * 6570575</a> is fixed.
+   * Returns the {@link Method} instance for {@link #testListIterator_fullyModifiable()} so that
+   * tests of {@link CopyOnWriteArraySet} can suppress it with {@code
+   * FeatureSpecificTestSuiteBuilder.suppressing()} until <a
+   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570575">Sun bug 6570575</a> is fixed.
    */
   @GwtIncompatible // reflection
   public static Method getListIteratorFullyModifiableMethod() {
@@ -118,9 +115,8 @@ public class ListListIteratorTester<E> extends AbstractListTester<E> {
   }
 
   /**
-   * Returns the {@link Method} instance for
-   * {@link #testListIterator_unmodifiable()} so that it can be suppressed in
-   * GWT tests.
+   * Returns the {@link Method} instance for {@link #testListIterator_unmodifiable()} so that it can
+   * be suppressed in GWT tests.
    */
   @GwtIncompatible // reflection
   public static Method getListIteratorUnmodifiableMethod() {

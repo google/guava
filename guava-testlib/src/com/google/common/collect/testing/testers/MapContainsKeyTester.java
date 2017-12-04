@@ -27,9 +27,8 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 
 /**
- * A generic JUnit test which tests {@code containsKey()} operations on a map.
- * Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code containsKey()} operations on a map. Can't be invoked
+ * directly; please see {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
  *
  * @author George van den Driessche
  */
@@ -70,7 +69,7 @@ public class MapContainsKeyTester<K, V> extends AbstractMapTester<K, V> {
 
   public void testContains_wrongType() {
     try {
-      //noinspection SuspiciousMethodCalls
+      // noinspection SuspiciousMethodCalls
       assertFalse(
           "containsKey(wrongType) should return false or throw",
           getMap().containsKey(WrongType.VALUE));

@@ -473,14 +473,12 @@ public class PairedStatsAccumulatorTest extends TestCase {
       }
     }
     assertHorizontalLinearTransformation(
-        horizontalValuesAccumulator.leastSquaresFit(),
-        horizontalValuesAccumulator.yStats().mean());
+        horizontalValuesAccumulator.leastSquaresFit(), horizontalValuesAccumulator.yStats().mean());
     assertHorizontalLinearTransformation(
         horizontalValuesAccumulatorByAddAllPartitionedPairedStats.leastSquaresFit(),
         horizontalValuesAccumulatorByAddAllPartitionedPairedStats.yStats().mean());
     assertVerticalLinearTransformation(
-        verticalValuesAccumulator.leastSquaresFit(),
-        verticalValuesAccumulator.xStats().mean());
+        verticalValuesAccumulator.leastSquaresFit(), verticalValuesAccumulator.xStats().mean());
     assertVerticalLinearTransformation(
         verticalValuesAccumulatorByAddAllPartitionedPairedStats.leastSquaresFit(),
         verticalValuesAccumulatorByAddAllPartitionedPairedStats.xStats().mean());

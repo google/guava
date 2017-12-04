@@ -48,8 +48,15 @@ public class PrimitivesTest extends TestCase {
     Set<Class<?>> primitives = Primitives.allPrimitiveTypes();
     assertEquals(
         ImmutableSet.<Object>of(
-            boolean.class, byte.class, char.class, double.class,
-            float.class, int.class, long.class, short.class, void.class),
+            boolean.class,
+            byte.class,
+            char.class,
+            double.class,
+            float.class,
+            int.class,
+            long.class,
+            short.class,
+            void.class),
         primitives);
 
     try {
@@ -63,8 +70,15 @@ public class PrimitivesTest extends TestCase {
     Set<Class<?>> wrappers = Primitives.allWrapperTypes();
     assertEquals(
         ImmutableSet.<Object>of(
-            Boolean.class, Byte.class, Character.class, Double.class,
-            Float.class, Integer.class, Long.class, Short.class, Void.class),
+            Boolean.class,
+            Byte.class,
+            Character.class,
+            Double.class,
+            Float.class,
+            Integer.class,
+            Long.class,
+            Short.class,
+            Void.class),
         wrappers);
 
     try {

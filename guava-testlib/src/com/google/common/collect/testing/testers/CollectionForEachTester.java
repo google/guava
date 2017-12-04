@@ -27,9 +27,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * A generic JUnit test which tests {@code forEach} operations on a collection.
- * Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code forEach} operations on a collection. Can't be invoked
+ * directly; please see {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
  *
  * @author Louis Wasserman
  */
@@ -39,8 +38,7 @@ public class CollectionForEachTester<E> extends AbstractCollectionTester<E> {
   public void testForEachUnknownOrder() {
     List<E> elements = new ArrayList<E>();
     collection.forEach(elements::add);
-    Helpers.assertEqualIgnoringOrder(
-        Arrays.asList(createSamplesArray()), elements);
+    Helpers.assertEqualIgnoringOrder(Arrays.asList(createSamplesArray()), elements);
   }
 
   @CollectionFeature.Require(KNOWN_ORDER)

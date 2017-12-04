@@ -24,8 +24,8 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.testing.SerializableTester;
 
 /**
- * Basic reserialization test for collection types that must preserve {@code equals()} behavior
- * when reserialized.  (Sets and Lists, but not bare Collections.)
+ * Basic reserialization test for collection types that must preserve {@code equals()} behavior when
+ * reserialized. (Sets and Lists, but not bare Collections.)
  *
  * @author Louis Wasserman
  */

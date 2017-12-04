@@ -33,14 +33,15 @@ import junit.framework.TestCase;
 public class TypeVisitorTest extends TestCase {
 
   public void testVisitNull() {
-    new BaseTypeVisitor().visit(
-        ((ParameterizedType) ArrayList.class.getGenericSuperclass()).getOwnerType());
+    new BaseTypeVisitor()
+        .visit(((ParameterizedType) ArrayList.class.getGenericSuperclass()).getOwnerType());
   }
 
   public void testVisitClass() {
     assertVisited(String.class);
     new BaseTypeVisitor() {
-      @Override void visitClass(Class<?> t) {}
+      @Override
+      void visitClass(Class<?> t) {}
     }.visit(String.class);
   }
 
@@ -48,7 +49,8 @@ public class TypeVisitorTest extends TestCase {
     Type type = new TypeCapture<T>() {}.capture();
     assertVisited(type);
     new BaseTypeVisitor() {
-      @Override void visitTypeVariable(TypeVariable<?> t) {}
+      @Override
+      void visitTypeVariable(TypeVariable<?> t) {}
     }.visit(type);
   }
 
@@ -56,7 +58,8 @@ public class TypeVisitorTest extends TestCase {
     WildcardType type = Types.subtypeOf(String.class);
     assertVisited(type);
     new BaseTypeVisitor() {
-      @Override void visitWildcardType(WildcardType t) {}
+      @Override
+      void visitWildcardType(WildcardType t) {}
     }.visit(type);
   }
 
@@ -64,7 +67,8 @@ public class TypeVisitorTest extends TestCase {
     Type type = new TypeCapture<T[]>() {}.capture();
     assertVisited(type);
     new BaseTypeVisitor() {
-      @Override void visitGenericArrayType(GenericArrayType t) {}
+      @Override
+      void visitGenericArrayType(GenericArrayType t) {}
     }.visit(type);
   }
 
@@ -72,7 +76,8 @@ public class TypeVisitorTest extends TestCase {
     Type type = new TypeCapture<Iterable<T>>() {}.capture();
     assertVisited(type);
     new BaseTypeVisitor() {
-      @Override void visitParameterizedType(ParameterizedType t) {}
+      @Override
+      void visitParameterizedType(ParameterizedType t) {}
     }.visit(type);
   }
 
@@ -80,10 +85,13 @@ public class TypeVisitorTest extends TestCase {
     Type type = new TypeCapture<EnumSet<E>>() {}.capture();
     assertVisited(type);
     new BaseTypeVisitor() {
-      @Override void visitParameterizedType(ParameterizedType t) {
+      @Override
+      void visitParameterizedType(ParameterizedType t) {
         visit(t.getActualTypeArguments());
       }
-      @Override void visitTypeVariable(TypeVariable<?> t) {
+
+      @Override
+      void visitTypeVariable(TypeVariable<?> t) {
         visit(t.getBounds());
       }
     }.visit(type);
@@ -94,31 +102,38 @@ public class TypeVisitorTest extends TestCase {
     try {
       visitor.visit(type);
       fail("Type not visited");
-    } catch (UnsupportedOperationException expected) {}
+    } catch (UnsupportedOperationException expected) {
+    }
     try {
       visitor.visit(new Type[] {type});
       fail("Type not visited");
-    } catch (UnsupportedOperationException expected) {}
+    } catch (UnsupportedOperationException expected) {
+    }
   }
 
   private static class BaseTypeVisitor extends TypeVisitor {
-    @Override void visitTypeVariable(TypeVariable<?> t) {
+    @Override
+    void visitTypeVariable(TypeVariable<?> t) {
       throw new UnsupportedOperationException();
     }
 
-    @Override void visitWildcardType(WildcardType t) {
+    @Override
+    void visitWildcardType(WildcardType t) {
       throw new UnsupportedOperationException();
     }
 
-    @Override void visitParameterizedType(ParameterizedType t) {
+    @Override
+    void visitParameterizedType(ParameterizedType t) {
       throw new UnsupportedOperationException();
     }
 
-    @Override void visitClass(Class<?> t) {
+    @Override
+    void visitClass(Class<?> t) {
       throw new UnsupportedOperationException();
     }
 
-    @Override void visitGenericArrayType(GenericArrayType t) {
+    @Override
+    void visitGenericArrayType(GenericArrayType t) {
       throw new UnsupportedOperationException();
     }
   }

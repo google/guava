@@ -22,7 +22,7 @@ import java.util.Set;
 /**
  * Reserializes the sets created by another test set generator.
  *
- * TODO: make CollectionTestSuiteBuilder test reserialized collections
+ * <p>TODO: make CollectionTestSuiteBuilder test reserialized collections
  *
  * @author Jesse Wilson
  */

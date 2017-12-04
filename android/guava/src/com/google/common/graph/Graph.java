@@ -52,11 +52,11 @@ import javax.annotation.Nullable;
  * <h3>Building a {@code Graph}</h3>
  *
  * <p>The implementation classes that {@code common.graph} provides are not public, by design. To
- * create an instance of one of the built-in implementations of {@code Graph}, use the
- * {@link GraphBuilder} class:
+ * create an instance of one of the built-in implementations of {@code Graph}, use the {@link
+ * GraphBuilder} class:
  *
  * <pre>{@code
- *   MutableGraph<Integer> graph = GraphBuilder.undirected().build();
+ * MutableGraph<Integer> graph = GraphBuilder.undirected().build();
  * }</pre>
  *
  * <p>{@link GraphBuilder#build()} returns an instance of {@link MutableGraph}, which is a subtype
@@ -68,7 +68,7 @@ import javax.annotation.Nullable;
  * ImmutableGraph#copyOf(Graph)}:
  *
  * <pre>{@code
- *   ImmutableGraph<Integer> immutableGraph = ImmutableGraph.copyOf(graph);
+ * ImmutableGraph<Integer> immutableGraph = ImmutableGraph.copyOf(graph);
  * }</pre>
  *
  * <p>Instances of {@link ImmutableGraph} do not implement {@link MutableGraph} (obviously!) and are
@@ -172,9 +172,9 @@ public interface Graph<N> extends BaseGraph<N> {
    * <p>Thus, two graphs A and B are equal if <b>all</b> of the following are true:
    *
    * <ul>
-   * <li>A and B have equal {@link #isDirected() directedness}.
-   * <li>A and B have equal {@link #nodes() node sets}.
-   * <li>A and B have equal {@link #edges() edge sets}.
+   *   <li>A and B have equal {@link #isDirected() directedness}.
+   *   <li>A and B have equal {@link #nodes() node sets}.
+   *   <li>A and B have equal {@link #edges() edge sets}.
    * </ul>
    *
    * <p>Graph properties besides {@link #isDirected() directedness} do <b>not</b> affect equality.

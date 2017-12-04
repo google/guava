@@ -34,7 +34,8 @@ class RegularImmutableList<E> extends ForwardingImmutableList<E> {
     this.delegate = unmodifiableList(delegate);
   }
 
-  @Override List<E> delegateList() {
+  @Override
+  List<E> delegateList() {
     return delegate;
   }
 }

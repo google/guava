@@ -46,8 +46,8 @@ import java.util.Set;
 import junit.framework.TestSuite;
 
 /**
- * Creates, based on your criteria, a JUnit test suite that exhaustively tests
- * a {@code Multiset} implementation.
+ * Creates, based on your criteria, a JUnit test suite that exhaustively tests a {@code Multiset}
+ * implementation.
  *
  * @author Jared Levy
  * @author Louis Wasserman

@@ -46,12 +46,13 @@ public class CallablesTest extends TestCase {
   @GwtIncompatible
   public void testAsAsyncCallable() throws Exception {
     final String expected = "MyCallableString";
-    Callable<String> callable = new Callable<String>() {
-      @Override
-      public String call() throws Exception {
-        return expected;
-      }
-    };
+    Callable<String> callable =
+        new Callable<String>() {
+          @Override
+          public String call() throws Exception {
+            return expected;
+          }
+        };
 
     AsyncCallable<String> asyncCallable =
         Callables.asAsyncCallable(callable, MoreExecutors.newDirectExecutorService());
@@ -63,12 +64,13 @@ public class CallablesTest extends TestCase {
   @GwtIncompatible
   public void testAsAsyncCallable_exception() throws Exception {
     final Exception expected = new IllegalArgumentException();
-    Callable<String> callable = new Callable<String>() {
-      @Override
-      public String call() throws Exception {
-        throw expected;
-      }
-    };
+    Callable<String> callable =
+        new Callable<String>() {
+          @Override
+          public String call() throws Exception {
+            throw expected;
+          }
+        };
 
     AsyncCallable<String> asyncCallable =
         Callables.asAsyncCallable(callable, MoreExecutors.newDirectExecutorService());
@@ -86,12 +88,14 @@ public class CallablesTest extends TestCase {
   public void testRenaming() throws Exception {
     String oldName = Thread.currentThread().getName();
     final Supplier<String> newName = Suppliers.ofInstance("MyCrazyThreadName");
-    Callable<Void> callable = new Callable<Void>() {
-      @Override public Void call() throws Exception {
-        assertEquals(Thread.currentThread().getName(), newName.get());
-        return null;
-      }
-    };
+    Callable<Void> callable =
+        new Callable<Void>() {
+          @Override
+          public Void call() throws Exception {
+            assertEquals(Thread.currentThread().getName(), newName.get());
+            return null;
+          }
+        };
     Callables.threadRenaming(callable, newName).call();
     assertEquals(oldName, Thread.currentThread().getName());
   }
@@ -101,39 +105,48 @@ public class CallablesTest extends TestCase {
     String oldName = Thread.currentThread().getName();
     final Supplier<String> newName = Suppliers.ofInstance("MyCrazyThreadName");
     class MyException extends Exception {}
-    Callable<Void> callable = new Callable<Void>() {
-      @Override public Void call() throws Exception {
-        assertEquals(Thread.currentThread().getName(), newName.get());
-        throw new MyException();
-      }
-    };
+    Callable<Void> callable =
+        new Callable<Void>() {
+          @Override
+          public Void call() throws Exception {
+            assertEquals(Thread.currentThread().getName(), newName.get());
+            throw new MyException();
+          }
+        };
     try {
       Callables.threadRenaming(callable, newName).call();
       fail();
-    } catch (MyException expected) {}
+    } catch (MyException expected) {
+    }
     assertEquals(oldName, Thread.currentThread().getName());
   }
 
   @GwtIncompatible // threads
 
   public void testRenaming_noPermissions() throws Exception {
-    System.setSecurityManager(new SecurityManager() {
-      @Override public void checkAccess(Thread t) {
-        throw new SecurityException();
-      }
-      @Override public void checkPermission(Permission perm) {
-        // Do nothing so we can clear the security manager at the end
-      }
-    });
+    System.setSecurityManager(
+        new SecurityManager() {
+          @Override
+          public void checkAccess(Thread t) {
+            throw new SecurityException();
+          }
+
+          @Override
+          public void checkPermission(Permission perm) {
+            // Do nothing so we can clear the security manager at the end
+          }
+        });
     try {
       final String oldName = Thread.currentThread().getName();
       Supplier<String> newName = Suppliers.ofInstance("MyCrazyThreadName");
-      Callable<Void> callable = new Callable<Void>() {
-        @Override public Void call() throws Exception {
-          assertEquals(Thread.currentThread().getName(), oldName);
-          return null;
-        }
-      };
+      Callable<Void> callable =
+          new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+              assertEquals(Thread.currentThread().getName(), oldName);
+              return null;
+            }
+          };
       Callables.threadRenaming(callable, newName).call();
       assertEquals(oldName, Thread.currentThread().getName());
     } finally {

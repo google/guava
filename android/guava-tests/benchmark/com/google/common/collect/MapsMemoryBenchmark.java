@@ -42,34 +42,33 @@ public class MapsMemoryBenchmark {
           toStringFunction());
 
   @Param({
-      "HashMapImpl",
-      "LinkedHashMapImpl",
-      "ConcurrentHashMapImpl",
-      "ImmutableMapImpl",
-      "TreeMapImpl",
-      "ImmutableSortedMapImpl",
-      "MapMakerWeakKeysWeakValues",
-      "MapMakerWeakKeysStrongValues",
-      "MapMakerStrongKeysWeakValues",
-      "MapMakerStrongKeysStrongValues",
-      "HashBiMapImpl",
-      "ImmutableBiMapImpl"
+    "HashMapImpl",
+    "LinkedHashMapImpl",
+    "ConcurrentHashMapImpl",
+    "ImmutableMapImpl",
+    "TreeMapImpl",
+    "ImmutableSortedMapImpl",
+    "MapMakerWeakKeysWeakValues",
+    "MapMakerWeakKeysStrongValues",
+    "MapMakerStrongKeysWeakValues",
+    "MapMakerStrongKeysStrongValues",
+    "HashBiMapImpl",
+    "ImmutableBiMapImpl"
   })
   String implName;
 
   MapsImplEnum mapsImpl;
 
   /**
-   * A map of contents pre-created before experiment starts to only measure map creation cost.
-   * The implementation for the creation of contents is independent and could be different from
-   * that of the map under test.
+   * A map of contents pre-created before experiment starts to only measure map creation cost. The
+   * implementation for the creation of contents is independent and could be different from that of
+   * the map under test.
    */
   Map<Element, Element> contents;
 
-  /**
-   * Map pre-created before experiment starts to only measure iteration cost during experiment.
-   */
+  /** Map pre-created before experiment starts to only measure iteration cost during experiment. */
   Map<Element, Element> map;
+
   CollectionBenchmarkSampleData elems;
 
   @Param({"0", "1", "100", "10000"})

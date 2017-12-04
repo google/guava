@@ -76,16 +76,12 @@ public final class CharEscaperBuilder {
   // The highest index we've seen so far.
   private int max = -1;
 
-  /**
-   * Construct a new sparse array builder.
-   */
+  /** Construct a new sparse array builder. */
   public CharEscaperBuilder() {
     this.map = new HashMap<>();
   }
 
-  /**
-   * Add a new mapping from an index to an object to the escaping.
-   */
+  /** Add a new mapping from an index to an object to the escaping. */
   @CanIgnoreReturnValue
   public CharEscaperBuilder addEscape(char c, String r) {
     map.put(c, checkNotNull(r));
@@ -95,9 +91,7 @@ public final class CharEscaperBuilder {
     return this;
   }
 
-  /**
-   * Add multiple mappings at once for a particular index.
-   */
+  /** Add multiple mappings at once for a particular index. */
   @CanIgnoreReturnValue
   public CharEscaperBuilder addEscapes(char[] cs, String r) {
     checkNotNull(r);

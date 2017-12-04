@@ -30,7 +30,7 @@ import javax.annotation.Nullable;
  * of the Bloom filters that use them, thus they must be preserved as is (no updates allowed, only
  * introduction of new versions).
  *
- * Important: the order of the constants cannot change, and they cannot be deleted - we depend on
+ * <p>Important: the order of the constants cannot change, and they cannot be deleted - we depend on
  * their ordinal for BloomFilter serialization.
  *
  * @author Dimitris Andreou

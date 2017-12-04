@@ -45,9 +45,7 @@ public final class Uninterruptibles {
   // Implementation Note: As of 3-7-11, the logic for each blocking/timeout
   // methods is identical, save for method being invoked.
 
-  /**
-   * Invokes {@code latch.}{@link CountDownLatch#await() await()} uninterruptibly.
-   */
+  /** Invokes {@code latch.}{@link CountDownLatch#await() await()} uninterruptibly. */
   @GwtIncompatible // concurrency
   public static void awaitUninterruptibly(CountDownLatch latch) {
     boolean interrupted = false;
@@ -95,9 +93,7 @@ public final class Uninterruptibles {
     }
   }
 
-  /**
-   * Invokes {@code toJoin.}{@link Thread#join() join()} uninterruptibly.
-   */
+  /** Invokes {@code toJoin.}{@link Thread#join() join()} uninterruptibly. */
   @GwtIncompatible // concurrency
   public static void joinUninterruptibly(Thread toJoin) {
     boolean interrupted = false;
@@ -123,11 +119,12 @@ public final class Uninterruptibles {
    * <p>Similar methods:
    *
    * <ul>
-   * <li>To retrieve a result from a {@code Future} that is already done, use
-   *     {@link Futures#getDone Futures.getDone}.
-   * <li>To treat {@link InterruptedException} uniformly with other exceptions, use
-   *     {@link Futures#getChecked(Future, Class) Futures.getChecked}.
-   * <li>To get uninterruptibility and remove checked exceptions, use {@link Futures#getUnchecked}.
+   *   <li>To retrieve a result from a {@code Future} that is already done, use {@link
+   *       Futures#getDone Futures.getDone}.
+   *   <li>To treat {@link InterruptedException} uniformly with other exceptions, use {@link
+   *       Futures#getChecked(Future, Class) Futures.getChecked}.
+   *   <li>To get uninterruptibility and remove checked exceptions, use {@link
+   *       Futures#getUnchecked}.
    * </ul>
    *
    * @throws ExecutionException if the computation threw an exception
@@ -157,11 +154,12 @@ public final class Uninterruptibles {
    * <p>Similar methods:
    *
    * <ul>
-   * <li>To retrieve a result from a {@code Future} that is already done, use
-   *     {@link Futures#getDone Futures.getDone}.
-   * <li>To treat {@link InterruptedException} uniformly with other exceptions, use
-   *     {@link Futures#getChecked(Future, Class, long, TimeUnit) Futures.getChecked}.
-   * <li>To get uninterruptibility and remove checked exceptions, use {@link Futures#getUnchecked}.
+   *   <li>To retrieve a result from a {@code Future} that is already done, use {@link
+   *       Futures#getDone Futures.getDone}.
+   *   <li>To treat {@link InterruptedException} uniformly with other exceptions, use {@link
+   *       Futures#getChecked(Future, Class, long, TimeUnit) Futures.getChecked}.
+   *   <li>To get uninterruptibility and remove checked exceptions, use {@link
+   *       Futures#getUnchecked}.
    * </ul>
    *
    * @throws ExecutionException if the computation threw an exception
@@ -221,9 +219,7 @@ public final class Uninterruptibles {
     }
   }
 
-  /**
-   * Invokes {@code queue.}{@link BlockingQueue#take() take()} uninterruptibly.
-   */
+  /** Invokes {@code queue.}{@link BlockingQueue#take() take()} uninterruptibly. */
   @GwtIncompatible // concurrency
   public static <E> E takeUninterruptibly(BlockingQueue<E> queue) {
     boolean interrupted = false;
@@ -270,9 +266,7 @@ public final class Uninterruptibles {
   }
 
   // TODO(user): Support Sleeper somehow (wrapper or interface method)?
-  /**
-   * Invokes {@code unit.}{@link TimeUnit#sleep(long) sleep(sleepFor)} uninterruptibly.
-   */
+  /** Invokes {@code unit.}{@link TimeUnit#sleep(long) sleep(sleepFor)} uninterruptibly. */
   @GwtIncompatible // concurrency
   public static void sleepUninterruptibly(long sleepFor, TimeUnit unit) {
     boolean interrupted = false;

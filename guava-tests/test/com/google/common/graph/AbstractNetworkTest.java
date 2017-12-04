@@ -43,8 +43,8 @@ import org.junit.Test;
  * graph. The following test cases are left for the subclasses to handle:
  *
  * <ul>
- * <li>Test cases related to whether the graph is directed, undirected, mutable, or immutable.
- * <li>Test cases related to the specific implementation of the {@link Network} interface.
+ *   <li>Test cases related to whether the graph is directed, undirected, mutable, or immutable.
+ *   <li>Test cases related to the specific implementation of the {@link Network} interface.
  * </ul>
  *
  * TODO(user): Make this class generic (using <N, E>) for all node and edge types.
@@ -216,27 +216,29 @@ public abstract class AbstractNetworkTest {
       for (N otherNode : network.nodes()) {
         Set<E> edgesConnecting = sanityCheckSet(network.edgesConnecting(node, otherNode));
         switch (edgesConnecting.size()) {
-            case 0:
-              assertThat(network.edgeConnectingOrNull(node, otherNode)).isNull();
-              assertThat(network.edgeConnecting(node, otherNode).isPresent()).isFalse();
-              assertThat(network.hasEdgeConnecting(node, otherNode)).isFalse();
-              break;
-            case 1:
-              E edge = edgesConnecting.iterator().next();
-              assertThat(network.edgeConnectingOrNull(node, otherNode)).isEqualTo(edge);
-              assertThat(network.edgeConnecting(node, otherNode).get()).isEqualTo(edge);
-              assertThat(network.hasEdgeConnecting(node, otherNode)).isTrue();
-              break;
-            default:
-              assertThat(network.hasEdgeConnecting(node, otherNode)).isTrue();
-              try {
-                network.edgeConnectingOrNull(node, otherNode);
-                fail();
-              } catch (IllegalArgumentException expected) {}
-              try {
-                network.edgeConnecting(node, otherNode);
-                fail();
-              } catch (IllegalArgumentException expected) {}
+          case 0:
+            assertThat(network.edgeConnectingOrNull(node, otherNode)).isNull();
+            assertThat(network.edgeConnecting(node, otherNode).isPresent()).isFalse();
+            assertThat(network.hasEdgeConnecting(node, otherNode)).isFalse();
+            break;
+          case 1:
+            E edge = edgesConnecting.iterator().next();
+            assertThat(network.edgeConnectingOrNull(node, otherNode)).isEqualTo(edge);
+            assertThat(network.edgeConnecting(node, otherNode).get()).isEqualTo(edge);
+            assertThat(network.hasEdgeConnecting(node, otherNode)).isTrue();
+            break;
+          default:
+            assertThat(network.hasEdgeConnecting(node, otherNode)).isTrue();
+            try {
+              network.edgeConnectingOrNull(node, otherNode);
+              fail();
+            } catch (IllegalArgumentException expected) {
+            }
+            try {
+              network.edgeConnecting(node, otherNode);
+              fail();
+            } catch (IllegalArgumentException expected) {
+            }
         }
 
         boolean isSelfLoop = node.equals(otherNode);

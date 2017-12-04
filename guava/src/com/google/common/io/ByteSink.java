@@ -32,13 +32,14 @@ import java.nio.charset.Charset;
  * is an immutable <i>supplier</i> of {@code OutputStream} instances.
  *
  * <p>{@code ByteSink} provides two kinds of methods:
+ *
  * <ul>
- * <li><b>Methods that return a stream:</b> These methods should return a <i>new</i>, independent
- *     instance each time they are called. The caller is responsible for ensuring that the returned
- *     stream is closed.
- * <li><b>Convenience methods:</b> These are implementations of common operations that are typically
- *     implemented by opening a stream using one of the methods in the first category, doing
- *     something and finally closing the stream or channel that was opened.
+ *   <li><b>Methods that return a stream:</b> These methods should return a <i>new</i>, independent
+ *       instance each time they are called. The caller is responsible for ensuring that the
+ *       returned stream is closed.
+ *   <li><b>Convenience methods:</b> These are implementations of common operations that are
+ *       typically implemented by opening a stream using one of the methods in the first category,
+ *       doing something and finally closing the stream or channel that was opened.
  * </ul>
  *
  * @since 14.0
@@ -47,9 +48,7 @@ import java.nio.charset.Charset;
 @GwtIncompatible
 public abstract class ByteSink {
 
-  /**
-   * Constructor for use by subclasses.
-   */
+  /** Constructor for use by subclasses. */
   protected ByteSink() {}
 
   /**
@@ -110,8 +109,8 @@ public abstract class ByteSink {
   }
 
   /**
-   * Writes all the bytes from the given {@code InputStream} to this sink. Does not close
-   * {@code input}.
+   * Writes all the bytes from the given {@code InputStream} to this sink. Does not close {@code
+   * input}.
    *
    * @return the number of bytes written
    * @throws IOException if an I/O occurs while reading from {@code input} or writing to this sink

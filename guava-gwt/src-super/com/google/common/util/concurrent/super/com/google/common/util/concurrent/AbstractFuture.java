@@ -334,8 +334,10 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
       try {
         executor.execute(command);
       } catch (RuntimeException e) {
-        log.log(Level.SEVERE, "RuntimeException while executing runnable "
-            + command + " with executor " + executor, e);
+        log.log(
+            Level.SEVERE,
+            "RuntimeException while executing runnable " + command + " with executor " + executor,
+            e);
       }
     }
   }

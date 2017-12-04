@@ -20,15 +20,14 @@ import com.google.common.annotations.GwtCompatible;
 import junit.framework.TestCase;
 
 /**
- * This abstract base class for testers allows the framework to inject needed
- * information after JUnit constructs the instances.
+ * This abstract base class for testers allows the framework to inject needed information after
+ * JUnit constructs the instances.
  *
  * <p>This class is emulated in GWT.
  *
- * @param <G> the type of the test generator required by this tester. An
- * instance of G should somehow provide an instance of the class under test,
- * plus any other information required to parameterize the test.
- *
+ * @param <G> the type of the test generator required by this tester. An instance of G should
+ *     somehow provide an instance of the class under test, plus any other information required to
+ *     parameterize the test.
  * @author George van den Driessche
  */
 @GwtCompatible

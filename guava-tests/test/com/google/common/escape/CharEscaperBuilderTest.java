@@ -26,5 +26,4 @@ public class CharEscaperBuilderTest extends TestCase {
     Escaper escaper = builder.toEscaper();
     assertEquals("ZZZdef", escaper.escape("abcdef"));
   }
-
 }

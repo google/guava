@@ -48,7 +48,7 @@ abstract class InterruptibleTask<T> extends AtomicReference<Runnable> implements
     if (!compareAndSet(null, currentThread)) {
       return; // someone else has run or is running.
     }
-    
+
     boolean run = !isDone();
     T result = null;
     Throwable error = null;

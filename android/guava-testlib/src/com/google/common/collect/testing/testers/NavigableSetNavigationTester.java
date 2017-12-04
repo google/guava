@@ -34,8 +34,8 @@ import java.util.NavigableSet;
 import java.util.TreeSet;
 
 /**
- * A generic JUnit test which tests operations on a NavigableSet. Can't be
- * invoked directly; please see {@code NavigableSetTestSuiteBuilder}.
+ * A generic JUnit test which tests operations on a NavigableSet. Can't be invoked directly; please
+ * see {@code NavigableSetTestSuiteBuilder}.
  *
  * @author Jesse Wilson
  * @author Louis Wasserman
@@ -69,10 +69,7 @@ public class NavigableSetNavigationTester<E> extends AbstractSetTester<E> {
     }
   }
 
-  /**
-   * Resets the contents of navigableSet to have elements a, c, for the
-   * navigation tests.
-   */
+  /** Resets the contents of navigableSet to have elements a, c, for the navigation tests. */
   protected void resetWithHole() {
     super.resetContainer(getSubjectGenerator().create(a, c));
     navigableSet = (NavigableSet<E>) getSet();

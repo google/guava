@@ -45,15 +45,14 @@ public class InternersTest extends TestCase {
     try {
       pool.intern(null);
       fail();
-    } catch (NullPointerException ok) {}
+    } catch (NullPointerException ok) {
+    }
   }
 
   public void testStrong_builder() {
     int concurrencyLevel = 42;
-    Interner<Object> interner = Interners.newBuilder()
-        .strong()
-        .concurrencyLevel(concurrencyLevel)
-        .build();
+    Interner<Object> interner =
+        Interners.newBuilder().strong().concurrencyLevel(concurrencyLevel).build();
     InternerImpl<Object> internerImpl = (InternerImpl<Object>) interner;
     assertEquals(Strength.STRONG, internerImpl.map.keyStrength());
   }
@@ -72,15 +71,14 @@ public class InternersTest extends TestCase {
     try {
       pool.intern(null);
       fail();
-    } catch (NullPointerException ok) {}
+    } catch (NullPointerException ok) {
+    }
   }
 
   public void testWeak_builder() {
     int concurrencyLevel = 42;
-    Interner<Object> interner = Interners.newBuilder()
-        .weak()
-        .concurrencyLevel(concurrencyLevel)
-        .build();
+    Interner<Object> interner =
+        Interners.newBuilder().weak().concurrencyLevel(concurrencyLevel).build();
     InternerImpl<Object> internerImpl = (InternerImpl<Object>) interner;
     assertEquals(Strength.WEAK, internerImpl.map.keyStrength());
     assertEquals(concurrencyLevel, internerImpl.map.concurrencyLevel);
@@ -94,7 +92,7 @@ public class InternersTest extends TestCase {
     assertSame(canonical, pool.intern(canonical));
 
     WeakReference<Integer> signal = new WeakReference<>(canonical);
-    canonical = null;  // Hint to the JIT that canonical is unreachable
+    canonical = null; // Hint to the JIT that canonical is unreachable
 
     GcFinalization.awaitClear(signal);
     assertSame(not, pool.intern(not));

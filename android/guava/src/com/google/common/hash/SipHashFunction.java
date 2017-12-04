@@ -82,10 +82,7 @@ final class SipHashFunction extends AbstractHashFunction implements Serializable
   public boolean equals(@Nullable Object object) {
     if (object instanceof SipHashFunction) {
       SipHashFunction other = (SipHashFunction) object;
-      return (c == other.c)
-          && (d == other.d)
-          && (k0 == other.k0)
-          && (k1 == other.k1);
+      return (c == other.c) && (d == other.d) && (k0 == other.k0) && (k1 == other.k1);
     }
     return false;
   }

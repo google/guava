@@ -40,11 +40,10 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * An implementation of {@code RangeMap} based on a {@code TreeMap}, supporting
- * all optional operations.
+ * An implementation of {@code RangeMap} based on a {@code TreeMap}, supporting all optional
+ * operations.
  *
- * <p>Like all {@code RangeMap} implementations, this supports neither null
- * keys nor null values.
+ * <p>Like all {@code RangeMap} implementations, this supports neither null keys nor null values.
  *
  * @author Louis Wasserman
  * @since 14.0

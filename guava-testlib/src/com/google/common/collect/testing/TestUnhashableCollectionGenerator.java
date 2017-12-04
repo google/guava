@@ -45,8 +45,8 @@ public abstract class TestUnhashableCollectionGenerator<T extends Collection<Unh
   }
 
   /**
-   * Creates a new collection containing the given elements; implement this
-   * method instead of {@link #create(Object...)}.
+   * Creates a new collection containing the given elements; implement this method instead of {@link
+   * #create(Object...)}.
    */
   protected abstract T create(UnhashableObject[] elements);
 

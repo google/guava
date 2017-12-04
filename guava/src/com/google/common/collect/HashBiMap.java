@@ -58,9 +58,7 @@ import javax.annotation.Nullable;
 public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     implements BiMap<K, V>, Serializable {
 
-  /**
-   * Returns a new, empty {@code HashBiMap} with the default initial capacity (16).
-   */
+  /** Returns a new, empty {@code HashBiMap} with the default initial capacity (16). */
   public static <K, V> HashBiMap<K, V> create() {
     return create(16);
   }
@@ -129,8 +127,8 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
   }
 
   /**
-   * Finds and removes {@code entry} from the bucket linked lists in both the
-   * key-to-value direction and the value-to-key direction.
+   * Finds and removes {@code entry} from the bucket linked lists in both the key-to-value direction
+   * and the value-to-key direction.
    */
   private void delete(BiEntry<K, V> entry) {
     int keyBucket = entry.keyHash & mask;
@@ -551,8 +549,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     }
   }
 
-  @RetainedWith
-  private transient BiMap<V, K> inverse;
+  @RetainedWith private transient BiMap<V, K> inverse;
 
   @Override
   public BiMap<V, K> inverse() {

@@ -17,7 +17,6 @@ package com.google.common.util.concurrent;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
 import com.google.common.base.Function;
-
 import java.util.concurrent.Executor;
 
 /**

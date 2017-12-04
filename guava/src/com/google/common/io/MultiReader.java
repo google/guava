@@ -37,9 +37,7 @@ class MultiReader extends Reader {
     advance();
   }
 
-  /**
-   * Closes the current reader and opens the next one, if any.
-   */
+  /** Closes the current reader and opens the next one, if any. */
   private void advance() throws IOException {
     close();
     if (it.hasNext()) {

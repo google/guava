@@ -24,8 +24,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 /**
- * Implementation helper for {@link TestBiMapGenerator} for use with bimaps of
- * strings.
+ * Implementation helper for {@link TestBiMapGenerator} for use with bimaps of strings.
  *
  * @author Chris Povirk
  * @author Jared Levy

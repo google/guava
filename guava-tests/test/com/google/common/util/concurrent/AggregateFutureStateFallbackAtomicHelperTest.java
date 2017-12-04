@@ -29,19 +29,20 @@ import junit.framework.TestSuite;
  * Tests our AtomicHelper fallback strategy in AggregateFutureState.
  *
  * <p>On different platforms AggregateFutureState uses different strategies for its core
- * synchronization primitives.  The strategies are all implemented as subtypes of AtomicHelper and
- * the strategy is selected in the static initializer of AggregateFutureState.  This is convenient
- * and performant but introduces some testing difficulties.   This test exercises the two fallback
+ * synchronization primitives. The strategies are all implemented as subtypes of AtomicHelper and
+ * the strategy is selected in the static initializer of AggregateFutureState. This is convenient
+ * and performant but introduces some testing difficulties. This test exercises the two fallback
  * strategies.
+ *
  * <ul>
- *     <li>SafeAtomicHelper: uses Atomic FieldsUpdaters to implement synchronization
- *     <li>SynchronizedHelper: uses {@code synchronized} blocks for synchronization
+ *   <li>SafeAtomicHelper: uses Atomic FieldsUpdaters to implement synchronization
+ *   <li>SynchronizedHelper: uses {@code synchronized} blocks for synchronization
  * </ul>
  *
  * To force selection of our fallback strategies we load {@link AggregateFutureState} (and all of
  * {@code com.google.common.util.concurrent} in degenerate class loaders which make certain platform
- * classes unavailable.  Then we construct a test suite so we can run the normal
- * FuturesTest test methods in these degenerate classloaders.
+ * classes unavailable. Then we construct a test suite so we can run the normal FuturesTest test
+ * methods in these degenerate classloaders.
  */
 
 public class AggregateFutureStateFallbackAtomicHelperTest extends TestCase {
@@ -50,7 +51,7 @@ public class AggregateFutureStateFallbackAtomicHelperTest extends TestCase {
    * This classloader blacklists AtomicReferenceFieldUpdater and AtomicIntegerFieldUpdate which will
    * prevent us from selecting our {@code SafeAtomicHelper} strategy.
    *
-   * Stashing this in a static field avoids loading it over and over again and speeds up test
+   * <p>Stashing this in a static field avoids loading it over and over again and speeds up test
    * execution significantly.
    */
   private static final ClassLoader NO_ATOMIC_FIELD_UPDATER =

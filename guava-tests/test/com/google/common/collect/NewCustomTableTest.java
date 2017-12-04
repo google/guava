@@ -31,19 +31,17 @@ import java.util.TreeMap;
 @GwtCompatible
 public class NewCustomTableTest extends AbstractTableTest {
 
-  @Override protected Table<String, Integer, Character> create(
-      Object... data) {
-    Supplier<TreeMap<Integer, Character>> factory
-        = new Supplier<TreeMap<Integer, Character>>() {
+  @Override
+  protected Table<String, Integer, Character> create(Object... data) {
+    Supplier<TreeMap<Integer, Character>> factory =
+        new Supplier<TreeMap<Integer, Character>>() {
           @Override
           public TreeMap<Integer, Character> get() {
             return Maps.newTreeMap();
           }
         };
-    Map<String, Map<Integer, Character>> backingMap
-        = Maps.newLinkedHashMap();
-    Table<String, Integer, Character> table
-        = Tables.newCustomTable(backingMap, factory);
+    Map<String, Map<Integer, Character>> backingMap = Maps.newLinkedHashMap();
+    Table<String, Integer, Character> table = Tables.newCustomTable(backingMap, factory);
     populate(table, data);
     return table;
   }

@@ -23,9 +23,7 @@ import javax.annotation.Nullable;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsType;
 
-/**
- * @author Jesse Wilson
- */
+/** @author Jesse Wilson */
 final class Platform {
   static CharMatcher precomputeCharMatcher(CharMatcher matcher) {
     // CharMatcher.precomputed() produces CharMatchers that are maybe a little

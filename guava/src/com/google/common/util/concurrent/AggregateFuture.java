@@ -83,9 +83,7 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
     return null;
   }
 
-  /**
-   * Must be called at the end of each sub-class's constructor.
-   */
+  /** Must be called at the end of each sub-class's constructor. */
   final void init(RunningState runningState) {
     this.runningState = runningState;
     runningState.init();
@@ -206,9 +204,7 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
       }
     }
 
-    /**
-     * Handles the input at the given index completing.
-     */
+    /** Handles the input at the given index completing. */
     private void handleOneInputDone(int index, Future<? extends InputT> future) {
       // The only cases in which this Future should already be done are (a) if it was cancelled or
       // (b) if an input failed and we propagated that immediately because of allMustSucceed.
@@ -268,7 +264,7 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
      * reference to {@link RunningState}, which should free all associated memory when all the
      * futures complete and the listeners are released.
      *
-     * TODO(user): Write tests for memory retention
+     * <p>TODO(user): Write tests for memory retention
      */
     @ForOverride
     @OverridingMethodsMustInvokeSuper

@@ -19,9 +19,8 @@ package com.google.common.collect.testing.google;
 import com.google.common.annotations.GwtCompatible;
 
 /**
- * A generic JUnit test which tests unconditional {@code setCount()} operations
- * on a multiset. Can't be invoked directly; please see
- * {@link MultisetTestSuiteBuilder}.
+ * A generic JUnit test which tests unconditional {@code setCount()} operations on a multiset. Can't
+ * be invoked directly; please see {@link MultisetTestSuiteBuilder}.
  *
  * @author Chris Povirk
  */

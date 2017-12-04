@@ -32,8 +32,8 @@ import java.util.Iterator;
 import java.util.function.Predicate;
 
 /**
- * A generic JUnit test which tests {@link Collection#removeIf}. Can't be invoked directly;
- * please see {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
+ * A generic JUnit test which tests {@link Collection#removeIf}. Can't be invoked directly; please
+ * see {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
  *
  * @author Louis Wasserman
  */
@@ -49,7 +49,8 @@ public class CollectionRemoveIfTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveIf_sometimesTrue() {
-    assertTrue("removeIf(isEqual(present)) should return true",
+    assertTrue(
+        "removeIf(isEqual(present)) should return true",
         collection.removeIf(Predicate.isEqual(samples.e0())));
     expectMissing(samples.e0());
   }
@@ -78,11 +79,12 @@ public class CollectionRemoveIfTester<E> extends AbstractCollectionTester<E> {
   @CollectionSize.Require(ZERO)
   public void testRemoveIf_unsupportedEmptyCollection() {
     try {
-      assertFalse("removeIf(Predicate) should return false or throw "
-          + "UnsupportedOperationException",
-        collection.removeIf(x -> {
-          throw new AssertionError("predicate should never be called");
-        }));
+      assertFalse(
+          "removeIf(Predicate) should return false or throw " + "UnsupportedOperationException",
+          collection.removeIf(
+              x -> {
+                throw new AssertionError("predicate should never be called");
+              }));
     } catch (UnsupportedOperationException tolerated) {
     }
     expectUnchanged();
@@ -93,8 +95,7 @@ public class CollectionRemoveIfTester<E> extends AbstractCollectionTester<E> {
   public void testRemoveIf_alwaysTrueUnsupported() {
     try {
       collection.removeIf(x -> true);
-      fail("removeIf(x -> true) should throw "
-          + "UnsupportedOperationException");
+      fail("removeIf(x -> true) should throw " + "UnsupportedOperationException");
     } catch (UnsupportedOperationException expected) {
     }
     expectUnchanged();

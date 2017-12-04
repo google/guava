@@ -31,7 +31,8 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
  */
 public class SegmentBenchmark {
 
-  @Param({"16", "32", "64", "128", "256", "512", "1024", "2048", "4096", "8192"}) int capacity;
+  @Param({"16", "32", "64", "128", "256", "512", "1024", "2048", "4096", "8192"})
+  int capacity;
 
   private Segment<Object, Object> segment;
 
@@ -49,7 +50,8 @@ public class SegmentBenchmark {
     checkState(segment.table.length() == capacity);
   }
 
-  @Benchmark int time(int reps) {
+  @Benchmark
+  int time(int reps) {
     int dummy = 0;
     AtomicReferenceArray<ReferenceEntry<Object, Object>> oldTable = segment.table;
     for (int i = 0; i < reps; i++) {

@@ -32,9 +32,8 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
 /**
- * A generic JUnit test which tests {@code remove} operations on a collection.
- * Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code remove} operations on a collection. Can't be invoked
+ * directly; please see {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
  *
  * @author George van den Driessche
  */

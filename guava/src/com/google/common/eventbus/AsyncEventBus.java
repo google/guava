@@ -28,8 +28,8 @@ import java.util.concurrent.Executor;
 public class AsyncEventBus extends EventBus {
 
   /**
-   * Creates a new AsyncEventBus that will use {@code executor} to dispatch events. Assigns
-   * {@code identifier} as the bus's name for logging purposes.
+   * Creates a new AsyncEventBus that will use {@code executor} to dispatch events. Assigns {@code
+   * identifier} as the bus's name for logging purposes.
    *
    * @param identifier short name for the bus, for logging purposes.
    * @param executor Executor to use to dispatch events. It is the caller's responsibility to shut

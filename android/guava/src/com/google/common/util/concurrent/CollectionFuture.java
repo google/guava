@@ -26,9 +26,7 @@ import com.google.common.collect.Lists;
 import java.util.List;
 import javax.annotation.Nullable;
 
-/**
- * Aggregate future that collects (stores) results of each future.
- */
+/** Aggregate future that collects (stores) results of each future. */
 @GwtCompatible(emulated = true)
 abstract class CollectionFuture<V, C> extends AggregateFuture<V, C> {
 

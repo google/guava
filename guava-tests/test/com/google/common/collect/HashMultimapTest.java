@@ -39,27 +39,29 @@ public class HashMultimapTest extends TestCase {
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    suite.addTest(SetMultimapTestSuiteBuilder.using(new TestStringSetMultimapGenerator() {
-          @Override
-          protected SetMultimap<String, String> create(Entry<String, String>[] entries) {
-            SetMultimap<String, String> multimap = HashMultimap.create();
-            for (Entry<String, String> entry : entries) {
-              multimap.put(entry.getKey(), entry.getValue());
-            }
-            return multimap;
-          }
-        })
-        .named("HashMultimap")
-        .withFeatures(
-            MapFeature.ALLOWS_NULL_KEYS,
-            MapFeature.ALLOWS_NULL_VALUES,
-            MapFeature.ALLOWS_ANY_NULL_QUERIES,
-            MapFeature.GENERAL_PURPOSE,
-            MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
-            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-            CollectionFeature.SERIALIZABLE,
-            CollectionSize.ANY)
-        .createTestSuite());
+    suite.addTest(
+        SetMultimapTestSuiteBuilder.using(
+                new TestStringSetMultimapGenerator() {
+                  @Override
+                  protected SetMultimap<String, String> create(Entry<String, String>[] entries) {
+                    SetMultimap<String, String> multimap = HashMultimap.create();
+                    for (Entry<String, String> entry : entries) {
+                      multimap.put(entry.getKey(), entry.getValue());
+                    }
+                    return multimap;
+                  }
+                })
+            .named("HashMultimap")
+            .withFeatures(
+                MapFeature.ALLOWS_NULL_KEYS,
+                MapFeature.ALLOWS_NULL_VALUES,
+                MapFeature.ALLOWS_ANY_NULL_QUERIES,
+                MapFeature.GENERAL_PURPOSE,
+                MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+                CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+                CollectionFeature.SERIALIZABLE,
+                CollectionSize.ANY)
+            .createTestSuite());
     suite.addTestSuite(HashMultimapTest.class);
     return suite;
   }
@@ -100,12 +102,14 @@ public class HashMultimapTest extends TestCase {
     try {
       HashMultimap.create(-20, 15);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
 
     try {
       HashMultimap.create(20, -15);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testEmptyMultimapsEqual() {

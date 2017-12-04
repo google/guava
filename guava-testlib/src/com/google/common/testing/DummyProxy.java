@@ -47,10 +47,11 @@ abstract class DummyProxy {
     interfaceClasses.addAll(interfaceType.getTypes().interfaces().rawTypes());
     // Make the proxy serializable to work with SerializableTester
     interfaceClasses.add(Serializable.class);
-    Object dummy = Proxy.newProxyInstance(
-        interfaceClasses.iterator().next().getClassLoader(),
-        interfaceClasses.toArray(new Class<?>[interfaceClasses.size()]),
-        new DummyHandler(interfaceType));
+    Object dummy =
+        Proxy.newProxyInstance(
+            interfaceClasses.iterator().next().getClassLoader(),
+            interfaceClasses.toArray(new Class<?>[interfaceClasses.size()]),
+            new DummyHandler(interfaceType));
     @SuppressWarnings("unchecked") // interfaceType is T
     T result = (T) dummy;
     return result;
@@ -66,8 +67,8 @@ abstract class DummyProxy {
       this.interfaceType = interfaceType;
     }
 
-    @Override protected Object handleInvocation(
-        Object proxy, Method method, Object[] args) {
+    @Override
+    protected Object handleInvocation(Object proxy, Method method, Object[] args) {
       Invokable<?, ?> invokable = interfaceType.method(method);
       ImmutableList<Parameter> params = invokable.getParameters();
       for (int i = 0; i < args.length; i++) {
@@ -79,11 +80,13 @@ abstract class DummyProxy {
       return dummyReturnValue(interfaceType.resolveType(method.getGenericReturnType()));
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       return identity().hashCode();
     }
 
-    @Override public boolean equals(Object obj) {
+    @Override
+    public boolean equals(Object obj) {
       if (obj instanceof DummyHandler) {
         DummyHandler that = (DummyHandler) obj;
         return identity().equals(that.identity());
@@ -96,7 +99,8 @@ abstract class DummyProxy {
       return DummyProxy.this;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return "Dummy proxy for " + interfaceType;
     }
 

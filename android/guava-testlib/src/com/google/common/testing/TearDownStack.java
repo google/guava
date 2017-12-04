@@ -61,9 +61,7 @@ public class TearDownStack implements TearDownAccepter {
     }
   }
 
-  /**
-   * Causes teardown to execute.
-   */
+  /** Causes teardown to execute. */
   public final void runTearDown() {
     List<Throwable> exceptions = new ArrayList<>();
     List<TearDown> stackCopy;

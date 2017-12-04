@@ -21,8 +21,8 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * Contains dummy collection implementations to convince GWT that part of
- * serializing a collection is serializing its elements.
+ * Contains dummy collection implementations to convince GWT that part of serializing a collection
+ * is serializing its elements.
  *
  * <p>See {@linkplain com.google.common.collect.GwtSerializationDependencies the
  * com.google.common.collect version} for more details.

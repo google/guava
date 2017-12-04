@@ -20,9 +20,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractMapTester;
 
 /**
- * A generic JUnit test which tests {@code size()} operations on a map.
- * Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code size()} operations on a map. Can't be invoked directly;
+ * please see {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
  *
  * @author George van den Driessche
  */

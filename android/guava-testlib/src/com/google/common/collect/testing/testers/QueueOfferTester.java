@@ -23,9 +23,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 
 /**
- * A generic JUnit test which tests offer operations on a queue. Can't be
- * invoked directly; please see
- * {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
+ * A generic JUnit test which tests offer operations on a queue. Can't be invoked directly; please
+ * see {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
  *
  * @author Jared Levy
  */

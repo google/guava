@@ -72,8 +72,8 @@ public final class Strings {
    * with as many copies of {@code padChar} as are necessary to reach that length. For example,
    *
    * <ul>
-   * <li>{@code padStart("7", 3, '0')} returns {@code "007"}
-   * <li>{@code padStart("2010", 3, '0')} returns {@code "2010"}
+   *   <li>{@code padStart("7", 3, '0')} returns {@code "007"}
+   *   <li>{@code padStart("2010", 3, '0')} returns {@code "2010"}
    * </ul>
    *
    * <p>See {@link java.util.Formatter} for a richer set of formatting capabilities.
@@ -103,8 +103,8 @@ public final class Strings {
    * with as many copies of {@code padChar} as are necessary to reach that length. For example,
    *
    * <ul>
-   * <li>{@code padEnd("4.", 5, '0')} returns {@code "4.000"}
-   * <li>{@code padEnd("2010", 3, '!')} returns {@code "2010"}
+   *   <li>{@code padEnd("4.", 5, '0')} returns {@code "4.000"}
+   *   <li>{@code padEnd("2010", 3, '!')} returns {@code "2010"}
    * </ul>
    *
    * <p>See {@link java.util.Formatter} for a richer set of formatting capabilities.
@@ -166,10 +166,9 @@ public final class Strings {
   }
 
   /**
-   * Returns the longest string {@code prefix} such that
-   * {@code a.toString().startsWith(prefix) && b.toString().startsWith(prefix)}, taking care not to
-   * split surrogate pairs. If {@code a} and {@code b} have no common prefix, returns the empty
-   * string.
+   * Returns the longest string {@code prefix} such that {@code a.toString().startsWith(prefix) &&
+   * b.toString().startsWith(prefix)}, taking care not to split surrogate pairs. If {@code a} and
+   * {@code b} have no common prefix, returns the empty string.
    *
    * @since 11.0
    */
@@ -189,10 +188,9 @@ public final class Strings {
   }
 
   /**
-   * Returns the longest string {@code suffix} such that
-   * {@code a.toString().endsWith(suffix) && b.toString().endsWith(suffix)}, taking care not to
-   * split surrogate pairs. If {@code a} and {@code b} have no common suffix, returns the empty
-   * string.
+   * Returns the longest string {@code suffix} such that {@code a.toString().endsWith(suffix) &&
+   * b.toString().endsWith(suffix)}, taking care not to split surrogate pairs. If {@code a} and
+   * {@code b} have no common suffix, returns the empty string.
    *
    * @since 11.0
    */

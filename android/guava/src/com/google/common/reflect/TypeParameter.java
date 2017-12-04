@@ -24,11 +24,12 @@ import javax.annotation.Nullable;
 /**
  * Captures a free type variable that can be used in {@link TypeToken#where}. For example:
  *
- * <pre>   {@code
- *   static <T> TypeToken<List<T>> listOf(Class<T> elementType) {
- *     return new TypeToken<List<T>>() {}
- *         .where(new TypeParameter<T>() {}, elementType);
- *   }}</pre>
+ * <pre>{@code
+ * static <T> TypeToken<List<T>> listOf(Class<T> elementType) {
+ *   return new TypeToken<List<T>>() {}
+ *       .where(new TypeParameter<T>() {}, elementType);
+ * }
+ * }</pre>
  *
  * @author Ben Yu
  * @since 12.0

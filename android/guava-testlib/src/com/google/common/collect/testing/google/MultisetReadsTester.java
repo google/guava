@@ -26,9 +26,8 @@ import com.google.common.collect.Multisets;
 import com.google.common.collect.testing.features.CollectionSize;
 
 /**
- * A generic JUnit test which tests multiset-specific read operations.
- * Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.SetTestSuiteBuilder}.
+ * A generic JUnit test which tests multiset-specific read operations. Can't be invoked directly;
+ * please see {@link com.google.common.collect.testing.SetTestSuiteBuilder}.
  *
  * @author Jared Levy
  */

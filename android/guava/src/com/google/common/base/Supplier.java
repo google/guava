@@ -19,8 +19,8 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
  * A class that can supply objects of a single type; a pre-Java-8 version of {@code
- * java.util.function.Supplier}. Semantically, this could be a factory, generator, builder,
- * closure, or something else entirely. No guarantees are implied by this interface.
+ * java.util.function.Supplier}. Semantically, this could be a factory, generator, builder, closure,
+ * or something else entirely. No guarantees are implied by this interface.
  *
  * <p>The {@link Suppliers} class provides common suppliers and related utilities.
  *

@@ -26,8 +26,8 @@ import java.util.logging.Logger;
 import javax.annotation.Nullable;
 
 /**
- * Thread that finalizes referents. All references should implement
- * {@code com.google.common.base.FinalizableReference}.
+ * Thread that finalizes referents. All references should implement {@code
+ * com.google.common.base.FinalizableReference}.
  *
  * <p>While this class is public, we consider it to be *internal* and not part of our published API.
  * It is public so we can access it reflectively across class loaders in secure environments.
@@ -82,13 +82,12 @@ public class Finalizer implements Runnable {
       try {
         boolean inheritThreadLocals = false;
         long defaultStackSize = 0;
-        thread = bigThreadConstructor.newInstance(
-            (ThreadGroup) null, finalizer, threadName, defaultStackSize, inheritThreadLocals);
+        thread =
+            bigThreadConstructor.newInstance(
+                (ThreadGroup) null, finalizer, threadName, defaultStackSize, inheritThreadLocals);
       } catch (Throwable t) {
         logger.log(
-            Level.INFO,
-            "Failed to create a thread without inherited thread-local values",
-            t);
+            Level.INFO, "Failed to create a thread without inherited thread-local values", t);
       }
     }
     if (thread == null) {
@@ -119,6 +118,7 @@ public class Finalizer implements Runnable {
   // is created, by accessing a private field.
   @Nullable
   private static final Constructor<Thread> bigThreadConstructor = getBigThreadConstructor();
+
   @Nullable
   private static final Field inheritableThreadLocals =
       (bigThreadConstructor == null) ? getInheritableThreadLocalsField() : null;
@@ -137,9 +137,7 @@ public class Finalizer implements Runnable {
     this.frqReference = frqReference;
   }
 
-  /**
-   * Loops continuously, pulling references off the queue and cleaning them up.
-   */
+  /** Loops continuously, pulling references off the queue and cleaning them up. */
   @SuppressWarnings("InfiniteLoopStatement")
   @Override
   public void run() {

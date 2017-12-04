@@ -29,8 +29,8 @@ import java.util.concurrent.ConcurrentMap;
 
 /**
  * A generic JUnit test which tests {@code replace(K, V, V)} operations on a concurrent map. Can't
- * be invoked directly; please see
- * {@link com.google.common.collect.testing.ConcurrentMapTestSuiteBuilder}.
+ * be invoked directly; please see {@link
+ * com.google.common.collect.testing.ConcurrentMapTestSuiteBuilder}.
  *
  * @author Louis Wasserman
  */

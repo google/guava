@@ -41,15 +41,15 @@ import junit.framework.TestSuite;
 @AndroidIncompatible // Android doesn't understand tests that lack default constructors.
 public class CharSourceTester extends SourceSinkTester<CharSource, String, CharSourceFactory> {
 
-  private static final ImmutableList<Method> testMethods
-      = getTestMethods(CharSourceTester.class);
+  private static final ImmutableList<Method> testMethods = getTestMethods(CharSourceTester.class);
 
   static TestSuite tests(String name, CharSourceFactory factory, boolean testAsByteSource) {
     TestSuite suite = new TestSuite(name);
     for (Entry<String, String> entry : TEST_STRINGS.entrySet()) {
       if (testAsByteSource) {
-        suite.addTest(suiteForBytes(factory,
-            entry.getValue().getBytes(Charsets.UTF_8), name, entry.getKey(), true));
+        suite.addTest(
+            suiteForBytes(
+                factory, entry.getValue().getBytes(Charsets.UTF_8), name, entry.getKey(), true));
       } else {
         suite.addTest(suiteForString(factory, entry.getValue(), name, entry.getKey()));
       }
@@ -57,18 +57,18 @@ public class CharSourceTester extends SourceSinkTester<CharSource, String, CharS
     return suite;
   }
 
-  static TestSuite suiteForBytes(CharSourceFactory factory, byte[] bytes,
-      String name, String desc, boolean slice) {
-    TestSuite suite = suiteForString(
-        factory, new String(bytes, Charsets.UTF_8), name, desc);
+  static TestSuite suiteForBytes(
+      CharSourceFactory factory, byte[] bytes, String name, String desc, boolean slice) {
+    TestSuite suite = suiteForString(factory, new String(bytes, Charsets.UTF_8), name, desc);
     ByteSourceFactory byteSourceFactory = SourceSinkFactories.asByteSourceFactory(factory);
-    suite.addTest(ByteSourceTester.suiteForBytes(byteSourceFactory, bytes,
-        name + ".asByteSource[Charset]", desc, slice));
+    suite.addTest(
+        ByteSourceTester.suiteForBytes(
+            byteSourceFactory, bytes, name + ".asByteSource[Charset]", desc, slice));
     return suite;
   }
 
-  static TestSuite suiteForString(CharSourceFactory factory, String string,
-      String name, String desc) {
+  static TestSuite suiteForString(
+      CharSourceFactory factory, String string, String name, String desc) {
     TestSuite suite = new TestSuite(name + " [" + desc + "]");
     for (Method method : testMethods) {
       suite.addTest(new CharSourceTester(factory, string, name, desc, method));
@@ -80,8 +80,8 @@ public class CharSourceTester extends SourceSinkTester<CharSource, String, CharS
 
   private CharSource source;
 
-  public CharSourceTester(CharSourceFactory factory, String string,
-      String suiteName, String caseDesc, Method method) {
+  public CharSourceTester(
+      CharSourceFactory factory, String string, String suiteName, String caseDesc, Method method) {
     super(factory, string, suiteName, caseDesc, method);
     this.expectedLines = getLines(expected);
   }
@@ -170,39 +170,43 @@ public class CharSourceTester extends SourceSinkTester<CharSource, String, CharS
   }
 
   public void testReadLines_withProcessor() throws IOException {
-    List<String> list = source.readLines(new LineProcessor<List<String>>() {
-      List<String> list = Lists.newArrayList();
+    List<String> list =
+        source.readLines(
+            new LineProcessor<List<String>>() {
+              List<String> list = Lists.newArrayList();
 
-      @Override
-      public boolean processLine(String line) throws IOException {
-        list.add(line);
-        return true;
-      }
+              @Override
+              public boolean processLine(String line) throws IOException {
+                list.add(line);
+                return true;
+              }
 
-      @Override
-      public List<String> getResult() {
-        return list;
-      }
-    });
+              @Override
+              public List<String> getResult() {
+                return list;
+              }
+            });
 
     assertExpectedLines(list);
   }
 
   public void testReadLines_withProcessor_stopsOnFalse() throws IOException {
-    List<String> list = source.readLines(new LineProcessor<List<String>>() {
-      List<String> list = Lists.newArrayList();
+    List<String> list =
+        source.readLines(
+            new LineProcessor<List<String>>() {
+              List<String> list = Lists.newArrayList();
 
-      @Override
-      public boolean processLine(String line) throws IOException {
-        list.add(line);
-        return false;
-      }
+              @Override
+              public boolean processLine(String line) throws IOException {
+                list.add(line);
+                return false;
+              }
 
-      @Override
-      public List<String> getResult() {
-        return list;
-      }
-    });
+              @Override
+              public List<String> getResult() {
+                return list;
+              }
+            });
 
     if (expectedLines.isEmpty()) {
       assertTrue(list.isEmpty());

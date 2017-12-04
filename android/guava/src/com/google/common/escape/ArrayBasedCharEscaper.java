@@ -115,8 +115,8 @@ public abstract class ArrayBasedCharEscaper extends CharEscaper {
 
   /**
    * Escapes a single character using the replacement array and safe range values. If the given
-   * character does not have an explicit replacement and lies outside the safe range then
-   * {@link #escapeUnsafe} is called.
+   * character does not have an explicit replacement and lies outside the safe range then {@link
+   * #escapeUnsafe} is called.
    */
   @Override
   protected final char[] escape(char c) {

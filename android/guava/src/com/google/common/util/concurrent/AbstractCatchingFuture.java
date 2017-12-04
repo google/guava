@@ -16,7 +16,6 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.Futures.getDone;
-import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.MoreExecutors.rejectionPropagatingExecutor;
 import static com.google.common.util.concurrent.Platform.isInstanceOfThrowableClass;
 
@@ -27,9 +26,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import javax.annotation.Nullable;
 
-/**
- * Implementations of {@code Futures.catching*}.
- */
+/** Implementations of {@code Futures.catching*}. */
 @GwtCompatible
 abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
     extends AbstractFuture.TrustedFuture<V> implements Runnable {
@@ -153,8 +150,8 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
   }
 
   /**
-   * An {@link AbstractCatchingFuture} that delegates to an {@link AsyncFunction} and
-   * {@link #setFuture(ListenableFuture)}.
+   * An {@link AbstractCatchingFuture} that delegates to an {@link AsyncFunction} and {@link
+   * #setFuture(ListenableFuture)}.
    */
   private static final class AsyncCatchingFuture<V, X extends Throwable>
       extends AbstractCatchingFuture<

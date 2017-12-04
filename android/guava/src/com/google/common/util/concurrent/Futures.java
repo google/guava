@@ -807,9 +807,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
         (ListenableFuture) nested, (AsyncFunction) DEREFERENCER, directExecutor());
   }
 
-  /**
-   * Helper {@code Function} for {@link #dereference}.
-   */
+  /** Helper {@code Function} for {@link #dereference}. */
   private static final AsyncFunction<ListenableFuture<Object>, Object> DEREFERENCER =
       new AsyncFunction<ListenableFuture<Object>, Object>() {
         @Override
@@ -910,21 +908,22 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *
    * <p>Example:
    *
-   * <pre>   {@code
-   *   final ListenableFuture<Instant> loginDateFuture =
-   *       loginService.findLastLoginDate(username);
-   *   final ListenableFuture<List<String>> recentCommandsFuture =
-   *       recentCommandsService.findRecentCommands(username);
-   *   Callable<UsageHistory> usageComputation =
-   *       new Callable<UsageHistory>() {
-   *         public UsageHistory call() throws Exception {
-   *           return new UsageHistory(
-   *               username, loginDateFuture.get(), recentCommandsFuture.get());
-   *         }
-   *       };
-   *   ListenableFuture<UsageHistory> usageFuture =
-   *       Futures.whenAllSucceed(loginDateFuture, recentCommandsFuture)
-   *           .call(usageComputation, executor);}</pre>
+   * <pre>{@code
+   * final ListenableFuture<Instant> loginDateFuture =
+   *     loginService.findLastLoginDate(username);
+   * final ListenableFuture<List<String>> recentCommandsFuture =
+   *     recentCommandsService.findRecentCommands(username);
+   * Callable<UsageHistory> usageComputation =
+   *     new Callable<UsageHistory>() {
+   *       public UsageHistory call() throws Exception {
+   *         return new UsageHistory(
+   *             username, loginDateFuture.get(), recentCommandsFuture.get());
+   *       }
+   *     };
+   * ListenableFuture<UsageHistory> usageFuture =
+   *     Futures.whenAllSucceed(loginDateFuture, recentCommandsFuture)
+   *         .call(usageComputation, executor);
+   * }</pre>
    *
    * @since 20.0
    */
@@ -1442,15 +1441,16 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * other information from the exception instance.
    *
    * <p>Exceptions from {@code Future.get} are treated as follows:
+   *
    * <ul>
-   * <li>Any {@link ExecutionException} has its <i>cause</i> wrapped in an {@code X} if the cause is
-   *     a checked exception, an {@link UncheckedExecutionException} if the cause is a {@code
-   *     RuntimeException}, or an {@link ExecutionError} if the cause is an {@code Error}.
-   * <li>Any {@link InterruptedException} is wrapped in an {@code X} (after restoring the
-   *     interrupt).
-   * <li>Any {@link CancellationException} is propagated untouched, as is any other {@link
-   *     RuntimeException} (though {@code get} implementations are discouraged from throwing such
-   *     exceptions).
+   *   <li>Any {@link ExecutionException} has its <i>cause</i> wrapped in an {@code X} if the cause
+   *       is a checked exception, an {@link UncheckedExecutionException} if the cause is a {@code
+   *       RuntimeException}, or an {@link ExecutionError} if the cause is an {@code Error}.
+   *   <li>Any {@link InterruptedException} is wrapped in an {@code X} (after restoring the
+   *       interrupt).
+   *   <li>Any {@link CancellationException} is propagated untouched, as is any other {@link
+   *       RuntimeException} (though {@code get} implementations are discouraged from throwing such
+   *       exceptions).
    * </ul>
    *
    * <p>The overall principle is to continue to treat every checked exception as a checked
@@ -1490,16 +1490,17 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * types or to extract other information from the exception instance.
    *
    * <p>Exceptions from {@code Future.get} are treated as follows:
+   *
    * <ul>
-   * <li>Any {@link ExecutionException} has its <i>cause</i> wrapped in an {@code X} if the cause is
-   *     a checked exception, an {@link UncheckedExecutionException} if the cause is a {@code
-   *     RuntimeException}, or an {@link ExecutionError} if the cause is an {@code Error}.
-   * <li>Any {@link InterruptedException} is wrapped in an {@code X} (after restoring the
-   *     interrupt).
-   * <li>Any {@link TimeoutException} is wrapped in an {@code X}.
-   * <li>Any {@link CancellationException} is propagated untouched, as is any other {@link
-   *     RuntimeException} (though {@code get} implementations are discouraged from throwing such
-   *     exceptions).
+   *   <li>Any {@link ExecutionException} has its <i>cause</i> wrapped in an {@code X} if the cause
+   *       is a checked exception, an {@link UncheckedExecutionException} if the cause is a {@code
+   *       RuntimeException}, or an {@link ExecutionError} if the cause is an {@code Error}.
+   *   <li>Any {@link InterruptedException} is wrapped in an {@code X} (after restoring the
+   *       interrupt).
+   *   <li>Any {@link TimeoutException} is wrapped in an {@code X}.
+   *   <li>Any {@link CancellationException} is propagated untouched, as is any other {@link
+   *       RuntimeException} (though {@code get} implementations are discouraged from throwing such
+   *       exceptions).
    * </ul>
    *
    * <p>The overall principle is to continue to treat every checked exception as a checked
@@ -1539,15 +1540,16 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * similar to that of {@code ForkJoinTask.join}.
    *
    * <p>Exceptions from {@code Future.get} are treated as follows:
+   *
    * <ul>
-   * <li>Any {@link ExecutionException} has its <i>cause</i> wrapped in an {@link
-   *     UncheckedExecutionException} (if the cause is an {@code Exception}) or {@link
-   *     ExecutionError} (if the cause is an {@code Error}).
-   * <li>Any {@link InterruptedException} causes a retry of the {@code get} call. The interrupt is
-   *     restored before {@code getUnchecked} returns.
-   * <li>Any {@link CancellationException} is propagated untouched. So is any other {@link
-   *     RuntimeException} ({@code get} implementations are discouraged from throwing such
-   *     exceptions).
+   *   <li>Any {@link ExecutionException} has its <i>cause</i> wrapped in an {@link
+   *       UncheckedExecutionException} (if the cause is an {@code Exception}) or {@link
+   *       ExecutionError} (if the cause is an {@code Error}).
+   *   <li>Any {@link InterruptedException} causes a retry of the {@code get} call. The interrupt is
+   *       restored before {@code getUnchecked} returns.
+   *   <li>Any {@link CancellationException} is propagated untouched. So is any other {@link
+   *       RuntimeException} ({@code get} implementations are discouraged from throwing such
+   *       exceptions).
    * </ul>
    *
    * <p>The overall principle is to eliminate all checked exceptions: to loop to avoid {@code

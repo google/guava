@@ -27,8 +27,8 @@ import java.util.Map;
 /**
  * Provides static methods for serializing collection classes.
  *
- * <p>This class assists the implementation of collection classes. Do not use
- * this class to serialize collections that are defined elsewhere.
+ * <p>This class assists the implementation of collection classes. Do not use this class to
+ * serialize collections that are defined elsewhere.
  *
  * @author Jared Levy
  */
@@ -37,25 +37,22 @@ final class Serialization {
   private Serialization() {}
 
   /**
-   * Reads a count corresponding to a serialized map, multiset, or multimap. It
-   * returns the size of a map serialized by {@link
-   * #writeMap(Map, ObjectOutputStream)}, the number of distinct elements in a
-   * multiset serialized by {@link
-   * #writeMultiset(Multiset, ObjectOutputStream)}, or the number of distinct
-   * keys in a multimap serialized by {@link
-   * #writeMultimap(Multimap, ObjectOutputStream)}.
+   * Reads a count corresponding to a serialized map, multiset, or multimap. It returns the size of
+   * a map serialized by {@link #writeMap(Map, ObjectOutputStream)}, the number of distinct elements
+   * in a multiset serialized by {@link #writeMultiset(Multiset, ObjectOutputStream)}, or the number
+   * of distinct keys in a multimap serialized by {@link #writeMultimap(Multimap,
+   * ObjectOutputStream)}.
    */
   static int readCount(ObjectInputStream stream) throws IOException {
     return stream.readInt();
   }
 
   /**
-   * Stores the contents of a map in an output stream, as part of serialization.
-   * It does not support concurrent maps whose content may change while the
-   * method is running.
+   * Stores the contents of a map in an output stream, as part of serialization. It does not support
+   * concurrent maps whose content may change while the method is running.
    *
-   * <p>The serialized output consists of the number of entries, first key,
-   * first value, second key, second value, and so on.
+   * <p>The serialized output consists of the number of entries, first key, first value, second key,
+   * second value, and so on.
    */
   static <K, V> void writeMap(Map<K, V> map, ObjectOutputStream stream) throws IOException {
     stream.writeInt(map.size());
@@ -66,8 +63,8 @@ final class Serialization {
   }
 
   /**
-   * Populates a map by reading an input stream, as part of deserialization.
-   * See {@link #writeMap} for the data format.
+   * Populates a map by reading an input stream, as part of deserialization. See {@link #writeMap}
+   * for the data format.
    */
   static <K, V> void populateMap(Map<K, V> map, ObjectInputStream stream)
       throws IOException, ClassNotFoundException {
@@ -76,9 +73,8 @@ final class Serialization {
   }
 
   /**
-   * Populates a map by reading an input stream, as part of deserialization.
-   * See {@link #writeMap} for the data format. The size is determined by a
-   * prior call to {@link #readCount}.
+   * Populates a map by reading an input stream, as part of deserialization. See {@link #writeMap}
+   * for the data format. The size is determined by a prior call to {@link #readCount}.
    */
   static <K, V> void populateMap(Map<K, V> map, ObjectInputStream stream, int size)
       throws IOException, ClassNotFoundException {
@@ -92,12 +88,11 @@ final class Serialization {
   }
 
   /**
-   * Stores the contents of a multiset in an output stream, as part of
-   * serialization. It does not support concurrent multisets whose content may
-   * change while the method is running.
+   * Stores the contents of a multiset in an output stream, as part of serialization. It does not
+   * support concurrent multisets whose content may change while the method is running.
    *
-   * <p>The serialized output consists of the number of distinct elements, the
-   * first element, its count, the second element, its count, and so on.
+   * <p>The serialized output consists of the number of distinct elements, the first element, its
+   * count, the second element, its count, and so on.
    */
   static <E> void writeMultiset(Multiset<E> multiset, ObjectOutputStream stream)
       throws IOException {
@@ -110,8 +105,8 @@ final class Serialization {
   }
 
   /**
-   * Populates a multiset by reading an input stream, as part of
-   * deserialization. See {@link #writeMultiset} for the data format.
+   * Populates a multiset by reading an input stream, as part of deserialization. See {@link
+   * #writeMultiset} for the data format.
    */
   static <E> void populateMultiset(Multiset<E> multiset, ObjectInputStream stream)
       throws IOException, ClassNotFoundException {
@@ -120,9 +115,9 @@ final class Serialization {
   }
 
   /**
-   * Populates a multiset by reading an input stream, as part of
-   * deserialization. See {@link #writeMultiset} for the data format. The number
-   * of distinct elements is determined by a prior call to {@link #readCount}.
+   * Populates a multiset by reading an input stream, as part of deserialization. See {@link
+   * #writeMultiset} for the data format. The number of distinct elements is determined by a prior
+   * call to {@link #readCount}.
    */
   static <E> void populateMultiset(
       Multiset<E> multiset, ObjectInputStream stream, int distinctElements)
@@ -136,14 +131,12 @@ final class Serialization {
   }
 
   /**
-   * Stores the contents of a multimap in an output stream, as part of
-   * serialization. It does not support concurrent multimaps whose content may
-   * change while the method is running. The {@link Multimap#asMap} view
-   * determines the ordering in which data is written to the stream.
+   * Stores the contents of a multimap in an output stream, as part of serialization. It does not
+   * support concurrent multimaps whose content may change while the method is running. The {@link
+   * Multimap#asMap} view determines the ordering in which data is written to the stream.
    *
-   * <p>The serialized output consists of the number of distinct keys, and then
-   * for each distinct key: the key, the number of values for that key, and the
-   * key's values.
+   * <p>The serialized output consists of the number of distinct keys, and then for each distinct
+   * key: the key, the number of values for that key, and the key's values.
    */
   static <K, V> void writeMultimap(Multimap<K, V> multimap, ObjectOutputStream stream)
       throws IOException {
@@ -158,8 +151,8 @@ final class Serialization {
   }
 
   /**
-   * Populates a multimap by reading an input stream, as part of
-   * deserialization. See {@link #writeMultimap} for the data format.
+   * Populates a multimap by reading an input stream, as part of deserialization. See {@link
+   * #writeMultimap} for the data format.
    */
   static <K, V> void populateMultimap(Multimap<K, V> multimap, ObjectInputStream stream)
       throws IOException, ClassNotFoundException {
@@ -168,9 +161,9 @@ final class Serialization {
   }
 
   /**
-   * Populates a multimap by reading an input stream, as part of
-   * deserialization. See {@link #writeMultimap} for the data format. The number
-   * of distinct keys is determined by a prior call to {@link #readCount}.
+   * Populates a multimap by reading an input stream, as part of deserialization. See {@link
+   * #writeMultimap} for the data format. The number of distinct keys is determined by a prior call
+   * to {@link #readCount}.
    */
   static <K, V> void populateMultimap(
       Multimap<K, V> multimap, ObjectInputStream stream, int distinctKeys)

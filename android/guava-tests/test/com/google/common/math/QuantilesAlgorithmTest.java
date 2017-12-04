@@ -36,8 +36,9 @@ public class QuantilesAlgorithmTest extends TestCase {
   private static final int DATASET_SIZE = 1000;
   private static final double ALLOWED_ERROR = 1.0e-10;
   private static final QuantilesAlgorithm REFERENCE_ALGORITHM = QuantilesAlgorithm.SORTING;
-  private static final Set<QuantilesAlgorithm> NON_REFERENCE_ALGORITHMS = Sets.difference(
-      ImmutableSet.copyOf(QuantilesAlgorithm.values()), ImmutableSet.of(REFERENCE_ALGORITHM));
+  private static final Set<QuantilesAlgorithm> NON_REFERENCE_ALGORITHMS =
+      Sets.difference(
+          ImmutableSet.copyOf(QuantilesAlgorithm.values()), ImmutableSet.of(REFERENCE_ALGORITHM));
 
   private double[] dataset;
 

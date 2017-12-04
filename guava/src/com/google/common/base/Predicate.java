@@ -19,11 +19,11 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import javax.annotation.Nullable;
 
 /**
- * Legacy version of {@link java.util.function.Predicate}.  Determines a true or false value for a
+ * Legacy version of {@link java.util.function.Predicate}. Determines a true or false value for a
  * given input.
  *
  * <p>As this interface extends {@code java.util.function.Predicate}, an instance of this type may
- * be used as a {@code Predicate} directly.  To use a {@code java.util.function.Predicate} where a
+ * be used as a {@code Predicate} directly. To use a {@code java.util.function.Predicate} where a
  * {@code com.google.common.base.Predicate} is expected, use the method reference {@code
  * predicate::test}.
  *
@@ -34,9 +34,8 @@ import javax.annotation.Nullable;
  *
  * <p>The {@link Predicates} class provides common predicates and related utilities.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code
- * Predicate}</a>.
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code Predicate}</a>.
  *
  * @author Kevin Bourrillion
  * @since 2.0
@@ -50,10 +49,10 @@ public interface Predicate<T> extends java.util.function.Predicate<T> {
    * required, to have the following properties:
    *
    * <ul>
-   * <li>Its execution does not cause any observable side effects.
-   * <li>The computation is <i>consistent with equals</i>; that is, {@link Objects#equal
-   *     Objects.equal}{@code (a, b)} implies that {@code predicate.apply(a) ==
-   *     predicate.apply(b))}.
+   *   <li>Its execution does not cause any observable side effects.
+   *   <li>The computation is <i>consistent with equals</i>; that is, {@link Objects#equal
+   *       Objects.equal}{@code (a, b)} implies that {@code predicate.apply(a) ==
+   *       predicate.apply(b))}.
    * </ul>
    *
    * @throws NullPointerException if {@code input} is null and this predicate does not accept null

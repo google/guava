@@ -34,8 +34,8 @@ import java.util.NoSuchElementException;
 import java.util.SortedMap;
 
 /**
- * A generic JUnit test which tests operations on a SortedMap. Can't be
- * invoked directly; please see {@code SortedMapTestSuiteBuilder}.
+ * A generic JUnit test which tests operations on a SortedMap. Can't be invoked directly; please see
+ * {@code SortedMapTestSuiteBuilder}.
  *
  * @author Jesse Wilson
  * @author Louis Wasserman

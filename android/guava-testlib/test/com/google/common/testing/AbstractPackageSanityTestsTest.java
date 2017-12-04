@@ -34,14 +34,10 @@ public class AbstractPackageSanityTestsTest extends TestCase {
   private final AbstractPackageSanityTests sanityTests = new AbstractPackageSanityTests() {};
 
   public void testFindClassesToTest_testClass() {
-    assertThat(findClassesToTest(ImmutableList.of(EmptyTest.class)))
-        .isEmpty();
-    assertThat(findClassesToTest(ImmutableList.of(EmptyTests.class)))
-        .isEmpty();
-    assertThat(findClassesToTest(ImmutableList.of(EmptyTestCase.class)))
-        .isEmpty();
-    assertThat(findClassesToTest(ImmutableList.of(EmptyTestSuite.class)))
-        .isEmpty();
+    assertThat(findClassesToTest(ImmutableList.of(EmptyTest.class))).isEmpty();
+    assertThat(findClassesToTest(ImmutableList.of(EmptyTests.class))).isEmpty();
+    assertThat(findClassesToTest(ImmutableList.of(EmptyTestCase.class))).isEmpty();
+    assertThat(findClassesToTest(ImmutableList.of(EmptyTestSuite.class))).isEmpty();
   }
 
   public void testFindClassesToTest_noCorrespondingTestClass() {
@@ -52,15 +48,13 @@ public class AbstractPackageSanityTestsTest extends TestCase {
 
   public void testFindClassesToTest_publicApiOnly() {
     sanityTests.publicApiOnly();
-    assertThat(findClassesToTest(ImmutableList.of(Foo.class)))
-        .isEmpty();
+    assertThat(findClassesToTest(ImmutableList.of(Foo.class))).isEmpty();
     assertThat(findClassesToTest(ImmutableList.of(PublicFoo.class))).contains(PublicFoo.class);
   }
 
   public void testFindClassesToTest_ignoreClasses() {
     sanityTests.ignoreClasses(Predicates.<Object>equalTo(PublicFoo.class));
-    assertThat(findClassesToTest(ImmutableList.of(PublicFoo.class)))
-        .isEmpty();
+    assertThat(findClassesToTest(ImmutableList.of(PublicFoo.class))).isEmpty();
     assertThat(findClassesToTest(ImmutableList.of(Foo.class))).contains(Foo.class);
   }
 
@@ -81,10 +75,8 @@ public class AbstractPackageSanityTestsTest extends TestCase {
 
   public void testFindClassesToTest_withCorrespondingTestClassAndExplicitlyTested() {
     ImmutableList<Class<?>> classes = ImmutableList.of(Foo.class, FooTest.class);
-    assertThat(findClassesToTest(classes, "testPublic"))
-        .isEmpty();
-    assertThat(findClassesToTest(classes, "testNotThere", "testPublic"))
-        .isEmpty();
+    assertThat(findClassesToTest(classes, "testPublic")).isEmpty();
+    assertThat(findClassesToTest(classes, "testNotThere", "testPublic")).isEmpty();
   }
 
   public void testFindClassesToTest_withCorrespondingTestClass_noTestName() {
@@ -109,6 +101,7 @@ public class AbstractPackageSanityTestsTest extends TestCase {
   static class FooTest {
     @SuppressWarnings("unused") // accessed reflectively
     public void testPublic() {}
+
     @SuppressWarnings("unused") // accessed reflectively
     void testNotPublic() {}
   }

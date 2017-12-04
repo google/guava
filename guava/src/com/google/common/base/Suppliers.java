@@ -142,7 +142,7 @@ public final class Suppliers {
 
     private static final long serialVersionUID = 0;
   }
-  
+
   @VisibleForTesting
   static class NonSerializableMemoizingSupplier<T> implements Supplier<T> {
     volatile Supplier<T> delegate;
@@ -255,9 +255,7 @@ public final class Suppliers {
     private static final long serialVersionUID = 0;
   }
 
-  /**
-   * Returns a supplier that always supplies {@code instance}.
-   */
+  /** Returns a supplier that always supplies {@code instance}. */
   public static <T> Supplier<T> ofInstance(@Nullable T instance) {
     return new SupplierOfInstance<T>(instance);
   }

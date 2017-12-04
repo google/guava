@@ -48,27 +48,33 @@ public class PredicatesTest extends TestCase {
   private static final Predicate<Integer> FALSE = Predicates.alwaysFalse();
   private static final Predicate<Integer> NEVER_REACHED =
       new Predicate<Integer>() {
-    @Override
-    public boolean apply(Integer i) {
-      throw new AssertionFailedError(
-          "This predicate should never have been evaluated");
-    }
-  };
+        @Override
+        public boolean apply(Integer i) {
+          throw new AssertionFailedError("This predicate should never have been evaluated");
+        }
+      };
 
   /** Instantiable predicate with reasonable hashCode() and equals() methods. */
   static class IsOdd implements Predicate<Integer>, Serializable {
     private static final long serialVersionUID = 0x150ddL;
+
     @Override
     public boolean apply(Integer i) {
       return (i.intValue() & 1) == 1;
     }
-    @Override public int hashCode() {
+
+    @Override
+    public int hashCode() {
       return 0x150dd;
     }
-    @Override public boolean equals(Object obj) {
+
+    @Override
+    public boolean equals(Object obj) {
       return obj instanceof IsOdd;
     }
-    @Override public String toString() {
+
+    @Override
+    public String toString() {
       return "IsOdd";
     }
   }
@@ -76,8 +82,8 @@ public class PredicatesTest extends TestCase {
   /**
    * Generates a new Predicate per call.
    *
-   * <p>Creating a new Predicate each time helps catch cases where code is
-   * using {@code x == y} instead of {@code x.equals(y)}.
+   * <p>Creating a new Predicate each time helps catch cases where code is using {@code x == y}
+   * instead of {@code x.equals(y)}.
    */
   private static IsOdd isOdd() {
     return new IsOdd();
@@ -207,8 +213,7 @@ public class PredicatesTest extends TestCase {
   public void testAnd_equalityOneArg() {
     Object[] notEqualObjects = {Predicates.and(NEVER_REACHED, FALSE)};
     new EqualsTester()
-        .addEqualityGroup(
-            Predicates.and(NEVER_REACHED), Predicates.and(NEVER_REACHED))
+        .addEqualityGroup(Predicates.and(NEVER_REACHED), Predicates.and(NEVER_REACHED))
         .addEqualityGroup(notEqualObjects)
         .addEqualityGroup(Predicates.and(isOdd()))
         .addEqualityGroup(Predicates.and())
@@ -231,9 +236,7 @@ public class PredicatesTest extends TestCase {
   @SuppressWarnings("unchecked") // varargs
   public void testAnd_equalityBinary() {
     new EqualsTester()
-        .addEqualityGroup(
-            Predicates.and(TRUE, NEVER_REACHED),
-            Predicates.and(TRUE, NEVER_REACHED))
+        .addEqualityGroup(Predicates.and(TRUE, NEVER_REACHED), Predicates.and(TRUE, NEVER_REACHED))
         .addEqualityGroup(Predicates.and(NEVER_REACHED, TRUE))
         .addEqualityGroup(Predicates.and(TRUE))
         .addEqualityGroup(Predicates.or(TRUE, NEVER_REACHED))
@@ -317,12 +320,13 @@ public class PredicatesTest extends TestCase {
 
   public void testAnd_iterableDefensivelyCopied() {
     final List<Predicate<Object>> list = newArrayList();
-    Iterable<Predicate<Object>> iterable = new Iterable<Predicate<Object>>() {
-      @Override
-      public Iterator<Predicate<Object>> iterator() {
-        return list.iterator();
-      }
-    };
+    Iterable<Predicate<Object>> iterable =
+        new Iterable<Predicate<Object>>() {
+          @Override
+          public Iterator<Predicate<Object>> iterator() {
+            return list.iterator();
+          }
+        };
     Predicate<Object> predicate = Predicates.and(iterable);
     assertTrue(predicate.apply(1));
     list.add(Predicates.alwaysFalse());
@@ -362,8 +366,7 @@ public class PredicatesTest extends TestCase {
   @SuppressWarnings("unchecked") // varargs
   public void testOr_equalityOneArg() {
     new EqualsTester()
-        .addEqualityGroup(
-            Predicates.or(NEVER_REACHED), Predicates.or(NEVER_REACHED))
+        .addEqualityGroup(Predicates.or(NEVER_REACHED), Predicates.or(NEVER_REACHED))
         .addEqualityGroup(Predicates.or(NEVER_REACHED, TRUE))
         .addEqualityGroup(Predicates.or(TRUE))
         .addEqualityGroup(Predicates.or())
@@ -390,9 +393,7 @@ public class PredicatesTest extends TestCase {
   @SuppressWarnings("unchecked") // varargs
   public void testOr_equalityBinary() {
     new EqualsTester()
-        .addEqualityGroup(
-            Predicates.or(FALSE, NEVER_REACHED),
-            Predicates.or(FALSE, NEVER_REACHED))
+        .addEqualityGroup(Predicates.or(FALSE, NEVER_REACHED), Predicates.or(FALSE, NEVER_REACHED))
         .addEqualityGroup(Predicates.or(NEVER_REACHED, FALSE))
         .addEqualityGroup(Predicates.or(TRUE))
         .addEqualityGroup(Predicates.and(FALSE, NEVER_REACHED))
@@ -416,8 +417,7 @@ public class PredicatesTest extends TestCase {
   public void testOr_equalityTernary() {
     new EqualsTester()
         .addEqualityGroup(
-            Predicates.or(FALSE, NEVER_REACHED, TRUE),
-            Predicates.or(FALSE, NEVER_REACHED, TRUE))
+            Predicates.or(FALSE, NEVER_REACHED, TRUE), Predicates.or(FALSE, NEVER_REACHED, TRUE))
         .addEqualityGroup(Predicates.or(TRUE, NEVER_REACHED, FALSE))
         .addEqualityGroup(Predicates.or(TRUE))
         .addEqualityGroup(Predicates.and(FALSE, NEVER_REACHED, TRUE))
@@ -432,8 +432,7 @@ public class PredicatesTest extends TestCase {
 
   @SuppressWarnings("unchecked") // varargs
   public void testOr_applyIterable() {
-    Predicate<Integer> vacuouslyFalse =
-        Predicates.or(Collections.<Predicate<Integer>>emptyList());
+    Predicate<Integer> vacuouslyFalse = Predicates.or(Collections.<Predicate<Integer>>emptyList());
     Predicate<Integer> troo = Predicates.or(Collections.singletonList(TRUE));
     /*
      * newLinkedList() takes varargs. TRUE and FALSE are both instances of
@@ -485,12 +484,13 @@ public class PredicatesTest extends TestCase {
 
   public void testOr_iterableDefensivelyCopied() {
     final List<Predicate<Object>> list = newArrayList();
-    Iterable<Predicate<Object>> iterable = new Iterable<Predicate<Object>>() {
-      @Override
-      public Iterator<Predicate<Object>> iterator() {
-        return list.iterator();
-      }
-    };
+    Iterable<Predicate<Object>> iterable =
+        new Iterable<Predicate<Object>>() {
+          @Override
+          public Iterator<Predicate<Object>> iterator() {
+            return list.iterator();
+          }
+        };
     Predicate<Object> predicate = Predicates.or(iterable);
     assertFalse(predicate.apply(1));
     list.add(Predicates.alwaysTrue());
@@ -542,10 +542,9 @@ public class PredicatesTest extends TestCase {
   }
 
   /**
-   * Tests for Predicates.instanceOf(x).
-   * TODO: Fix the comment style after fixing annotation stripper to remove
-   * comments properly.  Currently, all tests before the comments are removed
-   * as well.
+   * Tests for Predicates.instanceOf(x). TODO: Fix the comment style after fixing annotation
+   * stripper to remove comments properly. Currently, all tests before the comments are removed as
+   * well.
    */
   @GwtIncompatible // Predicates.instanceOf
   public void testIsInstanceOf_apply() {
@@ -581,8 +580,7 @@ public class PredicatesTest extends TestCase {
   public void testIsInstanceOf_equality() {
     new EqualsTester()
         .addEqualityGroup(
-            Predicates.instanceOf(Integer.class),
-            Predicates.instanceOf(Integer.class))
+            Predicates.instanceOf(Integer.class), Predicates.instanceOf(Integer.class))
         .addEqualityGroup(Predicates.instanceOf(Number.class))
         .addEqualityGroup(Predicates.instanceOf(Float.class))
         .testEquals();
@@ -603,7 +601,8 @@ public class PredicatesTest extends TestCase {
     try {
       isInteger.apply(null);
       fail();
-    } catch (NullPointerException expected) {}
+    } catch (NullPointerException expected) {
+    }
   }
 
   @GwtIncompatible // Predicates.subtypeOf
@@ -616,8 +615,7 @@ public class PredicatesTest extends TestCase {
 
   @GwtIncompatible // Predicates.subtypeOf
   public void testSubtypeOf_interface() {
-    Predicate<Class<?>> isComparable =
-        Predicates.subtypeOf(Comparable.class);
+    Predicate<Class<?>> isComparable = Predicates.subtypeOf(Comparable.class);
 
     assertTrue(isComparable.apply(Integer.class));
     assertTrue(isComparable.apply(Float.class));
@@ -638,10 +636,8 @@ public class PredicatesTest extends TestCase {
 
   @GwtIncompatible // Predicates.subtypeOf, SerializableTester
   public void testSubtypeOf_serialization() {
-    Predicate<Class<?>> predicate =
-        Predicates.subtypeOf(Integer.class);
-    Predicate<Class<?>> reserialized =
-        SerializableTester.reserializeAndAssert(predicate);
+    Predicate<Class<?>> predicate = Predicates.subtypeOf(Integer.class);
+    Predicate<Class<?>> reserialized = SerializableTester.reserializeAndAssert(predicate);
 
     assertEvalsLike(predicate, reserialized, Integer.class);
     assertEvalsLike(predicate, reserialized, Float.class);
@@ -708,8 +704,11 @@ public class PredicatesTest extends TestCase {
     Collection<Integer> differentNums = ImmutableSet.of(1, 3, 5);
 
     new EqualsTester()
-        .addEqualityGroup(Predicates.in(nums), Predicates.in(nums),
-            Predicates.in(sameOrder), Predicates.in(differentOrder))
+        .addEqualityGroup(
+            Predicates.in(nums),
+            Predicates.in(nums),
+            Predicates.in(sameOrder),
+            Predicates.in(differentOrder))
         .addEqualityGroup(Predicates.in(differentNums))
         .testEquals();
   }
@@ -723,7 +722,8 @@ public class PredicatesTest extends TestCase {
     class CollectionThatThrowsNPE<T> extends ArrayList<T> {
       private static final long serialVersionUID = 1L;
 
-      @Override public boolean contains(Object element) {
+      @Override
+      public boolean contains(Object element) {
         Preconditions.checkNotNull(element);
         return super.contains(element);
       }
@@ -737,7 +737,8 @@ public class PredicatesTest extends TestCase {
     class CollectionThatThrowsCCE<T> extends ArrayList<T> {
       private static final long serialVersionUID = 1L;
 
-      @Override public boolean contains(Object element) {
+      @Override
+      public boolean contains(Object element) {
         throw new ClassCastException("");
       }
     }
@@ -770,16 +771,20 @@ public class PredicatesTest extends TestCase {
   @GwtIncompatible // SerializbleTester
   public void testCascadingSerialization() throws Exception {
     // Eclipse says Predicate<Integer>; javac says Predicate<Object>.
-    Predicate<? super Integer> nasty = Predicates.not(Predicates.and(
-        Predicates.or(
-            Predicates.equalTo((Object) 1), Predicates.equalTo(null),
-            Predicates.alwaysFalse(), Predicates.alwaysTrue(),
-            Predicates.isNull(), Predicates.notNull(),
-            Predicates.in(Arrays.asList(1)))));
+    Predicate<? super Integer> nasty =
+        Predicates.not(
+            Predicates.and(
+                Predicates.or(
+                    Predicates.equalTo((Object) 1),
+                    Predicates.equalTo(null),
+                    Predicates.alwaysFalse(),
+                    Predicates.alwaysTrue(),
+                    Predicates.isNull(),
+                    Predicates.notNull(),
+                    Predicates.in(Arrays.asList(1)))));
     assertEvalsToFalse(nasty);
 
-    Predicate<? super Integer> stillNasty =
-        SerializableTester.reserializeAndAssert(nasty);
+    Predicate<? super Integer> stillNasty = SerializableTester.reserializeAndAssert(nasty);
 
     assertEvalsToFalse(stillNasty);
   }
@@ -823,23 +828,20 @@ public class PredicatesTest extends TestCase {
   }
 
   /**
-   * Tests for Predicates.contains(Pattern) and .containsPattern(String).
-   * We assume the regex level works, so there are only trivial tests of that
-   * aspect.
-   * TODO: Fix comment style once annotation stripper is fixed.
+   * Tests for Predicates.contains(Pattern) and .containsPattern(String). We assume the regex level
+   * works, so there are only trivial tests of that aspect. TODO: Fix comment style once annotation
+   * stripper is fixed.
    */
   @GwtIncompatible // Predicates.containsPattern
   public void testContainsPattern_apply() {
-    Predicate<CharSequence> isFoobar =
-        Predicates.containsPattern("^Fo.*o.*bar$");
+    Predicate<CharSequence> isFoobar = Predicates.containsPattern("^Fo.*o.*bar$");
     assertTrue(isFoobar.apply("Foxyzoabcbar"));
     assertFalse(isFoobar.apply("Foobarx"));
   }
 
   @GwtIncompatible // Predicates.containsPattern
   public void testContains_apply() {
-    Predicate<CharSequence> isFoobar =
-        Predicates.contains(Pattern.compile("^Fo.*o.*bar$"));
+    Predicate<CharSequence> isFoobar = Predicates.contains(Pattern.compile("^Fo.*o.*bar$"));
 
     assertTrue(isFoobar.apply("Foxyzoabcbar"));
     assertFalse(isFoobar.apply("Foobarx"));
@@ -856,8 +858,7 @@ public class PredicatesTest extends TestCase {
   @GwtIncompatible // NullPointerTester
   public void testContains_nulls() throws Exception {
     NullPointerTester tester = new NullPointerTester();
-    Predicate<CharSequence> isWooPattern =
-        Predicates.contains(Pattern.compile("Woo"));
+    Predicate<CharSequence> isWooPattern = Predicates.contains(Pattern.compile("Woo"));
 
     tester.testAllPublicInstanceMethods(isWooPattern);
   }
@@ -873,15 +874,11 @@ public class PredicatesTest extends TestCase {
   public void testContains_equals() {
     new EqualsTester()
         .addEqualityGroup(
-            Predicates.contains(Pattern.compile("foo")),
-            Predicates.containsPattern("foo"))
-        .addEqualityGroup(
-            Predicates.contains(
-                Pattern.compile("foo", Pattern.CASE_INSENSITIVE)))
-        .addEqualityGroup(
-            Predicates.containsPattern("bar"))
+            Predicates.contains(Pattern.compile("foo")), Predicates.containsPattern("foo"))
+        .addEqualityGroup(Predicates.contains(Pattern.compile("foo", Pattern.CASE_INSENSITIVE)))
+        .addEqualityGroup(Predicates.containsPattern("bar"))
         .testEquals();
-      }
+  }
 
   public void assertEqualHashCode(
       Predicate<? super Integer> expected, Predicate<? super Integer> actual) {
@@ -893,17 +890,11 @@ public class PredicatesTest extends TestCase {
     Predicate<Integer> p2 = isOdd();
 
     // Make sure that hash codes are not computed per-instance.
-    assertEqualHashCode(
-        Predicates.not(p1),
-        Predicates.not(p1));
+    assertEqualHashCode(Predicates.not(p1), Predicates.not(p1));
 
-    assertEqualHashCode(
-        Predicates.and(p1, p2),
-        Predicates.and(p1, p2));
+    assertEqualHashCode(Predicates.and(p1, p2), Predicates.and(p1, p2));
 
-    assertEqualHashCode(
-        Predicates.or(p1, p2),
-        Predicates.or(p1, p2));
+    assertEqualHashCode(Predicates.or(p1, p2), Predicates.or(p1, p2));
 
     // While not a contractual requirement, we'd like the hash codes for ands
     // & ors of the same predicates to not collide.
@@ -938,17 +929,14 @@ public class PredicatesTest extends TestCase {
   }
 
   private static void assertEvalsLike(
-      Predicate<? super Integer> expected,
-      Predicate<? super Integer> actual) {
+      Predicate<? super Integer> expected, Predicate<? super Integer> actual) {
     assertEvalsLike(expected, actual, 0);
     assertEvalsLike(expected, actual, 1);
     assertEvalsLike(expected, actual, null);
   }
 
   private static <T> void assertEvalsLike(
-      Predicate<? super T> expected,
-      Predicate<? super T> actual,
-      T input) {
+      Predicate<? super T> expected, Predicate<? super T> actual, T input) {
     Boolean expectedResult = null;
     RuntimeException expectedRuntimeException = null;
     try {
@@ -968,16 +956,13 @@ public class PredicatesTest extends TestCase {
     assertEquals(expectedResult, actualResult);
     if (expectedRuntimeException != null) {
       assertNotNull(actualRuntimeException);
-      assertEquals(
-          expectedRuntimeException.getClass(),
-          actualRuntimeException.getClass());
+      assertEquals(expectedRuntimeException.getClass(), actualRuntimeException.getClass());
     }
   }
 
   @GwtIncompatible // SerializableTester
   private static void checkSerialization(Predicate<? super Integer> predicate) {
-    Predicate<? super Integer> reserialized =
-        SerializableTester.reserializeAndAssert(predicate);
+    Predicate<? super Integer> reserialized = SerializableTester.reserializeAndAssert(predicate);
     assertEvalsLike(predicate, reserialized);
   }
 }

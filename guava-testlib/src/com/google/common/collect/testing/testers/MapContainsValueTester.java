@@ -27,9 +27,8 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 
 /**
- * A generic JUnit test which tests {@code containsValue()} operations on a map.
- * Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code containsValue()} operations on a map. Can't be invoked
+ * directly; please see {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
  *
  * @author George van den Driessche
  * @author Chris Povirk
@@ -72,7 +71,7 @@ public class MapContainsValueTester<K, V> extends AbstractMapTester<K, V> {
 
   public void testContains_wrongType() {
     try {
-      //noinspection SuspiciousMethodCalls
+      // noinspection SuspiciousMethodCalls
       assertFalse(
           "containsValue(wrongType) should return false or throw",
           getMap().containsValue(WrongType.VALUE));

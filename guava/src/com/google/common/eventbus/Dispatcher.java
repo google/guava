@@ -66,21 +66,15 @@ abstract class Dispatcher {
     return ImmediateDispatcher.INSTANCE;
   }
 
-  /**
-   * Dispatches the given {@code event} to the given {@code subscribers}.
-   */
+  /** Dispatches the given {@code event} to the given {@code subscribers}. */
   abstract void dispatch(Object event, Iterator<Subscriber> subscribers);
 
-  /**
-   * Implementation of a {@link #perThreadDispatchQueue()} dispatcher.
-   */
+  /** Implementation of a {@link #perThreadDispatchQueue()} dispatcher. */
   private static final class PerThreadQueuedDispatcher extends Dispatcher {
 
     // This dispatcher matches the original dispatch behavior of EventBus.
 
-    /**
-     * Per-thread queue of events to dispatch.
-     */
+    /** Per-thread queue of events to dispatch. */
     private final ThreadLocal<Queue<Event>> queue =
         new ThreadLocal<Queue<Event>>() {
           @Override
@@ -89,9 +83,7 @@ abstract class Dispatcher {
           }
         };
 
-    /**
-     * Per-thread dispatch state, used to avoid reentrant event dispatching.
-     */
+    /** Per-thread dispatch state, used to avoid reentrant event dispatching. */
     private final ThreadLocal<Boolean> dispatching =
         new ThreadLocal<Boolean>() {
           @Override
@@ -134,9 +126,7 @@ abstract class Dispatcher {
     }
   }
 
-  /**
-   * Implementation of a {@link #legacyAsync()} dispatcher.
-   */
+  /** Implementation of a {@link #legacyAsync()} dispatcher. */
   private static final class LegacyAsyncDispatcher extends Dispatcher {
 
     // This dispatcher matches the original dispatch behavior of AsyncEventBus.
@@ -157,9 +147,7 @@ abstract class Dispatcher {
     // probably provide a stronger order guarantee, though that order would obviously be different
     // in some cases.
 
-    /**
-     * Global event queue.
-     */
+    /** Global event queue. */
     private final ConcurrentLinkedQueue<EventWithSubscriber> queue =
         Queues.newConcurrentLinkedQueue();
 
@@ -187,9 +175,7 @@ abstract class Dispatcher {
     }
   }
 
-  /**
-   * Implementation of {@link #immediate()}.
-   */
+  /** Implementation of {@link #immediate()}. */
   private static final class ImmediateDispatcher extends Dispatcher {
     private static final ImmediateDispatcher INSTANCE = new ImmediateDispatcher();
 

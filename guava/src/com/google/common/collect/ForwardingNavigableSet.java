@@ -28,19 +28,19 @@ import java.util.SortedSet;
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
  * <p><b>Warning:</b> The methods of {@code ForwardingNavigableSet} forward <i>indiscriminately</i>
- * to the methods of the delegate. For example, overriding {@link #add} alone <i>will not</i>
- * change the behavior of {@link #addAll}, which can lead to unexpected behavior. In this case, you
- * should override {@code addAll} as well, either providing your own implementation, or delegating
- * to the provided {@code standardAddAll} method.
+ * to the methods of the delegate. For example, overriding {@link #add} alone <i>will not</i> change
+ * the behavior of {@link #addAll}, which can lead to unexpected behavior. In this case, you should
+ * override {@code addAll} as well, either providing your own implementation, or delegating to the
+ * provided {@code standardAddAll} method.
  *
  * <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
  * default} methods. Instead, it inherits their default implementations. When those implementations
  * invoke methods, they invoke methods on the {@code ForwardingNavigableSet}.
  *
- * <p>Each of the {@code standard} methods uses the set's comparator (or the natural ordering of
- * the elements, if there is no comparator) to test element equality. As a result, if the
- * comparator is not consistent with equals, some of the standard implementations may violate the
- * {@code Set} contract.
+ * <p>Each of the {@code standard} methods uses the set's comparator (or the natural ordering of the
+ * elements, if there is no comparator) to test element equality. As a result, if the comparator is
+ * not consistent with equals, some of the standard implementations may violate the {@code Set}
+ * contract.
  *
  * <p>The {@code standard} methods and the collection views they return are not guaranteed to be
  * thread-safe, even when all of the methods that they depend on are thread-safe.
@@ -92,9 +92,9 @@ public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
   }
 
   /**
-   * A sensible definition of {@link #ceiling} in terms of the {@code iterator} method of
-   * {@link #tailSet(Object, boolean)}. If you override {@link #tailSet(Object, boolean)}, you may
-   * wish to override {@link #ceiling} to forward to this implementation.
+   * A sensible definition of {@link #ceiling} in terms of the {@code iterator} method of {@link
+   * #tailSet(Object, boolean)}. If you override {@link #tailSet(Object, boolean)}, you may wish to
+   * override {@link #ceiling} to forward to this implementation.
    */
   protected E standardCeiling(E e) {
     return Iterators.getNext(tailSet(e, true).iterator(), null);
@@ -106,9 +106,9 @@ public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
   }
 
   /**
-   * A sensible definition of {@link #higher} in terms of the {@code iterator} method of
-   * {@link #tailSet(Object, boolean)}. If you override {@link #tailSet(Object, boolean)}, you may
-   * wish to override {@link #higher} to forward to this implementation.
+   * A sensible definition of {@link #higher} in terms of the {@code iterator} method of {@link
+   * #tailSet(Object, boolean)}. If you override {@link #tailSet(Object, boolean)}, you may wish to
+   * override {@link #higher} to forward to this implementation.
    */
   protected E standardHigher(E e) {
     return Iterators.getNext(tailSet(e, false).iterator(), null);
@@ -185,8 +185,8 @@ public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
 
   /**
    * A sensible definition of {@link #subSet(Object, boolean, Object, boolean)} in terms of the
-   * {@code headSet} and {@code tailSet} methods. In many cases, you may wish to override
-   * {@link #subSet(Object, boolean, Object, boolean)} to forward to this implementation.
+   * {@code headSet} and {@code tailSet} methods. In many cases, you may wish to override {@link
+   * #subSet(Object, boolean, Object, boolean)} to forward to this implementation.
    */
   @Beta
   protected NavigableSet<E> standardSubSet(
@@ -195,10 +195,10 @@ public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
   }
 
   /**
-   * A sensible definition of {@link #subSet(Object, Object)} in terms of the
-   * {@link #subSet(Object, boolean, Object, boolean)} method. If you override
-   * {@link #subSet(Object, boolean, Object, boolean)}, you may wish to override
-   * {@link #subSet(Object, Object)} to forward to this implementation.
+   * A sensible definition of {@link #subSet(Object, Object)} in terms of the {@link #subSet(Object,
+   * boolean, Object, boolean)} method. If you override {@link #subSet(Object, boolean, Object,
+   * boolean)}, you may wish to override {@link #subSet(Object, Object)} to forward to this
+   * implementation.
    */
   @Override
   protected SortedSet<E> standardSubSet(E fromElement, E toElement) {
@@ -211,9 +211,8 @@ public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
   }
 
   /**
-   * A sensible definition of {@link #headSet(Object)} in terms of the
-   * {@link #headSet(Object, boolean)} method. If you override
-   * {@link #headSet(Object, boolean)}, you may wish to override
+   * A sensible definition of {@link #headSet(Object)} in terms of the {@link #headSet(Object,
+   * boolean)} method. If you override {@link #headSet(Object, boolean)}, you may wish to override
    * {@link #headSet(Object)} to forward to this implementation.
    */
   protected SortedSet<E> standardHeadSet(E toElement) {
@@ -226,9 +225,8 @@ public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
   }
 
   /**
-   * A sensible definition of {@link #tailSet(Object)} in terms of the
-   * {@link #tailSet(Object, boolean)} method. If you override
-   * {@link #tailSet(Object, boolean)}, you may wish to override
+   * A sensible definition of {@link #tailSet(Object)} in terms of the {@link #tailSet(Object,
+   * boolean)} method. If you override {@link #tailSet(Object, boolean)}, you may wish to override
    * {@link #tailSet(Object)} to forward to this implementation.
    */
   protected SortedSet<E> standardTailSet(E fromElement) {

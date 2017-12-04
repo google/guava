@@ -21,9 +21,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.annotations.GwtCompatible;
 import junit.framework.TestCase;
 
-/**
- * @author Luiz-Otavio "Z" Zorzella
- */
+/** @author Luiz-Otavio "Z" Zorzella */
 @GwtCompatible
 public class TearDownStackTest extends TestCase {
 
@@ -48,13 +46,14 @@ public class TearDownStackTest extends TestCase {
     final SimpleTearDown tearDownOne = new SimpleTearDown();
     stack.addTearDown(tearDownOne);
 
-    final Callback callback = new Callback() {
-      @Override
-      public void run() {
-        assertEquals("tearDownTwo should have been run before tearDownOne",
-          false, tearDownOne.ran);
-      }
-    };
+    final Callback callback =
+        new Callback() {
+          @Override
+          public void run() {
+            assertEquals(
+                "tearDownTwo should have been run before tearDownOne", false, tearDownOne.ran);
+          }
+        };
 
     final SimpleTearDown tearDownTwo = new SimpleTearDown(callback);
     stack.addTearDown(tearDownTwo);
@@ -87,14 +86,15 @@ public class TearDownStackTest extends TestCase {
       assertThat(expected.getCause()).hasMessage("two");
     } catch (RuntimeException e) {
       throw new RuntimeException(
-        "A ClusterException should have been thrown, rather than a " + e.getClass().getName(), e);
+          "A ClusterException should have been thrown, rather than a " + e.getClass().getName(), e);
     }
 
     assertEquals(true, tearDownOne.ran);
     assertEquals(true, tearDownTwo.ran);
   }
 
-  @Override public final void runBare() throws Throwable {
+  @Override
+  public final void runBare() throws Throwable {
     try {
       setUp();
       runTest();
@@ -103,27 +103,27 @@ public class TearDownStackTest extends TestCase {
     }
   }
 
-  @Override protected void tearDown() {
+  @Override
+  protected void tearDown() {
     tearDownStack.runTearDown();
   }
 
-  /**
-   * Builds a {@link TearDownStack} that makes sure it's clear by the end of
-   * this test.
-   */
+  /** Builds a {@link TearDownStack} that makes sure it's clear by the end of this test. */
   private TearDownStack buildTearDownStack() {
     final TearDownStack result = new TearDownStack();
-    tearDownStack.addTearDown(new TearDown() {
+    tearDownStack.addTearDown(
+        new TearDown() {
 
-      @Override
-      public void tearDown() throws Exception {
-        synchronized (result.stack) {
-          assertEquals(
-            "The test should have cleared the stack (say, by virtue of running runTearDown)",
-            0, result.stack.size());
-        }
-      }
-    });
+          @Override
+          public void tearDown() throws Exception {
+            synchronized (result.stack) {
+              assertEquals(
+                  "The test should have cleared the stack (say, by virtue of running runTearDown)",
+                  0,
+                  result.stack.size());
+            }
+          }
+        });
     return result;
   }
 

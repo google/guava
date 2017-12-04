@@ -60,7 +60,7 @@ public final class MoreCollectors {
   public static <T> Collector<T, ?, Optional<T>> toOptional() {
     return (Collector) TO_OPTIONAL;
   }
-  
+
   private static final Object NULL_PLACEHOLDER = new Object();
 
   private static final Collector<Object, ?, Object> ONLY_ELEMENT =

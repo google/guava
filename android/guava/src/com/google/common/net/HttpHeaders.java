@@ -19,12 +19,13 @@ import com.google.common.annotations.GwtCompatible;
 
 /**
  * Contains constant definitions for the HTTP header field names. See:
+ *
  * <ul>
- * <li><a href="http://www.ietf.org/rfc/rfc2109.txt">RFC 2109</a>
- * <li><a href="http://www.ietf.org/rfc/rfc2183.txt">RFC 2183</a>
- * <li><a href="http://www.ietf.org/rfc/rfc2616.txt">RFC 2616</a>
- * <li><a href="http://www.ietf.org/rfc/rfc2965.txt">RFC 2965</a>
- * <li><a href="http://www.ietf.org/rfc/rfc5988.txt">RFC 5988</a>
+ *   <li><a href="http://www.ietf.org/rfc/rfc2109.txt">RFC 2109</a>
+ *   <li><a href="http://www.ietf.org/rfc/rfc2183.txt">RFC 2183</a>
+ *   <li><a href="http://www.ietf.org/rfc/rfc2616.txt">RFC 2616</a>
+ *   <li><a href="http://www.ietf.org/rfc/rfc2965.txt">RFC 2965</a>
+ *   <li><a href="http://www.ietf.org/rfc/rfc5988.txt">RFC 5988</a>
  * </ul>
  *
  *
@@ -141,8 +142,8 @@ public final class HttpHeaders {
   }
 
   /**
-   * The HTTP <a href="https://www.w3.org/TR/service-workers/#update-algorithm">
-   * {@code Service-Worker}</a> header field name.
+   * The HTTP <a href="https://www.w3.org/TR/service-workers/#update-algorithm">{@code
+   * Service-Worker}</a> header field name.
    */
   public static final String SERVICE_WORKER = "Service-Worker";
   /** The HTTP {@code TE} header field name. */
@@ -185,8 +186,8 @@ public final class HttpHeaders {
   /** The HTTP {@code Content-Range} header field name. */
   public static final String CONTENT_RANGE = "Content-Range";
   /**
-   * The HTTP <a href="http://w3.org/TR/CSP/#content-security-policy-header-field">
-   * {@code Content-Security-Policy}</a> header field name.
+   * The HTTP <a href="http://w3.org/TR/CSP/#content-security-policy-header-field">{@code
+   * Content-Security-Policy}</a> header field name.
    *
    * @since 15.0
    */
@@ -201,26 +202,26 @@ public final class HttpHeaders {
       "Content-Security-Policy-Report-Only";
   /**
    * The HTTP nonstandard {@code X-Content-Security-Policy} header field name. It was introduced in
-   * <a href="https://www.w3.org/TR/2011/WD-CSP-20111129/">CSP v.1</a> and used by the Firefox
-   * until version 23 and the Internet Explorer version 10.
-   * Please, use {@link #CONTENT_SECURITY_POLICY} to pass the CSP.
+   * <a href="https://www.w3.org/TR/2011/WD-CSP-20111129/">CSP v.1</a> and used by the Firefox until
+   * version 23 and the Internet Explorer version 10. Please, use {@link #CONTENT_SECURITY_POLICY}
+   * to pass the CSP.
    *
    * @since 20.0
    */
   public static final String X_CONTENT_SECURITY_POLICY = "X-Content-Security-Policy";
   /**
-   * The HTTP nonstandard {@code X-Content-Security-Policy-Report-Only} header field name.
-   * It was introduced in <a href="https://www.w3.org/TR/2011/WD-CSP-20111129/">CSP v.1</a> and
-   * used by the Firefox until version 23 and the Internet Explorer version 10.
-   * Please, use {@link #CONTENT_SECURITY_POLICY_REPORT_ONLY} to pass the CSP.
+   * The HTTP nonstandard {@code X-Content-Security-Policy-Report-Only} header field name. It was
+   * introduced in <a href="https://www.w3.org/TR/2011/WD-CSP-20111129/">CSP v.1</a> and used by the
+   * Firefox until version 23 and the Internet Explorer version 10. Please, use {@link
+   * #CONTENT_SECURITY_POLICY_REPORT_ONLY} to pass the CSP.
    *
    * @since 20.0
    */
   public static final String X_CONTENT_SECURITY_POLICY_REPORT_ONLY =
       "X-Content-Security-Policy-Report-Only";
   /**
-   * The HTTP nonstandard {@code X-WebKit-CSP} header field name. It was introduced in
-   * <a href="https://www.w3.org/TR/2011/WD-CSP-20111129/">CSP v.1</a> and used by the Chrome until
+   * The HTTP nonstandard {@code X-WebKit-CSP} header field name. It was introduced in <a
+   * href="https://www.w3.org/TR/2011/WD-CSP-20111129/">CSP v.1</a> and used by the Chrome until
    * version 25. Please, use {@link #CONTENT_SECURITY_POLICY} to pass the CSP.
    *
    * @since 20.0
@@ -255,15 +256,15 @@ public final class HttpHeaders {
   /** The HTTP {@code Server} header field name. */
   public static final String SERVER = "Server";
   /**
-   * The HTTP <a href="https://www.w3.org/TR/server-timing/">
-   * {@code Server-Timing}</a> header field name.
+   * The HTTP <a href="https://www.w3.org/TR/server-timing/">{@code Server-Timing}</a> header field
+   * name.
    *
    * @since NEXT
    */
   public static final String SERVER_TIMING = "Server-Timing";
   /**
-   * The HTTP <a href="https://www.w3.org/TR/service-workers/#update-algorithm">
-   * {@code Service-Worker-Allowed}</a> header field name.
+   * The HTTP <a href="https://www.w3.org/TR/service-workers/#update-algorithm">{@code
+   * Service-Worker-Allowed}</a> header field name.
    *
    * @since 20.0
    */
@@ -273,16 +274,15 @@ public final class HttpHeaders {
   /** The HTTP {@code Set-Cookie2} header field name. */
   public static final String SET_COOKIE2 = "Set-Cookie2";
   /**
-   * The HTTP
-   * <a href="http://tools.ietf.org/html/rfc6797#section-6.1">{@code Strict-Transport-Security}</a>
-   * header field name.
+   * The HTTP <a href="http://tools.ietf.org/html/rfc6797#section-6.1">{@code
+   * Strict-Transport-Security}</a> header field name.
    *
    * @since 15.0
    */
   public static final String STRICT_TRANSPORT_SECURITY = "Strict-Transport-Security";
   /**
-   * The HTTP <a href="http://www.w3.org/TR/resource-timing/#cross-origin-resources">
-   * {@code Timing-Allow-Origin}</a> header field name.
+   * The HTTP <a href="http://www.w3.org/TR/resource-timing/#cross-origin-resources">{@code
+   * Timing-Allow-Origin}</a> header field name.
    *
    * @since 15.0
    */
@@ -325,16 +325,15 @@ public final class HttpHeaders {
   /** The HTTP {@code X-Powered-By} header field name. */
   public static final String X_POWERED_BY = "X-Powered-By";
   /**
-   * The HTTP
-   * <a href="http://tools.ietf.org/html/draft-evans-palmer-key-pinning">{@code Public-Key-Pins}</a>
-   * header field name.
+   * The HTTP <a href="http://tools.ietf.org/html/draft-evans-palmer-key-pinning">{@code
+   * Public-Key-Pins}</a> header field name.
    *
    * @since 15.0
    */
   @Beta public static final String PUBLIC_KEY_PINS = "Public-Key-Pins";
   /**
-   * The HTTP <a href="http://tools.ietf.org/html/draft-evans-palmer-key-pinning">
-   * {@code Public-Key-Pins-Report-Only}</a> header field name.
+   * The HTTP <a href="http://tools.ietf.org/html/draft-evans-palmer-key-pinning">{@code
+   * Public-Key-Pins-Report-Only}</a> header field name.
    *
    * @since 15.0
    */

@@ -94,8 +94,7 @@ public final class DerivedCollectionGenerators {
     private final OneSizeTestContainerGenerator<Map<K, V>, Entry<K, V>> mapGenerator;
     private final SampleElements<K> samples;
 
-    public MapKeySetGenerator(
-        OneSizeTestContainerGenerator<Map<K, V>, Entry<K, V>> mapGenerator) {
+    public MapKeySetGenerator(OneSizeTestContainerGenerator<Map<K, V>, Entry<K, V>> mapGenerator) {
       this.mapGenerator = mapGenerator;
       final SampleElements<Entry<K, V>> mapSamples = this.mapGenerator.samples();
       this.samples =
@@ -239,7 +238,7 @@ public final class DerivedCollectionGenerators {
 
     @Override
     public V[] createArray(int length) {
-      //noinspection UnnecessaryLocalVariable
+      // noinspection UnnecessaryLocalVariable
       final V[] vs =
           ((TestMapGenerator<K, V>) mapGenerator.getInnerGenerator()).createValueArray(length);
       return vs;
@@ -316,9 +315,7 @@ public final class DerivedCollectionGenerators {
     }
   }
 
-  /**
-   * Two bounds (from and to) define how to build a subMap.
-   */
+  /** Two bounds (from and to) define how to build a subMap. */
   public enum Bound {
     INCLUSIVE,
     EXCLUSIVE,
@@ -410,9 +407,7 @@ public final class DerivedCollectionGenerators {
       return createSubSet(map, firstExclusive, lastExclusive);
     }
 
-    /**
-     * Calls the smallest subSet overload that filters out the extreme values.
-     */
+    /** Calls the smallest subSet overload that filters out the extreme values. */
     SortedSet<E> createSubSet(SortedSet<E> set, E firstExclusive, E lastExclusive) {
       if (from == Bound.NO_BOUND && to == Bound.EXCLUSIVE) {
         return set.headSet(lastExclusive);

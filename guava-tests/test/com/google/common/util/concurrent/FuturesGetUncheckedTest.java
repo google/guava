@@ -34,9 +34,7 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.Future;
 import junit.framework.TestCase;
 
-/**
- * Unit tests for {@link Futures#getUnchecked(Future)}.
- */
+/** Unit tests for {@link Futures#getUnchecked(Future)}. */
 @GwtCompatible(emulated = true)
 public class FuturesGetUncheckedTest extends TestCase {
   public void testGetUnchecked_success() {

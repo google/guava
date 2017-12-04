@@ -24,9 +24,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * A simplistic set which implements the bare minimum so that it can be used in
- * tests without relying on any specific Set implementations. Slow. Explicitly
- * allows null elements so that they can be used in the testers.
+ * A simplistic set which implements the bare minimum so that it can be used in tests without
+ * relying on any specific Set implementations. Slow. Explicitly allows null elements so that they
+ * can be used in the testers.
  *
  * @author Regina O'Dell
  */

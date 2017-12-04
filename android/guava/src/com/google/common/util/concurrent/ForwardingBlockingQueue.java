@@ -32,7 +32,6 @@ import java.util.concurrent.TimeUnit;
  * invoke methods, they invoke methods on the {@code ForwardingBlockingQueue}.
  *
  * @author Raimundo Mirisola
- *
  * @param <E> the type of elements held in this collection
  * @since 4.0
  */

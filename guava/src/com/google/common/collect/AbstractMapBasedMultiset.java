@@ -36,11 +36,10 @@ import java.util.function.ObjIntConsumer;
 import javax.annotation.Nullable;
 
 /**
- * Basic implementation of {@code Multiset<E>} backed by an instance of {@code
- * Map<E, Count>}.
+ * Basic implementation of {@code Multiset<E>} backed by an instance of {@code Map<E, Count>}.
  *
- * <p>For serialization to work, the subclass must specify explicit {@code
- * readObject} and {@code writeObject} methods.
+ * <p>For serialization to work, the subclass must specify explicit {@code readObject} and {@code
+ * writeObject} methods.
  *
  * @author Kevin Bourrillion
  */
@@ -72,9 +71,9 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E> implement
   /**
    * {@inheritDoc}
    *
-   * <p>Invoking {@link Multiset.Entry#getCount} on an entry in the returned
-   * set always returns the current count of that element in the multiset, as
-   * opposed to the count at the time the entry was retrieved.
+   * <p>Invoking {@link Multiset.Entry#getCount} on an entry in the returned set always returns the
+   * current count of that element in the multiset, as opposed to the count at the time the entry
+   * was retrieved.
    */
   @Override
   public Set<Multiset.Entry<E>> entrySet() {
@@ -126,7 +125,8 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E> implement
     };
   }
 
-  @Override public void forEachEntry(ObjIntConsumer<? super E> action) {
+  @Override
+  public void forEachEntry(ObjIntConsumer<? super E> action) {
     checkNotNull(action);
     backingMap.forEach((element, count) -> action.accept(element, count.get()));
   }
@@ -214,9 +214,8 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E> implement
   /**
    * {@inheritDoc}
    *
-   * @throws IllegalArgumentException if the call would result in more than
-   *     {@link Integer#MAX_VALUE} occurrences of {@code element} in this
-   *     multiset.
+   * @throws IllegalArgumentException if the call would result in more than {@link
+   *     Integer#MAX_VALUE} occurrences of {@code element} in this multiset.
    */
   @CanIgnoreReturnValue
   @Override

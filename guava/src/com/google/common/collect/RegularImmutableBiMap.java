@@ -49,8 +49,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
   private final transient ImmutableMapEntry<K, V>[] keyTable;
   private final transient ImmutableMapEntry<K, V>[] valueTable;
-  @VisibleForTesting
-  final transient Entry<K, V>[] entries;
+  @VisibleForTesting final transient Entry<K, V>[] entries;
   private final transient int mask;
   private final transient int hashCode;
 
@@ -179,9 +178,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     return entries.length;
   }
 
-  @LazyInit
-  @RetainedWith
-  private transient ImmutableBiMap<V, K> inverse;
+  @LazyInit @RetainedWith private transient ImmutableBiMap<V, K> inverse;
 
   @Override
   public ImmutableBiMap<V, K> inverse() {

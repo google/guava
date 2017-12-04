@@ -38,55 +38,65 @@ import junit.framework.TestSuite;
  * @author Louis Wasserman
  */
 public class ForwardingCollectionTest extends TestCase {
-  static final class StandardImplForwardingCollection<T>
-      extends ForwardingCollection<T> {
+  static final class StandardImplForwardingCollection<T> extends ForwardingCollection<T> {
     private final Collection<T> backingCollection;
 
     StandardImplForwardingCollection(Collection<T> backingCollection) {
       this.backingCollection = backingCollection;
     }
 
-    @Override protected Collection<T> delegate() {
+    @Override
+    protected Collection<T> delegate() {
       return backingCollection;
     }
 
-    @Override public boolean addAll(Collection<? extends T> collection) {
+    @Override
+    public boolean addAll(Collection<? extends T> collection) {
       return standardAddAll(collection);
     }
 
-    @Override public void clear() {
+    @Override
+    public void clear() {
       standardClear();
     }
 
-    @Override public boolean contains(Object object) {
+    @Override
+    public boolean contains(Object object) {
       return standardContains(object);
     }
 
-    @Override public boolean containsAll(Collection<?> collection) {
+    @Override
+    public boolean containsAll(Collection<?> collection) {
       return standardContainsAll(collection);
     }
 
-    @Override public boolean remove(Object object) {
+    @Override
+    public boolean remove(Object object) {
       return standardRemove(object);
     }
 
-    @Override public boolean removeAll(Collection<?> collection) {
+    @Override
+    public boolean removeAll(Collection<?> collection) {
       return standardRemoveAll(collection);
     }
 
-    @Override public boolean retainAll(Collection<?> collection) {
+    @Override
+    public boolean retainAll(Collection<?> collection) {
       return standardRetainAll(collection);
     }
 
-    @Override public Object[] toArray() {
+    @Override
+    public Object[] toArray() {
       return standardToArray();
     }
 
-    @Override public <T> T[] toArray(T[] array) {
+    @Override
+    public <T> T[] toArray(T[] array) {
       return standardToArray(array);
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return standardToString();
     }
   }
@@ -128,16 +138,20 @@ public class ForwardingCollectionTest extends TestCase {
   @SuppressWarnings({"rawtypes", "unchecked"})
   public void testForwarding() {
     new ForwardingWrapperTester()
-        .testForwarding(Collection.class, new Function<Collection, Collection>() {
-          @Override public Collection apply(Collection delegate) {
-            return wrap(delegate);
-          }
-        });
+        .testForwarding(
+            Collection.class,
+            new Function<Collection, Collection>() {
+              @Override
+              public Collection apply(Collection delegate) {
+                return wrap(delegate);
+              }
+            });
   }
 
   private static <T> Collection<T> wrap(final Collection<T> delegate) {
     return new ForwardingCollection<T>() {
-      @Override protected Collection<T> delegate() {
+      @Override
+      protected Collection<T> delegate() {
         return delegate;
       }
     };

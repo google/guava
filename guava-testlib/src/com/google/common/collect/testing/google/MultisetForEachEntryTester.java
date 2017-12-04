@@ -25,8 +25,8 @@ import com.google.common.collect.Multisets;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -64,9 +64,8 @@ public class MultisetForEachEntryTester<E> extends AbstractMultisetTester<E> {
   }
 
   /**
-   * Returns {@link Method} instances for the remove tests that assume multisets
-   * support duplicates so that the test of {@code Multisets.forSet()} can
-   * suppress them.
+   * Returns {@link Method} instances for the remove tests that assume multisets support duplicates
+   * so that the test of {@code Multisets.forSet()} can suppress them.
    */
   @GwtIncompatible // reflection
   public static List<Method> getForEachEntryDuplicateInitializingMethods() {

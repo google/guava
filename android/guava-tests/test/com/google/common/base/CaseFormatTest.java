@@ -212,8 +212,7 @@ public class CaseFormatTest extends TestCase {
 
   public void testConverter_toString() {
     assertEquals(
-        "LOWER_HYPHEN.converterTo(UPPER_CAMEL)",
-        LOWER_HYPHEN.converterTo(UPPER_CAMEL).toString());
+        "LOWER_HYPHEN.converterTo(UPPER_CAMEL)", LOWER_HYPHEN.converterTo(UPPER_CAMEL).toString());
   }
 
   public void testConverter_serialization() {

@@ -20,9 +20,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import java.util.List;
 
-/**
- * Parser for a map of reversed domain names stored as a serialized radix tree.
- */
+/** Parser for a map of reversed domain names stored as a serialized radix tree. */
 @GwtCompatible
 final class TrieParser {
 

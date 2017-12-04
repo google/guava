@@ -79,7 +79,7 @@ public interface CheckedFuture<V, X extends Exception> extends ListenableFuture<
   /**
    * Exception checking version of {@link Future#get(long, TimeUnit)} that will translate {@link
    * InterruptedException}, {@link CancellationException} and {@link ExecutionException} into
-   * application-specific exceptions.  On timeout this method throws a normal {@link
+   * application-specific exceptions. On timeout this method throws a normal {@link
    * TimeoutException}.
    *
    * @return the result of executing the future.

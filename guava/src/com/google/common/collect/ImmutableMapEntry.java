@@ -22,22 +22,21 @@ import com.google.common.annotations.GwtIncompatible;
 import javax.annotation.Nullable;
 
 /**
- * Implementation of {@code Entry} for {@link ImmutableMap} that adds extra methods to traverse
- * hash buckets for the key and the value. This allows reuse in {@link RegularImmutableMap} and
- * {@link RegularImmutableBiMap}, which don't have to recopy the entries created by their
- * {@code Builder} implementations.
+ * Implementation of {@code Entry} for {@link ImmutableMap} that adds extra methods to traverse hash
+ * buckets for the key and the value. This allows reuse in {@link RegularImmutableMap} and {@link
+ * RegularImmutableBiMap}, which don't have to recopy the entries created by their {@code Builder}
+ * implementations.
  *
- * <p>This base implementation has no key or value pointers, so instances of ImmutableMapEntry
- * (but not its subclasses) can be reused when copied from one ImmutableMap to another.
+ * <p>This base implementation has no key or value pointers, so instances of ImmutableMapEntry (but
+ * not its subclasses) can be reused when copied from one ImmutableMap to another.
  *
  * @author Louis Wasserman
  */
 @GwtIncompatible // unnecessary
 class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
   /**
-   * Creates an {@code ImmutableMapEntry} array to hold parameterized entries. The
-   * result must never be upcast back to ImmutableMapEntry[] (or Object[], etc.), or
-   * allowed to escape the class.
+   * Creates an {@code ImmutableMapEntry} array to hold parameterized entries. The result must never
+   * be upcast back to ImmutableMapEntry[] (or Object[], etc.), or allowed to escape the class.
    */
   @SuppressWarnings("unchecked") // Safe as long as the javadocs are followed
   static <K, V> ImmutableMapEntry<K, V>[] createEntryArray(int size) {
@@ -65,8 +64,8 @@ class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
   }
 
   /**
-   * Returns true if this entry has no bucket links and can safely be reused as a terminal
-   * entry in a bucket in another map.
+   * Returns true if this entry has no bucket links and can safely be reused as a terminal entry in
+   * a bucket in another map.
    */
   boolean isReusable() {
     return true;

@@ -26,8 +26,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * An implementation of {@link ImmutableTable} holding an arbitrary number of
- * cells.
+ * An implementation of {@link ImmutableTable} holding an arbitrary number of cells.
  *
  * @author Gregory Kick
  */

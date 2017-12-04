@@ -22,9 +22,7 @@ import com.google.common.annotations.GwtCompatible;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
-/**
- * Unit test for {@link com.google.common.base.Verify}.
- */
+/** Unit test for {@link com.google.common.base.Verify}. */
 @GwtCompatible
 public class VerifyTest extends TestCase {
   public void testVerify_simple_success() {
@@ -94,11 +92,13 @@ public class VerifyTest extends TestCase {
     }
   }
 
-  private static final Object IGNORE_ME = new Object() {
-    @Override public String toString() {
-      throw new AssertionFailedError();
-    }
-  };
+  private static final Object IGNORE_ME =
+      new Object() {
+        @Override
+        public String toString() {
+          throw new AssertionFailedError();
+        }
+      };
 
   private static final String FORMAT = "I ate %s pies.";
 

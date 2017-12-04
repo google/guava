@@ -20,7 +20,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-
 import javax.annotation.Nullable;
 
 public class SynchronizedTableTest extends AbstractTableTest {

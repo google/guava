@@ -285,12 +285,12 @@ public final class Graphs {
 
     @Override
     public int inDegree(N node) {
-      return delegate().outDegree(node);  // transpose
+      return delegate().outDegree(node); // transpose
     }
 
     @Override
     public int outDegree(N node) {
-      return delegate().inDegree(node);  // transpose
+      return delegate().inDegree(node); // transpose
     }
 
     @Override
@@ -341,12 +341,12 @@ public final class Graphs {
 
     @Override
     public int inDegree(N node) {
-      return delegate().outDegree(node);  // transpose
+      return delegate().outDegree(node); // transpose
     }
 
     @Override
     public int outDegree(N node) {
-      return delegate().inDegree(node);  // transpose
+      return delegate().inDegree(node); // transpose
     }
 
     @Override
@@ -406,12 +406,12 @@ public final class Graphs {
 
     @Override
     public int inDegree(N node) {
-      return delegate().outDegree(node);  // transpose
+      return delegate().outDegree(node); // transpose
     }
 
     @Override
     public int outDegree(N node) {
-      return delegate().inDegree(node);  // transpose
+      return delegate().inDegree(node); // transpose
     }
 
     @Override
@@ -461,9 +461,10 @@ public final class Graphs {
    * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
    */
   public static <N> MutableGraph<N> inducedSubgraph(Graph<N> graph, Iterable<? extends N> nodes) {
-    MutableGraph<N> subgraph = (nodes instanceof Collection)
-        ? GraphBuilder.from(graph).expectedNodeCount(((Collection) nodes).size()).build()
-        : GraphBuilder.from(graph).build();
+    MutableGraph<N> subgraph =
+        (nodes instanceof Collection)
+            ? GraphBuilder.from(graph).expectedNodeCount(((Collection) nodes).size()).build()
+            : GraphBuilder.from(graph).build();
     for (N node : nodes) {
       subgraph.addNode(node);
     }
@@ -487,9 +488,10 @@ public final class Graphs {
    */
   public static <N, V> MutableValueGraph<N, V> inducedSubgraph(
       ValueGraph<N, V> graph, Iterable<? extends N> nodes) {
-    MutableValueGraph<N, V> subgraph = (nodes instanceof Collection)
-        ? ValueGraphBuilder.from(graph).expectedNodeCount(((Collection) nodes).size()).build()
-        : ValueGraphBuilder.from(graph).build();
+    MutableValueGraph<N, V> subgraph =
+        (nodes instanceof Collection)
+            ? ValueGraphBuilder.from(graph).expectedNodeCount(((Collection) nodes).size()).build()
+            : ValueGraphBuilder.from(graph).build();
     for (N node : nodes) {
       subgraph.addNode(node);
     }
@@ -514,9 +516,10 @@ public final class Graphs {
    */
   public static <N, E> MutableNetwork<N, E> inducedSubgraph(
       Network<N, E> network, Iterable<? extends N> nodes) {
-    MutableNetwork<N, E> subgraph = (nodes instanceof Collection)
-        ? NetworkBuilder.from(network).expectedNodeCount(((Collection) nodes).size()).build()
-        : NetworkBuilder.from(network).build();
+    MutableNetwork<N, E> subgraph =
+        (nodes instanceof Collection)
+            ? NetworkBuilder.from(network).expectedNodeCount(((Collection) nodes).size()).build()
+            : NetworkBuilder.from(network).build();
     for (N node : nodes) {
       subgraph.addNode(node);
     }

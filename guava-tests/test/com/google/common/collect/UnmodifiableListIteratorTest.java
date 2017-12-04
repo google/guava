@@ -37,7 +37,8 @@ public class UnmodifiableListIteratorTest extends TestCase {
     try {
       iterator.remove();
       fail();
-    } catch (UnsupportedOperationException expected) {}
+    } catch (UnsupportedOperationException expected) {
+    }
   }
 
   public void testAdd() {
@@ -50,7 +51,8 @@ public class UnmodifiableListIteratorTest extends TestCase {
     try {
       iterator.add("c");
       fail();
-    } catch (UnsupportedOperationException expected) {}
+    } catch (UnsupportedOperationException expected) {
+    }
   }
 
   public void testSet() {
@@ -63,7 +65,8 @@ public class UnmodifiableListIteratorTest extends TestCase {
     try {
       iterator.set("c");
       fail();
-    } catch (UnsupportedOperationException expected) {}
+    } catch (UnsupportedOperationException expected) {
+    }
   }
 
   UnmodifiableListIterator<String> create() {
@@ -71,10 +74,12 @@ public class UnmodifiableListIteratorTest extends TestCase {
 
     return new UnmodifiableListIterator<String>() {
       int i;
+
       @Override
       public boolean hasNext() {
         return i < array.length;
       }
+
       @Override
       public String next() {
         if (!hasNext()) {
@@ -82,20 +87,28 @@ public class UnmodifiableListIteratorTest extends TestCase {
         }
         return array[i++];
       }
-      @Override public boolean hasPrevious() {
+
+      @Override
+      public boolean hasPrevious() {
         return i > 0;
       }
-      @Override public int nextIndex() {
+
+      @Override
+      public int nextIndex() {
         return i;
       }
-      @Override public String previous() {
+
+      @Override
+      public String previous() {
         if (!hasPrevious()) {
           throw new NoSuchElementException();
         }
         return array[--i];
       }
-      @Override public int previousIndex() {
-        return i-1;
+
+      @Override
+      public int previousIndex() {
+        return i - 1;
       }
     };
   }

@@ -29,16 +29,19 @@ import java.util.Set;
  * @author Kevin Bourrillion
  */
 public class PowerSetBenchmark {
-  @Param({"2", "4", "8", "16"}) int elements;
+  @Param({"2", "4", "8", "16"})
+  int elements;
 
   Set<Set<Integer>> powerSet;
 
-  @BeforeExperiment void setUp() {
+  @BeforeExperiment
+  void setUp() {
     Set<Integer> set = ContiguousSet.create(Range.closed(1, elements), integers());
     powerSet = Sets.powerSet(set);
   }
 
-  @Benchmark int iteration(int reps) {
+  @Benchmark
+  int iteration(int reps) {
     int sum = 0;
     for (int i = 0; i < reps; i++) {
       for (Set<Integer> subset : powerSet) {

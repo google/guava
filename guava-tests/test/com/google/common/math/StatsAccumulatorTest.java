@@ -53,11 +53,10 @@ import com.google.common.primitives.Longs;
 import junit.framework.TestCase;
 
 /**
- * Tests for {@link StatsAccumulator}. This tests the stats methods for instances built with
- * {@link StatsAccumulator#add} and {@link StatsAccumulator#addAll}, and various error cases of the
- * {@link StatsAccumulator#add} and {@link StatsAccumulator#addAll} methods. For tests of the
- * {@link StatsAccumulator#snapshot} method which returns {@link Stats} instances, see
- * {@link StatsTest}.
+ * Tests for {@link StatsAccumulator}. This tests the stats methods for instances built with {@link
+ * StatsAccumulator#add} and {@link StatsAccumulator#addAll}, and various error cases of the {@link
+ * StatsAccumulator#add} and {@link StatsAccumulator#addAll} methods. For tests of the {@link
+ * StatsAccumulator#snapshot} method which returns {@link Stats} instances, see {@link StatsTest}.
  *
  * @author Pete Gillin
  */

@@ -31,8 +31,7 @@ import java.util.SortedSet;
 import javax.annotation.Nullable;
 
 /**
- * Provides static utility methods for creating and working with
- * {@link SortedMultiset} instances.
+ * Provides static utility methods for creating and working with {@link SortedMultiset} instances.
  *
  * @author Louis Wasserman
  */
@@ -40,9 +39,7 @@ import javax.annotation.Nullable;
 final class SortedMultisets {
   private SortedMultisets() {}
 
-  /**
-   * A skeleton implementation for {@link SortedMultiset#elementSet}.
-   */
+  /** A skeleton implementation for {@link SortedMultiset#elementSet}. */
   static class ElementSet<E> extends Multisets.ElementSet<E> implements SortedSet<E> {
     @Weak private final SortedMultiset<E> multiset;
 
@@ -86,9 +83,7 @@ final class SortedMultisets {
     }
   }
 
-  /**
-   * A skeleton navigable implementation for {@link SortedMultiset#elementSet}.
-   */
+  /** A skeleton navigable implementation for {@link SortedMultiset#elementSet}. */
   @GwtIncompatible // Navigable
   static class NavigableElementSet<E> extends ElementSet<E> implements NavigableSet<E> {
     NavigableElementSet(SortedMultiset<E> multiset) {

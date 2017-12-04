@@ -22,9 +22,8 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Iterator;
 
 /**
- * An iterator that transforms a backing iterator; for internal use. This avoids
- * the object overhead of constructing a {@link com.google.common.base.Function
- * Function} for internal methods.
+ * An iterator that transforms a backing iterator; for internal use. This avoids the object overhead
+ * of constructing a {@link com.google.common.base.Function Function} for internal methods.
  *
  * @author Louis Wasserman
  */

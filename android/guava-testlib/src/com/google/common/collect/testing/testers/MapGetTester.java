@@ -27,9 +27,8 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 
 /**
- * A generic JUnit test which tests {@code get} operations on a map. Can't be
- * invoked directly; please see
- * {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code get} operations on a map. Can't be invoked directly;
+ * please see {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
  *
  * @author Kevin Bourrillion
  * @author Chris Povirk

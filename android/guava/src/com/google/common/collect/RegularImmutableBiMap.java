@@ -31,8 +31,7 @@ final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   static final RegularImmutableBiMap<Object, Object> EMPTY = new RegularImmutableBiMap<>();
 
   private final transient int[] keyHashTable;
-  @VisibleForTesting
-  final transient Object[] alternatingKeysAndValues;
+  @VisibleForTesting final transient Object[] alternatingKeysAndValues;
   private final transient int keyOffset; // 0 for K-to-V, 1 for V-to-K
   private final transient int size;
   private final transient RegularImmutableBiMap<V, K> inverse;
@@ -53,7 +52,7 @@ final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     this.size = size;
     this.keyOffset = 0;
     int tableSize = (size >= 2) ? ImmutableSet.chooseTableSize(size) : 0;
-    this.keyHashTable = 
+    this.keyHashTable =
         RegularImmutableMap.createHashTable(alternatingKeysAndValues, size, tableSize, 0);
     int[] valueHashTable =
         RegularImmutableMap.createHashTable(alternatingKeysAndValues, size, tableSize, 1);

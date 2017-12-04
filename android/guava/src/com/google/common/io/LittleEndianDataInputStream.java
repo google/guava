@@ -28,11 +28,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * An implementation of {@link DataInput} that uses little-endian byte ordering for reading
- * {@code short}, {@code int}, {@code float}, {@code double}, and {@code long} values.
+ * An implementation of {@link DataInput} that uses little-endian byte ordering for reading {@code
+ * short}, {@code int}, {@code float}, {@code double}, and {@code long} values.
  *
- * <p><b>Note:</b> This class intentionally violates the specification of its supertype
- * {@code DataInput}, which explicitly requires big-endian byte order.
+ * <p><b>Note:</b> This class intentionally violates the specification of its supertype {@code
+ * DataInput}, which explicitly requires big-endian byte order.
  *
  * @author Chris Nokleberg
  * @author Keith Bottner
@@ -51,9 +51,7 @@ public final class LittleEndianDataInputStream extends FilterInputStream impleme
     super(Preconditions.checkNotNull(in));
   }
 
-  /**
-   * This method will throw an {@link UnsupportedOperationException}.
-   */
+  /** This method will throw an {@link UnsupportedOperationException}. */
   @CanIgnoreReturnValue // to skip a line
   @Override
   public String readLine() {

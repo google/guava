@@ -38,8 +38,8 @@ import javax.annotation.Nullable;
  * <ul>
  *   <li>All the many well-known advantages of immutability (read <i>Effective Java</i>, second
  *       edition, Item 15).
- *   <li>Has the value-based (not identity-based) {@link #equals}, {@link #hashCode}, and
- *       {@link #toString} behavior you expect
+ *   <li>Has the value-based (not identity-based) {@link #equals}, {@link #hashCode}, and {@link
+ *       #toString} behavior you expect
  *   <li>Offers useful operations beyond just {@code get} and {@code length}, so you don't have to
  *       hunt through classes like {@link Arrays} and {@link Ints} for them.
  *   <li>Supports a copy-free {@link #subArray} view, so methods that accept this type don't need to
@@ -279,8 +279,8 @@ public final class ImmutableIntArray implements Serializable {
     }
 
     /**
-     * Returns a new immutable array. The builder can continue to be used after this call, to
-     * append more values and build again.
+     * Returns a new immutable array. The builder can continue to be used after this call, to append
+     * more values and build again.
      *
      * <p><b>Performance note:</b> the returned array is backed by the same array as the builder, so
      * no data is copied as part of this step, but this may occupy more memory than strictly

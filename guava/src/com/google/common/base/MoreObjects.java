@@ -22,12 +22,12 @@ import java.util.Arrays;
 import javax.annotation.Nullable;
 
 /**
- * Helper functions that operate on any {@code Object}, and are not already provided in
- * {@link java.util.Objects}.
+ * Helper functions that operate on any {@code Object}, and are not already provided in {@link
+ * java.util.Objects}.
  *
- * <p>See the Guava User Guide on
- * <a href="https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained">writing
- * {@code Object} methods with {@code MoreObjects}</a>.
+ * <p>See the Guava User Guide on <a
+ * href="https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained">writing {@code Object}
+ * methods with {@code MoreObjects}</a>.
  *
  * @author Laurence Gonsalves
  * @since 18.0 (since 2.0 as {@code Objects})
@@ -38,10 +38,9 @@ public final class MoreObjects {
    * Returns the first of two given parameters that is not {@code null}, if either is, or otherwise
    * throws a {@link NullPointerException}.
    *
-   * <p>To find the first non-null element in an iterable, use {@code
-   * Iterables.find(iterable, Predicates.notNull())}. For varargs, use {@code
-   * Iterables.find(Arrays.asList(a, b, c, ...), Predicates.notNull())}, static importing as
-   * necessary.
+   * <p>To find the first non-null element in an iterable, use {@code Iterables.find(iterable,
+   * Predicates.notNull())}. For varargs, use {@code Iterables.find(Arrays.asList(a, b, c, ...),
+   * Predicates.notNull())}, static importing as necessary.
    *
    * <p><b>Note:</b> if {@code first} is represented as an {@link Optional}, this can be
    * accomplished with {@link Optional#or(Object) first.or(second)}. That approach also allows for
@@ -107,8 +106,8 @@ public final class MoreObjects {
   }
 
   /**
-   * Creates an instance of {@link ToStringHelper} in the same manner as
-   * {@link #toStringHelper(Object)}, but using the simple name of {@code clazz} instead of using an
+   * Creates an instance of {@link ToStringHelper} in the same manner as {@link
+   * #toStringHelper(Object)}, but using the simple name of {@code clazz} instead of using an
    * instance's {@link Object#getClass()}.
    *
    * <p>Note that in GWT, class names are often obfuscated.
@@ -121,9 +120,9 @@ public final class MoreObjects {
   }
 
   /**
-   * Creates an instance of {@link ToStringHelper} in the same manner as
-   * {@link #toStringHelper(Object)}, but using {@code className} instead of using an instance's
-   * {@link Object#getClass()}.
+   * Creates an instance of {@link ToStringHelper} in the same manner as {@link
+   * #toStringHelper(Object)}, but using {@code className} instead of using an instance's {@link
+   * Object#getClass()}.
    *
    * @param className the name of the instance type
    * @since 18.0 (since 7.0 as {@code Objects.toStringHelper()}).
@@ -144,9 +143,7 @@ public final class MoreObjects {
     private ValueHolder holderTail = holderHead;
     private boolean omitNullValues = false;
 
-    /**
-     * Use {@link MoreObjects#toStringHelper(Object)} to create an instance.
-     */
+    /** Use {@link MoreObjects#toStringHelper(Object)} to create an instance. */
     private ToStringHelper(String className) {
       this.className = checkNotNull(className);
     }
@@ -380,12 +377,9 @@ public final class MoreObjects {
     }
 
     private static final class ValueHolder {
-      @Nullable
-      String name;
-      @Nullable
-      Object value;
-      @Nullable
-      ValueHolder next;
+      @Nullable String name;
+      @Nullable Object value;
+      @Nullable ValueHolder next;
     }
   }
 

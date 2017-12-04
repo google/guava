@@ -80,7 +80,7 @@ public class HashingInputStreamTest extends TestCase {
     for (int i = 0; i < numOfByteRead; i++) {
       assertEquals(testBytes[i], buf[i]);
     }
-    
+
     verify(hasher).putBytes(Arrays.copyOf(testBytes, 3), 0, 3);
     verify(hashFunction).newHasher();
     verifyNoMoreInteractions(hashFunction, hasher);

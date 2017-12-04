@@ -31,16 +31,15 @@ import java.util.Set;
 /**
  * Implementation of {@link Multimap} using hash tables.
  *
- * <p>The multimap does not store duplicate key-value pairs. Adding a new
- * key-value pair equal to an existing key-value pair has no effect.
+ * <p>The multimap does not store duplicate key-value pairs. Adding a new key-value pair equal to an
+ * existing key-value pair has no effect.
  *
- * <p>Keys and values may be null. All optional multimap methods are supported,
- * and all returned views are modifiable.
+ * <p>Keys and values may be null. All optional multimap methods are supported, and all returned
+ * views are modifiable.
  *
- * <p>This class is not threadsafe when any concurrent operations update the
- * multimap. Concurrent read operations will work correctly. To allow concurrent
- * update operations, wrap your multimap with a call to {@link
- * Multimaps#synchronizedSetMultimap}.
+ * <p>This class is not threadsafe when any concurrent operations update the multimap. Concurrent
+ * read operations will work correctly. To allow concurrent update operations, wrap your multimap
+ * with a call to {@link Multimaps#synchronizedSetMultimap}.
  *
  * @author Jared Levy
  * @since 2.0
@@ -119,9 +118,8 @@ public final class HashMultimap<K, V> extends HashMultimapGwtSerializationDepend
   }
 
   /**
-   * @serialData expectedValuesPerKey, number of distinct keys, and then for
-   *     each distinct key: the key, number of values for that key, and the
-   *     key's values
+   * @serialData expectedValuesPerKey, number of distinct keys, and then for each distinct key: the
+   *     key, number of values for that key, and the key's values
    */
   @GwtIncompatible // java.io.ObjectOutputStream
   private void writeObject(ObjectOutputStream stream) throws IOException {

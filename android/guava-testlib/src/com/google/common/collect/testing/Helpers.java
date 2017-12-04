@@ -339,13 +339,12 @@ public class Helpers {
   }
 
   /**
-   * Returns a collection that simulates concurrent modification by
-   * having its size method return incorrect values.  This is useful
-   * for testing methods that must treat the return value from size()
-   * as a hint only.
+   * Returns a collection that simulates concurrent modification by having its size method return
+   * incorrect values. This is useful for testing methods that must treat the return value from
+   * size() as a hint only.
    *
-   * @param delta the difference between the true size of the
-   * collection and the values returned by the size method
+   * @param delta the difference between the true size of the collection and the values returned by
+   *     the size method
    */
   public static <T> Collection<T> misleadingSizeCollection(final int delta) {
     // It would be nice to be able to return a real concurrent
@@ -360,12 +359,10 @@ public class Helpers {
   }
 
   /**
-   * Returns a "nefarious" map entry with the specified key and value,
-   * meaning an entry that is suitable for testing that map entries cannot be
-   * modified via a nefarious implementation of equals. This is used for testing
-   * unmodifiable collections of map entries; for example, it should not be
-   * possible to access the raw (modifiable) map entry via a nefarious equals
-   * method.
+   * Returns a "nefarious" map entry with the specified key and value, meaning an entry that is
+   * suitable for testing that map entries cannot be modified via a nefarious implementation of
+   * equals. This is used for testing unmodifiable collections of map entries; for example, it
+   * should not be possible to access the raw (modifiable) map entry via a nefarious equals method.
    */
   public static <K, V> Entry<K, V> nefariousMapEntry(final K key, final V value) {
     return new Entry<K, V>() {

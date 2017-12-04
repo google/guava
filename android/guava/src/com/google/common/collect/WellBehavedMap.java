@@ -23,11 +23,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Workaround for
- * <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6312706">
- * EnumMap bug</a>. If you want to pass an {@code EnumMap}, with the
- * intention of using its {@code entrySet()} method, you should
- * wrap the {@code EnumMap} in this class instead.
+ * Workaround for <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6312706">EnumMap
+ * bug</a>. If you want to pass an {@code EnumMap}, with the intention of using its {@code
+ * entrySet()} method, you should wrap the {@code EnumMap} in this class instead.
  *
  * <p>This class is not thread-safe even if the underlying map is.
  *
@@ -43,10 +41,9 @@ final class WellBehavedMap<K, V> extends ForwardingMap<K, V> {
   }
 
   /**
-   * Wraps the given map into a {@code WellBehavedEntriesMap}, which
-   * intercepts its {@code entrySet()} method by taking the
-   * {@code Set<K> keySet()} and transforming it to
-   * {@code Set<Entry<K, V>>}. All other invocations are delegated as-is.
+   * Wraps the given map into a {@code WellBehavedEntriesMap}, which intercepts its {@code
+   * entrySet()} method by taking the {@code Set<K> keySet()} and transforming it to {@code
+   * Set<Entry<K, V>>}. All other invocations are delegated as-is.
    */
   static <K, V> WellBehavedMap<K, V> wrap(Map<K, V> delegate) {
     return new WellBehavedMap<>(delegate);

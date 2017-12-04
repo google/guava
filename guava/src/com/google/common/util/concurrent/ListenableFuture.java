@@ -25,21 +25,21 @@ import java.util.concurrent.RejectedExecutionException;
  * complete}. If the computation has already completed when the listener is added, the listener will
  * execute immediately.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/ListenableFutureExplained">
- * {@code ListenableFuture}</a>.
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/ListenableFutureExplained">{@code
+ * ListenableFuture}</a>.
  *
  * <h3>Purpose</h3>
  *
  * <p>The main purpose of {@code ListenableFuture} is to help you chain together a graph of
- * asynchronous operations. You can chain them together manually with calls to methods like
- * {@link Futures#transform(ListenableFuture, com.google.common.base.Function, Executor)
+ * asynchronous operations. You can chain them together manually with calls to methods like {@link
+ * Futures#transform(ListenableFuture, com.google.common.base.Function, Executor)
  * Futures.transform}, but you will often find it easier to use a framework. Frameworks automate the
  * process, often adding features like monitoring, debugging, and cancellation. Examples of
  * frameworks include:
  *
  * <ul>
- * <li><a href="http://google.github.io/dagger/producers.html">Dagger Producers</a>
+ *   <li><a href="http://google.github.io/dagger/producers.html">Dagger Producers</a>
  * </ul>
  *
  * <p>The main purpose of {@link #addListener addListener} is to support this chaining. You will
@@ -47,18 +47,19 @@ import java.util.concurrent.RejectedExecutionException;
  * result. (If you want such access, you may prefer {@link Futures#addCallback
  * Futures.addCallback}.) Still, direct {@code addListener} calls are occasionally useful:
  *
- * <pre>   {@code
- *   final String name = ...;
- *   inFlight.add(name);
- *   ListenableFuture<Result> future = service.query(name);
- *   future.addListener(new Runnable() {
- *     public void run() {
- *       processedCount.incrementAndGet();
- *       inFlight.remove(name);
- *       lastProcessed.set(name);
- *       logger.info("Done with {0}", name);
- *     }
- *   }, executor);}</pre>
+ * <pre>{@code
+ * final String name = ...;
+ * inFlight.add(name);
+ * ListenableFuture<Result> future = service.query(name);
+ * future.addListener(new Runnable() {
+ *   public void run() {
+ *     processedCount.incrementAndGet();
+ *     inFlight.remove(name);
+ *     lastProcessed.set(name);
+ *     logger.info("Done with {0}", name);
+ *   }
+ * }, executor);
+ * }</pre>
  *
  * <h3>How to get an instance</h3>
  *
@@ -66,14 +67,15 @@ import java.util.concurrent.RejectedExecutionException;
  * take advantage of the {@linkplain Futures utilities built atop the class}. The way that you will
  * create {@code ListenableFuture} instances depends on how you currently create {@code Future}
  * instances:
+ *
  * <ul>
- * <li>If you receive them from an {@code java.util.concurrent.ExecutorService}, convert that
- *     service to a {@link ListeningExecutorService}, usually by calling
- *     {@link MoreExecutors#listeningDecorator(java.util.concurrent.ExecutorService)
- *     MoreExecutors.listeningDecorator}.
- * <li>If you manually call {@link java.util.concurrent.FutureTask#set} or a similar method, create
- *     a {@link SettableFuture} instead. (If your needs are more complex, you may prefer
- *     {@link AbstractFuture}.)
+ *   <li>If you receive them from an {@code java.util.concurrent.ExecutorService}, convert that
+ *       service to a {@link ListeningExecutorService}, usually by calling {@link
+ *       MoreExecutors#listeningDecorator(java.util.concurrent.ExecutorService)
+ *       MoreExecutors.listeningDecorator}.
+ *   <li>If you manually call {@link java.util.concurrent.FutureTask#set} or a similar method,
+ *       create a {@link SettableFuture} instead. (If your needs are more complex, you may prefer
+ *       {@link AbstractFuture}.)
  * </ul>
  *
  * <p><b>Test doubles</b>: If you need a {@code ListenableFuture} for your test, try a {@link
@@ -116,13 +118,13 @@ public interface ListenableFuture<V> extends Future<V> {
    * depend on timing. For example:
    *
    * <ul>
-   * <li>The listener may be executed by the caller of {@code addListener}. That caller may be a UI
-   * thread or other latency-sensitive thread. This can harm UI responsiveness.
-   * <li>The listener may be executed by the thread that completes this {@code Future}. That thread
-   * may be an internal system thread such as an RPC network thread. Blocking that thread may stall
-   * progress of the whole system. It may even cause a deadlock.
-   * <li>The listener may delay other listeners, even listeners that are not themselves {@code
-   * directExecutor} listeners.
+   *   <li>The listener may be executed by the caller of {@code addListener}. That caller may be a
+   *       UI thread or other latency-sensitive thread. This can harm UI responsiveness.
+   *   <li>The listener may be executed by the thread that completes this {@code Future}. That
+   *       thread may be an internal system thread such as an RPC network thread. Blocking that
+   *       thread may stall progress of the whole system. It may even cause a deadlock.
+   *   <li>The listener may delay other listeners, even listeners that are not themselves {@code
+   *       directExecutor} listeners.
    * </ul>
    *
    * <p>This is the most general listener interface. For common operations performed using

@@ -32,9 +32,7 @@ public final class Runnables {
         public void run() {}
       };
 
-  /**
-   * Returns a {@link Runnable} instance that does nothing when run.
-   */
+  /** Returns a {@link Runnable} instance that does nothing when run. */
   public static Runnable doNothing() {
     return EMPTY_RUNNABLE;
   }

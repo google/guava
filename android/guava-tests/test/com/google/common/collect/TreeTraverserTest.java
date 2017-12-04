@@ -45,10 +45,8 @@ public class TreeTraverserTest extends TestCase {
 
   private static final class BinaryTree {
     final char value;
-    @Nullable
-    final BinaryTree left;
-    @Nullable
-    final BinaryTree right;
+    @Nullable final BinaryTree left;
+    @Nullable final BinaryTree right;
 
     private BinaryTree(char value, BinaryTree left, BinaryTree right) {
       this.value = value;
@@ -57,12 +55,13 @@ public class TreeTraverserTest extends TestCase {
     }
   }
 
-  private static final TreeTraverser<Tree> ADAPTER = new TreeTraverser<Tree>() {
-    @Override
-    public Iterable<Tree> children(Tree node) {
-      return node.children;
-    }
-  };
+  private static final TreeTraverser<Tree> ADAPTER =
+      new TreeTraverser<Tree>() {
+        @Override
+        public Iterable<Tree> children(Tree node) {
+          return node.children;
+        }
+      };
 
   private static final TreeTraverser<Tree> ADAPTER_USING_USING =
       TreeTraverser.using(
@@ -76,16 +75,16 @@ public class TreeTraverserTest extends TestCase {
   private static final BinaryTreeTraverser<BinaryTree> BIN_ADAPTER =
       new BinaryTreeTraverser<BinaryTree>() {
 
-    @Override
-    public Optional<BinaryTree> leftChild(BinaryTree node) {
-      return Optional.fromNullable(node.left);
-    }
+        @Override
+        public Optional<BinaryTree> leftChild(BinaryTree node) {
+          return Optional.fromNullable(node.left);
+        }
 
-    @Override
-    public Optional<BinaryTree> rightChild(BinaryTree node) {
-      return Optional.fromNullable(node.right);
-    }
-  };
+        @Override
+        public Optional<BinaryTree> rightChild(BinaryTree node) {
+          return Optional.fromNullable(node.right);
+        }
+      };
 
   //        h
   //      / | \

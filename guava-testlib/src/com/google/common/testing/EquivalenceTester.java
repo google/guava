@@ -31,30 +31,27 @@ import java.util.List;
 /**
  * Tester for {@link Equivalence} relationships between groups of objects.
  *
- * <p>
- * To use, create a new {@link EquivalenceTester} and add equivalence groups
- * where each group contains objects that are supposed to be equal to each
- * other. Objects of different groups are expected to be unequal. For example:
+ * <p>To use, create a new {@link EquivalenceTester} and add equivalence groups where each group
+ * contains objects that are supposed to be equal to each other. Objects of different groups are
+ * expected to be unequal. For example:
  *
- * <pre>
- * {@code
+ * <pre>{@code
  * EquivalenceTester.of(someStringEquivalence)
  *     .addEquivalenceGroup("hello", "h" + "ello")
  *     .addEquivalenceGroup("world", "wor" + "ld")
  *     .test();
- * }
- * </pre>
+ * }</pre>
  *
- * <p>
- * Note that testing {@link Object#equals(Object)} is more simply done using
- * the {@link EqualsTester}. It includes an extra test against an instance of an
- * arbitrary class without having to explicitly add another equivalence group.
+ * <p>Note that testing {@link Object#equals(Object)} is more simply done using the {@link
+ * EqualsTester}. It includes an extra test against an instance of an arbitrary class without having
+ * to explicitly add another equivalence group.
  *
  * @author Gregory Kick
  * @since 10.0
  */
 @Beta
-@GwtCompatible public final class EquivalenceTester<T> {
+@GwtCompatible
+public final class EquivalenceTester<T> {
   private static final int REPETITIONS = 3;
 
   private final Equivalence<? super T> equivalence;
@@ -63,8 +60,8 @@ import java.util.List;
 
   private EquivalenceTester(Equivalence<? super T> equivalence) {
     this.equivalence = checkNotNull(equivalence);
-    this.delegate = new RelationshipTester<T>(
-        equivalence, "equivalent", "hash", new ItemReporter());
+    this.delegate =
+        new RelationshipTester<T>(equivalence, "equivalent", "hash", new ItemReporter());
   }
 
   public static <T> EquivalenceTester<T> of(Equivalence<? super T> equivalence) {
@@ -72,9 +69,8 @@ import java.util.List;
   }
 
   /**
-   * Adds a group of objects that are supposed to be equivalent to each other
-   * and not equivalent to objects in any other equivalence group added to this
-   * tester.
+   * Adds a group of objects that are supposed to be equivalent to each other and not equivalent to
+   * objects in any other equivalence group added to this tester.
    */
   public EquivalenceTester<T> addEquivalenceGroup(T first, T... rest) {
     addEquivalenceGroup(Lists.asList(first, rest));
@@ -105,7 +101,9 @@ import java.util.List;
       assertTrue(item + " must be inequivalent to null", !equivalence.equivalent(item, null));
       assertTrue("null must be inequivalent to " + item, !equivalence.equivalent(null, item));
       assertTrue(item + " must be equivalent to itself", equivalence.equivalent(item, item));
-      assertEquals("the hash of " + item + " must be consistent", equivalence.hash(item),
+      assertEquals(
+          "the hash of " + item + " must be consistent",
+          equivalence.hash(item),
           equivalence.hash(item));
     }
   }

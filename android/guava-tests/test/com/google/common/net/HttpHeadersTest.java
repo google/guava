@@ -35,20 +35,28 @@ public class HttpHeadersTest extends TestCase {
 
   public void testConstantNameMatchesString() throws Exception {
     // Special case some of the weird HTTP Header names...
-    ImmutableBiMap<String, String> specialCases = ImmutableBiMap.of("ETAG", "ETag",
-        "X_WEBKIT_CSP", "X-WebKit-CSP", "X_WEBKIT_CSP_REPORT_ONLY", "X-WebKit-CSP-Report-Only");
+    ImmutableBiMap<String, String> specialCases =
+        ImmutableBiMap.of(
+            "ETAG",
+            "ETag",
+            "X_WEBKIT_CSP",
+            "X-WebKit-CSP",
+            "X_WEBKIT_CSP_REPORT_ONLY",
+            "X-WebKit-CSP-Report-Only");
     ImmutableSet<String> uppercaseAcronyms =
         ImmutableSet.of("ID", "DNT", "DNS", "IP", "MD5", "P3P", "TE", "UID", "URL", "WWW", "XSS");
     assertConstantNameMatchesString(HttpHeaders.class, specialCases, uppercaseAcronyms);
   }
 
   // Visible for other tests to use
-  static void assertConstantNameMatchesString(Class<?> clazz,
-      ImmutableBiMap<String, String> specialCases, ImmutableSet<String> uppercaseAcronyms)
+  static void assertConstantNameMatchesString(
+      Class<?> clazz,
+      ImmutableBiMap<String, String> specialCases,
+      ImmutableSet<String> uppercaseAcronyms)
       throws IllegalAccessException {
     for (Field field : relevantFields(clazz)) {
-      assertEquals(upperToHttpHeaderName(field.getName(), specialCases, uppercaseAcronyms),
-          field.get(null));
+      assertEquals(
+          upperToHttpHeaderName(field.getName(), specialCases, uppercaseAcronyms), field.get(null));
     }
   }
 
@@ -71,8 +79,10 @@ public class HttpHeadersTest extends TestCase {
   private static final Splitter SPLITTER = Splitter.on('_');
   private static final Joiner JOINER = Joiner.on('-');
 
-  private static String upperToHttpHeaderName(String constantName,
-      ImmutableBiMap<String, String> specialCases, ImmutableSet<String> uppercaseAcronyms) {
+  private static String upperToHttpHeaderName(
+      String constantName,
+      ImmutableBiMap<String, String> specialCases,
+      ImmutableSet<String> uppercaseAcronyms) {
     if (specialCases.containsKey(constantName)) {
       return specialCases.get(constantName);
     }

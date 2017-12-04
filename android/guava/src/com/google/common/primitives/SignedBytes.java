@@ -27,8 +27,8 @@ import java.util.Comparator;
  * corresponding methods that treat the values as unsigned are found in {@link UnsignedBytes}, and
  * the methods for which signedness is not an issue are in {@link Bytes}.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.
  *
  * @author Kevin Bourrillion
  * @since 1.0
@@ -164,8 +164,8 @@ public final class SignedBytes {
    * signed.
    *
    * <p>The returned comparator is inconsistent with {@link Object#equals(Object)} (since arrays
-   * support only identity equality), but it is consistent with
-   * {@link java.util.Arrays#equals(byte[], byte[])}.
+   * support only identity equality), but it is consistent with {@link
+   * java.util.Arrays#equals(byte[], byte[])}.
    *
    * @since 2.0
    */

@@ -28,9 +28,8 @@ import javax.annotation.Nullable;
  *
  * <p>All methods return serializable functions as long as they're given serializable parameters.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code
- * Function}</a>.
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code Function}</a>.
  *
  * @author Mike Bostock
  * @author Jared Levy
@@ -77,9 +76,7 @@ public final class Functions {
     }
   }
 
-  /**
-   * Returns the identity function.
-   */
+  /** Returns the identity function. */
   // implementation is "fully variant"; E has become a "pass-through" type
   @SuppressWarnings("unchecked")
   public static <E> Function<E, E> identity() {
@@ -103,9 +100,9 @@ public final class Functions {
   }
 
   /**
-   * Returns a function which performs a map lookup. The returned function throws an
-   * {@link IllegalArgumentException} if given a key that does not exist in the map. See also
-   * {@link #forMap(Map, Object)}, which returns a default value in this case.
+   * Returns a function which performs a map lookup. The returned function throws an {@link
+   * IllegalArgumentException} if given a key that does not exist in the map. See also {@link
+   * #forMap(Map, Object)}, which returns a default value in this case.
    *
    * <p>Note: if {@code map} is a {@link com.google.common.collect.BiMap BiMap} (or can be one), you
    * can use {@link com.google.common.collect.Maps#asConverter Maps.asConverter} instead to get a
@@ -166,7 +163,7 @@ public final class Functions {
    * @param map source map that determines the function behavior
    * @param defaultValue the value to return for inputs that aren't map keys
    * @return function that returns {@code map.get(a)} when {@code a} is a key, or {@code
-   *         defaultValue} otherwise
+   *     defaultValue} otherwise
    */
   public static <K, V> Function<K, V> forMap(Map<K, ? extends V> map, @Nullable V defaultValue) {
     return new ForMapWithDefault<>(map, defaultValue);
@@ -266,8 +263,8 @@ public final class Functions {
   /**
    * Creates a function that returns the same boolean output as the given predicate for all inputs.
    *
-   * <p>The returned function is <i>consistent with equals</i> (as documented at
-   * {@link Function#apply}) if and only if {@code predicate} is itself consistent with equals.
+   * <p>The returned function is <i>consistent with equals</i> (as documented at {@link
+   * Function#apply}) if and only if {@code predicate} is itself consistent with equals.
    *
    * <p><b>Java 8 users:</b> use the method reference {@code predicate::test} instead.
    */

@@ -56,9 +56,7 @@ public final class Resources {
     return new UrlByteSource(url);
   }
 
-  /**
-   * A byte source that reads from a URL using {@link URL#openStream()}.
-   */
+  /** A byte source that reads from a URL using {@link URL#openStream()}. */
   private static final class UrlByteSource extends ByteSource {
 
     private final URL url;
@@ -132,8 +130,8 @@ public final class Resources {
    * Reads all of the lines from a URL. The lines do not include line-termination characters, but do
    * include other leading and trailing whitespace.
    *
-   * <p>This method returns a mutable {@code List}. For an {@code ImmutableList}, use
-   * {@code Resources.asCharSource(url, charset).readLines()}.
+   * <p>This method returns a mutable {@code List}. For an {@code ImmutableList}, use {@code
+   * Resources.asCharSource(url, charset).readLines()}.
    *
    * @param url the URL to read from
    * @param charset the charset used to decode the input stream; see {@link Charsets} for helpful

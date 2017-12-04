@@ -18,8 +18,8 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 /**
- * <b>Do not use this class directly. For access to public-suffix information,
- * use {@link com.google.common.net.InternetDomainName}.</b>
+ * <b>Do not use this class directly. For access to public-suffix information, use {@link
+ * com.google.common.net.InternetDomainName}.</b>
  *
  * <p>Specifies the type of a top-level domain definition.
  *

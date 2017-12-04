@@ -33,8 +33,7 @@ import java.util.concurrent.TimeUnit;
 import junit.framework.TestCase;
 
 /**
- * Test suite for {@link CacheBuilder}.
- * TODO(cpovirk): merge into CacheBuilderTest?
+ * Test suite for {@link CacheBuilder}. TODO(cpovirk): merge into CacheBuilderTest?
  *
  * @author Jon Donovan
  */
@@ -52,17 +51,17 @@ public class CacheBuilderGwtTest extends TestCase {
 
   public void testLoader() throws ExecutionException {
 
-    final Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
-        .build();
+    final Cache<Integer, Integer> cache = CacheBuilder.newBuilder().build();
 
-    Callable<Integer> loader = new Callable<Integer>() {
-      private int i = 0;
+    Callable<Integer> loader =
+        new Callable<Integer>() {
+          private int i = 0;
 
-      @Override
-      public Integer call() throws Exception {
-        return ++i;
-      }
-    };
+          @Override
+          public Integer call() throws Exception {
+            return ++i;
+          }
+        };
 
     cache.put(0, 10);
 
@@ -79,9 +78,7 @@ public class CacheBuilderGwtTest extends TestCase {
   }
 
   public void testSizeConstraint() {
-    final Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
-        .maximumSize(4)
-        .build();
+    final Cache<Integer, Integer> cache = CacheBuilder.newBuilder().maximumSize(4).build();
 
     cache.put(1, 10);
     cache.put(2, 20);
@@ -105,17 +102,17 @@ public class CacheBuilderGwtTest extends TestCase {
   }
 
   public void testLoadingCache() throws ExecutionException {
-    CacheLoader<Integer, Integer> loader = new CacheLoader<Integer, Integer>() {
-      int i = 0;
-      @Override
-      public Integer load(Integer key) throws Exception {
-        return i++;
-      }
+    CacheLoader<Integer, Integer> loader =
+        new CacheLoader<Integer, Integer>() {
+          int i = 0;
 
-    };
+          @Override
+          public Integer load(Integer key) throws Exception {
+            return i++;
+          }
+        };
 
-    LoadingCache<Integer, Integer> cache = CacheBuilder.newBuilder()
-        .build(loader);
+    LoadingCache<Integer, Integer> cache = CacheBuilder.newBuilder().build(loader);
 
     cache.put(10, 20);
 
@@ -132,10 +129,11 @@ public class CacheBuilderGwtTest extends TestCase {
   }
 
   public void testExpireAfterAccess() {
-    final Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
-        .expireAfterAccess(1000, TimeUnit.MILLISECONDS)
-        .ticker(fakeTicker)
-        .build();
+    final Cache<Integer, Integer> cache =
+        CacheBuilder.newBuilder()
+            .expireAfterAccess(1000, TimeUnit.MILLISECONDS)
+            .ticker(fakeTicker)
+            .build();
 
     cache.put(0, 10);
     cache.put(2, 30);
@@ -149,10 +147,11 @@ public class CacheBuilderGwtTest extends TestCase {
   }
 
   public void testExpireAfterWrite() {
-    final Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
-        .expireAfterWrite(1000, TimeUnit.MILLISECONDS)
-        .ticker(fakeTicker)
-        .build();
+    final Cache<Integer, Integer> cache =
+        CacheBuilder.newBuilder()
+            .expireAfterWrite(1000, TimeUnit.MILLISECONDS)
+            .ticker(fakeTicker)
+            .build();
 
     cache.put(10, 100);
     cache.put(20, 200);
@@ -176,11 +175,12 @@ public class CacheBuilderGwtTest extends TestCase {
   }
 
   public void testExpireAfterWriteAndAccess() {
-    final Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
-        .expireAfterWrite(1000, TimeUnit.MILLISECONDS)
-        .expireAfterAccess(500, TimeUnit.MILLISECONDS)
-        .ticker(fakeTicker)
-        .build();
+    final Cache<Integer, Integer> cache =
+        CacheBuilder.newBuilder()
+            .expireAfterWrite(1000, TimeUnit.MILLISECONDS)
+            .expireAfterAccess(500, TimeUnit.MILLISECONDS)
+            .ticker(fakeTicker)
+            .build();
 
     cache.put(10, 100);
     cache.put(20, 200);
@@ -207,8 +207,7 @@ public class CacheBuilderGwtTest extends TestCase {
   }
 
   public void testMapMethods() {
-    Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
-        .build();
+    Cache<Integer, Integer> cache = CacheBuilder.newBuilder().build();
 
     ConcurrentMap<Integer, Integer> asMap = cache.asMap();
 
@@ -252,34 +251,36 @@ public class CacheBuilderGwtTest extends TestCase {
   public void testRemovalListener() {
     final int[] stats = new int[4];
 
-    RemovalListener<Integer, Integer> countingListener = new RemovalListener<Integer, Integer>() {
-      @Override
-      public void onRemoval(RemovalNotification<Integer, Integer> notification) {
-        switch (notification.getCause()) {
-          case EXPIRED:
-            stats[0]++;
-            break;
-          case EXPLICIT:
-            stats[1]++;
-            break;
-          case REPLACED:
-            stats[2]++;
-            break;
-          case SIZE:
-            stats[3]++;
-            break;
-          default:
-            throw new IllegalStateException("No collected exceptions in GWT CacheBuilder.");
-        }
-      }
-    };
+    RemovalListener<Integer, Integer> countingListener =
+        new RemovalListener<Integer, Integer>() {
+          @Override
+          public void onRemoval(RemovalNotification<Integer, Integer> notification) {
+            switch (notification.getCause()) {
+              case EXPIRED:
+                stats[0]++;
+                break;
+              case EXPLICIT:
+                stats[1]++;
+                break;
+              case REPLACED:
+                stats[2]++;
+                break;
+              case SIZE:
+                stats[3]++;
+                break;
+              default:
+                throw new IllegalStateException("No collected exceptions in GWT CacheBuilder.");
+            }
+          }
+        };
 
-    Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
-        .expireAfterWrite(1000, TimeUnit.MILLISECONDS)
-        .removalListener(countingListener)
-        .ticker(fakeTicker)
-        .maximumSize(2)
-        .build();
+    Cache<Integer, Integer> cache =
+        CacheBuilder.newBuilder()
+            .expireAfterWrite(1000, TimeUnit.MILLISECONDS)
+            .removalListener(countingListener)
+            .ticker(fakeTicker)
+            .maximumSize(2)
+            .build();
 
     // Add more than two elements to increment size removals.
     cache.put(3, 20);
@@ -313,8 +314,7 @@ public class CacheBuilderGwtTest extends TestCase {
   }
 
   public void testPutAll() {
-    Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
-        .build();
+    Cache<Integer, Integer> cache = CacheBuilder.newBuilder().build();
 
     cache.putAll(ImmutableMap.of(10, 20, 30, 50, 60, 90));
 
@@ -331,8 +331,7 @@ public class CacheBuilderGwtTest extends TestCase {
   }
 
   public void testInvalidate() {
-    Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
-        .build();
+    Cache<Integer, Integer> cache = CacheBuilder.newBuilder().build();
 
     cache.put(654, 2675);
     cache.put(2456, 56);
@@ -346,8 +345,7 @@ public class CacheBuilderGwtTest extends TestCase {
   }
 
   public void testInvalidateAll() {
-    Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
-        .build();
+    Cache<Integer, Integer> cache = CacheBuilder.newBuilder().build();
 
     cache.put(654, 2675);
     cache.put(2456, 56);
@@ -372,10 +370,11 @@ public class CacheBuilderGwtTest extends TestCase {
   }
 
   public void testAsMap_containsValue() {
-    Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
-        .expireAfterWrite(20000, TimeUnit.MILLISECONDS)
-        .ticker(fakeTicker)
-        .build();
+    Cache<Integer, Integer> cache =
+        CacheBuilder.newBuilder()
+            .expireAfterWrite(20000, TimeUnit.MILLISECONDS)
+            .ticker(fakeTicker)
+            .build();
 
     cache.put(654, 2675);
     fakeTicker.advance(10000, TimeUnit.MILLISECONDS);
@@ -390,10 +389,11 @@ public class CacheBuilderGwtTest extends TestCase {
   }
 
   public void testAsMap_containsKey() {
-    Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
-        .expireAfterWrite(20000, TimeUnit.MILLISECONDS)
-        .ticker(fakeTicker)
-        .build();
+    Cache<Integer, Integer> cache =
+        CacheBuilder.newBuilder()
+            .expireAfterWrite(20000, TimeUnit.MILLISECONDS)
+            .ticker(fakeTicker)
+            .build();
 
     cache.put(654, 2675);
     fakeTicker.advance(10000, TimeUnit.MILLISECONDS);
@@ -408,10 +408,11 @@ public class CacheBuilderGwtTest extends TestCase {
   }
 
   public void testAsMapValues_contains() {
-    Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
-        .expireAfterWrite(1000, TimeUnit.MILLISECONDS)
-        .ticker(fakeTicker)
-        .build();
+    Cache<Integer, Integer> cache =
+        CacheBuilder.newBuilder()
+            .expireAfterWrite(1000, TimeUnit.MILLISECONDS)
+            .ticker(fakeTicker)
+            .build();
 
     cache.put(10, 20);
     fakeTicker.advance(500, TimeUnit.MILLISECONDS);
@@ -426,10 +427,11 @@ public class CacheBuilderGwtTest extends TestCase {
   }
 
   public void testAsMapKeySet() {
-    Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
-        .expireAfterWrite(1000, TimeUnit.MILLISECONDS)
-        .ticker(fakeTicker)
-        .build();
+    Cache<Integer, Integer> cache =
+        CacheBuilder.newBuilder()
+            .expireAfterWrite(1000, TimeUnit.MILLISECONDS)
+            .ticker(fakeTicker)
+            .build();
 
     cache.put(10, 20);
     fakeTicker.advance(500, TimeUnit.MILLISECONDS);
@@ -444,10 +446,11 @@ public class CacheBuilderGwtTest extends TestCase {
   }
 
   public void testAsMapKeySet_contains() {
-    Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
-        .expireAfterWrite(1000, TimeUnit.MILLISECONDS)
-        .ticker(fakeTicker)
-        .build();
+    Cache<Integer, Integer> cache =
+        CacheBuilder.newBuilder()
+            .expireAfterWrite(1000, TimeUnit.MILLISECONDS)
+            .ticker(fakeTicker)
+            .build();
 
     cache.put(10, 20);
     fakeTicker.advance(500, TimeUnit.MILLISECONDS);
@@ -462,10 +465,11 @@ public class CacheBuilderGwtTest extends TestCase {
   }
 
   public void testAsMapEntrySet() {
-    Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
-        .expireAfterWrite(1000, TimeUnit.MILLISECONDS)
-        .ticker(fakeTicker)
-        .build();
+    Cache<Integer, Integer> cache =
+        CacheBuilder.newBuilder()
+            .expireAfterWrite(1000, TimeUnit.MILLISECONDS)
+            .ticker(fakeTicker)
+            .build();
 
     cache.put(10, 20);
     fakeTicker.advance(500, TimeUnit.MILLISECONDS);
@@ -482,10 +486,11 @@ public class CacheBuilderGwtTest extends TestCase {
   }
 
   public void testAsMapValues_iteratorRemove() {
-    Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
-        .expireAfterWrite(1000, TimeUnit.MILLISECONDS)
-        .ticker(fakeTicker)
-        .build();
+    Cache<Integer, Integer> cache =
+        CacheBuilder.newBuilder()
+            .expireAfterWrite(1000, TimeUnit.MILLISECONDS)
+            .ticker(fakeTicker)
+            .build();
 
     cache.put(10, 20);
     Iterator<Integer> iterator = cache.asMap().values().iterator();

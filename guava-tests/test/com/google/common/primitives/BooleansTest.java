@@ -66,9 +66,7 @@ public class BooleansTest extends TestCase {
     for (boolean x : VALUES) {
       for (boolean y : VALUES) {
         // note: spec requires only that the sign is the same
-        assertEquals(x + ", " + y,
-                     Boolean.valueOf(x).compareTo(y),
-                     Booleans.compare(x, y));
+        assertEquals(x + ", " + y, Boolean.valueOf(x).compareTo(y), Booleans.compare(x, y));
       }
     }
   }
@@ -118,21 +116,23 @@ public class BooleansTest extends TestCase {
     assertTrue(Arrays.equals(ARRAY_FALSE, Booleans.concat(ARRAY_FALSE)));
     assertNotSame(ARRAY_FALSE, Booleans.concat(ARRAY_FALSE));
     assertTrue(Arrays.equals(ARRAY_FALSE, Booleans.concat(EMPTY, ARRAY_FALSE, EMPTY)));
-    assertTrue(Arrays.equals(
-        new boolean[] {false, false, false},
-        Booleans.concat(ARRAY_FALSE, ARRAY_FALSE, ARRAY_FALSE)));
-    assertTrue(Arrays.equals(
-        new boolean[] {false, false, true},
-        Booleans.concat(ARRAY_FALSE, ARRAY_FALSE_TRUE)));
+    assertTrue(
+        Arrays.equals(
+            new boolean[] {false, false, false},
+            Booleans.concat(ARRAY_FALSE, ARRAY_FALSE, ARRAY_FALSE)));
+    assertTrue(
+        Arrays.equals(
+            new boolean[] {false, false, true}, Booleans.concat(ARRAY_FALSE, ARRAY_FALSE_TRUE)));
   }
 
   public void testEnsureCapacity() {
     assertSame(EMPTY, Booleans.ensureCapacity(EMPTY, 0, 1));
     assertSame(ARRAY_FALSE, Booleans.ensureCapacity(ARRAY_FALSE, 0, 1));
     assertSame(ARRAY_FALSE, Booleans.ensureCapacity(ARRAY_FALSE, 1, 1));
-    assertTrue(Arrays.equals(
-        new boolean[] {true, false, false},
-        Booleans.ensureCapacity(new boolean[] {true}, 2, 1)));
+    assertTrue(
+        Arrays.equals(
+            new boolean[] {true, false, false},
+            Booleans.ensureCapacity(new boolean[] {true}, 2, 1)));
   }
 
   public void testEnsureCapacity_fail() {
@@ -153,20 +153,20 @@ public class BooleansTest extends TestCase {
     assertEquals("", Booleans.join(",", EMPTY));
     assertEquals("false", Booleans.join(",", ARRAY_FALSE));
     assertEquals("false,true", Booleans.join(",", false, true));
-    assertEquals("falsetruefalse",
-        Booleans.join("", false, true, false));
+    assertEquals("falsetruefalse", Booleans.join("", false, true, false));
   }
 
   public void testLexicographicalComparator() {
-    List<boolean[]> ordered = Arrays.asList(
-        new boolean[] {},
-        new boolean[] {false},
-        new boolean[] {false, false},
-        new boolean[] {false, true},
-        new boolean[] {true},
-        new boolean[] {true, false},
-        new boolean[] {true, true},
-        new boolean[] {true, true, true});
+    List<boolean[]> ordered =
+        Arrays.asList(
+            new boolean[] {},
+            new boolean[] {false},
+            new boolean[] {false, false},
+            new boolean[] {false, true},
+            new boolean[] {true},
+            new boolean[] {true, false},
+            new boolean[] {true, true},
+            new boolean[] {true, true, true});
 
     Comparator<boolean[]> comparator = Booleans.lexicographicalComparator();
     Helpers.testComparator(comparator, ordered);
@@ -230,11 +230,10 @@ public class BooleansTest extends TestCase {
     boolean[] VALUES = BooleansTest.VALUES;
     VALUES = Booleans.concat(VALUES, VALUES);
 
-    for (int delta : new int[] { +1, 0, -1 }) {
+    for (int delta : new int[] {+1, 0, -1}) {
       for (int i = 0; i < VALUES.length; i++) {
         List<Boolean> list = Booleans.asList(VALUES).subList(0, i);
-        Collection<Boolean> misleadingSize =
-            Helpers.misleadingSizeCollection(delta);
+        Collection<Boolean> misleadingSize = Helpers.misleadingSizeCollection(delta);
         misleadingSize.addAll(list);
         boolean[] arr = Booleans.toArray(misleadingSize);
         assertEquals(i, arr.length);

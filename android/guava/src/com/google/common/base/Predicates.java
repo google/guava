@@ -32,9 +32,8 @@ import javax.annotation.Nullable;
  *
  * <p>All methods return serializable predicates as long as they're given serializable parameters.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of
- * {@code Predicate}</a>.
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code Predicate}</a>.
  *
  * @author Kevin Bourrillion
  * @since 2.0
@@ -46,17 +45,13 @@ public final class Predicates {
   // TODO(kevinb): considering having these implement a VisitablePredicate
   // interface which specifies an accept(PredicateVisitor) method.
 
-  /**
-   * Returns a predicate that always evaluates to {@code true}.
-   */
+  /** Returns a predicate that always evaluates to {@code true}. */
   @GwtCompatible(serializable = true)
   public static <T> Predicate<T> alwaysTrue() {
     return ObjectPredicate.ALWAYS_TRUE.withNarrowedType();
   }
 
-  /**
-   * Returns a predicate that always evaluates to {@code false}.
-   */
+  /** Returns a predicate that always evaluates to {@code false}. */
   @GwtCompatible(serializable = true)
   public static <T> Predicate<T> alwaysFalse() {
     return ObjectPredicate.ALWAYS_FALSE.withNarrowedType();
@@ -81,8 +76,8 @@ public final class Predicates {
   }
 
   /**
-   * Returns a predicate that evaluates to {@code true} if the given predicate evaluates to
-   * {@code false}.
+   * Returns a predicate that evaluates to {@code true} if the given predicate evaluates to {@code
+   * false}.
    */
   public static <T> Predicate<T> not(Predicate<T> predicate) {
     return new NotPredicate<T>(predicate);
@@ -92,9 +87,8 @@ public final class Predicates {
    * Returns a predicate that evaluates to {@code true} if each of its components evaluates to
    * {@code true}. The components are evaluated in order, and evaluation will be "short-circuited"
    * as soon as a false predicate is found. It defensively copies the iterable passed in, so future
-   * changes to it won't alter the behavior of this predicate. If {@code
-   * components} is empty, the returned predicate will always evaluate to {@code
-   * true}.
+   * changes to it won't alter the behavior of this predicate. If {@code components} is empty, the
+   * returned predicate will always evaluate to {@code true}.
    */
   public static <T> Predicate<T> and(Iterable<? extends Predicate<? super T>> components) {
     return new AndPredicate<T>(defensiveCopy(components));
@@ -104,9 +98,8 @@ public final class Predicates {
    * Returns a predicate that evaluates to {@code true} if each of its components evaluates to
    * {@code true}. The components are evaluated in order, and evaluation will be "short-circuited"
    * as soon as a false predicate is found. It defensively copies the array passed in, so future
-   * changes to it won't alter the behavior of this predicate. If {@code
-   * components} is empty, the returned predicate will always evaluate to {@code
-   * true}.
+   * changes to it won't alter the behavior of this predicate. If {@code components} is empty, the
+   * returned predicate will always evaluate to {@code true}.
    */
   @SafeVarargs
   public static <T> Predicate<T> and(Predicate<? super T>... components) {
@@ -114,9 +107,9 @@ public final class Predicates {
   }
 
   /**
-   * Returns a predicate that evaluates to {@code true} if both of its components evaluate to
-   * {@code true}. The components are evaluated in order, and evaluation will be "short-circuited"
-   * as soon as a false predicate is found.
+   * Returns a predicate that evaluates to {@code true} if both of its components evaluate to {@code
+   * true}. The components are evaluated in order, and evaluation will be "short-circuited" as soon
+   * as a false predicate is found.
    */
   public static <T> Predicate<T> and(Predicate<? super T> first, Predicate<? super T> second) {
     return new AndPredicate<T>(Predicates.<T>asList(checkNotNull(first), checkNotNull(second)));
@@ -126,9 +119,8 @@ public final class Predicates {
    * Returns a predicate that evaluates to {@code true} if any one of its components evaluates to
    * {@code true}. The components are evaluated in order, and evaluation will be "short-circuited"
    * as soon as a true predicate is found. It defensively copies the iterable passed in, so future
-   * changes to it won't alter the behavior of this predicate. If {@code
-   * components} is empty, the returned predicate will always evaluate to {@code
-   * false}.
+   * changes to it won't alter the behavior of this predicate. If {@code components} is empty, the
+   * returned predicate will always evaluate to {@code false}.
    */
   public static <T> Predicate<T> or(Iterable<? extends Predicate<? super T>> components) {
     return new OrPredicate<T>(defensiveCopy(components));
@@ -138,9 +130,8 @@ public final class Predicates {
    * Returns a predicate that evaluates to {@code true} if any one of its components evaluates to
    * {@code true}. The components are evaluated in order, and evaluation will be "short-circuited"
    * as soon as a true predicate is found. It defensively copies the array passed in, so future
-   * changes to it won't alter the behavior of this predicate. If {@code
-   * components} is empty, the returned predicate will always evaluate to {@code
-   * false}.
+   * changes to it won't alter the behavior of this predicate. If {@code components} is empty, the
+   * returned predicate will always evaluate to {@code false}.
    */
   @SafeVarargs
   public static <T> Predicate<T> or(Predicate<? super T>... components) {
@@ -166,11 +157,11 @@ public final class Predicates {
 
   /**
    * Returns a predicate that evaluates to {@code true} if the object being tested is an instance of
-   * the given class. If the object being tested is {@code null} this predicate evaluates to
-   * {@code false}.
+   * the given class. If the object being tested is {@code null} this predicate evaluates to {@code
+   * false}.
    *
-   * <p>If you want to filter an {@code Iterable} to narrow its type, consider using
-   * {@link com.google.common.collect.Iterables#filter(Iterable, Class)} in preference.
+   * <p>If you want to filter an {@code Iterable} to narrow its type, consider using {@link
+   * com.google.common.collect.Iterables#filter(Iterable, Class)} in preference.
    *
    * <p><b>Warning:</b> contrary to the typical assumptions about predicates (as documented at
    * {@link Predicate#apply}), the returned predicate may not be <i>consistent with equals</i>. For
@@ -185,11 +176,13 @@ public final class Predicates {
   /**
    * Returns a predicate that evaluates to {@code true} if the class being tested is assignable
    * <b>TO</b> {@code clazz}, that is, if it is a <b>subtype</b> of {@code clazz}. Yes, this method
-   * is named very incorrectly! Example: <pre>   {@code
+   * is named very incorrectly! Example:
    *
-   *   List<Class<?>> classes = Arrays.asList(
-   *       Object.class, String.class, Number.class, Long.class);
-   *   return Iterables.filter(classes, assignableFrom(Number.class));}</pre>
+   * <pre>{@code
+   * List<Class<?>> classes = Arrays.asList(
+   *     Object.class, String.class, Number.class, Long.class);
+   * return Iterables.filter(classes, assignableFrom(Number.class));
+   * }</pre>
    *
    * The code above returns {@code Number.class} and {@code Long.class}, <b>not</b> {@code
    * Number.class} and {@code Object.class} as the name implies!
@@ -208,12 +201,14 @@ public final class Predicates {
   }
 
   /**
-   * Returns a predicate that evaluates to {@code true} if the class being tested is assignable
-   * to (is a subtype of) {@code clazz}. Example: <pre>   {@code
+   * Returns a predicate that evaluates to {@code true} if the class being tested is assignable to
+   * (is a subtype of) {@code clazz}. Example:
    *
-   *   List<Class<?>> classes = Arrays.asList(
-   *       Object.class, String.class, Number.class, Long.class);
-   *   return Iterables.filter(classes, subtypeOf(Number.class));}</pre>
+   * <pre>{@code
+   * List<Class<?>> classes = Arrays.asList(
+   *     Object.class, String.class, Number.class, Long.class);
+   * return Iterables.filter(classes, subtypeOf(Number.class));
+   * }</pre>
    *
    * The code above returns an iterable containing {@code Number.class} and {@code Long.class}.
    *

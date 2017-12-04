@@ -22,8 +22,8 @@ import java.util.Collections;
 import java.util.Set;
 
 /**
- * Encapsulates the constraints that a class under test must satisfy in order
- * for a tester method to be run against that class.
+ * Encapsulates the constraints that a class under test must satisfy in order for a tester method to
+ * be run against that class.
  *
  * @author George van den Driessche
  */

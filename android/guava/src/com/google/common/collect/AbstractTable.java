@@ -215,9 +215,7 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
     return cellSet().hashCode();
   }
 
-  /**
-   * Returns the string representation {@code rowMap().toString()}.
-   */
+  /** Returns the string representation {@code rowMap().toString()}. */
   @Override
   public String toString() {
     return rowMap().toString();

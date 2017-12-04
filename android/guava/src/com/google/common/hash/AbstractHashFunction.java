@@ -20,10 +20,10 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
-/** 
+/**
  * Skeleton implementation of {@link HashFunction} in terms of {@link #newHasher()}.
- * 
- * TODO(lowasser): make public 
+ *
+ * <p>TODO(lowasser): make public
  */
 abstract class AbstractHashFunction implements HashFunction {
   @Override

@@ -11,6 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -67,17 +68,13 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     return CollectCollectors.toImmutableRangeSet();
   }
 
-  /**
-   * Returns an empty immutable range set.
-   */
+  /** Returns an empty immutable range set. */
   @SuppressWarnings("unchecked")
   public static <C extends Comparable> ImmutableRangeSet<C> of() {
     return (ImmutableRangeSet<C>) EMPTY;
   }
 
-  /**
-   * Returns an immutable range set containing the single range {@link Range#all()}.
-   */
+  /** Returns an immutable range set containing the single range {@link Range#all()}. */
   @SuppressWarnings("unchecked")
   static <C extends Comparable> ImmutableRangeSet<C> all() {
     return (ImmutableRangeSet<C>) ALL;
@@ -98,9 +95,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     }
   }
 
-  /**
-   * Returns an immutable copy of the specified {@code RangeSet}.
-   */
+  /** Returns an immutable copy of the specified {@code RangeSet}. */
   public static <C extends Comparable> ImmutableRangeSet<C> copyOf(RangeSet<C> rangeSet) {
     checkNotNull(rangeSet);
     if (rangeSet.isEmpty()) {
@@ -304,8 +299,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     return new RegularImmutableSortedSet<>(ranges.reverse(), Range.<C>rangeLexOrdering().reverse());
   }
 
-  @LazyInit
-  private transient ImmutableRangeSet<C> complement;
+  @LazyInit private transient ImmutableRangeSet<C> complement;
 
   private final class ComplementRanges extends ImmutableList<Range<C>> {
     // True if the "positive" range set is empty or bounded below.
@@ -420,8 +414,8 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
   }
 
   /**
-   * Returns a list containing the nonempty intersections of {@code range}
-   * with the ranges in this range set.
+   * Returns a list containing the nonempty intersections of {@code range} with the ranges in this
+   * range set.
    */
   private ImmutableList<Range<C>> intersectRanges(final Range<C> range) {
     if (ranges.isEmpty() || range.isEmpty()) {
@@ -483,9 +477,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     }
   }
 
-  /**
-   * Returns a view of the intersection of this range set with the given range.
-   */
+  /** Returns a view of the intersection of this range set with the given range. */
   @Override
   public ImmutableRangeSet<C> subRangeSet(Range<C> range) {
     if (!isEmpty()) {
@@ -509,14 +501,14 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
    *
    * <p><b>Warning:</b> Be extremely careful what you do with the {@code asSet} view of a large
    * range set (such as {@code ImmutableRangeSet.of(Range.greaterThan(0))}). Certain operations on
-   * such a set can be performed efficiently, but others (such as {@link Set#hashCode} or
-   * {@link Collections#frequency}) can cause major performance problems.
+   * such a set can be performed efficiently, but others (such as {@link Set#hashCode} or {@link
+   * Collections#frequency}) can cause major performance problems.
    *
    * <p>The returned set's {@link Object#toString} method returns a short-hand form of the set's
    * contents, such as {@code "[1..100]}"}.
    *
    * @throws IllegalArgumentException if neither this range nor the domain has a lower bound, or if
-   *         neither has an upper bound
+   *     neither has an upper bound
    */
   public ImmutableSortedSet<C> asSet(DiscreteDomain<C> domain) {
     checkNotNull(domain);
@@ -712,9 +704,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     return ranges.isPartialView();
   }
 
-  /**
-   * Returns a new builder for an immutable range set.
-   */
+  /** Returns a new builder for an immutable range set. */
   public static <C extends Comparable<?>> Builder<C> builder() {
     return new Builder<C>();
   }

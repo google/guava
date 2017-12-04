@@ -22,7 +22,7 @@ package com.google.common.hash;
  */
 final class Crc32cHashFunction extends AbstractHashFunction {
   static final HashFunction CRC_32_C = new Crc32cHashFunction();
-  
+
   @Override
   public int bits() {
     return 32;

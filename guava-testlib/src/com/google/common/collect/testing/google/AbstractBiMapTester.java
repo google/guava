@@ -25,9 +25,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map.Entry;
 
-/**
- * Skeleton for a tester of a {@code BiMap}.
- */
+/** Skeleton for a tester of a {@code BiMap}. */
 @GwtCompatible
 public abstract class AbstractBiMapTester<K, V> extends AbstractMapTester<K, V> {
 

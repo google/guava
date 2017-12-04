@@ -709,12 +709,12 @@ public final class Files {
    * to the original. The following heuristics are used:
    *
    * <ul>
-   * <li>empty string becomes .
-   * <li>. stays as .
-   * <li>fold out ./
-   * <li>fold out ../ when possible
-   * <li>collapse multiple slashes
-   * <li>delete trailing slashes (unless the path is just "/")
+   *   <li>empty string becomes .
+   *   <li>. stays as .
+   *   <li>fold out ./
+   *   <li>fold out ../ when possible
+   *   <li>collapse multiple slashes
+   *   <li>delete trailing slashes (unless the path is just "/")
    * </ul>
    *
    * <p>These heuristics do not always match the behavior of the filesystem. In particular, consider
@@ -792,8 +792,8 @@ public final class Files {
   }
 
   /**
-   * Returns the file name without its
-   * <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> or path. This is
+   * Returns the file name without its <a
+   * href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> or path. This is
    * similar to the {@code basename} unix command. The result does not include the '{@code .}'.
    *
    * @param file The name of the file to trim the extension from. This can be either a fully

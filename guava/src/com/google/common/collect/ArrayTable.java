@@ -40,44 +40,38 @@ import javax.annotation.Nullable;
 /**
  * Fixed-size {@link Table} implementation backed by a two-dimensional array.
  *
- * <p>The allowed row and column keys must be supplied when the table is
- * created. The table always contains a mapping for every row key / column pair.
- * The value corresponding to a given row and column is null unless another
- * value is provided.
+ * <p>The allowed row and column keys must be supplied when the table is created. The table always
+ * contains a mapping for every row key / column pair. The value corresponding to a given row and
+ * column is null unless another value is provided.
  *
- * <p>The table's size is constant: the product of the number of supplied row
- * keys and the number of supplied column keys. The {@code remove} and {@code
- * clear} methods are not supported by the table or its views. The {@link
- * #erase} and {@link #eraseAll} methods may be used instead.
+ * <p>The table's size is constant: the product of the number of supplied row keys and the number of
+ * supplied column keys. The {@code remove} and {@code clear} methods are not supported by the table
+ * or its views. The {@link #erase} and {@link #eraseAll} methods may be used instead.
  *
- * <p>The ordering of the row and column keys provided when the table is
- * constructed determines the iteration ordering across rows and columns in the
- * table's views. None of the view iterators support {@link Iterator#remove}.
- * If the table is modified after an iterator is created, the iterator remains
- * valid.
+ * <p>The ordering of the row and column keys provided when the table is constructed determines the
+ * iteration ordering across rows and columns in the table's views. None of the view iterators
+ * support {@link Iterator#remove}. If the table is modified after an iterator is created, the
+ * iterator remains valid.
  *
- * <p>This class requires less memory than the {@link HashBasedTable} and {@link
- * TreeBasedTable} implementations, except when the table is sparse.
+ * <p>This class requires less memory than the {@link HashBasedTable} and {@link TreeBasedTable}
+ * implementations, except when the table is sparse.
  *
  * <p>Null row keys or column keys are not permitted.
  *
- * <p>This class provides methods involving the underlying array structure,
- * where the array indices correspond to the position of a row or column in the
- * lists of allowed keys and values. See the {@link #at}, {@link #set}, {@link
- * #toArray}, {@link #rowKeyList}, and {@link #columnKeyList} methods for more
- * details.
+ * <p>This class provides methods involving the underlying array structure, where the array indices
+ * correspond to the position of a row or column in the lists of allowed keys and values. See the
+ * {@link #at}, {@link #set}, {@link #toArray}, {@link #rowKeyList}, and {@link #columnKeyList}
+ * methods for more details.
  *
- * <p>Note that this implementation is not synchronized. If multiple threads
- * access the same cell of an {@code ArrayTable} concurrently and one of the
- * threads modifies its value, there is no guarantee that the new value will be
- * fully visible to the other threads. To guarantee that modifications are
- * visible, synchronize access to the table. Unlike other {@code Table}
- * implementations, synchronization is unnecessary between a thread that writes
- * to one cell and a thread that reads from another.
+ * <p>Note that this implementation is not synchronized. If multiple threads access the same cell of
+ * an {@code ArrayTable} concurrently and one of the threads modifies its value, there is no
+ * guarantee that the new value will be fully visible to the other threads. To guarantee that
+ * modifications are visible, synchronize access to the table. Unlike other {@code Table}
+ * implementations, synchronization is unnecessary between a thread that writes to one cell and a
+ * thread that reads from another.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table">
- * {@code Table}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table"> {@code Table}</a>.
  *
  * @author Jared Levy
  * @since 10.0
@@ -92,9 +86,8 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    * @param rowKeys row keys that may be stored in the generated table
    * @param columnKeys column keys that may be stored in the generated table
    * @throws NullPointerException if any of the provided keys is null
-   * @throws IllegalArgumentException if {@code rowKeys} or {@code columnKeys}
-   *     contains duplicates or if exactly one of {@code rowKeys} or {@code
-   *     columnKeys} is empty.
+   * @throws IllegalArgumentException if {@code rowKeys} or {@code columnKeys} contains duplicates
+   *     or if exactly one of {@code rowKeys} or {@code columnKeys} is empty.
    */
   public static <R, C, V> ArrayTable<R, C, V> create(
       Iterable<? extends R> rowKeys, Iterable<? extends C> columnKeys) {
@@ -111,20 +104,17 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   /**
    * Creates an {@code ArrayTable} with the mappings in the provided table.
    *
-   * <p>If {@code table} includes a mapping with row key {@code r} and a
-   * separate mapping with column key {@code c}, the returned table contains a
-   * mapping with row key {@code r} and column key {@code c}. If that row key /
-   * column key pair in not in {@code table}, the pair maps to {@code null} in
-   * the generated table.
+   * <p>If {@code table} includes a mapping with row key {@code r} and a separate mapping with
+   * column key {@code c}, the returned table contains a mapping with row key {@code r} and column
+   * key {@code c}. If that row key / column key pair in not in {@code table}, the pair maps to
+   * {@code null} in the generated table.
    *
-   * <p>The returned table allows subsequent {@code put} calls with the row keys
-   * in {@code table.rowKeySet()} and the column keys in {@code
-   * table.columnKeySet()}. Calling {@link #put} with other keys leads to an
-   * {@code IllegalArgumentException}.
+   * <p>The returned table allows subsequent {@code put} calls with the row keys in {@code
+   * table.rowKeySet()} and the column keys in {@code table.columnKeySet()}. Calling {@link #put}
+   * with other keys leads to an {@code IllegalArgumentException}.
    *
-   * <p>The ordering of {@code table.rowKeySet()} and {@code
-   * table.columnKeySet()} determines the row and column iteration ordering of
-   * the returned table.
+   * <p>The ordering of {@code table.rowKeySet()} and {@code table.columnKeySet()} determines the
+   * row and column iteration ordering of the returned table.
    *
    * @throws NullPointerException if {@code table} has a null key
    */
@@ -289,34 +279,32 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   }
 
   /**
-   * Returns, as an immutable list, the row keys provided when the table was
-   * constructed, including those that are mapped to null values only.
+   * Returns, as an immutable list, the row keys provided when the table was constructed, including
+   * those that are mapped to null values only.
    */
   public ImmutableList<R> rowKeyList() {
     return rowList;
   }
 
   /**
-   * Returns, as an immutable list, the column keys provided when the table was
-   * constructed, including those that are mapped to null values only.
+   * Returns, as an immutable list, the column keys provided when the table was constructed,
+   * including those that are mapped to null values only.
    */
   public ImmutableList<C> columnKeyList() {
     return columnList;
   }
 
   /**
-   * Returns the value corresponding to the specified row and column indices.
-   * The same value is returned by {@code
-   * get(rowKeyList().get(rowIndex), columnKeyList().get(columnIndex))}, but
-   * this method runs more quickly.
+   * Returns the value corresponding to the specified row and column indices. The same value is
+   * returned by {@code get(rowKeyList().get(rowIndex), columnKeyList().get(columnIndex))}, but this
+   * method runs more quickly.
    *
    * @param rowIndex position of the row key in {@link #rowKeyList()}
    * @param columnIndex position of the row key in {@link #columnKeyList()}
    * @return the value with the specified row and column
-   * @throws IndexOutOfBoundsException if either index is negative, {@code
-   *     rowIndex} is greater than or equal to the number of allowed row keys,
-   *     or {@code columnIndex} is greater than or equal to the number of
-   *     allowed column keys
+   * @throws IndexOutOfBoundsException if either index is negative, {@code rowIndex} is greater than
+   *     or equal to the number of allowed row keys, or {@code columnIndex} is greater than or equal
+   *     to the number of allowed column keys
    */
   public V at(int rowIndex, int columnIndex) {
     // In GWT array access never throws IndexOutOfBoundsException.
@@ -326,19 +314,17 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   }
 
   /**
-   * Associates {@code value} with the specified row and column indices. The
-   * logic {@code
-   * put(rowKeyList().get(rowIndex), columnKeyList().get(columnIndex), value)}
-   * has the same behavior, but this method runs more quickly.
+   * Associates {@code value} with the specified row and column indices. The logic {@code
+   * put(rowKeyList().get(rowIndex), columnKeyList().get(columnIndex), value)} has the same
+   * behavior, but this method runs more quickly.
    *
    * @param rowIndex position of the row key in {@link #rowKeyList()}
    * @param columnIndex position of the row key in {@link #columnKeyList()}
    * @param value value to store in the table
    * @return the previous value with the specified row and column
-   * @throws IndexOutOfBoundsException if either index is negative, {@code
-   *     rowIndex} is greater than or equal to the number of allowed row keys,
-   *     or {@code columnIndex} is greater than or equal to the number of
-   *     allowed column keys
+   * @throws IndexOutOfBoundsException if either index is negative, {@code rowIndex} is greater than
+   *     or equal to the number of allowed row keys, or {@code columnIndex} is greater than or equal
+   *     to the number of allowed column keys
    */
   @CanIgnoreReturnValue
   public V set(int rowIndex, int columnIndex, @Nullable V value) {
@@ -351,10 +337,9 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   }
 
   /**
-   * Returns a two-dimensional array with the table contents. The row and column
-   * indices correspond to the positions of the row and column in the iterables
-   * provided during table construction. If the table lacks a mapping for a
-   * given row and column, the corresponding array element is null.
+   * Returns a two-dimensional array with the table contents. The row and column indices correspond
+   * to the positions of the row and column in the iterables provided during table construction. If
+   * the table lacks a mapping for a given row and column, the corresponding array element is null.
    *
    * <p>Subsequent table changes will not modify the array, and vice versa.
    *
@@ -382,10 +367,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
     throw new UnsupportedOperationException();
   }
 
-  /**
-   * Associates the value {@code null} with every pair of allowed row and column
-   * keys.
-   */
+  /** Associates the value {@code null} with every pair of allowed row and column keys. */
   public void eraseAll() {
     for (V[] row : array) {
       Arrays.fill(row, null);
@@ -393,8 +375,8 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   }
 
   /**
-   * Returns {@code true} if the provided keys are among the keys provided
-   * when the table was constructed.
+   * Returns {@code true} if the provided keys are among the keys provided when the table was
+   * constructed.
    */
   @Override
   public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
@@ -402,8 +384,8 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   }
 
   /**
-   * Returns {@code true} if the provided column key is among the column keys
-   * provided when the table was constructed.
+   * Returns {@code true} if the provided column key is among the column keys provided when the
+   * table was constructed.
    */
   @Override
   public boolean containsColumn(@Nullable Object columnKey) {
@@ -411,8 +393,8 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   }
 
   /**
-   * Returns {@code true} if the provided row key is among the row keys
-   * provided when the table was constructed.
+   * Returns {@code true} if the provided row key is among the row keys provided when the table was
+   * constructed.
    */
   @Override
   public boolean containsRow(@Nullable Object rowKey) {
@@ -439,8 +421,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   }
 
   /**
-   * Returns {@code true} if {@code rowKeyList().size == 0} or {@code
-   * columnKeyList().size() == 0}.
+   * Returns {@code true} if {@code rowKeyList().size == 0} or {@code columnKeyList().size() == 0}.
    */
   @Override
   public boolean isEmpty() {
@@ -450,8 +431,8 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   /**
    * {@inheritDoc}
    *
-   * @throws IllegalArgumentException if {@code rowKey} is not in {@link
-   *     #rowKeySet()} or {@code columnKey} is not in {@link #columnKeySet()}.
+   * @throws IllegalArgumentException if {@code rowKey} is not in {@link #rowKeySet()} or {@code
+   *     columnKey} is not in {@link #columnKeySet()}.
    */
   @CanIgnoreReturnValue
   @Override
@@ -473,13 +454,12 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   /**
    * {@inheritDoc}
    *
-   * <p>If {@code table} is an {@code ArrayTable}, its null values will be
-   * stored in this table, possibly replacing values that were previously
-   * non-null.
+   * <p>If {@code table} is an {@code ArrayTable}, its null values will be stored in this table,
+   * possibly replacing values that were previously non-null.
    *
    * @throws NullPointerException if {@code table} has a null key
-   * @throws IllegalArgumentException if any of the provided table's row keys or
-   *     column keys is not in {@link #rowKeySet()} or {@link #columnKeySet()}
+   * @throws IllegalArgumentException if any of the provided table's row keys or column keys is not
+   *     in {@link #rowKeySet()} or {@link #columnKeySet()}
    */
   @Override
   public void putAll(Table<? extends R, ? extends C, ? extends V> table) {
@@ -500,17 +480,17 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   }
 
   /**
-   * Associates the value {@code null} with the specified keys, assuming both
-   * keys are valid. If either key is null or isn't among the keys provided
-   * during construction, this method has no effect.
+   * Associates the value {@code null} with the specified keys, assuming both keys are valid. If
+   * either key is null or isn't among the keys provided during construction, this method has no
+   * effect.
    *
-   * <p>This method is equivalent to {@code put(rowKey, columnKey, null)} when
-   * both provided keys are valid.
+   * <p>This method is equivalent to {@code put(rowKey, columnKey, null)} when both provided keys
+   * are valid.
    *
    * @param rowKey row key of mapping to be erased
    * @param columnKey column key of mapping to be erased
-   * @return the value previously associated with the keys, or {@code null} if
-   *     no mapping existed for the keys
+   * @return the value previously associated with the keys, or {@code null} if no mapping existed
+   *     for the keys
    */
   @CanIgnoreReturnValue
   public V erase(@Nullable Object rowKey, @Nullable Object columnKey) {
@@ -530,17 +510,15 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   }
 
   /**
-   * Returns an unmodifiable set of all row key / column key / value
-   * triplets. Changes to the table will update the returned set.
+   * Returns an unmodifiable set of all row key / column key / value triplets. Changes to the table
+   * will update the returned set.
    *
-   * <p>The returned set's iterator traverses the mappings with the first row
-   * key, the mappings with the second row key, and so on.
+   * <p>The returned set's iterator traverses the mappings with the first row key, the mappings with
+   * the second row key, and so on.
    *
-   * <p>The value in the returned cells may change if the table subsequently
-   * changes.
+   * <p>The value in the returned cells may change if the table subsequently changes.
    *
-   * @return set of table cells consisting of row key / column key / value
-   *     triplets
+   * @return set of table cells consisting of row key / column key / value triplets
    */
   @Override
   public Set<Cell<R, C, V>> cellSet() {
@@ -556,7 +534,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
       }
     };
   }
-  
+
   @Override
   Spliterator<Cell<R, C, V>> cellSpliterator() {
     return CollectSpliterators.indexed(
@@ -592,13 +570,12 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   }
 
   /**
-   * Returns a view of all mappings that have the given column key. If the
-   * column key isn't in {@link #columnKeySet()}, an empty immutable map is
-   * returned.
+   * Returns a view of all mappings that have the given column key. If the column key isn't in
+   * {@link #columnKeySet()}, an empty immutable map is returned.
    *
-   * <p>Otherwise, for each row key in {@link #rowKeySet()}, the returned map
-   * associates the row key with the corresponding value in the table. Changes
-   * to the returned map will update the underlying table, and vice versa.
+   * <p>Otherwise, for each row key in {@link #rowKeySet()}, the returned map associates the row key
+   * with the corresponding value in the table. Changes to the returned map will update the
+   * underlying table, and vice versa.
    *
    * @param columnKey key of column to search for in the table
    * @return the corresponding map from row keys to values
@@ -635,8 +612,8 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   }
 
   /**
-   * Returns an immutable set of the valid column keys, including those that
-   * are associated with null values only.
+   * Returns an immutable set of the valid column keys, including those that are associated with
+   * null values only.
    *
    * @return immutable set of column keys
    */
@@ -681,14 +658,12 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   }
 
   /**
-   * Returns a view of all mappings that have the given row key. If the
-   * row key isn't in {@link #rowKeySet()}, an empty immutable map is
-   * returned.
+   * Returns a view of all mappings that have the given row key. If the row key isn't in {@link
+   * #rowKeySet()}, an empty immutable map is returned.
    *
-   * <p>Otherwise, for each column key in {@link #columnKeySet()}, the returned
-   * map associates the column key with the corresponding value in the
-   * table. Changes to the returned map will update the underlying table, and
-   * vice versa.
+   * <p>Otherwise, for each column key in {@link #columnKeySet()}, the returned map associates the
+   * column key with the corresponding value in the table. Changes to the returned map will update
+   * the underlying table, and vice versa.
    *
    * @param rowKey key of row to search for in the table
    * @return the corresponding map from column keys to values
@@ -725,8 +700,8 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   }
 
   /**
-   * Returns an immutable set of the valid row keys, including those that are
-   * associated with null values only.
+   * Returns an immutable set of the valid row keys, including those that are associated with null
+   * values only.
    *
    * @return immutable set of row keys
    */
@@ -771,11 +746,11 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   }
 
   /**
-   * Returns an unmodifiable collection of all values, which may contain
-   * duplicates. Changes to the table will update the returned collection.
+   * Returns an unmodifiable collection of all values, which may contain duplicates. Changes to the
+   * table will update the returned collection.
    *
-   * <p>The returned collection's iterator traverses the values of the first row
-   * key, the values of the second row key, and so on.
+   * <p>The returned collection's iterator traverses the values of the first row key, the values of
+   * the second row key, and so on.
    *
    * @return collection of values
    */

@@ -31,10 +31,8 @@ public class RemovalNotificationTest extends TestCase {
         .addEqualityGroup(
             RemovalNotification.create("one", 1, RemovalCause.EXPLICIT),
             RemovalNotification.create("one", 1, RemovalCause.REPLACED))
-        .addEqualityGroup(
-            RemovalNotification.create("1", 1, RemovalCause.EXPLICIT))
-        .addEqualityGroup(
-            RemovalNotification.create("one", 2, RemovalCause.EXPLICIT))
+        .addEqualityGroup(RemovalNotification.create("1", 1, RemovalCause.EXPLICIT))
+        .addEqualityGroup(RemovalNotification.create("one", 2, RemovalCause.EXPLICIT))
         .testEquals();
   }
 }

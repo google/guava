@@ -28,8 +28,7 @@ import com.google.common.collect.testing.features.CollectionSize;
 import java.lang.reflect.Method;
 
 /**
- * A generic JUnit test which tests add operations on a set. Can't be
- * invoked directly; please see
+ * A generic JUnit test which tests add operations on a set. Can't be invoked directly; please see
  * {@link com.google.common.collect.testing.SetTestSuiteBuilder}.
  *
  * @author Kevin Bourrillion
@@ -53,9 +52,8 @@ public class SetAddTester<E> extends AbstractSetTester<E> {
   }
 
   /**
-   * Returns the {@link Method} instance for
-   * {@link #testAdd_supportedNullPresent()} so that tests can suppress it. See
-   * {@link CollectionAddTester#getAddNullSupportedMethod()} for details.
+   * Returns the {@link Method} instance for {@link #testAdd_supportedNullPresent()} so that tests
+   * can suppress it. See {@link CollectionAddTester#getAddNullSupportedMethod()} for details.
    */
   @GwtIncompatible // reflection
   public static Method getAddSupportedNullPresentMethod() {

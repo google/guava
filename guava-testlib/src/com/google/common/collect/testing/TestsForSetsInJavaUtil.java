@@ -44,9 +44,8 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 /**
- * Generates a test suite covering the {@link Set} implementations in the
- * {@link java.util} package. Can be subclassed to specify tests that should
- * be suppressed.
+ * Generates a test suite covering the {@link Set} implementations in the {@link java.util} package.
+ * Can be subclassed to specify tests that should be suppressed.
  *
  * @author Kevin Bourrillion
  */
@@ -143,6 +142,7 @@ public class TestsForSetsInJavaUtil {
   protected Collection<Method> suppressForCheckedSet() {
     return Collections.emptySet();
   }
+
   protected Collection<Method> suppressForCheckedSortedSet() {
     return Collections.emptySet();
   }
@@ -197,12 +197,12 @@ public class TestsForSetsInJavaUtil {
 
   public Test testsForEmptyNavigableSet() {
     return SetTestSuiteBuilder.using(
-        new TestStringSortedSetGenerator() {
-          @Override
-          public NavigableSet<String> create(String[] elements) {
-            return Collections.emptyNavigableSet();
-          }
-        })
+            new TestStringSortedSetGenerator() {
+              @Override
+              public NavigableSet<String> create(String[] elements) {
+                return Collections.emptyNavigableSet();
+              }
+            })
         .named("emptyNavigableSet")
         .withFeatures(CollectionFeature.SERIALIZABLE, CollectionSize.ZERO)
         .suppressing(suppressForEmptyNavigableSet())
@@ -211,12 +211,12 @@ public class TestsForSetsInJavaUtil {
 
   public Test testsForEmptySortedSet() {
     return SetTestSuiteBuilder.using(
-        new TestStringSortedSetGenerator() {
-          @Override
-          public SortedSet<String> create(String[] elements) {
-            return Collections.emptySortedSet();
-          }
-        })
+            new TestStringSortedSetGenerator() {
+              @Override
+              public SortedSet<String> create(String[] elements) {
+                return Collections.emptySortedSet();
+              }
+            })
         .named("emptySortedSet")
         .withFeatures(CollectionFeature.SERIALIZABLE, CollectionSize.ZERO)
         .suppressing(suppressForEmptySortedSet())
@@ -301,8 +301,8 @@ public class TestsForSetsInJavaUtil {
   }
 
   /**
-   * Tests regular NavigableSet behavior of synchronizedNavigableSet(treeSet);
-   * does not test the fact that it's synchronized.
+   * Tests regular NavigableSet behavior of synchronizedNavigableSet(treeSet); does not test the
+   * fact that it's synchronized.
    */
   public Test testsForSynchronizedNavigableSet() {
     return NavigableSetTestSuiteBuilder.using(
@@ -322,7 +322,6 @@ public class TestsForSetsInJavaUtil {
             CollectionSize.ANY)
         .suppressing(suppressForSynchronizedNavigableSet())
         .createTestSuite();
-
   }
 
   public Test testsForTreeSetNatural() {

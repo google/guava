@@ -66,13 +66,14 @@ public class SimpleAbstractMultisetTest extends TestCase {
 
   public void testFastAddAllMultiset() {
     final AtomicInteger addCalls = new AtomicInteger();
-    Multiset<String> multiset = new NoRemoveMultiset<String>() {
-      @Override
-      public int add(String element, int occurrences) {
-        addCalls.incrementAndGet();
-        return super.add(element, occurrences);
-      }
-    };
+    Multiset<String> multiset =
+        new NoRemoveMultiset<String>() {
+          @Override
+          public int add(String element, int occurrences) {
+            addCalls.incrementAndGet();
+            return super.add(element, occurrences);
+          }
+        };
     ImmutableMultiset<String> adds =
         new ImmutableMultiset.Builder<String>().addCopies("x", 10).build();
     multiset.addAll(adds);
@@ -85,15 +86,16 @@ public class SimpleAbstractMultisetTest extends TestCase {
     try {
       multiset.remove("a");
       fail();
-    } catch (UnsupportedOperationException expected) {}
+    } catch (UnsupportedOperationException expected) {
+    }
     assertTrue(multiset.contains("a"));
   }
 
-  private static class NoRemoveMultiset<E> extends AbstractMultiset<E>
-      implements Serializable {
+  private static class NoRemoveMultiset<E> extends AbstractMultiset<E> implements Serializable {
     final Map<E, Integer> backingMap = Maps.newHashMap();
 
-    @Override public int add(@Nullable E element, int occurrences) {
+    @Override
+    public int add(@Nullable E element, int occurrences) {
       checkArgument(occurrences >= 0);
       Integer frequency = backingMap.get(element);
       if (frequency == null) {

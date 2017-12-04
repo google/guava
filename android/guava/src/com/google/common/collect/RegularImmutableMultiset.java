@@ -35,8 +35,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   private final transient ObjectCountHashMap<E> contents;
   private final transient int size;
 
-  @LazyInit
-  private transient ImmutableSet<E> elementSet;
+  @LazyInit private transient ImmutableSet<E> elementSet;
 
   RegularImmutableMultiset(ObjectCountHashMap<E> contents) {
     this.contents = contents;

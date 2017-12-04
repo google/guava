@@ -29,8 +29,8 @@ import java.util.NoSuchElementException;
 import java.util.SortedSet;
 
 /**
- * A generic JUnit test which tests operations on a SortedSet. Can't be
- * invoked directly; please see {@code SortedSetTestSuiteBuilder}.
+ * A generic JUnit test which tests operations on a SortedSet. Can't be invoked directly; please see
+ * {@code SortedSetTestSuiteBuilder}.
  *
  * @author Jesse Wilson
  * @author Louis Wasserman

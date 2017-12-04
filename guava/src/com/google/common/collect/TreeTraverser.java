@@ -97,9 +97,7 @@ public abstract class TreeTraverser<T> {
     };
   }
 
-  /**
-   * Returns the children of the specified node.  Must not contain null.
-   */
+  /** Returns the children of the specified node. Must not contain null. */
   public abstract Iterable<T> children(T root);
 
   /**

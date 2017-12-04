@@ -36,8 +36,8 @@ import java.util.Map;
 import junit.framework.Test;
 
 /**
- * Tests the {@link Map} implementations of {@link java.util}, suppressing
- * tests that trip known bugs in OpenJDK 6 or higher.
+ * Tests the {@link Map} implementations of {@link java.util}, suppressing tests that trip known
+ * bugs in OpenJDK 6 or higher.
  *
  * @author Kevin Bourrillion
  */
@@ -50,7 +50,8 @@ public class OpenJdk6MapTests extends TestsForMapsInJavaUtil {
     return new OpenJdk6MapTests().allTests();
   }
 
-  @Override protected Collection<Method> suppressForTreeMapNatural() {
+  @Override
+  protected Collection<Method> suppressForTreeMapNatural() {
     return Arrays.asList(
         getPutNullKeyUnsupportedMethod(),
         getPutAllNullKeyUnsupportedMethod(),

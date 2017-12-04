@@ -116,25 +116,21 @@ public enum StandardSystemProperty {
     this.key = key;
   }
 
-  /**
-   * Returns the key used to lookup this system property.
-   */
+  /** Returns the key used to lookup this system property. */
   public String key() {
     return key;
   }
 
   /**
-   * Returns the current value for this system property by delegating to
-   * {@link System#getProperty(String)}.
+   * Returns the current value for this system property by delegating to {@link
+   * System#getProperty(String)}.
    */
   @Nullable
   public String value() {
     return System.getProperty(key);
   }
 
-  /**
-   * Returns a string representation of this system property.
-   */
+  /** Returns a string representation of this system property. */
   @Override
   public String toString() {
     return key() + "=" + value();

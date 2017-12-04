@@ -34,8 +34,8 @@ import java.util.SortedSet;
 import junit.framework.TestSuite;
 
 /**
- * Creates, based on your criteria, a JUnit test suite that exhaustively tests
- * a NavigableSet implementation.
+ * Creates, based on your criteria, a JUnit test suite that exhaustively tests a NavigableSet
+ * implementation.
  */
 @GwtIncompatible
 public final class NavigableSetTestSuiteBuilder<E> extends SortedSetTestSuiteBuilder<E> {
@@ -97,9 +97,7 @@ public final class NavigableSetTestSuiteBuilder<E> extends SortedSetTestSuiteBui
     return using(new NavigableSetSubsetTestSetGenerator<E>(delegate, to, from));
   }
 
-  /**
-   * Create a suite whose maps are descending views of other maps.
-   */
+  /** Create a suite whose maps are descending views of other maps. */
   private TestSuite createDescendingSuite(
       final FeatureSpecificTestSuiteBuilder<
               ?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>>

@@ -22,7 +22,6 @@ import java.util.concurrent.ScheduledFuture;
  * Helper interface to implement both {@link ListenableFuture} and {@link ScheduledFuture}.
  *
  * @author Anthony Zana
- *
  * @since 15.0
  */
 @Beta

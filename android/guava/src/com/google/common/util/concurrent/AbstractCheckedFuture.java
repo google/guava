@@ -43,9 +43,7 @@ import java.util.concurrent.TimeoutException;
 public abstract class AbstractCheckedFuture<V, X extends Exception>
     extends ForwardingListenableFuture.SimpleForwardingListenableFuture<V>
     implements CheckedFuture<V, X> {
-  /**
-   * Constructs an {@code AbstractCheckedFuture} that wraps a delegate.
-   */
+  /** Constructs an {@code AbstractCheckedFuture} that wraps a delegate. */
   protected AbstractCheckedFuture(ListenableFuture<V> delegate) {
     super(delegate);
   }

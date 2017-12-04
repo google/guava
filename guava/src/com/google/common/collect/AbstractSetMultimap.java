@@ -25,9 +25,9 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * Basic implementation of the {@link SetMultimap} interface. It's a wrapper
- * around {@link AbstractMapBasedMultimap} that converts the returned collections into
- * {@code Sets}. The {@link #createCollection} method must return a {@code Set}.
+ * Basic implementation of the {@link SetMultimap} interface. It's a wrapper around {@link
+ * AbstractMapBasedMultimap} that converts the returned collections into {@code Sets}. The {@link
+ * #createCollection} method must return a {@code Set}.
  *
  * @author Jared Levy
  */
@@ -37,8 +37,7 @@ abstract class AbstractSetMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
   /**
    * Creates a new multimap that uses the provided map.
    *
-   * @param map place to store the mapping from each key to its corresponding
-   *     values
+   * @param map place to store the mapping from each key to its corresponding values
    */
   protected AbstractSetMultimap(Map<K, Collection<V>> map) {
     super(map);
@@ -57,9 +56,8 @@ abstract class AbstractSetMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
   /**
    * {@inheritDoc}
    *
-   * <p>Because a {@code SetMultimap} has unique values for a given key, this
-   * method returns a {@link Set}, instead of the {@link Collection} specified
-   * in the {@link Multimap} interface.
+   * <p>Because a {@code SetMultimap} has unique values for a given key, this method returns a
+   * {@link Set}, instead of the {@link Collection} specified in the {@link Multimap} interface.
    */
   @Override
   public Set<V> get(@Nullable K key) {
@@ -69,9 +67,8 @@ abstract class AbstractSetMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
   /**
    * {@inheritDoc}
    *
-   * <p>Because a {@code SetMultimap} has unique values for a given key, this
-   * method returns a {@link Set}, instead of the {@link Collection} specified
-   * in the {@link Multimap} interface.
+   * <p>Because a {@code SetMultimap} has unique values for a given key, this method returns a
+   * {@link Set}, instead of the {@link Collection} specified in the {@link Multimap} interface.
    */
   @Override
   public Set<Entry<K, V>> entries() {
@@ -81,9 +78,8 @@ abstract class AbstractSetMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
   /**
    * {@inheritDoc}
    *
-   * <p>Because a {@code SetMultimap} has unique values for a given key, this
-   * method returns a {@link Set}, instead of the {@link Collection} specified
-   * in the {@link Multimap} interface.
+   * <p>Because a {@code SetMultimap} has unique values for a given key, this method returns a
+   * {@link Set}, instead of the {@link Collection} specified in the {@link Multimap} interface.
    */
   @CanIgnoreReturnValue
   @Override
@@ -94,9 +90,8 @@ abstract class AbstractSetMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
   /**
    * {@inheritDoc}
    *
-   * <p>Because a {@code SetMultimap} has unique values for a given key, this
-   * method returns a {@link Set}, instead of the {@link Collection} specified
-   * in the {@link Multimap} interface.
+   * <p>Because a {@code SetMultimap} has unique values for a given key, this method returns a
+   * {@link Set}, instead of the {@link Collection} specified in the {@link Multimap} interface.
    *
    * <p>Any duplicates in {@code values} will be stored in the multimap once.
    */
@@ -109,8 +104,8 @@ abstract class AbstractSetMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
   /**
    * {@inheritDoc}
    *
-   * <p>Though the method signature doesn't say so explicitly, the returned map
-   * has {@link Set} values.
+   * <p>Though the method signature doesn't say so explicitly, the returned map has {@link Set}
+   * values.
    */
   @Override
   public Map<K, Collection<V>> asMap() {
@@ -122,8 +117,8 @@ abstract class AbstractSetMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
    *
    * @param key key to store in the multimap
    * @param value value to store in the multimap
-   * @return {@code true} if the method increased the size of the multimap, or
-   *     {@code false} if the multimap already contained the key-value pair
+   * @return {@code true} if the method increased the size of the multimap, or {@code false} if the
+   *     multimap already contained the key-value pair
    */
   @CanIgnoreReturnValue
   @Override
@@ -134,9 +129,8 @@ abstract class AbstractSetMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
   /**
    * Compares the specified object to this multimap for equality.
    *
-   * <p>Two {@code SetMultimap} instances are equal if, for each key, they
-   * contain the same values. Equality does not depend on the ordering of keys
-   * or values.
+   * <p>Two {@code SetMultimap} instances are equal if, for each key, they contain the same values.
+   * Equality does not depend on the ordering of keys or values.
    */
   @Override
   public boolean equals(@Nullable Object object) {

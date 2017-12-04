@@ -43,7 +43,7 @@ public class ShortArrayAsListTest extends TestCase {
   private static List<Short> asList(Short[] values) {
     short[] temp = new short[values.length];
     for (short i = 0; i < values.length; i++) {
-      temp[i] = checkNotNull(values[i]);  // checkNotNull for GWT (do not optimize).
+      temp[i] = checkNotNull(values[i]); // checkNotNull for GWT (do not optimize).
     }
     return Shorts.asList(temp);
   }
@@ -52,28 +52,24 @@ public class ShortArrayAsListTest extends TestCase {
   public static Test suite() {
     List<ListTestSuiteBuilder<Short>> builders =
         ImmutableList.of(
-            ListTestSuiteBuilder.using(new ShortsAsListGenerator())
-                .named("Shorts.asList"),
-
+            ListTestSuiteBuilder.using(new ShortsAsListGenerator()).named("Shorts.asList"),
             ListTestSuiteBuilder.using(new ShortsAsListHeadSubListGenerator())
                 .named("Shorts.asList, head subList"),
-
             ListTestSuiteBuilder.using(new ShortsAsListTailSubListGenerator())
                 .named("Shorts.asList, tail subList"),
-
             ListTestSuiteBuilder.using(new ShortsAsListMiddleSubListGenerator())
-                .named("Shorts.asList, middle subList")
-            );
+                .named("Shorts.asList, middle subList"));
 
     TestSuite suite = new TestSuite();
     for (ListTestSuiteBuilder<Short> builder : builders) {
       suite.addTest(
           builder
-          .withFeatures(CollectionSize.ONE,
-                        CollectionSize.SEVERAL,
-                        CollectionFeature.RESTRICTS_ELEMENTS,
-                        ListFeature.SUPPORTS_SET)
-          .createTestSuite());
+              .withFeatures(
+                  CollectionSize.ONE,
+                  CollectionSize.SEVERAL,
+                  CollectionFeature.RESTRICTS_ELEMENTS,
+                  ListFeature.SUPPORTS_SET)
+              .createTestSuite());
     }
     return suite;
   }
@@ -82,13 +78,15 @@ public class ShortArrayAsListTest extends TestCase {
   // public named classes with a public default constructor.
 
   public static final class ShortsAsListGenerator extends TestShortListGenerator {
-    @Override protected List<Short> create(Short[] elements) {
+    @Override
+    protected List<Short> create(Short[] elements) {
       return asList(elements);
     }
   }
 
   public static final class ShortsAsListHeadSubListGenerator extends TestShortListGenerator {
-    @Override protected List<Short> create(Short[] elements) {
+    @Override
+    protected List<Short> create(Short[] elements) {
       Short[] suffix = {Short.MIN_VALUE, Short.MAX_VALUE};
       Short[] all = concat(elements, suffix);
       return asList(all).subList(0, elements.length);
@@ -96,7 +94,8 @@ public class ShortArrayAsListTest extends TestCase {
   }
 
   public static final class ShortsAsListTailSubListGenerator extends TestShortListGenerator {
-    @Override protected List<Short> create(Short[] elements) {
+    @Override
+    protected List<Short> create(Short[] elements) {
       Short[] prefix = {(short) 86, (short) 99};
       Short[] all = concat(prefix, elements);
       return asList(all).subList(2, elements.length + 2);
@@ -104,7 +103,8 @@ public class ShortArrayAsListTest extends TestCase {
   }
 
   public static final class ShortsAsListMiddleSubListGenerator extends TestShortListGenerator {
-    @Override protected List<Short> create(Short[] elements) {
+    @Override
+    protected List<Short> create(Short[] elements) {
       Short[] prefix = {Short.MIN_VALUE, Short.MAX_VALUE};
       Short[] suffix = {(short) 86, (short) 99};
       Short[] all = concat(concat(prefix, elements), suffix);
@@ -119,8 +119,7 @@ public class ShortArrayAsListTest extends TestCase {
     return result;
   }
 
-  public static abstract class TestShortListGenerator
-      implements TestListGenerator<Short> {
+  public abstract static class TestShortListGenerator implements TestListGenerator<Short> {
     @Override
     public SampleElements<Short> samples() {
       return new SampleShorts();
@@ -137,8 +136,8 @@ public class ShortArrayAsListTest extends TestCase {
     }
 
     /**
-     * Creates a new collection containing the given elements; implement this
-     * method instead of {@link #create(Object...)}.
+     * Creates a new collection containing the given elements; implement this method instead of
+     * {@link #create(Object...)}.
      */
     protected abstract List<Short> create(Short[] elements);
 

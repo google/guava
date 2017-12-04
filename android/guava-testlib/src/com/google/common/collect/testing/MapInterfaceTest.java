@@ -63,8 +63,8 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
    * Creates a new, empty instance of the class under test.
    *
    * @return a new, empty map instance.
-   * @throws UnsupportedOperationException if it's not possible to make an
-   * empty instance of the class under test.
+   * @throws UnsupportedOperationException if it's not possible to make an empty instance of the
+   *     class under test.
    */
   protected abstract Map<K, V> makeEmptyMap() throws UnsupportedOperationException;
 
@@ -72,34 +72,32 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
    * Creates a new, non-empty instance of the class under test.
    *
    * @return a new, non-empty map instance.
-   * @throws UnsupportedOperationException if it's not possible to make a
-   * non-empty instance of the class under test.
+   * @throws UnsupportedOperationException if it's not possible to make a non-empty instance of the
+   *     class under test.
    */
   protected abstract Map<K, V> makePopulatedMap() throws UnsupportedOperationException;
 
   /**
-   * Creates a new key that is not expected to be found
-   * in {@link #makePopulatedMap()}.
+   * Creates a new key that is not expected to be found in {@link #makePopulatedMap()}.
    *
    * @return a key.
-   * @throws UnsupportedOperationException if it's not possible to make a key
-   * that will not be found in the map.
+   * @throws UnsupportedOperationException if it's not possible to make a key that will not be found
+   *     in the map.
    */
   protected abstract K getKeyNotInPopulatedMap() throws UnsupportedOperationException;
 
   /**
-   * Creates a new value that is not expected to be found
-   * in {@link #makePopulatedMap()}.
+   * Creates a new value that is not expected to be found in {@link #makePopulatedMap()}.
    *
    * @return a value.
-   * @throws UnsupportedOperationException if it's not possible to make a value
-   * that will not be found in the map.
+   * @throws UnsupportedOperationException if it's not possible to make a value that will not be
+   *     found in the map.
    */
   protected abstract V getValueNotInPopulatedMap() throws UnsupportedOperationException;
 
   /**
-   * Constructor that assigns {@code supportsIteratorRemove} the same value as
-   * {@code supportsRemove}.
+   * Constructor that assigns {@code supportsIteratorRemove} the same value as {@code
+   * supportsRemove}.
    */
   protected MapInterfaceTest(
       boolean allowsNullKeys,
@@ -116,9 +114,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
         supportsRemove);
   }
 
-  /**
-   * Constructor with an explicit {@code supportsIteratorRemove} parameter.
-   */
+  /** Constructor with an explicit {@code supportsIteratorRemove} parameter. */
   protected MapInterfaceTest(
       boolean allowsNullKeys,
       boolean allowsNullValues,
@@ -135,8 +131,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
   }
 
   /**
-   * Used by tests that require a map, but don't care whether it's
-   * populated or not.
+   * Used by tests that require a map, but don't care whether it's populated or not.
    *
    * @return a new map instance.
    */
@@ -165,9 +160,8 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
   }
 
   /**
-   * Checks all the properties that should always hold of a map. Also calls
-   * {@link #assertMoreInvariants} to check invariants that are peculiar to
-   * specific implementations.
+   * Checks all the properties that should always hold of a map. Also calls {@link
+   * #assertMoreInvariants} to check invariants that are peculiar to specific implementations.
    *
    * @see #assertMoreInvariants
    * @param map the map to check.
@@ -263,9 +257,8 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
   }
 
   /**
-   * Override this to check invariants which should hold true for a particular
-   * implementation, but which are not generally applicable to every instance
-   * of Map.
+   * Override this to check invariants which should hold true for a particular implementation, but
+   * which are not generally applicable to every instance of Map.
    *
    * @param map the map whose additional invariants to check.
    */
@@ -854,7 +847,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     assertEquals(map, map);
     assertEquals(makePopulatedMap(), map);
     assertFalse(map.equals(Collections.emptyMap()));
-    //no-inspection ObjectEqualsNull
+    // no-inspection ObjectEqualsNull
     assertFalse(map.equals(null));
   }
 
@@ -906,7 +899,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     assertEquals(makeEmptyMap(), map);
     assertEquals(Collections.emptyMap(), map);
     assertFalse(map.equals(Collections.emptySet()));
-    //noinspection ObjectEqualsNull
+    // noinspection ObjectEqualsNull
     assertFalse(map.equals(null));
   }
 

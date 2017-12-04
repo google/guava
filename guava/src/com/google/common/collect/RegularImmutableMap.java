@@ -44,8 +44,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       new RegularImmutableMap<>((Entry<Object, Object>[]) ImmutableMap.EMPTY_ENTRY_ARRAY, null, 0);
 
   // entries in insertion order
-  @VisibleForTesting
-  final transient Entry<K, V>[] entries;
+  @VisibleForTesting final transient Entry<K, V>[] entries;
   // array of linked lists of entries
   private final transient ImmutableMapEntry<K, V>[] table;
   // 'and' with an int to get a table index
@@ -56,9 +55,9 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   /**
-   * Creates a RegularImmutableMap from the first n entries in entryArray.  This implementation
-   * may replace the entries in entryArray with its own entry objects (though they will have the
-   * same key/value contents), and may take ownership of entryArray.
+   * Creates a RegularImmutableMap from the first n entries in entryArray. This implementation may
+   * replace the entries in entryArray with its own entry objects (though they will have the same
+   * key/value contents), and may take ownership of entryArray.
    */
   static <K, V> RegularImmutableMap<K, V> fromEntryArray(int n, Entry<K, V>[] entryArray) {
     checkPositionIndex(n, entryArray.length);
@@ -112,9 +111,9 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   /**
-   * Closed addressing tends to perform well even with high load factors.
-   * Being conservative here ensures that the table is still likely to be
-   * relatively sparse (hence it misses fast) while saving space.
+   * Closed addressing tends to perform well even with high load factors. Being conservative here
+   * ensures that the table is still likely to be relatively sparse (hence it misses fast) while
+   * saving space.
    */
   private static final double MAX_LOAD_FACTOR = 1.2;
 

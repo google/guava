@@ -45,7 +45,7 @@ public final class ExecutionList {
   private static final Logger log = Logger.getLogger(ExecutionList.class.getName());
 
   /**
-   * The runnable, executor pairs to execute.  This acts as a stack threaded through the {@link
+   * The runnable, executor pairs to execute. This acts as a stack threaded through the {@link
    * RunnableExecutorPair#next} field.
    */
   @GuardedBy("this")

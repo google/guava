@@ -40,10 +40,10 @@ public class AbstractListTester<E> extends AbstractCollectionTester<E> {
 
   /**
    * {@inheritDoc}
-   * <p>
-   * The {@code AbstractListTester} implementation overrides
-   * {@link AbstractCollectionTester#expectContents(Collection)} to verify that
-   * the order of the elements in the list under test matches what is expected.
+   *
+   * <p>The {@code AbstractListTester} implementation overrides {@link
+   * AbstractCollectionTester#expectContents(Collection)} to verify that the order of the elements
+   * in the list under test matches what is expected.
    */
   @Override
   protected void expectContents(Collection<E> expectedCollection) {
@@ -62,9 +62,8 @@ public class AbstractListTester<E> extends AbstractCollectionTester<E> {
   }
 
   /**
-   * Used to delay string formatting until actually required, as it
-   * otherwise shows up in the test execution profile when running an
-   * extremely large numbers of tests.
+   * Used to delay string formatting until actually required, as it otherwise shows up in the test
+   * execution profile when running an extremely large numbers of tests.
    */
   private String reportContext(List<E> expected) {
     return Platform.format(

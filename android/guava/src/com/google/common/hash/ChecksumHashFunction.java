@@ -53,9 +53,7 @@ final class ChecksumHashFunction extends AbstractHashFunction implements Seriali
     return toString;
   }
 
-  /**
-   * Hasher that updates a checksum.
-   */
+  /** Hasher that updates a checksum. */
   private final class ChecksumHasher extends AbstractByteHasher {
     private final Checksum checksum;
 

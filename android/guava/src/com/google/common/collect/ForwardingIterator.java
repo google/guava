@@ -21,9 +21,8 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Iterator;
 
 /**
- * An iterator which forwards all its method calls to another iterator.
- * Subclasses should override one or more methods to modify the behavior of the
- * backing iterator as desired per the <a
+ * An iterator which forwards all its method calls to another iterator. Subclasses should override
+ * one or more methods to modify the behavior of the backing iterator as desired per the <a
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
  * <p><b>{@code default} method warning:</b> This class forwards calls to <i>only some</i> {@code

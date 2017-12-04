@@ -30,9 +30,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 public interface FutureCallback<V> {
-  /**
-   * Invoked with the result of the {@code Future} computation when it is successful.
-   */
+  /** Invoked with the result of the {@code Future} computation when it is successful. */
   void onSuccess(@Nullable V result);
 
   /**

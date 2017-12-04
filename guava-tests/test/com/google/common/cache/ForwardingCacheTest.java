@@ -35,7 +35,8 @@ public class ForwardingCacheTest extends TestCase {
   private Cache<String, Boolean> mock;
 
   @SuppressWarnings("unchecked") // mock
-  @Override public void setUp() throws Exception {
+  @Override
+  public void setUp() throws Exception {
     super.setUp();
     /*
      * Class parameters must be raw, so we can't create a proxy with generic
@@ -43,11 +44,13 @@ public class ForwardingCacheTest extends TestCase {
      * the type is irrelevant at runtime.
      */
     mock = mock(Cache.class);
-    forward = new ForwardingCache<String, Boolean>() {
-      @Override protected Cache<String, Boolean> delegate() {
-        return mock;
-      }
-    };
+    forward =
+        new ForwardingCache<String, Boolean>() {
+          @Override
+          protected Cache<String, Boolean> delegate() {
+            return mock;
+          }
+        };
   }
 
   public void testGetIfPresent() throws ExecutionException {
@@ -58,8 +61,8 @@ public class ForwardingCacheTest extends TestCase {
   public void testGetAllPresent() throws ExecutionException {
     when(mock.getAllPresent(ImmutableList.of("key")))
         .thenReturn(ImmutableMap.of("key", Boolean.TRUE));
-    assertEquals(ImmutableMap.of("key", Boolean.TRUE),
-        forward.getAllPresent(ImmutableList.of("key")));
+    assertEquals(
+        ImmutableMap.of("key", Boolean.TRUE), forward.getAllPresent(ImmutableList.of("key")));
   }
 
   public void testInvalidate() {
@@ -97,9 +100,7 @@ public class ForwardingCacheTest extends TestCase {
     verify(mock).cleanUp();
   }
 
-  /**
-   * Make sure that all methods are forwarded.
-   */
+  /** Make sure that all methods are forwarded. */
   private static class OnlyGet<K, V> extends ForwardingCache<K, V> {
     @Override
     protected Cache<K, V> delegate() {

@@ -48,7 +48,8 @@ public class DoubleMathRoundingBenchmark {
     }
   }
 
-  @Benchmark int roundToInt(int reps) {
+  @Benchmark
+  int roundToInt(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -57,7 +58,8 @@ public class DoubleMathRoundingBenchmark {
     return tmp;
   }
 
-  @Benchmark long roundToLong(int reps) {
+  @Benchmark
+  long roundToLong(int reps) {
     long tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -66,7 +68,8 @@ public class DoubleMathRoundingBenchmark {
     return tmp;
   }
 
-  @Benchmark int roundToBigInteger(int reps) {
+  @Benchmark
+  int roundToBigInteger(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -75,7 +78,8 @@ public class DoubleMathRoundingBenchmark {
     return tmp;
   }
 
-  @Benchmark int log2Round(int reps) {
+  @Benchmark
+  int log2Round(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;

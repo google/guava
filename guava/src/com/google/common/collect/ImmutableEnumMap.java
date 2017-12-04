@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -26,8 +27,7 @@ import java.util.function.BiConsumer;
 import javax.annotation.Nullable;
 
 /**
- * Implementation of {@link ImmutableMap} backed by a non-empty {@link
- * java.util.EnumMap}.
+ * Implementation of {@link ImmutableMap} backed by a non-empty {@link java.util.EnumMap}.
  *
  * @author Louis Wasserman
  */
@@ -98,8 +98,9 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
   Spliterator<Entry<K, V>> entrySpliterator() {
     return CollectSpliterators.map(delegate.entrySet().spliterator(), Maps::unmodifiableEntry);
   }
-  
-  @Override public void forEach(BiConsumer<? super K, ? super V> action) {
+
+  @Override
+  public void forEach(BiConsumer<? super K, ? super V> action) {
     delegate.forEach(action);
   }
 

@@ -28,8 +28,8 @@ import java.util.List;
 import junit.framework.TestSuite;
 
 /**
- * Creates, based on your criteria, a JUnit test suite that exhaustively tests
- * a SortedSet implementation.
+ * Creates, based on your criteria, a JUnit test suite that exhaustively tests a SortedSet
+ * implementation.
  */
 @GwtIncompatible
 public class SortedSetTestSuiteBuilder<E> extends SetTestSuiteBuilder<E> {
@@ -74,9 +74,8 @@ public class SortedSetTestSuiteBuilder<E> extends SetTestSuiteBuilder<E> {
   /**
    * Creates a suite whose set has some elements filtered out of view.
    *
-   * <p>Because the set may be ascending or descending, this test must derive
-   * the relative order of these extreme values rather than relying on their
-   * regular sort ordering.
+   * <p>Because the set may be ascending or descending, this test must derive the relative order of
+   * these extreme values rather than relying on their regular sort ordering.
    */
   final TestSuite createSubsetSuite(
       final FeatureSpecificTestSuiteBuilder<

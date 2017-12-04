@@ -25,8 +25,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * Generators of various {@link com.google.common.collect.BiMap}s and derived
- * collections.
+ * Generators of various {@link com.google.common.collect.BiMap}s and derived collections.
  *
  * @author Jared Levy
  * @author Hayward Chan

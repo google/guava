@@ -28,20 +28,24 @@ import com.google.common.collect.Iterables;
  */
 public class SplitterBenchmark {
   // overall size of string
-  @Param({"1", "10", "100", "1000"}) int length;
+  @Param({"1", "10", "100", "1000"})
+  int length;
   // Number of matching strings
-  @Param({"xxxx", "xxXx", "xXxX", "XXXX"}) String text;
+  @Param({"xxxx", "xxXx", "xXxX", "XXXX"})
+  String text;
 
   private String input;
 
   private static final Splitter CHAR_SPLITTER = Splitter.on('X');
   private static final Splitter STRING_SPLITTER = Splitter.on("X");
 
-  @BeforeExperiment void setUp() {
+  @BeforeExperiment
+  void setUp() {
     input = Strings.repeat(text, length);
   }
 
-  @Benchmark void charSplitter(int reps) {
+  @Benchmark
+  void charSplitter(int reps) {
     int total = 0;
 
     for (int i = 0; i < reps; i++) {
@@ -49,11 +53,12 @@ public class SplitterBenchmark {
     }
   }
 
-  @Benchmark void stringSplitter(int reps) {
+  @Benchmark
+  void stringSplitter(int reps) {
     int total = 0;
 
     for (int i = 0; i < reps; i++) {
-     total += Iterables.size(STRING_SPLITTER.split(input));
+      total += Iterables.size(STRING_SPLITTER.split(input));
     }
   }
 }

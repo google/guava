@@ -25,8 +25,7 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 
 /**
- * Common parent class for {@link ListIndexOfTester} and
- * {@link ListLastIndexOfTester}.
+ * Common parent class for {@link ListIndexOfTester} and {@link ListLastIndexOfTester}.
  *
  * @author Chris Povirk
  */
@@ -35,10 +34,7 @@ public abstract class AbstractListIndexOfTester<E> extends AbstractListTester<E>
   /** Override to call {@code indexOf()} or {@code lastIndexOf()}. */
   protected abstract int find(Object o);
 
-  /**
-   * Override to return "indexOf" or "lastIndexOf()" for use in failure
-   * messages.
-   */
+  /** Override to return "indexOf" or "lastIndexOf()" for use in failure messages. */
   protected abstract String getMethodName();
 
   @CollectionSize.Require(absent = ZERO)

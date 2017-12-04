@@ -37,12 +37,14 @@ public class ComparisonChainTest extends TestCase {
   }
 
   public void testCompareBooleans() {
-    assertEquals(0, ComparisonChain.start()
-        .compare(true, true)
-        .compare(true, Boolean.TRUE)
-        .compare(Boolean.TRUE, true)
-        .compare(Boolean.TRUE, Boolean.TRUE)
-        .result());
+    assertEquals(
+        0,
+        ComparisonChain.start()
+            .compare(true, true)
+            .compare(true, Boolean.TRUE)
+            .compare(Boolean.TRUE, true)
+            .compare(Boolean.TRUE, Boolean.TRUE)
+            .result());
   }
 
   public void testDegenerate() {
@@ -51,48 +53,47 @@ public class ComparisonChainTest extends TestCase {
   }
 
   public void testOneEqual() {
-    assertEquals(0, ComparisonChain.start()
-        .compare("a", "a")
-        .result());
+    assertEquals(0, ComparisonChain.start().compare("a", "a").result());
   }
 
   public void testOneEqualUsingComparator() {
-    assertEquals(0, ComparisonChain.start()
-        .compare("a", "A", String.CASE_INSENSITIVE_ORDER)
-        .result());
+    assertEquals(
+        0, ComparisonChain.start().compare("a", "A", String.CASE_INSENSITIVE_ORDER).result());
   }
 
   public void testManyEqual() {
-    assertEquals(0, ComparisonChain.start()
-        .compare(1, 1)
-        .compare(1L, 1L)
-        .compareFalseFirst(true, true)
-        .compare(1.0, 1.0)
-        .compare(1.0f, 1.0f)
-        .compare("a", "a", Ordering.usingToString())
-        .result());
+    assertEquals(
+        0,
+        ComparisonChain.start()
+            .compare(1, 1)
+            .compare(1L, 1L)
+            .compareFalseFirst(true, true)
+            .compare(1.0, 1.0)
+            .compare(1.0f, 1.0f)
+            .compare("a", "a", Ordering.usingToString())
+            .result());
   }
 
   public void testShortCircuitLess() {
-    assertTrue(ComparisonChain.start()
-        .compare("a", "b")
-        .compare(DONT_COMPARE_ME, DONT_COMPARE_ME)
-        .result() < 0);
+    assertTrue(
+        ComparisonChain.start().compare("a", "b").compare(DONT_COMPARE_ME, DONT_COMPARE_ME).result()
+            < 0);
   }
 
   public void testShortCircuitGreater() {
-    assertTrue(ComparisonChain.start()
-        .compare("b", "a")
-        .compare(DONT_COMPARE_ME, DONT_COMPARE_ME)
-        .result() > 0);
+    assertTrue(
+        ComparisonChain.start().compare("b", "a").compare(DONT_COMPARE_ME, DONT_COMPARE_ME).result()
+            > 0);
   }
 
   public void testShortCircuitSecondStep() {
-    assertTrue(ComparisonChain.start()
-        .compare("a", "a")
-        .compare("a", "b")
-        .compare(DONT_COMPARE_ME, DONT_COMPARE_ME)
-        .result() < 0);
+    assertTrue(
+        ComparisonChain.start()
+                .compare("a", "a")
+                .compare("a", "b")
+                .compare(DONT_COMPARE_ME, DONT_COMPARE_ME)
+                .result()
+            < 0);
   }
 
   public void testCompareFalseFirst() {

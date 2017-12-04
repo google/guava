@@ -60,62 +60,73 @@ public class ForwardingMapTest extends TestCase {
       this.backingMap = backingMap;
     }
 
-    @Override protected Map<K, V> delegate() {
+    @Override
+    protected Map<K, V> delegate() {
       return backingMap;
     }
 
-    @Override public boolean containsKey(Object key) {
+    @Override
+    public boolean containsKey(Object key) {
       return standardContainsKey(key);
     }
 
-    @Override public boolean containsValue(Object value) {
+    @Override
+    public boolean containsValue(Object value) {
       return standardContainsValue(value);
     }
 
-    @Override public void putAll(Map<? extends K, ? extends V> map) {
+    @Override
+    public void putAll(Map<? extends K, ? extends V> map) {
       standardPutAll(map);
     }
 
-    @Override public V remove(Object object) {
+    @Override
+    public V remove(Object object) {
       return standardRemove(object);
     }
 
-    @Override public boolean equals(Object object) {
+    @Override
+    public boolean equals(Object object) {
       return standardEquals(object);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       return standardHashCode();
     }
 
-    @Override public Set<K> keySet() {
+    @Override
+    public Set<K> keySet() {
       return new StandardKeySet();
     }
 
-    @Override public Collection<V> values() {
+    @Override
+    public Collection<V> values() {
       return new StandardValues();
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return standardToString();
     }
 
-    @Override public Set<Entry<K, V>> entrySet() {
+    @Override
+    public Set<Entry<K, V>> entrySet() {
       return new StandardEntrySet() {
         @Override
         public Iterator<Entry<K, V>> iterator() {
-          return delegate()
-              .entrySet()
-              .iterator();
+          return delegate().entrySet().iterator();
         }
       };
     }
 
-    @Override public void clear() {
+    @Override
+    public void clear() {
       standardClear();
     }
 
-    @Override public boolean isEmpty() {
+    @Override
+    public boolean isEmpty() {
       return standardIsEmpty();
     }
   }
@@ -174,11 +185,14 @@ public class ForwardingMapTest extends TestCase {
   @SuppressWarnings({"rawtypes", "unchecked"})
   public void testForwarding() {
     new ForwardingWrapperTester()
-        .testForwarding(Map.class, new Function<Map, Map>() {
-          @Override public Map apply(Map delegate) {
-            return wrap(delegate);
-          }
-        });
+        .testForwarding(
+            Map.class,
+            new Function<Map, Map>() {
+              @Override
+              public Map apply(Map delegate) {
+                return wrap(delegate);
+              }
+            });
   }
 
   public void testEquals() {
@@ -227,15 +241,18 @@ public class ForwardingMapTest extends TestCase {
     @SuppressWarnings("unchecked")
     final Map<String, Boolean> map = mock(Map.class);
 
-    Map<String, Boolean> forward = new ForwardingMap<String, Boolean>() {
-      @Override protected Map<String, Boolean> delegate() {
-        return map;
-      }
+    Map<String, Boolean> forward =
+        new ForwardingMap<String, Boolean>() {
+          @Override
+          protected Map<String, Boolean> delegate() {
+            return map;
+          }
 
-      @Override public Set<String> keySet() {
-        return new StandardKeySet();
-      }
-    };
+          @Override
+          public Set<String> keySet() {
+            return new StandardKeySet();
+          }
+        };
     callAllPublicMethods(Set.class, forward.keySet());
 
     // These are the methods specified by StandardKeySet
@@ -252,15 +269,18 @@ public class ForwardingMapTest extends TestCase {
     @SuppressWarnings("unchecked")
     final Map<String, Boolean> map = mock(Map.class);
 
-    Map<String, Boolean> forward = new ForwardingMap<String, Boolean>() {
-      @Override protected Map<String, Boolean> delegate() {
-        return map;
-      }
+    Map<String, Boolean> forward =
+        new ForwardingMap<String, Boolean>() {
+          @Override
+          protected Map<String, Boolean> delegate() {
+            return map;
+          }
 
-      @Override public Collection<Boolean> values() {
-        return new StandardValues();
-      }
-    };
+          @Override
+          public Collection<Boolean> values() {
+            return new StandardValues();
+          }
+        };
     callAllPublicMethods(Collection.class, forward.values());
 
     // These are the methods specified by StandardValues
@@ -300,7 +320,8 @@ public class ForwardingMapTest extends TestCase {
 
   private static <K, V> Map<K, V> wrap(final Map<K, V> delegate) {
     return new ForwardingMap<K, V>() {
-      @Override protected Map<K, V> delegate() {
+      @Override
+      protected Map<K, V> delegate() {
         return delegate;
       }
     };
@@ -316,17 +337,20 @@ public class ForwardingMapTest extends TestCase {
       // Generally, methods that accept java.util.function.* instances
       // don't like to get null values.  We generate them dynamically
       // using Proxy so that we can have Java 7 compliant code.
-      return Reflection.newProxy(returnType, new AbstractInvocationHandler() {
-        @Override public Object handleInvocation(Object proxy, Method method, Object[] args) {
-          // Crude, but acceptable until we can use Java 8.  Other
-          // methods have default implementations, and it is hard to
-          // distinguish.
-          if ("test".equals(method.getName()) || "accept".equals(method.getName())) {
-            return getDefaultValue(method.getReturnType());
-          }
-          throw new IllegalStateException("Unexpected " + method + " invoked on " + proxy);
-        }
-      });
+      return Reflection.newProxy(
+          returnType,
+          new AbstractInvocationHandler() {
+            @Override
+            public Object handleInvocation(Object proxy, Method method, Object[] args) {
+              // Crude, but acceptable until we can use Java 8.  Other
+              // methods have default implementations, and it is hard to
+              // distinguish.
+              if ("test".equals(method.getName()) || "accept".equals(method.getName())) {
+                return getDefaultValue(method.getReturnType());
+              }
+              throw new IllegalStateException("Unexpected " + method + " invoked on " + proxy);
+            }
+          });
     } else {
       return null;
     }
@@ -354,8 +378,8 @@ public class ForwardingMapTest extends TestCase {
           }
         }
       } catch (Throwable cause) {
-        throw new InvocationTargetException(cause,
-            method + " with args: " + Arrays.toString(parameters));
+        throw new InvocationTargetException(
+            cause, method + " with args: " + Arrays.toString(parameters));
       }
     }
   }

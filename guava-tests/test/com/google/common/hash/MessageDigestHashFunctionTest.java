@@ -60,7 +60,8 @@ public class MessageDigestHashFunctionTest extends TestCase {
   public void testPutAfterHash() {
     Hasher sha1 = Hashing.sha1().newHasher();
 
-    assertEquals("2fd4e1c67a2d28fced849ee1bb76e7391b93eb12",
+    assertEquals(
+        "2fd4e1c67a2d28fced849ee1bb76e7391b93eb12",
         sha1.putString("The quick brown fox jumps over the lazy dog", Charsets.UTF_8)
             .hash()
             .toString());
@@ -74,7 +75,8 @@ public class MessageDigestHashFunctionTest extends TestCase {
   public void testHashTwice() {
     Hasher sha1 = Hashing.sha1().newHasher();
 
-    assertEquals("2fd4e1c67a2d28fced849ee1bb76e7391b93eb12",
+    assertEquals(
+        "2fd4e1c67a2d28fced849ee1bb76e7391b93eb12",
         sha1.putString("The quick brown fox jumps over the lazy dog", Charsets.UTF_8)
             .hash()
             .toString());
@@ -96,8 +98,7 @@ public class MessageDigestHashFunctionTest extends TestCase {
     try {
       MessageDigest digest = MessageDigest.getInstance(algorithmName);
       assertEquals(
-          HashCode.fromBytes(digest.digest(input)),
-          ALGORITHMS.get(algorithmName).hashBytes(input));
+          HashCode.fromBytes(digest.digest(input)), ALGORITHMS.get(algorithmName).hashBytes(input));
       for (int bytes = 4; bytes <= digest.getDigestLength(); bytes++) {
         assertEquals(
             HashCode.fromBytes(Arrays.copyOf(digest.digest(input), bytes)),

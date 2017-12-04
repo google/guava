@@ -51,9 +51,7 @@ public abstract class TestEnumSetGenerator implements TestSetGenerator<AnEnum> {
     return new AnEnum[length];
   }
 
-  /**
-   * Sorts the enums according to their natural ordering.
-   */
+  /** Sorts the enums according to their natural ordering. */
   @Override
   public List<AnEnum> order(List<AnEnum> insertionOrder) {
     Collections.sort(insertionOrder);

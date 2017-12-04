@@ -120,7 +120,7 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
   }
 
   abstract Iterator<Table.Cell<R, C, V>> cellIterator();
-  
+
   abstract Spliterator<Table.Cell<R, C, V>> cellSpliterator();
 
   @WeakOuter
@@ -190,7 +190,7 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
       }
     };
   }
-  
+
   Spliterator<V> valuesSpliterator() {
     return CollectSpliterators.map(cellSpliterator(), Table.Cell::getValue);
   }
@@ -201,7 +201,7 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
     public Iterator<V> iterator() {
       return valuesIterator();
     }
-    
+
     @Override
     public Spliterator<V> spliterator() {
       return valuesSpliterator();
@@ -233,9 +233,7 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
     return cellSet().hashCode();
   }
 
-  /**
-   * Returns the string representation {@code rowMap().toString()}.
-   */
+  /** Returns the string representation {@code rowMap().toString()}. */
   @Override
   public String toString() {
     return rowMap().toString();

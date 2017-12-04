@@ -39,9 +39,8 @@ public abstract class LinearTransformation {
 
   /**
    * Start building an instance which maps {@code x = x1} to {@code y = y1}. Both arguments must be
-   * finite. Call either {@link LinearTransformationBuilder#and} or
-   * {@link LinearTransformationBuilder#withSlope} on the returned object to finish building the
-   * instance.
+   * finite. Call either {@link LinearTransformationBuilder#and} or {@link
+   * LinearTransformationBuilder#withSlope} on the returned object to finish building the instance.
    */
   public static LinearTransformationBuilder mapping(double x1, double y1) {
     checkArgument(isFinite(x1) && isFinite(y1));
@@ -49,10 +48,10 @@ public abstract class LinearTransformation {
   }
 
   /**
-   * This is an intermediate stage in the construction process. It is returned by
-   * {@link LinearTransformation#mapping}. You almost certainly don't want to keep instances around,
-   * but instead use method chaining. This represents a single point mapping, i.e. a mapping between
-   * one {@code x} and {@code y} value pair.
+   * This is an intermediate stage in the construction process. It is returned by {@link
+   * LinearTransformation#mapping}. You almost certainly don't want to keep instances around, but
+   * instead use method chaining. This represents a single point mapping, i.e. a mapping between one
+   * {@code x} and {@code y} value pair.
    *
    * @since 20.0
    */
@@ -119,28 +118,24 @@ public abstract class LinearTransformation {
 
   /**
    * Builds an instance for datasets which contains {@link Double#NaN}. The {@link #isHorizontal}
-   * and {@link #isVertical} methods return {@code false} and the {@link #slope}, and
-   * {@link #transform} methods all return {@link Double#NaN}. The {@link #inverse} method returns
-   * the same instance.
+   * and {@link #isVertical} methods return {@code false} and the {@link #slope}, and {@link
+   * #transform} methods all return {@link Double#NaN}. The {@link #inverse} method returns the same
+   * instance.
    */
   public static LinearTransformation forNaN() {
     return NaNLinearTransformation.INSTANCE;
   }
 
-  /**
-   * Returns whether this is a vertical transformation.
-   */
+  /** Returns whether this is a vertical transformation. */
   public abstract boolean isVertical();
 
-  /**
-   * Returns whether this is a horizontal transformation.
-   */
+  /** Returns whether this is a horizontal transformation. */
   public abstract boolean isHorizontal();
 
   /**
    * Returns the slope of the transformation, i.e. the rate of change of {@code y} with respect to
-   * {@code x}. This must not be called on a vertical transformation (i.e. when
-   * {@link #isVertical()} is true).
+   * {@code x}. This must not be called on a vertical transformation (i.e. when {@link
+   * #isVertical()} is true).
    */
   public abstract double slope();
 
@@ -166,8 +161,7 @@ public abstract class LinearTransformation {
     final double slope;
     final double yIntercept;
 
-    @LazyInit
-    LinearTransformation inverse;
+    @LazyInit LinearTransformation inverse;
 
     RegularLinearTransformation(double slope, double yIntercept) {
       this.slope = slope;
@@ -225,8 +219,7 @@ public abstract class LinearTransformation {
 
     final double x;
 
-    @LazyInit
-    LinearTransformation inverse;
+    @LazyInit LinearTransformation inverse;
 
     VerticalLinearTransformation(double x) {
       this.x = x;

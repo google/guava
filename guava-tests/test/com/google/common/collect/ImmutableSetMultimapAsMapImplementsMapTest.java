@@ -22,8 +22,7 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * Test {@link Multimap#asMap()} for an {@link ImmutableSetMultimap} with
- * {@link MapInterfaceTest}.
+ * Test {@link Multimap#asMap()} for an {@link ImmutableSetMultimap} with {@link MapInterfaceTest}.
  *
  * @author Mike Ward
  */
@@ -35,11 +34,13 @@ public class ImmutableSetMultimapAsMapImplementsMapTest
     super(false, false, false);
   }
 
-  @Override protected Map<String, Collection<Integer>> makeEmptyMap() {
+  @Override
+  protected Map<String, Collection<Integer>> makeEmptyMap() {
     return ImmutableSetMultimap.<String, Integer>of().asMap();
   }
 
-  @Override protected Map<String, Collection<Integer>> makePopulatedMap() {
+  @Override
+  protected Map<String, Collection<Integer>> makePopulatedMap() {
     Multimap<String, Integer> delegate = HashMultimap.create();
     populate(delegate);
     return ImmutableSetMultimap.copyOf(delegate).asMap();
