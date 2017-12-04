@@ -49,8 +49,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
 
   private final ExecutorService executor;
 
-  private
-  SimpleTimeLimiter(ExecutorService executor) {
+  private SimpleTimeLimiter(ExecutorService executor) {
     this.executor = checkNotNull(executor);
   }
 
