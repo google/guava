@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":42,"i1":10,"i2":42,"i3":10};
+var methods = {"i0":42,"i1":10,"i2":42,"i3":10,"i4":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -198,6 +198,14 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <div class="block">Creates the <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> which will return the result of calling <a href="../../../../../com/google/common/util/concurrent/AsyncCallable.html#call--"><code>AsyncCallable.call()</code></a> in <code>combiner</code> when all futures complete, using the specified <code>executor</code>.</div>
 </td>
 </tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code><a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/Futures.FutureCombiner.html#run-java.lang.Runnable-java.util.concurrent.Executor-">run</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;combiner,
+   <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</code>
+<div class="block">Creates the <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> which will return the result of running <code>combiner</code>
+ when all Futures complete.</div>
+</td>
+</tr>
 </table>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
@@ -275,7 +283,7 @@ public&nbsp;&lt;C&gt;&nbsp;<a href="../../../../../com/google/common/util/concur
 <a name="call-java.util.concurrent.Callable-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>call</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
@@ -286,6 +294,23 @@ public&nbsp;&lt;C&gt;&nbsp;<a href="../../../../../com/google/common/util/concur
      consider whether another executor would be safer, as discussed in the <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a> documentation. This method is
      scheduled to be removed in April 2018.</span></div>
 <div class="block">Like <a href="../../../../../com/google/common/util/concurrent/Futures.FutureCombiner.html#call-java.util.concurrent.Callable-java.util.concurrent.Executor-"><code>call(Callable, Executor)</code></a> but using <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor--">direct executor</a>.</div>
+</li>
+</ul>
+<a name="run-java.lang.Runnable-java.util.concurrent.Executor-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>run</h4>
+<pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.FutureCombiner.html#line.1021">run</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;combiner,
+                               <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
+<div class="block">Creates the <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> which will return the result of running <code>combiner</code>
+ when all Futures complete. <code>combiner</code> will run using <code>executor</code>.
+
+ <p>If the combiner throws a <code>CancellationException</code>, the returned future will be
+ cancelled.
+
+ <p>Canceling this Future will attempt to cancel all the component futures.</div>
 </li>
 </ul>
 </li>

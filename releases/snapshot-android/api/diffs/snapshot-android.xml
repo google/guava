@@ -63258,6 +63258,22 @@
      scheduled to be removed in April 2018.]]>
       </doc>
     </method>
+    <method name="run" return="com.google.common.util.concurrent.ListenableFuture&lt;?&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="combiner" type="java.lang.Runnable"/>
+      <param name="executor" type="java.util.concurrent.Executor"/>
+      <doc>
+      <![CDATA[Creates the {@link ListenableFuture} which will return the result of running {@code combiner}
+ when all Futures complete. {@code combiner} will run using {@code executor}.
+
+ <p>If the combiner throws a {@code CancellationException}, the returned future will be
+ cancelled.
+
+ <p>Canceling this Future will attempt to cancel all the component futures.]]>
+      </doc>
+    </method>
     <doc>
     <![CDATA[A helper to create a new {@code ListenableFuture} whose result is generated from a combination
  of input futures.
