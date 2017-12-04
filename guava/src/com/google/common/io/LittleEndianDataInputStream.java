@@ -227,7 +227,7 @@ public final class LittleEndianDataInputStream extends FilterInputStream impleme
    * @throws IOException if an error is encountered while reading
    * @throws EOFException if the end of file (EOF) is encountered.
    */
-  private byte readAndCheckByte() throws IOException, EOFException {
+  public byte readAndCheckByte() throws IOException, EOFException {
     int b1 = in.read();
 
     if (-1 == b1) {
