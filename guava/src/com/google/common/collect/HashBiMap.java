@@ -405,13 +405,14 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     BiEntry<K, V> next = firstInKeyInsertionOrder;
     BiEntry<K, V> toRemove = null;
     int expectedModCount = modCount;
+    int remaining = size();
 
     @Override
     public boolean hasNext() {
       if (modCount != expectedModCount) {
         throw new ConcurrentModificationException();
       }
-      return next != null;
+      return next != null && remaining > 0;
     }
 
     @Override
@@ -423,6 +424,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
       BiEntry<K, V> entry = next;
       next = entry.nextInKeyInsertionOrder;
       toRemove = entry;
+      remaining--;
       return output(entry);
     }
 

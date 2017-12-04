@@ -221,11 +221,33 @@ public class HashBiMapTest extends TestCase {
         Maps.immutableEntry(1, "quux")).inOrder();
   }
 
-  public void testInverseEntrySetValue() {
+  public void testInverseInsertionOrderAfterInverseForcePutPresentKey() {
+    BiMap<String, Integer> map = HashBiMap.create();
+    map.put("foo", 1);
+    map.put("bar", 2);
+    map.put("quux", 3);
+    map.put("nab", 4);
+
+    map.inverse().forcePut(4, "bar");
+    assertThat(map.entrySet())
+        .containsExactly(
+            Maps.immutableEntry("foo", 1),
+            Maps.immutableEntry("bar", 4),
+            Maps.immutableEntry("quux", 3))
+        .inOrder();
+  }
+
+  public void testInverseEntrySetValueNewKey() {
     BiMap<Integer, String> map = HashBiMap.create();
-    map.put(1, "one");
-    Entry<String, Integer> inverseEntry = Iterables.getOnlyElement(map.inverse().entrySet());
-    inverseEntry.setValue(2);
-    assertEquals(Integer.valueOf(2), inverseEntry.getValue());
+    map.put(1, "a");
+    map.put(2, "b");
+    Iterator<Entry<String, Integer>> inverseEntryItr = map.inverse().entrySet().iterator();
+    Entry<String, Integer> entry = inverseEntryItr.next();
+    entry.setValue(3);
+    assertEquals(Maps.immutableEntry("b", 2), inverseEntryItr.next());
+    assertFalse(inverseEntryItr.hasNext());
+    assertThat(map.entrySet())
+        .containsExactly(Maps.immutableEntry(2, "b"), Maps.immutableEntry(3, "a"))
+        .inOrder();
   }
 }

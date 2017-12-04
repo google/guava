@@ -104,6 +104,22 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E>
 
     Builder() {}
 
+    static int expandedCapacity(int oldCapacity, int minCapacity) {
+      if (minCapacity < 0) { 
+        throw new AssertionError("cannot store more than MAX_VALUE elements");
+      }
+      // careful of overflow!
+      int newCapacity = oldCapacity + (oldCapacity >> 1) + 1;
+      if (newCapacity < minCapacity) {
+        newCapacity = Integer.highestOneBit(minCapacity - 1) << 1;
+      }
+      if (newCapacity < 0) {
+        newCapacity = Integer.MAX_VALUE;
+        // guaranteed to be >= newCapacity
+      }
+      return newCapacity;
+    }
+
     public abstract Builder<E> add(E element);
 
     public Builder<E> add(E... elements) {
