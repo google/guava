@@ -132,8 +132,8 @@ public abstract class <a href="../../../../src-html/com/google/common/cache/Forw
 extends <a href="../../../../com/google/common/cache/ForwardingCache.html" title="class in com.google.common.cache">ForwardingCache</a>&lt;K,V&gt;
 implements <a href="../../../../com/google/common/cache/LoadingCache.html" title="interface in com.google.common.cache">LoadingCache</a>&lt;K,V&gt;</pre>
 <div class="block">A cache which forwards all its method calls to another cache. Subclasses should override one or
- more methods to modify the behavior of the backing cache as desired per the
- <a href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
+ more methods to modify the behavior of the backing cache as desired per the <a
+ href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
 
  <p>Note that <a href="../../../../com/google/common/cache/ForwardingLoadingCache.html#get-K-"><code>get(K)</code></a>, <a href="../../../../com/google/common/cache/ForwardingLoadingCache.html#getUnchecked-K-"><code>getUnchecked(K)</code></a>, and <a href="../../../../com/google/common/cache/ForwardingLoadingCache.html#apply-K-"><code>apply(K)</code></a> all expose the same
  underlying functionality, so should probably be overridden as a group.</div>
@@ -333,10 +333,10 @@ implements <a href="../../../../com/google/common/cache/LoadingCache.html" title
 <h4>delegate</h4>
 <pre>protected abstract&nbsp;<a href="../../../../com/google/common/cache/LoadingCache.html" title="interface in com.google.common.cache">LoadingCache</a>&lt;<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>,<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingLoadingCache.html#line.41">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingObject.html#delegate--">ForwardingObject</a></code></span></div>
-<div class="block">Returns the backing delegate instance that methods are forwarded to.
- Abstract subclasses generally override this method with an abstract method
- that has a more specific return type, such as <a href="../../../../com/google/common/collect/ForwardingSet.html#delegate--"><code>ForwardingSet.delegate()</code></a>. Concrete subclasses override this method to supply
- the instance being decorated.</div>
+<div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
+ generally override this method with an abstract method that has a more specific return type,
+ such as <a href="../../../../com/google/common/collect/ForwardingSet.html#delegate--"><code>ForwardingSet.delegate()</code></a>. Concrete subclasses override this method to supply the
+ instance being decorated.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/cache/ForwardingCache.html#delegate--">delegate</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/cache/ForwardingCache.html" title="class in com.google.common.cache">ForwardingCache</a>&lt;<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>,<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">V</a>&gt;</code></dd>
@@ -362,10 +362,9 @@ implements <a href="../../../../com/google/common/cache/LoadingCache.html" title
  multiple threads can concurrently load values for distinct keys.
 
  <p>Caches loaded by a <a href="../../../../com/google/common/cache/CacheLoader.html" title="class in com.google.common.cache"><code>CacheLoader</code></a> will call <a href="../../../../com/google/common/cache/CacheLoader.html#load-K-"><code>CacheLoader.load(K)</code></a> to load new values
- into the cache. Newly loaded values are added to the cache using
- <code>Cache.asMap().putIfAbsent</code> after loading has completed; if another value was associated
- with <code>key</code> while the new value was loading then a removal notification will be sent for
- the new value.
+ into the cache. Newly loaded values are added to the cache using <code>Cache.asMap().putIfAbsent</code> after loading has completed; if another value was associated with
+ <code>key</code> while the new value was loading then a removal notification will be sent for the
+ new value.
 
  <p>If the cache loader associated with this cache is known not to throw checked exceptions,
  then prefer <a href="../../../../com/google/common/cache/LoadingCache.html#getUnchecked-K-"><code>LoadingCache.getUnchecked(K)</code></a> over this method.</div>
@@ -373,8 +372,8 @@ implements <a href="../../../../com/google/common/cache/LoadingCache.html" title
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/cache/LoadingCache.html#get-K-">get</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/cache/LoadingCache.html" title="interface in com.google.common.cache">LoadingCache</a>&lt;<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>,<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">V</a>&gt;</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></code> - if a checked exception was thrown while loading the value. (<code>ExecutionException</code> is thrown
-     <a href="https://github.com/google/guava/wiki/CachesExplained#interruption">even if
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></code> - if a checked exception was thrown while loading the value. (<code>ExecutionException</code> is thrown <a
+     href="https://github.com/google/guava/wiki/CachesExplained#interruption">even if
      computation was interrupted by an <code>InterruptedException</code></a>.)</dd>
 </dl>
 </li>
@@ -399,10 +398,9 @@ implements <a href="../../../../com/google/common/cache/LoadingCache.html" title
  multiple threads can concurrently load values for distinct keys.
 
  <p>Caches loaded by a <a href="../../../../com/google/common/cache/CacheLoader.html" title="class in com.google.common.cache"><code>CacheLoader</code></a> will call <a href="../../../../com/google/common/cache/CacheLoader.html#load-K-"><code>CacheLoader.load(K)</code></a> to load new values
- into the cache. Newly loaded values are added to the cache using
- <code>Cache.asMap().putIfAbsent</code> after loading has completed; if another value was associated
- with <code>key</code> while the new value was loading then a removal notification will be sent for
- the new value.
+ into the cache. Newly loaded values are added to the cache using <code>Cache.asMap().putIfAbsent</code> after loading has completed; if another value was associated with
+ <code>key</code> while the new value was loading then a removal notification will be sent for the
+ new value.
 
  <p><b>Warning:</b> this method silently converts checked exceptions to unchecked exceptions,
  and should not be used with cache loaders which throw checked exceptions. In such cases use
@@ -426,9 +424,8 @@ implements <a href="../../../../com/google/common/cache/LoadingCache.html" title
  if necessary. The returned map contains entries that were already cached, combined with newly
  loaded entries; it will never contain null keys or values.
 
- <p>Caches loaded by a <a href="../../../../com/google/common/cache/CacheLoader.html" title="class in com.google.common.cache"><code>CacheLoader</code></a> will issue a single request to
- <a href="../../../../com/google/common/cache/CacheLoader.html#loadAll-java.lang.Iterable-"><code>CacheLoader.loadAll(java.lang.Iterable&lt;? extends K&gt;)</code></a> for all keys which are not already present in the cache. All
- entries returned by <a href="../../../../com/google/common/cache/CacheLoader.html#loadAll-java.lang.Iterable-"><code>CacheLoader.loadAll(java.lang.Iterable&lt;? extends K&gt;)</code></a> will be stored in the cache, over-writing any
+ <p>Caches loaded by a <a href="../../../../com/google/common/cache/CacheLoader.html" title="class in com.google.common.cache"><code>CacheLoader</code></a> will issue a single request to <a href="../../../../com/google/common/cache/CacheLoader.html#loadAll-java.lang.Iterable-"><code>CacheLoader.loadAll(java.lang.Iterable&lt;? extends K&gt;)</code></a> for all keys which are not already present in the cache. All entries
+ returned by <a href="../../../../com/google/common/cache/CacheLoader.html#loadAll-java.lang.Iterable-"><code>CacheLoader.loadAll(java.lang.Iterable&lt;? extends K&gt;)</code></a> will be stored in the cache, over-writing any
  previously cached values. This method will throw an exception if <a href="../../../../com/google/common/cache/CacheLoader.html#loadAll-java.lang.Iterable-"><code>CacheLoader.loadAll(java.lang.Iterable&lt;? extends K&gt;)</code></a>
  returns <code>null</code>, returns a map containing null keys or values, or fails to return an entry
  for each requested key.
@@ -439,8 +436,8 @@ implements <a href="../../../../com/google/common/cache/LoadingCache.html" title
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/cache/LoadingCache.html#getAll-java.lang.Iterable-">getAll</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/cache/LoadingCache.html" title="interface in com.google.common.cache">LoadingCache</a>&lt;<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>,<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">V</a>&gt;</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></code> - if a checked exception was thrown while loading the value. (<code>ExecutionException</code> is thrown
-     <a href="https://github.com/google/guava/wiki/CachesExplained#interruption">even if
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></code> - if a checked exception was thrown while loading the value. (<code>ExecutionException</code> is thrown <a
+     href="https://github.com/google/guava/wiki/CachesExplained#interruption">even if
      computation was interrupted by an <code>InterruptedException</code></a>.)</dd>
 </dl>
 </li>
@@ -459,9 +456,9 @@ implements <a href="../../../../com/google/common/cache/LoadingCache.html" title
  expected</i>, but not absolutely required, to have the following properties:
 
  <ul>
- <li>Its execution does not cause any observable side effects.
- <li>The computation is <i>consistent with equals</i>; that is, <a href="../../../../com/google/common/base/Objects.html#equal-java.lang.Object-java.lang.Object-"><code>Objects.equal</code></a><code>(a, b)</code> implies that <code>Objects.equal(function.apply(a),
-     function.apply(b))</code>.
+   <li>Its execution does not cause any observable side effects.
+   <li>The computation is <i>consistent with equals</i>; that is, <a href="../../../../com/google/common/base/Objects.html#equal-java.lang.Object-java.lang.Object-"><code>Objects.equal</code></a><code>(a, b)</code> implies that <code>Objects.equal(function.apply(a),
+       function.apply(b))</code>.
  </ul></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -492,9 +489,8 @@ implements <a href="../../../../com/google/common/cache/LoadingCache.html" title
  asynchronous only if <a href="../../../../com/google/common/cache/CacheLoader.html#reload-K-V-"><code>CacheLoader.reload(K, V)</code></a> was overridden with an asynchronous
  implementation.
 
- <p>Returns without doing anything if another thread is currently loading the value for
- <code>key</code>. If the cache loader associated with this cache performs refresh asynchronously
- then this method may return before refresh completes.</div>
+ <p>Returns without doing anything if another thread is currently loading the value for <code>key</code>. If the cache loader associated with this cache performs refresh asynchronously then this
+ method may return before refresh completes.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/cache/LoadingCache.html#refresh-K-">refresh</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/cache/LoadingCache.html" title="interface in com.google.common.cache">LoadingCache</a>&lt;<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>,<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">V</a>&gt;</code></dd>

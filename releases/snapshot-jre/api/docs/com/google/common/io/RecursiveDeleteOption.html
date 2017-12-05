@@ -122,8 +122,7 @@ var activeTableTab = "activeTableTab";
  <a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public enum <a href="../../../../src-html/com/google/common/io/RecursiveDeleteOption.html#line.34">RecursiveDeleteOption</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;<a href="../../../../com/google/common/io/RecursiveDeleteOption.html" title="enum in com.google.common.io">RecursiveDeleteOption</a>&gt;</pre>
-<div class="block">Options for use with recursive delete methods (<a href="../../../../com/google/common/io/MoreFiles.html#deleteRecursively-java.nio.file.Path-com.google.common.io.RecursiveDeleteOption...-"><code>MoreFiles.deleteRecursively(java.nio.file.Path, com.google.common.io.RecursiveDeleteOption...)</code></a> and
- <a href="../../../../com/google/common/io/MoreFiles.html#deleteDirectoryContents-java.nio.file.Path-com.google.common.io.RecursiveDeleteOption...-"><code>MoreFiles.deleteDirectoryContents(java.nio.file.Path, com.google.common.io.RecursiveDeleteOption...)</code></a>).</div>
+<div class="block">Options for use with recursive delete methods (<a href="../../../../com/google/common/io/MoreFiles.html#deleteRecursively-java.nio.file.Path-com.google.common.io.RecursiveDeleteOption...-"><code>MoreFiles.deleteRecursively(java.nio.file.Path, com.google.common.io.RecursiveDeleteOption...)</code></a> and <a href="../../../../com/google/common/io/MoreFiles.html#deleteDirectoryContents-java.nio.file.Path-com.google.common.io.RecursiveDeleteOption...-"><code>MoreFiles.deleteDirectoryContents(java.nio.file.Path, com.google.common.io.RecursiveDeleteOption...)</code></a>).</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>21.0</dd>
@@ -222,9 +221,9 @@ the order they are declared.</div>
  system does not support <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/file/SecureDirectoryStream.html?is-external=true" title="class or interface in java.nio.file"><code>SecureDirectoryStream</code></a>).
 
  <p><b>Warning:</b> On a file system that supports symbolic links, it is possible for an
- insecure recursive delete to delete files and directories that are <i>outside</i> the
- directory being deleted. This can happen if, after checking that a file is a directory (and
- not a symbolic link), that directory is deleted and replaced by a symbolic link to an outside
+ insecure recursive delete to delete files and directories that are <i>outside</i> the directory
+ being deleted. This can happen if, after checking that a file is a directory (and not a
+ symbolic link), that directory is deleted and replaced by a symbolic link to an outside
  directory before the call that opens the directory to read its entries. File systems that
  support <code>SecureDirectoryStream</code> do not have this vulnerability.</div>
 </li>

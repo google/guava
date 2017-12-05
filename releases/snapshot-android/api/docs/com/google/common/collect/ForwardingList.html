@@ -124,30 +124,27 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.58">ForwardingList</a>&lt;E&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.54">ForwardingList</a>&lt;E&gt;
 extends <a href="../../../../com/google/common/collect/ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;E&gt;
 implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;</pre>
-<div class="block">A list which forwards all its method calls to another list. Subclasses should
- override one or more methods to modify the behavior of the backing list as
- desired per the <a
+<div class="block">A list which forwards all its method calls to another list. Subclasses should override one or
+ more methods to modify the behavior of the backing list as desired per the <a
  href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
 
- <p>This class does not implement <a href="https://docs.oracle.com/javase/9/docs/api/java/util/RandomAccess.html?is-external=true" title="class or interface in java.util"><code>RandomAccess</code></a>. If the
- delegate supports random access, the <code>ForwardingList</code> subclass should
- implement the <code>RandomAccess</code> interface.
+ <p>This class does not implement <a href="https://docs.oracle.com/javase/9/docs/api/java/util/RandomAccess.html?is-external=true" title="class or interface in java.util"><code>RandomAccess</code></a>. If the delegate supports random
+ access, the <code>ForwardingList</code> subclass should implement the <code>RandomAccess</code> interface.
 
- <p><b>Warning:</b> The methods of <code>ForwardingList</code> forward
- <b>indiscriminately</b> to the methods of the delegate. For example,
- overriding <a href="../../../../com/google/common/collect/ForwardingList.html#add-int-E-"><code>add(int, E)</code></a> alone <b>will not</b> change the behavior of <a href="../../../../com/google/common/collect/ForwardingList.html#addAll-int-java.util.Collection-"><code>addAll(int, java.util.Collection&lt;? extends E&gt;)</code></a>, which can lead to unexpected behavior. In this case, you should
- override <code>addAll</code> as well, either providing your own implementation, or
- delegating to the provided <code>standardAddAll</code> method.
+ <p><b>Warning:</b> The methods of <code>ForwardingList</code> forward <b>indiscriminately</b> to the
+ methods of the delegate. For example, overriding <a href="../../../../com/google/common/collect/ForwardingList.html#add-int-E-"><code>add(int, E)</code></a> alone <b>will not</b> change the
+ behavior of <a href="../../../../com/google/common/collect/ForwardingList.html#addAll-int-java.util.Collection-"><code>addAll(int, java.util.Collection&lt;? extends E&gt;)</code></a>, which can lead to unexpected behavior. In this case, you should
+ override <code>addAll</code> as well, either providing your own implementation, or delegating to the
+ provided <code>standardAddAll</code> method.
 
  <p><b><code>default</code> method warning:</b> This class does <i>not</i> forward calls to <code>default</code> methods. Instead, it inherits their default implementations. When those implementations
  invoke methods, they invoke methods on the <code>ForwardingList</code>.
 
- <p>The <code>standard</code> methods and any collection views they return are not
- guaranteed to be thread-safe, even when all of the methods that they depend
- on are thread-safe.</div>
+ <p>The <code>standard</code> methods and any collection views they return are not guaranteed to be
+ thread-safe, even when all of the methods that they depend on are thread-safe.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
@@ -279,23 +276,21 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingList.html#standardAdd-E-">standardAdd</a></span>(<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&nbsp;element)</code>
-<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingCollection.html#add-E-"><code>ForwardingCollection.add(Object)</code></a>, in terms of
- <a href="../../../../com/google/common/collect/ForwardingList.html#add-int-E-"><code>add(int, Object)</code></a>.</div>
+<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingCollection.html#add-E-"><code>ForwardingCollection.add(Object)</code></a>, in terms of <a href="../../../../com/google/common/collect/ForwardingList.html#add-int-E-"><code>add(int,
+ Object)</code></a>.</div>
 </td>
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingList.html#standardAddAll-int-java.lang.Iterable-">standardAddAll</a></span>(int&nbsp;index,
               <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;elements)</code>
-<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingList.html#addAll-int-java.util.Collection-"><code>addAll(int, Collection)</code></a>, in
- terms of the <code>add</code> method of <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator-int-"><code>listIterator(int)</code></a>.</div>
+<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingList.html#addAll-int-java.util.Collection-"><code>addAll(int, Collection)</code></a>, in terms of the <code>add</code> method of <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator-int-"><code>listIterator(int)</code></a>.</div>
 </td>
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingList.html#standardEquals-java.lang.Object-">standardEquals</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</code>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingList.html#equals-java.lang.Object-"><code>equals(Object)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#size--"><code>ForwardingCollection.size()</code></a>
- and <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>ForwardingCollection.iterator()</code></a>.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingList.html#equals-java.lang.Object-"><code>equals(Object)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#size--"><code>ForwardingCollection.size()</code></a> and <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>ForwardingCollection.iterator()</code></a>.</div>
 </td>
 </tr>
 <tr id="i15" class="rowColor">
@@ -313,29 +308,26 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code>protected <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingList.html#standardIterator--">standardIterator</a></span>()</code>
-<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>ForwardingCollection.iterator()</code></a>, in terms of
- <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator--"><code>listIterator()</code></a>.</div>
+<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>ForwardingCollection.iterator()</code></a>, in terms of <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator--"><code>listIterator()</code></a>.</div>
 </td>
 </tr>
 <tr id="i18" class="altColor">
 <td class="colFirst"><code>protected int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingList.html#standardLastIndexOf-java.lang.Object-">standardLastIndexOf</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element)</code>
-<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingList.html#lastIndexOf-java.lang.Object-"><code>lastIndexOf(java.lang.Object)</code></a>, in terms of
- <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator-int-"><code>listIterator(int)</code></a>.</div>
+<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingList.html#lastIndexOf-java.lang.Object-"><code>lastIndexOf(java.lang.Object)</code></a>, in terms of <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator-int-"><code>listIterator(int)</code></a>.</div>
 </td>
 </tr>
 <tr id="i19" class="rowColor">
 <td class="colFirst"><code>protected <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true" title="class or interface in java.util">ListIterator</a>&lt;<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingList.html#standardListIterator--">standardListIterator</a></span>()</code>
-<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator--"><code>listIterator()</code></a>, in terms of
- <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator-int-"><code>listIterator(int)</code></a>.</div>
+<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator--"><code>listIterator()</code></a>, in terms of <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator-int-"><code>listIterator(int)</code></a>.</div>
 </td>
 </tr>
 <tr id="i20" class="altColor">
 <td class="colFirst"><code>protected <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true" title="class or interface in java.util">ListIterator</a>&lt;<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingList.html#standardListIterator-int-">standardListIterator</a></span>(int&nbsp;start)</code>
-<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator-int-"><code>listIterator(int)</code></a>, in terms
- of <a href="../../../../com/google/common/collect/ForwardingCollection.html#size--"><code>ForwardingCollection.size()</code></a>, <a href="../../../../com/google/common/collect/ForwardingList.html#get-int-"><code>get(int)</code></a>, <a href="../../../../com/google/common/collect/ForwardingList.html#set-int-E-"><code>set(int, Object)</code></a>, <a href="../../../../com/google/common/collect/ForwardingList.html#add-int-E-"><code>add(int, Object)</code></a>, and <a href="../../../../com/google/common/collect/ForwardingList.html#remove-int-"><code>remove(int)</code></a>.</div>
+<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator-int-"><code>listIterator(int)</code></a>, in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#size--"><code>ForwardingCollection.size()</code></a>,
+ <a href="../../../../com/google/common/collect/ForwardingList.html#get-int-"><code>get(int)</code></a>, <a href="../../../../com/google/common/collect/ForwardingList.html#set-int-E-"><code>set(int, Object)</code></a>, <a href="../../../../com/google/common/collect/ForwardingList.html#add-int-E-"><code>add(int, Object)</code></a>, and <a href="../../../../com/google/common/collect/ForwardingList.html#remove-int-"><code>remove(int)</code></a>.</div>
 </td>
 </tr>
 <tr id="i21" class="rowColor">
@@ -416,7 +408,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingList</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.62">ForwardingList</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.58">ForwardingList</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -434,12 +426,12 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre>protected abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.65">delegate</a>()</pre>
+<pre>protected abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.61">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingObject.html#delegate--">ForwardingObject</a></code></span></div>
-<div class="block">Returns the backing delegate instance that methods are forwarded to.
- Abstract subclasses generally override this method with an abstract method
- that has a more specific return type, such as <a href="../../../../com/google/common/collect/ForwardingSet.html#delegate--"><code>ForwardingSet.delegate()</code></a>. Concrete subclasses override this method to supply
- the instance being decorated.</div>
+<div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
+ generally override this method with an abstract method that has a more specific return type,
+ such as <a href="../../../../com/google/common/collect/ForwardingSet.html#delegate--"><code>ForwardingSet.delegate()</code></a>. Concrete subclasses override this method to supply the
+ instance being decorated.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ForwardingCollection.html#delegate--">delegate</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;</code></dd>
@@ -454,7 +446,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>add</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.68">add</a>(int&nbsp;index,
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.64">add</a>(int&nbsp;index,
                 <a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&nbsp;element)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#add-int-E-" title="class or interface in java.util">java.util.List</a></code></span></div>
 <div class="block">Inserts the specified element at the specified position in this list
@@ -477,7 +469,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 <li class="blockList">
 <h4>addAll</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.74">addAll</a>(int&nbsp;index,
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.70">addAll</a>(int&nbsp;index,
                                             <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;elements)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#addAll-int-java.util.Collection-" title="class or interface in java.util">java.util.List</a></code></span></div>
 <div class="block">Inserts all of the elements in the specified collection into this
@@ -507,7 +499,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.79">get</a>(int&nbsp;index)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.75">get</a>(int&nbsp;index)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#get-int-" title="class or interface in java.util">java.util.List</a></code></span></div>
 <div class="block">Returns the element at the specified position in this list.</div>
 <dl>
@@ -526,7 +518,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>indexOf</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.84">indexOf</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element)</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.80">indexOf</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#indexOf-java.lang.Object-" title="class or interface in java.util">java.util.List</a></code></span></div>
 <div class="block">Returns the index of the first occurrence of the specified element
  in this list, or -1 if this list does not contain the element.
@@ -550,7 +542,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>lastIndexOf</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.89">lastIndexOf</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element)</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.85">lastIndexOf</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#lastIndexOf-java.lang.Object-" title="class or interface in java.util">java.util.List</a></code></span></div>
 <div class="block">Returns the index of the last occurrence of the specified element
  in this list, or -1 if this list does not contain the element.
@@ -574,7 +566,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>listIterator</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true" title="class or interface in java.util">ListIterator</a>&lt;<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.94">listIterator</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true" title="class or interface in java.util">ListIterator</a>&lt;<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.90">listIterator</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#listIterator--" title="class or interface in java.util">java.util.List</a></code></span></div>
 <div class="block">Returns a list iterator over the elements in this list (in proper
  sequence).</div>
@@ -593,7 +585,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>listIterator</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true" title="class or interface in java.util">ListIterator</a>&lt;<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.99">listIterator</a>(int&nbsp;index)</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true" title="class or interface in java.util">ListIterator</a>&lt;<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.95">listIterator</a>(int&nbsp;index)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#listIterator-int-" title="class or interface in java.util">java.util.List</a></code></span></div>
 <div class="block">Returns a list iterator over the elements in this list (in proper
  sequence), starting at the specified position in the list.
@@ -620,7 +612,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>remove</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.105">remove</a>(int&nbsp;index)</pre>
+public&nbsp;<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.101">remove</a>(int&nbsp;index)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#remove-int-" title="class or interface in java.util">java.util.List</a></code></span></div>
 <div class="block">Removes the element at the specified position in this list (optional
  operation).  Shifts any subsequent elements to the left (subtracts one
@@ -645,7 +637,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingList.html" 
 <li class="blockList">
 <h4>set</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.111">set</a>(int&nbsp;index,
+public&nbsp;<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.107">set</a>(int&nbsp;index,
                                    <a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&nbsp;element)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#set-int-E-" title="class or interface in java.util">java.util.List</a></code></span></div>
 <div class="block">Replaces the element at the specified position in this list with the
@@ -667,7 +659,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingList.html" 
 <ul class="blockList">
 <li class="blockList">
 <h4>subList</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.116">subList</a>(int&nbsp;fromIndex,
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.112">subList</a>(int&nbsp;fromIndex,
                        int&nbsp;toIndex)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#subList-int-int-" title="class or interface in java.util">java.util.List</a></code></span></div>
 <div class="block">Returns a view of the portion of this list between the specified
@@ -712,7 +704,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingList.html" 
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.121">equals</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.117">equals</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Indicates whether some other object is "equal to" this one.
@@ -777,7 +769,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingList.html" 
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.126">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.122">hashCode</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Returns a hash code value for the object. This method is
  supported for the benefit of hash tables such as those provided by
@@ -831,11 +823,9 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingList.html" 
 <ul class="blockList">
 <li class="blockList">
 <h4>standardAdd</h4>
-<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.138">standardAdd</a>(<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&nbsp;element)</pre>
-<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingCollection.html#add-E-"><code>ForwardingCollection.add(Object)</code></a>, in terms of
- <a href="../../../../com/google/common/collect/ForwardingList.html#add-int-E-"><code>add(int, Object)</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingList.html#add-int-E-"><code>add(int, Object)</code></a>, you
- may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#add-E-"><code>ForwardingCollection.add(Object)</code></a> to forward to this
- implementation.</div>
+<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.133">standardAdd</a>(<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&nbsp;element)</pre>
+<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingCollection.html#add-E-"><code>ForwardingCollection.add(Object)</code></a>, in terms of <a href="../../../../com/google/common/collect/ForwardingList.html#add-int-E-"><code>add(int,
+ Object)</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingList.html#add-int-E-"><code>add(int, Object)</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#add-E-"><code>ForwardingCollection.add(Object)</code></a> to forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -848,11 +838,10 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingList.html" 
 <ul class="blockList">
 <li class="blockList">
 <h4>standardAddAll</h4>
-<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.151">standardAddAll</a>(int&nbsp;index,
+<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.145">standardAddAll</a>(int&nbsp;index,
                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;elements)</pre>
-<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingList.html#addAll-int-java.util.Collection-"><code>addAll(int, Collection)</code></a>, in
- terms of the <code>add</code> method of <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator-int-"><code>listIterator(int)</code></a>. If you
- override <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator-int-"><code>listIterator(int)</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingList.html#addAll-int-java.util.Collection-"><code>addAll(int, Collection)</code></a> to forward to this implementation.</div>
+<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingList.html#addAll-int-java.util.Collection-"><code>addAll(int, Collection)</code></a>, in terms of the <code>add</code> method of <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator-int-"><code>listIterator(int)</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator-int-"><code>listIterator(int)</code></a>, you may
+ wish to override <a href="../../../../com/google/common/collect/ForwardingList.html#addAll-int-java.util.Collection-"><code>addAll(int, Collection)</code></a> to forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -865,10 +854,11 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingList.html" 
 <ul class="blockList">
 <li class="blockList">
 <h4>standardIndexOf</h4>
-<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.162">standardIndexOf</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.156">standardIndexOf</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element)</pre>
-<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingList.html#indexOf-java.lang.Object-"><code>indexOf(java.lang.Object)</code></a>, in terms of <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator--"><code>listIterator()</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator--"><code>listIterator()</code></a>, you may wish to
- override <a href="../../../../com/google/common/collect/ForwardingList.html#indexOf-java.lang.Object-"><code>indexOf(java.lang.Object)</code></a> to forward to this implementation.</div>
+<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingList.html#indexOf-java.lang.Object-"><code>indexOf(java.lang.Object)</code></a>, in terms of <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator--"><code>listIterator()</code></a>. If
+ you override <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator--"><code>listIterator()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingList.html#indexOf-java.lang.Object-"><code>indexOf(java.lang.Object)</code></a> to forward to
+ this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -881,12 +871,10 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingList.html" 
 <ul class="blockList">
 <li class="blockList">
 <h4>standardLastIndexOf</h4>
-<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.174">standardLastIndexOf</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.167">standardLastIndexOf</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                   <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element)</pre>
-<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingList.html#lastIndexOf-java.lang.Object-"><code>lastIndexOf(java.lang.Object)</code></a>, in terms of
- <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator-int-"><code>listIterator(int)</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator-int-"><code>listIterator(int)</code></a>, you
- may wish to override <a href="../../../../com/google/common/collect/ForwardingList.html#lastIndexOf-java.lang.Object-"><code>lastIndexOf(java.lang.Object)</code></a> to forward to this
- implementation.</div>
+<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingList.html#lastIndexOf-java.lang.Object-"><code>lastIndexOf(java.lang.Object)</code></a>, in terms of <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator-int-"><code>listIterator(int)</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator-int-"><code>listIterator(int)</code></a>, you may wish to override
+ <a href="../../../../com/google/common/collect/ForwardingList.html#lastIndexOf-java.lang.Object-"><code>lastIndexOf(java.lang.Object)</code></a> to forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -899,10 +887,10 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingList.html" 
 <ul class="blockList">
 <li class="blockList">
 <h4>standardIterator</h4>
-<pre>protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.185">standardIterator</a>()</pre>
-<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>ForwardingCollection.iterator()</code></a>, in terms of
- <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator--"><code>listIterator()</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator--"><code>listIterator()</code></a>, you may
- wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>ForwardingCollection.iterator()</code></a> to forward to this implementation.</div>
+<pre>protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.178">standardIterator</a>()</pre>
+<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>ForwardingCollection.iterator()</code></a>, in terms of <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator--"><code>listIterator()</code></a>. If
+ you override <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator--"><code>listIterator()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>ForwardingCollection.iterator()</code></a> to forward to
+ this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -915,11 +903,9 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingList.html" 
 <ul class="blockList">
 <li class="blockList">
 <h4>standardListIterator</h4>
-<pre>protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true" title="class or interface in java.util">ListIterator</a>&lt;<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.197">standardListIterator</a>()</pre>
-<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator--"><code>listIterator()</code></a>, in terms of
- <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator-int-"><code>listIterator(int)</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator-int-"><code>listIterator(int)</code></a>, you
- may wish to override <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator--"><code>listIterator()</code></a> to forward to this
- implementation.</div>
+<pre>protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true" title="class or interface in java.util">ListIterator</a>&lt;<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.189">standardListIterator</a>()</pre>
+<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator--"><code>listIterator()</code></a>, in terms of <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator-int-"><code>listIterator(int)</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator-int-"><code>listIterator(int)</code></a>, you may wish to override
+ <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator--"><code>listIterator()</code></a> to forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -933,11 +919,9 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingList.html" 
 <li class="blockList">
 <h4>standardListIterator</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true" title="class or interface in java.util">ListIterator</a>&lt;<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.211">standardListIterator</a>(int&nbsp;start)</pre>
-<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator-int-"><code>listIterator(int)</code></a>, in terms
- of <a href="../../../../com/google/common/collect/ForwardingCollection.html#size--"><code>ForwardingCollection.size()</code></a>, <a href="../../../../com/google/common/collect/ForwardingList.html#get-int-"><code>get(int)</code></a>, <a href="../../../../com/google/common/collect/ForwardingList.html#set-int-E-"><code>set(int, Object)</code></a>, <a href="../../../../com/google/common/collect/ForwardingList.html#add-int-E-"><code>add(int, Object)</code></a>, and <a href="../../../../com/google/common/collect/ForwardingList.html#remove-int-"><code>remove(int)</code></a>. If you override any of these
- methods, you may wish to override <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator-int-"><code>listIterator(int)</code></a> to forward to
- this implementation.</div>
+protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true" title="class or interface in java.util">ListIterator</a>&lt;<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.202">standardListIterator</a>(int&nbsp;start)</pre>
+<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator-int-"><code>listIterator(int)</code></a>, in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#size--"><code>ForwardingCollection.size()</code></a>,
+ <a href="../../../../com/google/common/collect/ForwardingList.html#get-int-"><code>get(int)</code></a>, <a href="../../../../com/google/common/collect/ForwardingList.html#set-int-E-"><code>set(int, Object)</code></a>, <a href="../../../../com/google/common/collect/ForwardingList.html#add-int-E-"><code>add(int, Object)</code></a>, and <a href="../../../../com/google/common/collect/ForwardingList.html#remove-int-"><code>remove(int)</code></a>. If you override any of these methods, you may wish to override <a href="../../../../com/google/common/collect/ForwardingList.html#listIterator-int-"><code>listIterator(int)</code></a> to forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -951,11 +935,10 @@ protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List
 <li class="blockList">
 <h4>standardSubList</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.223">standardSubList</a>(int&nbsp;fromIndex,
+protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.213">standardSubList</a>(int&nbsp;fromIndex,
                                         int&nbsp;toIndex)</pre>
-<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingList.html#subList-int-int-"><code>subList(int, int)</code></a>. If you
- override any other methods, you may wish to override <a href="../../../../com/google/common/collect/ForwardingList.html#subList-int-int-"><code>subList(int,
- int)</code></a> to forward to this implementation.</div>
+<div class="block">A sensible default implementation of <a href="../../../../com/google/common/collect/ForwardingList.html#subList-int-int-"><code>subList(int, int)</code></a>. If you override any other
+ methods, you may wish to override <a href="../../../../com/google/common/collect/ForwardingList.html#subList-int-int-"><code>subList(int, int)</code></a> to forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -969,11 +952,9 @@ protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List
 <li class="blockList">
 <h4>standardEquals</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.235">standardEquals</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.225">standardEquals</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                        <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingList.html#equals-java.lang.Object-"><code>equals(Object)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#size--"><code>ForwardingCollection.size()</code></a>
- and <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>ForwardingCollection.iterator()</code></a>. If you override either of those methods, you may
- wish to override <a href="../../../../com/google/common/collect/ForwardingList.html#equals-java.lang.Object-"><code>equals(Object)</code></a> to forward to this implementation.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingList.html#equals-java.lang.Object-"><code>equals(Object)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#size--"><code>ForwardingCollection.size()</code></a> and <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>ForwardingCollection.iterator()</code></a>. If you override either of those methods, you may wish to override <a href="../../../../com/google/common/collect/ForwardingList.html#equals-java.lang.Object-"><code>equals(Object)</code></a> to forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -987,9 +968,10 @@ protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/coll
 <li class="blockList">
 <h4>standardHashCode</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.247">standardHashCode</a>()</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingList.html#hashCode--"><code>hashCode()</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>ForwardingCollection.iterator()</code></a>.
- If you override <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>ForwardingCollection.iterator()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingList.html#hashCode--"><code>hashCode()</code></a> to forward to this implementation.</div>
+protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingList.html#line.237">standardHashCode</a>()</pre>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingList.html#hashCode--"><code>hashCode()</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>ForwardingCollection.iterator()</code></a>. If you override
+ <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>ForwardingCollection.iterator()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingList.html#hashCode--"><code>hashCode()</code></a> to forward to this
+ implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>

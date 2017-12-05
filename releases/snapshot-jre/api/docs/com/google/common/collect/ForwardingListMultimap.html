@@ -187,8 +187,7 @@ implements <a href="../../../../com/google/common/collect/ListMultimap.html" tit
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../com/google/common/collect/ForwardingListMultimap.html" title="type parameter in ForwardingListMultimap">V</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingListMultimap.html#get-K-">get</a></span>(<a href="../../../../com/google/common/collect/ForwardingListMultimap.html" title="type parameter in ForwardingListMultimap">K</a>&nbsp;key)</code>
-<div class="block">Returns a view collection of the values associated with <code>key</code> in this
- multimap, if any.</div>
+<div class="block">Returns a view collection of the values associated with <code>key</code> in this multimap, if any.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
@@ -201,8 +200,7 @@ implements <a href="../../../../com/google/common/collect/ListMultimap.html" tit
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../com/google/common/collect/ForwardingListMultimap.html" title="type parameter in ForwardingListMultimap">V</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingListMultimap.html#replaceValues-K-java.lang.Iterable-">replaceValues</a></span>(<a href="../../../../com/google/common/collect/ForwardingListMultimap.html" title="type parameter in ForwardingListMultimap">K</a>&nbsp;key,
              <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/ForwardingListMultimap.html" title="type parameter in ForwardingListMultimap">V</a>&gt;&nbsp;values)</code>
-<div class="block">Stores a collection of values with the same key, replacing any existing
- values for that key.</div>
+<div class="block">Stores a collection of values with the same key, replacing any existing values for that key.</div>
 </td>
 </tr>
 </table>
@@ -281,10 +279,10 @@ implements <a href="../../../../com/google/common/collect/ListMultimap.html" tit
 <h4>delegate</h4>
 <pre>protected abstract&nbsp;<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingListMultimap.html" title="type parameter in ForwardingListMultimap">K</a>,<a href="../../../../com/google/common/collect/ForwardingListMultimap.html" title="type parameter in ForwardingListMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingListMultimap.html#line.44">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingObject.html#delegate--">ForwardingObject</a></code></span></div>
-<div class="block">Returns the backing delegate instance that methods are forwarded to.
- Abstract subclasses generally override this method with an abstract method
- that has a more specific return type, such as <a href="../../../../com/google/common/collect/ForwardingSet.html#delegate--"><code>ForwardingSet.delegate()</code></a>. Concrete subclasses override this method to supply
- the instance being decorated.</div>
+<div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
+ generally override this method with an abstract method that has a more specific return type,
+ such as <a href="../../../../com/google/common/collect/ForwardingSet.html#delegate--"><code>ForwardingSet.delegate()</code></a>. Concrete subclasses override this method to supply the
+ instance being decorated.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ForwardingMultimap.html#delegate--">delegate</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="class in com.google.common.collect">ForwardingMultimap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingListMultimap.html" title="type parameter in ForwardingListMultimap">K</a>,<a href="../../../../com/google/common/collect/ForwardingListMultimap.html" title="type parameter in ForwardingListMultimap">V</a>&gt;</code></dd>
@@ -302,12 +300,10 @@ implements <a href="../../../../com/google/common/collect/ListMultimap.html" tit
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../com/google/common/collect/ForwardingListMultimap.html" title="type parameter in ForwardingListMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingListMultimap.html#line.47">get</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                    <a href="../../../../com/google/common/collect/ForwardingListMultimap.html" title="type parameter in ForwardingListMultimap">K</a>&nbsp;key)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#get-K-">Multimap</a></code></span></div>
-<div class="block">Returns a view collection of the values associated with <code>key</code> in this
- multimap, if any. Note that when <code>containsKey(key)</code> is false, this
- returns an empty collection, not <code>null</code>.
+<div class="block">Returns a view collection of the values associated with <code>key</code> in this multimap, if any.
+ Note that when <code>containsKey(key)</code> is false, this returns an empty collection, not <code>null</code>.
 
- <p>Changes to the returned collection will update the underlying multimap,
- and vice versa.</div>
+ <p>Changes to the returned collection will update the underlying multimap, and vice versa.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ListMultimap.html#get-K-">get</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingListMultimap.html" title="type parameter in ForwardingListMultimap">K</a>,<a href="../../../../com/google/common/collect/ForwardingListMultimap.html" title="type parameter in ForwardingListMultimap">V</a>&gt;</code></dd>
@@ -330,9 +326,8 @@ public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.ht
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#removeAll-java.lang.Object-">Multimap</a></code></span></div>
 <div class="block">Removes all values associated with the key <code>key</code>.
 
- <p>Once this method returns, <code>key</code> will not be mapped to any values,
- so it will not appear in <a href="../../../../com/google/common/collect/Multimap.html#keySet--"><code>Multimap.keySet()</code></a>, <a href="../../../../com/google/common/collect/Multimap.html#asMap--"><code>Multimap.asMap()</code></a>, or any other
- views.</div>
+ <p>Once this method returns, <code>key</code> will not be mapped to any values, so it will not
+ appear in <a href="../../../../com/google/common/collect/Multimap.html#keySet--"><code>Multimap.keySet()</code></a>, <a href="../../../../com/google/common/collect/Multimap.html#asMap--"><code>Multimap.asMap()</code></a>, or any other views.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ListMultimap.html#removeAll-java.lang.Object-">removeAll</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingListMultimap.html" title="type parameter in ForwardingListMultimap">K</a>,<a href="../../../../com/google/common/collect/ForwardingListMultimap.html" title="type parameter in ForwardingListMultimap">V</a>&gt;</code></dd>
@@ -341,9 +336,8 @@ public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.ht
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ForwardingMultimap.html#removeAll-java.lang.Object-">removeAll</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="class in com.google.common.collect">ForwardingMultimap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingListMultimap.html" title="type parameter in ForwardingListMultimap">K</a>,<a href="../../../../com/google/common/collect/ForwardingListMultimap.html" title="type parameter in ForwardingListMultimap">V</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the values that were removed (possibly empty). The returned
-     collection <i>may</i> be modifiable, but updating it will have no
-     effect on the multimap.</dd>
+<dd>the values that were removed (possibly empty). The returned collection <i>may</i> be
+     modifiable, but updating it will have no effect on the multimap.</dd>
 </dl>
 </li>
 </ul>
@@ -359,11 +353,9 @@ public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.ht
 public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../com/google/common/collect/ForwardingListMultimap.html" title="type parameter in ForwardingListMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingListMultimap.html#line.59">replaceValues</a>(<a href="../../../../com/google/common/collect/ForwardingListMultimap.html" title="type parameter in ForwardingListMultimap">K</a>&nbsp;key,
                                                    <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/ForwardingListMultimap.html" title="type parameter in ForwardingListMultimap">V</a>&gt;&nbsp;values)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#replaceValues-K-java.lang.Iterable-">Multimap</a></code></span></div>
-<div class="block">Stores a collection of values with the same key, replacing any existing
- values for that key.
+<div class="block">Stores a collection of values with the same key, replacing any existing values for that key.
 
- <p>If <code>values</code> is empty, this is equivalent to
- <a href="../../../../com/google/common/collect/Multimap.html#removeAll-java.lang.Object-"><code>removeAll(key)</code></a>.</div>
+ <p>If <code>values</code> is empty, this is equivalent to <a href="../../../../com/google/common/collect/Multimap.html#removeAll-java.lang.Object-"><code>removeAll(key)</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ListMultimap.html#replaceValues-K-java.lang.Iterable-">replaceValues</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingListMultimap.html" title="type parameter in ForwardingListMultimap">K</a>,<a href="../../../../com/google/common/collect/ForwardingListMultimap.html" title="type parameter in ForwardingListMultimap">V</a>&gt;</code></dd>
@@ -372,10 +364,9 @@ public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.ht
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ForwardingMultimap.html#replaceValues-K-java.lang.Iterable-">replaceValues</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="class in com.google.common.collect">ForwardingMultimap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingListMultimap.html" title="type parameter in ForwardingListMultimap">K</a>,<a href="../../../../com/google/common/collect/ForwardingListMultimap.html" title="type parameter in ForwardingListMultimap">V</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the collection of replaced values, or an empty collection if no
-     values were previously associated with the key. The collection
-     <i>may</i> be modifiable, but updating it will have no effect on the
-     multimap.</dd>
+<dd>the collection of replaced values, or an empty collection if no values were previously
+     associated with the key. The collection <i>may</i> be modifiable, but updating it will have
+     no effect on the multimap.</dd>
 </dl>
 </li>
 </ul>

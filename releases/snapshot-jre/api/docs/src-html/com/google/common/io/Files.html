@@ -717,12 +717,12 @@
 <span class="sourceLineNo">709</span>   * to the original. The following heuristics are used:<a name="line.709"></a>
 <span class="sourceLineNo">710</span>   *<a name="line.710"></a>
 <span class="sourceLineNo">711</span>   * &lt;ul&gt;<a name="line.711"></a>
-<span class="sourceLineNo">712</span>   * &lt;li&gt;empty string becomes .<a name="line.712"></a>
-<span class="sourceLineNo">713</span>   * &lt;li&gt;. stays as .<a name="line.713"></a>
-<span class="sourceLineNo">714</span>   * &lt;li&gt;fold out ./<a name="line.714"></a>
-<span class="sourceLineNo">715</span>   * &lt;li&gt;fold out ../ when possible<a name="line.715"></a>
-<span class="sourceLineNo">716</span>   * &lt;li&gt;collapse multiple slashes<a name="line.716"></a>
-<span class="sourceLineNo">717</span>   * &lt;li&gt;delete trailing slashes (unless the path is just "/")<a name="line.717"></a>
+<span class="sourceLineNo">712</span>   *   &lt;li&gt;empty string becomes .<a name="line.712"></a>
+<span class="sourceLineNo">713</span>   *   &lt;li&gt;. stays as .<a name="line.713"></a>
+<span class="sourceLineNo">714</span>   *   &lt;li&gt;fold out ./<a name="line.714"></a>
+<span class="sourceLineNo">715</span>   *   &lt;li&gt;fold out ../ when possible<a name="line.715"></a>
+<span class="sourceLineNo">716</span>   *   &lt;li&gt;collapse multiple slashes<a name="line.716"></a>
+<span class="sourceLineNo">717</span>   *   &lt;li&gt;delete trailing slashes (unless the path is just "/")<a name="line.717"></a>
 <span class="sourceLineNo">718</span>   * &lt;/ul&gt;<a name="line.718"></a>
 <span class="sourceLineNo">719</span>   *<a name="line.719"></a>
 <span class="sourceLineNo">720</span>   * &lt;p&gt;These heuristics do not always match the behavior of the filesystem. In particular, consider<a name="line.720"></a>
@@ -800,8 +800,8 @@
 <span class="sourceLineNo">792</span>  }<a name="line.792"></a>
 <span class="sourceLineNo">793</span><a name="line.793"></a>
 <span class="sourceLineNo">794</span>  /**<a name="line.794"></a>
-<span class="sourceLineNo">795</span>   * Returns the file name without its<a name="line.795"></a>
-<span class="sourceLineNo">796</span>   * &lt;a href="http://en.wikipedia.org/wiki/Filename_extension"&gt;file extension&lt;/a&gt; or path. This is<a name="line.796"></a>
+<span class="sourceLineNo">795</span>   * Returns the file name without its &lt;a<a name="line.795"></a>
+<span class="sourceLineNo">796</span>   * href="http://en.wikipedia.org/wiki/Filename_extension"&gt;file extension&lt;/a&gt; or path. This is<a name="line.796"></a>
 <span class="sourceLineNo">797</span>   * similar to the {@code basename} unix command. The result does not include the '{@code .}'.<a name="line.797"></a>
 <span class="sourceLineNo">798</span>   *<a name="line.798"></a>
 <span class="sourceLineNo">799</span>   * @param file The name of the file to trim the extension from. This can be either a fully<a name="line.799"></a>

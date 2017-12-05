@@ -239,8 +239,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparat
 <tr class="altColor">
 <td class="colFirst"><code>protected </code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Ordering.html#Ordering--">Ordering</a></span>()</code>
-<div class="block">Constructs a new instance of this class (only invokable by the subclass
- constructor, typically implicit).</div>
+<div class="block">Constructs a new instance of this class (only invokable by the subclass constructor, typically
+ implicit).</div>
 </td>
 </tr>
 </table>
@@ -528,8 +528,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparat
 <li class="blockList">
 <h4>Ordering</h4>
 <pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.388">Ordering</a>()</pre>
-<div class="block">Constructs a new instance of this class (only invokable by the subclass
- constructor, typically implicit).</div>
+<div class="block">Constructs a new instance of this class (only invokable by the subclass constructor, typically
+ implicit).</div>
 </li>
 </ul>
 </li>
@@ -1069,8 +1069,8 @@ public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Orderin
 <h4>max</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
 public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.667">max</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;iterable)</pre>
-<div class="block">Returns the greatest of the specified values according to this ordering. If
- there are multiple greatest values, the first of those is returned.
+<div class="block">Returns the greatest of the specified values according to this ordering. If there are multiple
+ greatest values, the first of those is returned.
 
  <p><b>Java 8 users:</b> If <code>iterable</code> is a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a>, use <code>Collections.max(collection, thisComparator)</code> instead. Otherwise, continue to use this method
  for now. After the next release of Guava, use <code>Streams.stream(iterable).max(thisComparator).get()</code> instead. Note that these alternatives do
@@ -1080,8 +1080,8 @@ public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Orderin
 <dd><code>iterable</code> - the iterable whose maximum element is to be determined</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NoSuchElementException.html?is-external=true" title="class or interface in java.util">NoSuchElementException</a></code> - if <code>iterable</code> is empty</dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang">ClassCastException</a></code> - if the parameters are not <i>mutually
-     comparable</i> under this ordering.</dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang">ClassCastException</a></code> - if the parameters are not <i>mutually comparable</i> under this
+     ordering.</dd>
 </dl>
 </li>
 </ul>
@@ -1351,13 +1351,12 @@ public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Orderin
 <li class="blockList">
 <h4>binarySearch</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.935">binarySearch</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;sortedList,
+public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.934">binarySearch</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;sortedList,
                                     <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                     <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&nbsp;key)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Use <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#binarySearch-java.util.List-T-java.util.Comparator-" title="class or interface in java.util"><code>Collections.binarySearch(List, Object, Comparator)</code></a> directly.</span></div>
-<div class="block"><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#binarySearch-java.util.List-T-java.util.Comparator-" title="class or interface in java.util"><code>Searches</code></a>
- <code>sortedList</code> for <code>key</code> using the binary search algorithm. The
- list must be sorted using this ordering.</div>
+<div class="block"><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#binarySearch-java.util.List-T-java.util.Comparator-" title="class or interface in java.util"><code>Searches</code></a> <code>sortedList</code> for
+ <code>key</code> using the binary search algorithm. The list must be sorted using this ordering.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>sortedList</code> - the list to be searched</dd>

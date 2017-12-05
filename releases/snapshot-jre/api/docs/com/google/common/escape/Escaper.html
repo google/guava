@@ -132,20 +132,16 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  <code>escape(s.substring(0, n)) + escape(s.substring(n))</code> for arbitrary <code>n</code>. This is
  because of the possibility of splitting a surrogate pair. The only case in which it is safe to
  escape strings and concatenate the results is if you can rule out this possibility, either by
- splitting an existing long string into short strings adaptively around
- <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Character.html?is-external=true#isHighSurrogate-char-" title="class or interface in java.lang">surrogate</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Character.html?is-external=true#isLowSurrogate-char-" title="class or interface in java.lang">pairs</a>, or
- by starting with short strings already known to be free of unpaired surrogates.
+ splitting an existing long string into short strings adaptively around <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Character.html?is-external=true#isHighSurrogate-char-" title="class or interface in java.lang">surrogate</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Character.html?is-external=true#isLowSurrogate-char-" title="class or interface in java.lang">pairs</a>, or by starting
+ with short strings already known to be free of unpaired surrogates.
 
- <p>The two primary implementations of this interface are <a href="../../../../com/google/common/escape/CharEscaper.html" title="class in com.google.common.escape"><code>CharEscaper</code></a> and
- <a href="../../../../com/google/common/escape/UnicodeEscaper.html" title="class in com.google.common.escape"><code>UnicodeEscaper</code></a>. They are heavily optimized for performance and greatly simplify the task
- of implementing new escapers. It is strongly recommended that when implementing a new escaper you
+ <p>The two primary implementations of this interface are <a href="../../../../com/google/common/escape/CharEscaper.html" title="class in com.google.common.escape"><code>CharEscaper</code></a> and <a href="../../../../com/google/common/escape/UnicodeEscaper.html" title="class in com.google.common.escape"><code>UnicodeEscaper</code></a>. They are heavily optimized for performance and greatly simplify the task of
+ implementing new escapers. It is strongly recommended that when implementing a new escaper you
  extend one of these classes. If you find that you are unable to achieve the desired behavior
  using either of these classes, please contact the Java libraries team for advice.
 
- <p>Popular escapers are defined as constants in classes like
- <a href="../../../../com/google/common/html/HtmlEscapers.html" title="class in com.google.common.html"><code>HtmlEscapers</code></a> and <a href="../../../../com/google/common/xml/XmlEscapers.html" title="class in com.google.common.xml"><code>XmlEscapers</code></a>. To
- create your own escapers, use <a href="../../../../com/google/common/escape/CharEscaperBuilder.html" title="class in com.google.common.escape"><code>CharEscaperBuilder</code></a>, or extend <code>CharEscaper</code> or
- <code>UnicodeEscaper</code>.</div>
+ <p>Popular escapers are defined as constants in classes like <a href="../../../../com/google/common/html/HtmlEscapers.html" title="class in com.google.common.html"><code>HtmlEscapers</code></a> and <a href="../../../../com/google/common/xml/XmlEscapers.html" title="class in com.google.common.xml"><code>XmlEscapers</code></a>. To create
+ your own escapers, use <a href="../../../../com/google/common/escape/CharEscaperBuilder.html" title="class in com.google.common.escape"><code>CharEscaperBuilder</code></a>, or extend <code>CharEscaper</code> or <code>UnicodeEscaper</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>15.0</dd>
@@ -256,12 +252,12 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  escaper implementation.
 
  <ul>
- <li><a href="../../../../com/google/common/escape/UnicodeEscaper.html" title="class in com.google.common.escape"><code>UnicodeEscaper</code></a> handles <a href="http://en.wikipedia.org/wiki/UTF-16">UTF-16</a>
- correctly, including surrogate character pairs. If the input is badly formed the escaper should
- throw <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>.
- <li><a href="../../../../com/google/common/escape/CharEscaper.html" title="class in com.google.common.escape"><code>CharEscaper</code></a> handles Java characters independently and does not verify the input for
- well formed characters. A <code>CharEscaper</code> should not be used in situations where input is
- not guaranteed to be restricted to the Basic Multilingual Plane (BMP).
+   <li><a href="../../../../com/google/common/escape/UnicodeEscaper.html" title="class in com.google.common.escape"><code>UnicodeEscaper</code></a> handles <a href="http://en.wikipedia.org/wiki/UTF-16">UTF-16</a>
+       correctly, including surrogate character pairs. If the input is badly formed the escaper
+       should throw <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>.
+   <li><a href="../../../../com/google/common/escape/CharEscaper.html" title="class in com.google.common.escape"><code>CharEscaper</code></a> handles Java characters independently and does not verify the input
+       for well formed characters. A <code>CharEscaper</code> should not be used in situations where
+       input is not guaranteed to be restricted to the Basic Multilingual Plane (BMP).
  </ul></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -281,7 +277,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>asFunction</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/escape/Escaper.html#line.96">asFunction</a>()</pre>
+<pre>public final&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/escape/Escaper.html#line.94">asFunction</a>()</pre>
 <div class="block">Returns a <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base"><code>Function</code></a> that invokes <a href="../../../../com/google/common/escape/Escaper.html#escape-java.lang.String-"><code>escape(String)</code></a> on this escaper.</div>
 </li>
 </ul>

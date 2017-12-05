@@ -30,8 +30,8 @@
 <span class="sourceLineNo">022</span>/**<a name="line.22"></a>
 <span class="sourceLineNo">023</span> * {@code Escaper} instances suitable for strings to be included in XML attribute values and<a name="line.23"></a>
 <span class="sourceLineNo">024</span> * elements' text contents. When possible, avoid manual escaping by using templating systems and<a name="line.24"></a>
-<span class="sourceLineNo">025</span> * high-level APIs that provide autoescaping. For example, consider<a name="line.25"></a>
-<span class="sourceLineNo">026</span> * &lt;a href="http://www.xom.nu/"&gt;XOM&lt;/a&gt; or &lt;a href="http://www.jdom.org/"&gt;JDOM&lt;/a&gt;.<a name="line.26"></a>
+<span class="sourceLineNo">025</span> * high-level APIs that provide autoescaping. For example, consider &lt;a<a name="line.25"></a>
+<span class="sourceLineNo">026</span> * href="http://www.xom.nu/"&gt;XOM&lt;/a&gt; or &lt;a href="http://www.jdom.org/"&gt;JDOM&lt;/a&gt;.<a name="line.26"></a>
 <span class="sourceLineNo">027</span> *<a name="line.27"></a>
 <span class="sourceLineNo">028</span> * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; Currently the escapers provided by this class do not escape any characters<a name="line.28"></a>
 <span class="sourceLineNo">029</span> * outside the ASCII character range. Unlike HTML escaping the XML escapers will not escape<a name="line.29"></a>
@@ -39,9 +39,9 @@
 <span class="sourceLineNo">031</span> * level of escaping to ensure that the output can be safely included in a Unicode XML document.<a name="line.31"></a>
 <span class="sourceLineNo">032</span> *<a name="line.32"></a>
 <span class="sourceLineNo">033</span> *<a name="line.33"></a>
-<span class="sourceLineNo">034</span> * &lt;p&gt;For details on the behavior of the escapers in this class, see sections<a name="line.34"></a>
-<span class="sourceLineNo">035</span> * &lt;a href="http://www.w3.org/TR/2008/REC-xml-20081126/#charsets"&gt;2.2&lt;/a&gt; and<a name="line.35"></a>
-<span class="sourceLineNo">036</span> * &lt;a href="http://www.w3.org/TR/2008/REC-xml-20081126/#syntax"&gt;2.4&lt;/a&gt; of the XML specification.<a name="line.36"></a>
+<span class="sourceLineNo">034</span> * &lt;p&gt;For details on the behavior of the escapers in this class, see sections &lt;a<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * href="http://www.w3.org/TR/2008/REC-xml-20081126/#charsets"&gt;2.2&lt;/a&gt; and &lt;a<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * href="http://www.w3.org/TR/2008/REC-xml-20081126/#syntax"&gt;2.4&lt;/a&gt; of the XML specification.<a name="line.36"></a>
 <span class="sourceLineNo">037</span> *<a name="line.37"></a>
 <span class="sourceLineNo">038</span> * @author Alex Matevossian<a name="line.38"></a>
 <span class="sourceLineNo">039</span> * @author David Beaumont<a name="line.39"></a>
@@ -60,8 +60,8 @@
 <span class="sourceLineNo">052</span><a name="line.52"></a>
 <span class="sourceLineNo">053</span>  /**<a name="line.53"></a>
 <span class="sourceLineNo">054</span>   * Returns an {@link Escaper} instance that escapes special characters in a string so it can<a name="line.54"></a>
-<span class="sourceLineNo">055</span>   * safely be included in an XML document as element content. See section<a name="line.55"></a>
-<span class="sourceLineNo">056</span>   * &lt;a href="http://www.w3.org/TR/2008/REC-xml-20081126/#syntax"&gt;2.4&lt;/a&gt; of the XML specification.<a name="line.56"></a>
+<span class="sourceLineNo">055</span>   * safely be included in an XML document as element content. See section &lt;a<a name="line.55"></a>
+<span class="sourceLineNo">056</span>   * href="http://www.w3.org/TR/2008/REC-xml-20081126/#syntax"&gt;2.4&lt;/a&gt; of the XML specification.<a name="line.56"></a>
 <span class="sourceLineNo">057</span>   *<a name="line.57"></a>
 <span class="sourceLineNo">058</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; Double and single quotes are not escaped, so it is &lt;b&gt;not safe&lt;/b&gt; to use this<a name="line.58"></a>
 <span class="sourceLineNo">059</span>   * escaper to escape attribute values. Use {@link #xmlContentEscaper} if the output can appear in<a name="line.59"></a>
@@ -86,8 +86,8 @@
 <span class="sourceLineNo">078</span><a name="line.78"></a>
 <span class="sourceLineNo">079</span>  /**<a name="line.79"></a>
 <span class="sourceLineNo">080</span>   * Returns an {@link Escaper} instance that escapes special characters in a string so it can<a name="line.80"></a>
-<span class="sourceLineNo">081</span>   * safely be included in XML document as an attribute value. See section<a name="line.81"></a>
-<span class="sourceLineNo">082</span>   * &lt;a href="http://www.w3.org/TR/2008/REC-xml-20081126/#AVNormalize"&gt;3.3.3&lt;/a&gt; of the XML<a name="line.82"></a>
+<span class="sourceLineNo">081</span>   * safely be included in XML document as an attribute value. See section &lt;a<a name="line.81"></a>
+<span class="sourceLineNo">082</span>   * href="http://www.w3.org/TR/2008/REC-xml-20081126/#AVNormalize"&gt;3.3.3&lt;/a&gt; of the XML<a name="line.82"></a>
 <span class="sourceLineNo">083</span>   * specification.<a name="line.83"></a>
 <span class="sourceLineNo">084</span>   *<a name="line.84"></a>
 <span class="sourceLineNo">085</span>   * &lt;p&gt;This escaper substitutes {@code 0xFFFD} for non-whitespace control characters and the<a name="line.85"></a>
@@ -96,10 +96,10 @@
 <span class="sourceLineNo">088</span>   * the XML specification.<a name="line.88"></a>
 <span class="sourceLineNo">089</span>   *<a name="line.89"></a>
 <span class="sourceLineNo">090</span>   * &lt;p&gt;This escaper does not escape non-ASCII characters to their numeric character references<a name="line.90"></a>
-<span class="sourceLineNo">091</span>   * (NCR). However, horizontal tab {@code '\t'}, line feed {@code '\n'} and carriage return<a name="line.91"></a>
-<span class="sourceLineNo">092</span>   * {@code '\r'} are escaped to a corresponding NCR {@code "&amp;#x9;"}, {@code "&amp;#xA;"}, and<a name="line.92"></a>
-<span class="sourceLineNo">093</span>   * {@code "&amp;#xD;"} respectively. Any other non-ASCII characters appearing in the input will be<a name="line.93"></a>
-<span class="sourceLineNo">094</span>   * preserved in the output.<a name="line.94"></a>
+<span class="sourceLineNo">091</span>   * (NCR). However, horizontal tab {@code '\t'}, line feed {@code '\n'} and carriage return {@code<a name="line.91"></a>
+<span class="sourceLineNo">092</span>   * '\r'} are escaped to a corresponding NCR {@code "&amp;#x9;"}, {@code "&amp;#xA;"}, and {@code "&amp;#xD;"}<a name="line.92"></a>
+<span class="sourceLineNo">093</span>   * respectively. Any other non-ASCII characters appearing in the input will be preserved in the<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   * output.<a name="line.94"></a>
 <span class="sourceLineNo">095</span>   *<a name="line.95"></a>
 <span class="sourceLineNo">096</span>   * &lt;p&gt;This escaper does not treat surrogate pairs specially and does not perform Unicode<a name="line.96"></a>
 <span class="sourceLineNo">097</span>   * validation on its input.<a name="line.97"></a>

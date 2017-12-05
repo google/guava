@@ -107,7 +107,7 @@ var activeTableTab = "activeTableTab";
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public interface <a href="../../../../src-html/com/google/common/hash/Hasher.html#line.55">Hasher</a>
+public interface <a href="../../../../src-html/com/google/common/hash/Hasher.html#line.57">Hasher</a>
 extends <a href="../../../../com/google/common/hash/PrimitiveSink.html" title="interface in com.google.common.hash">PrimitiveSink</a></pre>
 <div class="block">A <a href="../../../../com/google/common/hash/PrimitiveSink.html" title="interface in com.google.common.hash"><code>PrimitiveSink</code></a> that can compute a hash code after reading the input. Each hasher should
  translate all multibyte values (<a href="../../../../com/google/common/hash/Hasher.html#putInt-int-"><code>putInt(int)</code></a>, <a href="../../../../com/google/common/hash/Hasher.html#putLong-long-"><code>putLong(long)</code></a>, etc) to bytes in
@@ -124,16 +124,17 @@ extends <a href="../../../../com/google/common/hash/PrimitiveSink.html" title="i
  <p><b>Warning:</b> Chunks of data that are put into the <a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash"><code>Hasher</code></a> are not delimited. The
  resulting <a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash"><code>HashCode</code></a> is dependent only on the bytes inserted, and the order in which they
  were inserted, not how those bytes were chunked into discrete put() operations. For example, the
- following three expressions all generate colliding hash codes: <pre>   <code>
+ following three expressions all generate colliding hash codes:
 
-   newHasher().putByte(b1).putByte(b2).putByte(b3).hash()
-   newHasher().putByte(b1).putBytes(new byte[] { b2, b3 }).hash()
-   newHasher().putBytes(new byte[] { b1, b2, b3 }).hash()</code></pre>
+ <pre><code>
+ newHasher().putByte(b1).putByte(b2).putByte(b3).hash()
+ newHasher().putByte(b1).putBytes(new byte[] { b2, b3 }).hash()
+ newHasher().putBytes(new byte[] { b1, b2, b3 }).hash()
+ </code></pre>
 
  <p>If you wish to avoid this, you should either prepend or append the size of each chunk. Keep in
  mind that when dealing with char sequences, the encoded form of two concatenated char sequences
- is not equivalent to the concatenation of their encoded form. Therefore,
- <a href="../../../../com/google/common/hash/Hasher.html#putString-java.lang.CharSequence-java.nio.charset.Charset-"><code>putString(CharSequence, Charset)</code></a> should only be used consistently with <i>complete</i>
+ is not equivalent to the concatenation of their encoded form. Therefore, <a href="../../../../com/google/common/hash/Hasher.html#putString-java.lang.CharSequence-java.nio.charset.Charset-"><code>putString(CharSequence, Charset)</code></a> should only be used consistently with <i>complete</i>
  sequences and not broken into chunks.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -169,8 +170,7 @@ extends <a href="../../../../com/google/common/hash/PrimitiveSink.html" title="i
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/hash/Hasher.html#hashCode--">hashCode</a></span>()</code>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
-<div class="block"><span class="deprecationComment">This returns <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang"><code>Object.hashCode()</code></a>; you almost certainly mean to call
-     <code>hash().asInt()</code>.</span></div>
+<div class="block"><span class="deprecationComment">This returns <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang"><code>Object.hashCode()</code></a>; you almost certainly mean to call <code>hash().asInt()</code>.</span></div>
 </div>
 </td>
 </tr>
@@ -283,7 +283,7 @@ extends <a href="../../../../com/google/common/hash/PrimitiveSink.html" title="i
 <ul class="blockList">
 <li class="blockList">
 <h4>putByte</h4>
-<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.57">putByte</a>(byte&nbsp;b)</pre>
+<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.59">putByte</a>(byte&nbsp;b)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/hash/PrimitiveSink.html#putByte-byte-">PrimitiveSink</a></code></span></div>
 <div class="block">Puts a byte into this sink.</div>
 <dl>
@@ -302,7 +302,7 @@ extends <a href="../../../../com/google/common/hash/PrimitiveSink.html" title="i
 <ul class="blockList">
 <li class="blockList">
 <h4>putBytes</h4>
-<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.60">putBytes</a>(byte[]&nbsp;bytes)</pre>
+<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.62">putBytes</a>(byte[]&nbsp;bytes)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/hash/PrimitiveSink.html#putBytes-byte:A-">PrimitiveSink</a></code></span></div>
 <div class="block">Puts an array of bytes into this sink.</div>
 <dl>
@@ -321,7 +321,7 @@ extends <a href="../../../../com/google/common/hash/PrimitiveSink.html" title="i
 <ul class="blockList">
 <li class="blockList">
 <h4>putBytes</h4>
-<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.63">putBytes</a>(byte[]&nbsp;bytes,
+<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.65">putBytes</a>(byte[]&nbsp;bytes,
                 int&nbsp;off,
                 int&nbsp;len)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/hash/PrimitiveSink.html#putBytes-byte:A-int-int-">PrimitiveSink</a></code></span></div>
@@ -345,7 +345,7 @@ extends <a href="../../../../com/google/common/hash/PrimitiveSink.html" title="i
 <ul class="blockList">
 <li class="blockList">
 <h4>putBytes</h4>
-<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.66">putBytes</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;bytes)</pre>
+<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.68">putBytes</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;bytes)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/hash/PrimitiveSink.html#putBytes-java.nio.ByteBuffer-">PrimitiveSink</a></code></span></div>
 <div class="block">Puts the remaining bytes of a byte buffer into this sink. <code>bytes.position()</code> is the first
  byte written, <code>bytes.limit() - 1</code> is the last. The position of the buffer will be equal
@@ -366,7 +366,7 @@ extends <a href="../../../../com/google/common/hash/PrimitiveSink.html" title="i
 <ul class="blockList">
 <li class="blockList">
 <h4>putShort</h4>
-<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.69">putShort</a>(short&nbsp;s)</pre>
+<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.71">putShort</a>(short&nbsp;s)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/hash/PrimitiveSink.html#putShort-short-">PrimitiveSink</a></code></span></div>
 <div class="block">Puts a short into this sink.</div>
 <dl>
@@ -381,7 +381,7 @@ extends <a href="../../../../com/google/common/hash/PrimitiveSink.html" title="i
 <ul class="blockList">
 <li class="blockList">
 <h4>putInt</h4>
-<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.72">putInt</a>(int&nbsp;i)</pre>
+<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.74">putInt</a>(int&nbsp;i)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/hash/PrimitiveSink.html#putInt-int-">PrimitiveSink</a></code></span></div>
 <div class="block">Puts an int into this sink.</div>
 <dl>
@@ -396,7 +396,7 @@ extends <a href="../../../../com/google/common/hash/PrimitiveSink.html" title="i
 <ul class="blockList">
 <li class="blockList">
 <h4>putLong</h4>
-<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.75">putLong</a>(long&nbsp;l)</pre>
+<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.77">putLong</a>(long&nbsp;l)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/hash/PrimitiveSink.html#putLong-long-">PrimitiveSink</a></code></span></div>
 <div class="block">Puts a long into this sink.</div>
 <dl>
@@ -425,7 +425,7 @@ extends <a href="../../../../com/google/common/hash/PrimitiveSink.html" title="i
 <ul class="blockList">
 <li class="blockList">
 <h4>putDouble</h4>
-<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.87">putDouble</a>(double&nbsp;d)</pre>
+<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.85">putDouble</a>(double&nbsp;d)</pre>
 <div class="block">Equivalent to <code>putLong(Double.doubleToRawLongBits(d))</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -439,7 +439,7 @@ extends <a href="../../../../com/google/common/hash/PrimitiveSink.html" title="i
 <ul class="blockList">
 <li class="blockList">
 <h4>putBoolean</h4>
-<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.93">putBoolean</a>(boolean&nbsp;b)</pre>
+<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.89">putBoolean</a>(boolean&nbsp;b)</pre>
 <div class="block">Equivalent to <code>putByte(b ? (byte) 1 : (byte) 0)</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -453,7 +453,7 @@ extends <a href="../../../../com/google/common/hash/PrimitiveSink.html" title="i
 <ul class="blockList">
 <li class="blockList">
 <h4>putChar</h4>
-<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.96">putChar</a>(char&nbsp;c)</pre>
+<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.92">putChar</a>(char&nbsp;c)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/hash/PrimitiveSink.html#putChar-char-">PrimitiveSink</a></code></span></div>
 <div class="block">Puts a character into this sink.</div>
 <dl>
@@ -468,7 +468,7 @@ extends <a href="../../../../com/google/common/hash/PrimitiveSink.html" title="i
 <ul class="blockList">
 <li class="blockList">
 <h4>putUnencodedChars</h4>
-<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.112">putUnencodedChars</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;charSequence)</pre>
+<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.108">putUnencodedChars</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;charSequence)</pre>
 <div class="block">Equivalent to processing each <code>char</code> value in the <code>CharSequence</code>, in order. In
  other words, no character encoding is performed; the low byte and high byte of each <code>char</code> are hashed directly (in that order). The input must not be updated while this method is
  in progress.
@@ -490,7 +490,7 @@ extends <a href="../../../../com/google/common/hash/PrimitiveSink.html" title="i
 <ul class="blockList">
 <li class="blockList">
 <h4>putString</h4>
-<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.123">putString</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;charSequence,
+<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.119">putString</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;charSequence,
                  <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset">Charset</a>&nbsp;charset)</pre>
 <div class="block">Equivalent to <code>putBytes(charSequence.toString().getBytes(charset))</code>.
 
@@ -512,7 +512,7 @@ extends <a href="../../../../com/google/common/hash/PrimitiveSink.html" title="i
 <ul class="blockList">
 <li class="blockList">
 <h4>putObject</h4>
-<pre>&lt;T&gt;&nbsp;<a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.128">putObject</a>(T&nbsp;instance,
+<pre>&lt;T&gt;&nbsp;<a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.122">putObject</a>(T&nbsp;instance,
                      <a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</pre>
 <div class="block">A simple convenience for <code>funnel.funnel(object, this)</code>.</div>
 </li>
@@ -523,7 +523,7 @@ extends <a href="../../../../com/google/common/hash/PrimitiveSink.html" title="i
 <ul class="blockList">
 <li class="blockList">
 <h4>hash</h4>
-<pre><a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.134">hash</a>()</pre>
+<pre><a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.128">hash</a>()</pre>
 <div class="block">Computes a hash code based on the data that have been provided to this hasher. The result is
  unspecified if this method is called more than once on the same instance.</div>
 </li>
@@ -535,9 +535,8 @@ extends <a href="../../../../com/google/common/hash/PrimitiveSink.html" title="i
 <li class="blockList">
 <h4>hashCode</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.144">hashCode</a>()</pre>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">This returns <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang"><code>Object.hashCode()</code></a>; you almost certainly mean to call
-     <code>hash().asInt()</code>.</span></div>
+int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.138">hashCode</a>()</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">This returns <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang"><code>Object.hashCode()</code></a>; you almost certainly mean to call <code>hash().asInt()</code>.</span></div>
 <div class="block">Returns a hash code value for the object. This method is
  supported for the benefit of hash tables such as those provided by
  <a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util"><code>HashMap</code></a>.

@@ -89,30 +89,28 @@
 <span class="sourceLineNo">081</span>    return false;<a name="line.81"></a>
 <span class="sourceLineNo">082</span>  }<a name="line.82"></a>
 <span class="sourceLineNo">083</span><a name="line.83"></a>
-<span class="sourceLineNo">084</span>  /**<a name="line.84"></a>
-<span class="sourceLineNo">085</span>   * mark() is not supported for HashingInputStream<a name="line.85"></a>
-<span class="sourceLineNo">086</span>   */<a name="line.86"></a>
-<span class="sourceLineNo">087</span>  @Override<a name="line.87"></a>
-<span class="sourceLineNo">088</span>  public void mark(int readlimit) {}<a name="line.88"></a>
-<span class="sourceLineNo">089</span><a name="line.89"></a>
-<span class="sourceLineNo">090</span>  /**<a name="line.90"></a>
-<span class="sourceLineNo">091</span>   * reset() is not supported for HashingInputStream.<a name="line.91"></a>
-<span class="sourceLineNo">092</span>   *<a name="line.92"></a>
-<span class="sourceLineNo">093</span>   * @throws IOException this operation is not supported<a name="line.93"></a>
-<span class="sourceLineNo">094</span>   */<a name="line.94"></a>
-<span class="sourceLineNo">095</span>  @Override<a name="line.95"></a>
-<span class="sourceLineNo">096</span>  public void reset() throws IOException {<a name="line.96"></a>
-<span class="sourceLineNo">097</span>    throw new IOException("reset not supported");<a name="line.97"></a>
-<span class="sourceLineNo">098</span>  }<a name="line.98"></a>
-<span class="sourceLineNo">099</span><a name="line.99"></a>
-<span class="sourceLineNo">100</span>  /**<a name="line.100"></a>
-<span class="sourceLineNo">101</span>   * Returns the {@link HashCode} based on the data read from this stream. The result is unspecified<a name="line.101"></a>
-<span class="sourceLineNo">102</span>   * if this method is called more than once on the same instance.<a name="line.102"></a>
-<span class="sourceLineNo">103</span>   */<a name="line.103"></a>
-<span class="sourceLineNo">104</span>  public HashCode hash() {<a name="line.104"></a>
-<span class="sourceLineNo">105</span>    return hasher.hash();<a name="line.105"></a>
-<span class="sourceLineNo">106</span>  }<a name="line.106"></a>
-<span class="sourceLineNo">107</span>}<a name="line.107"></a>
+<span class="sourceLineNo">084</span>  /** mark() is not supported for HashingInputStream */<a name="line.84"></a>
+<span class="sourceLineNo">085</span>  @Override<a name="line.85"></a>
+<span class="sourceLineNo">086</span>  public void mark(int readlimit) {}<a name="line.86"></a>
+<span class="sourceLineNo">087</span><a name="line.87"></a>
+<span class="sourceLineNo">088</span>  /**<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   * reset() is not supported for HashingInputStream.<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   *<a name="line.90"></a>
+<span class="sourceLineNo">091</span>   * @throws IOException this operation is not supported<a name="line.91"></a>
+<span class="sourceLineNo">092</span>   */<a name="line.92"></a>
+<span class="sourceLineNo">093</span>  @Override<a name="line.93"></a>
+<span class="sourceLineNo">094</span>  public void reset() throws IOException {<a name="line.94"></a>
+<span class="sourceLineNo">095</span>    throw new IOException("reset not supported");<a name="line.95"></a>
+<span class="sourceLineNo">096</span>  }<a name="line.96"></a>
+<span class="sourceLineNo">097</span><a name="line.97"></a>
+<span class="sourceLineNo">098</span>  /**<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   * Returns the {@link HashCode} based on the data read from this stream. The result is unspecified<a name="line.99"></a>
+<span class="sourceLineNo">100</span>   * if this method is called more than once on the same instance.<a name="line.100"></a>
+<span class="sourceLineNo">101</span>   */<a name="line.101"></a>
+<span class="sourceLineNo">102</span>  public HashCode hash() {<a name="line.102"></a>
+<span class="sourceLineNo">103</span>    return hasher.hash();<a name="line.103"></a>
+<span class="sourceLineNo">104</span>  }<a name="line.104"></a>
+<span class="sourceLineNo">105</span>}<a name="line.105"></a>
 
 
 

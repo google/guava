@@ -123,25 +123,24 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.51">ForwardingCollection</a>&lt;E&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.49">ForwardingCollection</a>&lt;E&gt;
 extends <a href="../../../../com/google/common/collect/ForwardingObject.html" title="class in com.google.common.collect">ForwardingObject</a>
 implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;E&gt;</pre>
-<div class="block">A collection which forwards all its method calls to another collection.
- Subclasses should override one or more methods to modify the behavior of the
- backing collection as desired per the <a
- href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
+<div class="block">A collection which forwards all its method calls to another collection. Subclasses should
+ override one or more methods to modify the behavior of the backing collection as desired per the
+ <a href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
 
- <p><b>Warning:</b> The methods of <code>ForwardingCollection</code> forward
- <b>indiscriminately</b> to the methods of the delegate. For example,
- overriding <a href="../../../../com/google/common/collect/ForwardingCollection.html#add-E-"><code>add(E)</code></a> alone <b>will not</b> change the behavior of <a href="../../../../com/google/common/collect/ForwardingCollection.html#addAll-java.util.Collection-"><code>addAll(java.util.Collection&lt;? extends E&gt;)</code></a>, which can lead to unexpected behavior. In this case, you should
- override <code>addAll</code> as well, either providing your own implementation, or
- delegating to the provided <code>standardAddAll</code> method.
+ <p><b>Warning:</b> The methods of <code>ForwardingCollection</code> forward <b>indiscriminately</b> to
+ the methods of the delegate. For example, overriding <a href="../../../../com/google/common/collect/ForwardingCollection.html#add-E-"><code>add(E)</code></a> alone <b>will not</b> change
+ the behavior of <a href="../../../../com/google/common/collect/ForwardingCollection.html#addAll-java.util.Collection-"><code>addAll(java.util.Collection&lt;? extends E&gt;)</code></a>, which can lead to unexpected behavior. In this case, you should
+ override <code>addAll</code> as well, either providing your own implementation, or delegating to the
+ provided <code>standardAddAll</code> method.
 
  <p><b><code>default</code> method warning:</b> This class does <i>not</i> forward calls to <code>default</code> methods. Instead, it inherits their default implementations. When those implementations
  invoke methods, they invoke methods on the <code>ForwardingCollection</code>.
 
- <p>The <code>standard</code> methods are not guaranteed to be thread-safe, even
- when all of the methods that they depend on are thread-safe.</div>
+ <p>The <code>standard</code> methods are not guaranteed to be thread-safe, even when all of the
+ methods that they depend on are thread-safe.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
@@ -274,8 +273,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collecti
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>protected void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingCollection.html#standardClear--">standardClear</a></span>()</code>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#clear--"><code>clear()</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>,
- using the iterator's <code>remove</code> method.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#clear--"><code>clear()</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>, using the iterator's
+ <code>remove</code> method.</div>
 </td>
 </tr>
 <tr id="i14" class="altColor">
@@ -287,8 +286,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collecti
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingCollection.html#standardContainsAll-java.util.Collection-">standardContainsAll</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;collection)</code>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#containsAll-java.util.Collection-"><code>containsAll(java.util.Collection&lt;?&gt;)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#contains-java.lang.Object-"><code>contains(java.lang.Object)</code></a>
- .</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#containsAll-java.util.Collection-"><code>containsAll(java.util.Collection&lt;?&gt;)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#contains-java.lang.Object-"><code>contains(java.lang.Object)</code></a> .</div>
 </td>
 </tr>
 <tr id="i16" class="altColor">
@@ -300,22 +298,22 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collecti
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingCollection.html#standardRemove-java.lang.Object-">standardRemove</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</code>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#remove-java.lang.Object-"><code>remove(java.lang.Object)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>,
- using the iterator's <code>remove</code> method.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#remove-java.lang.Object-"><code>remove(java.lang.Object)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>, using the iterator's
+ <code>remove</code> method.</div>
 </td>
 </tr>
 <tr id="i18" class="altColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingCollection.html#standardRemoveAll-java.util.Collection-">standardRemoveAll</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;collection)</code>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#removeAll-java.util.Collection-"><code>removeAll(java.util.Collection&lt;?&gt;)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>,
- using the iterator's <code>remove</code> method.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#removeAll-java.util.Collection-"><code>removeAll(java.util.Collection&lt;?&gt;)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>, using the iterator's
+ <code>remove</code> method.</div>
 </td>
 </tr>
 <tr id="i19" class="rowColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingCollection.html#standardRetainAll-java.util.Collection-">standardRetainAll</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;collection)</code>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#retainAll-java.util.Collection-"><code>retainAll(java.util.Collection&lt;?&gt;)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>,
- using the iterator's <code>remove</code> method.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#retainAll-java.util.Collection-"><code>retainAll(java.util.Collection&lt;?&gt;)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>, using the iterator's
+ <code>remove</code> method.</div>
 </td>
 </tr>
 <tr id="i20" class="altColor">
@@ -398,7 +396,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collecti
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingCollection</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.55">ForwardingCollection</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.53">ForwardingCollection</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -416,12 +414,12 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collecti
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre>protected abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.58">delegate</a>()</pre>
+<pre>protected abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.56">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingObject.html#delegate--">ForwardingObject</a></code></span></div>
-<div class="block">Returns the backing delegate instance that methods are forwarded to.
- Abstract subclasses generally override this method with an abstract method
- that has a more specific return type, such as <a href="../../../../com/google/common/collect/ForwardingSet.html#delegate--"><code>ForwardingSet.delegate()</code></a>. Concrete subclasses override this method to supply
- the instance being decorated.</div>
+<div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
+ generally override this method with an abstract method that has a more specific return type,
+ such as <a href="../../../../com/google/common/collect/ForwardingSet.html#delegate--"><code>ForwardingSet.delegate()</code></a>. Concrete subclasses override this method to supply the
+ instance being decorated.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ForwardingObject.html#delegate--">delegate</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingObject.html" title="class in com.google.common.collect">ForwardingObject</a></code></dd>
@@ -434,7 +432,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collecti
 <ul class="blockList">
 <li class="blockList">
 <h4>iterator</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;<a href="../../../../com/google/common/collect/ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.61">iterator</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;<a href="../../../../com/google/common/collect/ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.59">iterator</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#iterator--" title="class or interface in java.util">java.util.Collection</a></code></span></div>
 <div class="block">Returns an iterator over the elements in this collection.  There are no
  guarantees concerning the order in which the elements are returned
@@ -456,7 +454,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collecti
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.66">size</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.64">size</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#size--" title="class or interface in java.util">java.util.Collection</a></code></span></div>
 <div class="block">Returns the number of elements in this collection.  If this collection
  contains more than <tt>Integer.MAX_VALUE</tt> elements, returns
@@ -476,7 +474,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collecti
 <li class="blockList">
 <h4>removeAll</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.72">removeAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;collection)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.70">removeAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;collection)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#removeAll-java.util.Collection-" title="class or interface in java.util">java.util.Collection</a></code></span></div>
 <div class="block">Removes all of this collection's elements that are also contained in the
  specified collection (optional operation).  After this call returns,
@@ -502,7 +500,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.77">isEmpty</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.75">isEmpty</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#isEmpty--" title="class or interface in java.util">java.util.Collection</a></code></span></div>
 <div class="block">Returns <tt>true</tt> if this collection contains no elements.</div>
 <dl>
@@ -519,7 +517,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.82">contains</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.80">contains</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#contains-java.lang.Object-" title="class or interface in java.util">java.util.Collection</a></code></span></div>
 <div class="block">Returns <tt>true</tt> if this collection contains the specified element.
  More formally, returns <tt>true</tt> if and only if this collection
@@ -545,7 +543,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>add</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.88">add</a>(<a href="../../../../com/google/common/collect/ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&nbsp;element)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.86">add</a>(<a href="../../../../com/google/common/collect/ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&nbsp;element)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#add-E-" title="class or interface in java.util">java.util.Collection</a></code></span></div>
 <div class="block">Ensures that this collection contains the specified element (optional
  operation).  Returns <tt>true</tt> if this collection changed as a
@@ -582,7 +580,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>remove</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.94">remove</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.92">remove</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#remove-java.lang.Object-" title="class or interface in java.util">java.util.Collection</a></code></span></div>
 <div class="block">Removes a single instance of the specified element from this
  collection, if it is present (optional operation).  More formally,
@@ -607,7 +605,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>containsAll</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.99">containsAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;collection)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.97">containsAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;collection)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#containsAll-java.util.Collection-" title="class or interface in java.util">java.util.Collection</a></code></span></div>
 <div class="block">Returns <tt>true</tt> if this collection contains all of the elements
  in the specified collection.</div>
@@ -631,7 +629,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>addAll</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.105">addAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="../../../../com/google/common/collect/ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&gt;&nbsp;collection)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.103">addAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="../../../../com/google/common/collect/ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&gt;&nbsp;collection)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#addAll-java.util.Collection-" title="class or interface in java.util">java.util.Collection</a></code></span></div>
 <div class="block">Adds all of the elements in the specified collection to this collection
  (optional operation).  The behavior of this operation is undefined if
@@ -658,7 +656,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>retainAll</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.111">retainAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;collection)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.109">retainAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;collection)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#retainAll-java.util.Collection-" title="class or interface in java.util">java.util.Collection</a></code></span></div>
 <div class="block">Retains only the elements in this collection that are contained in the
  specified collection (optional operation).  In other words, removes from
@@ -683,7 +681,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>clear</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.116">clear</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.114">clear</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#clear--" title="class or interface in java.util">java.util.Collection</a></code></span></div>
 <div class="block">Removes all of the elements from this collection (optional operation).
  The collection will be empty after this method returns.</div>
@@ -699,7 +697,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.121">toArray</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.119">toArray</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#toArray--" title="class or interface in java.util">java.util.Collection</a></code></span></div>
 <div class="block">Returns an array containing all of the elements in this collection.
  If this collection makes any guarantees as to what order its elements
@@ -730,7 +728,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>toArray</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.127">toArray</a>(T[]&nbsp;array)</pre>
+public&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.125">toArray</a>(T[]&nbsp;array)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#toArray-T:A-" title="class or interface in java.util">java.util.Collection</a></code></span></div>
 <div class="block">Returns an array containing all of the elements in this collection;
  the runtime type of the returned array is that of the specified array.
@@ -783,10 +781,11 @@ public&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/com
 <ul class="blockList">
 <li class="blockList">
 <h4>standardContains</h4>
-<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.138">standardContains</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.136">standardContains</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                    <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#contains-java.lang.Object-"><code>contains(java.lang.Object)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>.
- If you override <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#contains-java.lang.Object-"><code>contains(java.lang.Object)</code></a> to forward to this implementation.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#contains-java.lang.Object-"><code>contains(java.lang.Object)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>. If you override
+ <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#contains-java.lang.Object-"><code>contains(java.lang.Object)</code></a> to forward to this
+ implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -799,9 +798,10 @@ public&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/com
 <ul class="blockList">
 <li class="blockList">
 <h4>standardContainsAll</h4>
-<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.149">standardContainsAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;collection)</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#containsAll-java.util.Collection-"><code>containsAll(java.util.Collection&lt;?&gt;)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#contains-java.lang.Object-"><code>contains(java.lang.Object)</code></a>
- . If you override <a href="../../../../com/google/common/collect/ForwardingCollection.html#contains-java.lang.Object-"><code>contains(java.lang.Object)</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#containsAll-java.util.Collection-"><code>containsAll(java.util.Collection&lt;?&gt;)</code></a> to forward to this implementation.</div>
+<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.147">standardContainsAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;collection)</pre>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#containsAll-java.util.Collection-"><code>containsAll(java.util.Collection&lt;?&gt;)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#contains-java.lang.Object-"><code>contains(java.lang.Object)</code></a> . If you override
+ <a href="../../../../com/google/common/collect/ForwardingCollection.html#contains-java.lang.Object-"><code>contains(java.lang.Object)</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#containsAll-java.util.Collection-"><code>containsAll(java.util.Collection&lt;?&gt;)</code></a> to forward to this
+ implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -814,10 +814,8 @@ public&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/com
 <ul class="blockList">
 <li class="blockList">
 <h4>standardAddAll</h4>
-<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.160">standardAddAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="../../../../com/google/common/collect/ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&gt;&nbsp;collection)</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#addAll-java.util.Collection-"><code>addAll(java.util.Collection&lt;? extends E&gt;)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#add-E-"><code>add(E)</code></a>. If you
- override <a href="../../../../com/google/common/collect/ForwardingCollection.html#add-E-"><code>add(E)</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#addAll-java.util.Collection-"><code>addAll(java.util.Collection&lt;? extends E&gt;)</code></a> to forward
- to this implementation.</div>
+<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.157">standardAddAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="../../../../com/google/common/collect/ForwardingCollection.html" title="type parameter in ForwardingCollection">E</a>&gt;&nbsp;collection)</pre>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#addAll-java.util.Collection-"><code>addAll(java.util.Collection&lt;? extends E&gt;)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#add-E-"><code>add(E)</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingCollection.html#add-E-"><code>add(E)</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#addAll-java.util.Collection-"><code>addAll(java.util.Collection&lt;? extends E&gt;)</code></a> to forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -830,11 +828,10 @@ public&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/com
 <ul class="blockList">
 <li class="blockList">
 <h4>standardRemove</h4>
-<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.172">standardRemove</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.168">standardRemove</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#remove-java.lang.Object-"><code>remove(java.lang.Object)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>,
- using the iterator's <code>remove</code> method. If you override <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#remove-java.lang.Object-"><code>remove(java.lang.Object)</code></a> to forward to this
- implementation.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#remove-java.lang.Object-"><code>remove(java.lang.Object)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>, using the iterator's
+ <code>remove</code> method. If you override <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#remove-java.lang.Object-"><code>remove(java.lang.Object)</code></a> to forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -847,10 +844,9 @@ public&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/com
 <ul class="blockList">
 <li class="blockList">
 <h4>standardRemoveAll</h4>
-<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.191">standardRemoveAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;collection)</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#removeAll-java.util.Collection-"><code>removeAll(java.util.Collection&lt;?&gt;)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>,
- using the iterator's <code>remove</code> method. If you override <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#removeAll-java.util.Collection-"><code>removeAll(java.util.Collection&lt;?&gt;)</code></a> to forward to this
- implementation.</div>
+<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.186">standardRemoveAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;collection)</pre>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#removeAll-java.util.Collection-"><code>removeAll(java.util.Collection&lt;?&gt;)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>, using the iterator's
+ <code>remove</code> method. If you override <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#removeAll-java.util.Collection-"><code>removeAll(java.util.Collection&lt;?&gt;)</code></a> to forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -863,10 +859,9 @@ public&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/com
 <ul class="blockList">
 <li class="blockList">
 <h4>standardRetainAll</h4>
-<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.203">standardRetainAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;collection)</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#retainAll-java.util.Collection-"><code>retainAll(java.util.Collection&lt;?&gt;)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>,
- using the iterator's <code>remove</code> method. If you override <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#retainAll-java.util.Collection-"><code>retainAll(java.util.Collection&lt;?&gt;)</code></a> to forward to this
- implementation.</div>
+<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.197">standardRetainAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;collection)</pre>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#retainAll-java.util.Collection-"><code>retainAll(java.util.Collection&lt;?&gt;)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>, using the iterator's
+ <code>remove</code> method. If you override <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#retainAll-java.util.Collection-"><code>retainAll(java.util.Collection&lt;?&gt;)</code></a> to forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -879,10 +874,9 @@ public&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/com
 <ul class="blockList">
 <li class="blockList">
 <h4>standardClear</h4>
-<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.215">standardClear</a>()</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#clear--"><code>clear()</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>,
- using the iterator's <code>remove</code> method. If you override <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#clear--"><code>clear()</code></a> to forward to this
- implementation.</div>
+<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.208">standardClear</a>()</pre>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#clear--"><code>clear()</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>, using the iterator's
+ <code>remove</code> method. If you override <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#clear--"><code>clear()</code></a> to forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -895,11 +889,10 @@ public&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/com
 <ul class="blockList">
 <li class="blockList">
 <h4>standardIsEmpty</h4>
-<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.227">standardIsEmpty</a>()</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#isEmpty--"><code>isEmpty()</code></a> as <code>!iterator().hasNext</code>.
- If you override <a href="../../../../com/google/common/collect/ForwardingCollection.html#isEmpty--"><code>isEmpty()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#isEmpty--"><code>isEmpty()</code></a>
- to forward to this implementation. Alternately, it may be more efficient to
- implement <code>isEmpty</code> as <code>size() == 0</code>.</div>
+<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.219">standardIsEmpty</a>()</pre>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#isEmpty--"><code>isEmpty()</code></a> as <code>!iterator().hasNext</code>. If you override
+ <a href="../../../../com/google/common/collect/ForwardingCollection.html#isEmpty--"><code>isEmpty()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#isEmpty--"><code>isEmpty()</code></a> to forward to this implementation.
+ Alternately, it may be more efficient to implement <code>isEmpty</code> as <code>size() == 0</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -912,9 +905,10 @@ public&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/com
 <ul class="blockList">
 <li class="blockList">
 <h4>standardToString</h4>
-<pre>protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.238">standardToString</a>()</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingObject.html#toString--"><code>ForwardingObject.toString()</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>.
- If you override <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingObject.html#toString--"><code>ForwardingObject.toString()</code></a> to forward to this implementation.</div>
+<pre>protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.230">standardToString</a>()</pre>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingObject.html#toString--"><code>ForwardingObject.toString()</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>. If you override
+ <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingObject.html#toString--"><code>ForwardingObject.toString()</code></a> to forward to this
+ implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -927,9 +921,10 @@ public&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/com
 <ul class="blockList">
 <li class="blockList">
 <h4>standardToArray</h4>
-<pre>protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.249">standardToArray</a>()</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#toArray--"><code>toArray()</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#toArray-T:A-"><code>toArray(Object[])</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingCollection.html#toArray-T:A-"><code>toArray(Object[])</code></a>, you may
- wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#toArray--"><code>toArray()</code></a> to forward to this implementation.</div>
+<pre>protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.241">standardToArray</a>()</pre>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#toArray--"><code>toArray()</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#toArray-T:A-"><code>toArray(Object[])</code></a>. If you
+ override <a href="../../../../com/google/common/collect/ForwardingCollection.html#toArray-T:A-"><code>toArray(Object[])</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#toArray--"><code>toArray()</code></a> to forward to
+ this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -944,9 +939,9 @@ public&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/com
 <ul class="blockListLast">
 <li class="blockList">
 <h4>standardToArray</h4>
-<pre>protected&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.261">standardToArray</a>(T[]&nbsp;array)</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#toArray-T:A-"><code>toArray(Object[])</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#size--"><code>size()</code></a> and <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>. If you override either of these methods, you
- may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#toArray--"><code>toArray()</code></a> to forward to this implementation.</div>
+<pre>protected&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingCollection.html#line.253">standardToArray</a>(T[]&nbsp;array)</pre>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#toArray-T:A-"><code>toArray(Object[])</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#size--"><code>size()</code></a> and <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>iterator()</code></a>. If you override either of these methods, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#toArray--"><code>toArray()</code></a>
+ to forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>

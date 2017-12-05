@@ -123,17 +123,15 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
  <code>K</code>. If a key has not yet been associated with a value, its implicit value is zero.
 
  <p>Most methods in this class treat absent values and zero values identically, as individually
- documented. Exceptions to this are <a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html#containsKey-java.lang.Object-"><code>containsKey(java.lang.Object)</code></a>, <a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html#size--"><code>size()</code></a>, <a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html#isEmpty--"><code>isEmpty()</code></a>,
- <a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html#asMap"><code>asMap</code></a>, and <a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html#toString--"><code>toString()</code></a>.
+ documented. Exceptions to this are <a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html#containsKey-java.lang.Object-"><code>containsKey(java.lang.Object)</code></a>, <a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html#size--"><code>size()</code></a>, <a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html#isEmpty--"><code>isEmpty()</code></a>, <a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html#asMap"><code>asMap</code></a>, and <a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html#toString--"><code>toString()</code></a>.
 
  <p>Instances of this class may be used by multiple threads concurrently. All operations are
  atomic unless otherwise noted.
 
  <p><b>Note:</b> If your values are always positive and less than 2^31, you may wish to use a
- <a href="../../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect"><code>Multiset</code></a> such as
- <a href="../../../../../com/google/common/collect/ConcurrentHashMultiset.html" title="class in com.google.common.collect"><code>ConcurrentHashMultiset</code></a> instead.
+ <a href="../../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect"><code>Multiset</code></a> such as <a href="../../../../../com/google/common/collect/ConcurrentHashMultiset.html" title="class in com.google.common.collect"><code>ConcurrentHashMultiset</code></a> instead.
 
- <b>Warning:</b> Unlike <code>Multiset</code>, entries whose values are zero are not automatically
+ <p><b>Warning:</b> Unlike <code>Multiset</code>, entries whose values are zero are not automatically
  removed from the map. Instead they must be removed manually with <a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html#removeAllZeros--"><code>removeAllZeros()</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -166,8 +164,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html#accumulateAndGet-K-long-java.util.function.LongBinaryOperator-">accumulateAndGet</a></span>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key,
                 long&nbsp;x,
                 <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/LongBinaryOperator.html?is-external=true" title="class or interface in java.util.function">LongBinaryOperator</a>&nbsp;accumulatorFunction)</code>
-<div class="block">Updates the value currently associated with <code>key</code> by combining it with <code>x</code>
- via the specified accumulator function, returning the new value.</div>
+<div class="block">Updates the value currently associated with <code>key</code> by combining it with <code>x</code> via the
+ specified accumulator function, returning the new value.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -226,8 +224,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html#getAndAccumulate-K-long-java.util.function.LongBinaryOperator-">getAndAccumulate</a></span>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key,
                 long&nbsp;x,
                 <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/LongBinaryOperator.html?is-external=true" title="class or interface in java.util.function">LongBinaryOperator</a>&nbsp;accumulatorFunction)</code>
-<div class="block">Updates the value currently associated with <code>key</code> by combining it with <code>x</code>
- via the specified accumulator function, returning the old value.</div>
+<div class="block">Updates the value currently associated with <code>key</code> by combining it with <code>x</code> via the
+ specified accumulator function, returning the old value.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
@@ -254,8 +252,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <td class="colFirst"><code>long</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html#getAndUpdate-K-java.util.function.LongUnaryOperator-">getAndUpdate</a></span>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key,
             <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/LongUnaryOperator.html?is-external=true" title="class or interface in java.util.function">LongUnaryOperator</a>&nbsp;updaterFunction)</code>
-<div class="block">Updates the value currently associated with <code>key</code> with the specified function,
- and returns the old value.</div>
+<div class="block">Updates the value currently associated with <code>key</code> with the specified function, and
+ returns the old value.</div>
 </td>
 </tr>
 <tr id="i14" class="altColor">
@@ -324,8 +322,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <td class="colFirst"><code>long</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html#updateAndGet-K-java.util.function.LongUnaryOperator-">updateAndGet</a></span>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key,
             <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/LongUnaryOperator.html?is-external=true" title="class or interface in java.util.function">LongUnaryOperator</a>&nbsp;updaterFunction)</code>
-<div class="block">Updates the value currently associated with <code>key</code> with the specified function,
- and returns the new value.</div>
+<div class="block">Updates the value currently associated with <code>key</code> with the specified function, and
+ returns the new value.</div>
 </td>
 </tr>
 </table>
@@ -356,7 +354,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;K&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="class in com.google.common.util.concurrent">AtomicLongMap</a>&lt;K&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.67">create</a>()</pre>
+<pre>public static&nbsp;&lt;K&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="class in com.google.common.util.concurrent">AtomicLongMap</a>&lt;K&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.65">create</a>()</pre>
 <div class="block">Creates an <code>AtomicLongMap</code>.</div>
 </li>
 </ul>
@@ -366,7 +364,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;K&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="class in com.google.common.util.concurrent">AtomicLongMap</a>&lt;K&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.74">create</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends K,? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt;&nbsp;m)</pre>
+<pre>public static&nbsp;&lt;K&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="class in com.google.common.util.concurrent">AtomicLongMap</a>&lt;K&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.70">create</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends K,? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt;&nbsp;m)</pre>
 <div class="block">Creates an <code>AtomicLongMap</code> with the same mappings as the specified <code>Map</code>.</div>
 </li>
 </ul>
@@ -378,7 +376,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.84">get</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key)</pre>
+<pre>public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.80">get</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key)</pre>
 <div class="block">Returns the value associated with <code>key</code>, or zero if there is no value associated with
  <code>key</code>.</div>
 </li>
@@ -392,7 +390,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <li class="blockList">
 <h4>incrementAndGet</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.92">incrementAndGet</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key)</pre>
+public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.88">incrementAndGet</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key)</pre>
 <div class="block">Increments by one the value currently associated with <code>key</code>, and returns the new value.</div>
 </li>
 </ul>
@@ -405,7 +403,7 @@ public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/co
 <li class="blockList">
 <h4>decrementAndGet</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.100">decrementAndGet</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key)</pre>
+public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.96">decrementAndGet</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key)</pre>
 <div class="block">Decrements by one the value currently associated with <code>key</code>, and returns the new value.</div>
 </li>
 </ul>
@@ -418,7 +416,7 @@ public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/co
 <li class="blockList">
 <h4>addAndGet</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.109">addAndGet</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key,
+public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.105">addAndGet</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key,
                                             long&nbsp;delta)</pre>
 <div class="block">Adds <code>delta</code> to the value currently associated with <code>key</code>, and returns the new
  value.</div>
@@ -433,7 +431,7 @@ public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/co
 <li class="blockList">
 <h4>getAndIncrement</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.117">getAndIncrement</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key)</pre>
+public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.113">getAndIncrement</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key)</pre>
 <div class="block">Increments by one the value currently associated with <code>key</code>, and returns the old value.</div>
 </li>
 </ul>
@@ -446,7 +444,7 @@ public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/co
 <li class="blockList">
 <h4>getAndDecrement</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.125">getAndDecrement</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key)</pre>
+public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.121">getAndDecrement</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key)</pre>
 <div class="block">Decrements by one the value currently associated with <code>key</code>, and returns the old value.</div>
 </li>
 </ul>
@@ -459,7 +457,7 @@ public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/co
 <li class="blockList">
 <h4>getAndAdd</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.134">getAndAdd</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key,
+public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.130">getAndAdd</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key,
                                             long&nbsp;delta)</pre>
 <div class="block">Adds <code>delta</code> to the value currently associated with <code>key</code>, and returns the old
  value.</div>
@@ -474,11 +472,11 @@ public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/co
 <li class="blockList">
 <h4>updateAndGet</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.146">updateAndGet</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key,
+public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.142">updateAndGet</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key,
                                                <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/LongUnaryOperator.html?is-external=true" title="class or interface in java.util.function">LongUnaryOperator</a>&nbsp;updaterFunction)</pre>
-<div class="block">Updates the value currently associated with <code>key</code> with the specified function,
- and returns the new value.  If there is not currently a value associated with <code>key</code>,
- the function is applied to <code>0L</code>.</div>
+<div class="block">Updates the value currently associated with <code>key</code> with the specified function, and
+ returns the new value. If there is not currently a value associated with <code>key</code>, the
+ function is applied to <code>0L</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>21.0</dd>
@@ -494,11 +492,11 @@ public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/co
 <li class="blockList">
 <h4>getAndUpdate</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.160">getAndUpdate</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key,
+public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.156">getAndUpdate</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key,
                                                <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/LongUnaryOperator.html?is-external=true" title="class or interface in java.util.function">LongUnaryOperator</a>&nbsp;updaterFunction)</pre>
-<div class="block">Updates the value currently associated with <code>key</code> with the specified function,
- and returns the old value.  If there is not currently a value associated with <code>key</code>,
- the function is applied to <code>0L</code>.</div>
+<div class="block">Updates the value currently associated with <code>key</code> with the specified function, and
+ returns the old value. If there is not currently a value associated with <code>key</code>, the
+ function is applied to <code>0L</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>21.0</dd>
@@ -514,13 +512,12 @@ public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/co
 <li class="blockList">
 <h4>accumulateAndGet</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.182">accumulateAndGet</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key,
+public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.178">accumulateAndGet</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key,
                                                    long&nbsp;x,
                                                    <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/LongBinaryOperator.html?is-external=true" title="class or interface in java.util.function">LongBinaryOperator</a>&nbsp;accumulatorFunction)</pre>
-<div class="block">Updates the value currently associated with <code>key</code> by combining it with <code>x</code>
- via the specified accumulator function, returning the new value.  The previous value
- associated with <code>key</code> (or zero, if there is none) is passed as the first argument
- to <code>accumulatorFunction</code>, and <code>x</code> is passed as the second argument.</div>
+<div class="block">Updates the value currently associated with <code>key</code> by combining it with <code>x</code> via the
+ specified accumulator function, returning the new value. The previous value associated with
+ <code>key</code> (or zero, if there is none) is passed as the first argument to <code>accumulatorFunction</code>, and <code>x</code> is passed as the second argument.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>21.0</dd>
@@ -536,13 +533,12 @@ public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/co
 <li class="blockList">
 <h4>getAndAccumulate</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.196">getAndAccumulate</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key,
+public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.192">getAndAccumulate</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key,
                                                    long&nbsp;x,
                                                    <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/LongBinaryOperator.html?is-external=true" title="class or interface in java.util.function">LongBinaryOperator</a>&nbsp;accumulatorFunction)</pre>
-<div class="block">Updates the value currently associated with <code>key</code> by combining it with <code>x</code>
- via the specified accumulator function, returning the old value.  The previous value
- associated with <code>key</code> (or zero, if there is none) is passed as the first argument
- to <code>accumulatorFunction</code>, and <code>x</code> is passed as the second argument.</div>
+<div class="block">Updates the value currently associated with <code>key</code> by combining it with <code>x</code> via the
+ specified accumulator function, returning the old value. The previous value associated with
+ <code>key</code> (or zero, if there is none) is passed as the first argument to <code>accumulatorFunction</code>, and <code>x</code> is passed as the second argument.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>21.0</dd>
@@ -558,7 +554,7 @@ public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/co
 <li class="blockList">
 <h4>put</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.206">put</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key,
+public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.202">put</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key,
                                       long&nbsp;newValue)</pre>
 <div class="block">Associates <code>newValue</code> with <code>key</code> in this map, and returns the value previously
  associated with <code>key</code>, or zero if there was no such value.</div>
@@ -570,7 +566,7 @@ public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/co
 <ul class="blockList">
 <li class="blockList">
 <h4>putAll</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.216">putAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>,? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt;&nbsp;m)</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.212">putAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>,? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt;&nbsp;m)</pre>
 <div class="block">Copies all of the mappings from the specified map to this map. The effect of this call is
  equivalent to that of calling <code>put(k, v)</code> on this map once for each mapping from key
  <code>k</code> to value <code>v</code> in the specified map. The behavior of this operation is undefined
@@ -586,9 +582,9 @@ public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/co
 <li class="blockList">
 <h4>remove</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.225">remove</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key)</pre>
-<div class="block">Removes and returns the value associated with <code>key</code>. If <code>key</code> is not
- in the map, this method has no effect and returns zero.</div>
+public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.221">remove</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key)</pre>
+<div class="block">Removes and returns the value associated with <code>key</code>. If <code>key</code> is not in the map,
+ this method has no effect and returns zero.</div>
 </li>
 </ul>
 <a name="removeIfZero-java.lang.Object-">
@@ -601,7 +597,7 @@ public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/co
 <h4>removeIfZero</h4>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.237">removeIfZero</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.233">removeIfZero</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key)</pre>
 <div class="block">Atomically remove <code>key</code> from the map iff its associated value is 0.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -615,11 +611,11 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>removeAllZeros</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.247">removeAllZeros</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.243">removeAllZeros</a>()</pre>
 <div class="block">Removes all mappings from this map whose values are zero.
 
- <p>This method is not atomic: the map may be visible in intermediate states, where some
- of the zero values have been removed and others have not.</div>
+ <p>This method is not atomic: the map may be visible in intermediate states, where some of the
+ zero values have been removed and others have not.</div>
 </li>
 </ul>
 <a name="sum--">
@@ -628,7 +624,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>sum</h4>
-<pre>public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.256">sum</a>()</pre>
+<pre>public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.252">sum</a>()</pre>
 <div class="block">Returns the sum of all values in this map.
 
  <p>This method is not atomic: the sum may or may not include other concurrent operations.</div>
@@ -640,7 +636,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>asMap</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.265">asMap</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.259">asMap</a>()</pre>
 <div class="block">Returns a live, read-only view of the map backing this <code>AtomicLongMap</code>.</div>
 </li>
 </ul>
@@ -650,7 +646,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>containsKey</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.277">containsKey</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.269">containsKey</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <div class="block">Returns true if this map contains a mapping for the specified key.</div>
 </li>
 </ul>
@@ -660,9 +656,8 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.285">size</a>()</pre>
-<div class="block">Returns the number of key-value mappings in this map. If the map contains more than
- <code>Integer.MAX_VALUE</code> elements, returns <code>Integer.MAX_VALUE</code>.</div>
+<pre>public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.277">size</a>()</pre>
+<div class="block">Returns the number of key-value mappings in this map. If the map contains more than <code>Integer.MAX_VALUE</code> elements, returns <code>Integer.MAX_VALUE</code>.</div>
 </li>
 </ul>
 <a name="isEmpty--">
@@ -671,7 +666,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.292">isEmpty</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.282">isEmpty</a>()</pre>
 <div class="block">Returns <code>true</code> if this map contains no key-value mappings.</div>
 </li>
 </ul>
@@ -681,7 +676,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>clear</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.302">clear</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.292">clear</a>()</pre>
 <div class="block">Removes all of the mappings from this map. The map will be empty after this call returns.
 
  <p>This method is not atomic: the map may not be empty after returning if there were concurrent
@@ -694,7 +689,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.307">toString</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.297">toString</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Returns a string representation of the object. In general, the
  <code>toString</code> method returns a string that

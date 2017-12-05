@@ -42,15 +42,15 @@
 <span class="sourceLineNo">034</span>public interface TimeLimiter {<a name="line.34"></a>
 <span class="sourceLineNo">035</span><a name="line.35"></a>
 <span class="sourceLineNo">036</span>  /**<a name="line.36"></a>
-<span class="sourceLineNo">037</span>   * Returns an instance of {@code interfaceType} that delegates all method calls to the<a name="line.37"></a>
-<span class="sourceLineNo">038</span>   * {@code target} object, enforcing the specified time limit on each call. This time-limited<a name="line.38"></a>
-<span class="sourceLineNo">039</span>   * delegation is also performed for calls to {@link Object#equals}, {@link Object#hashCode}, and<a name="line.39"></a>
-<span class="sourceLineNo">040</span>   * {@link Object#toString}.<a name="line.40"></a>
+<span class="sourceLineNo">037</span>   * Returns an instance of {@code interfaceType} that delegates all method calls to the {@code<a name="line.37"></a>
+<span class="sourceLineNo">038</span>   * target} object, enforcing the specified time limit on each call. This time-limited delegation<a name="line.38"></a>
+<span class="sourceLineNo">039</span>   * is also performed for calls to {@link Object#equals}, {@link Object#hashCode}, and {@link<a name="line.39"></a>
+<span class="sourceLineNo">040</span>   * Object#toString}.<a name="line.40"></a>
 <span class="sourceLineNo">041</span>   *<a name="line.41"></a>
 <span class="sourceLineNo">042</span>   * &lt;p&gt;If the target method call finishes before the limit is reached, the return value or<a name="line.42"></a>
 <span class="sourceLineNo">043</span>   * exception is propagated to the caller exactly as-is. If, on the other hand, the time limit is<a name="line.43"></a>
-<span class="sourceLineNo">044</span>   * reached, the proxy will attempt to abort the call to the target, and will throw an<a name="line.44"></a>
-<span class="sourceLineNo">045</span>   * {@link UncheckedTimeoutException} to the caller.<a name="line.45"></a>
+<span class="sourceLineNo">044</span>   * reached, the proxy will attempt to abort the call to the target, and will throw an {@link<a name="line.44"></a>
+<span class="sourceLineNo">045</span>   * UncheckedTimeoutException} to the caller.<a name="line.45"></a>
 <span class="sourceLineNo">046</span>   *<a name="line.46"></a>
 <span class="sourceLineNo">047</span>   * &lt;p&gt;It is important to note that the primary purpose of the proxy object is to return control to<a name="line.47"></a>
 <span class="sourceLineNo">048</span>   * the caller when the timeout elapses; aborting the target method call is of secondary concern.<a name="line.48"></a>

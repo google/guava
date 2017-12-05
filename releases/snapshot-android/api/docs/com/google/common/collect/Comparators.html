@@ -202,11 +202,12 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <div class="block">Returns a new comparator which sorts iterables by comparing corresponding elements pairwise
  until a nonzero result is found; imposes "dictionary order." If the end of one iterable is
  reached, but not the other, the shorter iterable is considered to be less than the longer one.
- For example, a lexicographical natural ordering over integers considers <code>[] &lt; [1] &lt; [1, 1] &lt; [1, 2] &lt; [2]</code>.
+ For example, a lexicographical natural ordering over integers considers <code>[] &lt; [1] &lt; [1,
+ 1] &lt; [1, 2] &lt; [2]</code>.
 
- <p>Note that <code>Collections.reverseOrder(lexicographical(comparator))</code> is not
- equivalent to <code>lexicographical(Collections.reverseOrder(comparator))</code> (consider how each
- would order <code>[1]</code> and <code>[1, 1]</code>).</div>
+ <p>Note that <code>Collections.reverseOrder(lexicographical(comparator))</code> is not equivalent to
+ <code>lexicographical(Collections.reverseOrder(comparator))</code> (consider how each would order
+ <code>[1]</code> and <code>[1, 1]</code>).</div>
 </li>
 </ul>
 <a name="isInOrder-java.lang.Iterable-java.util.Comparator-">
@@ -218,8 +219,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <pre>public static&nbsp;&lt;T&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Comparators.html#line.69">isInOrder</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;&nbsp;iterable,
                                     <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;T&gt;&nbsp;comparator)</pre>
 <div class="block">Returns <code>true</code> if each element in <code>iterable</code> after the first is greater than or
- equal to the element that preceded it, according to the specified comparator. Note that this
- is always true when the iterable has fewer than two elements.</div>
+ equal to the element that preceded it, according to the specified comparator. Note that this is
+ always true when the iterable has fewer than two elements.</div>
 </li>
 </ul>
 <a name="isInStrictOrder-java.lang.Iterable-java.util.Comparator-">

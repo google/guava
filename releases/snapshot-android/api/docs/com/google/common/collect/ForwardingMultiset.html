@@ -128,28 +128,24 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.55">ForwardingMultiset</a>&lt;E&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.51">ForwardingMultiset</a>&lt;E&gt;
 extends <a href="../../../../com/google/common/collect/ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;E&gt;
 implements <a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;</pre>
-<div class="block">A multiset which forwards all its method calls to another multiset.
- Subclasses should override one or more methods to modify the behavior of the
- backing multiset as desired per the <a
+<div class="block">A multiset which forwards all its method calls to another multiset. Subclasses should override
+ one or more methods to modify the behavior of the backing multiset as desired per the <a
  href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
 
- <p><b>Warning:</b> The methods of <code>ForwardingMultiset</code> forward
- <b>indiscriminately</b> to the methods of the delegate. For example,
- overriding <a href="../../../../com/google/common/collect/ForwardingMultiset.html#add-E-int-"><code>add(Object, int)</code></a> alone <b>will not</b> change the
- behavior of <a href="../../../../com/google/common/collect/ForwardingCollection.html#add-E-"><code>ForwardingCollection.add(Object)</code></a>, which can lead to unexpected behavior. In
- this case, you should override <code>add(Object)</code> as well, either providing
- your own implementation, or delegating to the provided <code>standardAdd</code>
- method.
+ <p><b>Warning:</b> The methods of <code>ForwardingMultiset</code> forward <b>indiscriminately</b> to
+ the methods of the delegate. For example, overriding <a href="../../../../com/google/common/collect/ForwardingMultiset.html#add-E-int-"><code>add(Object, int)</code></a> alone <b>will
+ not</b> change the behavior of <a href="../../../../com/google/common/collect/ForwardingCollection.html#add-E-"><code>ForwardingCollection.add(Object)</code></a>, which can lead to unexpected behavior. In
+ this case, you should override <code>add(Object)</code> as well, either providing your own
+ implementation, or delegating to the provided <code>standardAdd</code> method.
 
  <p><b><code>default</code> method warning:</b> This class does <i>not</i> forward calls to <code>default</code> methods. Instead, it inherits their default implementations. When those implementations
  invoke methods, they invoke methods on the <code>ForwardingMultiset</code>.
 
- <p>The <code>standard</code> methods and any collection views they return are not
- guaranteed to be thread-safe, even when all of the methods that they depend
- on are thread-safe.</div>
+ <p>The <code>standard</code> methods and any collection views they return are not guaranteed to be
+ thread-safe, even when all of the methods that they depend on are thread-safe.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
@@ -177,11 +173,8 @@ implements <a href="../../../../com/google/common/collect/Multiset.html" title="
 <tr class="altColor">
 <td class="colFirst"><code>protected class&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingMultiset.StandardElementSet.html" title="class in com.google.common.collect">ForwardingMultiset.StandardElementSet</a></span></code>
-<div class="block">A sensible implementation of <a href="../../../../com/google/common/collect/Multiset.html#elementSet--"><code>Multiset.elementSet()</code></a> in terms of the
- following methods: <a href="../../../../com/google/common/collect/ForwardingCollection.html#clear--"><code>ForwardingCollection.clear()</code></a>, <a href="../../../../com/google/common/collect/ForwardingCollection.html#contains-java.lang.Object-"><code>ForwardingCollection.contains(java.lang.Object)</code></a>, <a href="../../../../com/google/common/collect/ForwardingCollection.html#containsAll-java.util.Collection-"><code>ForwardingCollection.containsAll(java.util.Collection&lt;?&gt;)</code></a>,
- <a href="../../../../com/google/common/collect/ForwardingMultiset.html#count-java.lang.Object-"><code>count(java.lang.Object)</code></a>, <a href="../../../../com/google/common/collect/ForwardingCollection.html#isEmpty--"><code>ForwardingCollection.isEmpty()</code></a>, the
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true#size--" title="class or interface in java.util"><code>Set.size()</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true#iterator--" title="class or interface in java.util"><code>Set.iterator()</code></a> methods of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>, and <a href="../../../../com/google/common/collect/ForwardingMultiset.html#remove-java.lang.Object-int-"><code>remove(Object,
- int)</code></a>.</div>
+<div class="block">A sensible implementation of <a href="../../../../com/google/common/collect/Multiset.html#elementSet--"><code>Multiset.elementSet()</code></a> in terms of the following methods:
+ <a href="../../../../com/google/common/collect/ForwardingCollection.html#clear--"><code>ForwardingCollection.clear()</code></a>, <a href="../../../../com/google/common/collect/ForwardingCollection.html#contains-java.lang.Object-"><code>ForwardingCollection.contains(java.lang.Object)</code></a>, <a href="../../../../com/google/common/collect/ForwardingCollection.html#containsAll-java.util.Collection-"><code>ForwardingCollection.containsAll(java.util.Collection&lt;?&gt;)</code></a>, <a href="../../../../com/google/common/collect/ForwardingMultiset.html#count-java.lang.Object-"><code>count(java.lang.Object)</code></a>, <a href="../../../../com/google/common/collect/ForwardingCollection.html#isEmpty--"><code>ForwardingCollection.isEmpty()</code></a>, the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true#size--" title="class or interface in java.util"><code>Set.size()</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true#iterator--" title="class or interface in java.util"><code>Set.iterator()</code></a> methods of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>, and <a href="../../../../com/google/common/collect/ForwardingMultiset.html#remove-java.lang.Object-int-"><code>remove(Object, int)</code></a>.</div>
 </td>
 </tr>
 </table>
@@ -256,8 +249,8 @@ implements <a href="../../../../com/google/common/collect/Multiset.html" title="
 <tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--">entrySet</a></span>()</code>
-<div class="block">Returns a view of the contents of this multiset, grouped into <code>Multiset.Entry</code> instances, each providing an element of the multiset and
- the count of that element.</div>
+<div class="block">Returns a view of the contents of this multiset, grouped into <code>Multiset.Entry</code> instances,
+ each providing an element of the multiset and the count of that element.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
@@ -283,8 +276,8 @@ implements <a href="../../../../com/google/common/collect/Multiset.html" title="
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingMultiset.html#setCount-E-int-">setCount</a></span>(<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&nbsp;element,
         int&nbsp;count)</code>
-<div class="block">Adds or removes the necessary occurrences of an element such that the
- element attains the desired count.</div>
+<div class="block">Adds or removes the necessary occurrences of an element such that the element attains the
+ desired count.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
@@ -292,9 +285,7 @@ implements <a href="../../../../com/google/common/collect/Multiset.html" title="
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingMultiset.html#setCount-E-int-int-">setCount</a></span>(<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&nbsp;element,
         int&nbsp;oldCount,
         int&nbsp;newCount)</code>
-<div class="block">Conditionally sets the count of an element to a new value, as described in
- <a href="../../../../com/google/common/collect/Multiset.html#setCount-E-int-"><code>Multiset.setCount(Object, int)</code></a>, provided that the element has the expected
- current count.</div>
+<div class="block">Conditionally sets the count of an element to a new value, as described in <a href="../../../../com/google/common/collect/Multiset.html#setCount-E-int-"><code>Multiset.setCount(Object, int)</code></a>, provided that the element has the expected current count.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
@@ -306,14 +297,14 @@ implements <a href="../../../../com/google/common/collect/Multiset.html" title="
 <tr id="i11" class="rowColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingMultiset.html#standardAddAll-java.util.Collection-">standardAddAll</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;&nbsp;elementsToAdd)</code>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#addAll-java.util.Collection-"><code>ForwardingCollection.addAll(Collection)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#add-E-"><code>ForwardingCollection.add(Object)</code></a> and <a href="../../../../com/google/common/collect/ForwardingMultiset.html#add-E-int-"><code>add(Object, int)</code></a>.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#addAll-java.util.Collection-"><code>ForwardingCollection.addAll(Collection)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#add-E-"><code>ForwardingCollection.add(Object)</code></a> and
+ <a href="../../../../com/google/common/collect/ForwardingMultiset.html#add-E-int-"><code>add(Object, int)</code></a>.</div>
 </td>
 </tr>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>protected void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingMultiset.html#standardClear--">standardClear</a></span>()</code>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#clear--"><code>ForwardingCollection.clear()</code></a> in terms of the <code>iterator</code>
- method of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#clear--"><code>ForwardingCollection.clear()</code></a> in terms of the <code>iterator</code> method of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>.</div>
 </td>
 </tr>
 <tr id="i13" class="rowColor">
@@ -325,29 +316,25 @@ implements <a href="../../../../com/google/common/collect/Multiset.html" title="
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>protected int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingMultiset.html#standardCount-java.lang.Object-">standardCount</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</code>
-<div class="block">A sensible, albeit inefficient, definition of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#count-java.lang.Object-"><code>count(java.lang.Object)</code></a> in terms of
- <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>.</div>
+<div class="block">A sensible, albeit inefficient, definition of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#count-java.lang.Object-"><code>count(java.lang.Object)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>.</div>
 </td>
 </tr>
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingMultiset.html#standardEquals-java.lang.Object-">standardEquals</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</code>
-<div class="block">A sensible, albeit inefficient, definition of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#equals-java.lang.Object-"><code>equals(java.lang.Object)</code></a> in terms of
- <code>entrySet().size()</code> and <a href="../../../../com/google/common/collect/ForwardingMultiset.html#count-java.lang.Object-"><code>count(java.lang.Object)</code></a>.</div>
+<div class="block">A sensible, albeit inefficient, definition of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#equals-java.lang.Object-"><code>equals(java.lang.Object)</code></a> in terms of <code>entrySet().size()</code> and <a href="../../../../com/google/common/collect/ForwardingMultiset.html#count-java.lang.Object-"><code>count(java.lang.Object)</code></a>.</div>
 </td>
 </tr>
 <tr id="i16" class="altColor">
 <td class="colFirst"><code>protected int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingMultiset.html#standardHashCode--">standardHashCode</a></span>()</code>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#hashCode--"><code>hashCode()</code></a> as <code>entrySet().hashCode()</code>
- .</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#hashCode--"><code>hashCode()</code></a> as <code>entrySet().hashCode()</code> .</div>
 </td>
 </tr>
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code>protected <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingMultiset.html#standardIterator--">standardIterator</a></span>()</code>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>ForwardingCollection.iterator()</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>
- and <a href="../../../../com/google/common/collect/ForwardingCollection.html#remove-java.lang.Object-"><code>ForwardingCollection.remove(Object)</code></a>.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>ForwardingCollection.iterator()</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a> and <a href="../../../../com/google/common/collect/ForwardingCollection.html#remove-java.lang.Object-"><code>ForwardingCollection.remove(Object)</code></a>.</div>
 </td>
 </tr>
 <tr id="i18" class="altColor">
@@ -372,8 +359,8 @@ implements <a href="../../../../com/google/common/collect/Multiset.html" title="
 <td class="colFirst"><code>protected int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingMultiset.html#standardSetCount-E-int-">standardSetCount</a></span>(<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&nbsp;element,
                 int&nbsp;count)</code>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#setCount-E-int-"><code>setCount(Object, int)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#count-java.lang.Object-"><code>count(Object)</code></a>, <a href="../../../../com/google/common/collect/ForwardingMultiset.html#add-E-int-"><code>add(Object, int)</code></a>, and <a href="../../../../com/google/common/collect/ForwardingMultiset.html#remove-java.lang.Object-int-"><code>remove(Object,
- int)</code></a>.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#setCount-E-int-"><code>setCount(Object, int)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#count-java.lang.Object-"><code>count(Object)</code></a>,
+ <a href="../../../../com/google/common/collect/ForwardingMultiset.html#add-E-int-"><code>add(Object, int)</code></a>, and <a href="../../../../com/google/common/collect/ForwardingMultiset.html#remove-java.lang.Object-int-"><code>remove(Object, int)</code></a>.</div>
 </td>
 </tr>
 <tr id="i22" class="altColor">
@@ -381,22 +368,20 @@ implements <a href="../../../../com/google/common/collect/Multiset.html" title="
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingMultiset.html#standardSetCount-E-int-int-">standardSetCount</a></span>(<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&nbsp;element,
                 int&nbsp;oldCount,
                 int&nbsp;newCount)</code>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#setCount-E-int-int-"><code>setCount(Object, int, int)</code></a> in terms of
- <a href="../../../../com/google/common/collect/ForwardingMultiset.html#count-java.lang.Object-"><code>count(Object)</code></a> and <a href="../../../../com/google/common/collect/ForwardingMultiset.html#setCount-E-int-"><code>setCount(Object, int)</code></a>.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#setCount-E-int-int-"><code>setCount(Object, int, int)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#count-java.lang.Object-"><code>count(Object)</code></a>
+ and <a href="../../../../com/google/common/collect/ForwardingMultiset.html#setCount-E-int-"><code>setCount(Object, int)</code></a>.</div>
 </td>
 </tr>
 <tr id="i23" class="rowColor">
 <td class="colFirst"><code>protected int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingMultiset.html#standardSize--">standardSize</a></span>()</code>
-<div class="block">A sensible, albeit inefficient, definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#size--"><code>ForwardingCollection.size()</code></a> in terms of
- <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>.</div>
+<div class="block">A sensible, albeit inefficient, definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#size--"><code>ForwardingCollection.size()</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>.</div>
 </td>
 </tr>
 <tr id="i24" class="altColor">
 <td class="colFirst"><code>protected <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingMultiset.html#standardToString--">standardToString</a></span>()</code>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingObject.html#toString--"><code>ForwardingObject.toString()</code></a> as <code>entrySet().toString()</code>
- .</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingObject.html#toString--"><code>ForwardingObject.toString()</code></a> as <code>entrySet().toString()</code> .</div>
 </td>
 </tr>
 </table>
@@ -462,7 +447,7 @@ implements <a href="../../../../com/google/common/collect/Multiset.html" title="
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingMultiset</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.58">ForwardingMultiset</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.54">ForwardingMultiset</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -480,12 +465,12 @@ implements <a href="../../../../com/google/common/collect/Multiset.html" title="
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre>protected abstract&nbsp;<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.61">delegate</a>()</pre>
+<pre>protected abstract&nbsp;<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.57">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingObject.html#delegate--">ForwardingObject</a></code></span></div>
-<div class="block">Returns the backing delegate instance that methods are forwarded to.
- Abstract subclasses generally override this method with an abstract method
- that has a more specific return type, such as <a href="../../../../com/google/common/collect/ForwardingSet.html#delegate--"><code>ForwardingSet.delegate()</code></a>. Concrete subclasses override this method to supply
- the instance being decorated.</div>
+<div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
+ generally override this method with an abstract method that has a more specific return type,
+ such as <a href="../../../../com/google/common/collect/ForwardingSet.html#delegate--"><code>ForwardingSet.delegate()</code></a>. Concrete subclasses override this method to supply the
+ instance being decorated.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ForwardingCollection.html#delegate--">delegate</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;</code></dd>
@@ -498,7 +483,7 @@ implements <a href="../../../../com/google/common/collect/Multiset.html" title="
 <ul class="blockList">
 <li class="blockList">
 <h4>count</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.64">count</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element)</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.60">count</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#count-java.lang.Object-">Multiset</a></code></span></div>
 <div class="block">Returns the number of occurrences of an element in this multiset (the <i>count</i> of the
  element). Note that for an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a>-based multiset, this gives the same result as
@@ -527,21 +512,21 @@ implements <a href="../../../../com/google/common/collect/Multiset.html" title="
 <li class="blockList">
 <h4>add</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.70">add</a>(<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&nbsp;element,
+public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.66">add</a>(<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&nbsp;element,
                                      int&nbsp;occurrences)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#add-E-int-">Multiset</a></code></span></div>
-<div class="block">Adds a number of occurrences of an element to this multiset. Note that if
- <code>occurrences == 1</code>, this method has the identical effect to <a href="../../../../com/google/common/collect/Multiset.html#add-E-"><code>Multiset.add(Object)</code></a>. This method is functionally equivalent (except in the case
- of overflow) to the call <code>addAll(Collections.nCopies(element,
- occurrences))</code>, which would presumably perform much more poorly.</div>
+<div class="block">Adds a number of occurrences of an element to this multiset. Note that if <code>occurrences ==
+ 1</code>, this method has the identical effect to <a href="../../../../com/google/common/collect/Multiset.html#add-E-"><code>Multiset.add(Object)</code></a>. This method is functionally
+ equivalent (except in the case of overflow) to the call <code>addAll(Collections.nCopies(element, occurrences))</code>, which would presumably perform much more
+ poorly.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/Multiset.html#add-E-int-">add</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>element</code> - the element to add occurrences of; may be null only if
-     explicitly allowed by the implementation</dd>
-<dd><code>occurrences</code> - the number of occurrences of the element to add. May be
-     zero, in which case no change will be made.</dd>
+<dd><code>element</code> - the element to add occurrences of; may be null only if explicitly allowed by the
+     implementation</dd>
+<dd><code>occurrences</code> - the number of occurrences of the element to add. May be zero, in which case
+     no change will be made.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the count of the element before the operation; possibly zero</dd>
 </dl>
@@ -554,7 +539,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/For
 <li class="blockList">
 <h4>remove</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.76">remove</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element,
+public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.72">remove</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element,
                                         int&nbsp;occurrences)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#remove-java.lang.Object-int-">Multiset</a></code></span></div>
 <div class="block">Removes a number of occurrences of the specified element from this multiset. If the multiset
@@ -578,20 +563,18 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/For
 <ul class="blockList">
 <li class="blockList">
 <h4>elementSet</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.81">elementSet</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.77">elementSet</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#elementSet--">Multiset</a></code></span></div>
-<div class="block">Returns the set of distinct elements contained in this multiset. The
- element set is backed by the same data as the multiset, so any change to
- either is immediately reflected in the other. The order of the elements in
- the element set is unspecified.
+<div class="block">Returns the set of distinct elements contained in this multiset. The element set is backed by
+ the same data as the multiset, so any change to either is immediately reflected in the other.
+ The order of the elements in the element set is unspecified.
 
- <p>If the element set supports any removal operations, these necessarily
- cause <b>all</b> occurrences of the removed element(s) to be removed from
- the multiset. Implementations are not expected to support the add
- operations, although this is possible.
+ <p>If the element set supports any removal operations, these necessarily cause <b>all</b>
+ occurrences of the removed element(s) to be removed from the multiset. Implementations are not
+ expected to support the add operations, although this is possible.
 
- <p>A common use for the element set is to find the number of distinct
- elements in the multiset: <code>elementSet().size()</code>.</div>
+ <p>A common use for the element set is to find the number of distinct elements in the multiset:
+ <code>elementSet().size()</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/Multiset.html#elementSet--">elementSet</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;</code></dd>
@@ -606,22 +589,20 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/For
 <ul class="blockList">
 <li class="blockList">
 <h4>entrySet</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.86">entrySet</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.82">entrySet</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#entrySet--">Multiset</a></code></span></div>
-<div class="block">Returns a view of the contents of this multiset, grouped into <code>Multiset.Entry</code> instances, each providing an element of the multiset and
- the count of that element. This set contains exactly one entry for each
- distinct element in the multiset (thus it always has the same size as the
- <a href="../../../../com/google/common/collect/Multiset.html#elementSet--"><code>Multiset.elementSet()</code></a>). The order of the elements in the element set is
- unspecified.
+<div class="block">Returns a view of the contents of this multiset, grouped into <code>Multiset.Entry</code> instances,
+ each providing an element of the multiset and the count of that element. This set contains
+ exactly one entry for each distinct element in the multiset (thus it always has the same size
+ as the <a href="../../../../com/google/common/collect/Multiset.html#elementSet--"><code>Multiset.elementSet()</code></a>). The order of the elements in the element set is unspecified.
 
- <p>The entry set is backed by the same data as the multiset, so any change
- to either is immediately reflected in the other. However, multiset changes
- may or may not be reflected in any <code>Entry</code> instances already
- retrieved from the entry set (this is implementation-dependent).
- Furthermore, implementations are not required to support modifications to
- the entry set at all, and the <code>Entry</code> instances themselves don't
- even have methods for modification. See the specific implementation class
- for more details on how its entry set handles modifications.</div>
+ <p>The entry set is backed by the same data as the multiset, so any change to either is
+ immediately reflected in the other. However, multiset changes may or may not be reflected in
+ any <code>Entry</code> instances already retrieved from the entry set (this is
+ implementation-dependent). Furthermore, implementations are not required to support
+ modifications to the entry set at all, and the <code>Entry</code> instances themselves don't even
+ have methods for modification. See the specific implementation class for more details on how
+ its entry set handles modifications.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/Multiset.html#entrySet--">entrySet</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;</code></dd>
@@ -636,7 +617,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/For
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.91">equals</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.87">equals</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Indicates whether some other object is "equal to" this one.
@@ -701,7 +682,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/For
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.96">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.92">hashCode</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Returns a hash code value for the object. This method is
  supported for the benefit of hash tables such as those provided by
@@ -756,17 +737,17 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/For
 <li class="blockList">
 <h4>setCount</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.102">setCount</a>(<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&nbsp;element,
+public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.98">setCount</a>(<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&nbsp;element,
                                           int&nbsp;count)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#setCount-E-int-">Multiset</a></code></span></div>
-<div class="block">Adds or removes the necessary occurrences of an element such that the
- element attains the desired count.</div>
+<div class="block">Adds or removes the necessary occurrences of an element such that the element attains the
+ desired count.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/Multiset.html#setCount-E-int-">setCount</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>element</code> - the element to add or remove occurrences of; may be null
-     only if explicitly allowed by the implementation</dd>
+<dd><code>element</code> - the element to add or remove occurrences of; may be null only if explicitly
+     allowed by the implementation</dd>
 <dd><code>count</code> - the desired count of the element in this multiset</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the count of the element before the operation; possibly zero</dd>
@@ -782,26 +763,23 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/For
 <li class="blockList">
 <h4>setCount</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.108">setCount</a>(<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&nbsp;element,
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.104">setCount</a>(<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&nbsp;element,
                                               int&nbsp;oldCount,
                                               int&nbsp;newCount)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#setCount-E-int-int-">Multiset</a></code></span></div>
-<div class="block">Conditionally sets the count of an element to a new value, as described in
- <a href="../../../../com/google/common/collect/Multiset.html#setCount-E-int-"><code>Multiset.setCount(Object, int)</code></a>, provided that the element has the expected
- current count. If the current count is not <code>oldCount</code>, no change is
- made.</div>
+<div class="block">Conditionally sets the count of an element to a new value, as described in <a href="../../../../com/google/common/collect/Multiset.html#setCount-E-int-"><code>Multiset.setCount(Object, int)</code></a>, provided that the element has the expected current count. If the
+ current count is not <code>oldCount</code>, no change is made.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/Multiset.html#setCount-E-int-int-">setCount</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>element</code> - the element to conditionally set the count of; may be null
-     only if explicitly allowed by the implementation</dd>
+<dd><code>element</code> - the element to conditionally set the count of; may be null only if explicitly
+     allowed by the implementation</dd>
 <dd><code>oldCount</code> - the expected present count of the element in this multiset</dd>
 <dd><code>newCount</code> - the desired count of the element in this multiset</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if the condition for modification was met. This
-     implies that the multiset was indeed modified, unless
-     <code>oldCount == newCount</code>.</dd>
+<dd><code>true</code> if the condition for modification was met. This implies that the multiset
+     was indeed modified, unless <code>oldCount == newCount</code>.</dd>
 </dl>
 </li>
 </ul>
@@ -811,11 +789,9 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>standardContains</h4>
-<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.120">standardContains</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.115">standardContains</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                    <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#contains-java.lang.Object-"><code>ForwardingCollection.contains(java.lang.Object)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#count-java.lang.Object-"><code>count(java.lang.Object)</code></a>. If
- you override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#count-java.lang.Object-"><code>count(java.lang.Object)</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#contains-java.lang.Object-"><code>ForwardingCollection.contains(java.lang.Object)</code></a> to
- forward to this implementation.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#contains-java.lang.Object-"><code>ForwardingCollection.contains(java.lang.Object)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#count-java.lang.Object-"><code>count(java.lang.Object)</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#count-java.lang.Object-"><code>count(java.lang.Object)</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#contains-java.lang.Object-"><code>ForwardingCollection.contains(java.lang.Object)</code></a> to forward to this implementation.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ForwardingCollection.html#standardContains-java.lang.Object-">standardContains</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;</code></dd>
@@ -830,10 +806,9 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>standardClear</h4>
-<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.132">standardClear</a>()</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#clear--"><code>ForwardingCollection.clear()</code></a> in terms of the <code>iterator</code>
- method of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>, you may
- wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#clear--"><code>ForwardingCollection.clear()</code></a> to forward to this implementation.</div>
+<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.127">standardClear</a>()</pre>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#clear--"><code>ForwardingCollection.clear()</code></a> in terms of the <code>iterator</code> method of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#clear--"><code>ForwardingCollection.clear()</code></a> to
+ forward to this implementation.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ForwardingCollection.html#standardClear--">standardClear</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;</code></dd>
@@ -849,11 +824,11 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>standardCount</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.144">standardCount</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.139">standardCount</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                   <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
-<div class="block">A sensible, albeit inefficient, definition of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#count-java.lang.Object-"><code>count(java.lang.Object)</code></a> in terms of
- <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>, you may wish to
- override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#count-java.lang.Object-"><code>count(java.lang.Object)</code></a> to forward to this implementation.</div>
+<div class="block">A sensible, albeit inefficient, definition of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#count-java.lang.Object-"><code>count(java.lang.Object)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>. If
+ you override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#count-java.lang.Object-"><code>count(java.lang.Object)</code></a> to forward to this
+ implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -868,9 +843,10 @@ protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/
 <ul class="blockList">
 <li class="blockList">
 <h4>standardAdd</h4>
-<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.160">standardAdd</a>(<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&nbsp;element)</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#add-E-"><code>ForwardingCollection.add(Object)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#add-E-int-"><code>add(Object, int)</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#add-E-int-"><code>add(Object, int)</code></a>, you may
- wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#add-E-"><code>ForwardingCollection.add(Object)</code></a> to forward to this implementation.</div>
+<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.155">standardAdd</a>(<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&nbsp;element)</pre>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#add-E-"><code>ForwardingCollection.add(Object)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#add-E-int-"><code>add(Object, int)</code></a>. If you
+ override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#add-E-int-"><code>add(Object, int)</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#add-E-"><code>ForwardingCollection.add(Object)</code></a> to forward to
+ this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -884,10 +860,10 @@ protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/
 <li class="blockList">
 <h4>standardAddAll</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.175">standardAddAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;&nbsp;elementsToAdd)</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#addAll-java.util.Collection-"><code>ForwardingCollection.addAll(Collection)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#add-E-"><code>ForwardingCollection.add(Object)</code></a> and <a href="../../../../com/google/common/collect/ForwardingMultiset.html#add-E-int-"><code>add(Object, int)</code></a>. If you override either of
- these methods, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#addAll-java.util.Collection-"><code>ForwardingCollection.addAll(Collection)</code></a> to
- forward to this implementation.</div>
+protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.169">standardAddAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;&nbsp;elementsToAdd)</pre>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#addAll-java.util.Collection-"><code>ForwardingCollection.addAll(Collection)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#add-E-"><code>ForwardingCollection.add(Object)</code></a> and
+ <a href="../../../../com/google/common/collect/ForwardingMultiset.html#add-E-int-"><code>add(Object, int)</code></a>. If you override either of these methods, you may wish to override
+ <a href="../../../../com/google/common/collect/ForwardingCollection.html#addAll-java.util.Collection-"><code>ForwardingCollection.addAll(Collection)</code></a> to forward to this implementation.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ForwardingCollection.html#standardAddAll-java.util.Collection-">standardAddAll</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;</code></dd>
@@ -902,10 +878,10 @@ protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>standardRemove</h4>
-<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.188">standardRemove</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element)</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#remove-java.lang.Object-"><code>ForwardingCollection.remove(Object)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#remove-java.lang.Object-int-"><code>remove(Object, int)</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#remove-java.lang.Object-int-"><code>remove(Object, int)</code></a>, you
- may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#remove-java.lang.Object-"><code>ForwardingCollection.remove(Object)</code></a> to forward to this
- implementation.</div>
+<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.181">standardRemove</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element)</pre>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#remove-java.lang.Object-"><code>ForwardingCollection.remove(Object)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#remove-java.lang.Object-int-"><code>remove(Object, int)</code></a>. If
+ you override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#remove-java.lang.Object-int-"><code>remove(Object, int)</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#remove-java.lang.Object-"><code>ForwardingCollection.remove(Object)</code></a> to
+ forward to this implementation.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ForwardingCollection.html#standardRemove-java.lang.Object-">standardRemove</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;</code></dd>
@@ -920,9 +896,9 @@ protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>standardRemoveAll</h4>
-<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.201">standardRemoveAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;elementsToRemove)</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#removeAll-java.util.Collection-"><code>ForwardingCollection.removeAll(java.util.Collection&lt;?&gt;)</code></a> in terms of the <code>removeAll</code> method of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#elementSet--"><code>elementSet()</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#elementSet--"><code>elementSet()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#removeAll-java.util.Collection-"><code>ForwardingCollection.removeAll(java.util.Collection&lt;?&gt;)</code></a> to forward to
- this implementation.</div>
+<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.193">standardRemoveAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;elementsToRemove)</pre>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#removeAll-java.util.Collection-"><code>ForwardingCollection.removeAll(java.util.Collection&lt;?&gt;)</code></a> in terms of the <code>removeAll</code> method of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#elementSet--"><code>elementSet()</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#elementSet--"><code>elementSet()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#removeAll-java.util.Collection-"><code>ForwardingCollection.removeAll(java.util.Collection&lt;?&gt;)</code></a>
+ to forward to this implementation.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ForwardingCollection.html#standardRemoveAll-java.util.Collection-">standardRemoveAll</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;</code></dd>
@@ -937,9 +913,9 @@ protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>standardRetainAll</h4>
-<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.214">standardRetainAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;elementsToRetain)</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#retainAll-java.util.Collection-"><code>ForwardingCollection.retainAll(java.util.Collection&lt;?&gt;)</code></a> in terms of the <code>retainAll</code> method of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#elementSet--"><code>elementSet()</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#elementSet--"><code>elementSet()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#retainAll-java.util.Collection-"><code>ForwardingCollection.retainAll(java.util.Collection&lt;?&gt;)</code></a> to forward to
- this implementation.</div>
+<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.205">standardRetainAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;elementsToRetain)</pre>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#retainAll-java.util.Collection-"><code>ForwardingCollection.retainAll(java.util.Collection&lt;?&gt;)</code></a> in terms of the <code>retainAll</code> method of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#elementSet--"><code>elementSet()</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#elementSet--"><code>elementSet()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#retainAll-java.util.Collection-"><code>ForwardingCollection.retainAll(java.util.Collection&lt;?&gt;)</code></a>
+ to forward to this implementation.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ForwardingCollection.html#standardRetainAll-java.util.Collection-">standardRetainAll</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;</code></dd>
@@ -956,12 +932,12 @@ protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>standardSetCount</h4>
-<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.227">standardSetCount</a>(<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&nbsp;element,
+<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.217">standardSetCount</a>(<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&nbsp;element,
                                int&nbsp;count)</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#setCount-E-int-"><code>setCount(Object, int)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#count-java.lang.Object-"><code>count(Object)</code></a>, <a href="../../../../com/google/common/collect/ForwardingMultiset.html#add-E-int-"><code>add(Object, int)</code></a>, and <a href="../../../../com/google/common/collect/ForwardingMultiset.html#remove-java.lang.Object-int-"><code>remove(Object,
- int)</code></a>. <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>. If you override any of these methods, you may
- wish to override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#setCount-E-int-"><code>setCount(Object, int)</code></a> to forward to this
- implementation.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#setCount-E-int-"><code>setCount(Object, int)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#count-java.lang.Object-"><code>count(Object)</code></a>,
+ <a href="../../../../com/google/common/collect/ForwardingMultiset.html#add-E-int-"><code>add(Object, int)</code></a>, and <a href="../../../../com/google/common/collect/ForwardingMultiset.html#remove-java.lang.Object-int-"><code>remove(Object, int)</code></a>. <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>. If you
+ override any of these methods, you may wish to override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#setCount-E-int-"><code>setCount(Object, int)</code></a> to
+ forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -976,13 +952,12 @@ protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>standardSetCount</h4>
-<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.239">standardSetCount</a>(<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&nbsp;element,
+<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.228">standardSetCount</a>(<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&nbsp;element,
                                    int&nbsp;oldCount,
                                    int&nbsp;newCount)</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#setCount-E-int-int-"><code>setCount(Object, int, int)</code></a> in terms of
- <a href="../../../../com/google/common/collect/ForwardingMultiset.html#count-java.lang.Object-"><code>count(Object)</code></a> and <a href="../../../../com/google/common/collect/ForwardingMultiset.html#setCount-E-int-"><code>setCount(Object, int)</code></a>. If you override
- either of these methods, you may wish to override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#setCount-E-int-int-"><code>setCount(Object,
- int, int)</code></a> to forward to this implementation.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#setCount-E-int-int-"><code>setCount(Object, int, int)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#count-java.lang.Object-"><code>count(Object)</code></a>
+ and <a href="../../../../com/google/common/collect/ForwardingMultiset.html#setCount-E-int-"><code>setCount(Object, int)</code></a>. If you override either of these methods, you may wish to
+ override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#setCount-E-int-int-"><code>setCount(Object, int, int)</code></a> to forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -995,10 +970,8 @@ protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>standardIterator</h4>
-<pre>protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.274">standardIterator</a>()</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>ForwardingCollection.iterator()</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>
- and <a href="../../../../com/google/common/collect/ForwardingCollection.html#remove-java.lang.Object-"><code>ForwardingCollection.remove(Object)</code></a>. If you override either of these methods, you
- may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>ForwardingCollection.iterator()</code></a> to forward to this implementation.</div>
+<pre>protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.261">standardIterator</a>()</pre>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>ForwardingCollection.iterator()</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a> and <a href="../../../../com/google/common/collect/ForwardingCollection.html#remove-java.lang.Object-"><code>ForwardingCollection.remove(Object)</code></a>. If you override either of these methods, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--"><code>ForwardingCollection.iterator()</code></a> to forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -1011,10 +984,10 @@ protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>standardSize</h4>
-<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.285">standardSize</a>()</pre>
-<div class="block">A sensible, albeit inefficient, definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#size--"><code>ForwardingCollection.size()</code></a> in terms of
- <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>, you may wish to
- override <a href="../../../../com/google/common/collect/ForwardingCollection.html#size--"><code>ForwardingCollection.size()</code></a> to forward to this implementation.</div>
+<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.272">standardSize</a>()</pre>
+<div class="block">A sensible, albeit inefficient, definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#size--"><code>ForwardingCollection.size()</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>. If
+ you override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#size--"><code>ForwardingCollection.size()</code></a> to forward to this
+ implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -1027,12 +1000,10 @@ protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>standardEquals</h4>
-<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.297">standardEquals</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.283">standardEquals</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
-<div class="block">A sensible, albeit inefficient, definition of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#equals-java.lang.Object-"><code>equals(java.lang.Object)</code></a> in terms of
- <code>entrySet().size()</code> and <a href="../../../../com/google/common/collect/ForwardingMultiset.html#count-java.lang.Object-"><code>count(java.lang.Object)</code></a>. If you override either of
- these methods, you may wish to override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#equals-java.lang.Object-"><code>equals(java.lang.Object)</code></a> to forward to this
- implementation.</div>
+<div class="block">A sensible, albeit inefficient, definition of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#equals-java.lang.Object-"><code>equals(java.lang.Object)</code></a> in terms of <code>entrySet().size()</code> and <a href="../../../../com/google/common/collect/ForwardingMultiset.html#count-java.lang.Object-"><code>count(java.lang.Object)</code></a>. If you override either of these methods, you may wish to
+ override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#equals-java.lang.Object-"><code>equals(java.lang.Object)</code></a> to forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -1045,9 +1016,10 @@ protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>standardHashCode</h4>
-<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.308">standardHashCode</a>()</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#hashCode--"><code>hashCode()</code></a> as <code>entrySet().hashCode()</code>
- . If you override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#hashCode--"><code>hashCode()</code></a> to forward to this implementation.</div>
+<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.294">standardHashCode</a>()</pre>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#hashCode--"><code>hashCode()</code></a> as <code>entrySet().hashCode()</code> . If you override
+ <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#hashCode--"><code>hashCode()</code></a> to forward to this
+ implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -1060,9 +1032,10 @@ protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockListLast">
 <li class="blockList">
 <h4>standardToString</h4>
-<pre>protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.320">standardToString</a>()</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingObject.html#toString--"><code>ForwardingObject.toString()</code></a> as <code>entrySet().toString()</code>
- . If you override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingObject.html#toString--"><code>ForwardingObject.toString()</code></a> to forward to this implementation.</div>
+<pre>protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.306">standardToString</a>()</pre>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingObject.html#toString--"><code>ForwardingObject.toString()</code></a> as <code>entrySet().toString()</code> . If you override
+ <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>entrySet()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingObject.html#toString--"><code>ForwardingObject.toString()</code></a> to forward to this
+ implementation.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ForwardingCollection.html#standardToString--">standardToString</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;</code></dd>

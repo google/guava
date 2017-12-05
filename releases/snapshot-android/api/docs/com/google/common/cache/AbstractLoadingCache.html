@@ -126,12 +126,10 @@ implements <a href="../../../../com/google/common/cache/LoadingCache.html" title
  effort required to implement this interface.
 
  <p>To implement a cache, the programmer needs only to extend this class and provide an
- implementation for the <a href="../../../../com/google/common/cache/LoadingCache.html#get-K-"><code>LoadingCache.get(Object)</code></a> and <a href="../../../../com/google/common/cache/Cache.html#getIfPresent-java.lang.Object-"><code>Cache.getIfPresent(java.lang.Object)</code></a> methods.
- <a href="../../../../com/google/common/cache/AbstractLoadingCache.html#getUnchecked-K-"><code>getUnchecked(K)</code></a>, <a href="../../../../com/google/common/cache/AbstractCache.html#get-K-java.util.concurrent.Callable-"><code>AbstractCache.get(Object, Callable)</code></a>, and <a href="../../../../com/google/common/cache/AbstractLoadingCache.html#getAll-java.lang.Iterable-"><code>getAll(java.lang.Iterable&lt;? extends K&gt;)</code></a> are implemented in
- terms of <code>get</code>; <a href="../../../../com/google/common/cache/AbstractCache.html#getAllPresent-java.lang.Iterable-"><code>AbstractCache.getAllPresent(java.lang.Iterable&lt;?&gt;)</code></a> is implemented in terms of <code>getIfPresent</code>;
- <a href="../../../../com/google/common/cache/AbstractCache.html#putAll-java.util.Map-"><code>AbstractCache.putAll(java.util.Map&lt;? extends K, ? extends V&gt;)</code></a> is implemented in terms of <a href="../../../../com/google/common/cache/AbstractCache.html#put-K-V-"><code>AbstractCache.put(K, V)</code></a>, <a href="../../../../com/google/common/cache/AbstractCache.html#invalidateAll-java.lang.Iterable-"><code>AbstractCache.invalidateAll(Iterable)</code></a> is
- implemented in terms of <a href="../../../../com/google/common/cache/AbstractCache.html#invalidate-java.lang.Object-"><code>AbstractCache.invalidate(java.lang.Object)</code></a>. The method <a href="../../../../com/google/common/cache/AbstractCache.html#cleanUp--"><code>AbstractCache.cleanUp()</code></a> is a no-op. All other
- methods throw an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang"><code>UnsupportedOperationException</code></a>.</div>
+ implementation for the <a href="../../../../com/google/common/cache/LoadingCache.html#get-K-"><code>LoadingCache.get(Object)</code></a> and <a href="../../../../com/google/common/cache/Cache.html#getIfPresent-java.lang.Object-"><code>Cache.getIfPresent(java.lang.Object)</code></a> methods. <a href="../../../../com/google/common/cache/AbstractLoadingCache.html#getUnchecked-K-"><code>getUnchecked(K)</code></a>, <a href="../../../../com/google/common/cache/AbstractCache.html#get-K-java.util.concurrent.Callable-"><code>AbstractCache.get(Object, Callable)</code></a>, and <a href="../../../../com/google/common/cache/AbstractLoadingCache.html#getAll-java.lang.Iterable-"><code>getAll(java.lang.Iterable&lt;? extends K&gt;)</code></a> are implemented in terms of
+ <code>get</code>; <a href="../../../../com/google/common/cache/AbstractCache.html#getAllPresent-java.lang.Iterable-"><code>AbstractCache.getAllPresent(java.lang.Iterable&lt;?&gt;)</code></a> is implemented in terms of <code>getIfPresent</code>; <a href="../../../../com/google/common/cache/AbstractCache.html#putAll-java.util.Map-"><code>AbstractCache.putAll(java.util.Map&lt;? extends K, ? extends V&gt;)</code></a> is implemented in terms of <a href="../../../../com/google/common/cache/AbstractCache.html#put-K-V-"><code>AbstractCache.put(K, V)</code></a>, <a href="../../../../com/google/common/cache/AbstractCache.html#invalidateAll-java.lang.Iterable-"><code>AbstractCache.invalidateAll(Iterable)</code></a> is implemented
+ in terms of <a href="../../../../com/google/common/cache/AbstractCache.html#invalidate-java.lang.Object-"><code>AbstractCache.invalidate(java.lang.Object)</code></a>. The method <a href="../../../../com/google/common/cache/AbstractCache.html#cleanUp--"><code>AbstractCache.cleanUp()</code></a> is a no-op. All other methods throw
+ an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang"><code>UnsupportedOperationException</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>11.0</dd>
@@ -306,10 +304,9 @@ implements <a href="../../../../com/google/common/cache/LoadingCache.html" title
  multiple threads can concurrently load values for distinct keys.
 
  <p>Caches loaded by a <a href="../../../../com/google/common/cache/CacheLoader.html" title="class in com.google.common.cache"><code>CacheLoader</code></a> will call <a href="../../../../com/google/common/cache/CacheLoader.html#load-K-"><code>CacheLoader.load(K)</code></a> to load new values
- into the cache. Newly loaded values are added to the cache using
- <code>Cache.asMap().putIfAbsent</code> after loading has completed; if another value was associated
- with <code>key</code> while the new value was loading then a removal notification will be sent for
- the new value.
+ into the cache. Newly loaded values are added to the cache using <code>Cache.asMap().putIfAbsent</code> after loading has completed; if another value was associated with
+ <code>key</code> while the new value was loading then a removal notification will be sent for the
+ new value.
 
  <p><b>Warning:</b> this method silently converts checked exceptions to unchecked exceptions,
  and should not be used with cache loaders which throw checked exceptions. In such cases use
@@ -333,9 +330,8 @@ implements <a href="../../../../com/google/common/cache/LoadingCache.html" title
  if necessary. The returned map contains entries that were already cached, combined with newly
  loaded entries; it will never contain null keys or values.
 
- <p>Caches loaded by a <a href="../../../../com/google/common/cache/CacheLoader.html" title="class in com.google.common.cache"><code>CacheLoader</code></a> will issue a single request to
- <a href="../../../../com/google/common/cache/CacheLoader.html#loadAll-java.lang.Iterable-"><code>CacheLoader.loadAll(java.lang.Iterable&lt;? extends K&gt;)</code></a> for all keys which are not already present in the cache. All
- entries returned by <a href="../../../../com/google/common/cache/CacheLoader.html#loadAll-java.lang.Iterable-"><code>CacheLoader.loadAll(java.lang.Iterable&lt;? extends K&gt;)</code></a> will be stored in the cache, over-writing any
+ <p>Caches loaded by a <a href="../../../../com/google/common/cache/CacheLoader.html" title="class in com.google.common.cache"><code>CacheLoader</code></a> will issue a single request to <a href="../../../../com/google/common/cache/CacheLoader.html#loadAll-java.lang.Iterable-"><code>CacheLoader.loadAll(java.lang.Iterable&lt;? extends K&gt;)</code></a> for all keys which are not already present in the cache. All entries
+ returned by <a href="../../../../com/google/common/cache/CacheLoader.html#loadAll-java.lang.Iterable-"><code>CacheLoader.loadAll(java.lang.Iterable&lt;? extends K&gt;)</code></a> will be stored in the cache, over-writing any
  previously cached values. This method will throw an exception if <a href="../../../../com/google/common/cache/CacheLoader.html#loadAll-java.lang.Iterable-"><code>CacheLoader.loadAll(java.lang.Iterable&lt;? extends K&gt;)</code></a>
  returns <code>null</code>, returns a map containing null keys or values, or fails to return an entry
  for each requested key.
@@ -346,8 +342,8 @@ implements <a href="../../../../com/google/common/cache/LoadingCache.html" title
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/cache/LoadingCache.html#getAll-java.lang.Iterable-">getAll</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/cache/LoadingCache.html" title="interface in com.google.common.cache">LoadingCache</a>&lt;<a href="../../../../com/google/common/cache/AbstractLoadingCache.html" title="type parameter in AbstractLoadingCache">K</a>,<a href="../../../../com/google/common/cache/AbstractLoadingCache.html" title="type parameter in AbstractLoadingCache">V</a>&gt;</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></code> - if a checked exception was thrown while loading the value. (<code>ExecutionException</code> is thrown
-     <a href="https://github.com/google/guava/wiki/CachesExplained#interruption">even if
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></code> - if a checked exception was thrown while loading the value. (<code>ExecutionException</code> is thrown <a
+     href="https://github.com/google/guava/wiki/CachesExplained#interruption">even if
      computation was interrupted by an <code>InterruptedException</code></a>.)</dd>
 </dl>
 </li>
@@ -366,9 +362,9 @@ implements <a href="../../../../com/google/common/cache/LoadingCache.html" title
  expected</i>, but not absolutely required, to have the following properties:
 
  <ul>
- <li>Its execution does not cause any observable side effects.
- <li>The computation is <i>consistent with equals</i>; that is, <a href="../../../../com/google/common/base/Objects.html#equal-java.lang.Object-java.lang.Object-"><code>Objects.equal</code></a><code>(a, b)</code> implies that <code>Objects.equal(function.apply(a),
-     function.apply(b))</code>.
+   <li>Its execution does not cause any observable side effects.
+   <li>The computation is <i>consistent with equals</i>; that is, <a href="../../../../com/google/common/base/Objects.html#equal-java.lang.Object-java.lang.Object-"><code>Objects.equal</code></a><code>(a, b)</code> implies that <code>Objects.equal(function.apply(a),
+       function.apply(b))</code>.
  </ul></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -399,9 +395,8 @@ implements <a href="../../../../com/google/common/cache/LoadingCache.html" title
  asynchronous only if <a href="../../../../com/google/common/cache/CacheLoader.html#reload-K-V-"><code>CacheLoader.reload(K, V)</code></a> was overridden with an asynchronous
  implementation.
 
- <p>Returns without doing anything if another thread is currently loading the value for
- <code>key</code>. If the cache loader associated with this cache performs refresh asynchronously
- then this method may return before refresh completes.</div>
+ <p>Returns without doing anything if another thread is currently loading the value for <code>key</code>. If the cache loader associated with this cache performs refresh asynchronously then this
+ method may return before refresh completes.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/cache/LoadingCache.html#refresh-K-">refresh</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/cache/LoadingCache.html" title="interface in com.google.common.cache">LoadingCache</a>&lt;<a href="../../../../com/google/common/cache/AbstractLoadingCache.html" title="type parameter in AbstractLoadingCache">K</a>,<a href="../../../../com/google/common/cache/AbstractLoadingCache.html" title="type parameter in AbstractLoadingCache">V</a>&gt;</code></dd>

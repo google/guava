@@ -174,8 +174,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/math/LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/math/PairedStats.html#leastSquaresFit--">leastSquaresFit</a></span>()</code>
-<div class="block">Returns a linear transformation giving the best fit to the data according to
- <a href="http://mathworld.wolfram.com/LeastSquaresFitting.html">Ordinary Least Squares linear
+<div class="block">Returns a linear transformation giving the best fit to the data according to <a
+ href="http://mathworld.wolfram.com/LeastSquaresFitting.html">Ordinary Least Squares linear
  regression</a> of <code>y</code> as a function of <code>x</code>.</div>
 </td>
 </tr>
@@ -250,7 +250,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>count</h4>
-<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.69">count</a>()</pre>
+<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.67">count</a>()</pre>
 <div class="block">Returns the number of pairs in the dataset.</div>
 </li>
 </ul>
@@ -260,7 +260,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>xStats</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.76">xStats</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.72">xStats</a>()</pre>
 <div class="block">Returns the statistics on the <code>x</code> values alone.</div>
 </li>
 </ul>
@@ -270,7 +270,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>yStats</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.83">yStats</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.77">yStats</a>()</pre>
 <div class="block">Returns the statistics on the <code>y</code> values alone.</div>
 </li>
 </ul>
@@ -280,7 +280,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>populationCovariance</h4>
-<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.101">populationCovariance</a>()</pre>
+<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.95">populationCovariance</a>()</pre>
 <div class="block">Returns the population covariance of the values. The count must be non-zero.
 
  <p>This is guaranteed to return zero if the dataset contains a single pair of finite values. It
@@ -289,8 +289,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 
  <h3>Non-finite values</h3>
 
- <p>If the dataset contains any non-finite values (<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang"><code>Double.POSITIVE_INFINITY</code></a>,
- <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NEGATIVE_INFINITY" title="class or interface in java.lang"><code>Double.NEGATIVE_INFINITY</code></a>, or <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>) then the result is <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>.</div>
+ <p>If the dataset contains any non-finite values (<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang"><code>Double.POSITIVE_INFINITY</code></a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NEGATIVE_INFINITY" title="class or interface in java.lang"><code>Double.NEGATIVE_INFINITY</code></a>, or <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>) then the result is <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang">IllegalStateException</a></code> - if the dataset is empty</dd>
@@ -303,7 +302,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>sampleCovariance</h4>
-<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.119">sampleCovariance</a>()</pre>
+<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.113">sampleCovariance</a>()</pre>
 <div class="block">Returns the sample covariance of the values. The count must be greater than one.
 
  <p>This is not guaranteed to return zero when the dataset consists of the same pair of values
@@ -311,8 +310,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 
  <h3>Non-finite values</h3>
 
- <p>If the dataset contains any non-finite values (<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang"><code>Double.POSITIVE_INFINITY</code></a>,
- <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NEGATIVE_INFINITY" title="class or interface in java.lang"><code>Double.NEGATIVE_INFINITY</code></a>, or <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>) then the result is <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>.</div>
+ <p>If the dataset contains any non-finite values (<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang"><code>Double.POSITIVE_INFINITY</code></a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NEGATIVE_INFINITY" title="class or interface in java.lang"><code>Double.NEGATIVE_INFINITY</code></a>, or <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>) then the result is <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang">IllegalStateException</a></code> - if the dataset is empty or contains a single pair of values</dd>
@@ -325,18 +323,16 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>pearsonsCorrelationCoefficient</h4>
-<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.140">pearsonsCorrelationCoefficient</a>()</pre>
+<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.134">pearsonsCorrelationCoefficient</a>()</pre>
 <div class="block">Returns the <a href="http://mathworld.wolfram.com/CorrelationCoefficient.html">Pearson's or
  product-moment correlation coefficient</a> of the values. The count must greater than one, and
- the <code>x</code> and <code>y</code> values must both have non-zero population variance (i.e.
- <code>xStats().populationVariance() &gt; 0.0 &amp;&amp; yStats().populationVariance() &gt; 0.0</code>). The result
- is not guaranteed to be exactly +/-1 even when the data are perfectly (anti-)correlated, due to
+ the <code>x</code> and <code>y</code> values must both have non-zero population variance (i.e. <code>xStats().populationVariance() &gt; 0.0 &amp;&amp; yStats().populationVariance() &gt; 0.0</code>). The result is not
+ guaranteed to be exactly +/-1 even when the data are perfectly (anti-)correlated, due to
  numerical errors. However, it is guaranteed to be in the inclusive range [-1, +1].
 
  <h3>Non-finite values</h3>
 
- <p>If the dataset contains any non-finite values (<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang"><code>Double.POSITIVE_INFINITY</code></a>,
- <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NEGATIVE_INFINITY" title="class or interface in java.lang"><code>Double.NEGATIVE_INFINITY</code></a>, or <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>) then the result is <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>.</div>
+ <p>If the dataset contains any non-finite values (<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang"><code>Double.POSITIVE_INFINITY</code></a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NEGATIVE_INFINITY" title="class or interface in java.lang"><code>Double.NEGATIVE_INFINITY</code></a>, or <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>) then the result is <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang">IllegalStateException</a></code> - if the dataset is empty or contains a single pair of values, or
@@ -350,22 +346,21 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>leastSquaresFit</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/math/LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.187">leastSquaresFit</a>()</pre>
-<div class="block">Returns a linear transformation giving the best fit to the data according to
- <a href="http://mathworld.wolfram.com/LeastSquaresFitting.html">Ordinary Least Squares linear
+<pre>public&nbsp;<a href="../../../../com/google/common/math/LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.181">leastSquaresFit</a>()</pre>
+<div class="block">Returns a linear transformation giving the best fit to the data according to <a
+ href="http://mathworld.wolfram.com/LeastSquaresFitting.html">Ordinary Least Squares linear
  regression</a> of <code>y</code> as a function of <code>x</code>. The count must be greater than one, and
- either the <code>x</code> or <code>y</code> data must have a non-zero population variance (i.e.
- <code>xStats().populationVariance() &gt; 0.0 || yStats().populationVariance() &gt; 0.0</code>). The result
- is guaranteed to be horizontal if there is variance in the <code>x</code> data but not the <code>y</code>
+ either the <code>x</code> or <code>y</code> data must have a non-zero population variance (i.e. <code>xStats().populationVariance() &gt; 0.0 || yStats().populationVariance() &gt; 0.0</code>). The result is
+ guaranteed to be horizontal if there is variance in the <code>x</code> data but not the <code>y</code>
  data, and vertical if there is variance in the <code>y</code> data but not the <code>x</code> data.
 
  <p>This fit minimizes the root-mean-square error in <code>y</code> as a function of <code>x</code>. This
  error is defined as the square root of the mean of the squares of the differences between the
  actual <code>y</code> values of the data and the values predicted by the fit for the <code>x</code>
  values (i.e. it is the square root of the mean of the squares of the vertical distances between
- the data points and the best fit line). For this fit, this error is a fraction
- <code>sqrt(1 - R*R)</code> of the population standard deviation of <code>y</code>, where <code>R</code> is the
- Pearson's correlation coefficient (as given by <a href="../../../../com/google/common/math/PairedStats.html#pearsonsCorrelationCoefficient--"><code>pearsonsCorrelationCoefficient()</code></a>).
+ the data points and the best fit line). For this fit, this error is a fraction <code>sqrt(1 -
+ R*R)</code> of the population standard deviation of <code>y</code>, where <code>R</code> is the Pearson's
+ correlation coefficient (as given by <a href="../../../../com/google/common/math/PairedStats.html#pearsonsCorrelationCoefficient--"><code>pearsonsCorrelationCoefficient()</code></a>).
 
  <p>The corresponding root-mean-square error in <code>x</code> as a function of <code>y</code> is a
  fraction <code>sqrt(1/(R*R) - 1)</code> of the population standard deviation of <code>x</code>. This fit
@@ -374,9 +369,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 
  <h3>Non-finite values</h3>
 
- <p>If the dataset contains any non-finite values (<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang"><code>Double.POSITIVE_INFINITY</code></a>,
- <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NEGATIVE_INFINITY" title="class or interface in java.lang"><code>Double.NEGATIVE_INFINITY</code></a>, or <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>) then the result is
- <a href="../../../../com/google/common/math/LinearTransformation.html#forNaN--"><code>LinearTransformation.forNaN()</code></a>.</div>
+ <p>If the dataset contains any non-finite values (<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang"><code>Double.POSITIVE_INFINITY</code></a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NEGATIVE_INFINITY" title="class or interface in java.lang"><code>Double.NEGATIVE_INFINITY</code></a>, or <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>) then the result is <a href="../../../../com/google/common/math/LinearTransformation.html#forNaN--"><code>LinearTransformation.forNaN()</code></a>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang">IllegalStateException</a></code> - if the dataset is empty or contains a single pair of values, or
@@ -390,7 +383,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.222">equals</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.216">equals</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</pre>
 <div class="block">Indicates whether some other object is "equal to" this one.
  <p>
@@ -462,7 +455,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.243">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.237">hashCode</a>()</pre>
 <div class="block">Returns a hash code value for the object. This method is
  supported for the benefit of hash tables such as those provided by
  <a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util"><code>HashMap</code></a>.
@@ -512,7 +505,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.248">toString</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.242">toString</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Returns a string representation of the object. In general, the
  <code>toString</code> method returns a string that
@@ -545,7 +538,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>toByteArray</h4>
-<pre>public&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.298">toByteArray</a>()</pre>
+<pre>public&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.290">toByteArray</a>()</pre>
 <div class="block">Gets a byte array representation of this instance.
 
  <p><b>Note:</b> No guarantees are made regarding stability of the representation between
@@ -558,7 +551,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockListLast">
 <li class="blockList">
 <h4>fromByteArray</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/math/PairedStats.html" title="class in com.google.common.math">PairedStats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.313">fromByteArray</a>(byte[]&nbsp;byteArray)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/math/PairedStats.html" title="class in com.google.common.math">PairedStats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.305">fromByteArray</a>(byte[]&nbsp;byteArray)</pre>
 <div class="block">Creates a <a href="../../../../com/google/common/math/PairedStats.html" title="class in com.google.common.math"><code>PairedStats</code></a> instance from the given byte representation which was obtained by
  <a href="../../../../com/google/common/math/PairedStats.html#toByteArray--"><code>toByteArray()</code></a>.
 

@@ -186,8 +186,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/TimeLimiter
         <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;T&gt;&nbsp;interfaceType,
         long&nbsp;timeoutDuration,
         <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;timeoutUnit)</code>
-<div class="block">Returns an instance of <code>interfaceType</code> that delegates all method calls to the
- <code>target</code> object, enforcing the specified time limit on each call.</div>
+<div class="block">Returns an instance of <code>interfaceType</code> that delegates all method calls to the <code>target</code> object, enforcing the specified time limit on each call.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
@@ -258,15 +257,12 @@ implements <a href="../../../../../com/google/common/util/concurrent/TimeLimiter
                       long&nbsp;timeoutDuration,
                       <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;timeoutUnit)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/TimeLimiter.html#newProxy-T-java.lang.Class-long-java.util.concurrent.TimeUnit-">TimeLimiter</a></code></span></div>
-<div class="block">Returns an instance of <code>interfaceType</code> that delegates all method calls to the
- <code>target</code> object, enforcing the specified time limit on each call. This time-limited
- delegation is also performed for calls to <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang"><code>Object.hashCode()</code></a>, and
- <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang"><code>Object.toString()</code></a>.
+<div class="block">Returns an instance of <code>interfaceType</code> that delegates all method calls to the <code>target</code> object, enforcing the specified time limit on each call. This time-limited delegation
+ is also performed for calls to <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang"><code>Object.hashCode()</code></a>, and <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang"><code>Object.toString()</code></a>.
 
  <p>If the target method call finishes before the limit is reached, the return value or
  exception is propagated to the caller exactly as-is. If, on the other hand, the time limit is
- reached, the proxy will attempt to abort the call to the target, and will throw an
- <a href="../../../../../com/google/common/util/concurrent/UncheckedTimeoutException.html" title="class in com.google.common.util.concurrent"><code>UncheckedTimeoutException</code></a> to the caller.
+ reached, the proxy will attempt to abort the call to the target, and will throw an <a href="../../../../../com/google/common/util/concurrent/UncheckedTimeoutException.html" title="class in com.google.common.util.concurrent"><code>UncheckedTimeoutException</code></a> to the caller.
 
  <p>It is important to note that the primary purpose of the proxy object is to return control to
  the caller when the timeout elapses; aborting the target method call is of secondary concern.

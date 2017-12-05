@@ -113,12 +113,10 @@ var activeTableTab = "activeTableTab";
 public final class <a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.46">UnsignedBytes</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">Static utility methods pertaining to <code>byte</code> primitives that interpret values as
- <i>unsigned</i> (that is, any negative value <code>b</code> is treated as the positive value
- <code>256 + b</code>). The corresponding methods that treat the values as signed are found in
- <a href="../../../../com/google/common/primitives/SignedBytes.html" title="class in com.google.common.primitives"><code>SignedBytes</code></a>, and the methods for which signedness is not an issue are in <a href="../../../../com/google/common/primitives/Bytes.html" title="class in com.google.common.primitives"><code>Bytes</code></a>.
+ <i>unsigned</i> (that is, any negative value <code>b</code> is treated as the positive value <code>256 + b</code>). The corresponding methods that treat the values as signed are found in <a href="../../../../com/google/common/primitives/SignedBytes.html" title="class in com.google.common.primitives"><code>SignedBytes</code></a>, and the methods for which signedness is not an issue are in <a href="../../../../com/google/common/primitives/Bytes.html" title="class in com.google.common.primitives"><code>Bytes</code></a>.
 
- <p>See the Guava User Guide article on
- <a href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.</div>
+ <p>See the Guava User Guide article on <a
+ href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>1.0</dd>
@@ -227,8 +225,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>static byte</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/UnsignedBytes.html#saturatedCast-long-">saturatedCast</a></span>(long&nbsp;value)</code>
-<div class="block">Returns the <code>byte</code> value that, when treated as unsigned, is nearest in value to
- <code>value</code>.</div>
+<div class="block">Returns the <code>byte</code> value that, when treated as unsigned, is nearest in value to <code>value</code>.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
@@ -310,7 +307,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>MAX_POWER_OF_TWO</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.55">MAX_POWER_OF_TWO</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.54">MAX_POWER_OF_TWO</a></pre>
 <div class="block">The largest power of two that can be represented as an unsigned <code>byte</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -326,7 +323,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>MAX_VALUE</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.62">MAX_VALUE</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.61">MAX_VALUE</a></pre>
 <div class="block">The largest value that fits into an unsigned byte.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -350,7 +347,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>toInt</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.74">toInt</a>(byte&nbsp;value)</pre>
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.73">toInt</a>(byte&nbsp;value)</pre>
 <div class="block">Returns the value of the given byte as an integer, when treated as unsigned. That is, returns
  <code>value + 256</code> if <code>value</code> is negative; <code>value</code> itself otherwise.
 
@@ -368,7 +365,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>checkedCast</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.87">checkedCast</a>(long&nbsp;value)</pre>
+public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.86">checkedCast</a>(long&nbsp;value)</pre>
 <div class="block">Returns the <code>byte</code> value that, when treated as unsigned, is equal to <code>value</code>, if
  possible.</div>
 <dl>
@@ -387,9 +384,8 @@ public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>saturatedCast</h4>
-<pre>public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.100">saturatedCast</a>(long&nbsp;value)</pre>
-<div class="block">Returns the <code>byte</code> value that, when treated as unsigned, is nearest in value to
- <code>value</code>.</div>
+<pre>public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.99">saturatedCast</a>(long&nbsp;value)</pre>
+<div class="block">Returns the <code>byte</code> value that, when treated as unsigned, is nearest in value to <code>value</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>value</code> - any <code>long</code> value</dd>
@@ -405,7 +401,7 @@ public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>compare</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.120">compare</a>(byte&nbsp;a,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.119">compare</a>(byte&nbsp;a,
                           byte&nbsp;b)</pre>
 <div class="block">Compares the two specified <code>byte</code> values, treating them as unsigned values between 0 and
  255 inclusive. For example, <code>(byte) -127</code> is considered greater than <code>(byte) 127</code>
@@ -426,7 +422,7 @@ public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>min</h4>
-<pre>public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.132">min</a>(byte...&nbsp;array)</pre>
+<pre>public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.131">min</a>(byte...&nbsp;array)</pre>
 <div class="block">Returns the least value present in <code>array</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -445,7 +441,7 @@ public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>max</h4>
-<pre>public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.152">max</a>(byte...&nbsp;array)</pre>
+<pre>public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.151">max</a>(byte...&nbsp;array)</pre>
 <div class="block">Returns the greatest value present in <code>array</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -465,7 +461,7 @@ public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/pri
 <li class="blockList">
 <h4>toString</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.170">toString</a>(byte&nbsp;x)</pre>
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.169">toString</a>(byte&nbsp;x)</pre>
 <div class="block">Returns a string representation of x, where x is treated as unsigned.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -480,7 +476,7 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/
 <li class="blockList">
 <h4>toString</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.185">toString</a>(byte&nbsp;x,
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.184">toString</a>(byte&nbsp;x,
                                     int&nbsp;radix)</pre>
 <div class="block">Returns a string representation of <code>x</code> for the given radix, where <code>x</code> is treated as
  unsigned.</div>
@@ -504,14 +500,13 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/
 <h4>parseUnsignedByte</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.205">parseUnsignedByte</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string)</pre>
+public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.204">parseUnsignedByte</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string)</pre>
 <div class="block">Returns the unsigned <code>byte</code> value represented by the given decimal string.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NumberFormatException.html?is-external=true" title="class or interface in java.lang">NumberFormatException</a></code> - if the string does not contain a valid unsigned <code>byte</code>
      value</dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if <code>string</code> is null (in contrast to
-     <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Byte.html?is-external=true#parseByte-java.lang.String-" title="class or interface in java.lang"><code>Byte.parseByte(String)</code></a>)</dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if <code>string</code> is null (in contrast to <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Byte.html?is-external=true#parseByte-java.lang.String-" title="class or interface in java.lang"><code>Byte.parseByte(String)</code></a>)</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>13.0</dd>
 </dl>
@@ -525,7 +520,7 @@ public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/pri
 <h4>parseUnsignedByte</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.223">parseUnsignedByte</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string,
+public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.222">parseUnsignedByte</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string,
                                                                   int&nbsp;radix)</pre>
 <div class="block">Returns the unsigned <code>byte</code> value represented by a string with the given radix.</div>
 <dl>
@@ -534,10 +529,8 @@ public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/pri
 <dd><code>radix</code> - the radix to use while parsing <code>string</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NumberFormatException.html?is-external=true" title="class or interface in java.lang">NumberFormatException</a></code> - if the string does not contain a valid unsigned <code>byte</code> with
-     the given radix, or if <code>radix</code> is not between <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Character.html?is-external=true#MIN_RADIX" title="class or interface in java.lang"><code>Character.MIN_RADIX</code></a> and
-     <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Character.html?is-external=true#MAX_RADIX" title="class or interface in java.lang"><code>Character.MAX_RADIX</code></a>.</dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if <code>string</code> is null (in contrast to
-     <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Byte.html?is-external=true#parseByte-java.lang.String-" title="class or interface in java.lang"><code>Byte.parseByte(String)</code></a>)</dd>
+     the given radix, or if <code>radix</code> is not between <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Character.html?is-external=true#MIN_RADIX" title="class or interface in java.lang"><code>Character.MIN_RADIX</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Character.html?is-external=true#MAX_RADIX" title="class or interface in java.lang"><code>Character.MAX_RADIX</code></a>.</dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if <code>string</code> is null (in contrast to <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Byte.html?is-external=true#parseByte-java.lang.String-" title="class or interface in java.lang"><code>Byte.parseByte(String)</code></a>)</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>13.0</dd>
 </dl>
@@ -549,11 +542,10 @@ public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>join</h4>
-<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.242">join</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator,
+<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.241">join</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator,
                           byte...&nbsp;array)</pre>
 <div class="block">Returns a string containing the supplied <code>byte</code> values separated by <code>separator</code>.
- For example, <code>join(":", (byte) 1, (byte) 2,
- (byte) 255)</code> returns the string <code>"1:2:255"</code>.</div>
+ For example, <code>join(":", (byte) 1, (byte) 2, (byte) 255)</code> returns the string <code>"1:2:255"</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>separator</code> - the text that should appear between consecutive values in the resulting string
@@ -568,7 +560,7 @@ public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>lexicographicalComparator</h4>
-<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;byte[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.271">lexicographicalComparator</a>()</pre>
+<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;byte[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.270">lexicographicalComparator</a>()</pre>
 <div class="block">Returns a comparator that compares two <code>byte</code> arrays <a
  href="http://en.wikipedia.org/wiki/Lexicographical_order">lexicographically</a>. That is, it
  compares, using <a href="../../../../com/google/common/primitives/UnsignedBytes.html#compare-byte-byte-"><code>compare(byte, byte)</code></a>), the first pair of values that follow any common
@@ -577,8 +569,7 @@ public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/pri
  unsigned.
 
  <p>The returned comparator is inconsistent with <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang"><code>Object.equals(Object)</code></a> (since arrays
- support only identity equality), but it is consistent with
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Arrays.html?is-external=true#equals-byte:A-byte:A-" title="class or interface in java.util"><code>Arrays.equals(byte[], byte[])</code></a>.</div>
+ support only identity equality), but it is consistent with <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Arrays.html?is-external=true#equals-byte:A-byte:A-" title="class or interface in java.util"><code>Arrays.equals(byte[], byte[])</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
@@ -591,7 +582,7 @@ public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>sort</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.460">sort</a>(byte[]&nbsp;array)</pre>
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.459">sort</a>(byte[]&nbsp;array)</pre>
 <div class="block">Sorts the array, treating its elements as unsigned bytes.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -605,7 +596,7 @@ public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>sort</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.471">sort</a>(byte[]&nbsp;array,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.470">sort</a>(byte[]&nbsp;array,
                         int&nbsp;fromIndex,
                         int&nbsp;toIndex)</pre>
 <div class="block">Sorts the array between <code>fromIndex</code> inclusive and <code>toIndex</code> exclusive, treating its
@@ -622,7 +613,7 @@ public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>sortDescending</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.489">sortDescending</a>(byte[]&nbsp;array)</pre>
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.488">sortDescending</a>(byte[]&nbsp;array)</pre>
 <div class="block">Sorts the elements of <code>array</code> in descending order, interpreting them as unsigned 8-bit
  integers.</div>
 <dl>
@@ -637,7 +628,7 @@ public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockListLast">
 <li class="blockList">
 <h4>sortDescending</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.500">sortDescending</a>(byte[]&nbsp;array,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.499">sortDescending</a>(byte[]&nbsp;array,
                                   int&nbsp;fromIndex,
                                   int&nbsp;toIndex)</pre>
 <div class="block">Sorts the elements of <code>array</code> between <code>fromIndex</code> inclusive and <code>toIndex</code>

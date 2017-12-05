@@ -115,8 +115,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <div class="block">Provides static methods acting on or generating a <code>Multimap</code>.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#multimaps">
- <code>Multimaps</code></a>.</div>
+ "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#multimaps"> <code>Multimaps</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
@@ -144,8 +143,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;V&gt;&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimaps.html#asMap-com.google.common.collect.ListMultimap-">asMap</a></span>(<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;multimap)</code>
-<div class="block">Returns <a href="../../../../com/google/common/collect/ListMultimap.html#asMap--"><code>multimap.asMap()</code></a>, with its type
- corrected from <code>Map&lt;K, Collection&lt;V&gt;&gt;</code> to <code>Map&lt;K, List&lt;V&gt;&gt;</code>.</div>
+<div class="block">Returns <a href="../../../../com/google/common/collect/ListMultimap.html#asMap--"><code>multimap.asMap()</code></a>, with its type corrected from <code>Map&lt;K,
+ Collection&lt;V&gt;&gt;</code> to <code>Map&lt;K, List&lt;V&gt;&gt;</code>.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -157,72 +156,68 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;V&gt;&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimaps.html#asMap-com.google.common.collect.SetMultimap-">asMap</a></span>(<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;multimap)</code>
-<div class="block">Returns <a href="../../../../com/google/common/collect/SetMultimap.html#asMap--"><code>multimap.asMap()</code></a>, with its type corrected
- from <code>Map&lt;K, Collection&lt;V&gt;&gt;</code> to <code>Map&lt;K, Set&lt;V&gt;&gt;</code>.</div>
+<div class="block">Returns <a href="../../../../com/google/common/collect/SetMultimap.html#asMap--"><code>multimap.asMap()</code></a>, with its type corrected from <code>Map&lt;K,
+ Collection&lt;V&gt;&gt;</code> to <code>Map&lt;K, Set&lt;V&gt;&gt;</code>.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;V&gt;&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimaps.html#asMap-com.google.common.collect.SortedSetMultimap-">asMap</a></span>(<a href="../../../../com/google/common/collect/SortedSetMultimap.html" title="interface in com.google.common.collect">SortedSetMultimap</a>&lt;K,V&gt;&nbsp;multimap)</code>
-<div class="block">Returns <a href="../../../../com/google/common/collect/SortedSetMultimap.html#asMap--"><code>multimap.asMap()</code></a>, with its type
- corrected from <code>Map&lt;K, Collection&lt;V&gt;&gt;</code> to
- <code>Map&lt;K, SortedSet&lt;V&gt;&gt;</code>.</div>
+<div class="block">Returns <a href="../../../../com/google/common/collect/SortedSetMultimap.html#asMap--"><code>multimap.asMap()</code></a>, with its type corrected from <code>Map&lt;K, Collection&lt;V&gt;&gt;</code> to <code>Map&lt;K, SortedSet&lt;V&gt;&gt;</code>.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimaps.html#filterEntries-com.google.common.collect.Multimap-com.google.common.base.Predicate-">filterEntries</a></span>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;unfiltered,
              <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;K,V&gt;&gt;&nbsp;entryPredicate)</code>
-<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> that
- satisfy a predicate.</div>
+<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> that satisfy a predicate.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimaps.html#filterEntries-com.google.common.collect.SetMultimap-com.google.common.base.Predicate-">filterEntries</a></span>(<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;unfiltered,
              <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;K,V&gt;&gt;&nbsp;entryPredicate)</code>
-<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> that
- satisfy a predicate.</div>
+<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> that satisfy a predicate.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimaps.html#filterKeys-com.google.common.collect.ListMultimap-com.google.common.base.Predicate-">filterKeys</a></span>(<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;unfiltered,
           <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super K&gt;&nbsp;keyPredicate)</code>
-<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose keys
- satisfy a predicate.</div>
+<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose keys satisfy a
+ predicate.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimaps.html#filterKeys-com.google.common.collect.Multimap-com.google.common.base.Predicate-">filterKeys</a></span>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;unfiltered,
           <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super K&gt;&nbsp;keyPredicate)</code>
-<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose keys
- satisfy a predicate.</div>
+<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose keys satisfy a
+ predicate.</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimaps.html#filterKeys-com.google.common.collect.SetMultimap-com.google.common.base.Predicate-">filterKeys</a></span>(<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;unfiltered,
           <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super K&gt;&nbsp;keyPredicate)</code>
-<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose keys
- satisfy a predicate.</div>
+<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose keys satisfy a
+ predicate.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimaps.html#filterValues-com.google.common.collect.Multimap-com.google.common.base.Predicate-">filterValues</a></span>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;unfiltered,
             <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super V&gt;&nbsp;valuePredicate)</code>
-<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose values
- satisfy a predicate.</div>
+<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose values satisfy a
+ predicate.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimaps.html#filterValues-com.google.common.collect.SetMultimap-com.google.common.base.Predicate-">filterValues</a></span>(<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;unfiltered,
             <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super V&gt;&nbsp;valuePredicate)</code>
-<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose values
- satisfy a predicate.</div>
+<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose values satisfy a
+ predicate.</div>
 </td>
 </tr>
 <tr id="i11" class="rowColor">
@@ -235,26 +230,24 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimaps.html#index-java.lang.Iterable-com.google.common.base.Function-">index</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;V&gt;&nbsp;values,
      <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super V,K&gt;&nbsp;keyFunction)</code>
-<div class="block">Creates an index <code>ImmutableListMultimap</code> that contains the results of
- applying a specified function to each item in an <code>Iterable</code> of
- values.</div>
+<div class="block">Creates an index <code>ImmutableListMultimap</code> that contains the results of applying a
+ specified function to each item in an <code>Iterable</code> of values.</div>
 </td>
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimaps.html#index-java.util.Iterator-com.google.common.base.Function-">index</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;V&gt;&nbsp;values,
      <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super V,K&gt;&nbsp;keyFunction)</code>
-<div class="block">Creates an index <code>ImmutableListMultimap</code> that contains the results of
- applying a specified function to each item in an <code>Iterator</code> of
- values.</div>
+<div class="block">Creates an index <code>ImmutableListMultimap</code> that contains the results of applying a
+ specified function to each item in an <code>Iterator</code> of values.</div>
 </td>
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>static &lt;K,V,M extends <a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&gt;<br>M</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimaps.html#invertFrom-com.google.common.collect.Multimap-M-">invertFrom</a></span>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;? extends V,? extends K&gt;&nbsp;source,
           M&nbsp;dest)</code>
-<div class="block">Copies each key-value mapping in <code>source</code> into <code>dest</code>, with
- its key and value reversed.</div>
+<div class="block">Copies each key-value mapping in <code>source</code> into <code>dest</code>, with its key and value
+ reversed.</div>
 </td>
 </tr>
 <tr id="i15" class="rowColor">
@@ -268,8 +261,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimaps.html#newMultimap-java.util.Map-com.google.common.base.Supplier-">newMultimap</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;V&gt;&gt;&nbsp;map,
            <a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;V&gt;&gt;&nbsp;factory)</code>
-<div class="block">Creates a new <code>Multimap</code> backed by <code>map</code>, whose internal value
- collections are generated by <code>factory</code>.</div>
+<div class="block">Creates a new <code>Multimap</code> backed by <code>map</code>, whose internal value collections are
+ generated by <code>factory</code>.</div>
 </td>
 </tr>
 <tr id="i17" class="rowColor">
@@ -283,60 +276,54 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SortedSetMultimap.html" title="interface in com.google.common.collect">SortedSetMultimap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimaps.html#newSortedSetMultimap-java.util.Map-com.google.common.base.Supplier-">newSortedSetMultimap</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;V&gt;&gt;&nbsp;map,
                     <a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;V&gt;&gt;&nbsp;factory)</code>
-<div class="block">Creates a new <code>SortedSetMultimap</code> that uses the provided map and
- factory.</div>
+<div class="block">Creates a new <code>SortedSetMultimap</code> that uses the provided map and factory.</div>
 </td>
 </tr>
 <tr id="i19" class="rowColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimaps.html#synchronizedListMultimap-com.google.common.collect.ListMultimap-">synchronizedListMultimap</a></span>(<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;multimap)</code>
-<div class="block">Returns a synchronized (thread-safe) <code>ListMultimap</code> backed by the
- specified multimap.</div>
+<div class="block">Returns a synchronized (thread-safe) <code>ListMultimap</code> backed by the specified multimap.</div>
 </td>
 </tr>
 <tr id="i20" class="altColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimaps.html#synchronizedMultimap-com.google.common.collect.Multimap-">synchronizedMultimap</a></span>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;multimap)</code>
-<div class="block">Returns a synchronized (thread-safe) multimap backed by the specified
- multimap.</div>
+<div class="block">Returns a synchronized (thread-safe) multimap backed by the specified multimap.</div>
 </td>
 </tr>
 <tr id="i21" class="rowColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimaps.html#synchronizedSetMultimap-com.google.common.collect.SetMultimap-">synchronizedSetMultimap</a></span>(<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;multimap)</code>
-<div class="block">Returns a synchronized (thread-safe) <code>SetMultimap</code> backed by the
- specified multimap.</div>
+<div class="block">Returns a synchronized (thread-safe) <code>SetMultimap</code> backed by the specified multimap.</div>
 </td>
 </tr>
 <tr id="i22" class="altColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SortedSetMultimap.html" title="interface in com.google.common.collect">SortedSetMultimap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimaps.html#synchronizedSortedSetMultimap-com.google.common.collect.SortedSetMultimap-">synchronizedSortedSetMultimap</a></span>(<a href="../../../../com/google/common/collect/SortedSetMultimap.html" title="interface in com.google.common.collect">SortedSetMultimap</a>&lt;K,V&gt;&nbsp;multimap)</code>
-<div class="block">Returns a synchronized (thread-safe) <code>SortedSetMultimap</code> backed by
- the specified multimap.</div>
+<div class="block">Returns a synchronized (thread-safe) <code>SortedSetMultimap</code> backed by the specified
+ multimap.</div>
 </td>
 </tr>
 <tr id="i23" class="rowColor">
 <td class="colFirst"><code>static &lt;K,V1,V2&gt;&nbsp;<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V2&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimaps.html#transformEntries-com.google.common.collect.ListMultimap-com.google.common.collect.Maps.EntryTransformer-">transformEntries</a></span>(<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V1&gt;&nbsp;fromMap,
                 <a href="../../../../com/google/common/collect/Maps.EntryTransformer.html" title="interface in com.google.common.collect">Maps.EntryTransformer</a>&lt;? super K,? super V1,V2&gt;&nbsp;transformer)</code>
-<div class="block">Returns a view of a <code>ListMultimap</code> whose values are derived from the
- original multimap's entries.</div>
+<div class="block">Returns a view of a <code>ListMultimap</code> whose values are derived from the original multimap's
+ entries.</div>
 </td>
 </tr>
 <tr id="i24" class="altColor">
 <td class="colFirst"><code>static &lt;K,V1,V2&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V2&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimaps.html#transformEntries-com.google.common.collect.Multimap-com.google.common.collect.Maps.EntryTransformer-">transformEntries</a></span>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V1&gt;&nbsp;fromMap,
                 <a href="../../../../com/google/common/collect/Maps.EntryTransformer.html" title="interface in com.google.common.collect">Maps.EntryTransformer</a>&lt;? super K,? super V1,V2&gt;&nbsp;transformer)</code>
-<div class="block">Returns a view of a multimap whose values are derived from the original
- multimap's entries.</div>
+<div class="block">Returns a view of a multimap whose values are derived from the original multimap's entries.</div>
 </td>
 </tr>
 <tr id="i25" class="rowColor">
 <td class="colFirst"><code>static &lt;K,V1,V2&gt;&nbsp;<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V2&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multimaps.html#transformValues-com.google.common.collect.ListMultimap-com.google.common.base.Function-">transformValues</a></span>(<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V1&gt;&nbsp;fromMultimap,
                <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super V1,V2&gt;&nbsp;function)</code>
-<div class="block">Returns a view of a <code>ListMultimap</code> where each value is transformed by
- a function.</div>
+<div class="block">Returns a view of a <code>ListMultimap</code> where each value is transformed by a function.</div>
 </td>
 </tr>
 <tr id="i26" class="altColor">
@@ -422,48 +409,36 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>newMultimap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.112">newMultimap</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;V&gt;&gt;&nbsp;map,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.105">newMultimap</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;V&gt;&gt;&nbsp;map,
                                               <a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;V&gt;&gt;&nbsp;factory)</pre>
-<div class="block">Creates a new <code>Multimap</code> backed by <code>map</code>, whose internal value
- collections are generated by <code>factory</code>.
+<div class="block">Creates a new <code>Multimap</code> backed by <code>map</code>, whose internal value collections are
+ generated by <code>factory</code>.
 
- <b>Warning: do not use</b> this method when the collections returned by
- <code>factory</code> implement either <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util"><code>List</code></a> or <code>Set</code>! Use the more
- specific method <a href="../../../../com/google/common/collect/Multimaps.html#newListMultimap-java.util.Map-com.google.common.base.Supplier-"><code>newListMultimap(java.util.Map&lt;K, java.util.Collection&lt;V&gt;&gt;, com.google.common.base.Supplier&lt;? extends java.util.List&lt;V&gt;&gt;)</code></a>, <a href="../../../../com/google/common/collect/Multimaps.html#newSetMultimap-java.util.Map-com.google.common.base.Supplier-"><code>newSetMultimap(java.util.Map&lt;K, java.util.Collection&lt;V&gt;&gt;, com.google.common.base.Supplier&lt;? extends java.util.Set&lt;V&gt;&gt;)</code></a> or <a href="../../../../com/google/common/collect/Multimaps.html#newSortedSetMultimap-java.util.Map-com.google.common.base.Supplier-"><code>newSortedSetMultimap(java.util.Map&lt;K, java.util.Collection&lt;V&gt;&gt;, com.google.common.base.Supplier&lt;? extends java.util.SortedSet&lt;V&gt;&gt;)</code></a> instead, to avoid very surprising behavior from
- <a href="../../../../com/google/common/collect/Multimap.html#equals-java.lang.Object-"><code>Multimap.equals(java.lang.Object)</code></a>.
+ <p><b>Warning: do not use</b> this method when the collections returned by <code>factory</code>
+ implement either <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util"><code>List</code></a> or <code>Set</code>! Use the more specific method <a href="../../../../com/google/common/collect/Multimaps.html#newListMultimap-java.util.Map-com.google.common.base.Supplier-"><code>newListMultimap(java.util.Map&lt;K, java.util.Collection&lt;V&gt;&gt;, com.google.common.base.Supplier&lt;? extends java.util.List&lt;V&gt;&gt;)</code></a>, <a href="../../../../com/google/common/collect/Multimaps.html#newSetMultimap-java.util.Map-com.google.common.base.Supplier-"><code>newSetMultimap(java.util.Map&lt;K, java.util.Collection&lt;V&gt;&gt;, com.google.common.base.Supplier&lt;? extends java.util.Set&lt;V&gt;&gt;)</code></a> or <a href="../../../../com/google/common/collect/Multimaps.html#newSortedSetMultimap-java.util.Map-com.google.common.base.Supplier-"><code>newSortedSetMultimap(java.util.Map&lt;K, java.util.Collection&lt;V&gt;&gt;, com.google.common.base.Supplier&lt;? extends java.util.SortedSet&lt;V&gt;&gt;)</code></a> instead, to avoid
+ very surprising behavior from <a href="../../../../com/google/common/collect/Multimap.html#equals-java.lang.Object-"><code>Multimap.equals(java.lang.Object)</code></a>.
 
- <p>The <code>factory</code>-generated and <code>map</code> classes determine the
- multimap iteration order. They also specify the behavior of the
- <code>equals</code>, <code>hashCode</code>, and <code>toString</code> methods for the
- multimap and its returned views. However, the multimap's <code>get</code>
- method returns instances of a different class than <code>factory.get()</code>
- does.
+ <p>The <code>factory</code>-generated and <code>map</code> classes determine the multimap iteration
+ order. They also specify the behavior of the <code>equals</code>, <code>hashCode</code>, and <code>toString</code> methods for the multimap and its returned views. However, the multimap's <code>get</code>
+ method returns instances of a different class than <code>factory.get()</code> does.
 
- <p>The multimap is serializable if <code>map</code>, <code>factory</code>, the
- collections generated by <code>factory</code>, and the multimap contents are all
- serializable.
+ <p>The multimap is serializable if <code>map</code>, <code>factory</code>, the collections generated by
+ <code>factory</code>, and the multimap contents are all serializable.
 
- <p>The multimap is not threadsafe when any concurrent operations update the
- multimap, even if <code>map</code> and the instances generated by
- <code>factory</code> are. Concurrent read operations will work correctly. To
- allow concurrent update operations, wrap the multimap with a call to
- <a href="../../../../com/google/common/collect/Multimaps.html#synchronizedMultimap-com.google.common.collect.Multimap-"><code>synchronizedMultimap(com.google.common.collect.Multimap&lt;K, V&gt;)</code></a>.
+ <p>The multimap is not threadsafe when any concurrent operations update the multimap, even if
+ <code>map</code> and the instances generated by <code>factory</code> are. Concurrent read operations will
+ work correctly. To allow concurrent update operations, wrap the multimap with a call to <a href="../../../../com/google/common/collect/Multimaps.html#synchronizedMultimap-com.google.common.collect.Multimap-"><code>synchronizedMultimap(com.google.common.collect.Multimap&lt;K, V&gt;)</code></a>.
 
- <p>Call this method only when the simpler methods
- <a href="../../../../com/google/common/collect/ArrayListMultimap.html#create--"><code>ArrayListMultimap.create()</code></a>, <a href="../../../../com/google/common/collect/HashMultimap.html#create--"><code>HashMultimap.create()</code></a>,
- <a href="../../../../com/google/common/collect/LinkedHashMultimap.html#create--"><code>LinkedHashMultimap.create()</code></a>, <a href="../../../../com/google/common/collect/LinkedListMultimap.html#create--"><code>LinkedListMultimap.create()</code></a>,
- <a href="../../../../com/google/common/collect/TreeMultimap.html#create--"><code>TreeMultimap.create()</code></a>, and
- <a href="../../../../com/google/common/collect/TreeMultimap.html#create-java.util.Comparator-java.util.Comparator-"><code>TreeMultimap.create(Comparator, Comparator)</code></a> won't suffice.
+ <p>Call this method only when the simpler methods <a href="../../../../com/google/common/collect/ArrayListMultimap.html#create--"><code>ArrayListMultimap.create()</code></a>, <a href="../../../../com/google/common/collect/HashMultimap.html#create--"><code>HashMultimap.create()</code></a>, <a href="../../../../com/google/common/collect/LinkedHashMultimap.html#create--"><code>LinkedHashMultimap.create()</code></a>, <a href="../../../../com/google/common/collect/LinkedListMultimap.html#create--"><code>LinkedListMultimap.create()</code></a>, <a href="../../../../com/google/common/collect/TreeMultimap.html#create--"><code>TreeMultimap.create()</code></a>, and <a href="../../../../com/google/common/collect/TreeMultimap.html#create-java.util.Comparator-java.util.Comparator-"><code>TreeMultimap.create(Comparator, Comparator)</code></a> won't suffice.
 
- <p>Note: the multimap assumes complete ownership over of <code>map</code> and
- the collections returned by <code>factory</code>. Those objects should not be
- manually updated and they should not use soft, weak, or phantom references.</div>
+ <p>Note: the multimap assumes complete ownership over of <code>map</code> and the collections
+ returned by <code>factory</code>. Those objects should not be manually updated and they should not
+ use soft, weak, or phantom references.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>map</code> - place to store the mapping from each key to its corresponding
-     values</dd>
-<dd><code>factory</code> - supplier of new, empty collections that will each hold all
-     values for a given key</dd>
+<dd><code>map</code> - place to store the mapping from each key to its corresponding values</dd>
+<dd><code>factory</code> - supplier of new, empty collections that will each hold all values for a given
+     key</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>map</code> is not empty</dd>
 </dl>
@@ -475,43 +450,31 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>newListMultimap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.192">newListMultimap</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;V&gt;&gt;&nbsp;map,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.177">newListMultimap</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;V&gt;&gt;&nbsp;map,
                                                       <a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;V&gt;&gt;&nbsp;factory)</pre>
-<div class="block">Creates a new <code>ListMultimap</code> that uses the provided map and factory.
- It can generate a multimap based on arbitrary <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util"><code>Map</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util"><code>List</code></a>
- classes.
+<div class="block">Creates a new <code>ListMultimap</code> that uses the provided map and factory. It can generate a
+ multimap based on arbitrary <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util"><code>Map</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util"><code>List</code></a> classes.
 
- <p>The <code>factory</code>-generated and <code>map</code> classes determine the
- multimap iteration order. They also specify the behavior of the
- <code>equals</code>, <code>hashCode</code>, and <code>toString</code> methods for the
- multimap and its returned views. The multimap's <code>get</code>, <code>removeAll</code>, and <code>replaceValues</code> methods return <code>RandomAccess</code>
- lists if the factory does. However, the multimap's <code>get</code> method
- returns instances of a different class than does <code>factory.get()</code>.
+ <p>The <code>factory</code>-generated and <code>map</code> classes determine the multimap iteration
+ order. They also specify the behavior of the <code>equals</code>, <code>hashCode</code>, and <code>toString</code> methods for the multimap and its returned views. The multimap's <code>get</code>, <code>removeAll</code>, and <code>replaceValues</code> methods return <code>RandomAccess</code> lists if the factory
+ does. However, the multimap's <code>get</code> method returns instances of a different class than
+ does <code>factory.get()</code>.
 
- <p>The multimap is serializable if <code>map</code>, <code>factory</code>, the
- lists generated by <code>factory</code>, and the multimap contents are all
- serializable.
+ <p>The multimap is serializable if <code>map</code>, <code>factory</code>, the lists generated by <code>factory</code>, and the multimap contents are all serializable.
 
- <p>The multimap is not threadsafe when any concurrent operations update the
- multimap, even if <code>map</code> and the instances generated by
- <code>factory</code> are. Concurrent read operations will work correctly. To
- allow concurrent update operations, wrap the multimap with a call to
- <a href="../../../../com/google/common/collect/Multimaps.html#synchronizedListMultimap-com.google.common.collect.ListMultimap-"><code>synchronizedListMultimap(com.google.common.collect.ListMultimap&lt;K, V&gt;)</code></a>.
+ <p>The multimap is not threadsafe when any concurrent operations update the multimap, even if
+ <code>map</code> and the instances generated by <code>factory</code> are. Concurrent read operations will
+ work correctly. To allow concurrent update operations, wrap the multimap with a call to <a href="../../../../com/google/common/collect/Multimaps.html#synchronizedListMultimap-com.google.common.collect.ListMultimap-"><code>synchronizedListMultimap(com.google.common.collect.ListMultimap&lt;K, V&gt;)</code></a>.
 
- <p>Call this method only when the simpler methods
- <a href="../../../../com/google/common/collect/ArrayListMultimap.html#create--"><code>ArrayListMultimap.create()</code></a> and <a href="../../../../com/google/common/collect/LinkedListMultimap.html#create--"><code>LinkedListMultimap.create()</code></a>
- won't suffice.
+ <p>Call this method only when the simpler methods <a href="../../../../com/google/common/collect/ArrayListMultimap.html#create--"><code>ArrayListMultimap.create()</code></a> and <a href="../../../../com/google/common/collect/LinkedListMultimap.html#create--"><code>LinkedListMultimap.create()</code></a> won't suffice.
 
- <p>Note: the multimap assumes complete ownership over of <code>map</code> and
- the lists returned by <code>factory</code>. Those objects should not be manually
- updated, they should be empty when provided, and they should not use soft,
- weak, or phantom references.</div>
+ <p>Note: the multimap assumes complete ownership over of <code>map</code> and the lists returned by
+ <code>factory</code>. Those objects should not be manually updated, they should be empty when
+ provided, and they should not use soft, weak, or phantom references.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>map</code> - place to store the mapping from each key to its corresponding
-     values</dd>
-<dd><code>factory</code> - supplier of new, empty lists that will each hold all values
-     for a given key</dd>
+<dd><code>map</code> - place to store the mapping from each key to its corresponding values</dd>
+<dd><code>factory</code> - supplier of new, empty lists that will each hold all values for a given key</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>map</code> is not empty</dd>
 </dl>
@@ -523,43 +486,30 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>newSetMultimap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.268">newSetMultimap</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;V&gt;&gt;&nbsp;map,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.245">newSetMultimap</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;V&gt;&gt;&nbsp;map,
                                                     <a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;V&gt;&gt;&nbsp;factory)</pre>
-<div class="block">Creates a new <code>SetMultimap</code> that uses the provided map and factory.
- It can generate a multimap based on arbitrary <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util"><code>Map</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util"><code>Set</code></a>
- classes.
+<div class="block">Creates a new <code>SetMultimap</code> that uses the provided map and factory. It can generate a
+ multimap based on arbitrary <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util"><code>Map</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util"><code>Set</code></a> classes.
 
- <p>The <code>factory</code>-generated and <code>map</code> classes determine the
- multimap iteration order. They also specify the behavior of the
- <code>equals</code>, <code>hashCode</code>, and <code>toString</code> methods for the
- multimap and its returned views. However, the multimap's <code>get</code>
- method returns instances of a different class than <code>factory.get()</code>
- does.
+ <p>The <code>factory</code>-generated and <code>map</code> classes determine the multimap iteration
+ order. They also specify the behavior of the <code>equals</code>, <code>hashCode</code>, and <code>toString</code> methods for the multimap and its returned views. However, the multimap's <code>get</code>
+ method returns instances of a different class than <code>factory.get()</code> does.
 
- <p>The multimap is serializable if <code>map</code>, <code>factory</code>, the
- sets generated by <code>factory</code>, and the multimap contents are all
- serializable.
+ <p>The multimap is serializable if <code>map</code>, <code>factory</code>, the sets generated by <code>factory</code>, and the multimap contents are all serializable.
 
- <p>The multimap is not threadsafe when any concurrent operations update the
- multimap, even if <code>map</code> and the instances generated by
- <code>factory</code> are. Concurrent read operations will work correctly. To
- allow concurrent update operations, wrap the multimap with a call to
- <a href="../../../../com/google/common/collect/Multimaps.html#synchronizedSetMultimap-com.google.common.collect.SetMultimap-"><code>synchronizedSetMultimap(com.google.common.collect.SetMultimap&lt;K, V&gt;)</code></a>.
+ <p>The multimap is not threadsafe when any concurrent operations update the multimap, even if
+ <code>map</code> and the instances generated by <code>factory</code> are. Concurrent read operations will
+ work correctly. To allow concurrent update operations, wrap the multimap with a call to <a href="../../../../com/google/common/collect/Multimaps.html#synchronizedSetMultimap-com.google.common.collect.SetMultimap-"><code>synchronizedSetMultimap(com.google.common.collect.SetMultimap&lt;K, V&gt;)</code></a>.
 
- <p>Call this method only when the simpler methods
- <a href="../../../../com/google/common/collect/HashMultimap.html#create--"><code>HashMultimap.create()</code></a>, <a href="../../../../com/google/common/collect/LinkedHashMultimap.html#create--"><code>LinkedHashMultimap.create()</code></a>,
- <a href="../../../../com/google/common/collect/TreeMultimap.html#create--"><code>TreeMultimap.create()</code></a>, and
- <a href="../../../../com/google/common/collect/TreeMultimap.html#create-java.util.Comparator-java.util.Comparator-"><code>TreeMultimap.create(Comparator, Comparator)</code></a> won't suffice.
+ <p>Call this method only when the simpler methods <a href="../../../../com/google/common/collect/HashMultimap.html#create--"><code>HashMultimap.create()</code></a>, <a href="../../../../com/google/common/collect/LinkedHashMultimap.html#create--"><code>LinkedHashMultimap.create()</code></a>, <a href="../../../../com/google/common/collect/TreeMultimap.html#create--"><code>TreeMultimap.create()</code></a>, and <a href="../../../../com/google/common/collect/TreeMultimap.html#create-java.util.Comparator-java.util.Comparator-"><code>TreeMultimap.create(Comparator, Comparator)</code></a> won't suffice.
 
- <p>Note: the multimap assumes complete ownership over of <code>map</code> and
- the sets returned by <code>factory</code>. Those objects should not be manually
- updated and they should not use soft, weak, or phantom references.</div>
+ <p>Note: the multimap assumes complete ownership over of <code>map</code> and the sets returned by
+ <code>factory</code>. Those objects should not be manually updated and they should not use soft,
+ weak, or phantom references.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>map</code> - place to store the mapping from each key to its corresponding
-     values</dd>
-<dd><code>factory</code> - supplier of new, empty sets that will each hold all values
-     for a given key</dd>
+<dd><code>map</code> - place to store the mapping from each key to its corresponding values</dd>
+<dd><code>factory</code> - supplier of new, empty sets that will each hold all values for a given key</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>map</code> is not empty</dd>
 </dl>
@@ -571,42 +521,31 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>newSortedSetMultimap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SortedSetMultimap.html" title="interface in com.google.common.collect">SortedSetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.343">newSortedSetMultimap</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;V&gt;&gt;&nbsp;map,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SortedSetMultimap.html" title="interface in com.google.common.collect">SortedSetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.313">newSortedSetMultimap</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;V&gt;&gt;&nbsp;map,
                                                                 <a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;V&gt;&gt;&nbsp;factory)</pre>
-<div class="block">Creates a new <code>SortedSetMultimap</code> that uses the provided map and
- factory. It can generate a multimap based on arbitrary <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util"><code>Map</code></a> and
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util"><code>SortedSet</code></a> classes.
+<div class="block">Creates a new <code>SortedSetMultimap</code> that uses the provided map and factory. It can generate
+ a multimap based on arbitrary <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util"><code>Map</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util"><code>SortedSet</code></a> classes.
 
- <p>The <code>factory</code>-generated and <code>map</code> classes determine the
- multimap iteration order. They also specify the behavior of the
- <code>equals</code>, <code>hashCode</code>, and <code>toString</code> methods for the
- multimap and its returned views. However, the multimap's <code>get</code>
- method returns instances of a different class than <code>factory.get()</code>
- does.
+ <p>The <code>factory</code>-generated and <code>map</code> classes determine the multimap iteration
+ order. They also specify the behavior of the <code>equals</code>, <code>hashCode</code>, and <code>toString</code> methods for the multimap and its returned views. However, the multimap's <code>get</code>
+ method returns instances of a different class than <code>factory.get()</code> does.
 
- <p>The multimap is serializable if <code>map</code>, <code>factory</code>, the
- sets generated by <code>factory</code>, and the multimap contents are all
- serializable.
+ <p>The multimap is serializable if <code>map</code>, <code>factory</code>, the sets generated by <code>factory</code>, and the multimap contents are all serializable.
 
- <p>The multimap is not threadsafe when any concurrent operations update the
- multimap, even if <code>map</code> and the instances generated by
- <code>factory</code> are. Concurrent read operations will work correctly. To
- allow concurrent update operations, wrap the multimap with a call to
- <a href="../../../../com/google/common/collect/Multimaps.html#synchronizedSortedSetMultimap-com.google.common.collect.SortedSetMultimap-"><code>synchronizedSortedSetMultimap(com.google.common.collect.SortedSetMultimap&lt;K, V&gt;)</code></a>.
+ <p>The multimap is not threadsafe when any concurrent operations update the multimap, even if
+ <code>map</code> and the instances generated by <code>factory</code> are. Concurrent read operations will
+ work correctly. To allow concurrent update operations, wrap the multimap with a call to <a href="../../../../com/google/common/collect/Multimaps.html#synchronizedSortedSetMultimap-com.google.common.collect.SortedSetMultimap-"><code>synchronizedSortedSetMultimap(com.google.common.collect.SortedSetMultimap&lt;K, V&gt;)</code></a>.
 
- <p>Call this method only when the simpler methods
- <a href="../../../../com/google/common/collect/TreeMultimap.html#create--"><code>TreeMultimap.create()</code></a> and
- <a href="../../../../com/google/common/collect/TreeMultimap.html#create-java.util.Comparator-java.util.Comparator-"><code>TreeMultimap.create(Comparator, Comparator)</code></a> won't suffice.
+ <p>Call this method only when the simpler methods <a href="../../../../com/google/common/collect/TreeMultimap.html#create--"><code>TreeMultimap.create()</code></a> and <a href="../../../../com/google/common/collect/TreeMultimap.html#create-java.util.Comparator-java.util.Comparator-"><code>TreeMultimap.create(Comparator, Comparator)</code></a> won't suffice.
 
- <p>Note: the multimap assumes complete ownership over of <code>map</code> and
- the sets returned by <code>factory</code>. Those objects should not be manually
- updated and they should not use soft, weak, or phantom references.</div>
+ <p>Note: the multimap assumes complete ownership over of <code>map</code> and the sets returned by
+ <code>factory</code>. Those objects should not be manually updated and they should not use soft,
+ weak, or phantom references.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>map</code> - place to store the mapping from each key to its corresponding
-     values</dd>
-<dd><code>factory</code> - supplier of new, empty sorted sets that will each hold
-     all values for a given key</dd>
+<dd><code>map</code> - place to store the mapping from each key to its corresponding values</dd>
+<dd><code>factory</code> - supplier of new, empty sorted sets that will each hold all values for a given
+     key</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>map</code> is not empty</dd>
 </dl>
@@ -621,13 +560,12 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>invertFrom</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public static&nbsp;&lt;K,V,M extends <a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&gt;&nbsp;M&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.402">invertFrom</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;? extends V,? extends K&gt;&nbsp;source,
+public static&nbsp;&lt;K,V,M extends <a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&gt;&nbsp;M&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.372">invertFrom</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;? extends V,? extends K&gt;&nbsp;source,
                                                                                M&nbsp;dest)</pre>
-<div class="block">Copies each key-value mapping in <code>source</code> into <code>dest</code>, with
- its key and value reversed.
+<div class="block">Copies each key-value mapping in <code>source</code> into <code>dest</code>, with its key and value
+ reversed.
 
- <p>If <code>source</code> is an <a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="class in com.google.common.collect"><code>ImmutableMultimap</code></a>, consider using
- <a href="../../../../com/google/common/collect/ImmutableMultimap.html#inverse--"><code>ImmutableMultimap.inverse()</code></a> instead.</div>
+ <p>If <code>source</code> is an <a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="class in com.google.common.collect"><code>ImmutableMultimap</code></a>, consider using <a href="../../../../com/google/common/collect/ImmutableMultimap.html#inverse--"><code>ImmutableMultimap.inverse()</code></a> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>source</code> - any multimap</dd>
@@ -643,35 +581,33 @@ public static&nbsp;&lt;K,V,M extends <a href="../../../../com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>synchronizedMultimap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.444">synchronizedMultimap</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;multimap)</pre>
-<div class="block">Returns a synchronized (thread-safe) multimap backed by the specified
- multimap. In order to guarantee serial access, it is critical that
- <b>all</b> access to the backing multimap is accomplished through the
- returned multimap.
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.413">synchronizedMultimap</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;multimap)</pre>
+<div class="block">Returns a synchronized (thread-safe) multimap backed by the specified multimap. In order to
+ guarantee serial access, it is critical that <b>all</b> access to the backing multimap is
+ accomplished through the returned multimap.
 
- <p>It is imperative that the user manually synchronize on the returned
- multimap when accessing any of its collection views: <pre>   <code>
+ <p>It is imperative that the user manually synchronize on the returned multimap when accessing
+ any of its collection views:
 
-   Multimap&lt;K, V&gt; multimap = Multimaps.synchronizedMultimap(
-       HashMultimap.&lt;K, V&gt;create());
-   ...
-   Collection&lt;V&gt; values = multimap.get(key);  // Needn't be in synchronized block
-   ...
-   synchronized (multimap) {  // Synchronizing on multimap, not values!
-     Iterator&lt;V&gt; i = values.iterator(); // Must be in synchronized block
-     while (i.hasNext()) {
-       foo(i.next());
-     }
-   }</code></pre>
+ <pre><code>
+ Multimap&lt;K, V&gt; multimap = Multimaps.synchronizedMultimap(
+     HashMultimap.&lt;K, V&gt;create());
+ ...
+ Collection&lt;V&gt; values = multimap.get(key);  // Needn't be in synchronized block
+ ...
+ synchronized (multimap) {  // Synchronizing on multimap, not values!
+   Iterator&lt;V&gt; i = values.iterator(); // Must be in synchronized block
+   while (i.hasNext()) {
+     foo(i.next());
+   }
+ }
+ </code></pre>
 
  <p>Failure to follow this advice may result in non-deterministic behavior.
 
- <p>Note that the generated multimap's <a href="../../../../com/google/common/collect/Multimap.html#removeAll-java.lang.Object-"><code>Multimap.removeAll(java.lang.Object)</code></a> and
- <a href="../../../../com/google/common/collect/Multimap.html#replaceValues-K-java.lang.Iterable-"><code>Multimap.replaceValues(K, java.lang.Iterable&lt;? extends V&gt;)</code></a> methods return collections that aren't
- synchronized.
+ <p>Note that the generated multimap's <a href="../../../../com/google/common/collect/Multimap.html#removeAll-java.lang.Object-"><code>Multimap.removeAll(java.lang.Object)</code></a> and <a href="../../../../com/google/common/collect/Multimap.html#replaceValues-K-java.lang.Iterable-"><code>Multimap.replaceValues(K, java.lang.Iterable&lt;? extends V&gt;)</code></a> methods return collections that aren't synchronized.
 
- <p>The returned multimap will be serializable if the specified multimap is
- serializable.</div>
+ <p>The returned multimap will be serializable if the specified multimap is serializable.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>multimap</code> - the multimap to be wrapped in a synchronized view</dd>
@@ -686,22 +622,17 @@ public static&nbsp;&lt;K,V,M extends <a href="../../../../com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>unmodifiableMultimap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.465">unmodifiableMultimap</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;delegate)</pre>
-<div class="block">Returns an unmodifiable view of the specified multimap. Query operations on
- the returned multimap "read through" to the specified multimap, and
- attempts to modify the returned multimap, either directly or through the
- multimap's views, result in an <code>UnsupportedOperationException</code>.
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.431">unmodifiableMultimap</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;delegate)</pre>
+<div class="block">Returns an unmodifiable view of the specified multimap. Query operations on the returned
+ multimap "read through" to the specified multimap, and attempts to modify the returned
+ multimap, either directly or through the multimap's views, result in an <code>UnsupportedOperationException</code>.
 
- <p>Note that the generated multimap's <a href="../../../../com/google/common/collect/Multimap.html#removeAll-java.lang.Object-"><code>Multimap.removeAll(java.lang.Object)</code></a> and
- <a href="../../../../com/google/common/collect/Multimap.html#replaceValues-K-java.lang.Iterable-"><code>Multimap.replaceValues(K, java.lang.Iterable&lt;? extends V&gt;)</code></a> methods return collections that are
- modifiable.
+ <p>Note that the generated multimap's <a href="../../../../com/google/common/collect/Multimap.html#removeAll-java.lang.Object-"><code>Multimap.removeAll(java.lang.Object)</code></a> and <a href="../../../../com/google/common/collect/Multimap.html#replaceValues-K-java.lang.Iterable-"><code>Multimap.replaceValues(K, java.lang.Iterable&lt;? extends V&gt;)</code></a> methods return collections that are modifiable.
 
- <p>The returned multimap will be serializable if the specified multimap is
- serializable.</div>
+ <p>The returned multimap will be serializable if the specified multimap is serializable.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>delegate</code> - the multimap for which an unmodifiable view is to be
-     returned</dd>
+<dd><code>delegate</code> - the multimap for which an unmodifiable view is to be returned</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>an unmodifiable view of the specified multimap</dd>
 </dl>
@@ -714,7 +645,7 @@ public static&nbsp;&lt;K,V,M extends <a href="../../../../com/google/common/coll
 <li class="blockList">
 <h4>unmodifiableMultimap</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.479">unmodifiableMultimap</a>(<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="class in com.google.common.collect">ImmutableMultimap</a>&lt;K,V&gt;&nbsp;delegate)</pre>
+public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.445">unmodifiableMultimap</a>(<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="class in com.google.common.collect">ImmutableMultimap</a>&lt;K,V&gt;&nbsp;delegate)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">no need to use this</span></div>
 <div class="block">Simply returns its argument.</div>
 <dl>
@@ -729,14 +660,12 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>synchronizedSetMultimap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.712">synchronizedSetMultimap</a>(<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;multimap)</pre>
-<div class="block">Returns a synchronized (thread-safe) <code>SetMultimap</code> backed by the
- specified multimap.
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.676">synchronizedSetMultimap</a>(<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;multimap)</pre>
+<div class="block">Returns a synchronized (thread-safe) <code>SetMultimap</code> backed by the specified multimap.
 
  <p>You must follow the warnings described in <a href="../../../../com/google/common/collect/Multimaps.html#synchronizedMultimap-com.google.common.collect.Multimap-"><code>synchronizedMultimap(com.google.common.collect.Multimap&lt;K, V&gt;)</code></a>.
 
- <p>The returned multimap will be serializable if the specified multimap is
- serializable.</div>
+ <p>The returned multimap will be serializable if the specified multimap is serializable.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>multimap</code> - the multimap to be wrapped</dd>
@@ -751,23 +680,17 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>unmodifiableSetMultimap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.734">unmodifiableSetMultimap</a>(<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;delegate)</pre>
-<div class="block">Returns an unmodifiable view of the specified <code>SetMultimap</code>. Query
- operations on the returned multimap "read through" to the specified
- multimap, and attempts to modify the returned multimap, either directly or
- through the multimap's views, result in an
- <code>UnsupportedOperationException</code>.
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.694">unmodifiableSetMultimap</a>(<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;delegate)</pre>
+<div class="block">Returns an unmodifiable view of the specified <code>SetMultimap</code>. Query operations on the
+ returned multimap "read through" to the specified multimap, and attempts to modify the returned
+ multimap, either directly or through the multimap's views, result in an <code>UnsupportedOperationException</code>.
 
- <p>Note that the generated multimap's <a href="../../../../com/google/common/collect/Multimap.html#removeAll-java.lang.Object-"><code>Multimap.removeAll(java.lang.Object)</code></a> and
- <a href="../../../../com/google/common/collect/Multimap.html#replaceValues-K-java.lang.Iterable-"><code>Multimap.replaceValues(K, java.lang.Iterable&lt;? extends V&gt;)</code></a> methods return collections that are
- modifiable.
+ <p>Note that the generated multimap's <a href="../../../../com/google/common/collect/Multimap.html#removeAll-java.lang.Object-"><code>Multimap.removeAll(java.lang.Object)</code></a> and <a href="../../../../com/google/common/collect/Multimap.html#replaceValues-K-java.lang.Iterable-"><code>Multimap.replaceValues(K, java.lang.Iterable&lt;? extends V&gt;)</code></a> methods return collections that are modifiable.
 
- <p>The returned multimap will be serializable if the specified multimap is
- serializable.</div>
+ <p>The returned multimap will be serializable if the specified multimap is serializable.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>delegate</code> - the multimap for which an unmodifiable view is to be
-     returned</dd>
+<dd><code>delegate</code> - the multimap for which an unmodifiable view is to be returned</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>an unmodifiable view of the specified multimap</dd>
 </dl>
@@ -780,7 +703,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <li class="blockList">
 <h4>unmodifiableSetMultimap</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.748">unmodifiableSetMultimap</a>(<a href="../../../../com/google/common/collect/ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,V&gt;&nbsp;delegate)</pre>
+public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.708">unmodifiableSetMultimap</a>(<a href="../../../../com/google/common/collect/ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,V&gt;&nbsp;delegate)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">no need to use this</span></div>
 <div class="block">Simply returns its argument.</div>
 <dl>
@@ -795,14 +718,13 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>synchronizedSortedSetMultimap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SortedSetMultimap.html" title="interface in com.google.common.collect">SortedSetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.765">synchronizedSortedSetMultimap</a>(<a href="../../../../com/google/common/collect/SortedSetMultimap.html" title="interface in com.google.common.collect">SortedSetMultimap</a>&lt;K,V&gt;&nbsp;multimap)</pre>
-<div class="block">Returns a synchronized (thread-safe) <code>SortedSetMultimap</code> backed by
- the specified multimap.
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SortedSetMultimap.html" title="interface in com.google.common.collect">SortedSetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.724">synchronizedSortedSetMultimap</a>(<a href="../../../../com/google/common/collect/SortedSetMultimap.html" title="interface in com.google.common.collect">SortedSetMultimap</a>&lt;K,V&gt;&nbsp;multimap)</pre>
+<div class="block">Returns a synchronized (thread-safe) <code>SortedSetMultimap</code> backed by the specified
+ multimap.
 
  <p>You must follow the warnings described in <a href="../../../../com/google/common/collect/Multimaps.html#synchronizedMultimap-com.google.common.collect.Multimap-"><code>synchronizedMultimap(com.google.common.collect.Multimap&lt;K, V&gt;)</code></a>.
 
- <p>The returned multimap will be serializable if the specified multimap is
- serializable.</div>
+ <p>The returned multimap will be serializable if the specified multimap is serializable.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>multimap</code> - the multimap to be wrapped</dd>
@@ -817,23 +739,17 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>unmodifiableSortedSetMultimap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SortedSetMultimap.html" title="interface in com.google.common.collect">SortedSetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.788">unmodifiableSortedSetMultimap</a>(<a href="../../../../com/google/common/collect/SortedSetMultimap.html" title="interface in com.google.common.collect">SortedSetMultimap</a>&lt;K,V&gt;&nbsp;delegate)</pre>
-<div class="block">Returns an unmodifiable view of the specified <code>SortedSetMultimap</code>.
- Query operations on the returned multimap "read through" to the specified
- multimap, and attempts to modify the returned multimap, either directly or
- through the multimap's views, result in an
- <code>UnsupportedOperationException</code>.
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SortedSetMultimap.html" title="interface in com.google.common.collect">SortedSetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.743">unmodifiableSortedSetMultimap</a>(<a href="../../../../com/google/common/collect/SortedSetMultimap.html" title="interface in com.google.common.collect">SortedSetMultimap</a>&lt;K,V&gt;&nbsp;delegate)</pre>
+<div class="block">Returns an unmodifiable view of the specified <code>SortedSetMultimap</code>. Query operations on
+ the returned multimap "read through" to the specified multimap, and attempts to modify the
+ returned multimap, either directly or through the multimap's views, result in an <code>UnsupportedOperationException</code>.
 
- <p>Note that the generated multimap's <a href="../../../../com/google/common/collect/Multimap.html#removeAll-java.lang.Object-"><code>Multimap.removeAll(java.lang.Object)</code></a> and
- <a href="../../../../com/google/common/collect/Multimap.html#replaceValues-K-java.lang.Iterable-"><code>Multimap.replaceValues(K, java.lang.Iterable&lt;? extends V&gt;)</code></a> methods return collections that are
- modifiable.
+ <p>Note that the generated multimap's <a href="../../../../com/google/common/collect/Multimap.html#removeAll-java.lang.Object-"><code>Multimap.removeAll(java.lang.Object)</code></a> and <a href="../../../../com/google/common/collect/Multimap.html#replaceValues-K-java.lang.Iterable-"><code>Multimap.replaceValues(K, java.lang.Iterable&lt;? extends V&gt;)</code></a> methods return collections that are modifiable.
 
- <p>The returned multimap will be serializable if the specified multimap is
- serializable.</div>
+ <p>The returned multimap will be serializable if the specified multimap is serializable.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>delegate</code> - the multimap for which an unmodifiable view is to be
-     returned</dd>
+<dd><code>delegate</code> - the multimap for which an unmodifiable view is to be returned</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>an unmodifiable view of the specified multimap</dd>
 </dl>
@@ -845,9 +761,8 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>synchronizedListMultimap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.805">synchronizedListMultimap</a>(<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;multimap)</pre>
-<div class="block">Returns a synchronized (thread-safe) <code>ListMultimap</code> backed by the
- specified multimap.
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.759">synchronizedListMultimap</a>(<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;multimap)</pre>
+<div class="block">Returns a synchronized (thread-safe) <code>ListMultimap</code> backed by the specified multimap.
 
  <p>You must follow the warnings described in <a href="../../../../com/google/common/collect/Multimaps.html#synchronizedMultimap-com.google.common.collect.Multimap-"><code>synchronizedMultimap(com.google.common.collect.Multimap&lt;K, V&gt;)</code></a>.</div>
 <dl>
@@ -864,23 +779,17 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>unmodifiableListMultimap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.827">unmodifiableListMultimap</a>(<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;delegate)</pre>
-<div class="block">Returns an unmodifiable view of the specified <code>ListMultimap</code>. Query
- operations on the returned multimap "read through" to the specified
- multimap, and attempts to modify the returned multimap, either directly or
- through the multimap's views, result in an
- <code>UnsupportedOperationException</code>.
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.777">unmodifiableListMultimap</a>(<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;delegate)</pre>
+<div class="block">Returns an unmodifiable view of the specified <code>ListMultimap</code>. Query operations on the
+ returned multimap "read through" to the specified multimap, and attempts to modify the returned
+ multimap, either directly or through the multimap's views, result in an <code>UnsupportedOperationException</code>.
 
- <p>Note that the generated multimap's <a href="../../../../com/google/common/collect/Multimap.html#removeAll-java.lang.Object-"><code>Multimap.removeAll(java.lang.Object)</code></a> and
- <a href="../../../../com/google/common/collect/Multimap.html#replaceValues-K-java.lang.Iterable-"><code>Multimap.replaceValues(K, java.lang.Iterable&lt;? extends V&gt;)</code></a> methods return collections that are
- modifiable.
+ <p>Note that the generated multimap's <a href="../../../../com/google/common/collect/Multimap.html#removeAll-java.lang.Object-"><code>Multimap.removeAll(java.lang.Object)</code></a> and <a href="../../../../com/google/common/collect/Multimap.html#replaceValues-K-java.lang.Iterable-"><code>Multimap.replaceValues(K, java.lang.Iterable&lt;? extends V&gt;)</code></a> methods return collections that are modifiable.
 
- <p>The returned multimap will be serializable if the specified multimap is
- serializable.</div>
+ <p>The returned multimap will be serializable if the specified multimap is serializable.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>delegate</code> - the multimap for which an unmodifiable view is to be
-     returned</dd>
+<dd><code>delegate</code> - the multimap for which an unmodifiable view is to be returned</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>an unmodifiable view of the specified multimap</dd>
 </dl>
@@ -893,7 +802,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <li class="blockList">
 <h4>unmodifiableListMultimap</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.841">unmodifiableListMultimap</a>(<a href="../../../../com/google/common/collect/ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a>&lt;K,V&gt;&nbsp;delegate)</pre>
+public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.791">unmodifiableListMultimap</a>(<a href="../../../../com/google/common/collect/ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a>&lt;K,V&gt;&nbsp;delegate)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">no need to use this</span></div>
 <div class="block">Simply returns its argument.</div>
 <dl>
@@ -909,9 +818,9 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <li class="blockList">
 <h4>asMap</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.891">asMap</a>(<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;multimap)</pre>
-<div class="block">Returns <a href="../../../../com/google/common/collect/ListMultimap.html#asMap--"><code>multimap.asMap()</code></a>, with its type
- corrected from <code>Map&lt;K, Collection&lt;V&gt;&gt;</code> to <code>Map&lt;K, List&lt;V&gt;&gt;</code>.</div>
+public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.840">asMap</a>(<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;multimap)</pre>
+<div class="block">Returns <a href="../../../../com/google/common/collect/ListMultimap.html#asMap--"><code>multimap.asMap()</code></a>, with its type corrected from <code>Map&lt;K,
+ Collection&lt;V&gt;&gt;</code> to <code>Map&lt;K, List&lt;V&gt;&gt;</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>15.0</dd>
@@ -925,9 +834,9 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/do
 <li class="blockList">
 <h4>asMap</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.904">asMap</a>(<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;multimap)</pre>
-<div class="block">Returns <a href="../../../../com/google/common/collect/SetMultimap.html#asMap--"><code>multimap.asMap()</code></a>, with its type corrected
- from <code>Map&lt;K, Collection&lt;V&gt;&gt;</code> to <code>Map&lt;K, Set&lt;V&gt;&gt;</code>.</div>
+public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.853">asMap</a>(<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;multimap)</pre>
+<div class="block">Returns <a href="../../../../com/google/common/collect/SetMultimap.html#asMap--"><code>multimap.asMap()</code></a>, with its type corrected from <code>Map&lt;K,
+ Collection&lt;V&gt;&gt;</code> to <code>Map&lt;K, Set&lt;V&gt;&gt;</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>15.0</dd>
@@ -941,10 +850,8 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/do
 <li class="blockList">
 <h4>asMap</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.918">asMap</a>(<a href="../../../../com/google/common/collect/SortedSetMultimap.html" title="interface in com.google.common.collect">SortedSetMultimap</a>&lt;K,V&gt;&nbsp;multimap)</pre>
-<div class="block">Returns <a href="../../../../com/google/common/collect/SortedSetMultimap.html#asMap--"><code>multimap.asMap()</code></a>, with its type
- corrected from <code>Map&lt;K, Collection&lt;V&gt;&gt;</code> to
- <code>Map&lt;K, SortedSet&lt;V&gt;&gt;</code>.</div>
+public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.866">asMap</a>(<a href="../../../../com/google/common/collect/SortedSetMultimap.html" title="interface in com.google.common.collect">SortedSetMultimap</a>&lt;K,V&gt;&nbsp;multimap)</pre>
+<div class="block">Returns <a href="../../../../com/google/common/collect/SortedSetMultimap.html#asMap--"><code>multimap.asMap()</code></a>, with its type corrected from <code>Map&lt;K, Collection&lt;V&gt;&gt;</code> to <code>Map&lt;K, SortedSet&lt;V&gt;&gt;</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>15.0</dd>
@@ -958,9 +865,9 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/do
 <li class="blockList">
 <h4>asMap</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.929">asMap</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;multimap)</pre>
-<div class="block">Returns <a href="../../../../com/google/common/collect/Multimap.html#asMap--"><code>multimap.asMap()</code></a>. This is provided for
- parity with the other more strongly-typed <code>asMap()</code> implementations.</div>
+public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.877">asMap</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;multimap)</pre>
+<div class="block">Returns <a href="../../../../com/google/common/collect/Multimap.html#asMap--"><code>multimap.asMap()</code></a>. This is provided for parity with the other
+ more strongly-typed <code>asMap()</code> implementations.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>15.0</dd>
@@ -973,19 +880,17 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/do
 <ul class="blockList">
 <li class="blockList">
 <h4>forMap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.950">forMap</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;&nbsp;map)</pre>
-<div class="block">Returns a multimap view of the specified map. The multimap is backed by the
- map, so changes to the map are reflected in the multimap, and vice versa.
- If the map is modified while an iteration over one of the multimap's
- collection views is in progress (except through the iterator's own <code>remove</code> operation, or through the <code>setValue</code> operation on a map entry
- returned by the iterator), the results of the iteration are undefined.
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.896">forMap</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;&nbsp;map)</pre>
+<div class="block">Returns a multimap view of the specified map. The multimap is backed by the map, so changes to
+ the map are reflected in the multimap, and vice versa. If the map is modified while an
+ iteration over one of the multimap's collection views is in progress (except through the
+ iterator's own <code>remove</code> operation, or through the <code>setValue</code> operation on a map
+ entry returned by the iterator), the results of the iteration are undefined.
 
- <p>The multimap supports mapping removal, which removes the corresponding
- mapping from the map. It does not support any operations which might add
- mappings, such as <code>put</code>, <code>putAll</code> or <code>replaceValues</code>.
+ <p>The multimap supports mapping removal, which removes the corresponding mapping from the map.
+ It does not support any operations which might add mappings, such as <code>put</code>, <code>putAll</code> or <code>replaceValues</code>.
 
- <p>The returned multimap will be serializable if the specified map is
- serializable.</div>
+ <p>The returned multimap will be serializable if the specified map is serializable.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>map</code> - the backing map for the returned multimap view</dd>
@@ -998,12 +903,12 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/do
 <ul class="blockList">
 <li class="blockList">
 <h4>transformValues</h4>
-<pre>public static&nbsp;&lt;K,V1,V2&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V2&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1138">transformValues</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V1&gt;&nbsp;fromMultimap,
+<pre>public static&nbsp;&lt;K,V1,V2&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V2&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1081">transformValues</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V1&gt;&nbsp;fromMultimap,
                                                        <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super V1,V2&gt;&nbsp;function)</pre>
-<div class="block">Returns a view of a multimap where each value is transformed by a function.
- All other properties of the multimap, such as iteration order, are left
- intact. For example, the code: <pre>   <code>
+<div class="block">Returns a view of a multimap where each value is transformed by a function. All other
+ properties of the multimap, such as iteration order, are left intact. For example, the code:
 
+ <pre><code>
  Multimap&lt;String, Integer&gt; multimap =
      ImmutableSetMultimap.of("a", 2, "b", -3, "b", -3, "a", 4, "c", 6);
  Function&lt;Integer, String&gt; square = new Function&lt;Integer, String&gt;() {
@@ -1013,33 +918,30 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/do
  };
  Multimap&lt;String, String&gt; transformed =
      Multimaps.transformValues(multimap, square);
-   System.out.println(transformed);</code></pre>
+   System.out.println(transformed);
+ </code></pre>
 
  ... prints <code>{a=[4, 16], b=[9, 9], c=[36]}</code>.
 
- <p>Changes in the underlying multimap are reflected in this view.
- Conversely, this view supports removal operations, and these are reflected
- in the underlying multimap.
+ <p>Changes in the underlying multimap are reflected in this view. Conversely, this view
+ supports removal operations, and these are reflected in the underlying multimap.
 
- <p>It's acceptable for the underlying multimap to contain null keys, and
- even null values provided that the function is capable of accepting null
- input.  The transformed multimap might contain null values, if the function
- sometimes gives a null result.
+ <p>It's acceptable for the underlying multimap to contain null keys, and even null values
+ provided that the function is capable of accepting null input. The transformed multimap might
+ contain null values, if the function sometimes gives a null result.
 
- <p>The returned multimap is not thread-safe or serializable, even if the
- underlying multimap is.  The <code>equals</code> and <code>hashCode</code> methods
- of the returned multimap are meaningless, since there is not a definition
- of <code>equals</code> or <code>hashCode</code> for general collections, and
- <code>get()</code> will return a general <code>Collection</code> as opposed to a
- <code>List</code> or a <code>Set</code>.
+ <p>The returned multimap is not thread-safe or serializable, even if the underlying multimap
+ is. The <code>equals</code> and <code>hashCode</code> methods of the returned multimap are meaningless,
+ since there is not a definition of <code>equals</code> or <code>hashCode</code> for general collections,
+ and <code>get()</code> will return a general <code>Collection</code> as opposed to a <code>List</code> or a
+ <code>Set</code>.
 
- <p>The function is applied lazily, invoked when needed. This is necessary
- for the returned multimap to be a view, but it means that the function will
- be applied many times for bulk operations like
- <a href="../../../../com/google/common/collect/Multimap.html#containsValue-java.lang.Object-"><code>Multimap.containsValue(java.lang.Object)</code></a> and <code>Multimap.toString()</code>. For this to
- perform well, <code>function</code> should be fast. To avoid lazy evaluation
- when the returned multimap doesn't need to be a view, copy the returned
- multimap into a new multimap of your choosing.</div>
+ <p>The function is applied lazily, invoked when needed. This is necessary for the returned
+ multimap to be a view, but it means that the function will be applied many times for bulk
+ operations like <a href="../../../../com/google/common/collect/Multimap.html#containsValue-java.lang.Object-"><code>Multimap.containsValue(java.lang.Object)</code></a> and <code>Multimap.toString()</code>. For this to
+ perform well, <code>function</code> should be fast. To avoid lazy evaluation when the returned
+ multimap doesn't need to be a view, copy the returned multimap into a new multimap of your
+ choosing.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -1052,56 +954,54 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/do
 <ul class="blockList">
 <li class="blockList">
 <h4>transformEntries</h4>
-<pre>public static&nbsp;&lt;K,V1,V2&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V2&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1200">transformEntries</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V1&gt;&nbsp;fromMap,
+<pre>public static&nbsp;&lt;K,V1,V2&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V2&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1139">transformEntries</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V1&gt;&nbsp;fromMap,
                                                         <a href="../../../../com/google/common/collect/Maps.EntryTransformer.html" title="interface in com.google.common.collect">Maps.EntryTransformer</a>&lt;? super K,? super V1,V2&gt;&nbsp;transformer)</pre>
-<div class="block">Returns a view of a multimap whose values are derived from the original
- multimap's entries. In contrast to <a href="../../../../com/google/common/collect/Multimaps.html#transformValues-com.google.common.collect.Multimap-com.google.common.base.Function-"><code>transformValues(com.google.common.collect.Multimap&lt;K, V1&gt;, com.google.common.base.Function&lt;? super V1, V2&gt;)</code></a>, this method's
- entry-transformation logic may depend on the key as well as the value.
+<div class="block">Returns a view of a multimap whose values are derived from the original multimap's entries. In
+ contrast to <a href="../../../../com/google/common/collect/Multimaps.html#transformValues-com.google.common.collect.Multimap-com.google.common.base.Function-"><code>transformValues(com.google.common.collect.Multimap&lt;K, V1&gt;, com.google.common.base.Function&lt;? super V1, V2&gt;)</code></a>, this method's entry-transformation logic may depend on
+ the key as well as the value.
 
- <p>All other properties of the transformed multimap, such as iteration
- order, are left intact. For example, the code: <pre>   <code>
+ <p>All other properties of the transformed multimap, such as iteration order, are left intact.
+ For example, the code:
 
-   SetMultimap&lt;String, Integer&gt; multimap =
-       ImmutableSetMultimap.of("a", 1, "a", 4, "b", -6);
-   EntryTransformer&lt;String, Integer, String&gt; transformer =
-       new EntryTransformer&lt;String, Integer, String&gt;() {
-         public String transformEntry(String key, Integer value) {
-            return (value &gt;= 0) ? key : "no" + key;
-         }
-       };
-   Multimap&lt;String, String&gt; transformed =
-       Multimaps.transformEntries(multimap, transformer);
-   System.out.println(transformed);</code></pre>
+ <pre><code>
+ SetMultimap&lt;String, Integer&gt; multimap =
+     ImmutableSetMultimap.of("a", 1, "a", 4, "b", -6);
+ EntryTransformer&lt;String, Integer, String&gt; transformer =
+     new EntryTransformer&lt;String, Integer, String&gt;() {
+       public String transformEntry(String key, Integer value) {
+          return (value &gt;= 0) ? key : "no" + key;
+       }
+     };
+ Multimap&lt;String, String&gt; transformed =
+     Multimaps.transformEntries(multimap, transformer);
+ System.out.println(transformed);
+ </code></pre>
 
  ... prints <code>{a=[a, a], b=[nob]}</code>.
 
- <p>Changes in the underlying multimap are reflected in this view.
- Conversely, this view supports removal operations, and these are reflected
- in the underlying multimap.
+ <p>Changes in the underlying multimap are reflected in this view. Conversely, this view
+ supports removal operations, and these are reflected in the underlying multimap.
 
- <p>It's acceptable for the underlying multimap to contain null keys and
- null values provided that the transformer is capable of accepting null
- inputs. The transformed multimap might contain null values if the
- transformer sometimes gives a null result.
+ <p>It's acceptable for the underlying multimap to contain null keys and null values provided
+ that the transformer is capable of accepting null inputs. The transformed multimap might
+ contain null values if the transformer sometimes gives a null result.
 
- <p>The returned multimap is not thread-safe or serializable, even if the
- underlying multimap is.  The <code>equals</code> and <code>hashCode</code> methods
- of the returned multimap are meaningless, since there is not a definition
- of <code>equals</code> or <code>hashCode</code> for general collections, and
- <code>get()</code> will return a general <code>Collection</code> as opposed to a
- <code>List</code> or a <code>Set</code>.
+ <p>The returned multimap is not thread-safe or serializable, even if the underlying multimap
+ is. The <code>equals</code> and <code>hashCode</code> methods of the returned multimap are meaningless,
+ since there is not a definition of <code>equals</code> or <code>hashCode</code> for general collections,
+ and <code>get()</code> will return a general <code>Collection</code> as opposed to a <code>List</code> or a
+ <code>Set</code>.
 
- <p>The transformer is applied lazily, invoked when needed. This is
- necessary for the returned multimap to be a view, but it means that the
- transformer will be applied many times for bulk operations like <a href="../../../../com/google/common/collect/Multimap.html#containsValue-java.lang.Object-"><code>Multimap.containsValue(java.lang.Object)</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang"><code>Object.toString()</code></a>. For this to perform
- well, <code>transformer</code> should be fast. To avoid lazy evaluation when the
- returned multimap doesn't need to be a view, copy the returned multimap
- into a new multimap of your choosing.
+ <p>The transformer is applied lazily, invoked when needed. This is necessary for the returned
+ multimap to be a view, but it means that the transformer will be applied many times for bulk
+ operations like <a href="../../../../com/google/common/collect/Multimap.html#containsValue-java.lang.Object-"><code>Multimap.containsValue(java.lang.Object)</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang"><code>Object.toString()</code></a>. For this to perform
+ well, <code>transformer</code> should be fast. To avoid lazy evaluation when the returned multimap
+ doesn't need to be a view, copy the returned multimap into a new multimap of your choosing.
 
- <p><b>Warning:</b> This method assumes that for any instance <code>k</code> of
- <code>EntryTransformer</code> key type <code>K</code>, <code>k.equals(k2)</code> implies
- that <code>k2</code> is also of type <code>K</code>. Using an <code>EntryTransformer</code> key type for which this may not hold, such as <code>ArrayList</code>, may risk a <code>ClassCastException</code> when calling methods on
- the transformed multimap.</div>
+ <p><b>Warning:</b> This method assumes that for any instance <code>k</code> of <code>EntryTransformer</code> key type <code>K</code>, <code>k.equals(k2)</code> implies that <code>k2</code> is also of
+ type <code>K</code>. Using an <code>EntryTransformer</code> key type for which this may not hold, such as
+ <code>ArrayList</code>, may risk a <code>ClassCastException</code> when calling methods on the
+ transformed multimap.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -1114,45 +1014,44 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/do
 <ul class="blockList">
 <li class="blockList">
 <h4>transformValues</h4>
-<pre>public static&nbsp;&lt;K,V1,V2&gt;&nbsp;<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V2&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1358">transformValues</a>(<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V1&gt;&nbsp;fromMultimap,
+<pre>public static&nbsp;&lt;K,V1,V2&gt;&nbsp;<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V2&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1296">transformValues</a>(<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V1&gt;&nbsp;fromMultimap,
                                                            <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super V1,V2&gt;&nbsp;function)</pre>
-<div class="block">Returns a view of a <code>ListMultimap</code> where each value is transformed by
- a function. All other properties of the multimap, such as iteration order,
- are left intact. For example, the code: <pre>   <code>
+<div class="block">Returns a view of a <code>ListMultimap</code> where each value is transformed by a function. All
+ other properties of the multimap, such as iteration order, are left intact. For example, the
+ code:
 
-   ListMultimap&lt;String, Integer&gt; multimap
-        = ImmutableListMultimap.of("a", 4, "a", 16, "b", 9);
-   Function&lt;Integer, Double&gt; sqrt =
-       new Function&lt;Integer, Double&gt;() {
-         public Double apply(Integer in) {
-           return Math.sqrt((int) in);
-         }
-       };
-   ListMultimap&lt;String, Double&gt; transformed = Multimaps.transformValues(map,
-       sqrt);
-   System.out.println(transformed);</code></pre>
+ <pre><code>
+ ListMultimap&lt;String, Integer&gt; multimap
+      = ImmutableListMultimap.of("a", 4, "a", 16, "b", 9);
+ Function&lt;Integer, Double&gt; sqrt =
+     new Function&lt;Integer, Double&gt;() {
+       public Double apply(Integer in) {
+         return Math.sqrt((int) in);
+       }
+     };
+ ListMultimap&lt;String, Double&gt; transformed = Multimaps.transformValues(map,
+     sqrt);
+ System.out.println(transformed);
+ </code></pre>
 
  ... prints <code>{a=[2.0, 4.0], b=[3.0]}</code>.
 
- <p>Changes in the underlying multimap are reflected in this view.
- Conversely, this view supports removal operations, and these are reflected
- in the underlying multimap.
+ <p>Changes in the underlying multimap are reflected in this view. Conversely, this view
+ supports removal operations, and these are reflected in the underlying multimap.
 
- <p>It's acceptable for the underlying multimap to contain null keys, and
- even null values provided that the function is capable of accepting null
- input.  The transformed multimap might contain null values, if the function
- sometimes gives a null result.
+ <p>It's acceptable for the underlying multimap to contain null keys, and even null values
+ provided that the function is capable of accepting null input. The transformed multimap might
+ contain null values, if the function sometimes gives a null result.
 
- <p>The returned multimap is not thread-safe or serializable, even if the
- underlying multimap is.
+ <p>The returned multimap is not thread-safe or serializable, even if the underlying multimap
+ is.
 
- <p>The function is applied lazily, invoked when needed. This is necessary
- for the returned multimap to be a view, but it means that the function will
- be applied many times for bulk operations like
- <a href="../../../../com/google/common/collect/Multimap.html#containsValue-java.lang.Object-"><code>Multimap.containsValue(java.lang.Object)</code></a> and <code>Multimap.toString()</code>. For this to
- perform well, <code>function</code> should be fast. To avoid lazy evaluation
- when the returned multimap doesn't need to be a view, copy the returned
- multimap into a new multimap of your choosing.</div>
+ <p>The function is applied lazily, invoked when needed. This is necessary for the returned
+ multimap to be a view, but it means that the function will be applied many times for bulk
+ operations like <a href="../../../../com/google/common/collect/Multimap.html#containsValue-java.lang.Object-"><code>Multimap.containsValue(java.lang.Object)</code></a> and <code>Multimap.toString()</code>. For this to
+ perform well, <code>function</code> should be fast. To avoid lazy evaluation when the returned
+ multimap doesn't need to be a view, copy the returned multimap into a new multimap of your
+ choosing.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -1165,53 +1064,51 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/do
 <ul class="blockList">
 <li class="blockList">
 <h4>transformEntries</h4>
-<pre>public static&nbsp;&lt;K,V1,V2&gt;&nbsp;<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V2&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1417">transformEntries</a>(<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V1&gt;&nbsp;fromMap,
+<pre>public static&nbsp;&lt;K,V1,V2&gt;&nbsp;<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V2&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1351">transformEntries</a>(<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V1&gt;&nbsp;fromMap,
                                                             <a href="../../../../com/google/common/collect/Maps.EntryTransformer.html" title="interface in com.google.common.collect">Maps.EntryTransformer</a>&lt;? super K,? super V1,V2&gt;&nbsp;transformer)</pre>
-<div class="block">Returns a view of a <code>ListMultimap</code> whose values are derived from the
- original multimap's entries. In contrast to
- <a href="../../../../com/google/common/collect/Multimaps.html#transformValues-com.google.common.collect.ListMultimap-com.google.common.base.Function-"><code>transformValues(ListMultimap, Function)</code></a>, this method's
+<div class="block">Returns a view of a <code>ListMultimap</code> whose values are derived from the original multimap's
+ entries. In contrast to <a href="../../../../com/google/common/collect/Multimaps.html#transformValues-com.google.common.collect.ListMultimap-com.google.common.base.Function-"><code>transformValues(ListMultimap, Function)</code></a>, this method's
  entry-transformation logic may depend on the key as well as the value.
 
- <p>All other properties of the transformed multimap, such as iteration
- order, are left intact. For example, the code: <pre>   <code>
+ <p>All other properties of the transformed multimap, such as iteration order, are left intact.
+ For example, the code:
 
-   Multimap&lt;String, Integer&gt; multimap =
-       ImmutableMultimap.of("a", 1, "a", 4, "b", 6);
-   EntryTransformer&lt;String, Integer, String&gt; transformer =
-       new EntryTransformer&lt;String, Integer, String&gt;() {
-         public String transformEntry(String key, Integer value) {
-           return key + value;
-         }
-       };
-   Multimap&lt;String, String&gt; transformed =
-       Multimaps.transformEntries(multimap, transformer);
-   System.out.println(transformed);</code></pre>
+ <pre><code>
+ Multimap&lt;String, Integer&gt; multimap =
+     ImmutableMultimap.of("a", 1, "a", 4, "b", 6);
+ EntryTransformer&lt;String, Integer, String&gt; transformer =
+     new EntryTransformer&lt;String, Integer, String&gt;() {
+       public String transformEntry(String key, Integer value) {
+         return key + value;
+       }
+     };
+ Multimap&lt;String, String&gt; transformed =
+     Multimaps.transformEntries(multimap, transformer);
+ System.out.println(transformed);
+ </code></pre>
 
  ... prints <code>{"a"=["a1", "a4"], "b"=["b6"]}</code>.
 
- <p>Changes in the underlying multimap are reflected in this view.
- Conversely, this view supports removal operations, and these are reflected
- in the underlying multimap.
+ <p>Changes in the underlying multimap are reflected in this view. Conversely, this view
+ supports removal operations, and these are reflected in the underlying multimap.
 
- <p>It's acceptable for the underlying multimap to contain null keys and
- null values provided that the transformer is capable of accepting null
- inputs. The transformed multimap might contain null values if the
- transformer sometimes gives a null result.
+ <p>It's acceptable for the underlying multimap to contain null keys and null values provided
+ that the transformer is capable of accepting null inputs. The transformed multimap might
+ contain null values if the transformer sometimes gives a null result.
 
- <p>The returned multimap is not thread-safe or serializable, even if the
- underlying multimap is.
+ <p>The returned multimap is not thread-safe or serializable, even if the underlying multimap
+ is.
 
- <p>The transformer is applied lazily, invoked when needed. This is
- necessary for the returned multimap to be a view, but it means that the
- transformer will be applied many times for bulk operations like <a href="../../../../com/google/common/collect/Multimap.html#containsValue-java.lang.Object-"><code>Multimap.containsValue(java.lang.Object)</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang"><code>Object.toString()</code></a>. For this to perform
- well, <code>transformer</code> should be fast. To avoid lazy evaluation when the
- returned multimap doesn't need to be a view, copy the returned multimap
- into a new multimap of your choosing.
+ <p>The transformer is applied lazily, invoked when needed. This is necessary for the returned
+ multimap to be a view, but it means that the transformer will be applied many times for bulk
+ operations like <a href="../../../../com/google/common/collect/Multimap.html#containsValue-java.lang.Object-"><code>Multimap.containsValue(java.lang.Object)</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang"><code>Object.toString()</code></a>. For this to perform
+ well, <code>transformer</code> should be fast. To avoid lazy evaluation when the returned multimap
+ doesn't need to be a view, copy the returned multimap into a new multimap of your choosing.
 
- <p><b>Warning:</b> This method assumes that for any instance <code>k</code> of
- <code>EntryTransformer</code> key type <code>K</code>, <code>k.equals(k2)</code> implies
- that <code>k2</code> is also of type <code>K</code>. Using an <code>EntryTransformer</code> key type for which this may not hold, such as <code>ArrayList</code>, may risk a <code>ClassCastException</code> when calling methods on
- the transformed multimap.</div>
+ <p><b>Warning:</b> This method assumes that for any instance <code>k</code> of <code>EntryTransformer</code> key type <code>K</code>, <code>k.equals(k2)</code> implies that <code>k2</code> is also of
+ type <code>K</code>. Using an <code>EntryTransformer</code> key type for which this may not hold, such as
+ <code>ArrayList</code>, may risk a <code>ClassCastException</code> when calling methods on the
+ transformed multimap.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -1224,41 +1121,40 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/do
 <ul class="blockList">
 <li class="blockList">
 <h4>index</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1488">index</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;V&gt;&nbsp;values,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1421">index</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;V&gt;&nbsp;values,
                                                      <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super V,K&gt;&nbsp;keyFunction)</pre>
-<div class="block">Creates an index <code>ImmutableListMultimap</code> that contains the results of
- applying a specified function to each item in an <code>Iterable</code> of
- values. Each value will be stored as a value in the resulting multimap,
- yielding a multimap with the same size as the input iterable. The key used
- to store that value in the multimap will be the result of calling the
- function on that value. The resulting multimap is created as an immutable
- snapshot. In the returned multimap, keys appear in the order they are first
- encountered, and the values corresponding to each key appear in the same
- order as they are encountered.
+<div class="block">Creates an index <code>ImmutableListMultimap</code> that contains the results of applying a
+ specified function to each item in an <code>Iterable</code> of values. Each value will be stored as
+ a value in the resulting multimap, yielding a multimap with the same size as the input
+ iterable. The key used to store that value in the multimap will be the result of calling the
+ function on that value. The resulting multimap is created as an immutable snapshot. In the
+ returned multimap, keys appear in the order they are first encountered, and the values
+ corresponding to each key appear in the same order as they are encountered.
 
- <p>For example, <pre>   <code>
+ <p>For example,
 
-   List&lt;String&gt; badGuys =
-       Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");
-   Function&lt;String, Integer&gt; stringLengthFunction = ...;
-   Multimap&lt;Integer, String&gt; index =
-       Multimaps.index(badGuys, stringLengthFunction);
-   System.out.println(index);</code></pre>
+ <pre><code>
+ List&lt;String&gt; badGuys =
+     Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");
+ Function&lt;String, Integer&gt; stringLengthFunction = ...;
+ Multimap&lt;Integer, String&gt; index =
+     Multimaps.index(badGuys, stringLengthFunction);
+ System.out.println(index);
+ </code></pre>
 
- <p>prints <pre>   <code>
+ <p>prints
 
-   {4=[Inky], 6=[Blinky], 5=[Pinky, Pinky, Clyde]}</code></pre>
+ <pre><code>
+ {4=[Inky], 6=[Blinky], 5=[Pinky, Pinky, Clyde]}
+ </code></pre>
 
- <p>The returned multimap is serializable if its keys and values are all
- serializable.</div>
+ <p>The returned multimap is serializable if its keys and values are all serializable.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>values</code> - the values to use when constructing the <code>ImmutableListMultimap</code></dd>
 <dd><code>keyFunction</code> - the function used to produce the key for each value</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>ImmutableListMultimap</code> mapping the result of evaluating the
-     function <code>keyFunction</code> on each value in the input collection to
-     that value</dd>
+<dd><code>ImmutableListMultimap</code> mapping the result of evaluating the function <code>keyFunction</code> on each value in the input collection to that value</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if any element of <code>values</code> is <code>null</code>, or if <code>keyFunction</code> produces <code>null</code> for any key</dd>
 </dl>
@@ -1270,41 +1166,40 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/do
 <ul class="blockList">
 <li class="blockList">
 <h4>index</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1530">index</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;V&gt;&nbsp;values,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1462">index</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;V&gt;&nbsp;values,
                                                      <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super V,K&gt;&nbsp;keyFunction)</pre>
-<div class="block">Creates an index <code>ImmutableListMultimap</code> that contains the results of
- applying a specified function to each item in an <code>Iterator</code> of
- values. Each value will be stored as a value in the resulting multimap,
- yielding a multimap with the same size as the input iterator. The key used
- to store that value in the multimap will be the result of calling the
- function on that value. The resulting multimap is created as an immutable
- snapshot. In the returned multimap, keys appear in the order they are first
- encountered, and the values corresponding to each key appear in the same
- order as they are encountered.
+<div class="block">Creates an index <code>ImmutableListMultimap</code> that contains the results of applying a
+ specified function to each item in an <code>Iterator</code> of values. Each value will be stored as
+ a value in the resulting multimap, yielding a multimap with the same size as the input
+ iterator. The key used to store that value in the multimap will be the result of calling the
+ function on that value. The resulting multimap is created as an immutable snapshot. In the
+ returned multimap, keys appear in the order they are first encountered, and the values
+ corresponding to each key appear in the same order as they are encountered.
 
- <p>For example, <pre>   <code>
+ <p>For example,
 
-   List&lt;String&gt; badGuys =
-       Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");
-   Function&lt;String, Integer&gt; stringLengthFunction = ...;
-   Multimap&lt;Integer, String&gt; index =
-       Multimaps.index(badGuys.iterator(), stringLengthFunction);
-   System.out.println(index);</code></pre>
+ <pre><code>
+ List&lt;String&gt; badGuys =
+     Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");
+ Function&lt;String, Integer&gt; stringLengthFunction = ...;
+ Multimap&lt;Integer, String&gt; index =
+     Multimaps.index(badGuys.iterator(), stringLengthFunction);
+ System.out.println(index);
+ </code></pre>
 
- <p>prints <pre>   <code>
+ <p>prints
 
-   {4=[Inky], 6=[Blinky], 5=[Pinky, Pinky, Clyde]}</code></pre>
+ <pre><code>
+ {4=[Inky], 6=[Blinky], 5=[Pinky, Pinky, Clyde]}
+ </code></pre>
 
- <p>The returned multimap is serializable if its keys and values are all
- serializable.</div>
+ <p>The returned multimap is serializable if its keys and values are all serializable.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>values</code> - the values to use when constructing the <code>ImmutableListMultimap</code></dd>
 <dd><code>keyFunction</code> - the function used to produce the key for each value</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>ImmutableListMultimap</code> mapping the result of evaluating the
-     function <code>keyFunction</code> on each value in the input collection to
-     that value</dd>
+<dd><code>ImmutableListMultimap</code> mapping the result of evaluating the function <code>keyFunction</code> on each value in the input collection to that value</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if any element of <code>values</code> is <code>null</code>, or if <code>keyFunction</code> produces <code>null</code> for any key</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -1318,34 +1213,29 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/do
 <ul class="blockList">
 <li class="blockList">
 <h4>filterKeys</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1830">filterKeys</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;unfiltered,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1755">filterKeys</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;unfiltered,
                                              <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super K&gt;&nbsp;keyPredicate)</pre>
-<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose keys
- satisfy a predicate. The returned multimap is a live view of
- <code>unfiltered</code>; changes to one affect the other.
+<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose keys satisfy a
+ predicate. The returned multimap is a live view of <code>unfiltered</code>; changes to one affect
+ the other.
 
- <p>The resulting multimap's views have iterators that don't support
- <code>remove()</code>, but all other methods are supported by the multimap and
- its views. When adding a key that doesn't satisfy the predicate, the
- multimap's <code>put()</code>, <code>putAll()</code>, and <code>replaceValues()</code>
- methods throw an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>.
+ <p>The resulting multimap's views have iterators that don't support <code>remove()</code>, but all
+ other methods are supported by the multimap and its views. When adding a key that doesn't
+ satisfy the predicate, the multimap's <code>put()</code>, <code>putAll()</code>, and <code>replaceValues()</code> methods throw an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>.
 
- <p>When methods such as <code>removeAll()</code> and <code>clear()</code> are called on
- the filtered multimap or its views, only mappings whose keys satisfy the
- filter will be removed from the underlying multimap.
+ <p>When methods such as <code>removeAll()</code> and <code>clear()</code> are called on the filtered
+ multimap or its views, only mappings whose keys satisfy the filter will be removed from the
+ underlying multimap.
 
- <p>The returned multimap isn't threadsafe or serializable, even if
- <code>unfiltered</code> is.
+ <p>The returned multimap isn't threadsafe or serializable, even if <code>unfiltered</code> is.
 
- <p>Many of the filtered multimap's methods, such as <code>size()</code>, iterate
- across every key/value mapping in the underlying multimap and determine
- which satisfy the filter. When a live view is <i>not</i> needed, it may be
- faster to copy the filtered multimap and use the copy.
+ <p>Many of the filtered multimap's methods, such as <code>size()</code>, iterate across every
+ key/value mapping in the underlying multimap and determine which satisfy the filter. When a
+ live view is <i>not</i> needed, it may be faster to copy the filtered multimap and use the
+ copy.
 
- <p><b>Warning:</b> <code>keyPredicate</code> must be <i>consistent with equals</i>,
- as documented at <a href="../../../../com/google/common/base/Predicate.html#apply-T-"><code>Predicate.apply(T)</code></a>. Do not provide a predicate such
- as <code>Predicates.instanceOf(ArrayList.class)</code>, which is inconsistent
- with equals.</div>
+ <p><b>Warning:</b> <code>keyPredicate</code> must be <i>consistent with equals</i>, as documented at
+ <a href="../../../../com/google/common/base/Predicate.html#apply-T-"><code>Predicate.apply(T)</code></a>. Do not provide a predicate such as <code>Predicates.instanceOf(ArrayList.class)</code>, which is inconsistent with equals.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>11.0</dd>
@@ -1358,34 +1248,29 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/do
 <ul class="blockList">
 <li class="blockList">
 <h4>filterKeys</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1878">filterKeys</a>(<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;unfiltered,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1800">filterKeys</a>(<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;unfiltered,
                                                 <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super K&gt;&nbsp;keyPredicate)</pre>
-<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose keys
- satisfy a predicate. The returned multimap is a live view of
- <code>unfiltered</code>; changes to one affect the other.
+<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose keys satisfy a
+ predicate. The returned multimap is a live view of <code>unfiltered</code>; changes to one affect
+ the other.
 
- <p>The resulting multimap's views have iterators that don't support
- <code>remove()</code>, but all other methods are supported by the multimap and
- its views. When adding a key that doesn't satisfy the predicate, the
- multimap's <code>put()</code>, <code>putAll()</code>, and <code>replaceValues()</code>
- methods throw an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>.
+ <p>The resulting multimap's views have iterators that don't support <code>remove()</code>, but all
+ other methods are supported by the multimap and its views. When adding a key that doesn't
+ satisfy the predicate, the multimap's <code>put()</code>, <code>putAll()</code>, and <code>replaceValues()</code> methods throw an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>.
 
- <p>When methods such as <code>removeAll()</code> and <code>clear()</code> are called on
- the filtered multimap or its views, only mappings whose keys satisfy the
- filter will be removed from the underlying multimap.
+ <p>When methods such as <code>removeAll()</code> and <code>clear()</code> are called on the filtered
+ multimap or its views, only mappings whose keys satisfy the filter will be removed from the
+ underlying multimap.
 
- <p>The returned multimap isn't threadsafe or serializable, even if
- <code>unfiltered</code> is.
+ <p>The returned multimap isn't threadsafe or serializable, even if <code>unfiltered</code> is.
 
- <p>Many of the filtered multimap's methods, such as <code>size()</code>, iterate
- across every key/value mapping in the underlying multimap and determine
- which satisfy the filter. When a live view is <i>not</i> needed, it may be
- faster to copy the filtered multimap and use the copy.
+ <p>Many of the filtered multimap's methods, such as <code>size()</code>, iterate across every
+ key/value mapping in the underlying multimap and determine which satisfy the filter. When a
+ live view is <i>not</i> needed, it may be faster to copy the filtered multimap and use the
+ copy.
 
- <p><b>Warning:</b> <code>keyPredicate</code> must be <i>consistent with equals</i>,
- as documented at <a href="../../../../com/google/common/base/Predicate.html#apply-T-"><code>Predicate.apply(T)</code></a>. Do not provide a predicate such
- as <code>Predicates.instanceOf(ArrayList.class)</code>, which is inconsistent
- with equals.</div>
+ <p><b>Warning:</b> <code>keyPredicate</code> must be <i>consistent with equals</i>, as documented at
+ <a href="../../../../com/google/common/base/Predicate.html#apply-T-"><code>Predicate.apply(T)</code></a>. Do not provide a predicate such as <code>Predicates.instanceOf(ArrayList.class)</code>, which is inconsistent with equals.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>14.0</dd>
@@ -1398,34 +1283,29 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/do
 <ul class="blockList">
 <li class="blockList">
 <h4>filterKeys</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1922">filterKeys</a>(<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;unfiltered,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1841">filterKeys</a>(<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;unfiltered,
                                                  <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super K&gt;&nbsp;keyPredicate)</pre>
-<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose keys
- satisfy a predicate. The returned multimap is a live view of
- <code>unfiltered</code>; changes to one affect the other.
+<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose keys satisfy a
+ predicate. The returned multimap is a live view of <code>unfiltered</code>; changes to one affect
+ the other.
 
- <p>The resulting multimap's views have iterators that don't support
- <code>remove()</code>, but all other methods are supported by the multimap and
- its views. When adding a key that doesn't satisfy the predicate, the
- multimap's <code>put()</code>, <code>putAll()</code>, and <code>replaceValues()</code>
- methods throw an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>.
+ <p>The resulting multimap's views have iterators that don't support <code>remove()</code>, but all
+ other methods are supported by the multimap and its views. When adding a key that doesn't
+ satisfy the predicate, the multimap's <code>put()</code>, <code>putAll()</code>, and <code>replaceValues()</code> methods throw an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>.
 
- <p>When methods such as <code>removeAll()</code> and <code>clear()</code> are called on
- the filtered multimap or its views, only mappings whose keys satisfy the
- filter will be removed from the underlying multimap.
+ <p>When methods such as <code>removeAll()</code> and <code>clear()</code> are called on the filtered
+ multimap or its views, only mappings whose keys satisfy the filter will be removed from the
+ underlying multimap.
 
- <p>The returned multimap isn't threadsafe or serializable, even if
- <code>unfiltered</code> is.
+ <p>The returned multimap isn't threadsafe or serializable, even if <code>unfiltered</code> is.
 
- <p>Many of the filtered multimap's methods, such as <code>size()</code>, iterate
- across every key/value mapping in the underlying multimap and determine
- which satisfy the filter. When a live view is <i>not</i> needed, it may be
- faster to copy the filtered multimap and use the copy.
+ <p>Many of the filtered multimap's methods, such as <code>size()</code>, iterate across every
+ key/value mapping in the underlying multimap and determine which satisfy the filter. When a
+ live view is <i>not</i> needed, it may be faster to copy the filtered multimap and use the
+ copy.
 
- <p><b>Warning:</b> <code>keyPredicate</code> must be <i>consistent with equals</i>,
- as documented at <a href="../../../../com/google/common/base/Predicate.html#apply-T-"><code>Predicate.apply(T)</code></a>. Do not provide a predicate such
- as <code>Predicates.instanceOf(ArrayList.class)</code>, which is inconsistent
- with equals.</div>
+ <p><b>Warning:</b> <code>keyPredicate</code> must be <i>consistent with equals</i>, as documented at
+ <a href="../../../../com/google/common/base/Predicate.html#apply-T-"><code>Predicate.apply(T)</code></a>. Do not provide a predicate such as <code>Predicates.instanceOf(ArrayList.class)</code>, which is inconsistent with equals.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>14.0</dd>
@@ -1438,34 +1318,29 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/do
 <ul class="blockList">
 <li class="blockList">
 <h4>filterValues</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1963">filterValues</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;unfiltered,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1879">filterValues</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;unfiltered,
                                                <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super V&gt;&nbsp;valuePredicate)</pre>
-<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose values
- satisfy a predicate. The returned multimap is a live view of
- <code>unfiltered</code>; changes to one affect the other.
+<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose values satisfy a
+ predicate. The returned multimap is a live view of <code>unfiltered</code>; changes to one affect
+ the other.
 
- <p>The resulting multimap's views have iterators that don't support
- <code>remove()</code>, but all other methods are supported by the multimap and
- its views. When adding a value that doesn't satisfy the predicate, the
- multimap's <code>put()</code>, <code>putAll()</code>, and <code>replaceValues()</code>
- methods throw an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>.
+ <p>The resulting multimap's views have iterators that don't support <code>remove()</code>, but all
+ other methods are supported by the multimap and its views. When adding a value that doesn't
+ satisfy the predicate, the multimap's <code>put()</code>, <code>putAll()</code>, and <code>replaceValues()</code> methods throw an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>.
 
- <p>When methods such as <code>removeAll()</code> and <code>clear()</code> are called on
- the filtered multimap or its views, only mappings whose value satisfy the
- filter will be removed from the underlying multimap.
+ <p>When methods such as <code>removeAll()</code> and <code>clear()</code> are called on the filtered
+ multimap or its views, only mappings whose value satisfy the filter will be removed from the
+ underlying multimap.
 
- <p>The returned multimap isn't threadsafe or serializable, even if
- <code>unfiltered</code> is.
+ <p>The returned multimap isn't threadsafe or serializable, even if <code>unfiltered</code> is.
 
- <p>Many of the filtered multimap's methods, such as <code>size()</code>, iterate
- across every key/value mapping in the underlying multimap and determine
- which satisfy the filter. When a live view is <i>not</i> needed, it may be
- faster to copy the filtered multimap and use the copy.
+ <p>Many of the filtered multimap's methods, such as <code>size()</code>, iterate across every
+ key/value mapping in the underlying multimap and determine which satisfy the filter. When a
+ live view is <i>not</i> needed, it may be faster to copy the filtered multimap and use the
+ copy.
 
- <p><b>Warning:</b> <code>valuePredicate</code> must be <i>consistent with
- equals</i>, as documented at <a href="../../../../com/google/common/base/Predicate.html#apply-T-"><code>Predicate.apply(T)</code></a>. Do not provide a
- predicate such as <code>Predicates.instanceOf(ArrayList.class)</code>, which is
- inconsistent with equals.</div>
+ <p><b>Warning:</b> <code>valuePredicate</code> must be <i>consistent with equals</i>, as documented
+ at <a href="../../../../com/google/common/base/Predicate.html#apply-T-"><code>Predicate.apply(T)</code></a>. Do not provide a predicate such as <code>Predicates.instanceOf(ArrayList.class)</code>, which is inconsistent with equals.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>11.0</dd>
@@ -1478,34 +1353,29 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/do
 <ul class="blockList">
 <li class="blockList">
 <h4>filterValues</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1998">filterValues</a>(<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;unfiltered,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1911">filterValues</a>(<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;unfiltered,
                                                   <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super V&gt;&nbsp;valuePredicate)</pre>
-<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose values
- satisfy a predicate. The returned multimap is a live view of
- <code>unfiltered</code>; changes to one affect the other.
+<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose values satisfy a
+ predicate. The returned multimap is a live view of <code>unfiltered</code>; changes to one affect
+ the other.
 
- <p>The resulting multimap's views have iterators that don't support
- <code>remove()</code>, but all other methods are supported by the multimap and
- its views. When adding a value that doesn't satisfy the predicate, the
- multimap's <code>put()</code>, <code>putAll()</code>, and <code>replaceValues()</code>
- methods throw an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>.
+ <p>The resulting multimap's views have iterators that don't support <code>remove()</code>, but all
+ other methods are supported by the multimap and its views. When adding a value that doesn't
+ satisfy the predicate, the multimap's <code>put()</code>, <code>putAll()</code>, and <code>replaceValues()</code> methods throw an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>.
 
- <p>When methods such as <code>removeAll()</code> and <code>clear()</code> are called on
- the filtered multimap or its views, only mappings whose value satisfy the
- filter will be removed from the underlying multimap.
+ <p>When methods such as <code>removeAll()</code> and <code>clear()</code> are called on the filtered
+ multimap or its views, only mappings whose value satisfy the filter will be removed from the
+ underlying multimap.
 
- <p>The returned multimap isn't threadsafe or serializable, even if
- <code>unfiltered</code> is.
+ <p>The returned multimap isn't threadsafe or serializable, even if <code>unfiltered</code> is.
 
- <p>Many of the filtered multimap's methods, such as <code>size()</code>, iterate
- across every key/value mapping in the underlying multimap and determine
- which satisfy the filter. When a live view is <i>not</i> needed, it may be
- faster to copy the filtered multimap and use the copy.
+ <p>Many of the filtered multimap's methods, such as <code>size()</code>, iterate across every
+ key/value mapping in the underlying multimap and determine which satisfy the filter. When a
+ live view is <i>not</i> needed, it may be faster to copy the filtered multimap and use the
+ copy.
 
- <p><b>Warning:</b> <code>valuePredicate</code> must be <i>consistent with
- equals</i>, as documented at <a href="../../../../com/google/common/base/Predicate.html#apply-T-"><code>Predicate.apply(T)</code></a>. Do not provide a
- predicate such as <code>Predicates.instanceOf(ArrayList.class)</code>, which is
- inconsistent with equals.</div>
+ <p><b>Warning:</b> <code>valuePredicate</code> must be <i>consistent with equals</i>, as documented
+ at <a href="../../../../com/google/common/base/Predicate.html#apply-T-"><code>Predicate.apply(T)</code></a>. Do not provide a predicate such as <code>Predicates.instanceOf(ArrayList.class)</code>, which is inconsistent with equals.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>14.0</dd>
@@ -1518,32 +1388,28 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/do
 <ul class="blockList">
 <li class="blockList">
 <h4>filterEntries</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.2031">filterEntries</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;unfiltered,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1941">filterEntries</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;unfiltered,
                                                 <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;K,V&gt;&gt;&nbsp;entryPredicate)</pre>
-<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> that
- satisfy a predicate. The returned multimap is a live view of
- <code>unfiltered</code>; changes to one affect the other.
+<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> that satisfy a predicate. The
+ returned multimap is a live view of <code>unfiltered</code>; changes to one affect the other.
 
- <p>The resulting multimap's views have iterators that don't support
- <code>remove()</code>, but all other methods are supported by the multimap and
- its views. When adding a key/value pair that doesn't satisfy the predicate,
- multimap's <code>put()</code>, <code>putAll()</code>, and <code>replaceValues()</code>
- methods throw an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>.
+ <p>The resulting multimap's views have iterators that don't support <code>remove()</code>, but all
+ other methods are supported by the multimap and its views. When adding a key/value pair that
+ doesn't satisfy the predicate, multimap's <code>put()</code>, <code>putAll()</code>, and <code>replaceValues()</code> methods throw an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>.
 
- <p>When methods such as <code>removeAll()</code> and <code>clear()</code> are called on
- the filtered multimap or its views, only mappings whose keys satisfy the
- filter will be removed from the underlying multimap.
+ <p>When methods such as <code>removeAll()</code> and <code>clear()</code> are called on the filtered
+ multimap or its views, only mappings whose keys satisfy the filter will be removed from the
+ underlying multimap.
 
- <p>The returned multimap isn't threadsafe or serializable, even if
- <code>unfiltered</code> is.
+ <p>The returned multimap isn't threadsafe or serializable, even if <code>unfiltered</code> is.
 
- <p>Many of the filtered multimap's methods, such as <code>size()</code>, iterate
- across every key/value mapping in the underlying multimap and determine
- which satisfy the filter. When a live view is <i>not</i> needed, it may be
- faster to copy the filtered multimap and use the copy.
+ <p>Many of the filtered multimap's methods, such as <code>size()</code>, iterate across every
+ key/value mapping in the underlying multimap and determine which satisfy the filter. When a
+ live view is <i>not</i> needed, it may be faster to copy the filtered multimap and use the
+ copy.
 
- <p><b>Warning:</b> <code>entryPredicate</code> must be <i>consistent with
- equals</i>, as documented at <a href="../../../../com/google/common/base/Predicate.html#apply-T-"><code>Predicate.apply(T)</code></a>.</div>
+ <p><b>Warning:</b> <code>entryPredicate</code> must be <i>consistent with equals</i>, as documented
+ at <a href="../../../../com/google/common/base/Predicate.html#apply-T-"><code>Predicate.apply(T)</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>11.0</dd>
@@ -1556,32 +1422,28 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/do
 <ul class="blockListLast">
 <li class="blockList">
 <h4>filterEntries</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.2070">filterEntries</a>(<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;unfiltered,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimaps.html#line.1977">filterEntries</a>(<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;unfiltered,
                                                    <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;K,V&gt;&gt;&nbsp;entryPredicate)</pre>
-<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> that
- satisfy a predicate. The returned multimap is a live view of
- <code>unfiltered</code>; changes to one affect the other.
+<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> that satisfy a predicate. The
+ returned multimap is a live view of <code>unfiltered</code>; changes to one affect the other.
 
- <p>The resulting multimap's views have iterators that don't support
- <code>remove()</code>, but all other methods are supported by the multimap and
- its views. When adding a key/value pair that doesn't satisfy the predicate,
- multimap's <code>put()</code>, <code>putAll()</code>, and <code>replaceValues()</code>
- methods throw an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>.
+ <p>The resulting multimap's views have iterators that don't support <code>remove()</code>, but all
+ other methods are supported by the multimap and its views. When adding a key/value pair that
+ doesn't satisfy the predicate, multimap's <code>put()</code>, <code>putAll()</code>, and <code>replaceValues()</code> methods throw an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>.
 
- <p>When methods such as <code>removeAll()</code> and <code>clear()</code> are called on
- the filtered multimap or its views, only mappings whose keys satisfy the
- filter will be removed from the underlying multimap.
+ <p>When methods such as <code>removeAll()</code> and <code>clear()</code> are called on the filtered
+ multimap or its views, only mappings whose keys satisfy the filter will be removed from the
+ underlying multimap.
 
- <p>The returned multimap isn't threadsafe or serializable, even if
- <code>unfiltered</code> is.
+ <p>The returned multimap isn't threadsafe or serializable, even if <code>unfiltered</code> is.
 
- <p>Many of the filtered multimap's methods, such as <code>size()</code>, iterate
- across every key/value mapping in the underlying multimap and determine
- which satisfy the filter. When a live view is <i>not</i> needed, it may be
- faster to copy the filtered multimap and use the copy.
+ <p>Many of the filtered multimap's methods, such as <code>size()</code>, iterate across every
+ key/value mapping in the underlying multimap and determine which satisfy the filter. When a
+ live view is <i>not</i> needed, it may be faster to copy the filtered multimap and use the
+ copy.
 
- <p><b>Warning:</b> <code>entryPredicate</code> must be <i>consistent with
- equals</i>, as documented at <a href="../../../../com/google/common/base/Predicate.html#apply-T-"><code>Predicate.apply(T)</code></a>.</div>
+ <p><b>Warning:</b> <code>entryPredicate</code> must be <i>consistent with equals</i>, as documented
+ at <a href="../../../../com/google/common/base/Predicate.html#apply-T-"><code>Predicate.apply(T)</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>14.0</dd>

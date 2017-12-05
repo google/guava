@@ -281,12 +281,10 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>mapping</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/math/LinearTransformation.LinearTransformationBuilder.html" title="class in com.google.common.math">LinearTransformation.LinearTransformationBuilder</a>&nbsp;<a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line.46">mapping</a>(double&nbsp;x1,
+<pre>public static&nbsp;<a href="../../../../com/google/common/math/LinearTransformation.LinearTransformationBuilder.html" title="class in com.google.common.math">LinearTransformation.LinearTransformationBuilder</a>&nbsp;<a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line.45">mapping</a>(double&nbsp;x1,
                                                                        double&nbsp;y1)</pre>
 <div class="block">Start building an instance which maps <code>x = x1</code> to <code>y = y1</code>. Both arguments must be
- finite. Call either <a href="../../../../com/google/common/math/LinearTransformation.LinearTransformationBuilder.html#and-double-double-"><code>LinearTransformation.LinearTransformationBuilder.and(double, double)</code></a> or
- <a href="../../../../com/google/common/math/LinearTransformation.LinearTransformationBuilder.html#withSlope-double-"><code>LinearTransformation.LinearTransformationBuilder.withSlope(double)</code></a> on the returned object to finish building the
- instance.</div>
+ finite. Call either <a href="../../../../com/google/common/math/LinearTransformation.LinearTransformationBuilder.html#and-double-double-"><code>LinearTransformation.LinearTransformationBuilder.and(double, double)</code></a> or <a href="../../../../com/google/common/math/LinearTransformation.LinearTransformationBuilder.html#withSlope-double-"><code>LinearTransformation.LinearTransformationBuilder.withSlope(double)</code></a> on the returned object to finish building the instance.</div>
 </li>
 </ul>
 <a name="vertical-double-">
@@ -295,7 +293,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>vertical</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/math/LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a>&nbsp;<a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line.105">vertical</a>(double&nbsp;x)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/math/LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a>&nbsp;<a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line.104">vertical</a>(double&nbsp;x)</pre>
 <div class="block">Builds an instance representing a vertical transformation with a constant value of <code>x</code>.
  (The inverse of this will be a horizontal transformation.)</div>
 </li>
@@ -306,7 +304,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>horizontal</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/math/LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a>&nbsp;<a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line.114">horizontal</a>(double&nbsp;y)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/math/LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a>&nbsp;<a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line.113">horizontal</a>(double&nbsp;y)</pre>
 <div class="block">Builds an instance representing a horizontal transformation with a constant value of <code>y</code>.
  (The inverse of this will be a vertical transformation.)</div>
 </li>
@@ -317,11 +315,10 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>forNaN</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/math/LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a>&nbsp;<a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line.126">forNaN</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/math/LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a>&nbsp;<a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line.125">forNaN</a>()</pre>
 <div class="block">Builds an instance for datasets which contains <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>. The <a href="../../../../com/google/common/math/LinearTransformation.html#isHorizontal--"><code>isHorizontal()</code></a>
- and <a href="../../../../com/google/common/math/LinearTransformation.html#isVertical--"><code>isVertical()</code></a> methods return <code>false</code> and the <a href="../../../../com/google/common/math/LinearTransformation.html#slope--"><code>slope()</code></a>, and
- <a href="../../../../com/google/common/math/LinearTransformation.html#transform-double-"><code>transform(double)</code></a> methods all return <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>. The <a href="../../../../com/google/common/math/LinearTransformation.html#inverse--"><code>inverse()</code></a> method returns
- the same instance.</div>
+ and <a href="../../../../com/google/common/math/LinearTransformation.html#isVertical--"><code>isVertical()</code></a> methods return <code>false</code> and the <a href="../../../../com/google/common/math/LinearTransformation.html#slope--"><code>slope()</code></a>, and <a href="../../../../com/google/common/math/LinearTransformation.html#transform-double-"><code>transform(double)</code></a> methods all return <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>. The <a href="../../../../com/google/common/math/LinearTransformation.html#inverse--"><code>inverse()</code></a> method returns the same
+ instance.</div>
 </li>
 </ul>
 <a name="isVertical--">
@@ -330,7 +327,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>isVertical</h4>
-<pre>public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line.133">isVertical</a>()</pre>
+<pre>public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line.130">isVertical</a>()</pre>
 <div class="block">Returns whether this is a vertical transformation.</div>
 </li>
 </ul>
@@ -340,7 +337,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>isHorizontal</h4>
-<pre>public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line.138">isHorizontal</a>()</pre>
+<pre>public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line.133">isHorizontal</a>()</pre>
 <div class="block">Returns whether this is a horizontal transformation.</div>
 </li>
 </ul>
@@ -350,10 +347,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>slope</h4>
-<pre>public abstract&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line.145">slope</a>()</pre>
+<pre>public abstract&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line.140">slope</a>()</pre>
 <div class="block">Returns the slope of the transformation, i.e. the rate of change of <code>y</code> with respect to
- <code>x</code>. This must not be called on a vertical transformation (i.e. when
- <a href="../../../../com/google/common/math/LinearTransformation.html#isVertical--"><code>isVertical()</code></a> is true).</div>
+ <code>x</code>. This must not be called on a vertical transformation (i.e. when <a href="../../../../com/google/common/math/LinearTransformation.html#isVertical--"><code>isVertical()</code></a> is true).</div>
 </li>
 </ul>
 <a name="transform-double-">
@@ -362,7 +358,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>transform</h4>
-<pre>public abstract&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line.151">transform</a>(double&nbsp;x)</pre>
+<pre>public abstract&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line.146">transform</a>(double&nbsp;x)</pre>
 <div class="block">Returns the <code>y</code> corresponding to the given <code>x</code>. This must not be called on a
  vertical transformation (i.e. when <a href="../../../../com/google/common/math/LinearTransformation.html#isVertical--"><code>isVertical()</code></a> is true).</div>
 </li>
@@ -373,7 +369,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>inverse</h4>
-<pre>public abstract&nbsp;<a href="../../../../com/google/common/math/LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a>&nbsp;<a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line.162">inverse</a>()</pre>
+<pre>public abstract&nbsp;<a href="../../../../com/google/common/math/LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a>&nbsp;<a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line.157">inverse</a>()</pre>
 <div class="block">Returns the inverse linear transformation. The inverse of a horizontal transformation is a
  vertical transformation, and vice versa. The inverse of the <a href="../../../../com/google/common/math/LinearTransformation.html#forNaN--"><code>forNaN()</code></a> transformation is
  itself. In all other cases, the inverse is a transformation such that applying both the

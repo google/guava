@@ -115,8 +115,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <div class="block">Static utility methods pertaining to <code>long</code> primitives, that are not already found in
  either <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang"><code>Long</code></a> or <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Arrays.html?is-external=true" title="class or interface in java.util"><code>Arrays</code></a>.
 
- <p>See the Guava User Guide article on
- <a href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.</div>
+ <p>See the Guava User Guide article on <a
+ href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>1.0</dd>
@@ -235,8 +235,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>static int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Longs.html#hashCode-long-">hashCode</a></span>(long&nbsp;value)</code>
-<div class="block">Returns a hash code for <code>value</code>; equal to the result of invoking
- <code>((Long) value).hashCode()</code>.</div>
+<div class="block">Returns a hash code for <code>value</code>; equal to the result of invoking <code>((Long)
+ value).hashCode()</code>.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
@@ -250,7 +250,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <td class="colFirst"><code>static int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Longs.html#indexOf-long:A-long:A-">indexOf</a></span>(long[]&nbsp;array,
        long[]&nbsp;target)</code>
-<div class="block">Returns the start position of the first occurrence of the specified <code>target</code> within <code>array</code>, or <code>-1</code> if there is no such occurrence.</div>
+<div class="block">Returns the start position of the first occurrence of the specified <code>target</code> within
+ <code>array</code>, or <code>-1</code> if there is no such occurrence.</div>
 </td>
 </tr>
 <tr id="i11" class="rowColor">
@@ -319,8 +320,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <tr id="i20" class="altColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/Longs.html#stringConverter--">stringConverter</a></span>()</code>
-<div class="block">Returns a serializable converter object that converts between strings and longs using
- <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#decode-java.lang.String-" title="class or interface in java.lang"><code>Long.decode(java.lang.String)</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#toString--" title="class or interface in java.lang"><code>Long.toString()</code></a>.</div>
+<div class="block">Returns a serializable converter object that converts between strings and longs using <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#decode-java.lang.String-" title="class or interface in java.lang"><code>Long.decode(java.lang.String)</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#toString--" title="class or interface in java.lang"><code>Long.toString()</code></a>.</div>
 </td>
 </tr>
 <tr id="i21" class="rowColor">
@@ -419,12 +419,11 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>hashCode</h4>
 <pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.77">hashCode</a>(long&nbsp;value)</pre>
-<div class="block">Returns a hash code for <code>value</code>; equal to the result of invoking
- <code>((Long) value).hashCode()</code>.
+<div class="block">Returns a hash code for <code>value</code>; equal to the result of invoking <code>((Long)
+ value).hashCode()</code>.
 
  <p>This method always return the value specified by <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#hashCode--" title="class or interface in java.lang"><code>Long.hashCode()</code></a> in java, which
- might be different from <code>((Long) value).hashCode()</code> in GWT because
- <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#hashCode--" title="class or interface in java.lang"><code>Long.hashCode()</code></a> in GWT does not obey the JRE contract.
+ might be different from <code>((Long) value).hashCode()</code> in GWT because <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#hashCode--" title="class or interface in java.lang"><code>Long.hashCode()</code></a> in GWT does not obey the JRE contract.
 
  <p><b>Java 8 users:</b> use <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#hashCode-long-" title="class or interface in java.lang"><code>Long.hashCode(long)</code></a> instead.</div>
 <dl>
@@ -464,7 +463,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
-<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.105">contains</a>(long[]&nbsp;array,
+<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.104">contains</a>(long[]&nbsp;array,
                                long&nbsp;target)</pre>
 <div class="block">Returns <code>true</code> if <code>target</code> is present as an element anywhere in <code>array</code>.</div>
 <dl>
@@ -482,7 +481,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>indexOf</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.122">indexOf</a>(long[]&nbsp;array,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.121">indexOf</a>(long[]&nbsp;array,
                           long&nbsp;target)</pre>
 <div class="block">Returns the index of the first appearance of the value <code>target</code> in <code>array</code>.</div>
 <dl>
@@ -501,13 +500,13 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>indexOf</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.147">indexOf</a>(long[]&nbsp;array,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.145">indexOf</a>(long[]&nbsp;array,
                           long[]&nbsp;target)</pre>
-<div class="block">Returns the start position of the first occurrence of the specified <code>target</code> within <code>array</code>, or <code>-1</code> if there is no such occurrence.
+<div class="block">Returns the start position of the first occurrence of the specified <code>target</code> within
+ <code>array</code>, or <code>-1</code> if there is no such occurrence.
 
- <p>More formally, returns the lowest index <code>i</code> such that
- <code>Arrays.copyOfRange(array, i, i + target.length)</code> contains exactly the same elements as
- <code>target</code>.</div>
+ <p>More formally, returns the lowest index <code>i</code> such that <code>Arrays.copyOfRange(array,
+ i, i + target.length)</code> contains exactly the same elements as <code>target</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>array</code> - the array to search for the sequence <code>target</code></dd>
@@ -521,7 +520,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>lastIndexOf</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.174">lastIndexOf</a>(long[]&nbsp;array,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.172">lastIndexOf</a>(long[]&nbsp;array,
                               long&nbsp;target)</pre>
 <div class="block">Returns the index of the last appearance of the value <code>target</code> in <code>array</code>.</div>
 <dl>
@@ -540,7 +539,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>min</h4>
-<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.196">min</a>(long...&nbsp;array)</pre>
+<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.194">min</a>(long...&nbsp;array)</pre>
 <div class="block">Returns the least value present in <code>array</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -559,7 +558,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>max</h4>
-<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.215">max</a>(long...&nbsp;array)</pre>
+<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.213">max</a>(long...&nbsp;array)</pre>
 <div class="block">Returns the greatest value present in <code>array</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -579,14 +578,13 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>constrainToRange</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.240">constrainToRange</a>(long&nbsp;value,
+public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.238">constrainToRange</a>(long&nbsp;value,
                                           long&nbsp;min,
                                           long&nbsp;max)</pre>
 <div class="block">Returns the value nearest to <code>value</code> which is within the closed range <code>[min..max]</code>.
 
  <p>If <code>value</code> is within the range <code>[min..max]</code>, <code>value</code> is returned
- unchanged. If <code>value</code> is less than <code>min</code>, <code>min</code> is returned, and if
- <code>value</code> is greater than <code>max</code>, <code>max</code> is returned.</div>
+ unchanged. If <code>value</code> is less than <code>min</code>, <code>min</code> is returned, and if <code>value</code> is greater than <code>max</code>, <code>max</code> is returned.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>value</code> - the <code>long</code> value to constrain</dd>
@@ -605,10 +603,8 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre>public static&nbsp;long[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.253">concat</a>(long[]...&nbsp;arrays)</pre>
-<div class="block">Returns the values from each provided array combined into a single array. For example,
- <code>concat(new long[] {a, b}, new long[] {}, new long[] {c}</code> returns the array
- <code>{a, b, c}</code>.</div>
+<pre>public static&nbsp;long[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.250">concat</a>(long[]...&nbsp;arrays)</pre>
+<div class="block">Returns the values from each provided array combined into a single array. For example, <code>concat(new long[] {a, b}, new long[] {}, new long[] {c}</code> returns the array <code>{a, b, c}</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>arrays</code> - zero or more <code>long</code> arrays</dd>
@@ -623,15 +619,13 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>toByteArray</h4>
-<pre>public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.277">toByteArray</a>(long&nbsp;value)</pre>
+<pre>public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.274">toByteArray</a>(long&nbsp;value)</pre>
 <div class="block">Returns a big-endian representation of <code>value</code> in an 8-element byte array; equivalent to
- <code>ByteBuffer.allocate(8).putLong(value).array()</code>. For example, the input value
- <code>0x1213141516171819L</code> would yield the byte array <code>{0x12, 0x13, 0x14, 0x15, 0x16,
- 0x17, 0x18, 0x19}</code>.
+ <code>ByteBuffer.allocate(8).putLong(value).array()</code>. For example, the input value <code>0x1213141516171819L</code> would yield the byte array <code>{0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
+ 0x18, 0x19}</code>.
 
  <p>If you need to convert and concatenate several values (possibly even of different types),
- use a shared <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio"><code>ByteBuffer</code></a> instance, or use
- <a href="../../../../com/google/common/io/ByteStreams.html#newDataOutput--"><code>ByteStreams.newDataOutput()</code></a> to get a growable buffer.</div>
+ use a shared <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio"><code>ByteBuffer</code></a> instance, or use <a href="../../../../com/google/common/io/ByteStreams.html#newDataOutput--"><code>ByteStreams.newDataOutput()</code></a> to get a growable buffer.</div>
 </li>
 </ul>
 <a name="fromByteArray-byte:A-">
@@ -640,7 +634,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>fromByteArray</h4>
-<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.299">fromByteArray</a>(byte[]&nbsp;bytes)</pre>
+<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.296">fromByteArray</a>(byte[]&nbsp;bytes)</pre>
 <div class="block">Returns the <code>long</code> value whose big-endian representation is stored in the first 8 bytes
  of <code>bytes</code>; equivalent to <code>ByteBuffer.wrap(bytes).getLong()</code>. For example, the
  input byte array <code>{0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19}</code> would yield the
@@ -660,7 +654,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>fromBytes</h4>
-<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.311">fromBytes</a>(byte&nbsp;b1,
+<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.308">fromBytes</a>(byte&nbsp;b1,
                              byte&nbsp;b2,
                              byte&nbsp;b3,
                              byte&nbsp;b4,
@@ -685,9 +679,9 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/pri
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
  <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation">@CheckForNull</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.369">tryParse</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string)</pre>
-<div class="block">Parses the specified string as a signed decimal long value. The ASCII character <code>'-'</code>
- (<code>'&#92;u002D'</code>) is recognized as the minus sign.
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.366">tryParse</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string)</pre>
+<div class="block">Parses the specified string as a signed decimal long value. The ASCII character <code>'-'</code> (
+ <code>'&#92;u002D'</code>) is recognized as the minus sign.
 
  <p>Unlike <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#parseLong-java.lang.String-" title="class or interface in java.lang"><code>Long.parseLong(String)</code></a>, this method returns <code>null</code> instead of throwing
  an exception if parsing fails. Additionally, this method only accepts ASCII digits, and returns
@@ -715,7 +709,7 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
  <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation">@CheckForNull</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.395">tryParse</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string,
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.392">tryParse</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string,
                                                             int&nbsp;radix)</pre>
 <div class="block">Parses the specified string as a signed long value using the specified radix. The ASCII
  character <code>'-'</code> (<code>'&#92;u002D'</code>) is recognized as the minus sign.
@@ -734,8 +728,8 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/
 <dd>the long value represented by <code>string</code> using <code>radix</code>, or <code>null</code> if
      <code>string</code> has a length of zero or cannot be parsed as a long value</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>radix &lt; Character.MIN_RADIX</code> or
-     <code>radix &gt; Character.MAX_RADIX</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>radix &lt; Character.MIN_RADIX</code> or <code>radix &gt;
+     Character.MAX_RADIX</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>19.0</dd>
 </dl>
@@ -748,10 +742,8 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/
 <li class="blockList">
 <h4>stringConverter</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.474">stringConverter</a>()</pre>
-<div class="block">Returns a serializable converter object that converts between strings and longs using
- <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#decode-java.lang.String-" title="class or interface in java.lang"><code>Long.decode(java.lang.String)</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#toString--" title="class or interface in java.lang"><code>Long.toString()</code></a>. The returned converter throws
- <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NumberFormatException.html?is-external=true" title="class or interface in java.lang"><code>NumberFormatException</code></a> if the input string is invalid.
+public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.471">stringConverter</a>()</pre>
+<div class="block">Returns a serializable converter object that converts between strings and longs using <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#decode-java.lang.String-" title="class or interface in java.lang"><code>Long.decode(java.lang.String)</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#toString--" title="class or interface in java.lang"><code>Long.toString()</code></a>. The returned converter throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NumberFormatException.html?is-external=true" title="class or interface in java.lang"><code>NumberFormatException</code></a> if the input string is invalid.
 
  <p><b>Warning:</b> please see <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#decode-java.lang.String-" title="class or interface in java.lang"><code>Long.decode(java.lang.String)</code></a> to understand exactly how strings are parsed.
  For example, the string <code>"0123"</code> is treated as <i>octal</i> and converted to the value
@@ -768,7 +760,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>ensureCapacity</h4>
-<pre>public static&nbsp;long[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.491">ensureCapacity</a>(long[]&nbsp;array,
+<pre>public static&nbsp;long[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.488">ensureCapacity</a>(long[]&nbsp;array,
                                     int&nbsp;minLength,
                                     int&nbsp;padding)</pre>
 <div class="block">Returns an array containing the same values as <code>array</code>, but guaranteed to be of a
@@ -781,8 +773,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" t
 <dd><code>minLength</code> - the minimum length the returned array must guarantee</dd>
 <dd><code>padding</code> - an extra amount to "grow" the array by if growth is necessary</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>an array containing the values of <code>array</code>, with guaranteed minimum length
-     <code>minLength</code></dd>
+<dd>an array containing the values of <code>array</code>, with guaranteed minimum length <code>minLength</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>minLength</code> or <code>padding</code> is negative</dd>
 </dl>
@@ -794,7 +785,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>join</h4>
-<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.505">join</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator,
+<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.502">join</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator,
                           long...&nbsp;array)</pre>
 <div class="block">Returns a string containing the supplied <code>long</code> values separated by <code>separator</code>.
  For example, <code>join("-", 1L, 2L, 3L)</code> returns the string <code>"1-2-3"</code>.</div>
@@ -812,7 +803,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>lexicographicalComparator</h4>
-<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;long[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.533">lexicographicalComparator</a>()</pre>
+<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;long[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.530">lexicographicalComparator</a>()</pre>
 <div class="block">Returns a comparator that compares two <code>long</code> arrays <a
  href="http://en.wikipedia.org/wiki/Lexicographical_order">lexicographically</a>. That is, it
  compares, using <a href="../../../../com/google/common/primitives/Longs.html#compare-long-long-"><code>compare(long, long)</code></a>), the first pair of values that follow any common
@@ -820,8 +811,8 @@ public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" t
  example, <code>[] &lt; [1L] &lt; [1L, 2L] &lt; [2L]</code>.
 
  <p>The returned comparator is inconsistent with <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang"><code>Object.equals(Object)</code></a> (since arrays
- support only identity equality), but it is consistent with
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Arrays.html?is-external=true#equals-long:A-long:A-" title="class or interface in java.util"><code>Arrays.equals(long[], long[])</code></a>.</div>
+ support only identity equality), but it is consistent with <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Arrays.html?is-external=true#equals-long:A-long:A-" title="class or interface in java.util"><code>Arrays.equals(long[],
+ long[])</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
@@ -834,7 +825,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>sortDescending</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.563">sortDescending</a>(long[]&nbsp;array)</pre>
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.560">sortDescending</a>(long[]&nbsp;array)</pre>
 <div class="block">Sorts the elements of <code>array</code> in descending order.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -848,7 +839,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>sortDescending</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.574">sortDescending</a>(long[]&nbsp;array,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.571">sortDescending</a>(long[]&nbsp;array,
                                   int&nbsp;fromIndex,
                                   int&nbsp;toIndex)</pre>
 <div class="block">Sorts the elements of <code>array</code> between <code>fromIndex</code> inclusive and <code>toIndex</code>
@@ -865,7 +856,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>reverse</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.587">reverse</a>(long[]&nbsp;array)</pre>
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.584">reverse</a>(long[]&nbsp;array)</pre>
 <div class="block">Reverses the elements of <code>array</code>. This is equivalent to <code>Collections.reverse(Longs.asList(array))</code>, but is likely to be more efficient.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -879,7 +870,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>reverse</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.602">reverse</a>(long[]&nbsp;array,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.599">reverse</a>(long[]&nbsp;array,
                            int&nbsp;fromIndex,
                            int&nbsp;toIndex)</pre>
 <div class="block">Reverses the elements of <code>array</code> between <code>fromIndex</code> inclusive and <code>toIndex</code>
@@ -900,11 +891,12 @@ public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre>public static&nbsp;long[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.625">toArray</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&gt;&nbsp;collection)</pre>
+<pre>public static&nbsp;long[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.622">toArray</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&gt;&nbsp;collection)</pre>
 <div class="block">Returns an array containing each value of <code>collection</code>, converted to a <code>long</code> value
  in the manner of <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Number.html?is-external=true#longValue--" title="class or interface in java.lang"><code>Number.longValue()</code></a>.
 
- <p>Elements are copied from the argument collection as if by <code>collection.toArray()</code>. Calling this method is as thread-safe as calling that method.</div>
+ <p>Elements are copied from the argument collection as if by <code>collection.toArray()</code>.
+ Calling this method is as thread-safe as calling that method.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>collection</code> - a collection of <code>Number</code> instances</dd>
@@ -924,7 +916,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" t
 <ul class="blockListLast">
 <li class="blockList">
 <h4>asList</h4>
-<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.655">asList</a>(long...&nbsp;backingArray)</pre>
+<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.652">asList</a>(long...&nbsp;backingArray)</pre>
 <div class="block">Returns a fixed-size list backed by the specified array, similar to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Arrays.html?is-external=true#asList-T...-" title="class or interface in java.util"><code>Arrays.asList(Object[])</code></a>. The list supports <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#set-int-E-" title="class or interface in java.util"><code>List.set(int, Object)</code></a>, but any attempt to
  set a value to <code>null</code> will result in a <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang"><code>NullPointerException</code></a>.
 

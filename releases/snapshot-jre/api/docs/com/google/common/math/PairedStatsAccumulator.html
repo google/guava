@@ -179,8 +179,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/math/LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/math/PairedStatsAccumulator.html#leastSquaresFit--">leastSquaresFit</a></span>()</code>
-<div class="block">Returns a linear transformation giving the best fit to the data according to
- <a href="http://mathworld.wolfram.com/LeastSquaresFitting.html">Ordinary Least Squares linear
+<div class="block">Returns a linear transformation giving the best fit to the data according to <a
+ href="http://mathworld.wolfram.com/LeastSquaresFitting.html">Ordinary Least Squares linear
  regression</a> of <code>y</code> as a function of <code>x</code>.</div>
 </td>
 </tr>
@@ -266,7 +266,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>add</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.45">add</a>(double&nbsp;x,
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.43">add</a>(double&nbsp;x,
                 double&nbsp;y)</pre>
 <div class="block">Adds the given pair of values to the dataset.</div>
 </li>
@@ -277,7 +277,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>addAll</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.72">addAll</a>(<a href="../../../../com/google/common/math/PairedStats.html" title="class in com.google.common.math">PairedStats</a>&nbsp;values)</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.70">addAll</a>(<a href="../../../../com/google/common/math/PairedStats.html" title="class in com.google.common.math">PairedStats</a>&nbsp;values)</pre>
 <div class="block">Adds the given statistics to the dataset, as if the individual values used to compute the
  statistics had been added directly.</div>
 </li>
@@ -288,7 +288,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>snapshot</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/math/PairedStats.html" title="class in com.google.common.math">PairedStats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.96">snapshot</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/math/PairedStats.html" title="class in com.google.common.math">PairedStats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.92">snapshot</a>()</pre>
 <div class="block">Returns an immutable snapshot of the current statistics.</div>
 </li>
 </ul>
@@ -298,7 +298,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>count</h4>
-<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.103">count</a>()</pre>
+<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.97">count</a>()</pre>
 <div class="block">Returns the number of pairs in the dataset.</div>
 </li>
 </ul>
@@ -308,7 +308,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>xStats</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.110">xStats</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.102">xStats</a>()</pre>
 <div class="block">Returns an immutable snapshot of the statistics on the <code>x</code> values alone.</div>
 </li>
 </ul>
@@ -318,7 +318,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>yStats</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.117">yStats</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.107">yStats</a>()</pre>
 <div class="block">Returns an immutable snapshot of the statistics on the <code>y</code> values alone.</div>
 </li>
 </ul>
@@ -328,7 +328,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>populationCovariance</h4>
-<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.135">populationCovariance</a>()</pre>
+<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.125">populationCovariance</a>()</pre>
 <div class="block">Returns the population covariance of the values. The count must be non-zero.
 
  <p>This is guaranteed to return zero if the dataset contains a single pair of finite values. It
@@ -337,8 +337,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 
  <h3>Non-finite values</h3>
 
- <p>If the dataset contains any non-finite values (<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang"><code>Double.POSITIVE_INFINITY</code></a>,
- <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NEGATIVE_INFINITY" title="class or interface in java.lang"><code>Double.NEGATIVE_INFINITY</code></a>, or <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>) then the result is <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>.</div>
+ <p>If the dataset contains any non-finite values (<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang"><code>Double.POSITIVE_INFINITY</code></a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NEGATIVE_INFINITY" title="class or interface in java.lang"><code>Double.NEGATIVE_INFINITY</code></a>, or <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>) then the result is <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang">IllegalStateException</a></code> - if the dataset is empty</dd>
@@ -351,7 +350,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>sampleCovariance</h4>
-<pre>public final&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.153">sampleCovariance</a>()</pre>
+<pre>public final&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.143">sampleCovariance</a>()</pre>
 <div class="block">Returns the sample covariance of the values. The count must be greater than one.
 
  <p>This is not guaranteed to return zero when the dataset consists of the same pair of values
@@ -359,8 +358,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 
  <h3>Non-finite values</h3>
 
- <p>If the dataset contains any non-finite values (<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang"><code>Double.POSITIVE_INFINITY</code></a>,
- <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NEGATIVE_INFINITY" title="class or interface in java.lang"><code>Double.NEGATIVE_INFINITY</code></a>, or <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>) then the result is <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>.</div>
+ <p>If the dataset contains any non-finite values (<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang"><code>Double.POSITIVE_INFINITY</code></a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NEGATIVE_INFINITY" title="class or interface in java.lang"><code>Double.NEGATIVE_INFINITY</code></a>, or <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>) then the result is <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang">IllegalStateException</a></code> - if the dataset is empty or contains a single pair of values</dd>
@@ -373,18 +371,16 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>pearsonsCorrelationCoefficient</h4>
-<pre>public final&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.174">pearsonsCorrelationCoefficient</a>()</pre>
+<pre>public final&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.164">pearsonsCorrelationCoefficient</a>()</pre>
 <div class="block">Returns the <a href="http://mathworld.wolfram.com/CorrelationCoefficient.html">Pearson's or
  product-moment correlation coefficient</a> of the values. The count must greater than one, and
- the <code>x</code> and <code>y</code> values must both have non-zero population variance (i.e.
- <code>xStats().populationVariance() &gt; 0.0 &amp;&amp; yStats().populationVariance() &gt; 0.0</code>). The result
- is not guaranteed to be exactly +/-1 even when the data are perfectly (anti-)correlated, due to
+ the <code>x</code> and <code>y</code> values must both have non-zero population variance (i.e. <code>xStats().populationVariance() &gt; 0.0 &amp;&amp; yStats().populationVariance() &gt; 0.0</code>). The result is not
+ guaranteed to be exactly +/-1 even when the data are perfectly (anti-)correlated, due to
  numerical errors. However, it is guaranteed to be in the inclusive range [-1, +1].
 
  <h3>Non-finite values</h3>
 
- <p>If the dataset contains any non-finite values (<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang"><code>Double.POSITIVE_INFINITY</code></a>,
- <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NEGATIVE_INFINITY" title="class or interface in java.lang"><code>Double.NEGATIVE_INFINITY</code></a>, or <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>) then the result is <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>.</div>
+ <p>If the dataset contains any non-finite values (<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang"><code>Double.POSITIVE_INFINITY</code></a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NEGATIVE_INFINITY" title="class or interface in java.lang"><code>Double.NEGATIVE_INFINITY</code></a>, or <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>) then the result is <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang">IllegalStateException</a></code> - if the dataset is empty or contains a single pair of values, or
@@ -398,22 +394,21 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>leastSquaresFit</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/math/LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.221">leastSquaresFit</a>()</pre>
-<div class="block">Returns a linear transformation giving the best fit to the data according to
- <a href="http://mathworld.wolfram.com/LeastSquaresFitting.html">Ordinary Least Squares linear
+<pre>public final&nbsp;<a href="../../../../com/google/common/math/LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.211">leastSquaresFit</a>()</pre>
+<div class="block">Returns a linear transformation giving the best fit to the data according to <a
+ href="http://mathworld.wolfram.com/LeastSquaresFitting.html">Ordinary Least Squares linear
  regression</a> of <code>y</code> as a function of <code>x</code>. The count must be greater than one, and
- either the <code>x</code> or <code>y</code> data must have a non-zero population variance (i.e.
- <code>xStats().populationVariance() &gt; 0.0 || yStats().populationVariance() &gt; 0.0</code>). The result
- is guaranteed to be horizontal if there is variance in the <code>x</code> data but not the <code>y</code>
+ either the <code>x</code> or <code>y</code> data must have a non-zero population variance (i.e. <code>xStats().populationVariance() &gt; 0.0 || yStats().populationVariance() &gt; 0.0</code>). The result is
+ guaranteed to be horizontal if there is variance in the <code>x</code> data but not the <code>y</code>
  data, and vertical if there is variance in the <code>y</code> data but not the <code>x</code> data.
 
  <p>This fit minimizes the root-mean-square error in <code>y</code> as a function of <code>x</code>. This
  error is defined as the square root of the mean of the squares of the differences between the
  actual <code>y</code> values of the data and the values predicted by the fit for the <code>x</code>
  values (i.e. it is the square root of the mean of the squares of the vertical distances between
- the data points and the best fit line). For this fit, this error is a fraction
- <code>sqrt(1 - R*R)</code> of the population standard deviation of <code>y</code>, where <code>R</code> is the
- Pearson's correlation coefficient (as given by <a href="../../../../com/google/common/math/PairedStatsAccumulator.html#pearsonsCorrelationCoefficient--"><code>pearsonsCorrelationCoefficient()</code></a>).
+ the data points and the best fit line). For this fit, this error is a fraction <code>sqrt(1 -
+ R*R)</code> of the population standard deviation of <code>y</code>, where <code>R</code> is the Pearson's
+ correlation coefficient (as given by <a href="../../../../com/google/common/math/PairedStatsAccumulator.html#pearsonsCorrelationCoefficient--"><code>pearsonsCorrelationCoefficient()</code></a>).
 
  <p>The corresponding root-mean-square error in <code>x</code> as a function of <code>y</code> is a
  fraction <code>sqrt(1/(R*R) - 1)</code> of the population standard deviation of <code>x</code>. This fit
@@ -422,9 +417,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 
  <h3>Non-finite values</h3>
 
- <p>If the dataset contains any non-finite values (<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang"><code>Double.POSITIVE_INFINITY</code></a>,
- <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NEGATIVE_INFINITY" title="class or interface in java.lang"><code>Double.NEGATIVE_INFINITY</code></a>, or <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>) then the result is
- <a href="../../../../com/google/common/math/LinearTransformation.html#forNaN--"><code>LinearTransformation.forNaN()</code></a>.</div>
+ <p>If the dataset contains any non-finite values (<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang"><code>Double.POSITIVE_INFINITY</code></a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NEGATIVE_INFINITY" title="class or interface in java.lang"><code>Double.NEGATIVE_INFINITY</code></a>, or <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>Double.NaN</code></a>) then the result is <a href="../../../../com/google/common/math/LinearTransformation.html#forNaN--"><code>LinearTransformation.forNaN()</code></a>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang">IllegalStateException</a></code> - if the dataset is empty or contains a single pair of values, or

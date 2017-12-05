@@ -60,11 +60,11 @@
 <span class="sourceLineNo">052</span> * &lt;h3&gt;Building a {@code Graph}&lt;/h3&gt;<a name="line.52"></a>
 <span class="sourceLineNo">053</span> *<a name="line.53"></a>
 <span class="sourceLineNo">054</span> * &lt;p&gt;The implementation classes that {@code common.graph} provides are not public, by design. To<a name="line.54"></a>
-<span class="sourceLineNo">055</span> * create an instance of one of the built-in implementations of {@code Graph}, use the<a name="line.55"></a>
-<span class="sourceLineNo">056</span> * {@link GraphBuilder} class:<a name="line.56"></a>
+<span class="sourceLineNo">055</span> * create an instance of one of the built-in implementations of {@code Graph}, use the {@link<a name="line.55"></a>
+<span class="sourceLineNo">056</span> * GraphBuilder} class:<a name="line.56"></a>
 <span class="sourceLineNo">057</span> *<a name="line.57"></a>
 <span class="sourceLineNo">058</span> * &lt;pre&gt;{@code<a name="line.58"></a>
-<span class="sourceLineNo">059</span> *   MutableGraph&lt;Integer&gt; graph = GraphBuilder.undirected().build();<a name="line.59"></a>
+<span class="sourceLineNo">059</span> * MutableGraph&lt;Integer&gt; graph = GraphBuilder.undirected().build();<a name="line.59"></a>
 <span class="sourceLineNo">060</span> * }&lt;/pre&gt;<a name="line.60"></a>
 <span class="sourceLineNo">061</span> *<a name="line.61"></a>
 <span class="sourceLineNo">062</span> * &lt;p&gt;{@link GraphBuilder#build()} returns an instance of {@link MutableGraph}, which is a subtype<a name="line.62"></a>
@@ -76,7 +76,7 @@
 <span class="sourceLineNo">068</span> * ImmutableGraph#copyOf(Graph)}:<a name="line.68"></a>
 <span class="sourceLineNo">069</span> *<a name="line.69"></a>
 <span class="sourceLineNo">070</span> * &lt;pre&gt;{@code<a name="line.70"></a>
-<span class="sourceLineNo">071</span> *   ImmutableGraph&lt;Integer&gt; immutableGraph = ImmutableGraph.copyOf(graph);<a name="line.71"></a>
+<span class="sourceLineNo">071</span> * ImmutableGraph&lt;Integer&gt; immutableGraph = ImmutableGraph.copyOf(graph);<a name="line.71"></a>
 <span class="sourceLineNo">072</span> * }&lt;/pre&gt;<a name="line.72"></a>
 <span class="sourceLineNo">073</span> *<a name="line.73"></a>
 <span class="sourceLineNo">074</span> * &lt;p&gt;Instances of {@link ImmutableGraph} do not implement {@link MutableGraph} (obviously!) and are<a name="line.74"></a>
@@ -180,9 +180,9 @@
 <span class="sourceLineNo">172</span>   * &lt;p&gt;Thus, two graphs A and B are equal if &lt;b&gt;all&lt;/b&gt; of the following are true:<a name="line.172"></a>
 <span class="sourceLineNo">173</span>   *<a name="line.173"></a>
 <span class="sourceLineNo">174</span>   * &lt;ul&gt;<a name="line.174"></a>
-<span class="sourceLineNo">175</span>   * &lt;li&gt;A and B have equal {@link #isDirected() directedness}.<a name="line.175"></a>
-<span class="sourceLineNo">176</span>   * &lt;li&gt;A and B have equal {@link #nodes() node sets}.<a name="line.176"></a>
-<span class="sourceLineNo">177</span>   * &lt;li&gt;A and B have equal {@link #edges() edge sets}.<a name="line.177"></a>
+<span class="sourceLineNo">175</span>   *   &lt;li&gt;A and B have equal {@link #isDirected() directedness}.<a name="line.175"></a>
+<span class="sourceLineNo">176</span>   *   &lt;li&gt;A and B have equal {@link #nodes() node sets}.<a name="line.176"></a>
+<span class="sourceLineNo">177</span>   *   &lt;li&gt;A and B have equal {@link #edges() edge sets}.<a name="line.177"></a>
 <span class="sourceLineNo">178</span>   * &lt;/ul&gt;<a name="line.178"></a>
 <span class="sourceLineNo">179</span>   *<a name="line.179"></a>
 <span class="sourceLineNo">180</span>   * &lt;p&gt;Graph properties besides {@link #isDirected() directedness} do &lt;b&gt;not&lt;/b&gt; affect equality.<a name="line.180"></a>

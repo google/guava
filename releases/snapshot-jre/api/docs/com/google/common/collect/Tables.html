@@ -110,13 +110,12 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/collect/Tables.html#line.53">Tables</a>
+public final class <a href="../../../../src-html/com/google/common/collect/Tables.html#line.52">Tables</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">Provides static methods that involve a <code>Table</code>.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#tables">
- <code>Tables</code></a>.</div>
+ "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#tables"> <code>Tables</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -146,8 +145,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Tables.html#immutableCell-R-C-V-">immutableCell</a></span>(R&nbsp;rowKey,
              C&nbsp;columnKey,
              V&nbsp;value)</code>
-<div class="block">Returns an immutable cell with the specified row key, column key, and
- value.</div>
+<div class="block">Returns an immutable cell with the specified row key, column key, and value.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -196,8 +194,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>static &lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;C,R,V&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Tables.html#transpose-com.google.common.collect.Table-">transpose</a></span>(<a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,C,V&gt;&nbsp;table)</code>
-<div class="block">Creates a transposed view of a given table that flips its row and column
- keys.</div>
+<div class="block">Creates a transposed view of a given table that flips its row and column keys.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
@@ -241,7 +238,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>toTable</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;T,R,C,V,I extends <a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,C,V&gt;&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream">Collector</a>&lt;T,?,I&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Tables.html#line.67">toTable</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends R&gt;&nbsp;rowFunction,
+public static&nbsp;&lt;T,R,C,V,I extends <a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,C,V&gt;&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream">Collector</a>&lt;T,?,I&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Tables.html#line.66">toTable</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends R&gt;&nbsp;rowFunction,
                                                                               <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends C&gt;&nbsp;columnFunction,
                                                                               <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends V&gt;&nbsp;valueFunction,
                                                                               <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function">Supplier</a>&lt;I&gt;&nbsp;tableSupplier)</pre>
@@ -263,7 +260,7 @@ public static&nbsp;&lt;T,R,C,V,I extends <a href="../../../../com/google/common/
 <ul class="blockList">
 <li class="blockList">
 <h4>toTable</h4>
-<pre>public static&nbsp;&lt;T,R,C,V,I extends <a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,C,V&gt;&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream">Collector</a>&lt;T,?,I&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Tables.html#line.96">toTable</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends R&gt;&nbsp;rowFunction,
+<pre>public static&nbsp;&lt;T,R,C,V,I extends <a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,C,V&gt;&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream">Collector</a>&lt;T,?,I&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Tables.html#line.95">toTable</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends R&gt;&nbsp;rowFunction,
                                                                         <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends C&gt;&nbsp;columnFunction,
                                                                         <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends V&gt;&nbsp;valueFunction,
                                                                         <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BinaryOperator.html?is-external=true" title="class or interface in java.util.function">BinaryOperator</a>&lt;V&gt;&nbsp;mergeFunction,
@@ -290,14 +287,13 @@ public static&nbsp;&lt;T,R,C,V,I extends <a href="../../../../com/google/common/
 <ul class="blockList">
 <li class="blockList">
 <h4>immutableCell</h4>
-<pre>public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Table.Cell.html" title="interface in com.google.common.collect">Table.Cell</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Tables.html#line.150">immutableCell</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Table.Cell.html" title="interface in com.google.common.collect">Table.Cell</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Tables.html#line.148">immutableCell</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                                       R&nbsp;rowKey,
                                                       <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                                       C&nbsp;columnKey,
                                                       <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                                       V&nbsp;value)</pre>
-<div class="block">Returns an immutable cell with the specified row key, column key, and
- value.
+<div class="block">Returns an immutable cell with the specified row key, column key, and value.
 
  <p>The returned cell is serializable.</div>
 <dl>
@@ -314,15 +310,16 @@ public static&nbsp;&lt;T,R,C,V,I extends <a href="../../../../com/google/common/
 <ul class="blockList">
 <li class="blockList">
 <h4>transpose</h4>
-<pre>public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;C,R,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Tables.html#line.227">transpose</a>(<a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,C,V&gt;&nbsp;table)</pre>
-<div class="block">Creates a transposed view of a given table that flips its row and column
- keys. In other words, calling <code>get(columnKey, rowKey)</code> on the
- generated table always returns the same value as calling <code>get(rowKey, columnKey)</code> on the original table. Updating the original table
+<pre>public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;C,R,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Tables.html#line.223">transpose</a>(<a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,C,V&gt;&nbsp;table)</pre>
+<div class="block">Creates a transposed view of a given table that flips its row and column keys. In other words,
+ calling <code>get(columnKey, rowKey)</code> on the generated table always returns the same value as
+ calling <code>get(rowKey, columnKey)</code> on the original table. Updating the original table
  changes the contents of the transposed table and vice versa.
 
- <p>The returned table supports update operations as long as the input table
- supports the analogous operation with swapped rows and columns. For
- example, in a <a href="../../../../com/google/common/collect/HashBasedTable.html" title="class in com.google.common.collect"><code>HashBasedTable</code></a> instance, <code>rowKeySet().iterator()</code> supports <code>remove()</code> but <code>columnKeySet().iterator()</code> doesn't. With a transposed <a href="../../../../com/google/common/collect/HashBasedTable.html" title="class in com.google.common.collect"><code>HashBasedTable</code></a>, it's the other way around.</div>
+ <p>The returned table supports update operations as long as the input table supports the
+ analogous operation with swapped rows and columns. For example, in a <a href="../../../../com/google/common/collect/HashBasedTable.html" title="class in com.google.common.collect"><code>HashBasedTable</code></a>
+ instance, <code>rowKeySet().iterator()</code> supports <code>remove()</code> but <code>columnKeySet().iterator()</code> doesn't. With a transposed <a href="../../../../com/google/common/collect/HashBasedTable.html" title="class in com.google.common.collect"><code>HashBasedTable</code></a>, it's the other
+ way around.</div>
 </li>
 </ul>
 <a name="newCustomTable-java.util.Map-com.google.common.base.Supplier-">
@@ -332,46 +329,40 @@ public static&nbsp;&lt;T,R,C,V,I extends <a href="../../../../com/google/common/
 <li class="blockList">
 <h4>newCustomTable</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Tables.html#line.389">newCustomTable</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;R,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;C,V&gt;&gt;&nbsp;backingMap,
+public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Tables.html#line.382">newCustomTable</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;R,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;C,V&gt;&gt;&nbsp;backingMap,
                                                         <a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;C,V&gt;&gt;&nbsp;factory)</pre>
-<div class="block">Creates a table that uses the specified backing map and factory. It can
- generate a table based on arbitrary <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util"><code>Map</code></a> classes.
+<div class="block">Creates a table that uses the specified backing map and factory. It can generate a table based
+ on arbitrary <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util"><code>Map</code></a> classes.
 
- <p>The <code>factory</code>-generated and <code>backingMap</code> classes determine
- the table iteration order. However, the table's <code>row()</code> method
- returns instances of a different class than <code>factory.get()</code> does.
+ <p>The <code>factory</code>-generated and <code>backingMap</code> classes determine the table iteration
+ order. However, the table's <code>row()</code> method returns instances of a different class than
+ <code>factory.get()</code> does.
 
- <p>Call this method only when the simpler factory methods in classes like
- <a href="../../../../com/google/common/collect/HashBasedTable.html" title="class in com.google.common.collect"><code>HashBasedTable</code></a> and <a href="../../../../com/google/common/collect/TreeBasedTable.html" title="class in com.google.common.collect"><code>TreeBasedTable</code></a> won't suffice.
+ <p>Call this method only when the simpler factory methods in classes like <a href="../../../../com/google/common/collect/HashBasedTable.html" title="class in com.google.common.collect"><code>HashBasedTable</code></a> and <a href="../../../../com/google/common/collect/TreeBasedTable.html" title="class in com.google.common.collect"><code>TreeBasedTable</code></a> won't suffice.
 
- <p>The views returned by the <code>Table</code> methods <a href="../../../../com/google/common/collect/Table.html#column-C-"><code>Table.column(C)</code></a>,
- <a href="../../../../com/google/common/collect/Table.html#columnKeySet--"><code>Table.columnKeySet()</code></a>, and <a href="../../../../com/google/common/collect/Table.html#columnMap--"><code>Table.columnMap()</code></a> have iterators that
- don't support <code>remove()</code>. Otherwise, all optional operations are
- supported. Null row keys, columns keys, and values are not supported.
+ <p>The views returned by the <code>Table</code> methods <a href="../../../../com/google/common/collect/Table.html#column-C-"><code>Table.column(C)</code></a>, <a href="../../../../com/google/common/collect/Table.html#columnKeySet--"><code>Table.columnKeySet()</code></a>, and <a href="../../../../com/google/common/collect/Table.html#columnMap--"><code>Table.columnMap()</code></a> have iterators that don't support <code>remove()</code>. Otherwise, all optional operations are supported. Null row keys, columns keys, and
+ values are not supported.
 
- <p>Lookups by row key are often faster than lookups by column key, because
- the data is stored in a <code>Map&lt;R, Map&lt;C, V&gt;&gt;</code>. A method call like
- <code>column(columnKey).get(rowKey)</code> still runs quickly, since the row key
- is provided. However, <code>column(columnKey).size()</code> takes longer, since
- an iteration across all row keys occurs.
+ <p>Lookups by row key are often faster than lookups by column key, because the data is stored
+ in a <code>Map&lt;R, Map&lt;C, V&gt;&gt;</code>. A method call like <code>column(columnKey).get(rowKey)</code> still
+ runs quickly, since the row key is provided. However, <code>column(columnKey).size()</code> takes
+ longer, since an iteration across all row keys occurs.
 
- <p>Note that this implementation is not synchronized. If multiple threads
- access this table concurrently and one of the threads modifies the table,
- it must be synchronized externally.
+ <p>Note that this implementation is not synchronized. If multiple threads access this table
+ concurrently and one of the threads modifies the table, it must be synchronized externally.
 
- <p>The table is serializable if <code>backingMap</code>, <code>factory</code>, the
- maps generated by <code>factory</code>, and the table contents are all
- serializable.
+ <p>The table is serializable if <code>backingMap</code>, <code>factory</code>, the maps generated by
+ <code>factory</code>, and the table contents are all serializable.
 
- <p>Note: the table assumes complete ownership over of <code>backingMap</code>
- and the maps returned by <code>factory</code>. Those objects should not be
- manually updated and they should not use soft, weak, or phantom references.</div>
+ <p>Note: the table assumes complete ownership over of <code>backingMap</code> and the maps returned
+ by <code>factory</code>. Those objects should not be manually updated and they should not use soft,
+ weak, or phantom references.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>backingMap</code> - place to store the mapping from each row key to its
-     corresponding column key / value map</dd>
-<dd><code>factory</code> - supplier of new, empty maps that will each hold all column
-     key / value mappings for a given row key</dd>
+<dd><code>backingMap</code> - place to store the mapping from each row key to its corresponding column key
+     / value map</dd>
+<dd><code>factory</code> - supplier of new, empty maps that will each hold all column key / value mappings
+     for a given row key</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>backingMap</code> is not empty</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -386,30 +377,25 @@ public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/col
 <li class="blockList">
 <h4>transformValues</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;R,C,V1,V2&gt;&nbsp;<a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,C,V2&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Tables.html#line.424">transformValues</a>(<a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,C,V1&gt;&nbsp;fromTable,
+public static&nbsp;&lt;R,C,V1,V2&gt;&nbsp;<a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,C,V2&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Tables.html#line.412">transformValues</a>(<a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,C,V1&gt;&nbsp;fromTable,
                                                               <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super V1,V2&gt;&nbsp;function)</pre>
-<div class="block">Returns a view of a table where each value is transformed by a function.
- All other properties of the table, such as iteration order, are left
- intact.
+<div class="block">Returns a view of a table where each value is transformed by a function. All other properties
+ of the table, such as iteration order, are left intact.
 
- <p>Changes in the underlying table are reflected in this view. Conversely,
- this view supports removal operations, and these are reflected in the
- underlying table.
+ <p>Changes in the underlying table are reflected in this view. Conversely, this view supports
+ removal operations, and these are reflected in the underlying table.
 
- <p>It's acceptable for the underlying table to contain null keys, and even
- null values provided that the function is capable of accepting null input.
- The transformed table might contain null values, if the function sometimes
- gives a null result.
+ <p>It's acceptable for the underlying table to contain null keys, and even null values provided
+ that the function is capable of accepting null input. The transformed table might contain null
+ values, if the function sometimes gives a null result.
 
- <p>The returned table is not thread-safe or serializable, even if the
- underlying table is.
+ <p>The returned table is not thread-safe or serializable, even if the underlying table is.
 
- <p>The function is applied lazily, invoked when needed. This is necessary
- for the returned table to be a view, but it means that the function will be
- applied many times for bulk operations like <a href="../../../../com/google/common/collect/Table.html#containsValue-java.lang.Object-"><code>Table.containsValue(java.lang.Object)</code></a> and
- <code>Table.toString()</code>. For this to perform well, <code>function</code> should
- be fast. To avoid lazy evaluation when the returned table doesn't need to
- be a view, copy the returned table into a new table of your choosing.</div>
+ <p>The function is applied lazily, invoked when needed. This is necessary for the returned
+ table to be a view, but it means that the function will be applied many times for bulk
+ operations like <a href="../../../../com/google/common/collect/Table.html#containsValue-java.lang.Object-"><code>Table.containsValue(java.lang.Object)</code></a> and <code>Table.toString()</code>. For this to perform
+ well, <code>function</code> should be fast. To avoid lazy evaluation when the returned table doesn't
+ need to be a view, copy the returned table into a new table of your choosing.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>10.0</dd>
@@ -422,11 +408,11 @@ public static&nbsp;&lt;R,C,V1,V2&gt;&nbsp;<a href="../../../../com/google/common
 <ul class="blockList">
 <li class="blockList">
 <h4>unmodifiableTable</h4>
-<pre>public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Tables.html#line.559">unmodifiableTable</a>(<a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;? extends R,? extends C,? extends V&gt;&nbsp;table)</pre>
+<pre>public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Tables.html#line.547">unmodifiableTable</a>(<a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;? extends R,? extends C,? extends V&gt;&nbsp;table)</pre>
 <div class="block">Returns an unmodifiable view of the specified table. This method allows modules to provide
- users with "read-only" access to internal tables. Query operations on the returned table
- "read through" to the specified table, and attempts to modify the returned table, whether
- direct or via its collection views, result in an <code>UnsupportedOperationException</code>.
+ users with "read-only" access to internal tables. Query operations on the returned table "read
+ through" to the specified table, and attempts to modify the returned table, whether direct or
+ via its collection views, result in an <code>UnsupportedOperationException</code>.
 
  <p>The returned table will be serializable if the specified table is serializable.
 
@@ -444,7 +430,7 @@ public static&nbsp;&lt;R,C,V1,V2&gt;&nbsp;<a href="../../../../com/google/common
 <li class="blockList">
 <h4>unmodifiableRowSortedTable</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/RowSortedTable.html" title="interface in com.google.common.collect">RowSortedTable</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Tables.html#line.656">unmodifiableRowSortedTable</a>(<a href="../../../../com/google/common/collect/RowSortedTable.html" title="interface in com.google.common.collect">RowSortedTable</a>&lt;R,? extends C,? extends V&gt;&nbsp;table)</pre>
+public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/RowSortedTable.html" title="interface in com.google.common.collect">RowSortedTable</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Tables.html#line.644">unmodifiableRowSortedTable</a>(<a href="../../../../com/google/common/collect/RowSortedTable.html" title="interface in com.google.common.collect">RowSortedTable</a>&lt;R,? extends C,? extends V&gt;&nbsp;table)</pre>
 <div class="block">Returns an unmodifiable view of the specified row-sorted table. This method allows modules to
  provide users with "read-only" access to internal tables. Query operations on the returned
  table "read through" to the specified table, and attempts to modify the returned table, whether
@@ -467,7 +453,7 @@ public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/col
 <ul class="blockListLast">
 <li class="blockList">
 <h4>synchronizedTable</h4>
-<pre>public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Tables.html#line.734">synchronizedTable</a>(<a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,C,V&gt;&nbsp;table)</pre>
+<pre>public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Tables.html#line.722">synchronizedTable</a>(<a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,C,V&gt;&nbsp;table)</pre>
 <div class="block">Returns a synchronized (thread-safe) table backed by the specified table. In order to guarantee
  serial access, it is critical that <b>all</b> access to the backing table is accomplished
  through the returned table.

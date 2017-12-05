@@ -138,9 +138,9 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
  (first-in-first-out). This data structure is logically equivalent to a circular buffer (i.e.,
  cyclic buffer or ring buffer).
 
- <p>An evicting queue must be configured with a maximum size. Each time an element is added
- to a full queue, the queue automatically removes its head element. This is different from
- conventional bounded queues, which either block or reject new elements when full.
+ <p>An evicting queue must be configured with a maximum size. Each time an element is added to a
+ full queue, the queue automatically removes its head element. This is different from conventional
+ bounded queues, which either block or reject new elements when full.
 
  <p>This class is not thread-safe, and does not accept null elements.</div>
 <dl>
@@ -209,8 +209,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/EvictingQueue.html#remainingCapacity--">remainingCapacity</a></span>()</code>
-<div class="block">Returns the number of additional elements that this queue can accept without evicting;
- zero if the queue is currently full.</div>
+<div class="block">Returns the number of additional elements that this queue can accept without evicting; zero if
+ the queue is currently full.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
@@ -297,8 +297,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <li class="blockList">
 <h4>remainingCapacity</h4>
 <pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.76">remainingCapacity</a>()</pre>
-<div class="block">Returns the number of additional elements that this queue can accept without evicting;
- zero if the queue is currently full.</div>
+<div class="block">Returns the number of additional elements that this queue can accept without evicting; zero if
+ the queue is currently full.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>16.0</dd>
@@ -313,10 +313,10 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <h4>delegate</h4>
 <pre>protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util">Queue</a>&lt;<a href="../../../../com/google/common/collect/EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.81">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingObject.html#delegate--">ForwardingObject</a></code></span></div>
-<div class="block">Returns the backing delegate instance that methods are forwarded to.
- Abstract subclasses generally override this method with an abstract method
- that has a more specific return type, such as <a href="../../../../com/google/common/collect/ForwardingSet.html#delegate--"><code>ForwardingSet.delegate()</code></a>. Concrete subclasses override this method to supply
- the instance being decorated.</div>
+<div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
+ generally override this method with an abstract method that has a more specific return type,
+ such as <a href="../../../../com/google/common/collect/ForwardingSet.html#delegate--"><code>ForwardingSet.delegate()</code></a>. Concrete subclasses override this method to supply the
+ instance being decorated.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ForwardingQueue.html#delegate--">delegate</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingQueue.html" title="class in com.google.common.collect">ForwardingQueue</a>&lt;<a href="../../../../com/google/common/collect/EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&gt;</code></dd>

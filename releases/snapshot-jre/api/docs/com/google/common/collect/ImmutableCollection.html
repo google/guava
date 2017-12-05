@@ -123,7 +123,7 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#emulated--">emulated</a>=true)
-public abstract class <a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.166">ImmutableCollection</a>&lt;E&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.165">ImmutableCollection</a>&lt;E&gt;
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util">AbstractCollection</a>&lt;E&gt;
 implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</a></pre>
 <div class="block">A <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a> whose contents will never change, and which offers a few additional
@@ -143,20 +143,18 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
  <p>Each makes the following guarantees:
 
  <ul>
- <li><b>Shallow immutability.</b> Elements can never be added, removed or replaced in this
-     collection. This is a stronger guarantee than that of
-     <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#unmodifiableCollection-java.util.Collection-" title="class or interface in java.util"><code>Collections.unmodifiableCollection(java.util.Collection&lt;? extends T&gt;)</code></a>, whose contents change whenever the wrapped
-     collection is modified.
- <li><b>Null-hostility.</b> This collection will never contain a null element.
- <li><b>Deterministic iteration.</b> The iteration order is always well-defined, depending on how
-     the collection was created. Typically this is insertion order unless an explicit ordering is
-     otherwise specified (e.g. <a href="../../../../com/google/common/collect/ImmutableSortedSet.html#naturalOrder--"><code>ImmutableSortedSet.naturalOrder()</code></a>).  See the appropriate
-     factory method for details. View collections such as <a href="../../../../com/google/common/collect/ImmutableMultiset.html#elementSet--"><code>ImmutableMultiset.elementSet()</code></a>
-     iterate in the same order as the parent, except as noted.
- <li><b>Thread safety.</b> It is safe to access this collection concurrently from multiple
-     threads.
- <li><b>Integrity.</b> This type cannot be subclassed outside this package (which would allow
-     these guarantees to be violated).
+   <li><b>Shallow immutability.</b> Elements can never be added, removed or replaced in this
+       collection. This is a stronger guarantee than that of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#unmodifiableCollection-java.util.Collection-" title="class or interface in java.util"><code>Collections.unmodifiableCollection(java.util.Collection&lt;? extends T&gt;)</code></a>, whose contents change whenever the wrapped collection
+       is modified.
+   <li><b>Null-hostility.</b> This collection will never contain a null element.
+   <li><b>Deterministic iteration.</b> The iteration order is always well-defined, depending on
+       how the collection was created. Typically this is insertion order unless an explicit
+       ordering is otherwise specified (e.g. <a href="../../../../com/google/common/collect/ImmutableSortedSet.html#naturalOrder--"><code>ImmutableSortedSet.naturalOrder()</code></a>). See the
+       appropriate factory method for details. View collections such as <a href="../../../../com/google/common/collect/ImmutableMultiset.html#elementSet--"><code>ImmutableMultiset.elementSet()</code></a> iterate in the same order as the parent, except as noted.
+   <li><b>Thread safety.</b> It is safe to access this collection concurrently from multiple
+       threads.
+   <li><b>Integrity.</b> This type cannot be subclassed outside this package (which would allow
+       these guarantees to be violated).
  </ul>
 
  <h4>"Interfaces", not implementations</h4>
@@ -177,8 +175,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
  appropriate <code>copyOf</code> method itself.
 
  <p>Expressing the immutability guarantee directly in the type that user code references is a
- powerful advantage. Although Java 9 offers certain immutable collection factory methods, like
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html#immutable"><code>Set.of</code></a>,
+ powerful advantage. Although Java 9 offers certain immutable collection factory methods, like <a
+ href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html#immutable"><code>Set.of</code></a>,
  we recommend continuing to use these immutable collection classes for this reason.
 
  <h4>Creation</h4>
@@ -187,62 +185,62 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
  usually include:
 
  <ul>
- <li>Static methods named <code>of</code>, accepting an explicit list of elements or entries.
- <li>Static methods named <code>copyOf</code> (or <code>copyOfSorted</code>), accepting an existing
-     collection whose contents should be copied.
- <li>A static nested <code>Builder</code> class which can be used to populate a new immutable instance.
+   <li>Static methods named <code>of</code>, accepting an explicit list of elements or entries.
+   <li>Static methods named <code>copyOf</code> (or <code>copyOfSorted</code>), accepting an existing
+       collection whose contents should be copied.
+   <li>A static nested <code>Builder</code> class which can be used to populate a new immutable
+       instance.
  </ul>
 
  <h4>Warnings</h4>
 
  <ul>
- <li><b>Warning:</b> as with any collection, it is almost always a bad idea to modify an element
-     (in a way that affects its <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a> behavior) while it is contained in a
-     collection. Undefined behavior and bugs will result. It's generally best to avoid using
-     mutable objects as elements at all, as many users may expect your "immutable" object to be
-     <i>deeply</i> immutable.
+   <li><b>Warning:</b> as with any collection, it is almost always a bad idea to modify an element
+       (in a way that affects its <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a> behavior) while it is contained in a
+       collection. Undefined behavior and bugs will result. It's generally best to avoid using
+       mutable objects as elements at all, as many users may expect your "immutable" object to be
+       <i>deeply</i> immutable.
  </ul>
 
  <h4>Performance notes</h4>
 
  <ul>
- <li>Implementations can be generally assumed to prioritize memory efficiency, then speed of
-     access, and lastly speed of creation.
- <li>The <code>copyOf</code> methods will sometimes recognize that the actual copy operation is
-     unnecessary; for example, <code>copyOf(copyOf(anArrayList))</code> should copy the data only once.
-     This reduces the expense of habitually making defensive copies at API boundaries. However,
-     the precise conditions for skipping the copy operation are undefined.
- <li><b>Warning:</b> a view collection such as <a href="../../../../com/google/common/collect/ImmutableMap.html#keySet"><code>ImmutableMap.keySet</code></a> or <a href="../../../../com/google/common/collect/ImmutableList.html#subList-int-int-"><code>ImmutableList.subList(int, int)</code></a> may retain a reference to the entire data set, preventing it from
-     being garbage collected. If some of the data is no longer reachable through other means, this
-     constitutes a memory leak. Pass the view collection to the appropriate <code>copyOf</code> method
-     to obtain a correctly-sized copy.
- <li>The performance of using the associated <code>Builder</code> class can be assumed to be
-     no worse, and possibly better, than creating a mutable collection and copying it.
- <li>Implementations generally do not cache hash codes. If your element or key type has a slow
-     <code>hashCode</code> implementation, it should cache it itself.
+   <li>Implementations can be generally assumed to prioritize memory efficiency, then speed of
+       access, and lastly speed of creation.
+   <li>The <code>copyOf</code> methods will sometimes recognize that the actual copy operation is
+       unnecessary; for example, <code>copyOf(copyOf(anArrayList))</code> should copy the data only
+       once. This reduces the expense of habitually making defensive copies at API boundaries.
+       However, the precise conditions for skipping the copy operation are undefined.
+   <li><b>Warning:</b> a view collection such as <a href="../../../../com/google/common/collect/ImmutableMap.html#keySet"><code>ImmutableMap.keySet</code></a> or <a href="../../../../com/google/common/collect/ImmutableList.html#subList-int-int-"><code>ImmutableList.subList(int, int)</code></a> may retain a reference to the entire data set, preventing it from
+       being garbage collected. If some of the data is no longer reachable through other means,
+       this constitutes a memory leak. Pass the view collection to the appropriate <code>copyOf</code>
+       method to obtain a correctly-sized copy.
+   <li>The performance of using the associated <code>Builder</code> class can be assumed to be no
+       worse, and possibly better, than creating a mutable collection and copying it.
+   <li>Implementations generally do not cache hash codes. If your element or key type has a slow
+       <code>hashCode</code> implementation, it should cache it itself.
  </ul>
 
  <h4>Example usage</h4>
 
- <pre>   <code>
+ <pre><code>
+ class Foo {
+   private static final ImmutableSet&lt;String&gt; RESERVED_CODES =
+       ImmutableSet.of("AZ", "CQ", "ZX");
 
-   class Foo {
-     private static final ImmutableSet&lt;String&gt; RESERVED_CODES =
-         ImmutableSet.of("AZ", "CQ", "ZX");
+   private final ImmutableSet&lt;String&gt; codes;
 
-     private final ImmutableSet&lt;String&gt; codes;
-
-     public Foo(Iterable&lt;String&gt; codes) {
-       this.codes = ImmutableSet.copyOf(codes);
-       checkArgument(Collections.disjoint(this.codes, RESERVED_CODES));
-     }
-   }</code></pre>
+   public Foo(Iterable&lt;String&gt; codes) {
+     this.codes = ImmutableSet.copyOf(codes);
+     checkArgument(Collections.disjoint(this.codes, RESERVED_CODES));
+   }
+ }
+ </code></pre>
 
  <h3>See also</h3>
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">
- immutable collections</a>.</div>
+ "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
@@ -431,7 +429,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>iterator</h4>
-<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="../../../../com/google/common/collect/ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.181">iterator</a>()</pre>
+<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="../../../../com/google/common/collect/ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.178">iterator</a>()</pre>
 <div class="block">Returns an unmodifiable iterator across the elements in this collection.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -451,7 +449,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>spliterator</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Spliterator.html?is-external=true" title="class or interface in java.util">Spliterator</a>&lt;<a href="../../../../com/google/common/collect/ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.184">spliterator</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Spliterator.html?is-external=true" title="class or interface in java.util">Spliterator</a>&lt;<a href="../../../../com/google/common/collect/ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.181">spliterator</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#spliterator--" title="class or interface in java.util">java.util.Collection</a></code></span></div>
 <div class="block">Creates a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Spliterator.html?is-external=true" title="class or interface in java.util"><code>Spliterator</code></a> over the elements in this collection.
 
@@ -494,7 +492,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre>public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.191">toArray</a>()</pre>
+<pre>public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.188">toArray</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#toArray--" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
 <div class="block">Returns an array containing all of the elements in this collection.
  If this collection makes any guarantees as to what order its elements
@@ -546,7 +544,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <li class="blockList">
 <h4>toArray</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public final&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.203">toArray</a>(T[]&nbsp;other)</pre>
+public final&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.200">toArray</a>(T[]&nbsp;other)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#toArray-T:A-" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
 <div class="block">Returns an array containing all of the elements in this collection;
  the runtime type of the returned array is that of the specified array.
@@ -622,7 +620,7 @@ public final&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/goog
 <ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
-<pre>public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.216">contains</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.213">contains</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#contains-java.lang.Object-" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
 <div class="block">Returns <tt>true</tt> if this collection contains the specified element.
@@ -655,7 +653,7 @@ public final&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/goog
 <h4>add</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.227">add</a>(<a href="../../../../com/google/common/collect/ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&nbsp;e)</pre>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.224">add</a>(<a href="../../../../com/google/common/collect/ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&nbsp;e)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the collection unmodified.</div>
 <dl>
@@ -681,7 +679,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <h4>remove</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.240">remove</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.237">remove</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the collection unmodified.</div>
 <dl>
@@ -706,7 +704,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <h4>addAll</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.253">addAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="../../../../com/google/common/collect/ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;&nbsp;newElements)</pre>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.250">addAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="../../../../com/google/common/collect/ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;&nbsp;newElements)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the collection unmodified.</div>
 <dl>
@@ -733,7 +731,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <h4>removeAll</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.266">removeAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;oldElements)</pre>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.263">removeAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;oldElements)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the collection unmodified.</div>
 <dl>
@@ -762,7 +760,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <h4>removeIf</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.279">removeIf</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Predicate.html?is-external=true" title="class or interface in java.util.function">Predicate</a>&lt;? super <a href="../../../../com/google/common/collect/ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;&nbsp;filter)</pre>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.276">removeIf</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Predicate.html?is-external=true" title="class or interface in java.util.function">Predicate</a>&lt;? super <a href="../../../../com/google/common/collect/ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;&nbsp;filter)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the collection unmodified.</div>
 <dl>
@@ -785,7 +783,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <li class="blockList">
 <h4>retainAll</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.291">retainAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;elementsToKeep)</pre>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.288">retainAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;elementsToKeep)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the collection unmodified.</div>
 <dl>
@@ -812,7 +810,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <li class="blockList">
 <h4>clear</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.303">clear</a>()</pre>
+public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.300">clear</a>()</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the collection unmodified.</div>
 <dl>
@@ -831,7 +829,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockListLast">
 <li class="blockList">
 <h4>asList</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="../../../../com/google/common/collect/ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.317">asList</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="../../../../com/google/common/collect/ImmutableCollection.html" title="type parameter in ImmutableCollection">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableCollection.html#line.314">asList</a>()</pre>
 <div class="block">Returns an <code>ImmutableList</code> containing the same elements, in the same order, as this
  collection.
 

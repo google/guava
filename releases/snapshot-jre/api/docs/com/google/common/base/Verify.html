@@ -110,18 +110,20 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/base/Verify.html#line.88">Verify</a>
+public final class <a href="../../../../src-html/com/google/common/base/Verify.html#line.89">Verify</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
-<div class="block">Static convenience methods that serve the same purpose as Java language
- <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/language/assert.html">
- assertions</a>, except that they are always enabled. These methods should be used instead of Java
- assertions whenever there is a chance the check may fail "in real life". Example: <pre>   <code>
+<div class="block">Static convenience methods that serve the same purpose as Java language <a
+ href="http://docs.oracle.com/javase/7/docs/technotes/guides/language/assert.html">assertions</a>,
+ except that they are always enabled. These methods should be used instead of Java assertions
+ whenever there is a chance the check may fail "in real life". Example:
 
-   Bill bill = remoteService.getLastUnpaidBill();
+ <pre><code>
+ Bill bill = remoteService.getLastUnpaidBill();
 
-   // In case bug 12345 happens again we'd rather just die
-   Verify.verify(bill.status() == Status.UNPAID,
-       "Unexpected bill status: %s", bill.status());</code></pre>
+ // In case bug 12345 happens again we'd rather just die
+ Verify.verify(bill.status() == Status.UNPAID,
+     "Unexpected bill status: %s", bill.status());
+ </code></pre>
 
  <h3>Comparison to alternatives</h3>
 
@@ -130,22 +132,18 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  reasonable and it will be fine.
 
  <ul>
- <li>If checking whether the <i>caller</i> has violated your method or constructor's contract
-     (such as by passing an invalid argument), use the utilities of the <a href="../../../../com/google/common/base/Preconditions.html" title="class in com.google.common.base"><code>Preconditions</code></a>
-     class instead.
-
- <li>If checking an <i>impossible</i> condition (which <i>cannot</i> happen unless your own class
-     or its <i>trusted</i> dependencies is badly broken), this is what ordinary Java assertions
-     are for. Note that assertions are not enabled by default; they are essentially considered
-     "compiled comments."
-
- <li>An explicit <code>if/throw</code> (as illustrated below) is always acceptable; we still recommend
-     using our <a href="../../../../com/google/common/base/VerifyException.html" title="class in com.google.common.base"><code>VerifyException</code></a> exception type. Throwing a plain <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang"><code>RuntimeException</code></a>
-     is frowned upon.
-
- <li>Use of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Objects.html?is-external=true#requireNonNull-T-" title="class or interface in java.util"><code>Objects.requireNonNull(Object)</code></a> is generally discouraged, since
-     <a href="../../../../com/google/common/base/Verify.html#verifyNotNull-T-"><code>verifyNotNull(Object)</code></a> and <a href="../../../../com/google/common/base/Preconditions.html#checkNotNull-T-"><code>Preconditions.checkNotNull(Object)</code></a> perform the
-     same function with more clarity.
+   <li>If checking whether the <i>caller</i> has violated your method or constructor's contract
+       (such as by passing an invalid argument), use the utilities of the <a href="../../../../com/google/common/base/Preconditions.html" title="class in com.google.common.base"><code>Preconditions</code></a>
+       class instead.
+   <li>If checking an <i>impossible</i> condition (which <i>cannot</i> happen unless your own
+       class or its <i>trusted</i> dependencies is badly broken), this is what ordinary Java
+       assertions are for. Note that assertions are not enabled by default; they are essentially
+       considered "compiled comments."
+   <li>An explicit <code>if/throw</code> (as illustrated below) is always acceptable; we still
+       recommend using our <a href="../../../../com/google/common/base/VerifyException.html" title="class in com.google.common.base"><code>VerifyException</code></a> exception type. Throwing a plain <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang"><code>RuntimeException</code></a> is frowned upon.
+   <li>Use of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Objects.html?is-external=true#requireNonNull-T-" title="class or interface in java.util"><code>Objects.requireNonNull(Object)</code></a> is generally discouraged, since
+       <a href="../../../../com/google/common/base/Verify.html#verifyNotNull-T-"><code>verifyNotNull(Object)</code></a> and <a href="../../../../com/google/common/base/Preconditions.html#checkNotNull-T-"><code>Preconditions.checkNotNull(Object)</code></a> perform the
+       same function with more clarity.
  </ul>
 
  <h3>Warning about performance</h3>
@@ -153,12 +151,14 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  <p>Remember that parameter values for message construction must all be computed eagerly, and
  autoboxing and varargs array creation may happen as well, even when the verification succeeds and
  the message ends up unneeded. Performance-sensitive verification checks should continue to use
- usual form: <pre>   <code>
+ usual form:
 
-   Bill bill = remoteService.getLastUnpaidBill();
-   if (bill.status() != Status.UNPAID) {
-     throw new VerifyException("Unexpected bill status: " + bill.status());
-   }</code></pre>
+ <pre><code>
+ Bill bill = remoteService.getLastUnpaidBill();
+ if (bill.status() != Status.UNPAID) {
+   throw new VerifyException("Unexpected bill status: " + bill.status());
+ }
+ </code></pre>
 
  <h3>Only <code>%s</code> is supported</h3>
 
@@ -473,7 +473,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>verify</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.96">verify</a>(boolean&nbsp;expression)</pre>
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.97">verify</a>(boolean&nbsp;expression)</pre>
 <div class="block">Ensures that <code>expression</code> is <code>true</code>, throwing a <code>VerifyException</code> with no
  message otherwise.</div>
 <dl>
@@ -490,7 +490,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>verify</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.117">verify</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.118">verify</a>(boolean&nbsp;expression,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -502,9 +502,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <dd><code>expression</code> - a boolean expression</dd>
 <dd><code>errorMessageTemplate</code> - a template for the exception message should the check fail. The
      message is formed by replacing each <code>%s</code> placeholder in the template with an
-     argument. These are matched by position - the first <code>%s</code> gets
-     <code>errorMessageArgs[0]</code>, etc. Unmatched arguments will be appended to the formatted
-     message in square braces. Unmatched placeholders will be left as-is.</dd>
+     argument. These are matched by position - the first <code>%s</code> gets <code>errorMessageArgs[0]</code>, etc. Unmatched arguments will be appended to the formatted message in
+     square braces. Unmatched placeholders will be left as-is.</dd>
 <dd><code>errorMessageArgs</code> - the arguments to be substituted into the message template. Arguments
      are converted to strings using <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true#valueOf-java.lang.Object-" title="class or interface in java.lang"><code>String.valueOf(Object)</code></a>.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -520,7 +519,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>verify</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.134">verify</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.135">verify</a>(boolean&nbsp;expression,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                           char&nbsp;p1)</pre>
@@ -540,7 +539,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>verify</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.148">verify</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.149">verify</a>(boolean&nbsp;expression,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                           int&nbsp;p1)</pre>
@@ -560,7 +559,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>verify</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.162">verify</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.163">verify</a>(boolean&nbsp;expression,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                           long&nbsp;p1)</pre>
@@ -580,7 +579,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>verify</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.176">verify</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.177">verify</a>(boolean&nbsp;expression,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -601,7 +600,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>verify</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.191">verify</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.192">verify</a>(boolean&nbsp;expression,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                           char&nbsp;p1,
@@ -622,7 +621,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>verify</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.206">verify</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.207">verify</a>(boolean&nbsp;expression,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                           int&nbsp;p1,
@@ -643,7 +642,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>verify</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.221">verify</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.222">verify</a>(boolean&nbsp;expression,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                           long&nbsp;p1,
@@ -664,7 +663,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>verify</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.236">verify</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.237">verify</a>(boolean&nbsp;expression,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -686,7 +685,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>verify</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.251">verify</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.252">verify</a>(boolean&nbsp;expression,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                           char&nbsp;p1,
@@ -707,7 +706,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>verify</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.266">verify</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.267">verify</a>(boolean&nbsp;expression,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                           int&nbsp;p1,
@@ -728,7 +727,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>verify</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.281">verify</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.282">verify</a>(boolean&nbsp;expression,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                           long&nbsp;p1,
@@ -749,7 +748,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>verify</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.296">verify</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.297">verify</a>(boolean&nbsp;expression,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -771,7 +770,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>verify</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.311">verify</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.312">verify</a>(boolean&nbsp;expression,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                           char&nbsp;p1,
@@ -792,7 +791,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>verify</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.326">verify</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.327">verify</a>(boolean&nbsp;expression,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                           int&nbsp;p1,
@@ -813,7 +812,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>verify</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.341">verify</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.342">verify</a>(boolean&nbsp;expression,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                           long&nbsp;p1,
@@ -834,7 +833,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>verify</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.356">verify</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.357">verify</a>(boolean&nbsp;expression,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -856,7 +855,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>verify</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.371">verify</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.372">verify</a>(boolean&nbsp;expression,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                           char&nbsp;p1,
@@ -878,7 +877,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>verify</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.386">verify</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.387">verify</a>(boolean&nbsp;expression,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                           int&nbsp;p1,
@@ -900,7 +899,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>verify</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.401">verify</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.402">verify</a>(boolean&nbsp;expression,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                           long&nbsp;p1,
@@ -922,7 +921,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>verify</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.416">verify</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.417">verify</a>(boolean&nbsp;expression,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -945,7 +944,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>verify</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.434">verify</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.435">verify</a>(boolean&nbsp;expression,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -970,7 +969,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>verify</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.453">verify</a>(boolean&nbsp;expression,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.454">verify</a>(boolean&nbsp;expression,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
                           <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
@@ -1000,7 +999,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>verifyNotNull</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.474">verifyNotNull</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.475">verifyNotNull</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                                         T&nbsp;reference)</pre>
 <div class="block">Ensures that <code>reference</code> is non-null, throwing a <code>VerifyException</code> with a default
  message otherwise.</div>
@@ -1023,7 +1022,7 @@ public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/googl
 <li class="blockList">
 <h4>verifyNotNull</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.494">verifyNotNull</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/Verify.html#line.495">verifyNotNull</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                                         T&nbsp;reference,
                                                         <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                                         <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;errorMessageTemplate,
@@ -1035,9 +1034,8 @@ public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/googl
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>errorMessageTemplate</code> - a template for the exception message should the check fail. The
      message is formed by replacing each <code>%s</code> placeholder in the template with an
-     argument. These are matched by position - the first <code>%s</code> gets
-     <code>errorMessageArgs[0]</code>, etc. Unmatched arguments will be appended to the formatted
-     message in square braces. Unmatched placeholders will be left as-is.</dd>
+     argument. These are matched by position - the first <code>%s</code> gets <code>errorMessageArgs[0]</code>, etc. Unmatched arguments will be appended to the formatted message in
+     square braces. Unmatched placeholders will be left as-is.</dd>
 <dd><code>errorMessageArgs</code> - the arguments to be substituted into the message template. Arguments
      are converted to strings using <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true#valueOf-java.lang.Object-" title="class or interface in java.lang"><code>String.valueOf(Object)</code></a>.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>

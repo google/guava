@@ -85,8 +85,8 @@
 <tr class="altColor">
 <td class="colFirst"><a href="#com.google.common.collect">com.google.common.collect</a></td>
 <td class="colLast">
-<div class="block">This package contains generic collection interfaces and implementations, and
- other utilities for working with collections.</div>
+<div class="block">This package contains generic collection interfaces and implementations, and other utilities for
+ working with collections.</div>
 </td>
 </tr>
 </tbody>
@@ -108,8 +108,8 @@
 <tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/collect/ArrayListMultimap.html" title="class in com.google.common.collect">ArrayListMultimap</a>&lt;K,V&gt;</span></code>
-<div class="block">Implementation of <code>Multimap</code> that uses an <code>ArrayList</code> to store
- the values for a given key.</div>
+<div class="block">Implementation of <code>Multimap</code> that uses an <code>ArrayList</code> to store the values for a given
+ key.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -128,8 +128,8 @@
 <tr class="rowColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/collect/LinkedListMultimap.html" title="class in com.google.common.collect">LinkedListMultimap</a>&lt;K,V&gt;</span></code>
-<div class="block">An implementation of <code>ListMultimap</code> that supports deterministic
- iteration order for both keys and values.</div>
+<div class="block">An implementation of <code>ListMultimap</code> that supports deterministic iteration order for both
+ keys and values.</div>
 </td>
 </tr>
 </tbody>
@@ -157,8 +157,8 @@
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Multimaps.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/collect/Multimaps.html#filterKeys-com.google.common.collect.ListMultimap-com.google.common.base.Predicate-">filterKeys</a></span>(<a href="../../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;unfiltered,
           <a href="../../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super K&gt;&nbsp;keyPredicate)</code>
-<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose keys
- satisfy a predicate.</div>
+<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose keys satisfy a
+ predicate.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -171,24 +171,22 @@
 <tr class="rowColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Multimaps.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/collect/Multimaps.html#synchronizedListMultimap-com.google.common.collect.ListMultimap-">synchronizedListMultimap</a></span>(<a href="../../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;multimap)</code>
-<div class="block">Returns a synchronized (thread-safe) <code>ListMultimap</code> backed by the
- specified multimap.</div>
+<div class="block">Returns a synchronized (thread-safe) <code>ListMultimap</code> backed by the specified multimap.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static &lt;K,V1,V2&gt;&nbsp;<a href="../../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V2&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Multimaps.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/collect/Multimaps.html#transformEntries-com.google.common.collect.ListMultimap-com.google.common.collect.Maps.EntryTransformer-">transformEntries</a></span>(<a href="../../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V1&gt;&nbsp;fromMap,
                 <a href="../../../../../com/google/common/collect/Maps.EntryTransformer.html" title="interface in com.google.common.collect">Maps.EntryTransformer</a>&lt;? super K,? super V1,V2&gt;&nbsp;transformer)</code>
-<div class="block">Returns a view of a <code>ListMultimap</code> whose values are derived from the
- original multimap's entries.</div>
+<div class="block">Returns a view of a <code>ListMultimap</code> whose values are derived from the original multimap's
+ entries.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static &lt;K,V1,V2&gt;&nbsp;<a href="../../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V2&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Multimaps.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/collect/Multimaps.html#transformValues-com.google.common.collect.ListMultimap-com.google.common.base.Function-">transformValues</a></span>(<a href="../../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V1&gt;&nbsp;fromMultimap,
                <a href="../../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super V1,V2&gt;&nbsp;function)</code>
-<div class="block">Returns a view of a <code>ListMultimap</code> where each value is transformed by
- a function.</div>
+<div class="block">Returns a view of a <code>ListMultimap</code> where each value is transformed by a function.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -217,39 +215,37 @@
 <tr class="altColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;V&gt;&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Multimaps.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/collect/Multimaps.html#asMap-com.google.common.collect.ListMultimap-">asMap</a></span>(<a href="../../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;multimap)</code>
-<div class="block">Returns <a href="../../../../../com/google/common/collect/ListMultimap.html#asMap--"><code>multimap.asMap()</code></a>, with its type
- corrected from <code>Map&lt;K, Collection&lt;V&gt;&gt;</code> to <code>Map&lt;K, List&lt;V&gt;&gt;</code>.</div>
+<div class="block">Returns <a href="../../../../../com/google/common/collect/ListMultimap.html#asMap--"><code>multimap.asMap()</code></a>, with its type corrected from <code>Map&lt;K,
+ Collection&lt;V&gt;&gt;</code> to <code>Map&lt;K, List&lt;V&gt;&gt;</code>.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Multimaps.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/collect/Multimaps.html#filterKeys-com.google.common.collect.ListMultimap-com.google.common.base.Predicate-">filterKeys</a></span>(<a href="../../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;unfiltered,
           <a href="../../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super K&gt;&nbsp;keyPredicate)</code>
-<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose keys
- satisfy a predicate.</div>
+<div class="block">Returns a multimap containing the mappings in <code>unfiltered</code> whose keys satisfy a
+ predicate.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Multimaps.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/collect/Multimaps.html#synchronizedListMultimap-com.google.common.collect.ListMultimap-">synchronizedListMultimap</a></span>(<a href="../../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;multimap)</code>
-<div class="block">Returns a synchronized (thread-safe) <code>ListMultimap</code> backed by the
- specified multimap.</div>
+<div class="block">Returns a synchronized (thread-safe) <code>ListMultimap</code> backed by the specified multimap.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static &lt;K,V1,V2&gt;&nbsp;<a href="../../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V2&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Multimaps.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/collect/Multimaps.html#transformEntries-com.google.common.collect.ListMultimap-com.google.common.collect.Maps.EntryTransformer-">transformEntries</a></span>(<a href="../../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V1&gt;&nbsp;fromMap,
                 <a href="../../../../../com/google/common/collect/Maps.EntryTransformer.html" title="interface in com.google.common.collect">Maps.EntryTransformer</a>&lt;? super K,? super V1,V2&gt;&nbsp;transformer)</code>
-<div class="block">Returns a view of a <code>ListMultimap</code> whose values are derived from the
- original multimap's entries.</div>
+<div class="block">Returns a view of a <code>ListMultimap</code> whose values are derived from the original multimap's
+ entries.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static &lt;K,V1,V2&gt;&nbsp;<a href="../../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V2&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Multimaps.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/collect/Multimaps.html#transformValues-com.google.common.collect.ListMultimap-com.google.common.base.Function-">transformValues</a></span>(<a href="../../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V1&gt;&nbsp;fromMultimap,
                <a href="../../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super V1,V2&gt;&nbsp;function)</code>
-<div class="block">Returns a view of a <code>ListMultimap</code> where each value is transformed by
- a function.</div>
+<div class="block">Returns a view of a <code>ListMultimap</code> where each value is transformed by a function.</div>
 </td>
 </tr>
 <tr class="rowColor">

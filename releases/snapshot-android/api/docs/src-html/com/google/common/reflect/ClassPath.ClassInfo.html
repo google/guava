@@ -163,8 +163,8 @@
 <span class="sourceLineNo">155</span>  }<a name="line.155"></a>
 <span class="sourceLineNo">156</span><a name="line.156"></a>
 <span class="sourceLineNo">157</span>  /**<a name="line.157"></a>
-<span class="sourceLineNo">158</span>   * Returns all top level classes whose package name is {@code packageName} or starts with<a name="line.158"></a>
-<span class="sourceLineNo">159</span>   * {@code packageName} followed by a '.'.<a name="line.159"></a>
+<span class="sourceLineNo">158</span>   * Returns all top level classes whose package name is {@code packageName} or starts with {@code<a name="line.158"></a>
+<span class="sourceLineNo">159</span>   * packageName} followed by a '.'.<a name="line.159"></a>
 <span class="sourceLineNo">160</span>   */<a name="line.160"></a>
 <span class="sourceLineNo">161</span>  public ImmutableSet&lt;ClassInfo&gt; getTopLevelClassesRecursive(String packageName) {<a name="line.161"></a>
 <span class="sourceLineNo">162</span>    checkNotNull(packageName);<a name="line.162"></a>
@@ -416,10 +416,10 @@
 <span class="sourceLineNo">408</span><a name="line.408"></a>
 <span class="sourceLineNo">409</span>    /**<a name="line.409"></a>
 <span class="sourceLineNo">410</span>     * Returns the class path URIs specified by the {@code Class-Path} manifest attribute, according<a name="line.410"></a>
-<span class="sourceLineNo">411</span>     * to<a name="line.411"></a>
-<span class="sourceLineNo">412</span>     * &lt;a href="http://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html#Main_Attributes"&gt;<a name="line.412"></a>
-<span class="sourceLineNo">413</span>     * JAR File Specification&lt;/a&gt;. If {@code manifest} is null, it means the jar file has no<a name="line.413"></a>
-<span class="sourceLineNo">414</span>     * manifest, and an empty set will be returned.<a name="line.414"></a>
+<span class="sourceLineNo">411</span>     * to &lt;a<a name="line.411"></a>
+<span class="sourceLineNo">412</span>     * href="http://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html#Main_Attributes"&gt;JAR<a name="line.412"></a>
+<span class="sourceLineNo">413</span>     * File Specification&lt;/a&gt;. If {@code manifest} is null, it means the jar file has no manifest,<a name="line.413"></a>
+<span class="sourceLineNo">414</span>     * and an empty set will be returned.<a name="line.414"></a>
 <span class="sourceLineNo">415</span>     */<a name="line.415"></a>
 <span class="sourceLineNo">416</span>    @VisibleForTesting<a name="line.416"></a>
 <span class="sourceLineNo">417</span>    static ImmutableSet&lt;File&gt; getClassPathFromManifest(File jarFile, @Nullable Manifest manifest) {<a name="line.417"></a>
@@ -498,9 +498,9 @@
 <span class="sourceLineNo">490</span>    }<a name="line.490"></a>
 <span class="sourceLineNo">491</span><a name="line.491"></a>
 <span class="sourceLineNo">492</span>    /**<a name="line.492"></a>
-<span class="sourceLineNo">493</span>     * Returns the absolute uri of the Class-Path entry value as specified in<a name="line.493"></a>
-<span class="sourceLineNo">494</span>     * &lt;a href="http://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html#Main_Attributes"&gt;<a name="line.494"></a>
-<span class="sourceLineNo">495</span>     * JAR File Specification&lt;/a&gt;. Even though the specification only talks about relative urls,<a name="line.495"></a>
+<span class="sourceLineNo">493</span>     * Returns the absolute uri of the Class-Path entry value as specified in &lt;a<a name="line.493"></a>
+<span class="sourceLineNo">494</span>     * href="http://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html#Main_Attributes"&gt;JAR<a name="line.494"></a>
+<span class="sourceLineNo">495</span>     * File Specification&lt;/a&gt;. Even though the specification only talks about relative urls,<a name="line.495"></a>
 <span class="sourceLineNo">496</span>     * absolute urls are actually supported too (for example, in Maven surefire plugin).<a name="line.496"></a>
 <span class="sourceLineNo">497</span>     */<a name="line.497"></a>
 <span class="sourceLineNo">498</span>    @VisibleForTesting<a name="line.498"></a>
@@ -591,9 +591,9 @@
 <span class="sourceLineNo">583</span>  static File toFile(URL url) {<a name="line.583"></a>
 <span class="sourceLineNo">584</span>    checkArgument(url.getProtocol().equals("file"));<a name="line.584"></a>
 <span class="sourceLineNo">585</span>    try {<a name="line.585"></a>
-<span class="sourceLineNo">586</span>      return new File(url.toURI());  // Accepts escaped characters like %20.<a name="line.586"></a>
-<span class="sourceLineNo">587</span>    } catch (URISyntaxException e) {  // URL.toURI() doesn't escape chars.<a name="line.587"></a>
-<span class="sourceLineNo">588</span>      return new File(url.getPath());  // Accepts non-escaped chars like space.<a name="line.588"></a>
+<span class="sourceLineNo">586</span>      return new File(url.toURI()); // Accepts escaped characters like %20.<a name="line.586"></a>
+<span class="sourceLineNo">587</span>    } catch (URISyntaxException e) { // URL.toURI() doesn't escape chars.<a name="line.587"></a>
+<span class="sourceLineNo">588</span>      return new File(url.getPath()); // Accepts non-escaped chars like space.<a name="line.588"></a>
 <span class="sourceLineNo">589</span>    }<a name="line.589"></a>
 <span class="sourceLineNo">590</span>  }<a name="line.590"></a>
 <span class="sourceLineNo">591</span>}<a name="line.591"></a>

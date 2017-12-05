@@ -121,7 +121,7 @@ var activeTableTab = "activeTableTab";
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/net/PercentEscaper.html#line.53">PercentEscaper</a>
+public final class <a href="../../../../src-html/com/google/common/net/PercentEscaper.html#line.54">PercentEscaper</a>
 extends <a href="../../../../com/google/common/escape/UnicodeEscaper.html" title="class in com.google.common.escape">UnicodeEscaper</a></pre>
 <div class="block">A <code>UnicodeEscaper</code> that escapes some set of Java characters using a UTF-8 based percent
  encoding scheme. The set of safe characters (those which remain unescaped) can be specified on
@@ -132,13 +132,14 @@ extends <a href="../../../../com/google/common/escape/UnicodeEscaper.html" title
  considered 'safe', this class has a minimal set of restrictions.
 
  <p>When escaping a String, the following rules apply:
+
  <ul>
- <li>All specified safe characters remain unchanged.
- <li>If <code>plusForSpace</code> was specified, the space character " " is converted into a plus sign
-     <code>"+"</code>.
- <li>All other characters are converted into one or more bytes using UTF-8 encoding and each byte
-     is then represented by the 3-character string "%XX", where "XX" is the two-digit, uppercase,
-     hexadecimal representation of the byte value.
+   <li>All specified safe characters remain unchanged.
+   <li>If <code>plusForSpace</code> was specified, the space character " " is converted into a plus
+       sign <code>"+"</code>.
+   <li>All other characters are converted into one or more bytes using UTF-8 encoding and each
+       byte is then represented by the 3-character string "%XX", where "XX" is the two-digit,
+       uppercase, hexadecimal representation of the byte value.
  </ul>
 
  <p>For performance reasons the only currently supported character encoding of this class is
@@ -254,7 +255,7 @@ extends <a href="../../../../com/google/common/escape/UnicodeEscaper.html" title
 <ul class="blockListLast">
 <li class="blockList">
 <h4>PercentEscaper</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/net/PercentEscaper.html#line.86">PercentEscaper</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;safeChars,
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/net/PercentEscaper.html#line.85">PercentEscaper</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;safeChars,
                       boolean&nbsp;plusForSpace)</pre>
 <div class="block">Constructs a percent escaper with the specified safe characters and optional handling of the
  space character.
@@ -286,7 +287,7 @@ extends <a href="../../../../com/google/common/escape/UnicodeEscaper.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>nextEscapeIndex</h4>
-<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/PercentEscaper.html#line.129">nextEscapeIndex</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;csq,
+<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/PercentEscaper.html#line.128">nextEscapeIndex</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;csq,
                               int&nbsp;index,
                               int&nbsp;end)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../com/google/common/escape/UnicodeEscaper.html#nextEscapeIndex-java.lang.CharSequence-int-int-">UnicodeEscaper</a></code></span></div>
@@ -320,14 +321,14 @@ extends <a href="../../../../com/google/common/escape/UnicodeEscaper.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>escape</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/net/PercentEscaper.html#line.145">escape</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;s)</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/net/PercentEscaper.html#line.144">escape</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;s)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../com/google/common/escape/UnicodeEscaper.html#escape-java.lang.String-">UnicodeEscaper</a></code></span></div>
 <div class="block">Returns the escaped form of a given literal string.
 
  <p>If you are escaping input in arbitrary successive chunks, then it is not generally safe to
  use this method. If an input string ends with an unmatched high surrogate character, then this
- method will throw <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>. You should ensure your input is valid
- <a href="http://en.wikipedia.org/wiki/UTF-16">UTF-16</a> before calling this method.
+ method will throw <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>. You should ensure your input is valid <a
+ href="http://en.wikipedia.org/wiki/UTF-16">UTF-16</a> before calling this method.
 
  <p><b>Note:</b> When implementing an escaper it is a good idea to override this method for
  efficiency by inlining the implementation of <a href="../../../../com/google/common/escape/UnicodeEscaper.html#nextEscapeIndex-java.lang.CharSequence-int-int-"><code>UnicodeEscaper.nextEscapeIndex(CharSequence, int, int)</code></a>
@@ -349,7 +350,7 @@ extends <a href="../../../../com/google/common/escape/UnicodeEscaper.html" title
 <ul class="blockListLast">
 <li class="blockList">
 <h4>escape</h4>
-<pre>protected&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/net/PercentEscaper.html#line.161">escape</a>(int&nbsp;cp)</pre>
+<pre>protected&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/net/PercentEscaper.html#line.158">escape</a>(int&nbsp;cp)</pre>
 <div class="block">Escapes the given Unicode code point in UTF-8.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>

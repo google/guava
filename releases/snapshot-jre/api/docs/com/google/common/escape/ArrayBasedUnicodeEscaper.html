@@ -334,8 +334,8 @@ extends <a href="../../../../com/google/common/escape/UnicodeEscaper.html" title
 
  <p>If you are escaping input in arbitrary successive chunks, then it is not generally safe to
  use this method. If an input string ends with an unmatched high surrogate character, then this
- method will throw <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>. You should ensure your input is valid
- <a href="http://en.wikipedia.org/wiki/UTF-16">UTF-16</a> before calling this method.
+ method will throw <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>. You should ensure your input is valid <a
+ href="http://en.wikipedia.org/wiki/UTF-16">UTF-16</a> before calling this method.
 
  <p><b>Note:</b> When implementing an escaper it is a good idea to override this method for
  efficiency by inlining the implementation of <a href="../../../../com/google/common/escape/UnicodeEscaper.html#nextEscapeIndex-java.lang.CharSequence-int-int-"><code>UnicodeEscaper.nextEscapeIndex(CharSequence, int, int)</code></a>

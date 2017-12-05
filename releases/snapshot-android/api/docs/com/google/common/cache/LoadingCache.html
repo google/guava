@@ -119,8 +119,7 @@ extends <a href="../../../../com/google/common/cache/Cache.html" title="interfac
  <p>Implementations of this interface are expected to be thread-safe, and can be safely accessed
  by multiple concurrent threads.
 
- <p>When evaluated as a <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base"><code>Function</code></a>, a cache yields the same result as invoking
- <a href="../../../../com/google/common/cache/LoadingCache.html#getUnchecked-K-"><code>getUnchecked(K)</code></a>.</div>
+ <p>When evaluated as a <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base"><code>Function</code></a>, a cache yields the same result as invoking <a href="../../../../com/google/common/cache/LoadingCache.html#getUnchecked-K-"><code>getUnchecked(K)</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>11.0</dd>
@@ -149,8 +148,7 @@ extends <a href="../../../../com/google/common/cache/Cache.html" title="interfac
 <td class="colFirst"><code><a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">V</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/cache/LoadingCache.html#apply-K-">apply</a></span>(<a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">K</a>&nbsp;key)</code>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
-<div class="block"><span class="deprecationComment">Provided to satisfy the <code>Function</code> interface; use <a href="../../../../com/google/common/cache/LoadingCache.html#get-K-"><code>get(K)</code></a> or
-     <a href="../../../../com/google/common/cache/LoadingCache.html#getUnchecked-K-"><code>getUnchecked(K)</code></a> instead.</span></div>
+<div class="block"><span class="deprecationComment">Provided to satisfy the <code>Function</code> interface; use <a href="../../../../com/google/common/cache/LoadingCache.html#get-K-"><code>get(K)</code></a> or <a href="../../../../com/google/common/cache/LoadingCache.html#getUnchecked-K-"><code>getUnchecked(K)</code></a> instead.</span></div>
 </div>
 </td>
 </tr>
@@ -234,17 +232,16 @@ throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/E
  multiple threads can concurrently load values for distinct keys.
 
  <p>Caches loaded by a <a href="../../../../com/google/common/cache/CacheLoader.html" title="class in com.google.common.cache"><code>CacheLoader</code></a> will call <a href="../../../../com/google/common/cache/CacheLoader.html#load-K-"><code>CacheLoader.load(K)</code></a> to load new values
- into the cache. Newly loaded values are added to the cache using
- <code>Cache.asMap().putIfAbsent</code> after loading has completed; if another value was associated
- with <code>key</code> while the new value was loading then a removal notification will be sent for
- the new value.
+ into the cache. Newly loaded values are added to the cache using <code>Cache.asMap().putIfAbsent</code> after loading has completed; if another value was associated with
+ <code>key</code> while the new value was loading then a removal notification will be sent for the
+ new value.
 
  <p>If the cache loader associated with this cache is known not to throw checked exceptions,
  then prefer <a href="../../../../com/google/common/cache/LoadingCache.html#getUnchecked-K-"><code>getUnchecked(K)</code></a> over this method.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></code> - if a checked exception was thrown while loading the value. (<code>ExecutionException</code> is thrown
-     <a href="https://github.com/google/guava/wiki/CachesExplained#interruption">even if
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></code> - if a checked exception was thrown while loading the value. (<code>ExecutionException</code> is thrown <a
+     href="https://github.com/google/guava/wiki/CachesExplained#interruption">even if
      computation was interrupted by an <code>InterruptedException</code></a>.)</dd>
 <dd><code><a href="../../../../com/google/common/util/concurrent/UncheckedExecutionException.html" title="class in com.google.common.util.concurrent">UncheckedExecutionException</a></code> - if an unchecked exception was thrown while loading the
      value</dd>
@@ -271,10 +268,9 @@ throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/E
  multiple threads can concurrently load values for distinct keys.
 
  <p>Caches loaded by a <a href="../../../../com/google/common/cache/CacheLoader.html" title="class in com.google.common.cache"><code>CacheLoader</code></a> will call <a href="../../../../com/google/common/cache/CacheLoader.html#load-K-"><code>CacheLoader.load(K)</code></a> to load new values
- into the cache. Newly loaded values are added to the cache using
- <code>Cache.asMap().putIfAbsent</code> after loading has completed; if another value was associated
- with <code>key</code> while the new value was loading then a removal notification will be sent for
- the new value.
+ into the cache. Newly loaded values are added to the cache using <code>Cache.asMap().putIfAbsent</code> after loading has completed; if another value was associated with
+ <code>key</code> while the new value was loading then a removal notification will be sent for the
+ new value.
 
  <p><b>Warning:</b> this method silently converts checked exceptions to unchecked exceptions,
  and should not be used with cache loaders which throw checked exceptions. In such cases use
@@ -299,9 +295,8 @@ throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/E
  if necessary. The returned map contains entries that were already cached, combined with newly
  loaded entries; it will never contain null keys or values.
 
- <p>Caches loaded by a <a href="../../../../com/google/common/cache/CacheLoader.html" title="class in com.google.common.cache"><code>CacheLoader</code></a> will issue a single request to
- <a href="../../../../com/google/common/cache/CacheLoader.html#loadAll-java.lang.Iterable-"><code>CacheLoader.loadAll(java.lang.Iterable&lt;? extends K&gt;)</code></a> for all keys which are not already present in the cache. All
- entries returned by <a href="../../../../com/google/common/cache/CacheLoader.html#loadAll-java.lang.Iterable-"><code>CacheLoader.loadAll(java.lang.Iterable&lt;? extends K&gt;)</code></a> will be stored in the cache, over-writing any
+ <p>Caches loaded by a <a href="../../../../com/google/common/cache/CacheLoader.html" title="class in com.google.common.cache"><code>CacheLoader</code></a> will issue a single request to <a href="../../../../com/google/common/cache/CacheLoader.html#loadAll-java.lang.Iterable-"><code>CacheLoader.loadAll(java.lang.Iterable&lt;? extends K&gt;)</code></a> for all keys which are not already present in the cache. All entries
+ returned by <a href="../../../../com/google/common/cache/CacheLoader.html#loadAll-java.lang.Iterable-"><code>CacheLoader.loadAll(java.lang.Iterable&lt;? extends K&gt;)</code></a> will be stored in the cache, over-writing any
  previously cached values. This method will throw an exception if <a href="../../../../com/google/common/cache/CacheLoader.html#loadAll-java.lang.Iterable-"><code>CacheLoader.loadAll(java.lang.Iterable&lt;? extends K&gt;)</code></a>
  returns <code>null</code>, returns a map containing null keys or values, or fails to return an entry
  for each requested key.
@@ -310,8 +305,8 @@ throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/E
  be ignored.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></code> - if a checked exception was thrown while loading the value. (<code>ExecutionException</code> is thrown
-     <a href="https://github.com/google/guava/wiki/CachesExplained#interruption">even if
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></code> - if a checked exception was thrown while loading the value. (<code>ExecutionException</code> is thrown <a
+     href="https://github.com/google/guava/wiki/CachesExplained#interruption">even if
      computation was interrupted by an <code>InterruptedException</code></a>.)</dd>
 <dd><code><a href="../../../../com/google/common/util/concurrent/UncheckedExecutionException.html" title="class in com.google.common.util.concurrent">UncheckedExecutionException</a></code> - if an unchecked exception was thrown while loading the
      values</dd>
@@ -331,16 +326,15 @@ throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/E
 <h4>apply</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
 <a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/LoadingCache.html#line.130">apply</a>(<a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">K</a>&nbsp;key)</pre>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Provided to satisfy the <code>Function</code> interface; use <a href="../../../../com/google/common/cache/LoadingCache.html#get-K-"><code>get(K)</code></a> or
-     <a href="../../../../com/google/common/cache/LoadingCache.html#getUnchecked-K-"><code>getUnchecked(K)</code></a> instead.</span></div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Provided to satisfy the <code>Function</code> interface; use <a href="../../../../com/google/common/cache/LoadingCache.html#get-K-"><code>get(K)</code></a> or <a href="../../../../com/google/common/cache/LoadingCache.html#getUnchecked-K-"><code>getUnchecked(K)</code></a> instead.</span></div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/base/Function.html#apply-F-">Function</a></code></span></div>
 <div class="block">Returns the result of applying this function to <code>input</code>. This method is <i>generally
  expected</i>, but not absolutely required, to have the following properties:
 
  <ul>
- <li>Its execution does not cause any observable side effects.
- <li>The computation is <i>consistent with equals</i>; that is, <a href="../../../../com/google/common/base/Objects.html#equal-java.lang.Object-java.lang.Object-"><code>Objects.equal</code></a><code>(a, b)</code> implies that <code>Objects.equal(function.apply(a),
-     function.apply(b))</code>.
+   <li>Its execution does not cause any observable side effects.
+   <li>The computation is <i>consistent with equals</i>; that is, <a href="../../../../com/google/common/base/Objects.html#equal-java.lang.Object-java.lang.Object-"><code>Objects.equal</code></a><code>(a, b)</code> implies that <code>Objects.equal(function.apply(a),
+       function.apply(b))</code>.
  </ul></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -372,9 +366,8 @@ throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/E
  asynchronous only if <a href="../../../../com/google/common/cache/CacheLoader.html#reload-K-V-"><code>CacheLoader.reload(K, V)</code></a> was overridden with an asynchronous
  implementation.
 
- <p>Returns without doing anything if another thread is currently loading the value for
- <code>key</code>. If the cache loader associated with this cache performs refresh asynchronously
- then this method may return before refresh completes.</div>
+ <p>Returns without doing anything if another thread is currently loading the value for <code>key</code>. If the cache loader associated with this cache performs refresh asynchronously then this
+ method may return before refresh completes.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>11.0</dd>

@@ -110,21 +110,17 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.48">DiscreteDomain</a>&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.46">DiscreteDomain</a>&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&gt;
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
-<div class="block">A descriptor for a <i>discrete</i> <code>Comparable</code> domain such as all
- <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang"><code>Integer</code></a> instances. A discrete domain is one that supports the three basic
- operations: <a href="../../../../com/google/common/collect/DiscreteDomain.html#next-C-"><code>next(C)</code></a>, <a href="../../../../com/google/common/collect/DiscreteDomain.html#previous-C-"><code>previous(C)</code></a> and <a href="../../../../com/google/common/collect/DiscreteDomain.html#distance-C-C-"><code>distance(C, C)</code></a>, according
- to their specifications. The methods <a href="../../../../com/google/common/collect/DiscreteDomain.html#minValue--"><code>minValue()</code></a> and <a href="../../../../com/google/common/collect/DiscreteDomain.html#maxValue--"><code>maxValue()</code></a>
- should also be overridden for bounded types.
+<div class="block">A descriptor for a <i>discrete</i> <code>Comparable</code> domain such as all <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang"><code>Integer</code></a>
+ instances. A discrete domain is one that supports the three basic operations: <a href="../../../../com/google/common/collect/DiscreteDomain.html#next-C-"><code>next(C)</code></a>,
+ <a href="../../../../com/google/common/collect/DiscreteDomain.html#previous-C-"><code>previous(C)</code></a> and <a href="../../../../com/google/common/collect/DiscreteDomain.html#distance-C-C-"><code>distance(C, C)</code></a>, according to their specifications. The methods <a href="../../../../com/google/common/collect/DiscreteDomain.html#minValue--"><code>minValue()</code></a> and <a href="../../../../com/google/common/collect/DiscreteDomain.html#maxValue--"><code>maxValue()</code></a> should also be overridden for bounded types.
 
- <p>A discrete domain always represents the <i>entire</i> set of values of its
- type; it cannot represent partial domains such as "prime integers" or
- "strings of length 5."
+ <p>A discrete domain always represents the <i>entire</i> set of values of its type; it cannot
+ represent partial domains such as "prime integers" or "strings of length 5."
 
  <p>See the Guava User Guide section on <a href=
- "https://github.com/google/guava/wiki/RangesExplained#discrete-domains">
- <code>DiscreteDomain</code></a>.</div>
+ "https://github.com/google/guava/wiki/RangesExplained#discrete-domains"> <code>DiscreteDomain</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>10.0</dd>
@@ -180,8 +176,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <td class="colFirst"><code>abstract long</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/DiscreteDomain.html#distance-C-C-">distance</a></span>(<a href="../../../../com/google/common/collect/DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;start,
         <a href="../../../../com/google/common/collect/DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;end)</code>
-<div class="block">Returns a signed value indicating how many nested invocations of <a href="../../../../com/google/common/collect/DiscreteDomain.html#next-C-"><code>next(C)</code></a> (if positive) or <a href="../../../../com/google/common/collect/DiscreteDomain.html#previous-C-"><code>previous(C)</code></a> (if negative) are needed to reach
- <code>end</code> starting from <code>start</code>.</div>
+<div class="block">Returns a signed value indicating how many nested invocations of <a href="../../../../com/google/common/collect/DiscreteDomain.html#next-C-"><code>next(C)</code></a> (if positive) or
+ <a href="../../../../com/google/common/collect/DiscreteDomain.html#previous-C-"><code>previous(C)</code></a> (if negative) are needed to reach <code>end</code> starting from <code>start</code>.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
@@ -211,15 +207,13 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>abstract <a href="../../../../com/google/common/collect/DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/DiscreteDomain.html#next-C-">next</a></span>(<a href="../../../../com/google/common/collect/DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;value)</code>
-<div class="block">Returns the unique least value of type <code>C</code> that is greater than
- <code>value</code>, or <code>null</code> if none exists.</div>
+<div class="block">Returns the unique least value of type <code>C</code> that is greater than <code>value</code>, or <code>null</code> if none exists.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>abstract <a href="../../../../com/google/common/collect/DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/DiscreteDomain.html#previous-C-">previous</a></span>(<a href="../../../../com/google/common/collect/DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;value)</code>
-<div class="block">Returns the unique greatest value of type <code>C</code> that is less than
- <code>value</code>, or <code>null</code> if none exists.</div>
+<div class="block">Returns the unique greatest value of type <code>C</code> that is less than <code>value</code>, or <code>null</code> if none exists.</div>
 </td>
 </tr>
 </table>
@@ -250,7 +244,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>DiscreteDomain</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.239">DiscreteDomain</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.237">DiscreteDomain</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -268,7 +262,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>integers</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/collect/DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.55">integers</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/collect/DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.53">integers</a>()</pre>
 <div class="block">Returns the discrete domain for values of type <code>Integer</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -282,7 +276,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>longs</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/collect/DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.116">longs</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/collect/DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.114">longs</a>()</pre>
 <div class="block">Returns the discrete domain for values of type <code>Long</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -296,7 +290,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>bigIntegers</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/collect/DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math">BigInteger</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.188">bigIntegers</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/collect/DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math">BigInteger</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.186">bigIntegers</a>()</pre>
 <div class="block">Returns the discrete domain for values of type <code>BigInteger</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -312,15 +306,13 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>next</h4>
-<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.269">next</a>(<a href="../../../../com/google/common/collect/DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;value)</pre>
-<div class="block">Returns the unique least value of type <code>C</code> that is greater than
- <code>value</code>, or <code>null</code> if none exists. Inverse operation to <a href="../../../../com/google/common/collect/DiscreteDomain.html#previous-C-"><code>previous(C)</code></a>.</div>
+<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.266">next</a>(<a href="../../../../com/google/common/collect/DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;value)</pre>
+<div class="block">Returns the unique least value of type <code>C</code> that is greater than <code>value</code>, or <code>null</code> if none exists. Inverse operation to <a href="../../../../com/google/common/collect/DiscreteDomain.html#previous-C-"><code>previous(C)</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>value</code> - any value of type <code>C</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the least value greater than <code>value</code>, or <code>null</code> if
-     <code>value</code> is <code>maxValue()</code></dd>
+<dd>the least value greater than <code>value</code>, or <code>null</code> if <code>value</code> is <code>maxValue()</code></dd>
 </dl>
 </li>
 </ul>
@@ -332,15 +324,13 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>previous</h4>
-<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.280">previous</a>(<a href="../../../../com/google/common/collect/DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;value)</pre>
-<div class="block">Returns the unique greatest value of type <code>C</code> that is less than
- <code>value</code>, or <code>null</code> if none exists. Inverse operation to <a href="../../../../com/google/common/collect/DiscreteDomain.html#next-C-"><code>next(C)</code></a>.</div>
+<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.276">previous</a>(<a href="../../../../com/google/common/collect/DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;value)</pre>
+<div class="block">Returns the unique greatest value of type <code>C</code> that is less than <code>value</code>, or <code>null</code> if none exists. Inverse operation to <a href="../../../../com/google/common/collect/DiscreteDomain.html#next-C-"><code>next(C)</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>value</code> - any value of type <code>C</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the greatest value less than <code>value</code>, or <code>null</code> if
-     <code>value</code> is <code>minValue()</code></dd>
+<dd>the greatest value less than <code>value</code>, or <code>null</code> if <code>value</code> is <code>minValue()</code></dd>
 </dl>
 </li>
 </ul>
@@ -352,20 +342,18 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>distance</h4>
-<pre>public abstract&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.297">distance</a>(<a href="../../../../com/google/common/collect/DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;start,
+<pre>public abstract&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.289">distance</a>(<a href="../../../../com/google/common/collect/DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;start,
                               <a href="../../../../com/google/common/collect/DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;end)</pre>
-<div class="block">Returns a signed value indicating how many nested invocations of <a href="../../../../com/google/common/collect/DiscreteDomain.html#next-C-"><code>next(C)</code></a> (if positive) or <a href="../../../../com/google/common/collect/DiscreteDomain.html#previous-C-"><code>previous(C)</code></a> (if negative) are needed to reach
- <code>end</code> starting from <code>start</code>. For example, if <code>end =
- next(next(next(start)))</code>, then <code>distance(start, end) == 3</code> and <code>distance(end, start) == -3</code>. As well, <code>distance(a, a)</code> is always
- zero.
+<div class="block">Returns a signed value indicating how many nested invocations of <a href="../../../../com/google/common/collect/DiscreteDomain.html#next-C-"><code>next(C)</code></a> (if positive) or
+ <a href="../../../../com/google/common/collect/DiscreteDomain.html#previous-C-"><code>previous(C)</code></a> (if negative) are needed to reach <code>end</code> starting from <code>start</code>.
+ For example, if <code>end = next(next(next(start)))</code>, then <code>distance(start, end) == 3</code>
+ and <code>distance(end, start) == -3</code>. As well, <code>distance(a, a)</code> is always zero.
 
- <p>Note that this function is necessarily well-defined for any discrete
- type.</div>
+ <p>Note that this function is necessarily well-defined for any discrete type.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the distance as described above, or <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#MIN_VALUE" title="class or interface in java.lang"><code>Long.MIN_VALUE</code></a> or
-     <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#MAX_VALUE" title="class or interface in java.lang"><code>Long.MAX_VALUE</code></a> if the distance is too small or too large,
-     respectively.</dd>
+<dd>the distance as described above, or <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#MIN_VALUE" title="class or interface in java.lang"><code>Long.MIN_VALUE</code></a> or <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#MAX_VALUE" title="class or interface in java.lang"><code>Long.MAX_VALUE</code></a> if
+     the distance is too small or too large, respectively.</dd>
 </dl>
 </li>
 </ul>
@@ -376,18 +364,18 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>minValue</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="../../../../com/google/common/collect/DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.311">minValue</a>()</pre>
-<div class="block">Returns the minimum value of type <code>C</code>, if it has one. The minimum
- value is the unique value for which <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true#compareTo-T-" title="class or interface in java.lang"><code>Comparable.compareTo(Object)</code></a>
- never returns a positive value for any input of type <code>C</code>.
+public&nbsp;<a href="../../../../com/google/common/collect/DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.303">minValue</a>()</pre>
+<div class="block">Returns the minimum value of type <code>C</code>, if it has one. The minimum value is the unique
+ value for which <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true#compareTo-T-" title="class or interface in java.lang"><code>Comparable.compareTo(Object)</code></a> never returns a positive value for any
+ input of type <code>C</code>.
 
  <p>The default implementation throws <code>NoSuchElementException</code>.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the minimum value of type <code>C</code>; never null</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NoSuchElementException.html?is-external=true" title="class or interface in java.util">NoSuchElementException</a></code> - if the type has no (practical) minimum
-     value; for example, <a href="https://docs.oracle.com/javase/9/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math"><code>BigInteger</code></a></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NoSuchElementException.html?is-external=true" title="class or interface in java.util">NoSuchElementException</a></code> - if the type has no (practical) minimum value; for example,
+     <a href="https://docs.oracle.com/javase/9/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math"><code>BigInteger</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -398,18 +386,18 @@ public&nbsp;<a href="../../../../com/google/common/collect/DiscreteDomain.html" 
 <li class="blockList">
 <h4>maxValue</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="../../../../com/google/common/collect/DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.327">maxValue</a>()</pre>
-<div class="block">Returns the maximum value of type <code>C</code>, if it has one. The maximum
- value is the unique value for which <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true#compareTo-T-" title="class or interface in java.lang"><code>Comparable.compareTo(Object)</code></a>
- never returns a negative value for any input of type <code>C</code>.
+public&nbsp;<a href="../../../../com/google/common/collect/DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.319">maxValue</a>()</pre>
+<div class="block">Returns the maximum value of type <code>C</code>, if it has one. The maximum value is the unique
+ value for which <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true#compareTo-T-" title="class or interface in java.lang"><code>Comparable.compareTo(Object)</code></a> never returns a negative value for any
+ input of type <code>C</code>.
 
  <p>The default implementation throws <code>NoSuchElementException</code>.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the maximum value of type <code>C</code>; never null</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NoSuchElementException.html?is-external=true" title="class or interface in java.util">NoSuchElementException</a></code> - if the type has no (practical) maximum
-     value; for example, <a href="https://docs.oracle.com/javase/9/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math"><code>BigInteger</code></a></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NoSuchElementException.html?is-external=true" title="class or interface in java.util">NoSuchElementException</a></code> - if the type has no (practical) maximum value; for example,
+     <a href="https://docs.oracle.com/javase/9/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math"><code>BigInteger</code></a></dd>
 </dl>
 </li>
 </ul>

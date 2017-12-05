@@ -151,8 +151,7 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
  <h3>Building a <code>Network</code></h3>
 
  <p>The implementation classes that <code>common.graph</code> provides are not public, by design. To
- create an instance of one of the built-in implementations of <code>Network</code>, use the
- <a href="../../../../com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph"><code>NetworkBuilder</code></a> class:
+ create an instance of one of the built-in implementations of <code>Network</code>, use the <a href="../../../../com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph"><code>NetworkBuilder</code></a> class:
 
  <pre><code>
  MutableNetwork&lt;Integer, MyEdge&gt; graph = NetworkBuilder.directed().build();
@@ -785,8 +784,8 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
 <pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.326">hasEdgeConnecting</a>(<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;nodeU,
                           <a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&nbsp;nodeV)</pre>
 <div class="block">Returns true if there is an edge directly connecting <code>nodeU</code> to <code>nodeV</code>. This is
- equivalent to <code>nodes().contains(nodeU) &amp;&amp; successors(nodeU).contains(nodeV)</code>,
- and to <code>edgeConnectingOrNull(nodeU, nodeV) != null</code>.
+ equivalent to <code>nodes().contains(nodeU) &amp;&amp; successors(nodeU).contains(nodeV)</code>, and to
+ <code>edgeConnectingOrNull(nodeU, nodeV) != null</code>.
 
  <p>In an undirected graph, this is equal to <code>hasEdgeConnecting(nodeV, nodeU)</code>.</div>
 <dl>
@@ -809,10 +808,10 @@ extends <a href="../../../../com/google/common/graph/SuccessorsFunction.html" ti
  <p>Thus, two networks A and B are equal if <b>all</b> of the following are true:
 
  <ul>
- <li>A and B have equal <a href="../../../../com/google/common/graph/Network.html#isDirected--"><code>directedness</code></a>.
- <li>A and B have equal <a href="../../../../com/google/common/graph/Network.html#nodes--"><code>node sets</code></a>.
- <li>A and B have equal <a href="../../../../com/google/common/graph/Network.html#edges--"><code>edge sets</code></a>.
- <li>Every edge in A and B connects the same nodes in the same direction (if any).
+   <li>A and B have equal <a href="../../../../com/google/common/graph/Network.html#isDirected--"><code>directedness</code></a>.
+   <li>A and B have equal <a href="../../../../com/google/common/graph/Network.html#nodes--"><code>node sets</code></a>.
+   <li>A and B have equal <a href="../../../../com/google/common/graph/Network.html#edges--"><code>edge sets</code></a>.
+   <li>Every edge in A and B connects the same nodes in the same direction (if any).
  </ul>
 
  <p>Network properties besides <a href="../../../../com/google/common/graph/Network.html#isDirected--"><code>directedness</code></a> do <b>not</b> affect equality.

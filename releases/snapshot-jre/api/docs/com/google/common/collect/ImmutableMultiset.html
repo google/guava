@@ -129,19 +129,18 @@ var activeTableTab = "activeTableTab";
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable--">serializable</a>=true,
                <a href="../../../../com/google/common/annotations/GwtCompatible.html#emulated--">emulated</a>=true)
-public abstract class <a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.55">ImmutableMultiset</a>&lt;E&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.54">ImmutableMultiset</a>&lt;E&gt;
 extends <a href="../../../../com/google/common/collect/ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;E&gt;
 implements <a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;</pre>
 <div class="block">A <a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect"><code>Multiset</code></a> whose contents will never change, with many other important properties
  detailed at <a href="../../../../com/google/common/collect/ImmutableCollection.html" title="class in com.google.common.collect"><code>ImmutableCollection</code></a>.
 
  <p><b>Grouped iteration.</b> In all current implementations, duplicate elements always appear
- consecutively when iterating. Elements iterate in order by the <i>first</i> appearance of
- that element when the multiset was created.
+ consecutively when iterating. Elements iterate in order by the <i>first</i> appearance of that
+ element when the multiset was created.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">
- immutable collections</a>.</div>
+ "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
@@ -171,7 +170,8 @@ implements <a href="../../../../com/google/common/collect/Multiset.html" title="
 <tr class="altColor">
 <td class="colFirst"><code>static class&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableMultiset.Builder.html" title="class in com.google.common.collect">ImmutableMultiset.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultiset.Builder.html" title="type parameter in ImmutableMultiset.Builder">E</a>&gt;</span></code>
-<div class="block">A builder for creating immutable multiset instances, especially <code>public static final</code> multisets ("constant multisets").</div>
+<div class="block">A builder for creating immutable multiset instances, especially <code>public static final</code>
+ multisets ("constant multisets").</div>
 </td>
 </tr>
 </table>
@@ -254,8 +254,8 @@ implements <a href="../../../../com/google/common/collect/Multiset.html" title="
 <tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="type parameter in ImmutableMultiset">E</a>&gt;&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableMultiset.html#entrySet--">entrySet</a></span>()</code>
-<div class="block">Returns a view of the contents of this multiset, grouped into <code>Multiset.Entry</code> instances, each providing an element of the multiset and
- the count of that element.</div>
+<div class="block">Returns a view of the contents of this multiset, grouped into <code>Multiset.Entry</code> instances,
+ each providing an element of the multiset and the count of that element.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
@@ -369,8 +369,7 @@ implements <a href="../../../../com/google/common/collect/Multiset.html" title="
 <tr id="i22" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream">Collector</a>&lt;E,?,<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableMultiset.html#toImmutableMultiset--">toImmutableMultiset</a></span>()</code>
-<div class="block">Returns a <code>Collector</code> that accumulates the input elements into a new
- <code>ImmutableMultiset</code>.</div>
+<div class="block">Returns a <code>Collector</code> that accumulates the input elements into a new <code>ImmutableMultiset</code>.</div>
 </td>
 </tr>
 <tr id="i23" class="rowColor">
@@ -445,10 +444,9 @@ implements <a href="../../../../com/google/common/collect/Multiset.html" title="
 <li class="blockList">
 <h4>toImmutableMultiset</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream">Collector</a>&lt;E,?,<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.66">toImmutableMultiset</a>()</pre>
-<div class="block">Returns a <code>Collector</code> that accumulates the input elements into a new
- <code>ImmutableMultiset</code>.  Elements iterate in order by the <i>first</i> appearance of that
- element in encounter order.</div>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream">Collector</a>&lt;E,?,<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.65">toImmutableMultiset</a>()</pre>
+<div class="block">Returns a <code>Collector</code> that accumulates the input elements into a new <code>ImmutableMultiset</code>. Elements iterate in order by the <i>first</i> appearance of that element in
+ encounter order.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>21.0</dd>
@@ -461,7 +459,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>toImmutableMultiset</h4>
-<pre>public static&nbsp;&lt;T,E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream">Collector</a>&lt;T,?,<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.81">toImmutableMultiset</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends E&gt;&nbsp;elementFunction,
+<pre>public static&nbsp;&lt;T,E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream">Collector</a>&lt;T,?,<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.80">toImmutableMultiset</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends E&gt;&nbsp;elementFunction,
                                                                             <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/ToIntFunction.html?is-external=true" title="class or interface in java.util.function">ToIntFunction</a>&lt;? super T&gt;&nbsp;countFunction)</pre>
 <div class="block">Returns a <code>Collector</code> that accumulates elements into an <code>ImmutableMultiset</code> whose
  elements are the result of applying <code>elementFunction</code> to the inputs, with counts equal to
@@ -482,7 +480,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.100">of</a>()</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.97">of</a>()</pre>
 <div class="block">Returns the empty immutable multiset.</div>
 </li>
 </ul>
@@ -494,7 +492,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.111">of</a>(E&nbsp;element)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.108">of</a>(E&nbsp;element)</pre>
 <div class="block">Returns an immutable multiset containing a single element.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -512,7 +510,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.122">of</a>(E&nbsp;e1,
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.119">of</a>(E&nbsp;e1,
                                           E&nbsp;e2)</pre>
 <div class="block">Returns an immutable multiset containing the given elements, in order.</div>
 <dl>
@@ -531,7 +529,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.134">of</a>(E&nbsp;e1,
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.131">of</a>(E&nbsp;e1,
                                           E&nbsp;e2,
                                           E&nbsp;e3)</pre>
 <div class="block">Returns an immutable multiset containing the given elements, in the "grouped iteration order"
@@ -552,7 +550,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.146">of</a>(E&nbsp;e1,
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.143">of</a>(E&nbsp;e1,
                                           E&nbsp;e2,
                                           E&nbsp;e3,
                                           E&nbsp;e4)</pre>
@@ -574,7 +572,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.158">of</a>(E&nbsp;e1,
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.155">of</a>(E&nbsp;e1,
                                           E&nbsp;e2,
                                           E&nbsp;e3,
                                           E&nbsp;e4,
@@ -597,7 +595,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.170">of</a>(E&nbsp;e1,
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.167">of</a>(E&nbsp;e1,
                                           E&nbsp;e2,
                                           E&nbsp;e3,
                                           E&nbsp;e4,
@@ -622,7 +620,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.181">copyOf</a>(E[]&nbsp;elements)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.178">copyOf</a>(E[]&nbsp;elements)</pre>
 <div class="block">Returns an immutable multiset containing the given elements, in the "grouped iteration order"
  described in the class documentation.</div>
 <dl>
@@ -639,7 +637,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.191">copyOf</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.188">copyOf</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable multiset containing the given elements, in the "grouped iteration order"
  described in the class documentation.</div>
 <dl>
@@ -654,7 +652,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.229">copyOf</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.226">copyOf</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable multiset containing the given elements, in the "grouped iteration order"
  described in the class documentation.</div>
 <dl>
@@ -669,7 +667,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>iterator</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="type parameter in ImmutableMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.238">iterator</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="type parameter in ImmutableMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.235">iterator</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../com/google/common/collect/ImmutableCollection.html#iterator--">ImmutableCollection</a></code></span></div>
 <div class="block">Returns an unmodifiable iterator across the elements in this collection.</div>
 <dl>
@@ -692,7 +690,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>asList</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="type parameter in ImmutableMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.266">asList</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="type parameter in ImmutableMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.262">asList</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../com/google/common/collect/ImmutableCollection.html#asList--">ImmutableCollection</a></code></span></div>
 <div class="block">Returns an <code>ImmutableList</code> containing the same elements, in the same order, as this
  collection.
@@ -712,7 +710,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.272">contains</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.268">contains</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                         <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#contains-java.lang.Object-" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
 <div class="block">Returns <tt>true</tt> if this collection contains the specified element.
@@ -747,7 +745,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <h4>add</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.285">add</a>(<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="type parameter in ImmutableMultiset">E</a>&nbsp;element,
+public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.281">add</a>(<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="type parameter in ImmutableMultiset">E</a>&nbsp;element,
                                                         int&nbsp;occurrences)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the collection unmodified.</div>
@@ -755,10 +753,10 @@ public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/colle
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/Multiset.html#add-E-int-">add</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="type parameter in ImmutableMultiset">E</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>element</code> - the element to add occurrences of; may be null only if
-     explicitly allowed by the implementation</dd>
-<dd><code>occurrences</code> - the number of occurrences of the element to add. May be
-     zero, in which case no change will be made.</dd>
+<dd><code>element</code> - the element to add occurrences of; may be null only if explicitly allowed by the
+     implementation</dd>
+<dd><code>occurrences</code> - the number of occurrences of the element to add. May be zero, in which case
+     no change will be made.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the count of the element before the operation; possibly zero</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -774,7 +772,7 @@ public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/colle
 <h4>remove</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.298">remove</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element,
+public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.294">remove</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element,
                                                            int&nbsp;occurrences)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the collection unmodified.</div>
@@ -802,7 +800,7 @@ public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/colle
 <h4>setCount</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.311">setCount</a>(<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="type parameter in ImmutableMultiset">E</a>&nbsp;element,
+public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.307">setCount</a>(<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="type parameter in ImmutableMultiset">E</a>&nbsp;element,
                                                              int&nbsp;count)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the collection unmodified.</div>
@@ -810,8 +808,8 @@ public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/colle
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/Multiset.html#setCount-E-int-">setCount</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="type parameter in ImmutableMultiset">E</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>element</code> - the element to add or remove occurrences of; may be null
-     only if explicitly allowed by the implementation</dd>
+<dd><code>element</code> - the element to add or remove occurrences of; may be null only if explicitly
+     allowed by the implementation</dd>
 <dd><code>count</code> - the desired count of the element in this multiset</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the count of the element before the operation; possibly zero</dd>
@@ -830,7 +828,7 @@ public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/colle
 <h4>setCount</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.324">setCount</a>(<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="type parameter in ImmutableMultiset">E</a>&nbsp;element,
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.320">setCount</a>(<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="type parameter in ImmutableMultiset">E</a>&nbsp;element,
                                                                  int&nbsp;oldCount,
                                                                  int&nbsp;newCount)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
@@ -839,14 +837,13 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/Multiset.html#setCount-E-int-int-">setCount</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="type parameter in ImmutableMultiset">E</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>element</code> - the element to conditionally set the count of; may be null
-     only if explicitly allowed by the implementation</dd>
+<dd><code>element</code> - the element to conditionally set the count of; may be null only if explicitly
+     allowed by the implementation</dd>
 <dd><code>oldCount</code> - the expected present count of the element in this multiset</dd>
 <dd><code>newCount</code> - the desired count of the element in this multiset</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if the condition for modification was met. This
-     implies that the multiset was indeed modified, unless
-     <code>oldCount == newCount</code>.</dd>
+<dd><code>true</code> if the condition for modification was met. This implies that the multiset
+     was indeed modified, unless <code>oldCount == newCount</code>.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang">UnsupportedOperationException</a></code> - always</dd>
 </dl>
@@ -858,7 +855,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.339">equals</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.335">equals</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Indicates whether some other object is "equal to" this one.
@@ -923,7 +920,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.344">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.340">hashCode</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Returns a hash code value for the object. This method is
  supported for the benefit of hash tables such as those provided by
@@ -975,7 +972,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.349">toString</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.345">toString</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#toString--" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
 <div class="block">Returns a string representation of this collection.  The string
  representation consists of a list of the collection's elements in the
@@ -999,20 +996,18 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <ul class="blockList">
 <li class="blockList">
 <h4>elementSet</h4>
-<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="type parameter in ImmutableMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.355">elementSet</a>()</pre>
+<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="type parameter in ImmutableMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.351">elementSet</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#elementSet--">Multiset</a></code></span></div>
-<div class="block">Returns the set of distinct elements contained in this multiset. The
- element set is backed by the same data as the multiset, so any change to
- either is immediately reflected in the other. The order of the elements in
- the element set is unspecified.
+<div class="block">Returns the set of distinct elements contained in this multiset. The element set is backed by
+ the same data as the multiset, so any change to either is immediately reflected in the other.
+ The order of the elements in the element set is unspecified.
 
- <p>If the element set supports any removal operations, these necessarily
- cause <b>all</b> occurrences of the removed element(s) to be removed from
- the multiset. Implementations are not expected to support the add
- operations, although this is possible.
+ <p>If the element set supports any removal operations, these necessarily cause <b>all</b>
+ occurrences of the removed element(s) to be removed from the multiset. Implementations are not
+ expected to support the add operations, although this is possible.
 
- <p>A common use for the element set is to find the number of distinct
- elements in the multiset: <code>elementSet().size()</code>.</div>
+ <p>A common use for the element set is to find the number of distinct elements in the multiset:
+ <code>elementSet().size()</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/Multiset.html#elementSet--">elementSet</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="type parameter in ImmutableMultiset">E</a>&gt;</code></dd>
@@ -1029,22 +1024,20 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <ul class="blockList">
 <li class="blockList">
 <h4>entrySet</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="type parameter in ImmutableMultiset">E</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.361">entrySet</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="type parameter in ImmutableMultiset">E</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.356">entrySet</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#entrySet--">Multiset</a></code></span></div>
-<div class="block">Returns a view of the contents of this multiset, grouped into <code>Multiset.Entry</code> instances, each providing an element of the multiset and
- the count of that element. This set contains exactly one entry for each
- distinct element in the multiset (thus it always has the same size as the
- <a href="../../../../com/google/common/collect/Multiset.html#elementSet--"><code>Multiset.elementSet()</code></a>). The order of the elements in the element set is
- unspecified.
+<div class="block">Returns a view of the contents of this multiset, grouped into <code>Multiset.Entry</code> instances,
+ each providing an element of the multiset and the count of that element. This set contains
+ exactly one entry for each distinct element in the multiset (thus it always has the same size
+ as the <a href="../../../../com/google/common/collect/Multiset.html#elementSet--"><code>Multiset.elementSet()</code></a>). The order of the elements in the element set is unspecified.
 
- <p>The entry set is backed by the same data as the multiset, so any change
- to either is immediately reflected in the other. However, multiset changes
- may or may not be reflected in any <code>Entry</code> instances already
- retrieved from the entry set (this is implementation-dependent).
- Furthermore, implementations are not required to support modifications to
- the entry set at all, and the <code>Entry</code> instances themselves don't
- even have methods for modification. See the specific implementation class
- for more details on how its entry set handles modifications.</div>
+ <p>The entry set is backed by the same data as the multiset, so any change to either is
+ immediately reflected in the other. However, multiset changes may or may not be reflected in
+ any <code>Entry</code> instances already retrieved from the entry set (this is
+ implementation-dependent). Furthermore, implementations are not required to support
+ modifications to the entry set at all, and the <code>Entry</code> instances themselves don't even
+ have methods for modification. See the specific implementation class for more details on how
+ its entry set handles modifications.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/Multiset.html#entrySet--">entrySet</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="type parameter in ImmutableMultiset">E</a>&gt;</code></dd>
@@ -1059,9 +1052,8 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <ul class="blockListLast">
 <li class="blockList">
 <h4>builder</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultiset.Builder.html" title="class in com.google.common.collect">ImmutableMultiset.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.466">builder</a>()</pre>
-<div class="block">Returns a new builder. The generated builder is equivalent to the builder
- created by the <a href="../../../../com/google/common/collect/ImmutableMultiset.Builder.html" title="class in com.google.common.collect"><code>ImmutableMultiset.Builder</code></a> constructor.</div>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultiset.Builder.html" title="class in com.google.common.collect">ImmutableMultiset.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultiset.html#line.461">builder</a>()</pre>
+<div class="block">Returns a new builder. The generated builder is equivalent to the builder created by the <a href="../../../../com/google/common/collect/ImmutableMultiset.Builder.html" title="class in com.google.common.collect"><code>ImmutableMultiset.Builder</code></a> constructor.</div>
 </li>
 </ul>
 </li>

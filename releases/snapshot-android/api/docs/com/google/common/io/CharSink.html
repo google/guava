@@ -110,20 +110,21 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/io/CharSink.html#line.50">CharSink</a>
+public abstract class <a href="../../../../src-html/com/google/common/io/CharSink.html#line.51">CharSink</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">A destination to which characters can be written, such as a text file. Unlike a <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io"><code>Writer</code></a>, a
  <code>CharSink</code> is not an open, stateful stream that can be written to and closed. Instead, it
  is an immutable <i>supplier</i> of <code>Writer</code> instances.
 
  <p><code>CharSink</code> provides two kinds of methods:
+
  <ul>
- <li><b>Methods that return a writer:</b> These methods should return a <i>new</i>, independent
-     instance each time they are called. The caller is responsible for ensuring that the returned
-     writer is closed.
- <li><b>Convenience methods:</b> These are implementations of common operations that are typically
-     implemented by opening a writer using one of the methods in the first category, doing
-     something and finally closing the writer that was opened.
+   <li><b>Methods that return a writer:</b> These methods should return a <i>new</i>, independent
+       instance each time they are called. The caller is responsible for ensuring that the
+       returned writer is closed.
+   <li><b>Convenience methods:</b> These are implementations of common operations that are
+       typically implemented by opening a writer using one of the methods in the first category,
+       doing something and finally closing the writer that was opened.
  </ul>
 
  <p>Any <a href="../../../../com/google/common/io/ByteSink.html" title="class in com.google.common.io"><code>ByteSink</code></a> may be viewed as a <code>CharSink</code> with a specific <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset">character encoding</a> using <a href="../../../../com/google/common/io/ByteSink.html#asCharSink-java.nio.charset.Charset-"><code>ByteSink.asCharSink(Charset)</code></a>. Characters written to the
@@ -240,7 +241,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>CharSink</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.55">CharSink</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.54">CharSink</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -258,7 +259,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>openStream</h4>
-<pre>public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io">Writer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.65">openStream</a>()
+<pre>public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io">Writer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.64">openStream</a>()
                            throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Opens a new <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io"><code>Writer</code></a> for writing to this sink. This method returns a new, independent
  writer each time it is called.
@@ -276,7 +277,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>openBufferedStream</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io">Writer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.78">openBufferedStream</a>()
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io">Writer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.77">openBufferedStream</a>()
                           throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Opens a new buffered <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io"><code>Writer</code></a> for writing to this sink. The returned stream is not
  required to be a <a href="https://docs.oracle.com/javase/9/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io"><code>BufferedWriter</code></a> in order to allow implementations to simply delegate to
@@ -298,7 +299,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>write</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.90">write</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;charSequence)
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.89">write</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;charSequence)
            throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Writes the given character sequence to this sink.</div>
 <dl>
@@ -313,11 +314,10 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>writeLines</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.112">writeLines</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&gt;&nbsp;lines)
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.111">writeLines</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&gt;&nbsp;lines)
                 throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Writes the given lines of text to this sink with each line (including the last) terminated with
- the operating system's default line separator. This method is equivalent to
- <code>writeLines(lines, System.getProperty("line.separator"))</code>.</div>
+ the operating system's default line separator. This method is equivalent to <code>writeLines(lines, System.getProperty("line.separator"))</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if an I/O error occurs while writing to this sink</dd>
@@ -330,7 +330,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>writeLines</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.122">writeLines</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&gt;&nbsp;lines,
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.121">writeLines</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&gt;&nbsp;lines,
                        <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;lineSeparator)
                 throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Writes the given lines of text to this sink with each line (including the last) terminated with
@@ -348,7 +348,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>writeFrom</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.150">writeFrom</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Readable.html?is-external=true" title="class or interface in java.lang">Readable</a>&nbsp;readable)
+public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharSink.html#line.149">writeFrom</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Readable.html?is-external=true" title="class or interface in java.lang">Readable</a>&nbsp;readable)
                                      throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Writes all the text from the given <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Readable.html?is-external=true" title="class or interface in java.lang"><code>Readable</code></a> (such as a <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Reader.html?is-external=true" title="class or interface in java.io"><code>Reader</code></a>) to this sink.
  Does not close <code>readable</code> if it is <code>Closeable</code>.</div>

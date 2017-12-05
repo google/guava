@@ -32,30 +32,29 @@
 <span class="sourceLineNo">024</span> *<a name="line.24"></a>
 <span class="sourceLineNo">025</span> * &lt;p&gt;The {@link Suppliers} class provides common suppliers and related utilities.<a name="line.25"></a>
 <span class="sourceLineNo">026</span> *<a name="line.26"></a>
-<span class="sourceLineNo">027</span> * &lt;p&gt;As this interface extends {@link java.util.function.Supplier}, an instance of this type<a name="line.27"></a>
-<span class="sourceLineNo">028</span> * can be used as a {@code java.util.function.Supplier} directly.  To use a<a name="line.28"></a>
-<span class="sourceLineNo">029</span> * {@code java.util.function.Supplier} in a context where a<a name="line.29"></a>
-<span class="sourceLineNo">030</span> * {@code com.google.common.base.Supplier} is needed, use {@code supplier::get}.<a name="line.30"></a>
+<span class="sourceLineNo">027</span> * &lt;p&gt;As this interface extends {@link java.util.function.Supplier}, an instance of this type can be<a name="line.27"></a>
+<span class="sourceLineNo">028</span> * used as a {@code java.util.function.Supplier} directly. To use a {@code<a name="line.28"></a>
+<span class="sourceLineNo">029</span> * java.util.function.Supplier} in a context where a {@code com.google.common.base.Supplier} is<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * needed, use {@code supplier::get}.<a name="line.30"></a>
 <span class="sourceLineNo">031</span> *<a name="line.31"></a>
-<span class="sourceLineNo">032</span> * &lt;p&gt;See the Guava User Guide article on<a name="line.32"></a>
-<span class="sourceLineNo">033</span> * &lt;a href="https://github.com/google/guava/wiki/FunctionalExplained"&gt;the use of {@code<a name="line.33"></a>
-<span class="sourceLineNo">034</span> * Function}&lt;/a&gt;.<a name="line.34"></a>
-<span class="sourceLineNo">035</span> *<a name="line.35"></a>
-<span class="sourceLineNo">036</span> * @author Harry Heymann<a name="line.36"></a>
-<span class="sourceLineNo">037</span> * @since 2.0<a name="line.37"></a>
-<span class="sourceLineNo">038</span> */<a name="line.38"></a>
-<span class="sourceLineNo">039</span>@GwtCompatible<a name="line.39"></a>
-<span class="sourceLineNo">040</span>@FunctionalInterface<a name="line.40"></a>
-<span class="sourceLineNo">041</span>public interface Supplier&lt;T&gt; extends java.util.function.Supplier&lt;T&gt; {<a name="line.41"></a>
-<span class="sourceLineNo">042</span>  /**<a name="line.42"></a>
-<span class="sourceLineNo">043</span>   * Retrieves an instance of the appropriate type. The returned object may or may not be a new<a name="line.43"></a>
-<span class="sourceLineNo">044</span>   * instance, depending on the implementation.<a name="line.44"></a>
-<span class="sourceLineNo">045</span>   *<a name="line.45"></a>
-<span class="sourceLineNo">046</span>   * @return an instance of the appropriate type<a name="line.46"></a>
-<span class="sourceLineNo">047</span>   */<a name="line.47"></a>
-<span class="sourceLineNo">048</span>  @CanIgnoreReturnValue<a name="line.48"></a>
-<span class="sourceLineNo">049</span>  T get();<a name="line.49"></a>
-<span class="sourceLineNo">050</span>}<a name="line.50"></a>
+<span class="sourceLineNo">032</span> * &lt;p&gt;See the Guava User Guide article on &lt;a<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * href="https://github.com/google/guava/wiki/FunctionalExplained"&gt;the use of {@code Function}&lt;/a&gt;.<a name="line.33"></a>
+<span class="sourceLineNo">034</span> *<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * @author Harry Heymann<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * @since 2.0<a name="line.36"></a>
+<span class="sourceLineNo">037</span> */<a name="line.37"></a>
+<span class="sourceLineNo">038</span>@GwtCompatible<a name="line.38"></a>
+<span class="sourceLineNo">039</span>@FunctionalInterface<a name="line.39"></a>
+<span class="sourceLineNo">040</span>public interface Supplier&lt;T&gt; extends java.util.function.Supplier&lt;T&gt; {<a name="line.40"></a>
+<span class="sourceLineNo">041</span>  /**<a name="line.41"></a>
+<span class="sourceLineNo">042</span>   * Retrieves an instance of the appropriate type. The returned object may or may not be a new<a name="line.42"></a>
+<span class="sourceLineNo">043</span>   * instance, depending on the implementation.<a name="line.43"></a>
+<span class="sourceLineNo">044</span>   *<a name="line.44"></a>
+<span class="sourceLineNo">045</span>   * @return an instance of the appropriate type<a name="line.45"></a>
+<span class="sourceLineNo">046</span>   */<a name="line.46"></a>
+<span class="sourceLineNo">047</span>  @CanIgnoreReturnValue<a name="line.47"></a>
+<span class="sourceLineNo">048</span>  T get();<a name="line.48"></a>
+<span class="sourceLineNo">049</span>}<a name="line.49"></a>
 
 
 

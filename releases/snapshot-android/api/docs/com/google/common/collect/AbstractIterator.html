@@ -119,35 +119,36 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.64">AbstractIterator</a>&lt;T&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.63">AbstractIterator</a>&lt;T&gt;
 extends <a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;</pre>
-<div class="block">This class provides a skeletal implementation of the <code>Iterator</code>
- interface, to make this interface easier to implement for certain types of
- data sources.
+<div class="block">This class provides a skeletal implementation of the <code>Iterator</code> interface, to make this
+ interface easier to implement for certain types of data sources.
 
- <p><code>Iterator</code> requires its implementations to support querying the
- end-of-data status without changing the iterator's state, using the <a href="../../../../com/google/common/collect/AbstractIterator.html#hasNext--"><code>hasNext()</code></a> method. But many data sources, such as <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Reader.html?is-external=true#read--" title="class or interface in java.io"><code>Reader.read()</code></a>, do not expose this information; the only way to
- discover whether there is any data left is by trying to retrieve it. These
- types of data sources are ordinarily difficult to write iterators for. But
- using this class, one must implement only the <a href="../../../../com/google/common/collect/AbstractIterator.html#computeNext--"><code>computeNext()</code></a> method,
- and invoke the <a href="../../../../com/google/common/collect/AbstractIterator.html#endOfData--"><code>endOfData()</code></a> method when appropriate.
+ <p><code>Iterator</code> requires its implementations to support querying the end-of-data status
+ without changing the iterator's state, using the <a href="../../../../com/google/common/collect/AbstractIterator.html#hasNext--"><code>hasNext()</code></a> method. But many data sources,
+ such as <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Reader.html?is-external=true#read--" title="class or interface in java.io"><code>Reader.read()</code></a>, do not expose this information; the only way to discover
+ whether there is any data left is by trying to retrieve it. These types of data sources are
+ ordinarily difficult to write iterators for. But using this class, one must implement only the
+ <a href="../../../../com/google/common/collect/AbstractIterator.html#computeNext--"><code>computeNext()</code></a> method, and invoke the <a href="../../../../com/google/common/collect/AbstractIterator.html#endOfData--"><code>endOfData()</code></a> method when appropriate.
 
- <p>Another example is an iterator that skips over null elements in a backing
- iterator. This could be implemented as: <pre>   <code>
+ <p>Another example is an iterator that skips over null elements in a backing iterator. This could
+ be implemented as:
 
-   public static Iterator&lt;String&gt; skipNulls(final Iterator&lt;String&gt; in) {
-     return new AbstractIterator&lt;String&gt;() {
-       protected String computeNext() {
-         while (in.hasNext()) {
-           String s = in.next();
-           if (s != null) {
-             return s;
-           }
+ <pre><code>
+ public static Iterator&lt;String&gt; skipNulls(final Iterator&lt;String&gt; in) {
+   return new AbstractIterator&lt;String&gt;() {
+     protected String computeNext() {
+       while (in.hasNext()) {
+         String s = in.next();
+         if (s != null) {
+           return s;
          }
-         return endOfData();
        }
-     };
-   }</code></pre>
+       return endOfData();
+     }
+   };
+ }
+ </code></pre>
 
  <p>This class supports iterators that include null elements.</div>
 <dl>
@@ -204,8 +205,8 @@ extends <a href="../../../../com/google/common/collect/UnmodifiableIterator.html
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>protected <a href="../../../../com/google/common/collect/AbstractIterator.html" title="type parameter in AbstractIterator">T</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/AbstractIterator.html#endOfData--">endOfData</a></span>()</code>
-<div class="block">Implementations of <a href="../../../../com/google/common/collect/AbstractIterator.html#computeNext--"><code>computeNext()</code></a> <b>must</b> invoke this method when
- there are no elements left in the iteration.</div>
+<div class="block">Implementations of <a href="../../../../com/google/common/collect/AbstractIterator.html#computeNext--"><code>computeNext()</code></a> <b>must</b> invoke this method when there are no
+ elements left in the iteration.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
@@ -223,8 +224,8 @@ extends <a href="../../../../com/google/common/collect/UnmodifiableIterator.html
 <tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/AbstractIterator.html" title="type parameter in AbstractIterator">T</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/AbstractIterator.html#peek--">peek</a></span>()</code>
-<div class="block">Returns the next element in the iteration without advancing the iteration,
- according to the contract of <a href="../../../../com/google/common/collect/PeekingIterator.html#peek--"><code>PeekingIterator.peek()</code></a>.</div>
+<div class="block">Returns the next element in the iteration without advancing the iteration, according to the
+ contract of <a href="../../../../com/google/common/collect/PeekingIterator.html#peek--"><code>PeekingIterator.peek()</code></a>.</div>
 </td>
 </tr>
 </table>
@@ -269,7 +270,7 @@ extends <a href="../../../../com/google/common/collect/UnmodifiableIterator.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>AbstractIterator</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.68">AbstractIterator</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.67">AbstractIterator</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -287,32 +288,30 @@ extends <a href="../../../../com/google/common/collect/UnmodifiableIterator.html
 <ul class="blockList">
 <li class="blockList">
 <h4>computeNext</h4>
-<pre>protected abstract&nbsp;<a href="../../../../com/google/common/collect/AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.114">computeNext</a>()</pre>
-<div class="block">Returns the next element. <b>Note:</b> the implementation must call <a href="../../../../com/google/common/collect/AbstractIterator.html#endOfData--"><code>endOfData()</code></a> when there are no elements left in the iteration. Failure to
- do so could result in an infinite loop.
+<pre>protected abstract&nbsp;<a href="../../../../com/google/common/collect/AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.109">computeNext</a>()</pre>
+<div class="block">Returns the next element. <b>Note:</b> the implementation must call <a href="../../../../com/google/common/collect/AbstractIterator.html#endOfData--"><code>endOfData()</code></a> when
+ there are no elements left in the iteration. Failure to do so could result in an infinite loop.
 
- <p>The initial invocation of <a href="../../../../com/google/common/collect/AbstractIterator.html#hasNext--"><code>hasNext()</code></a> or <a href="../../../../com/google/common/collect/AbstractIterator.html#next--"><code>next()</code></a> calls
- this method, as does the first invocation of <code>hasNext</code> or <code>next</code> following each successful call to <code>next</code>. Once the
- implementation either invokes <code>endOfData</code> or throws an exception,
+ <p>The initial invocation of <a href="../../../../com/google/common/collect/AbstractIterator.html#hasNext--"><code>hasNext()</code></a> or <a href="../../../../com/google/common/collect/AbstractIterator.html#next--"><code>next()</code></a> calls this method, as does
+ the first invocation of <code>hasNext</code> or <code>next</code> following each successful call to
+ <code>next</code>. Once the implementation either invokes <code>endOfData</code> or throws an exception,
  <code>computeNext</code> is guaranteed to never be called again.
 
- <p>If this method throws an exception, it will propagate outward to the
- <code>hasNext</code> or <code>next</code> invocation that invoked this method. Any
- further attempts to use the iterator will result in an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang"><code>IllegalStateException</code></a>.
+ <p>If this method throws an exception, it will propagate outward to the <code>hasNext</code> or
+ <code>next</code> invocation that invoked this method. Any further attempts to use the iterator will
+ result in an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang"><code>IllegalStateException</code></a>.
 
- <p>The implementation of this method may not invoke the <code>hasNext</code>,
- <code>next</code>, or <a href="../../../../com/google/common/collect/AbstractIterator.html#peek--"><code>peek()</code></a> methods on this instance; if it does, an
- <code>IllegalStateException</code> will result.</div>
+ <p>The implementation of this method may not invoke the <code>hasNext</code>, <code>next</code>, or
+ <a href="../../../../com/google/common/collect/AbstractIterator.html#peek--"><code>peek()</code></a> methods on this instance; if it does, an <code>IllegalStateException</code> will
+ result.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the next element if there was one. If <code>endOfData</code> was called
-     during execution, the return value will be ignored.</dd>
+<dd>the next element if there was one. If <code>endOfData</code> was called during execution,
+     the return value will be ignored.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang">RuntimeException</a></code> - if any unrecoverable error happens. This exception
-     will propagate outward to the <code>hasNext()</code>, <code>next()</code>, or
-     <code>peek()</code> invocation that invoked this method. Any further
-     attempts to use the iterator will result in an
-     <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang"><code>IllegalStateException</code></a>.</dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang">RuntimeException</a></code> - if any unrecoverable error happens. This exception will propagate
+     outward to the <code>hasNext()</code>, <code>next()</code>, or <code>peek()</code> invocation that invoked
+     this method. Any further attempts to use the iterator will result in an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang"><code>IllegalStateException</code></a>.</dd>
 </dl>
 </li>
 </ul>
@@ -323,13 +322,13 @@ extends <a href="../../../../com/google/common/collect/UnmodifiableIterator.html
 <li class="blockList">
 <h4>endOfData</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-protected final&nbsp;<a href="../../../../com/google/common/collect/AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.124">endOfData</a>()</pre>
-<div class="block">Implementations of <a href="../../../../com/google/common/collect/AbstractIterator.html#computeNext--"><code>computeNext()</code></a> <b>must</b> invoke this method when
- there are no elements left in the iteration.</div>
+protected final&nbsp;<a href="../../../../com/google/common/collect/AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.119">endOfData</a>()</pre>
+<div class="block">Implementations of <a href="../../../../com/google/common/collect/AbstractIterator.html#computeNext--"><code>computeNext()</code></a> <b>must</b> invoke this method when there are no
+ elements left in the iteration.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>null</code>; a convenience so your <code>computeNext</code>
-     implementation can use the simple statement <code>return endOfData();</code></dd>
+<dd><code>null</code>; a convenience so your <code>computeNext</code> implementation can use the
+     simple statement <code>return endOfData();</code></dd>
 </dl>
 </li>
 </ul>
@@ -340,7 +339,7 @@ protected final&nbsp;<a href="../../../../com/google/common/collect/AbstractIter
 <li class="blockList">
 <h4>hasNext</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.131">hasNext</a>()</pre>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.126">hasNext</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true#hasNext--" title="class or interface in java.util">java.util.Iterator</a></code></span></div>
 <div class="block">Returns <code>true</code> if the iteration has more elements.
  (In other words, returns <code>true</code> if <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true#next--" title="class or interface in java.util"><code>Iterator.next()</code></a> would
@@ -358,7 +357,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <li class="blockList">
 <h4>next</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public final&nbsp;<a href="../../../../com/google/common/collect/AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.155">next</a>()</pre>
+public final&nbsp;<a href="../../../../com/google/common/collect/AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.150">next</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true#next--" title="class or interface in java.util">java.util.Iterator</a></code></span></div>
 <div class="block">Returns the next element in the iteration.</div>
 <dl>
@@ -373,12 +372,12 @@ public final&nbsp;<a href="../../../../com/google/common/collect/AbstractIterato
 <ul class="blockListLast">
 <li class="blockList">
 <h4>peek</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/collect/AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.172">peek</a>()</pre>
-<div class="block">Returns the next element in the iteration without advancing the iteration,
- according to the contract of <a href="../../../../com/google/common/collect/PeekingIterator.html#peek--"><code>PeekingIterator.peek()</code></a>.
+<pre>public final&nbsp;<a href="../../../../com/google/common/collect/AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.167">peek</a>()</pre>
+<div class="block">Returns the next element in the iteration without advancing the iteration, according to the
+ contract of <a href="../../../../com/google/common/collect/PeekingIterator.html#peek--"><code>PeekingIterator.peek()</code></a>.
 
- <p>Implementations of <code>AbstractIterator</code> that wish to expose this
- functionality should implement <code>PeekingIterator</code>.</div>
+ <p>Implementations of <code>AbstractIterator</code> that wish to expose this functionality should
+ implement <code>PeekingIterator</code>.</div>
 </li>
 </ul>
 </li>

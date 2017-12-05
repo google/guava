@@ -114,30 +114,26 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingObject.html#line.52">ForwardingObject</a>
+public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingObject.html#line.47">ForwardingObject</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">An abstract base class for implementing the <a
- href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
- The <a href="../../../../com/google/common/collect/ForwardingObject.html#delegate--"><code>delegate()</code></a> method must be overridden to return the instance
- being decorated.
+ href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>. The <a href="../../../../com/google/common/collect/ForwardingObject.html#delegate--"><code>delegate()</code></a> method must be overridden to return the instance being decorated.
 
- <p>This class does <i>not</i> forward the <code>hashCode</code> and <code>equals</code>
- methods through to the backing object, but relies on <code>Object</code>'s
- implementation. This is necessary to preserve the symmetry of <code>equals</code>.
- Custom definitions of equality are usually based on an interface, such as
- <code>Set</code> or <code>List</code>, so that the implementation of <code>equals</code> can
- cast the object being tested for equality to the custom interface. <code>ForwardingObject</code> implements no such custom interfaces directly; they
- are implemented only in subclasses. Therefore, forwarding <code>equals</code>
- would break symmetry, as the forwarding object might consider itself equal to
- the object being tested, but the reverse could not be true. This behavior is
- consistent with the JDK's collection wrappers, such as
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#unmodifiableCollection-java.util.Collection-" title="class or interface in java.util"><code>Collections.unmodifiableCollection(java.util.Collection&lt;? extends T&gt;)</code></a>. Use an
- interface-specific subclass of <code>ForwardingObject</code>, such as <a href="../../../../com/google/common/collect/ForwardingList.html" title="class in com.google.common.collect"><code>ForwardingList</code></a>, to preserve equality behavior, or override <code>equals</code>
- directly.
+ <p>This class does <i>not</i> forward the <code>hashCode</code> and <code>equals</code> methods through to
+ the backing object, but relies on <code>Object</code>'s implementation. This is necessary to preserve
+ the symmetry of <code>equals</code>. Custom definitions of equality are usually based on an interface,
+ such as <code>Set</code> or <code>List</code>, so that the implementation of <code>equals</code> can cast the
+ object being tested for equality to the custom interface. <code>ForwardingObject</code> implements no
+ such custom interfaces directly; they are implemented only in subclasses. Therefore, forwarding
+ <code>equals</code> would break symmetry, as the forwarding object might consider itself equal to the
+ object being tested, but the reverse could not be true. This behavior is consistent with the
+ JDK's collection wrappers, such as <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#unmodifiableCollection-java.util.Collection-" title="class or interface in java.util"><code>Collections.unmodifiableCollection(java.util.Collection&lt;? extends T&gt;)</code></a>. Use an
+ interface-specific subclass of <code>ForwardingObject</code>, such as <a href="../../../../com/google/common/collect/ForwardingList.html" title="class in com.google.common.collect"><code>ForwardingList</code></a>, to
+ preserve equality behavior, or override <code>equals</code> directly.
 
- <p>The <code>toString</code> method is forwarded to the delegate. Although this
- class does not implement <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io"><code>Serializable</code></a>, a serializable subclass may be
- created since this class has a parameter-less constructor.</div>
+ <p>The <code>toString</code> method is forwarded to the delegate. Although this class does not
+ implement <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io"><code>Serializable</code></a>, a serializable subclass may be created since this class has a
+ parameter-less constructor.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
@@ -192,8 +188,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingObject.html#toString--">toString</a></span>()</code>
-<div class="block">Returns the string representation generated by the delegate's
- <code>toString</code> method.</div>
+<div class="block">Returns the string representation generated by the delegate's <code>toString</code> method.</div>
 </td>
 </tr>
 </table>
@@ -224,7 +219,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingObject</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingObject.html#line.55">ForwardingObject</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingObject.html#line.50">ForwardingObject</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -242,11 +237,11 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre>protected abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingObject.html#line.64">delegate</a>()</pre>
-<div class="block">Returns the backing delegate instance that methods are forwarded to.
- Abstract subclasses generally override this method with an abstract method
- that has a more specific return type, such as <a href="../../../../com/google/common/collect/ForwardingSet.html#delegate--"><code>ForwardingSet.delegate()</code></a>. Concrete subclasses override this method to supply
- the instance being decorated.</div>
+<pre>protected abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingObject.html#line.58">delegate</a>()</pre>
+<div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
+ generally override this method with an abstract method that has a more specific return type,
+ such as <a href="../../../../com/google/common/collect/ForwardingSet.html#delegate--"><code>ForwardingSet.delegate()</code></a>. Concrete subclasses override this method to supply the
+ instance being decorated.</div>
 </li>
 </ul>
 <a name="toString--">
@@ -255,9 +250,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingObject.html#line.71">toString</a>()</pre>
-<div class="block">Returns the string representation generated by the delegate's
- <code>toString</code> method.</div>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingObject.html#line.62">toString</a>()</pre>
+<div class="block">Returns the string representation generated by the delegate's <code>toString</code> method.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>

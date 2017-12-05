@@ -110,16 +110,14 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public interface <a href="../../../../src-html/com/google/common/collect/BiMap.html#line.39">BiMap</a>&lt;K,V&gt;
+public interface <a href="../../../../src-html/com/google/common/collect/BiMap.html#line.37">BiMap</a>&lt;K,V&gt;
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;</pre>
-<div class="block">A bimap (or "bidirectional map") is a map that preserves the uniqueness of
- its values as well as that of its keys. This constraint enables bimaps to
- support an "inverse view", which is another bimap containing the same entries
- as this bimap but with reversed keys and values.
+<div class="block">A bimap (or "bidirectional map") is a map that preserves the uniqueness of its values as well as
+ that of its keys. This constraint enables bimaps to support an "inverse view", which is another
+ bimap containing the same entries as this bimap but with reversed keys and values.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap">
- <code>BiMap</code></a>.</div>
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap"> <code>BiMap</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
@@ -163,16 +161,14 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">V</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/BiMap.html#forcePut-K-V-">forcePut</a></span>(<a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">K</a>&nbsp;key,
         <a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">V</a>&nbsp;value)</code>
-<div class="block">An alternate form of <code>put</code> that silently removes any existing entry
- with the value <code>value</code> before proceeding with the <a href="../../../../com/google/common/collect/BiMap.html#put-K-V-"><code>put(K, V)</code></a>
- operation.</div>
+<div class="block">An alternate form of <code>put</code> that silently removes any existing entry with the value <code>value</code> before proceeding with the <a href="../../../../com/google/common/collect/BiMap.html#put-K-V-"><code>put(K, V)</code></a> operation.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;<a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">V</a>,<a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">K</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/BiMap.html#inverse--">inverse</a></span>()</code>
-<div class="block">Returns the inverse view of this bimap, which maps each of this bimap's
- values to its associated key.</div>
+<div class="block">Returns the inverse view of this bimap, which maps each of this bimap's values to its
+ associated key.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
@@ -228,7 +224,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is
 <h4>put</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-<a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.52">put</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.50">put</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                        <a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">K</a>&nbsp;key,
                                        <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                        <a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">V</a>&nbsp;value)</pre>
@@ -251,9 +247,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is
          previously associated <tt>null</tt> with <tt>key</tt>,
          if the implementation supports <tt>null</tt> values.)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if the given value is already bound to a
-     different key in this bimap. The bimap will remain unmodified in this
-     event. To avoid this exception, call <a href="../../../../com/google/common/collect/BiMap.html#forcePut-K-V-"><code>forcePut(K, V)</code></a> instead.</dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if the given value is already bound to a different key in this
+     bimap. The bimap will remain unmodified in this event. To avoid this exception, call <a href="../../../../com/google/common/collect/BiMap.html#forcePut-K-V-"><code>forcePut(K, V)</code></a> instead.</dd>
 </dl>
 </li>
 </ul>
@@ -267,27 +262,25 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is
 <h4>forcePut</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-<a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.73">forcePut</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.70">forcePut</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                             <a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">K</a>&nbsp;key,
                                             <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                             <a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">V</a>&nbsp;value)</pre>
-<div class="block">An alternate form of <code>put</code> that silently removes any existing entry
- with the value <code>value</code> before proceeding with the <a href="../../../../com/google/common/collect/BiMap.html#put-K-V-"><code>put(K, V)</code></a>
- operation. If the bimap previously contained the provided key-value
- mapping, this method has no effect.
+<div class="block">An alternate form of <code>put</code> that silently removes any existing entry with the value <code>value</code> before proceeding with the <a href="../../../../com/google/common/collect/BiMap.html#put-K-V-"><code>put(K, V)</code></a> operation. If the bimap previously contained the
+ provided key-value mapping, this method has no effect.
 
- <p>Note that a successful call to this method could cause the size of the
- bimap to increase by one, stay the same, or even decrease by one.
+ <p>Note that a successful call to this method could cause the size of the bimap to increase by
+ one, stay the same, or even decrease by one.
 
- <p><b>Warning:</b> If an existing entry with this value is removed, the key
- for that entry is discarded and not returned.</div>
+ <p><b>Warning:</b> If an existing entry with this value is removed, the key for that entry is
+ discarded and not returned.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>key</code> - the key with which the specified value is to be associated</dd>
 <dd><code>value</code> - the value to be associated with the specified key</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the value which was previously associated with the key, which may
-     be <code>null</code>, or <code>null</code> if there was no previous entry</dd>
+<dd>the value which was previously associated with the key, which may be <code>null</code>, or
+     <code>null</code> if there was no previous entry</dd>
 </dl>
 </li>
 </ul>
@@ -297,7 +290,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is
 <ul class="blockList">
 <li class="blockList">
 <h4>putAll</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.88">putAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends <a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">K</a>,? extends <a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">V</a>&gt;&nbsp;map)</pre>
+<pre>void&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.84">putAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends <a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">K</a>,? extends <a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">V</a>&gt;&nbsp;map)</pre>
 <div class="block">Copies all of the mappings from the specified map to this map
  (optional operation).  The effect of this call is equivalent to that
  of calling <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#put-K-V-" title="class or interface in java.util"><code>put(k, v)</code></a> on this map once
@@ -305,17 +298,16 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is
  specified map.  The behavior of this operation is undefined if the
  specified map is modified while the operation is in progress.
 
- <p><b>Warning:</b> the results of calling this method may vary depending on
- the iteration order of <code>map</code>.</div>
+ <p><b>Warning:</b> the results of calling this method may vary depending on the iteration order
+ of <code>map</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#putAll-java.util.Map-" title="class or interface in java.util">putAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">K</a>,<a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">V</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>map</code> - mappings to be stored in this map</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if an attempt to <code>put</code> any
-     entry fails. Note that some map entries may have been added to the
-     bimap before the exception was thrown.</dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if an attempt to <code>put</code> any entry fails. Note that some
+     map entries may have been added to the bimap before the exception was thrown.</dd>
 </dl>
 </li>
 </ul>
@@ -325,7 +317,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is
 <ul class="blockList">
 <li class="blockList">
 <h4>values</h4>
-<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.100">values</a>()</pre>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.95">values</a>()</pre>
 <div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a> view of the values contained in this map.
  The collection is backed by the map, so changes to the map are
  reflected in the collection, and vice-versa.  If the map is
@@ -338,9 +330,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is
  <tt>retainAll</tt> and <tt>clear</tt> operations.  It does not
  support the <tt>add</tt> or <tt>addAll</tt> operations.
 
- <p>Because a bimap has unique values, this method returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util"><code>Set</code></a>,
- instead of the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a> specified in the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util"><code>Map</code></a>
- interface.</div>
+ <p>Because a bimap has unique values, this method returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util"><code>Set</code></a>, instead of the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a> specified in the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util"><code>Map</code></a> interface.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#values--" title="class or interface in java.util">values</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">K</a>,<a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">V</a>&gt;</code></dd>
@@ -355,13 +345,13 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is
 <ul class="blockListLast">
 <li class="blockList">
 <h4>inverse</h4>
-<pre><a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;<a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">V</a>,<a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.112">inverse</a>()</pre>
-<div class="block">Returns the inverse view of this bimap, which maps each of this bimap's
- values to its associated key. The two bimaps are backed by the same data;
- any changes to one will appear in the other.
+<pre><a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;<a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">V</a>,<a href="../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.107">inverse</a>()</pre>
+<div class="block">Returns the inverse view of this bimap, which maps each of this bimap's values to its
+ associated key. The two bimaps are backed by the same data; any changes to one will appear in
+ the other.
 
- <p><b>Note:</b>There is no guaranteed correspondence between the iteration
- order of a bimap and that of its inverse.</div>
+ <p><b>Note:</b>There is no guaranteed correspondence between the iteration order of a bimap and
+ that of its inverse.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the inverse view of this bimap</dd>

@@ -126,8 +126,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 
  <p>If you know that a given string represents a numeric IP address, use <a href="../../../../com/google/common/net/InetAddresses.html" title="class in com.google.common.net"><code>InetAddresses</code></a> to
  obtain and manipulate a <a href="https://docs.oracle.com/javase/9/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net"><code>InetAddress</code></a> instance from it rather than using this
- class. Similarly, if you know that a given string represents a domain name, use
- <a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net"><code>InternetDomainName</code></a> rather than this class.</div>
+ class. Similarly, if you know that a given string represents a domain name, use <a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net"><code>InternetDomainName</code></a> rather than this class.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>5.0</dd>
@@ -219,17 +218,17 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>fromValid</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/net/HostSpecifier.html" title="class in com.google.common.net">HostSpecifier</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostSpecifier.html#line.69">fromValid</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;specifier)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/net/HostSpecifier.html" title="class in com.google.common.net">HostSpecifier</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostSpecifier.html#line.70">fromValid</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;specifier)</pre>
 <div class="block">Returns a <code>HostSpecifier</code> built from the provided <code>specifier</code>, which is already
  known to be valid. If the <code>specifier</code> might be invalid, use <a href="../../../../com/google/common/net/HostSpecifier.html#from-java.lang.String-"><code>from(String)</code></a>
  instead.
 
  <p>The specifier must be in one of these formats:
+
  <ul>
- <li>A domain name, like <code>google.com</code>
- <li>A IPv4 address string, like <code>127.0.0.1</code>
- <li>An IPv6 address string with or without brackets, like <code>[2001:db8::1]</code> or
-     <code>2001:db8::1</code>
+   <li>A domain name, like <code>google.com</code>
+   <li>A IPv4 address string, like <code>127.0.0.1</code>
+   <li>An IPv6 address string with or without brackets, like <code>[2001:db8::1]</code> or <code>2001:db8::1</code>
  </ul></div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -243,7 +242,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/net/HostSpecifier.html" title="class in com.google.common.net">HostSpecifier</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostSpecifier.html#line.111">from</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;specifier)
+<pre>public static&nbsp;<a href="../../../../com/google/common/net/HostSpecifier.html" title="class in com.google.common.net">HostSpecifier</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostSpecifier.html#line.112">from</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;specifier)
                           throws <a href="https://docs.oracle.com/javase/9/docs/api/java/text/ParseException.html?is-external=true" title="class or interface in java.text">ParseException</a></pre>
 <div class="block">Attempts to return a <code>HostSpecifier</code> for the given string, throwing an exception if
  parsing fails. Always use this method in preference to <a href="../../../../com/google/common/net/HostSpecifier.html#fromValid-java.lang.String-"><code>fromValid(String)</code></a> for a
@@ -260,7 +259,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>isValid</h4>
-<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/HostSpecifier.html#line.129">isValid</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;specifier)</pre>
+<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/HostSpecifier.html#line.130">isValid</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;specifier)</pre>
 <div class="block">Determines whether <code>specifier</code> represents a valid <a href="../../../../com/google/common/net/HostSpecifier.html" title="class in com.google.common.net"><code>HostSpecifier</code></a> as described in
  the documentation for <a href="../../../../com/google/common/net/HostSpecifier.html#fromValid-java.lang.String-"><code>fromValid(String)</code></a>.</div>
 </li>
@@ -271,7 +270,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/HostSpecifier.html#line.139">equals</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/HostSpecifier.html#line.140">equals</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;other)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Indicates whether some other object is "equal to" this one.
@@ -332,7 +331,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/HostSpecifier.html#line.153">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/HostSpecifier.html#line.154">hashCode</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Returns a hash code value for the object. This method is
  supported for the benefit of hash tables such as those provided by
@@ -380,7 +379,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostSpecifier.html#line.164">toString</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostSpecifier.html#line.165">toString</a>()</pre>
 <div class="block">Returns a string representation of the host specifier suitable for inclusion in a URI. If the
  host specifier is a domain name, the string will be normalized to all lower case. If the
  specifier was an IPv6 address without brackets, brackets are added so that the result will be

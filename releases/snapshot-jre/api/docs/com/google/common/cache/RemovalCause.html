@@ -234,9 +234,7 @@ the order they are declared.</div>
 <li class="blockList">
 <h4>EXPLICIT</h4>
 <pre>public static final&nbsp;<a href="../../../../com/google/common/cache/RemovalCause.html" title="enum in com.google.common.cache">RemovalCause</a> <a href="../../../../src-html/com/google/common/cache/RemovalCause.html#line.35">EXPLICIT</a></pre>
-<div class="block">The entry was manually removed by the user. This can result from the user invoking
- <a href="../../../../com/google/common/cache/Cache.html#invalidate-java.lang.Object-"><code>Cache.invalidate(java.lang.Object)</code></a>, <a href="../../../../com/google/common/cache/Cache.html#invalidateAll-java.lang.Iterable-"><code>Cache.invalidateAll(Iterable)</code></a>, <a href="../../../../com/google/common/cache/Cache.html#invalidateAll--"><code>Cache.invalidateAll()</code></a>,
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#remove-java.lang.Object-" title="class or interface in java.util"><code>Map.remove(java.lang.Object)</code></a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true#remove-java.lang.Object-java.lang.Object-" title="class or interface in java.util.concurrent"><code>ConcurrentMap.remove(java.lang.Object, java.lang.Object)</code></a>, or <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true#remove--" title="class or interface in java.util"><code>Iterator.remove()</code></a>.</div>
+<div class="block">The entry was manually removed by the user. This can result from the user invoking <a href="../../../../com/google/common/cache/Cache.html#invalidate-java.lang.Object-"><code>Cache.invalidate(java.lang.Object)</code></a>, <a href="../../../../com/google/common/cache/Cache.html#invalidateAll-java.lang.Iterable-"><code>Cache.invalidateAll(Iterable)</code></a>, <a href="../../../../com/google/common/cache/Cache.html#invalidateAll--"><code>Cache.invalidateAll()</code></a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#remove-java.lang.Object-" title="class or interface in java.util"><code>Map.remove(java.lang.Object)</code></a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true#remove-java.lang.Object-java.lang.Object-" title="class or interface in java.util.concurrent"><code>ConcurrentMap.remove(java.lang.Object, java.lang.Object)</code></a>, or <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true#remove--" title="class or interface in java.util"><code>Iterator.remove()</code></a>.</div>
 </li>
 </ul>
 <a name="REPLACED">
@@ -248,8 +246,7 @@ the order they are declared.</div>
 <pre>public static final&nbsp;<a href="../../../../com/google/common/cache/RemovalCause.html" title="enum in com.google.common.cache">RemovalCause</a> <a href="../../../../src-html/com/google/common/cache/RemovalCause.html#line.48">REPLACED</a></pre>
 <div class="block">The entry itself was not actually removed, but its value was replaced by the user. This can
  result from the user invoking <a href="../../../../com/google/common/cache/Cache.html#put-K-V-"><code>Cache.put(K, V)</code></a>, <a href="../../../../com/google/common/cache/LoadingCache.html#refresh-K-"><code>LoadingCache.refresh(K)</code></a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#put-K-V-" title="class or interface in java.util"><code>Map.put(K, V)</code></a>,
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#putAll-java.util.Map-" title="class or interface in java.util"><code>Map.putAll(java.util.Map&lt;? extends K, ? extends V&gt;)</code></a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true#replace-K-V-" title="class or interface in java.util.concurrent"><code>ConcurrentMap.replace(Object, Object)</code></a>, or
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true#replace-K-V-V-" title="class or interface in java.util.concurrent"><code>ConcurrentMap.replace(Object, Object, Object)</code></a>.</div>
+ <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#putAll-java.util.Map-" title="class or interface in java.util"><code>Map.putAll(java.util.Map&lt;? extends K, ? extends V&gt;)</code></a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true#replace-K-V-" title="class or interface in java.util.concurrent"><code>ConcurrentMap.replace(Object, Object)</code></a>, or <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true#replace-K-V-V-" title="class or interface in java.util.concurrent"><code>ConcurrentMap.replace(Object, Object, Object)</code></a>.</div>
 </li>
 </ul>
 <a name="COLLECTED">
@@ -260,8 +257,7 @@ the order they are declared.</div>
 <h4>COLLECTED</h4>
 <pre>public static final&nbsp;<a href="../../../../com/google/common/cache/RemovalCause.html" title="enum in com.google.common.cache">RemovalCause</a> <a href="../../../../src-html/com/google/common/cache/RemovalCause.html#line.60">COLLECTED</a></pre>
 <div class="block">The entry was removed automatically because its key or value was garbage-collected. This can
- occur when using <a href="../../../../com/google/common/cache/CacheBuilder.html#weakKeys--"><code>CacheBuilder.weakKeys()</code></a>, <a href="../../../../com/google/common/cache/CacheBuilder.html#weakValues--"><code>CacheBuilder.weakValues()</code></a>, or
- <a href="../../../../com/google/common/cache/CacheBuilder.html#softValues--"><code>CacheBuilder.softValues()</code></a>.</div>
+ occur when using <a href="../../../../com/google/common/cache/CacheBuilder.html#weakKeys--"><code>CacheBuilder.weakKeys()</code></a>, <a href="../../../../com/google/common/cache/CacheBuilder.html#weakValues--"><code>CacheBuilder.weakValues()</code></a>, or <a href="../../../../com/google/common/cache/CacheBuilder.html#softValues--"><code>CacheBuilder.softValues()</code></a>.</div>
 </li>
 </ul>
 <a name="EXPIRED">
@@ -271,8 +267,7 @@ the order they are declared.</div>
 <li class="blockList">
 <h4>EXPIRED</h4>
 <pre>public static final&nbsp;<a href="../../../../com/google/common/cache/RemovalCause.html" title="enum in com.google.common.cache">RemovalCause</a> <a href="../../../../src-html/com/google/common/cache/RemovalCause.html#line.71">EXPIRED</a></pre>
-<div class="block">The entry's expiration timestamp has passed. This can occur when using
- <a href="../../../../com/google/common/cache/CacheBuilder.html#expireAfterWrite-long-java.util.concurrent.TimeUnit-"><code>CacheBuilder.expireAfterWrite(long, java.util.concurrent.TimeUnit)</code></a> or <a href="../../../../com/google/common/cache/CacheBuilder.html#expireAfterAccess-long-java.util.concurrent.TimeUnit-"><code>CacheBuilder.expireAfterAccess(long, java.util.concurrent.TimeUnit)</code></a>.</div>
+<div class="block">The entry's expiration timestamp has passed. This can occur when using <a href="../../../../com/google/common/cache/CacheBuilder.html#expireAfterWrite-long-java.util.concurrent.TimeUnit-"><code>CacheBuilder.expireAfterWrite(long, java.util.concurrent.TimeUnit)</code></a> or <a href="../../../../com/google/common/cache/CacheBuilder.html#expireAfterAccess-long-java.util.concurrent.TimeUnit-"><code>CacheBuilder.expireAfterAccess(long, java.util.concurrent.TimeUnit)</code></a>.</div>
 </li>
 </ul>
 <a name="SIZE">
@@ -282,8 +277,7 @@ the order they are declared.</div>
 <li class="blockList">
 <h4>SIZE</h4>
 <pre>public static final&nbsp;<a href="../../../../com/google/common/cache/RemovalCause.html" title="enum in com.google.common.cache">RemovalCause</a> <a href="../../../../src-html/com/google/common/cache/RemovalCause.html#line.82">SIZE</a></pre>
-<div class="block">The entry was evicted due to size constraints. This can occur when using
- <a href="../../../../com/google/common/cache/CacheBuilder.html#maximumSize"><code>CacheBuilder.maximumSize</code></a> or <a href="../../../../com/google/common/cache/CacheBuilder.html#maximumWeight"><code>CacheBuilder.maximumWeight</code></a>.</div>
+<div class="block">The entry was evicted due to size constraints. This can occur when using <a href="../../../../com/google/common/cache/CacheBuilder.html#maximumSize"><code>CacheBuilder.maximumSize</code></a> or <a href="../../../../com/google/common/cache/CacheBuilder.html#maximumWeight"><code>CacheBuilder.maximumWeight</code></a>.</div>
 </li>
 </ul>
 </li>

@@ -307,7 +307,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 <ul class="blockList">
 <li class="blockList">
 <h4>invokeAll</h4>
-<pre>&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;T&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.74">invokeAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&gt;&nbsp;tasks)
+<pre>&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;T&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.76">invokeAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&gt;&nbsp;tasks)
                        throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
 <div class="block">Executes the given tasks, returning a list of Futures holding
  their status and results when all complete.
@@ -320,7 +320,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 
  <p>All elements in the returned list must be <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> instances. The easiest
  way to obtain a <code>List&lt;ListenableFuture&lt;T&gt;&gt;</code> from this method is an unchecked (but safe)
- cast:<pre>
+ cast:
+
+ <pre>
    <code> @SuppressWarnings("unchecked") // guaranteed by invokeAll contract</code>
    <code> List&lt;ListenableFuture&lt;T&gt;&gt; futures = (List) executor.invokeAll(tasks);</code>
  </pre></div>
@@ -350,7 +352,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 <ul class="blockListLast">
 <li class="blockList">
 <h4>invokeAll</h4>
-<pre>&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;T&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.95">invokeAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&gt;&nbsp;tasks,
+<pre>&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;T&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.99">invokeAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&gt;&nbsp;tasks,
                               long&nbsp;timeout,
                               <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
                        throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
@@ -367,7 +369,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 
  <p>All elements in the returned list must be <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> instances. The easiest
  way to obtain a <code>List&lt;ListenableFuture&lt;T&gt;&gt;</code> from this method is an unchecked (but safe)
- cast:<pre>
+ cast:
+
+ <pre>
    <code> @SuppressWarnings("unchecked") // guaranteed by invokeAll contract</code>
    <code> List&lt;ListenableFuture&lt;T&gt;&gt; futures = (List) executor.invokeAll(tasks, timeout, unit);</code>
  </pre></div>

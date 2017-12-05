@@ -110,11 +110,9 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public interface <a href="../../../../src-html/com/google/common/cache/Cache.html#line.41">Cache</a>&lt;K,V&gt;</pre>
-<div class="block">A semi-persistent mapping from keys to values. Cache entries are manually added using
- <a href="../../../../com/google/common/cache/Cache.html#get-K-java.util.concurrent.Callable-"><code>get(Object, Callable)</code></a> or <a href="../../../../com/google/common/cache/Cache.html#put-K-V-"><code>put(Object, Object)</code></a>, and are stored in the cache until
- either evicted or manually invalidated. The common way to build instances is using
- <a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache"><code>CacheBuilder</code></a>.
+public interface <a href="../../../../src-html/com/google/common/cache/Cache.html#line.40">Cache</a>&lt;K,V&gt;</pre>
+<div class="block">A semi-persistent mapping from keys to values. Cache entries are manually added using <a href="../../../../com/google/common/cache/Cache.html#get-K-java.util.concurrent.Callable-"><code>get(Object, Callable)</code></a> or <a href="../../../../com/google/common/cache/Cache.html#put-K-V-"><code>put(Object, Object)</code></a>, and are stored in the cache until either
+ evicted or manually invalidated. The common way to build instances is using <a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache"><code>CacheBuilder</code></a>.
 
  <p>Implementations of this interface are expected to be thread-safe, and can be safely accessed
  by multiple concurrent threads.</div>
@@ -240,7 +238,7 @@ public interface <a href="../../../../src-html/com/google/common/cache/Cache.htm
 <li class="blockList">
 <h4>getIfPresent</h4>
 <pre><a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-<a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.50">getIfPresent</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="K")
+<a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.49">getIfPresent</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="K")
                          <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <div class="block">Returns the value associated with <code>key</code> in this cache, or <code>null</code> if there is no
  cached value for <code>key</code>.</div>
@@ -258,7 +256,7 @@ public interface <a href="../../../../src-html/com/google/common/cache/Cache.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre><a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.99">get</a>(<a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">K</a>&nbsp;key,
+<pre><a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.97">get</a>(<a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">K</a>&nbsp;key,
       <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;? extends <a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;loader)
 throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></pre>
 <div class="block">Returns the value associated with <code>key</code> in this cache, obtaining that value from <code>loader</code> if necessary. The method improves upon the conventional "if cached, return; otherwise
@@ -268,19 +266,19 @@ throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/E
  <p>Among the improvements that this method and <code>LoadingCache.get(K)</code> both provide are:
 
  <ul>
- <li><a href="../../../../com/google/common/cache/LoadingCache.html#get-K-">awaiting the result of a pending load</a> rather than
-     starting a redundant one
- <li>eliminating the error-prone caching boilerplate
- <li>tracking load <a href="../../../../com/google/common/cache/Cache.html#stats--">statistics</a>
+   <li><a href="../../../../com/google/common/cache/LoadingCache.html#get-K-">awaiting the result of a pending load</a> rather than
+       starting a redundant one
+   <li>eliminating the error-prone caching boilerplate
+   <li>tracking load <a href="../../../../com/google/common/cache/Cache.html#stats--">statistics</a>
  </ul>
 
  <p>Among the further improvements that <code>LoadingCache</code> can provide but this method cannot:
 
  <ul>
- <li>consolidation of the loader logic to <a href="../../../../com/google/common/cache/CacheBuilder.html#build-com.google.common.cache.CacheLoader-">a single
-     authoritative location</a>
- <li><a href="../../../../com/google/common/cache/LoadingCache.html#refresh-K-">refreshing of entries</a>, including <a href="../../../../com/google/common/cache/CacheBuilder.html#refreshAfterWrite-long-java.util.concurrent.TimeUnit-">automated refreshing</a>
- <li><a href="../../../../com/google/common/cache/LoadingCache.html#getAll-java.lang.Iterable-">bulk loading requests</a>, including <a href="../../../../com/google/common/cache/CacheLoader.html#loadAll-java.lang.Iterable-">bulk loading implementations</a>
+   <li>consolidation of the loader logic to <a href="../../../../com/google/common/cache/CacheBuilder.html#build-com.google.common.cache.CacheLoader-">a single
+       authoritative location</a>
+   <li><a href="../../../../com/google/common/cache/LoadingCache.html#refresh-K-">refreshing of entries</a>, including <a href="../../../../com/google/common/cache/CacheBuilder.html#refreshAfterWrite-long-java.util.concurrent.TimeUnit-">automated refreshing</a>
+   <li><a href="../../../../com/google/common/cache/LoadingCache.html#getAll-java.lang.Iterable-">bulk loading requests</a>, including <a href="../../../../com/google/common/cache/CacheLoader.html#loadAll-java.lang.Iterable-">bulk loading implementations</a>
  </ul>
 
  <p><b>Warning:</b> For any given key, every <code>loader</code> used with it should compute the same
@@ -313,7 +311,7 @@ throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/E
 <ul class="blockList">
 <li class="blockList">
 <h4>getAllPresent</h4>
-<pre><a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">K</a>,<a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.107">getAllPresent</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;?&gt;&nbsp;keys)</pre>
+<pre><a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">K</a>,<a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.105">getAllPresent</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;?&gt;&nbsp;keys)</pre>
 <div class="block">Returns a map of the values associated with <code>keys</code> in this cache. The returned map will
  only contain entries which are already present in the cache.</div>
 <dl>
@@ -330,7 +328,7 @@ throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/E
 <ul class="blockList">
 <li class="blockList">
 <h4>put</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.118">put</a>(<a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">K</a>&nbsp;key,
+<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.116">put</a>(<a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">K</a>&nbsp;key,
          <a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">V</a>&nbsp;value)</pre>
 <div class="block">Associates <code>value</code> with <code>key</code> in this cache. If the cache previously contained a
  value associated with <code>key</code>, the old value is replaced by <code>value</code>.
@@ -349,7 +347,7 @@ throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/E
 <ul class="blockList">
 <li class="blockList">
 <h4>putAll</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.128">putAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends <a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">K</a>,? extends <a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;m)</pre>
+<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.126">putAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends <a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">K</a>,? extends <a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;m)</pre>
 <div class="block">Copies all of the mappings from the specified map to the cache. The effect of this call is
  equivalent to that of calling <code>put(k, v)</code> on this map once for each mapping from key
  <code>k</code> to value <code>v</code> in the specified map. The behavior of this operation is undefined
@@ -366,7 +364,7 @@ throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/E
 <ul class="blockList">
 <li class="blockList">
 <h4>invalidate</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.133">invalidate</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="K")
+<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.129">invalidate</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="K")
                 <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <div class="block">Discards any cached value for key <code>key</code>.</div>
 </li>
@@ -377,7 +375,7 @@ throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/E
 <ul class="blockList">
 <li class="blockList">
 <h4>invalidateAll</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.140">invalidateAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;?&gt;&nbsp;keys)</pre>
+<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.136">invalidateAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;?&gt;&nbsp;keys)</pre>
 <div class="block">Discards any cached values for keys <code>keys</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -391,7 +389,7 @@ throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/E
 <ul class="blockList">
 <li class="blockList">
 <h4>invalidateAll</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.145">invalidateAll</a>()</pre>
+<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.139">invalidateAll</a>()</pre>
 <div class="block">Discards all entries in the cache.</div>
 </li>
 </ul>
@@ -401,7 +399,7 @@ throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/E
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre>long&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.150">size</a>()</pre>
+<pre>long&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.142">size</a>()</pre>
 <div class="block">Returns the approximate number of entries in this cache.</div>
 </li>
 </ul>
@@ -411,7 +409,7 @@ throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/E
 <ul class="blockList">
 <li class="blockList">
 <h4>stats</h4>
-<pre><a href="../../../../com/google/common/cache/CacheStats.html" title="class in com.google.common.cache">CacheStats</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.163">stats</a>()</pre>
+<pre><a href="../../../../com/google/common/cache/CacheStats.html" title="class in com.google.common.cache">CacheStats</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.155">stats</a>()</pre>
 <div class="block">Returns a current snapshot of this cache's cumulative statistics, or a set of default values if
  the cache is not recording statistics. All statistics begin at zero and never decrease over the
  lifetime of the cache.
@@ -428,7 +426,7 @@ throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/E
 <ul class="blockList">
 <li class="blockList">
 <h4>asMap</h4>
-<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</a>&lt;<a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">K</a>,<a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.178">asMap</a>()</pre>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</a>&lt;<a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">K</a>,<a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.170">asMap</a>()</pre>
 <div class="block">Returns a view of the entries stored in this cache as a thread-safe map. Modifications made to
  the map directly affect the cache.
 
@@ -448,7 +446,7 @@ throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/E
 <ul class="blockListLast">
 <li class="blockList">
 <h4>cleanUp</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.184">cleanUp</a>()</pre>
+<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.176">cleanUp</a>()</pre>
 <div class="block">Performs any pending maintenance operations needed by the cache. Exactly which activities are
  performed -- if any -- is implementation-dependent.</div>
 </li>

@@ -110,26 +110,25 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/io/CharSource.html#line.71">CharSource</a>
+public abstract class <a href="../../../../src-html/com/google/common/io/CharSource.html#line.72">CharSource</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
-<div class="block">A readable source of characters, such as a text file. Unlike a <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Reader.html?is-external=true" title="class or interface in java.io"><code>Reader</code></a>, a
- <code>CharSource</code> is not an open, stateful stream of characters that can be read and closed.
- Instead, it is an immutable <i>supplier</i> of <code>Reader</code> instances.
+<div class="block">A readable source of characters, such as a text file. Unlike a <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Reader.html?is-external=true" title="class or interface in java.io"><code>Reader</code></a>, a <code>CharSource</code> is not an open, stateful stream of characters that can be read and closed. Instead,
+ it is an immutable <i>supplier</i> of <code>Reader</code> instances.
 
  <p><code>CharSource</code> provides two kinds of methods:
+
  <ul>
- <li><b>Methods that return a reader:</b> These methods should return a <i>new</i>, independent
-     instance each time they are called. The caller is responsible for ensuring that the returned
-     reader is closed.
- <li><b>Convenience methods:</b> These are implementations of common operations that are typically
-     implemented by opening a reader using one of the methods in the first category, doing
-     something and finally closing the reader that was opened.
+   <li><b>Methods that return a reader:</b> These methods should return a <i>new</i>, independent
+       instance each time they are called. The caller is responsible for ensuring that the
+       returned reader is closed.
+   <li><b>Convenience methods:</b> These are implementations of common operations that are
+       typically implemented by opening a reader using one of the methods in the first category,
+       doing something and finally closing the reader that was opened.
  </ul>
 
  <p>Several methods in this class, such as <a href="../../../../com/google/common/io/CharSource.html#readLines--"><code>readLines()</code></a>, break the contents of the source
- into lines. Like <a href="https://docs.oracle.com/javase/9/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io"><code>BufferedReader</code></a>, these methods break lines on any of <code>\n</code>,
- <code>\r</code> or <code>\r\n</code>, do not include the line separator in each line and do not consider
- there to be an empty line at the end if the contents are terminated with a line separator.
+ into lines. Like <a href="https://docs.oracle.com/javase/9/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io"><code>BufferedReader</code></a>, these methods break lines on any of <code>\n</code>, <code>\r</code> or <code>\r\n</code>, do not include the line separator in each line and do not consider there to
+ be an empty line at the end if the contents are terminated with a line separator.
 
  <p>Any <a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> containing text encoded with a specific <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset">character
  encoding</a> may be viewed as a <code>CharSource</code> using <a href="../../../../com/google/common/io/ByteSource.html#asCharSource-java.nio.charset.Charset-"><code>ByteSource.asCharSource(Charset)</code></a>.</div>
@@ -224,8 +223,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/io/CharSource.html#forEachLine-java.util.function.Consumer-">forEachLine</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Consumer.html?is-external=true" title="class or interface in java.util.function">Consumer</a>&lt;? super <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;action)</code>
-<div class="block">Reads all lines of text from this source, running the given <code>action</code> for each line as
- it is read.</div>
+<div class="block">Reads all lines of text from this source, running the given <code>action</code> for each line as it
+ is read.</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
@@ -287,8 +286,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;T</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/io/CharSource.html#readLines-com.google.common.io.LineProcessor-">readLines</a></span>(<a href="../../../../com/google/common/io/LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T&gt;&nbsp;processor)</code>
-<div class="block">Reads lines of text from this source, processing each line as it is read using the given
- <a href="../../../../com/google/common/io/LineProcessor.html" title="interface in com.google.common.io"><code>processor</code></a>.</div>
+<div class="block">Reads lines of text from this source, processing each line as it is read using the given <a href="../../../../com/google/common/io/LineProcessor.html" title="interface in com.google.common.io"><code>processor</code></a>.</div>
 </td>
 </tr>
 <tr id="i18" class="altColor">
@@ -325,7 +323,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>CharSource</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.76">CharSource</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.75">CharSource</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -344,7 +342,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>asByteSource</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public&nbsp;<a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.90">asByteSource</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset">Charset</a>&nbsp;charset)</pre>
+public&nbsp;<a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.89">asByteSource</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset">Charset</a>&nbsp;charset)</pre>
 <div class="block">Returns a <a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> view of this char source that encodes chars read from this source
  as bytes using the given <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset"><code>Charset</code></a>.
 
@@ -364,7 +362,7 @@ public&nbsp;<a href="../../../../com/google/common/io/ByteSource.html" title="cl
 <ul class="blockList">
 <li class="blockList">
 <h4>openStream</h4>
-<pre>public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/Reader.html?is-external=true" title="class or interface in java.io">Reader</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.102">openStream</a>()
+<pre>public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/Reader.html?is-external=true" title="class or interface in java.io">Reader</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.101">openStream</a>()
                            throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Opens a new <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Reader.html?is-external=true" title="class or interface in java.io"><code>Reader</code></a> for reading from this source. This method returns a new, independent
  reader each time it is called.
@@ -382,7 +380,7 @@ public&nbsp;<a href="../../../../com/google/common/io/ByteSource.html" title="cl
 <ul class="blockList">
 <li class="blockList">
 <h4>openBufferedStream</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io">BufferedReader</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.112">openBufferedStream</a>()
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io">BufferedReader</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.111">openBufferedStream</a>()
                                   throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Opens a new <a href="https://docs.oracle.com/javase/9/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io"><code>BufferedReader</code></a> for reading from this source. This method returns a new,
  independent reader each time it is called.
@@ -402,7 +400,7 @@ public&nbsp;<a href="../../../../com/google/common/io/ByteSource.html" title="cl
 <h4>lines</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/MustBeClosed.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@MustBeClosed</a>
-public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.147">lines</a>()
+public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.146">lines</a>()
                                           throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Opens a new <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream"><code>Stream</code></a> for reading text one line at a time from this source. This method
  returns a new, independent stream each time it is called.
@@ -412,9 +410,8 @@ public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/
  <a href="https://docs.oracle.com/javase/9/docs/api/java/io/UncheckedIOException.html?is-external=true" title="class or interface in java.io"><code>UncheckedIOException</code></a> is thrown.
 
  <p>Like <a href="https://docs.oracle.com/javase/9/docs/api/java/io/BufferedReader.html?is-external=true#readLine--" title="class or interface in java.io"><code>BufferedReader.readLine()</code></a>, this method considers a line to be a sequence of
- text that is terminated by (but does not include) one of <code>\r\n</code>, <code>\r</code> or
- <code>\n</code>. If the source's content does not end in a line termination sequence, it is treated
- as if it does.
+ text that is terminated by (but does not include) one of <code>\r\n</code>, <code>\r</code> or <code>\n</code>. If the source's content does not end in a line termination sequence, it is treated as if
+ it does.
 
  <p>The caller is responsible for ensuring that the returned stream is closed. For example:
 
@@ -440,14 +437,13 @@ public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/
 <li class="blockList">
 <h4>lengthIfKnown</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.173">lengthIfKnown</a>()</pre>
+public&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.175">lengthIfKnown</a>()</pre>
 <div class="block">Returns the size of this source in chars, if the size can be easily determined without actually
  opening the data stream.
 
- <p>The default implementation returns <a href="../../../../com/google/common/base/Optional.html#absent--"><code>Optional.absent()</code></a>. Some sources, such as a
- <code>CharSequence</code>, may return a non-absent value. Note that in such cases, it is
- <i>possible</i> that this method will return a different number of chars than would be returned
- by reading all of the chars.
+ <p>The default implementation returns <a href="../../../../com/google/common/base/Optional.html#absent--"><code>Optional.absent()</code></a>. Some sources, such as a <code>CharSequence</code>, may return a non-absent value. Note that in such cases, it is <i>possible</i>
+ that this method will return a different number of chars than would be returned by reading all
+ of the chars.
 
  <p>Additionally, for mutable sources such as <code>StringBuilder</code>s, a subsequent read may
  return a different number of chars if the contents are changed.</div>
@@ -464,15 +460,14 @@ public&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="cl
 <li class="blockList">
 <h4>length</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.197">length</a>()
+public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.199">length</a>()
                   throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Returns the length of this source in chars, even if doing so requires opening and traversing an
  entire stream. To avoid a potentially expensive operation, see <a href="../../../../com/google/common/io/CharSource.html#lengthIfKnown--"><code>lengthIfKnown()</code></a>.
 
  <p>The default implementation calls <a href="../../../../com/google/common/io/CharSource.html#lengthIfKnown--"><code>lengthIfKnown()</code></a> and returns the value if present. If
- absent, it will fall back to a heavyweight operation that will open a stream,
- <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Reader.html?is-external=true#skip-long-" title="class or interface in java.io"><code>skip</code></a> to the end of the stream, and return the total number of chars
- that were skipped.
+ absent, it will fall back to a heavyweight operation that will open a stream, <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Reader.html?is-external=true#skip-long-" title="class or interface in java.io"><code>skip</code></a> to the end of the stream, and return the total number of chars that
+ were skipped.
 
  <p>Note that for sources that implement <a href="../../../../com/google/common/io/CharSource.html#lengthIfKnown--"><code>lengthIfKnown()</code></a> to provide a more efficient
  implementation, it is <i>possible</i> that this method will return a different number of chars
@@ -495,7 +490,7 @@ public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharSou
 <li class="blockList">
 <h4>copyTo</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.232">copyTo</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang">Appendable</a>&nbsp;appendable)
+public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.234">copyTo</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang">Appendable</a>&nbsp;appendable)
                                   throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Appends the contents of this source to the given <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang"><code>Appendable</code></a> (such as a <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io"><code>Writer</code></a>).
  Does not close <code>appendable</code> if it is <code>Closeable</code>.</div>
@@ -503,8 +498,7 @@ public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharSou
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the number of characters copied</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if an I/O error occurs while reading from this source or writing to
-     <code>appendable</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if an I/O error occurs while reading from this source or writing to <code>appendable</code></dd>
 </dl>
 </li>
 </ul>
@@ -515,15 +509,14 @@ public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharSou
 <li class="blockList">
 <h4>copyTo</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.254">copyTo</a>(<a href="../../../../com/google/common/io/CharSink.html" title="class in com.google.common.io">CharSink</a>&nbsp;sink)
+public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.256">copyTo</a>(<a href="../../../../com/google/common/io/CharSink.html" title="class in com.google.common.io">CharSink</a>&nbsp;sink)
                                   throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Copies the contents of this source to the given sink.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the number of characters copied</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if an I/O error occurs while reading from this source or writing to
-     <code>sink</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if an I/O error occurs while reading from this source or writing to <code>sink</code></dd>
 </dl>
 </li>
 </ul>
@@ -533,7 +526,7 @@ public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharSou
 <ul class="blockList">
 <li class="blockList">
 <h4>read</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.274">read</a>()
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.276">read</a>()
             throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Reads the contents of this source as a string.</div>
 <dl>
@@ -549,14 +542,13 @@ public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharSou
 <li class="blockList">
 <h4>readFirstLine</h4>
 <pre><a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.297">readFirstLine</a>()
+public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.299">readFirstLine</a>()
                                throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Reads the first line of this source as a string. Returns <code>null</code> if this source is empty.
 
  <p>Like <a href="https://docs.oracle.com/javase/9/docs/api/java/io/BufferedReader.html?is-external=true#readLine--" title="class or interface in java.io"><code>BufferedReader.readLine()</code></a>, this method considers a line to be a sequence of
- text that is terminated by (but does not include) one of <code>\r\n</code>, <code>\r</code> or
- <code>\n</code>. If the source's content does not end in a line termination sequence, it is treated
- as if it does.</div>
+ text that is terminated by (but does not include) one of <code>\r\n</code>, <code>\r</code> or <code>\n</code>. If the source's content does not end in a line termination sequence, it is treated as if
+ it does.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if an I/O error occurs while reading from this source</dd>
@@ -569,15 +561,14 @@ public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.
 <ul class="blockList">
 <li class="blockList">
 <h4>readLines</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.320">readLines</a>()
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.322">readLines</a>()
                                 throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Reads all the lines of this source as a list of strings. The returned list will be empty if
  this source is empty.
 
  <p>Like <a href="https://docs.oracle.com/javase/9/docs/api/java/io/BufferedReader.html?is-external=true#readLine--" title="class or interface in java.io"><code>BufferedReader.readLine()</code></a>, this method considers a line to be a sequence of
- text that is terminated by (but does not include) one of <code>\r\n</code>, <code>\r</code> or
- <code>\n</code>. If the source's content does not end in a line termination sequence, it is treated
- as if it does.</div>
+ text that is terminated by (but does not include) one of <code>\r\n</code>, <code>\r</code> or <code>\n</code>. If the source's content does not end in a line termination sequence, it is treated as if
+ it does.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if an I/O error occurs while reading from this source</dd>
@@ -592,20 +583,17 @@ public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.
 <h4>readLines</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.353">readLines</a>(<a href="../../../../com/google/common/io/LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T&gt;&nbsp;processor)
+public&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.355">readLines</a>(<a href="../../../../com/google/common/io/LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T&gt;&nbsp;processor)
                                              throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
-<div class="block">Reads lines of text from this source, processing each line as it is read using the given
- <a href="../../../../com/google/common/io/LineProcessor.html" title="interface in com.google.common.io"><code>processor</code></a>. Stops when all lines have been processed or the processor
- returns <code>false</code> and returns the result produced by the processor.
+<div class="block">Reads lines of text from this source, processing each line as it is read using the given <a href="../../../../com/google/common/io/LineProcessor.html" title="interface in com.google.common.io"><code>processor</code></a>. Stops when all lines have been processed or the processor returns
+ <code>false</code> and returns the result produced by the processor.
 
  <p>Like <a href="https://docs.oracle.com/javase/9/docs/api/java/io/BufferedReader.html?is-external=true#readLine--" title="class or interface in java.io"><code>BufferedReader.readLine()</code></a>, this method considers a line to be a sequence of
- text that is terminated by (but does not include) one of <code>\r\n</code>, <code>\r</code> or
- <code>\n</code>. If the source's content does not end in a line termination sequence, it is treated
- as if it does.</div>
+ text that is terminated by (but does not include) one of <code>\r\n</code>, <code>\r</code> or <code>\n</code>. If the source's content does not end in a line termination sequence, it is treated as if
+ it does.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if an I/O error occurs while reading from this source or if
-     <code>processor</code> throws an <code>IOException</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if an I/O error occurs while reading from this source or if <code>processor</code> throws an <code>IOException</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>16.0</dd>
 </dl>
@@ -618,19 +606,18 @@ public&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/commo
 <li class="blockList">
 <h4>forEachLine</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.381">forEachLine</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Consumer.html?is-external=true" title="class or interface in java.util.function">Consumer</a>&lt;? super <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;action)
+public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.383">forEachLine</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Consumer.html?is-external=true" title="class or interface in java.util.function">Consumer</a>&lt;? super <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;action)
                        throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
-<div class="block">Reads all lines of text from this source, running the given <code>action</code> for each line as
- it is read.
+<div class="block">Reads all lines of text from this source, running the given <code>action</code> for each line as it
+ is read.
 
  <p>Like <a href="https://docs.oracle.com/javase/9/docs/api/java/io/BufferedReader.html?is-external=true#readLine--" title="class or interface in java.io"><code>BufferedReader.readLine()</code></a>, this method considers a line to be a sequence of
- text that is terminated by (but does not include) one of <code>\r\n</code>, <code>\r</code> or
- <code>\n</code>. If the source's content does not end in a line termination sequence, it is treated
- as if it does.</div>
+ text that is terminated by (but does not include) one of <code>\r\n</code>, <code>\r</code> or <code>\n</code>. If the source's content does not end in a line termination sequence, it is treated as if
+ it does.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if an I/O error occurs while reading from this source or if
-     <code>action</code> throws an <code>UncheckedIOException</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if an I/O error occurs while reading from this source or if <code>action</code>
+     throws an <code>UncheckedIOException</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>22.0</dd>
 </dl>
@@ -642,10 +629,9 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharSou
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.402">isEmpty</a>()
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.404">isEmpty</a>()
                 throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
-<div class="block">Returns whether the source has zero chars. The default implementation first checks
- <a href="../../../../com/google/common/io/CharSource.html#lengthIfKnown--"><code>lengthIfKnown()</code></a>, returning true if it's known to be zero and false if it's known to be
+<div class="block">Returns whether the source has zero chars. The default implementation first checks <a href="../../../../com/google/common/io/CharSource.html#lengthIfKnown--"><code>lengthIfKnown()</code></a>, returning true if it's known to be zero and false if it's known to be
  non-zero. If the length is not known, it falls back to opening a stream and checking for EOF.
 
  <p>Note that, in cases where <code>lengthIfKnown</code> returns zero, it is <i>possible</i> that
@@ -665,7 +651,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharSou
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/io/CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.429">concat</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/io/CharSource.html" title="class in com.google.common.io">CharSource</a>&gt;&nbsp;sources)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/io/CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.431">concat</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/io/CharSource.html" title="class in com.google.common.io">CharSource</a>&gt;&nbsp;sources)</pre>
 <div class="block">Concatenates multiple <a href="../../../../com/google/common/io/CharSource.html" title="class in com.google.common.io"><code>CharSource</code></a> instances into a single source. Streams returned from
  the source will contain the concatenated data from the streams of the underlying sources.
 
@@ -687,7 +673,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharSou
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/io/CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.451">concat</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends <a href="../../../../com/google/common/io/CharSource.html" title="class in com.google.common.io">CharSource</a>&gt;&nbsp;sources)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/io/CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.453">concat</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends <a href="../../../../com/google/common/io/CharSource.html" title="class in com.google.common.io">CharSource</a>&gt;&nbsp;sources)</pre>
 <div class="block">Concatenates multiple <a href="../../../../com/google/common/io/CharSource.html" title="class in com.google.common.io"><code>CharSource</code></a> instances into a single source. Streams returned from
  the source will contain the concatenated data from the streams of the underlying sources.
 
@@ -717,7 +703,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharSou
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/io/CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.467">concat</a>(<a href="../../../../com/google/common/io/CharSource.html" title="class in com.google.common.io">CharSource</a>...&nbsp;sources)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/io/CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.469">concat</a>(<a href="../../../../com/google/common/io/CharSource.html" title="class in com.google.common.io">CharSource</a>...&nbsp;sources)</pre>
 <div class="block">Concatenates multiple <a href="../../../../com/google/common/io/CharSource.html" title="class in com.google.common.io"><code>CharSource</code></a> instances into a single source. Streams returned from
  the source will contain the concatenated data from the streams of the underlying sources.
 
@@ -741,7 +727,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharSou
 <ul class="blockList">
 <li class="blockList">
 <h4>wrap</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/io/CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.478">wrap</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;charSequence)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/io/CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.480">wrap</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;charSequence)</pre>
 <div class="block">Returns a view of the given character sequence as a <a href="../../../../com/google/common/io/CharSource.html" title="class in com.google.common.io"><code>CharSource</code></a>. The behavior of the
  returned <code>CharSource</code> and any <code>Reader</code> instances created by it is unspecified if
  the <code>charSequence</code> is mutated while it is being read, so don't do that.</div>
@@ -757,7 +743,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharSou
 <ul class="blockListLast">
 <li class="blockList">
 <h4>empty</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/io/CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.489">empty</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/io/CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharSource.html#line.491">empty</a>()</pre>
 <div class="block">Returns an immutable <a href="../../../../com/google/common/io/CharSource.html" title="class in com.google.common.io"><code>CharSource</code></a> that contains no characters.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>

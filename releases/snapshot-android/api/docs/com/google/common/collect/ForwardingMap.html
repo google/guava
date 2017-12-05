@@ -123,31 +123,29 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.62">ForwardingMap</a>&lt;K,V&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.58">ForwardingMap</a>&lt;K,V&gt;
 extends <a href="../../../../com/google/common/collect/ForwardingObject.html" title="class in com.google.common.collect">ForwardingObject</a>
 implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;</pre>
-<div class="block">A map which forwards all its method calls to another map. Subclasses should
- override one or more methods to modify the behavior of the backing map as
- desired per the <a
+<div class="block">A map which forwards all its method calls to another map. Subclasses should override one or more
+ methods to modify the behavior of the backing map as desired per the <a
  href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
 
- <p><b>Warning:</b> The methods of <code>ForwardingMap</code> forward
- <i>indiscriminately</i> to the methods of the delegate. For example,
- overriding <a href="../../../../com/google/common/collect/ForwardingMap.html#put-K-V-"><code>put(K, V)</code></a> alone <i>will not</i> change the behavior of <a href="../../../../com/google/common/collect/ForwardingMap.html#putAll-java.util.Map-"><code>putAll(java.util.Map&lt;? extends K, ? extends V&gt;)</code></a>, which can lead to unexpected behavior. In this case, you should
- override <code>putAll</code> as well, either providing your own implementation, or
- delegating to the provided <code>standardPutAll</code> method.
+ <p><b>Warning:</b> The methods of <code>ForwardingMap</code> forward <i>indiscriminately</i> to the
+ methods of the delegate. For example, overriding <a href="../../../../com/google/common/collect/ForwardingMap.html#put-K-V-"><code>put(K, V)</code></a> alone <i>will not</i> change the
+ behavior of <a href="../../../../com/google/common/collect/ForwardingMap.html#putAll-java.util.Map-"><code>putAll(java.util.Map&lt;? extends K, ? extends V&gt;)</code></a>, which can lead to unexpected behavior. In this case, you should
+ override <code>putAll</code> as well, either providing your own implementation, or delegating to the
+ provided <code>standardPutAll</code> method.
 
  <p><b><code>default</code> method warning:</b> This class does <i>not</i> forward calls to <code>default</code> methods. Instead, it inherits their default implementations. When those implementations
  invoke methods, they invoke methods on the <code>ForwardingMap</code>.
 
- <p>Each of the <code>standard</code> methods, where appropriate, use <a href="../../../../com/google/common/base/Objects.html#equal-java.lang.Object-java.lang.Object-"><code>Objects.equal(java.lang.Object, java.lang.Object)</code></a> to test equality for both keys and values. This may not be
- the desired behavior for map implementations that use non-standard notions of
- key equality, such as a <code>SortedMap</code> whose comparator is not consistent
- with <code>equals</code>.
+ <p>Each of the <code>standard</code> methods, where appropriate, use <a href="../../../../com/google/common/base/Objects.html#equal-java.lang.Object-java.lang.Object-"><code>Objects.equal(java.lang.Object, java.lang.Object)</code></a> to test
+ equality for both keys and values. This may not be the desired behavior for map implementations
+ that use non-standard notions of key equality, such as a <code>SortedMap</code> whose comparator is
+ not consistent with <code>equals</code>.
 
- <p>The <code>standard</code> methods and the collection views they return are not
- guaranteed to be thread-safe, even when all of the methods that they depend
- on are thread-safe.</div>
+ <p>The <code>standard</code> methods and the collection views they return are not guaranteed to be
+ thread-safe, even when all of the methods that they depend on are thread-safe.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
@@ -175,25 +173,21 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <tr class="altColor">
 <td class="colFirst"><code>protected class&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingMap.StandardEntrySet.html" title="class in com.google.common.collect">ForwardingMap.StandardEntrySet</a></span></code>
-<div class="block">A sensible implementation of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#entrySet--" title="class or interface in java.util"><code>Map.entrySet()</code></a> in terms of the following
- methods: <a href="../../../../com/google/common/collect/ForwardingMap.html#clear--"><code>clear()</code></a>, <a href="../../../../com/google/common/collect/ForwardingMap.html#containsKey-java.lang.Object-"><code>containsKey(java.lang.Object)</code></a>,
- <a href="../../../../com/google/common/collect/ForwardingMap.html#get-java.lang.Object-"><code>get(java.lang.Object)</code></a>, <a href="../../../../com/google/common/collect/ForwardingMap.html#isEmpty--"><code>isEmpty()</code></a>, <a href="../../../../com/google/common/collect/ForwardingMap.html#remove-java.lang.Object-"><code>remove(java.lang.Object)</code></a>, and <a href="../../../../com/google/common/collect/ForwardingMap.html#size--"><code>size()</code></a>.</div>
+<div class="block">A sensible implementation of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#entrySet--" title="class or interface in java.util"><code>Map.entrySet()</code></a> in terms of the following methods: <a href="../../../../com/google/common/collect/ForwardingMap.html#clear--"><code>clear()</code></a>, <a href="../../../../com/google/common/collect/ForwardingMap.html#containsKey-java.lang.Object-"><code>containsKey(java.lang.Object)</code></a>, <a href="../../../../com/google/common/collect/ForwardingMap.html#get-java.lang.Object-"><code>get(java.lang.Object)</code></a>, <a href="../../../../com/google/common/collect/ForwardingMap.html#isEmpty--"><code>isEmpty()</code></a>, <a href="../../../../com/google/common/collect/ForwardingMap.html#remove-java.lang.Object-"><code>remove(java.lang.Object)</code></a>, and <a href="../../../../com/google/common/collect/ForwardingMap.html#size--"><code>size()</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected class&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingMap.StandardKeySet.html" title="class in com.google.common.collect">ForwardingMap.StandardKeySet</a></span></code>
-<div class="block">A sensible implementation of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#keySet--" title="class or interface in java.util"><code>Map.keySet()</code></a> in terms of the following
- methods: <a href="../../../../com/google/common/collect/ForwardingMap.html#clear--"><code>clear()</code></a>, <a href="../../../../com/google/common/collect/ForwardingMap.html#containsKey-java.lang.Object-"><code>containsKey(java.lang.Object)</code></a>,
- <a href="../../../../com/google/common/collect/ForwardingMap.html#isEmpty--"><code>isEmpty()</code></a>, <a href="../../../../com/google/common/collect/ForwardingMap.html#remove-java.lang.Object-"><code>remove(java.lang.Object)</code></a>, <a href="../../../../com/google/common/collect/ForwardingMap.html#size--"><code>size()</code></a>, and the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true#iterator--" title="class or interface in java.util"><code>Set.iterator()</code></a> method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>.</div>
+<div class="block">A sensible implementation of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#keySet--" title="class or interface in java.util"><code>Map.keySet()</code></a> in terms of the following methods: <a href="../../../../com/google/common/collect/ForwardingMap.html#clear--"><code>clear()</code></a>, <a href="../../../../com/google/common/collect/ForwardingMap.html#containsKey-java.lang.Object-"><code>containsKey(java.lang.Object)</code></a>, <a href="../../../../com/google/common/collect/ForwardingMap.html#isEmpty--"><code>isEmpty()</code></a>, <a href="../../../../com/google/common/collect/ForwardingMap.html#remove-java.lang.Object-"><code>remove(java.lang.Object)</code></a>, <a href="../../../../com/google/common/collect/ForwardingMap.html#size--"><code>size()</code></a>, and the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true#iterator--" title="class or interface in java.util"><code>Set.iterator()</code></a> method of
+ <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected class&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingMap.StandardValues.html" title="class in com.google.common.collect">ForwardingMap.StandardValues</a></span></code>
-<div class="block">A sensible implementation of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#values--" title="class or interface in java.util"><code>Map.values()</code></a> in terms of the following
- methods: <a href="../../../../com/google/common/collect/ForwardingMap.html#clear--"><code>clear()</code></a>, <a href="../../../../com/google/common/collect/ForwardingMap.html#containsValue-java.lang.Object-"><code>containsValue(java.lang.Object)</code></a>,
- <a href="../../../../com/google/common/collect/ForwardingMap.html#isEmpty--"><code>isEmpty()</code></a>, <a href="../../../../com/google/common/collect/ForwardingMap.html#size--"><code>size()</code></a>, and the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true#iterator--" title="class or interface in java.util"><code>Set.iterator()</code></a> method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>.</div>
+<div class="block">A sensible implementation of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#values--" title="class or interface in java.util"><code>Map.values()</code></a> in terms of the following methods: <a href="../../../../com/google/common/collect/ForwardingMap.html#clear--"><code>clear()</code></a>, <a href="../../../../com/google/common/collect/ForwardingMap.html#containsValue-java.lang.Object-"><code>containsValue(java.lang.Object)</code></a>, <a href="../../../../com/google/common/collect/ForwardingMap.html#isEmpty--"><code>isEmpty()</code></a>,
+ <a href="../../../../com/google/common/collect/ForwardingMap.html#size--"><code>size()</code></a>, and the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true#iterator--" title="class or interface in java.util"><code>Set.iterator()</code></a> method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>.</div>
 </td>
 </tr>
 </table>
@@ -333,42 +327,38 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>protected void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingMap.html#standardClear--">standardClear</a></span>()</code>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#clear--"><code>clear()</code></a> in terms of the <code>iterator</code>
- method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#clear--"><code>clear()</code></a> in terms of the <code>iterator</code> method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>.</div>
 </td>
 </tr>
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingMap.html#standardContainsKey-java.lang.Object-">standardContainsKey</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</code>
-<div class="block">A sensible, albeit inefficient, definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#containsKey-java.lang.Object-"><code>containsKey(java.lang.Object)</code></a> in terms
- of the <code>iterator</code> method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>.</div>
+<div class="block">A sensible, albeit inefficient, definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#containsKey-java.lang.Object-"><code>containsKey(java.lang.Object)</code></a> in terms of the <code>iterator</code> method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>.</div>
 </td>
 </tr>
 <tr id="i16" class="altColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingMap.html#standardContainsValue-java.lang.Object-">standardContainsValue</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</code>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#containsValue-java.lang.Object-"><code>containsValue(java.lang.Object)</code></a> in terms of the <code>iterator</code> method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#containsValue-java.lang.Object-"><code>containsValue(java.lang.Object)</code></a> in terms of the <code>iterator</code> method of
+ <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>.</div>
 </td>
 </tr>
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingMap.html#standardEquals-java.lang.Object-">standardEquals</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</code>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#equals-java.lang.Object-"><code>equals(java.lang.Object)</code></a> in terms of the <code>equals</code>
- method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#equals-java.lang.Object-"><code>equals(java.lang.Object)</code></a> in terms of the <code>equals</code> method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>.</div>
 </td>
 </tr>
 <tr id="i18" class="altColor">
 <td class="colFirst"><code>protected int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingMap.html#standardHashCode--">standardHashCode</a></span>()</code>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#hashCode--"><code>hashCode()</code></a> in terms of the <code>iterator</code>
- method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#hashCode--"><code>hashCode()</code></a> in terms of the <code>iterator</code> method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>.</div>
 </td>
 </tr>
 <tr id="i19" class="rowColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingMap.html#standardIsEmpty--">standardIsEmpty</a></span>()</code>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#isEmpty--"><code>isEmpty()</code></a> in terms of the <code>iterator</code>
- method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#isEmpty--"><code>isEmpty()</code></a> in terms of the <code>iterator</code> method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>.</div>
 </td>
 </tr>
 <tr id="i20" class="altColor">
@@ -380,15 +370,14 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <tr id="i21" class="rowColor">
 <td class="colFirst"><code>protected <a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingMap.html#standardRemove-java.lang.Object-">standardRemove</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</code>
-<div class="block">A sensible, albeit inefficient, definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#remove-java.lang.Object-"><code>remove(java.lang.Object)</code></a> in terms of
- the <code>iterator</code> method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>.</div>
+<div class="block">A sensible, albeit inefficient, definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#remove-java.lang.Object-"><code>remove(java.lang.Object)</code></a> in terms of the <code>iterator</code>
+ method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>.</div>
 </td>
 </tr>
 <tr id="i22" class="altColor">
 <td class="colFirst"><code>protected <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingMap.html#standardToString--">standardToString</a></span>()</code>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingObject.html#toString--"><code>ForwardingObject.toString()</code></a> in terms of the <code>iterator</code>
- method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingObject.html#toString--"><code>ForwardingObject.toString()</code></a> in terms of the <code>iterator</code> method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>.</div>
 </td>
 </tr>
 <tr id="i23" class="rowColor">
@@ -439,7 +428,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingMap</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.66">ForwardingMap</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.62">ForwardingMap</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -457,12 +446,12 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre>protected abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.69">delegate</a>()</pre>
+<pre>protected abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.65">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingObject.html#delegate--">ForwardingObject</a></code></span></div>
-<div class="block">Returns the backing delegate instance that methods are forwarded to.
- Abstract subclasses generally override this method with an abstract method
- that has a more specific return type, such as <a href="../../../../com/google/common/collect/ForwardingSet.html#delegate--"><code>ForwardingSet.delegate()</code></a>. Concrete subclasses override this method to supply
- the instance being decorated.</div>
+<div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
+ generally override this method with an abstract method that has a more specific return type,
+ such as <a href="../../../../com/google/common/collect/ForwardingSet.html#delegate--"><code>ForwardingSet.delegate()</code></a>. Concrete subclasses override this method to supply the
+ instance being decorated.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ForwardingObject.html#delegate--">delegate</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingObject.html" title="class in com.google.common.collect">ForwardingObject</a></code></dd>
@@ -475,7 +464,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.72">size</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.68">size</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#size--" title="class or interface in java.util">java.util.Map</a></code></span></div>
 <div class="block">Returns the number of key-value mappings in this map.  If the
  map contains more than <tt>Integer.MAX_VALUE</tt> elements, returns
@@ -494,7 +483,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.77">isEmpty</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.73">isEmpty</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#isEmpty--" title="class or interface in java.util">java.util.Map</a></code></span></div>
 <div class="block">Returns <tt>true</tt> if this map contains no key-value mappings.</div>
 <dl>
@@ -512,7 +501,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <li class="blockList">
 <h4>remove</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.83">remove</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
+public&nbsp;<a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.79">remove</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#remove-java.lang.Object-" title="class or interface in java.util">java.util.Map</a></code></span></div>
 <div class="block">Removes the mapping for a key from this map if it is present
  (optional operation).   More formally, if this map contains a mapping
@@ -547,7 +536,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingMap.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>clear</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.88">clear</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.84">clear</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#clear--" title="class or interface in java.util">java.util.Map</a></code></span></div>
 <div class="block">Removes all of the mappings from this map (optional operation).
  The map will be empty after this call returns.</div>
@@ -563,7 +552,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingMap.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>containsKey</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.93">containsKey</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.89">containsKey</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                            <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#containsKey-java.lang.Object-" title="class or interface in java.util">java.util.Map</a></code></span></div>
 <div class="block">Returns <tt>true</tt> if this map contains a mapping for the specified
@@ -588,7 +577,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingMap.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>containsValue</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.98">containsValue</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.94">containsValue</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                              <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#containsValue-java.lang.Object-" title="class or interface in java.util">java.util.Map</a></code></span></div>
 <div class="block">Returns <tt>true</tt> if this map maps one or more keys to the
@@ -614,7 +603,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingMap.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.103">get</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.99">get</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#get-java.lang.Object-" title="class or interface in java.util">java.util.Map</a></code></span></div>
 <div class="block">Returns the value to which the specified key is mapped,
@@ -649,7 +638,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingMap.html" t
 <li class="blockList">
 <h4>put</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.109">put</a>(<a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</a>&nbsp;key,
+public&nbsp;<a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.105">put</a>(<a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</a>&nbsp;key,
                                    <a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#put-K-V-" title="class or interface in java.util">java.util.Map</a></code></span></div>
 <div class="block">Associates the specified value with the specified key in this map
@@ -679,7 +668,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingMap.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>putAll</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.114">putAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends <a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</a>,? extends <a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;&nbsp;map)</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.110">putAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends <a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</a>,? extends <a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;&nbsp;map)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#putAll-java.util.Map-" title="class or interface in java.util">java.util.Map</a></code></span></div>
 <div class="block">Copies all of the mappings from the specified map to this map
  (optional operation).  The effect of this call is equivalent to that
@@ -701,7 +690,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingMap.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>keySet</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.119">keySet</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.115">keySet</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#keySet--" title="class or interface in java.util">java.util.Map</a></code></span></div>
 <div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util"><code>Set</code></a> view of the keys contained in this map.
  The set is backed by the map, so changes to the map are
@@ -728,7 +717,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingMap.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>values</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.124">values</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.120">values</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#values--" title="class or interface in java.util">java.util.Map</a></code></span></div>
 <div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a> view of the values contained in this map.
  The collection is backed by the map, so changes to the map are
@@ -755,7 +744,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingMap.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>entrySet</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.129">entrySet</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.125">entrySet</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#entrySet--" title="class or interface in java.util">java.util.Map</a></code></span></div>
 <div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util"><code>Set</code></a> view of the mappings contained in this map.
  The set is backed by the map, so changes to the map are
@@ -783,7 +772,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingMap.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.134">equals</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.130">equals</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Indicates whether some other object is "equal to" this one.
@@ -846,7 +835,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingMap.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.139">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.135">hashCode</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Returns a hash code value for the object. This method is
  supported for the benefit of hash tables such as those provided by
@@ -896,10 +885,10 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingMap.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>standardPutAll</h4>
-<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.151">standardPutAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends <a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</a>,? extends <a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;&nbsp;map)</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#putAll-java.util.Map-"><code>putAll(Map)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingMap.html#put-K-V-"><code>put(Object, Object)</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingMap.html#put-K-V-"><code>put(Object, Object)</code></a>, you
- may wish to override <a href="../../../../com/google/common/collect/ForwardingMap.html#putAll-java.util.Map-"><code>putAll(Map)</code></a> to forward to this
- implementation.</div>
+<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.146">standardPutAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends <a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</a>,? extends <a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&gt;&nbsp;map)</pre>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#putAll-java.util.Map-"><code>putAll(Map)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingMap.html#put-K-V-"><code>put(Object, Object)</code></a>. If you
+ override <a href="../../../../com/google/common/collect/ForwardingMap.html#put-K-V-"><code>put(Object, Object)</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingMap.html#putAll-java.util.Map-"><code>putAll(Map)</code></a> to forward
+ to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -913,14 +902,13 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingMap.html" t
 <li class="blockList">
 <h4>standardRemove</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-protected&nbsp;<a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.168">standardRemove</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+protected&nbsp;<a href="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.161">standardRemove</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
-<div class="block">A sensible, albeit inefficient, definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#remove-java.lang.Object-"><code>remove(java.lang.Object)</code></a> in terms of
- the <code>iterator</code> method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingMap.html#remove-java.lang.Object-"><code>remove(java.lang.Object)</code></a> to forward to this
- implementation.
+<div class="block">A sensible, albeit inefficient, definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#remove-java.lang.Object-"><code>remove(java.lang.Object)</code></a> in terms of the <code>iterator</code>
+ method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingMap.html#remove-java.lang.Object-"><code>remove(java.lang.Object)</code></a> to forward to this implementation.
 
- <p>Alternately, you may wish to override <a href="../../../../com/google/common/collect/ForwardingMap.html#remove-java.lang.Object-"><code>remove(java.lang.Object)</code></a> with <code>keySet().remove</code>, assuming that approach would not lead to an infinite
- loop.</div>
+ <p>Alternately, you may wish to override <a href="../../../../com/google/common/collect/ForwardingMap.html#remove-java.lang.Object-"><code>remove(java.lang.Object)</code></a> with <code>keySet().remove</code>, assuming
+ that approach would not lead to an infinite loop.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -933,10 +921,9 @@ protected&nbsp;<a href="../../../../com/google/common/collect/ForwardingMap.html
 <ul class="blockList">
 <li class="blockList">
 <h4>standardClear</h4>
-<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.188">standardClear</a>()</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#clear--"><code>clear()</code></a> in terms of the <code>iterator</code>
- method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>. In many cases, you may wish to override
- <a href="../../../../com/google/common/collect/ForwardingMap.html#clear--"><code>clear()</code></a> to forward to this implementation.</div>
+<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.181">standardClear</a>()</pre>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#clear--"><code>clear()</code></a> in terms of the <code>iterator</code> method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>. In many cases, you may wish to override <a href="../../../../com/google/common/collect/ForwardingMap.html#clear--"><code>clear()</code></a> to forward to this
+ implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -950,11 +937,10 @@ protected&nbsp;<a href="../../../../com/google/common/collect/ForwardingMap.html
 <li class="blockList">
 <h4>standardContainsKey</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.220">standardContainsKey</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.210">standardContainsKey</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                             <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
-<div class="block">A sensible, albeit inefficient, definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#containsKey-java.lang.Object-"><code>containsKey(java.lang.Object)</code></a> in terms
- of the <code>iterator</code> method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingMap.html#containsKey-java.lang.Object-"><code>containsKey(java.lang.Object)</code></a> to forward to
- this implementation.</div>
+<div class="block">A sensible, albeit inefficient, definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#containsKey-java.lang.Object-"><code>containsKey(java.lang.Object)</code></a> in terms of the <code>iterator</code> method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>, you may wish to
+ override <a href="../../../../com/google/common/collect/ForwardingMap.html#containsKey-java.lang.Object-"><code>containsKey(java.lang.Object)</code></a> to forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -967,11 +953,10 @@ protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>standardContainsValue</h4>
-<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.250">standardContainsValue</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.238">standardContainsValue</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                         <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#containsValue-java.lang.Object-"><code>containsValue(java.lang.Object)</code></a> in terms of the <code>iterator</code> method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>,
- you may wish to override <a href="../../../../com/google/common/collect/ForwardingMap.html#containsValue-java.lang.Object-"><code>containsValue(java.lang.Object)</code></a> to forward to this
- implementation.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#containsValue-java.lang.Object-"><code>containsValue(java.lang.Object)</code></a> in terms of the <code>iterator</code> method of
+ <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingMap.html#containsValue-java.lang.Object-"><code>containsValue(java.lang.Object)</code></a> to forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -984,10 +969,9 @@ protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>standardIsEmpty</h4>
-<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.282">standardIsEmpty</a>()</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#isEmpty--"><code>isEmpty()</code></a> in terms of the <code>iterator</code>
- method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>, you may
- wish to override <a href="../../../../com/google/common/collect/ForwardingMap.html#isEmpty--"><code>isEmpty()</code></a> to forward to this implementation.</div>
+<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.269">standardIsEmpty</a>()</pre>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#isEmpty--"><code>isEmpty()</code></a> in terms of the <code>iterator</code> method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingMap.html#isEmpty--"><code>isEmpty()</code></a> to
+ forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -1000,11 +984,10 @@ protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>standardEquals</h4>
-<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.293">standardEquals</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.280">standardEquals</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#equals-java.lang.Object-"><code>equals(java.lang.Object)</code></a> in terms of the <code>equals</code>
- method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>, you may
- wish to override <a href="../../../../com/google/common/collect/ForwardingMap.html#equals-java.lang.Object-"><code>equals(java.lang.Object)</code></a> to forward to this implementation.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#equals-java.lang.Object-"><code>equals(java.lang.Object)</code></a> in terms of the <code>equals</code> method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingMap.html#equals-java.lang.Object-"><code>equals(java.lang.Object)</code></a> to
+ forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -1017,10 +1000,9 @@ protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>standardHashCode</h4>
-<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.304">standardHashCode</a>()</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#hashCode--"><code>hashCode()</code></a> in terms of the <code>iterator</code>
- method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>, you may
- wish to override <a href="../../../../com/google/common/collect/ForwardingMap.html#hashCode--"><code>hashCode()</code></a> to forward to this implementation.</div>
+<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.291">standardHashCode</a>()</pre>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMap.html#hashCode--"><code>hashCode()</code></a> in terms of the <code>iterator</code> method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingMap.html#hashCode--"><code>hashCode()</code></a> to
+ forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
@@ -1033,10 +1015,9 @@ protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockListLast">
 <li class="blockList">
 <h4>standardToString</h4>
-<pre>protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.315">standardToString</a>()</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingObject.html#toString--"><code>ForwardingObject.toString()</code></a> in terms of the <code>iterator</code>
- method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>, you may
- wish to override <a href="../../../../com/google/common/collect/ForwardingObject.html#toString--"><code>ForwardingObject.toString()</code></a> to forward to this implementation.</div>
+<pre>protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMap.html#line.302">standardToString</a>()</pre>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingObject.html#toString--"><code>ForwardingObject.toString()</code></a> in terms of the <code>iterator</code> method of <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingMap.html#entrySet--"><code>entrySet()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingObject.html#toString--"><code>ForwardingObject.toString()</code></a> to
+ forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>

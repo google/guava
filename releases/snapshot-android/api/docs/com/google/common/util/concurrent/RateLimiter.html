@@ -111,7 +111,7 @@ var activeTableTab = "activeTableTab";
 <br>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.87">RateLimiter</a>
+public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.93">RateLimiter</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">A rate limiter. Conceptually, a rate limiter distributes permits at a configurable rate. Each
  <a href="../../../../../com/google/common/util/concurrent/RateLimiter.html#acquire--"><code>acquire()</code></a> blocks if necessary until a permit is available, and then takes it. Once
@@ -132,30 +132,35 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  the permits issued each second steadily increases until it hits the stable rate.
 
  <p>As an example, imagine that we have a list of tasks to execute, but we don't want to submit
- more than 2 per second: <pre>   <code>
-  final RateLimiter rateLimiter = RateLimiter.create(2.0); // rate is "2 permits per second"
-  void submitTasks(List&lt;Runnable&gt; tasks, Executor executor) {
-    for (Runnable task : tasks) {
-      rateLimiter.acquire(); // may wait
-      executor.execute(task);
-    }
-  }</code></pre>
+ more than 2 per second:
+
+ <pre><code>
+ final RateLimiter rateLimiter = RateLimiter.create(2.0); // rate is "2 permits per second"
+ void submitTasks(List&lt;Runnable&gt; tasks, Executor executor) {
+   for (Runnable task : tasks) {
+     rateLimiter.acquire(); // may wait
+     executor.execute(task);
+   }
+ }
+ </code></pre>
 
  <p>As another example, imagine that we produce a stream of data, and we want to cap it at 5kb per
  second. This could be accomplished by requiring a permit per byte, and specifying a rate of 5000
- permits per second: <pre>   <code>
-  final RateLimiter rateLimiter = RateLimiter.create(5000.0); // rate = 5000 permits per second
-  void submitPacket(byte[] packet) {
-    rateLimiter.acquire(packet.length);
-    networkService.send(packet);
-  }</code></pre>
+ permits per second:
+
+ <pre><code>
+ final RateLimiter rateLimiter = RateLimiter.create(5000.0); // rate = 5000 permits per second
+ void submitPacket(byte[] packet) {
+   rateLimiter.acquire(packet.length);
+   networkService.send(packet);
+ }
+ </code></pre>
 
  <p>It is important to note that the number of permits requested <i>never</i> affects the
- throttling of the request itself (an invocation to <code>acquire(1)</code> and an invocation to
- <code>acquire(1000)</code> will result in exactly the same throttling, if any), but it affects the
- throttling of the <i>next</i> request. I.e., if an expensive task arrives at an idle RateLimiter,
- it will be granted immediately, but it is the <i>next</i> request that will experience extra
- throttling, thus paying for the cost of the expensive task.
+ throttling of the request itself (an invocation to <code>acquire(1)</code> and an invocation to <code>acquire(1000)</code> will result in exactly the same throttling, if any), but it affects the throttling
+ of the <i>next</i> request. I.e., if an expensive task arrives at an idle RateLimiter, it will be
+ granted immediately, but it is the <i>next</i> request that will experience extra throttling,
+ thus paying for the cost of the expensive task.
 
  <p>Note: <code>RateLimiter</code> does not provide fairness guarantees.</div>
 <dl>
@@ -199,8 +204,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/util/concurrent/RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/RateLimiter.html#create-double-">create</a></span>(double&nbsp;permitsPerSecond)</code>
-<div class="block">Creates a <code>RateLimiter</code> with the specified stable throughput, given as
- "permits per second" (commonly referred to as <i>QPS</i>, queries per second).</div>
+<div class="block">Creates a <code>RateLimiter</code> with the specified stable throughput, given as "permits per
+ second" (commonly referred to as <i>QPS</i>, queries per second).</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
@@ -208,11 +213,10 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/RateLimiter.html#create-double-long-java.util.concurrent.TimeUnit-">create</a></span>(double&nbsp;permitsPerSecond,
       long&nbsp;warmupPeriod,
       <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>
-<div class="block">Creates a <code>RateLimiter</code> with the specified stable throughput, given as
- "permits per second" (commonly referred to as <i>QPS</i>, queries per second), and a <i>warmup
- period</i>, during which the <code>RateLimiter</code> smoothly ramps up its rate, until it reaches
- its maximum rate at the end of the period (as long as there are enough requests to saturate
- it).</div>
+<div class="block">Creates a <code>RateLimiter</code> with the specified stable throughput, given as "permits per
+ second" (commonly referred to as <i>QPS</i>, queries per second), and a <i>warmup period</i>,
+ during which the <code>RateLimiter</code> smoothly ramps up its rate, until it reaches its maximum
+ rate at the end of the period (as long as there are enough requests to saturate it).</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
@@ -295,15 +299,15 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.106">create</a>(double&nbsp;permitsPerSecond)</pre>
-<div class="block">Creates a <code>RateLimiter</code> with the specified stable throughput, given as
- "permits per second" (commonly referred to as <i>QPS</i>, queries per second).
+<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.111">create</a>(double&nbsp;permitsPerSecond)</pre>
+<div class="block">Creates a <code>RateLimiter</code> with the specified stable throughput, given as "permits per
+ second" (commonly referred to as <i>QPS</i>, queries per second).
 
  <p>The returned <code>RateLimiter</code> ensures that on average no more than <code>permitsPerSecond</code> are issued during any given second, with sustained requests being smoothly
  spread over each second. When the incoming request rate exceeds <code>permitsPerSecond</code> the
- rate limiter will release one permit every <code>(1.0 / permitsPerSecond)</code> seconds. When the rate limiter is unused, bursts of up to
- <code>permitsPerSecond</code> permits will be allowed, with subsequent requests being smoothly
- limited at the stable rate of <code>permitsPerSecond</code>.</div>
+ rate limiter will release one permit every <code>(1.0 / permitsPerSecond)</code> seconds. When the
+ rate limiter is unused, bursts of up to <code>permitsPerSecond</code> permits will be allowed, with
+ subsequent requests being smoothly limited at the stable rate of <code>permitsPerSecond</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>permitsPerSecond</code> - the rate of the returned <code>RateLimiter</code>, measured in how many
@@ -319,16 +323,16 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.154">create</a>(double&nbsp;permitsPerSecond,
+<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.159">create</a>(double&nbsp;permitsPerSecond,
                                  long&nbsp;warmupPeriod,
                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
-<div class="block">Creates a <code>RateLimiter</code> with the specified stable throughput, given as
- "permits per second" (commonly referred to as <i>QPS</i>, queries per second), and a <i>warmup
- period</i>, during which the <code>RateLimiter</code> smoothly ramps up its rate, until it reaches
- its maximum rate at the end of the period (as long as there are enough requests to saturate
- it). Similarly, if the <code>RateLimiter</code> is left <i>unused</i> for a duration of
- <code>warmupPeriod</code>, it will gradually return to its "cold" state, i.e. it will go through the
- same warming up process as when it was first created.
+<div class="block">Creates a <code>RateLimiter</code> with the specified stable throughput, given as "permits per
+ second" (commonly referred to as <i>QPS</i>, queries per second), and a <i>warmup period</i>,
+ during which the <code>RateLimiter</code> smoothly ramps up its rate, until it reaches its maximum
+ rate at the end of the period (as long as there are enough requests to saturate it). Similarly,
+ if the <code>RateLimiter</code> is left <i>unused</i> for a duration of <code>warmupPeriod</code>, it
+ will gradually return to its "cold" state, i.e. it will go through the same warming up process
+ as when it was first created.
 
  <p>The returned <code>RateLimiter</code> is intended for cases where the resource that actually
  fulfills the requests (e.g., a remote server) needs "warmup" time, rather than being
@@ -344,8 +348,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
      before reaching its stable (maximum) rate</dd>
 <dd><code>unit</code> - the time unit of the warmupPeriod argument</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>permitsPerSecond</code> is negative or zero or
-     <code>warmupPeriod</code> is negative</dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>permitsPerSecond</code> is negative or zero or <code>warmupPeriod</code> is negative</dd>
 </dl>
 </li>
 </ul>
@@ -355,20 +358,18 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>setRate</h4>
-<pre>public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.216">setRate</a>(double&nbsp;permitsPerSecond)</pre>
+<pre>public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.221">setRate</a>(double&nbsp;permitsPerSecond)</pre>
 <div class="block">Updates the stable rate of this <code>RateLimiter</code>, that is, the <code>permitsPerSecond</code>
  argument provided in the factory method that constructed the <code>RateLimiter</code>. Currently
  throttled threads will <b>not</b> be awakened as a result of this invocation, thus they do not
  observe the new rate; only subsequent requests will.
 
  <p>Note though that, since each request repays (by waiting, if necessary) the cost of the
- <i>previous</i> request, this means that the very next request after an invocation to
- <code>setRate</code> will not be affected by the new rate; it will pay the cost of the previous
- request, which is in terms of the previous rate.
+ <i>previous</i> request, this means that the very next request after an invocation to <code>setRate</code> will not be affected by the new rate; it will pay the cost of the previous request,
+ which is in terms of the previous rate.
 
- <p>The behavior of the <code>RateLimiter</code> is not modified in any other way, e.g. if the
- <code>RateLimiter</code> was configured with a warmup period of 20 seconds, it still has a warmup
- period of 20 seconds after this method invocation.</div>
+ <p>The behavior of the <code>RateLimiter</code> is not modified in any other way, e.g. if the <code>RateLimiter</code> was configured with a warmup period of 20 seconds, it still has a warmup period of
+ 20 seconds after this method invocation.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>permitsPerSecond</code> - the new stable rate of this <code>RateLimiter</code></dd>
@@ -383,7 +384,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>getRate</h4>
-<pre>public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.232">getRate</a>()</pre>
+<pre>public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.237">getRate</a>()</pre>
 <div class="block">Returns the stable rate (as <code>permits per seconds</code>) with which this <code>RateLimiter</code> is
  configured with. The initial value of this is the same as the <code>permitsPerSecond</code> argument
  passed in the factory method that produced this <code>RateLimiter</code>, and it is only updated
@@ -397,7 +398,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>acquire</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.250">acquire</a>()</pre>
+public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.255">acquire</a>()</pre>
 <div class="block">Acquires a single permit from this <code>RateLimiter</code>, blocking until the request can be
  granted. Tells the amount of time slept, if any.
 
@@ -417,7 +418,7 @@ public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/
 <li class="blockList">
 <h4>acquire</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.264">acquire</a>(int&nbsp;permits)</pre>
+public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.269">acquire</a>(int&nbsp;permits)</pre>
 <div class="block">Acquires the given number of permits from this <code>RateLimiter</code>, blocking until the request
  can be granted. Tells the amount of time slept, if any.</div>
 <dl>
@@ -438,7 +439,7 @@ public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/
 <ul class="blockList">
 <li class="blockList">
 <h4>tryAcquire</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.295">tryAcquire</a>(long&nbsp;timeout,
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.300">tryAcquire</a>(long&nbsp;timeout,
                           <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Acquires a permit from this <code>RateLimiter</code> if it can be obtained without exceeding the
  specified <code>timeout</code>, or returns <code>false</code> immediately (without waiting) if the permit
@@ -462,7 +463,7 @@ public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/
 <ul class="blockList">
 <li class="blockList">
 <h4>tryAcquire</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.309">tryAcquire</a>(int&nbsp;permits)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.314">tryAcquire</a>(int&nbsp;permits)</pre>
 <div class="block">Acquires permits from this <a href="../../../../../com/google/common/util/concurrent/RateLimiter.html" title="class in com.google.common.util.concurrent"><code>RateLimiter</code></a> if it can be acquired immediately without delay.
 
  <p>This method is equivalent to <code>tryAcquire(permits, 0, anyUnit)</code>.</div>
@@ -484,7 +485,7 @@ public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/
 <ul class="blockList">
 <li class="blockList">
 <h4>tryAcquire</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.322">tryAcquire</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.327">tryAcquire</a>()</pre>
 <div class="block">Acquires a permit from this <a href="../../../../../com/google/common/util/concurrent/RateLimiter.html" title="class in com.google.common.util.concurrent"><code>RateLimiter</code></a> if it can be acquired immediately without
  delay.
 
@@ -503,7 +504,7 @@ public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/
 <ul class="blockList">
 <li class="blockList">
 <h4>tryAcquire</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.337">tryAcquire</a>(int&nbsp;permits,
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.342">tryAcquire</a>(int&nbsp;permits,
                           long&nbsp;timeout,
                           <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Acquires the given number of permits from this <code>RateLimiter</code> if it can be obtained
@@ -527,7 +528,7 @@ public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.385">toString</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.390">toString</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Returns a string representation of the object. In general, the
  <code>toString</code> method returns a string that

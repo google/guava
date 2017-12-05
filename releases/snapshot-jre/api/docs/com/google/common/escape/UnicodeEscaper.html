@@ -120,19 +120,19 @@ var activeTableTab = "activeTableTab";
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/escape/UnicodeEscaper.html#line.55">UnicodeEscaper</a>
+public abstract class <a href="../../../../src-html/com/google/common/escape/UnicodeEscaper.html#line.54">UnicodeEscaper</a>
 extends <a href="../../../../com/google/common/escape/Escaper.html" title="class in com.google.common.escape">Escaper</a></pre>
 <div class="block">An <a href="../../../../com/google/common/escape/Escaper.html" title="class in com.google.common.escape"><code>Escaper</code></a> that converts literal text into a format safe for inclusion in a particular
  context (such as an XML document). Typically (but not always), the inverse process of
  "unescaping" the text is performed automatically by the relevant parser.
 
- <p>For example, an XML escaper would convert the literal string <code>"Foo&lt;Bar&gt;"</code> into <code>"Foo&amp;lt;Bar&amp;gt;"</code> to prevent <code>"&lt;Bar&gt;"</code> from being confused with an
- XML tag. When the resulting XML document is parsed, the parser API will return this text as the
- original literal string <code>"Foo&lt;Bar&gt;"</code>.
+ <p>For example, an XML escaper would convert the literal string <code>"Foo&lt;Bar&gt;"</code> into <code>"Foo&amp;lt;Bar&amp;gt;"</code> to prevent <code>"&lt;Bar&gt;"</code> from being confused with an XML tag. When the
+ resulting XML document is parsed, the parser API will return this text as the original literal
+ string <code>"Foo&lt;Bar&gt;"</code>.
 
  <p><b>Note:</b> This class is similar to <a href="../../../../com/google/common/escape/CharEscaper.html" title="class in com.google.common.escape"><code>CharEscaper</code></a> but with one very important
- difference. A CharEscaper can only process Java
- <a href="http://en.wikipedia.org/wiki/UTF-16">UTF16</a> characters in isolation and may not cope
+ difference. A CharEscaper can only process Java <a
+ href="http://en.wikipedia.org/wiki/UTF-16">UTF16</a> characters in isolation and may not cope
  when it encounters surrogate pairs. This class facilitates the correct escaping of all Unicode
  characters.
 
@@ -143,9 +143,8 @@ extends <a href="../../../../com/google/common/escape/Escaper.html" title="class
  <p>A <code>UnicodeEscaper</code> instance is required to be stateless, and safe when used concurrently
  by multiple threads.
 
- <p>Popular escapers are defined as constants in classes like
- <a href="../../../../com/google/common/html/HtmlEscapers.html" title="class in com.google.common.html"><code>HtmlEscapers</code></a> and <a href="../../../../com/google/common/xml/XmlEscapers.html" title="class in com.google.common.xml"><code>XmlEscapers</code></a>. To
- create your own escapers extend this class and implement the <a href="../../../../com/google/common/escape/UnicodeEscaper.html#escape-int-"><code>escape(int)</code></a> method.</div>
+ <p>Popular escapers are defined as constants in classes like <a href="../../../../com/google/common/html/HtmlEscapers.html" title="class in com.google.common.html"><code>HtmlEscapers</code></a> and <a href="../../../../com/google/common/xml/XmlEscapers.html" title="class in com.google.common.xml"><code>XmlEscapers</code></a>. To create
+ your own escapers extend this class and implement the <a href="../../../../com/google/common/escape/UnicodeEscaper.html#escape-int-"><code>escape(int)</code></a> method.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>15.0</dd>
@@ -263,7 +262,7 @@ extends <a href="../../../../com/google/common/escape/Escaper.html" title="class
 <ul class="blockListLast">
 <li class="blockList">
 <h4>UnicodeEscaper</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/escape/UnicodeEscaper.html#line.60">UnicodeEscaper</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/escape/UnicodeEscaper.html#line.59">UnicodeEscaper</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -281,7 +280,7 @@ extends <a href="../../../../com/google/common/escape/Escaper.html" title="class
 <ul class="blockList">
 <li class="blockList">
 <h4>escape</h4>
-<pre>protected abstract&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/escape/UnicodeEscaper.html#line.81">escape</a>(int&nbsp;cp)</pre>
+<pre>protected abstract&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/escape/UnicodeEscaper.html#line.80">escape</a>(int&nbsp;cp)</pre>
 <div class="block">Returns the escaped form of the given Unicode code point, or <code>null</code> if this code point
  does not need to be escaped. When called as part of an escaping operation, the given code point
  is guaranteed to be in the range <code>0 &lt;= cp &lt;= Character#MAX_CODE_POINT</code>.
@@ -310,7 +309,7 @@ extends <a href="../../../../com/google/common/escape/Escaper.html" title="class
 <ul class="blockList">
 <li class="blockList">
 <h4>nextEscapeIndex</h4>
-<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/escape/UnicodeEscaper.html#line.105">nextEscapeIndex</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;csq,
+<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/escape/UnicodeEscaper.html#line.104">nextEscapeIndex</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;csq,
                               int&nbsp;start,
                               int&nbsp;end)</pre>
 <div class="block">Scans a sub-sequence of characters from a given <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang"><code>CharSequence</code></a>, returning the index of
@@ -344,13 +343,13 @@ extends <a href="../../../../com/google/common/escape/Escaper.html" title="class
 <ul class="blockList">
 <li class="blockList">
 <h4>escape</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/UnicodeEscaper.html#line.136">escape</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string)</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/UnicodeEscaper.html#line.135">escape</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string)</pre>
 <div class="block">Returns the escaped form of a given literal string.
 
  <p>If you are escaping input in arbitrary successive chunks, then it is not generally safe to
  use this method. If an input string ends with an unmatched high surrogate character, then this
- method will throw <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>. You should ensure your input is valid
- <a href="http://en.wikipedia.org/wiki/UTF-16">UTF-16</a> before calling this method.
+ method will throw <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>. You should ensure your input is valid <a
+ href="http://en.wikipedia.org/wiki/UTF-16">UTF-16</a> before calling this method.
 
  <p><b>Note:</b> When implementing an escaper it is a good idea to override this method for
  efficiency by inlining the implementation of <a href="../../../../com/google/common/escape/UnicodeEscaper.html#nextEscapeIndex-java.lang.CharSequence-int-int-"><code>nextEscapeIndex(CharSequence, int, int)</code></a>
@@ -375,15 +374,14 @@ extends <a href="../../../../com/google/common/escape/Escaper.html" title="class
 <ul class="blockList">
 <li class="blockList">
 <h4>escapeSlow</h4>
-<pre>protected final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/UnicodeEscaper.html#line.158">escapeSlow</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;s,
+<pre>protected final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/UnicodeEscaper.html#line.157">escapeSlow</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;s,
                                   int&nbsp;index)</pre>
 <div class="block">Returns the escaped form of a given literal string, starting at the given index. This method is
  called by the <a href="../../../../com/google/common/escape/UnicodeEscaper.html#escape-java.lang.String-"><code>escape(String)</code></a> method when it discovers that escaping is required. It is
  protected to allow subclasses to override the fastpath escaping function to inline their
  escaping test. See <a href="../../../../com/google/common/escape/CharEscaperBuilder.html" title="class in com.google.common.escape"><code>CharEscaperBuilder</code></a> for an example usage.
 
- <p>This method is not reentrant and may only be invoked by the top level
- <a href="../../../../com/google/common/escape/UnicodeEscaper.html#escape-java.lang.String-"><code>escape(String)</code></a> method.</div>
+ <p>This method is not reentrant and may only be invoked by the top level <a href="../../../../com/google/common/escape/UnicodeEscaper.html#escape-java.lang.String-"><code>escape(String)</code></a> method.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>s</code> - the literal string to be escaped</dd>
@@ -411,20 +409,21 @@ extends <a href="../../../../com/google/common/escape/Escaper.html" title="class
  this method will never fail silently when encountering an invalid surrogate pair.
 
  <p>The behaviour of this method is as follows:
+
  <ol>
- <li>If <code>index &gt;= end</code>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IndexOutOfBoundsException.html?is-external=true" title="class or interface in java.lang"><code>IndexOutOfBoundsException</code></a> is thrown.
- <li><b>If the character at the specified index is not a surrogate, it is returned.</b>
- <li>If the first character was a high surrogate value, then an attempt is made to read the next
-     character.
-     <ol>
-     <li><b>If the end of the sequence was reached, the negated value of the trailing high
-         surrogate is returned.</b>
-     <li><b>If the next character was a valid low surrogate, the code point value of the
-         high/low surrogate pair is returned.</b>
-     <li>If the next character was not a low surrogate value, then <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a> is thrown.
-     </ol>
- <li>If the first character was a low surrogate value, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a> is
-     thrown.
+   <li>If <code>index &gt;= end</code>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IndexOutOfBoundsException.html?is-external=true" title="class or interface in java.lang"><code>IndexOutOfBoundsException</code></a> is thrown.
+   <li><b>If the character at the specified index is not a surrogate, it is returned.</b>
+   <li>If the first character was a high surrogate value, then an attempt is made to read the
+       next character.
+       <ol>
+         <li><b>If the end of the sequence was reached, the negated value of the trailing high
+             surrogate is returned.</b>
+         <li><b>If the next character was a valid low surrogate, the code point value of the
+             high/low surrogate pair is returned.</b>
+         <li>If the next character was not a low surrogate value, then <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a> is thrown.
+       </ol>
+   <li>If the first character was a low surrogate value, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a> is
+       thrown.
  </ol></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>

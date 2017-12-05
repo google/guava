@@ -105,12 +105,11 @@ var activeTableTab = "activeTableTab";
 </dl>
 <hr>
 <br>
-<pre>public static interface <a href="../../../../src-html/com/google/common/collect/Multiset.html#line.251">Multiset.Entry</a>&lt;E&gt;</pre>
-<div class="block">An unmodifiable element-count pair for a multiset. The <a href="../../../../com/google/common/collect/Multiset.html#entrySet--"><code>Multiset.entrySet()</code></a> method returns a view of the multiset whose elements
- are of this class. A multiset implementation may return Entry instances
- that are either live "read-through" views to the Multiset, or immutable
- snapshots. Note that this type is unrelated to the similarly-named type
- <code>Map.Entry</code>.</div>
+<pre>public static interface <a href="../../../../src-html/com/google/common/collect/Multiset.html#line.229">Multiset.Entry</a>&lt;E&gt;</pre>
+<div class="block">An unmodifiable element-count pair for a multiset. The <a href="../../../../com/google/common/collect/Multiset.html#entrySet--"><code>Multiset.entrySet()</code></a> method returns
+ a view of the multiset whose elements are of this class. A multiset implementation may return
+ Entry instances that are either live "read-through" views to the Multiset, or immutable
+ snapshots. Note that this type is unrelated to the similarly-named type <code>Map.Entry</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
@@ -160,8 +159,7 @@ var activeTableTab = "activeTableTab";
 <tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multiset.Entry.html#toString--">toString</a></span>()</code>
-<div class="block">Returns the canonical string representation of this entry, defined as
- follows.</div>
+<div class="block">Returns the canonical string representation of this entry, defined as follows.</div>
 </td>
 </tr>
 </table>
@@ -185,9 +183,9 @@ var activeTableTab = "activeTableTab";
 <ul class="blockList">
 <li class="blockList">
 <h4>getElement</h4>
-<pre><a href="../../../../com/google/common/collect/Multiset.Entry.html" title="type parameter in Multiset.Entry">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.Entry.html#line.259">getElement</a>()</pre>
-<div class="block">Returns the multiset element corresponding to this entry. Multiple calls
- to this method always return the same instance.</div>
+<pre><a href="../../../../com/google/common/collect/Multiset.Entry.html" title="type parameter in Multiset.Entry">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.Entry.html#line.237">getElement</a>()</pre>
+<div class="block">Returns the multiset element corresponding to this entry. Multiple calls to this method
+ always return the same instance.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the element corresponding to this entry</dd>
@@ -200,14 +198,12 @@ var activeTableTab = "activeTableTab";
 <ul class="blockList">
 <li class="blockList">
 <h4>getCount</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.Entry.html#line.272">getCount</a>()</pre>
-<div class="block">Returns the count of the associated element in the underlying multiset.
- This count may either be an unchanging snapshot of the count at the time
- the entry was retrieved, or a live view of the current count of the
- element in the multiset, depending on the implementation. Note that in
- the former case, this method can never return zero, while in the latter,
- it will return zero if all occurrences of the element were since removed
- from the multiset.</div>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.Entry.html#line.248">getCount</a>()</pre>
+<div class="block">Returns the count of the associated element in the underlying multiset. This count may either
+ be an unchanging snapshot of the count at the time the entry was retrieved, or a live view of
+ the current count of the element in the multiset, depending on the implementation. Note that
+ in the former case, this method can never return zero, while in the latter, it will return
+ zero if all occurrences of the element were since removed from the multiset.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the count of the element; never negative</dd>
@@ -220,7 +216,7 @@ var activeTableTab = "activeTableTab";
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.Entry.html#line.286">equals</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;o)</pre>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.Entry.html#line.264">equals</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;o)</pre>
 <div class="block">Indicates whether some other object is "equal to" this one.
  <p>
  The <code>equals</code> method implements an equivalence relation
@@ -260,12 +256,14 @@ var activeTableTab = "activeTableTab";
  general contract for the <code>hashCode</code> method, which states
  that equal objects must have equal hash codes.
 
- <p>Returns <code>true</code> if the given object is also a multiset entry and
- the two entries represent the same element and count. That is, two
- entries <code>a</code> and <code>b</code> are equal if: <pre>   <code>
+ <p>Returns <code>true</code> if the given object is also a multiset entry and the two entries
+ represent the same element and count. That is, two entries <code>a</code> and <code>b</code> are equal
+ if:
 
-   Objects.equal(a.getElement(), b.getElement())
-       &amp;&amp; a.getCount() == b.getCount()</code></pre></div>
+ <pre><code>
+ Objects.equal(a.getElement(), b.getElement())
+     &amp;&amp; a.getCount() == b.getCount()
+ </code></pre></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
@@ -286,7 +284,7 @@ var activeTableTab = "activeTableTab";
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.Entry.html#line.297">hashCode</a>()</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.Entry.html#line.277">hashCode</a>()</pre>
 <div class="block">Returns a hash code value for the object. This method is
  supported for the benefit of hash tables such as those provided by
  <a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util"><code>HashMap</code></a>.
@@ -317,10 +315,12 @@ var activeTableTab = "activeTableTab";
  technique is not required by the
  Java&trade; programming language.)
 
- <p>The hash code of a multiset entry for element <code>element</code> and
- count <code>count</code> is defined as: <pre>   <code>
+ <p>The hash code of a multiset entry for element <code>element</code> and count <code>count</code> is
+ defined as:
 
-   ((element == null) ? 0 : element.hashCode()) ^ count</code></pre></div>
+ <pre><code>
+ ((element == null) ? 0 : element.hashCode()) ^ count
+ </code></pre></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
@@ -338,11 +338,11 @@ var activeTableTab = "activeTableTab";
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.Entry.html#line.307">toString</a>()</pre>
-<div class="block">Returns the canonical string representation of this entry, defined as
- follows. If the count for this entry is one, this is simply the string
- representation of the corresponding element. Otherwise, it is the string
- representation of the element, followed by the three characters <code>" x "</code> (space, letter x, space), followed by the count.</div>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.Entry.html#line.286">toString</a>()</pre>
+<div class="block">Returns the canonical string representation of this entry, defined as follows. If the count
+ for this entry is one, this is simply the string representation of the corresponding element.
+ Otherwise, it is the string representation of the element, followed by the three characters
+ <code>" x "</code> (space, letter x, space), followed by the count.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>

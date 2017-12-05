@@ -234,11 +234,12 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <div class="block">Returns a new comparator which sorts iterables by comparing corresponding elements pairwise
  until a nonzero result is found; imposes "dictionary order." If the end of one iterable is
  reached, but not the other, the shorter iterable is considered to be less than the longer one.
- For example, a lexicographical natural ordering over integers considers <code>[] &lt; [1] &lt; [1, 1] &lt; [1, 2] &lt; [2]</code>.
+ For example, a lexicographical natural ordering over integers considers <code>[] &lt; [1] &lt; [1,
+ 1] &lt; [1, 2] &lt; [2]</code>.
 
- <p>Note that <code>Collections.reverseOrder(lexicographical(comparator))</code> is not
- equivalent to <code>lexicographical(Collections.reverseOrder(comparator))</code> (consider how each
- would order <code>[1]</code> and <code>[1, 1]</code>).</div>
+ <p>Note that <code>Collections.reverseOrder(lexicographical(comparator))</code> is not equivalent to
+ <code>lexicographical(Collections.reverseOrder(comparator))</code> (consider how each would order
+ <code>[1]</code> and <code>[1, 1]</code>).</div>
 </li>
 </ul>
 <a name="isInOrder-java.lang.Iterable-java.util.Comparator-">
@@ -250,8 +251,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <pre>public static&nbsp;&lt;T&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Comparators.html#line.73">isInOrder</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;&nbsp;iterable,
                                     <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;T&gt;&nbsp;comparator)</pre>
 <div class="block">Returns <code>true</code> if each element in <code>iterable</code> after the first is greater than or
- equal to the element that preceded it, according to the specified comparator. Note that this
- is always true when the iterable has fewer than two elements.</div>
+ equal to the element that preceded it, according to the specified comparator. Note that this is
+ always true when the iterable has fewer than two elements.</div>
 </li>
 </ul>
 <a name="isInStrictOrder-java.lang.Iterable-java.util.Comparator-">
@@ -273,22 +274,23 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>least</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream">Collector</a>&lt;T,?,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;T&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Comparators.html#line.130">least</a>(int&nbsp;k,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream">Collector</a>&lt;T,?,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;T&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Comparators.html#line.131">least</a>(int&nbsp;k,
                                                <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super T&gt;&nbsp;comparator)</pre>
 <div class="block">Returns a <code>Collector</code> that returns the <code>k</code> smallest (relative to the specified
- <code>Comparator</code>) input elements, in ascending order, as an unmodifiable <code>List</code>.
- Ties are broken arbitrarily.
+ <code>Comparator</code>) input elements, in ascending order, as an unmodifiable <code>List</code>. Ties
+ are broken arbitrarily.
 
- For example:
-  <pre>   <code>
+ <p>For example:
 
-   Stream.of("foo", "quux", "banana", "elephant")
-       .collect(least(2, comparingInt(String::length)))
-   // returns {"foo", "quux"}</code></pre>
+ <pre><code>
+ Stream.of("foo", "quux", "banana", "elephant")
+     .collect(least(2, comparingInt(String::length)))
+ // returns {"foo", "quux"}
+ </code></pre>
 
- <p>This <code>Collector</code> uses O(k) memory and takes expected time O(n)
- (worst-case O(n log k)), as opposed to e.g. <code>Stream.sorted(comparator).limit(k)</code>, which
- currently takes O(n log n) time and O(n) space.</div>
+ <p>This <code>Collector</code> uses O(k) memory and takes expected time O(n) (worst-case O(n log
+ k)), as opposed to e.g. <code>Stream.sorted(comparator).limit(k)</code>, which currently takes O(n
+ log n) time and O(n) space.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>k &lt; 0</code></dd>
@@ -303,23 +305,23 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>greatest</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream">Collector</a>&lt;T,?,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;T&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Comparators.html#line.161">greatest</a>(int&nbsp;k,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream">Collector</a>&lt;T,?,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;T&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Comparators.html#line.162">greatest</a>(int&nbsp;k,
                                                   <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super T&gt;&nbsp;comparator)</pre>
 <div class="block">Returns a <code>Collector</code> that returns the <code>k</code> greatest (relative to the specified
- <code>Comparator</code>) input elements, in descending order, as an unmodifiable <code>List</code>.
- Ties are broken arbitrarily.
+ <code>Comparator</code>) input elements, in descending order, as an unmodifiable <code>List</code>. Ties
+ are broken arbitrarily.
 
- For example:
-  <pre>   <code>
+ <p>For example:
 
-   Stream.of("foo", "quux", "banana", "elephant")
-       .collect(greatest(2, comparingInt(String::length)))
-   // returns {"elephant", "banana"}</code></pre>
+ <pre><code>
+ Stream.of("foo", "quux", "banana", "elephant")
+     .collect(greatest(2, comparingInt(String::length)))
+ // returns {"elephant", "banana"}
+ </code></pre>
 
- <p>This <code>Collector</code> uses O(k) memory and takes expected time O(n)
- (worst-case O(n log k)), as opposed to e.g.
- <code>Stream.sorted(comparator.reversed()).limit(k)</code>, which currently takes O(n log n) time
- and O(n) space.</div>
+ <p>This <code>Collector</code> uses O(k) memory and takes expected time O(n) (worst-case O(n log
+ k)), as opposed to e.g. <code>Stream.sorted(comparator.reversed()).limit(k)</code>, which currently
+ takes O(n log n) time and O(n) space.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>k &lt; 0</code></dd>
@@ -335,7 +337,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>emptiesFirst</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util">Optional</a>&lt;T&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Comparators.html#line.173">emptiesFirst</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;T&gt;&nbsp;valueComparator)</pre>
+public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util">Optional</a>&lt;T&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Comparators.html#line.174">emptiesFirst</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;T&gt;&nbsp;valueComparator)</pre>
 <div class="block">Returns a comparator of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util"><code>Optional</code></a> values which treats <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Optional.html?is-external=true#empty--" title="class or interface in java.util"><code>Optional.empty()</code></a> as less
  than all other values, and orders the rest using <code>valueComparator</code> on the contained
  value.</div>
@@ -352,7 +354,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <li class="blockList">
 <h4>emptiesLast</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util">Optional</a>&lt;T&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Comparators.html#line.186">emptiesLast</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;T&gt;&nbsp;valueComparator)</pre>
+public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util">Optional</a>&lt;T&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Comparators.html#line.187">emptiesLast</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;T&gt;&nbsp;valueComparator)</pre>
 <div class="block">Returns a comparator of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util"><code>Optional</code></a> values which treats <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Optional.html?is-external=true#empty--" title="class or interface in java.util"><code>Optional.empty()</code></a> as greater
  than all other values, and orders the rest using <code>valueComparator</code> on the contained
  value.</div>

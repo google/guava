@@ -38,19 +38,17 @@
 <span class="sourceLineNo">030</span> */<a name="line.30"></a>
 <span class="sourceLineNo">031</span>@GwtCompatible<a name="line.31"></a>
 <span class="sourceLineNo">032</span>public interface FutureCallback&lt;V&gt; {<a name="line.32"></a>
-<span class="sourceLineNo">033</span>  /**<a name="line.33"></a>
-<span class="sourceLineNo">034</span>   * Invoked with the result of the {@code Future} computation when it is successful.<a name="line.34"></a>
-<span class="sourceLineNo">035</span>   */<a name="line.35"></a>
-<span class="sourceLineNo">036</span>  void onSuccess(@Nullable V result);<a name="line.36"></a>
-<span class="sourceLineNo">037</span><a name="line.37"></a>
-<span class="sourceLineNo">038</span>  /**<a name="line.38"></a>
-<span class="sourceLineNo">039</span>   * Invoked when a {@code Future} computation fails or is canceled.<a name="line.39"></a>
-<span class="sourceLineNo">040</span>   *<a name="line.40"></a>
-<span class="sourceLineNo">041</span>   * &lt;p&gt;If the future's {@link Future#get() get} method throws an {@link ExecutionException}, then<a name="line.41"></a>
-<span class="sourceLineNo">042</span>   * the cause is passed to this method. Any other thrown object is passed unaltered.<a name="line.42"></a>
-<span class="sourceLineNo">043</span>   */<a name="line.43"></a>
-<span class="sourceLineNo">044</span>  void onFailure(Throwable t);<a name="line.44"></a>
-<span class="sourceLineNo">045</span>}<a name="line.45"></a>
+<span class="sourceLineNo">033</span>  /** Invoked with the result of the {@code Future} computation when it is successful. */<a name="line.33"></a>
+<span class="sourceLineNo">034</span>  void onSuccess(@Nullable V result);<a name="line.34"></a>
+<span class="sourceLineNo">035</span><a name="line.35"></a>
+<span class="sourceLineNo">036</span>  /**<a name="line.36"></a>
+<span class="sourceLineNo">037</span>   * Invoked when a {@code Future} computation fails or is canceled.<a name="line.37"></a>
+<span class="sourceLineNo">038</span>   *<a name="line.38"></a>
+<span class="sourceLineNo">039</span>   * &lt;p&gt;If the future's {@link Future#get() get} method throws an {@link ExecutionException}, then<a name="line.39"></a>
+<span class="sourceLineNo">040</span>   * the cause is passed to this method. Any other thrown object is passed unaltered.<a name="line.40"></a>
+<span class="sourceLineNo">041</span>   */<a name="line.41"></a>
+<span class="sourceLineNo">042</span>  void onFailure(Throwable t);<a name="line.42"></a>
+<span class="sourceLineNo">043</span>}<a name="line.43"></a>
 
 
 

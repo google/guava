@@ -101,7 +101,7 @@
 <span class="sourceLineNo">093</span>    this.enumConstants = type.getEnumConstants();<a name="line.93"></a>
 <span class="sourceLineNo">094</span>    this.counts = new int[enumConstants.length];<a name="line.94"></a>
 <span class="sourceLineNo">095</span>  }<a name="line.95"></a>
-<span class="sourceLineNo">096</span>  <a name="line.96"></a>
+<span class="sourceLineNo">096</span><a name="line.96"></a>
 <span class="sourceLineNo">097</span>  private boolean isActuallyE(@Nullable Object o) {<a name="line.97"></a>
 <span class="sourceLineNo">098</span>    if (o instanceof Enum) {<a name="line.98"></a>
 <span class="sourceLineNo">099</span>      Enum&lt;?&gt; e = (Enum&lt;?&gt;) o;<a name="line.99"></a>
@@ -112,8 +112,8 @@
 <span class="sourceLineNo">104</span>  }<a name="line.104"></a>
 <span class="sourceLineNo">105</span><a name="line.105"></a>
 <span class="sourceLineNo">106</span>  /**<a name="line.106"></a>
-<span class="sourceLineNo">107</span>   * Returns {@code element} cast to {@code E}, if it actually is a nonnull E.<a name="line.107"></a>
-<span class="sourceLineNo">108</span>   * Otherwise, throws either a NullPointerException or a ClassCastException as appropriate.<a name="line.108"></a>
+<span class="sourceLineNo">107</span>   * Returns {@code element} cast to {@code E}, if it actually is a nonnull E. Otherwise, throws<a name="line.107"></a>
+<span class="sourceLineNo">108</span>   * either a NullPointerException or a ClassCastException as appropriate.<a name="line.108"></a>
 <span class="sourceLineNo">109</span>   */<a name="line.109"></a>
 <span class="sourceLineNo">110</span>  @SuppressWarnings("unchecked")<a name="line.110"></a>
 <span class="sourceLineNo">111</span>  void checkIsE(@Nullable Object element) {<a name="line.111"></a>

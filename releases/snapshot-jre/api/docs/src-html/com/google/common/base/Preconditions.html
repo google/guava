@@ -1433,7 +1433,7 @@
 <span class="sourceLineNo">1425</span>  static String format(@Nullable String template, @Nullable Object... args) {<a name="line.1425"></a>
 <span class="sourceLineNo">1426</span>    template = String.valueOf(template); // null -&gt; "null"<a name="line.1426"></a>
 <span class="sourceLineNo">1427</span><a name="line.1427"></a>
-<span class="sourceLineNo">1428</span>    args = args == null ? new Object[]{"(Object[])null"} : args;<a name="line.1428"></a>
+<span class="sourceLineNo">1428</span>    args = args == null ? new Object[] {"(Object[])null"} : args;<a name="line.1428"></a>
 <span class="sourceLineNo">1429</span><a name="line.1429"></a>
 <span class="sourceLineNo">1430</span>    // start substituting the arguments into the '%s' placeholders<a name="line.1430"></a>
 <span class="sourceLineNo">1431</span>    StringBuilder builder = new StringBuilder(template.length() + 16 * args.length);<a name="line.1431"></a>

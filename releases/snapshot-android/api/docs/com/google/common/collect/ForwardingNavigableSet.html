@@ -146,18 +146,18 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
  href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
 
  <p><b>Warning:</b> The methods of <code>ForwardingNavigableSet</code> forward <i>indiscriminately</i>
- to the methods of the delegate. For example, overriding <a href="../../../../com/google/common/collect/ForwardingCollection.html#add-E-"><code>ForwardingCollection.add(E)</code></a> alone <i>will not</i>
- change the behavior of <a href="../../../../com/google/common/collect/ForwardingCollection.html#addAll-java.util.Collection-"><code>ForwardingCollection.addAll(java.util.Collection&lt;? extends E&gt;)</code></a>, which can lead to unexpected behavior. In this case, you
- should override <code>addAll</code> as well, either providing your own implementation, or delegating
- to the provided <code>standardAddAll</code> method.
+ to the methods of the delegate. For example, overriding <a href="../../../../com/google/common/collect/ForwardingCollection.html#add-E-"><code>ForwardingCollection.add(E)</code></a> alone <i>will not</i> change
+ the behavior of <a href="../../../../com/google/common/collect/ForwardingCollection.html#addAll-java.util.Collection-"><code>ForwardingCollection.addAll(java.util.Collection&lt;? extends E&gt;)</code></a>, which can lead to unexpected behavior. In this case, you should
+ override <code>addAll</code> as well, either providing your own implementation, or delegating to the
+ provided <code>standardAddAll</code> method.
 
  <p><b><code>default</code> method warning:</b> This class does <i>not</i> forward calls to <code>default</code> methods. Instead, it inherits their default implementations. When those implementations
  invoke methods, they invoke methods on the <code>ForwardingNavigableSet</code>.
 
- <p>Each of the <code>standard</code> methods uses the set's comparator (or the natural ordering of
- the elements, if there is no comparator) to test element equality. As a result, if the
- comparator is not consistent with equals, some of the standard implementations may violate the
- <code>Set</code> contract.
+ <p>Each of the <code>standard</code> methods uses the set's comparator (or the natural ordering of the
+ elements, if there is no comparator) to test element equality. As a result, if the comparator is
+ not consistent with equals, some of the standard implementations may violate the <code>Set</code>
+ contract.
 
  <p>The <code>standard</code> methods and the collection views they return are not guaranteed to be
  thread-safe, even when all of the methods that they depend on are thread-safe.</div>
@@ -299,8 +299,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>protected <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#standardCeiling-E-">standardCeiling</a></span>(<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;e)</code>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#ceiling-E-"><code>ceiling(E)</code></a> in terms of the <code>iterator</code> method of
- <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#tailSet-E-boolean-"><code>tailSet(Object, boolean)</code></a>.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#ceiling-E-"><code>ceiling(E)</code></a> in terms of the <code>iterator</code> method of <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#tailSet-E-boolean-"><code>tailSet(Object, boolean)</code></a>.</div>
 </td>
 </tr>
 <tr id="i11" class="rowColor">
@@ -317,15 +316,14 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>protected <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#standardHeadSet-E-">standardHeadSet</a></span>(<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;toElement)</code>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingSortedSet.html#headSet-E-"><code>ForwardingSortedSet.headSet(Object)</code></a> in terms of the
- <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#headSet-E-boolean-"><code>headSet(Object, boolean)</code></a> method.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingSortedSet.html#headSet-E-"><code>ForwardingSortedSet.headSet(Object)</code></a> in terms of the <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#headSet-E-boolean-"><code>headSet(Object,
+ boolean)</code></a> method.</div>
 </td>
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>protected <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#standardHigher-E-">standardHigher</a></span>(<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;e)</code>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#higher-E-"><code>higher(E)</code></a> in terms of the <code>iterator</code> method of
- <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#tailSet-E-boolean-"><code>tailSet(Object, boolean)</code></a>.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#higher-E-"><code>higher(E)</code></a> in terms of the <code>iterator</code> method of <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#tailSet-E-boolean-"><code>tailSet(Object, boolean)</code></a>.</div>
 </td>
 </tr>
 <tr id="i15" class="rowColor">
@@ -365,15 +363,15 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <td class="colFirst"><code>protected <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#standardSubSet-E-E-">standardSubSet</a></span>(<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;fromElement,
               <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;toElement)</code>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingSortedSet.html#subSet-E-E-"><code>ForwardingSortedSet.subSet(Object, Object)</code></a> in terms of the
- <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#subSet-E-boolean-E-boolean-"><code>subSet(Object, boolean, Object, boolean)</code></a> method.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingSortedSet.html#subSet-E-E-"><code>ForwardingSortedSet.subSet(Object, Object)</code></a> in terms of the <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#subSet-E-boolean-E-boolean-"><code>subSet(Object,
+ boolean, Object, boolean)</code></a> method.</div>
 </td>
 </tr>
 <tr id="i21" class="rowColor">
 <td class="colFirst"><code>protected <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#standardTailSet-E-">standardTailSet</a></span>(<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;fromElement)</code>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingSortedSet.html#tailSet-E-"><code>ForwardingSortedSet.tailSet(Object)</code></a> in terms of the
- <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#tailSet-E-boolean-"><code>tailSet(Object, boolean)</code></a> method.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingSortedSet.html#tailSet-E-"><code>ForwardingSortedSet.tailSet(Object)</code></a> in terms of the <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#tailSet-E-boolean-"><code>tailSet(Object,
+ boolean)</code></a> method.</div>
 </td>
 </tr>
 <tr id="i22" class="altColor">
@@ -505,10 +503,10 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <h4>delegate</h4>
 <pre>protected abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.59">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingObject.html#delegate--">ForwardingObject</a></code></span></div>
-<div class="block">Returns the backing delegate instance that methods are forwarded to.
- Abstract subclasses generally override this method with an abstract method
- that has a more specific return type, such as <a href="../../../../com/google/common/collect/ForwardingSet.html#delegate--"><code>ForwardingSet.delegate()</code></a>. Concrete subclasses override this method to supply
- the instance being decorated.</div>
+<div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
+ generally override this method with an abstract method that has a more specific return type,
+ such as <a href="../../../../com/google/common/collect/ForwardingSet.html#delegate--"><code>ForwardingSet.delegate()</code></a>. Concrete subclasses override this method to supply the
+ instance being decorated.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ForwardingSortedSet.html#delegate--">delegate</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingSortedSet.html" title="class in com.google.common.collect">ForwardingSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;</code></dd>
@@ -621,9 +619,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <li class="blockList">
 <h4>standardCeiling</h4>
 <pre>protected&nbsp;<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.99">standardCeiling</a>(<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;e)</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#ceiling-E-"><code>ceiling(E)</code></a> in terms of the <code>iterator</code> method of
- <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#tailSet-E-boolean-"><code>tailSet(Object, boolean)</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#tailSet-E-boolean-"><code>tailSet(Object, boolean)</code></a>, you may
- wish to override <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#ceiling-E-"><code>ceiling(E)</code></a> to forward to this implementation.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#ceiling-E-"><code>ceiling(E)</code></a> in terms of the <code>iterator</code> method of <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#tailSet-E-boolean-"><code>tailSet(Object, boolean)</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#tailSet-E-boolean-"><code>tailSet(Object, boolean)</code></a>, you may wish to
+ override <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#ceiling-E-"><code>ceiling(E)</code></a> to forward to this implementation.</div>
 </li>
 </ul>
 <a name="higher-java.lang.Object-">
@@ -658,9 +655,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <li class="blockList">
 <h4>standardHigher</h4>
 <pre>protected&nbsp;<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.113">standardHigher</a>(<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;e)</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#higher-E-"><code>higher(E)</code></a> in terms of the <code>iterator</code> method of
- <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#tailSet-E-boolean-"><code>tailSet(Object, boolean)</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#tailSet-E-boolean-"><code>tailSet(Object, boolean)</code></a>, you may
- wish to override <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#higher-E-"><code>higher(E)</code></a> to forward to this implementation.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#higher-E-"><code>higher(E)</code></a> in terms of the <code>iterator</code> method of <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#tailSet-E-boolean-"><code>tailSet(Object, boolean)</code></a>. If you override <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#tailSet-E-boolean-"><code>tailSet(Object, boolean)</code></a>, you may wish to
+ override <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#higher-E-"><code>higher(E)</code></a> to forward to this implementation.</div>
 </li>
 </ul>
 <a name="pollFirst--">
@@ -838,8 +834,7 @@ protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navi
                                                <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;toElement,
                                                boolean&nbsp;toInclusive)</pre>
 <div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#subSet-E-boolean-E-boolean-"><code>subSet(Object, boolean, Object, boolean)</code></a> in terms of the
- <code>headSet</code> and <code>tailSet</code> methods. In many cases, you may wish to override
- <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#subSet-E-boolean-E-boolean-"><code>subSet(Object, boolean, Object, boolean)</code></a> to forward to this implementation.</div>
+ <code>headSet</code> and <code>tailSet</code> methods. In many cases, you may wish to override <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#subSet-E-boolean-E-boolean-"><code>subSet(Object, boolean, Object, boolean)</code></a> to forward to this implementation.</div>
 </li>
 </ul>
 <a name="standardSubSet-java.lang.Object-java.lang.Object-">
@@ -852,10 +847,10 @@ protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navi
 <h4>standardSubSet</h4>
 <pre>protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.204">standardSubSet</a>(<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;fromElement,
                                       <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;toElement)</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingSortedSet.html#subSet-E-E-"><code>ForwardingSortedSet.subSet(Object, Object)</code></a> in terms of the
- <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#subSet-E-boolean-E-boolean-"><code>subSet(Object, boolean, Object, boolean)</code></a> method. If you override
- <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#subSet-E-boolean-E-boolean-"><code>subSet(Object, boolean, Object, boolean)</code></a>, you may wish to override
- <a href="../../../../com/google/common/collect/ForwardingSortedSet.html#subSet-E-E-"><code>ForwardingSortedSet.subSet(Object, Object)</code></a> to forward to this implementation.</div>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingSortedSet.html#subSet-E-E-"><code>ForwardingSortedSet.subSet(Object, Object)</code></a> in terms of the <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#subSet-E-boolean-E-boolean-"><code>subSet(Object,
+ boolean, Object, boolean)</code></a> method. If you override <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#subSet-E-boolean-E-boolean-"><code>subSet(Object, boolean, Object,
+ boolean)</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingSortedSet.html#subSet-E-E-"><code>ForwardingSortedSet.subSet(Object, Object)</code></a> to forward to this
+ implementation.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ForwardingSortedSet.html#standardSubSet-E-E-">standardSubSet</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingSortedSet.html" title="class in com.google.common.collect">ForwardingSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;</code></dd>
@@ -902,10 +897,9 @@ protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navi
 <ul class="blockList">
 <li class="blockList">
 <h4>standardHeadSet</h4>
-<pre>protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.219">standardHeadSet</a>(<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;toElement)</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingSortedSet.html#headSet-E-"><code>ForwardingSortedSet.headSet(Object)</code></a> in terms of the
- <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#headSet-E-boolean-"><code>headSet(Object, boolean)</code></a> method. If you override
- <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#headSet-E-boolean-"><code>headSet(Object, boolean)</code></a>, you may wish to override
+<pre>protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.218">standardHeadSet</a>(<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;toElement)</pre>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingSortedSet.html#headSet-E-"><code>ForwardingSortedSet.headSet(Object)</code></a> in terms of the <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#headSet-E-boolean-"><code>headSet(Object,
+ boolean)</code></a> method. If you override <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#headSet-E-boolean-"><code>headSet(Object, boolean)</code></a>, you may wish to override
  <a href="../../../../com/google/common/collect/ForwardingSortedSet.html#headSet-E-"><code>ForwardingSortedSet.headSet(Object)</code></a> to forward to this implementation.</div>
 </li>
 </ul>
@@ -917,7 +911,7 @@ protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navi
 <ul class="blockList">
 <li class="blockList">
 <h4>tailSet</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.224">tailSet</a>(<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;fromElement,
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.223">tailSet</a>(<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;fromElement,
                                boolean&nbsp;inclusive)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#tailSet-E-boolean-" title="class or interface in java.util">java.util.NavigableSet</a></code></span></div>
 <div class="block">Returns a view of the portion of this set whose elements are greater
@@ -949,10 +943,9 @@ protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navi
 <ul class="blockListLast">
 <li class="blockList">
 <h4>standardTailSet</h4>
-<pre>protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.234">standardTailSet</a>(<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;fromElement)</pre>
-<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingSortedSet.html#tailSet-E-"><code>ForwardingSortedSet.tailSet(Object)</code></a> in terms of the
- <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#tailSet-E-boolean-"><code>tailSet(Object, boolean)</code></a> method. If you override
- <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#tailSet-E-boolean-"><code>tailSet(Object, boolean)</code></a>, you may wish to override
+<pre>protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableSet.html#line.232">standardTailSet</a>(<a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;fromElement)</pre>
+<div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingSortedSet.html#tailSet-E-"><code>ForwardingSortedSet.tailSet(Object)</code></a> in terms of the <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#tailSet-E-boolean-"><code>tailSet(Object,
+ boolean)</code></a> method. If you override <a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#tailSet-E-boolean-"><code>tailSet(Object, boolean)</code></a>, you may wish to override
  <a href="../../../../com/google/common/collect/ForwardingSortedSet.html#tailSet-E-"><code>ForwardingSortedSet.tailSet(Object)</code></a> to forward to this implementation.</div>
 </li>
 </ul>

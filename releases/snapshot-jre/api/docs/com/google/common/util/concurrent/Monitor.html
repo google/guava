@@ -111,7 +111,7 @@ var activeTableTab = "activeTableTab";
 <br>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.202">Monitor</a>
+public final class <a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.211">Monitor</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">A synchronization abstraction supporting waiting on arbitrary boolean conditions.
 
@@ -119,9 +119,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  is less error-prone and more readable than code using <code>ReentrantLock</code>, without significant
  performance loss. <code>Monitor</code> even has the potential for performance gain by optimizing the
  evaluation and signaling of conditions. Signaling is entirely <a
- href="http://en.wikipedia.org/wiki/Monitor_(synchronization)#Implicit_signaling">implicit</a>.
- By eliminating explicit signaling, this class can guarantee that only one thread is awakened when
- a condition becomes true (no "signaling storms" due to use of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/locks/Condition.html?is-external=true#signalAll--" title="class or interface in java.util.concurrent.locks"><code>Condition.signalAll</code></a>) and that no signals are lost
+ href="http://en.wikipedia.org/wiki/Monitor_(synchronization)#Implicit_signaling">implicit</a>. By
+ eliminating explicit signaling, this class can guarantee that only one thread is awakened when a
+ condition becomes true (no "signaling storms" due to use of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/locks/Condition.html?is-external=true#signalAll--" title="class or interface in java.util.concurrent.locks"><code>Condition.signalAll</code></a>) and that no signals are lost
  (no "hangs" due to incorrect use of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/locks/Condition.html?is-external=true#signal--" title="class or interface in java.util.concurrent.locks"><code>Condition.signal</code></a>).
 
  <p>A thread is said to <i>occupy</i> a monitor if it has <i>entered</i> the monitor but not yet
@@ -132,28 +132,32 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 
  <p>A call to any of the <i>enter</i> methods with <b>void</b> return type should always be
  followed immediately by a <i>try/finally</i> block to ensure that the current thread leaves the
- monitor cleanly: <pre>   <code>
+ monitor cleanly:
 
-   monitor.enter();
+ <pre><code>
+ monitor.enter();
+ try {
+   // do things while occupying the monitor
+ } finally {
+   monitor.leave();
+ }
+ </code></pre>
+
+ <p>A call to any of the <i>enter</i> methods with <b>boolean</b> return type should always appear
+ as the condition of an <i>if</i> statement containing a <i>try/finally</i> block to ensure that
+ the current thread leaves the monitor cleanly:
+
+ <pre><code>
+ if (monitor.tryEnter()) {
    try {
      // do things while occupying the monitor
    } finally {
      monitor.leave();
-   }</code></pre>
-
- <p>A call to any of the <i>enter</i> methods with <b>boolean</b> return type should always appear
- as the condition of an <i>if</i> statement containing a <i>try/finally</i> block to ensure that
- the current thread leaves the monitor cleanly: <pre>   <code>
-
-   if (monitor.tryEnter()) {
-     try {
-       // do things while occupying the monitor
-     } finally {
-       monitor.leave();
-     }
-   } else {
-     // do other things since the monitor was not available
-   }</code></pre>
+   }
+ } else {
+   // do other things since the monitor was not available
+ }
+ </code></pre>
 
  <h2>Comparison with <code>synchronized</code> and <code>ReentrantLock</code></h2>
 
@@ -166,72 +170,75 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  is built into the language and runtime. But the programmer has to remember to avoid a couple of
  common bugs: The <code>wait()</code> must be inside a <code>while</code> instead of an <code>if</code>, and
  <code>notifyAll()</code> must be used instead of <code>notify()</code> because there are two different
- logical conditions being awaited. <pre>   <code>
+ logical conditions being awaited.
 
-   public class SafeBox&lt;V&gt; {
-     private V value;
+ <pre><code>
+ public class SafeBox&lt;V&gt; {
+   private V value;
 
-     public synchronized V get() throws InterruptedException {
-       while (value == null) {
-         wait();
-       }
-       V result = value;
-       value = null;
-       notifyAll();
-       return result;
+   public synchronized V get() throws InterruptedException {
+     while (value == null) {
+       wait();
      }
+     V result = value;
+     value = null;
+     notifyAll();
+     return result;
+   }
 
-     public synchronized void set(V newValue) throws InterruptedException {
-       while (value != null) {
-         wait();
-       }
-       value = newValue;
-       notifyAll();
+   public synchronized void set(V newValue) throws InterruptedException {
+     while (value != null) {
+       wait();
      }
-   }</code></pre>
+     value = newValue;
+     notifyAll();
+   }
+ }
+ </code></pre>
 
  <h3><code>ReentrantLock</code></h3>
 
  <p>This version is much more verbose than the <code>synchronized</code> version, and still suffers
- from the need for the programmer to remember to use <code>while</code> instead of <code>if</code>.
- However, one advantage is that we can introduce two separate <code>Condition</code> objects, which
- allows us to use <code>signal()</code> instead of <code>signalAll()</code>, which may be a performance
- benefit. <pre>   <code>
+ from the need for the programmer to remember to use <code>while</code> instead of <code>if</code>. However,
+ one advantage is that we can introduce two separate <code>Condition</code> objects, which allows us to
+ use <code>signal()</code> instead of <code>signalAll()</code>, which may be a performance benefit.
 
-   public class SafeBox&lt;V&gt; {
-     private final ReentrantLock lock = new ReentrantLock();
-     private final Condition valuePresent = lock.newCondition();
-     private final Condition valueAbsent = lock.newCondition();
-     private V value;
+ <pre><code>
+ public class SafeBox&lt;V&gt; {
+   private final ReentrantLock lock = new ReentrantLock();
+   private final Condition valuePresent = lock.newCondition();
+   private final Condition valueAbsent = lock.newCondition();
+   private V value;
 
-     public V get() throws InterruptedException {
-       lock.lock();
-       try {
-         while (value == null) {
-           valuePresent.await();
-         }
-         V result = value;
-         value = null;
-         valueAbsent.signal();
-         return result;
-       } finally {
-         lock.unlock();
+   public V get() throws InterruptedException {
+     lock.lock();
+     try {
+       while (value == null) {
+         valuePresent.await();
        }
+       V result = value;
+       value = null;
+       valueAbsent.signal();
+       return result;
+     } finally {
+       lock.unlock();
      }
+   }
 
-     public void set(V newValue) throws InterruptedException {
-       lock.lock();
-       try {
-         while (value != null) {
-           valueAbsent.await();
-         }
-         value = newValue;
-         valuePresent.signal();
-       } finally {
-         lock.unlock();
+   public void set(V newValue) throws InterruptedException {
+     lock.lock();
+     try {
+       while (value != null) {
+         valueAbsent.await();
        }
+       value = newValue;
+       valuePresent.signal();
+     } finally {
+       lock.unlock();
      }
-   }</code></pre>
+   }
+ }
+ </code></pre>
 
  <h3><code>Monitor</code></h3>
 
@@ -239,42 +246,44 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  verbosity, and more, from the <code>get</code> and <code>set</code> methods. <code>Monitor</code> implements the
  same efficient signaling as we had to hand-code in the <code>ReentrantLock</code> version above.
  Finally, the programmer no longer has to hand-code the wait loop, and therefore doesn't have to
- remember to use <code>while</code> instead of <code>if</code>. <pre>   <code>
+ remember to use <code>while</code> instead of <code>if</code>.
 
-   public class SafeBox&lt;V&gt; {
-     private final Monitor monitor = new Monitor();
-     private final Monitor.Guard valuePresent = new Monitor.Guard(monitor) {
-       public boolean isSatisfied() {
-         return value != null;
-       }
-     };
-     private final Monitor.Guard valueAbsent = new Monitor.Guard(monitor) {
-       public boolean isSatisfied() {
-         return value == null;
-       }
-     };
-     private V value;
-
-     public V get() throws InterruptedException {
-       monitor.enterWhen(valuePresent);
-       try {
-         V result = value;
-         value = null;
-         return result;
-       } finally {
-         monitor.leave();
-       }
+ <pre><code>
+ public class SafeBox&lt;V&gt; {
+   private final Monitor monitor = new Monitor();
+   private final Monitor.Guard valuePresent = new Monitor.Guard(monitor) {
+     public boolean isSatisfied() {
+       return value != null;
      }
-
-     public void set(V newValue) throws InterruptedException {
-       monitor.enterWhen(valueAbsent);
-       try {
-         value = newValue;
-       } finally {
-         monitor.leave();
-       }
+   };
+   private final Monitor.Guard valueAbsent = new Monitor.Guard(monitor) {
+     public boolean isSatisfied() {
+       return value == null;
      }
-   }</code></pre></div>
+   };
+   private V value;
+
+   public V get() throws InterruptedException {
+     monitor.enterWhen(valuePresent);
+     try {
+       V result = value;
+       value = null;
+       return result;
+     } finally {
+       monitor.leave();
+     }
+   }
+
+   public void set(V newValue) throws InterruptedException {
+     monitor.enterWhen(valueAbsent);
+     try {
+       value = newValue;
+     } finally {
+       monitor.leave();
+     }
+   }
+ }
+ </code></pre></div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>10.0</dd>
@@ -562,7 +571,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>Monitor</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.349">Monitor</a>()</pre>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.354">Monitor</a>()</pre>
 <div class="block">Creates a monitor with a non-fair (but fast) ordering policy. Equivalent to <code>Monitor(false)</code>.</div>
 </li>
 </ul>
@@ -572,7 +581,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>Monitor</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.359">Monitor</a>(boolean&nbsp;fair)</pre>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.364">Monitor</a>(boolean&nbsp;fair)</pre>
 <div class="block">Creates a monitor with the given ordering policy.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -595,8 +604,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>newGuard</h4>
-<pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.369">newGuard</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BooleanSupplier.html?is-external=true" title="class or interface in java.util.function">BooleanSupplier</a>&nbsp;isSatisfied)</pre>
-<div class="block">Creates a new <a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent"><code>Monitor.Guard</code></a> for <code>this</code> monitor.</div>
+<pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.373">newGuard</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BooleanSupplier.html?is-external=true" title="class or interface in java.util.function">BooleanSupplier</a>&nbsp;isSatisfied)</pre>
+<div class="block">Creates a new <a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent"><code>Monitor.Guard</code></a> for <code>this</code> monitor. @Param isSatisfied The guards boolean
+ condition. See <a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html#isSatisfied--"><code>Monitor.Guard.isSatisfied()</code></a>.</div>
 </li>
 </ul>
 <a name="enter--">
@@ -605,7 +615,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>enter</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.382">enter</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.384">enter</a>()</pre>
 <div class="block">Enters this monitor. Blocks indefinitely.</div>
 </li>
 </ul>
@@ -615,7 +625,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>enterInterruptibly</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.391">enterInterruptibly</a>()
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.393">enterInterruptibly</a>()
                         throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
 <div class="block">Enters this monitor. Blocks indefinitely, but may be interrupted.</div>
 <dl>
@@ -630,7 +640,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>enter</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.400">enter</a>(long&nbsp;time,
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.402">enter</a>(long&nbsp;time,
                      <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Enters this monitor. Blocks at most the given time.</div>
 <dl>
@@ -645,7 +655,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>enterInterruptibly</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.430">enterInterruptibly</a>(long&nbsp;time,
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.432">enterInterruptibly</a>(long&nbsp;time,
                                   <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
                            throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
 <div class="block">Enters this monitor. Blocks at most the given time, and may be interrupted.</div>
@@ -663,7 +673,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>tryEnter</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.441">tryEnter</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.443">tryEnter</a>()</pre>
 <div class="block">Enters this monitor if it is possible to do so immediately. Does not block.
 
  <p><b>Note:</b> This method disregards the fairness setting of this monitor.</div>
@@ -679,7 +689,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>enterWhen</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.450">enterWhen</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.452">enterWhen</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)
                throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
 <div class="block">Enters this monitor when the guard is satisfied. Blocks indefinitely, but may be interrupted.</div>
 <dl>
@@ -893,7 +903,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>leave</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.833">leave</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.831">leave</a>()</pre>
 <div class="block">Leaves this monitor. May be called only by a thread currently occupying this monitor.</div>
 </li>
 </ul>
@@ -903,7 +913,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>isFair</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.848">isFair</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.844">isFair</a>()</pre>
 <div class="block">Returns whether this monitor is using a fair ordering policy.</div>
 </li>
 </ul>
@@ -913,7 +923,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>isOccupied</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.856">isOccupied</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.852">isOccupied</a>()</pre>
 <div class="block">Returns whether this monitor is occupied by any thread. This method is designed for use in
  monitoring of the system state, not for synchronization control.</div>
 </li>
@@ -924,7 +934,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>isOccupiedByCurrentThread</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.864">isOccupiedByCurrentThread</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.860">isOccupiedByCurrentThread</a>()</pre>
 <div class="block">Returns whether the current thread is occupying this monitor (has entered more times than it
  has left).</div>
 </li>
@@ -935,7 +945,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>getOccupiedDepth</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.872">getOccupiedDepth</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.868">getOccupiedDepth</a>()</pre>
 <div class="block">Returns the number of times the current thread has entered this monitor in excess of the number
  of times it has left. Returns 0 if the current thread is not occupying this monitor.</div>
 </li>
@@ -946,7 +956,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>getQueueLength</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.882">getQueueLength</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.878">getQueueLength</a>()</pre>
 <div class="block">Returns an estimate of the number of threads waiting to enter this monitor. The value is only
  an estimate because the number of threads may change dynamically while this method traverses
  internal data structures. This method is designed for use in monitoring of the system state,
@@ -959,7 +969,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>hasQueuedThreads</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.892">hasQueuedThreads</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.888">hasQueuedThreads</a>()</pre>
 <div class="block">Returns whether any threads are waiting to enter this monitor. Note that because cancellations
  may occur at any time, a <code>true</code> return does not guarantee that any other thread will ever
  enter this monitor. This method is designed primarily for use in monitoring of the system
@@ -972,7 +982,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>hasQueuedThread</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.902">hasQueuedThread</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Thread.html?is-external=true" title="class or interface in java.lang">Thread</a>&nbsp;thread)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.898">hasQueuedThread</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Thread.html?is-external=true" title="class or interface in java.lang">Thread</a>&nbsp;thread)</pre>
 <div class="block">Queries whether the given thread is waiting to enter this monitor. Note that because
  cancellations may occur at any time, a <code>true</code> return does not guarantee that this thread
  will ever enter this monitor. This method is designed primarily for use in monitoring of the
@@ -985,7 +995,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>hasWaiters</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.912">hasWaiters</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.908">hasWaiters</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
 <div class="block">Queries whether any threads are waiting for the given guard to become satisfied. Note that
  because timeouts and interrupts may occur at any time, a <code>true</code> return does not guarantee
  that the guard becoming satisfied in the future will awaken any threads. This method is
@@ -998,7 +1008,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>getWaitQueueLength</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.922">getWaitQueueLength</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.918">getWaitQueueLength</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
 <div class="block">Returns an estimate of the number of threads waiting for the given guard to become satisfied.
  Note that because timeouts and interrupts may occur at any time, the estimate serves only as an
  upper bound on the actual number of waiters. This method is designed for use in monitoring of

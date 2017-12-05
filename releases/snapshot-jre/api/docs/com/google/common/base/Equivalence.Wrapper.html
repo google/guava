@@ -117,23 +117,24 @@ var activeTableTab = "activeTableTab";
 </dl>
 <hr>
 <br>
-<pre>public static final class <a href="../../../../src-html/com/google/common/base/Equivalence.html#line.183">Equivalence.Wrapper</a>&lt;T&gt;
+<pre>public static final class <a href="../../../../src-html/com/google/common/base/Equivalence.html#line.185">Equivalence.Wrapper</a>&lt;T&gt;
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</a></pre>
-<div class="block">Wraps an object so that <a href="../../../../com/google/common/base/Equivalence.Wrapper.html#equals-java.lang.Object-"><code>equals(Object)</code></a> and <a href="../../../../com/google/common/base/Equivalence.Wrapper.html#hashCode--"><code>hashCode()</code></a> delegate to an
- <a href="../../../../com/google/common/base/Equivalence.html" title="class in com.google.common.base"><code>Equivalence</code></a>.
+<div class="block">Wraps an object so that <a href="../../../../com/google/common/base/Equivalence.Wrapper.html#equals-java.lang.Object-"><code>equals(Object)</code></a> and <a href="../../../../com/google/common/base/Equivalence.Wrapper.html#hashCode--"><code>hashCode()</code></a> delegate to an <a href="../../../../com/google/common/base/Equivalence.html" title="class in com.google.common.base"><code>Equivalence</code></a>.
 
  <p>For example, given an <a href="../../../../com/google/common/base/Equivalence.html" title="class in com.google.common.base"><code>Equivalence</code></a> for <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>strings</code></a> named <code>equiv</code>
  that tests equivalence using their lengths:
 
- <pre>   <code>
-   equiv.wrap("a").equals(equiv.wrap("b")) // true
-   equiv.wrap("a").equals(equiv.wrap("hello")) // false</code></pre>
+ <pre><code>
+ equiv.wrap("a").equals(equiv.wrap("b")) // true
+ equiv.wrap("a").equals(equiv.wrap("hello")) // false
+ </code></pre>
 
  <p>Note in particular that an equivalence wrapper is never equal to the object it wraps.
 
- <pre>   <code>
-   equiv.wrap(obj).equals(obj) // always false</code></pre></div>
+ <pre><code>
+ equiv.wrap(obj).equals(obj) // always false
+ </code></pre></div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>10.0</dd>
@@ -213,7 +214,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <li class="blockList">
 <h4>get</h4>
 <pre><a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-public&nbsp;<a href="../../../../com/google/common/base/Equivalence.Wrapper.html" title="type parameter in Equivalence.Wrapper">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.Wrapper.html#line.194">get</a>()</pre>
+public&nbsp;<a href="../../../../com/google/common/base/Equivalence.Wrapper.html" title="type parameter in Equivalence.Wrapper">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.Wrapper.html#line.196">get</a>()</pre>
 <div class="block">Returns the (possibly null) reference wrapped by this instance.</div>
 </li>
 </ul>
@@ -223,7 +224,7 @@ public&nbsp;<a href="../../../../com/google/common/base/Equivalence.Wrapper.html
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.Wrapper.html#line.204">equals</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.Wrapper.html#line.206">equals</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</pre>
 <div class="block">Returns <code>true</code> if <a href="../../../../com/google/common/base/Equivalence.html#equivalent-T-T-"><code>Equivalence.equivalent(Object, Object)</code></a> applied to the wrapped
  references is <code>true</code> and both wrappers use the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang"><code>same</code></a>

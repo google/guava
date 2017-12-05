@@ -115,12 +115,12 @@ var activeTableTab = "activeTableTab";
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../src-html/com/google/common/io/Closer.html#line.90">Closer</a>
+public final class <a href="../../../../src-html/com/google/common/io/Closer.html#line.91">Closer</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io">Closeable</a></pre>
 <div class="block">A <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io"><code>Closeable</code></a> that collects <code>Closeable</code> resources and closes them all when it is
- <a href="../../../../com/google/common/io/Closer.html#close--">closed</a>. This is intended to approximately emulate the behavior of Java 7's
- <a href="http://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html"
+ <a href="../../../../com/google/common/io/Closer.html#close--">closed</a>. This is intended to approximately emulate the behavior of Java 7's <a
+ href="http://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html"
  >try-with-resources</a> statement in JDK6-compatible code. Running on Java 7, code using this
  should be approximately equivalent in behavior to the same code written with try-with-resources.
  Running on Java 6, exceptions that cannot be thrown must be logged rather than being added to the
@@ -128,45 +128,45 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.
 
  <p>This class is intended to be used in the following pattern:
 
- <pre>   <code>
-   Closer closer = Closer.create();
-   try {
-     InputStream in = closer.register(openInputStream());
-     OutputStream out = closer.register(openOutputStream());
-     // do stuff
-   } catch (Throwable e) {
-     // ensure that any checked exception types other than IOException that could be thrown are
-     // provided here, e.g. throw closer.rethrow(e, CheckedException.class);
-     throw closer.rethrow(e);
-   } finally {
-     closer.close();
-   }</code></pre>
+ <pre><code>
+ Closer closer = Closer.create();
+ try {
+   InputStream in = closer.register(openInputStream());
+   OutputStream out = closer.register(openOutputStream());
+   // do stuff
+ } catch (Throwable e) {
+   // ensure that any checked exception types other than IOException that could be thrown are
+   // provided here, e.g. throw closer.rethrow(e, CheckedException.class);
+   throw closer.rethrow(e);
+ } finally {
+   closer.close();
+ }
+ </code></pre>
 
  <p>Note that this try-catch-finally block is not equivalent to a try-catch-finally block using
  try-with-resources. To get the equivalent of that, you must wrap the above code in <i>another</i>
- try block in order to catch any exception that may be thrown (including from the call to
- <code>close()</code>).
+ try block in order to catch any exception that may be thrown (including from the call to <code>close()</code>).
 
  <p>This pattern ensures the following:
 
  <ul>
- <li>Each <code>Closeable</code> resource that is successfully registered will be closed later.
- <li>If a <code>Throwable</code> is thrown in the try block, no exceptions that occur when attempting
-     to close resources will be thrown from the finally block. The throwable from the try block
-     will be thrown.
- <li>If no exceptions or errors were thrown in the try block, the <i>first</i> exception thrown by
-     an attempt to close a resource will be thrown.
- <li>Any exception caught when attempting to close a resource that is <i>not</i> thrown (because
-     another exception is already being thrown) is <i>suppressed</i>.
+   <li>Each <code>Closeable</code> resource that is successfully registered will be closed later.
+   <li>If a <code>Throwable</code> is thrown in the try block, no exceptions that occur when attempting
+       to close resources will be thrown from the finally block. The throwable from the try block
+       will be thrown.
+   <li>If no exceptions or errors were thrown in the try block, the <i>first</i> exception thrown
+       by an attempt to close a resource will be thrown.
+   <li>Any exception caught when attempting to close a resource that is <i>not</i> thrown (because
+       another exception is already being thrown) is <i>suppressed</i>.
  </ul>
 
  <p>An exception that is suppressed is not thrown. The method of suppression used depends on the
  version of Java the code is running on:
 
  <ul>
- <li><b>Java 7+:</b> Exceptions are suppressed by adding them to the exception that <i>will</i> be
-     thrown using <code>Throwable.addSuppressed(Throwable)</code>.
- <li><b>Java 6:</b> Exceptions are suppressed by logging them instead.
+   <li><b>Java 7+:</b> Exceptions are suppressed by adding them to the exception that <i>will</i>
+       be thrown using <code>Throwable.addSuppressed(Throwable)</code>.
+   <li><b>Java 6:</b> Exceptions are suppressed by logging them instead.
  </ul></div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -207,8 +207,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io">Closeable</a>&gt;<br>C</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/io/Closer.html#register-C-">register</a></span>(C&nbsp;closeable)</code>
-<div class="block">Registers the given <code>closeable</code> to be closed when this <code>Closer</code> is
- <a href="../../../../com/google/common/io/Closer.html#close--">closed</a>.</div>
+<div class="block">Registers the given <code>closeable</code> to be closed when this <code>Closer</code> is <a href="../../../../com/google/common/io/Closer.html#close--">closed</a>.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
@@ -260,7 +259,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/io/Closer.html" title="class in com.google.common.io">Closer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.103">create</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/io/Closer.html" title="class in com.google.common.io">Closer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.100">create</a>()</pre>
 <div class="block">Creates a new <a href="../../../../com/google/common/io/Closer.html" title="class in com.google.common.io"><code>Closer</code></a>.</div>
 </li>
 </ul>
@@ -273,10 +272,9 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.
 <li class="blockList">
 <h4>register</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io">Closeable</a>&gt;&nbsp;C&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.126">register</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+public&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io">Closeable</a>&gt;&nbsp;C&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.123">register</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                                               C&nbsp;closeable)</pre>
-<div class="block">Registers the given <code>closeable</code> to be closed when this <code>Closer</code> is
- <a href="../../../../com/google/common/io/Closer.html#close--">closed</a>.</div>
+<div class="block">Registers the given <code>closeable</code> to be closed when this <code>Closer</code> is <a href="../../../../com/google/common/io/Closer.html#close--">closed</a>.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the given <code>closeable</code></dd>
@@ -289,13 +287,12 @@ public&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/jav
 <ul class="blockList">
 <li class="blockList">
 <h4>rethrow</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang">RuntimeException</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.147">rethrow</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;e)
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang">RuntimeException</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.144">rethrow</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;e)
                          throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
-<div class="block">Stores the given throwable and rethrows it. It will be rethrown as is if it is an
- <code>IOException</code>, <code>RuntimeException</code> or <code>Error</code>. Otherwise, it will be rethrown
- wrapped in a <code>RuntimeException</code>. <b>Note:</b> Be sure to declare all of the checked
- exception types your try block can throw when calling an overload of this method so as to avoid
- losing the original exception type.
+<div class="block">Stores the given throwable and rethrows it. It will be rethrown as is if it is an <code>IOException</code>, <code>RuntimeException</code> or <code>Error</code>. Otherwise, it will be rethrown wrapped
+ in a <code>RuntimeException</code>. <b>Note:</b> Be sure to declare all of the checked exception
+ types your try block can throw when calling an overload of this method so as to avoid losing
+ the original exception type.
 
  <p>This method always throws, and as such should be called as <code>throw closer.rethrow(e);</code>
  to ensure the compiler knows that it will throw.</div>
@@ -313,18 +310,17 @@ public&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/jav
 <ul class="blockList">
 <li class="blockList">
 <h4>rethrow</h4>
-<pre>public&nbsp;&lt;X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang">RuntimeException</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.168">rethrow</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;e,
+<pre>public&nbsp;&lt;X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang">RuntimeException</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.165">rethrow</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;e,
                                                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;declaredType)
                                                throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a>,
                                                       X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></pre>
-<div class="block">Stores the given throwable and rethrows it. It will be rethrown as is if it is an
- <code>IOException</code>, <code>RuntimeException</code>, <code>Error</code> or a checked exception of the
- given type. Otherwise, it will be rethrown wrapped in a <code>RuntimeException</code>. <b>Note:</b>
- Be sure to declare all of the checked exception types your try block can throw when calling an
- overload of this method so as to avoid losing the original exception type.
+<div class="block">Stores the given throwable and rethrows it. It will be rethrown as is if it is an <code>IOException</code>, <code>RuntimeException</code>, <code>Error</code> or a checked exception of the given type.
+ Otherwise, it will be rethrown wrapped in a <code>RuntimeException</code>. <b>Note:</b> Be sure to
+ declare all of the checked exception types your try block can throw when calling an overload of
+ this method so as to avoid losing the original exception type.
 
- <p>This method always throws, and as such should be called as
- <code>throw closer.rethrow(e, ...);</code> to ensure the compiler knows that it will throw.</div>
+ <p>This method always throws, and as such should be called as <code>throw closer.rethrow(e,
+ ...);</code> to ensure the compiler knows that it will throw.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this method does not return; it always throws</dd>
@@ -341,20 +337,19 @@ public&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/jav
 <ul class="blockList">
 <li class="blockList">
 <h4>rethrow</h4>
-<pre>public&nbsp;&lt;X1 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>,X2 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang">RuntimeException</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.192">rethrow</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;e,
+<pre>public&nbsp;&lt;X1 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>,X2 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang">RuntimeException</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.189">rethrow</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;e,
                                                                             <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X1&gt;&nbsp;declaredType1,
                                                                             <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X2&gt;&nbsp;declaredType2)
                                                                      throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a>,
                                                                             X1 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>,
                                                                             X2 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></pre>
-<div class="block">Stores the given throwable and rethrows it. It will be rethrown as is if it is an
- <code>IOException</code>, <code>RuntimeException</code>, <code>Error</code> or a checked exception of either
- of the given types. Otherwise, it will be rethrown wrapped in a <code>RuntimeException</code>.
- <b>Note:</b> Be sure to declare all of the checked exception types your try block can throw
- when calling an overload of this method so as to avoid losing the original exception type.
+<div class="block">Stores the given throwable and rethrows it. It will be rethrown as is if it is an <code>IOException</code>, <code>RuntimeException</code>, <code>Error</code> or a checked exception of either of the
+ given types. Otherwise, it will be rethrown wrapped in a <code>RuntimeException</code>. <b>Note:</b>
+ Be sure to declare all of the checked exception types your try block can throw when calling an
+ overload of this method so as to avoid losing the original exception type.
 
- <p>This method always throws, and as such should be called as
- <code>throw closer.rethrow(e, ...);</code> to ensure the compiler knows that it will throw.</div>
+ <p>This method always throws, and as such should be called as <code>throw closer.rethrow(e,
+ ...);</code> to ensure the compiler knows that it will throw.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this method does not return; it always throws</dd>
@@ -372,7 +367,7 @@ public&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/jav
 <ul class="blockListLast">
 <li class="blockList">
 <h4>close</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.209">close</a>()
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.206">close</a>()
            throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Closes all <code>Closeable</code> instances that have been added to this <code>Closer</code>. If an
  exception was thrown in the try block and passed to one of the <code>exceptionThrown</code> methods,

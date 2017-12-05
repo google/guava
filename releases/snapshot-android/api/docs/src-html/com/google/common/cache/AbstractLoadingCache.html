@@ -35,12 +35,12 @@
 <span class="sourceLineNo">027</span> * effort required to implement this interface.<a name="line.27"></a>
 <span class="sourceLineNo">028</span> *<a name="line.28"></a>
 <span class="sourceLineNo">029</span> * &lt;p&gt;To implement a cache, the programmer needs only to extend this class and provide an<a name="line.29"></a>
-<span class="sourceLineNo">030</span> * implementation for the {@link #get(Object)} and {@link #getIfPresent} methods.<a name="line.30"></a>
-<span class="sourceLineNo">031</span> * {@link #getUnchecked}, {@link #get(Object, Callable)}, and {@link #getAll} are implemented in<a name="line.31"></a>
-<span class="sourceLineNo">032</span> * terms of {@code get}; {@link #getAllPresent} is implemented in terms of {@code getIfPresent};<a name="line.32"></a>
-<span class="sourceLineNo">033</span> * {@link #putAll} is implemented in terms of {@link #put}, {@link #invalidateAll(Iterable)} is<a name="line.33"></a>
-<span class="sourceLineNo">034</span> * implemented in terms of {@link #invalidate}. The method {@link #cleanUp} is a no-op. All other<a name="line.34"></a>
-<span class="sourceLineNo">035</span> * methods throw an {@link UnsupportedOperationException}.<a name="line.35"></a>
+<span class="sourceLineNo">030</span> * implementation for the {@link #get(Object)} and {@link #getIfPresent} methods. {@link<a name="line.30"></a>
+<span class="sourceLineNo">031</span> * #getUnchecked}, {@link #get(Object, Callable)}, and {@link #getAll} are implemented in terms of<a name="line.31"></a>
+<span class="sourceLineNo">032</span> * {@code get}; {@link #getAllPresent} is implemented in terms of {@code getIfPresent}; {@link<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * #putAll} is implemented in terms of {@link #put}, {@link #invalidateAll(Iterable)} is implemented<a name="line.33"></a>
+<span class="sourceLineNo">034</span> * in terms of {@link #invalidate}. The method {@link #cleanUp} is a no-op. All other methods throw<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * an {@link UnsupportedOperationException}.<a name="line.35"></a>
 <span class="sourceLineNo">036</span> *<a name="line.36"></a>
 <span class="sourceLineNo">037</span> * @author Charles Fry<a name="line.37"></a>
 <span class="sourceLineNo">038</span> * @since 11.0<a name="line.38"></a>

@@ -138,7 +138,7 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static final class <a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.536">CycleDetectingLockFactory.PotentialDeadlockException</a>
+public static final class <a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.528">CycleDetectingLockFactory.PotentialDeadlockException</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang">IllegalStateException</a></pre>
 <div class="block">Represents a detected cycle in lock acquisition ordering. The exception includes a causal chain
  of <code>ExampleStackTrace</code> instances to illustrate the cycle, e.g.
@@ -187,8 +187,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStat
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/CycleDetectingLockFactory.PotentialDeadlockException.html#getMessage--">getMessage</a></span>()</code>
-<div class="block">Appends the chain of messages from the <code>conflictingStackTrace</code> to the original
- <code>message</code>.</div>
+<div class="block">Appends the chain of messages from the <code>conflictingStackTrace</code> to the original <code>message</code>.</div>
 </td>
 </tr>
 </table>
@@ -226,7 +225,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStat
 <ul class="blockList">
 <li class="blockList">
 <h4>getConflictingStackTrace</h4>
-<pre>public&nbsp;com.google.common.util.concurrent.CycleDetectingLockFactory.ExampleStackTrace&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.PotentialDeadlockException.html#line.547">getConflictingStackTrace</a>()</pre>
+<pre>public&nbsp;com.google.common.util.concurrent.CycleDetectingLockFactory.ExampleStackTrace&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.PotentialDeadlockException.html#line.539">getConflictingStackTrace</a>()</pre>
 </li>
 </ul>
 <a name="getMessage--">
@@ -235,9 +234,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStat
 <ul class="blockListLast">
 <li class="blockList">
 <h4>getMessage</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.PotentialDeadlockException.html#line.556">getMessage</a>()</pre>
-<div class="block">Appends the chain of messages from the <code>conflictingStackTrace</code> to the original
- <code>message</code>.</div>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.PotentialDeadlockException.html#line.548">getMessage</a>()</pre>
+<div class="block">Appends the chain of messages from the <code>conflictingStackTrace</code> to the original <code>message</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true#getMessage--" title="class or interface in java.lang">getMessage</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a></code></dd>

@@ -198,7 +198,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/hash/HashCode.html#hashCode--">hashCode</a></span>()</code>
 <div class="block">Returns a "Java hash code" for this <code>HashCode</code> instance; this is well-defined (so, for
- example, you can safely put <code>HashCode</code> instances into a <code>HashSet</code>) but is otherwise probably not what you want to use.</div>
+ example, you can safely put <code>HashCode</code> instances into a <code>HashSet</code>) but is otherwise
+ probably not what you want to use.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
@@ -252,7 +253,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>bits</h4>
-<pre>public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.43">bits</a>()</pre>
+<pre>public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.41">bits</a>()</pre>
 <div class="block">Returns the number of bits in this hash code; a positive multiple of 8.</div>
 </li>
 </ul>
@@ -262,7 +263,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>asInt</h4>
-<pre>public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.51">asInt</a>()</pre>
+<pre>public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.49">asInt</a>()</pre>
 <div class="block">Returns the first four bytes of <a href="../../../../com/google/common/hash/HashCode.html#asBytes--">this hashcode's bytes</a>, converted to an
  <code>int</code> value in little-endian order.</div>
 <dl>
@@ -277,7 +278,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>asLong</h4>
-<pre>public abstract&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.59">asLong</a>()</pre>
+<pre>public abstract&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.57">asLong</a>()</pre>
 <div class="block">Returns the first eight bytes of <a href="../../../../com/google/common/hash/HashCode.html#asBytes--">this hashcode's bytes</a>, converted to a
  <code>long</code> value in little-endian order.</div>
 <dl>
@@ -292,7 +293,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>padToLong</h4>
-<pre>public abstract&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.68">padToLong</a>()</pre>
+<pre>public abstract&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.66">padToLong</a>()</pre>
 <div class="block">If this hashcode has enough bits, returns <code>asLong()</code>, otherwise returns a <code>long</code>
  value with <code>asBytes()</code> as the least-significant bytes and <code>0x00</code> as the remaining
  most-significant bytes.</div>
@@ -308,7 +309,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>asBytes</h4>
-<pre>public abstract&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.76">asBytes</a>()</pre>
+<pre>public abstract&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.74">asBytes</a>()</pre>
 <div class="block">Returns the value of this hash code as a byte array. The caller may modify the byte array;
  changes to it will <i>not</i> be reflected in this <code>HashCode</code> object or any other arrays
  returned by this method.</div>
@@ -321,7 +322,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>writeBytesTo</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.88">writeBytesTo</a>(byte[]&nbsp;dest,
+public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.86">writeBytesTo</a>(byte[]&nbsp;dest,
                                               int&nbsp;offset,
                                               int&nbsp;maxLength)</pre>
 <div class="block">Copies bytes from this hash code into <code>dest</code>.</div>
@@ -343,7 +344,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCo
 <ul class="blockList">
 <li class="blockList">
 <h4>fromInt</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.118">fromInt</a>(int&nbsp;hash)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.116">fromInt</a>(int&nbsp;hash)</pre>
 <div class="block">Creates a 32-bit <code>HashCode</code> representation of the given int value. The underlying bytes
  are interpreted in little endian order.</div>
 <dl>
@@ -358,7 +359,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCo
 <ul class="blockList">
 <li class="blockList">
 <h4>fromLong</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.180">fromLong</a>(long&nbsp;hash)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.173">fromLong</a>(long&nbsp;hash)</pre>
 <div class="block">Creates a 64-bit <code>HashCode</code> representation of the given long value. The underlying bytes
  are interpreted in little endian order.</div>
 <dl>
@@ -373,7 +374,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCo
 <ul class="blockList">
 <li class="blockList">
 <h4>fromBytes</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.246">fromBytes</a>(byte[]&nbsp;bytes)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.239">fromBytes</a>(byte[]&nbsp;bytes)</pre>
 <div class="block">Creates a <code>HashCode</code> from a byte array. The array is defensively copied to preserve the
  immutability contract of <code>HashCode</code>. The array cannot be empty.</div>
 <dl>
@@ -388,7 +389,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCo
 <ul class="blockList">
 <li class="blockList">
 <h4>fromString</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.344">fromString</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.337">fromString</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string)</pre>
 <div class="block">Creates a <code>HashCode</code> from a hexadecimal (<code>base 16</code>) encoded string. The string must
  be at least 2 characters long, and contain only valid, lower-cased hexadecimal characters.
 
@@ -407,7 +408,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCo
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.379">equals</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.372">equals</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                             <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block">Returns <code>true</code> if <code>object</code> is a <a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash"><code>HashCode</code></a> instance with the identical byte
  representation to this hash code.
@@ -434,9 +435,10 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCo
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.393">hashCode</a>()</pre>
+<pre>public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.386">hashCode</a>()</pre>
 <div class="block">Returns a "Java hash code" for this <code>HashCode</code> instance; this is well-defined (so, for
- example, you can safely put <code>HashCode</code> instances into a <code>HashSet</code>) but is otherwise probably not what you want to use.</div>
+ example, you can safely put <code>HashCode</code> instances into a <code>HashSet</code>) but is otherwise
+ probably not what you want to use.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
@@ -454,7 +456,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCo
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.420">toString</a>()</pre>
+<pre>public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCode.html#line.413">toString</a>()</pre>
 <div class="block">Returns a string containing each byte of <a href="../../../../com/google/common/hash/HashCode.html#asBytes--"><code>asBytes()</code></a>, in order, as a two-digit unsigned
  hexadecimal number in lower case.
 

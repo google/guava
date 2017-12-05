@@ -110,14 +110,13 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#emulated--">emulated</a>=true)
-public final class <a href="../../../../src-html/com/google/common/collect/Lists.html#line.69">Lists</a>
+public final class <a href="../../../../src-html/com/google/common/collect/Lists.html#line.68">Lists</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
-<div class="block">Static utility methods pertaining to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util"><code>List</code></a> instances. Also see this
- class's counterparts <a href="../../../../com/google/common/collect/Sets.html" title="class in com.google.common.collect"><code>Sets</code></a>, <a href="../../../../com/google/common/collect/Maps.html" title="class in com.google.common.collect"><code>Maps</code></a> and <a href="../../../../com/google/common/collect/Queues.html" title="class in com.google.common.collect"><code>Queues</code></a>.
+<div class="block">Static utility methods pertaining to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util"><code>List</code></a> instances. Also see this class's counterparts
+ <a href="../../../../com/google/common/collect/Sets.html" title="class in com.google.common.collect"><code>Sets</code></a>, <a href="../../../../com/google/common/collect/Maps.html" title="class in com.google.common.collect"><code>Maps</code></a> and <a href="../../../../com/google/common/collect/Queues.html" title="class in com.google.common.collect"><code>Queues</code></a>.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#lists">
- <code>Lists</code></a>.</div>
+ "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#lists"> <code>Lists</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
@@ -146,8 +145,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Lists.html#asList-E-E:A-">asList</a></span>(E&nbsp;first,
       E[]&nbsp;rest)</code>
-<div class="block">Returns an unmodifiable list containing the specified first element and
- backed by the specified array of additional elements.</div>
+<div class="block">Returns an unmodifiable list containing the specified first element and backed by the specified
+ array of additional elements.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -155,33 +154,31 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Lists.html#asList-E-E-E:A-">asList</a></span>(E&nbsp;first,
       E&nbsp;second,
       E[]&nbsp;rest)</code>
-<div class="block">Returns an unmodifiable list containing the specified first and second
- element, and backed by the specified array of additional elements.</div>
+<div class="block">Returns an unmodifiable list containing the specified first and second element, and backed by
+ the specified array of additional elements.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>static &lt;B&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;B&gt;&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Lists.html#cartesianProduct-java.util.List...-">cartesianProduct</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;? extends B&gt;...&nbsp;lists)</code>
-<div class="block">Returns every possible list that can be formed by choosing one element
- from each of the given lists in order; the "n-ary
- <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
+<div class="block">Returns every possible list that can be formed by choosing one element from each of the given
+ lists in order; the "n-ary <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
  product</a>" of the lists.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>static &lt;B&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;B&gt;&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Lists.html#cartesianProduct-java.util.List-">cartesianProduct</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;? extends B&gt;&gt;&nbsp;lists)</code>
-<div class="block">Returns every possible list that can be formed by choosing one element
- from each of the given lists in order; the "n-ary
- <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
+<div class="block">Returns every possible list that can be formed by choosing one element from each of the given
+ lists in order; the "n-ary <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
  product</a>" of the lists.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang">Character</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Lists.html#charactersOf-java.lang.CharSequence-">charactersOf</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</code>
-<div class="block">Returns a view of the specified <code>CharSequence</code> as a <code>List&lt;Character&gt;</code>, viewing <code>sequence</code> as a sequence of Unicode code
- units.</div>
+<div class="block">Returns a view of the specified <code>CharSequence</code> as a <code>List&lt;Character&gt;</code>, viewing
+ <code>sequence</code> as a sequence of Unicode code units.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
@@ -193,47 +190,41 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true" title="class or interface in java.util">ArrayList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Lists.html#newArrayList--">newArrayList</a></span>()</code>
-<div class="block">Creates a <i>mutable</i>, empty <code>ArrayList</code> instance (for Java 6 and
- earlier).</div>
+<div class="block">Creates a <i>mutable</i>, empty <code>ArrayList</code> instance (for Java 6 and earlier).</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true" title="class or interface in java.util">ArrayList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Lists.html#newArrayList-E...-">newArrayList</a></span>(E...&nbsp;elements)</code>
-<div class="block">Creates a <i>mutable</i> <code>ArrayList</code> instance containing the given
- elements.</div>
+<div class="block">Creates a <i>mutable</i> <code>ArrayList</code> instance containing the given elements.</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true" title="class or interface in java.util">ArrayList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Lists.html#newArrayList-java.lang.Iterable-">newArrayList</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</code>
-<div class="block">Creates a <i>mutable</i> <code>ArrayList</code> instance containing the given
- elements; a very thin shortcut for creating an empty list then calling
- <a href="../../../../com/google/common/collect/Iterables.html#addAll-java.util.Collection-java.lang.Iterable-"><code>Iterables.addAll(java.util.Collection&lt;T&gt;, java.lang.Iterable&lt;? extends T&gt;)</code></a>.</div>
+<div class="block">Creates a <i>mutable</i> <code>ArrayList</code> instance containing the given elements; a very thin
+ shortcut for creating an empty list then calling <a href="../../../../com/google/common/collect/Iterables.html#addAll-java.util.Collection-java.lang.Iterable-"><code>Iterables.addAll(java.util.Collection&lt;T&gt;, java.lang.Iterable&lt;? extends T&gt;)</code></a>.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true" title="class or interface in java.util">ArrayList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Lists.html#newArrayList-java.util.Iterator-">newArrayList</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends E&gt;&nbsp;elements)</code>
-<div class="block">Creates a <i>mutable</i> <code>ArrayList</code> instance containing the given
- elements; a very thin shortcut for creating an empty list and then calling
- <a href="../../../../com/google/common/collect/Iterators.html#addAll-java.util.Collection-java.util.Iterator-"><code>Iterators.addAll(java.util.Collection&lt;T&gt;, java.util.Iterator&lt;? extends T&gt;)</code></a>.</div>
+<div class="block">Creates a <i>mutable</i> <code>ArrayList</code> instance containing the given elements; a very thin
+ shortcut for creating an empty list and then calling <a href="../../../../com/google/common/collect/Iterators.html#addAll-java.util.Collection-java.util.Iterator-"><code>Iterators.addAll(java.util.Collection&lt;T&gt;, java.util.Iterator&lt;? extends T&gt;)</code></a>.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true" title="class or interface in java.util">ArrayList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Lists.html#newArrayListWithCapacity-int-">newArrayListWithCapacity</a></span>(int&nbsp;initialArraySize)</code>
-<div class="block">Creates an <code>ArrayList</code> instance backed by an array with the specified
- initial size; simply delegates to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true#ArrayList-int-" title="class or interface in java.util"><code>ArrayList.ArrayList(int)</code></a>.</div>
+<div class="block">Creates an <code>ArrayList</code> instance backed by an array with the specified initial size;
+ simply delegates to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true#ArrayList-int-" title="class or interface in java.util"><code>ArrayList.ArrayList(int)</code></a>.</div>
 </td>
 </tr>
 <tr id="i11" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true" title="class or interface in java.util">ArrayList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Lists.html#newArrayListWithExpectedSize-int-">newArrayListWithExpectedSize</a></span>(int&nbsp;estimatedSize)</code>
-<div class="block">Creates an <code>ArrayList</code> instance to hold <code>estimatedSize</code>
- elements, <i>plus</i> an unspecified amount of padding; you almost
- certainly mean to call <a href="../../../../com/google/common/collect/Lists.html#newArrayListWithCapacity-int-"><code>newArrayListWithCapacity(int)</code></a> (see that method
- for further advice on usage).</div>
+<div class="block">Creates an <code>ArrayList</code> instance to hold <code>estimatedSize</code> elements, <i>plus</i> an
+ unspecified amount of padding; you almost certainly mean to call <a href="../../../../com/google/common/collect/Lists.html#newArrayListWithCapacity-int-"><code>newArrayListWithCapacity(int)</code></a> (see that method for further advice on usage).</div>
 </td>
 </tr>
 <tr id="i12" class="altColor">
@@ -251,24 +242,22 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/LinkedList.html?is-external=true" title="class or interface in java.util">LinkedList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Lists.html#newLinkedList--">newLinkedList</a></span>()</code>
-<div class="block">Creates a <i>mutable</i>, empty <code>LinkedList</code> instance (for Java 6 and
- earlier).</div>
+<div class="block">Creates a <i>mutable</i>, empty <code>LinkedList</code> instance (for Java 6 and earlier).</div>
 </td>
 </tr>
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/LinkedList.html?is-external=true" title="class or interface in java.util">LinkedList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Lists.html#newLinkedList-java.lang.Iterable-">newLinkedList</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</code>
-<div class="block">Creates a <i>mutable</i> <code>LinkedList</code> instance containing the given
- elements; a very thin shortcut for creating an empty list then calling
- <a href="../../../../com/google/common/collect/Iterables.html#addAll-java.util.Collection-java.lang.Iterable-"><code>Iterables.addAll(java.util.Collection&lt;T&gt;, java.lang.Iterable&lt;? extends T&gt;)</code></a>.</div>
+<div class="block">Creates a <i>mutable</i> <code>LinkedList</code> instance containing the given elements; a very thin
+ shortcut for creating an empty list then calling <a href="../../../../com/google/common/collect/Iterables.html#addAll-java.util.Collection-java.lang.Iterable-"><code>Iterables.addAll(java.util.Collection&lt;T&gt;, java.lang.Iterable&lt;? extends T&gt;)</code></a>.</div>
 </td>
 </tr>
 <tr id="i16" class="altColor">
 <td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;T&gt;&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Lists.html#partition-java.util.List-int-">partition</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;T&gt;&nbsp;list,
          int&nbsp;size)</code>
-<div class="block">Returns consecutive <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#subList-int-int-" title="class or interface in java.util">sublists</a> of a list,
- each of the same size (the final list may be smaller).</div>
+<div class="block">Returns consecutive <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#subList-int-int-" title="class or interface in java.util">sublists</a> of a list, each of the same
+ size (the final list may be smaller).</div>
 </td>
 </tr>
 <tr id="i17" class="rowColor">
@@ -313,16 +302,14 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>newArrayList</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable--">serializable</a>=true)
-public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true" title="class or interface in java.util">ArrayList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.87">newArrayList</a>()</pre>
-<div class="block">Creates a <i>mutable</i>, empty <code>ArrayList</code> instance (for Java 6 and
- earlier).
+public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true" title="class or interface in java.util">ArrayList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.83">newArrayList</a>()</pre>
+<div class="block">Creates a <i>mutable</i>, empty <code>ArrayList</code> instance (for Java 6 and earlier).
 
  <p><b>Note:</b> if mutability is not required, use <a href="../../../../com/google/common/collect/ImmutableList.html#of--"><code>ImmutableList.of()</code></a> instead.
 
- <p><b>Note for Java 7 and later:</b> this method is now unnecessary and
- should be treated as deprecated. Instead, use the <code>ArrayList</code>
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true#ArrayList--" title="class or interface in java.util">constructor</a> directly, taking advantage
- of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.</div>
+ <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
+ deprecated. Instead, use the <code>ArrayList</code> <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true#ArrayList--" title="class or interface in java.util">constructor</a>
+ directly, taking advantage of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.</div>
 </li>
 </ul>
 <a name="newArrayList-java.lang.Object:A-">
@@ -336,20 +323,17 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/SafeVarargs.html?is-external=true" title="class or interface in java.lang">@SafeVarargs</a>
  <a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable--">serializable</a>=true)
-public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true" title="class or interface in java.util">ArrayList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.111">newArrayList</a>(E...&nbsp;elements)</pre>
-<div class="block">Creates a <i>mutable</i> <code>ArrayList</code> instance containing the given
- elements.
+public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true" title="class or interface in java.util">ArrayList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.104">newArrayList</a>(E...&nbsp;elements)</pre>
+<div class="block">Creates a <i>mutable</i> <code>ArrayList</code> instance containing the given elements.
 
- <p><b>Note:</b> essentially the only reason to use this method is when you
- will need to add or remove elements later. Otherwise, for non-null elements
- use <a href="../../../../com/google/common/collect/ImmutableList.html#of--"><code>ImmutableList.of()</code></a> (for varargs) or <a href="../../../../com/google/common/collect/ImmutableList.html#copyOf-E:A-"><code>ImmutableList.copyOf(Object[])</code></a> (for an array) instead. If any elements
- might be null, or you need support for <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#set-int-E-" title="class or interface in java.util"><code>List.set(int, Object)</code></a>, use
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Arrays.html?is-external=true#asList-T...-" title="class or interface in java.util"><code>Arrays.asList(T...)</code></a>.
+ <p><b>Note:</b> essentially the only reason to use this method is when you will need to add or
+ remove elements later. Otherwise, for non-null elements use <a href="../../../../com/google/common/collect/ImmutableList.html#of--"><code>ImmutableList.of()</code></a> (for
+ varargs) or <a href="../../../../com/google/common/collect/ImmutableList.html#copyOf-E:A-"><code>ImmutableList.copyOf(Object[])</code></a> (for an array) instead. If any elements
+ might be null, or you need support for <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#set-int-E-" title="class or interface in java.util"><code>List.set(int, Object)</code></a>, use <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Arrays.html?is-external=true#asList-T...-" title="class or interface in java.util"><code>Arrays.asList(T...)</code></a>.
 
- <p>Note that even when you do need the ability to add or remove, this method
- provides only a tiny bit of syntactic sugar for <code>newArrayList(</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Arrays.html?is-external=true#asList-T...-" title="class or interface in java.util"><code>asList</code></a><code>(...))</code>, or for creating an empty list then
- calling <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#addAll-java.util.Collection-T...-" title="class or interface in java.util"><code>Collections.addAll(java.util.Collection&lt;? super T&gt;, T...)</code></a>. This method is not actually very useful
- and will likely be deprecated in the future.</div>
+ <p>Note that even when you do need the ability to add or remove, this method provides only a
+ tiny bit of syntactic sugar for <code>newArrayList(</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Arrays.html?is-external=true#asList-T...-" title="class or interface in java.util"><code>asList</code></a><code>(...))</code>, or for creating an empty list then calling <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#addAll-java.util.Collection-T...-" title="class or interface in java.util"><code>Collections.addAll(java.util.Collection&lt;? super T&gt;, T...)</code></a>. This method is
+ not actually very useful and will likely be deprecated in the future.</div>
 </li>
 </ul>
 <a name="newArrayList-java.lang.Iterable-">
@@ -360,19 +344,15 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <h4>newArrayList</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable--">serializable</a>=true)
-public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true" title="class or interface in java.util">ArrayList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.145">newArrayList</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
-<div class="block">Creates a <i>mutable</i> <code>ArrayList</code> instance containing the given
- elements; a very thin shortcut for creating an empty list then calling
- <a href="../../../../com/google/common/collect/Iterables.html#addAll-java.util.Collection-java.lang.Iterable-"><code>Iterables.addAll(java.util.Collection&lt;T&gt;, java.lang.Iterable&lt;? extends T&gt;)</code></a>.
+public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true" title="class or interface in java.util">ArrayList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.136">newArrayList</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<div class="block">Creates a <i>mutable</i> <code>ArrayList</code> instance containing the given elements; a very thin
+ shortcut for creating an empty list then calling <a href="../../../../com/google/common/collect/Iterables.html#addAll-java.util.Collection-java.lang.Iterable-"><code>Iterables.addAll(java.util.Collection&lt;T&gt;, java.lang.Iterable&lt;? extends T&gt;)</code></a>.
 
- <p><b>Note:</b> if mutability is not required and the elements are
- non-null, use <a href="../../../../com/google/common/collect/ImmutableList.html#copyOf-java.lang.Iterable-"><code>ImmutableList.copyOf(Iterable)</code></a> instead. (Or, change
- <code>elements</code> to be a <a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect"><code>FluentIterable</code></a> and call
- <code>elements.toList()</code>.)
+ <p><b>Note:</b> if mutability is not required and the elements are non-null, use <a href="../../../../com/google/common/collect/ImmutableList.html#copyOf-java.lang.Iterable-"><code>ImmutableList.copyOf(Iterable)</code></a> instead. (Or, change <code>elements</code> to be a <a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect"><code>FluentIterable</code></a> and call <code>elements.toList()</code>.)
 
- <p><b>Note for Java 7 and later:</b> if <code>elements</code> is a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a>, you don't need this method. Use the <code>ArrayList</code>
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true#ArrayList-java.util.Collection-" title="class or interface in java.util">constructor</a> directly, taking
- advantage of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.</div>
+ <p><b>Note for Java 7 and later:</b> if <code>elements</code> is a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a>, you don't
+ need this method. Use the <code>ArrayList</code> <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true#ArrayList-java.util.Collection-" title="class or interface in java.util">constructor</a> directly, taking advantage of the new <a href="http://goo.gl/iz2Wi">"diamond"
+ syntax</a>.</div>
 </li>
 </ul>
 <a name="newArrayList-java.util.Iterator-">
@@ -383,13 +363,11 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <h4>newArrayList</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable--">serializable</a>=true)
-public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true" title="class or interface in java.util">ArrayList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.163">newArrayList</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends E&gt;&nbsp;elements)</pre>
-<div class="block">Creates a <i>mutable</i> <code>ArrayList</code> instance containing the given
- elements; a very thin shortcut for creating an empty list and then calling
- <a href="../../../../com/google/common/collect/Iterators.html#addAll-java.util.Collection-java.util.Iterator-"><code>Iterators.addAll(java.util.Collection&lt;T&gt;, java.util.Iterator&lt;? extends T&gt;)</code></a>.
+public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true" title="class or interface in java.util">ArrayList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.153">newArrayList</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<div class="block">Creates a <i>mutable</i> <code>ArrayList</code> instance containing the given elements; a very thin
+ shortcut for creating an empty list and then calling <a href="../../../../com/google/common/collect/Iterators.html#addAll-java.util.Collection-java.util.Iterator-"><code>Iterators.addAll(java.util.Collection&lt;T&gt;, java.util.Iterator&lt;? extends T&gt;)</code></a>.
 
- <p><b>Note:</b> if mutability is not required and the elements are
- non-null, use <a href="../../../../com/google/common/collect/ImmutableList.html#copyOf-java.util.Iterator-"><code>ImmutableList.copyOf(Iterator)</code></a> instead.</div>
+ <p><b>Note:</b> if mutability is not required and the elements are non-null, use <a href="../../../../com/google/common/collect/ImmutableList.html#copyOf-java.util.Iterator-"><code>ImmutableList.copyOf(Iterator)</code></a> instead.</div>
 </li>
 </ul>
 <a name="newArrayListWithCapacity-int-">
@@ -399,22 +377,22 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <li class="blockList">
 <h4>newArrayListWithCapacity</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable--">serializable</a>=true)
-public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true" title="class or interface in java.util">ArrayList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.188">newArrayListWithCapacity</a>(int&nbsp;initialArraySize)</pre>
-<div class="block">Creates an <code>ArrayList</code> instance backed by an array with the specified
- initial size; simply delegates to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true#ArrayList-int-" title="class or interface in java.util"><code>ArrayList.ArrayList(int)</code></a>.
+public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true" title="class or interface in java.util">ArrayList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.176">newArrayListWithCapacity</a>(int&nbsp;initialArraySize)</pre>
+<div class="block">Creates an <code>ArrayList</code> instance backed by an array with the specified initial size;
+ simply delegates to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true#ArrayList-int-" title="class or interface in java.util"><code>ArrayList.ArrayList(int)</code></a>.
 
- <p><b>Note for Java 7 and later:</b> this method is now unnecessary and
- should be treated as deprecated. Instead, use <code>new </code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true#ArrayList-int-" title="class or interface in java.util"><code>ArrayList</code></a><code>&lt;&gt;(int)</code> directly, taking
- advantage of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
- (Unlike here, there is no risk of overload ambiguity, since the <code>ArrayList</code> constructors very wisely did not accept varargs.)</div>
+ <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
+ deprecated. Instead, use <code>new </code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true#ArrayList-int-" title="class or interface in java.util"><code>ArrayList</code></a><code>&lt;&gt;(int)</code>
+ directly, taking advantage of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ (Unlike here, there is no risk of overload ambiguity, since the <code>ArrayList</code> constructors
+ very wisely did not accept varargs.)</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>initialArraySize</code> - the exact size of the initial backing array for
-     the returned array list (<code>ArrayList</code> documentation calls this
-     value the "capacity")</dd>
+<dd><code>initialArraySize</code> - the exact size of the initial backing array for the returned array list
+     (<code>ArrayList</code> documentation calls this value the "capacity")</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>a new, empty <code>ArrayList</code> which is guaranteed not to resize
-     itself unless its size reaches <code>initialArraySize + 1</code></dd>
+<dd>a new, empty <code>ArrayList</code> which is guaranteed not to resize itself unless its size
+     reaches <code>initialArraySize + 1</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>initialArraySize</code> is negative</dd>
 </dl>
@@ -427,22 +405,18 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <li class="blockList">
 <h4>newArrayListWithExpectedSize</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable--">serializable</a>=true)
-public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true" title="class or interface in java.util">ArrayList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.210">newArrayListWithExpectedSize</a>(int&nbsp;estimatedSize)</pre>
-<div class="block">Creates an <code>ArrayList</code> instance to hold <code>estimatedSize</code>
- elements, <i>plus</i> an unspecified amount of padding; you almost
- certainly mean to call <a href="../../../../com/google/common/collect/Lists.html#newArrayListWithCapacity-int-"><code>newArrayListWithCapacity(int)</code></a> (see that method
- for further advice on usage).
+public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true" title="class or interface in java.util">ArrayList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.195">newArrayListWithExpectedSize</a>(int&nbsp;estimatedSize)</pre>
+<div class="block">Creates an <code>ArrayList</code> instance to hold <code>estimatedSize</code> elements, <i>plus</i> an
+ unspecified amount of padding; you almost certainly mean to call <a href="../../../../com/google/common/collect/Lists.html#newArrayListWithCapacity-int-"><code>newArrayListWithCapacity(int)</code></a> (see that method for further advice on usage).
 
- <p><b>Note:</b> This method will soon be deprecated. Even in the rare case
- that you do want some amount of padding, it's best if you choose your
- desired amount explicitly.</div>
+ <p><b>Note:</b> This method will soon be deprecated. Even in the rare case that you do want
+ some amount of padding, it's best if you choose your desired amount explicitly.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>estimatedSize</code> - an estimate of the eventual <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#size--" title="class or interface in java.util"><code>List.size()</code></a> of
-     the new list</dd>
+<dd><code>estimatedSize</code> - an estimate of the eventual <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#size--" title="class or interface in java.util"><code>List.size()</code></a> of the new list</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>a new, empty <code>ArrayList</code>, sized appropriately to hold the
-     estimated number of elements</dd>
+<dd>a new, empty <code>ArrayList</code>, sized appropriately to hold the estimated number of
+     elements</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>estimatedSize</code> is negative</dd>
 </dl>
@@ -455,20 +429,19 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <li class="blockList">
 <h4>newLinkedList</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable--">serializable</a>=true)
-public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/LinkedList.html?is-external=true" title="class or interface in java.util">LinkedList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.234">newLinkedList</a>()</pre>
-<div class="block">Creates a <i>mutable</i>, empty <code>LinkedList</code> instance (for Java 6 and
- earlier).
+public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/LinkedList.html?is-external=true" title="class or interface in java.util">LinkedList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.217">newLinkedList</a>()</pre>
+<div class="block">Creates a <i>mutable</i>, empty <code>LinkedList</code> instance (for Java 6 and earlier).
 
- <p><b>Note:</b> if you won't be adding any elements to the list, use <a href="../../../../com/google/common/collect/ImmutableList.html#of--"><code>ImmutableList.of()</code></a> instead.
+ <p><b>Note:</b> if you won't be adding any elements to the list, use <a href="../../../../com/google/common/collect/ImmutableList.html#of--"><code>ImmutableList.of()</code></a>
+ instead.
 
- <p><b>Performance note:</b> <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true" title="class or interface in java.util"><code>ArrayList</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayDeque.html?is-external=true" title="class or interface in java.util"><code>ArrayDeque</code></a> consistently outperform <code>LinkedList</code> except in
- certain rare and specific situations. Unless you have spent a lot of time
- benchmarking your specific needs, use one of those instead.
+ <p><b>Performance note:</b> <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true" title="class or interface in java.util"><code>ArrayList</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayDeque.html?is-external=true" title="class or interface in java.util"><code>ArrayDeque</code></a> consistently
+ outperform <code>LinkedList</code> except in certain rare and specific situations. Unless you have
+ spent a lot of time benchmarking your specific needs, use one of those instead.
 
- <p><b>Note for Java 7 and later:</b> this method is now unnecessary and
- should be treated as deprecated. Instead, use the <code>LinkedList</code>
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/LinkedList.html?is-external=true#LinkedList--" title="class or interface in java.util">constructor</a> directly, taking advantage
- of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.</div>
+ <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
+ deprecated. Instead, use the <code>LinkedList</code> <a href="https://docs.oracle.com/javase/9/docs/api/java/util/LinkedList.html?is-external=true#LinkedList--" title="class or interface in java.util">constructor</a> directly, taking advantage of the new <a href="http://goo.gl/iz2Wi">"diamond"
+ syntax</a>.</div>
 </li>
 </ul>
 <a name="newLinkedList-java.lang.Iterable-">
@@ -478,23 +451,19 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <li class="blockList">
 <h4>newLinkedList</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable--">serializable</a>=true)
-public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/LinkedList.html?is-external=true" title="class or interface in java.util">LinkedList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.259">newLinkedList</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
-<div class="block">Creates a <i>mutable</i> <code>LinkedList</code> instance containing the given
- elements; a very thin shortcut for creating an empty list then calling
- <a href="../../../../com/google/common/collect/Iterables.html#addAll-java.util.Collection-java.lang.Iterable-"><code>Iterables.addAll(java.util.Collection&lt;T&gt;, java.lang.Iterable&lt;? extends T&gt;)</code></a>.
+public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/LinkedList.html?is-external=true" title="class or interface in java.util">LinkedList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.239">newLinkedList</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<div class="block">Creates a <i>mutable</i> <code>LinkedList</code> instance containing the given elements; a very thin
+ shortcut for creating an empty list then calling <a href="../../../../com/google/common/collect/Iterables.html#addAll-java.util.Collection-java.lang.Iterable-"><code>Iterables.addAll(java.util.Collection&lt;T&gt;, java.lang.Iterable&lt;? extends T&gt;)</code></a>.
 
- <p><b>Note:</b> if mutability is not required and the elements are
- non-null, use <a href="../../../../com/google/common/collect/ImmutableList.html#copyOf-java.lang.Iterable-"><code>ImmutableList.copyOf(Iterable)</code></a> instead. (Or, change
- <code>elements</code> to be a <a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect"><code>FluentIterable</code></a> and call
- <code>elements.toList()</code>.)
+ <p><b>Note:</b> if mutability is not required and the elements are non-null, use <a href="../../../../com/google/common/collect/ImmutableList.html#copyOf-java.lang.Iterable-"><code>ImmutableList.copyOf(Iterable)</code></a> instead. (Or, change <code>elements</code> to be a <a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect"><code>FluentIterable</code></a> and call <code>elements.toList()</code>.)
 
- <p><b>Performance note:</b> <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true" title="class or interface in java.util"><code>ArrayList</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayDeque.html?is-external=true" title="class or interface in java.util"><code>ArrayDeque</code></a> consistently outperform <code>LinkedList</code> except in
- certain rare and specific situations. Unless you have spent a lot of time
- benchmarking your specific needs, use one of those instead.
+ <p><b>Performance note:</b> <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true" title="class or interface in java.util"><code>ArrayList</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayDeque.html?is-external=true" title="class or interface in java.util"><code>ArrayDeque</code></a> consistently
+ outperform <code>LinkedList</code> except in certain rare and specific situations. Unless you have
+ spent a lot of time benchmarking your specific needs, use one of those instead.
 
- <p><b>Note for Java 7 and later:</b> if <code>elements</code> is a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a>, you don't need this method. Use the <code>LinkedList</code>
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/LinkedList.html?is-external=true#LinkedList-java.util.Collection-" title="class or interface in java.util">constructor</a> directly, taking
- advantage of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.</div>
+ <p><b>Note for Java 7 and later:</b> if <code>elements</code> is a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a>, you don't
+ need this method. Use the <code>LinkedList</code> <a href="https://docs.oracle.com/javase/9/docs/api/java/util/LinkedList.html?is-external=true#LinkedList-java.util.Collection-" title="class or interface in java.util">constructor</a> directly, taking advantage of the new <a href="http://goo.gl/iz2Wi">"diamond"
+ syntax</a>.</div>
 </li>
 </ul>
 <a name="newCopyOnWriteArrayList--">
@@ -504,11 +473,11 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <li class="blockList">
 <h4>newCopyOnWriteArrayList</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CopyOnWriteArrayList.html?is-external=true" title="class or interface in java.util.concurrent">CopyOnWriteArrayList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.275">newCopyOnWriteArrayList</a>()</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CopyOnWriteArrayList.html?is-external=true" title="class or interface in java.util.concurrent">CopyOnWriteArrayList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.255">newCopyOnWriteArrayList</a>()</pre>
 <div class="block">Creates an empty <code>CopyOnWriteArrayList</code> instance.
 
- <p><b>Note:</b> if you need an immutable empty <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util"><code>List</code></a>, use
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#emptyList--" title="class or interface in java.util"><code>Collections.emptyList()</code></a> instead.</div>
+ <p><b>Note:</b> if you need an immutable empty <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util"><code>List</code></a>, use <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#emptyList--" title="class or interface in java.util"><code>Collections.emptyList()</code></a>
+ instead.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new, empty <code>CopyOnWriteArrayList</code></dd>
@@ -524,7 +493,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <li class="blockList">
 <h4>newCopyOnWriteArrayList</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CopyOnWriteArrayList.html?is-external=true" title="class or interface in java.util.concurrent">CopyOnWriteArrayList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.287">newCopyOnWriteArrayList</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CopyOnWriteArrayList.html?is-external=true" title="class or interface in java.util.concurrent">CopyOnWriteArrayList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.267">newCopyOnWriteArrayList</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Creates a <code>CopyOnWriteArrayList</code> instance containing the given elements.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -544,15 +513,15 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>asList</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.312">asList</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.290">asList</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  E&nbsp;first,
                                  E[]&nbsp;rest)</pre>
-<div class="block">Returns an unmodifiable list containing the specified first element and
- backed by the specified array of additional elements. Changes to the <code>rest</code> array will be reflected in the returned list. Unlike <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Arrays.html?is-external=true#asList-T...-" title="class or interface in java.util"><code>Arrays.asList(T...)</code></a>, the returned list is unmodifiable.
+<div class="block">Returns an unmodifiable list containing the specified first element and backed by the specified
+ array of additional elements. Changes to the <code>rest</code> array will be reflected in the
+ returned list. Unlike <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Arrays.html?is-external=true#asList-T...-" title="class or interface in java.util"><code>Arrays.asList(T...)</code></a>, the returned list is unmodifiable.
 
- <p>This is useful when a varargs method needs to use a signature such as
- <code>(Foo firstFoo, Foo... moreFoos)</code>, in order to avoid overload
- ambiguity or to enforce a minimum argument count.
+ <p>This is useful when a varargs method needs to use a signature such as <code>(Foo firstFoo,
+ Foo... moreFoos)</code>, in order to avoid overload ambiguity or to enforce a minimum argument count.
 
  <p>The returned list is serializable and implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/RandomAccess.html?is-external=true" title="class or interface in java.util"><code>RandomAccess</code></a>.</div>
 <dl>
@@ -572,19 +541,18 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>asList</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.359">asList</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.336">asList</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  E&nbsp;first,
                                  <a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  E&nbsp;second,
                                  E[]&nbsp;rest)</pre>
-<div class="block">Returns an unmodifiable list containing the specified first and second
- element, and backed by the specified array of additional elements. Changes
- to the <code>rest</code> array will be reflected in the returned list. Unlike
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Arrays.html?is-external=true#asList-T...-" title="class or interface in java.util"><code>Arrays.asList(T...)</code></a>, the returned list is unmodifiable.
+<div class="block">Returns an unmodifiable list containing the specified first and second element, and backed by
+ the specified array of additional elements. Changes to the <code>rest</code> array will be reflected
+ in the returned list. Unlike <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Arrays.html?is-external=true#asList-T...-" title="class or interface in java.util"><code>Arrays.asList(T...)</code></a>, the returned list is unmodifiable.
 
- <p>This is useful when a varargs method needs to use a signature such as
- <code>(Foo firstFoo, Foo secondFoo, Foo... moreFoos)</code>, in order to avoid
- overload ambiguity or to enforce a minimum argument count.
+ <p>This is useful when a varargs method needs to use a signature such as <code>(Foo firstFoo,
+ Foo secondFoo, Foo... moreFoos)</code>, in order to avoid overload ambiguity or to enforce a minimum
+ argument count.
 
  <p>The returned list is serializable and implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/RandomAccess.html?is-external=true" title="class or interface in java.util"><code>RandomAccess</code></a>.</div>
 <dl>
@@ -603,64 +571,62 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>cartesianProduct</h4>
-<pre>public static&nbsp;&lt;B&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;B&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.455">cartesianProduct</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;? extends B&gt;&gt;&nbsp;lists)</pre>
-<div class="block">Returns every possible list that can be formed by choosing one element
- from each of the given lists in order; the "n-ary
- <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
- product</a>" of the lists. For example: <pre>   <code>
+<pre>public static&nbsp;&lt;B&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;B&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.429">cartesianProduct</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;? extends B&gt;&gt;&nbsp;lists)</pre>
+<div class="block">Returns every possible list that can be formed by choosing one element from each of the given
+ lists in order; the "n-ary <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
+ product</a>" of the lists. For example:
 
-   Lists.cartesianProduct(ImmutableList.of(
-       ImmutableList.of(1, 2),
-       ImmutableList.of("A", "B", "C")))</code></pre>
+ <pre><code>
+ Lists.cartesianProduct(ImmutableList.of(
+     ImmutableList.of(1, 2),
+     ImmutableList.of("A", "B", "C")))
+ </code></pre>
 
  <p>returns a list containing six lists in the following order:
 
  <ul>
- <li><code>ImmutableList.of(1, "A")</code>
- <li><code>ImmutableList.of(1, "B")</code>
- <li><code>ImmutableList.of(1, "C")</code>
- <li><code>ImmutableList.of(2, "A")</code>
- <li><code>ImmutableList.of(2, "B")</code>
- <li><code>ImmutableList.of(2, "C")</code>
+   <li><code>ImmutableList.of(1, "A")</code>
+   <li><code>ImmutableList.of(1, "B")</code>
+   <li><code>ImmutableList.of(1, "C")</code>
+   <li><code>ImmutableList.of(2, "A")</code>
+   <li><code>ImmutableList.of(2, "B")</code>
+   <li><code>ImmutableList.of(2, "C")</code>
  </ul>
 
- <p>The result is guaranteed to be in the "traditional", lexicographical
- order for Cartesian products that you would get from nesting for loops:
- <pre>   <code>
+ <p>The result is guaranteed to be in the "traditional", lexicographical order for Cartesian
+ products that you would get from nesting for loops:
 
-   for (B b0 : lists.get(0)) {
-     for (B b1 : lists.get(1)) {
-       ...
-       ImmutableList&lt;B&gt; tuple = ImmutableList.of(b0, b1, ...);
-       // operate on tuple
-     }
-   }</code></pre>
+ <pre><code>
+ for (B b0 : lists.get(0)) {
+   for (B b1 : lists.get(1)) {
+     ...
+     ImmutableList&lt;B&gt; tuple = ImmutableList.of(b0, b1, ...);
+     // operate on tuple
+   }
+ }
+ </code></pre>
 
- <p>Note that if any input list is empty, the Cartesian product will also be
- empty. If no lists at all are provided (an empty list), the resulting
- Cartesian product has one element, an empty list (counter-intuitive, but
- mathematically consistent).
+ <p>Note that if any input list is empty, the Cartesian product will also be empty. If no lists
+ at all are provided (an empty list), the resulting Cartesian product has one element, an empty
+ list (counter-intuitive, but mathematically consistent).
 
- <p><i>Performance notes:</i> while the cartesian product of lists of size
- <code>m, n, p</code> is a list of size <code>m x n x p</code>, its actual memory
- consumption is much smaller. When the cartesian product is constructed, the
- input lists are merely copied. Only as the resulting list is iterated are
- the individual lists created, and these are not retained after iteration.</div>
+ <p><i>Performance notes:</i> while the cartesian product of lists of size <code>m, n, p</code> is a
+ list of size <code>m x n x p</code>, its actual memory consumption is much smaller. When the
+ cartesian product is constructed, the input lists are merely copied. Only as the resulting list
+ is iterated are the individual lists created, and these are not retained after iteration.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
 <dd><code>B</code> - any common base class shared by all axes (often just <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang"><code>Object</code></a>)</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>lists</code> - the lists to choose elements from, in the order that
-     the elements chosen from those lists should appear in the resulting
-     lists</dd>
+<dd><code>lists</code> - the lists to choose elements from, in the order that the elements chosen from
+     those lists should appear in the resulting lists</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the Cartesian product, as an immutable list containing immutable
-     lists</dd>
+<dd>the Cartesian product, as an immutable list containing immutable lists</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if the size of the cartesian product would
-     be greater than <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true#MAX_VALUE" title="class or interface in java.lang"><code>Integer.MAX_VALUE</code></a></dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if <code>lists</code>, any one of the <code>lists</code>,
-     or any element of a provided list is null</dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if the size of the cartesian product would be greater than
+     <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true#MAX_VALUE" title="class or interface in java.lang"><code>Integer.MAX_VALUE</code></a></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if <code>lists</code>, any one of the <code>lists</code>, or any element of
+     a provided list is null</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>19.0</dd>
 </dl>
@@ -673,64 +639,62 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <li class="blockList">
 <h4>cartesianProduct</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/SafeVarargs.html?is-external=true" title="class or interface in java.lang">@SafeVarargs</a>
-public static&nbsp;&lt;B&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;B&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.517">cartesianProduct</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;? extends B&gt;...&nbsp;lists)</pre>
-<div class="block">Returns every possible list that can be formed by choosing one element
- from each of the given lists in order; the "n-ary
- <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
- product</a>" of the lists. For example: <pre>   <code>
+public static&nbsp;&lt;B&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;B&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.488">cartesianProduct</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;? extends B&gt;...&nbsp;lists)</pre>
+<div class="block">Returns every possible list that can be formed by choosing one element from each of the given
+ lists in order; the "n-ary <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
+ product</a>" of the lists. For example:
 
-   Lists.cartesianProduct(ImmutableList.of(
-       ImmutableList.of(1, 2),
-       ImmutableList.of("A", "B", "C")))</code></pre>
+ <pre><code>
+ Lists.cartesianProduct(ImmutableList.of(
+     ImmutableList.of(1, 2),
+     ImmutableList.of("A", "B", "C")))
+ </code></pre>
 
  <p>returns a list containing six lists in the following order:
 
  <ul>
- <li><code>ImmutableList.of(1, "A")</code>
- <li><code>ImmutableList.of(1, "B")</code>
- <li><code>ImmutableList.of(1, "C")</code>
- <li><code>ImmutableList.of(2, "A")</code>
- <li><code>ImmutableList.of(2, "B")</code>
- <li><code>ImmutableList.of(2, "C")</code>
+   <li><code>ImmutableList.of(1, "A")</code>
+   <li><code>ImmutableList.of(1, "B")</code>
+   <li><code>ImmutableList.of(1, "C")</code>
+   <li><code>ImmutableList.of(2, "A")</code>
+   <li><code>ImmutableList.of(2, "B")</code>
+   <li><code>ImmutableList.of(2, "C")</code>
  </ul>
 
- <p>The result is guaranteed to be in the "traditional", lexicographical
- order for Cartesian products that you would get from nesting for loops:
- <pre>   <code>
+ <p>The result is guaranteed to be in the "traditional", lexicographical order for Cartesian
+ products that you would get from nesting for loops:
 
-   for (B b0 : lists.get(0)) {
-     for (B b1 : lists.get(1)) {
-       ...
-       ImmutableList&lt;B&gt; tuple = ImmutableList.of(b0, b1, ...);
-       // operate on tuple
-     }
-   }</code></pre>
+ <pre><code>
+ for (B b0 : lists.get(0)) {
+   for (B b1 : lists.get(1)) {
+     ...
+     ImmutableList&lt;B&gt; tuple = ImmutableList.of(b0, b1, ...);
+     // operate on tuple
+   }
+ }
+ </code></pre>
 
- <p>Note that if any input list is empty, the Cartesian product will also be
- empty. If no lists at all are provided (an empty list), the resulting
- Cartesian product has one element, an empty list (counter-intuitive, but
- mathematically consistent).
+ <p>Note that if any input list is empty, the Cartesian product will also be empty. If no lists
+ at all are provided (an empty list), the resulting Cartesian product has one element, an empty
+ list (counter-intuitive, but mathematically consistent).
 
- <p><i>Performance notes:</i> while the cartesian product of lists of size
- <code>m, n, p</code> is a list of size <code>m x n x p</code>, its actual memory
- consumption is much smaller. When the cartesian product is constructed, the
- input lists are merely copied. Only as the resulting list is iterated are
- the individual lists created, and these are not retained after iteration.</div>
+ <p><i>Performance notes:</i> while the cartesian product of lists of size <code>m, n, p</code> is a
+ list of size <code>m x n x p</code>, its actual memory consumption is much smaller. When the
+ cartesian product is constructed, the input lists are merely copied. Only as the resulting list
+ is iterated are the individual lists created, and these are not retained after iteration.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
 <dd><code>B</code> - any common base class shared by all axes (often just <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang"><code>Object</code></a>)</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>lists</code> - the lists to choose elements from, in the order that
-     the elements chosen from those lists should appear in the resulting
-     lists</dd>
+<dd><code>lists</code> - the lists to choose elements from, in the order that the elements chosen from
+     those lists should appear in the resulting lists</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the Cartesian product, as an immutable list containing immutable
-     lists</dd>
+<dd>the Cartesian product, as an immutable list containing immutable lists</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if the size of the cartesian product would
-     be greater than <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true#MAX_VALUE" title="class or interface in java.lang"><code>Integer.MAX_VALUE</code></a></dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if <code>lists</code>, any one of the
-     <code>lists</code>, or any element of a provided list is null</dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if the size of the cartesian product would be greater than
+     <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true#MAX_VALUE" title="class or interface in java.lang"><code>Integer.MAX_VALUE</code></a></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if <code>lists</code>, any one of the <code>lists</code>, or any element of
+     a provided list is null</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>19.0</dd>
 </dl>
@@ -742,42 +706,35 @@ public static&nbsp;&lt;B&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>transform</h4>
-<pre>public static&nbsp;&lt;F,T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.558">transform</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;F&gt;&nbsp;fromList,
+<pre>public static&nbsp;&lt;F,T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.524">transform</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;F&gt;&nbsp;fromList,
                                       <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super F,? extends T&gt;&nbsp;function)</pre>
-<div class="block">Returns a list that applies <code>function</code> to each element of <code>fromList</code>. The returned list is a transformed view of <code>fromList</code>;
- changes to <code>fromList</code> will be reflected in the returned list and vice
- versa.
+<div class="block">Returns a list that applies <code>function</code> to each element of <code>fromList</code>. The returned
+ list is a transformed view of <code>fromList</code>; changes to <code>fromList</code> will be reflected
+ in the returned list and vice versa.
 
- <p>Since functions are not reversible, the transform is one-way and new
- items cannot be stored in the returned list. The <code>add</code>,
- <code>addAll</code> and <code>set</code> methods are unsupported in the returned
- list.
+ <p>Since functions are not reversible, the transform is one-way and new items cannot be stored
+ in the returned list. The <code>add</code>, <code>addAll</code> and <code>set</code> methods are unsupported
+ in the returned list.
 
- <p>The function is applied lazily, invoked when needed. This is necessary
- for the returned list to be a view, but it means that the function will be
- applied many times for bulk operations like <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#contains-java.lang.Object-" title="class or interface in java.util"><code>List.contains(java.lang.Object)</code></a> and
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#hashCode--" title="class or interface in java.util"><code>List.hashCode()</code></a>. For this to perform well, <code>function</code> should be
- fast. To avoid lazy evaluation when the returned list doesn't need to be a
+ <p>The function is applied lazily, invoked when needed. This is necessary for the returned list
+ to be a view, but it means that the function will be applied many times for bulk operations
+ like <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#contains-java.lang.Object-" title="class or interface in java.util"><code>List.contains(java.lang.Object)</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#hashCode--" title="class or interface in java.util"><code>List.hashCode()</code></a>. For this to perform well, <code>function</code> should be fast. To avoid lazy evaluation when the returned list doesn't need to be a
  view, copy the returned list into a new list of your choosing.
 
- <p>If <code>fromList</code> implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/RandomAccess.html?is-external=true" title="class or interface in java.util"><code>RandomAccess</code></a>, so will the
- returned list. The returned list is threadsafe if the supplied list and
- function are.
+ <p>If <code>fromList</code> implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/RandomAccess.html?is-external=true" title="class or interface in java.util"><code>RandomAccess</code></a>, so will the returned list. The returned
+ list is threadsafe if the supplied list and function are.
 
- <p>If only a <code>Collection</code> or <code>Iterable</code> input is available, use
- <a href="../../../../com/google/common/collect/Collections2.html#transform-java.util.Collection-com.google.common.base.Function-"><code>Collections2.transform(java.util.Collection&lt;F&gt;, com.google.common.base.Function&lt;? super F, T&gt;)</code></a> or <a href="../../../../com/google/common/collect/Iterables.html#transform-java.lang.Iterable-com.google.common.base.Function-"><code>Iterables.transform(java.lang.Iterable&lt;F&gt;, com.google.common.base.Function&lt;? super F, ? extends T&gt;)</code></a>.
+ <p>If only a <code>Collection</code> or <code>Iterable</code> input is available, use <a href="../../../../com/google/common/collect/Collections2.html#transform-java.util.Collection-com.google.common.base.Function-"><code>Collections2.transform(java.util.Collection&lt;F&gt;, com.google.common.base.Function&lt;? super F, T&gt;)</code></a> or <a href="../../../../com/google/common/collect/Iterables.html#transform-java.lang.Iterable-com.google.common.base.Function-"><code>Iterables.transform(java.lang.Iterable&lt;F&gt;, com.google.common.base.Function&lt;? super F, ? extends T&gt;)</code></a>.
 
- <p><b>Note:</b> serializing the returned list is implemented by serializing
- <code>fromList</code>, its contents, and <code>function</code> -- <i>not</i> by
- serializing the transformed values. This can lead to surprising behavior,
- so serializing the returned list is <b>not recommended</b>. Instead,
- copy the list using <a href="../../../../com/google/common/collect/ImmutableList.html#copyOf-java.util.Collection-"><code>ImmutableList.copyOf(Collection)</code></a> (for example),
- then serialize the copy. Other methods similar to this do not implement
- serialization at all for this reason.
+ <p><b>Note:</b> serializing the returned list is implemented by serializing <code>fromList</code>,
+ its contents, and <code>function</code> -- <i>not</i> by serializing the transformed values. This
+ can lead to surprising behavior, so serializing the returned list is <b>not recommended</b>.
+ Instead, copy the list using <a href="../../../../com/google/common/collect/ImmutableList.html#copyOf-java.util.Collection-"><code>ImmutableList.copyOf(Collection)</code></a> (for example), then
+ serialize the copy. Other methods similar to this do not implement serialization at all for
+ this reason.
 
- <p><b>Java 8 users:</b> many use cases for this method are better addressed
-  by <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true#map-java.util.function.Function-" title="class or interface in java.util.stream"><code>Stream.map(java.util.function.Function&lt;? super T, ? extends R&gt;)</code></a>. This method is not being
- deprecated, but we gently encourage you to migrate to streams.</div>
+ <p><b>Java 8 users:</b> many use cases for this method are better addressed by <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true#map-java.util.function.Function-" title="class or interface in java.util.stream"><code>Stream.map(java.util.function.Function&lt;? super T, ? extends R&gt;)</code></a>. This method is not being deprecated, but we gently encourage you
+ to migrate to streams.</div>
 </li>
 </ul>
 <a name="partition-java.util.List-int-">
@@ -786,23 +743,20 @@ public static&nbsp;&lt;B&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>partition</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;T&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.698">partition</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;T&gt;&nbsp;list,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;T&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.660">partition</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;T&gt;&nbsp;list,
                                           int&nbsp;size)</pre>
-<div class="block">Returns consecutive <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#subList-int-int-" title="class or interface in java.util">sublists</a> of a list,
- each of the same size (the final list may be smaller). For example,
- partitioning a list containing <code>[a, b, c, d, e]</code> with a partition
- size of 3 yields <code>[[a, b, c], [d, e]]</code> -- an outer list containing
- two inner lists of three and two elements, all in the original order.
+<div class="block">Returns consecutive <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#subList-int-int-" title="class or interface in java.util">sublists</a> of a list, each of the same
+ size (the final list may be smaller). For example, partitioning a list containing <code>[a, b,
+ c, d, e]</code> with a partition size of 3 yields <code>[[a, b, c], [d, e]]</code> -- an outer list
+ containing two inner lists of three and two elements, all in the original order.
 
- <p>The outer list is unmodifiable, but reflects the latest state of the
- source list. The inner lists are sublist views of the original list,
- produced on demand using <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#subList-int-int-" title="class or interface in java.util"><code>List.subList(int, int)</code></a>, and are subject
- to all the usual caveats about modification as explained in that API.</div>
+ <p>The outer list is unmodifiable, but reflects the latest state of the source list. The inner
+ lists are sublist views of the original list, produced on demand using <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#subList-int-int-" title="class or interface in java.util"><code>List.subList(int,
+ int)</code></a>, and are subject to all the usual caveats about modification as explained in that API.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>list</code> - the list to return consecutive sublists of</dd>
-<dd><code>size</code> - the desired size of each sublist (the last may be
-     smaller)</dd>
+<dd><code>size</code> - the desired size of each sublist (the last may be smaller)</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a list of consecutive sublists</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -816,7 +770,7 @@ public static&nbsp;&lt;B&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>charactersOf</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang">Character</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.746">charactersOf</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang">Character</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.707">charactersOf</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string)</pre>
 <div class="block">Returns a view of the specified string as an immutable list of <code>Character</code> values.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -831,14 +785,13 @@ public static&nbsp;&lt;B&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <li class="blockList">
 <h4>charactersOf</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang">Character</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.804">charactersOf</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
-<div class="block">Returns a view of the specified <code>CharSequence</code> as a <code>List&lt;Character&gt;</code>, viewing <code>sequence</code> as a sequence of Unicode code
- units. The view does not support any modification operations, but reflects
- any changes to the underlying character sequence.</div>
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang">Character</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.763">charactersOf</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
+<div class="block">Returns a view of the specified <code>CharSequence</code> as a <code>List&lt;Character&gt;</code>, viewing
+ <code>sequence</code> as a sequence of Unicode code units. The view does not support any
+ modification operations, but reflects any changes to the underlying character sequence.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>sequence</code> - the character sequence to view as a <code>List</code> of
-        characters</dd>
+<dd><code>sequence</code> - the character sequence to view as a <code>List</code> of characters</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>an <code>List&lt;Character&gt;</code> view of the character sequence</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -852,14 +805,13 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/
 <ul class="blockListLast">
 <li class="blockList">
 <h4>reverse</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.839">reverse</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;T&gt;&nbsp;list)</pre>
-<div class="block">Returns a reversed view of the specified list. For example, <code>Lists.reverse(Arrays.asList(1, 2, 3))</code> returns a list containing <code>3,
- 2, 1</code>. The returned list is backed by this list, so changes in the returned
- list are reflected in this list, and vice-versa. The returned list supports
- all of the optional list operations supported by this list.
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Lists.html#line.797">reverse</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;T&gt;&nbsp;list)</pre>
+<div class="block">Returns a reversed view of the specified list. For example, <code>Lists.reverse(Arrays.asList(1, 2, 3))</code> returns a list containing <code>3, 2, 1</code>. The returned
+ list is backed by this list, so changes in the returned list are reflected in this list, and
+ vice-versa. The returned list supports all of the optional list operations supported by this
+ list.
 
- <p>The returned list is random-access if the specified list is random
- access.</div>
+ <p>The returned list is random-access if the specified list is random access.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>

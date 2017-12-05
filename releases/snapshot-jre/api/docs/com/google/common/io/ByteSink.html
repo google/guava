@@ -110,20 +110,21 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/io/ByteSink.html#line.48">ByteSink</a>
+public abstract class <a href="../../../../src-html/com/google/common/io/ByteSink.html#line.49">ByteSink</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">A destination to which bytes can be written, such as a file. Unlike an <a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io"><code>OutputStream</code></a>, a
  <code>ByteSink</code> is not an open, stateful stream that can be written to and closed. Instead, it
  is an immutable <i>supplier</i> of <code>OutputStream</code> instances.
 
  <p><code>ByteSink</code> provides two kinds of methods:
+
  <ul>
- <li><b>Methods that return a stream:</b> These methods should return a <i>new</i>, independent
-     instance each time they are called. The caller is responsible for ensuring that the returned
-     stream is closed.
- <li><b>Convenience methods:</b> These are implementations of common operations that are typically
-     implemented by opening a stream using one of the methods in the first category, doing
-     something and finally closing the stream or channel that was opened.
+   <li><b>Methods that return a stream:</b> These methods should return a <i>new</i>, independent
+       instance each time they are called. The caller is responsible for ensuring that the
+       returned stream is closed.
+   <li><b>Convenience methods:</b> These are implementations of common operations that are
+       typically implemented by opening a stream using one of the methods in the first category,
+       doing something and finally closing the stream or channel that was opened.
  </ul></div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -229,7 +230,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ByteSink</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.53">ByteSink</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.52">ByteSink</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -247,7 +248,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>asCharSink</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/io/CharSink.html" title="class in com.google.common.io">CharSink</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.59">asCharSink</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset">Charset</a>&nbsp;charset)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/io/CharSink.html" title="class in com.google.common.io">CharSink</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.58">asCharSink</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset">Charset</a>&nbsp;charset)</pre>
 <div class="block">Returns a <a href="../../../../com/google/common/io/CharSink.html" title="class in com.google.common.io"><code>CharSink</code></a> view of this <code>ByteSink</code> that writes characters to this sink as
  bytes encoded with the given <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset"><code>charset</code></a>.</div>
 </li>
@@ -258,7 +259,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>openStream</h4>
-<pre>public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io">OutputStream</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.71">openStream</a>()
+<pre>public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io">OutputStream</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.70">openStream</a>()
                                  throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Opens a new <a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io"><code>OutputStream</code></a> for writing to this sink. This method returns a new,
  independent stream each time it is called.
@@ -276,7 +277,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>openBufferedStream</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io">OutputStream</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.85">openBufferedStream</a>()
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io">OutputStream</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.84">openBufferedStream</a>()
                                 throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Opens a new buffered <a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io"><code>OutputStream</code></a> for writing to this sink. The returned stream is not
  required to be a <a href="https://docs.oracle.com/javase/9/docs/api/java/io/BufferedOutputStream.html?is-external=true" title="class or interface in java.io"><code>BufferedOutputStream</code></a> in order to allow implementations to simply
@@ -299,7 +300,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>write</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.97">write</a>(byte[]&nbsp;bytes)
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.96">write</a>(byte[]&nbsp;bytes)
            throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Writes all the given bytes to this sink.</div>
 <dl>
@@ -315,10 +316,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>writeFrom</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.120">writeFrom</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;input)
+public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.119">writeFrom</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;input)
                                      throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
-<div class="block">Writes all the bytes from the given <code>InputStream</code> to this sink. Does not close
- <code>input</code>.</div>
+<div class="block">Writes all the bytes from the given <code>InputStream</code> to this sink. Does not close <code>input</code>.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the number of bytes written</dd>

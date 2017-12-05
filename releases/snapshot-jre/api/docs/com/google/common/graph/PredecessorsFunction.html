@@ -126,7 +126,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Predecess
  Given an algorithm, for example:
 
  <pre><code>
-   public &lt;N&gt; someGraphAlgorithm(N startNode, PredecessorsFunction&lt;N&gt; predecessorsFunction);
+ public &lt;N&gt; someGraphAlgorithm(N startNode, PredecessorsFunction&lt;N&gt; predecessorsFunction);
  </code></pre>
 
  you will invoke it depending on the graph representation you're using.
@@ -135,7 +135,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Predecess
  <a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a>, and <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a>):
 
  <pre><code>
-   someGraphAlgorithm(startNode, graph);
+ someGraphAlgorithm(startNode, graph);
  </code></pre>
 
  This works because those types each implement <code>PredecessorsFunction</code>. It will also work
@@ -145,7 +145,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Predecess
  which has a method <code>getParents()</code> that retrieves its predecessors in a graph:
 
  <pre><code>
-   someGraphAlgorithm(startNode, MyNode::getParents);
+ someGraphAlgorithm(startNode, MyNode::getParents);
  </code></pre>
 
  <p>If you have some other mechanism for returning the predecessors of a node, or one that doesn't
@@ -153,7 +153,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Predecess
  transformation:
 
  <pre><code>
-   someGraphAlgorithm(startNode, node -&gt; ImmutableList.of(node.mother(), node.father()));
+ someGraphAlgorithm(startNode, node -&gt; ImmutableList.of(node.mother(), node.father()));
  </code></pre>
 
  <p>Graph algorithms that need additional capabilities (accessing both predecessors and

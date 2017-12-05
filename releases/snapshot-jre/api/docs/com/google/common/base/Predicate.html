@@ -111,13 +111,13 @@ var activeTableTab = "activeTableTab";
 <br>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/FunctionalInterface.html?is-external=true" title="class or interface in java.lang">@FunctionalInterface</a>
  <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public interface <a href="../../../../src-html/com/google/common/base/Predicate.html#line.46">Predicate</a>&lt;T&gt;
+public interface <a href="../../../../src-html/com/google/common/base/Predicate.html#line.45">Predicate</a>&lt;T&gt;
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Predicate.html?is-external=true" title="class or interface in java.util.function">Predicate</a>&lt;T&gt;</pre>
-<div class="block">Legacy version of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Predicate.html?is-external=true" title="class or interface in java.util.function"><code>Predicate</code></a>.  Determines a true or false value for a
+<div class="block">Legacy version of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Predicate.html?is-external=true" title="class or interface in java.util.function"><code>Predicate</code></a>. Determines a true or false value for a
  given input.
 
  <p>As this interface extends <code>java.util.function.Predicate</code>, an instance of this type may
- be used as a <code>Predicate</code> directly.  To use a <code>java.util.function.Predicate</code> where a
+ be used as a <code>Predicate</code> directly. To use a <code>java.util.function.Predicate</code> where a
  <code>com.google.common.base.Predicate</code> is expected, use the method reference <code>predicate::test</code>.
 
  <p>This interface is now a legacy type. Use <code>java.util.function.Predicate</code> (or the
@@ -127,8 +127,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Pr
 
  <p>The <a href="../../../../com/google/common/base/Predicates.html" title="class in com.google.common.base"><code>Predicates</code></a> class provides common predicates and related utilities.
 
- <p>See the Guava User Guide article on
- <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of <code>Predicate</code></a>.</div>
+ <p>See the Guava User Guide article on <a
+ href="https://github.com/google/guava/wiki/FunctionalExplained">the use of <code>Predicate</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
@@ -203,16 +203,16 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Pr
 <li class="blockList">
 <h4>apply</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html#line.63">apply</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html#line.62">apply</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                     <a href="../../../../com/google/common/base/Predicate.html" title="type parameter in Predicate">T</a>&nbsp;input)</pre>
 <div class="block">Returns the result of applying this predicate to <code>input</code> (Java 8 users, see notes in the
  class documentation above). This method is <i>generally expected</i>, but not absolutely
  required, to have the following properties:
 
  <ul>
- <li>Its execution does not cause any observable side effects.
- <li>The computation is <i>consistent with equals</i>; that is, <a href="../../../../com/google/common/base/Objects.html#equal-java.lang.Object-java.lang.Object-"><code>Objects.equal</code></a><code>(a, b)</code> implies that <code>predicate.apply(a) ==
-     predicate.apply(b))</code>.
+   <li>Its execution does not cause any observable side effects.
+   <li>The computation is <i>consistent with equals</i>; that is, <a href="../../../../com/google/common/base/Objects.html#equal-java.lang.Object-java.lang.Object-"><code>Objects.equal</code></a><code>(a, b)</code> implies that <code>predicate.apply(a) ==
+       predicate.apply(b))</code>.
  </ul></div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -227,7 +227,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html#line.76">equals</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html#line.75">equals</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block">Indicates whether another object is equal to this predicate.
 
@@ -259,7 +259,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>test</h4>
-<pre>default&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html#line.79">test</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>default&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html#line.78">test</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                      <a href="../../../../com/google/common/base/Predicate.html" title="type parameter in Predicate">T</a>&nbsp;input)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Predicate.html?is-external=true#test-T-" title="class or interface in java.util.function">java.util.function.Predicate</a></code></span></div>
 <div class="block">Evaluates this predicate on the given argument.</div>

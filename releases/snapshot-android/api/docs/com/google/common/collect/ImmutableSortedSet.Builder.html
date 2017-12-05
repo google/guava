@@ -123,20 +123,21 @@ var activeTableTab = "activeTableTab";
 </dl>
 <hr>
 <br>
-<pre>public static final class <a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.436">ImmutableSortedSet.Builder</a>&lt;E&gt;
+<pre>public static final class <a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.411">ImmutableSortedSet.Builder</a>&lt;E&gt;
 extends <a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="class in com.google.common.collect">ImmutableSet.Builder</a>&lt;E&gt;</pre>
-<div class="block">A builder for creating immutable sorted set instances, especially <code>public static final</code> sets ("constant sets"), with a given comparator.
- Example: <pre>   <code>
+<div class="block">A builder for creating immutable sorted set instances, especially <code>public static final</code>
+ sets ("constant sets"), with a given comparator. Example:
 
-   public static final ImmutableSortedSet&lt;Number&gt; LUCKY_NUMBERS =
-       new ImmutableSortedSet.Builder&lt;Number&gt;(ODDS_FIRST_COMPARATOR)
-           .addAll(SINGLE_DIGIT_PRIMES)
-           .add(42)
-           .build();</code></pre>
+ <pre><code>
+ public static final ImmutableSortedSet&lt;Number&gt; LUCKY_NUMBERS =
+     new ImmutableSortedSet.Builder&lt;Number&gt;(ODDS_FIRST_COMPARATOR)
+         .addAll(SINGLE_DIGIT_PRIMES)
+         .add(42)
+         .build();
+ </code></pre>
 
- <p>Builder instances can be reused; it is safe to call <a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html#build--"><code>build()</code></a> multiple
- times to build multiple sets in series. Each set is a superset of the set
- created before it.</div>
+ <p>Builder instances can be reused; it is safe to call <a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html#build--"><code>build()</code></a> multiple times to build
+ multiple sets in series. Each set is a superset of the set created before it.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
@@ -181,8 +182,8 @@ extends <a href="../../../../com/google/common/collect/ImmutableSet.Builder.html
 <tr id="i0" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html#add-E...-">add</a></span>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>...&nbsp;elements)</code>
-<div class="block">Adds each element of <code>elements</code> to the <code>ImmutableSortedSet</code>,
- ignoring duplicate elements (only the first duplicate element is added).</div>
+<div class="block">Adds each element of <code>elements</code> to the <code>ImmutableSortedSet</code>, ignoring duplicate
+ elements (only the first duplicate element is added).</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -194,22 +195,21 @@ extends <a href="../../../../com/google/common/collect/ImmutableSet.Builder.html
 <tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html#addAll-java.lang.Iterable-">addAll</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;&nbsp;elements)</code>
-<div class="block">Adds each element of <code>elements</code> to the <code>ImmutableSortedSet</code>,
- ignoring duplicate elements (only the first duplicate element is added).</div>
+<div class="block">Adds each element of <code>elements</code> to the <code>ImmutableSortedSet</code>, ignoring duplicate
+ elements (only the first duplicate element is added).</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html#addAll-java.util.Iterator-">addAll</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends <a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;&nbsp;elements)</code>
-<div class="block">Adds each element of <code>elements</code> to the <code>ImmutableSortedSet</code>,
- ignoring duplicate elements (only the first duplicate element is added).</div>
+<div class="block">Adds each element of <code>elements</code> to the <code>ImmutableSortedSet</code>, ignoring duplicate
+ elements (only the first duplicate element is added).</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html#build--">build</a></span>()</code>
-<div class="block">Returns a newly-created <code>ImmutableSortedSet</code> based on the contents
- of the <code>Builder</code> and its comparator.</div>
+<div class="block">Returns a newly-created <code>ImmutableSortedSet</code> based on the contents of the <code>Builder</code> and its comparator.</div>
 </td>
 </tr>
 </table>
@@ -240,9 +240,8 @@ extends <a href="../../../../com/google/common/collect/ImmutableSet.Builder.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>Builder</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.Builder.html#line.443">Builder</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;&nbsp;comparator)</pre>
-<div class="block">Creates a new builder. The returned builder is equivalent to the builder
- generated by <a href="../../../../com/google/common/collect/ImmutableSortedSet.html#orderedBy-java.util.Comparator-"><code>ImmutableSortedSet.orderedBy(java.util.Comparator&lt;E&gt;)</code></a>.</div>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.Builder.html#line.418">Builder</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;&nbsp;comparator)</pre>
+<div class="block">Creates a new builder. The returned builder is equivalent to the builder generated by <a href="../../../../com/google/common/collect/ImmutableSortedSet.html#orderedBy-java.util.Comparator-"><code>ImmutableSortedSet.orderedBy(java.util.Comparator&lt;E&gt;)</code></a>.</div>
 </li>
 </ul>
 </li>
@@ -262,11 +261,10 @@ extends <a href="../../../../com/google/common/collect/ImmutableSet.Builder.html
 <li class="blockList">
 <h4>add</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.Builder.html#line.459">add</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&nbsp;element)</pre>
-<div class="block">Adds <code>element</code> to the <code>ImmutableSortedSet</code>.  If the
- <code>ImmutableSortedSet</code> already contains <code>element</code>, then
- <code>add</code> has no effect. (only the previously added element
- is retained).</div>
+public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.Builder.html#line.433">add</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&nbsp;element)</pre>
+<div class="block">Adds <code>element</code> to the <code>ImmutableSortedSet</code>. If the <code>ImmutableSortedSet</code>
+ already contains <code>element</code>, then <code>add</code> has no effect. (only the previously added
+ element is retained).</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ImmutableSet.Builder.html#add-E-">add</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="class in com.google.common.collect">ImmutableSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;</code></dd>
@@ -288,9 +286,9 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Bu
 <li class="blockList">
 <h4>add</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.Builder.html#line.474">add</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>...&nbsp;elements)</pre>
-<div class="block">Adds each element of <code>elements</code> to the <code>ImmutableSortedSet</code>,
- ignoring duplicate elements (only the first duplicate element is added).</div>
+public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.Builder.html#line.448">add</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>...&nbsp;elements)</pre>
+<div class="block">Adds each element of <code>elements</code> to the <code>ImmutableSortedSet</code>, ignoring duplicate
+ elements (only the first duplicate element is added).</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ImmutableSet.Builder.html#add-E...-">add</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="class in com.google.common.collect">ImmutableSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;</code></dd>
@@ -310,9 +308,9 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Bu
 <li class="blockList">
 <h4>addAll</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.Builder.html#line.489">addAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;&nbsp;elements)</pre>
-<div class="block">Adds each element of <code>elements</code> to the <code>ImmutableSortedSet</code>,
- ignoring duplicate elements (only the first duplicate element is added).</div>
+public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.Builder.html#line.463">addAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;&nbsp;elements)</pre>
+<div class="block">Adds each element of <code>elements</code> to the <code>ImmutableSortedSet</code>, ignoring duplicate
+ elements (only the first duplicate element is added).</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ImmutableSet.Builder.html#addAll-java.lang.Iterable-">addAll</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="class in com.google.common.collect">ImmutableSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;</code></dd>
@@ -332,9 +330,9 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Bu
 <li class="blockList">
 <h4>addAll</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.Builder.html#line.504">addAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends <a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;&nbsp;elements)</pre>
-<div class="block">Adds each element of <code>elements</code> to the <code>ImmutableSortedSet</code>,
- ignoring duplicate elements (only the first duplicate element is added).</div>
+public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.Builder.html#line.478">addAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends <a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;&nbsp;elements)</pre>
+<div class="block">Adds each element of <code>elements</code> to the <code>ImmutableSortedSet</code>, ignoring duplicate
+ elements (only the first duplicate element is added).</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ImmutableSet.Builder.html#addAll-java.util.Iterator-">addAll</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="class in com.google.common.collect">ImmutableSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;</code></dd>
@@ -353,9 +351,8 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Bu
 <ul class="blockListLast">
 <li class="blockList">
 <h4>build</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.Builder.html#line.514">build</a>()</pre>
-<div class="block">Returns a newly-created <code>ImmutableSortedSet</code> based on the contents
- of the <code>Builder</code> and its comparator.</div>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.Builder.html#line.488">build</a>()</pre>
+<div class="block">Returns a newly-created <code>ImmutableSortedSet</code> based on the contents of the <code>Builder</code> and its comparator.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ImmutableSet.Builder.html#build--">build</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="class in com.google.common.collect">ImmutableSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.Builder.html" title="type parameter in ImmutableSortedSet.Builder">E</a>&gt;</code></dd>

@@ -114,7 +114,7 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#emulated--">emulated</a>=true)
-public abstract class <a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.108">FluentIterable</a>&lt;E&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.109">FluentIterable</a>&lt;E&gt;
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;</pre>
 <div class="block">A discouraged (but not deprecated) precursor to Java's superior <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream"><code>Stream</code></a> library.
@@ -122,38 +122,39 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable
  <p>The following types of methods are provided:
 
  <ul>
- <li>chaining methods which return a new <code>FluentIterable</code> based in some way on the contents
-     of the current one (for example <a href="../../../../com/google/common/collect/FluentIterable.html#transform-com.google.common.base.Function-"><code>transform(com.google.common.base.Function&lt;? super E, T&gt;)</code></a>)
- <li>element extraction methods which facilitate the retrieval of certain elements (for example
-     <a href="../../../../com/google/common/collect/FluentIterable.html#last--"><code>last()</code></a>)
- <li>query methods which answer questions about the <code>FluentIterable</code>'s contents (for example
-     <a href="../../../../com/google/common/collect/FluentIterable.html#anyMatch-com.google.common.base.Predicate-"><code>anyMatch(com.google.common.base.Predicate&lt;? super E&gt;)</code></a>)
- <li>conversion methods which copy the <code>FluentIterable</code>'s contents into a new collection or
-     array (for example <a href="../../../../com/google/common/collect/FluentIterable.html#toList--"><code>toList()</code></a>)
+   <li>chaining methods which return a new <code>FluentIterable</code> based in some way on the
+       contents of the current one (for example <a href="../../../../com/google/common/collect/FluentIterable.html#transform-com.google.common.base.Function-"><code>transform(com.google.common.base.Function&lt;? super E, T&gt;)</code></a>)
+   <li>element extraction methods which facilitate the retrieval of certain elements (for example
+       <a href="../../../../com/google/common/collect/FluentIterable.html#last--"><code>last()</code></a>)
+   <li>query methods which answer questions about the <code>FluentIterable</code>'s contents (for
+       example <a href="../../../../com/google/common/collect/FluentIterable.html#anyMatch-com.google.common.base.Predicate-"><code>anyMatch(com.google.common.base.Predicate&lt;? super E&gt;)</code></a>)
+   <li>conversion methods which copy the <code>FluentIterable</code>'s contents into a new collection
+       or array (for example <a href="../../../../com/google/common/collect/FluentIterable.html#toList--"><code>toList()</code></a>)
  </ul>
 
  <p>Several lesser-used features are currently available only as static methods on the <a href="../../../../com/google/common/collect/Iterables.html" title="class in com.google.common.collect"><code>Iterables</code></a> class.
 
- <a name="streams"></a>
+ <p><a name="streams"></a>
+
  <h3>Comparison to streams</h3>
 
  <p><a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream"><code>Stream</code></a> is similar to this class, but generally more powerful, and certainly more
  standard. Key differences include:
 
  <ul>
- <li>A stream is <i>single-use</i>; it becomes invalid as soon as any "terminal operation" such as
-     <code>findFirst()</code> or <code>iterator()</code> is invoked. (Even though <code>Stream</code> contains
-     all the right method <i>signatures</i> to implement <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang"><code>Iterable</code></a>, it does not actually do
-     so, to avoid implying repeat-iterability.) <code>FluentIterable</code>, on the other hand, is
-     multiple-use, and does implement <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang"><code>Iterable</code></a>.
- <li>Streams offer many features not found here, including <code>min/max</code>, <code>distinct</code>,
-     <code>reduce</code>, <code>sorted</code>, the very powerful <code>collect</code>, and built-in support for
-     parallelizing stream operations.
- <li><code>FluentIterable</code> contains several features not available on <code>Stream</code>, which are
-     noted in the method descriptions below.
- <li>Streams include primitive-specialized variants such as <code>IntStream</code>, the use of which is
-     strongly recommended.
- <li>Streams are standard Java, not requiring a third-party dependency.
+   <li>A stream is <i>single-use</i>; it becomes invalid as soon as any "terminal operation" such
+       as <code>findFirst()</code> or <code>iterator()</code> is invoked. (Even though <code>Stream</code>
+       contains all the right method <i>signatures</i> to implement <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang"><code>Iterable</code></a>, it does not
+       actually do so, to avoid implying repeat-iterability.) <code>FluentIterable</code>, on the other
+       hand, is multiple-use, and does implement <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang"><code>Iterable</code></a>.
+   <li>Streams offer many features not found here, including <code>min/max</code>, <code>distinct</code>,
+       <code>reduce</code>, <code>sorted</code>, the very powerful <code>collect</code>, and built-in support for
+       parallelizing stream operations.
+   <li><code>FluentIterable</code> contains several features not available on <code>Stream</code>, which are
+       noted in the method descriptions below.
+   <li>Streams include primitive-specialized variants such as <code>IntStream</code>, the use of which
+       is strongly recommended.
+   <li>Streams are standard Java, not requiring a third-party dependency.
  </ul>
 
  <h3>Example</h3>
@@ -292,8 +293,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/FluentIterable.html#contains-java.lang.Object-">contains</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;target)</code>
-<div class="block">Returns <code>true</code> if this fluent iterable contains any object for which
- <code>equals(target)</code> is true.</div>
+<div class="block">Returns <code>true</code> if this fluent iterable contains any object for which <code>equals(target)</code> is true.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
@@ -344,8 +344,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/FluentIterable.html#from-com.google.common.collect.FluentIterable-">from</a></span>(<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;iterable)</code>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
-<div class="block"><span class="deprecationComment">instances of <code>FluentIterable</code> don't need to be converted to
-     <code>FluentIterable</code></span></div>
+<div class="block"><span class="deprecationComment">instances of <code>FluentIterable</code> don't need to be converted to <code>FluentIterable</code></span></div>
 </div>
 </td>
 </tr>
@@ -534,7 +533,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable
 <ul class="blockListLast">
 <li class="blockList">
 <h4>FluentIterable</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.117">FluentIterable</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.118">FluentIterable</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -552,12 +551,11 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.137">from</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;iterable)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.138">from</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;iterable)</pre>
 <div class="block">Returns a fluent iterable that wraps <code>iterable</code>, or <code>iterable</code> itself if it is
  already a <code>FluentIterable</code>.
 
- <p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#stream--" title="class or interface in java.util"><code>Collection.stream()</code></a> if <code>iterable</code> is a
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a>; <a href="../../../../com/google/common/collect/Streams.html#stream-java.lang.Iterable-"><code>Streams.stream(Iterable)</code></a> otherwise.</div>
+ <p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#stream--" title="class or interface in java.util"><code>Collection.stream()</code></a> if <code>iterable</code> is a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a>; <a href="../../../../com/google/common/collect/Streams.html#stream-java.lang.Iterable-"><code>Streams.stream(Iterable)</code></a> otherwise.</div>
 </li>
 </ul>
 <a name="from-java.lang.Object:A-">
@@ -569,7 +567,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable
 <li class="blockList">
 <h4>from</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.159">from</a>(E[]&nbsp;elements)</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.160">from</a>(E[]&nbsp;elements)</pre>
 <div class="block">Returns a fluent iterable containing <code>elements</code> in the specified order.
 
  <p>The returned iterable is an unmodifiable view of the input array.
@@ -588,12 +586,10 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>from</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.172">from</a>(<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;iterable)</pre>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">instances of <code>FluentIterable</code> don't need to be converted to
-     <code>FluentIterable</code></span></div>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.173">from</a>(<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;iterable)</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">instances of <code>FluentIterable</code> don't need to be converted to <code>FluentIterable</code></span></div>
 <div class="block">Construct a fluent iterable from another fluent iterable. This is obviously never necessary,
- but is intended to help call out cases where one migration from <code>Iterable</code> to
- <code>FluentIterable</code> has obviated the need to explicitly convert to a <code>FluentIterable</code>.</div>
+ but is intended to help call out cases where one migration from <code>Iterable</code> to <code>FluentIterable</code> has obviated the need to explicitly convert to a <code>FluentIterable</code>.</div>
 </li>
 </ul>
 <a name="concat-java.lang.Iterable-java.lang.Iterable-">
@@ -603,7 +599,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>concat</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.189">concat</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;&nbsp;a,
+public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.190">concat</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;&nbsp;a,
                                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;&nbsp;b)</pre>
 <div class="block">Returns a fluent iterable that combines two iterables. The returned iterable has an iterator
  that traverses the elements in <code>a</code>, followed by the elements in <code>b</code>. The source
@@ -626,7 +622,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>concat</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.207">concat</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;&nbsp;a,
+public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.208">concat</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;&nbsp;a,
                                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;&nbsp;b,
                                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;&nbsp;c)</pre>
 <div class="block">Returns a fluent iterable that combines three iterables. The returned iterable has an iterator
@@ -651,7 +647,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>concat</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.227">concat</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;&nbsp;a,
+public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.228">concat</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;&nbsp;a,
                                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;&nbsp;b,
                                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;&nbsp;c,
                                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;&nbsp;d)</pre>
@@ -678,7 +674,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>concat</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.251">concat</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;...&nbsp;inputs)</pre>
+public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.252">concat</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;...&nbsp;inputs)</pre>
 <div class="block">Returns a fluent iterable that combines several iterables. The returned iterable has an
  iterator that traverses the elements of each iterable in <code>inputs</code>. The input iterators
  are not polled until necessary.
@@ -702,7 +698,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>concat</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.291">concat</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;&gt;&nbsp;inputs)</pre>
+public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.292">concat</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;&gt;&nbsp;inputs)</pre>
 <div class="block">Returns a fluent iterable that combines several iterables. The returned iterable has an
  iterator that traverses the elements of each iterable in <code>inputs</code>. The input iterators
  are not polled until necessary.
@@ -724,7 +720,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>of</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.310">of</a>()</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.311">of</a>()</pre>
 <div class="block">Returns a fluent iterable containing no elements.
 
  <p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true#empty--" title="class or interface in java.util.stream"><code>Stream.empty()</code></a>.</div>
@@ -743,7 +739,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>of</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.323">of</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.324">of</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                              E&nbsp;element,
                                              E...&nbsp;elements)</pre>
 <div class="block">Returns a fluent iterable containing the specified elements in order.
@@ -761,7 +757,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.335">toString</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.336">toString</a>()</pre>
 <div class="block">Returns a string representation of this fluent iterable, with the format <code>[e1, e2, ...,
  en]</code>.
 
@@ -781,7 +777,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre>public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.344">size</a>()</pre>
+<pre>public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.345">size</a>()</pre>
 <div class="block">Returns the number of elements in this fluent iterable.
 
  <p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true#count--" title="class or interface in java.util.stream"><code>Stream.count()</code></a>.</div>
@@ -793,10 +789,9 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.354">contains</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.355">contains</a>(<a href="https://checkerframework.org/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;target)</pre>
-<div class="block">Returns <code>true</code> if this fluent iterable contains any object for which
- <code>equals(target)</code> is true.
+<div class="block">Returns <code>true</code> if this fluent iterable contains any object for which <code>equals(target)</code> is true.
 
  <p><b><code>Stream</code> equivalent:</b> <code>stream.anyMatch(Predicate.isEqual(target))</code>.</div>
 </li>
@@ -807,14 +802,13 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>cycle</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.375">cycle</a>()</pre>
+<pre>public final&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.376">cycle</a>()</pre>
 <div class="block">Returns a fluent iterable whose <code>Iterator</code> cycles indefinitely over the elements of this
  fluent iterable.
 
- <p>That iterator supports <code>remove()</code> if <code>iterable.iterator()</code> does. After
- <code>remove()</code> is called, subsequent cycles omit the removed element, which is no longer in
- this fluent iterable. The iterator's <code>hasNext()</code> method returns <code>true</code> until this
- fluent iterable is empty.
+ <p>That iterator supports <code>remove()</code> if <code>iterable.iterator()</code> does. After <code>remove()</code> is called, subsequent cycles omit the removed element, which is no longer in this
+ fluent iterable. The iterator's <code>hasNext()</code> method returns <code>true</code> until this fluent
+ iterable is empty.
 
  <p><b>Warning:</b> Typical uses of the resulting iterator may produce an infinite loop. You
  should use an explicit <code>break</code> or be certain that you will eventually remove all the
@@ -831,7 +825,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>append</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.391">append</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;other)</pre>
+public final&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.392">append</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;other)</pre>
 <div class="block">Returns a fluent iterable whose iterators traverse first the elements of this fluent iterable,
  followed by those of <code>other</code>. The iterators are not polled until necessary.
 
@@ -854,7 +848,7 @@ public final&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.
 <li class="blockList">
 <h4>append</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.404">append</a>(<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>...&nbsp;elements)</pre>
+public final&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.405">append</a>(<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>...&nbsp;elements)</pre>
 <div class="block">Returns a fluent iterable whose iterators traverse first the elements of this fluent iterable,
  followed by <code>elements</code>.
 
@@ -871,7 +865,7 @@ public final&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.
 <ul class="blockList">
 <li class="blockList">
 <h4>filter</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.414">filter</a>(<a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;predicate)</pre>
+<pre>public final&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.415">filter</a>(<a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;predicate)</pre>
 <div class="block">Returns the elements from this fluent iterable that satisfy a predicate. The resulting fluent
  iterable's iterator does not support <code>remove()</code>.
 
@@ -885,7 +879,7 @@ public final&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.
 <li class="blockList">
 <h4>filter</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.432">filter</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;T&gt;&nbsp;type)</pre>
+public final&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.433">filter</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;T&gt;&nbsp;type)</pre>
 <div class="block">Returns the elements from this fluent iterable that are instances of class <code>type</code>.
 
  <p><b><code>Stream</code> equivalent:</b> <code>stream.filter(type::isInstance).map(type::cast)</code>.
@@ -905,7 +899,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/
 <ul class="blockList">
 <li class="blockList">
 <h4>anyMatch</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.441">anyMatch</a>(<a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;predicate)</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.442">anyMatch</a>(<a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;predicate)</pre>
 <div class="block">Returns <code>true</code> if any element in this fluent iterable satisfies the predicate.
 
  <p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true#anyMatch-java.util.function.Predicate-" title="class or interface in java.util.stream"><code>Stream.anyMatch(java.util.function.Predicate&lt;? super T&gt;)</code></a> (same).</div>
@@ -917,7 +911,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/
 <ul class="blockList">
 <li class="blockList">
 <h4>allMatch</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.451">allMatch</a>(<a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;predicate)</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.452">allMatch</a>(<a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;predicate)</pre>
 <div class="block">Returns <code>true</code> if every element in this fluent iterable satisfies the predicate. If this
  fluent iterable is empty, <code>true</code> is returned.
 
@@ -930,7 +924,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/
 <ul class="blockList">
 <li class="blockList">
 <h4>firstMatch</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.464">firstMatch</a>(<a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;predicate)</pre>
+<pre>public final&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.465">firstMatch</a>(<a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;predicate)</pre>
 <div class="block">Returns an <a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base"><code>Optional</code></a> containing the first element in this fluent iterable that satisfies
  the given predicate, if such an element exists.
 
@@ -946,7 +940,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/
 <ul class="blockList">
 <li class="blockList">
 <h4>transform</h4>
-<pre>public final&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.478">transform</a>(<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>,T&gt;&nbsp;function)</pre>
+<pre>public final&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.479">transform</a>(<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>,T&gt;&nbsp;function)</pre>
 <div class="block">Returns a fluent iterable that applies <code>function</code> to each element of this fluent
  iterable.
 
@@ -963,7 +957,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/
 <ul class="blockList">
 <li class="blockList">
 <h4>transformAndConcat</h4>
-<pre>public&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.495">transformAndConcat</a>(<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>,? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;&gt;&nbsp;function)</pre>
+<pre>public&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.496">transformAndConcat</a>(<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>,? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;&gt;&nbsp;function)</pre>
 <div class="block">Applies <code>function</code> to each element of this fluent iterable and returns a fluent iterable
  with the concatenated combination of results. <code>function</code> returns an Iterable of results.
 
@@ -985,7 +979,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/
 <ul class="blockList">
 <li class="blockList">
 <h4>first</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.510">first</a>()</pre>
+<pre>public final&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.511">first</a>()</pre>
 <div class="block">Returns an <a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base"><code>Optional</code></a> containing the first element in this fluent iterable. If the
  iterable is empty, <code>Optional.absent()</code> is returned.
 
@@ -1002,17 +996,16 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/
 <ul class="blockList">
 <li class="blockList">
 <h4>last</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.526">last</a>()</pre>
+<pre>public final&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.527">last</a>()</pre>
 <div class="block">Returns an <a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base"><code>Optional</code></a> containing the last element in this fluent iterable. If the
- iterable is empty, <code>Optional.absent()</code> is returned. If the underlying <code>iterable</code>
- is a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util"><code>List</code></a> with <a href="https://docs.oracle.com/javase/9/docs/api/java/util/RandomAccess.html?is-external=true" title="class or interface in java.util"><code>RandomAccess</code></a> support, then this operation is
- guaranteed to be <code>O(1)</code>.
+ iterable is empty, <code>Optional.absent()</code> is returned. If the underlying <code>iterable</code> is
+ a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util"><code>List</code></a> with <a href="https://docs.oracle.com/javase/9/docs/api/java/util/RandomAccess.html?is-external=true" title="class or interface in java.util"><code>RandomAccess</code></a> support, then this operation is guaranteed
+ to be <code>O(1)</code>.
 
  <p><b><code>Stream</code> equivalent:</b> <code>stream.reduce((a, b) -&gt; b)</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if the last element is null; if this is a possibility, use
-     <a href="../../../../com/google/common/collect/Iterables.html#getLast-java.lang.Iterable-"><code>Iterables.getLast(java.lang.Iterable&lt;T&gt;)</code></a> instead.</dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if the last element is null; if this is a possibility, use <a href="../../../../com/google/common/collect/Iterables.html#getLast-java.lang.Iterable-"><code>Iterables.getLast(java.lang.Iterable&lt;T&gt;)</code></a> instead.</dd>
 </dl>
 </li>
 </ul>
@@ -1022,7 +1015,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/
 <ul class="blockList">
 <li class="blockList">
 <h4>skip</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.577">skip</a>(int&nbsp;numberToSkip)</pre>
+<pre>public final&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.578">skip</a>(int&nbsp;numberToSkip)</pre>
 <div class="block">Returns a view of this fluent iterable that skips its first <code>numberToSkip</code> elements. If
  this fluent iterable contains fewer than <code>numberToSkip</code> elements, the returned fluent
  iterable skips all of its elements.
@@ -1046,7 +1039,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/
 <ul class="blockList">
 <li class="blockList">
 <h4>limit</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.592">limit</a>(int&nbsp;maxSize)</pre>
+<pre>public final&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.593">limit</a>(int&nbsp;maxSize)</pre>
 <div class="block">Creates a fluent iterable with the first <code>size</code> elements of this fluent iterable. If this
  fluent iterable does not contain that many elements, the returned fluent iterable will have the
  same behavior as this fluent iterable. The returned fluent iterable's iterator supports <code>remove()</code> if this fluent iterable's iterator does.
@@ -1066,7 +1059,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.601">isEmpty</a>()</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.602">isEmpty</a>()</pre>
 <div class="block">Determines whether this fluent iterable is empty.
 
  <p><b><code>Stream</code> equivalent:</b> <code>!stream.findAny().isPresent()</code>.</div>
@@ -1078,7 +1071,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/
 <ul class="blockList">
 <li class="blockList">
 <h4>toList</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.615">toList</a>()</pre>
+<pre>public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.616">toList</a>()</pre>
 <div class="block">Returns an <code>ImmutableList</code> containing all of the elements from this fluent iterable in
  proper sequence.
 
@@ -1097,7 +1090,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/
 <ul class="blockList">
 <li class="blockList">
 <h4>toSortedList</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.631">toSortedList</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;comparator)</pre>
+<pre>public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.632">toSortedList</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;comparator)</pre>
 <div class="block">Returns an <code>ImmutableList</code> containing all of the elements from this <code>FluentIterable</code> in the order specified by <code>comparator</code>. To produce an <code>ImmutableList</code> sorted by its natural ordering, use <code>toSortedList(Ordering.natural())</code>.
 
  <p><b><code>Stream</code> equivalent:</b> pass <a href="../../../../com/google/common/collect/ImmutableList.html#toImmutableList--"><code>ImmutableList.toImmutableList()</code></a> to <code>stream.sorted(comparator).collect()</code>.</div>
@@ -1117,7 +1110,7 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/
 <ul class="blockList">
 <li class="blockList">
 <h4>toSet</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.645">toSet</a>()</pre>
+<pre>public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.646">toSet</a>()</pre>
 <div class="block">Returns an <code>ImmutableSet</code> containing all of the elements from this fluent iterable with
  duplicates removed.
 
@@ -1136,12 +1129,13 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/
 <ul class="blockList">
 <li class="blockList">
 <h4>toSortedSet</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.662">toSortedSet</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;comparator)</pre>
+<pre>public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.663">toSortedSet</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;comparator)</pre>
 <div class="block">Returns an <code>ImmutableSortedSet</code> containing all of the elements from this <code>FluentIterable</code> in the order specified by <code>comparator</code>, with duplicates (determined by
  <code>comparator.compare(x, y) == 0</code>) removed. To produce an <code>ImmutableSortedSet</code> sorted
  by its natural ordering, use <code>toSortedSet(Ordering.natural())</code>.
 
- <p><b><code>Stream</code> equivalent:</b> pass <a href="../../../../com/google/common/collect/ImmutableSortedSet.html#toImmutableSortedSet-java.util.Comparator-"><code>ImmutableSortedSet.toImmutableSortedSet(java.util.Comparator&lt;? super E&gt;)</code></a> to <code>stream.collect()</code>.</div>
+ <p><b><code>Stream</code> equivalent:</b> pass <a href="../../../../com/google/common/collect/ImmutableSortedSet.html#toImmutableSortedSet-java.util.Comparator-"><code>ImmutableSortedSet.toImmutableSortedSet(java.util.Comparator&lt;? super E&gt;)</code></a> to
+ <code>stream.collect()</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>comparator</code> - the function by which to sort set elements</dd>
@@ -1186,7 +1180,8 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/
  <code>valueFunction</code> will be applied to more than one instance of that key and, if it is,
  which result will be mapped to that key in the returned map.
 
- <p><b><code>Stream</code> equivalent:</b> <code>stream.collect(ImmutableMap.toImmutableMap(k -&gt; k, valueFunction))</code>.</div>
+ <p><b><code>Stream</code> equivalent:</b> <code>stream.collect(ImmutableMap.toImmutableMap(k -&gt; k,
+ valueFunction))</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if any element of this iterable is <code>null</code>, or if <code>valueFunction</code> produces <code>null</code> for any key</dd>
@@ -1272,10 +1267,8 @@ public final&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/
 public final&nbsp;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>[]&nbsp;<a href="../../../../src-html/com/google/common/collect/FluentIterable.html#line.769">toArray</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;<a href="../../../../com/google/common/collect/FluentIterable.html" title="type parameter in FluentIterable">E</a>&gt;&nbsp;type)</pre>
 <div class="block">Returns an array containing all of the elements from this fluent iterable in iteration order.
 
- <p><b><code>Stream</code> equivalent:</b> if an object array is acceptable, use
- <code>stream.toArray()</code>; if <code>type</code> is a class literal such as <code>MyType.class</code>, use
- <code>stream.toArray(MyType[]::new)</code>. Otherwise use <code>stream.toArray(
- len -&gt; (E[]) Array.newInstance(type, len))</code>.</div>
+ <p><b><code>Stream</code> equivalent:</b> if an object array is acceptable, use <code>stream.toArray()</code>; if <code>type</code> is a class literal such as <code>MyType.class</code>, use <code>stream.toArray(MyType[]::new)</code>. Otherwise use <code>stream.toArray( len -&gt; (E[])
+ Array.newInstance(type, len))</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>type</code> - the type of the elements</dd>
@@ -1298,8 +1291,7 @@ public final&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/a
 <div class="block">Copies all the elements from this fluent iterable to <code>collection</code>. This is equivalent to
  calling <code>Iterables.addAll(collection, this)</code>.
 
- <p><b><code>Stream</code> equivalent:</b> <code>stream.forEachOrdered(collection::add)</code> or
- <code>stream.forEach(collection::add)</code>.</div>
+ <p><b><code>Stream</code> equivalent:</b> <code>stream.forEachOrdered(collection::add)</code> or <code>stream.forEach(collection::add)</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>collection</code> - the collection to copy elements to</dd>
@@ -1322,8 +1314,7 @@ public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/S
  <code>joiner</code>.
 
  <p><b><code>Stream</code> equivalent:</b> <code>joiner.join(stream.iterator())</code>, or, if you are not
- using any optional <code>Joiner</code> features,
- <code>stream.collect(Collectors.joining(delimiter)</code>.</div>
+ using any optional <code>Joiner</code> features, <code>stream.collect(Collectors.joining(delimiter)</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>18.0</dd>

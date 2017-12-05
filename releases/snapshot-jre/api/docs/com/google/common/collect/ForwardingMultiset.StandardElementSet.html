@@ -128,14 +128,12 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-protected class <a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.257">ForwardingMultiset.StandardElementSet</a>
+protected class <a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.html#line.244">ForwardingMultiset.StandardElementSet</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractSet.html?is-external=true" title="class or interface in java.util">AbstractSet</a>&lt;E&gt;</pre>
-<div class="block">A sensible implementation of <a href="../../../../com/google/common/collect/Multiset.html#elementSet--"><code>Multiset.elementSet()</code></a> in terms of the
- following methods: <a href="../../../../com/google/common/collect/ForwardingCollection.html#clear--"><code>ForwardingCollection.clear()</code></a>, <a href="../../../../com/google/common/collect/ForwardingCollection.html#contains-java.lang.Object-"><code>ForwardingCollection.contains(java.lang.Object)</code></a>, <a href="../../../../com/google/common/collect/ForwardingCollection.html#containsAll-java.util.Collection-"><code>ForwardingCollection.containsAll(java.util.Collection&lt;?&gt;)</code></a>,
- <a href="../../../../com/google/common/collect/ForwardingMultiset.html#count-java.lang.Object-"><code>ForwardingMultiset.count(java.lang.Object)</code></a>, <a href="../../../../com/google/common/collect/ForwardingCollection.html#isEmpty--"><code>ForwardingCollection.isEmpty()</code></a>, the
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true#size--" title="class or interface in java.util"><code>Set.size()</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true#iterator--" title="class or interface in java.util"><code>Set.iterator()</code></a> methods of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>ForwardingMultiset.entrySet()</code></a>, and <a href="../../../../com/google/common/collect/ForwardingMultiset.html#remove-java.lang.Object-int-"><code>ForwardingMultiset.remove(Object,
- int)</code></a>.  In many situations, you may wish to override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#elementSet--"><code>ForwardingMultiset.elementSet()</code></a> to forward to this implementation or a
- subclass thereof.</div>
+<div class="block">A sensible implementation of <a href="../../../../com/google/common/collect/Multiset.html#elementSet--"><code>Multiset.elementSet()</code></a> in terms of the following methods:
+ <a href="../../../../com/google/common/collect/ForwardingCollection.html#clear--"><code>ForwardingCollection.clear()</code></a>, <a href="../../../../com/google/common/collect/ForwardingCollection.html#contains-java.lang.Object-"><code>ForwardingCollection.contains(java.lang.Object)</code></a>, <a href="../../../../com/google/common/collect/ForwardingCollection.html#containsAll-java.util.Collection-"><code>ForwardingCollection.containsAll(java.util.Collection&lt;?&gt;)</code></a>, <a href="../../../../com/google/common/collect/ForwardingMultiset.html#count-java.lang.Object-"><code>ForwardingMultiset.count(java.lang.Object)</code></a>, <a href="../../../../com/google/common/collect/ForwardingCollection.html#isEmpty--"><code>ForwardingCollection.isEmpty()</code></a>, the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true#size--" title="class or interface in java.util"><code>Set.size()</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true#iterator--" title="class or interface in java.util"><code>Set.iterator()</code></a> methods of <a href="../../../../com/google/common/collect/ForwardingMultiset.html#entrySet--"><code>ForwardingMultiset.entrySet()</code></a>, and <a href="../../../../com/google/common/collect/ForwardingMultiset.html#remove-java.lang.Object-int-"><code>ForwardingMultiset.remove(Object, int)</code></a>. In many
+ situations, you may wish to override <a href="../../../../com/google/common/collect/ForwardingMultiset.html#elementSet--"><code>ForwardingMultiset.elementSet()</code></a> to forward to this
+ implementation or a subclass thereof.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>10.0</dd>
@@ -298,7 +296,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractSet
 <ul class="blockListLast">
 <li class="blockList">
 <h4>StandardElementSet</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.StandardElementSet.html#line.259">StandardElementSet</a>()</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultiset.StandardElementSet.html#line.246">StandardElementSet</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -316,7 +314,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractSet
 <ul class="blockList">
 <li class="blockList">
 <h4>clear</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.ElementSet.html#line.981">clear</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.ElementSet.html#line.941">clear</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#clear--" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
 <div class="block">Removes all of the elements from this collection (optional operation).
  The collection will be empty after this method returns.
@@ -346,7 +344,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractSet
 <ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.ElementSet.html#line.986">contains</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;o)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.ElementSet.html#line.946">contains</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;o)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#contains-java.lang.Object-" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
 <div class="block">Returns <tt>true</tt> if this collection contains the specified element.
  More formally, returns <tt>true</tt> if and only if this collection
@@ -376,7 +374,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractSet
 <ul class="blockList">
 <li class="blockList">
 <h4>containsAll</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.ElementSet.html#line.991">containsAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;c)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.ElementSet.html#line.951">containsAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;c)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#containsAll-java.util.Collection-" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
 <div class="block">Returns <tt>true</tt> if this collection contains all of the elements
  in the specified collection.
@@ -408,7 +406,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractSet
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.ElementSet.html#line.996">isEmpty</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.ElementSet.html#line.956">isEmpty</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#isEmpty--" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
 <div class="block">Returns <tt>true</tt> if this collection contains no elements.
 
@@ -431,7 +429,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractSet
 <ul class="blockList">
 <li class="blockList">
 <h4>iterator</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.ElementSet.html#line.1001">iterator</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.ElementSet.html#line.961">iterator</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#iterator--" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
 <div class="block">Returns an iterator over the elements contained in this collection.</div>
 <dl>
@@ -454,7 +452,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractSet
 <ul class="blockList">
 <li class="blockList">
 <h4>remove</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.ElementSet.html#line.1011">remove</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;o)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.ElementSet.html#line.971">remove</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;o)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#remove-java.lang.Object-" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
 <div class="block">Removes a single instance of the specified element from this
  collection, if it is present (optional operation).  More formally,
@@ -492,7 +490,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractSet
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.ElementSet.html#line.1016">size</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.ElementSet.html#line.976">size</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#size--" title="class or interface in java.util">java.util.Collection</a></code></span></div>
 <div class="block">Returns the number of elements in this collection.  If this collection
  contains more than <tt>Integer.MAX_VALUE</tt> elements, returns
@@ -515,7 +513,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractSet
 <ul class="blockList">
 <li class="blockList">
 <h4>removeAll</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.ImprovedAbstractSet.html#line.79">removeAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;c)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.ImprovedAbstractSet.html#line.78">removeAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;c)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractSet.html?is-external=true#removeAll-java.util.Collection-" title="class or interface in java.util">java.util.AbstractSet</a></code></span></div>
 <div class="block">Removes from this set all of its elements that are contained in the
  specified collection (optional operation).  If the specified
@@ -561,7 +559,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractSet
 <ul class="blockListLast">
 <li class="blockList">
 <h4>retainAll</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.ImprovedAbstractSet.html#line.84">retainAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;c)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.ImprovedAbstractSet.html#line.83">retainAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;c)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#retainAll-java.util.Collection-" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
 <div class="block">Retains only the elements in this collection that are contained in the
  specified collection (optional operation).  In other words, removes from

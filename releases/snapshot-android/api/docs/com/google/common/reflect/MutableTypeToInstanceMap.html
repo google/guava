@@ -321,8 +321,7 @@ public&nbsp;&lt;T extends <a href="../../../../com/google/common/reflect/Mutable
  is present. This will only return a value that was bound to this specific class, not a value
  that may have been bound to a subtype.
 
- <p><code>getInstance(Foo.class)</code> is equivalent to
- <code>getInstance(TypeToken.of(Foo.class))</code>.</div>
+ <p><code>getInstance(Foo.class)</code> is equivalent to <code>getInstance(TypeToken.of(Foo.class))</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/reflect/TypeToInstanceMap.html#getInstance-java.lang.Class-">getInstance</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/reflect/TypeToInstanceMap.html" title="interface in com.google.common.reflect">TypeToInstanceMap</a>&lt;<a href="../../../../com/google/common/reflect/MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;</code></dd>
@@ -346,14 +345,12 @@ public&nbsp;&lt;T extends <a href="../../../../com/google/common/reflect/Mutable
 <div class="block">Maps the specified class to the specified value. Does <i>not</i> associate this value with any
  of the class's supertypes.
 
- <p><code>putInstance(Foo.class, foo)</code> is equivalent to
- <code>putInstance(TypeToken.of(Foo.class), foo)</code>.</div>
+ <p><code>putInstance(Foo.class, foo)</code> is equivalent to <code>putInstance(TypeToken.of(Foo.class), foo)</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/reflect/TypeToInstanceMap.html#putInstance-java.lang.Class-T-">putInstance</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/reflect/TypeToInstanceMap.html" title="interface in com.google.common.reflect">TypeToInstanceMap</a>&lt;<a href="../../../../com/google/common/reflect/MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the value previously associated with this class (possibly <code>null</code>), or
-     <code>null</code> if there was no previous entry.</dd>
+<dd>the value previously associated with this class (possibly <code>null</code>), or <code>null</code> if there was no previous entry.</dd>
 </dl>
 </li>
 </ul>
@@ -493,10 +490,10 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/reflect/Mu
 <h4>delegate</h4>
 <pre>protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="../../../../com/google/common/reflect/MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;,<a href="../../../../com/google/common/reflect/MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/MutableTypeToInstanceMap.html#line.101">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingObject.html#delegate--">ForwardingObject</a></code></span></div>
-<div class="block">Returns the backing delegate instance that methods are forwarded to.
- Abstract subclasses generally override this method with an abstract method
- that has a more specific return type, such as <a href="../../../../com/google/common/collect/ForwardingSet.html#delegate--"><code>ForwardingSet.delegate()</code></a>. Concrete subclasses override this method to supply
- the instance being decorated.</div>
+<div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
+ generally override this method with an abstract method that has a more specific return type,
+ such as <a href="../../../../com/google/common/collect/ForwardingSet.html#delegate--"><code>ForwardingSet.delegate()</code></a>. Concrete subclasses override this method to supply the
+ instance being decorated.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ForwardingMap.html#delegate--">delegate</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</a>&lt;<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="../../../../com/google/common/reflect/MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;,<a href="../../../../com/google/common/reflect/MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;</code></dd>
