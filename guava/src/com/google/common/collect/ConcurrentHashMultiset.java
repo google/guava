@@ -475,6 +475,10 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     };
   }
 
+  /**
+   * @deprecated Internal method, use {@link #entrySet()}.
+   */
+  @Deprecated
   @Override
   public Set<Multiset.Entry<E>> createEntrySet() {
     return new EntrySet();
