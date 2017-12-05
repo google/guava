@@ -223,8 +223,8 @@ public abstract class AbstractPackageSanityTests extends TestCase {
    *
    * <ul>
    *   <li>All visible static methods are checked such that passing null for any parameter that's
-   *       not annotated with {@link javax.annotation.Nullable} should throw {@link
-   *       NullPointerException}.
+   *       not annotated nullable (according to the rules of {@link NullPointerTester}) should throw
+   *       {@link NullPointerException}.
    *   <li>If there is any visible constructor or visible static factory method declared by the
    *       class, all visible instance methods will be checked too using the instance created by
    *       invoking the constructor or static factory method.

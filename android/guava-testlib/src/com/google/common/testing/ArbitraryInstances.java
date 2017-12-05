@@ -141,7 +141,7 @@ import java.util.logging.Logger;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Supplies an arbitrary "default" instance for a wide range of types, often useful in testing
@@ -325,7 +325,7 @@ public final class ArbitraryInstances {
   }
 
   @SuppressWarnings("unchecked") // it's a subtype map
-  @Nullable
+  @NullableDecl
   private static <T> Class<? extends T> getImplementation(Class<T> type) {
     return (Class<? extends T>) implementations.get(type);
   }
@@ -336,7 +336,7 @@ public final class ArbitraryInstances {
    * Returns an arbitrary instance for {@code type}, or {@code null} if no arbitrary instance can be
    * determined.
    */
-  @Nullable
+  @NullableDecl
   public static <T> T get(Class<T> type) {
     T defaultValue = DEFAULTS.getInstance(type);
     if (defaultValue != null) {
@@ -377,7 +377,7 @@ public final class ArbitraryInstances {
     }
   }
 
-  @Nullable
+  @NullableDecl
   private static <T> T arbitraryConstantInstanceOrNull(Class<T> type) {
     Field[] fields = type.getDeclaredFields();
     Arrays.sort(fields, BY_FIELD_NAME);

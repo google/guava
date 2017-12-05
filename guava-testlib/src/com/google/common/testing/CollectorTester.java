@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.BiPredicate;
 import java.util.stream.Collector;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Tester for {@code Collector} implementations.
@@ -140,7 +140,8 @@ public final class CollectorTester<T, A, R> {
    * inputs, regardless of how the elements are divided.
    */
   @SafeVarargs
-  public final CollectorTester<T, A, R> expectCollects(@Nullable R expectedResult, T... inputs) {
+  public final CollectorTester<T, A, R> expectCollects(
+      @NullableDecl R expectedResult, T... inputs) {
     List<T> list = Arrays.asList(inputs);
     doExpectCollects(expectedResult, list);
     if (collector.characteristics().contains(Collector.Characteristics.UNORDERED)) {
@@ -150,7 +151,7 @@ public final class CollectorTester<T, A, R> {
     return this;
   }
 
-  private void doExpectCollects(@Nullable R expectedResult, List<T> inputs) {
+  private void doExpectCollects(@NullableDecl R expectedResult, List<T> inputs) {
     for (CollectStrategy scheme : EnumSet.allOf(CollectStrategy.class)) {
       A finalAccum = scheme.result(collector, inputs);
       if (collector.characteristics().contains(Collector.Characteristics.IDENTITY_FINISH)) {
@@ -160,7 +161,7 @@ public final class CollectorTester<T, A, R> {
     }
   }
 
-  private void assertEquivalent(@Nullable R expected, @Nullable R actual) {
+  private void assertEquivalent(@NullableDecl R expected, @NullableDecl R actual) {
     assertTrue(
         "Expected " + expected + " got " + actual + " modulo equivalence " + equivalence,
         equivalence.test(expected, actual));

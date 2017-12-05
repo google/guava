@@ -19,6 +19,7 @@ package com.google.common.testing;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Throwables.throwIfUnchecked;
+import static com.google.common.testing.NullPointerTester.isNullable;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
@@ -51,6 +52,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Tester that runs automated sanity tests for any given class. A typical use case is to test static
@@ -164,12 +166,11 @@ public final class ClassSanityTester {
 
   /**
    * Tests that {@code cls} properly checks null on all constructor and method parameters that
-   * aren't annotated with {@link javax.annotation.Nullable}. In details:
+   * aren't annotated nullable (according to the rules of {@link NullPointerTester}). In details:
    *
    * <ul>
    *   <li>All non-private static methods are checked such that passing null for any parameter
-   *       that's not annotated with {@link javax.annotation.Nullable} should throw {@link
-   *       NullPointerException}.
+   *       that's not annotated nullable should throw {@link NullPointerException}.
    *   <li>If there is any non-private constructor or non-private static factory method declared by
    *       {@code cls}, all non-private instance methods will be checked too using the instance
    *       created by invoking the constructor or static factory method.
@@ -333,7 +334,7 @@ public final class ClassSanityTester {
    * @return The instantiated instance, or {@code null} if the class has no non-private constructor
    *     or factory method to be constructed.
    */
-  @javax.annotation.Nullable
+  @NullableDecl
   <T> T instantiate(Class<T> cls)
       throws ParameterNotInstantiableException, IllegalAccessException, InvocationTargetException,
           FactoryMethodReturnsNullException {
@@ -547,8 +548,8 @@ public final class ClassSanityTester {
   }
 
   /**
-   * Instantiates using {@code factory}. If {@code factory} is annotated with {@link
-   * javax.annotation.Nullable} and returns null, null will be returned.
+   * Instantiates using {@code factory}. If {@code factory} is annotated nullable and returns null,
+   * null will be returned.
    *
    * @throws ParameterNotInstantiableException if the static methods cannot be invoked because the
    *     default value of a parameter cannot be determined.
@@ -556,7 +557,7 @@ public final class ClassSanityTester {
    *     class, preventing its methods from being accessible.
    * @throws InvocationTargetException if a static method threw exception.
    */
-  @javax.annotation.Nullable
+  @NullableDecl
   private <T> T instantiate(Invokable<?, ? extends T> factory)
       throws ParameterNotInstantiableException, InvocationTargetException, IllegalAccessException {
     return invoke(factory, getDummyArguments(factory));
@@ -663,10 +664,10 @@ public final class ClassSanityTester {
     return generator;
   }
 
-  @javax.annotation.Nullable
+  @NullableDecl
   private static Object generateDummyArg(Parameter param, FreshValueGenerator generator)
       throws ParameterNotInstantiableException {
-    if (param.isAnnotationPresent(javax.annotation.Nullable.class)) {
+    if (isNullable(param)) {
       return null;
     }
     Object arg = generator.generateFresh(param.getType());
@@ -720,7 +721,7 @@ public final class ClassSanityTester {
       throws ParameterNotInstantiableException {
     List<Object> args = Lists.newArrayList();
     for (Parameter param : invokable.getParameters()) {
-      if (param.isAnnotationPresent(javax.annotation.Nullable.class)) {
+      if (isNullable(param)) {
         args.add(null);
         continue;
       }
@@ -760,14 +761,13 @@ public final class ClassSanityTester {
     return instance;
   }
 
-  @javax.annotation.Nullable
+  @NullableDecl
   private static <T> T invoke(Invokable<?, ? extends T> factory, List<?> args)
       throws InvocationTargetException, IllegalAccessException {
     T returnValue = factory.invoke(null, args.toArray());
     if (returnValue == null) {
       Assert.assertTrue(
-          factory + " returns null but it's not annotated with @Nullable",
-          factory.isAnnotationPresent(javax.annotation.Nullable.class));
+          factory + " returns null but it's not annotated with @NullableDecl", isNullable(factory));
     }
     return returnValue;
   }

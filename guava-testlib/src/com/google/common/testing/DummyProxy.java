@@ -17,6 +17,7 @@
 package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.testing.NullPointerTester.isNullable;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableList;
@@ -73,7 +74,7 @@ abstract class DummyProxy {
       ImmutableList<Parameter> params = invokable.getParameters();
       for (int i = 0; i < args.length; i++) {
         Parameter param = params.get(i);
-        if (!param.isAnnotationPresent(javax.annotation.Nullable.class)) {
+        if (!isNullable(param)) {
           checkNotNull(args[i]);
         }
       }

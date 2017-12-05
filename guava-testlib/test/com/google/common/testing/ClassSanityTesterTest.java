@@ -36,9 +36,9 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.annotation.Nullable;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Unit tests for {@link ClassSanityTester}.
@@ -60,7 +60,7 @@ public class ClassSanityTesterTest extends TestCase {
         // oneConstantOnly doesn't matter since it's not nullable and can be only 1 value.
         @SuppressWarnings("unused") OneConstantEnum oneConstantOnly,
         // noConstant doesn't matter since it can only be null
-        @SuppressWarnings("unused") @Nullable NoConstantEnum noConstant) {
+        @SuppressWarnings("unused") @NullableDecl NoConstantEnum noConstant) {
       return new GoodEquals(a, b);
     }
     // instance method ignored
@@ -107,7 +107,7 @@ public class ClassSanityTesterTest extends TestCase {
   private static class BadEqualsFactory {
     /** oneConstantOnly matters now since it can be either null or the constant. */
     @SuppressWarnings("unused") // Called by reflection
-    public static Object bad(String a, int b, @Nullable OneConstantEnum oneConstantOnly) {
+    public static Object bad(String a, int b, @NullableDecl OneConstantEnum oneConstantOnly) {
       return new GoodEquals(a, b);
     }
   }
@@ -287,7 +287,7 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   public static class FactoryThatReturnsNullAndAnnotated {
-    @Nullable
+    @NullableDecl
     public static Object bad() {
       return null;
     }
@@ -424,7 +424,7 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   public void testNoEqualsChecksOnAnnotation() throws Exception {
-    tester.testEquals(Nullable.class);
+    tester.testEquals(MyAnnotation.class);
   }
 
   public void testGoodNulls() throws Exception {
@@ -467,7 +467,7 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   public void testNoNullChecksOnAnnotation() throws Exception {
-    tester.testNulls(Nullable.class);
+    tester.testNulls(MyAnnotation.class);
   }
 
   public void testBadNulls() throws Exception {
@@ -483,7 +483,7 @@ public class ClassSanityTesterTest extends TestCase {
     try {
       tester.instantiate(FactoryMethodReturnsNullButNotAnnotated.class);
     } catch (AssertionFailedError expected) {
-      assertThat(expected.getMessage()).contains("@Nullable");
+      assertThat(expected.getMessage()).contains("@NullableDecl");
       return;
     }
     fail("should have failed");
@@ -534,7 +534,7 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   public void testInstantiate_annotation() throws Exception {
-    assertNull(tester.instantiate(Nullable.class));
+    assertNull(tester.instantiate(MyAnnotation.class));
   }
 
   public void testInstantiate_setDefault() throws Exception {
@@ -620,7 +620,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(@NullableDecl Object obj) {
       if (obj instanceof HasAnInterface) {
         HasAnInterface that = (HasAnInterface) obj;
         return i.equals(that.i);
@@ -677,7 +677,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(@NullableDecl Object obj) {
       // In general getClass().isInstance() is bad for equals.
       // But here we fully control the subclasses to ensure symmetry.
       if (getClass().isInstance(obj)) {
@@ -752,7 +752,7 @@ public class ClassSanityTesterTest extends TestCase {
 
     // keep trying
     @SuppressWarnings("unused")
-    @Nullable
+    @NullableDecl
     public static GoodEquals createMayReturnNull(int a, int b) {
       return null;
     }
@@ -763,7 +763,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(@NullableDecl Object obj) {
       if (obj instanceof GoodEquals) {
         GoodEquals that = (GoodEquals) obj;
         return a.equals(that.a) && b == that.b;
@@ -782,12 +782,12 @@ public class ClassSanityTesterTest extends TestCase {
 
     public BadEquals() {} // ignored by testEquals() since it has less parameters.
 
-    public static BadEquals create(@SuppressWarnings("unused") @Nullable String s) {
+    public static BadEquals create(@SuppressWarnings("unused") @NullableDecl String s) {
       return new BadEquals();
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(@NullableDecl Object obj) {
       return obj instanceof BadEquals;
     }
 
@@ -1136,7 +1136,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(@NullableDecl Object obj) {
       return obj instanceof BadEqualsWithParameterizedType;
     }
 
@@ -1170,12 +1170,12 @@ public class ClassSanityTesterTest extends TestCase {
     void primitiveOnly(int i) {}
 
     @SuppressWarnings("unused") // reflected
-    void nullableOnly(@Nullable String s) {}
+    void nullableOnly(@NullableDecl String s) {}
 
     public void noParameter() {}
 
     @SuppressWarnings("unused") // reflected
-    void primitiveAndNullable(@Nullable String s, int i) {}
+    void primitiveAndNullable(@NullableDecl String s, int i) {}
   }
 
   static class FactoryMethodReturnsNullButNotAnnotated {
@@ -1189,7 +1189,7 @@ public class ClassSanityTesterTest extends TestCase {
   static class FactoryMethodReturnsNullAndAnnotated {
     private FactoryMethodReturnsNullAndAnnotated() {}
 
-    @Nullable
+    @NullableDecl
     public static FactoryMethodReturnsNullAndAnnotated returnsNull() {
       return null;
     }
@@ -1203,7 +1203,7 @@ public class ClassSanityTesterTest extends TestCase {
       this.name = name;
     }
 
-    static FactoryMethodAcceptsNull create(@Nullable String name) {
+    static FactoryMethodAcceptsNull create(@NullableDecl String name) {
       return new FactoryMethodAcceptsNull(name);
     }
   }
@@ -1225,7 +1225,7 @@ public class ClassSanityTesterTest extends TestCase {
 
     final String name;
 
-    public ConstructorAcceptsNull(@Nullable String name) {
+    public ConstructorAcceptsNull(@NullableDecl String name) {
       this.name = name;
     }
   }
@@ -1251,7 +1251,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(@NullableDecl Object obj) {
       if (obj instanceof ConstructorParameterMapOfNotInstantiable) {
         return m.equals(((ConstructorParameterMapOfNotInstantiable) obj).m);
       } else {
@@ -1272,7 +1272,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(@NullableDecl Object obj) {
       throw new UnsupportedOperationException();
     }
 
@@ -1359,4 +1359,6 @@ public class ClassSanityTesterTest extends TestCase {
       return "";
     }
   }
+
+  @interface MyAnnotation {}
 }
