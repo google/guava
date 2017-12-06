@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.Date;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;
@@ -29,6 +30,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.locks.Condition;
 
 /**
  * Utilities for treating interruptible operations as uninterruptible. In all cases, if a thread is
@@ -84,6 +86,56 @@ public final class Uninterruptibles {
         } catch (InterruptedException e) {
           interrupted = true;
           remainingNanos = end - System.nanoTime();
+        }
+      }
+    } finally {
+      if (interrupted) {
+        Thread.currentThread().interrupt();
+      }
+    }
+  }
+
+  /**
+   * Invokes {@code condition.}{@link Condition#await(long, TimeUnit) await(timeout, unit)}
+   * uninterruptibly.
+   */
+  @CanIgnoreReturnValue
+  @GwtIncompatible // concurrency
+  public static boolean awaitUninterruptibly(Condition condition, long timeout, TimeUnit unit) {
+    boolean interrupted = false;
+    try {
+      long remainingNanos = unit.toNanos(timeout);
+      long end = System.nanoTime() + remainingNanos;
+
+      while (true) {
+        try {
+          return condition.await(remainingNanos, NANOSECONDS);
+        } catch (InterruptedException e) {
+          interrupted = true;
+          remainingNanos = end - System.nanoTime();
+        }
+      }
+    } finally {
+      if (interrupted) {
+        Thread.currentThread().interrupt();
+      }
+    }
+  }
+
+  /**
+   * Invokes {@code condition.}{@link Condition#awaitUntil(Date)} awaitUntil(Date)}
+   * uninterruptibly.
+   */
+  @CanIgnoreReturnValue
+  @GwtIncompatible // concurrency
+  public static boolean awaitUntilUninterruptibly(Condition condition, Date date) {
+    boolean interrupted = false;
+    try {
+      while (true) {
+        try {
+          return condition.awaitUntil(date);
+        } catch (InterruptedException e) {
+          interrupted = true;
         }
       }
     } finally {

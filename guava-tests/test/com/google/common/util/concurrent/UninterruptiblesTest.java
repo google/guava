@@ -17,6 +17,8 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.InterruptionUtil.repeatedlyInterruptTestThread;
+import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
+import static com.google.common.util.concurrent.Uninterruptibles.awaitUntilUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.joinUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.putUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.takeUninterruptibly;
@@ -28,10 +30,17 @@ import com.google.common.base.Stopwatch;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.TearDown;
 import com.google.common.testing.TearDownStack;
+import java.util.Date;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import junit.framework.TestCase;
 
 /**
@@ -84,6 +93,103 @@ public class UninterruptiblesTest extends TestCase {
   // IncrementableCountDownLatch.await() tests
 
   // CountDownLatch.await() tests
+
+  // Condition.await() tests
+  public void testConditionAwaitTimeoutExceeded() {
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    Condition condition = TestCondition.create();
+
+    boolean signaledBeforeTimeout = awaitUninterruptibly(condition, 500, MILLISECONDS);
+
+    assertFalse(signaledBeforeTimeout);
+    assertTimeNotPassed(stopwatch, LONG_DELAY_MS);
+    assertNotInterrupted();
+  }
+
+  public void testConditionAwaitTimeoutNotExceeded() {
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    Condition condition = TestCondition.createAndSignalAfter(500, MILLISECONDS);
+
+    boolean signaledBeforeTimeout = awaitUninterruptibly(condition, 1500, MILLISECONDS);
+
+    assertTrue(signaledBeforeTimeout);
+    assertTimeNotPassed(stopwatch, LONG_DELAY_MS);
+    assertNotInterrupted();
+  }
+
+  public void testConditionAwaitInterruptedTimeoutExceeded() {
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    Condition condition = TestCondition.create();
+    requestInterruptIn(500);
+
+    boolean signaledBeforeTimeout = awaitUninterruptibly(condition, 1000, MILLISECONDS);
+
+    assertFalse(signaledBeforeTimeout);
+    assertTimeNotPassed(stopwatch, LONG_DELAY_MS);
+    assertInterrupted();
+  }
+
+  public void testConditionAwaitInterruptedTimeoutNotExceeded() {
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    Condition condition = TestCondition.createAndSignalAfter(1000, MILLISECONDS);
+    requestInterruptIn(500);
+
+    boolean signaledBeforeTimeout = awaitUninterruptibly(condition, 1500, MILLISECONDS);
+
+    assertTrue(signaledBeforeTimeout);
+    assertTimeNotPassed(stopwatch, LONG_DELAY_MS);
+    assertInterrupted();
+  }
+
+  public void testConditionAwaitUntilDateTimeoutExceeded() {
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    Condition condition = TestCondition.create();
+    Date deadline = nowPlusMillis(500);
+
+    boolean signaledBeforeTimeout = awaitUntilUninterruptibly(condition, deadline);
+
+    assertFalse(signaledBeforeTimeout);
+    assertTimeNotPassed(stopwatch, LONG_DELAY_MS);
+    assertNotInterrupted();
+  }
+
+  public void testConditionAwaitUntilDateTimeoutNotExceeded() {
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    Condition condition = TestCondition.createAndSignalAfter(500, MILLISECONDS);
+    Date deadline = nowPlusMillis(1500);
+
+    boolean signaledBeforeTimeout = awaitUntilUninterruptibly(condition, deadline);
+
+    assertTrue(signaledBeforeTimeout);
+    assertTimeNotPassed(stopwatch, LONG_DELAY_MS);
+    assertNotInterrupted();
+  }
+
+  public void testConditionAwaitUntilDateInterruptedTimeoutExceeded() {
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    Condition condition = TestCondition.create();
+    requestInterruptIn(500);
+    Date deadline = nowPlusMillis(1000);
+
+    boolean signaledBeforeTimeout = awaitUntilUninterruptibly(condition, deadline);
+
+    assertFalse(signaledBeforeTimeout);
+    assertTimeNotPassed(stopwatch, LONG_DELAY_MS);
+    assertInterrupted();
+  }
+
+  public void testConditionAwaitUntilDateInterruptedTimeoutNotExceeded() {
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    Condition condition = TestCondition.createAndSignalAfter(1000, MILLISECONDS);
+    requestInterruptIn(500);
+    Date deadline = nowPlusMillis(1500);
+
+    boolean signaledBeforeTimeout = awaitUntilUninterruptibly(condition, deadline);
+
+    assertTrue(signaledBeforeTimeout);
+    assertTimeNotPassed(stopwatch, LONG_DELAY_MS);
+    assertInterrupted();
+  }
 
   // BlockingQueue.put() tests
   public void testPutWithNoWait() {
@@ -671,5 +777,105 @@ public class UninterruptiblesTest extends TestCase {
 
   private static void requestInterruptIn(long millis) {
     InterruptionUtil.requestInterruptIn(millis, MILLISECONDS);
+  }
+
+  private static Date nowPlusMillis(int millis) {
+    long deadlineMillis = System.currentTimeMillis() + millis;
+    return new Date(deadlineMillis);
+  }
+
+  private static class TestCondition implements Condition {
+    private final Lock lock;
+    private final Condition condition;
+
+    private TestCondition(Lock lock, Condition condition) {
+      this.lock = lock;
+      this.condition = condition;
+    }
+
+    static TestCondition createAndSignalAfter(long delay, TimeUnit unit) {
+      TestCondition testCondition = create();
+
+      ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(1);
+      scheduledPool.schedule(testCondition::signal, delay, unit);
+
+      return testCondition;
+    }
+
+    static TestCondition create() {
+      Lock lock = new ReentrantLock();
+      Condition condition = lock.newCondition();
+      return new TestCondition(lock, condition);
+    }
+
+    @Override
+    public void await() throws InterruptedException {
+      lock.lock();
+      try {
+        condition.await();
+      } finally {
+        lock.unlock();
+      }
+    }
+
+    @Override
+    public void awaitUninterruptibly() {
+      lock.lock();
+      try {
+        condition.awaitUninterruptibly();
+      } finally {
+        lock.unlock();
+      }
+    }
+
+    @Override
+    public long awaitNanos(long nanosTimeout) throws InterruptedException {
+      lock.lock();
+      try {
+        return condition.awaitNanos(nanosTimeout);
+      } finally {
+        lock.unlock();
+      }
+    }
+
+    @Override
+    public boolean await(long time, TimeUnit unit) throws InterruptedException {
+      lock.lock();
+      try {
+        return condition.await(time, unit);
+      } finally {
+        lock.unlock();
+      }
+    }
+
+    @Override
+    public boolean awaitUntil(Date deadline) throws InterruptedException {
+      lock.lock();
+      try {
+        return condition.awaitUntil(deadline);
+      } finally {
+        lock.unlock();
+      }
+    }
+
+    @Override
+    public void signal() {
+      lock.lock();
+      try {
+        condition.signal();
+      } finally {
+        lock.unlock();
+      }
+    }
+
+    @Override
+    public void signalAll() {
+      lock.lock();
+      try {
+        condition.signalAll();
+      } finally {
+        lock.unlock();
+      }
+    }
   }
 }
