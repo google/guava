@@ -11116,7 +11116,10 @@
     <method name="createEntrySet" return="java.util.Set&lt;com.google.common.collect.Multiset.Entry&lt;E&gt;&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Internal method, use {@link #entrySet()}.">
+      <doc>
+      <![CDATA[@deprecated Internal method, use {@link #entrySet()}.]]>
+      </doc>
     </method>
     <method name="isEmpty" return="boolean"
       abstract="false" native="false" synchronized="false"

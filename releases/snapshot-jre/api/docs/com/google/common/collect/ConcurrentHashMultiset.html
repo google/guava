@@ -18,8 +18,8 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":9,"i7":9,"i8":9,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10};
-var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":9,"i7":9,"i8":9,"i9":42,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10};
+var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
 var tableTab = "tableTab";
@@ -163,7 +163,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 </a>
 <h3>Method Summary</h3>
 <table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
-<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t1" class="tableTab"><span><a href="javascript:show(1);">Static Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t1" class="tableTab"><span><a href="javascript:show(1);">Static Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t6" class="tableTab"><span><a href="javascript:show(32);">Deprecated Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colLast" scope="col">Method and Description</th>
@@ -230,7 +230,11 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="../../../../com/google/common/collect/ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ConcurrentHashMultiset.html#createEntrySet--">createEntrySet</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ConcurrentHashMultiset.html#createEntrySet--">createEntrySet</a></span>()</code>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
+<div class="block"><span class="deprecationComment">Internal method, use <a href="../../../../com/google/common/collect/ConcurrentHashMultiset.html#entrySet--"><code>entrySet()</code></a>.</span></div>
+</div>
+</td>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;</code></td>
@@ -755,7 +759,9 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>createEntrySet</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="../../../../com/google/common/collect/ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.479">createEntrySet</a>()</pre>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
+public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="../../../../com/google/common/collect/ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.483">createEntrySet</a>()</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Internal method, use <a href="../../../../com/google/common/collect/ConcurrentHashMultiset.html#entrySet--"><code>entrySet()</code></a>.</span></div>
 </li>
 </ul>
 <a name="isEmpty--">
@@ -764,7 +770,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.489">isEmpty</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.493">isEmpty</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#isEmpty--" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
 <div class="block">Returns <tt>true</tt> if this collection contains no elements.
 
@@ -783,7 +789,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>clear</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.541">clear</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.545">clear</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#clear--" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
 <div class="block">Removes all of the elements from this collection (optional operation).
  The collection will be empty after this method returns.
