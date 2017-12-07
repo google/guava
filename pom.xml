@@ -146,6 +146,7 @@
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>2.10.4</version>
           <configuration>
+            <quiet>true</quiet>
             <notimestamp>true</notimestamp>
             <additionalparam>-Xdoclint:-html</additionalparam>
             <encoding>UTF-8</encoding>
