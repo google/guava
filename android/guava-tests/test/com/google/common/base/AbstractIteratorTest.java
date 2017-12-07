@@ -30,7 +30,6 @@ import junit.framework.TestCase;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
-// TODO(cpovirk): why is this slow (>1m/test) under GWT when fully optimized?
 public class AbstractIteratorTest extends TestCase {
 
   public void testDefaultBehaviorOfNextAndHasNext() {

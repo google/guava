@@ -31,7 +31,6 @@ import junit.framework.TestCase;
  */
 @SuppressWarnings("serial") // No serialization is used in this test
 @GwtCompatible(emulated = true)
-// TODO(cpovirk): why is this slow (>1m/test) under GWT when fully optimized?
 public class AbstractIteratorTest extends TestCase {
 
   public void testDefaultBehaviorOfNextAndHasNext() {
