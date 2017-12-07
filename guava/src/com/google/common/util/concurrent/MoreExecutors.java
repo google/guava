@@ -406,7 +406,8 @@ public final class MoreExecutors {
 
   /**
    * Returns an {@link Executor} that runs each task executed sequentially, such that no two tasks
-   * are running concurrently.
+   * are running concurrently. Submitted tasks have a happens-before order as defined in the Java
+   * Language Specification.
    *
    * <p>The executor uses {@code delegate} in order to {@link Executor#execute execute} each task in
    * turn, and does not create any threads of its own.
@@ -453,7 +454,8 @@ public final class MoreExecutors {
 
   /**
    * Returns an {@link Executor} that runs each task executed sequentially, such that no two tasks
-   * are running concurrently.
+   * are running concurrently. Submitted tasks have a happens-before order as defined in the Java
+   * Language Specification.
    *
    * <p>The executor uses {@code delegate} in order to {@link Executor#execute execute} each task in
    * turn, and does not create any threads of its own.
