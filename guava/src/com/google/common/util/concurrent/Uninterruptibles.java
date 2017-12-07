@@ -95,12 +95,6 @@ public final class Uninterruptibles {
     }
   }
 
-  /** Invokes {@code condition.}{@link Condition#await() await()} uninterruptibly. */
-  @GwtIncompatible // concurrency
-  public static void awaitUninterruptibly(Condition condition) {
-    condition.awaitUninterruptibly();
-  }
-
   /**
    * Invokes {@code condition.}{@link Condition#await(long, TimeUnit) await(timeout, unit)}
    * uninterruptibly.

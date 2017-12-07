@@ -95,16 +95,6 @@ public class UninterruptiblesTest extends TestCase {
   // CountDownLatch.await() tests
 
   // Condition.await() tests
-  public void testConditionAwait() {
-    Stopwatch stopwatch = Stopwatch.createStarted();
-    Condition condition = TestCondition.createAndSignalAfter(500, MILLISECONDS);
-
-    awaitUninterruptibly(condition);
-
-    assertTimeNotPassed(stopwatch, LONG_DELAY_MS);
-    assertNotInterrupted();
-  }
-
   public void testConditionAwaitTimeoutExceeded() {
     Stopwatch stopwatch = Stopwatch.createStarted();
     Condition condition = TestCondition.create();
