@@ -40,7 +40,7 @@
 <span class="sourceLineNo">032</span>import java.util.ArrayList;<a name="line.32"></a>
 <span class="sourceLineNo">033</span>import java.util.Collections;<a name="line.33"></a>
 <span class="sourceLineNo">034</span>import java.util.List;<a name="line.34"></a>
-<span class="sourceLineNo">035</span>import javax.annotation.Nullable;<a name="line.35"></a>
+<span class="sourceLineNo">035</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.35"></a>
 <span class="sourceLineNo">036</span><a name="line.36"></a>
 <span class="sourceLineNo">037</span>/**<a name="line.37"></a>
 <span class="sourceLineNo">038</span> * Static utility methods pertaining to instances of {@link Throwable}.<a name="line.38"></a>
@@ -107,7 +107,7 @@
 <span class="sourceLineNo">099</span>  @Deprecated<a name="line.99"></a>
 <span class="sourceLineNo">100</span>  @GwtIncompatible // throwIfInstanceOf<a name="line.100"></a>
 <span class="sourceLineNo">101</span>  public static &lt;X extends Throwable&gt; void propagateIfInstanceOf(<a name="line.101"></a>
-<span class="sourceLineNo">102</span>      @Nullable Throwable throwable, Class&lt;X&gt; declaredType) throws X {<a name="line.102"></a>
+<span class="sourceLineNo">102</span>      @NullableDecl Throwable throwable, Class&lt;X&gt; declaredType) throws X {<a name="line.102"></a>
 <span class="sourceLineNo">103</span>    if (throwable != null) {<a name="line.103"></a>
 <span class="sourceLineNo">104</span>      throwIfInstanceOf(throwable, declaredType);<a name="line.104"></a>
 <span class="sourceLineNo">105</span>    }<a name="line.105"></a>
@@ -162,7 +162,7 @@
 <span class="sourceLineNo">154</span>   */<a name="line.154"></a>
 <span class="sourceLineNo">155</span>  @Deprecated<a name="line.155"></a>
 <span class="sourceLineNo">156</span>  @GwtIncompatible<a name="line.156"></a>
-<span class="sourceLineNo">157</span>  public static void propagateIfPossible(@Nullable Throwable throwable) {<a name="line.157"></a>
+<span class="sourceLineNo">157</span>  public static void propagateIfPossible(@NullableDecl Throwable throwable) {<a name="line.157"></a>
 <span class="sourceLineNo">158</span>    if (throwable != null) {<a name="line.158"></a>
 <span class="sourceLineNo">159</span>      throwIfUnchecked(throwable);<a name="line.159"></a>
 <span class="sourceLineNo">160</span>    }<a name="line.160"></a>
@@ -188,7 +188,7 @@
 <span class="sourceLineNo">180</span>   */<a name="line.180"></a>
 <span class="sourceLineNo">181</span>  @GwtIncompatible // propagateIfInstanceOf<a name="line.181"></a>
 <span class="sourceLineNo">182</span>  public static &lt;X extends Throwable&gt; void propagateIfPossible(<a name="line.182"></a>
-<span class="sourceLineNo">183</span>      @Nullable Throwable throwable, Class&lt;X&gt; declaredType) throws X {<a name="line.183"></a>
+<span class="sourceLineNo">183</span>      @NullableDecl Throwable throwable, Class&lt;X&gt; declaredType) throws X {<a name="line.183"></a>
 <span class="sourceLineNo">184</span>    propagateIfInstanceOf(throwable, declaredType);<a name="line.184"></a>
 <span class="sourceLineNo">185</span>    propagateIfPossible(throwable);<a name="line.185"></a>
 <span class="sourceLineNo">186</span>  }<a name="line.186"></a>
@@ -206,7 +206,7 @@
 <span class="sourceLineNo">198</span>   */<a name="line.198"></a>
 <span class="sourceLineNo">199</span>  @GwtIncompatible // propagateIfInstanceOf<a name="line.199"></a>
 <span class="sourceLineNo">200</span>  public static &lt;X1 extends Throwable, X2 extends Throwable&gt; void propagateIfPossible(<a name="line.200"></a>
-<span class="sourceLineNo">201</span>      @Nullable Throwable throwable, Class&lt;X1&gt; declaredType1, Class&lt;X2&gt; declaredType2)<a name="line.201"></a>
+<span class="sourceLineNo">201</span>      @NullableDecl Throwable throwable, Class&lt;X1&gt; declaredType1, Class&lt;X2&gt; declaredType2)<a name="line.201"></a>
 <span class="sourceLineNo">202</span>      throws X1, X2 {<a name="line.202"></a>
 <span class="sourceLineNo">203</span>    checkNotNull(declaredType2);<a name="line.203"></a>
 <span class="sourceLineNo">204</span>    propagateIfInstanceOf(throwable, declaredType1);<a name="line.204"></a>
@@ -456,7 +456,7 @@
 <span class="sourceLineNo">448</span><a name="line.448"></a>
 <span class="sourceLineNo">449</span>  /** Access to some fancy internal JVM internals. */<a name="line.449"></a>
 <span class="sourceLineNo">450</span>  @GwtIncompatible // java.lang.reflect<a name="line.450"></a>
-<span class="sourceLineNo">451</span>  @Nullable<a name="line.451"></a>
+<span class="sourceLineNo">451</span>  @NullableDecl<a name="line.451"></a>
 <span class="sourceLineNo">452</span>  private static final Object jla = getJLA();<a name="line.452"></a>
 <span class="sourceLineNo">453</span><a name="line.453"></a>
 <span class="sourceLineNo">454</span>  /**<a name="line.454"></a>
@@ -464,7 +464,7 @@
 <span class="sourceLineNo">456</span>   * find it when available. When this is null, use the slow way.<a name="line.456"></a>
 <span class="sourceLineNo">457</span>   */<a name="line.457"></a>
 <span class="sourceLineNo">458</span>  @GwtIncompatible // java.lang.reflect<a name="line.458"></a>
-<span class="sourceLineNo">459</span>  @Nullable<a name="line.459"></a>
+<span class="sourceLineNo">459</span>  @NullableDecl<a name="line.459"></a>
 <span class="sourceLineNo">460</span>  private static final Method getStackTraceElementMethod = (jla == null) ? null : getGetMethod();<a name="line.460"></a>
 <span class="sourceLineNo">461</span><a name="line.461"></a>
 <span class="sourceLineNo">462</span>  /**<a name="line.462"></a>
@@ -472,7 +472,7 @@
 <span class="sourceLineNo">464</span>   * when available. When this is null, use the slow way.<a name="line.464"></a>
 <span class="sourceLineNo">465</span>   */<a name="line.465"></a>
 <span class="sourceLineNo">466</span>  @GwtIncompatible // java.lang.reflect<a name="line.466"></a>
-<span class="sourceLineNo">467</span>  @Nullable<a name="line.467"></a>
+<span class="sourceLineNo">467</span>  @NullableDecl<a name="line.467"></a>
 <span class="sourceLineNo">468</span>  private static final Method getStackTraceDepthMethod = (jla == null) ? null : getSizeMethod();<a name="line.468"></a>
 <span class="sourceLineNo">469</span><a name="line.469"></a>
 <span class="sourceLineNo">470</span>  /**<a name="line.470"></a>
@@ -480,7 +480,7 @@
 <span class="sourceLineNo">472</span>   * AppEngine, and not present in non-Sun JDKs.<a name="line.472"></a>
 <span class="sourceLineNo">473</span>   */<a name="line.473"></a>
 <span class="sourceLineNo">474</span>  @GwtIncompatible // java.lang.reflect<a name="line.474"></a>
-<span class="sourceLineNo">475</span>  @Nullable<a name="line.475"></a>
+<span class="sourceLineNo">475</span>  @NullableDecl<a name="line.475"></a>
 <span class="sourceLineNo">476</span>  private static Object getJLA() {<a name="line.476"></a>
 <span class="sourceLineNo">477</span>    try {<a name="line.477"></a>
 <span class="sourceLineNo">478</span>      /*<a name="line.478"></a>
@@ -506,7 +506,7 @@
 <span class="sourceLineNo">498</span>   * method cannot be found (it is only to be found in fairly recent JDKs).<a name="line.498"></a>
 <span class="sourceLineNo">499</span>   */<a name="line.499"></a>
 <span class="sourceLineNo">500</span>  @GwtIncompatible // java.lang.reflect<a name="line.500"></a>
-<span class="sourceLineNo">501</span>  @Nullable<a name="line.501"></a>
+<span class="sourceLineNo">501</span>  @NullableDecl<a name="line.501"></a>
 <span class="sourceLineNo">502</span>  private static Method getGetMethod() {<a name="line.502"></a>
 <span class="sourceLineNo">503</span>    return getJlaMethod("getStackTraceElement", Throwable.class, int.class);<a name="line.503"></a>
 <span class="sourceLineNo">504</span>  }<a name="line.504"></a>
@@ -521,7 +521,7 @@
 <span class="sourceLineNo">513</span>   * UnsupportedOperationException&lt;/a&gt;.<a name="line.513"></a>
 <span class="sourceLineNo">514</span>   */<a name="line.514"></a>
 <span class="sourceLineNo">515</span>  @GwtIncompatible // java.lang.reflect<a name="line.515"></a>
-<span class="sourceLineNo">516</span>  @Nullable<a name="line.516"></a>
+<span class="sourceLineNo">516</span>  @NullableDecl<a name="line.516"></a>
 <span class="sourceLineNo">517</span>  private static Method getSizeMethod() {<a name="line.517"></a>
 <span class="sourceLineNo">518</span>    try {<a name="line.518"></a>
 <span class="sourceLineNo">519</span>      Method getStackTraceDepth = getJlaMethod("getStackTraceDepth", Throwable.class);<a name="line.519"></a>
@@ -536,7 +536,7 @@
 <span class="sourceLineNo">528</span>  }<a name="line.528"></a>
 <span class="sourceLineNo">529</span><a name="line.529"></a>
 <span class="sourceLineNo">530</span>  @GwtIncompatible // java.lang.reflect<a name="line.530"></a>
-<span class="sourceLineNo">531</span>  @Nullable<a name="line.531"></a>
+<span class="sourceLineNo">531</span>  @NullableDecl<a name="line.531"></a>
 <span class="sourceLineNo">532</span>  private static Method getJlaMethod(String name, Class&lt;?&gt;... parameterTypes) throws ThreadDeath {<a name="line.532"></a>
 <span class="sourceLineNo">533</span>    try {<a name="line.533"></a>
 <span class="sourceLineNo">534</span>      return Class.forName(JAVA_LANG_ACCESS_CLASSNAME, false, null).getMethod(name, parameterTypes);<a name="line.534"></a>

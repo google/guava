@@ -52,7 +52,7 @@
 <span class="sourceLineNo">044</span>import java.util.stream.LongStream;<a name="line.44"></a>
 <span class="sourceLineNo">045</span>import java.util.stream.Stream;<a name="line.45"></a>
 <span class="sourceLineNo">046</span>import java.util.stream.StreamSupport;<a name="line.46"></a>
-<span class="sourceLineNo">047</span>import javax.annotation.Nullable;<a name="line.47"></a>
+<span class="sourceLineNo">047</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.47"></a>
 <span class="sourceLineNo">048</span><a name="line.48"></a>
 <span class="sourceLineNo">049</span>/**<a name="line.49"></a>
 <span class="sourceLineNo">050</span> * Static utility methods related to {@code Stream} instances.<a name="line.50"></a>
@@ -388,7 +388,7 @@
 <span class="sourceLineNo">380</span>      }<a name="line.380"></a>
 <span class="sourceLineNo">381</span><a name="line.381"></a>
 <span class="sourceLineNo">382</span>      @Override<a name="line.382"></a>
-<span class="sourceLineNo">383</span>      public void accept(@Nullable T t) {<a name="line.383"></a>
+<span class="sourceLineNo">383</span>      public void accept(@NullableDecl T t) {<a name="line.383"></a>
 <span class="sourceLineNo">384</span>        this.holder = t;<a name="line.384"></a>
 <span class="sourceLineNo">385</span>      }<a name="line.385"></a>
 <span class="sourceLineNo">386</span><a name="line.386"></a>
@@ -761,7 +761,7 @@
 <span class="sourceLineNo">753</span>      boolean set = false;<a name="line.753"></a>
 <span class="sourceLineNo">754</span>      T value = null;<a name="line.754"></a>
 <span class="sourceLineNo">755</span><a name="line.755"></a>
-<span class="sourceLineNo">756</span>      void set(@Nullable T value) {<a name="line.756"></a>
+<span class="sourceLineNo">756</span>      void set(@NullableDecl T value) {<a name="line.756"></a>
 <span class="sourceLineNo">757</span>        this.set = true;<a name="line.757"></a>
 <span class="sourceLineNo">758</span>        this.value = value;<a name="line.758"></a>
 <span class="sourceLineNo">759</span>      }<a name="line.759"></a>

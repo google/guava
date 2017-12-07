@@ -59,7 +59,7 @@
 <span class="sourceLineNo">051</span>import java.util.function.Consumer;<a name="line.51"></a>
 <span class="sourceLineNo">052</span>import java.util.stream.Collector;<a name="line.52"></a>
 <span class="sourceLineNo">053</span>import java.util.stream.Stream;<a name="line.53"></a>
-<span class="sourceLineNo">054</span>import javax.annotation.Nullable;<a name="line.54"></a>
+<span class="sourceLineNo">054</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.54"></a>
 <span class="sourceLineNo">055</span><a name="line.55"></a>
 <span class="sourceLineNo">056</span>/**<a name="line.56"></a>
 <span class="sourceLineNo">057</span> * Static utility methods pertaining to {@link Set} instances. Also see this class's counterparts<a name="line.57"></a>
@@ -1073,7 +1073,7 @@
 <span class="sourceLineNo">1065</span>    }<a name="line.1065"></a>
 <span class="sourceLineNo">1066</span><a name="line.1066"></a>
 <span class="sourceLineNo">1067</span>    @Override<a name="line.1067"></a>
-<span class="sourceLineNo">1068</span>    public boolean equals(@Nullable Object object) {<a name="line.1068"></a>
+<span class="sourceLineNo">1068</span>    public boolean equals(@NullableDecl Object object) {<a name="line.1068"></a>
 <span class="sourceLineNo">1069</span>      return equalsImpl(this, object);<a name="line.1069"></a>
 <span class="sourceLineNo">1070</span>    }<a name="line.1070"></a>
 <span class="sourceLineNo">1071</span><a name="line.1071"></a>
@@ -1215,13 +1215,13 @@
 <span class="sourceLineNo">1207</span>    }<a name="line.1207"></a>
 <span class="sourceLineNo">1208</span><a name="line.1208"></a>
 <span class="sourceLineNo">1209</span>    @Override<a name="line.1209"></a>
-<span class="sourceLineNo">1210</span>    @Nullable<a name="line.1210"></a>
+<span class="sourceLineNo">1210</span>    @NullableDecl<a name="line.1210"></a>
 <span class="sourceLineNo">1211</span>    public E lower(E e) {<a name="line.1211"></a>
 <span class="sourceLineNo">1212</span>      return Iterators.find(unfiltered().headSet(e, false).descendingIterator(), predicate, null);<a name="line.1212"></a>
 <span class="sourceLineNo">1213</span>    }<a name="line.1213"></a>
 <span class="sourceLineNo">1214</span><a name="line.1214"></a>
 <span class="sourceLineNo">1215</span>    @Override<a name="line.1215"></a>
-<span class="sourceLineNo">1216</span>    @Nullable<a name="line.1216"></a>
+<span class="sourceLineNo">1216</span>    @NullableDecl<a name="line.1216"></a>
 <span class="sourceLineNo">1217</span>    public E floor(E e) {<a name="line.1217"></a>
 <span class="sourceLineNo">1218</span>      return Iterators.find(unfiltered().headSet(e, true).descendingIterator(), predicate, null);<a name="line.1218"></a>
 <span class="sourceLineNo">1219</span>    }<a name="line.1219"></a>
@@ -1437,7 +1437,7 @@
 <span class="sourceLineNo">1429</span>    }<a name="line.1429"></a>
 <span class="sourceLineNo">1430</span><a name="line.1430"></a>
 <span class="sourceLineNo">1431</span>    @Override<a name="line.1431"></a>
-<span class="sourceLineNo">1432</span>    public boolean equals(@Nullable Object object) {<a name="line.1432"></a>
+<span class="sourceLineNo">1432</span>    public boolean equals(@NullableDecl Object object) {<a name="line.1432"></a>
 <span class="sourceLineNo">1433</span>      // Warning: this is broken if size() == 0, so it is critical that we<a name="line.1433"></a>
 <span class="sourceLineNo">1434</span>      // substitute an empty ImmutableSet to the user in place of this<a name="line.1434"></a>
 <span class="sourceLineNo">1435</span>      if (object instanceof CartesianSet) {<a name="line.1435"></a>
@@ -1537,7 +1537,7 @@
 <span class="sourceLineNo">1529</span>    }<a name="line.1529"></a>
 <span class="sourceLineNo">1530</span><a name="line.1530"></a>
 <span class="sourceLineNo">1531</span>    @Override<a name="line.1531"></a>
-<span class="sourceLineNo">1532</span>    public boolean contains(@Nullable Object o) {<a name="line.1532"></a>
+<span class="sourceLineNo">1532</span>    public boolean contains(@NullableDecl Object o) {<a name="line.1532"></a>
 <span class="sourceLineNo">1533</span>      Integer index = inputSet.get(o);<a name="line.1533"></a>
 <span class="sourceLineNo">1534</span>      return index != null &amp;&amp; (mask &amp; (1 &lt;&lt; index)) != 0;<a name="line.1534"></a>
 <span class="sourceLineNo">1535</span>    }<a name="line.1535"></a>
@@ -1573,7 +1573,7 @@
 <span class="sourceLineNo">1565</span>    }<a name="line.1565"></a>
 <span class="sourceLineNo">1566</span><a name="line.1566"></a>
 <span class="sourceLineNo">1567</span>    @Override<a name="line.1567"></a>
-<span class="sourceLineNo">1568</span>    public boolean contains(@Nullable Object obj) {<a name="line.1568"></a>
+<span class="sourceLineNo">1568</span>    public boolean contains(@NullableDecl Object obj) {<a name="line.1568"></a>
 <span class="sourceLineNo">1569</span>      if (obj instanceof Set) {<a name="line.1569"></a>
 <span class="sourceLineNo">1570</span>        Set&lt;?&gt; set = (Set&lt;?&gt;) obj;<a name="line.1570"></a>
 <span class="sourceLineNo">1571</span>        return inputSet.keySet().containsAll(set);<a name="line.1571"></a>
@@ -1582,7 +1582,7 @@
 <span class="sourceLineNo">1574</span>    }<a name="line.1574"></a>
 <span class="sourceLineNo">1575</span><a name="line.1575"></a>
 <span class="sourceLineNo">1576</span>    @Override<a name="line.1576"></a>
-<span class="sourceLineNo">1577</span>    public boolean equals(@Nullable Object obj) {<a name="line.1577"></a>
+<span class="sourceLineNo">1577</span>    public boolean equals(@NullableDecl Object obj) {<a name="line.1577"></a>
 <span class="sourceLineNo">1578</span>      if (obj instanceof PowerSet) {<a name="line.1578"></a>
 <span class="sourceLineNo">1579</span>        PowerSet&lt;?&gt; that = (PowerSet&lt;?&gt;) obj;<a name="line.1579"></a>
 <span class="sourceLineNo">1580</span>        return inputSet.equals(that.inputSet);<a name="line.1580"></a>
@@ -1642,7 +1642,7 @@
 <span class="sourceLineNo">1634</span>    }<a name="line.1634"></a>
 <span class="sourceLineNo">1635</span>    return new AbstractSet&lt;Set&lt;E&gt;&gt;() {<a name="line.1635"></a>
 <span class="sourceLineNo">1636</span>      @Override<a name="line.1636"></a>
-<span class="sourceLineNo">1637</span>      public boolean contains(@Nullable Object o) {<a name="line.1637"></a>
+<span class="sourceLineNo">1637</span>      public boolean contains(@NullableDecl Object o) {<a name="line.1637"></a>
 <span class="sourceLineNo">1638</span>        if (o instanceof Set) {<a name="line.1638"></a>
 <span class="sourceLineNo">1639</span>          Set&lt;?&gt; s = (Set&lt;?&gt;) o;<a name="line.1639"></a>
 <span class="sourceLineNo">1640</span>          return s.size() == size &amp;&amp; index.keySet().containsAll(s);<a name="line.1640"></a>
@@ -1687,7 +1687,7 @@
 <span class="sourceLineNo">1679</span>            final BitSet copy = (BitSet) bits.clone();<a name="line.1679"></a>
 <span class="sourceLineNo">1680</span>            return new AbstractSet&lt;E&gt;() {<a name="line.1680"></a>
 <span class="sourceLineNo">1681</span>              @Override<a name="line.1681"></a>
-<span class="sourceLineNo">1682</span>              public boolean contains(@Nullable Object o) {<a name="line.1682"></a>
+<span class="sourceLineNo">1682</span>              public boolean contains(@NullableDecl Object o) {<a name="line.1682"></a>
 <span class="sourceLineNo">1683</span>                Integer i = index.get(o);<a name="line.1683"></a>
 <span class="sourceLineNo">1684</span>                return i != null &amp;&amp; copy.get(i);<a name="line.1684"></a>
 <span class="sourceLineNo">1685</span>              }<a name="line.1685"></a>
@@ -1742,7 +1742,7 @@
 <span class="sourceLineNo">1734</span>  }<a name="line.1734"></a>
 <span class="sourceLineNo">1735</span><a name="line.1735"></a>
 <span class="sourceLineNo">1736</span>  /** An implementation for {@link Set#equals(Object)}. */<a name="line.1736"></a>
-<span class="sourceLineNo">1737</span>  static boolean equalsImpl(Set&lt;?&gt; s, @Nullable Object object) {<a name="line.1737"></a>
+<span class="sourceLineNo">1737</span>  static boolean equalsImpl(Set&lt;?&gt; s, @NullableDecl Object object) {<a name="line.1737"></a>
 <span class="sourceLineNo">1738</span>    if (s == object) {<a name="line.1738"></a>
 <span class="sourceLineNo">1739</span>      return true;<a name="line.1739"></a>
 <span class="sourceLineNo">1740</span>    }<a name="line.1740"></a>

@@ -23,7 +23,7 @@
 <span class="sourceLineNo">015</span>package com.google.common.base;<a name="line.15"></a>
 <span class="sourceLineNo">016</span><a name="line.16"></a>
 <span class="sourceLineNo">017</span>import com.google.common.annotations.GwtIncompatible;<a name="line.17"></a>
-<span class="sourceLineNo">018</span>import javax.annotation.Nullable;<a name="line.18"></a>
+<span class="sourceLineNo">018</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.18"></a>
 <span class="sourceLineNo">019</span><a name="line.19"></a>
 <span class="sourceLineNo">020</span>/**<a name="line.20"></a>
 <span class="sourceLineNo">021</span> * Represents a {@linkplain System#getProperties() standard system property}.<a name="line.21"></a>
@@ -133,7 +133,7 @@
 <span class="sourceLineNo">125</span>   * Returns the current value for this system property by delegating to {@link<a name="line.125"></a>
 <span class="sourceLineNo">126</span>   * System#getProperty(String)}.<a name="line.126"></a>
 <span class="sourceLineNo">127</span>   */<a name="line.127"></a>
-<span class="sourceLineNo">128</span>  @Nullable<a name="line.128"></a>
+<span class="sourceLineNo">128</span>  @NullableDecl<a name="line.128"></a>
 <span class="sourceLineNo">129</span>  public String value() {<a name="line.129"></a>
 <span class="sourceLineNo">130</span>    return System.getProperty(key);<a name="line.130"></a>
 <span class="sourceLineNo">131</span>  }<a name="line.131"></a>

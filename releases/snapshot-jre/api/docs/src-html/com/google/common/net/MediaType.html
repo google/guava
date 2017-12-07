@@ -52,7 +52,7 @@
 <span class="sourceLineNo">044</span>import java.util.Collection;<a name="line.44"></a>
 <span class="sourceLineNo">045</span>import java.util.Map;<a name="line.45"></a>
 <span class="sourceLineNo">046</span>import java.util.Map.Entry;<a name="line.46"></a>
-<span class="sourceLineNo">047</span>import javax.annotation.Nullable;<a name="line.47"></a>
+<span class="sourceLineNo">047</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.47"></a>
 <span class="sourceLineNo">048</span><a name="line.48"></a>
 <span class="sourceLineNo">049</span>/**<a name="line.49"></a>
 <span class="sourceLineNo">050</span> * Represents an &lt;a href="http://en.wikipedia.org/wiki/Internet_media_type"&gt;Internet Media Type&lt;/a&gt;<a name="line.50"></a>
@@ -893,7 +893,7 @@
 <span class="sourceLineNo">885</span>  }<a name="line.885"></a>
 <span class="sourceLineNo">886</span><a name="line.886"></a>
 <span class="sourceLineNo">887</span>  @Override<a name="line.887"></a>
-<span class="sourceLineNo">888</span>  public boolean equals(@Nullable Object obj) {<a name="line.888"></a>
+<span class="sourceLineNo">888</span>  public boolean equals(@NullableDecl Object obj) {<a name="line.888"></a>
 <span class="sourceLineNo">889</span>    if (obj == this) {<a name="line.889"></a>
 <span class="sourceLineNo">890</span>      return true;<a name="line.890"></a>
 <span class="sourceLineNo">891</span>    } else if (obj instanceof MediaType) {<a name="line.891"></a>

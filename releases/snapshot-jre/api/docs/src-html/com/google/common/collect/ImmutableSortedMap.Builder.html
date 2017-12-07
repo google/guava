@@ -47,7 +47,7 @@
 <span class="sourceLineNo">039</span>import java.util.function.Function;<a name="line.39"></a>
 <span class="sourceLineNo">040</span>import java.util.stream.Collector;<a name="line.40"></a>
 <span class="sourceLineNo">041</span>import java.util.stream.Collectors;<a name="line.41"></a>
-<span class="sourceLineNo">042</span>import javax.annotation.Nullable;<a name="line.42"></a>
+<span class="sourceLineNo">042</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.42"></a>
 <span class="sourceLineNo">043</span><a name="line.43"></a>
 <span class="sourceLineNo">044</span>/**<a name="line.44"></a>
 <span class="sourceLineNo">045</span> * A {@link NavigableMap} whose contents will never change, with many other important properties<a name="line.45"></a>
@@ -598,7 +598,7 @@
 <span class="sourceLineNo">590</span>  }<a name="line.590"></a>
 <span class="sourceLineNo">591</span><a name="line.591"></a>
 <span class="sourceLineNo">592</span>  @Override<a name="line.592"></a>
-<span class="sourceLineNo">593</span>  public V get(@Nullable Object key) {<a name="line.593"></a>
+<span class="sourceLineNo">593</span>  public V get(@NullableDecl Object key) {<a name="line.593"></a>
 <span class="sourceLineNo">594</span>    int index = keySet.indexOf(key);<a name="line.594"></a>
 <span class="sourceLineNo">595</span>    return (index == -1) ? null : valueList.get(index);<a name="line.595"></a>
 <span class="sourceLineNo">596</span>  }<a name="line.596"></a>

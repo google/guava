@@ -41,7 +41,7 @@
 <span class="sourceLineNo">033</span>import java.io.OutputStream;<a name="line.33"></a>
 <span class="sourceLineNo">034</span>import java.io.Serializable;<a name="line.34"></a>
 <span class="sourceLineNo">035</span>import java.math.RoundingMode;<a name="line.35"></a>
-<span class="sourceLineNo">036</span>import javax.annotation.Nullable;<a name="line.36"></a>
+<span class="sourceLineNo">036</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.36"></a>
 <span class="sourceLineNo">037</span><a name="line.37"></a>
 <span class="sourceLineNo">038</span>/**<a name="line.38"></a>
 <span class="sourceLineNo">039</span> * A Bloom filter for instances of {@code T}. A Bloom filter offers an approximate containment test<a name="line.39"></a>
@@ -276,7 +276,7 @@
 <span class="sourceLineNo">268</span>  }<a name="line.268"></a>
 <span class="sourceLineNo">269</span><a name="line.269"></a>
 <span class="sourceLineNo">270</span>  @Override<a name="line.270"></a>
-<span class="sourceLineNo">271</span>  public boolean equals(@Nullable Object object) {<a name="line.271"></a>
+<span class="sourceLineNo">271</span>  public boolean equals(@NullableDecl Object object) {<a name="line.271"></a>
 <span class="sourceLineNo">272</span>    if (object == this) {<a name="line.272"></a>
 <span class="sourceLineNo">273</span>      return true;<a name="line.273"></a>
 <span class="sourceLineNo">274</span>    }<a name="line.274"></a>

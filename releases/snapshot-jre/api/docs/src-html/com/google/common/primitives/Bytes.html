@@ -35,7 +35,7 @@
 <span class="sourceLineNo">027</span>import java.util.Collections;<a name="line.27"></a>
 <span class="sourceLineNo">028</span>import java.util.List;<a name="line.28"></a>
 <span class="sourceLineNo">029</span>import java.util.RandomAccess;<a name="line.29"></a>
-<span class="sourceLineNo">030</span>import javax.annotation.Nullable;<a name="line.30"></a>
+<span class="sourceLineNo">030</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.30"></a>
 <span class="sourceLineNo">031</span><a name="line.31"></a>
 <span class="sourceLineNo">032</span>/**<a name="line.32"></a>
 <span class="sourceLineNo">033</span> * Static utility methods pertaining to {@code byte} primitives, that are not already found in<a name="line.33"></a>
@@ -327,7 +327,7 @@
 <span class="sourceLineNo">319</span>    }<a name="line.319"></a>
 <span class="sourceLineNo">320</span><a name="line.320"></a>
 <span class="sourceLineNo">321</span>    @Override<a name="line.321"></a>
-<span class="sourceLineNo">322</span>    public boolean equals(@Nullable Object object) {<a name="line.322"></a>
+<span class="sourceLineNo">322</span>    public boolean equals(@NullableDecl Object object) {<a name="line.322"></a>
 <span class="sourceLineNo">323</span>      if (object == this) {<a name="line.323"></a>
 <span class="sourceLineNo">324</span>        return true;<a name="line.324"></a>
 <span class="sourceLineNo">325</span>      }<a name="line.325"></a>

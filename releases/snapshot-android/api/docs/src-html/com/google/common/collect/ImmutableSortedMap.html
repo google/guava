@@ -40,7 +40,7 @@
 <span class="sourceLineNo">032</span>import java.util.NavigableMap;<a name="line.32"></a>
 <span class="sourceLineNo">033</span>import java.util.SortedMap;<a name="line.33"></a>
 <span class="sourceLineNo">034</span>import java.util.TreeMap;<a name="line.34"></a>
-<span class="sourceLineNo">035</span>import javax.annotation.Nullable;<a name="line.35"></a>
+<span class="sourceLineNo">035</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.35"></a>
 <span class="sourceLineNo">036</span><a name="line.36"></a>
 <span class="sourceLineNo">037</span>/**<a name="line.37"></a>
 <span class="sourceLineNo">038</span> * A {@link NavigableMap} whose contents will never change, with many other important properties<a name="line.38"></a>
@@ -572,7 +572,7 @@
 <span class="sourceLineNo">564</span>  }<a name="line.564"></a>
 <span class="sourceLineNo">565</span><a name="line.565"></a>
 <span class="sourceLineNo">566</span>  @Override<a name="line.566"></a>
-<span class="sourceLineNo">567</span>  public V get(@Nullable Object key) {<a name="line.567"></a>
+<span class="sourceLineNo">567</span>  public V get(@NullableDecl Object key) {<a name="line.567"></a>
 <span class="sourceLineNo">568</span>    int index = keySet.indexOf(key);<a name="line.568"></a>
 <span class="sourceLineNo">569</span>    return (index == -1) ? null : valueList.get(index);<a name="line.569"></a>
 <span class="sourceLineNo">570</span>  }<a name="line.570"></a>

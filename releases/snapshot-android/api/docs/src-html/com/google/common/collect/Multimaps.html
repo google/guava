@@ -55,7 +55,7 @@
 <span class="sourceLineNo">047</span>import java.util.NoSuchElementException;<a name="line.47"></a>
 <span class="sourceLineNo">048</span>import java.util.Set;<a name="line.48"></a>
 <span class="sourceLineNo">049</span>import java.util.SortedSet;<a name="line.49"></a>
-<span class="sourceLineNo">050</span>import javax.annotation.Nullable;<a name="line.50"></a>
+<span class="sourceLineNo">050</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.50"></a>
 <span class="sourceLineNo">051</span><a name="line.51"></a>
 <span class="sourceLineNo">052</span>/**<a name="line.52"></a>
 <span class="sourceLineNo">053</span> * Provides static methods acting on or generating a {@code Multimap}.<a name="line.53"></a>
@@ -1540,7 +1540,7 @@
 <span class="sourceLineNo">1532</span>      }<a name="line.1532"></a>
 <span class="sourceLineNo">1533</span><a name="line.1533"></a>
 <span class="sourceLineNo">1534</span>      @Override<a name="line.1534"></a>
-<span class="sourceLineNo">1535</span>      public boolean contains(@Nullable Object o) {<a name="line.1535"></a>
+<span class="sourceLineNo">1535</span>      public boolean contains(@NullableDecl Object o) {<a name="line.1535"></a>
 <span class="sourceLineNo">1536</span>        if (o instanceof Multiset.Entry) {<a name="line.1536"></a>
 <span class="sourceLineNo">1537</span>          Multiset.Entry&lt;?&gt; entry = (Multiset.Entry&lt;?&gt;) o;<a name="line.1537"></a>
 <span class="sourceLineNo">1538</span>          Collection&lt;V&gt; collection = multimap.asMap().get(entry.getElement());<a name="line.1538"></a>
@@ -1550,7 +1550,7 @@
 <span class="sourceLineNo">1542</span>      }<a name="line.1542"></a>
 <span class="sourceLineNo">1543</span><a name="line.1543"></a>
 <span class="sourceLineNo">1544</span>      @Override<a name="line.1544"></a>
-<span class="sourceLineNo">1545</span>      public boolean remove(@Nullable Object o) {<a name="line.1545"></a>
+<span class="sourceLineNo">1545</span>      public boolean remove(@NullableDecl Object o) {<a name="line.1545"></a>
 <span class="sourceLineNo">1546</span>        if (o instanceof Multiset.Entry) {<a name="line.1546"></a>
 <span class="sourceLineNo">1547</span>          Multiset.Entry&lt;?&gt; entry = (Multiset.Entry&lt;?&gt;) o;<a name="line.1547"></a>
 <span class="sourceLineNo">1548</span>          Collection&lt;V&gt; collection = multimap.asMap().get(entry.getElement());<a name="line.1548"></a>
@@ -1564,7 +1564,7 @@
 <span class="sourceLineNo">1556</span>    }<a name="line.1556"></a>
 <span class="sourceLineNo">1557</span><a name="line.1557"></a>
 <span class="sourceLineNo">1558</span>    @Override<a name="line.1558"></a>
-<span class="sourceLineNo">1559</span>    public boolean contains(@Nullable Object element) {<a name="line.1559"></a>
+<span class="sourceLineNo">1559</span>    public boolean contains(@NullableDecl Object element) {<a name="line.1559"></a>
 <span class="sourceLineNo">1560</span>      return multimap.containsKey(element);<a name="line.1560"></a>
 <span class="sourceLineNo">1561</span>    }<a name="line.1561"></a>
 <span class="sourceLineNo">1562</span><a name="line.1562"></a>
@@ -1574,13 +1574,13 @@
 <span class="sourceLineNo">1566</span>    }<a name="line.1566"></a>
 <span class="sourceLineNo">1567</span><a name="line.1567"></a>
 <span class="sourceLineNo">1568</span>    @Override<a name="line.1568"></a>
-<span class="sourceLineNo">1569</span>    public int count(@Nullable Object element) {<a name="line.1569"></a>
+<span class="sourceLineNo">1569</span>    public int count(@NullableDecl Object element) {<a name="line.1569"></a>
 <span class="sourceLineNo">1570</span>      Collection&lt;V&gt; values = Maps.safeGet(multimap.asMap(), element);<a name="line.1570"></a>
 <span class="sourceLineNo">1571</span>      return (values == null) ? 0 : values.size();<a name="line.1571"></a>
 <span class="sourceLineNo">1572</span>    }<a name="line.1572"></a>
 <span class="sourceLineNo">1573</span><a name="line.1573"></a>
 <span class="sourceLineNo">1574</span>    @Override<a name="line.1574"></a>
-<span class="sourceLineNo">1575</span>    public int remove(@Nullable Object element, int occurrences) {<a name="line.1575"></a>
+<span class="sourceLineNo">1575</span>    public int remove(@NullableDecl Object element, int occurrences) {<a name="line.1575"></a>
 <span class="sourceLineNo">1576</span>      checkNonnegative(occurrences, "occurrences");<a name="line.1576"></a>
 <span class="sourceLineNo">1577</span>      if (occurrences == 0) {<a name="line.1577"></a>
 <span class="sourceLineNo">1578</span>        return count(element);<a name="line.1578"></a>
@@ -1626,7 +1626,7 @@
 <span class="sourceLineNo">1618</span>    }<a name="line.1618"></a>
 <span class="sourceLineNo">1619</span><a name="line.1619"></a>
 <span class="sourceLineNo">1620</span>    @Override<a name="line.1620"></a>
-<span class="sourceLineNo">1621</span>    public boolean contains(@Nullable Object o) {<a name="line.1621"></a>
+<span class="sourceLineNo">1621</span>    public boolean contains(@NullableDecl Object o) {<a name="line.1621"></a>
 <span class="sourceLineNo">1622</span>      if (o instanceof Map.Entry) {<a name="line.1622"></a>
 <span class="sourceLineNo">1623</span>        Map.Entry&lt;?, ?&gt; entry = (Map.Entry&lt;?, ?&gt;) o;<a name="line.1623"></a>
 <span class="sourceLineNo">1624</span>        return multimap().containsEntry(entry.getKey(), entry.getValue());<a name="line.1624"></a>
@@ -1635,7 +1635,7 @@
 <span class="sourceLineNo">1627</span>    }<a name="line.1627"></a>
 <span class="sourceLineNo">1628</span><a name="line.1628"></a>
 <span class="sourceLineNo">1629</span>    @Override<a name="line.1629"></a>
-<span class="sourceLineNo">1630</span>    public boolean remove(@Nullable Object o) {<a name="line.1630"></a>
+<span class="sourceLineNo">1630</span>    public boolean remove(@NullableDecl Object o) {<a name="line.1630"></a>
 <span class="sourceLineNo">1631</span>      if (o instanceof Map.Entry) {<a name="line.1631"></a>
 <span class="sourceLineNo">1632</span>        Map.Entry&lt;?, ?&gt; entry = (Map.Entry&lt;?, ?&gt;) o;<a name="line.1632"></a>
 <span class="sourceLineNo">1633</span>        return multimap().remove(entry.getKey(), entry.getValue());<a name="line.1633"></a>
@@ -2016,7 +2016,7 @@
 <span class="sourceLineNo">2008</span>    return new FilteredEntrySetMultimap&lt;&gt;(multimap.unfiltered(), predicate);<a name="line.2008"></a>
 <span class="sourceLineNo">2009</span>  }<a name="line.2009"></a>
 <span class="sourceLineNo">2010</span><a name="line.2010"></a>
-<span class="sourceLineNo">2011</span>  static boolean equalsImpl(Multimap&lt;?, ?&gt; multimap, @Nullable Object object) {<a name="line.2011"></a>
+<span class="sourceLineNo">2011</span>  static boolean equalsImpl(Multimap&lt;?, ?&gt; multimap, @NullableDecl Object object) {<a name="line.2011"></a>
 <span class="sourceLineNo">2012</span>    if (object == multimap) {<a name="line.2012"></a>
 <span class="sourceLineNo">2013</span>      return true;<a name="line.2013"></a>
 <span class="sourceLineNo">2014</span>    }<a name="line.2014"></a>

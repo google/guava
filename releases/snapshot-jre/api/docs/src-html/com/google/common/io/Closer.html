@@ -35,7 +35,7 @@
 <span class="sourceLineNo">027</span>import java.util.ArrayDeque;<a name="line.27"></a>
 <span class="sourceLineNo">028</span>import java.util.Deque;<a name="line.28"></a>
 <span class="sourceLineNo">029</span>import java.util.logging.Level;<a name="line.29"></a>
-<span class="sourceLineNo">030</span>import javax.annotation.Nullable;<a name="line.30"></a>
+<span class="sourceLineNo">030</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.30"></a>
 <span class="sourceLineNo">031</span><a name="line.31"></a>
 <span class="sourceLineNo">032</span>/**<a name="line.32"></a>
 <span class="sourceLineNo">033</span> * A {@link Closeable} that collects {@code Closeable} resources and closes them all when it is<a name="line.33"></a>
@@ -128,7 +128,7 @@
 <span class="sourceLineNo">120</span>   */<a name="line.120"></a>
 <span class="sourceLineNo">121</span>  // close. this word no longer has any meaning to me.<a name="line.121"></a>
 <span class="sourceLineNo">122</span>  @CanIgnoreReturnValue<a name="line.122"></a>
-<span class="sourceLineNo">123</span>  public &lt;C extends Closeable&gt; C register(@Nullable C closeable) {<a name="line.123"></a>
+<span class="sourceLineNo">123</span>  public &lt;C extends Closeable&gt; C register(@NullableDecl C closeable) {<a name="line.123"></a>
 <span class="sourceLineNo">124</span>    if (closeable != null) {<a name="line.124"></a>
 <span class="sourceLineNo">125</span>      stack.addFirst(closeable);<a name="line.125"></a>
 <span class="sourceLineNo">126</span>    }<a name="line.126"></a>

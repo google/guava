@@ -35,7 +35,7 @@
 <span class="sourceLineNo">027</span>import java.util.Iterator;<a name="line.27"></a>
 <span class="sourceLineNo">028</span>import java.util.NoSuchElementException;<a name="line.28"></a>
 <span class="sourceLineNo">029</span>import java.util.SortedSet;<a name="line.29"></a>
-<span class="sourceLineNo">030</span>import javax.annotation.Nullable;<a name="line.30"></a>
+<span class="sourceLineNo">030</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.30"></a>
 <span class="sourceLineNo">031</span><a name="line.31"></a>
 <span class="sourceLineNo">032</span>/**<a name="line.32"></a>
 <span class="sourceLineNo">033</span> * A range (or "interval") defines the &lt;i&gt;boundaries&lt;/i&gt; around a contiguous span of values of some<a name="line.33"></a>
@@ -625,7 +625,7 @@
 <span class="sourceLineNo">617</span>   * {@code [3..3)}, {@code (3..3]}, {@code (4..4]} are all unequal.<a name="line.617"></a>
 <span class="sourceLineNo">618</span>   */<a name="line.618"></a>
 <span class="sourceLineNo">619</span>  @Override<a name="line.619"></a>
-<span class="sourceLineNo">620</span>  public boolean equals(@Nullable Object object) {<a name="line.620"></a>
+<span class="sourceLineNo">620</span>  public boolean equals(@NullableDecl Object object) {<a name="line.620"></a>
 <span class="sourceLineNo">621</span>    if (object instanceof Range) {<a name="line.621"></a>
 <span class="sourceLineNo">622</span>      Range&lt;?&gt; other = (Range&lt;?&gt;) object;<a name="line.622"></a>
 <span class="sourceLineNo">623</span>      return lowerBound.equals(other.lowerBound) &amp;&amp; upperBound.equals(other.upperBound);<a name="line.623"></a>

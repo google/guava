@@ -47,7 +47,7 @@
 <span class="sourceLineNo">039</span>import java.util.List;<a name="line.39"></a>
 <span class="sourceLineNo">040</span>import java.util.function.Consumer;<a name="line.40"></a>
 <span class="sourceLineNo">041</span>import java.util.stream.Stream;<a name="line.41"></a>
-<span class="sourceLineNo">042</span>import javax.annotation.Nullable;<a name="line.42"></a>
+<span class="sourceLineNo">042</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.42"></a>
 <span class="sourceLineNo">043</span><a name="line.43"></a>
 <span class="sourceLineNo">044</span>/**<a name="line.44"></a>
 <span class="sourceLineNo">045</span> * A readable source of characters, such as a text file. Unlike a {@link Reader}, a {@code<a name="line.45"></a>
@@ -303,7 +303,7 @@
 <span class="sourceLineNo">295</span>   *<a name="line.295"></a>
 <span class="sourceLineNo">296</span>   * @throws IOException if an I/O error occurs while reading from this source<a name="line.296"></a>
 <span class="sourceLineNo">297</span>   */<a name="line.297"></a>
-<span class="sourceLineNo">298</span>  @Nullable<a name="line.298"></a>
+<span class="sourceLineNo">298</span>  @NullableDecl<a name="line.298"></a>
 <span class="sourceLineNo">299</span>  public String readFirstLine() throws IOException {<a name="line.299"></a>
 <span class="sourceLineNo">300</span>    Closer closer = Closer.create();<a name="line.300"></a>
 <span class="sourceLineNo">301</span>    try {<a name="line.301"></a>

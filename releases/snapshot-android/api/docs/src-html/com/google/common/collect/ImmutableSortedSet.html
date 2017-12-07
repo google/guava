@@ -42,7 +42,7 @@
 <span class="sourceLineNo">034</span>import java.util.Iterator;<a name="line.34"></a>
 <span class="sourceLineNo">035</span>import java.util.NavigableSet;<a name="line.35"></a>
 <span class="sourceLineNo">036</span>import java.util.SortedSet;<a name="line.36"></a>
-<span class="sourceLineNo">037</span>import javax.annotation.Nullable;<a name="line.37"></a>
+<span class="sourceLineNo">037</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.37"></a>
 <span class="sourceLineNo">038</span><a name="line.38"></a>
 <span class="sourceLineNo">039</span>/**<a name="line.39"></a>
 <span class="sourceLineNo">040</span> * A {@link NavigableSet} whose contents will never change, with many other important properties<a name="line.40"></a>
@@ -715,7 +715,7 @@
 <span class="sourceLineNo">707</span>  public abstract UnmodifiableIterator&lt;E&gt; descendingIterator();<a name="line.707"></a>
 <span class="sourceLineNo">708</span><a name="line.708"></a>
 <span class="sourceLineNo">709</span>  /** Returns the position of an element within the set, or -1 if not present. */<a name="line.709"></a>
-<span class="sourceLineNo">710</span>  abstract int indexOf(@Nullable Object target);<a name="line.710"></a>
+<span class="sourceLineNo">710</span>  abstract int indexOf(@NullableDecl Object target);<a name="line.710"></a>
 <span class="sourceLineNo">711</span><a name="line.711"></a>
 <span class="sourceLineNo">712</span>  /*<a name="line.712"></a>
 <span class="sourceLineNo">713</span>   * This class is used to serialize all ImmutableSortedSet instances,<a name="line.713"></a>

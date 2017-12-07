@@ -45,7 +45,7 @@
 <span class="sourceLineNo">037</span>import java.util.NavigableMap;<a name="line.37"></a>
 <span class="sourceLineNo">038</span>import java.util.NoSuchElementException;<a name="line.38"></a>
 <span class="sourceLineNo">039</span>import java.util.Set;<a name="line.39"></a>
-<span class="sourceLineNo">040</span>import javax.annotation.Nullable;<a name="line.40"></a>
+<span class="sourceLineNo">040</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.40"></a>
 <span class="sourceLineNo">041</span><a name="line.41"></a>
 <span class="sourceLineNo">042</span>/**<a name="line.42"></a>
 <span class="sourceLineNo">043</span> * An implementation of {@code RangeMap} based on a {@code TreeMap}, supporting all optional<a name="line.43"></a>
@@ -108,14 +108,14 @@
 <span class="sourceLineNo">100</span>  }<a name="line.100"></a>
 <span class="sourceLineNo">101</span><a name="line.101"></a>
 <span class="sourceLineNo">102</span>  @Override<a name="line.102"></a>
-<span class="sourceLineNo">103</span>  @Nullable<a name="line.103"></a>
+<span class="sourceLineNo">103</span>  @NullableDecl<a name="line.103"></a>
 <span class="sourceLineNo">104</span>  public V get(K key) {<a name="line.104"></a>
 <span class="sourceLineNo">105</span>    Entry&lt;Range&lt;K&gt;, V&gt; entry = getEntry(key);<a name="line.105"></a>
 <span class="sourceLineNo">106</span>    return (entry == null) ? null : entry.getValue();<a name="line.106"></a>
 <span class="sourceLineNo">107</span>  }<a name="line.107"></a>
 <span class="sourceLineNo">108</span><a name="line.108"></a>
 <span class="sourceLineNo">109</span>  @Override<a name="line.109"></a>
-<span class="sourceLineNo">110</span>  @Nullable<a name="line.110"></a>
+<span class="sourceLineNo">110</span>  @NullableDecl<a name="line.110"></a>
 <span class="sourceLineNo">111</span>  public Entry&lt;Range&lt;K&gt;, V&gt; getEntry(K key) {<a name="line.111"></a>
 <span class="sourceLineNo">112</span>    Entry&lt;Cut&lt;K&gt;, RangeMapEntry&lt;K, V&gt;&gt; mapEntry =<a name="line.112"></a>
 <span class="sourceLineNo">113</span>        entriesByLowerBound.floorEntry(Cut.belowValue(key));<a name="line.113"></a>
@@ -163,7 +163,7 @@
 <span class="sourceLineNo">155</span><a name="line.155"></a>
 <span class="sourceLineNo">156</span>  /** Returns the range that spans the given range and entry, if the entry can be coalesced. */<a name="line.156"></a>
 <span class="sourceLineNo">157</span>  private static &lt;K extends Comparable, V&gt; Range&lt;K&gt; coalesce(<a name="line.157"></a>
-<span class="sourceLineNo">158</span>      Range&lt;K&gt; range, V value, @Nullable Entry&lt;Cut&lt;K&gt;, RangeMapEntry&lt;K, V&gt;&gt; entry) {<a name="line.158"></a>
+<span class="sourceLineNo">158</span>      Range&lt;K&gt; range, V value, @NullableDecl Entry&lt;Cut&lt;K&gt;, RangeMapEntry&lt;K, V&gt;&gt; entry) {<a name="line.158"></a>
 <span class="sourceLineNo">159</span>    if (entry != null<a name="line.159"></a>
 <span class="sourceLineNo">160</span>        &amp;&amp; entry.getValue().getKey().isConnected(range)<a name="line.160"></a>
 <span class="sourceLineNo">161</span>        &amp;&amp; entry.getValue().getValue().equals(value)) {<a name="line.161"></a>
@@ -269,12 +269,12 @@
 <span class="sourceLineNo">261</span>    }<a name="line.261"></a>
 <span class="sourceLineNo">262</span><a name="line.262"></a>
 <span class="sourceLineNo">263</span>    @Override<a name="line.263"></a>
-<span class="sourceLineNo">264</span>    public boolean containsKey(@Nullable Object key) {<a name="line.264"></a>
+<span class="sourceLineNo">264</span>    public boolean containsKey(@NullableDecl Object key) {<a name="line.264"></a>
 <span class="sourceLineNo">265</span>      return get(key) != null;<a name="line.265"></a>
 <span class="sourceLineNo">266</span>    }<a name="line.266"></a>
 <span class="sourceLineNo">267</span><a name="line.267"></a>
 <span class="sourceLineNo">268</span>    @Override<a name="line.268"></a>
-<span class="sourceLineNo">269</span>    public V get(@Nullable Object key) {<a name="line.269"></a>
+<span class="sourceLineNo">269</span>    public V get(@NullableDecl Object key) {<a name="line.269"></a>
 <span class="sourceLineNo">270</span>      if (key instanceof Range) {<a name="line.270"></a>
 <span class="sourceLineNo">271</span>        Range&lt;?&gt; range = (Range&lt;?&gt;) key;<a name="line.271"></a>
 <span class="sourceLineNo">272</span>        RangeMapEntry&lt;K, V&gt; rangeMapEntry = entriesByLowerBound.get(range.lowerBound);<a name="line.272"></a>
@@ -313,13 +313,13 @@
 <span class="sourceLineNo">305</span>  private static final RangeMap EMPTY_SUB_RANGE_MAP =<a name="line.305"></a>
 <span class="sourceLineNo">306</span>      new RangeMap() {<a name="line.306"></a>
 <span class="sourceLineNo">307</span>        @Override<a name="line.307"></a>
-<span class="sourceLineNo">308</span>        @Nullable<a name="line.308"></a>
+<span class="sourceLineNo">308</span>        @NullableDecl<a name="line.308"></a>
 <span class="sourceLineNo">309</span>        public Object get(Comparable key) {<a name="line.309"></a>
 <span class="sourceLineNo">310</span>          return null;<a name="line.310"></a>
 <span class="sourceLineNo">311</span>        }<a name="line.311"></a>
 <span class="sourceLineNo">312</span><a name="line.312"></a>
 <span class="sourceLineNo">313</span>        @Override<a name="line.313"></a>
-<span class="sourceLineNo">314</span>        @Nullable<a name="line.314"></a>
+<span class="sourceLineNo">314</span>        @NullableDecl<a name="line.314"></a>
 <span class="sourceLineNo">315</span>        public Entry&lt;Range, Object&gt; getEntry(Comparable key) {<a name="line.315"></a>
 <span class="sourceLineNo">316</span>          return null;<a name="line.316"></a>
 <span class="sourceLineNo">317</span>        }<a name="line.317"></a>
@@ -385,13 +385,13 @@
 <span class="sourceLineNo">377</span>    }<a name="line.377"></a>
 <span class="sourceLineNo">378</span><a name="line.378"></a>
 <span class="sourceLineNo">379</span>    @Override<a name="line.379"></a>
-<span class="sourceLineNo">380</span>    @Nullable<a name="line.380"></a>
+<span class="sourceLineNo">380</span>    @NullableDecl<a name="line.380"></a>
 <span class="sourceLineNo">381</span>    public V get(K key) {<a name="line.381"></a>
 <span class="sourceLineNo">382</span>      return subRange.contains(key) ? TreeRangeMap.this.get(key) : null;<a name="line.382"></a>
 <span class="sourceLineNo">383</span>    }<a name="line.383"></a>
 <span class="sourceLineNo">384</span><a name="line.384"></a>
 <span class="sourceLineNo">385</span>    @Override<a name="line.385"></a>
-<span class="sourceLineNo">386</span>    @Nullable<a name="line.386"></a>
+<span class="sourceLineNo">386</span>    @NullableDecl<a name="line.386"></a>
 <span class="sourceLineNo">387</span>    public Entry&lt;Range&lt;K&gt;, V&gt; getEntry(K key) {<a name="line.387"></a>
 <span class="sourceLineNo">388</span>      if (subRange.contains(key)) {<a name="line.388"></a>
 <span class="sourceLineNo">389</span>        Entry&lt;Range&lt;K&gt;, V&gt; entry = TreeRangeMap.this.getEntry(key);<a name="line.389"></a>
@@ -523,7 +523,7 @@
 <span class="sourceLineNo">515</span>    }<a name="line.515"></a>
 <span class="sourceLineNo">516</span><a name="line.516"></a>
 <span class="sourceLineNo">517</span>    @Override<a name="line.517"></a>
-<span class="sourceLineNo">518</span>    public boolean equals(@Nullable Object o) {<a name="line.518"></a>
+<span class="sourceLineNo">518</span>    public boolean equals(@NullableDecl Object o) {<a name="line.518"></a>
 <span class="sourceLineNo">519</span>      if (o instanceof RangeMap) {<a name="line.519"></a>
 <span class="sourceLineNo">520</span>        RangeMap&lt;?, ?&gt; rangeMap = (RangeMap&lt;?, ?&gt;) o;<a name="line.520"></a>
 <span class="sourceLineNo">521</span>        return asMapOfRanges().equals(rangeMap.asMapOfRanges());<a name="line.521"></a>
@@ -615,7 +615,7 @@
 <span class="sourceLineNo">607</span>      public Set&lt;Range&lt;K&gt;&gt; keySet() {<a name="line.607"></a>
 <span class="sourceLineNo">608</span>        return new Maps.KeySet&lt;Range&lt;K&gt;, V&gt;(SubRangeMapAsMap.this) {<a name="line.608"></a>
 <span class="sourceLineNo">609</span>          @Override<a name="line.609"></a>
-<span class="sourceLineNo">610</span>          public boolean remove(@Nullable Object o) {<a name="line.610"></a>
+<span class="sourceLineNo">610</span>          public boolean remove(@NullableDecl Object o) {<a name="line.610"></a>
 <span class="sourceLineNo">611</span>            return SubRangeMapAsMap.this.remove(o) != null;<a name="line.611"></a>
 <span class="sourceLineNo">612</span>          }<a name="line.612"></a>
 <span class="sourceLineNo">613</span><a name="line.613"></a>
@@ -701,7 +701,7 @@
 <span class="sourceLineNo">693</span>  }<a name="line.693"></a>
 <span class="sourceLineNo">694</span><a name="line.694"></a>
 <span class="sourceLineNo">695</span>  @Override<a name="line.695"></a>
-<span class="sourceLineNo">696</span>  public boolean equals(@Nullable Object o) {<a name="line.696"></a>
+<span class="sourceLineNo">696</span>  public boolean equals(@NullableDecl Object o) {<a name="line.696"></a>
 <span class="sourceLineNo">697</span>    if (o instanceof RangeMap) {<a name="line.697"></a>
 <span class="sourceLineNo">698</span>      RangeMap&lt;?, ?&gt; rangeMap = (RangeMap&lt;?, ?&gt;) o;<a name="line.698"></a>
 <span class="sourceLineNo">699</span>      return asMapOfRanges().equals(rangeMap.asMapOfRanges());<a name="line.699"></a>

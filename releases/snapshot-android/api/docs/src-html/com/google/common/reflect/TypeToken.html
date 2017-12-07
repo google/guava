@@ -52,7 +52,7 @@
 <span class="sourceLineNo">044</span>import java.util.Comparator;<a name="line.44"></a>
 <span class="sourceLineNo">045</span>import java.util.Map;<a name="line.45"></a>
 <span class="sourceLineNo">046</span>import java.util.Set;<a name="line.46"></a>
-<span class="sourceLineNo">047</span>import javax.annotation.Nullable;<a name="line.47"></a>
+<span class="sourceLineNo">047</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.47"></a>
 <span class="sourceLineNo">048</span><a name="line.48"></a>
 <span class="sourceLineNo">049</span>/**<a name="line.49"></a>
 <span class="sourceLineNo">050</span> * A {@link Type} with generics.<a name="line.50"></a>
@@ -299,7 +299,7 @@
 <span class="sourceLineNo">291</span>   * if the bound is a class or extends from a class. This means that the returned type could be a<a name="line.291"></a>
 <span class="sourceLineNo">292</span>   * type variable too.<a name="line.292"></a>
 <span class="sourceLineNo">293</span>   */<a name="line.293"></a>
-<span class="sourceLineNo">294</span>  @Nullable<a name="line.294"></a>
+<span class="sourceLineNo">294</span>  @NullableDecl<a name="line.294"></a>
 <span class="sourceLineNo">295</span>  final TypeToken&lt;? super T&gt; getGenericSuperclass() {<a name="line.295"></a>
 <span class="sourceLineNo">296</span>    if (runtimeType instanceof TypeVariable) {<a name="line.296"></a>
 <span class="sourceLineNo">297</span>      // First bound is always the super class, if one exists.<a name="line.297"></a>
@@ -318,7 +318,7 @@
 <span class="sourceLineNo">310</span>    return superToken;<a name="line.310"></a>
 <span class="sourceLineNo">311</span>  }<a name="line.311"></a>
 <span class="sourceLineNo">312</span><a name="line.312"></a>
-<span class="sourceLineNo">313</span>  @Nullable<a name="line.313"></a>
+<span class="sourceLineNo">313</span>  @NullableDecl<a name="line.313"></a>
 <span class="sourceLineNo">314</span>  private TypeToken&lt;? super T&gt; boundAsSuperclass(Type bound) {<a name="line.314"></a>
 <span class="sourceLineNo">315</span>    TypeToken&lt;?&gt; token = of(bound);<a name="line.315"></a>
 <span class="sourceLineNo">316</span>    if (token.getRawType().isInterface()) {<a name="line.316"></a>
@@ -569,7 +569,7 @@
 <span class="sourceLineNo">561</span>   * Returns the array component type if this type represents an array ({@code int[]}, {@code T[]},<a name="line.561"></a>
 <span class="sourceLineNo">562</span>   * {@code &lt;? extends Map&lt;String, Integer&gt;[]&gt;} etc.), or else {@code null} is returned.<a name="line.562"></a>
 <span class="sourceLineNo">563</span>   */<a name="line.563"></a>
-<span class="sourceLineNo">564</span>  @Nullable<a name="line.564"></a>
+<span class="sourceLineNo">564</span>  @NullableDecl<a name="line.564"></a>
 <span class="sourceLineNo">565</span>  public final TypeToken&lt;?&gt; getComponentType() {<a name="line.565"></a>
 <span class="sourceLineNo">566</span>    Type componentType = Types.getComponentType(runtimeType);<a name="line.566"></a>
 <span class="sourceLineNo">567</span>    if (componentType == null) {<a name="line.567"></a>
@@ -828,7 +828,7 @@
 <span class="sourceLineNo">820</span>   * Returns true if {@code o} is another {@code TypeToken} that represents the same {@link Type}.<a name="line.820"></a>
 <span class="sourceLineNo">821</span>   */<a name="line.821"></a>
 <span class="sourceLineNo">822</span>  @Override<a name="line.822"></a>
-<span class="sourceLineNo">823</span>  public boolean equals(@Nullable Object o) {<a name="line.823"></a>
+<span class="sourceLineNo">823</span>  public boolean equals(@NullableDecl Object o) {<a name="line.823"></a>
 <span class="sourceLineNo">824</span>    if (o instanceof TypeToken) {<a name="line.824"></a>
 <span class="sourceLineNo">825</span>      TypeToken&lt;?&gt; that = (TypeToken&lt;?&gt;) o;<a name="line.825"></a>
 <span class="sourceLineNo">826</span>      return runtimeType.equals(that.runtimeType);<a name="line.826"></a>
@@ -1065,7 +1065,7 @@
 <span class="sourceLineNo">1057</span>   * Returns the owner type of a {@link ParameterizedType} or enclosing class of a {@link Class}, or<a name="line.1057"></a>
 <span class="sourceLineNo">1058</span>   * null otherwise.<a name="line.1058"></a>
 <span class="sourceLineNo">1059</span>   */<a name="line.1059"></a>
-<span class="sourceLineNo">1060</span>  @Nullable<a name="line.1060"></a>
+<span class="sourceLineNo">1060</span>  @NullableDecl<a name="line.1060"></a>
 <span class="sourceLineNo">1061</span>  private Type getOwnerTypeIfPresent() {<a name="line.1061"></a>
 <span class="sourceLineNo">1062</span>    if (runtimeType instanceof ParameterizedType) {<a name="line.1062"></a>
 <span class="sourceLineNo">1063</span>      return ((ParameterizedType) runtimeType).getOwnerType();<a name="line.1063"></a>
@@ -1226,7 +1226,7 @@
 <span class="sourceLineNo">1218</span>            return type.getGenericInterfaces();<a name="line.1218"></a>
 <span class="sourceLineNo">1219</span>          }<a name="line.1219"></a>
 <span class="sourceLineNo">1220</span><a name="line.1220"></a>
-<span class="sourceLineNo">1221</span>          @Nullable<a name="line.1221"></a>
+<span class="sourceLineNo">1221</span>          @NullableDecl<a name="line.1221"></a>
 <span class="sourceLineNo">1222</span>          @Override<a name="line.1222"></a>
 <span class="sourceLineNo">1223</span>          TypeToken&lt;?&gt; getSuperclass(TypeToken&lt;?&gt; type) {<a name="line.1223"></a>
 <span class="sourceLineNo">1224</span>            return type.getGenericSuperclass();<a name="line.1224"></a>
@@ -1245,7 +1245,7 @@
 <span class="sourceLineNo">1237</span>            return Arrays.asList(type.getInterfaces());<a name="line.1237"></a>
 <span class="sourceLineNo">1238</span>          }<a name="line.1238"></a>
 <span class="sourceLineNo">1239</span><a name="line.1239"></a>
-<span class="sourceLineNo">1240</span>          @Nullable<a name="line.1240"></a>
+<span class="sourceLineNo">1240</span>          @NullableDecl<a name="line.1240"></a>
 <span class="sourceLineNo">1241</span>          @Override<a name="line.1241"></a>
 <span class="sourceLineNo">1242</span>          Class&lt;?&gt; getSuperclass(Class&lt;?&gt; type) {<a name="line.1242"></a>
 <span class="sourceLineNo">1243</span>            return type.getSuperclass();<a name="line.1243"></a>
@@ -1328,7 +1328,7 @@
 <span class="sourceLineNo">1320</span><a name="line.1320"></a>
 <span class="sourceLineNo">1321</span>    abstract Iterable&lt;? extends K&gt; getInterfaces(K type);<a name="line.1321"></a>
 <span class="sourceLineNo">1322</span><a name="line.1322"></a>
-<span class="sourceLineNo">1323</span>    @Nullable<a name="line.1323"></a>
+<span class="sourceLineNo">1323</span>    @NullableDecl<a name="line.1323"></a>
 <span class="sourceLineNo">1324</span>    abstract K getSuperclass(K type);<a name="line.1324"></a>
 <span class="sourceLineNo">1325</span><a name="line.1325"></a>
 <span class="sourceLineNo">1326</span>    private static class ForwardingTypeCollector&lt;K&gt; extends TypeCollector&lt;K&gt; {<a name="line.1326"></a>

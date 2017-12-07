@@ -31,7 +31,7 @@
 <span class="sourceLineNo">023</span>import java.util.Iterator;<a name="line.23"></a>
 <span class="sourceLineNo">024</span>import java.util.List;<a name="line.24"></a>
 <span class="sourceLineNo">025</span>import java.util.ListIterator;<a name="line.25"></a>
-<span class="sourceLineNo">026</span>import javax.annotation.Nullable;<a name="line.26"></a>
+<span class="sourceLineNo">026</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.26"></a>
 <span class="sourceLineNo">027</span><a name="line.27"></a>
 <span class="sourceLineNo">028</span>/**<a name="line.28"></a>
 <span class="sourceLineNo">029</span> * A list which forwards all its method calls to another list. Subclasses should override one or<a name="line.29"></a>
@@ -122,7 +122,7 @@
 <span class="sourceLineNo">114</span>  }<a name="line.114"></a>
 <span class="sourceLineNo">115</span><a name="line.115"></a>
 <span class="sourceLineNo">116</span>  @Override<a name="line.116"></a>
-<span class="sourceLineNo">117</span>  public boolean equals(@Nullable Object object) {<a name="line.117"></a>
+<span class="sourceLineNo">117</span>  public boolean equals(@NullableDecl Object object) {<a name="line.117"></a>
 <span class="sourceLineNo">118</span>    return object == this || delegate().equals(object);<a name="line.118"></a>
 <span class="sourceLineNo">119</span>  }<a name="line.119"></a>
 <span class="sourceLineNo">120</span><a name="line.120"></a>
@@ -161,7 +161,7 @@
 <span class="sourceLineNo">153</span>   *<a name="line.153"></a>
 <span class="sourceLineNo">154</span>   * @since 7.0<a name="line.154"></a>
 <span class="sourceLineNo">155</span>   */<a name="line.155"></a>
-<span class="sourceLineNo">156</span>  protected int standardIndexOf(@Nullable Object element) {<a name="line.156"></a>
+<span class="sourceLineNo">156</span>  protected int standardIndexOf(@NullableDecl Object element) {<a name="line.156"></a>
 <span class="sourceLineNo">157</span>    return Lists.indexOfImpl(this, element);<a name="line.157"></a>
 <span class="sourceLineNo">158</span>  }<a name="line.158"></a>
 <span class="sourceLineNo">159</span><a name="line.159"></a>
@@ -172,7 +172,7 @@
 <span class="sourceLineNo">164</span>   *<a name="line.164"></a>
 <span class="sourceLineNo">165</span>   * @since 7.0<a name="line.165"></a>
 <span class="sourceLineNo">166</span>   */<a name="line.166"></a>
-<span class="sourceLineNo">167</span>  protected int standardLastIndexOf(@Nullable Object element) {<a name="line.167"></a>
+<span class="sourceLineNo">167</span>  protected int standardLastIndexOf(@NullableDecl Object element) {<a name="line.167"></a>
 <span class="sourceLineNo">168</span>    return Lists.lastIndexOfImpl(this, element);<a name="line.168"></a>
 <span class="sourceLineNo">169</span>  }<a name="line.169"></a>
 <span class="sourceLineNo">170</span><a name="line.170"></a>
@@ -230,7 +230,7 @@
 <span class="sourceLineNo">222</span>   * @since 7.0<a name="line.222"></a>
 <span class="sourceLineNo">223</span>   */<a name="line.223"></a>
 <span class="sourceLineNo">224</span>  @Beta<a name="line.224"></a>
-<span class="sourceLineNo">225</span>  protected boolean standardEquals(@Nullable Object object) {<a name="line.225"></a>
+<span class="sourceLineNo">225</span>  protected boolean standardEquals(@NullableDecl Object object) {<a name="line.225"></a>
 <span class="sourceLineNo">226</span>    return Lists.equalsImpl(this, object);<a name="line.226"></a>
 <span class="sourceLineNo">227</span>  }<a name="line.227"></a>
 <span class="sourceLineNo">228</span><a name="line.228"></a>

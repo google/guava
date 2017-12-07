@@ -39,7 +39,7 @@
 <span class="sourceLineNo">031</span>import java.nio.ByteBuffer;<a name="line.31"></a>
 <span class="sourceLineNo">032</span>import java.util.Arrays;<a name="line.32"></a>
 <span class="sourceLineNo">033</span>import java.util.Locale;<a name="line.33"></a>
-<span class="sourceLineNo">034</span>import javax.annotation.Nullable;<a name="line.34"></a>
+<span class="sourceLineNo">034</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.34"></a>
 <span class="sourceLineNo">035</span><a name="line.35"></a>
 <span class="sourceLineNo">036</span>/**<a name="line.36"></a>
 <span class="sourceLineNo">037</span> * Static utility methods pertaining to {@link InetAddress} instances.<a name="line.37"></a>
@@ -162,7 +162,7 @@
 <span class="sourceLineNo">154</span>    return ipStringToBytes(ipString) != null;<a name="line.154"></a>
 <span class="sourceLineNo">155</span>  }<a name="line.155"></a>
 <span class="sourceLineNo">156</span><a name="line.156"></a>
-<span class="sourceLineNo">157</span>  @Nullable<a name="line.157"></a>
+<span class="sourceLineNo">157</span>  @NullableDecl<a name="line.157"></a>
 <span class="sourceLineNo">158</span>  private static byte[] ipStringToBytes(String ipString) {<a name="line.158"></a>
 <span class="sourceLineNo">159</span>    // Make a first pass to categorize the characters in this string.<a name="line.159"></a>
 <span class="sourceLineNo">160</span>    boolean hasColon = false;<a name="line.160"></a>
@@ -196,7 +196,7 @@
 <span class="sourceLineNo">188</span>    return null;<a name="line.188"></a>
 <span class="sourceLineNo">189</span>  }<a name="line.189"></a>
 <span class="sourceLineNo">190</span><a name="line.190"></a>
-<span class="sourceLineNo">191</span>  @Nullable<a name="line.191"></a>
+<span class="sourceLineNo">191</span>  @NullableDecl<a name="line.191"></a>
 <span class="sourceLineNo">192</span>  private static byte[] textToNumericFormatV4(String ipString) {<a name="line.192"></a>
 <span class="sourceLineNo">193</span>    byte[] bytes = new byte[IPV4_PART_COUNT];<a name="line.193"></a>
 <span class="sourceLineNo">194</span>    int i = 0;<a name="line.194"></a>
@@ -211,7 +211,7 @@
 <span class="sourceLineNo">203</span>    return i == IPV4_PART_COUNT ? bytes : null;<a name="line.203"></a>
 <span class="sourceLineNo">204</span>  }<a name="line.204"></a>
 <span class="sourceLineNo">205</span><a name="line.205"></a>
-<span class="sourceLineNo">206</span>  @Nullable<a name="line.206"></a>
+<span class="sourceLineNo">206</span>  @NullableDecl<a name="line.206"></a>
 <span class="sourceLineNo">207</span>  private static byte[] textToNumericFormatV6(String ipString) {<a name="line.207"></a>
 <span class="sourceLineNo">208</span>    // An address can have [2..8] colons, and N colons make N+1 parts.<a name="line.208"></a>
 <span class="sourceLineNo">209</span>    String[] parts = ipString.split(":", IPV6_PART_COUNT + 2);<a name="line.209"></a>
@@ -275,7 +275,7 @@
 <span class="sourceLineNo">267</span>    return rawBytes.array();<a name="line.267"></a>
 <span class="sourceLineNo">268</span>  }<a name="line.268"></a>
 <span class="sourceLineNo">269</span><a name="line.269"></a>
-<span class="sourceLineNo">270</span>  @Nullable<a name="line.270"></a>
+<span class="sourceLineNo">270</span>  @NullableDecl<a name="line.270"></a>
 <span class="sourceLineNo">271</span>  private static String convertDottedQuadToHex(String ipString) {<a name="line.271"></a>
 <span class="sourceLineNo">272</span>    int lastColon = ipString.lastIndexOf(':');<a name="line.272"></a>
 <span class="sourceLineNo">273</span>    String initialPart = ipString.substring(0, lastColon + 1);<a name="line.273"></a>
@@ -470,7 +470,7 @@
 <span class="sourceLineNo">462</span>    return addr;<a name="line.462"></a>
 <span class="sourceLineNo">463</span>  }<a name="line.463"></a>
 <span class="sourceLineNo">464</span><a name="line.464"></a>
-<span class="sourceLineNo">465</span>  @Nullable<a name="line.465"></a>
+<span class="sourceLineNo">465</span>  @NullableDecl<a name="line.465"></a>
 <span class="sourceLineNo">466</span>  private static InetAddress forUriStringNoThrow(String hostAddr) {<a name="line.466"></a>
 <span class="sourceLineNo">467</span>    checkNotNull(hostAddr);<a name="line.467"></a>
 <span class="sourceLineNo">468</span><a name="line.468"></a>
@@ -614,7 +614,7 @@
 <span class="sourceLineNo">606</span>     */<a name="line.606"></a>
 <span class="sourceLineNo">607</span>    // TODO: why is this public?<a name="line.607"></a>
 <span class="sourceLineNo">608</span>    public TeredoInfo(<a name="line.608"></a>
-<span class="sourceLineNo">609</span>        @Nullable Inet4Address server, @Nullable Inet4Address client, int port, int flags) {<a name="line.609"></a>
+<span class="sourceLineNo">609</span>        @NullableDecl Inet4Address server, @NullableDecl Inet4Address client, int port, int flags) {<a name="line.609"></a>
 <span class="sourceLineNo">610</span>      checkArgument(<a name="line.610"></a>
 <span class="sourceLineNo">611</span>          (port &gt;= 0) &amp;&amp; (port &lt;= 0xffff), "port '%s' is out of range (0 &lt;= port &lt;= 0xffff)", port);<a name="line.611"></a>
 <span class="sourceLineNo">612</span>      checkArgument(<a name="line.612"></a>

@@ -34,7 +34,7 @@
 <span class="sourceLineNo">026</span>import java.util.Iterator;<a name="line.26"></a>
 <span class="sourceLineNo">027</span>import java.util.List;<a name="line.27"></a>
 <span class="sourceLineNo">028</span>import java.util.Map;<a name="line.28"></a>
-<span class="sourceLineNo">029</span>import javax.annotation.Nullable;<a name="line.29"></a>
+<span class="sourceLineNo">029</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.29"></a>
 <span class="sourceLineNo">030</span><a name="line.30"></a>
 <span class="sourceLineNo">031</span>/**<a name="line.31"></a>
 <span class="sourceLineNo">032</span> * A {@link Table} whose contents will never change, with many other important properties detailed<a name="line.32"></a>
@@ -302,12 +302,12 @@
 <span class="sourceLineNo">294</span>  public abstract ImmutableMap&lt;R, Map&lt;C, V&gt;&gt; rowMap();<a name="line.294"></a>
 <span class="sourceLineNo">295</span><a name="line.295"></a>
 <span class="sourceLineNo">296</span>  @Override<a name="line.296"></a>
-<span class="sourceLineNo">297</span>  public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {<a name="line.297"></a>
+<span class="sourceLineNo">297</span>  public boolean contains(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {<a name="line.297"></a>
 <span class="sourceLineNo">298</span>    return get(rowKey, columnKey) != null;<a name="line.298"></a>
 <span class="sourceLineNo">299</span>  }<a name="line.299"></a>
 <span class="sourceLineNo">300</span><a name="line.300"></a>
 <span class="sourceLineNo">301</span>  @Override<a name="line.301"></a>
-<span class="sourceLineNo">302</span>  public boolean containsValue(@Nullable Object value) {<a name="line.302"></a>
+<span class="sourceLineNo">302</span>  public boolean containsValue(@NullableDecl Object value) {<a name="line.302"></a>
 <span class="sourceLineNo">303</span>    return values().contains(value);<a name="line.303"></a>
 <span class="sourceLineNo">304</span>  }<a name="line.304"></a>
 <span class="sourceLineNo">305</span><a name="line.305"></a>

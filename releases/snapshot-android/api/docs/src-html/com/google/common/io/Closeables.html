@@ -31,7 +31,7 @@
 <span class="sourceLineNo">023</span>import java.io.Reader;<a name="line.23"></a>
 <span class="sourceLineNo">024</span>import java.util.logging.Level;<a name="line.24"></a>
 <span class="sourceLineNo">025</span>import java.util.logging.Logger;<a name="line.25"></a>
-<span class="sourceLineNo">026</span>import javax.annotation.Nullable;<a name="line.26"></a>
+<span class="sourceLineNo">026</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.26"></a>
 <span class="sourceLineNo">027</span><a name="line.27"></a>
 <span class="sourceLineNo">028</span>/**<a name="line.28"></a>
 <span class="sourceLineNo">029</span> * Utility methods for working with {@link Closeable} objects.<a name="line.29"></a>
@@ -77,7 +77,7 @@
 <span class="sourceLineNo">069</span>   * @throws IOException if {@code swallowIOException} is false and {@code close} throws an {@code<a name="line.69"></a>
 <span class="sourceLineNo">070</span>   *     IOException}.<a name="line.70"></a>
 <span class="sourceLineNo">071</span>   */<a name="line.71"></a>
-<span class="sourceLineNo">072</span>  public static void close(@Nullable Closeable closeable, boolean swallowIOException)<a name="line.72"></a>
+<span class="sourceLineNo">072</span>  public static void close(@NullableDecl Closeable closeable, boolean swallowIOException)<a name="line.72"></a>
 <span class="sourceLineNo">073</span>      throws IOException {<a name="line.73"></a>
 <span class="sourceLineNo">074</span>    if (closeable == null) {<a name="line.74"></a>
 <span class="sourceLineNo">075</span>      return;<a name="line.75"></a>
@@ -107,7 +107,7 @@
 <span class="sourceLineNo">099</span>   *     does nothing<a name="line.99"></a>
 <span class="sourceLineNo">100</span>   * @since 17.0<a name="line.100"></a>
 <span class="sourceLineNo">101</span>   */<a name="line.101"></a>
-<span class="sourceLineNo">102</span>  public static void closeQuietly(@Nullable InputStream inputStream) {<a name="line.102"></a>
+<span class="sourceLineNo">102</span>  public static void closeQuietly(@NullableDecl InputStream inputStream) {<a name="line.102"></a>
 <span class="sourceLineNo">103</span>    try {<a name="line.103"></a>
 <span class="sourceLineNo">104</span>      close(inputStream, true);<a name="line.104"></a>
 <span class="sourceLineNo">105</span>    } catch (IOException impossible) {<a name="line.105"></a>
@@ -128,7 +128,7 @@
 <span class="sourceLineNo">120</span>   * @param reader the reader to be closed, or {@code null} in which case this method does nothing<a name="line.120"></a>
 <span class="sourceLineNo">121</span>   * @since 17.0<a name="line.121"></a>
 <span class="sourceLineNo">122</span>   */<a name="line.122"></a>
-<span class="sourceLineNo">123</span>  public static void closeQuietly(@Nullable Reader reader) {<a name="line.123"></a>
+<span class="sourceLineNo">123</span>  public static void closeQuietly(@NullableDecl Reader reader) {<a name="line.123"></a>
 <span class="sourceLineNo">124</span>    try {<a name="line.124"></a>
 <span class="sourceLineNo">125</span>      close(reader, true);<a name="line.125"></a>
 <span class="sourceLineNo">126</span>    } catch (IOException impossible) {<a name="line.126"></a>

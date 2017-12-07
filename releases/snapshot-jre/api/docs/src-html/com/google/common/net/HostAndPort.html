@@ -32,7 +32,7 @@
 <span class="sourceLineNo">024</span>import com.google.common.base.Strings;<a name="line.24"></a>
 <span class="sourceLineNo">025</span>import com.google.errorprone.annotations.Immutable;<a name="line.25"></a>
 <span class="sourceLineNo">026</span>import java.io.Serializable;<a name="line.26"></a>
-<span class="sourceLineNo">027</span>import javax.annotation.Nullable;<a name="line.27"></a>
+<span class="sourceLineNo">027</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.27"></a>
 <span class="sourceLineNo">028</span><a name="line.28"></a>
 <span class="sourceLineNo">029</span>/**<a name="line.29"></a>
 <span class="sourceLineNo">030</span> * An immutable representation of a host and port.<a name="line.30"></a>
@@ -285,7 +285,7 @@
 <span class="sourceLineNo">277</span>  }<a name="line.277"></a>
 <span class="sourceLineNo">278</span><a name="line.278"></a>
 <span class="sourceLineNo">279</span>  @Override<a name="line.279"></a>
-<span class="sourceLineNo">280</span>  public boolean equals(@Nullable Object other) {<a name="line.280"></a>
+<span class="sourceLineNo">280</span>  public boolean equals(@NullableDecl Object other) {<a name="line.280"></a>
 <span class="sourceLineNo">281</span>    if (this == other) {<a name="line.281"></a>
 <span class="sourceLineNo">282</span>      return true;<a name="line.282"></a>
 <span class="sourceLineNo">283</span>    }<a name="line.283"></a>

@@ -27,7 +27,7 @@
 <span class="sourceLineNo">019</span><a name="line.19"></a>
 <span class="sourceLineNo">020</span>import com.google.common.annotations.GwtCompatible;<a name="line.20"></a>
 <span class="sourceLineNo">021</span>import com.google.common.annotations.VisibleForTesting;<a name="line.21"></a>
-<span class="sourceLineNo">022</span>import javax.annotation.Nullable;<a name="line.22"></a>
+<span class="sourceLineNo">022</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.22"></a>
 <span class="sourceLineNo">023</span><a name="line.23"></a>
 <span class="sourceLineNo">024</span>/**<a name="line.24"></a>
 <span class="sourceLineNo">025</span> * Static utility methods pertaining to {@code String} or {@code CharSequence} instances.<a name="line.25"></a>
@@ -45,7 +45,7 @@
 <span class="sourceLineNo">037</span>   * @param string the string to test and possibly return<a name="line.37"></a>
 <span class="sourceLineNo">038</span>   * @return {@code string} itself if it is non-null; {@code ""} if it is null<a name="line.38"></a>
 <span class="sourceLineNo">039</span>   */<a name="line.39"></a>
-<span class="sourceLineNo">040</span>  public static String nullToEmpty(@Nullable String string) {<a name="line.40"></a>
+<span class="sourceLineNo">040</span>  public static String nullToEmpty(@NullableDecl String string) {<a name="line.40"></a>
 <span class="sourceLineNo">041</span>    return (string == null) ? "" : string;<a name="line.41"></a>
 <span class="sourceLineNo">042</span>  }<a name="line.42"></a>
 <span class="sourceLineNo">043</span><a name="line.43"></a>
@@ -55,8 +55,8 @@
 <span class="sourceLineNo">047</span>   * @param string the string to test and possibly return<a name="line.47"></a>
 <span class="sourceLineNo">048</span>   * @return {@code string} itself if it is nonempty; {@code null} if it is empty or null<a name="line.48"></a>
 <span class="sourceLineNo">049</span>   */<a name="line.49"></a>
-<span class="sourceLineNo">050</span>  @Nullable<a name="line.50"></a>
-<span class="sourceLineNo">051</span>  public static String emptyToNull(@Nullable String string) {<a name="line.51"></a>
+<span class="sourceLineNo">050</span>  @NullableDecl<a name="line.50"></a>
+<span class="sourceLineNo">051</span>  public static String emptyToNull(@NullableDecl String string) {<a name="line.51"></a>
 <span class="sourceLineNo">052</span>    return isNullOrEmpty(string) ? null : string;<a name="line.52"></a>
 <span class="sourceLineNo">053</span>  }<a name="line.53"></a>
 <span class="sourceLineNo">054</span><a name="line.54"></a>
@@ -71,7 +71,7 @@
 <span class="sourceLineNo">063</span>   * @param string a string reference to check<a name="line.63"></a>
 <span class="sourceLineNo">064</span>   * @return {@code true} if the string is null or is the empty string<a name="line.64"></a>
 <span class="sourceLineNo">065</span>   */<a name="line.65"></a>
-<span class="sourceLineNo">066</span>  public static boolean isNullOrEmpty(@Nullable String string) {<a name="line.66"></a>
+<span class="sourceLineNo">066</span>  public static boolean isNullOrEmpty(@NullableDecl String string) {<a name="line.66"></a>
 <span class="sourceLineNo">067</span>    return Platform.stringIsNullOrEmpty(string);<a name="line.67"></a>
 <span class="sourceLineNo">068</span>  }<a name="line.68"></a>
 <span class="sourceLineNo">069</span><a name="line.69"></a>

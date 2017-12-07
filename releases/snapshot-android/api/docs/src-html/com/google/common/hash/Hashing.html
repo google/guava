@@ -35,8 +35,8 @@
 <span class="sourceLineNo">027</span>import java.util.zip.Adler32;<a name="line.27"></a>
 <span class="sourceLineNo">028</span>import java.util.zip.CRC32;<a name="line.28"></a>
 <span class="sourceLineNo">029</span>import java.util.zip.Checksum;<a name="line.29"></a>
-<span class="sourceLineNo">030</span>import javax.annotation.Nullable;<a name="line.30"></a>
-<span class="sourceLineNo">031</span>import javax.crypto.spec.SecretKeySpec;<a name="line.31"></a>
+<span class="sourceLineNo">030</span>import javax.crypto.spec.SecretKeySpec;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.31"></a>
 <span class="sourceLineNo">032</span><a name="line.32"></a>
 <span class="sourceLineNo">033</span>/**<a name="line.33"></a>
 <span class="sourceLineNo">034</span> * Static methods to obtain {@link HashFunction} instances, and other static hashing-related<a name="line.34"></a>
@@ -649,7 +649,7 @@
 <span class="sourceLineNo">641</span>    }<a name="line.641"></a>
 <span class="sourceLineNo">642</span><a name="line.642"></a>
 <span class="sourceLineNo">643</span>    @Override<a name="line.643"></a>
-<span class="sourceLineNo">644</span>    public boolean equals(@Nullable Object object) {<a name="line.644"></a>
+<span class="sourceLineNo">644</span>    public boolean equals(@NullableDecl Object object) {<a name="line.644"></a>
 <span class="sourceLineNo">645</span>      if (object instanceof ConcatenatedHashFunction) {<a name="line.645"></a>
 <span class="sourceLineNo">646</span>        ConcatenatedHashFunction other = (ConcatenatedHashFunction) object;<a name="line.646"></a>
 <span class="sourceLineNo">647</span>        return Arrays.equals(functions, other.functions);<a name="line.647"></a>

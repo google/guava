@@ -46,7 +46,7 @@
 <span class="sourceLineNo">038</span>import java.util.Map.Entry;<a name="line.38"></a>
 <span class="sourceLineNo">039</span>import java.util.NoSuchElementException;<a name="line.39"></a>
 <span class="sourceLineNo">040</span>import java.util.Set;<a name="line.40"></a>
-<span class="sourceLineNo">041</span>import javax.annotation.Nullable;<a name="line.41"></a>
+<span class="sourceLineNo">041</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.41"></a>
 <span class="sourceLineNo">042</span><a name="line.42"></a>
 <span class="sourceLineNo">043</span>/**<a name="line.43"></a>
 <span class="sourceLineNo">044</span> * Implementation of {@code Multimap} that does not allow duplicate key-value entries and that<a name="line.44"></a>
@@ -159,7 +159,7 @@
 <span class="sourceLineNo">151</span>  static final class ValueEntry&lt;K, V&gt; extends ImmutableEntry&lt;K, V&gt; implements ValueSetLink&lt;K, V&gt; {<a name="line.151"></a>
 <span class="sourceLineNo">152</span>    final int smearedValueHash;<a name="line.152"></a>
 <span class="sourceLineNo">153</span><a name="line.153"></a>
-<span class="sourceLineNo">154</span>    @Nullable ValueEntry&lt;K, V&gt; nextInValueBucket;<a name="line.154"></a>
+<span class="sourceLineNo">154</span>    @NullableDecl ValueEntry&lt;K, V&gt; nextInValueBucket;<a name="line.154"></a>
 <span class="sourceLineNo">155</span><a name="line.155"></a>
 <span class="sourceLineNo">156</span>    ValueSetLink&lt;K, V&gt; predecessorInValueSet;<a name="line.156"></a>
 <span class="sourceLineNo">157</span>    ValueSetLink&lt;K, V&gt; successorInValueSet;<a name="line.157"></a>
@@ -168,16 +168,16 @@
 <span class="sourceLineNo">160</span>    ValueEntry&lt;K, V&gt; successorInMultimap;<a name="line.160"></a>
 <span class="sourceLineNo">161</span><a name="line.161"></a>
 <span class="sourceLineNo">162</span>    ValueEntry(<a name="line.162"></a>
-<span class="sourceLineNo">163</span>        @Nullable K key,<a name="line.163"></a>
-<span class="sourceLineNo">164</span>        @Nullable V value,<a name="line.164"></a>
+<span class="sourceLineNo">163</span>        @NullableDecl K key,<a name="line.163"></a>
+<span class="sourceLineNo">164</span>        @NullableDecl V value,<a name="line.164"></a>
 <span class="sourceLineNo">165</span>        int smearedValueHash,<a name="line.165"></a>
-<span class="sourceLineNo">166</span>        @Nullable ValueEntry&lt;K, V&gt; nextInValueBucket) {<a name="line.166"></a>
+<span class="sourceLineNo">166</span>        @NullableDecl ValueEntry&lt;K, V&gt; nextInValueBucket) {<a name="line.166"></a>
 <span class="sourceLineNo">167</span>      super(key, value);<a name="line.167"></a>
 <span class="sourceLineNo">168</span>      this.smearedValueHash = smearedValueHash;<a name="line.168"></a>
 <span class="sourceLineNo">169</span>      this.nextInValueBucket = nextInValueBucket;<a name="line.169"></a>
 <span class="sourceLineNo">170</span>    }<a name="line.170"></a>
 <span class="sourceLineNo">171</span><a name="line.171"></a>
-<span class="sourceLineNo">172</span>    boolean matchesValue(@Nullable Object v, int smearedVHash) {<a name="line.172"></a>
+<span class="sourceLineNo">172</span>    boolean matchesValue(@NullableDecl Object v, int smearedVHash) {<a name="line.172"></a>
 <span class="sourceLineNo">173</span>      return smearedValueHash == smearedVHash &amp;&amp; Objects.equal(getValue(), v);<a name="line.173"></a>
 <span class="sourceLineNo">174</span>    }<a name="line.174"></a>
 <span class="sourceLineNo">175</span><a name="line.175"></a>
@@ -269,7 +269,7 @@
 <span class="sourceLineNo">261</span>   */<a name="line.261"></a>
 <span class="sourceLineNo">262</span>  @CanIgnoreReturnValue<a name="line.262"></a>
 <span class="sourceLineNo">263</span>  @Override<a name="line.263"></a>
-<span class="sourceLineNo">264</span>  public Set&lt;V&gt; replaceValues(@Nullable K key, Iterable&lt;? extends V&gt; values) {<a name="line.264"></a>
+<span class="sourceLineNo">264</span>  public Set&lt;V&gt; replaceValues(@NullableDecl K key, Iterable&lt;? extends V&gt; values) {<a name="line.264"></a>
 <span class="sourceLineNo">265</span>    return super.replaceValues(key, values);<a name="line.265"></a>
 <span class="sourceLineNo">266</span>  }<a name="line.266"></a>
 <span class="sourceLineNo">267</span><a name="line.267"></a>
@@ -418,7 +418,7 @@
 <span class="sourceLineNo">410</span>    }<a name="line.410"></a>
 <span class="sourceLineNo">411</span><a name="line.411"></a>
 <span class="sourceLineNo">412</span>    @Override<a name="line.412"></a>
-<span class="sourceLineNo">413</span>    public boolean contains(@Nullable Object o) {<a name="line.413"></a>
+<span class="sourceLineNo">413</span>    public boolean contains(@NullableDecl Object o) {<a name="line.413"></a>
 <span class="sourceLineNo">414</span>      int smearedHash = Hashing.smearedHash(o);<a name="line.414"></a>
 <span class="sourceLineNo">415</span>      for (ValueEntry&lt;K, V&gt; entry = hashTable[smearedHash &amp; mask()];<a name="line.415"></a>
 <span class="sourceLineNo">416</span>          entry != null;<a name="line.416"></a>
@@ -431,7 +431,7 @@
 <span class="sourceLineNo">423</span>    }<a name="line.423"></a>
 <span class="sourceLineNo">424</span><a name="line.424"></a>
 <span class="sourceLineNo">425</span>    @Override<a name="line.425"></a>
-<span class="sourceLineNo">426</span>    public boolean add(@Nullable V value) {<a name="line.426"></a>
+<span class="sourceLineNo">426</span>    public boolean add(@NullableDecl V value) {<a name="line.426"></a>
 <span class="sourceLineNo">427</span>      int smearedHash = Hashing.smearedHash(value);<a name="line.427"></a>
 <span class="sourceLineNo">428</span>      int bucket = smearedHash &amp; mask();<a name="line.428"></a>
 <span class="sourceLineNo">429</span>      ValueEntry&lt;K, V&gt; rowHead = hashTable[bucket];<a name="line.429"></a>
@@ -472,7 +472,7 @@
 <span class="sourceLineNo">464</span><a name="line.464"></a>
 <span class="sourceLineNo">465</span>    @CanIgnoreReturnValue<a name="line.465"></a>
 <span class="sourceLineNo">466</span>    @Override<a name="line.466"></a>
-<span class="sourceLineNo">467</span>    public boolean remove(@Nullable Object o) {<a name="line.467"></a>
+<span class="sourceLineNo">467</span>    public boolean remove(@NullableDecl Object o) {<a name="line.467"></a>
 <span class="sourceLineNo">468</span>      int smearedHash = Hashing.smearedHash(o);<a name="line.468"></a>
 <span class="sourceLineNo">469</span>      int bucket = smearedHash &amp; mask();<a name="line.469"></a>
 <span class="sourceLineNo">470</span>      ValueEntry&lt;K, V&gt; prev = null;<a name="line.470"></a>

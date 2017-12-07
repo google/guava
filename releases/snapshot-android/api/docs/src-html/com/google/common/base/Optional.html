@@ -29,7 +29,7 @@
 <span class="sourceLineNo">021</span>import java.io.Serializable;<a name="line.21"></a>
 <span class="sourceLineNo">022</span>import java.util.Iterator;<a name="line.22"></a>
 <span class="sourceLineNo">023</span>import java.util.Set;<a name="line.23"></a>
-<span class="sourceLineNo">024</span>import javax.annotation.Nullable;<a name="line.24"></a>
+<span class="sourceLineNo">024</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.24"></a>
 <span class="sourceLineNo">025</span><a name="line.25"></a>
 <span class="sourceLineNo">026</span>/**<a name="line.26"></a>
 <span class="sourceLineNo">027</span> * An immutable object that may contain a non-null reference to another object. Each instance of<a name="line.27"></a>
@@ -118,7 +118,7 @@
 <span class="sourceLineNo">110</span>   * &lt;p&gt;&lt;b&gt;Comparison to {@code java.util.Optional}:&lt;/b&gt; this method is equivalent to Java 8's<a name="line.110"></a>
 <span class="sourceLineNo">111</span>   * {@code Optional.ofNullable}.<a name="line.111"></a>
 <span class="sourceLineNo">112</span>   */<a name="line.112"></a>
-<span class="sourceLineNo">113</span>  public static &lt;T&gt; Optional&lt;T&gt; fromNullable(@Nullable T nullableReference) {<a name="line.113"></a>
+<span class="sourceLineNo">113</span>  public static &lt;T&gt; Optional&lt;T&gt; fromNullable(@NullableDecl T nullableReference) {<a name="line.113"></a>
 <span class="sourceLineNo">114</span>    return (nullableReference == null) ? Optional.&lt;T&gt;absent() : new Present&lt;T&gt;(nullableReference);<a name="line.114"></a>
 <span class="sourceLineNo">115</span>  }<a name="line.115"></a>
 <span class="sourceLineNo">116</span><a name="line.116"></a>
@@ -212,7 +212,7 @@
 <span class="sourceLineNo">204</span>   * &lt;p&gt;&lt;b&gt;Comparison to {@code java.util.Optional}:&lt;/b&gt; this method is equivalent to Java 8's<a name="line.204"></a>
 <span class="sourceLineNo">205</span>   * {@code Optional.orElse(null)}.<a name="line.205"></a>
 <span class="sourceLineNo">206</span>   */<a name="line.206"></a>
-<span class="sourceLineNo">207</span>  @Nullable<a name="line.207"></a>
+<span class="sourceLineNo">207</span>  @NullableDecl<a name="line.207"></a>
 <span class="sourceLineNo">208</span>  public abstract T orNull();<a name="line.208"></a>
 <span class="sourceLineNo">209</span><a name="line.209"></a>
 <span class="sourceLineNo">210</span>  /**<a name="line.210"></a>
@@ -259,7 +259,7 @@
 <span class="sourceLineNo">251</span>   * &lt;p&gt;&lt;b&gt;Comparison to {@code java.util.Optional}:&lt;/b&gt; no differences.<a name="line.251"></a>
 <span class="sourceLineNo">252</span>   */<a name="line.252"></a>
 <span class="sourceLineNo">253</span>  @Override<a name="line.253"></a>
-<span class="sourceLineNo">254</span>  public abstract boolean equals(@Nullable Object object);<a name="line.254"></a>
+<span class="sourceLineNo">254</span>  public abstract boolean equals(@NullableDecl Object object);<a name="line.254"></a>
 <span class="sourceLineNo">255</span><a name="line.255"></a>
 <span class="sourceLineNo">256</span>  /**<a name="line.256"></a>
 <span class="sourceLineNo">257</span>   * Returns a hash code for this instance.<a name="line.257"></a>

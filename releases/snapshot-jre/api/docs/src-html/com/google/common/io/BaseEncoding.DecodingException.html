@@ -42,7 +42,7 @@
 <span class="sourceLineNo">034</span>import java.io.Reader;<a name="line.34"></a>
 <span class="sourceLineNo">035</span>import java.io.Writer;<a name="line.35"></a>
 <span class="sourceLineNo">036</span>import java.util.Arrays;<a name="line.36"></a>
-<span class="sourceLineNo">037</span>import javax.annotation.Nullable;<a name="line.37"></a>
+<span class="sourceLineNo">037</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.37"></a>
 <span class="sourceLineNo">038</span><a name="line.38"></a>
 <span class="sourceLineNo">039</span>/**<a name="line.39"></a>
 <span class="sourceLineNo">040</span> * A binary encoding scheme for reversibly translating between byte sequences and printable ASCII<a name="line.40"></a>
@@ -556,7 +556,7 @@
 <span class="sourceLineNo">548</span>    }<a name="line.548"></a>
 <span class="sourceLineNo">549</span><a name="line.549"></a>
 <span class="sourceLineNo">550</span>    @Override<a name="line.550"></a>
-<span class="sourceLineNo">551</span>    public boolean equals(@Nullable Object other) {<a name="line.551"></a>
+<span class="sourceLineNo">551</span>    public boolean equals(@NullableDecl Object other) {<a name="line.551"></a>
 <span class="sourceLineNo">552</span>      if (other instanceof Alphabet) {<a name="line.552"></a>
 <span class="sourceLineNo">553</span>        Alphabet that = (Alphabet) other;<a name="line.553"></a>
 <span class="sourceLineNo">554</span>        return Arrays.equals(this.chars, that.chars);<a name="line.554"></a>
@@ -574,13 +574,13 @@
 <span class="sourceLineNo">566</span>    // TODO(lowasser): provide a useful toString<a name="line.566"></a>
 <span class="sourceLineNo">567</span>    final Alphabet alphabet;<a name="line.567"></a>
 <span class="sourceLineNo">568</span><a name="line.568"></a>
-<span class="sourceLineNo">569</span>    @Nullable final Character paddingChar;<a name="line.569"></a>
+<span class="sourceLineNo">569</span>    @NullableDecl final Character paddingChar;<a name="line.569"></a>
 <span class="sourceLineNo">570</span><a name="line.570"></a>
-<span class="sourceLineNo">571</span>    StandardBaseEncoding(String name, String alphabetChars, @Nullable Character paddingChar) {<a name="line.571"></a>
+<span class="sourceLineNo">571</span>    StandardBaseEncoding(String name, String alphabetChars, @NullableDecl Character paddingChar) {<a name="line.571"></a>
 <span class="sourceLineNo">572</span>      this(new Alphabet(name, alphabetChars.toCharArray()), paddingChar);<a name="line.572"></a>
 <span class="sourceLineNo">573</span>    }<a name="line.573"></a>
 <span class="sourceLineNo">574</span><a name="line.574"></a>
-<span class="sourceLineNo">575</span>    StandardBaseEncoding(Alphabet alphabet, @Nullable Character paddingChar) {<a name="line.575"></a>
+<span class="sourceLineNo">575</span>    StandardBaseEncoding(Alphabet alphabet, @NullableDecl Character paddingChar) {<a name="line.575"></a>
 <span class="sourceLineNo">576</span>      this.alphabet = checkNotNull(alphabet);<a name="line.576"></a>
 <span class="sourceLineNo">577</span>      checkArgument(<a name="line.577"></a>
 <span class="sourceLineNo">578</span>          paddingChar == null || !alphabet.matches(paddingChar),<a name="line.578"></a>
@@ -840,7 +840,7 @@
 <span class="sourceLineNo">832</span>      return result;<a name="line.832"></a>
 <span class="sourceLineNo">833</span>    }<a name="line.833"></a>
 <span class="sourceLineNo">834</span><a name="line.834"></a>
-<span class="sourceLineNo">835</span>    BaseEncoding newInstance(Alphabet alphabet, @Nullable Character paddingChar) {<a name="line.835"></a>
+<span class="sourceLineNo">835</span>    BaseEncoding newInstance(Alphabet alphabet, @NullableDecl Character paddingChar) {<a name="line.835"></a>
 <span class="sourceLineNo">836</span>      return new StandardBaseEncoding(alphabet, paddingChar);<a name="line.836"></a>
 <span class="sourceLineNo">837</span>    }<a name="line.837"></a>
 <span class="sourceLineNo">838</span><a name="line.838"></a>
@@ -859,7 +859,7 @@
 <span class="sourceLineNo">851</span>    }<a name="line.851"></a>
 <span class="sourceLineNo">852</span><a name="line.852"></a>
 <span class="sourceLineNo">853</span>    @Override<a name="line.853"></a>
-<span class="sourceLineNo">854</span>    public boolean equals(@Nullable Object other) {<a name="line.854"></a>
+<span class="sourceLineNo">854</span>    public boolean equals(@NullableDecl Object other) {<a name="line.854"></a>
 <span class="sourceLineNo">855</span>      if (other instanceof StandardBaseEncoding) {<a name="line.855"></a>
 <span class="sourceLineNo">856</span>        StandardBaseEncoding that = (StandardBaseEncoding) other;<a name="line.856"></a>
 <span class="sourceLineNo">857</span>        return this.alphabet.equals(that.alphabet)<a name="line.857"></a>
@@ -916,17 +916,17 @@
 <span class="sourceLineNo">908</span>    }<a name="line.908"></a>
 <span class="sourceLineNo">909</span><a name="line.909"></a>
 <span class="sourceLineNo">910</span>    @Override<a name="line.910"></a>
-<span class="sourceLineNo">911</span>    BaseEncoding newInstance(Alphabet alphabet, @Nullable Character paddingChar) {<a name="line.911"></a>
+<span class="sourceLineNo">911</span>    BaseEncoding newInstance(Alphabet alphabet, @NullableDecl Character paddingChar) {<a name="line.911"></a>
 <span class="sourceLineNo">912</span>      return new Base16Encoding(alphabet);<a name="line.912"></a>
 <span class="sourceLineNo">913</span>    }<a name="line.913"></a>
 <span class="sourceLineNo">914</span>  }<a name="line.914"></a>
 <span class="sourceLineNo">915</span><a name="line.915"></a>
 <span class="sourceLineNo">916</span>  static final class Base64Encoding extends StandardBaseEncoding {<a name="line.916"></a>
-<span class="sourceLineNo">917</span>    Base64Encoding(String name, String alphabetChars, @Nullable Character paddingChar) {<a name="line.917"></a>
+<span class="sourceLineNo">917</span>    Base64Encoding(String name, String alphabetChars, @NullableDecl Character paddingChar) {<a name="line.917"></a>
 <span class="sourceLineNo">918</span>      this(new Alphabet(name, alphabetChars.toCharArray()), paddingChar);<a name="line.918"></a>
 <span class="sourceLineNo">919</span>    }<a name="line.919"></a>
 <span class="sourceLineNo">920</span><a name="line.920"></a>
-<span class="sourceLineNo">921</span>    private Base64Encoding(Alphabet alphabet, @Nullable Character paddingChar) {<a name="line.921"></a>
+<span class="sourceLineNo">921</span>    private Base64Encoding(Alphabet alphabet, @NullableDecl Character paddingChar) {<a name="line.921"></a>
 <span class="sourceLineNo">922</span>      super(alphabet, paddingChar);<a name="line.922"></a>
 <span class="sourceLineNo">923</span>      checkArgument(alphabet.chars.length == 64);<a name="line.923"></a>
 <span class="sourceLineNo">924</span>    }<a name="line.924"></a>
@@ -973,7 +973,7 @@
 <span class="sourceLineNo">965</span>    }<a name="line.965"></a>
 <span class="sourceLineNo">966</span><a name="line.966"></a>
 <span class="sourceLineNo">967</span>    @Override<a name="line.967"></a>
-<span class="sourceLineNo">968</span>    BaseEncoding newInstance(Alphabet alphabet, @Nullable Character paddingChar) {<a name="line.968"></a>
+<span class="sourceLineNo">968</span>    BaseEncoding newInstance(Alphabet alphabet, @NullableDecl Character paddingChar) {<a name="line.968"></a>
 <span class="sourceLineNo">969</span>      return new Base64Encoding(alphabet, paddingChar);<a name="line.969"></a>
 <span class="sourceLineNo">970</span>    }<a name="line.970"></a>
 <span class="sourceLineNo">971</span>  }<a name="line.971"></a>

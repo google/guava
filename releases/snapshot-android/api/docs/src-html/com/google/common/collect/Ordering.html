@@ -43,7 +43,7 @@
 <span class="sourceLineNo">035</span>import java.util.SortedMap;<a name="line.35"></a>
 <span class="sourceLineNo">036</span>import java.util.concurrent.ConcurrentMap;<a name="line.36"></a>
 <span class="sourceLineNo">037</span>import java.util.concurrent.atomic.AtomicInteger;<a name="line.37"></a>
-<span class="sourceLineNo">038</span>import javax.annotation.Nullable;<a name="line.38"></a>
+<span class="sourceLineNo">038</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.38"></a>
 <span class="sourceLineNo">039</span><a name="line.39"></a>
 <span class="sourceLineNo">040</span>/**<a name="line.40"></a>
 <span class="sourceLineNo">041</span> * A comparator, with additional methods to support common operations. This is an "enriched" version<a name="line.41"></a>
@@ -532,10 +532,10 @@
 <span class="sourceLineNo">524</span><a name="line.524"></a>
 <span class="sourceLineNo">525</span>  // Regular instance methods<a name="line.525"></a>
 <span class="sourceLineNo">526</span><a name="line.526"></a>
-<span class="sourceLineNo">527</span>  // Override to add @Nullable<a name="line.527"></a>
+<span class="sourceLineNo">527</span>  // Override to add @NullableDecl<a name="line.527"></a>
 <span class="sourceLineNo">528</span>  @CanIgnoreReturnValue // TODO(kak): Consider removing this<a name="line.528"></a>
 <span class="sourceLineNo">529</span>  @Override<a name="line.529"></a>
-<span class="sourceLineNo">530</span>  public abstract int compare(@Nullable T left, @Nullable T right);<a name="line.530"></a>
+<span class="sourceLineNo">530</span>  public abstract int compare(@NullableDecl T left, @NullableDecl T right);<a name="line.530"></a>
 <span class="sourceLineNo">531</span><a name="line.531"></a>
 <span class="sourceLineNo">532</span>  /**<a name="line.532"></a>
 <span class="sourceLineNo">533</span>   * Returns the least of the specified values according to this ordering. If there are multiple<a name="line.533"></a>
@@ -600,7 +600,7 @@
 <span class="sourceLineNo">592</span>   *     ordering.<a name="line.592"></a>
 <span class="sourceLineNo">593</span>   */<a name="line.593"></a>
 <span class="sourceLineNo">594</span>  @CanIgnoreReturnValue // TODO(kak): Consider removing this<a name="line.594"></a>
-<span class="sourceLineNo">595</span>  public &lt;E extends T&gt; E min(@Nullable E a, @Nullable E b) {<a name="line.595"></a>
+<span class="sourceLineNo">595</span>  public &lt;E extends T&gt; E min(@NullableDecl E a, @NullableDecl E b) {<a name="line.595"></a>
 <span class="sourceLineNo">596</span>    return (compare(a, b) &lt;= 0) ? a : b;<a name="line.596"></a>
 <span class="sourceLineNo">597</span>  }<a name="line.597"></a>
 <span class="sourceLineNo">598</span><a name="line.598"></a>
@@ -619,7 +619,7 @@
 <span class="sourceLineNo">611</span>   *     ordering.<a name="line.611"></a>
 <span class="sourceLineNo">612</span>   */<a name="line.612"></a>
 <span class="sourceLineNo">613</span>  @CanIgnoreReturnValue // TODO(kak): Consider removing this<a name="line.613"></a>
-<span class="sourceLineNo">614</span>  public &lt;E extends T&gt; E min(@Nullable E a, @Nullable E b, @Nullable E c, E... rest) {<a name="line.614"></a>
+<span class="sourceLineNo">614</span>  public &lt;E extends T&gt; E min(@NullableDecl E a, @NullableDecl E b, @NullableDecl E c, E... rest) {<a name="line.614"></a>
 <span class="sourceLineNo">615</span>    E minSoFar = min(min(a, b), c);<a name="line.615"></a>
 <span class="sourceLineNo">616</span><a name="line.616"></a>
 <span class="sourceLineNo">617</span>    for (E r : rest) {<a name="line.617"></a>
@@ -692,7 +692,7 @@
 <span class="sourceLineNo">684</span>   *     ordering.<a name="line.684"></a>
 <span class="sourceLineNo">685</span>   */<a name="line.685"></a>
 <span class="sourceLineNo">686</span>  @CanIgnoreReturnValue // TODO(kak): Consider removing this<a name="line.686"></a>
-<span class="sourceLineNo">687</span>  public &lt;E extends T&gt; E max(@Nullable E a, @Nullable E b) {<a name="line.687"></a>
+<span class="sourceLineNo">687</span>  public &lt;E extends T&gt; E max(@NullableDecl E a, @NullableDecl E b) {<a name="line.687"></a>
 <span class="sourceLineNo">688</span>    return (compare(a, b) &gt;= 0) ? a : b;<a name="line.688"></a>
 <span class="sourceLineNo">689</span>  }<a name="line.689"></a>
 <span class="sourceLineNo">690</span><a name="line.690"></a>
@@ -711,7 +711,7 @@
 <span class="sourceLineNo">703</span>   *     ordering.<a name="line.703"></a>
 <span class="sourceLineNo">704</span>   */<a name="line.704"></a>
 <span class="sourceLineNo">705</span>  @CanIgnoreReturnValue // TODO(kak): Consider removing this<a name="line.705"></a>
-<span class="sourceLineNo">706</span>  public &lt;E extends T&gt; E max(@Nullable E a, @Nullable E b, @Nullable E c, E... rest) {<a name="line.706"></a>
+<span class="sourceLineNo">706</span>  public &lt;E extends T&gt; E max(@NullableDecl E a, @NullableDecl E b, @NullableDecl E c, E... rest) {<a name="line.706"></a>
 <span class="sourceLineNo">707</span>    E maxSoFar = max(max(a, b), c);<a name="line.707"></a>
 <span class="sourceLineNo">708</span><a name="line.708"></a>
 <span class="sourceLineNo">709</span>    for (E r : rest) {<a name="line.709"></a>
@@ -939,7 +939,7 @@
 <span class="sourceLineNo">931</span>   * @deprecated Use {@link Collections#binarySearch(List, Object, Comparator)} directly.<a name="line.931"></a>
 <span class="sourceLineNo">932</span>   */<a name="line.932"></a>
 <span class="sourceLineNo">933</span>  @Deprecated<a name="line.933"></a>
-<span class="sourceLineNo">934</span>  public int binarySearch(List&lt;? extends T&gt; sortedList, @Nullable T key) {<a name="line.934"></a>
+<span class="sourceLineNo">934</span>  public int binarySearch(List&lt;? extends T&gt; sortedList, @NullableDecl T key) {<a name="line.934"></a>
 <span class="sourceLineNo">935</span>    return Collections.binarySearch(sortedList, key, this);<a name="line.935"></a>
 <span class="sourceLineNo">936</span>  }<a name="line.936"></a>
 <span class="sourceLineNo">937</span><a name="line.937"></a>

@@ -38,7 +38,7 @@
 <span class="sourceLineNo">030</span>import java.util.SortedSet;<a name="line.30"></a>
 <span class="sourceLineNo">031</span>import java.util.TreeMap;<a name="line.31"></a>
 <span class="sourceLineNo">032</span>import java.util.TreeSet;<a name="line.32"></a>
-<span class="sourceLineNo">033</span>import javax.annotation.Nullable;<a name="line.33"></a>
+<span class="sourceLineNo">033</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.33"></a>
 <span class="sourceLineNo">034</span><a name="line.34"></a>
 <span class="sourceLineNo">035</span>/**<a name="line.35"></a>
 <span class="sourceLineNo">036</span> * Implementation of {@code Multimap} whose keys and values are ordered by their natural ordering or<a name="line.36"></a>
@@ -140,7 +140,7 @@
 <span class="sourceLineNo">132</span>  }<a name="line.132"></a>
 <span class="sourceLineNo">133</span><a name="line.133"></a>
 <span class="sourceLineNo">134</span>  @Override<a name="line.134"></a>
-<span class="sourceLineNo">135</span>  Collection&lt;V&gt; createCollection(@Nullable K key) {<a name="line.135"></a>
+<span class="sourceLineNo">135</span>  Collection&lt;V&gt; createCollection(@NullableDecl K key) {<a name="line.135"></a>
 <span class="sourceLineNo">136</span>    if (key == null) {<a name="line.136"></a>
 <span class="sourceLineNo">137</span>      keyComparator().compare(key, key);<a name="line.137"></a>
 <span class="sourceLineNo">138</span>    }<a name="line.138"></a>
@@ -165,7 +165,7 @@
 <span class="sourceLineNo">157</span>  /** @since 14.0 (present with return type {@code SortedSet} since 2.0) */<a name="line.157"></a>
 <span class="sourceLineNo">158</span>  @Override<a name="line.158"></a>
 <span class="sourceLineNo">159</span>  @GwtIncompatible // NavigableSet<a name="line.159"></a>
-<span class="sourceLineNo">160</span>  public NavigableSet&lt;V&gt; get(@Nullable K key) {<a name="line.160"></a>
+<span class="sourceLineNo">160</span>  public NavigableSet&lt;V&gt; get(@NullableDecl K key) {<a name="line.160"></a>
 <span class="sourceLineNo">161</span>    return (NavigableSet&lt;V&gt;) super.get(key);<a name="line.161"></a>
 <span class="sourceLineNo">162</span>  }<a name="line.162"></a>
 <span class="sourceLineNo">163</span><a name="line.163"></a>

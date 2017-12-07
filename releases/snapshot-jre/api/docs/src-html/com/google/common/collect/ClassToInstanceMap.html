@@ -27,7 +27,7 @@
 <span class="sourceLineNo">019</span>import com.google.common.annotations.GwtCompatible;<a name="line.19"></a>
 <span class="sourceLineNo">020</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.20"></a>
 <span class="sourceLineNo">021</span>import java.util.Map;<a name="line.21"></a>
-<span class="sourceLineNo">022</span>import javax.annotation.Nullable;<a name="line.22"></a>
+<span class="sourceLineNo">022</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.22"></a>
 <span class="sourceLineNo">023</span><a name="line.23"></a>
 <span class="sourceLineNo">024</span>/**<a name="line.24"></a>
 <span class="sourceLineNo">025</span> * A map, each entry of which maps a Java &lt;a href="http://tinyurl.com/2cmwkz"&gt;raw type&lt;/a&gt; to an<a name="line.25"></a>
@@ -66,7 +66,7 @@
 <span class="sourceLineNo">058</span>   *     null} if there was no previous entry.<a name="line.58"></a>
 <span class="sourceLineNo">059</span>   */<a name="line.59"></a>
 <span class="sourceLineNo">060</span>  @CanIgnoreReturnValue<a name="line.60"></a>
-<span class="sourceLineNo">061</span>  &lt;T extends B&gt; T putInstance(Class&lt;T&gt; type, @Nullable T value);<a name="line.61"></a>
+<span class="sourceLineNo">061</span>  &lt;T extends B&gt; T putInstance(Class&lt;T&gt; type, @NullableDecl T value);<a name="line.61"></a>
 <span class="sourceLineNo">062</span>}<a name="line.62"></a>
 
 

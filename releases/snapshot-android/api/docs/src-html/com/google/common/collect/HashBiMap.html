@@ -41,7 +41,7 @@
 <span class="sourceLineNo">033</span>import java.util.Map;<a name="line.33"></a>
 <span class="sourceLineNo">034</span>import java.util.NoSuchElementException;<a name="line.34"></a>
 <span class="sourceLineNo">035</span>import java.util.Set;<a name="line.35"></a>
-<span class="sourceLineNo">036</span>import javax.annotation.Nullable;<a name="line.36"></a>
+<span class="sourceLineNo">036</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.36"></a>
 <span class="sourceLineNo">037</span><a name="line.37"></a>
 <span class="sourceLineNo">038</span>/**<a name="line.38"></a>
 <span class="sourceLineNo">039</span> * A {@link BiMap} backed by two hash tables. This implementation allows null keys and values. A<a name="line.39"></a>
@@ -200,19 +200,19 @@
 <span class="sourceLineNo">192</span>  }<a name="line.192"></a>
 <span class="sourceLineNo">193</span><a name="line.193"></a>
 <span class="sourceLineNo">194</span>  /** Given a key, returns the index of the entry in the tables, or ABSENT if not found. */<a name="line.194"></a>
-<span class="sourceLineNo">195</span>  int findEntryByKey(@Nullable Object key) {<a name="line.195"></a>
+<span class="sourceLineNo">195</span>  int findEntryByKey(@NullableDecl Object key) {<a name="line.195"></a>
 <span class="sourceLineNo">196</span>    return findEntryByKey(key, Hashing.smearedHash(key));<a name="line.196"></a>
 <span class="sourceLineNo">197</span>  }<a name="line.197"></a>
 <span class="sourceLineNo">198</span><a name="line.198"></a>
 <span class="sourceLineNo">199</span>  /**<a name="line.199"></a>
 <span class="sourceLineNo">200</span>   * Given a key and its hash, returns the index of the entry in the tables, or ABSENT if not found.<a name="line.200"></a>
 <span class="sourceLineNo">201</span>   */<a name="line.201"></a>
-<span class="sourceLineNo">202</span>  int findEntryByKey(@Nullable Object key, int keyHash) {<a name="line.202"></a>
+<span class="sourceLineNo">202</span>  int findEntryByKey(@NullableDecl Object key, int keyHash) {<a name="line.202"></a>
 <span class="sourceLineNo">203</span>    return findEntry(key, keyHash, hashTableKToV, nextInBucketKToV, keys);<a name="line.203"></a>
 <span class="sourceLineNo">204</span>  }<a name="line.204"></a>
 <span class="sourceLineNo">205</span><a name="line.205"></a>
 <span class="sourceLineNo">206</span>  /** Given a value, returns the index of the entry in the tables, or ABSENT if not found. */<a name="line.206"></a>
-<span class="sourceLineNo">207</span>  int findEntryByValue(@Nullable Object value) {<a name="line.207"></a>
+<span class="sourceLineNo">207</span>  int findEntryByValue(@NullableDecl Object value) {<a name="line.207"></a>
 <span class="sourceLineNo">208</span>    return findEntryByValue(value, Hashing.smearedHash(value));<a name="line.208"></a>
 <span class="sourceLineNo">209</span>  }<a name="line.209"></a>
 <span class="sourceLineNo">210</span><a name="line.210"></a>
@@ -220,12 +220,12 @@
 <span class="sourceLineNo">212</span>   * Given a value and its hash, returns the index of the entry in the tables, or ABSENT if not<a name="line.212"></a>
 <span class="sourceLineNo">213</span>   * found.<a name="line.213"></a>
 <span class="sourceLineNo">214</span>   */<a name="line.214"></a>
-<span class="sourceLineNo">215</span>  int findEntryByValue(@Nullable Object value, int valueHash) {<a name="line.215"></a>
+<span class="sourceLineNo">215</span>  int findEntryByValue(@NullableDecl Object value, int valueHash) {<a name="line.215"></a>
 <span class="sourceLineNo">216</span>    return findEntry(value, valueHash, hashTableVToK, nextInBucketVToK, values);<a name="line.216"></a>
 <span class="sourceLineNo">217</span>  }<a name="line.217"></a>
 <span class="sourceLineNo">218</span><a name="line.218"></a>
 <span class="sourceLineNo">219</span>  int findEntry(<a name="line.219"></a>
-<span class="sourceLineNo">220</span>      @Nullable Object o, int oHash, int[] hashTable, int[] nextInBucket, Object[] array) {<a name="line.220"></a>
+<span class="sourceLineNo">220</span>      @NullableDecl Object o, int oHash, int[] hashTable, int[] nextInBucket, Object[] array) {<a name="line.220"></a>
 <span class="sourceLineNo">221</span>    for (int entry = hashTable[bucket(oHash)]; entry != ABSENT; entry = nextInBucket[entry]) {<a name="line.221"></a>
 <span class="sourceLineNo">222</span>      if (Objects.equal(array[entry], o)) {<a name="line.222"></a>
 <span class="sourceLineNo">223</span>        return entry;<a name="line.223"></a>
@@ -235,43 +235,43 @@
 <span class="sourceLineNo">227</span>  }<a name="line.227"></a>
 <span class="sourceLineNo">228</span><a name="line.228"></a>
 <span class="sourceLineNo">229</span>  @Override<a name="line.229"></a>
-<span class="sourceLineNo">230</span>  public boolean containsKey(@Nullable Object key) {<a name="line.230"></a>
+<span class="sourceLineNo">230</span>  public boolean containsKey(@NullableDecl Object key) {<a name="line.230"></a>
 <span class="sourceLineNo">231</span>    return findEntryByKey(key) != ABSENT;<a name="line.231"></a>
 <span class="sourceLineNo">232</span>  }<a name="line.232"></a>
 <span class="sourceLineNo">233</span><a name="line.233"></a>
 <span class="sourceLineNo">234</span>  @Override<a name="line.234"></a>
-<span class="sourceLineNo">235</span>  public boolean containsValue(@Nullable Object value) {<a name="line.235"></a>
+<span class="sourceLineNo">235</span>  public boolean containsValue(@NullableDecl Object value) {<a name="line.235"></a>
 <span class="sourceLineNo">236</span>    return findEntryByValue(value) != ABSENT;<a name="line.236"></a>
 <span class="sourceLineNo">237</span>  }<a name="line.237"></a>
 <span class="sourceLineNo">238</span><a name="line.238"></a>
 <span class="sourceLineNo">239</span>  @Override<a name="line.239"></a>
-<span class="sourceLineNo">240</span>  @Nullable<a name="line.240"></a>
-<span class="sourceLineNo">241</span>  public V get(@Nullable Object key) {<a name="line.241"></a>
+<span class="sourceLineNo">240</span>  @NullableDecl<a name="line.240"></a>
+<span class="sourceLineNo">241</span>  public V get(@NullableDecl Object key) {<a name="line.241"></a>
 <span class="sourceLineNo">242</span>    int entry = findEntryByKey(key);<a name="line.242"></a>
 <span class="sourceLineNo">243</span>    return (entry == ABSENT) ? null : values[entry];<a name="line.243"></a>
 <span class="sourceLineNo">244</span>  }<a name="line.244"></a>
 <span class="sourceLineNo">245</span><a name="line.245"></a>
-<span class="sourceLineNo">246</span>  @Nullable<a name="line.246"></a>
-<span class="sourceLineNo">247</span>  K getInverse(@Nullable Object value) {<a name="line.247"></a>
+<span class="sourceLineNo">246</span>  @NullableDecl<a name="line.246"></a>
+<span class="sourceLineNo">247</span>  K getInverse(@NullableDecl Object value) {<a name="line.247"></a>
 <span class="sourceLineNo">248</span>    int entry = findEntryByValue(value);<a name="line.248"></a>
 <span class="sourceLineNo">249</span>    return (entry == ABSENT) ? null : keys[entry];<a name="line.249"></a>
 <span class="sourceLineNo">250</span>  }<a name="line.250"></a>
 <span class="sourceLineNo">251</span><a name="line.251"></a>
 <span class="sourceLineNo">252</span>  @Override<a name="line.252"></a>
 <span class="sourceLineNo">253</span>  @CanIgnoreReturnValue<a name="line.253"></a>
-<span class="sourceLineNo">254</span>  public V put(@Nullable K key, @Nullable V value) {<a name="line.254"></a>
+<span class="sourceLineNo">254</span>  public V put(@NullableDecl K key, @NullableDecl V value) {<a name="line.254"></a>
 <span class="sourceLineNo">255</span>    return put(key, value, false);<a name="line.255"></a>
 <span class="sourceLineNo">256</span>  }<a name="line.256"></a>
 <span class="sourceLineNo">257</span><a name="line.257"></a>
 <span class="sourceLineNo">258</span>  @Override<a name="line.258"></a>
-<span class="sourceLineNo">259</span>  @Nullable<a name="line.259"></a>
+<span class="sourceLineNo">259</span>  @NullableDecl<a name="line.259"></a>
 <span class="sourceLineNo">260</span>  @CanIgnoreReturnValue<a name="line.260"></a>
-<span class="sourceLineNo">261</span>  public V forcePut(@Nullable K key, @Nullable V value) {<a name="line.261"></a>
+<span class="sourceLineNo">261</span>  public V forcePut(@NullableDecl K key, @NullableDecl V value) {<a name="line.261"></a>
 <span class="sourceLineNo">262</span>    return put(key, value, true);<a name="line.262"></a>
 <span class="sourceLineNo">263</span>  }<a name="line.263"></a>
 <span class="sourceLineNo">264</span><a name="line.264"></a>
-<span class="sourceLineNo">265</span>  @Nullable<a name="line.265"></a>
-<span class="sourceLineNo">266</span>  V put(@Nullable K key, @Nullable V value, boolean force) {<a name="line.266"></a>
+<span class="sourceLineNo">265</span>  @NullableDecl<a name="line.265"></a>
+<span class="sourceLineNo">266</span>  V put(@NullableDecl K key, @NullableDecl V value, boolean force) {<a name="line.266"></a>
 <span class="sourceLineNo">267</span>    int keyHash = Hashing.smearedHash(key);<a name="line.267"></a>
 <span class="sourceLineNo">268</span>    int entryForKey = findEntryByKey(key, keyHash);<a name="line.268"></a>
 <span class="sourceLineNo">269</span>    if (entryForKey != ABSENT) {<a name="line.269"></a>
@@ -308,8 +308,8 @@
 <span class="sourceLineNo">300</span>    return null;<a name="line.300"></a>
 <span class="sourceLineNo">301</span>  }<a name="line.301"></a>
 <span class="sourceLineNo">302</span><a name="line.302"></a>
-<span class="sourceLineNo">303</span>  @Nullable<a name="line.303"></a>
-<span class="sourceLineNo">304</span>  K putInverse(@Nullable V value, @Nullable K key, boolean force) {<a name="line.304"></a>
+<span class="sourceLineNo">303</span>  @NullableDecl<a name="line.303"></a>
+<span class="sourceLineNo">304</span>  K putInverse(@NullableDecl V value, @NullableDecl K key, boolean force) {<a name="line.304"></a>
 <span class="sourceLineNo">305</span>    int valueHash = Hashing.smearedHash(value);<a name="line.305"></a>
 <span class="sourceLineNo">306</span>    int entryForValue = findEntryByValue(value, valueHash);<a name="line.306"></a>
 <span class="sourceLineNo">307</span>    if (entryForValue != ABSENT) {<a name="line.307"></a>
@@ -454,7 +454,7 @@
 <span class="sourceLineNo">446</span>   * Updates the specified entry to point to the new value: removes the old value from the V-to-K<a name="line.446"></a>
 <span class="sourceLineNo">447</span>   * mapping and puts the new one in. The entry does not move in the insertion order of the bimap.<a name="line.447"></a>
 <span class="sourceLineNo">448</span>   */<a name="line.448"></a>
-<span class="sourceLineNo">449</span>  private void replaceValueInEntry(int entry, @Nullable V newValue, boolean force) {<a name="line.449"></a>
+<span class="sourceLineNo">449</span>  private void replaceValueInEntry(int entry, @NullableDecl V newValue, boolean force) {<a name="line.449"></a>
 <span class="sourceLineNo">450</span>    checkArgument(entry != ABSENT);<a name="line.450"></a>
 <span class="sourceLineNo">451</span>    int newValueHash = Hashing.smearedHash(newValue);<a name="line.451"></a>
 <span class="sourceLineNo">452</span>    int newValueIndex = findEntryByValue(newValue, newValueHash);<a name="line.452"></a>
@@ -479,7 +479,7 @@
 <span class="sourceLineNo">471</span>   * mapping and puts the new one in. The entry is moved to the end of the insertion order, or to<a name="line.471"></a>
 <span class="sourceLineNo">472</span>   * the position of the new key if it was previously present.<a name="line.472"></a>
 <span class="sourceLineNo">473</span>   */<a name="line.473"></a>
-<span class="sourceLineNo">474</span>  private void replaceKeyInEntry(int entry, @Nullable K newKey, boolean force) {<a name="line.474"></a>
+<span class="sourceLineNo">474</span>  private void replaceKeyInEntry(int entry, @NullableDecl K newKey, boolean force) {<a name="line.474"></a>
 <span class="sourceLineNo">475</span>    checkArgument(entry != ABSENT);<a name="line.475"></a>
 <span class="sourceLineNo">476</span>    int newKeyHash = Hashing.smearedHash(newKey);<a name="line.476"></a>
 <span class="sourceLineNo">477</span>    int newKeyIndex = findEntryByKey(newKey, newKeyHash);<a name="line.477"></a>
@@ -524,28 +524,28 @@
 <span class="sourceLineNo">516</span>  }<a name="line.516"></a>
 <span class="sourceLineNo">517</span><a name="line.517"></a>
 <span class="sourceLineNo">518</span>  @Override<a name="line.518"></a>
-<span class="sourceLineNo">519</span>  @Nullable<a name="line.519"></a>
+<span class="sourceLineNo">519</span>  @NullableDecl<a name="line.519"></a>
 <span class="sourceLineNo">520</span>  @CanIgnoreReturnValue<a name="line.520"></a>
-<span class="sourceLineNo">521</span>  public V remove(@Nullable Object key) {<a name="line.521"></a>
+<span class="sourceLineNo">521</span>  public V remove(@NullableDecl Object key) {<a name="line.521"></a>
 <span class="sourceLineNo">522</span>    int keyHash = Hashing.smearedHash(key);<a name="line.522"></a>
 <span class="sourceLineNo">523</span>    int entry = findEntryByKey(key, keyHash);<a name="line.523"></a>
 <span class="sourceLineNo">524</span>    if (entry == ABSENT) {<a name="line.524"></a>
 <span class="sourceLineNo">525</span>      return null;<a name="line.525"></a>
 <span class="sourceLineNo">526</span>    } else {<a name="line.526"></a>
-<span class="sourceLineNo">527</span>      @Nullable V value = values[entry];<a name="line.527"></a>
+<span class="sourceLineNo">527</span>      @NullableDecl V value = values[entry];<a name="line.527"></a>
 <span class="sourceLineNo">528</span>      removeEntryKeyHashKnown(entry, keyHash);<a name="line.528"></a>
 <span class="sourceLineNo">529</span>      return value;<a name="line.529"></a>
 <span class="sourceLineNo">530</span>    }<a name="line.530"></a>
 <span class="sourceLineNo">531</span>  }<a name="line.531"></a>
 <span class="sourceLineNo">532</span><a name="line.532"></a>
-<span class="sourceLineNo">533</span>  @Nullable<a name="line.533"></a>
-<span class="sourceLineNo">534</span>  K removeInverse(@Nullable Object value) {<a name="line.534"></a>
+<span class="sourceLineNo">533</span>  @NullableDecl<a name="line.533"></a>
+<span class="sourceLineNo">534</span>  K removeInverse(@NullableDecl Object value) {<a name="line.534"></a>
 <span class="sourceLineNo">535</span>    int valueHash = Hashing.smearedHash(value);<a name="line.535"></a>
 <span class="sourceLineNo">536</span>    int entry = findEntryByValue(value, valueHash);<a name="line.536"></a>
 <span class="sourceLineNo">537</span>    if (entry == ABSENT) {<a name="line.537"></a>
 <span class="sourceLineNo">538</span>      return null;<a name="line.538"></a>
 <span class="sourceLineNo">539</span>    } else {<a name="line.539"></a>
-<span class="sourceLineNo">540</span>      @Nullable K key = keys[entry];<a name="line.540"></a>
+<span class="sourceLineNo">540</span>      @NullableDecl K key = keys[entry];<a name="line.540"></a>
 <span class="sourceLineNo">541</span>      removeEntryValueHashKnown(entry, valueHash);<a name="line.541"></a>
 <span class="sourceLineNo">542</span>      return key;<a name="line.542"></a>
 <span class="sourceLineNo">543</span>    }<a name="line.543"></a>
@@ -738,12 +738,12 @@
 <span class="sourceLineNo">730</span>    }<a name="line.730"></a>
 <span class="sourceLineNo">731</span><a name="line.731"></a>
 <span class="sourceLineNo">732</span>    @Override<a name="line.732"></a>
-<span class="sourceLineNo">733</span>    public boolean contains(@Nullable Object o) {<a name="line.733"></a>
+<span class="sourceLineNo">733</span>    public boolean contains(@NullableDecl Object o) {<a name="line.733"></a>
 <span class="sourceLineNo">734</span>      return HashBiMap.this.containsKey(o);<a name="line.734"></a>
 <span class="sourceLineNo">735</span>    }<a name="line.735"></a>
 <span class="sourceLineNo">736</span><a name="line.736"></a>
 <span class="sourceLineNo">737</span>    @Override<a name="line.737"></a>
-<span class="sourceLineNo">738</span>    public boolean remove(@Nullable Object o) {<a name="line.738"></a>
+<span class="sourceLineNo">738</span>    public boolean remove(@NullableDecl Object o) {<a name="line.738"></a>
 <span class="sourceLineNo">739</span>      int oHash = Hashing.smearedHash(o);<a name="line.739"></a>
 <span class="sourceLineNo">740</span>      int entry = findEntryByKey(o, oHash);<a name="line.740"></a>
 <span class="sourceLineNo">741</span>      if (entry != ABSENT) {<a name="line.741"></a>
@@ -770,12 +770,12 @@
 <span class="sourceLineNo">762</span>    }<a name="line.762"></a>
 <span class="sourceLineNo">763</span><a name="line.763"></a>
 <span class="sourceLineNo">764</span>    @Override<a name="line.764"></a>
-<span class="sourceLineNo">765</span>    public boolean contains(@Nullable Object o) {<a name="line.765"></a>
+<span class="sourceLineNo">765</span>    public boolean contains(@NullableDecl Object o) {<a name="line.765"></a>
 <span class="sourceLineNo">766</span>      return HashBiMap.this.containsValue(o);<a name="line.766"></a>
 <span class="sourceLineNo">767</span>    }<a name="line.767"></a>
 <span class="sourceLineNo">768</span><a name="line.768"></a>
 <span class="sourceLineNo">769</span>    @Override<a name="line.769"></a>
-<span class="sourceLineNo">770</span>    public boolean remove(@Nullable Object o) {<a name="line.770"></a>
+<span class="sourceLineNo">770</span>    public boolean remove(@NullableDecl Object o) {<a name="line.770"></a>
 <span class="sourceLineNo">771</span>      int oHash = Hashing.smearedHash(o);<a name="line.771"></a>
 <span class="sourceLineNo">772</span>      int entry = findEntryByValue(o, oHash);<a name="line.772"></a>
 <span class="sourceLineNo">773</span>      if (entry != ABSENT) {<a name="line.773"></a>
@@ -797,11 +797,11 @@
 <span class="sourceLineNo">789</span><a name="line.789"></a>
 <span class="sourceLineNo">790</span>  final class EntrySet extends View&lt;Entry&lt;K, V&gt;&gt; {<a name="line.790"></a>
 <span class="sourceLineNo">791</span>    @Override<a name="line.791"></a>
-<span class="sourceLineNo">792</span>    public boolean contains(@Nullable Object o) {<a name="line.792"></a>
+<span class="sourceLineNo">792</span>    public boolean contains(@NullableDecl Object o) {<a name="line.792"></a>
 <span class="sourceLineNo">793</span>      if (o instanceof Entry) {<a name="line.793"></a>
 <span class="sourceLineNo">794</span>        Entry&lt;?, ?&gt; e = (Entry&lt;?, ?&gt;) o;<a name="line.794"></a>
-<span class="sourceLineNo">795</span>        @Nullable Object k = e.getKey();<a name="line.795"></a>
-<span class="sourceLineNo">796</span>        @Nullable Object v = e.getValue();<a name="line.796"></a>
+<span class="sourceLineNo">795</span>        @NullableDecl Object k = e.getKey();<a name="line.795"></a>
+<span class="sourceLineNo">796</span>        @NullableDecl Object v = e.getValue();<a name="line.796"></a>
 <span class="sourceLineNo">797</span>        int eIndex = findEntryByKey(k);<a name="line.797"></a>
 <span class="sourceLineNo">798</span>        return eIndex != ABSENT &amp;&amp; Objects.equal(v, values[eIndex]);<a name="line.798"></a>
 <span class="sourceLineNo">799</span>      }<a name="line.799"></a>
@@ -810,11 +810,11 @@
 <span class="sourceLineNo">802</span><a name="line.802"></a>
 <span class="sourceLineNo">803</span>    @Override<a name="line.803"></a>
 <span class="sourceLineNo">804</span>    @CanIgnoreReturnValue<a name="line.804"></a>
-<span class="sourceLineNo">805</span>    public boolean remove(@Nullable Object o) {<a name="line.805"></a>
+<span class="sourceLineNo">805</span>    public boolean remove(@NullableDecl Object o) {<a name="line.805"></a>
 <span class="sourceLineNo">806</span>      if (o instanceof Entry) {<a name="line.806"></a>
 <span class="sourceLineNo">807</span>        Entry&lt;?, ?&gt; e = (Entry&lt;?, ?&gt;) o;<a name="line.807"></a>
-<span class="sourceLineNo">808</span>        @Nullable Object k = e.getKey();<a name="line.808"></a>
-<span class="sourceLineNo">809</span>        @Nullable Object v = e.getValue();<a name="line.809"></a>
+<span class="sourceLineNo">808</span>        @NullableDecl Object k = e.getKey();<a name="line.808"></a>
+<span class="sourceLineNo">809</span>        @NullableDecl Object v = e.getValue();<a name="line.809"></a>
 <span class="sourceLineNo">810</span>        int kHash = Hashing.smearedHash(k);<a name="line.810"></a>
 <span class="sourceLineNo">811</span>        int eIndex = findEntryByKey(k, kHash);<a name="line.811"></a>
 <span class="sourceLineNo">812</span>        if (eIndex != ABSENT &amp;&amp; Objects.equal(v, values[eIndex])) {<a name="line.812"></a>
@@ -837,7 +837,7 @@
 <span class="sourceLineNo">829</span>   * work if the key has not moved.<a name="line.829"></a>
 <span class="sourceLineNo">830</span>   */<a name="line.830"></a>
 <span class="sourceLineNo">831</span>  final class EntryForKey extends AbstractMapEntry&lt;K, V&gt; {<a name="line.831"></a>
-<span class="sourceLineNo">832</span>    @Nullable final K key;<a name="line.832"></a>
+<span class="sourceLineNo">832</span>    @NullableDecl final K key;<a name="line.832"></a>
 <span class="sourceLineNo">833</span>    int index;<a name="line.833"></a>
 <span class="sourceLineNo">834</span><a name="line.834"></a>
 <span class="sourceLineNo">835</span>    EntryForKey(int index) {<a name="line.835"></a>
@@ -857,7 +857,7 @@
 <span class="sourceLineNo">849</span>    }<a name="line.849"></a>
 <span class="sourceLineNo">850</span><a name="line.850"></a>
 <span class="sourceLineNo">851</span>    @Override<a name="line.851"></a>
-<span class="sourceLineNo">852</span>    @Nullable<a name="line.852"></a>
+<span class="sourceLineNo">852</span>    @NullableDecl<a name="line.852"></a>
 <span class="sourceLineNo">853</span>    public V getValue() {<a name="line.853"></a>
 <span class="sourceLineNo">854</span>      updateIndex();<a name="line.854"></a>
 <span class="sourceLineNo">855</span>      return (index == ABSENT) ? null : values[index];<a name="line.855"></a>
@@ -899,32 +899,32 @@
 <span class="sourceLineNo">891</span>    }<a name="line.891"></a>
 <span class="sourceLineNo">892</span><a name="line.892"></a>
 <span class="sourceLineNo">893</span>    @Override<a name="line.893"></a>
-<span class="sourceLineNo">894</span>    public boolean containsKey(@Nullable Object key) {<a name="line.894"></a>
+<span class="sourceLineNo">894</span>    public boolean containsKey(@NullableDecl Object key) {<a name="line.894"></a>
 <span class="sourceLineNo">895</span>      return forward.containsValue(key);<a name="line.895"></a>
 <span class="sourceLineNo">896</span>    }<a name="line.896"></a>
 <span class="sourceLineNo">897</span><a name="line.897"></a>
 <span class="sourceLineNo">898</span>    @Override<a name="line.898"></a>
-<span class="sourceLineNo">899</span>    @Nullable<a name="line.899"></a>
-<span class="sourceLineNo">900</span>    public K get(@Nullable Object key) {<a name="line.900"></a>
+<span class="sourceLineNo">899</span>    @NullableDecl<a name="line.899"></a>
+<span class="sourceLineNo">900</span>    public K get(@NullableDecl Object key) {<a name="line.900"></a>
 <span class="sourceLineNo">901</span>      return forward.getInverse(key);<a name="line.901"></a>
 <span class="sourceLineNo">902</span>    }<a name="line.902"></a>
 <span class="sourceLineNo">903</span><a name="line.903"></a>
 <span class="sourceLineNo">904</span>    @Override<a name="line.904"></a>
-<span class="sourceLineNo">905</span>    public boolean containsValue(@Nullable Object value) {<a name="line.905"></a>
+<span class="sourceLineNo">905</span>    public boolean containsValue(@NullableDecl Object value) {<a name="line.905"></a>
 <span class="sourceLineNo">906</span>      return forward.containsKey(value);<a name="line.906"></a>
 <span class="sourceLineNo">907</span>    }<a name="line.907"></a>
 <span class="sourceLineNo">908</span><a name="line.908"></a>
 <span class="sourceLineNo">909</span>    @Override<a name="line.909"></a>
-<span class="sourceLineNo">910</span>    @Nullable<a name="line.910"></a>
+<span class="sourceLineNo">910</span>    @NullableDecl<a name="line.910"></a>
 <span class="sourceLineNo">911</span>    @CanIgnoreReturnValue<a name="line.911"></a>
-<span class="sourceLineNo">912</span>    public K put(@Nullable V value, @Nullable K key) {<a name="line.912"></a>
+<span class="sourceLineNo">912</span>    public K put(@NullableDecl V value, @NullableDecl K key) {<a name="line.912"></a>
 <span class="sourceLineNo">913</span>      return forward.putInverse(value, key, false);<a name="line.913"></a>
 <span class="sourceLineNo">914</span>    }<a name="line.914"></a>
 <span class="sourceLineNo">915</span><a name="line.915"></a>
 <span class="sourceLineNo">916</span>    @Override<a name="line.916"></a>
-<span class="sourceLineNo">917</span>    @Nullable<a name="line.917"></a>
+<span class="sourceLineNo">917</span>    @NullableDecl<a name="line.917"></a>
 <span class="sourceLineNo">918</span>    @CanIgnoreReturnValue<a name="line.918"></a>
-<span class="sourceLineNo">919</span>    public K forcePut(@Nullable V value, @Nullable K key) {<a name="line.919"></a>
+<span class="sourceLineNo">919</span>    public K forcePut(@NullableDecl V value, @NullableDecl K key) {<a name="line.919"></a>
 <span class="sourceLineNo">920</span>      return forward.putInverse(value, key, true);<a name="line.920"></a>
 <span class="sourceLineNo">921</span>    }<a name="line.921"></a>
 <span class="sourceLineNo">922</span><a name="line.922"></a>
@@ -934,9 +934,9 @@
 <span class="sourceLineNo">926</span>    }<a name="line.926"></a>
 <span class="sourceLineNo">927</span><a name="line.927"></a>
 <span class="sourceLineNo">928</span>    @Override<a name="line.928"></a>
-<span class="sourceLineNo">929</span>    @Nullable<a name="line.929"></a>
+<span class="sourceLineNo">929</span>    @NullableDecl<a name="line.929"></a>
 <span class="sourceLineNo">930</span>    @CanIgnoreReturnValue<a name="line.930"></a>
-<span class="sourceLineNo">931</span>    public K remove(@Nullable Object value) {<a name="line.931"></a>
+<span class="sourceLineNo">931</span>    public K remove(@NullableDecl Object value) {<a name="line.931"></a>
 <span class="sourceLineNo">932</span>      return forward.removeInverse(value);<a name="line.932"></a>
 <span class="sourceLineNo">933</span>    }<a name="line.933"></a>
 <span class="sourceLineNo">934</span><a name="line.934"></a>
@@ -972,7 +972,7 @@
 <span class="sourceLineNo">964</span><a name="line.964"></a>
 <span class="sourceLineNo">965</span>  class InverseEntrySet extends View&lt;Entry&lt;V, K&gt;&gt; {<a name="line.965"></a>
 <span class="sourceLineNo">966</span>    @Override<a name="line.966"></a>
-<span class="sourceLineNo">967</span>    public boolean contains(@Nullable Object o) {<a name="line.967"></a>
+<span class="sourceLineNo">967</span>    public boolean contains(@NullableDecl Object o) {<a name="line.967"></a>
 <span class="sourceLineNo">968</span>      if (o instanceof Entry) {<a name="line.968"></a>
 <span class="sourceLineNo">969</span>        Entry&lt;?, ?&gt; e = (Entry&lt;?, ?&gt;) o;<a name="line.969"></a>
 <span class="sourceLineNo">970</span>        Object v = e.getKey();<a name="line.970"></a>

@@ -48,7 +48,7 @@
 <span class="sourceLineNo">040</span>import java.util.function.Consumer;<a name="line.40"></a>
 <span class="sourceLineNo">041</span>import java.util.function.UnaryOperator;<a name="line.41"></a>
 <span class="sourceLineNo">042</span>import java.util.stream.Collector;<a name="line.42"></a>
-<span class="sourceLineNo">043</span>import javax.annotation.Nullable;<a name="line.43"></a>
+<span class="sourceLineNo">043</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.43"></a>
 <span class="sourceLineNo">044</span><a name="line.44"></a>
 <span class="sourceLineNo">045</span>/**<a name="line.45"></a>
 <span class="sourceLineNo">046</span> * A {@link List} whose contents will never change, with many other important properties detailed at<a name="line.46"></a>
@@ -410,17 +410,17 @@
 <span class="sourceLineNo">402</span>  }<a name="line.402"></a>
 <span class="sourceLineNo">403</span><a name="line.403"></a>
 <span class="sourceLineNo">404</span>  @Override<a name="line.404"></a>
-<span class="sourceLineNo">405</span>  public int indexOf(@Nullable Object object) {<a name="line.405"></a>
+<span class="sourceLineNo">405</span>  public int indexOf(@NullableDecl Object object) {<a name="line.405"></a>
 <span class="sourceLineNo">406</span>    return (object == null) ? -1 : Lists.indexOfImpl(this, object);<a name="line.406"></a>
 <span class="sourceLineNo">407</span>  }<a name="line.407"></a>
 <span class="sourceLineNo">408</span><a name="line.408"></a>
 <span class="sourceLineNo">409</span>  @Override<a name="line.409"></a>
-<span class="sourceLineNo">410</span>  public int lastIndexOf(@Nullable Object object) {<a name="line.410"></a>
+<span class="sourceLineNo">410</span>  public int lastIndexOf(@NullableDecl Object object) {<a name="line.410"></a>
 <span class="sourceLineNo">411</span>    return (object == null) ? -1 : Lists.lastIndexOfImpl(this, object);<a name="line.411"></a>
 <span class="sourceLineNo">412</span>  }<a name="line.412"></a>
 <span class="sourceLineNo">413</span><a name="line.413"></a>
 <span class="sourceLineNo">414</span>  @Override<a name="line.414"></a>
-<span class="sourceLineNo">415</span>  public boolean contains(@Nullable Object object) {<a name="line.415"></a>
+<span class="sourceLineNo">415</span>  public boolean contains(@NullableDecl Object object) {<a name="line.415"></a>
 <span class="sourceLineNo">416</span>    return indexOf(object) &gt;= 0;<a name="line.416"></a>
 <span class="sourceLineNo">417</span>  }<a name="line.417"></a>
 <span class="sourceLineNo">418</span><a name="line.418"></a>
@@ -618,18 +618,18 @@
 <span class="sourceLineNo">610</span>    }<a name="line.610"></a>
 <span class="sourceLineNo">611</span><a name="line.611"></a>
 <span class="sourceLineNo">612</span>    @Override<a name="line.612"></a>
-<span class="sourceLineNo">613</span>    public boolean contains(@Nullable Object object) {<a name="line.613"></a>
+<span class="sourceLineNo">613</span>    public boolean contains(@NullableDecl Object object) {<a name="line.613"></a>
 <span class="sourceLineNo">614</span>      return forwardList.contains(object);<a name="line.614"></a>
 <span class="sourceLineNo">615</span>    }<a name="line.615"></a>
 <span class="sourceLineNo">616</span><a name="line.616"></a>
 <span class="sourceLineNo">617</span>    @Override<a name="line.617"></a>
-<span class="sourceLineNo">618</span>    public int indexOf(@Nullable Object object) {<a name="line.618"></a>
+<span class="sourceLineNo">618</span>    public int indexOf(@NullableDecl Object object) {<a name="line.618"></a>
 <span class="sourceLineNo">619</span>      int index = forwardList.lastIndexOf(object);<a name="line.619"></a>
 <span class="sourceLineNo">620</span>      return (index &gt;= 0) ? reverseIndex(index) : -1;<a name="line.620"></a>
 <span class="sourceLineNo">621</span>    }<a name="line.621"></a>
 <span class="sourceLineNo">622</span><a name="line.622"></a>
 <span class="sourceLineNo">623</span>    @Override<a name="line.623"></a>
-<span class="sourceLineNo">624</span>    public int lastIndexOf(@Nullable Object object) {<a name="line.624"></a>
+<span class="sourceLineNo">624</span>    public int lastIndexOf(@NullableDecl Object object) {<a name="line.624"></a>
 <span class="sourceLineNo">625</span>      int index = forwardList.indexOf(object);<a name="line.625"></a>
 <span class="sourceLineNo">626</span>      return (index &gt;= 0) ? reverseIndex(index) : -1;<a name="line.626"></a>
 <span class="sourceLineNo">627</span>    }<a name="line.627"></a>
@@ -658,7 +658,7 @@
 <span class="sourceLineNo">650</span>  }<a name="line.650"></a>
 <span class="sourceLineNo">651</span><a name="line.651"></a>
 <span class="sourceLineNo">652</span>  @Override<a name="line.652"></a>
-<span class="sourceLineNo">653</span>  public boolean equals(@Nullable Object obj) {<a name="line.653"></a>
+<span class="sourceLineNo">653</span>  public boolean equals(@NullableDecl Object obj) {<a name="line.653"></a>
 <span class="sourceLineNo">654</span>    return Lists.equalsImpl(this, obj);<a name="line.654"></a>
 <span class="sourceLineNo">655</span>  }<a name="line.655"></a>
 <span class="sourceLineNo">656</span><a name="line.656"></a>

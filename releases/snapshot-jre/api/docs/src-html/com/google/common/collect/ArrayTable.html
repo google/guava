@@ -43,7 +43,7 @@
 <span class="sourceLineNo">035</span>import java.util.Map;<a name="line.35"></a>
 <span class="sourceLineNo">036</span>import java.util.Set;<a name="line.36"></a>
 <span class="sourceLineNo">037</span>import java.util.Spliterator;<a name="line.37"></a>
-<span class="sourceLineNo">038</span>import javax.annotation.Nullable;<a name="line.38"></a>
+<span class="sourceLineNo">038</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.38"></a>
 <span class="sourceLineNo">039</span><a name="line.39"></a>
 <span class="sourceLineNo">040</span>/**<a name="line.40"></a>
 <span class="sourceLineNo">041</span> * Fixed-size {@link Table} implementation backed by a two-dimensional array.<a name="line.41"></a>
@@ -197,10 +197,10 @@
 <span class="sourceLineNo">189</span><a name="line.189"></a>
 <span class="sourceLineNo">190</span>    abstract String getKeyRole();<a name="line.190"></a>
 <span class="sourceLineNo">191</span><a name="line.191"></a>
-<span class="sourceLineNo">192</span>    @Nullable<a name="line.192"></a>
+<span class="sourceLineNo">192</span>    @NullableDecl<a name="line.192"></a>
 <span class="sourceLineNo">193</span>    abstract V getValue(int index);<a name="line.193"></a>
 <span class="sourceLineNo">194</span><a name="line.194"></a>
-<span class="sourceLineNo">195</span>    @Nullable<a name="line.195"></a>
+<span class="sourceLineNo">195</span>    @NullableDecl<a name="line.195"></a>
 <span class="sourceLineNo">196</span>    abstract V setValue(int index, V newValue);<a name="line.196"></a>
 <span class="sourceLineNo">197</span><a name="line.197"></a>
 <span class="sourceLineNo">198</span>    @Override<a name="line.198"></a>
@@ -251,12 +251,12 @@
 <span class="sourceLineNo">243</span>    // TODO(lowasser): consider an optimized values() implementation<a name="line.243"></a>
 <span class="sourceLineNo">244</span><a name="line.244"></a>
 <span class="sourceLineNo">245</span>    @Override<a name="line.245"></a>
-<span class="sourceLineNo">246</span>    public boolean containsKey(@Nullable Object key) {<a name="line.246"></a>
+<span class="sourceLineNo">246</span>    public boolean containsKey(@NullableDecl Object key) {<a name="line.246"></a>
 <span class="sourceLineNo">247</span>      return keyIndex.containsKey(key);<a name="line.247"></a>
 <span class="sourceLineNo">248</span>    }<a name="line.248"></a>
 <span class="sourceLineNo">249</span><a name="line.249"></a>
 <span class="sourceLineNo">250</span>    @Override<a name="line.250"></a>
-<span class="sourceLineNo">251</span>    public V get(@Nullable Object key) {<a name="line.251"></a>
+<span class="sourceLineNo">251</span>    public V get(@NullableDecl Object key) {<a name="line.251"></a>
 <span class="sourceLineNo">252</span>      Integer index = keyIndex.get(key);<a name="line.252"></a>
 <span class="sourceLineNo">253</span>      if (index == null) {<a name="line.253"></a>
 <span class="sourceLineNo">254</span>        return null;<a name="line.254"></a>
@@ -335,7 +335,7 @@
 <span class="sourceLineNo">327</span>   *     to the number of allowed column keys<a name="line.327"></a>
 <span class="sourceLineNo">328</span>   */<a name="line.328"></a>
 <span class="sourceLineNo">329</span>  @CanIgnoreReturnValue<a name="line.329"></a>
-<span class="sourceLineNo">330</span>  public V set(int rowIndex, int columnIndex, @Nullable V value) {<a name="line.330"></a>
+<span class="sourceLineNo">330</span>  public V set(int rowIndex, int columnIndex, @NullableDecl V value) {<a name="line.330"></a>
 <span class="sourceLineNo">331</span>    // In GWT array access never throws IndexOutOfBoundsException.<a name="line.331"></a>
 <span class="sourceLineNo">332</span>    checkElementIndex(rowIndex, rowList.size());<a name="line.332"></a>
 <span class="sourceLineNo">333</span>    checkElementIndex(columnIndex, columnList.size());<a name="line.333"></a>
@@ -387,7 +387,7 @@
 <span class="sourceLineNo">379</span>   * constructed.<a name="line.379"></a>
 <span class="sourceLineNo">380</span>   */<a name="line.380"></a>
 <span class="sourceLineNo">381</span>  @Override<a name="line.381"></a>
-<span class="sourceLineNo">382</span>  public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {<a name="line.382"></a>
+<span class="sourceLineNo">382</span>  public boolean contains(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {<a name="line.382"></a>
 <span class="sourceLineNo">383</span>    return containsRow(rowKey) &amp;&amp; containsColumn(columnKey);<a name="line.383"></a>
 <span class="sourceLineNo">384</span>  }<a name="line.384"></a>
 <span class="sourceLineNo">385</span><a name="line.385"></a>
@@ -396,7 +396,7 @@
 <span class="sourceLineNo">388</span>   * table was constructed.<a name="line.388"></a>
 <span class="sourceLineNo">389</span>   */<a name="line.389"></a>
 <span class="sourceLineNo">390</span>  @Override<a name="line.390"></a>
-<span class="sourceLineNo">391</span>  public boolean containsColumn(@Nullable Object columnKey) {<a name="line.391"></a>
+<span class="sourceLineNo">391</span>  public boolean containsColumn(@NullableDecl Object columnKey) {<a name="line.391"></a>
 <span class="sourceLineNo">392</span>    return columnKeyToIndex.containsKey(columnKey);<a name="line.392"></a>
 <span class="sourceLineNo">393</span>  }<a name="line.393"></a>
 <span class="sourceLineNo">394</span><a name="line.394"></a>
@@ -405,12 +405,12 @@
 <span class="sourceLineNo">397</span>   * constructed.<a name="line.397"></a>
 <span class="sourceLineNo">398</span>   */<a name="line.398"></a>
 <span class="sourceLineNo">399</span>  @Override<a name="line.399"></a>
-<span class="sourceLineNo">400</span>  public boolean containsRow(@Nullable Object rowKey) {<a name="line.400"></a>
+<span class="sourceLineNo">400</span>  public boolean containsRow(@NullableDecl Object rowKey) {<a name="line.400"></a>
 <span class="sourceLineNo">401</span>    return rowKeyToIndex.containsKey(rowKey);<a name="line.401"></a>
 <span class="sourceLineNo">402</span>  }<a name="line.402"></a>
 <span class="sourceLineNo">403</span><a name="line.403"></a>
 <span class="sourceLineNo">404</span>  @Override<a name="line.404"></a>
-<span class="sourceLineNo">405</span>  public boolean containsValue(@Nullable Object value) {<a name="line.405"></a>
+<span class="sourceLineNo">405</span>  public boolean containsValue(@NullableDecl Object value) {<a name="line.405"></a>
 <span class="sourceLineNo">406</span>    for (V[] row : array) {<a name="line.406"></a>
 <span class="sourceLineNo">407</span>      for (V element : row) {<a name="line.407"></a>
 <span class="sourceLineNo">408</span>        if (Objects.equal(value, element)) {<a name="line.408"></a>
@@ -422,7 +422,7 @@
 <span class="sourceLineNo">414</span>  }<a name="line.414"></a>
 <span class="sourceLineNo">415</span><a name="line.415"></a>
 <span class="sourceLineNo">416</span>  @Override<a name="line.416"></a>
-<span class="sourceLineNo">417</span>  public V get(@Nullable Object rowKey, @Nullable Object columnKey) {<a name="line.417"></a>
+<span class="sourceLineNo">417</span>  public V get(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {<a name="line.417"></a>
 <span class="sourceLineNo">418</span>    Integer rowIndex = rowKeyToIndex.get(rowKey);<a name="line.418"></a>
 <span class="sourceLineNo">419</span>    Integer columnIndex = columnKeyToIndex.get(columnKey);<a name="line.419"></a>
 <span class="sourceLineNo">420</span>    return (rowIndex == null || columnIndex == null) ? null : at(rowIndex, columnIndex);<a name="line.420"></a>
@@ -444,7 +444,7 @@
 <span class="sourceLineNo">436</span>   */<a name="line.436"></a>
 <span class="sourceLineNo">437</span>  @CanIgnoreReturnValue<a name="line.437"></a>
 <span class="sourceLineNo">438</span>  @Override<a name="line.438"></a>
-<span class="sourceLineNo">439</span>  public V put(R rowKey, C columnKey, @Nullable V value) {<a name="line.439"></a>
+<span class="sourceLineNo">439</span>  public V put(R rowKey, C columnKey, @NullableDecl V value) {<a name="line.439"></a>
 <span class="sourceLineNo">440</span>    checkNotNull(rowKey);<a name="line.440"></a>
 <span class="sourceLineNo">441</span>    checkNotNull(columnKey);<a name="line.441"></a>
 <span class="sourceLineNo">442</span>    Integer rowIndex = rowKeyToIndex.get(rowKey);<a name="line.442"></a>
@@ -501,7 +501,7 @@
 <span class="sourceLineNo">493</span>   *     for the keys<a name="line.493"></a>
 <span class="sourceLineNo">494</span>   */<a name="line.494"></a>
 <span class="sourceLineNo">495</span>  @CanIgnoreReturnValue<a name="line.495"></a>
-<span class="sourceLineNo">496</span>  public V erase(@Nullable Object rowKey, @Nullable Object columnKey) {<a name="line.496"></a>
+<span class="sourceLineNo">496</span>  public V erase(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {<a name="line.496"></a>
 <span class="sourceLineNo">497</span>    Integer rowIndex = rowKeyToIndex.get(rowKey);<a name="line.497"></a>
 <span class="sourceLineNo">498</span>    Integer columnIndex = columnKeyToIndex.get(columnKey);<a name="line.498"></a>
 <span class="sourceLineNo">499</span>    if (rowIndex == null || columnIndex == null) {<a name="line.499"></a>

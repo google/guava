@@ -30,7 +30,7 @@
 <span class="sourceLineNo">022</span>import java.util.Iterator;<a name="line.22"></a>
 <span class="sourceLineNo">023</span>import java.util.NoSuchElementException;<a name="line.23"></a>
 <span class="sourceLineNo">024</span>import java.util.SortedSet;<a name="line.24"></a>
-<span class="sourceLineNo">025</span>import javax.annotation.Nullable;<a name="line.25"></a>
+<span class="sourceLineNo">025</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.25"></a>
 <span class="sourceLineNo">026</span><a name="line.26"></a>
 <span class="sourceLineNo">027</span>/**<a name="line.27"></a>
 <span class="sourceLineNo">028</span> * A sorted set which forwards all its method calls to another sorted set. Subclasses should<a name="line.28"></a>
@@ -100,7 +100,7 @@
 <span class="sourceLineNo">092</span><a name="line.92"></a>
 <span class="sourceLineNo">093</span>  // unsafe, but worst case is a CCE is thrown, which callers will be expecting<a name="line.93"></a>
 <span class="sourceLineNo">094</span>  @SuppressWarnings("unchecked")<a name="line.94"></a>
-<span class="sourceLineNo">095</span>  private int unsafeCompare(@Nullable Object o1, @Nullable Object o2) {<a name="line.95"></a>
+<span class="sourceLineNo">095</span>  private int unsafeCompare(@NullableDecl Object o1, @NullableDecl Object o2) {<a name="line.95"></a>
 <span class="sourceLineNo">096</span>    Comparator&lt;? super E&gt; comparator = comparator();<a name="line.96"></a>
 <span class="sourceLineNo">097</span>    return (comparator == null)<a name="line.97"></a>
 <span class="sourceLineNo">098</span>        ? ((Comparable&lt;Object&gt;) o1).compareTo(o2)<a name="line.98"></a>
@@ -116,7 +116,7 @@
 <span class="sourceLineNo">108</span>   */<a name="line.108"></a>
 <span class="sourceLineNo">109</span>  @Override<a name="line.109"></a>
 <span class="sourceLineNo">110</span>  @Beta<a name="line.110"></a>
-<span class="sourceLineNo">111</span>  protected boolean standardContains(@Nullable Object object) {<a name="line.111"></a>
+<span class="sourceLineNo">111</span>  protected boolean standardContains(@NullableDecl Object object) {<a name="line.111"></a>
 <span class="sourceLineNo">112</span>    try {<a name="line.112"></a>
 <span class="sourceLineNo">113</span>      // any ClassCastExceptions are caught<a name="line.113"></a>
 <span class="sourceLineNo">114</span>      @SuppressWarnings("unchecked")<a name="line.114"></a>
@@ -137,7 +137,7 @@
 <span class="sourceLineNo">129</span>   */<a name="line.129"></a>
 <span class="sourceLineNo">130</span>  @Override<a name="line.130"></a>
 <span class="sourceLineNo">131</span>  @Beta<a name="line.131"></a>
-<span class="sourceLineNo">132</span>  protected boolean standardRemove(@Nullable Object object) {<a name="line.132"></a>
+<span class="sourceLineNo">132</span>  protected boolean standardRemove(@NullableDecl Object object) {<a name="line.132"></a>
 <span class="sourceLineNo">133</span>    try {<a name="line.133"></a>
 <span class="sourceLineNo">134</span>      // any ClassCastExceptions are caught<a name="line.134"></a>
 <span class="sourceLineNo">135</span>      @SuppressWarnings("unchecked")<a name="line.135"></a>

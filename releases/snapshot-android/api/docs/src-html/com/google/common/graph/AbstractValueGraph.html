@@ -29,7 +29,7 @@
 <span class="sourceLineNo">021</span>import com.google.common.collect.Maps;<a name="line.21"></a>
 <span class="sourceLineNo">022</span>import java.util.Map;<a name="line.22"></a>
 <span class="sourceLineNo">023</span>import java.util.Set;<a name="line.23"></a>
-<span class="sourceLineNo">024</span>import javax.annotation.Nullable;<a name="line.24"></a>
+<span class="sourceLineNo">024</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.24"></a>
 <span class="sourceLineNo">025</span><a name="line.25"></a>
 <span class="sourceLineNo">026</span>/**<a name="line.26"></a>
 <span class="sourceLineNo">027</span> * This class provides a skeletal implementation of {@link ValueGraph}. It is recommended to extend<a name="line.27"></a>
@@ -108,7 +108,7 @@
 <span class="sourceLineNo">100</span>  }<a name="line.100"></a>
 <span class="sourceLineNo">101</span><a name="line.101"></a>
 <span class="sourceLineNo">102</span>  @Override<a name="line.102"></a>
-<span class="sourceLineNo">103</span>  public final boolean equals(@Nullable Object obj) {<a name="line.103"></a>
+<span class="sourceLineNo">103</span>  public final boolean equals(@NullableDecl Object obj) {<a name="line.103"></a>
 <span class="sourceLineNo">104</span>    if (obj == this) {<a name="line.104"></a>
 <span class="sourceLineNo">105</span>      return true;<a name="line.105"></a>
 <span class="sourceLineNo">106</span>    }<a name="line.106"></a>

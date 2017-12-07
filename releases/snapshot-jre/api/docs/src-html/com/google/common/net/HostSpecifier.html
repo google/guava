@@ -27,7 +27,7 @@
 <span class="sourceLineNo">019</span>import com.google.common.base.Preconditions;<a name="line.19"></a>
 <span class="sourceLineNo">020</span>import java.net.InetAddress;<a name="line.20"></a>
 <span class="sourceLineNo">021</span>import java.text.ParseException;<a name="line.21"></a>
-<span class="sourceLineNo">022</span>import javax.annotation.Nullable;<a name="line.22"></a>
+<span class="sourceLineNo">022</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.22"></a>
 <span class="sourceLineNo">023</span><a name="line.23"></a>
 <span class="sourceLineNo">024</span>/**<a name="line.24"></a>
 <span class="sourceLineNo">025</span> * A syntactically valid host specifier, suitable for use in a URI. This may be either a numeric IP<a name="line.25"></a>
@@ -145,7 +145,7 @@
 <span class="sourceLineNo">137</span>  }<a name="line.137"></a>
 <span class="sourceLineNo">138</span><a name="line.138"></a>
 <span class="sourceLineNo">139</span>  @Override<a name="line.139"></a>
-<span class="sourceLineNo">140</span>  public boolean equals(@Nullable Object other) {<a name="line.140"></a>
+<span class="sourceLineNo">140</span>  public boolean equals(@NullableDecl Object other) {<a name="line.140"></a>
 <span class="sourceLineNo">141</span>    if (this == other) {<a name="line.141"></a>
 <span class="sourceLineNo">142</span>      return true;<a name="line.142"></a>
 <span class="sourceLineNo">143</span>    }<a name="line.143"></a>

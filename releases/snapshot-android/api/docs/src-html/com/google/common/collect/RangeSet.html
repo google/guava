@@ -26,7 +26,7 @@
 <span class="sourceLineNo">018</span>import com.google.common.annotations.GwtIncompatible;<a name="line.18"></a>
 <span class="sourceLineNo">019</span>import java.util.NoSuchElementException;<a name="line.19"></a>
 <span class="sourceLineNo">020</span>import java.util.Set;<a name="line.20"></a>
-<span class="sourceLineNo">021</span>import javax.annotation.Nullable;<a name="line.21"></a>
+<span class="sourceLineNo">021</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.21"></a>
 <span class="sourceLineNo">022</span><a name="line.22"></a>
 <span class="sourceLineNo">023</span>/**<a name="line.23"></a>
 <span class="sourceLineNo">024</span> * A set comprising zero or more {@linkplain Range#isEmpty nonempty}, {@linkplain<a name="line.24"></a>
@@ -252,7 +252,7 @@
 <span class="sourceLineNo">244</span>   * according to {@link Range#equals(Object)}.<a name="line.244"></a>
 <span class="sourceLineNo">245</span>   */<a name="line.245"></a>
 <span class="sourceLineNo">246</span>  @Override<a name="line.246"></a>
-<span class="sourceLineNo">247</span>  boolean equals(@Nullable Object obj);<a name="line.247"></a>
+<span class="sourceLineNo">247</span>  boolean equals(@NullableDecl Object obj);<a name="line.247"></a>
 <span class="sourceLineNo">248</span><a name="line.248"></a>
 <span class="sourceLineNo">249</span>  /** Returns {@code asRanges().hashCode()}. */<a name="line.249"></a>
 <span class="sourceLineNo">250</span>  @Override<a name="line.250"></a>

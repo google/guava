@@ -37,7 +37,7 @@
 <span class="sourceLineNo">029</span>import java.util.Collections;<a name="line.29"></a>
 <span class="sourceLineNo">030</span>import java.util.Iterator;<a name="line.30"></a>
 <span class="sourceLineNo">031</span>import java.util.List;<a name="line.31"></a>
-<span class="sourceLineNo">032</span>import javax.annotation.Nullable;<a name="line.32"></a>
+<span class="sourceLineNo">032</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.32"></a>
 <span class="sourceLineNo">033</span><a name="line.33"></a>
 <span class="sourceLineNo">034</span>/**<a name="line.34"></a>
 <span class="sourceLineNo">035</span> * A {@link Collection} whose contents will never change, and which offers a few additional<a name="line.35"></a>
@@ -203,7 +203,7 @@
 <span class="sourceLineNo">195</span>  }<a name="line.195"></a>
 <span class="sourceLineNo">196</span><a name="line.196"></a>
 <span class="sourceLineNo">197</span>  @Override<a name="line.197"></a>
-<span class="sourceLineNo">198</span>  public abstract boolean contains(@Nullable Object object);<a name="line.198"></a>
+<span class="sourceLineNo">198</span>  public abstract boolean contains(@NullableDecl Object object);<a name="line.198"></a>
 <span class="sourceLineNo">199</span><a name="line.199"></a>
 <span class="sourceLineNo">200</span>  /**<a name="line.200"></a>
 <span class="sourceLineNo">201</span>   * Guaranteed to throw an exception and leave the collection unmodified.<a name="line.201"></a>

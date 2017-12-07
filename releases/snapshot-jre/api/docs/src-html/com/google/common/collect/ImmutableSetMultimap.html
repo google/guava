@@ -48,7 +48,7 @@
 <span class="sourceLineNo">040</span>import java.util.stream.Collector;<a name="line.40"></a>
 <span class="sourceLineNo">041</span>import java.util.stream.Collectors;<a name="line.41"></a>
 <span class="sourceLineNo">042</span>import java.util.stream.Stream;<a name="line.42"></a>
-<span class="sourceLineNo">043</span>import javax.annotation.Nullable;<a name="line.43"></a>
+<span class="sourceLineNo">043</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.43"></a>
 <span class="sourceLineNo">044</span><a name="line.44"></a>
 <span class="sourceLineNo">045</span>/**<a name="line.45"></a>
 <span class="sourceLineNo">046</span> * A {@link SetMultimap} whose contents will never change, with many other important properties<a name="line.46"></a>
@@ -448,7 +448,7 @@
 <span class="sourceLineNo">440</span>  ImmutableSetMultimap(<a name="line.440"></a>
 <span class="sourceLineNo">441</span>      ImmutableMap&lt;K, ImmutableSet&lt;V&gt;&gt; map,<a name="line.441"></a>
 <span class="sourceLineNo">442</span>      int size,<a name="line.442"></a>
-<span class="sourceLineNo">443</span>      @Nullable Comparator&lt;? super V&gt; valueComparator) {<a name="line.443"></a>
+<span class="sourceLineNo">443</span>      @NullableDecl Comparator&lt;? super V&gt; valueComparator) {<a name="line.443"></a>
 <span class="sourceLineNo">444</span>    super(map, size);<a name="line.444"></a>
 <span class="sourceLineNo">445</span>    this.emptySet = emptySet(valueComparator);<a name="line.445"></a>
 <span class="sourceLineNo">446</span>  }<a name="line.446"></a>
@@ -461,7 +461,7 @@
 <span class="sourceLineNo">453</span>   * parameters used to build this multimap.<a name="line.453"></a>
 <span class="sourceLineNo">454</span>   */<a name="line.454"></a>
 <span class="sourceLineNo">455</span>  @Override<a name="line.455"></a>
-<span class="sourceLineNo">456</span>  public ImmutableSet&lt;V&gt; get(@Nullable K key) {<a name="line.456"></a>
+<span class="sourceLineNo">456</span>  public ImmutableSet&lt;V&gt; get(@NullableDecl K key) {<a name="line.456"></a>
 <span class="sourceLineNo">457</span>    // This cast is safe as its type is known in constructor.<a name="line.457"></a>
 <span class="sourceLineNo">458</span>    ImmutableSet&lt;V&gt; set = (ImmutableSet&lt;V&gt;) map.get(key);<a name="line.458"></a>
 <span class="sourceLineNo">459</span>    return MoreObjects.firstNonNull(set, emptySet);<a name="line.459"></a>
@@ -539,7 +539,7 @@
 <span class="sourceLineNo">531</span>    }<a name="line.531"></a>
 <span class="sourceLineNo">532</span><a name="line.532"></a>
 <span class="sourceLineNo">533</span>    @Override<a name="line.533"></a>
-<span class="sourceLineNo">534</span>    public boolean contains(@Nullable Object object) {<a name="line.534"></a>
+<span class="sourceLineNo">534</span>    public boolean contains(@NullableDecl Object object) {<a name="line.534"></a>
 <span class="sourceLineNo">535</span>      if (object instanceof Entry) {<a name="line.535"></a>
 <span class="sourceLineNo">536</span>        Entry&lt;?, ?&gt; entry = (Entry&lt;?, ?&gt;) object;<a name="line.536"></a>
 <span class="sourceLineNo">537</span>        return multimap.containsEntry(entry.getKey(), entry.getValue());<a name="line.537"></a>
@@ -564,20 +564,20 @@
 <span class="sourceLineNo">556</span>  }<a name="line.556"></a>
 <span class="sourceLineNo">557</span><a name="line.557"></a>
 <span class="sourceLineNo">558</span>  private static &lt;V&gt; ImmutableSet&lt;V&gt; valueSet(<a name="line.558"></a>
-<span class="sourceLineNo">559</span>      @Nullable Comparator&lt;? super V&gt; valueComparator, Collection&lt;? extends V&gt; values) {<a name="line.559"></a>
+<span class="sourceLineNo">559</span>      @NullableDecl Comparator&lt;? super V&gt; valueComparator, Collection&lt;? extends V&gt; values) {<a name="line.559"></a>
 <span class="sourceLineNo">560</span>    return (valueComparator == null)<a name="line.560"></a>
 <span class="sourceLineNo">561</span>        ? ImmutableSet.copyOf(values)<a name="line.561"></a>
 <span class="sourceLineNo">562</span>        : ImmutableSortedSet.copyOf(valueComparator, values);<a name="line.562"></a>
 <span class="sourceLineNo">563</span>  }<a name="line.563"></a>
 <span class="sourceLineNo">564</span><a name="line.564"></a>
-<span class="sourceLineNo">565</span>  private static &lt;V&gt; ImmutableSet&lt;V&gt; emptySet(@Nullable Comparator&lt;? super V&gt; valueComparator) {<a name="line.565"></a>
+<span class="sourceLineNo">565</span>  private static &lt;V&gt; ImmutableSet&lt;V&gt; emptySet(@NullableDecl Comparator&lt;? super V&gt; valueComparator) {<a name="line.565"></a>
 <span class="sourceLineNo">566</span>    return (valueComparator == null)<a name="line.566"></a>
 <span class="sourceLineNo">567</span>        ? ImmutableSet.&lt;V&gt;of()<a name="line.567"></a>
 <span class="sourceLineNo">568</span>        : ImmutableSortedSet.&lt;V&gt;emptySet(valueComparator);<a name="line.568"></a>
 <span class="sourceLineNo">569</span>  }<a name="line.569"></a>
 <span class="sourceLineNo">570</span><a name="line.570"></a>
 <span class="sourceLineNo">571</span>  private static &lt;V&gt; ImmutableSet.Builder&lt;V&gt; valuesBuilder(<a name="line.571"></a>
-<span class="sourceLineNo">572</span>      @Nullable Comparator&lt;? super V&gt; valueComparator) {<a name="line.572"></a>
+<span class="sourceLineNo">572</span>      @NullableDecl Comparator&lt;? super V&gt; valueComparator) {<a name="line.572"></a>
 <span class="sourceLineNo">573</span>    return (valueComparator == null)<a name="line.573"></a>
 <span class="sourceLineNo">574</span>        ? new ImmutableSet.Builder&lt;V&gt;()<a name="line.574"></a>
 <span class="sourceLineNo">575</span>        : new ImmutableSortedSet.Builder&lt;V&gt;(valueComparator);<a name="line.575"></a>
@@ -594,7 +594,7 @@
 <span class="sourceLineNo">586</span>    Serialization.writeMultimap(this, stream);<a name="line.586"></a>
 <span class="sourceLineNo">587</span>  }<a name="line.587"></a>
 <span class="sourceLineNo">588</span><a name="line.588"></a>
-<span class="sourceLineNo">589</span>  @Nullable<a name="line.589"></a>
+<span class="sourceLineNo">589</span>  @NullableDecl<a name="line.589"></a>
 <span class="sourceLineNo">590</span>  Comparator&lt;? super V&gt; valueComparator() {<a name="line.590"></a>
 <span class="sourceLineNo">591</span>    return emptySet instanceof ImmutableSortedSet<a name="line.591"></a>
 <span class="sourceLineNo">592</span>        ? ((ImmutableSortedSet&lt;V&gt;) emptySet).comparator()<a name="line.592"></a>

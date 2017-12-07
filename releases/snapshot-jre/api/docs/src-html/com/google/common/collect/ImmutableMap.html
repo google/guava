@@ -53,7 +53,7 @@
 <span class="sourceLineNo">045</span>import java.util.function.Function;<a name="line.45"></a>
 <span class="sourceLineNo">046</span>import java.util.stream.Collector;<a name="line.46"></a>
 <span class="sourceLineNo">047</span>import java.util.stream.Collectors;<a name="line.47"></a>
-<span class="sourceLineNo">048</span>import javax.annotation.Nullable;<a name="line.48"></a>
+<span class="sourceLineNo">048</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.48"></a>
 <span class="sourceLineNo">049</span><a name="line.49"></a>
 <span class="sourceLineNo">050</span>/**<a name="line.50"></a>
 <span class="sourceLineNo">051</span> * A {@link Map} whose contents will never change, with many other important properties detailed at<a name="line.51"></a>
@@ -669,18 +669,18 @@
 <span class="sourceLineNo">661</span>  }<a name="line.661"></a>
 <span class="sourceLineNo">662</span><a name="line.662"></a>
 <span class="sourceLineNo">663</span>  @Override<a name="line.663"></a>
-<span class="sourceLineNo">664</span>  public boolean containsKey(@Nullable Object key) {<a name="line.664"></a>
+<span class="sourceLineNo">664</span>  public boolean containsKey(@NullableDecl Object key) {<a name="line.664"></a>
 <span class="sourceLineNo">665</span>    return get(key) != null;<a name="line.665"></a>
 <span class="sourceLineNo">666</span>  }<a name="line.666"></a>
 <span class="sourceLineNo">667</span><a name="line.667"></a>
 <span class="sourceLineNo">668</span>  @Override<a name="line.668"></a>
-<span class="sourceLineNo">669</span>  public boolean containsValue(@Nullable Object value) {<a name="line.669"></a>
+<span class="sourceLineNo">669</span>  public boolean containsValue(@NullableDecl Object value) {<a name="line.669"></a>
 <span class="sourceLineNo">670</span>    return values().contains(value);<a name="line.670"></a>
 <span class="sourceLineNo">671</span>  }<a name="line.671"></a>
 <span class="sourceLineNo">672</span><a name="line.672"></a>
 <span class="sourceLineNo">673</span>  // Overriding to mark it Nullable<a name="line.673"></a>
 <span class="sourceLineNo">674</span>  @Override<a name="line.674"></a>
-<span class="sourceLineNo">675</span>  public abstract V get(@Nullable Object key);<a name="line.675"></a>
+<span class="sourceLineNo">675</span>  public abstract V get(@NullableDecl Object key);<a name="line.675"></a>
 <span class="sourceLineNo">676</span><a name="line.676"></a>
 <span class="sourceLineNo">677</span>  /**<a name="line.677"></a>
 <span class="sourceLineNo">678</span>   * @since 21.0 (but only since 23.5 in the Android &lt;a<a name="line.678"></a>
@@ -688,7 +688,7 @@
 <span class="sourceLineNo">680</span>   *     Note, however, that Java 8 users can call this method with any version and flavor of Guava.<a name="line.680"></a>
 <span class="sourceLineNo">681</span>   */<a name="line.681"></a>
 <span class="sourceLineNo">682</span>  @Override<a name="line.682"></a>
-<span class="sourceLineNo">683</span>  public final V getOrDefault(@Nullable Object key, @Nullable V defaultValue) {<a name="line.683"></a>
+<span class="sourceLineNo">683</span>  public final V getOrDefault(@NullableDecl Object key, @NullableDecl V defaultValue) {<a name="line.683"></a>
 <span class="sourceLineNo">684</span>    V result = get(key);<a name="line.684"></a>
 <span class="sourceLineNo">685</span>    return (result != null) ? result : defaultValue;<a name="line.685"></a>
 <span class="sourceLineNo">686</span>  }<a name="line.686"></a>
@@ -798,12 +798,12 @@
 <span class="sourceLineNo">790</span>    }<a name="line.790"></a>
 <span class="sourceLineNo">791</span><a name="line.791"></a>
 <span class="sourceLineNo">792</span>    @Override<a name="line.792"></a>
-<span class="sourceLineNo">793</span>    public boolean containsKey(@Nullable Object key) {<a name="line.793"></a>
+<span class="sourceLineNo">793</span>    public boolean containsKey(@NullableDecl Object key) {<a name="line.793"></a>
 <span class="sourceLineNo">794</span>      return ImmutableMap.this.containsKey(key);<a name="line.794"></a>
 <span class="sourceLineNo">795</span>    }<a name="line.795"></a>
 <span class="sourceLineNo">796</span><a name="line.796"></a>
 <span class="sourceLineNo">797</span>    @Override<a name="line.797"></a>
-<span class="sourceLineNo">798</span>    public ImmutableSet&lt;V&gt; get(@Nullable Object key) {<a name="line.798"></a>
+<span class="sourceLineNo">798</span>    public ImmutableSet&lt;V&gt; get(@NullableDecl Object key) {<a name="line.798"></a>
 <span class="sourceLineNo">799</span>      V outerValue = ImmutableMap.this.get(key);<a name="line.799"></a>
 <span class="sourceLineNo">800</span>      return (outerValue == null) ? null : ImmutableSet.of(outerValue);<a name="line.800"></a>
 <span class="sourceLineNo">801</span>    }<a name="line.801"></a>
@@ -853,7 +853,7 @@
 <span class="sourceLineNo">845</span>  }<a name="line.845"></a>
 <span class="sourceLineNo">846</span><a name="line.846"></a>
 <span class="sourceLineNo">847</span>  @Override<a name="line.847"></a>
-<span class="sourceLineNo">848</span>  public boolean equals(@Nullable Object object) {<a name="line.848"></a>
+<span class="sourceLineNo">848</span>  public boolean equals(@NullableDecl Object object) {<a name="line.848"></a>
 <span class="sourceLineNo">849</span>    return Maps.equalsImpl(this, object);<a name="line.849"></a>
 <span class="sourceLineNo">850</span>  }<a name="line.850"></a>
 <span class="sourceLineNo">851</span><a name="line.851"></a>

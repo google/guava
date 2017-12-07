@@ -63,7 +63,7 @@
 <span class="sourceLineNo">055</span>import java.util.Arrays;<a name="line.55"></a>
 <span class="sourceLineNo">056</span>import java.util.Collection;<a name="line.56"></a>
 <span class="sourceLineNo">057</span>import java.util.stream.Stream;<a name="line.57"></a>
-<span class="sourceLineNo">058</span>import javax.annotation.Nullable;<a name="line.58"></a>
+<span class="sourceLineNo">058</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.58"></a>
 <span class="sourceLineNo">059</span><a name="line.59"></a>
 <span class="sourceLineNo">060</span>/**<a name="line.60"></a>
 <span class="sourceLineNo">061</span> * Static utilities for use with {@link Path} instances, intended to complement {@link Files}.<a name="line.61"></a>
@@ -647,7 +647,7 @@
 <span class="sourceLineNo">639</span>   * Secure recursive delete using {@code SecureDirectoryStream}. Returns a collection of exceptions<a name="line.639"></a>
 <span class="sourceLineNo">640</span>   * that occurred or null if no exceptions were thrown.<a name="line.640"></a>
 <span class="sourceLineNo">641</span>   */<a name="line.641"></a>
-<span class="sourceLineNo">642</span>  @Nullable<a name="line.642"></a>
+<span class="sourceLineNo">642</span>  @NullableDecl<a name="line.642"></a>
 <span class="sourceLineNo">643</span>  private static Collection&lt;IOException&gt; deleteRecursivelySecure(<a name="line.643"></a>
 <span class="sourceLineNo">644</span>      SecureDirectoryStream&lt;Path&gt; dir, Path path) {<a name="line.644"></a>
 <span class="sourceLineNo">645</span>    Collection&lt;IOException&gt; exceptions = null;<a name="line.645"></a>
@@ -676,7 +676,7 @@
 <span class="sourceLineNo">668</span>   * Secure method for deleting the contents of a directory using {@code SecureDirectoryStream}.<a name="line.668"></a>
 <span class="sourceLineNo">669</span>   * Returns a collection of exceptions that occurred or null if no exceptions were thrown.<a name="line.669"></a>
 <span class="sourceLineNo">670</span>   */<a name="line.670"></a>
-<span class="sourceLineNo">671</span>  @Nullable<a name="line.671"></a>
+<span class="sourceLineNo">671</span>  @NullableDecl<a name="line.671"></a>
 <span class="sourceLineNo">672</span>  private static Collection&lt;IOException&gt; deleteDirectoryContentsSecure(<a name="line.672"></a>
 <span class="sourceLineNo">673</span>      SecureDirectoryStream&lt;Path&gt; dir) {<a name="line.673"></a>
 <span class="sourceLineNo">674</span>    Collection&lt;IOException&gt; exceptions = null;<a name="line.674"></a>
@@ -695,7 +695,7 @@
 <span class="sourceLineNo">687</span>   * Insecure recursive delete for file systems that don't support {@code SecureDirectoryStream}.<a name="line.687"></a>
 <span class="sourceLineNo">688</span>   * Returns a collection of exceptions that occurred or null if no exceptions were thrown.<a name="line.688"></a>
 <span class="sourceLineNo">689</span>   */<a name="line.689"></a>
-<span class="sourceLineNo">690</span>  @Nullable<a name="line.690"></a>
+<span class="sourceLineNo">690</span>  @NullableDecl<a name="line.690"></a>
 <span class="sourceLineNo">691</span>  private static Collection&lt;IOException&gt; deleteRecursivelyInsecure(Path path) {<a name="line.691"></a>
 <span class="sourceLineNo">692</span>    Collection&lt;IOException&gt; exceptions = null;<a name="line.692"></a>
 <span class="sourceLineNo">693</span>    try {<a name="line.693"></a>
@@ -722,7 +722,7 @@
 <span class="sourceLineNo">714</span>   * support {@code SecureDirectoryStream}. Returns a collection of exceptions that occurred or null<a name="line.714"></a>
 <span class="sourceLineNo">715</span>   * if no exceptions were thrown.<a name="line.715"></a>
 <span class="sourceLineNo">716</span>   */<a name="line.716"></a>
-<span class="sourceLineNo">717</span>  @Nullable<a name="line.717"></a>
+<span class="sourceLineNo">717</span>  @NullableDecl<a name="line.717"></a>
 <span class="sourceLineNo">718</span>  private static Collection&lt;IOException&gt; deleteDirectoryContentsInsecure(<a name="line.718"></a>
 <span class="sourceLineNo">719</span>      DirectoryStream&lt;Path&gt; dir) {<a name="line.719"></a>
 <span class="sourceLineNo">720</span>    Collection&lt;IOException&gt; exceptions = null;<a name="line.720"></a>
@@ -742,7 +742,7 @@
 <span class="sourceLineNo">734</span>   * path, this is simple. Otherwise, we need to do some trickier things. Returns null if the path<a name="line.734"></a>
 <span class="sourceLineNo">735</span>   * is a root or is the empty path.<a name="line.735"></a>
 <span class="sourceLineNo">736</span>   */<a name="line.736"></a>
-<span class="sourceLineNo">737</span>  @Nullable<a name="line.737"></a>
+<span class="sourceLineNo">737</span>  @NullableDecl<a name="line.737"></a>
 <span class="sourceLineNo">738</span>  private static Path getParentPath(Path path) {<a name="line.738"></a>
 <span class="sourceLineNo">739</span>    Path parent = path.getParent();<a name="line.739"></a>
 <span class="sourceLineNo">740</span><a name="line.740"></a>
@@ -797,7 +797,7 @@
 <span class="sourceLineNo">789</span>   * the collection.<a name="line.789"></a>
 <span class="sourceLineNo">790</span>   */<a name="line.790"></a>
 <span class="sourceLineNo">791</span>  private static Collection&lt;IOException&gt; addException(<a name="line.791"></a>
-<span class="sourceLineNo">792</span>      @Nullable Collection&lt;IOException&gt; exceptions, IOException e) {<a name="line.792"></a>
+<span class="sourceLineNo">792</span>      @NullableDecl Collection&lt;IOException&gt; exceptions, IOException e) {<a name="line.792"></a>
 <span class="sourceLineNo">793</span>    if (exceptions == null) {<a name="line.793"></a>
 <span class="sourceLineNo">794</span>      exceptions = new ArrayList&lt;&gt;(); // don't need Set semantics<a name="line.794"></a>
 <span class="sourceLineNo">795</span>    }<a name="line.795"></a>
@@ -810,37 +810,38 @@
 <span class="sourceLineNo">802</span>   * null, the other collection is returned. Otherwise, the elements of {@code other} are added to<a name="line.802"></a>
 <span class="sourceLineNo">803</span>   * {@code exceptions} and {@code exceptions} is returned.<a name="line.803"></a>
 <span class="sourceLineNo">804</span>   */<a name="line.804"></a>
-<span class="sourceLineNo">805</span>  @Nullable<a name="line.805"></a>
+<span class="sourceLineNo">805</span>  @NullableDecl<a name="line.805"></a>
 <span class="sourceLineNo">806</span>  private static Collection&lt;IOException&gt; concat(<a name="line.806"></a>
-<span class="sourceLineNo">807</span>      @Nullable Collection&lt;IOException&gt; exceptions, @Nullable Collection&lt;IOException&gt; other) {<a name="line.807"></a>
-<span class="sourceLineNo">808</span>    if (exceptions == null) {<a name="line.808"></a>
-<span class="sourceLineNo">809</span>      return other;<a name="line.809"></a>
-<span class="sourceLineNo">810</span>    } else if (other != null) {<a name="line.810"></a>
-<span class="sourceLineNo">811</span>      exceptions.addAll(other);<a name="line.811"></a>
-<span class="sourceLineNo">812</span>    }<a name="line.812"></a>
-<span class="sourceLineNo">813</span>    return exceptions;<a name="line.813"></a>
-<span class="sourceLineNo">814</span>  }<a name="line.814"></a>
-<span class="sourceLineNo">815</span><a name="line.815"></a>
-<span class="sourceLineNo">816</span>  /**<a name="line.816"></a>
-<span class="sourceLineNo">817</span>   * Throws an exception indicating that one or more files couldn't be deleted. The thrown exception<a name="line.817"></a>
-<span class="sourceLineNo">818</span>   * contains all the exceptions in the given collection as suppressed exceptions.<a name="line.818"></a>
-<span class="sourceLineNo">819</span>   */<a name="line.819"></a>
-<span class="sourceLineNo">820</span>  private static void throwDeleteFailed(Path path, Collection&lt;IOException&gt; exceptions)<a name="line.820"></a>
-<span class="sourceLineNo">821</span>      throws FileSystemException {<a name="line.821"></a>
-<span class="sourceLineNo">822</span>    // TODO(cgdecker): Should there be a custom exception type for this?<a name="line.822"></a>
-<span class="sourceLineNo">823</span>    // Also, should we try to include the Path of each file we may have failed to delete rather<a name="line.823"></a>
-<span class="sourceLineNo">824</span>    // than just the exceptions that occurred?<a name="line.824"></a>
-<span class="sourceLineNo">825</span>    FileSystemException deleteFailed =<a name="line.825"></a>
-<span class="sourceLineNo">826</span>        new FileSystemException(<a name="line.826"></a>
-<span class="sourceLineNo">827</span>            path.toString(),<a name="line.827"></a>
-<span class="sourceLineNo">828</span>            null,<a name="line.828"></a>
-<span class="sourceLineNo">829</span>            "failed to delete one or more files; see suppressed exceptions for details");<a name="line.829"></a>
-<span class="sourceLineNo">830</span>    for (IOException e : exceptions) {<a name="line.830"></a>
-<span class="sourceLineNo">831</span>      deleteFailed.addSuppressed(e);<a name="line.831"></a>
-<span class="sourceLineNo">832</span>    }<a name="line.832"></a>
-<span class="sourceLineNo">833</span>    throw deleteFailed;<a name="line.833"></a>
-<span class="sourceLineNo">834</span>  }<a name="line.834"></a>
-<span class="sourceLineNo">835</span>}<a name="line.835"></a>
+<span class="sourceLineNo">807</span>      @NullableDecl Collection&lt;IOException&gt; exceptions,<a name="line.807"></a>
+<span class="sourceLineNo">808</span>      @NullableDecl Collection&lt;IOException&gt; other) {<a name="line.808"></a>
+<span class="sourceLineNo">809</span>    if (exceptions == null) {<a name="line.809"></a>
+<span class="sourceLineNo">810</span>      return other;<a name="line.810"></a>
+<span class="sourceLineNo">811</span>    } else if (other != null) {<a name="line.811"></a>
+<span class="sourceLineNo">812</span>      exceptions.addAll(other);<a name="line.812"></a>
+<span class="sourceLineNo">813</span>    }<a name="line.813"></a>
+<span class="sourceLineNo">814</span>    return exceptions;<a name="line.814"></a>
+<span class="sourceLineNo">815</span>  }<a name="line.815"></a>
+<span class="sourceLineNo">816</span><a name="line.816"></a>
+<span class="sourceLineNo">817</span>  /**<a name="line.817"></a>
+<span class="sourceLineNo">818</span>   * Throws an exception indicating that one or more files couldn't be deleted. The thrown exception<a name="line.818"></a>
+<span class="sourceLineNo">819</span>   * contains all the exceptions in the given collection as suppressed exceptions.<a name="line.819"></a>
+<span class="sourceLineNo">820</span>   */<a name="line.820"></a>
+<span class="sourceLineNo">821</span>  private static void throwDeleteFailed(Path path, Collection&lt;IOException&gt; exceptions)<a name="line.821"></a>
+<span class="sourceLineNo">822</span>      throws FileSystemException {<a name="line.822"></a>
+<span class="sourceLineNo">823</span>    // TODO(cgdecker): Should there be a custom exception type for this?<a name="line.823"></a>
+<span class="sourceLineNo">824</span>    // Also, should we try to include the Path of each file we may have failed to delete rather<a name="line.824"></a>
+<span class="sourceLineNo">825</span>    // than just the exceptions that occurred?<a name="line.825"></a>
+<span class="sourceLineNo">826</span>    FileSystemException deleteFailed =<a name="line.826"></a>
+<span class="sourceLineNo">827</span>        new FileSystemException(<a name="line.827"></a>
+<span class="sourceLineNo">828</span>            path.toString(),<a name="line.828"></a>
+<span class="sourceLineNo">829</span>            null,<a name="line.829"></a>
+<span class="sourceLineNo">830</span>            "failed to delete one or more files; see suppressed exceptions for details");<a name="line.830"></a>
+<span class="sourceLineNo">831</span>    for (IOException e : exceptions) {<a name="line.831"></a>
+<span class="sourceLineNo">832</span>      deleteFailed.addSuppressed(e);<a name="line.832"></a>
+<span class="sourceLineNo">833</span>    }<a name="line.833"></a>
+<span class="sourceLineNo">834</span>    throw deleteFailed;<a name="line.834"></a>
+<span class="sourceLineNo">835</span>  }<a name="line.835"></a>
+<span class="sourceLineNo">836</span>}<a name="line.836"></a>
 
 
 

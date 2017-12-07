@@ -38,7 +38,7 @@
 <span class="sourceLineNo">030</span>import java.lang.reflect.Type;<a name="line.30"></a>
 <span class="sourceLineNo">031</span>import java.lang.reflect.TypeVariable;<a name="line.31"></a>
 <span class="sourceLineNo">032</span>import java.util.Arrays;<a name="line.32"></a>
-<span class="sourceLineNo">033</span>import javax.annotation.Nullable;<a name="line.33"></a>
+<span class="sourceLineNo">033</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.33"></a>
 <span class="sourceLineNo">034</span><a name="line.34"></a>
 <span class="sourceLineNo">035</span>/**<a name="line.35"></a>
 <span class="sourceLineNo">036</span> * Wrapper around either a {@link Method} or a {@link Constructor}. Convenience API is provided to<a name="line.36"></a>
@@ -104,7 +104,7 @@
 <span class="sourceLineNo">096</span>  // All subclasses are owned by us and we'll make sure to get the R type right.<a name="line.96"></a>
 <span class="sourceLineNo">097</span>  @SuppressWarnings("unchecked")<a name="line.97"></a>
 <span class="sourceLineNo">098</span>  @CanIgnoreReturnValue<a name="line.98"></a>
-<span class="sourceLineNo">099</span>  public final R invoke(@Nullable T receiver, Object... args)<a name="line.99"></a>
+<span class="sourceLineNo">099</span>  public final R invoke(@NullableDecl T receiver, Object... args)<a name="line.99"></a>
 <span class="sourceLineNo">100</span>      throws InvocationTargetException, IllegalAccessException {<a name="line.100"></a>
 <span class="sourceLineNo">101</span>    return (R) invokeInternal(receiver, checkNotNull(args));<a name="line.101"></a>
 <span class="sourceLineNo">102</span>  }<a name="line.102"></a>
@@ -181,7 +181,7 @@
 <span class="sourceLineNo">173</span>    return (TypeToken&lt;T&gt;) TypeToken.of(getDeclaringClass());<a name="line.173"></a>
 <span class="sourceLineNo">174</span>  }<a name="line.174"></a>
 <span class="sourceLineNo">175</span><a name="line.175"></a>
-<span class="sourceLineNo">176</span>  abstract Object invokeInternal(@Nullable Object receiver, Object[] args)<a name="line.176"></a>
+<span class="sourceLineNo">176</span>  abstract Object invokeInternal(@NullableDecl Object receiver, Object[] args)<a name="line.176"></a>
 <span class="sourceLineNo">177</span>      throws InvocationTargetException, IllegalAccessException;<a name="line.177"></a>
 <span class="sourceLineNo">178</span><a name="line.178"></a>
 <span class="sourceLineNo">179</span>  abstract Type[] getGenericParameterTypes();<a name="line.179"></a>
@@ -203,7 +203,7 @@
 <span class="sourceLineNo">195</span>    }<a name="line.195"></a>
 <span class="sourceLineNo">196</span><a name="line.196"></a>
 <span class="sourceLineNo">197</span>    @Override<a name="line.197"></a>
-<span class="sourceLineNo">198</span>    final Object invokeInternal(@Nullable Object receiver, Object[] args)<a name="line.198"></a>
+<span class="sourceLineNo">198</span>    final Object invokeInternal(@NullableDecl Object receiver, Object[] args)<a name="line.198"></a>
 <span class="sourceLineNo">199</span>        throws InvocationTargetException, IllegalAccessException {<a name="line.199"></a>
 <span class="sourceLineNo">200</span>      return method.invoke(receiver, args);<a name="line.200"></a>
 <span class="sourceLineNo">201</span>    }<a name="line.201"></a>
@@ -257,7 +257,7 @@
 <span class="sourceLineNo">249</span>    }<a name="line.249"></a>
 <span class="sourceLineNo">250</span><a name="line.250"></a>
 <span class="sourceLineNo">251</span>    @Override<a name="line.251"></a>
-<span class="sourceLineNo">252</span>    final Object invokeInternal(@Nullable Object receiver, Object[] args)<a name="line.252"></a>
+<span class="sourceLineNo">252</span>    final Object invokeInternal(@NullableDecl Object receiver, Object[] args)<a name="line.252"></a>
 <span class="sourceLineNo">253</span>        throws InvocationTargetException, IllegalAccessException {<a name="line.253"></a>
 <span class="sourceLineNo">254</span>      try {<a name="line.254"></a>
 <span class="sourceLineNo">255</span>        return constructor.newInstance(args);<a name="line.255"></a>

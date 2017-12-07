@@ -39,7 +39,7 @@
 <span class="sourceLineNo">031</span>import java.util.Iterator;<a name="line.31"></a>
 <span class="sourceLineNo">032</span>import java.util.Map;<a name="line.32"></a>
 <span class="sourceLineNo">033</span>import java.util.Set;<a name="line.33"></a>
-<span class="sourceLineNo">034</span>import javax.annotation.Nullable;<a name="line.34"></a>
+<span class="sourceLineNo">034</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.34"></a>
 <span class="sourceLineNo">035</span><a name="line.35"></a>
 <span class="sourceLineNo">036</span>/**<a name="line.36"></a>
 <span class="sourceLineNo">037</span> * This class provides a skeletal implementation of {@link Network}. It is recommended to extend<a name="line.37"></a>
@@ -94,7 +94,7 @@
 <span class="sourceLineNo">086</span>          // Network&lt;LinkedList&gt;.<a name="line.86"></a>
 <span class="sourceLineNo">087</span>          @SuppressWarnings("unchecked")<a name="line.87"></a>
 <span class="sourceLineNo">088</span>          @Override<a name="line.88"></a>
-<span class="sourceLineNo">089</span>          public boolean contains(@Nullable Object obj) {<a name="line.89"></a>
+<span class="sourceLineNo">089</span>          public boolean contains(@NullableDecl Object obj) {<a name="line.89"></a>
 <span class="sourceLineNo">090</span>            if (!(obj instanceof EndpointPair)) {<a name="line.90"></a>
 <span class="sourceLineNo">091</span>              return false;<a name="line.91"></a>
 <span class="sourceLineNo">092</span>            }<a name="line.92"></a>
@@ -186,7 +186,7 @@
 <span class="sourceLineNo">178</span>  }<a name="line.178"></a>
 <span class="sourceLineNo">179</span><a name="line.179"></a>
 <span class="sourceLineNo">180</span>  @Override<a name="line.180"></a>
-<span class="sourceLineNo">181</span>  @Nullable<a name="line.181"></a>
+<span class="sourceLineNo">181</span>  @NullableDecl<a name="line.181"></a>
 <span class="sourceLineNo">182</span>  public E edgeConnectingOrNull(N nodeU, N nodeV) {<a name="line.182"></a>
 <span class="sourceLineNo">183</span>    Set&lt;E&gt; edgesConnecting = edgesConnecting(nodeU, nodeV);<a name="line.183"></a>
 <span class="sourceLineNo">184</span>    switch (edgesConnecting.size()) {<a name="line.184"></a>
@@ -205,7 +205,7 @@
 <span class="sourceLineNo">197</span>  }<a name="line.197"></a>
 <span class="sourceLineNo">198</span><a name="line.198"></a>
 <span class="sourceLineNo">199</span>  @Override<a name="line.199"></a>
-<span class="sourceLineNo">200</span>  public final boolean equals(@Nullable Object obj) {<a name="line.200"></a>
+<span class="sourceLineNo">200</span>  public final boolean equals(@NullableDecl Object obj) {<a name="line.200"></a>
 <span class="sourceLineNo">201</span>    if (obj == this) {<a name="line.201"></a>
 <span class="sourceLineNo">202</span>      return true;<a name="line.202"></a>
 <span class="sourceLineNo">203</span>    }<a name="line.203"></a>

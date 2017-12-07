@@ -36,7 +36,7 @@
 <span class="sourceLineNo">028</span>import java.util.Collection;<a name="line.28"></a>
 <span class="sourceLineNo">029</span>import java.util.List;<a name="line.29"></a>
 <span class="sourceLineNo">030</span>import java.util.RandomAccess;<a name="line.30"></a>
-<span class="sourceLineNo">031</span>import javax.annotation.Nullable;<a name="line.31"></a>
+<span class="sourceLineNo">031</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.31"></a>
 <span class="sourceLineNo">032</span><a name="line.32"></a>
 <span class="sourceLineNo">033</span>/**<a name="line.33"></a>
 <span class="sourceLineNo">034</span> * An immutable array of {@code long} values, with an API resembling {@link List}.<a name="line.34"></a>
@@ -458,7 +458,7 @@
 <span class="sourceLineNo">450</span>    }<a name="line.450"></a>
 <span class="sourceLineNo">451</span><a name="line.451"></a>
 <span class="sourceLineNo">452</span>    @Override<a name="line.452"></a>
-<span class="sourceLineNo">453</span>    public boolean equals(@Nullable Object object) {<a name="line.453"></a>
+<span class="sourceLineNo">453</span>    public boolean equals(@NullableDecl Object object) {<a name="line.453"></a>
 <span class="sourceLineNo">454</span>      if (object instanceof AsList) {<a name="line.454"></a>
 <span class="sourceLineNo">455</span>        AsList that = (AsList) object;<a name="line.455"></a>
 <span class="sourceLineNo">456</span>        return this.parent.equals(that.parent);<a name="line.456"></a>
@@ -498,7 +498,7 @@
 <span class="sourceLineNo">490</span>   * values as this one, in the same order.<a name="line.490"></a>
 <span class="sourceLineNo">491</span>   */<a name="line.491"></a>
 <span class="sourceLineNo">492</span>  @Override<a name="line.492"></a>
-<span class="sourceLineNo">493</span>  public boolean equals(@Nullable Object object) {<a name="line.493"></a>
+<span class="sourceLineNo">493</span>  public boolean equals(@NullableDecl Object object) {<a name="line.493"></a>
 <span class="sourceLineNo">494</span>    if (object == this) {<a name="line.494"></a>
 <span class="sourceLineNo">495</span>      return true;<a name="line.495"></a>
 <span class="sourceLineNo">496</span>    }<a name="line.496"></a>

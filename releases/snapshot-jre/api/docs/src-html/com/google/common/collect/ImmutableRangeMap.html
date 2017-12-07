@@ -39,7 +39,7 @@
 <span class="sourceLineNo">031</span>import java.util.NoSuchElementException;<a name="line.31"></a>
 <span class="sourceLineNo">032</span>import java.util.function.Function;<a name="line.32"></a>
 <span class="sourceLineNo">033</span>import java.util.stream.Collector;<a name="line.33"></a>
-<span class="sourceLineNo">034</span>import javax.annotation.Nullable;<a name="line.34"></a>
+<span class="sourceLineNo">034</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.34"></a>
 <span class="sourceLineNo">035</span><a name="line.35"></a>
 <span class="sourceLineNo">036</span>/**<a name="line.36"></a>
 <span class="sourceLineNo">037</span> * A {@link RangeMap} whose contents will never change, with many other important properties<a name="line.37"></a>
@@ -177,7 +177,7 @@
 <span class="sourceLineNo">169</span>  }<a name="line.169"></a>
 <span class="sourceLineNo">170</span><a name="line.170"></a>
 <span class="sourceLineNo">171</span>  @Override<a name="line.171"></a>
-<span class="sourceLineNo">172</span>  @Nullable<a name="line.172"></a>
+<span class="sourceLineNo">172</span>  @NullableDecl<a name="line.172"></a>
 <span class="sourceLineNo">173</span>  public V get(K key) {<a name="line.173"></a>
 <span class="sourceLineNo">174</span>    int index =<a name="line.174"></a>
 <span class="sourceLineNo">175</span>        SortedLists.binarySearch(<a name="line.175"></a>
@@ -195,7 +195,7 @@
 <span class="sourceLineNo">187</span>  }<a name="line.187"></a>
 <span class="sourceLineNo">188</span><a name="line.188"></a>
 <span class="sourceLineNo">189</span>  @Override<a name="line.189"></a>
-<span class="sourceLineNo">190</span>  @Nullable<a name="line.190"></a>
+<span class="sourceLineNo">190</span>  @NullableDecl<a name="line.190"></a>
 <span class="sourceLineNo">191</span>  public Entry&lt;Range&lt;K&gt;, V&gt; getEntry(K key) {<a name="line.191"></a>
 <span class="sourceLineNo">192</span>    int index =<a name="line.192"></a>
 <span class="sourceLineNo">193</span>        SortedLists.binarySearch(<a name="line.193"></a>
@@ -369,7 +369,7 @@
 <span class="sourceLineNo">361</span>  }<a name="line.361"></a>
 <span class="sourceLineNo">362</span><a name="line.362"></a>
 <span class="sourceLineNo">363</span>  @Override<a name="line.363"></a>
-<span class="sourceLineNo">364</span>  public boolean equals(@Nullable Object o) {<a name="line.364"></a>
+<span class="sourceLineNo">364</span>  public boolean equals(@NullableDecl Object o) {<a name="line.364"></a>
 <span class="sourceLineNo">365</span>    if (o instanceof RangeMap) {<a name="line.365"></a>
 <span class="sourceLineNo">366</span>      RangeMap&lt;?, ?&gt; rangeMap = (RangeMap&lt;?, ?&gt;) o;<a name="line.366"></a>
 <span class="sourceLineNo">367</span>      return asMapOfRanges().equals(rangeMap.asMapOfRanges());<a name="line.367"></a>

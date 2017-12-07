@@ -26,7 +26,7 @@
 <span class="sourceLineNo">018</span><a name="line.18"></a>
 <span class="sourceLineNo">019</span>import com.google.common.annotations.Beta;<a name="line.19"></a>
 <span class="sourceLineNo">020</span>import java.util.Set;<a name="line.20"></a>
-<span class="sourceLineNo">021</span>import javax.annotation.Nullable;<a name="line.21"></a>
+<span class="sourceLineNo">021</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.21"></a>
 <span class="sourceLineNo">022</span><a name="line.22"></a>
 <span class="sourceLineNo">023</span>/**<a name="line.23"></a>
 <span class="sourceLineNo">024</span> * An interface for &lt;a<a name="line.24"></a>
@@ -304,7 +304,7 @@
 <span class="sourceLineNo">296</span>   *     network<a name="line.296"></a>
 <span class="sourceLineNo">297</span>   * @since 23.0<a name="line.297"></a>
 <span class="sourceLineNo">298</span>   */<a name="line.298"></a>
-<span class="sourceLineNo">299</span>  @Nullable<a name="line.299"></a>
+<span class="sourceLineNo">299</span>  @NullableDecl<a name="line.299"></a>
 <span class="sourceLineNo">300</span>  E edgeConnectingOrNull(N nodeU, N nodeV);<a name="line.300"></a>
 <span class="sourceLineNo">301</span><a name="line.301"></a>
 <span class="sourceLineNo">302</span>  /**<a name="line.302"></a>
@@ -343,7 +343,7 @@
 <span class="sourceLineNo">335</span>   * &lt;p&gt;A reference implementation of this is provided by {@link AbstractNetwork#equals(Object)}.<a name="line.335"></a>
 <span class="sourceLineNo">336</span>   */<a name="line.336"></a>
 <span class="sourceLineNo">337</span>  @Override<a name="line.337"></a>
-<span class="sourceLineNo">338</span>  boolean equals(@Nullable Object object);<a name="line.338"></a>
+<span class="sourceLineNo">338</span>  boolean equals(@NullableDecl Object object);<a name="line.338"></a>
 <span class="sourceLineNo">339</span><a name="line.339"></a>
 <span class="sourceLineNo">340</span>  /**<a name="line.340"></a>
 <span class="sourceLineNo">341</span>   * Returns the hash code for this network. The hash code of a network is defined as the hash code<a name="line.341"></a>

@@ -26,7 +26,7 @@
 <span class="sourceLineNo">018</span><a name="line.18"></a>
 <span class="sourceLineNo">019</span>import com.google.common.annotations.GwtCompatible;<a name="line.19"></a>
 <span class="sourceLineNo">020</span>import java.util.AbstractMap.SimpleImmutableEntry;<a name="line.20"></a>
-<span class="sourceLineNo">021</span>import javax.annotation.Nullable;<a name="line.21"></a>
+<span class="sourceLineNo">021</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.21"></a>
 <span class="sourceLineNo">022</span><a name="line.22"></a>
 <span class="sourceLineNo">023</span>/**<a name="line.23"></a>
 <span class="sourceLineNo">024</span> * A notification of the removal of a single entry. The key and/or value may be null if they were<a name="line.24"></a>
@@ -51,11 +51,11 @@
 <span class="sourceLineNo">043</span>   * @since 19.0<a name="line.43"></a>
 <span class="sourceLineNo">044</span>   */<a name="line.44"></a>
 <span class="sourceLineNo">045</span>  public static &lt;K, V&gt; RemovalNotification&lt;K, V&gt; create(<a name="line.45"></a>
-<span class="sourceLineNo">046</span>      @Nullable K key, @Nullable V value, RemovalCause cause) {<a name="line.46"></a>
+<span class="sourceLineNo">046</span>      @NullableDecl K key, @NullableDecl V value, RemovalCause cause) {<a name="line.46"></a>
 <span class="sourceLineNo">047</span>    return new RemovalNotification(key, value, cause);<a name="line.47"></a>
 <span class="sourceLineNo">048</span>  }<a name="line.48"></a>
 <span class="sourceLineNo">049</span><a name="line.49"></a>
-<span class="sourceLineNo">050</span>  private RemovalNotification(@Nullable K key, @Nullable V value, RemovalCause cause) {<a name="line.50"></a>
+<span class="sourceLineNo">050</span>  private RemovalNotification(@NullableDecl K key, @NullableDecl V value, RemovalCause cause) {<a name="line.50"></a>
 <span class="sourceLineNo">051</span>    super(key, value);<a name="line.51"></a>
 <span class="sourceLineNo">052</span>    this.cause = checkNotNull(cause);<a name="line.52"></a>
 <span class="sourceLineNo">053</span>  }<a name="line.53"></a>

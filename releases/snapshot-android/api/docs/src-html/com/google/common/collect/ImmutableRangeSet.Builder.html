@@ -42,7 +42,7 @@
 <span class="sourceLineNo">034</span>import java.util.List;<a name="line.34"></a>
 <span class="sourceLineNo">035</span>import java.util.NoSuchElementException;<a name="line.35"></a>
 <span class="sourceLineNo">036</span>import java.util.Set;<a name="line.36"></a>
-<span class="sourceLineNo">037</span>import javax.annotation.Nullable;<a name="line.37"></a>
+<span class="sourceLineNo">037</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.37"></a>
 <span class="sourceLineNo">038</span><a name="line.38"></a>
 <span class="sourceLineNo">039</span>/**<a name="line.39"></a>
 <span class="sourceLineNo">040</span> * A {@link RangeSet} whose contents will never change, with many other important properties<a name="line.40"></a>
@@ -622,7 +622,7 @@
 <span class="sourceLineNo">614</span>    }<a name="line.614"></a>
 <span class="sourceLineNo">615</span><a name="line.615"></a>
 <span class="sourceLineNo">616</span>    @Override<a name="line.616"></a>
-<span class="sourceLineNo">617</span>    public boolean contains(@Nullable Object o) {<a name="line.617"></a>
+<span class="sourceLineNo">617</span>    public boolean contains(@NullableDecl Object o) {<a name="line.617"></a>
 <span class="sourceLineNo">618</span>      if (o == null) {<a name="line.618"></a>
 <span class="sourceLineNo">619</span>        return false;<a name="line.619"></a>
 <span class="sourceLineNo">620</span>      }<a name="line.620"></a>
