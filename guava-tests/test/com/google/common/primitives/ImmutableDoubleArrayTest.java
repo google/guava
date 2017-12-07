@@ -14,6 +14,7 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.primitives.TestPlatform.reduceIterationsIfGwt;
 import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.truth.Truth.assertThat;
 
@@ -164,7 +165,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
    * out of it for a while and see what happens.
    */
   public void testBuilder_bruteForce() {
-    for (double i = 0; i < 100; i++) {
+    for (int i = 0; i < reduceIterationsIfGwt(100); i++) {
       ImmutableDoubleArray.Builder builder = ImmutableDoubleArray.builder(RANDOM.nextInt(20));
       AtomicInteger counter = new AtomicInteger(0);
       while (counter.get() < 1000) {
