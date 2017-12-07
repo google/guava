@@ -19,7 +19,7 @@ package com.google.common.collect;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * GWT implementation of {@link ImmutableSet} that forwards to another {@code Set} implementation.
@@ -41,7 +41,7 @@ public abstract class ForwardingImmutableSet<E> extends ImmutableSet<E> {
   }
 
   @Override
-  public boolean contains(@Nullable Object object) {
+  public boolean contains(@NullableDecl Object object) {
     return object != null && delegate.contains(object);
   }
 

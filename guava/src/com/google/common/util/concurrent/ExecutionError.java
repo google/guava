@@ -15,7 +15,7 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * {@link Error} variant of {@link java.util.concurrent.ExecutionException}. As with {@code
@@ -33,17 +33,17 @@ public class ExecutionError extends Error {
   protected ExecutionError() {}
 
   /** Creates a new instance with the given detail message. */
-  protected ExecutionError(@Nullable String message) {
+  protected ExecutionError(@NullableDecl String message) {
     super(message);
   }
 
   /** Creates a new instance with the given detail message and cause. */
-  public ExecutionError(@Nullable String message, @Nullable Error cause) {
+  public ExecutionError(@NullableDecl String message, @NullableDecl Error cause) {
     super(message, cause);
   }
 
   /** Creates a new instance with the given cause. */
-  public ExecutionError(@Nullable Error cause) {
+  public ExecutionError(@NullableDecl Error cause) {
     super(cause);
   }
 

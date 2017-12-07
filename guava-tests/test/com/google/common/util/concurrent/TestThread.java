@@ -28,8 +28,8 @@ import java.lang.reflect.Method;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import javax.annotation.Nullable;
 import junit.framework.AssertionFailedError;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A helper for concurrency testing. One or more {@code TestThread} instances are instantiated in a
@@ -168,7 +168,7 @@ public final class TestThread<L> extends Thread implements TearDown {
    * Asserts that a prior call that had caused this thread to block or wait has since returned
    * normally.
    */
-  public void assertPriorCallReturns(@Nullable String methodName) throws Exception {
+  public void assertPriorCallReturns(@NullableDecl String methodName) throws Exception {
     assertEquals(null, getResponse(methodName).getResult());
   }
 
@@ -176,7 +176,7 @@ public final class TestThread<L> extends Thread implements TearDown {
    * Asserts that a prior call that had caused this thread to block or wait has since returned the
    * expected boolean value.
    */
-  public void assertPriorCallReturns(boolean expected, @Nullable String methodName)
+  public void assertPriorCallReturns(boolean expected, @NullableDecl String methodName)
       throws Exception {
     assertEquals(expected, getResponse(methodName).getResult());
   }

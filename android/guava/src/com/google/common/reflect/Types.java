@@ -44,7 +44,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicReference;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Utilities for working with {@link Type}.
@@ -86,7 +86,7 @@ final class Types {
    * {@code ownerType}.
    */
   static ParameterizedType newParameterizedTypeWithOwner(
-      @Nullable Type ownerType, Class<?> rawType, Type... arguments) {
+      @NullableDecl Type ownerType, Class<?> rawType, Type... arguments) {
     if (ownerType == null) {
       return newParameterizedType(rawType, arguments);
     }
@@ -105,14 +105,14 @@ final class Types {
   /** Decides what owner type to use for constructing {@link ParameterizedType} from a raw class. */
   private enum ClassOwnership {
     OWNED_BY_ENCLOSING_CLASS {
-      @Nullable
+      @NullableDecl
       @Override
       Class<?> getOwnerType(Class<?> rawType) {
         return rawType.getEnclosingClass();
       }
     },
     LOCAL_CLASS_HAS_NO_OWNER {
-      @Nullable
+      @NullableDecl
       @Override
       Class<?> getOwnerType(Class<?> rawType) {
         if (rawType.isLocalClass()) {
@@ -123,7 +123,7 @@ final class Types {
       }
     };
 
-    @Nullable
+    @NullableDecl
     abstract Class<?> getOwnerType(Class<?> rawType);
 
     static final ClassOwnership JVM_BEHAVIOR = detectJvmBehavior();
@@ -176,7 +176,7 @@ final class Types {
     return (type instanceof Class) ? ((Class<?>) type).getName() : type.toString();
   }
 
-  @Nullable
+  @NullableDecl
   static Type getComponentType(Type type) {
     checkNotNull(type);
     final AtomicReference<Type> result = new AtomicReference<>();
@@ -208,7 +208,7 @@ final class Types {
    * Returns {@code ? extends X} if any of {@code bounds} is a subtype of {@code X[]}; or null
    * otherwise.
    */
-  @Nullable
+  @NullableDecl
   private static Type subtypeOfComponentType(Type[] bounds) {
     for (Type bound : bounds) {
       Type componentType = getComponentType(bound);
@@ -268,7 +268,7 @@ final class Types {
     private final ImmutableList<Type> argumentsList;
     private final Class<?> rawType;
 
-    ParameterizedTypeImpl(@Nullable Type ownerType, Class<?> rawType, Type[] typeArguments) {
+    ParameterizedTypeImpl(@NullableDecl Type ownerType, Class<?> rawType, Type[] typeArguments) {
       checkNotNull(rawType);
       checkArgument(typeArguments.length == rawType.getTypeParameters().length);
       disallowPrimitiveType(typeArguments, "type parameter");

@@ -19,7 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Map;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A map, each entry of which maps a Java <a href="http://tinyurl.com/2cmwkz">raw type</a> to an
@@ -58,5 +58,5 @@ public interface ClassToInstanceMap<B> extends Map<Class<? extends B>, B> {
    *     null} if there was no previous entry.
    */
   @CanIgnoreReturnValue
-  <T extends B> T putInstance(Class<T> type, @Nullable T value);
+  <T extends B> T putInstance(Class<T> type, @NullableDecl T value);
 }

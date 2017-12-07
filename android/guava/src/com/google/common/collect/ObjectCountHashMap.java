@@ -29,7 +29,7 @@ import com.google.j2objc.annotations.WeakOuter;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * ObjectCountHashMap is an implementation of {@code AbstractObjectCountMap} that uses arrays to
@@ -170,7 +170,7 @@ class ObjectCountHashMap<K> extends AbstractObjectCountMap<K> {
 
   @CanIgnoreReturnValue
   @Override
-  public int put(@Nullable K key, int value) {
+  public int put(@NullableDecl K key, int value) {
     checkPositive(value, "count");
     long[] entries = this.entries;
     Object[] keys = this.keys;
@@ -215,7 +215,7 @@ class ObjectCountHashMap<K> extends AbstractObjectCountMap<K> {
   /**
    * Creates a fresh entry with the specified object at the specified position in the entry array.
    */
-  void insertEntry(int entryIndex, @Nullable K key, int value, int hash) {
+  void insertEntry(int entryIndex, @NullableDecl K key, int value, int hash) {
     this.entries[entryIndex] = ((long) hash << 32) | (NEXT_MASK & UNSET);
     this.keys[entryIndex] = key;
     this.values[entryIndex] = value;
@@ -277,7 +277,7 @@ class ObjectCountHashMap<K> extends AbstractObjectCountMap<K> {
   }
 
   @Override
-  int indexOf(@Nullable Object key) {
+  int indexOf(@NullableDecl Object key) {
     int hash = smearedHash(key);
     int next = table[hash & hashTableMask()];
     while (next != UNSET) {
@@ -291,19 +291,19 @@ class ObjectCountHashMap<K> extends AbstractObjectCountMap<K> {
   }
 
   @Override
-  public boolean containsKey(@Nullable Object key) {
+  public boolean containsKey(@NullableDecl Object key) {
     return indexOf(key) != -1;
   }
 
   @Override
-  public int get(@Nullable Object key) {
+  public int get(@NullableDecl Object key) {
     int index = indexOf(key);
     return (index == -1) ? 0 : values[index];
   }
 
   @CanIgnoreReturnValue
   @Override
-  public int remove(@Nullable Object key) {
+  public int remove(@NullableDecl Object key) {
     return remove(key, smearedHash(key));
   }
 
@@ -313,7 +313,7 @@ class ObjectCountHashMap<K> extends AbstractObjectCountMap<K> {
     return remove(keys[entryIndex], getHash(entries[entryIndex]));
   }
 
-  private int remove(@Nullable Object key, int hash) {
+  private int remove(@NullableDecl Object key, int hash) {
     int tableIndex = hash & hashTableMask();
     int next = table[tableIndex];
     if (next == UNSET) { // empty bucket

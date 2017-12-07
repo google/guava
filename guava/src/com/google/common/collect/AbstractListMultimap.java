@@ -21,7 +21,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Basic implementation of the {@link ListMultimap} interface. It's a wrapper around {@link
@@ -61,7 +61,7 @@ abstract class AbstractListMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
    * Multimap} interface.
    */
   @Override
-  public List<V> get(@Nullable K key) {
+  public List<V> get(@NullableDecl K key) {
     return (List<V>) super.get(key);
   }
 
@@ -74,7 +74,7 @@ abstract class AbstractListMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
    */
   @CanIgnoreReturnValue
   @Override
-  public List<V> removeAll(@Nullable Object key) {
+  public List<V> removeAll(@NullableDecl Object key) {
     return (List<V>) super.removeAll(key);
   }
 
@@ -87,7 +87,7 @@ abstract class AbstractListMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
    */
   @CanIgnoreReturnValue
   @Override
-  public List<V> replaceValues(@Nullable K key, Iterable<? extends V> values) {
+  public List<V> replaceValues(@NullableDecl K key, Iterable<? extends V> values) {
     return (List<V>) super.replaceValues(key, values);
   }
 
@@ -100,7 +100,7 @@ abstract class AbstractListMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
    */
   @CanIgnoreReturnValue
   @Override
-  public boolean put(@Nullable K key, @Nullable V value) {
+  public boolean put(@NullableDecl K key, @NullableDecl V value) {
     return super.put(key, value);
   }
 
@@ -122,7 +122,7 @@ abstract class AbstractListMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
    * in the same order. If the value orderings disagree, the multimaps will not be considered equal.
    */
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@NullableDecl Object object) {
     return super.equals(object);
   }
 

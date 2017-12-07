@@ -21,7 +21,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.j2objc.annotations.Weak;
 import java.io.Serializable;
 import java.util.Map.Entry;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * {@code entrySet()} implementation for {@link ImmutableMap}.
@@ -66,7 +66,7 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
   }
 
   @Override
-  public boolean contains(@Nullable Object object) {
+  public boolean contains(@NullableDecl Object object) {
     if (object instanceof Entry) {
       Entry<?, ?> entry = (Entry<?, ?>) object;
       V value = map().get(entry.getKey());

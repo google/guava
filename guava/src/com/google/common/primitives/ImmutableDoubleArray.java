@@ -33,7 +33,7 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.DoubleConsumer;
 import java.util.stream.DoubleStream;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * An immutable array of {@code double} values, with an API resembling {@link List}.
@@ -505,7 +505,7 @@ public final class ImmutableDoubleArray implements Serializable {
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(@NullableDecl Object object) {
       if (object instanceof AsList) {
         AsList that = (AsList) object;
         return this.parent.equals(that.parent);
@@ -545,7 +545,7 @@ public final class ImmutableDoubleArray implements Serializable {
    * values as this one, in the same order. Values are compared as if by {@link Double#equals}.
    */
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@NullableDecl Object object) {
     if (object == this) {
       return true;
     }

@@ -38,7 +38,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /** Benchmarks for {@link ExecutionList}. */
 @VmOptions({"-Xms8g", "-Xmx8g"})
@@ -486,7 +486,7 @@ public class ExecutionListBenchmark {
     private static final class RunnableExecutorPair {
       final Runnable runnable;
       final Executor executor;
-      @Nullable RunnableExecutorPair next;
+      @NullableDecl RunnableExecutorPair next;
 
       RunnableExecutorPair(Runnable runnable, Executor executor, RunnableExecutorPair next) {
         this.runnable = runnable;
@@ -561,7 +561,7 @@ public class ExecutionListBenchmark {
     private static final class RunnableExecutorPair {
       Runnable runnable;
       Executor executor;
-      @Nullable RunnableExecutorPair next;
+      @NullableDecl RunnableExecutorPair next;
 
       RunnableExecutorPair(Runnable runnable, Executor executor) {
         this.runnable = runnable;
@@ -667,7 +667,7 @@ public class ExecutionListBenchmark {
       final Runnable runnable;
       final Executor executor;
       // Volatile because this is written on one thread and read on another with no synchronization.
-      @Nullable volatile RunnableExecutorPair next;
+      @NullableDecl volatile RunnableExecutorPair next;
 
       RunnableExecutorPair(Runnable runnable, Executor executor) {
         this.runnable = runnable;

@@ -27,7 +27,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * An accumulator that selects the "top" {@code k} elements added to it, relative to a provided
@@ -124,7 +124,7 @@ import javax.annotation.Nullable;
    * Adds {@code elem} as a candidate for the top {@code k} elements. This operation takes amortized
    * O(1) time.
    */
-  public void offer(@Nullable T elem) {
+  public void offer(@NullableDecl T elem) {
     if (k == 0) {
       return;
     } else if (bufferSize == 0) {

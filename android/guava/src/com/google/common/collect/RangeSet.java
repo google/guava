@@ -18,7 +18,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A set comprising zero or more {@linkplain Range#isEmpty nonempty}, {@linkplain
@@ -244,7 +244,7 @@ public interface RangeSet<C extends Comparable> {
    * according to {@link Range#equals(Object)}.
    */
   @Override
-  boolean equals(@Nullable Object obj);
+  boolean equals(@NullableDecl Object obj);
 
   /** Returns {@code asRanges().hashCode()}. */
   @Override

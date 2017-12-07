@@ -23,7 +23,7 @@ import static com.google.common.primitives.UnsignedInts.toLong;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import java.math.BigInteger;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A wrapper class for unsigned {@code int} values, supporting arithmetic operations.
@@ -226,7 +226,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   }
 
   @Override
-  public boolean equals(@Nullable Object obj) {
+  public boolean equals(@NullableDecl Object obj) {
     if (obj instanceof UnsignedInteger) {
       UnsignedInteger other = (UnsignedInteger) obj;
       return value == other.value;

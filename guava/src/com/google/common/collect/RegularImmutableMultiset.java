@@ -23,7 +23,7 @@ import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.Collection;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Implementation of {@link ImmutableMultiset} with zero or more elements.
@@ -112,7 +112,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   }
 
   @Override
-  public int count(@Nullable Object element) {
+  public int count(@NullableDecl Object element) {
     Multisets.ImmutableEntry<E>[] hashTable = this.hashTable;
     if (element == null || hashTable == null) {
       return 0;
@@ -149,7 +149,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
     }
 
     @Override
-    public boolean contains(@Nullable Object object) {
+    public boolean contains(@NullableDecl Object object) {
       return RegularImmutableMultiset.this.contains(object);
     }
 

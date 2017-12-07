@@ -39,7 +39,7 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
 import java.util.stream.Collector;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A {@link NavigableSet} whose contents will never change, with many other important properties
@@ -754,7 +754,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   public abstract UnmodifiableIterator<E> descendingIterator();
 
   /** Returns the position of an element within the set, or -1 if not present. */
-  abstract int indexOf(@Nullable Object target);
+  abstract int indexOf(@NullableDecl Object target);
 
   /*
    * This class is used to serialize all ImmutableSortedSet instances,

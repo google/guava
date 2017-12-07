@@ -18,7 +18,7 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Contains dummy collection implementations to convince GWT that part of serializing a collection
@@ -81,7 +81,7 @@ final class GwtSerializationDependencies {
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(@NullableDecl Object object) {
       throw new AssertionError();
     }
 

@@ -34,7 +34,7 @@ import java.io.Writer;
 import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.List;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A readable source of characters, such as a text file. Unlike a {@link Reader}, a {@code
@@ -248,7 +248,7 @@ public abstract class CharSource {
    *
    * @throws IOException if an I/O error occurs while reading from this source
    */
-  @Nullable
+  @NullableDecl
   public String readFirstLine() throws IOException {
     Closer closer = Closer.create();
     try {

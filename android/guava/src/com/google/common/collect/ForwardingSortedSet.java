@@ -22,7 +22,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A sorted set which forwards all its method calls to another sorted set. Subclasses should
@@ -92,7 +92,7 @@ public abstract class ForwardingSortedSet<E> extends ForwardingSet<E> implements
 
   // unsafe, but worst case is a CCE is thrown, which callers will be expecting
   @SuppressWarnings("unchecked")
-  private int unsafeCompare(@Nullable Object o1, @Nullable Object o2) {
+  private int unsafeCompare(@NullableDecl Object o1, @NullableDecl Object o2) {
     Comparator<? super E> comparator = comparator();
     return (comparator == null)
         ? ((Comparable<Object>) o1).compareTo(o2)
@@ -108,7 +108,7 @@ public abstract class ForwardingSortedSet<E> extends ForwardingSet<E> implements
    */
   @Override
   @Beta
-  protected boolean standardContains(@Nullable Object object) {
+  protected boolean standardContains(@NullableDecl Object object) {
     try {
       // any ClassCastExceptions are caught
       @SuppressWarnings("unchecked")
@@ -129,7 +129,7 @@ public abstract class ForwardingSortedSet<E> extends ForwardingSet<E> implements
    */
   @Override
   @Beta
-  protected boolean standardRemove(@Nullable Object object) {
+  protected boolean standardRemove(@NullableDecl Object object) {
     try {
       // any ClassCastExceptions are caught
       @SuppressWarnings("unchecked")

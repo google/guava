@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /** Emulation for AbstractFuture in GWT. */
 public abstract class AbstractFuture<V> extends FluentFuture<V> {
@@ -192,7 +192,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
     return throwable;
   }
 
-  final void maybePropagateCancellationTo(@Nullable Future<?> related) {
+  final void maybePropagateCancellationTo(@NullableDecl Future<?> related) {
     if (related != null & isCancelled()) {
       related.cancel(wasInterrupted());
     }
@@ -232,7 +232,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
    *
    * @return null if an explanation cannot be provided because the future is done.
    */
-  @Nullable
+  @NullableDecl
   String pendingToString() {
     Object localValue = value;
     if (localValue instanceof AbstractFuture.SetFuture) {

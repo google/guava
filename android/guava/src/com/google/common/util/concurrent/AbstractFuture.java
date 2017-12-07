@@ -42,7 +42,7 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.locks.LockSupport;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * An abstract implementation of {@link ListenableFuture}, intended for advanced users only. More
@@ -172,8 +172,8 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
   private static final class Waiter {
     static final Waiter TOMBSTONE = new Waiter(false /* ignored param */);
 
-    @Nullable volatile Thread thread;
-    @Nullable volatile Waiter next;
+    @NullableDecl volatile Thread thread;
+    @NullableDecl volatile Waiter next;
 
     /**
      * Constructor for the TOMBSTONE, avoids use of ATOMIC_HELPER in case this class is loaded
@@ -250,7 +250,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
     final Executor executor;
 
     // writes to next are made visible by subsequent CAS's on the listeners field
-    @Nullable Listener next;
+    @NullableDecl Listener next;
 
     Listener(Runnable task, Executor executor) {
       this.task = task;
@@ -295,9 +295,9 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
     }
 
     final boolean wasInterrupted;
-    @Nullable final Throwable cause;
+    @NullableDecl final Throwable cause;
 
-    Cancellation(boolean wasInterrupted, @Nullable Throwable cause) {
+    Cancellation(boolean wasInterrupted, @NullableDecl Throwable cause) {
       this.wasInterrupted = wasInterrupted;
       this.cause = cause;
     }
@@ -685,7 +685,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
    * @return true if the attempt was accepted, completing the {@code Future}
    */
   @CanIgnoreReturnValue
-  protected boolean set(@Nullable V value) {
+  protected boolean set(@NullableDecl V value) {
     Object valueToSet = value == null ? NULL : value;
     if (ATOMIC_HELPER.casValue(this, null, valueToSet)) {
       complete(this);
@@ -902,7 +902,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
    * If this future has been cancelled (and possibly interrupted), cancels (and possibly interrupts)
    * the given future (if available).
    */
-  final void maybePropagateCancellationTo(@Nullable Future<?> related) {
+  final void maybePropagateCancellationTo(@NullableDecl Future<?> related) {
     if (related != null & isCancelled()) {
       related.cancel(wasInterrupted());
     }
@@ -980,7 +980,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
    * @return null if an explanation cannot be provided because the future is done.
    * @since 23.0
    */
-  @Nullable
+  @NullableDecl
   protected String pendingToString() {
     Object localValue = value;
     if (localValue instanceof SetFuture) {
@@ -1223,7 +1223,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
   }
 
   private static CancellationException cancellationExceptionWithCause(
-      @Nullable String message, @Nullable Throwable cause) {
+      @NullableDecl String message, @NullableDecl Throwable cause) {
     CancellationException exception = new CancellationException(message);
     exception.initCause(cause);
     return exception;

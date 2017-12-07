@@ -20,7 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Predicate;
 import java.util.Map.Entry;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Implementation of {@link Multimaps#filterKeys(SetMultimap, Predicate)}.
@@ -72,7 +72,7 @@ final class FilteredKeySetMultimap<K, V> extends FilteredKeyMultimap<K, V>
     }
 
     @Override
-    public boolean equals(@Nullable Object o) {
+    public boolean equals(@NullableDecl Object o) {
       return Sets.equalsImpl(this, o);
     }
   }

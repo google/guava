@@ -30,8 +30,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Static utility methods pertaining to {@code int} primitives, that are not already found in either
@@ -638,7 +637,7 @@ public final class Ints {
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(@NullableDecl Object object) {
       if (object == this) {
         return true;
       }
@@ -701,8 +700,7 @@ public final class Ints {
    * @since 11.0
    */
   @Beta
-  @Nullable
-  @CheckForNull
+  @NullableDecl
   public static Integer tryParse(String string) {
     return tryParse(string, 10);
   }
@@ -727,8 +725,7 @@ public final class Ints {
    * @since 19.0
    */
   @Beta
-  @Nullable
-  @CheckForNull
+  @NullableDecl
   public static Integer tryParse(String string, int radix) {
     Long result = Longs.tryParse(string, radix);
     if (result == null || result.longValue() != result.intValue()) {

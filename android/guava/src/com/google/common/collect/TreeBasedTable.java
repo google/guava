@@ -31,7 +31,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Implementation of {@code Table} whose row keys and column keys are ordered by their natural
@@ -169,14 +169,14 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   }
 
   private class TreeRow extends Row implements SortedMap<C, V> {
-    @Nullable final C lowerBound;
-    @Nullable final C upperBound;
+    @NullableDecl final C lowerBound;
+    @NullableDecl final C upperBound;
 
     TreeRow(R rowKey) {
       this(rowKey, null, null);
     }
 
-    TreeRow(R rowKey, @Nullable C lowerBound, @Nullable C upperBound) {
+    TreeRow(R rowKey, @NullableDecl C lowerBound, @NullableDecl C upperBound) {
       super(rowKey);
       this.lowerBound = lowerBound;
       this.upperBound = upperBound;
@@ -201,7 +201,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
       return cmp.compare(a, b);
     }
 
-    boolean rangeContains(@Nullable Object o) {
+    boolean rangeContains(@NullableDecl Object o) {
       return o != null
           && (lowerBound == null || compare(lowerBound, o) <= 0)
           && (upperBound == null || compare(upperBound, o) > 0);

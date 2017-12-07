@@ -44,7 +44,7 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Static utility methods related to {@code Stream} instances.
@@ -380,7 +380,7 @@ public final class Streams {
       }
 
       @Override
-      public void accept(@Nullable T t) {
+      public void accept(@NullableDecl T t) {
         this.holder = t;
       }
 
@@ -753,7 +753,7 @@ public final class Streams {
       boolean set = false;
       T value = null;
 
-      void set(@Nullable T value) {
+      void set(@NullableDecl T value) {
         this.set = true;
         this.value = value;
       }

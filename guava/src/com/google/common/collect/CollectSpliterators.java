@@ -28,7 +28,7 @@ import java.util.function.IntConsumer;
 import java.util.function.IntFunction;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /** Spliterator utilities for {@code common.collect} internals. */
 @GwtCompatible
@@ -65,7 +65,7 @@ final class CollectSpliterators {
       }
 
       @Override
-      @Nullable
+      @NullableDecl
       public Spliterator<T> trySplit() {
         Spliterator.OfInt split = delegate.trySplit();
         return (split == null) ? null : new WithCharacteristics(split);
@@ -209,7 +209,7 @@ final class CollectSpliterators {
     checkNotNull(fromSpliterator);
     checkNotNull(function);
     class FlatMapSpliterator implements Spliterator<T> {
-      @Nullable Spliterator<T> prefix;
+      @NullableDecl Spliterator<T> prefix;
       final Spliterator<F> from;
       int characteristics;
       long estimatedSize;

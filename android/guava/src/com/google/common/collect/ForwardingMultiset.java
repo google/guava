@@ -23,7 +23,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A multiset which forwards all its method calls to another multiset. Subclasses should override
@@ -84,7 +84,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
   }
 
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@NullableDecl Object object) {
     return object == this || delegate().equals(object);
   }
 
@@ -112,7 +112,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
    * @since 7.0
    */
   @Override
-  protected boolean standardContains(@Nullable Object object) {
+  protected boolean standardContains(@NullableDecl Object object) {
     return count(object) > 0;
   }
 
@@ -136,7 +136,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
    * @since 7.0
    */
   @Beta
-  protected int standardCount(@Nullable Object object) {
+  protected int standardCount(@NullableDecl Object object) {
     for (Entry<?> entry : this.entrySet()) {
       if (Objects.equal(entry.getElement(), object)) {
         return entry.getCount();
@@ -280,7 +280,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
    *
    * @since 7.0
    */
-  protected boolean standardEquals(@Nullable Object object) {
+  protected boolean standardEquals(@NullableDecl Object object) {
     return Multisets.equalsImpl(this, object);
   }
 

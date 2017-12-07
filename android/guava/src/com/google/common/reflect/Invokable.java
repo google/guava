@@ -30,7 +30,7 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Wrapper around either a {@link Method} or a {@link Constructor}. Convenience API is provided to
@@ -96,7 +96,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
   // All subclasses are owned by us and we'll make sure to get the R type right.
   @SuppressWarnings("unchecked")
   @CanIgnoreReturnValue
-  public final R invoke(@Nullable T receiver, Object... args)
+  public final R invoke(@NullableDecl T receiver, Object... args)
       throws InvocationTargetException, IllegalAccessException {
     return (R) invokeInternal(receiver, checkNotNull(args));
   }
@@ -173,7 +173,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     return (TypeToken<T>) TypeToken.of(getDeclaringClass());
   }
 
-  abstract Object invokeInternal(@Nullable Object receiver, Object[] args)
+  abstract Object invokeInternal(@NullableDecl Object receiver, Object[] args)
       throws InvocationTargetException, IllegalAccessException;
 
   abstract Type[] getGenericParameterTypes();
@@ -195,7 +195,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     }
 
     @Override
-    final Object invokeInternal(@Nullable Object receiver, Object[] args)
+    final Object invokeInternal(@NullableDecl Object receiver, Object[] args)
         throws InvocationTargetException, IllegalAccessException {
       return method.invoke(receiver, args);
     }
@@ -249,7 +249,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     }
 
     @Override
-    final Object invokeInternal(@Nullable Object receiver, Object[] args)
+    final Object invokeInternal(@NullableDecl Object receiver, Object[] args)
         throws InvocationTargetException, IllegalAccessException {
       try {
         return constructor.newInstance(args);

@@ -20,7 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A bimap (or "bidirectional map") is a map that preserves the uniqueness of its values as well as
@@ -46,8 +46,8 @@ public interface BiMap<K, V> extends Map<K, V> {
    */
   @CanIgnoreReturnValue
   @Override
-  @Nullable
-  V put(@Nullable K key, @Nullable V value);
+  @NullableDecl
+  V put(@NullableDecl K key, @NullableDecl V value);
 
   /**
    * An alternate form of {@code put} that silently removes any existing entry with the value {@code
@@ -66,8 +66,8 @@ public interface BiMap<K, V> extends Map<K, V> {
    *     {@code null} if there was no previous entry
    */
   @CanIgnoreReturnValue
-  @Nullable
-  V forcePut(@Nullable K key, @Nullable V value);
+  @NullableDecl
+  V forcePut(@NullableDecl K key, @NullableDecl V value);
 
   // Bulk Operations
 

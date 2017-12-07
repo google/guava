@@ -30,10 +30,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.RandomAccess;
 import java.util.Set;
-import javax.annotation.Nullable;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Tests for {@code Synchronized#multimap}.
@@ -89,7 +89,7 @@ public class SynchronizedMultimapTest extends TestCase {
     }
 
     @Override
-    public boolean equals(@Nullable Object o) {
+    public boolean equals(@NullableDecl Object o) {
       assertTrue(Thread.holdsLock(mutex));
       return super.equals(o);
     }
@@ -113,25 +113,25 @@ public class SynchronizedMultimapTest extends TestCase {
     }
 
     @Override
-    public boolean containsKey(@Nullable Object key) {
+    public boolean containsKey(@NullableDecl Object key) {
       assertTrue(Thread.holdsLock(mutex));
       return super.containsKey(key);
     }
 
     @Override
-    public boolean containsValue(@Nullable Object value) {
+    public boolean containsValue(@NullableDecl Object value) {
       assertTrue(Thread.holdsLock(mutex));
       return super.containsValue(value);
     }
 
     @Override
-    public boolean containsEntry(@Nullable Object key, @Nullable Object value) {
+    public boolean containsEntry(@NullableDecl Object key, @NullableDecl Object value) {
       assertTrue(Thread.holdsLock(mutex));
       return super.containsEntry(key, value);
     }
 
     @Override
-    public Set<V> get(@Nullable K key) {
+    public Set<V> get(@NullableDecl K key) {
       assertTrue(Thread.holdsLock(mutex));
       /* TODO: verify that the Collection is also synchronized? */
       return super.get(key);
@@ -144,7 +144,7 @@ public class SynchronizedMultimapTest extends TestCase {
     }
 
     @Override
-    public boolean putAll(@Nullable K key, Iterable<? extends V> values) {
+    public boolean putAll(@NullableDecl K key, Iterable<? extends V> values) {
       assertTrue(Thread.holdsLock(mutex));
       return super.putAll(key, values);
     }
@@ -156,19 +156,19 @@ public class SynchronizedMultimapTest extends TestCase {
     }
 
     @Override
-    public Set<V> replaceValues(@Nullable K key, Iterable<? extends V> values) {
+    public Set<V> replaceValues(@NullableDecl K key, Iterable<? extends V> values) {
       assertTrue(Thread.holdsLock(mutex));
       return super.replaceValues(key, values);
     }
 
     @Override
-    public boolean remove(@Nullable Object key, @Nullable Object value) {
+    public boolean remove(@NullableDecl Object key, @NullableDecl Object value) {
       assertTrue(Thread.holdsLock(mutex));
       return super.remove(key, value);
     }
 
     @Override
-    public Set<V> removeAll(@Nullable Object key) {
+    public Set<V> removeAll(@NullableDecl Object key) {
       assertTrue(Thread.holdsLock(mutex));
       return super.removeAll(key);
     }

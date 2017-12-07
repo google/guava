@@ -30,7 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.RandomAccess;
 import java.util.stream.Collector;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * GWT emulated version of {@link com.google.common.collect.ImmutableList}. TODO(cpovirk): more doc
@@ -216,12 +216,12 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   @Override
-  public int indexOf(@Nullable Object object) {
+  public int indexOf(@NullableDecl Object object) {
     return (object == null) ? -1 : Lists.indexOfImpl(this, object);
   }
 
   @Override
-  public int lastIndexOf(@Nullable Object object) {
+  public int lastIndexOf(@NullableDecl Object object) {
     return (object == null) ? -1 : Lists.lastIndexOfImpl(this, object);
   }
 
@@ -272,7 +272,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   @Override
-  public boolean equals(@Nullable Object obj) {
+  public boolean equals(@NullableDecl Object obj) {
     return Lists.equalsImpl(this, obj);
   }
 

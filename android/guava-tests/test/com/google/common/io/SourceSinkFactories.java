@@ -37,7 +37,7 @@ import java.io.Writer;
 import java.nio.CharBuffer;
 import java.util.Arrays;
 import java.util.logging.Logger;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * {@link SourceSinkFactory} implementations.
@@ -305,7 +305,7 @@ public class SourceSinkFactories {
 
     private final byte[] initialBytes;
 
-    private FileByteSinkFactory(@Nullable byte[] initialBytes) {
+    private FileByteSinkFactory(@NullableDecl byte[] initialBytes) {
       this.initialBytes = initialBytes;
     }
 
@@ -375,7 +375,7 @@ public class SourceSinkFactories {
 
     private final String initialString;
 
-    private FileCharSinkFactory(@Nullable String initialString) {
+    private FileCharSinkFactory(@NullableDecl String initialString) {
       this.initialString = initialString;
     }
 

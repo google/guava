@@ -30,7 +30,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * An implementation of {@link NetworkConnections} for directed networks with parallel edges.
@@ -139,8 +139,8 @@ final class DirectedMultiNetworkConnections<N, E> extends AbstractDirectedNetwor
     }
   }
 
-  @Nullable
-  private static <T> T getReference(@Nullable Reference<T> reference) {
+  @NullableDecl
+  private static <T> T getReference(@NullableDecl Reference<T> reference) {
     return (reference == null) ? null : reference.get();
   }
 }

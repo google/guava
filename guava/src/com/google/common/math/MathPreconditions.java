@@ -17,7 +17,7 @@ package com.google.common.math;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.math.BigInteger;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A collection of preconditions for math functions.
@@ -27,49 +27,49 @@ import javax.annotation.Nullable;
 @GwtCompatible
 @CanIgnoreReturnValue
 final class MathPreconditions {
-  static int checkPositive(@Nullable String role, int x) {
+  static int checkPositive(@NullableDecl String role, int x) {
     if (x <= 0) {
       throw new IllegalArgumentException(role + " (" + x + ") must be > 0");
     }
     return x;
   }
 
-  static long checkPositive(@Nullable String role, long x) {
+  static long checkPositive(@NullableDecl String role, long x) {
     if (x <= 0) {
       throw new IllegalArgumentException(role + " (" + x + ") must be > 0");
     }
     return x;
   }
 
-  static BigInteger checkPositive(@Nullable String role, BigInteger x) {
+  static BigInteger checkPositive(@NullableDecl String role, BigInteger x) {
     if (x.signum() <= 0) {
       throw new IllegalArgumentException(role + " (" + x + ") must be > 0");
     }
     return x;
   }
 
-  static int checkNonNegative(@Nullable String role, int x) {
+  static int checkNonNegative(@NullableDecl String role, int x) {
     if (x < 0) {
       throw new IllegalArgumentException(role + " (" + x + ") must be >= 0");
     }
     return x;
   }
 
-  static long checkNonNegative(@Nullable String role, long x) {
+  static long checkNonNegative(@NullableDecl String role, long x) {
     if (x < 0) {
       throw new IllegalArgumentException(role + " (" + x + ") must be >= 0");
     }
     return x;
   }
 
-  static BigInteger checkNonNegative(@Nullable String role, BigInteger x) {
+  static BigInteger checkNonNegative(@NullableDecl String role, BigInteger x) {
     if (x.signum() < 0) {
       throw new IllegalArgumentException(role + " (" + x + ") must be >= 0");
     }
     return x;
   }
 
-  static double checkNonNegative(@Nullable String role, double x) {
+  static double checkNonNegative(@NullableDecl String role, double x) {
     if (!(x >= 0)) { // not x < 0, to work with NaN.
       throw new IllegalArgumentException(role + " (" + x + ") must be >= 0");
     }

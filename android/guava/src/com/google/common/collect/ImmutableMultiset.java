@@ -28,7 +28,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A {@link Multiset} whose contents will never change, with many other important properties
@@ -216,7 +216,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
   }
 
   @Override
-  public boolean contains(@Nullable Object object) {
+  public boolean contains(@NullableDecl Object object) {
     return count(object) > 0;
   }
 
@@ -283,7 +283,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
   }
 
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@NullableDecl Object object) {
     return Multisets.equalsImpl(this, object);
   }
 

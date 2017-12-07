@@ -18,7 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.NoSuchElementException;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * This class provides a skeletal implementation of the {@code Iterator} interface for sequences
@@ -47,7 +47,7 @@ public abstract class AbstractSequentialIterator<T> extends UnmodifiableIterator
    * Creates a new iterator with the given first element, or, if {@code firstOrNull} is null,
    * creates a new empty iterator.
    */
-  protected AbstractSequentialIterator(@Nullable T firstOrNull) {
+  protected AbstractSequentialIterator(@NullableDecl T firstOrNull) {
     this.nextOrNull = firstOrNull;
   }
 

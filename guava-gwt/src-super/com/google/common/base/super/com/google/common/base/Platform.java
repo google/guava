@@ -19,9 +19,9 @@ package com.google.common.base;
 import static jsinterop.annotations.JsPackage.GLOBAL;
 
 import java.util.concurrent.TimeUnit;
-import javax.annotation.Nullable;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsType;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /** @author Jesse Wilson */
 final class Platform {
@@ -52,7 +52,7 @@ final class Platform {
   }
 
   @JsMethod
-  static native boolean stringIsNullOrEmpty(@Nullable String string) /*-{
+  static native boolean stringIsNullOrEmpty(@NullableDecl String string) /*-{
     return !string;
   }-*/;
 

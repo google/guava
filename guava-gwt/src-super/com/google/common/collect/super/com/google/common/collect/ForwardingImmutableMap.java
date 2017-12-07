@@ -21,7 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * GWT implementation of {@link ImmutableMap} that forwards to another map.
@@ -57,15 +57,15 @@ public abstract class ForwardingImmutableMap<K, V> extends ImmutableMap<K, V> {
     return delegate.isEmpty();
   }
 
-  public final boolean containsKey(@Nullable Object key) {
+  public final boolean containsKey(@NullableDecl Object key) {
     return Maps.safeContainsKey(delegate, key);
   }
 
-  public final boolean containsValue(@Nullable Object value) {
+  public final boolean containsValue(@NullableDecl Object value) {
     return delegate.containsValue(value);
   }
 
-  public V get(@Nullable Object key) {
+  public V get(@NullableDecl Object key) {
     return (key == null) ? null : Maps.safeGet(delegate, key);
   }
 
@@ -119,7 +119,7 @@ public abstract class ForwardingImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@NullableDecl Object object) {
     return delegate.equals(object);
   }
 

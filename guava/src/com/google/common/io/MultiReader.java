@@ -19,7 +19,7 @@ import com.google.common.base.Preconditions;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Iterator;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A {@link Reader} that concatenates multiple readers.
@@ -46,7 +46,7 @@ class MultiReader extends Reader {
   }
 
   @Override
-  public int read(@Nullable char cbuf[], int off, int len) throws IOException {
+  public int read(@NullableDecl char cbuf[], int off, int len) throws IOException {
     if (current == null) {
       return -1;
     }

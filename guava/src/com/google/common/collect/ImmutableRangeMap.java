@@ -31,7 +31,7 @@ import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.function.Function;
 import java.util.stream.Collector;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A {@link RangeMap} whose contents will never change, with many other important properties
@@ -169,7 +169,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   }
 
   @Override
-  @Nullable
+  @NullableDecl
   public V get(K key) {
     int index =
         SortedLists.binarySearch(
@@ -187,7 +187,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   }
 
   @Override
-  @Nullable
+  @NullableDecl
   public Entry<Range<K>, V> getEntry(K key) {
     int index =
         SortedLists.binarySearch(
@@ -361,7 +361,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   }
 
   @Override
-  public boolean equals(@Nullable Object o) {
+  public boolean equals(@NullableDecl Object o) {
     if (o instanceof RangeMap) {
       RangeMap<?, ?> rangeMap = (RangeMap<?, ?>) o;
       return asMapOfRanges().equals(rangeMap.asMapOfRanges());

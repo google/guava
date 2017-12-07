@@ -40,7 +40,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * An implementation of {@code ListMultimap} that supports deterministic iteration order for both
@@ -112,7 +112,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
     Node<K, V> nextSibling; // the next node with the same key
     Node<K, V> previousSibling; // the previous node with the same key
 
-    Node(@Nullable K key, @Nullable V value) {
+    Node(@NullableDecl K key, @NullableDecl V value) {
       this.key = key;
       this.value = value;
     }
@@ -128,7 +128,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
     }
 
     @Override
-    public V setValue(@Nullable V newValue) {
+    public V setValue(@NullableDecl V newValue) {
       V result = value;
       this.value = newValue;
       return result;
@@ -208,7 +208,8 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
    * is specified, it MUST be for an node for the same {@code key}!
    */
   @CanIgnoreReturnValue
-  private Node<K, V> addNode(@Nullable K key, @Nullable V value, @Nullable Node<K, V> nextSibling) {
+  private Node<K, V> addNode(
+      @NullableDecl K key, @NullableDecl V value, @NullableDecl Node<K, V> nextSibling) {
     Node<K, V> node = new Node<>(key, value);
     if (head == null) { // empty list
       head = tail = node;
@@ -292,12 +293,12 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   /** Removes all nodes for the specified key. */
-  private void removeAllNodes(@Nullable Object key) {
+  private void removeAllNodes(@NullableDecl Object key) {
     Iterators.clear(new ValueForKeyIterator(key));
   }
 
   /** Helper method for verifying that an iterator element is present. */
-  private static void checkElement(@Nullable Object node) {
+  private static void checkElement(@NullableDecl Object node) {
     if (node == null) {
       throw new NoSuchElementException();
     }
@@ -460,7 +461,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
     Node<K, V> previous;
 
     /** Constructs a new iterator over all values for the specified key. */
-    ValueForKeyIterator(@Nullable Object key) {
+    ValueForKeyIterator(@NullableDecl Object key) {
       this.key = key;
       KeyList<K, V> keyList = keyToKeyList.get(key);
       next = (keyList == null) ? null : keyList.head;
@@ -474,7 +475,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
      *
      * @throws IndexOutOfBoundsException if index is invalid
      */
-    public ValueForKeyIterator(@Nullable Object key, int index) {
+    public ValueForKeyIterator(@NullableDecl Object key, int index) {
       KeyList<K, V> keyList = keyToKeyList.get(key);
       int size = (keyList == null) ? 0 : keyList.count;
       checkPositionIndex(index, size);
@@ -575,12 +576,12 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   @Override
-  public boolean containsKey(@Nullable Object key) {
+  public boolean containsKey(@NullableDecl Object key) {
     return keyToKeyList.containsKey(key);
   }
 
   @Override
-  public boolean containsValue(@Nullable Object value) {
+  public boolean containsValue(@NullableDecl Object value) {
     return values().contains(value);
   }
 
@@ -595,7 +596,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
    */
   @CanIgnoreReturnValue
   @Override
-  public boolean put(@Nullable K key, @Nullable V value) {
+  public boolean put(@NullableDecl K key, @NullableDecl V value) {
     addNode(key, value, null);
     return true;
   }
@@ -612,7 +613,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
    */
   @CanIgnoreReturnValue
   @Override
-  public List<V> replaceValues(@Nullable K key, Iterable<? extends V> values) {
+  public List<V> replaceValues(@NullableDecl K key, Iterable<? extends V> values) {
     List<V> oldValues = getCopy(key);
     ListIterator<V> keyValues = new ValueForKeyIterator(key);
     Iterator<? extends V> newValues = values.iterator();
@@ -637,7 +638,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
     return oldValues;
   }
 
-  private List<V> getCopy(@Nullable Object key) {
+  private List<V> getCopy(@NullableDecl Object key) {
     return unmodifiableList(Lists.newArrayList(new ValueForKeyIterator(key)));
   }
 
@@ -648,7 +649,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
    */
   @CanIgnoreReturnValue
   @Override
-  public List<V> removeAll(@Nullable Object key) {
+  public List<V> removeAll(@NullableDecl Object key) {
     List<V> oldValues = getCopy(key);
     removeAllNodes(key);
     return oldValues;
@@ -675,7 +676,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
    * <p>The returned list is not serializable and does not have random access.
    */
   @Override
-  public List<V> get(final @Nullable K key) {
+  public List<V> get(final @NullableDecl K key) {
     return new AbstractSequentialList<V>() {
       @Override
       public int size() {

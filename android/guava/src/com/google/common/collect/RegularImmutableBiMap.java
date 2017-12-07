@@ -18,7 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Bimap with zero or more mappings.
@@ -85,7 +85,7 @@ final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
   @SuppressWarnings("unchecked")
   @Override
-  public V get(@Nullable Object key) {
+  public V get(@NullableDecl Object key) {
     return (V)
         RegularImmutableMap.get(keyHashTable, alternatingKeysAndValues, size, keyOffset, key);
   }

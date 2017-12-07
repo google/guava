@@ -21,7 +21,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
 import java.util.concurrent.Callable;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Static utility methods pertaining to the {@link Callable} interface.
@@ -34,7 +34,7 @@ public final class Callables {
   private Callables() {}
 
   /** Creates a {@code Callable} which immediately returns a preset value each time it is called. */
-  public static <T> Callable<T> returning(@Nullable final T value) {
+  public static <T> Callable<T> returning(@NullableDecl final T value) {
     return new Callable<T>() {
       @Override
       public T call() {

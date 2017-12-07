@@ -33,7 +33,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.math.RoundingMode;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A Bloom filter for instances of {@code T}. A Bloom filter offers an approximate containment test
@@ -268,7 +268,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   }
 
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@NullableDecl Object object) {
     if (object == this) {
       return true;
     }

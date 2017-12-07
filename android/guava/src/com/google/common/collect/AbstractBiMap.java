@@ -34,7 +34,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A general-purpose bimap implementation using any two backing {@code Map} instances.
@@ -70,13 +70,13 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
 
   /** Returns its input, or throws an exception if this is not a valid key. */
   @CanIgnoreReturnValue
-  K checkKey(@Nullable K key) {
+  K checkKey(@NullableDecl K key) {
     return key;
   }
 
   /** Returns its input, or throws an exception if this is not a valid value. */
   @CanIgnoreReturnValue
-  V checkValue(@Nullable V value) {
+  V checkValue(@NullableDecl V value) {
     return value;
   }
 
@@ -105,7 +105,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
   // Query Operations (optimizations)
 
   @Override
-  public boolean containsValue(@Nullable Object value) {
+  public boolean containsValue(@NullableDecl Object value) {
     return inverse.containsKey(value);
   }
 
@@ -113,17 +113,17 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
 
   @CanIgnoreReturnValue
   @Override
-  public V put(@Nullable K key, @Nullable V value) {
+  public V put(@NullableDecl K key, @NullableDecl V value) {
     return putInBothMaps(key, value, false);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public V forcePut(@Nullable K key, @Nullable V value) {
+  public V forcePut(@NullableDecl K key, @NullableDecl V value) {
     return putInBothMaps(key, value, true);
   }
 
-  private V putInBothMaps(@Nullable K key, @Nullable V value, boolean force) {
+  private V putInBothMaps(@NullableDecl K key, @NullableDecl V value, boolean force) {
     checkKey(key);
     checkValue(value);
     boolean containedKey = containsKey(key);
@@ -149,7 +149,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
 
   @CanIgnoreReturnValue
   @Override
-  public V remove(@Nullable Object key) {
+  public V remove(@NullableDecl Object key) {
     return containsKey(key) ? removeFromBothMaps(key) : null;
   }
 

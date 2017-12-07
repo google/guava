@@ -23,8 +23,8 @@ import com.google.common.base.Optional;
 import com.google.common.testing.NullPointerTester;
 import java.util.Arrays;
 import java.util.List;
-import javax.annotation.Nullable;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Tests for {@code TreeTraverser}.
@@ -51,8 +51,8 @@ public class TreeTraverserTest extends TestCase {
   }
 
   private static final class BinaryTree extends Node {
-    @Nullable final BinaryTree left;
-    @Nullable final BinaryTree right;
+    @NullableDecl final BinaryTree left;
+    @NullableDecl final BinaryTree right;
 
     private BinaryTree(char value, BinaryTree left, BinaryTree right) {
       super(value);

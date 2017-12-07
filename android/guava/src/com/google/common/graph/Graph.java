@@ -18,7 +18,7 @@ package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * An interface for <a
@@ -185,7 +185,7 @@ public interface Graph<N> extends BaseGraph<N> {
    * <p>A reference implementation of this is provided by {@link AbstractGraph#equals(Object)}.
    */
   @Override
-  boolean equals(@Nullable Object object);
+  boolean equals(@NullableDecl Object object);
 
   /**
    * Returns the hash code for this graph. The hash code of a graph is defined as the hash code of

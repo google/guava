@@ -19,7 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.ForOverride;
 import java.io.Serializable;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A strategy for determining whether two instances are considered equivalent, and for computing
@@ -59,7 +59,7 @@ public abstract class Equivalence<T> {
    * <p>Note that all calls to {@code equivalent(x, y)} are expected to return the same result as
    * long as neither {@code x} nor {@code y} is modified.
    */
-  public final boolean equivalent(@Nullable T a, @Nullable T b) {
+  public final boolean equivalent(@NullableDecl T a, @NullableDecl T b) {
     if (a == b) {
       return true;
     }
@@ -95,7 +95,7 @@ public abstract class Equivalence<T> {
    *   <li>{@code hash(null)} is {@code 0}.
    * </ul>
    */
-  public final int hash(@Nullable T t) {
+  public final int hash(@NullableDecl T t) {
     if (t == null) {
       return 0;
     }
@@ -148,7 +148,7 @@ public abstract class Equivalence<T> {
    *
    * @since 10.0
    */
-  public final <S extends T> Wrapper<S> wrap(@Nullable S reference) {
+  public final <S extends T> Wrapper<S> wrap(@NullableDecl S reference) {
     return new Wrapper<S>(this, reference);
   }
 
@@ -174,15 +174,15 @@ public abstract class Equivalence<T> {
    */
   public static final class Wrapper<T> implements Serializable {
     private final Equivalence<? super T> equivalence;
-    @Nullable private final T reference;
+    @NullableDecl private final T reference;
 
-    private Wrapper(Equivalence<? super T> equivalence, @Nullable T reference) {
+    private Wrapper(Equivalence<? super T> equivalence, @NullableDecl T reference) {
       this.equivalence = checkNotNull(equivalence);
       this.reference = reference;
     }
 
     /** Returns the (possibly null) reference wrapped by this instance. */
-    @Nullable
+    @NullableDecl
     public T get() {
       return reference;
     }
@@ -193,7 +193,7 @@ public abstract class Equivalence<T> {
      * equivalence.
      */
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(@NullableDecl Object obj) {
       if (obj == this) {
         return true;
       }
@@ -255,27 +255,27 @@ public abstract class Equivalence<T> {
    *
    * @since 10.0
    */
-  public final Predicate<T> equivalentTo(@Nullable T target) {
+  public final Predicate<T> equivalentTo(@NullableDecl T target) {
     return new EquivalentToPredicate<T>(this, target);
   }
 
   private static final class EquivalentToPredicate<T> implements Predicate<T>, Serializable {
 
     private final Equivalence<T> equivalence;
-    @Nullable private final T target;
+    @NullableDecl private final T target;
 
-    EquivalentToPredicate(Equivalence<T> equivalence, @Nullable T target) {
+    EquivalentToPredicate(Equivalence<T> equivalence, @NullableDecl T target) {
       this.equivalence = checkNotNull(equivalence);
       this.target = target;
     }
 
     @Override
-    public boolean apply(@Nullable T input) {
+    public boolean apply(@NullableDecl T input) {
       return equivalence.equivalent(input, target);
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(@NullableDecl Object obj) {
       if (this == obj) {
         return true;
       }

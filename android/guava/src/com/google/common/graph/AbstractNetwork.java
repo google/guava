@@ -31,7 +31,7 @@ import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * This class provides a skeletal implementation of {@link Network}. It is recommended to extend
@@ -86,7 +86,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
           // Network<LinkedList>.
           @SuppressWarnings("unchecked")
           @Override
-          public boolean contains(@Nullable Object obj) {
+          public boolean contains(@NullableDecl Object obj) {
             if (!(obj instanceof EndpointPair)) {
               return false;
             }
@@ -178,7 +178,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
   }
 
   @Override
-  @Nullable
+  @NullableDecl
   public E edgeConnectingOrNull(N nodeU, N nodeV) {
     Set<E> edgesConnecting = edgesConnecting(nodeU, nodeV);
     switch (edgesConnecting.size()) {
@@ -197,7 +197,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
   }
 
   @Override
-  public final boolean equals(@Nullable Object obj) {
+  public final boolean equals(@NullableDecl Object obj) {
     if (obj == this) {
       return true;
     }

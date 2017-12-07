@@ -28,7 +28,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A future made up of a collection of sub-futures.
@@ -278,7 +278,8 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
      * <p>If {@code allMustSucceed} is true, called as each future completes; otherwise, called for
      * each future when all futures complete.
      */
-    abstract void collectOneValue(boolean allMustSucceed, int index, @Nullable InputT returnValue);
+    abstract void collectOneValue(
+        boolean allMustSucceed, int index, @NullableDecl InputT returnValue);
 
     abstract void handleAllCompleted();
 

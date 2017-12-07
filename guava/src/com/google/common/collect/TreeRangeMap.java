@@ -37,7 +37,7 @@ import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * An implementation of {@code RangeMap} based on a {@code TreeMap}, supporting all optional
@@ -100,14 +100,14 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
   }
 
   @Override
-  @Nullable
+  @NullableDecl
   public V get(K key) {
     Entry<Range<K>, V> entry = getEntry(key);
     return (entry == null) ? null : entry.getValue();
   }
 
   @Override
-  @Nullable
+  @NullableDecl
   public Entry<Range<K>, V> getEntry(K key) {
     Entry<Cut<K>, RangeMapEntry<K, V>> mapEntry =
         entriesByLowerBound.floorEntry(Cut.belowValue(key));
@@ -155,7 +155,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
 
   /** Returns the range that spans the given range and entry, if the entry can be coalesced. */
   private static <K extends Comparable, V> Range<K> coalesce(
-      Range<K> range, V value, @Nullable Entry<Cut<K>, RangeMapEntry<K, V>> entry) {
+      Range<K> range, V value, @NullableDecl Entry<Cut<K>, RangeMapEntry<K, V>> entry) {
     if (entry != null
         && entry.getValue().getKey().isConnected(range)
         && entry.getValue().getValue().equals(value)) {
@@ -261,12 +261,12 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
     }
 
     @Override
-    public boolean containsKey(@Nullable Object key) {
+    public boolean containsKey(@NullableDecl Object key) {
       return get(key) != null;
     }
 
     @Override
-    public V get(@Nullable Object key) {
+    public V get(@NullableDecl Object key) {
       if (key instanceof Range) {
         Range<?> range = (Range<?>) key;
         RangeMapEntry<K, V> rangeMapEntry = entriesByLowerBound.get(range.lowerBound);
@@ -305,13 +305,13 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
   private static final RangeMap EMPTY_SUB_RANGE_MAP =
       new RangeMap() {
         @Override
-        @Nullable
+        @NullableDecl
         public Object get(Comparable key) {
           return null;
         }
 
         @Override
-        @Nullable
+        @NullableDecl
         public Entry<Range, Object> getEntry(Comparable key) {
           return null;
         }
@@ -377,13 +377,13 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
     }
 
     @Override
-    @Nullable
+    @NullableDecl
     public V get(K key) {
       return subRange.contains(key) ? TreeRangeMap.this.get(key) : null;
     }
 
     @Override
-    @Nullable
+    @NullableDecl
     public Entry<Range<K>, V> getEntry(K key) {
       if (subRange.contains(key)) {
         Entry<Range<K>, V> entry = TreeRangeMap.this.getEntry(key);
@@ -515,7 +515,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
     }
 
     @Override
-    public boolean equals(@Nullable Object o) {
+    public boolean equals(@NullableDecl Object o) {
       if (o instanceof RangeMap) {
         RangeMap<?, ?> rangeMap = (RangeMap<?, ?>) o;
         return asMapOfRanges().equals(rangeMap.asMapOfRanges());
@@ -607,7 +607,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
       public Set<Range<K>> keySet() {
         return new Maps.KeySet<Range<K>, V>(SubRangeMapAsMap.this) {
           @Override
-          public boolean remove(@Nullable Object o) {
+          public boolean remove(@NullableDecl Object o) {
             return SubRangeMapAsMap.this.remove(o) != null;
           }
 
@@ -693,7 +693,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
   }
 
   @Override
-  public boolean equals(@Nullable Object o) {
+  public boolean equals(@NullableDecl Object o) {
     if (o instanceof RangeMap) {
       RangeMap<?, ?> rangeMap = (RangeMap<?, ?>) o;
       return asMapOfRanges().equals(rangeMap.asMapOfRanges());

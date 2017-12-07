@@ -44,7 +44,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A {@link Type} with generics.
@@ -291,7 +291,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
    * if the bound is a class or extends from a class. This means that the returned type could be a
    * type variable too.
    */
-  @Nullable
+  @NullableDecl
   final TypeToken<? super T> getGenericSuperclass() {
     if (runtimeType instanceof TypeVariable) {
       // First bound is always the super class, if one exists.
@@ -310,7 +310,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     return superToken;
   }
 
-  @Nullable
+  @NullableDecl
   private TypeToken<? super T> boundAsSuperclass(Type bound) {
     TypeToken<?> token = of(bound);
     if (token.getRawType().isInterface()) {
@@ -561,7 +561,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
    * Returns the array component type if this type represents an array ({@code int[]}, {@code T[]},
    * {@code <? extends Map<String, Integer>[]>} etc.), or else {@code null} is returned.
    */
-  @Nullable
+  @NullableDecl
   public final TypeToken<?> getComponentType() {
     Type componentType = Types.getComponentType(runtimeType);
     if (componentType == null) {
@@ -820,7 +820,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
    * Returns true if {@code o} is another {@code TypeToken} that represents the same {@link Type}.
    */
   @Override
-  public boolean equals(@Nullable Object o) {
+  public boolean equals(@NullableDecl Object o) {
     if (o instanceof TypeToken) {
       TypeToken<?> that = (TypeToken<?>) o;
       return runtimeType.equals(that.runtimeType);
@@ -1057,7 +1057,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
    * Returns the owner type of a {@link ParameterizedType} or enclosing class of a {@link Class}, or
    * null otherwise.
    */
-  @Nullable
+  @NullableDecl
   private Type getOwnerTypeIfPresent() {
     if (runtimeType instanceof ParameterizedType) {
       return ((ParameterizedType) runtimeType).getOwnerType();
@@ -1218,7 +1218,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
             return type.getGenericInterfaces();
           }
 
-          @Nullable
+          @NullableDecl
           @Override
           TypeToken<?> getSuperclass(TypeToken<?> type) {
             return type.getGenericSuperclass();
@@ -1237,7 +1237,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
             return Arrays.asList(type.getInterfaces());
           }
 
-          @Nullable
+          @NullableDecl
           @Override
           Class<?> getSuperclass(Class<?> type) {
             return type.getSuperclass();
@@ -1320,7 +1320,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
 
     abstract Iterable<? extends K> getInterfaces(K type);
 
-    @Nullable
+    @NullableDecl
     abstract K getSuperclass(K type);
 
     private static class ForwardingTypeCollector<K> extends TypeCollector<K> {

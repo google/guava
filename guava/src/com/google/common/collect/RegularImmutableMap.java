@@ -28,7 +28,7 @@ import com.google.common.collect.ImmutableMapEntry.NonTerminalImmutableMapEntry;
 import com.google.j2objc.annotations.Weak;
 import java.io.Serializable;
 import java.util.function.BiConsumer;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Implementation of {@link ImmutableMap} with two or more entries.
@@ -79,7 +79,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       V value = entry.getValue();
       checkEntryNotNull(key, value);
       int tableIndex = Hashing.smear(key.hashCode()) & mask;
-      @Nullable ImmutableMapEntry<K, V> existing = table[tableIndex];
+      @NullableDecl ImmutableMapEntry<K, V> existing = table[tableIndex];
       // prepend, not append, so the entries can be immutable
       ImmutableMapEntry<K, V> newEntry;
       if (existing == null) {
@@ -104,7 +104,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   static void checkNoConflictInKeyBucket(
-      Object key, Entry<?, ?> entry, @Nullable ImmutableMapEntry<?, ?> keyBucketHead) {
+      Object key, Entry<?, ?> entry, @NullableDecl ImmutableMapEntry<?, ?> keyBucketHead) {
     for (; keyBucketHead != null; keyBucketHead = keyBucketHead.getNextInKeyBucket()) {
       checkNoConflict(!key.equals(keyBucketHead.getKey()), "key", entry, keyBucketHead);
     }
@@ -118,12 +118,13 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   private static final double MAX_LOAD_FACTOR = 1.2;
 
   @Override
-  public V get(@Nullable Object key) {
+  public V get(@NullableDecl Object key) {
     return get(key, table, mask);
   }
 
-  @Nullable
-  static <V> V get(@Nullable Object key, @Nullable ImmutableMapEntry<?, V>[] keyTable, int mask) {
+  @NullableDecl
+  static <V> V get(
+      @NullableDecl Object key, @NullableDecl ImmutableMapEntry<?, V>[] keyTable, int mask) {
     if (key == null || keyTable == null) {
       return null;
     }

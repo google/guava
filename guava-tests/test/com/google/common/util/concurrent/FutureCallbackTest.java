@@ -24,8 +24,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Executor;
-import javax.annotation.Nullable;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 import org.mockito.Mockito;
 
 /**
@@ -157,8 +157,8 @@ public class FutureCallbackTest extends TestCase {
   }
 
   private final class MockCallback implements FutureCallback<String> {
-    @Nullable private String value = null;
-    @Nullable private Throwable failure = null;
+    @NullableDecl private String value = null;
+    @NullableDecl private Throwable failure = null;
     private boolean wasCalled = false;
 
     MockCallback(String expectedValue) {

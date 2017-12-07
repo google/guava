@@ -36,7 +36,7 @@ import java.util.SortedSet;
 import java.util.Spliterator;
 import java.util.function.BinaryOperator;
 import java.util.stream.Collector;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Provides static methods that involve a {@code Table}.
@@ -146,7 +146,7 @@ public final class Tables {
    * @param value the value to be associated with the returned cell
    */
   public static <R, C, V> Cell<R, C, V> immutableCell(
-      @Nullable R rowKey, @Nullable C columnKey, @Nullable V value) {
+      @NullableDecl R rowKey, @NullableDecl C columnKey, @NullableDecl V value) {
     return new ImmutableCell<>(rowKey, columnKey, value);
   }
 
@@ -155,7 +155,7 @@ public final class Tables {
     private final C columnKey;
     private final V value;
 
-    ImmutableCell(@Nullable R rowKey, @Nullable C columnKey, @Nullable V value) {
+    ImmutableCell(@NullableDecl R rowKey, @NullableDecl C columnKey, @NullableDecl V value) {
       this.rowKey = rowKey;
       this.columnKey = columnKey;
       this.value = value;
@@ -254,27 +254,27 @@ public final class Tables {
     }
 
     @Override
-    public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
+    public boolean contains(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {
       return original.contains(columnKey, rowKey);
     }
 
     @Override
-    public boolean containsColumn(@Nullable Object columnKey) {
+    public boolean containsColumn(@NullableDecl Object columnKey) {
       return original.containsRow(columnKey);
     }
 
     @Override
-    public boolean containsRow(@Nullable Object rowKey) {
+    public boolean containsRow(@NullableDecl Object rowKey) {
       return original.containsColumn(rowKey);
     }
 
     @Override
-    public boolean containsValue(@Nullable Object value) {
+    public boolean containsValue(@NullableDecl Object value) {
       return original.containsValue(value);
     }
 
     @Override
-    public V get(@Nullable Object rowKey, @Nullable Object columnKey) {
+    public V get(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {
       return original.get(columnKey, rowKey);
     }
 
@@ -289,7 +289,7 @@ public final class Tables {
     }
 
     @Override
-    public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
+    public V remove(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {
       return original.remove(columnKey, rowKey);
     }
 
@@ -574,7 +574,7 @@ public final class Tables {
     }
 
     @Override
-    public Map<R, V> column(@Nullable C columnKey) {
+    public Map<R, V> column(@NullableDecl C columnKey) {
       return Collections.unmodifiableMap(super.column(columnKey));
     }
 
@@ -590,7 +590,7 @@ public final class Tables {
     }
 
     @Override
-    public V put(@Nullable R rowKey, @Nullable C columnKey, @Nullable V value) {
+    public V put(@NullableDecl R rowKey, @NullableDecl C columnKey, @NullableDecl V value) {
       throw new UnsupportedOperationException();
     }
 
@@ -600,12 +600,12 @@ public final class Tables {
     }
 
     @Override
-    public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
+    public V remove(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public Map<C, V> row(@Nullable R rowKey) {
+    public Map<C, V> row(@NullableDecl R rowKey) {
       return Collections.unmodifiableMap(super.row(rowKey));
     }
 
@@ -723,7 +723,7 @@ public final class Tables {
     return Synchronized.table(table, null);
   }
 
-  static boolean equalsImpl(Table<?, ?, ?> table, @Nullable Object obj) {
+  static boolean equalsImpl(Table<?, ?, ?> table, @NullableDecl Object obj) {
     if (obj == table) {
       return true;
     } else if (obj instanceof Table) {

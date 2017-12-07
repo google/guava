@@ -23,7 +23,7 @@ import com.google.common.primitives.Primitives;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.util.Map;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A {@link ClassToInstanceMap} whose contents will never change, with many other important
@@ -169,7 +169,7 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
 
   @Override
   @SuppressWarnings("unchecked") // value could not get in if not a T
-  @Nullable
+  @NullableDecl
   public <T extends B> T getInstance(Class<T> type) {
     return (T) delegate.get(checkNotNull(type));
   }

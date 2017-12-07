@@ -20,7 +20,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.AbstractExecutorService;
 import java.util.concurrent.Callable;
 import java.util.concurrent.RunnableFuture;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Abstract {@link ListeningExecutorService} implementation that creates {@link ListenableFuture}
@@ -57,7 +57,7 @@ public abstract class AbstractListeningExecutorService extends AbstractExecutorS
   }
 
   @Override
-  public <T> ListenableFuture<T> submit(Runnable task, @Nullable T result) {
+  public <T> ListenableFuture<T> submit(Runnable task, @NullableDecl T result) {
     return (ListenableFuture<T>) super.submit(task, result);
   }
 

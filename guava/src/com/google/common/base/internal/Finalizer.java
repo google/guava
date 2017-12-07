@@ -23,7 +23,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Thread that finalizes referents. All references should implement {@code
@@ -116,10 +116,10 @@ public class Finalizer implements Runnable {
   // By preference, we will use the Thread constructor that has an `inheritThreadLocals` parameter.
   // But before Java 9, our only way not to inherit ThreadLocals is to zap them after the thread
   // is created, by accessing a private field.
-  @Nullable
+  @NullableDecl
   private static final Constructor<Thread> bigThreadConstructor = getBigThreadConstructor();
 
-  @Nullable
+  @NullableDecl
   private static final Field inheritableThreadLocals =
       (bigThreadConstructor == null) ? getInheritableThreadLocalsField() : null;
 
@@ -192,7 +192,7 @@ public class Finalizer implements Runnable {
   }
 
   /** Looks up FinalizableReference.finalizeReferent() method. */
-  @Nullable
+  @NullableDecl
   private Method getFinalizeReferentMethod() {
     Class<?> finalizableReferenceClass = finalizableReferenceClassReference.get();
     if (finalizableReferenceClass == null) {
@@ -211,7 +211,7 @@ public class Finalizer implements Runnable {
     }
   }
 
-  @Nullable
+  @NullableDecl
   private static Field getInheritableThreadLocalsField() {
     try {
       Field inheritableThreadLocals = Thread.class.getDeclaredField("inheritableThreadLocals");
@@ -226,7 +226,7 @@ public class Finalizer implements Runnable {
     }
   }
 
-  @Nullable
+  @NullableDecl
   private static Constructor<Thread> getBigThreadConstructor() {
     try {
       return Thread.class.getConstructor(

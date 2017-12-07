@@ -31,7 +31,7 @@ import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Locale;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Static utility methods pertaining to {@link InetAddress} instances.
@@ -154,7 +154,7 @@ public final class InetAddresses {
     return ipStringToBytes(ipString) != null;
   }
 
-  @Nullable
+  @NullableDecl
   private static byte[] ipStringToBytes(String ipString) {
     // Make a first pass to categorize the characters in this string.
     boolean hasColon = false;
@@ -188,7 +188,7 @@ public final class InetAddresses {
     return null;
   }
 
-  @Nullable
+  @NullableDecl
   private static byte[] textToNumericFormatV4(String ipString) {
     byte[] bytes = new byte[IPV4_PART_COUNT];
     int i = 0;
@@ -203,7 +203,7 @@ public final class InetAddresses {
     return i == IPV4_PART_COUNT ? bytes : null;
   }
 
-  @Nullable
+  @NullableDecl
   private static byte[] textToNumericFormatV6(String ipString) {
     // An address can have [2..8] colons, and N colons make N+1 parts.
     String[] parts = ipString.split(":", IPV6_PART_COUNT + 2);
@@ -267,7 +267,7 @@ public final class InetAddresses {
     return rawBytes.array();
   }
 
-  @Nullable
+  @NullableDecl
   private static String convertDottedQuadToHex(String ipString) {
     int lastColon = ipString.lastIndexOf(':');
     String initialPart = ipString.substring(0, lastColon + 1);
@@ -462,7 +462,7 @@ public final class InetAddresses {
     return addr;
   }
 
-  @Nullable
+  @NullableDecl
   private static InetAddress forUriStringNoThrow(String hostAddr) {
     checkNotNull(hostAddr);
 
@@ -606,7 +606,7 @@ public final class InetAddresses {
      */
     // TODO: why is this public?
     public TeredoInfo(
-        @Nullable Inet4Address server, @Nullable Inet4Address client, int port, int flags) {
+        @NullableDecl Inet4Address server, @NullableDecl Inet4Address client, int port, int flags) {
       checkArgument(
           (port >= 0) && (port <= 0xffff), "port '%s' is out of range (0 <= port <= 0xffff)", port);
       checkArgument(

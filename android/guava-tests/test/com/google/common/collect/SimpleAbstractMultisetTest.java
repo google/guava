@@ -27,10 +27,10 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import javax.annotation.Nullable;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Unit test for {@link AbstractMultiset}.
@@ -95,7 +95,7 @@ public class SimpleAbstractMultisetTest extends TestCase {
     final Map<E, Integer> backingMap = Maps.newHashMap();
 
     @Override
-    public int add(@Nullable E element, int occurrences) {
+    public int add(@NullableDecl E element, int occurrences) {
       checkArgument(occurrences >= 0);
       Integer frequency = backingMap.get(element);
       if (frequency == null) {

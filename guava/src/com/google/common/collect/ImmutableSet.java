@@ -39,7 +39,7 @@ import java.util.SortedSet;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.stream.Collector;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A {@link Set} whose contents will never change, with many other important properties detailed at
@@ -336,7 +336,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   }
 
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@NullableDecl Object object) {
     if (object == this) {
       return true;
     } else if (object instanceof ImmutableSet
@@ -358,7 +358,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   @Override
   public abstract UnmodifiableIterator<E> iterator();
 
-  @LazyInit @Nullable @RetainedWith private transient ImmutableList<E> asList;
+  @LazyInit @NullableDecl @RetainedWith private transient ImmutableList<E> asList;
 
   @Override
   public ImmutableList<E> asList() {
@@ -479,7 +479,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * @since 2.0
    */
   public static class Builder<E> extends ImmutableCollection.ArrayBasedBuilder<E> {
-    @Nullable @VisibleForTesting Object[] hashTable;
+    @NullableDecl @VisibleForTesting Object[] hashTable;
     private int hashCode;
 
     /**

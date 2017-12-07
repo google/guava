@@ -19,7 +19,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 import java.net.InetAddress;
 import java.text.ParseException;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A syntactically valid host specifier, suitable for use in a URI. This may be either a numeric IP
@@ -137,7 +137,7 @@ public final class HostSpecifier {
   }
 
   @Override
-  public boolean equals(@Nullable Object other) {
+  public boolean equals(@NullableDecl Object other) {
     if (this == other) {
       return true;
     }

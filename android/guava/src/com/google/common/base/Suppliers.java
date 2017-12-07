@@ -18,7 +18,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Useful suppliers.
@@ -60,7 +60,7 @@ public final class Suppliers {
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(@NullableDecl Object obj) {
       if (obj instanceof SupplierComposition) {
         SupplierComposition<?, ?> that = (SupplierComposition<?, ?>) obj;
         return function.equals(that.function) && supplier.equals(that.supplier);
@@ -256,14 +256,14 @@ public final class Suppliers {
   }
 
   /** Returns a supplier that always supplies {@code instance}. */
-  public static <T> Supplier<T> ofInstance(@Nullable T instance) {
+  public static <T> Supplier<T> ofInstance(@NullableDecl T instance) {
     return new SupplierOfInstance<T>(instance);
   }
 
   private static class SupplierOfInstance<T> implements Supplier<T>, Serializable {
     final T instance;
 
-    SupplierOfInstance(@Nullable T instance) {
+    SupplierOfInstance(@NullableDecl T instance) {
       this.instance = instance;
     }
 
@@ -273,7 +273,7 @@ public final class Suppliers {
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(@NullableDecl Object obj) {
       if (obj instanceof SupplierOfInstance) {
         SupplierOfInstance<?> that = (SupplierOfInstance<?>) obj;
         return Objects.equal(instance, that.instance);

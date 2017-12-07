@@ -27,8 +27,8 @@ import java.util.List;
 import java.util.zip.Adler32;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
-import javax.annotation.Nullable;
 import javax.crypto.spec.SecretKeySpec;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Static methods to obtain {@link HashFunction} instances, and other static hashing-related
@@ -641,7 +641,7 @@ public final class Hashing {
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(@NullableDecl Object object) {
       if (object instanceof ConcatenatedHashFunction) {
         ConcatenatedHashFunction other = (ConcatenatedHashFunction) object;
         return Arrays.equals(functions, other.functions);

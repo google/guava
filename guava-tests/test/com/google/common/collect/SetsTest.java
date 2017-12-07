@@ -73,10 +73,10 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.stream.Stream;
-import javax.annotation.Nullable;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Unit test for {@code Sets}.
@@ -1074,7 +1074,7 @@ public class SetsTest extends TestCase {
    * same as the given comparator.
    */
   private static <E> void verifySortedSetContents(
-      SortedSet<E> set, Iterable<E> iterable, @Nullable Comparator<E> comparator) {
+      SortedSet<E> set, Iterable<E> iterable, @NullableDecl Comparator<E> comparator) {
     assertSame(comparator, set.comparator());
     verifySetContents(set, iterable);
   }

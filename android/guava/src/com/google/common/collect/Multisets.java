@@ -38,7 +38,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Provides static utility methods for creating and working with {@link Multiset} instances.
@@ -208,22 +208,22 @@ public final class Multisets {
    * @param n the count to be associated with the returned entry
    * @throws IllegalArgumentException if {@code n} is negative
    */
-  public static <E> Multiset.Entry<E> immutableEntry(@Nullable E e, int n) {
+  public static <E> Multiset.Entry<E> immutableEntry(@NullableDecl E e, int n) {
     return new ImmutableEntry<E>(e, n);
   }
 
   static class ImmutableEntry<E> extends AbstractEntry<E> implements Serializable {
-    @Nullable private final E element;
+    @NullableDecl private final E element;
     private final int count;
 
-    ImmutableEntry(@Nullable E element, int count) {
+    ImmutableEntry(@NullableDecl E element, int count) {
       this.element = element;
       this.count = count;
       checkNonnegative(count, "count");
     }
 
     @Override
-    @Nullable
+    @NullableDecl
     public final E getElement() {
       return element;
     }
@@ -319,7 +319,7 @@ public final class Multisets {
     }
 
     @Override
-    public int count(@Nullable Object element) {
+    public int count(@NullableDecl Object element) {
       int count = unfiltered.count(element);
       if (count > 0) {
         @SuppressWarnings("unchecked") // element is equal to an E
@@ -330,14 +330,14 @@ public final class Multisets {
     }
 
     @Override
-    public int add(@Nullable E element, int occurrences) {
+    public int add(@NullableDecl E element, int occurrences) {
       checkArgument(
           predicate.apply(element), "Element %s does not match predicate %s", element, predicate);
       return unfiltered.add(element, occurrences);
     }
 
     @Override
-    public int remove(@Nullable Object element, int occurrences) {
+    public int remove(@NullableDecl Object element, int occurrences) {
       checkNonnegative(occurrences, "occurrences");
       if (occurrences == 0) {
         return count(element);
@@ -384,7 +384,7 @@ public final class Multisets {
 
     return new AbstractMultiset<E>() {
       @Override
-      public boolean contains(@Nullable Object element) {
+      public boolean contains(@NullableDecl Object element) {
         return multiset1.contains(element) || multiset2.contains(element);
       }
 
@@ -513,7 +513,7 @@ public final class Multisets {
     // TODO(lowasser): consider making the entries live views
     return new AbstractMultiset<E>() {
       @Override
-      public boolean contains(@Nullable Object element) {
+      public boolean contains(@NullableDecl Object element) {
         return multiset1.contains(element) || multiset2.contains(element);
       }
 
@@ -590,7 +590,7 @@ public final class Multisets {
     // TODO(lowasser): consider making the entries live views
     return new AbstractMultiset<E>() {
       @Override
-      public int count(@Nullable Object element) {
+      public int count(@NullableDecl Object element) {
         int count1 = multiset1.count(element);
         return (count1 == 0) ? 0 : Math.max(0, count1 - multiset2.count(element));
       }
@@ -777,7 +777,7 @@ public final class Multisets {
      * Multiset.Entry#equals}.
      */
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(@NullableDecl Object object) {
       if (object instanceof Multiset.Entry) {
         Multiset.Entry<?> that = (Multiset.Entry<?>) object;
         return this.getCount() == that.getCount()
@@ -811,7 +811,7 @@ public final class Multisets {
   }
 
   /** An implementation of {@link Multiset#equals}. */
-  static boolean equalsImpl(Multiset<?> multiset, @Nullable Object object) {
+  static boolean equalsImpl(Multiset<?> multiset, @NullableDecl Object object) {
     if (object == multiset) {
       return true;
     }
@@ -950,7 +950,7 @@ public final class Multisets {
     abstract Multiset<E> multiset();
 
     @Override
-    public boolean contains(@Nullable Object o) {
+    public boolean contains(@NullableDecl Object o) {
       if (o instanceof Entry) {
         /*
          * The GWT compiler wrongly issues a warning here.

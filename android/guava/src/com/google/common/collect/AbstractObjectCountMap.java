@@ -29,7 +29,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Basic implementation of a primitive map of Object keys to counting number values, to be used for
@@ -64,7 +64,7 @@ abstract class AbstractObjectCountMap<K> {
    * @return the previous value associated with key, or 0 if there was no mapping for key.
    */
   @CanIgnoreReturnValue
-  abstract int put(@Nullable K key, int value);
+  abstract int put(@NullableDecl K key, int value);
 
   /**
    * Returns the value to which the specified key is mapped, or 0 if this map contains no mapping
@@ -74,7 +74,7 @@ abstract class AbstractObjectCountMap<K> {
    * @return the int value to which the specified key is mapped, or 0 if this map contains no
    *     mapping for the key
    */
-  abstract int get(@Nullable Object key);
+  abstract int get(@NullableDecl Object key);
 
   /**
    * Removes the mapping for a key from this map if it is present. More formally, if this map
@@ -88,7 +88,7 @@ abstract class AbstractObjectCountMap<K> {
    * @return the previous int value associated with key, or 0 if there was no mapping for key.
    */
   @CanIgnoreReturnValue
-  abstract int remove(@Nullable Object key);
+  abstract int remove(@NullableDecl Object key);
 
   /** Removes all of the mappings from this map. The map will be empty after this call returns. */
   abstract void clear();
@@ -101,7 +101,7 @@ abstract class AbstractObjectCountMap<K> {
    * @param key key whose presence in this map is to be tested
    * @return true if this map contains a mapping for the specified key
    */
-  abstract boolean containsKey(@Nullable Object key);
+  abstract boolean containsKey(@NullableDecl Object key);
 
   /**
    * Returns a Set view of the keys contained in this map. The set is backed by the map, so changes
@@ -127,7 +127,7 @@ abstract class AbstractObjectCountMap<K> {
    * Returns index of the specified key in the underlying key array. Implementation specific and
    * does not denote ordering of the keys.
    */
-  abstract int indexOf(@Nullable Object key);
+  abstract int indexOf(@NullableDecl Object key);
 
   /** Given the index of a key, remove the corresponding entry in the map. */
   @CanIgnoreReturnValue
@@ -246,7 +246,7 @@ abstract class AbstractObjectCountMap<K> {
   abstract class EntrySetView extends Sets.ImprovedAbstractSet<Entry<K>> {
 
     @Override
-    public boolean contains(@Nullable Object o) {
+    public boolean contains(@NullableDecl Object o) {
       if (o instanceof Entry) {
         Entry<?> entry = (Entry<?>) o;
         int index = indexOf(entry.getElement());
@@ -256,7 +256,7 @@ abstract class AbstractObjectCountMap<K> {
     }
 
     @Override
-    public boolean remove(@Nullable Object o) {
+    public boolean remove(@NullableDecl Object o) {
       if (o instanceof Entry) {
         Entry<?> entry = (Entry<?>) o;
         int index = indexOf(entry.getElement());
@@ -275,7 +275,7 @@ abstract class AbstractObjectCountMap<K> {
   }
 
   class MapEntry extends AbstractEntry<K> {
-    @Nullable final K key;
+    @NullableDecl final K key;
 
     int lastKnownIndex;
 

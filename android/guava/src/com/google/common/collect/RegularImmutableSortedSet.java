@@ -27,7 +27,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * An immutable sorted set with one or more elements. TODO(jlevy): Consider separate class for a
@@ -66,7 +66,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  public boolean contains(@Nullable Object o) {
+  public boolean contains(@NullableDecl Object o) {
     try {
       return o != null && unsafeBinarySearch(o) >= 0;
     } catch (ClassCastException e) {
@@ -141,7 +141,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@NullableDecl Object object) {
     if (object == this) {
       return true;
     }
@@ -271,7 +271,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  int indexOf(@Nullable Object target) {
+  int indexOf(@NullableDecl Object target) {
     if (target == null) {
       return -1;
     }

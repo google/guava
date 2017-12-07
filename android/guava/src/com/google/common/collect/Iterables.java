@@ -36,7 +36,7 @@ import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.RandomAccess;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * An assortment of mainly legacy static utility methods that operate on or return objects of type
@@ -118,7 +118,7 @@ public final class Iterables {
    * cases where {@link Collection#contains} might throw {@link NullPointerException} or {@link
    * ClassCastException}.
    */
-  public static boolean contains(Iterable<?> iterable, @Nullable Object element) {
+  public static boolean contains(Iterable<?> iterable, @NullableDecl Object element) {
     if (iterable instanceof Collection) {
       Collection<?> collection = (Collection<?>) iterable;
       return Collections2.safeContains(collection, element);
@@ -237,7 +237,7 @@ public final class Iterables {
   }
 
   /** Removes and returns the first matching element, or returns {@code null} if there is none. */
-  @Nullable
+  @NullableDecl
   static <T> T removeFirstMatching(Iterable<T> removeFrom, Predicate<? super T> predicate) {
     checkNotNull(predicate);
     Iterator<T> iterator = removeFrom.iterator();
@@ -301,8 +301,8 @@ public final class Iterables {
    *
    * @throws IllegalArgumentException if the iterator contains multiple elements
    */
-  @Nullable
-  public static <T> T getOnlyElement(Iterable<? extends T> iterable, @Nullable T defaultValue) {
+  @NullableDecl
+  public static <T> T getOnlyElement(Iterable<? extends T> iterable, @NullableDecl T defaultValue) {
     return Iterators.getOnlyElement(iterable.iterator(), defaultValue);
   }
 
@@ -369,7 +369,7 @@ public final class Iterables {
    * @see java.util.Collections#frequency(Collection, Object) Collections.frequency(Collection,
    *     Object)
    */
-  public static int frequency(Iterable<?> iterable, @Nullable Object element) {
+  public static int frequency(Iterable<?> iterable, @NullableDecl Object element) {
     if ((iterable instanceof Multiset)) {
       return ((Multiset<?>) iterable).count(element);
     } else if ((iterable instanceof Set)) {
@@ -658,9 +658,11 @@ public final class Iterables {
    *
    * @since 7.0
    */
-  @Nullable
+  @NullableDecl
   public static <T> T find(
-      Iterable<? extends T> iterable, Predicate<? super T> predicate, @Nullable T defaultValue) {
+      Iterable<? extends T> iterable,
+      Predicate<? super T> predicate,
+      @NullableDecl T defaultValue) {
     return Iterators.find(iterable.iterator(), predicate, defaultValue);
   }
 
@@ -751,8 +753,9 @@ public final class Iterables {
    * @throws IndexOutOfBoundsException if {@code position} is negative
    * @since 4.0
    */
-  @Nullable
-  public static <T> T get(Iterable<? extends T> iterable, int position, @Nullable T defaultValue) {
+  @NullableDecl
+  public static <T> T get(
+      Iterable<? extends T> iterable, int position, @NullableDecl T defaultValue) {
     checkNotNull(iterable);
     Iterators.checkNonnegative(position);
     if (iterable instanceof List) {
@@ -782,8 +785,8 @@ public final class Iterables {
    * @return the first element of {@code iterable} or the default value
    * @since 7.0
    */
-  @Nullable
-  public static <T> T getFirst(Iterable<? extends T> iterable, @Nullable T defaultValue) {
+  @NullableDecl
+  public static <T> T getFirst(Iterable<? extends T> iterable, @NullableDecl T defaultValue) {
     return Iterators.getNext(iterable.iterator(), defaultValue);
   }
 
@@ -820,8 +823,8 @@ public final class Iterables {
    * @return the last element of {@code iterable} or the default value
    * @since 3.0
    */
-  @Nullable
-  public static <T> T getLast(Iterable<? extends T> iterable, @Nullable T defaultValue) {
+  @NullableDecl
+  public static <T> T getLast(Iterable<? extends T> iterable, @NullableDecl T defaultValue) {
     if (iterable instanceof Collection) {
       Collection<? extends T> c = Collections2.cast(iterable);
       if (c.isEmpty()) {

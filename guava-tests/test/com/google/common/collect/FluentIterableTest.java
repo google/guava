@@ -42,9 +42,9 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
-import javax.annotation.Nullable;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Unit test for {@link FluentIterable}.
@@ -854,7 +854,7 @@ public class FluentIterableTest extends TestCase {
               .uniqueIndex(
                   new Function<Integer, Object>() {
                     @Override
-                    public Object apply(@Nullable Integer input) {
+                    public Object apply(@NullableDecl Integer input) {
                       return String.valueOf(input);
                     }
                   });

@@ -22,7 +22,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A {@code Multimap} that cannot hold duplicate key-value pairs. Adding a key-value pair that's
@@ -58,7 +58,7 @@ public interface SetMultimap<K, V> extends Multimap<K, V> {
    * interface.
    */
   @Override
-  Set<V> get(@Nullable K key);
+  Set<V> get(@NullableDecl K key);
 
   /**
    * {@inheritDoc}
@@ -69,7 +69,7 @@ public interface SetMultimap<K, V> extends Multimap<K, V> {
    */
   @CanIgnoreReturnValue
   @Override
-  Set<V> removeAll(@Nullable Object key);
+  Set<V> removeAll(@NullableDecl Object key);
 
   /**
    * {@inheritDoc}
@@ -114,5 +114,5 @@ public interface SetMultimap<K, V> extends Multimap<K, V> {
    * empty {@code ListMultimap}.
    */
   @Override
-  boolean equals(@Nullable Object obj);
+  boolean equals(@NullableDecl Object obj);
 }

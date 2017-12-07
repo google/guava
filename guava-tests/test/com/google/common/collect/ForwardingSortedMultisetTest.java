@@ -27,10 +27,10 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NavigableSet;
-import javax.annotation.Nullable;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Tests for {@link ForwardingSortedMultiset}.
@@ -93,12 +93,12 @@ public class ForwardingSortedMultisetTest extends TestCase {
     }
 
     @Override
-    public int count(@Nullable Object element) {
+    public int count(@NullableDecl Object element) {
       return standardCount(element);
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(@NullableDecl Object object) {
       return standardEquals(object);
     }
 
@@ -123,7 +123,7 @@ public class ForwardingSortedMultisetTest extends TestCase {
     }
 
     @Override
-    public boolean contains(@Nullable Object object) {
+    public boolean contains(@NullableDecl Object object) {
       return standardContains(object);
     }
 
@@ -143,7 +143,7 @@ public class ForwardingSortedMultisetTest extends TestCase {
     }
 
     @Override
-    public boolean remove(@Nullable Object object) {
+    public boolean remove(@NullableDecl Object object) {
       return standardRemove(object);
     }
 

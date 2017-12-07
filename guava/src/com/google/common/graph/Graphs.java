@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Static utility methods for {@link Graph}, {@link ValueGraph}, and {@link Network} instances.
@@ -99,7 +99,10 @@ public final class Graphs {
    * cycle in the graph.
    */
   private static <N> boolean subgraphHasCycle(
-      Graph<N> graph, Map<Object, NodeVisitState> visitedNodes, N node, @Nullable N previousNode) {
+      Graph<N> graph,
+      Map<Object, NodeVisitState> visitedNodes,
+      N node,
+      @NullableDecl N previousNode) {
     NodeVisitState state = visitedNodes.get(node);
     if (state == NodeVisitState.COMPLETE) {
       return false;
@@ -126,7 +129,7 @@ public final class Graphs {
    * from B to A).
    */
   private static boolean canTraverseWithoutReusingEdge(
-      Graph<?> graph, Object nextNode, @Nullable Object previousNode) {
+      Graph<?> graph, Object nextNode, @NullableDecl Object previousNode) {
     if (graph.isDirected() || !Objects.equal(previousNode, nextNode)) {
       return true;
     }
@@ -213,7 +216,7 @@ public final class Graphs {
    */
   // TODO(user): Delete this method.
   @Deprecated
-  public static boolean equivalent(@Nullable Graph<?> graphA, @Nullable Graph<?> graphB) {
+  public static boolean equivalent(@NullableDecl Graph<?> graphA, @NullableDecl Graph<?> graphB) {
     return Objects.equal(graphA, graphB);
   }
 
@@ -224,7 +227,7 @@ public final class Graphs {
   // TODO(user): Delete this method.
   @Deprecated
   public static boolean equivalent(
-      @Nullable ValueGraph<?, ?> graphA, @Nullable ValueGraph<?, ?> graphB) {
+      @NullableDecl ValueGraph<?, ?> graphA, @NullableDecl ValueGraph<?, ?> graphB) {
     return Objects.equal(graphA, graphB);
   }
 
@@ -235,7 +238,7 @@ public final class Graphs {
   // TODO(user): Delete this method.
   @Deprecated
   public static boolean equivalent(
-      @Nullable Network<?, ?> networkA, @Nullable Network<?, ?> networkB) {
+      @NullableDecl Network<?, ?> networkA, @NullableDecl Network<?, ?> networkB) {
     return Objects.equal(networkA, networkB);
   }
 
@@ -360,8 +363,8 @@ public final class Graphs {
     }
 
     @Override
-    @Nullable
-    public V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue) {
+    @NullableDecl
+    public V edgeValueOrDefault(N nodeU, N nodeV, @NullableDecl V defaultValue) {
       return delegate().edgeValueOrDefault(nodeV, nodeU, defaultValue); // transpose
     }
   }

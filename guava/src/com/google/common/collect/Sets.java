@@ -51,7 +51,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.function.Consumer;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Static utility methods pertaining to {@link Set} instances. Also see this class's counterparts
@@ -1065,7 +1065,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(@NullableDecl Object object) {
       return equalsImpl(this, object);
     }
 
@@ -1207,13 +1207,13 @@ public final class Sets {
     }
 
     @Override
-    @Nullable
+    @NullableDecl
     public E lower(E e) {
       return Iterators.find(unfiltered().headSet(e, false).descendingIterator(), predicate, null);
     }
 
     @Override
-    @Nullable
+    @NullableDecl
     public E floor(E e) {
       return Iterators.find(unfiltered().headSet(e, true).descendingIterator(), predicate, null);
     }
@@ -1429,7 +1429,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(@NullableDecl Object object) {
       // Warning: this is broken if size() == 0, so it is critical that we
       // substitute an empty ImmutableSet to the user in place of this
       if (object instanceof CartesianSet) {
@@ -1529,7 +1529,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean contains(@Nullable Object o) {
+    public boolean contains(@NullableDecl Object o) {
       Integer index = inputSet.get(o);
       return index != null && (mask & (1 << index)) != 0;
     }
@@ -1565,7 +1565,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean contains(@Nullable Object obj) {
+    public boolean contains(@NullableDecl Object obj) {
       if (obj instanceof Set) {
         Set<?> set = (Set<?>) obj;
         return inputSet.keySet().containsAll(set);
@@ -1574,7 +1574,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(@NullableDecl Object obj) {
       if (obj instanceof PowerSet) {
         PowerSet<?> that = (PowerSet<?>) obj;
         return inputSet.equals(that.inputSet);
@@ -1634,7 +1634,7 @@ public final class Sets {
     }
     return new AbstractSet<Set<E>>() {
       @Override
-      public boolean contains(@Nullable Object o) {
+      public boolean contains(@NullableDecl Object o) {
         if (o instanceof Set) {
           Set<?> s = (Set<?>) o;
           return s.size() == size && index.keySet().containsAll(s);
@@ -1679,7 +1679,7 @@ public final class Sets {
             final BitSet copy = (BitSet) bits.clone();
             return new AbstractSet<E>() {
               @Override
-              public boolean contains(@Nullable Object o) {
+              public boolean contains(@NullableDecl Object o) {
                 Integer i = index.get(o);
                 return i != null && copy.get(i);
               }
@@ -1734,7 +1734,7 @@ public final class Sets {
   }
 
   /** An implementation for {@link Set#equals(Object)}. */
-  static boolean equalsImpl(Set<?> s, @Nullable Object object) {
+  static boolean equalsImpl(Set<?> s, @NullableDecl Object object) {
     if (s == object) {
       return true;
     }

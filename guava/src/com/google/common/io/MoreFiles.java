@@ -55,7 +55,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Stream;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Static utilities for use with {@link Path} instances, intended to complement {@link Files}.
@@ -639,7 +639,7 @@ public final class MoreFiles {
    * Secure recursive delete using {@code SecureDirectoryStream}. Returns a collection of exceptions
    * that occurred or null if no exceptions were thrown.
    */
-  @Nullable
+  @NullableDecl
   private static Collection<IOException> deleteRecursivelySecure(
       SecureDirectoryStream<Path> dir, Path path) {
     Collection<IOException> exceptions = null;
@@ -668,7 +668,7 @@ public final class MoreFiles {
    * Secure method for deleting the contents of a directory using {@code SecureDirectoryStream}.
    * Returns a collection of exceptions that occurred or null if no exceptions were thrown.
    */
-  @Nullable
+  @NullableDecl
   private static Collection<IOException> deleteDirectoryContentsSecure(
       SecureDirectoryStream<Path> dir) {
     Collection<IOException> exceptions = null;
@@ -687,7 +687,7 @@ public final class MoreFiles {
    * Insecure recursive delete for file systems that don't support {@code SecureDirectoryStream}.
    * Returns a collection of exceptions that occurred or null if no exceptions were thrown.
    */
-  @Nullable
+  @NullableDecl
   private static Collection<IOException> deleteRecursivelyInsecure(Path path) {
     Collection<IOException> exceptions = null;
     try {
@@ -714,7 +714,7 @@ public final class MoreFiles {
    * support {@code SecureDirectoryStream}. Returns a collection of exceptions that occurred or null
    * if no exceptions were thrown.
    */
-  @Nullable
+  @NullableDecl
   private static Collection<IOException> deleteDirectoryContentsInsecure(
       DirectoryStream<Path> dir) {
     Collection<IOException> exceptions = null;
@@ -734,7 +734,7 @@ public final class MoreFiles {
    * path, this is simple. Otherwise, we need to do some trickier things. Returns null if the path
    * is a root or is the empty path.
    */
-  @Nullable
+  @NullableDecl
   private static Path getParentPath(Path path) {
     Path parent = path.getParent();
 
@@ -789,7 +789,7 @@ public final class MoreFiles {
    * the collection.
    */
   private static Collection<IOException> addException(
-      @Nullable Collection<IOException> exceptions, IOException e) {
+      @NullableDecl Collection<IOException> exceptions, IOException e) {
     if (exceptions == null) {
       exceptions = new ArrayList<>(); // don't need Set semantics
     }
@@ -802,9 +802,10 @@ public final class MoreFiles {
    * null, the other collection is returned. Otherwise, the elements of {@code other} are added to
    * {@code exceptions} and {@code exceptions} is returned.
    */
-  @Nullable
+  @NullableDecl
   private static Collection<IOException> concat(
-      @Nullable Collection<IOException> exceptions, @Nullable Collection<IOException> other) {
+      @NullableDecl Collection<IOException> exceptions,
+      @NullableDecl Collection<IOException> other) {
     if (exceptions == null) {
       return other;
     } else if (other != null) {

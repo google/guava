@@ -21,7 +21,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.j2objc.annotations.Weak;
 import java.io.Serializable;
 import java.util.Map.Entry;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * {@code values()} implementation for {@link ImmutableMap}.
@@ -60,7 +60,7 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
   }
 
   @Override
-  public boolean contains(@Nullable Object object) {
+  public boolean contains(@NullableDecl Object object) {
     return object != null && Iterators.contains(iterator(), object);
   }
 

@@ -33,8 +33,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
-import javax.annotation.Nullable;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Tests for {@code BaseEncoding}.
@@ -388,7 +388,7 @@ public class BaseEncodingTest extends TestCase {
   }
 
   private static void assertFailsToDecode(
-      BaseEncoding encoding, String cannotDecode, @Nullable String expectedMessage) {
+      BaseEncoding encoding, String cannotDecode, @NullableDecl String expectedMessage) {
     assertFalse(encoding.canDecode(cannotDecode));
     try {
       encoding.decode(cannotDecode);

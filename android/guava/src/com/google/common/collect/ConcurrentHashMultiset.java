@@ -41,7 +41,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A multiset that supports concurrent modifications and that provides atomic versions of most
@@ -137,7 +137,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * @return the nonnegative number of occurrences of the element
    */
   @Override
-  public int count(@Nullable Object element) {
+  public int count(@NullableDecl Object element) {
     AtomicInteger existingCounter = Maps.safeGet(countMap, element);
     return (existingCounter == null) ? 0 : existingCounter.get();
   }
@@ -261,13 +261,13 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * if occurrences == 0. This satisfies both NullPointerTester and
    * CollectionRemoveTester.testRemove_nullAllowed, but it's not clear that it's
    * a good policy, especially because, in order for the test to pass, the
-   * parameter must be misleadingly annotated as @Nullable. I suspect that
-   * we'll want to remove @Nullable, add an eager checkNotNull, and loosen up
+   * parameter must be misleadingly annotated as @NullableDecl. I suspect that
+   * we'll want to remove @NullableDecl, add an eager checkNotNull, and loosen up
    * testRemove_nullAllowed.
    */
   @CanIgnoreReturnValue
   @Override
-  public int remove(@Nullable Object element, int occurrences) {
+  public int remove(@NullableDecl Object element, int occurrences) {
     if (occurrences == 0) {
       return count(element);
     }
@@ -308,7 +308,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * @throws IllegalArgumentException if {@code occurrences} is negative
    */
   @CanIgnoreReturnValue
-  public boolean removeExactly(@Nullable Object element, int occurrences) {
+  public boolean removeExactly(@NullableDecl Object element, int occurrences) {
     if (occurrences == 0) {
       return true;
     }
@@ -454,7 +454,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
       }
 
       @Override
-      public boolean contains(@Nullable Object object) {
+      public boolean contains(@NullableDecl Object object) {
         return object != null && Collections2.safeContains(delegate, object);
       }
 
@@ -475,9 +475,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     };
   }
 
-  /**
-   * @deprecated Internal method, use {@link #entrySet()}.
-   */
+  /** @deprecated Internal method, use {@link #entrySet()}. */
   @Deprecated
   @Override
   public Set<Multiset.Entry<E>> createEntrySet() {

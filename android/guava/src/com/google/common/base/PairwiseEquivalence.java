@@ -17,7 +17,7 @@ package com.google.common.base;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.Iterator;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 @GwtCompatible(serializable = true)
 final class PairwiseEquivalence<T> extends Equivalence<Iterable<T>> implements Serializable {
@@ -52,7 +52,7 @@ final class PairwiseEquivalence<T> extends Equivalence<Iterable<T>> implements S
   }
 
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@NullableDecl Object object) {
     if (object instanceof PairwiseEquivalence) {
       PairwiseEquivalence<?> that = (PairwiseEquivalence<?>) object;
       return this.elementEquivalence.equals(that.elementEquivalence);

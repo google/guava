@@ -25,7 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Tests for {@link Maps#transformValues} when the backing map's views have iterators that don't
@@ -232,7 +232,7 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
             underlying,
             new Function<String, Boolean>() {
               @Override
-              public Boolean apply(@Nullable String from) {
+              public Boolean apply(@NullableDecl String from) {
                 return from == null;
               }
             });
@@ -350,7 +350,7 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
             underlying,
             new Function<Boolean, Boolean>() {
               @Override
-              public Boolean apply(@Nullable Boolean from) {
+              public Boolean apply(@NullableDecl Boolean from) {
                 return (from == null) ? true : null;
               }
             });

@@ -38,7 +38,7 @@ import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * See MurmurHash3_x86_32 in <a
@@ -82,7 +82,7 @@ final class Murmur3_32HashFunction extends AbstractHashFunction implements Seria
   }
 
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@NullableDecl Object object) {
     if (object instanceof Murmur3_32HashFunction) {
       Murmur3_32HashFunction other = (Murmur3_32HashFunction) object;
       return seed == other.seed;
