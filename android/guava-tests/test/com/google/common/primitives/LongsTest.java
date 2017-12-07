@@ -255,8 +255,7 @@ public class LongsTest extends TestCase {
     Random r = new Random(5);
     byte[] b = new byte[Longs.BYTES];
 
-    // total overkill, but, it takes 0.1 sec so why not...
-    for (int i = 0; i < 10000; i++) {
+    for (int i = 0; i < 1000; i++) {
       long num = r.nextLong();
       assertEquals(num, Longs.fromByteArray(Longs.toByteArray(num)));
 
