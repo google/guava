@@ -108,16 +108,19 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <encoding>UTF-8</encoding>
-          <docencoding>UTF-8</docencoding>
-          <charset>UTF-8</charset>
-          <additionalparam>-XDignore.symbol.file</additionalparam>
-          <additionalparam>-Xdoclint:-html</additionalparam>
+          <!-- TODO(cpovirk): Move this to the parent after making jdk-sources available there. -->
+          <!-- TODO(cpovirk): can we use includeDependencySources and a local com.oracle.java:jdk-lib:noversion:sources instead of all this unzipping and manual sourcepath modification? -->
+          <!-- (We need JDK *sources*, not just -link, so that {@inheritDoc} works.) -->
+          <sourcepath>${project.build.sourceDirectory}:${project.build.directory}/jdk-sources</sourcepath>
+
+          <subpackages>com.google.common</subpackages>
           <excludePackageNames>com.google.common.base.internal</excludePackageNames>
-          <linksource>true</linksource>
+
+          <!-- TODO(cpovirk): Move this to the parent after making the package-list files available there. -->
           <!-- We add the link ourselves, both so that we can choose Java 9 over the version that -source suggests and so that we can solve the JSR305 problem described below. -->
           <detectJavaApiLink>false</detectJavaApiLink>
           <offlineLinks>
+            <!-- Even after we stop using JSR305 annotations in our own code, we'll want this link so that NullPointerTester's docs can link to @CheckForNull and friends... at least once we start using this config for guava-testlib. -->
             <offlineLink>
               <url>https://static.javadoc.io/com.google.code.findbugs/jsr305/3.0.1/</url>
               <location>${project.basedir}/javadoc-link/jsr305</location>
@@ -131,15 +134,15 @@
               <url>https://docs.oracle.com/javase/9/docs/api/</url>
               <location>https://docs.oracle.com/javase/9/docs/api/</location>
             </offlineLink>
+            <!-- The Checker Framework likewise would claim javax.annotations, despite providing only a subset of the JSR305 annotations, so it must likewise come after JSR305. -->
+            <offlineLink>
+              <url>https://checkerframework.org/api/</url>
+              <location>${project.basedir}/javadoc-link/checker-framework</location>
+            </offlineLink>
           </offlineLinks>
           <links>
             <link>http://errorprone.info/api/latest/</link>
-            <link>https://checkerframework.org/api/</link>
           </links>
-          <!-- TODO(cpovirk): can we use includeDependencySources and a local com.oracle.java:jdk-lib:noversion:sources instead of all this unzipping and manual sourcepath modification? -->
-          <!-- (We need JDK *sources*, not just -link, so that {@inheritDoc} works.) -->
-          <sourcepath>${project.build.sourceDirectory}:${project.build.directory}/jdk-sources</sourcepath>
-          <subpackages>com.google.common</subpackages>
         </configuration>
         <executions>
           <execution>
