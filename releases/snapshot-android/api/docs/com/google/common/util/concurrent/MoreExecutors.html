@@ -454,11 +454,12 @@ public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/Lis
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.450">sequentialExecutor</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;delegate)</pre>
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.451">sequentialExecutor</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;delegate)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Use <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#newSequentialExecutor-java.util.concurrent.Executor-"><code>newSequentialExecutor(java.util.concurrent.Executor)</code></a>. This method is scheduled for removal in January
      2018.</span></div>
 <div class="block">Returns an <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent"><code>Executor</code></a> that runs each task executed sequentially, such that no two tasks
- are running concurrently.
+ are running concurrently. Submitted tasks have a happens-before order as defined in the Java
+ Language Specification.
 
  <p>The executor uses <code>delegate</code> in order to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true#execute-java.lang.Runnable-" title="class or interface in java.util.concurrent"><code>execute</code></a> each task in
  turn, and does not create any threads of its own.
@@ -502,9 +503,10 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/
 <h4>newSequentialExecutor</h4>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.496">newSequentialExecutor</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;delegate)</pre>
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.498">newSequentialExecutor</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;delegate)</pre>
 <div class="block">Returns an <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent"><code>Executor</code></a> that runs each task executed sequentially, such that no two tasks
- are running concurrently.
+ are running concurrently. Submitted tasks have a happens-before order as defined in the Java
+ Language Specification.
 
  <p>The executor uses <code>delegate</code> in order to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true#execute-java.lang.Runnable-" title="class or interface in java.util.concurrent"><code>execute</code></a> each task in
  turn, and does not create any threads of its own.
@@ -549,7 +551,7 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/
 <li class="blockList">
 <h4>listeningDecorator</h4>
 <pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.516">listeningDecorator</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;delegate)</pre>
+public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.518">listeningDecorator</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;delegate)</pre>
 <div class="block">Creates an <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutorService</code></a> whose <code>submit</code> and <code>invokeAll</code> methods submit
  <a href="../../../../../com/google/common/util/concurrent/ListenableFutureTask.html" title="class in com.google.common.util.concurrent"><code>ListenableFutureTask</code></a> instances to the given delegate executor. Those methods, as well
  as <code>execute</code> and <code>invokeAny</code>, are implemented in terms of calls to <code>delegate.execute</code>. All other methods are forwarded unchanged to the delegate. This implies that
@@ -571,7 +573,7 @@ public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/Lis
 <li class="blockList">
 <h4>listeningDecorator</h4>
 <pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListeningScheduledExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningScheduledExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.541">listeningDecorator</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a>&nbsp;delegate)</pre>
+public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListeningScheduledExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningScheduledExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.543">listeningDecorator</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a>&nbsp;delegate)</pre>
 <div class="block">Creates a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ScheduledExecutorService</code></a> whose <code>submit</code> and <code>invokeAll</code> methods
  submit <a href="../../../../../com/google/common/util/concurrent/ListenableFutureTask.html" title="class in com.google.common.util.concurrent"><code>ListenableFutureTask</code></a> instances to the given delegate executor. Those methods, as
  well as <code>execute</code> and <code>invokeAny</code>, are implemented in terms of calls to <code>delegate.execute</code>. All other methods are forwarded unchanged to the delegate. This implies that
@@ -594,7 +596,7 @@ public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/Lis
 <h4>platformThreadFactory</h4>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadFactory.html?is-external=true" title="class or interface in java.util.concurrent">ThreadFactory</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.806">platformThreadFactory</a>()</pre>
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadFactory.html?is-external=true" title="class or interface in java.util.concurrent">ThreadFactory</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.808">platformThreadFactory</a>()</pre>
 <div class="block">Returns a default thread factory used to create new threads.
 
  <p>On AppEngine, returns <code>ThreadManager.currentRequestThreadFactory()</code>. Otherwise,
@@ -614,7 +616,7 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.991">shutdownAndAwaitTermination</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;service,
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.993">shutdownAndAwaitTermination</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;service,
                                                                                                  long&nbsp;timeout,
                                                                                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Shuts down the given executor service gradually, first disabling new submissions and later, if
