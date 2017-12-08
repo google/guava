@@ -45,6 +45,8 @@ dependencies {
 }
 ```
 
+For more about depending on Guava, see [Using Guava in your build].
+
 ## Snapshots
 
 Snapshots of Guava built from the `master` branch are available through Maven
@@ -98,3 +100,8 @@ API level 15 (Ice Cream Sandwich).
 [guava-snapshot-api-docs]: http://google.github.io/guava/releases/snapshot-jre/api/docs/
 [guava-snapshot-api-diffs]: http://google.github.io/guava/releases/snapshot-jre/api/diffs/
 [Guava Explained]: https://github.com/google/guava/wiki/Home
+
+<!-- References -->
+
+[Using Guava in your build]: https://github.com/google/guava/wiki/UseGuavaInYourBuild
+
