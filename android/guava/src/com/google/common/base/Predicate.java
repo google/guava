@@ -19,8 +19,8 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
- * Determines a true or false value for a given input; a pre-Java-8 version of {@code
- * java.util.function.Predicate}.
+ * Determines a true or false value for a given input; a pre-Java-8 version of {@link
+ * java.util.function.Predicate java.util.function.Predicate}.
  *
  * <p>The {@link Predicates} class provides common predicates and related utilities.
  *

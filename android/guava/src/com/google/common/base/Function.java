@@ -19,8 +19,8 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
- * Determines an output value based on an input value; a pre-Java-8 version of {@code
- * java.util.function.Function}.
+ * Determines an output value based on an input value; a pre-Java-8 version of {@link
+ * java.util.function.Function java.util.function.Function}.
  *
  * <p>The {@link Functions} class provides common functions and related utilities.
  *
