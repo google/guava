@@ -1045,7 +1045,8 @@
 <dt><span class="memberNameLink"><a href="com/google/common/io/Files.html#append-java.lang.CharSequence-java.io.File-java.nio.charset.Charset-">append(CharSequence, File, Charset)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/Files.html" title="class in com.google.common.io">Files</a></dt>
 <dd>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Prefer <code>asCharSink(to, charset, FileWriteMode.APPEND).write(from)</code>.</span></div>
+<div class="block"><span class="deprecationComment">Prefer <code>asCharSink(to, charset, FileWriteMode.APPEND).write(from)</code>. This
+     method is scheduled to be removed in January 2019.</span></div>
 </div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Joiner.html#appendTo-A-java.lang.Iterable-">appendTo(A, Iterable&lt;?&gt;)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/Joiner.html" title="class in com.google.common.base">Joiner</a></dt>
@@ -4242,7 +4243,8 @@
 <dt><span class="memberNameLink"><a href="com/google/common/io/Files.html#copy-java.io.File-java.nio.charset.Charset-java.lang.Appendable-">copy(File, Charset, Appendable)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/Files.html" title="class in com.google.common.io">Files</a></dt>
 <dd>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Prefer <code>asCharSource(from, charset).copyTo(to)</code>.</span></div>
+<div class="block"><span class="deprecationComment">Prefer <code>asCharSource(from, charset).copyTo(to)</code>. This method is scheduled to
+     be removed in January 2019.</span></div>
 </div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/io/Resources.html#copy-java.net.URL-java.io.OutputStream-">copy(URL, OutputStream)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/Resources.html" title="class in com.google.common.io">Resources</a></dt>
@@ -8401,7 +8403,8 @@
 <dt><span class="memberNameLink"><a href="com/google/common/io/Files.html#hash-java.io.File-com.google.common.hash.HashFunction-">hash(File, HashFunction)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/Files.html" title="class in com.google.common.io">Files</a></dt>
 <dd>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Prefer <code>asByteSource(file).hash(hashFunction)</code>.</span></div>
+<div class="block"><span class="deprecationComment">Prefer <code>asByteSource(file).hash(hashFunction)</code>. This method is scheduled to
+     be removed in January 2019.</span></div>
 </div>
 </dd>
 <dt><a href="com/google/common/collect/HashBasedTable.html" title="class in com.google.common.collect"><span class="typeNameLink">HashBasedTable</span></a>&lt;<a href="com/google/common/collect/HashBasedTable.html" title="type parameter in HashBasedTable">R</a>,<a href="com/google/common/collect/HashBasedTable.html" title="type parameter in HashBasedTable">C</a>,<a href="com/google/common/collect/HashBasedTable.html" title="type parameter in HashBasedTable">V</a>&gt; - Class in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
@@ -14325,7 +14328,8 @@
 <dt><span class="memberNameLink"><a href="com/google/common/io/Files.html#readBytes-java.io.File-com.google.common.io.ByteProcessor-">readBytes(File, ByteProcessor&lt;T&gt;)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/Files.html" title="class in com.google.common.io">Files</a></dt>
 <dd>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Prefer <code>asByteSource(file).read(processor)</code>.</span></div>
+<div class="block"><span class="deprecationComment">Prefer <code>asByteSource(file).read(processor)</code>. This method is scheduled to be
+     removed in January 2019.</span></div>
 </div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/io/ByteArrayDataInput.html#readChar--">readChar()</a></span> - Method in interface com.google.common.io.<a href="com/google/common/io/ByteArrayDataInput.html" title="interface in com.google.common.io">ByteArrayDataInput</a></dt>
@@ -14349,7 +14353,8 @@
 <dt><span class="memberNameLink"><a href="com/google/common/io/Files.html#readFirstLine-java.io.File-java.nio.charset.Charset-">readFirstLine(File, Charset)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/Files.html" title="class in com.google.common.io">Files</a></dt>
 <dd>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Prefer <code>asCharSource(file, charset).readFirstLine()</code>.</span></div>
+<div class="block"><span class="deprecationComment">Prefer <code>asCharSource(file, charset).readFirstLine()</code>. This method is
+     scheduled to be removed in January 2019.</span></div>
 </div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/io/ByteArrayDataInput.html#readFloat--">readFloat()</a></span> - Method in interface com.google.common.io.<a href="com/google/common/io/ByteArrayDataInput.html" title="interface in com.google.common.io">ByteArrayDataInput</a></dt>
@@ -14421,7 +14426,8 @@
 <dt><span class="memberNameLink"><a href="com/google/common/io/Files.html#readLines-java.io.File-java.nio.charset.Charset-com.google.common.io.LineProcessor-">readLines(File, Charset, LineProcessor&lt;T&gt;)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/Files.html" title="class in com.google.common.io">Files</a></dt>
 <dd>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Prefer <code>asCharSource(file, charset).readLines(callback)</code>.</span></div>
+<div class="block"><span class="deprecationComment">Prefer <code>asCharSource(file, charset).readLines(callback)</code>. This method is
+     scheduled to be removed in January 2019.</span></div>
 </div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/io/Resources.html#readLines-java.net.URL-java.nio.charset.Charset-com.google.common.io.LineProcessor-">readLines(URL, Charset, LineProcessor&lt;T&gt;)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/Resources.html" title="class in com.google.common.io">Resources</a></dt>
@@ -17842,7 +17848,8 @@
 <dt><span class="memberNameLink"><a href="com/google/common/io/Files.html#toString-java.io.File-java.nio.charset.Charset-">toString(File, Charset)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/Files.html" title="class in com.google.common.io">Files</a></dt>
 <dd>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Prefer <code>asCharSource(file, charset).read()</code>.</span></div>
+<div class="block"><span class="deprecationComment">Prefer <code>asCharSource(file, charset).read()</code>. This method is scheduled to be
+     removed in January 2019.</span></div>
 </div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/io/Resources.html#toString-java.net.URL-java.nio.charset.Charset-">toString(URL, Charset)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/Resources.html" title="class in com.google.common.io">Resources</a></dt>
@@ -19455,7 +19462,8 @@ the order they are declared.</div>
 <dt><span class="memberNameLink"><a href="com/google/common/io/Files.html#write-java.lang.CharSequence-java.io.File-java.nio.charset.Charset-">write(CharSequence, File, Charset)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/Files.html" title="class in com.google.common.io">Files</a></dt>
 <dd>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Prefer <code>asCharSink(to, charset).write(from)</code>.</span></div>
+<div class="block"><span class="deprecationComment">Prefer <code>asCharSink(to, charset).write(from)</code>. This method is scheduled to be
+     removed in January 2019.</span></div>
 </div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/io/LittleEndianDataOutputStream.html#write-byte:A-int-int-">write(byte[], int, int)</a></span> - Method in class com.google.common.io.<a href="com/google/common/io/LittleEndianDataOutputStream.html" title="class in com.google.common.io">LittleEndianDataOutputStream</a></dt>

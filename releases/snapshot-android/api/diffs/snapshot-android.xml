@@ -43014,7 +43014,8 @@
     <method name="toString" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Prefer {@code asCharSource(file, charset).read()}.">
+      deprecated="Prefer {@code asCharSource(file, charset).read()}. This method is scheduled to be
+     removed in January 2019.">
       <param name="file" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
       <exception name="IOException" type="java.io.IOException"/>
@@ -43026,7 +43027,8 @@
      helpful predefined constants
  @return a string containing all the characters from the file
  @throws IOException if an I/O error occurs
- @deprecated Prefer {@code asCharSource(file, charset).read()}.]]>
+ @deprecated Prefer {@code asCharSource(file, charset).read()}. This method is scheduled to be
+     removed in January 2019.]]>
       </doc>
     </method>
     <method name="write"
@@ -43095,7 +43097,8 @@
     <method name="write"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Prefer {@code asCharSink(to, charset).write(from)}.">
+      deprecated="Prefer {@code asCharSink(to, charset).write(from)}. This method is scheduled to be
+     removed in January 2019.">
       <param name="from" type="java.lang.CharSequence"/>
       <param name="to" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
@@ -43108,13 +43111,15 @@
  @param charset the charset used to encode the output stream; see {@link StandardCharsets} for
      helpful predefined constants
  @throws IOException if an I/O error occurs
- @deprecated Prefer {@code asCharSink(to, charset).write(from)}.]]>
+ @deprecated Prefer {@code asCharSink(to, charset).write(from)}. This method is scheduled to be
+     removed in January 2019.]]>
       </doc>
     </method>
     <method name="append"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Prefer {@code asCharSink(to, charset, FileWriteMode.APPEND).write(from)}.">
+      deprecated="Prefer {@code asCharSink(to, charset, FileWriteMode.APPEND).write(from)}. This
+     method is scheduled to be removed in January 2019.">
       <param name="from" type="java.lang.CharSequence"/>
       <param name="to" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
@@ -43127,13 +43132,15 @@
  @param charset the charset used to encode the output stream; see {@link StandardCharsets} for
      helpful predefined constants
  @throws IOException if an I/O error occurs
- @deprecated Prefer {@code asCharSink(to, charset, FileWriteMode.APPEND).write(from)}.]]>
+ @deprecated Prefer {@code asCharSink(to, charset, FileWriteMode.APPEND).write(from)}. This
+     method is scheduled to be removed in January 2019.]]>
       </doc>
     </method>
     <method name="copy"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Prefer {@code asCharSource(from, charset).copyTo(to)}.">
+      deprecated="Prefer {@code asCharSource(from, charset).copyTo(to)}. This method is scheduled to
+     be removed in January 2019.">
       <param name="from" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
       <param name="to" type="java.lang.Appendable"/>
@@ -43146,7 +43153,8 @@
      helpful predefined constants
  @param to the appendable object
  @throws IOException if an I/O error occurs
- @deprecated Prefer {@code asCharSource(from, charset).copyTo(to)}.]]>
+ @deprecated Prefer {@code asCharSource(from, charset).copyTo(to)}. This method is scheduled to
+     be removed in January 2019.]]>
       </doc>
     </method>
     <method name="equal" return="boolean"
@@ -43239,7 +43247,8 @@
     <method name="readFirstLine" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Prefer {@code asCharSource(file, charset).readFirstLine()}.">
+      deprecated="Prefer {@code asCharSource(file, charset).readFirstLine()}. This method is
+     scheduled to be removed in January 2019.">
       <param name="file" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
       <exception name="IOException" type="java.io.IOException"/>
@@ -43252,7 +43261,8 @@
      helpful predefined constants
  @return the first line, or null if the file is empty
  @throws IOException if an I/O error occurs
- @deprecated Prefer {@code asCharSource(file, charset).readFirstLine()}.]]>
+ @deprecated Prefer {@code asCharSource(file, charset).readFirstLine()}. This method is
+     scheduled to be removed in January 2019.]]>
       </doc>
     </method>
     <method name="readLines" return="java.util.List&lt;java.lang.String&gt;"
@@ -43282,7 +43292,8 @@
     <method name="readLines" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Prefer {@code asCharSource(file, charset).readLines(callback)}.">
+      deprecated="Prefer {@code asCharSource(file, charset).readLines(callback)}. This method is
+     scheduled to be removed in January 2019.">
       <param name="file" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
       <param name="callback" type="com.google.common.io.LineProcessor&lt;T&gt;"/>
@@ -43297,13 +43308,15 @@
  @param callback the {@link LineProcessor} to use to handle the lines
  @return the output of processing the lines
  @throws IOException if an I/O error occurs
- @deprecated Prefer {@code asCharSource(file, charset).readLines(callback)}.]]>
+ @deprecated Prefer {@code asCharSource(file, charset).readLines(callback)}. This method is
+     scheduled to be removed in January 2019.]]>
       </doc>
     </method>
     <method name="readBytes" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Prefer {@code asByteSource(file).read(processor)}.">
+      deprecated="Prefer {@code asByteSource(file).read(processor)}. This method is scheduled to be
+     removed in January 2019.">
       <param name="file" type="java.io.File"/>
       <param name="processor" type="com.google.common.io.ByteProcessor&lt;T&gt;"/>
       <exception name="IOException" type="java.io.IOException"/>
@@ -43316,13 +43329,15 @@
  @param processor the object to which the bytes of the file are passed.
  @return the result of the byte processor
  @throws IOException if an I/O error occurs
- @deprecated Prefer {@code asByteSource(file).read(processor)}.]]>
+ @deprecated Prefer {@code asByteSource(file).read(processor)}. This method is scheduled to be
+     removed in January 2019.]]>
       </doc>
     </method>
     <method name="hash" return="com.google.common.hash.HashCode"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Prefer {@code asByteSource(file).hash(hashFunction)}.">
+      deprecated="Prefer {@code asByteSource(file).hash(hashFunction)}. This method is scheduled to
+     be removed in January 2019.">
       <param name="file" type="java.io.File"/>
       <param name="hashFunction" type="com.google.common.hash.HashFunction"/>
       <exception name="IOException" type="java.io.IOException"/>
@@ -43334,7 +43349,8 @@
  @return the {@link HashCode} of all of the bytes in the file
  @throws IOException if an I/O error occurs
  @since 12.0
- @deprecated Prefer {@code asByteSource(file).hash(hashFunction)}.]]>
+ @deprecated Prefer {@code asByteSource(file).hash(hashFunction)}. This method is scheduled to
+     be removed in January 2019.]]>
       </doc>
     </method>
     <method name="map" return="java.nio.MappedByteBuffer"
