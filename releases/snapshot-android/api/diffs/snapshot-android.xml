@@ -2589,8 +2589,8 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[Determines an output value based on an input value; a pre-Java-8 version of {@code
- java.util.function.Function}.
+    <![CDATA[Determines an output value based on an input value; a pre-Java-8 version of {@link
+ java.util.function.Function java.util.function.Function}.
 
  <p>The {@link Functions} class provides common functions and related utilities.
 
@@ -5331,8 +5331,8 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[Determines a true or false value for a given input; a pre-Java-8 version of {@code
- java.util.function.Predicate}.
+    <![CDATA[Determines a true or false value for a given input; a pre-Java-8 version of {@link
+ java.util.function.Predicate java.util.function.Predicate}.
 
  <p>The {@link Predicates} class provides common predicates and related utilities.
 
@@ -6348,9 +6348,10 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[A class that can supply objects of a single type; a pre-Java-8 version of {@code
- java.util.function.Supplier}. Semantically, this could be a factory, generator, builder, closure,
- or something else entirely. No guarantees are implied by this interface.
+    <![CDATA[A class that can supply objects of a single type; a pre-Java-8 version of {@link
+ java.util.function.Supplier java.util.function.Supplier}. Semantically, this could be a factory,
+ generator, builder, closure, or something else entirely. No guarantees are implied by this
+ interface.
 
  <p>The {@link Suppliers} class provides common suppliers and related utilities.
 

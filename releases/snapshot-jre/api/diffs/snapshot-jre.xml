@@ -2588,11 +2588,11 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[Legacy version of {@link java.util.function.Function}.
+    <![CDATA[Legacy version of {@link java.util.function.Function java.util.function.Function}.
 
  <p>The {@link Functions} class provides common functions and related utilities.
 
- <p>As this interface extends {@link java.util.function.Function}, an instance of this type can be
+ <p>As this interface extends {@code java.util.function.Function}, an instance of this type can be
  used as a {@code java.util.function.Function} directly. To use a {@code
  java.util.function.Function} in a context where a {@code com.google.common.base.Function} is
  needed, use {@code function::apply}.
@@ -5378,8 +5378,8 @@
       <param name="input" type="T"/>
     </method>
     <doc>
-    <![CDATA[Legacy version of {@link java.util.function.Predicate}. Determines a true or false value for a
- given input.
+    <![CDATA[Legacy version of {@link java.util.function.Predicate java.util.function.Predicate}. Determines a
+ true or false value for a given input.
 
  <p>As this interface extends {@code java.util.function.Predicate}, an instance of this type may
  be used as a {@code Predicate} directly. To use a {@code java.util.function.Predicate} where a
@@ -6407,13 +6407,13 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[Legacy version of {@code java.util.function.Supplier}. Semantically, this could be a factory,
- generator, builder, closure, or something else entirely. No guarantees are implied by this
- interface.
+    <![CDATA[Legacy version of {@link java.util.function.Supplier java.util.function.Supplier}. Semantically,
+ this could be a factory, generator, builder, closure, or something else entirely. No guarantees
+ are implied by this interface.
 
  <p>The {@link Suppliers} class provides common suppliers and related utilities.
 
- <p>As this interface extends {@link java.util.function.Supplier}, an instance of this type can be
+ <p>As this interface extends {@code java.util.function.Supplier}, an instance of this type can be
  used as a {@code java.util.function.Supplier} directly. To use a {@code
  java.util.function.Supplier} in a context where a {@code com.google.common.base.Supplier} is
  needed, use {@code supplier::get}.

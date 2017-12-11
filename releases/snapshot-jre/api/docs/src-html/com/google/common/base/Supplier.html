@@ -26,13 +26,13 @@
 <span class="sourceLineNo">018</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.18"></a>
 <span class="sourceLineNo">019</span><a name="line.19"></a>
 <span class="sourceLineNo">020</span>/**<a name="line.20"></a>
-<span class="sourceLineNo">021</span> * Legacy version of {@code java.util.function.Supplier}. Semantically, this could be a factory,<a name="line.21"></a>
-<span class="sourceLineNo">022</span> * generator, builder, closure, or something else entirely. No guarantees are implied by this<a name="line.22"></a>
-<span class="sourceLineNo">023</span> * interface.<a name="line.23"></a>
+<span class="sourceLineNo">021</span> * Legacy version of {@link java.util.function.Supplier java.util.function.Supplier}. Semantically,<a name="line.21"></a>
+<span class="sourceLineNo">022</span> * this could be a factory, generator, builder, closure, or something else entirely. No guarantees<a name="line.22"></a>
+<span class="sourceLineNo">023</span> * are implied by this interface.<a name="line.23"></a>
 <span class="sourceLineNo">024</span> *<a name="line.24"></a>
 <span class="sourceLineNo">025</span> * &lt;p&gt;The {@link Suppliers} class provides common suppliers and related utilities.<a name="line.25"></a>
 <span class="sourceLineNo">026</span> *<a name="line.26"></a>
-<span class="sourceLineNo">027</span> * &lt;p&gt;As this interface extends {@link java.util.function.Supplier}, an instance of this type can be<a name="line.27"></a>
+<span class="sourceLineNo">027</span> * &lt;p&gt;As this interface extends {@code java.util.function.Supplier}, an instance of this type can be<a name="line.27"></a>
 <span class="sourceLineNo">028</span> * used as a {@code java.util.function.Supplier} directly. To use a {@code<a name="line.28"></a>
 <span class="sourceLineNo">029</span> * java.util.function.Supplier} in a context where a {@code com.google.common.base.Supplier} is<a name="line.29"></a>
 <span class="sourceLineNo">030</span> * needed, use {@code supplier::get}.<a name="line.30"></a>
@@ -53,8 +53,9 @@
 <span class="sourceLineNo">045</span>   * @return an instance of the appropriate type<a name="line.45"></a>
 <span class="sourceLineNo">046</span>   */<a name="line.46"></a>
 <span class="sourceLineNo">047</span>  @CanIgnoreReturnValue<a name="line.47"></a>
-<span class="sourceLineNo">048</span>  T get();<a name="line.48"></a>
-<span class="sourceLineNo">049</span>}<a name="line.49"></a>
+<span class="sourceLineNo">048</span>  @Override<a name="line.48"></a>
+<span class="sourceLineNo">049</span>  T get();<a name="line.49"></a>
+<span class="sourceLineNo">050</span>}<a name="line.50"></a>
 
 
 
