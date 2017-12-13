@@ -31,7 +31,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Static utility methods pertaining to {@code short} primitives, that are not already found in
@@ -588,13 +588,13 @@ public final class Shorts {
     }
 
     @Override
-    public boolean contains(@Nullable Object target) {
+    public boolean contains(@NullableDecl Object target) {
       // Overridden to prevent a ton of boxing
       return (target instanceof Short) && Shorts.indexOf(array, (Short) target, start, end) != -1;
     }
 
     @Override
-    public int indexOf(@Nullable Object target) {
+    public int indexOf(@NullableDecl Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Short) {
         int i = Shorts.indexOf(array, (Short) target, start, end);
@@ -606,7 +606,7 @@ public final class Shorts {
     }
 
     @Override
-    public int lastIndexOf(@Nullable Object target) {
+    public int lastIndexOf(@NullableDecl Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Short) {
         int i = Shorts.lastIndexOf(array, (Short) target, start, end);
@@ -637,7 +637,7 @@ public final class Shorts {
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(@NullableDecl Object object) {
       if (object == this) {
         return true;
       }
