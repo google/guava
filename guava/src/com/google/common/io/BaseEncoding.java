@@ -1016,12 +1016,13 @@ public abstract class BaseEncoding {
       }
 
       @Override
-      public Appendable append(CharSequence chars, int off, int len) throws IOException {
+      public Appendable append(@NullableDecl CharSequence chars, int off, int len)
+          throws IOException {
         throw new UnsupportedOperationException();
       }
 
       @Override
-      public Appendable append(CharSequence chars) throws IOException {
+      public Appendable append(@NullableDecl CharSequence chars) throws IOException {
         throw new UnsupportedOperationException();
       }
     };
