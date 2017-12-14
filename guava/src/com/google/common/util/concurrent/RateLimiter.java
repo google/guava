@@ -35,6 +35,9 @@ import java.util.concurrent.TimeUnit;
  * {@link #acquire()} blocks if necessary until a permit is available, and then takes it. Once
  * acquired, permits need not be released.
  *
+ * <p>{@code RateLimiter} is safe for concurrent use: It will restrict the total rate of calls from
+ * all threads. Note, however, that it does not guarantee fairness.
+ *
  * <p>Rate limiters are often used to restrict the rate at which some physical or logical resource
  * is accessed. This is in contrast to {@link java.util.concurrent.Semaphore} which restricts the
  * number of concurrent accesses instead of the rate (note though that concurrency and rate are
@@ -80,8 +83,6 @@ import java.util.concurrent.TimeUnit;
  * of the <i>next</i> request. I.e., if an expensive task arrives at an idle RateLimiter, it will be
  * granted immediately, but it is the <i>next</i> request that will experience extra throttling,
  * thus paying for the cost of the expensive task.
- *
- * <p>Note: {@code RateLimiter} does not provide fairness guarantees.
  *
  * @author Dimitris Andreou
  * @since 13.0
