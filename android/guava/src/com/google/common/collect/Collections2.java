@@ -487,7 +487,7 @@ public final class Collections2 {
   }
 
   private static final class OrderedPermutationIterator<E> extends AbstractIterator<List<E>> {
-
+    @NullableDecl
     List<E> nextPermutation;
     final Comparator<? super E> comparator;
 
