@@ -324,8 +324,6 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
         Serialization.getFieldSetter(ImmutableMultimap.class, "map");
     static final Serialization.FieldSetter<ImmutableMultimap> SIZE_FIELD_SETTER =
         Serialization.getFieldSetter(ImmutableMultimap.class, "size");
-    static final Serialization.FieldSetter<ImmutableSetMultimap> EMPTY_SET_FIELD_SETTER =
-        Serialization.getFieldSetter(ImmutableSetMultimap.class, "emptySet");
   }
 
   ImmutableMultimap(ImmutableMap<K, ? extends ImmutableCollection<V>> map, int size) {

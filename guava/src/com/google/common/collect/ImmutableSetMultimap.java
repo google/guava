@@ -592,6 +592,12 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
         ? ((ImmutableSortedSet<V>) emptySet).comparator()
         : null;
   }
+  
+  @GwtIncompatible // java serialization
+  private static final class SetFieldSettersHolder {
+    static final Serialization.FieldSetter<ImmutableSetMultimap> EMPTY_SET_FIELD_SETTER =
+        Serialization.getFieldSetter(ImmutableSetMultimap.class, "emptySet");
+  }
 
   @GwtIncompatible // java.io.ObjectInputStream
   // Serialization type safety is at the caller's mercy.
@@ -634,7 +640,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
 
     FieldSettersHolder.MAP_FIELD_SETTER.set(this, tmpMap);
     FieldSettersHolder.SIZE_FIELD_SETTER.set(this, tmpSize);
-    FieldSettersHolder.EMPTY_SET_FIELD_SETTER.set(this, emptySet(valueComparator));
+    SetFieldSettersHolder.EMPTY_SET_FIELD_SETTER.set(this, emptySet(valueComparator));
   }
 
   @GwtIncompatible // not needed in emulated source.
