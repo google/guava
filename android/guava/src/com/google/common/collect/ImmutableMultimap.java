@@ -537,35 +537,27 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
     private static final long serialVersionUID = 0;
   }
 
-  private abstract class Itr<T> extends UnmodifiableIterator<T> {
-    final Iterator<Entry<K, Collection<V>>> mapIterator = asMap().entrySet().iterator();
-    K key = null;
-    Iterator<V> valueIterator = Iterators.emptyIterator();
-
-    abstract T output(K key, V value);
-
-    @Override
-    public boolean hasNext() {
-      return mapIterator.hasNext() || valueIterator.hasNext();
-    }
-
-    @Override
-    public T next() {
-      if (!valueIterator.hasNext()) {
-        Entry<K, Collection<V>> mapEntry = mapIterator.next();
-        key = mapEntry.getKey();
-        valueIterator = mapEntry.getValue().iterator();
-      }
-      return output(key, valueIterator.next());
-    }
-  }
-
   @Override
   UnmodifiableIterator<Entry<K, V>> entryIterator() {
-    return new Itr<Entry<K, V>>() {
+    return new UnmodifiableIterator<Entry<K, V>>() {
+      final Iterator<? extends Entry<K, ? extends ImmutableCollection<V>>> asMapItr =
+          map.entrySet().iterator();
+      K currentKey = null;
+      Iterator<V> valueItr = Iterators.emptyIterator();
+
       @Override
-      Entry<K, V> output(K key, V value) {
-        return Maps.immutableEntry(key, value);
+      public boolean hasNext() {
+        return valueItr.hasNext() || asMapItr.hasNext();
+      }
+
+      @Override
+      public Entry<K, V> next() {
+        if (!valueItr.hasNext()) {
+          Entry<K, ? extends ImmutableCollection<V>> entry = asMapItr.next();
+          currentKey = entry.getKey();
+          valueItr = entry.getValue().iterator();
+        }
+        return Maps.immutableEntry(currentKey, valueItr.next());
       }
     };
   }
@@ -655,10 +647,21 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
 
   @Override
   UnmodifiableIterator<V> valueIterator() {
-    return new Itr<V>() {
+    return new UnmodifiableIterator<V>() {
+      Iterator<? extends ImmutableCollection<V>> valueCollectionItr = map.values().iterator();
+      Iterator<V> valueItr = Iterators.emptyIterator();
+
       @Override
-      V output(K key, V value) {
-        return value;
+      public boolean hasNext() {
+        return valueItr.hasNext() || valueCollectionItr.hasNext();
+      }
+
+      @Override
+      public V next() {
+        if (!valueItr.hasNext()) {
+          valueItr = valueCollectionItr.next().iterator();
+        }
+        return valueItr.next();
       }
     };
   }
