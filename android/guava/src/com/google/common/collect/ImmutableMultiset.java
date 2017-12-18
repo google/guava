@@ -372,39 +372,9 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     }
   }
 
-  private static class SerializedForm implements Serializable {
-    final Object[] elements;
-    final int[] counts;
-
-    SerializedForm(Multiset<?> multiset) {
-      int distinct = multiset.entrySet().size();
-      elements = new Object[distinct];
-      counts = new int[distinct];
-      int i = 0;
-      for (Entry<?> entry : multiset.entrySet()) {
-        elements[i] = entry.getElement();
-        counts[i] = entry.getCount();
-        i++;
-      }
-    }
-
-    Object readResolve() {
-      ImmutableMultiset.Builder<Object> builder =
-          new ImmutableMultiset.Builder<Object>(elements.length);
-      for (int i = 0; i < elements.length; i++) {
-        builder.addCopies(elements[i], counts[i]);
-      }
-      return builder.build();
-    }
-
-    private static final long serialVersionUID = 0;
-  }
-
   // We can't label this with @Override, because it doesn't override anything
   // in the GWT emulated version.
-  Object writeReplace() {
-    return new SerializedForm(this);
-  }
+  abstract Object writeReplace();
 
   /**
    * Returns a new builder. The generated builder is equivalent to the builder created by the {@link

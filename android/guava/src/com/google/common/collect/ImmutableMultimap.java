@@ -619,6 +619,24 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
     boolean isPartialView() {
       return true;
     }
+
+    // We can't label this with @Override, because it doesn't override anything
+    // in the GWT emulated version.
+    Object writeReplace() {
+      return new KeysSerializedForm(ImmutableMultimap.this);
+    }
+  }
+  
+  private static final class KeysSerializedForm implements Serializable {
+    final ImmutableMultimap<?, ?> multimap;
+
+    KeysSerializedForm(ImmutableMultimap<?, ?> multimap) {
+      this.multimap = multimap;
+    }
+
+    Object readResolve() {
+      return multimap.keys();
+    }
   }
 
   /**
