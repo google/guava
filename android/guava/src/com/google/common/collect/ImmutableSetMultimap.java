@@ -22,7 +22,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
@@ -34,7 +33,6 @@ import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
@@ -156,7 +154,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
 
     @Override
     Collection<V> newMutableValueCollection() {
-      return new LinkedHashSet<>();
+      return Platform.preservesInsertionOrderOnAddsSet();
     }
 
     /** Adds a key-value mapping to the built multimap if it is not already present. */

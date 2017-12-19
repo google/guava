@@ -31,7 +31,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -146,7 +145,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
      * ImmutableMultimap#builder}.
      */
     public Builder() {
-      this.builderMap = new LinkedHashMap<K, Collection<V>>();
+      this.builderMap = Platform.preservesInsertionOrderOnPutsMap();
     }
 
     Collection<V> newMutableValueCollection() {

@@ -34,7 +34,6 @@ import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Function;
@@ -254,7 +253,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
 
     @Override
     Collection<V> newMutableValueCollection() {
-      return new LinkedHashSet<>();
+      return Platform.preservesInsertionOrderOnAddsSet();
     }
 
     /** Adds a key-value mapping to the built multimap if it is not already present. */

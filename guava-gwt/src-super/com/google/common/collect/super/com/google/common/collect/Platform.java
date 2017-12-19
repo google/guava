@@ -47,6 +47,22 @@ final class Platform {
     return Sets.newLinkedHashSetWithExpectedSize(expectedSize);
   }
 
+  /**
+   * Returns the platform preferred map implementation that preserves insertion order when used only
+   * for insertions.
+   */
+  static <K, V> Map<K, V> preservesInsertionOrderOnPutsMap() {
+    return Maps.newLinkedHashMap();
+  }
+
+  /**
+   * Returns the platform preferred set implementation that preserves insertion order when used only
+   * for insertions.
+   */
+  static <E> Set<E> preservesInsertionOrderOnAddsSet() {
+    return Sets.newLinkedHashSet();
+  }
+
   static <T> T[] newArray(T[] reference, int length) {
     T[] clone = Arrays.copyOf(reference, 0);
     resizeArray(clone, length);
