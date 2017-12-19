@@ -1669,7 +1669,7 @@ public final class Sets {
    * @since 12.0
    */
   public static <E> NavigableSet<E> unmodifiableNavigableSet(NavigableSet<E> set) {
-    if (set instanceof ImmutableSortedSet || set instanceof UnmodifiableNavigableSet) {
+    if (set instanceof ImmutableCollection || set instanceof UnmodifiableNavigableSet) {
       return set;
     }
     return new UnmodifiableNavigableSet<E>(set);
