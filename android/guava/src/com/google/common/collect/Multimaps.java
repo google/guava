@@ -27,6 +27,8 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.base.Supplier;
+import com.google.common.collect.AbstractMultimap.Entries;
+import com.google.common.collect.AbstractMultimap.EntrySet;
 import com.google.common.collect.Maps.EntryTransformer;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.Weak;
@@ -1005,18 +1007,28 @@ public final class Multimaps {
     }
 
     @Override
-    public Set<K> keySet() {
+    Set<K> createKeySet() {
       return map.keySet();
     }
 
     @Override
-    public Collection<V> values() {
+    Collection<V> createValues() {
       return map.values();
     }
 
     @Override
     public Set<Entry<K, V>> entries() {
       return map.entrySet();
+    }
+    
+    @Override
+    Collection<Entry<K, V>> createEntries() {
+      throw new AssertionError("unreachable");
+    }
+
+    @Override
+    Multiset<K> createKeys() {
+      return new Multimaps.Keys<K, V>(this);
     }
 
     @Override
@@ -1182,6 +1194,11 @@ public final class Multimaps {
     public boolean containsKey(Object key) {
       return fromMultimap.containsKey(key);
     }
+    
+    @Override
+    Collection<Entry<K, V2>> createEntries() {
+      return new Entries();
+    }
 
     @Override
     Iterator<Entry<K, V2>> entryIterator() {
@@ -1200,12 +1217,12 @@ public final class Multimaps {
     }
 
     @Override
-    public Set<K> keySet() {
+    Set<K> createKeySet() {
       return fromMultimap.keySet();
     }
 
     @Override
-    public Multiset<K> keys() {
+    Multiset<K> createKeys() {
       return fromMultimap.keys();
     }
 

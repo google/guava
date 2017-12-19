@@ -720,6 +720,11 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
     return new KeySetImpl();
   }
 
+  @Override
+  Multiset<K> createKeys() {
+    return new Multimaps.Keys<K, V>(this);
+  }
+
   /**
    * {@inheritDoc}
    *

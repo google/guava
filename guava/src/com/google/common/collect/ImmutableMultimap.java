@@ -34,6 +34,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.BiConsumer;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
@@ -489,6 +490,11 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
   @Override
   public ImmutableSet<K> keySet() {
     return map.keySet();
+  }
+
+  @Override
+  Set<K> createKeySet() {
+    throw new AssertionError("unreachable");
   }
 
   /**

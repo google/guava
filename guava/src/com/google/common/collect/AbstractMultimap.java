@@ -115,16 +115,10 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
     return (result == null) ? entries = createEntries() : result;
   }
 
-  Collection<Entry<K, V>> createEntries() {
-    if (this instanceof SetMultimap) {
-      return new EntrySet();
-    } else {
-      return new Entries();
-    }
-  }
+  abstract Collection<Entry<K, V>> createEntries();
 
   @WeakOuter
-  private class Entries extends Multimaps.Entries<K, V> {
+  class Entries extends Multimaps.Entries<K, V> {
     @Override
     Multimap<K, V> multimap() {
       return AbstractMultimap.this;
@@ -142,7 +136,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
   }
 
   @WeakOuter
-  private class EntrySet extends Entries implements Set<Entry<K, V>> {
+  class EntrySet extends Entries implements Set<Entry<K, V>> {
     @Override
     public int hashCode() {
       return Sets.hashCodeImpl(this);
@@ -169,9 +163,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
     return (result == null) ? keySet = createKeySet() : result;
   }
 
-  Set<K> createKeySet() {
-    return new Maps.KeySet<>(asMap());
-  }
+  abstract Set<K> createKeySet();
 
   private transient Multiset<K> keys;
 
@@ -181,9 +173,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
     return (result == null) ? keys = createKeys() : result;
   }
 
-  Multiset<K> createKeys() {
-    return new Multimaps.Keys<>(this);
-  }
+  abstract Multiset<K> createKeys();
 
   private transient Collection<V> values;
 
@@ -193,9 +183,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
     return (result == null) ? values = createValues() : result;
   }
 
-  Collection<V> createValues() {
-    return new Values();
-  }
+  abstract Collection<V> createValues();
 
   @WeakOuter
   class Values extends AbstractCollection<V> {

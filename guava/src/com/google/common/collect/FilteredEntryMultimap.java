@@ -140,7 +140,7 @@ class FilteredEntryMultimap<K, V> extends AbstractMultimap<K, V> implements Filt
   }
 
   @Override
-  public Set<K> keySet() {
+  Set<K> createKeySet() {
     return asMap().keySet();
   }
 

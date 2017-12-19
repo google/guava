@@ -21,6 +21,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.AbstractMultimap.Entries;
+import com.google.common.collect.AbstractMultimap.EntrySet;
 import com.google.common.collect.Maps.ViewCachingAbstractMap;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
@@ -1176,6 +1178,11 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   @Override
+  Collection<V> createValues() {
+    return new Values();
+  }
+
+  @Override
   Iterator<V> valueIterator() {
     return new Itr<V>() {
       @Override
@@ -1191,6 +1198,11 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
    * still able to {@inheritDoc} all the way from Multimap?
    */
 
+  @Override
+  Multiset<K> createKeys() {
+    return new Multimaps.Keys<K, V>(this);
+  }
+
   /**
    * {@inheritDoc}
    *
@@ -1203,6 +1215,15 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
   @Override
   public Collection<Entry<K, V>> entries() {
     return super.entries();
+  }
+  
+  @Override
+  Collection<Entry<K, V>> createEntries() {
+    if (this instanceof SetMultimap) {
+      return new EntrySet();
+    } else {
+      return new Entries();
+    }
   }
 
   /**
