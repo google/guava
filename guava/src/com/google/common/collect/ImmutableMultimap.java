@@ -26,12 +26,12 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Spliterator;
@@ -138,7 +138,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
    * @since 2.0
    */
   public static class Builder<K, V> {
-    Multimap<K, V> builderMultimap;
+    Map<K, Collection<V>> builderMap;
     Comparator<? super K> keyComparator;
     Comparator<? super V> valueComparator;
 
@@ -147,18 +147,22 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
      * ImmutableMultimap#builder}.
      */
     public Builder() {
-      this(MultimapBuilder.linkedHashKeys().arrayListValues().<K, V>build());
+      this.builderMap = new LinkedHashMap<K, Collection<V>>();
     }
 
-    Builder(Multimap<K, V> builderMultimap) {
-      this.builderMultimap = builderMultimap;
+    Collection<V> newMutableValueCollection() {
+      return new ArrayList<>();
     }
 
     /** Adds a key-value mapping to the built multimap. */
     @CanIgnoreReturnValue
     public Builder<K, V> put(K key, V value) {
       checkEntryNotNull(key, value);
-      builderMultimap.put(key, value);
+      Collection<V> valueCollection = builderMap.get(key);
+      if (valueCollection == null) {
+        builderMap.put(key, valueCollection = newMutableValueCollection());
+      }
+      valueCollection.add(value);
       return this;
     }
 
@@ -197,11 +201,25 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
       if (key == null) {
         throw new NullPointerException("null key in entry: null=" + Iterables.toString(values));
       }
-      Collection<V> valueList = builderMultimap.get(key);
-      for (V value : values) {
-        checkEntryNotNull(key, value);
-        valueList.add(value);
+      Collection<V> valueCollection = builderMap.get(key);
+      if (valueCollection != null) {
+        for (V value : values) {
+          checkEntryNotNull(key, value);
+          valueCollection.add(value);
+        }
+        return this;
       }
+      Iterator<? extends V> valuesItr = values.iterator();
+      if (!valuesItr.hasNext()) {
+        return this;
+      }
+      valueCollection = newMutableValueCollection();
+      while (valuesItr.hasNext()) {
+        V value = valuesItr.next();
+        checkEntryNotNull(key, value);
+        valueCollection.add(value);
+      }
+      builderMap.put(key, valueCollection);
       return this;
     }
 
@@ -257,31 +275,19 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
 
     @CanIgnoreReturnValue
     Builder<K, V> combine(Builder<K, V> other) {
-      putAll(other.builderMultimap);
+      for (Map.Entry<K, Collection<V>> entry : other.builderMap.entrySet()) {
+        putAll(entry.getKey(), entry.getValue());
+      }
       return this;
     }
 
     /** Returns a newly-created immutable multimap. */
     public ImmutableMultimap<K, V> build() {
-      if (valueComparator != null) {
-        for (Collection<V> values : builderMultimap.asMap().values()) {
-          List<V> list = (List<V>) values;
-          Collections.sort(list, valueComparator);
-        }
-      }
+      Collection<Map.Entry<K, Collection<V>>> mapEntries = builderMap.entrySet();
       if (keyComparator != null) {
-        Multimap<K, V> sortedCopy =
-            MultimapBuilder.linkedHashKeys().arrayListValues().<K, V>build();
-        List<Map.Entry<K, Collection<V>>> entries =
-            Ordering.from(keyComparator)
-                .<K>onKeys()
-                .immutableSortedCopy(builderMultimap.asMap().entrySet());
-        for (Map.Entry<K, Collection<V>> entry : entries) {
-          sortedCopy.putAll(entry.getKey(), entry.getValue());
-        }
-        builderMultimap = sortedCopy;
+        mapEntries = Ordering.from(keyComparator).<K>onKeys().immutableSortedCopy(mapEntries);
       }
-      return copyOf(builderMultimap);
+      return ImmutableListMultimap.fromMapEntries(mapEntries, valueComparator);
     }
   }
 

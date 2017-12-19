@@ -22,6 +22,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
@@ -33,7 +34,8 @@ import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Map.Entry;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
@@ -149,14 +151,19 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
      * ImmutableSetMultimap#builder}.
      */
     public Builder() {
-      super(MultimapBuilder.linkedHashKeys().linkedHashSetValues().<K, V>build());
+      super();
+    }
+
+    @Override
+    Collection<V> newMutableValueCollection() {
+      return new LinkedHashSet<>();
     }
 
     /** Adds a key-value mapping to the built multimap if it is not already present. */
     @CanIgnoreReturnValue
     @Override
     public Builder<K, V> put(K key, V value) {
-      builderMultimap.put(checkNotNull(key), checkNotNull(value));
+      super.put(key, value);
       return this;
     }
 
@@ -168,7 +175,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     @CanIgnoreReturnValue
     @Override
     public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
-      builderMultimap.put(checkNotNull(entry.getKey()), checkNotNull(entry.getValue()));
+      super.put(entry);
       return this;
     }
 
@@ -188,10 +195,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     @CanIgnoreReturnValue
     @Override
     public Builder<K, V> putAll(K key, Iterable<? extends V> values) {
-      Collection<V> collection = builderMultimap.get(checkNotNull(key));
-      for (V value : values) {
-        collection.add(checkNotNull(value));
-      }
+      super.putAll(key, values);
       return this;
     }
 
@@ -219,7 +223,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     @CanIgnoreReturnValue
     @Override
     public Builder<K, V> orderKeysBy(Comparator<? super K> keyComparator) {
-      this.keyComparator = checkNotNull(keyComparator);
+      super.orderKeysBy(keyComparator);
       return this;
     }
 
@@ -244,19 +248,11 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     /** Returns a newly-created immutable set multimap. */
     @Override
     public ImmutableSetMultimap<K, V> build() {
+      Collection<Map.Entry<K, Collection<V>>> mapEntries = builderMap.entrySet();
       if (keyComparator != null) {
-        Multimap<K, V> sortedCopy =
-            MultimapBuilder.linkedHashKeys().linkedHashSetValues().<K, V>build();
-        List<Entry<K, Collection<V>>> entries =
-            Ordering.from(keyComparator)
-                .<K>onKeys()
-                .immutableSortedCopy(builderMultimap.asMap().entrySet());
-        for (Entry<K, Collection<V>> entry : entries) {
-          sortedCopy.putAll(entry.getKey(), entry.getValue());
-        }
-        builderMultimap = sortedCopy;
+        mapEntries = Ordering.from(keyComparator).<K>onKeys().immutableSortedCopy(mapEntries);
       }
-      return copyOf(builderMultimap, valueComparator);
+      return fromMapEntries(mapEntries, valueComparator);
     }
   }
 
@@ -292,12 +288,21 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
       }
     }
 
+    return fromMapEntries(multimap.asMap().entrySet(), valueComparator);
+  }
+
+  /** Creates an ImmutableSetMultimap from an asMap.entrySet. */
+  static <K, V> ImmutableSetMultimap<K, V> fromMapEntries(
+      Collection<? extends Map.Entry<? extends K, ? extends Collection<? extends V>>> mapEntries,
+      @NullableDecl Comparator<? super V> valueComparator) {
+    if (mapEntries.isEmpty()) {
+      return of();
+    }
     ImmutableMap.Builder<K, ImmutableSet<V>> builder =
-        new ImmutableMap.Builder<>(multimap.asMap().size());
+        new ImmutableMap.Builder<>(mapEntries.size());
     int size = 0;
 
-    for (Entry<? extends K, ? extends Collection<? extends V>> entry :
-        multimap.asMap().entrySet()) {
+    for (Entry<? extends K, ? extends Collection<? extends V>> entry : mapEntries) {
       K key = entry.getKey();
       Collection<? extends V> values = entry.getValue();
       ImmutableSet<V> set = valueSet(valueComparator, values);

@@ -28,6 +28,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Map;
 import java.util.Map.Entry;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
@@ -245,15 +246,29 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
       }
     }
 
+    return fromMapEntries(multimap.asMap().entrySet(), null);
+  }
+
+  /** Creates an ImmutableListMultimap from an asMap.entrySet. */
+  static <K, V> ImmutableListMultimap<K, V> fromMapEntries(
+      Collection<? extends Map.Entry<? extends K, ? extends Collection<? extends V>>> mapEntries,
+      @NullableDecl Comparator<? super V> valueComparator) {
+    if (mapEntries.isEmpty()) {
+      return of();
+    }
     ImmutableMap.Builder<K, ImmutableList<V>> builder =
-        new ImmutableMap.Builder<>(multimap.asMap().size());
+        new ImmutableMap.Builder<>(mapEntries.size());
     int size = 0;
 
-    for (Entry<? extends K, ? extends Collection<? extends V>> entry :
-        multimap.asMap().entrySet()) {
-      ImmutableList<V> list = ImmutableList.copyOf(entry.getValue());
+    for (Entry<? extends K, ? extends Collection<? extends V>> entry : mapEntries) {
+      K key = entry.getKey();
+      Collection<? extends V> values = entry.getValue();
+      ImmutableList<V> list =
+          (valueComparator == null)
+              ? ImmutableList.copyOf(values)
+              : ImmutableList.sortedCopyOf(valueComparator, values);
       if (!list.isEmpty()) {
-        builder.put(entry.getKey(), list);
+        builder.put(key, list);
         size += list.size();
       }
     }
