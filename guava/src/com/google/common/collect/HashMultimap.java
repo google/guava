@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -91,17 +90,17 @@ public final class HashMultimap<K, V> extends HashMultimapGwtSerializationDepend
   }
 
   private HashMultimap() {
-    super(new HashMap<K, Collection<V>>());
+    this(12, DEFAULT_VALUES_PER_KEY);
   }
 
   private HashMultimap(int expectedKeys, int expectedValuesPerKey) {
-    super(Maps.<K, Collection<V>>newHashMapWithExpectedSize(expectedKeys));
+    super(Platform.<K, Collection<V>>newHashMapWithExpectedSize(expectedKeys));
     Preconditions.checkArgument(expectedValuesPerKey >= 0);
     this.expectedValuesPerKey = expectedValuesPerKey;
   }
 
   private HashMultimap(Multimap<? extends K, ? extends V> multimap) {
-    super(Maps.<K, Collection<V>>newHashMapWithExpectedSize(multimap.keySet().size()));
+    super(Platform.<K, Collection<V>>newHashMapWithExpectedSize(multimap.keySet().size()));
     putAll(multimap);
   }
 
@@ -114,7 +113,7 @@ public final class HashMultimap<K, V> extends HashMultimapGwtSerializationDepend
    */
   @Override
   Set<V> createCollection() {
-    return Sets.<V>newHashSetWithExpectedSize(expectedValuesPerKey);
+    return Platform.<V>newHashSetWithExpectedSize(expectedValuesPerKey);
   }
 
   /**
@@ -132,7 +131,7 @@ public final class HashMultimap<K, V> extends HashMultimapGwtSerializationDepend
     stream.defaultReadObject();
     expectedValuesPerKey = DEFAULT_VALUES_PER_KEY;
     int distinctKeys = Serialization.readCount(stream);
-    Map<K, Collection<V>> map = Maps.newHashMap();
+    Map<K, Collection<V>> map = Platform.newHashMapWithExpectedSize(12);
     setMap(map);
     Serialization.populateMultimap(this, stream, distinctKeys);
   }

@@ -218,7 +218,7 @@ public final class LinkedHashMultimap<K, V>
   private transient ValueEntry<K, V> multimapHeaderEntry;
 
   private LinkedHashMultimap(int keyCapacity, int valueSetCapacity) {
-    super(new LinkedHashMap<K, Collection<V>>(keyCapacity));
+    super(Platform.<K, Collection<V>>newLinkedHashMapWithExpectedSize(keyCapacity));
     checkNonnegative(valueSetCapacity, "expectedValuesPerKey");
 
     this.valueSetCapacity = valueSetCapacity;
@@ -235,7 +235,7 @@ public final class LinkedHashMultimap<K, V>
    */
   @Override
   Set<V> createCollection() {
-    return new LinkedHashSet<V>(valueSetCapacity);
+    return Platform.newLinkedHashSetWithExpectedSize(valueSetCapacity);
   }
 
   /**
@@ -570,7 +570,7 @@ public final class LinkedHashMultimap<K, V>
     succeedsInMultimap(multimapHeaderEntry, multimapHeaderEntry);
     valueSetCapacity = DEFAULT_VALUE_SET_CAPACITY;
     int distinctKeys = stream.readInt();
-    Map<K, Collection<V>> map = new LinkedHashMap<>();
+    Map<K, Collection<V>> map = Platform.newLinkedHashMapWithExpectedSize(12);
     for (int i = 0; i < distinctKeys; i++) {
       @SuppressWarnings("unchecked")
       K key = (K) stream.readObject();

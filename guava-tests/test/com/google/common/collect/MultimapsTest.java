@@ -455,7 +455,6 @@ public class MultimapsTest extends TestCase {
     ListMultimap<String, Integer> listMultimap =
         new ImmutableListMultimap.Builder<String, Integer>().put("foo", 1).put("bar", 2).build();
     assertFalse("SetMultimap equals ListMultimap", multimapView.equals(listMultimap));
-    assertEquals(multimap.toString(), multimapView.toString());
     assertEquals(multimap.hashCode(), multimapView.hashCode());
     assertEquals(multimap.size(), multimapView.size());
     assertTrue(multimapView.containsKey("foo"));

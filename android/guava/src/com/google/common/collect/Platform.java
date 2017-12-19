@@ -18,6 +18,8 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.lang.reflect.Array;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Methods factored out so that they can be emulated differently in GWT.
@@ -26,6 +28,32 @@ import java.lang.reflect.Array;
  */
 @GwtCompatible(emulated = true)
 final class Platform {
+  /** Returns the platform preferred implementation of a map based on a hash table. */
+  static <K, V> Map<K, V> newHashMapWithExpectedSize(int expectedSize) {
+    return CompactHashMap.createWithExpectedSize(expectedSize);
+  }
+
+  /**
+   * Returns the platform preferred implementation of an insertion ordered map based on a hash
+   * table.
+   */
+  static <K, V> Map<K, V> newLinkedHashMapWithExpectedSize(int expectedSize) {
+    return CompactLinkedHashMap.createWithExpectedSize(expectedSize);
+  }
+
+  /** Returns the platform preferred implementation of a set based on a hash table. */
+  static <E> Set<E> newHashSetWithExpectedSize(int expectedSize) {
+    return CompactHashSet.createWithExpectedSize(expectedSize);
+  }
+
+  /**
+   * Returns the platform preferred implementation of an insertion ordered set based on a hash
+   * table.
+   */
+  static <E> Set<E> newLinkedHashSetWithExpectedSize(int expectedSize) {
+    return CompactLinkedHashSet.createWithExpectedSize(expectedSize);
+  }
+
   /**
    * Returns a new array of the given length with the same type as a reference array.
    *

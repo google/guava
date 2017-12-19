@@ -190,11 +190,11 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   LinkedListMultimap() {
-    keyToKeyList = Maps.newHashMap();
+    this(12);
   }
 
   private LinkedListMultimap(int expectedKeys) {
-    keyToKeyList = new HashMap<>(expectedKeys);
+    keyToKeyList = Platform.newHashMapWithExpectedSize(expectedKeys);
   }
 
   private LinkedListMultimap(Multimap<? extends K, ? extends V> multimap) {
@@ -830,7 +830,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
   @GwtIncompatible // java.io.ObjectInputStream
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
-    keyToKeyList = Maps.newLinkedHashMap();
+    keyToKeyList = CompactLinkedHashMap.create();
     int size = stream.readInt();
     for (int i = 0; i < size; i++) {
       @SuppressWarnings("unchecked") // reading data stored by writeObject

@@ -105,12 +105,11 @@ public final class ArrayListMultimap<K, V>
   }
 
   private ArrayListMultimap() {
-    super(new HashMap<K, Collection<V>>());
-    expectedValuesPerKey = DEFAULT_VALUES_PER_KEY;
+    this(12, DEFAULT_VALUES_PER_KEY);
   }
 
   private ArrayListMultimap(int expectedKeys, int expectedValuesPerKey) {
-    super(Maps.<K, Collection<V>>newHashMapWithExpectedSize(expectedKeys));
+    super(Platform.<K, Collection<V>>newHashMapWithExpectedSize(expectedKeys));
     checkNonnegative(expectedValuesPerKey, "expectedValuesPerKey");
     this.expectedValuesPerKey = expectedValuesPerKey;
   }
