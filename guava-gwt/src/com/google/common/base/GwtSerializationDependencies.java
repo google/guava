@@ -34,7 +34,7 @@ final class GwtSerializationDependencies {
   private GwtSerializationDependencies() {}
 
   static final class OptionalDependencies<T> extends Optional<T> {
-    T value;
+    @NullableDecl T value;
 
     OptionalDependencies() {
       super();

@@ -39,7 +39,7 @@ abstract class AbstractIterator<T> implements Iterator<T> {
     FAILED,
   }
 
-  private T next;
+  @NullableDecl private T next;
 
   protected abstract T computeNext();
 

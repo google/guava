@@ -113,7 +113,7 @@ public final class Suppliers {
     transient volatile boolean initialized;
     // "value" does not need to be volatile; visibility piggy-backs
     // on volatile read of "initialized".
-    transient T value;
+    @NullableDecl transient T value;
 
     MemoizingSupplier(Supplier<T> delegate) {
       this.delegate = Preconditions.checkNotNull(delegate);
@@ -149,7 +149,7 @@ public final class Suppliers {
     volatile boolean initialized;
     // "value" does not need to be volatile; visibility piggy-backs
     // on volatile read of "initialized".
-    T value;
+    @NullableDecl T value;
 
     NonSerializableMemoizingSupplier(Supplier<T> delegate) {
       this.delegate = Preconditions.checkNotNull(delegate);
@@ -209,7 +209,7 @@ public final class Suppliers {
   static class ExpiringMemoizingSupplier<T> implements Supplier<T>, Serializable {
     final Supplier<T> delegate;
     final long durationNanos;
-    transient volatile T value;
+    @NullableDecl transient volatile T value;
     // The special value 0 means "not yet initialized".
     transient volatile long expirationNanos;
 
