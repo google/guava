@@ -1870,12 +1870,21 @@
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>static boolean</code></td>
+<td class="colLast"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/Uninterruptibles.html#awaitUninterruptibly-java.util.concurrent.locks.Condition-long-java.util.concurrent.TimeUnit-">awaitUninterruptibly</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/locks/Condition.html?is-external=true" title="class or interface in java.util.concurrent.locks">Condition</a>&nbsp;condition,
+                    long&nbsp;timeout,
+                    <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>
+<div class="block">Invokes <code>condition.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/locks/Condition.html?is-external=true#await-long-java.util.concurrent.TimeUnit-" title="class or interface in java.util.concurrent.locks"><code>await(timeout, unit)</code></a>
+ uninterruptibly.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <td class="colLast"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/Uninterruptibles.html#awaitUninterruptibly-java.util.concurrent.CountDownLatch-">awaitUninterruptibly</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CountDownLatch.html?is-external=true" title="class or interface in java.util.concurrent">CountDownLatch</a>&nbsp;latch)</code>
 <div class="block">Invokes <code>latch.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CountDownLatch.html?is-external=true#await--" title="class or interface in java.util.concurrent"><code>await()</code></a> uninterruptibly.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
 <td class="colLast"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/Uninterruptibles.html#awaitUninterruptibly-java.util.concurrent.CountDownLatch-long-java.util.concurrent.TimeUnit-">awaitUninterruptibly</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CountDownLatch.html?is-external=true" title="class or interface in java.util.concurrent">CountDownLatch</a>&nbsp;latch,
                     long&nbsp;timeout,
@@ -1884,7 +1893,7 @@
  uninterruptibly.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;V,X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;<br>V</code></td>
 <td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/Futures.html#getChecked-java.util.concurrent.Future-java.lang.Class-">getChecked</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;&nbsp;future,
           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;exceptionClass)</code>
@@ -1892,7 +1901,7 @@
  given checked exception type.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;V,X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;<br>V</code></td>
 <td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/Futures.html#getChecked-java.util.concurrent.Future-java.lang.Class-long-java.util.concurrent.TimeUnit-">getChecked</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;&nbsp;future,
           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;exceptionClass,
@@ -1902,14 +1911,14 @@
  instance of the given checked exception type.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a></code></td>
 <td class="colLast"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#getExitingExecutorService-java.util.concurrent.ThreadPoolExecutor-">getExitingExecutorService</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadPoolExecutor.html?is-external=true" title="class or interface in java.util.concurrent">ThreadPoolExecutor</a>&nbsp;executor)</code>
 <div class="block">Converts the given ThreadPoolExecutor into an ExecutorService that exits when the application
  is complete.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a></code></td>
 <td class="colLast"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#getExitingExecutorService-java.util.concurrent.ThreadPoolExecutor-long-java.util.concurrent.TimeUnit-">getExitingExecutorService</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadPoolExecutor.html?is-external=true" title="class or interface in java.util.concurrent">ThreadPoolExecutor</a>&nbsp;executor,
                          long&nbsp;terminationTimeout,
@@ -1918,14 +1927,14 @@
  is complete.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a></code></td>
 <td class="colLast"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#getExitingScheduledExecutorService-java.util.concurrent.ScheduledThreadPoolExecutor-">getExitingScheduledExecutorService</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledThreadPoolExecutor</a>&nbsp;executor)</code>
 <div class="block">Converts the given ScheduledThreadPoolExecutor into a ScheduledExecutorService that exits when
  the application is complete.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a></code></td>
 <td class="colLast"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#getExitingScheduledExecutorService-java.util.concurrent.ScheduledThreadPoolExecutor-long-java.util.concurrent.TimeUnit-">getExitingScheduledExecutorService</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledThreadPoolExecutor</a>&nbsp;executor,
                                   long&nbsp;terminationTimeout,
@@ -1934,7 +1943,7 @@
  the application is complete.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;V&gt;&nbsp;V</code></td>
 <td class="colLast"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/Uninterruptibles.html#getUninterruptibly-java.util.concurrent.Future-long-java.util.concurrent.TimeUnit-">getUninterruptibly</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;&nbsp;future,
                   long&nbsp;timeout,
@@ -1942,7 +1951,7 @@
 <div class="block">Invokes <code>future.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#get-long-java.util.concurrent.TimeUnit-" title="class or interface in java.util.concurrent"><code>get(timeout, unit)</code></a> uninterruptibly.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;V,X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;<br><a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent">CheckedFuture</a>&lt;V,X&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/Futures.html#immediateCheckedFuture-V-">immediateCheckedFuture</a></span>(V&nbsp;value)</code>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
@@ -1957,7 +1966,7 @@
 </div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;V,X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;<br><a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent">CheckedFuture</a>&lt;V,X&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/Futures.html#immediateFailedCheckedFuture-X-">immediateFailedCheckedFuture</a></span>(X&nbsp;exception)</code>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
@@ -1972,13 +1981,13 @@
 </div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static void</code></td>
 <td class="colLast"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/Uninterruptibles.html#joinUninterruptibly-java.lang.Thread-">joinUninterruptibly</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Thread.html?is-external=true" title="class or interface in java.lang">Thread</a>&nbsp;toJoin)</code>
 <div class="block">Invokes <code>toJoin.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Thread.html?is-external=true#join--" title="class or interface in java.lang"><code>join()</code></a> uninterruptibly.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <td class="colLast"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/Uninterruptibles.html#joinUninterruptibly-java.lang.Thread-long-java.util.concurrent.TimeUnit-">joinUninterruptibly</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Thread.html?is-external=true" title="class or interface in java.lang">Thread</a>&nbsp;toJoin,
                    long&nbsp;timeout,
@@ -1987,7 +1996,7 @@
  uninterruptibly.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;I,O&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;O&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/Futures.html#lazyTransform-java.util.concurrent.Future-com.google.common.base.Function-">lazyTransform</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;I&gt;&nbsp;input,
              <a href="../../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super I,? extends O&gt;&nbsp;function)</code>
@@ -1995,21 +2004,21 @@
  <code>function</code> is invoked on each call to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#get--" title="class or interface in java.util.concurrent"><code>get()</code></a> on the returned future.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></code></td>
 <td class="colLast"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#listeningDecorator-java.util.concurrent.ExecutorService-">listeningDecorator</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;delegate)</code>
 <div class="block">Creates an <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutorService</code></a> whose <code>submit</code> and <code>invokeAll</code> methods submit
  <a href="../../../../../com/google/common/util/concurrent/ListenableFutureTask.html" title="class in com.google.common.util.concurrent"><code>ListenableFutureTask</code></a> instances to the given delegate executor.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/util/concurrent/ListeningScheduledExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningScheduledExecutorService</a></code></td>
 <td class="colLast"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#listeningDecorator-java.util.concurrent.ScheduledExecutorService-">listeningDecorator</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a>&nbsp;delegate)</code>
 <div class="block">Creates a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ScheduledExecutorService</code></a> whose <code>submit</code> and <code>invokeAll</code> methods
  submit <a href="../../../../../com/google/common/util/concurrent/ListenableFutureTask.html" title="class in com.google.common.util.concurrent"><code>ListenableFutureTask</code></a> instances to the given delegate executor.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;V,X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;<br><a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent">CheckedFuture</a>&lt;V,X&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/Futures.html#makeChecked-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-">makeChecked</a></span>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;future,
            <a href="../../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>,X&gt;&nbsp;mapper)</code>
@@ -2025,34 +2034,34 @@
 </div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></code></td>
 <td class="colLast"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#newDirectExecutorService--">newDirectExecutorService</a></span>()</code>
 <div class="block">Creates an executor service that runs each task in the thread that invokes <code>execute/submit</code>, as in <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadPoolExecutor.CallerRunsPolicy.html?is-external=true" title="class or interface in java.util.concurrent"><code>ThreadPoolExecutor.CallerRunsPolicy</code></a> This applies both to individually submitted
  tasks and to collections of tasks submitted via <code>invokeAll</code> or <code>invokeAny</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a></code></td>
 <td class="colLast"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#newSequentialExecutor-java.util.concurrent.Executor-">newSequentialExecutor</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;delegate)</code>
 <div class="block">Returns an <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent"><code>Executor</code></a> that runs each task executed sequentially, such that no two tasks
  are running concurrently.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadFactory.html?is-external=true" title="class or interface in java.util.concurrent">ThreadFactory</a></code></td>
 <td class="colLast"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#platformThreadFactory--">platformThreadFactory</a></span>()</code>
 <div class="block">Returns a default thread factory used to create new threads.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;void</code></td>
 <td class="colLast"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/Uninterruptibles.html#putUninterruptibly-java.util.concurrent.BlockingQueue-E-">putUninterruptibly</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</a>&lt;E&gt;&nbsp;queue,
                   E&nbsp;element)</code>
 <div class="block">Invokes <code>queue.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#put-E-" title="class or interface in java.util.concurrent"><code>put(element)</code></a> uninterruptibly.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;O&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;O&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/Futures.html#scheduleAsync-com.google.common.util.concurrent.AsyncCallable-long-java.util.concurrent.TimeUnit-java.util.concurrent.ScheduledExecutorService-">scheduleAsync</a></span>(<a href="../../../../../com/google/common/util/concurrent/AsyncCallable.html" title="interface in com.google.common.util.concurrent">AsyncCallable</a>&lt;O&gt;&nbsp;callable,
              long&nbsp;delay,
@@ -2061,7 +2070,7 @@
 <div class="block">Schedules <code>callable</code> on the specified <code>executor</code>, returning a <code>Future</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a></code></td>
 <td class="colLast"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#sequentialExecutor-java.util.concurrent.Executor-">sequentialExecutor</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;delegate)</code>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
@@ -2070,7 +2079,7 @@
 </div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
 <td class="colLast"><span class="typeNameLabel">MoreExecutors.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#shutdownAndAwaitTermination-java.util.concurrent.ExecutorService-long-java.util.concurrent.TimeUnit-">shutdownAndAwaitTermination</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;service,
                            long&nbsp;timeout,
@@ -2079,20 +2088,20 @@
  necessary, cancelling remaining tasks.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <td class="colLast"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/Uninterruptibles.html#sleepUninterruptibly-long-java.util.concurrent.TimeUnit-">sleepUninterruptibly</a></span>(long&nbsp;sleepFor,
                     <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>
 <div class="block">Invokes <code>unit.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true#sleep-long-" title="class or interface in java.util.concurrent"><code>sleep(sleepFor)</code></a> uninterruptibly.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;E</code></td>
 <td class="colLast"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/Uninterruptibles.html#takeUninterruptibly-java.util.concurrent.BlockingQueue-">takeUninterruptibly</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</a>&lt;E&gt;&nbsp;queue)</code>
 <div class="block">Invokes <code>queue.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#take--" title="class or interface in java.util.concurrent"><code>take()</code></a> uninterruptibly.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
 <td class="colLast"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/Uninterruptibles.html#tryAcquireUninterruptibly-java.util.concurrent.Semaphore-int-long-java.util.concurrent.TimeUnit-">tryAcquireUninterruptibly</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Semaphore.html?is-external=true" title="class or interface in java.util.concurrent">Semaphore</a>&nbsp;semaphore,
                          int&nbsp;permits,
@@ -2102,7 +2111,7 @@
  timeout, unit)</code></a> uninterruptibly.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
 <td class="colLast"><span class="typeNameLabel">Uninterruptibles.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/Uninterruptibles.html#tryAcquireUninterruptibly-java.util.concurrent.Semaphore-long-java.util.concurrent.TimeUnit-">tryAcquireUninterruptibly</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Semaphore.html?is-external=true" title="class or interface in java.util.concurrent">Semaphore</a>&nbsp;semaphore,
                          long&nbsp;timeout,
@@ -2111,7 +2120,7 @@
  timeout, unit)</code></a> uninterruptibly.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/Futures.html#withTimeout-com.google.common.util.concurrent.ListenableFuture-long-java.util.concurrent.TimeUnit-java.util.concurrent.ScheduledExecutorService-">withTimeout</a></span>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;delegate,
            long&nbsp;time,
@@ -2120,7 +2129,7 @@
 <div class="block">Returns a future that delegates to another but will finish early (via a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent"><code>TimeoutException</code></a> wrapped in an <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a>) if the specified duration expires.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">FluentFuture.</span><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/FluentFuture.html#withTimeout-long-java.util.concurrent.TimeUnit-java.util.concurrent.ScheduledExecutorService-">withTimeout</a></span>(long&nbsp;timeout,
            <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit,

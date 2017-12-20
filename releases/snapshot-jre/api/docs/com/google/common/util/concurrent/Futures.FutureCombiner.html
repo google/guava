@@ -303,7 +303,7 @@ public&nbsp;&lt;C&gt;&nbsp;<a href="../../../../../com/google/common/util/concur
 <ul class="blockListLast">
 <li class="blockList">
 <h4>run</h4>
-<pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.FutureCombiner.html#line.1020">run</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;combiner,
+<pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.FutureCombiner.html#line.1022">run</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;combiner,
                                <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block">Creates the <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> which will return the result of running <code>combiner</code>
  when all Futures complete. <code>combiner</code> will run using <code>executor</code>.
@@ -312,6 +312,10 @@ public&nbsp;&lt;C&gt;&nbsp;<a href="../../../../../com/google/common/util/concur
  cancelled.
 
  <p>Canceling this Future will attempt to cancel all the component futures.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT</dd>
+</dl>
 </li>
 </ul>
 </li>

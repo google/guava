@@ -429,187 +429,158 @@
 <span class="sourceLineNo">421</span>    }<a name="line.421"></a>
 <span class="sourceLineNo">422</span>  }<a name="line.422"></a>
 <span class="sourceLineNo">423</span><a name="line.423"></a>
-<span class="sourceLineNo">424</span>  private static class SerializedForm implements Serializable {<a name="line.424"></a>
-<span class="sourceLineNo">425</span>    final Object[] elements;<a name="line.425"></a>
-<span class="sourceLineNo">426</span>    final int[] counts;<a name="line.426"></a>
+<span class="sourceLineNo">424</span>  // We can't label this with @Override, because it doesn't override anything<a name="line.424"></a>
+<span class="sourceLineNo">425</span>  // in the GWT emulated version.<a name="line.425"></a>
+<span class="sourceLineNo">426</span>  abstract Object writeReplace();<a name="line.426"></a>
 <span class="sourceLineNo">427</span><a name="line.427"></a>
-<span class="sourceLineNo">428</span>    SerializedForm(Multiset&lt;?&gt; multiset) {<a name="line.428"></a>
-<span class="sourceLineNo">429</span>      int distinct = multiset.entrySet().size();<a name="line.429"></a>
-<span class="sourceLineNo">430</span>      elements = new Object[distinct];<a name="line.430"></a>
-<span class="sourceLineNo">431</span>      counts = new int[distinct];<a name="line.431"></a>
-<span class="sourceLineNo">432</span>      int i = 0;<a name="line.432"></a>
-<span class="sourceLineNo">433</span>      for (Entry&lt;?&gt; entry : multiset.entrySet()) {<a name="line.433"></a>
-<span class="sourceLineNo">434</span>        elements[i] = entry.getElement();<a name="line.434"></a>
-<span class="sourceLineNo">435</span>        counts[i] = entry.getCount();<a name="line.435"></a>
-<span class="sourceLineNo">436</span>        i++;<a name="line.436"></a>
-<span class="sourceLineNo">437</span>      }<a name="line.437"></a>
-<span class="sourceLineNo">438</span>    }<a name="line.438"></a>
-<span class="sourceLineNo">439</span><a name="line.439"></a>
-<span class="sourceLineNo">440</span>    Object readResolve() {<a name="line.440"></a>
-<span class="sourceLineNo">441</span>      LinkedHashMultiset&lt;Object&gt; multiset = LinkedHashMultiset.create(elements.length);<a name="line.441"></a>
-<span class="sourceLineNo">442</span>      for (int i = 0; i &lt; elements.length; i++) {<a name="line.442"></a>
-<span class="sourceLineNo">443</span>        multiset.add(elements[i], counts[i]);<a name="line.443"></a>
-<span class="sourceLineNo">444</span>      }<a name="line.444"></a>
-<span class="sourceLineNo">445</span>      return ImmutableMultiset.copyOf(multiset);<a name="line.445"></a>
-<span class="sourceLineNo">446</span>    }<a name="line.446"></a>
-<span class="sourceLineNo">447</span><a name="line.447"></a>
-<span class="sourceLineNo">448</span>    private static final long serialVersionUID = 0;<a name="line.448"></a>
-<span class="sourceLineNo">449</span>  }<a name="line.449"></a>
-<span class="sourceLineNo">450</span><a name="line.450"></a>
-<span class="sourceLineNo">451</span>  // We can't label this with @Override, because it doesn't override anything<a name="line.451"></a>
-<span class="sourceLineNo">452</span>  // in the GWT emulated version.<a name="line.452"></a>
-<span class="sourceLineNo">453</span>  Object writeReplace() {<a name="line.453"></a>
-<span class="sourceLineNo">454</span>    return new SerializedForm(this);<a name="line.454"></a>
-<span class="sourceLineNo">455</span>  }<a name="line.455"></a>
-<span class="sourceLineNo">456</span><a name="line.456"></a>
-<span class="sourceLineNo">457</span>  /**<a name="line.457"></a>
-<span class="sourceLineNo">458</span>   * Returns a new builder. The generated builder is equivalent to the builder created by the {@link<a name="line.458"></a>
-<span class="sourceLineNo">459</span>   * Builder} constructor.<a name="line.459"></a>
-<span class="sourceLineNo">460</span>   */<a name="line.460"></a>
-<span class="sourceLineNo">461</span>  public static &lt;E&gt; Builder&lt;E&gt; builder() {<a name="line.461"></a>
-<span class="sourceLineNo">462</span>    return new Builder&lt;E&gt;();<a name="line.462"></a>
-<span class="sourceLineNo">463</span>  }<a name="line.463"></a>
-<span class="sourceLineNo">464</span><a name="line.464"></a>
-<span class="sourceLineNo">465</span>  /**<a name="line.465"></a>
-<span class="sourceLineNo">466</span>   * A builder for creating immutable multiset instances, especially {@code public static final}<a name="line.466"></a>
-<span class="sourceLineNo">467</span>   * multisets ("constant multisets"). Example:<a name="line.467"></a>
-<span class="sourceLineNo">468</span>   *<a name="line.468"></a>
-<span class="sourceLineNo">469</span>   * &lt;pre&gt;{@code<a name="line.469"></a>
-<span class="sourceLineNo">470</span>   * public static final ImmutableMultiset&lt;Bean&gt; BEANS =<a name="line.470"></a>
-<span class="sourceLineNo">471</span>   *     new ImmutableMultiset.Builder&lt;Bean&gt;()<a name="line.471"></a>
-<span class="sourceLineNo">472</span>   *         .addCopies(Bean.COCOA, 4)<a name="line.472"></a>
-<span class="sourceLineNo">473</span>   *         .addCopies(Bean.GARDEN, 6)<a name="line.473"></a>
-<span class="sourceLineNo">474</span>   *         .addCopies(Bean.RED, 8)<a name="line.474"></a>
-<span class="sourceLineNo">475</span>   *         .addCopies(Bean.BLACK_EYED, 10)<a name="line.475"></a>
-<span class="sourceLineNo">476</span>   *         .build();<a name="line.476"></a>
-<span class="sourceLineNo">477</span>   * }&lt;/pre&gt;<a name="line.477"></a>
-<span class="sourceLineNo">478</span>   *<a name="line.478"></a>
-<span class="sourceLineNo">479</span>   * &lt;p&gt;Builder instances can be reused; it is safe to call {@link #build} multiple times to build<a name="line.479"></a>
-<span class="sourceLineNo">480</span>   * multiple multisets in series.<a name="line.480"></a>
-<span class="sourceLineNo">481</span>   *<a name="line.481"></a>
-<span class="sourceLineNo">482</span>   * @since 2.0<a name="line.482"></a>
-<span class="sourceLineNo">483</span>   */<a name="line.483"></a>
-<span class="sourceLineNo">484</span>  public static class Builder&lt;E&gt; extends ImmutableCollection.Builder&lt;E&gt; {<a name="line.484"></a>
-<span class="sourceLineNo">485</span>    final Multiset&lt;E&gt; contents;<a name="line.485"></a>
-<span class="sourceLineNo">486</span><a name="line.486"></a>
-<span class="sourceLineNo">487</span>    /**<a name="line.487"></a>
-<span class="sourceLineNo">488</span>     * Creates a new builder. The returned builder is equivalent to the builder generated by {@link<a name="line.488"></a>
-<span class="sourceLineNo">489</span>     * ImmutableMultiset#builder}.<a name="line.489"></a>
-<span class="sourceLineNo">490</span>     */<a name="line.490"></a>
-<span class="sourceLineNo">491</span>    public Builder() {<a name="line.491"></a>
-<span class="sourceLineNo">492</span>      this(LinkedHashMultiset.&lt;E&gt;create());<a name="line.492"></a>
-<span class="sourceLineNo">493</span>    }<a name="line.493"></a>
-<span class="sourceLineNo">494</span><a name="line.494"></a>
-<span class="sourceLineNo">495</span>    Builder(Multiset&lt;E&gt; contents) {<a name="line.495"></a>
-<span class="sourceLineNo">496</span>      this.contents = contents;<a name="line.496"></a>
-<span class="sourceLineNo">497</span>    }<a name="line.497"></a>
-<span class="sourceLineNo">498</span><a name="line.498"></a>
-<span class="sourceLineNo">499</span>    /**<a name="line.499"></a>
-<span class="sourceLineNo">500</span>     * Adds {@code element} to the {@code ImmutableMultiset}.<a name="line.500"></a>
-<span class="sourceLineNo">501</span>     *<a name="line.501"></a>
-<span class="sourceLineNo">502</span>     * @param element the element to add<a name="line.502"></a>
-<span class="sourceLineNo">503</span>     * @return this {@code Builder} object<a name="line.503"></a>
-<span class="sourceLineNo">504</span>     * @throws NullPointerException if {@code element} is null<a name="line.504"></a>
-<span class="sourceLineNo">505</span>     */<a name="line.505"></a>
-<span class="sourceLineNo">506</span>    @CanIgnoreReturnValue<a name="line.506"></a>
-<span class="sourceLineNo">507</span>    @Override<a name="line.507"></a>
-<span class="sourceLineNo">508</span>    public Builder&lt;E&gt; add(E element) {<a name="line.508"></a>
-<span class="sourceLineNo">509</span>      contents.add(checkNotNull(element));<a name="line.509"></a>
-<span class="sourceLineNo">510</span>      return this;<a name="line.510"></a>
-<span class="sourceLineNo">511</span>    }<a name="line.511"></a>
-<span class="sourceLineNo">512</span><a name="line.512"></a>
-<span class="sourceLineNo">513</span>    /**<a name="line.513"></a>
-<span class="sourceLineNo">514</span>     * Adds a number of occurrences of an element to this {@code ImmutableMultiset}.<a name="line.514"></a>
-<span class="sourceLineNo">515</span>     *<a name="line.515"></a>
-<span class="sourceLineNo">516</span>     * @param element the element to add<a name="line.516"></a>
-<span class="sourceLineNo">517</span>     * @param occurrences the number of occurrences of the element to add. May be zero, in which<a name="line.517"></a>
-<span class="sourceLineNo">518</span>     *     case no change will be made.<a name="line.518"></a>
-<span class="sourceLineNo">519</span>     * @return this {@code Builder} object<a name="line.519"></a>
-<span class="sourceLineNo">520</span>     * @throws NullPointerException if {@code element} is null<a name="line.520"></a>
-<span class="sourceLineNo">521</span>     * @throws IllegalArgumentException if {@code occurrences} is negative, or if this operation<a name="line.521"></a>
-<span class="sourceLineNo">522</span>     *     would result in more than {@link Integer#MAX_VALUE} occurrences of the element<a name="line.522"></a>
+<span class="sourceLineNo">428</span>  /**<a name="line.428"></a>
+<span class="sourceLineNo">429</span>   * Returns a new builder. The generated builder is equivalent to the builder created by the {@link<a name="line.429"></a>
+<span class="sourceLineNo">430</span>   * Builder} constructor.<a name="line.430"></a>
+<span class="sourceLineNo">431</span>   */<a name="line.431"></a>
+<span class="sourceLineNo">432</span>  public static &lt;E&gt; Builder&lt;E&gt; builder() {<a name="line.432"></a>
+<span class="sourceLineNo">433</span>    return new Builder&lt;E&gt;();<a name="line.433"></a>
+<span class="sourceLineNo">434</span>  }<a name="line.434"></a>
+<span class="sourceLineNo">435</span><a name="line.435"></a>
+<span class="sourceLineNo">436</span>  /**<a name="line.436"></a>
+<span class="sourceLineNo">437</span>   * A builder for creating immutable multiset instances, especially {@code public static final}<a name="line.437"></a>
+<span class="sourceLineNo">438</span>   * multisets ("constant multisets"). Example:<a name="line.438"></a>
+<span class="sourceLineNo">439</span>   *<a name="line.439"></a>
+<span class="sourceLineNo">440</span>   * &lt;pre&gt;{@code<a name="line.440"></a>
+<span class="sourceLineNo">441</span>   * public static final ImmutableMultiset&lt;Bean&gt; BEANS =<a name="line.441"></a>
+<span class="sourceLineNo">442</span>   *     new ImmutableMultiset.Builder&lt;Bean&gt;()<a name="line.442"></a>
+<span class="sourceLineNo">443</span>   *         .addCopies(Bean.COCOA, 4)<a name="line.443"></a>
+<span class="sourceLineNo">444</span>   *         .addCopies(Bean.GARDEN, 6)<a name="line.444"></a>
+<span class="sourceLineNo">445</span>   *         .addCopies(Bean.RED, 8)<a name="line.445"></a>
+<span class="sourceLineNo">446</span>   *         .addCopies(Bean.BLACK_EYED, 10)<a name="line.446"></a>
+<span class="sourceLineNo">447</span>   *         .build();<a name="line.447"></a>
+<span class="sourceLineNo">448</span>   * }&lt;/pre&gt;<a name="line.448"></a>
+<span class="sourceLineNo">449</span>   *<a name="line.449"></a>
+<span class="sourceLineNo">450</span>   * &lt;p&gt;Builder instances can be reused; it is safe to call {@link #build} multiple times to build<a name="line.450"></a>
+<span class="sourceLineNo">451</span>   * multiple multisets in series.<a name="line.451"></a>
+<span class="sourceLineNo">452</span>   *<a name="line.452"></a>
+<span class="sourceLineNo">453</span>   * @since 2.0<a name="line.453"></a>
+<span class="sourceLineNo">454</span>   */<a name="line.454"></a>
+<span class="sourceLineNo">455</span>  public static class Builder&lt;E&gt; extends ImmutableCollection.Builder&lt;E&gt; {<a name="line.455"></a>
+<span class="sourceLineNo">456</span>    final Multiset&lt;E&gt; contents;<a name="line.456"></a>
+<span class="sourceLineNo">457</span><a name="line.457"></a>
+<span class="sourceLineNo">458</span>    /**<a name="line.458"></a>
+<span class="sourceLineNo">459</span>     * Creates a new builder. The returned builder is equivalent to the builder generated by {@link<a name="line.459"></a>
+<span class="sourceLineNo">460</span>     * ImmutableMultiset#builder}.<a name="line.460"></a>
+<span class="sourceLineNo">461</span>     */<a name="line.461"></a>
+<span class="sourceLineNo">462</span>    public Builder() {<a name="line.462"></a>
+<span class="sourceLineNo">463</span>      this(LinkedHashMultiset.&lt;E&gt;create());<a name="line.463"></a>
+<span class="sourceLineNo">464</span>    }<a name="line.464"></a>
+<span class="sourceLineNo">465</span><a name="line.465"></a>
+<span class="sourceLineNo">466</span>    Builder(Multiset&lt;E&gt; contents) {<a name="line.466"></a>
+<span class="sourceLineNo">467</span>      this.contents = contents;<a name="line.467"></a>
+<span class="sourceLineNo">468</span>    }<a name="line.468"></a>
+<span class="sourceLineNo">469</span><a name="line.469"></a>
+<span class="sourceLineNo">470</span>    /**<a name="line.470"></a>
+<span class="sourceLineNo">471</span>     * Adds {@code element} to the {@code ImmutableMultiset}.<a name="line.471"></a>
+<span class="sourceLineNo">472</span>     *<a name="line.472"></a>
+<span class="sourceLineNo">473</span>     * @param element the element to add<a name="line.473"></a>
+<span class="sourceLineNo">474</span>     * @return this {@code Builder} object<a name="line.474"></a>
+<span class="sourceLineNo">475</span>     * @throws NullPointerException if {@code element} is null<a name="line.475"></a>
+<span class="sourceLineNo">476</span>     */<a name="line.476"></a>
+<span class="sourceLineNo">477</span>    @CanIgnoreReturnValue<a name="line.477"></a>
+<span class="sourceLineNo">478</span>    @Override<a name="line.478"></a>
+<span class="sourceLineNo">479</span>    public Builder&lt;E&gt; add(E element) {<a name="line.479"></a>
+<span class="sourceLineNo">480</span>      contents.add(checkNotNull(element));<a name="line.480"></a>
+<span class="sourceLineNo">481</span>      return this;<a name="line.481"></a>
+<span class="sourceLineNo">482</span>    }<a name="line.482"></a>
+<span class="sourceLineNo">483</span><a name="line.483"></a>
+<span class="sourceLineNo">484</span>    /**<a name="line.484"></a>
+<span class="sourceLineNo">485</span>     * Adds a number of occurrences of an element to this {@code ImmutableMultiset}.<a name="line.485"></a>
+<span class="sourceLineNo">486</span>     *<a name="line.486"></a>
+<span class="sourceLineNo">487</span>     * @param element the element to add<a name="line.487"></a>
+<span class="sourceLineNo">488</span>     * @param occurrences the number of occurrences of the element to add. May be zero, in which<a name="line.488"></a>
+<span class="sourceLineNo">489</span>     *     case no change will be made.<a name="line.489"></a>
+<span class="sourceLineNo">490</span>     * @return this {@code Builder} object<a name="line.490"></a>
+<span class="sourceLineNo">491</span>     * @throws NullPointerException if {@code element} is null<a name="line.491"></a>
+<span class="sourceLineNo">492</span>     * @throws IllegalArgumentException if {@code occurrences} is negative, or if this operation<a name="line.492"></a>
+<span class="sourceLineNo">493</span>     *     would result in more than {@link Integer#MAX_VALUE} occurrences of the element<a name="line.493"></a>
+<span class="sourceLineNo">494</span>     */<a name="line.494"></a>
+<span class="sourceLineNo">495</span>    @CanIgnoreReturnValue<a name="line.495"></a>
+<span class="sourceLineNo">496</span>    public Builder&lt;E&gt; addCopies(E element, int occurrences) {<a name="line.496"></a>
+<span class="sourceLineNo">497</span>      contents.add(checkNotNull(element), occurrences);<a name="line.497"></a>
+<span class="sourceLineNo">498</span>      return this;<a name="line.498"></a>
+<span class="sourceLineNo">499</span>    }<a name="line.499"></a>
+<span class="sourceLineNo">500</span><a name="line.500"></a>
+<span class="sourceLineNo">501</span>    /**<a name="line.501"></a>
+<span class="sourceLineNo">502</span>     * Adds or removes the necessary occurrences of an element such that the element attains the<a name="line.502"></a>
+<span class="sourceLineNo">503</span>     * desired count.<a name="line.503"></a>
+<span class="sourceLineNo">504</span>     *<a name="line.504"></a>
+<span class="sourceLineNo">505</span>     * @param element the element to add or remove occurrences of<a name="line.505"></a>
+<span class="sourceLineNo">506</span>     * @param count the desired count of the element in this multiset<a name="line.506"></a>
+<span class="sourceLineNo">507</span>     * @return this {@code Builder} object<a name="line.507"></a>
+<span class="sourceLineNo">508</span>     * @throws NullPointerException if {@code element} is null<a name="line.508"></a>
+<span class="sourceLineNo">509</span>     * @throws IllegalArgumentException if {@code count} is negative<a name="line.509"></a>
+<span class="sourceLineNo">510</span>     */<a name="line.510"></a>
+<span class="sourceLineNo">511</span>    @CanIgnoreReturnValue<a name="line.511"></a>
+<span class="sourceLineNo">512</span>    public Builder&lt;E&gt; setCount(E element, int count) {<a name="line.512"></a>
+<span class="sourceLineNo">513</span>      contents.setCount(checkNotNull(element), count);<a name="line.513"></a>
+<span class="sourceLineNo">514</span>      return this;<a name="line.514"></a>
+<span class="sourceLineNo">515</span>    }<a name="line.515"></a>
+<span class="sourceLineNo">516</span><a name="line.516"></a>
+<span class="sourceLineNo">517</span>    /**<a name="line.517"></a>
+<span class="sourceLineNo">518</span>     * Adds each element of {@code elements} to the {@code ImmutableMultiset}.<a name="line.518"></a>
+<span class="sourceLineNo">519</span>     *<a name="line.519"></a>
+<span class="sourceLineNo">520</span>     * @param elements the elements to add<a name="line.520"></a>
+<span class="sourceLineNo">521</span>     * @return this {@code Builder} object<a name="line.521"></a>
+<span class="sourceLineNo">522</span>     * @throws NullPointerException if {@code elements} is null or contains a null element<a name="line.522"></a>
 <span class="sourceLineNo">523</span>     */<a name="line.523"></a>
 <span class="sourceLineNo">524</span>    @CanIgnoreReturnValue<a name="line.524"></a>
-<span class="sourceLineNo">525</span>    public Builder&lt;E&gt; addCopies(E element, int occurrences) {<a name="line.525"></a>
-<span class="sourceLineNo">526</span>      contents.add(checkNotNull(element), occurrences);<a name="line.526"></a>
-<span class="sourceLineNo">527</span>      return this;<a name="line.527"></a>
-<span class="sourceLineNo">528</span>    }<a name="line.528"></a>
-<span class="sourceLineNo">529</span><a name="line.529"></a>
-<span class="sourceLineNo">530</span>    /**<a name="line.530"></a>
-<span class="sourceLineNo">531</span>     * Adds or removes the necessary occurrences of an element such that the element attains the<a name="line.531"></a>
-<span class="sourceLineNo">532</span>     * desired count.<a name="line.532"></a>
+<span class="sourceLineNo">525</span>    @Override<a name="line.525"></a>
+<span class="sourceLineNo">526</span>    public Builder&lt;E&gt; add(E... elements) {<a name="line.526"></a>
+<span class="sourceLineNo">527</span>      super.add(elements);<a name="line.527"></a>
+<span class="sourceLineNo">528</span>      return this;<a name="line.528"></a>
+<span class="sourceLineNo">529</span>    }<a name="line.529"></a>
+<span class="sourceLineNo">530</span><a name="line.530"></a>
+<span class="sourceLineNo">531</span>    /**<a name="line.531"></a>
+<span class="sourceLineNo">532</span>     * Adds each element of {@code elements} to the {@code ImmutableMultiset}.<a name="line.532"></a>
 <span class="sourceLineNo">533</span>     *<a name="line.533"></a>
-<span class="sourceLineNo">534</span>     * @param element the element to add or remove occurrences of<a name="line.534"></a>
-<span class="sourceLineNo">535</span>     * @param count the desired count of the element in this multiset<a name="line.535"></a>
-<span class="sourceLineNo">536</span>     * @return this {@code Builder} object<a name="line.536"></a>
-<span class="sourceLineNo">537</span>     * @throws NullPointerException if {@code element} is null<a name="line.537"></a>
-<span class="sourceLineNo">538</span>     * @throws IllegalArgumentException if {@code count} is negative<a name="line.538"></a>
-<span class="sourceLineNo">539</span>     */<a name="line.539"></a>
-<span class="sourceLineNo">540</span>    @CanIgnoreReturnValue<a name="line.540"></a>
-<span class="sourceLineNo">541</span>    public Builder&lt;E&gt; setCount(E element, int count) {<a name="line.541"></a>
-<span class="sourceLineNo">542</span>      contents.setCount(checkNotNull(element), count);<a name="line.542"></a>
-<span class="sourceLineNo">543</span>      return this;<a name="line.543"></a>
-<span class="sourceLineNo">544</span>    }<a name="line.544"></a>
-<span class="sourceLineNo">545</span><a name="line.545"></a>
-<span class="sourceLineNo">546</span>    /**<a name="line.546"></a>
-<span class="sourceLineNo">547</span>     * Adds each element of {@code elements} to the {@code ImmutableMultiset}.<a name="line.547"></a>
-<span class="sourceLineNo">548</span>     *<a name="line.548"></a>
-<span class="sourceLineNo">549</span>     * @param elements the elements to add<a name="line.549"></a>
-<span class="sourceLineNo">550</span>     * @return this {@code Builder} object<a name="line.550"></a>
-<span class="sourceLineNo">551</span>     * @throws NullPointerException if {@code elements} is null or contains a null element<a name="line.551"></a>
-<span class="sourceLineNo">552</span>     */<a name="line.552"></a>
-<span class="sourceLineNo">553</span>    @CanIgnoreReturnValue<a name="line.553"></a>
-<span class="sourceLineNo">554</span>    @Override<a name="line.554"></a>
-<span class="sourceLineNo">555</span>    public Builder&lt;E&gt; add(E... elements) {<a name="line.555"></a>
-<span class="sourceLineNo">556</span>      super.add(elements);<a name="line.556"></a>
-<span class="sourceLineNo">557</span>      return this;<a name="line.557"></a>
-<span class="sourceLineNo">558</span>    }<a name="line.558"></a>
-<span class="sourceLineNo">559</span><a name="line.559"></a>
-<span class="sourceLineNo">560</span>    /**<a name="line.560"></a>
-<span class="sourceLineNo">561</span>     * Adds each element of {@code elements} to the {@code ImmutableMultiset}.<a name="line.561"></a>
-<span class="sourceLineNo">562</span>     *<a name="line.562"></a>
-<span class="sourceLineNo">563</span>     * @param elements the {@code Iterable} to add to the {@code ImmutableMultiset}<a name="line.563"></a>
-<span class="sourceLineNo">564</span>     * @return this {@code Builder} object<a name="line.564"></a>
-<span class="sourceLineNo">565</span>     * @throws NullPointerException if {@code elements} is null or contains a null element<a name="line.565"></a>
-<span class="sourceLineNo">566</span>     */<a name="line.566"></a>
-<span class="sourceLineNo">567</span>    @CanIgnoreReturnValue<a name="line.567"></a>
-<span class="sourceLineNo">568</span>    @Override<a name="line.568"></a>
-<span class="sourceLineNo">569</span>    public Builder&lt;E&gt; addAll(Iterable&lt;? extends E&gt; elements) {<a name="line.569"></a>
-<span class="sourceLineNo">570</span>      if (elements instanceof Multiset) {<a name="line.570"></a>
-<span class="sourceLineNo">571</span>        Multiset&lt;? extends E&gt; multiset = Multisets.cast(elements);<a name="line.571"></a>
-<span class="sourceLineNo">572</span>        for (Entry&lt;? extends E&gt; entry : multiset.entrySet()) {<a name="line.572"></a>
-<span class="sourceLineNo">573</span>          addCopies(entry.getElement(), entry.getCount());<a name="line.573"></a>
-<span class="sourceLineNo">574</span>        }<a name="line.574"></a>
-<span class="sourceLineNo">575</span>      } else {<a name="line.575"></a>
-<span class="sourceLineNo">576</span>        super.addAll(elements);<a name="line.576"></a>
-<span class="sourceLineNo">577</span>      }<a name="line.577"></a>
-<span class="sourceLineNo">578</span>      return this;<a name="line.578"></a>
-<span class="sourceLineNo">579</span>    }<a name="line.579"></a>
-<span class="sourceLineNo">580</span><a name="line.580"></a>
-<span class="sourceLineNo">581</span>    /**<a name="line.581"></a>
-<span class="sourceLineNo">582</span>     * Adds each element of {@code elements} to the {@code ImmutableMultiset}.<a name="line.582"></a>
-<span class="sourceLineNo">583</span>     *<a name="line.583"></a>
-<span class="sourceLineNo">584</span>     * @param elements the elements to add to the {@code ImmutableMultiset}<a name="line.584"></a>
-<span class="sourceLineNo">585</span>     * @return this {@code Builder} object<a name="line.585"></a>
-<span class="sourceLineNo">586</span>     * @throws NullPointerException if {@code elements} is null or contains a null element<a name="line.586"></a>
-<span class="sourceLineNo">587</span>     */<a name="line.587"></a>
-<span class="sourceLineNo">588</span>    @CanIgnoreReturnValue<a name="line.588"></a>
-<span class="sourceLineNo">589</span>    @Override<a name="line.589"></a>
-<span class="sourceLineNo">590</span>    public Builder&lt;E&gt; addAll(Iterator&lt;? extends E&gt; elements) {<a name="line.590"></a>
-<span class="sourceLineNo">591</span>      super.addAll(elements);<a name="line.591"></a>
-<span class="sourceLineNo">592</span>      return this;<a name="line.592"></a>
-<span class="sourceLineNo">593</span>    }<a name="line.593"></a>
-<span class="sourceLineNo">594</span><a name="line.594"></a>
-<span class="sourceLineNo">595</span>    /**<a name="line.595"></a>
-<span class="sourceLineNo">596</span>     * Returns a newly-created {@code ImmutableMultiset} based on the contents of the {@code<a name="line.596"></a>
-<span class="sourceLineNo">597</span>     * Builder}.<a name="line.597"></a>
-<span class="sourceLineNo">598</span>     */<a name="line.598"></a>
-<span class="sourceLineNo">599</span>    @Override<a name="line.599"></a>
-<span class="sourceLineNo">600</span>    public ImmutableMultiset&lt;E&gt; build() {<a name="line.600"></a>
-<span class="sourceLineNo">601</span>      return copyOf(contents);<a name="line.601"></a>
-<span class="sourceLineNo">602</span>    }<a name="line.602"></a>
-<span class="sourceLineNo">603</span>  }<a name="line.603"></a>
-<span class="sourceLineNo">604</span>}<a name="line.604"></a>
+<span class="sourceLineNo">534</span>     * @param elements the {@code Iterable} to add to the {@code ImmutableMultiset}<a name="line.534"></a>
+<span class="sourceLineNo">535</span>     * @return this {@code Builder} object<a name="line.535"></a>
+<span class="sourceLineNo">536</span>     * @throws NullPointerException if {@code elements} is null or contains a null element<a name="line.536"></a>
+<span class="sourceLineNo">537</span>     */<a name="line.537"></a>
+<span class="sourceLineNo">538</span>    @CanIgnoreReturnValue<a name="line.538"></a>
+<span class="sourceLineNo">539</span>    @Override<a name="line.539"></a>
+<span class="sourceLineNo">540</span>    public Builder&lt;E&gt; addAll(Iterable&lt;? extends E&gt; elements) {<a name="line.540"></a>
+<span class="sourceLineNo">541</span>      if (elements instanceof Multiset) {<a name="line.541"></a>
+<span class="sourceLineNo">542</span>        Multiset&lt;? extends E&gt; multiset = Multisets.cast(elements);<a name="line.542"></a>
+<span class="sourceLineNo">543</span>        for (Entry&lt;? extends E&gt; entry : multiset.entrySet()) {<a name="line.543"></a>
+<span class="sourceLineNo">544</span>          addCopies(entry.getElement(), entry.getCount());<a name="line.544"></a>
+<span class="sourceLineNo">545</span>        }<a name="line.545"></a>
+<span class="sourceLineNo">546</span>      } else {<a name="line.546"></a>
+<span class="sourceLineNo">547</span>        super.addAll(elements);<a name="line.547"></a>
+<span class="sourceLineNo">548</span>      }<a name="line.548"></a>
+<span class="sourceLineNo">549</span>      return this;<a name="line.549"></a>
+<span class="sourceLineNo">550</span>    }<a name="line.550"></a>
+<span class="sourceLineNo">551</span><a name="line.551"></a>
+<span class="sourceLineNo">552</span>    /**<a name="line.552"></a>
+<span class="sourceLineNo">553</span>     * Adds each element of {@code elements} to the {@code ImmutableMultiset}.<a name="line.553"></a>
+<span class="sourceLineNo">554</span>     *<a name="line.554"></a>
+<span class="sourceLineNo">555</span>     * @param elements the elements to add to the {@code ImmutableMultiset}<a name="line.555"></a>
+<span class="sourceLineNo">556</span>     * @return this {@code Builder} object<a name="line.556"></a>
+<span class="sourceLineNo">557</span>     * @throws NullPointerException if {@code elements} is null or contains a null element<a name="line.557"></a>
+<span class="sourceLineNo">558</span>     */<a name="line.558"></a>
+<span class="sourceLineNo">559</span>    @CanIgnoreReturnValue<a name="line.559"></a>
+<span class="sourceLineNo">560</span>    @Override<a name="line.560"></a>
+<span class="sourceLineNo">561</span>    public Builder&lt;E&gt; addAll(Iterator&lt;? extends E&gt; elements) {<a name="line.561"></a>
+<span class="sourceLineNo">562</span>      super.addAll(elements);<a name="line.562"></a>
+<span class="sourceLineNo">563</span>      return this;<a name="line.563"></a>
+<span class="sourceLineNo">564</span>    }<a name="line.564"></a>
+<span class="sourceLineNo">565</span><a name="line.565"></a>
+<span class="sourceLineNo">566</span>    /**<a name="line.566"></a>
+<span class="sourceLineNo">567</span>     * Returns a newly-created {@code ImmutableMultiset} based on the contents of the {@code<a name="line.567"></a>
+<span class="sourceLineNo">568</span>     * Builder}.<a name="line.568"></a>
+<span class="sourceLineNo">569</span>     */<a name="line.569"></a>
+<span class="sourceLineNo">570</span>    @Override<a name="line.570"></a>
+<span class="sourceLineNo">571</span>    public ImmutableMultiset&lt;E&gt; build() {<a name="line.571"></a>
+<span class="sourceLineNo">572</span>      return copyOf(contents);<a name="line.572"></a>
+<span class="sourceLineNo">573</span>    }<a name="line.573"></a>
+<span class="sourceLineNo">574</span>  }<a name="line.574"></a>
+<span class="sourceLineNo">575</span>}<a name="line.575"></a>
 
 
 

@@ -121,7 +121,7 @@
 <span class="sourceLineNo">113</span>    transient volatile boolean initialized;<a name="line.113"></a>
 <span class="sourceLineNo">114</span>    // "value" does not need to be volatile; visibility piggy-backs<a name="line.114"></a>
 <span class="sourceLineNo">115</span>    // on volatile read of "initialized".<a name="line.115"></a>
-<span class="sourceLineNo">116</span>    transient T value;<a name="line.116"></a>
+<span class="sourceLineNo">116</span>    @NullableDecl transient T value;<a name="line.116"></a>
 <span class="sourceLineNo">117</span><a name="line.117"></a>
 <span class="sourceLineNo">118</span>    MemoizingSupplier(Supplier&lt;T&gt; delegate) {<a name="line.118"></a>
 <span class="sourceLineNo">119</span>      this.delegate = Preconditions.checkNotNull(delegate);<a name="line.119"></a>
@@ -157,7 +157,7 @@
 <span class="sourceLineNo">149</span>    volatile boolean initialized;<a name="line.149"></a>
 <span class="sourceLineNo">150</span>    // "value" does not need to be volatile; visibility piggy-backs<a name="line.150"></a>
 <span class="sourceLineNo">151</span>    // on volatile read of "initialized".<a name="line.151"></a>
-<span class="sourceLineNo">152</span>    T value;<a name="line.152"></a>
+<span class="sourceLineNo">152</span>    @NullableDecl T value;<a name="line.152"></a>
 <span class="sourceLineNo">153</span><a name="line.153"></a>
 <span class="sourceLineNo">154</span>    NonSerializableMemoizingSupplier(Supplier&lt;T&gt; delegate) {<a name="line.154"></a>
 <span class="sourceLineNo">155</span>      this.delegate = Preconditions.checkNotNull(delegate);<a name="line.155"></a>
@@ -217,7 +217,7 @@
 <span class="sourceLineNo">209</span>  static class ExpiringMemoizingSupplier&lt;T&gt; implements Supplier&lt;T&gt;, Serializable {<a name="line.209"></a>
 <span class="sourceLineNo">210</span>    final Supplier&lt;T&gt; delegate;<a name="line.210"></a>
 <span class="sourceLineNo">211</span>    final long durationNanos;<a name="line.211"></a>
-<span class="sourceLineNo">212</span>    transient volatile T value;<a name="line.212"></a>
+<span class="sourceLineNo">212</span>    @NullableDecl transient volatile T value;<a name="line.212"></a>
 <span class="sourceLineNo">213</span>    // The special value 0 means "not yet initialized".<a name="line.213"></a>
 <span class="sourceLineNo">214</span>    transient volatile long expirationNanos;<a name="line.214"></a>
 <span class="sourceLineNo">215</span><a name="line.215"></a>
@@ -269,7 +269,7 @@
 <span class="sourceLineNo">261</span>  }<a name="line.261"></a>
 <span class="sourceLineNo">262</span><a name="line.262"></a>
 <span class="sourceLineNo">263</span>  private static class SupplierOfInstance&lt;T&gt; implements Supplier&lt;T&gt;, Serializable {<a name="line.263"></a>
-<span class="sourceLineNo">264</span>    final T instance;<a name="line.264"></a>
+<span class="sourceLineNo">264</span>    @NullableDecl final T instance;<a name="line.264"></a>
 <span class="sourceLineNo">265</span><a name="line.265"></a>
 <span class="sourceLineNo">266</span>    SupplierOfInstance(@NullableDecl T instance) {<a name="line.266"></a>
 <span class="sourceLineNo">267</span>      this.instance = instance;<a name="line.267"></a>

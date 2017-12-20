@@ -226,7 +226,7 @@
 <span class="sourceLineNo">218</span>  private transient ValueEntry&lt;K, V&gt; multimapHeaderEntry;<a name="line.218"></a>
 <span class="sourceLineNo">219</span><a name="line.219"></a>
 <span class="sourceLineNo">220</span>  private LinkedHashMultimap(int keyCapacity, int valueSetCapacity) {<a name="line.220"></a>
-<span class="sourceLineNo">221</span>    super(new LinkedHashMap&lt;K, Collection&lt;V&gt;&gt;(keyCapacity));<a name="line.221"></a>
+<span class="sourceLineNo">221</span>    super(Platform.&lt;K, Collection&lt;V&gt;&gt;newLinkedHashMapWithExpectedSize(keyCapacity));<a name="line.221"></a>
 <span class="sourceLineNo">222</span>    checkNonnegative(valueSetCapacity, "expectedValuesPerKey");<a name="line.222"></a>
 <span class="sourceLineNo">223</span><a name="line.223"></a>
 <span class="sourceLineNo">224</span>    this.valueSetCapacity = valueSetCapacity;<a name="line.224"></a>
@@ -243,7 +243,7 @@
 <span class="sourceLineNo">235</span>   */<a name="line.235"></a>
 <span class="sourceLineNo">236</span>  @Override<a name="line.236"></a>
 <span class="sourceLineNo">237</span>  Set&lt;V&gt; createCollection() {<a name="line.237"></a>
-<span class="sourceLineNo">238</span>    return new LinkedHashSet&lt;V&gt;(valueSetCapacity);<a name="line.238"></a>
+<span class="sourceLineNo">238</span>    return Platform.newLinkedHashSetWithExpectedSize(valueSetCapacity);<a name="line.238"></a>
 <span class="sourceLineNo">239</span>  }<a name="line.239"></a>
 <span class="sourceLineNo">240</span><a name="line.240"></a>
 <span class="sourceLineNo">241</span>  /**<a name="line.241"></a>
@@ -578,7 +578,7 @@
 <span class="sourceLineNo">570</span>    succeedsInMultimap(multimapHeaderEntry, multimapHeaderEntry);<a name="line.570"></a>
 <span class="sourceLineNo">571</span>    valueSetCapacity = DEFAULT_VALUE_SET_CAPACITY;<a name="line.571"></a>
 <span class="sourceLineNo">572</span>    int distinctKeys = stream.readInt();<a name="line.572"></a>
-<span class="sourceLineNo">573</span>    Map&lt;K, Collection&lt;V&gt;&gt; map = new LinkedHashMap&lt;&gt;();<a name="line.573"></a>
+<span class="sourceLineNo">573</span>    Map&lt;K, Collection&lt;V&gt;&gt; map = Platform.newLinkedHashMapWithExpectedSize(12);<a name="line.573"></a>
 <span class="sourceLineNo">574</span>    for (int i = 0; i &lt; distinctKeys; i++) {<a name="line.574"></a>
 <span class="sourceLineNo">575</span>      @SuppressWarnings("unchecked")<a name="line.575"></a>
 <span class="sourceLineNo">576</span>      K key = (K) stream.readObject();<a name="line.576"></a>

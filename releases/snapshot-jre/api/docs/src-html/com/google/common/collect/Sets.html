@@ -1772,7 +1772,7 @@
 <span class="sourceLineNo">1764</span>   * @since 12.0<a name="line.1764"></a>
 <span class="sourceLineNo">1765</span>   */<a name="line.1765"></a>
 <span class="sourceLineNo">1766</span>  public static &lt;E&gt; NavigableSet&lt;E&gt; unmodifiableNavigableSet(NavigableSet&lt;E&gt; set) {<a name="line.1766"></a>
-<span class="sourceLineNo">1767</span>    if (set instanceof ImmutableSortedSet || set instanceof UnmodifiableNavigableSet) {<a name="line.1767"></a>
+<span class="sourceLineNo">1767</span>    if (set instanceof ImmutableCollection || set instanceof UnmodifiableNavigableSet) {<a name="line.1767"></a>
 <span class="sourceLineNo">1768</span>      return set;<a name="line.1768"></a>
 <span class="sourceLineNo">1769</span>    }<a name="line.1769"></a>
 <span class="sourceLineNo">1770</span>    return new UnmodifiableNavigableSet&lt;E&gt;(set);<a name="line.1770"></a>

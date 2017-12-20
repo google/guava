@@ -570,7 +570,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="class in com.google.common.collect">ImmutableMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.298">copyOf</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;? extends K,? extends V&gt;&nbsp;multimap)</pre>
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="class in com.google.common.collect">ImmutableMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.304">copyOf</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;? extends K,? extends V&gt;&nbsp;multimap)</pre>
 <div class="block">Returns an immutable multimap containing the same mappings as <code>multimap</code>, in the
  "key-grouped" iteration order described in the class documentation.
 
@@ -590,7 +590,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <li class="blockList">
 <h4>copyOf</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="class in com.google.common.collect">ImmutableMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.318">copyOf</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;? extends K,? extends V&gt;&gt;&nbsp;entries)</pre>
+public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="class in com.google.common.collect">ImmutableMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.324">copyOf</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;? extends K,? extends V&gt;&gt;&nbsp;entries)</pre>
 <div class="block">Returns an immutable multimap containing the specified entries. The returned multimap iterates
  over keys in the order they were first encountered in the input, and the values for each key
  are iterated in the order they were encountered.</div>
@@ -610,7 +610,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <h4>removeAll</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public&nbsp;<a href="../../../../com/google/common/collect/ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.355">removeAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
+public&nbsp;<a href="../../../../com/google/common/collect/ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.359">removeAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the multimap unmodified.</div>
 <dl>
@@ -634,7 +634,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableCollection.h
 <h4>replaceValues</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public&nbsp;<a href="../../../../com/google/common/collect/ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.368">replaceValues</a>(<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">K</a>&nbsp;key,
+public&nbsp;<a href="../../../../com/google/common/collect/ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.372">replaceValues</a>(<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">K</a>&nbsp;key,
                                                                                <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">V</a>&gt;&nbsp;values)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the multimap unmodified.</div>
@@ -657,7 +657,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableCollection.h
 <li class="blockList">
 <h4>clear</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.380">clear</a>()</pre>
+public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.384">clear</a>()</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the multimap unmodified.</div>
 <dl>
@@ -676,7 +676,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Im
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.390">get</a>(<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">K</a>&nbsp;key)</pre>
+<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.394">get</a>(<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">K</a>&nbsp;key)</pre>
 <div class="block">Returns an immutable collection of the values for the given key. If no mappings in the multimap
  have the provided key, an empty immutable collection is returned. The values are in the same
  order as the parameters used to build this multimap.</div>
@@ -692,7 +692,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Im
 <ul class="blockList">
 <li class="blockList">
 <h4>inverse</h4>
-<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="class in com.google.common.collect">ImmutableMultimap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">V</a>,<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.398">inverse</a>()</pre>
+<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="class in com.google.common.collect">ImmutableMultimap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">V</a>,<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.402">inverse</a>()</pre>
 <div class="block">Returns an immutable multimap which is the inverse of this one. For every key-value mapping in
  the original, the result will have a mapping with key and value reversed.</div>
 <dl>
@@ -711,7 +711,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Im
 <h4>put</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.409">put</a>(<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">K</a>&nbsp;key,
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.413">put</a>(<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">K</a>&nbsp;key,
                                                       <a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">V</a>&nbsp;value)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the multimap unmodified.</div>
@@ -736,7 +736,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <h4>putAll</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.422">putAll</a>(<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">K</a>&nbsp;key,
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.426">putAll</a>(<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">K</a>&nbsp;key,
                                                          <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">V</a>&gt;&nbsp;values)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the multimap unmodified.</div>
@@ -758,7 +758,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <h4>putAll</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.435">putAll</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;? extends <a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">K</a>,? extends <a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">V</a>&gt;&nbsp;multimap)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.439">putAll</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;? extends <a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">K</a>,? extends <a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">V</a>&gt;&nbsp;multimap)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the multimap unmodified.</div>
 <dl>
@@ -779,7 +779,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <h4>remove</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.448">remove</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key,
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.452">remove</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key,
                                                          <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the multimap unmodified.</div>
@@ -799,7 +799,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>containsKey</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.465">containsKey</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.469">containsKey</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                            <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#containsKey-java.lang.Object-">Multimap</a></code></span></div>
 <div class="block">Returns <code>true</code> if this multimap contains at least one key-value pair with the key <code>key</code>.</div>
@@ -815,7 +815,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>containsValue</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.470">containsValue</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.474">containsValue</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                              <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#containsValue-java.lang.Object-">Multimap</a></code></span></div>
 <div class="block">Returns <code>true</code> if this multimap contains at least one key-value pair with the value
@@ -832,7 +832,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.475">size</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.479">size</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#size--">Multimap</a></code></span></div>
 <div class="block">Returns the number of key-value pairs in this multimap.
 
@@ -851,7 +851,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>keySet</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.486">keySet</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.490">keySet</a>()</pre>
 <div class="block">Returns an immutable set of the distinct keys in this multimap, in the same order as they
  appear in this multimap.</div>
 <dl>
@@ -866,7 +866,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>asMap</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">K</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.496">asMap</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">K</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.505">asMap</a>()</pre>
 <div class="block">Returns an immutable map that associates each key with its corresponding values in the
  multimap. Keys and values appear in the same order as in this multimap.</div>
 <dl>
@@ -881,7 +881,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>entries</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">K</a>,<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.507">entries</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">K</a>,<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.516">entries</a>()</pre>
 <div class="block">Returns an immutable collection of all key-value pairs in the multimap.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -895,7 +895,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>forEach</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.598">forEach</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiConsumer.html?is-external=true" title="class or interface in java.util.function">BiConsumer</a>&lt;? super <a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">K</a>,? super <a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">V</a>&gt;&nbsp;action)</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.599">forEach</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiConsumer.html?is-external=true" title="class or interface in java.util.function">BiConsumer</a>&lt;? super <a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">K</a>,? super <a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">V</a>&gt;&nbsp;action)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#forEach-java.util.function.BiConsumer-">Multimap</a></code></span></div>
 <div class="block">Performs the given action for all key-value pairs contained in this multimap. If an ordering is
  specified by the <code>Multimap</code> implementation, actions will be performed in the order of
@@ -914,7 +914,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>keys</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.611">keys</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.612">keys</a>()</pre>
 <div class="block">Returns an immutable multiset containing all the keys in this multimap, in the same order and
  with the same frequencies as they appear in this multimap; to get only a single occurrence of
  each key, use <a href="../../../../com/google/common/collect/ImmutableMultimap.html#keySet--"><code>keySet()</code></a>.</div>
@@ -930,7 +930,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>values</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.661">values</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMultimap.html" title="type parameter in ImmutableMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMultimap.html#line.680">values</a>()</pre>
 <div class="block">Returns an immutable collection of the values in this multimap. Its iterator traverses the
  values for the first key, the values for the second key, and so on.</div>
 <dl>
@@ -979,7 +979,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultimap.html#line.249">equals</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultimap.html#line.237">equals</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Indicates whether some other object is "equal to" this one.
@@ -1042,7 +1042,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultimap.html#line.262">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultimap.html#line.250">hashCode</a>()</pre>
 <div class="block">Returns the hash code for this multimap.
 
  <p>The hash code of a multimap is defined as the hash code of the map view, as returned by
@@ -1065,7 +1065,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultimap.html#line.273">toString</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultimap.html#line.261">toString</a>()</pre>
 <div class="block">Returns a string representation of the multimap, generated by calling <code>toString</code> on the
  map returned by <a href="../../../../com/google/common/collect/Multimap.html#asMap--"><code>Multimap.asMap()</code></a>.</div>
 <dl>
