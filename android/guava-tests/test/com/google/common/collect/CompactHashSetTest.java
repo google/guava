@@ -73,4 +73,8 @@ public class CompactHashSetTest extends TestCase {
       .createTestSuite());
     return suite;
   }
+
+  public void testDummyMethod() {
+    // Just make sure the test runner doesn't complain about no test methods.
+  }
 }
