@@ -44,6 +44,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
+import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -101,7 +102,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   private final Type runtimeType;
 
   /** Resolver for resolving types with {@link #runtimeType} as context. */
-  private transient TypeResolver typeResolver;
+  @MonotonicNonNullDecl private transient TypeResolver typeResolver;
 
   /**
    * Constructs a new type token of {@code T}.
@@ -656,7 +657,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
    */
   public class TypeSet extends ForwardingSet<TypeToken<? super T>> implements Serializable {
 
-    private transient ImmutableSet<TypeToken<? super T>> types;
+    @MonotonicNonNullDecl private transient ImmutableSet<TypeToken<? super T>> types;
 
     TypeSet() {}
 
@@ -702,7 +703,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   private final class InterfaceSet extends TypeSet {
 
     private final transient TypeSet allTypes;
-    private transient ImmutableSet<TypeToken<? super T>> interfaces;
+    @MonotonicNonNullDecl private transient ImmutableSet<TypeToken<? super T>> interfaces;
 
     InterfaceSet(TypeSet allTypes) {
       this.allTypes = allTypes;
@@ -755,7 +756,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
 
   private final class ClassSet extends TypeSet {
 
-    private transient ImmutableSet<TypeToken<? super T>> classes;
+    @MonotonicNonNullDecl private transient ImmutableSet<TypeToken<? super T>> classes;
 
     @Override
     protected Set<TypeToken<? super T>> delegate() {

@@ -264,7 +264,7 @@ final class Types {
 
   private static final class ParameterizedTypeImpl implements ParameterizedType, Serializable {
 
-    private final Type ownerType;
+    @NullableDecl private final Type ownerType;
     private final ImmutableList<Type> argumentsList;
     private final Class<?> rawType;
 
