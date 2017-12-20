@@ -1016,6 +1016,8 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
      * cancelled.
      *
      * <p>Canceling this Future will attempt to cancel all the component futures.
+     *
+     * @since NEXT
      */
     public ListenableFuture<?> run(final Runnable combiner, Executor executor) {
       return call(
