@@ -259,7 +259,7 @@ public final class HttpHeaders {
    * The HTTP <a href="https://www.w3.org/TR/server-timing/">{@code Server-Timing}</a> header field
    * name.
    *
-   * @since NEXT
+   * @since 23.6
    */
   public static final String SERVER_TIMING = "Server-Timing";
   /**

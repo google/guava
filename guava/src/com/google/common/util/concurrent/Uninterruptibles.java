@@ -98,7 +98,7 @@ public final class Uninterruptibles {
    * Invokes {@code condition.}{@link Condition#await(long, TimeUnit) await(timeout, unit)}
    * uninterruptibly.
    *
-   * @since NEXT
+   * @since 23.6
    */
   @GwtIncompatible // concurrency
   public static boolean awaitUninterruptibly(Condition condition, long timeout, TimeUnit unit) {
