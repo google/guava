@@ -109,11 +109,21 @@ public final class Maps {
   }
 
   static <K, V> Iterator<K> keyIterator(Iterator<Entry<K, V>> entryIterator) {
-    return Iterators.transform(entryIterator, Maps.<K>keyFunction());
+    return new TransformedIterator<Entry<K, V>, K>(entryIterator) {
+      @Override
+      K transform(Entry<K, V> entry) {
+        return entry.getKey();
+      }
+    };
   }
 
   static <K, V> Iterator<V> valueIterator(Iterator<Entry<K, V>> entryIterator) {
-    return Iterators.transform(entryIterator, Maps.<V>valueFunction());
+    return new TransformedIterator<Entry<K, V>, V>(entryIterator) {
+      @Override
+      V transform(Entry<K, V> entry) {
+        return entry.getValue();
+      }
+    };
   }
 
   /**
