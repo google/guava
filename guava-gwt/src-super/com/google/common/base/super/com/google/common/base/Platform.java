@@ -57,8 +57,8 @@ final class Platform {
   }-*/;
 
   @JsType(isNative = true, name = "Number", namespace = GLOBAL)
-  private static class Number {
-    public native double toPrecision(int precision);
+  private interface Number {
+    double toPrecision(int precision);
   }
 
   static CommonPattern compilePattern(String pattern) {
