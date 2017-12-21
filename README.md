@@ -74,7 +74,7 @@ flavor.
 are subject to change. They can be modified in any way, or even
 removed, at any time. If your code is a library itself (i.e. it is
 used on the CLASSPATH of users outside your own control), you should
-not use beta APIs, unless you repackage them (e.g. using ProGuard). **If your
+not use beta APIs, unless you [repackage] them. **If your
 code is a library, we strongly recommend using the [Guava Beta Checker] to
 ensure that you do not use any `@Beta` APIs!**
 
@@ -107,4 +107,5 @@ API level 15 (Ice Cream Sandwich).
 <!-- References -->
 
 [Using Guava in your build]: https://github.com/google/guava/wiki/UseGuavaInYourBuild
+[repackage]: https://github.com/google/guava/wiki/UseGuavaInYourBuild#repackaging
 
