@@ -74,7 +74,9 @@ flavor.
 are subject to change. They can be modified in any way, or even
 removed, at any time. If your code is a library itself (i.e. it is
 used on the CLASSPATH of users outside your own control), you should
-not use beta APIs, unless you repackage them (e.g. using ProGuard).
+not use beta APIs, unless you repackage them (e.g. using ProGuard). **If your
+code is a library, we strongly recommend using the [Guava Beta Checker] to
+ensure that you do not use any `@Beta` APIs!**
 
 2. APIs without `@Beta` will remain binary-compatible for the indefinite
 future. (Previously, we sometimes removed such APIs after a deprecation period.
@@ -100,6 +102,7 @@ API level 15 (Ice Cream Sandwich).
 [guava-snapshot-api-docs]: http://google.github.io/guava/releases/snapshot-jre/api/docs/
 [guava-snapshot-api-diffs]: http://google.github.io/guava/releases/snapshot-jre/api/diffs/
 [Guava Explained]: https://github.com/google/guava/wiki/Home
+[Guava Beta Checker]: https://github.com/google/guava-beta-checker
 
 <!-- References -->
 
