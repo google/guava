@@ -1,0 +1,211 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2011 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.hash;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import com.google.common.annotations.Beta;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import java.nio.ByteBuffer;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import java.nio.charset.Charset;<a name="line.20"></a>
+<span class="sourceLineNo">021</span><a name="line.21"></a>
+<span class="sourceLineNo">022</span>/**<a name="line.22"></a>
+<span class="sourceLineNo">023</span> * A {@link PrimitiveSink} that can compute a hash code after reading the input. Each hasher should<a name="line.23"></a>
+<span class="sourceLineNo">024</span> * translate all multibyte values ({@link #putInt(int)}, {@link #putLong(long)}, etc) to bytes in<a name="line.24"></a>
+<span class="sourceLineNo">025</span> * little-endian order.<a name="line.25"></a>
+<span class="sourceLineNo">026</span> *<a name="line.26"></a>
+<span class="sourceLineNo">027</span> * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; The result of calling any methods after calling {@link #hash} is undefined.<a name="line.27"></a>
+<span class="sourceLineNo">028</span> *<a name="line.28"></a>
+<span class="sourceLineNo">029</span> * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; Using a specific character encoding when hashing a {@link CharSequence} with<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * {@link #putString(CharSequence, Charset)} is generally only useful for cross-language<a name="line.30"></a>
+<span class="sourceLineNo">031</span> * compatibility (otherwise prefer {@link #putUnencodedChars}). However, the character encodings<a name="line.31"></a>
+<span class="sourceLineNo">032</span> * must be identical across languages. Also beware that {@link Charset} definitions may occasionally<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * change between Java releases.<a name="line.33"></a>
+<span class="sourceLineNo">034</span> *<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; Chunks of data that are put into the {@link Hasher} are not delimited. The<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * resulting {@link HashCode} is dependent only on the bytes inserted, and the order in which they<a name="line.36"></a>
+<span class="sourceLineNo">037</span> * were inserted, not how those bytes were chunked into discrete put() operations. For example, the<a name="line.37"></a>
+<span class="sourceLineNo">038</span> * following three expressions all generate colliding hash codes:<a name="line.38"></a>
+<span class="sourceLineNo">039</span> *<a name="line.39"></a>
+<span class="sourceLineNo">040</span> * &lt;pre&gt;{@code<a name="line.40"></a>
+<span class="sourceLineNo">041</span> * newHasher().putByte(b1).putByte(b2).putByte(b3).hash()<a name="line.41"></a>
+<span class="sourceLineNo">042</span> * newHasher().putByte(b1).putBytes(new byte[] { b2, b3 }).hash()<a name="line.42"></a>
+<span class="sourceLineNo">043</span> * newHasher().putBytes(new byte[] { b1, b2, b3 }).hash()<a name="line.43"></a>
+<span class="sourceLineNo">044</span> * }&lt;/pre&gt;<a name="line.44"></a>
+<span class="sourceLineNo">045</span> *<a name="line.45"></a>
+<span class="sourceLineNo">046</span> * &lt;p&gt;If you wish to avoid this, you should either prepend or append the size of each chunk. Keep in<a name="line.46"></a>
+<span class="sourceLineNo">047</span> * mind that when dealing with char sequences, the encoded form of two concatenated char sequences<a name="line.47"></a>
+<span class="sourceLineNo">048</span> * is not equivalent to the concatenation of their encoded form. Therefore, {@link<a name="line.48"></a>
+<span class="sourceLineNo">049</span> * #putString(CharSequence, Charset)} should only be used consistently with &lt;i&gt;complete&lt;/i&gt;<a name="line.49"></a>
+<span class="sourceLineNo">050</span> * sequences and not broken into chunks.<a name="line.50"></a>
+<span class="sourceLineNo">051</span> *<a name="line.51"></a>
+<span class="sourceLineNo">052</span> * @author Kevin Bourrillion<a name="line.52"></a>
+<span class="sourceLineNo">053</span> * @since 11.0<a name="line.53"></a>
+<span class="sourceLineNo">054</span> */<a name="line.54"></a>
+<span class="sourceLineNo">055</span>@Beta<a name="line.55"></a>
+<span class="sourceLineNo">056</span>@CanIgnoreReturnValue<a name="line.56"></a>
+<span class="sourceLineNo">057</span>public interface Hasher extends PrimitiveSink {<a name="line.57"></a>
+<span class="sourceLineNo">058</span>  @Override<a name="line.58"></a>
+<span class="sourceLineNo">059</span>  Hasher putByte(byte b);<a name="line.59"></a>
+<span class="sourceLineNo">060</span><a name="line.60"></a>
+<span class="sourceLineNo">061</span>  @Override<a name="line.61"></a>
+<span class="sourceLineNo">062</span>  Hasher putBytes(byte[] bytes);<a name="line.62"></a>
+<span class="sourceLineNo">063</span><a name="line.63"></a>
+<span class="sourceLineNo">064</span>  @Override<a name="line.64"></a>
+<span class="sourceLineNo">065</span>  Hasher putBytes(byte[] bytes, int off, int len);<a name="line.65"></a>
+<span class="sourceLineNo">066</span><a name="line.66"></a>
+<span class="sourceLineNo">067</span>  @Override<a name="line.67"></a>
+<span class="sourceLineNo">068</span>  Hasher putBytes(ByteBuffer bytes);<a name="line.68"></a>
+<span class="sourceLineNo">069</span><a name="line.69"></a>
+<span class="sourceLineNo">070</span>  @Override<a name="line.70"></a>
+<span class="sourceLineNo">071</span>  Hasher putShort(short s);<a name="line.71"></a>
+<span class="sourceLineNo">072</span><a name="line.72"></a>
+<span class="sourceLineNo">073</span>  @Override<a name="line.73"></a>
+<span class="sourceLineNo">074</span>  Hasher putInt(int i);<a name="line.74"></a>
+<span class="sourceLineNo">075</span><a name="line.75"></a>
+<span class="sourceLineNo">076</span>  @Override<a name="line.76"></a>
+<span class="sourceLineNo">077</span>  Hasher putLong(long l);<a name="line.77"></a>
+<span class="sourceLineNo">078</span><a name="line.78"></a>
+<span class="sourceLineNo">079</span>  /** Equivalent to {@code putInt(Float.floatToRawIntBits(f))}. */<a name="line.79"></a>
+<span class="sourceLineNo">080</span>  @Override<a name="line.80"></a>
+<span class="sourceLineNo">081</span>  Hasher putFloat(float f);<a name="line.81"></a>
+<span class="sourceLineNo">082</span><a name="line.82"></a>
+<span class="sourceLineNo">083</span>  /** Equivalent to {@code putLong(Double.doubleToRawLongBits(d))}. */<a name="line.83"></a>
+<span class="sourceLineNo">084</span>  @Override<a name="line.84"></a>
+<span class="sourceLineNo">085</span>  Hasher putDouble(double d);<a name="line.85"></a>
+<span class="sourceLineNo">086</span><a name="line.86"></a>
+<span class="sourceLineNo">087</span>  /** Equivalent to {@code putByte(b ? (byte) 1 : (byte) 0)}. */<a name="line.87"></a>
+<span class="sourceLineNo">088</span>  @Override<a name="line.88"></a>
+<span class="sourceLineNo">089</span>  Hasher putBoolean(boolean b);<a name="line.89"></a>
+<span class="sourceLineNo">090</span><a name="line.90"></a>
+<span class="sourceLineNo">091</span>  @Override<a name="line.91"></a>
+<span class="sourceLineNo">092</span>  Hasher putChar(char c);<a name="line.92"></a>
+<span class="sourceLineNo">093</span><a name="line.93"></a>
+<span class="sourceLineNo">094</span>  /**<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   * Equivalent to processing each {@code char} value in the {@code CharSequence}, in order. In<a name="line.95"></a>
+<span class="sourceLineNo">096</span>   * other words, no character encoding is performed; the low byte and high byte of each {@code<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   * char} are hashed directly (in that order). The input must not be updated while this method is<a name="line.97"></a>
+<span class="sourceLineNo">098</span>   * in progress.<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   *<a name="line.99"></a>
+<span class="sourceLineNo">100</span>   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; This method will produce different output than most other languages do when<a name="line.100"></a>
+<span class="sourceLineNo">101</span>   * running the same hash function on the equivalent input. For cross-language compatibility, use<a name="line.101"></a>
+<span class="sourceLineNo">102</span>   * {@link #putString}, usually with a charset of UTF-8. For other use cases, use {@code<a name="line.102"></a>
+<span class="sourceLineNo">103</span>   * putUnencodedChars}.<a name="line.103"></a>
+<span class="sourceLineNo">104</span>   *<a name="line.104"></a>
+<span class="sourceLineNo">105</span>   * @since 15.0 (since 11.0 as putString(CharSequence)).<a name="line.105"></a>
+<span class="sourceLineNo">106</span>   */<a name="line.106"></a>
+<span class="sourceLineNo">107</span>  @Override<a name="line.107"></a>
+<span class="sourceLineNo">108</span>  Hasher putUnencodedChars(CharSequence charSequence);<a name="line.108"></a>
+<span class="sourceLineNo">109</span><a name="line.109"></a>
+<span class="sourceLineNo">110</span>  /**<a name="line.110"></a>
+<span class="sourceLineNo">111</span>   * Equivalent to {@code putBytes(charSequence.toString().getBytes(charset))}.<a name="line.111"></a>
+<span class="sourceLineNo">112</span>   *<a name="line.112"></a>
+<span class="sourceLineNo">113</span>   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; This method, which reencodes the input before hashing it, is useful only for<a name="line.113"></a>
+<span class="sourceLineNo">114</span>   * cross-language compatibility. For other use cases, prefer {@link #putUnencodedChars}, which is<a name="line.114"></a>
+<span class="sourceLineNo">115</span>   * faster, produces the same output across Java releases, and hashes every {@code char} in the<a name="line.115"></a>
+<span class="sourceLineNo">116</span>   * input, even if some are invalid.<a name="line.116"></a>
+<span class="sourceLineNo">117</span>   */<a name="line.117"></a>
+<span class="sourceLineNo">118</span>  @Override<a name="line.118"></a>
+<span class="sourceLineNo">119</span>  Hasher putString(CharSequence charSequence, Charset charset);<a name="line.119"></a>
+<span class="sourceLineNo">120</span><a name="line.120"></a>
+<span class="sourceLineNo">121</span>  /** A simple convenience for {@code funnel.funnel(object, this)}. */<a name="line.121"></a>
+<span class="sourceLineNo">122</span>  &lt;T&gt; Hasher putObject(T instance, Funnel&lt;? super T&gt; funnel);<a name="line.122"></a>
+<span class="sourceLineNo">123</span><a name="line.123"></a>
+<span class="sourceLineNo">124</span>  /**<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   * Computes a hash code based on the data that have been provided to this hasher. The result is<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   * unspecified if this method is called more than once on the same instance.<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   */<a name="line.127"></a>
+<span class="sourceLineNo">128</span>  HashCode hash();<a name="line.128"></a>
+<span class="sourceLineNo">129</span><a name="line.129"></a>
+<span class="sourceLineNo">130</span>  /**<a name="line.130"></a>
+<span class="sourceLineNo">131</span>   * {@inheritDoc}<a name="line.131"></a>
+<span class="sourceLineNo">132</span>   *<a name="line.132"></a>
+<span class="sourceLineNo">133</span>   * @deprecated This returns {@link Object#hashCode()}; you almost certainly mean to call {@code<a name="line.133"></a>
+<span class="sourceLineNo">134</span>   *     hash().asInt()}.<a name="line.134"></a>
+<span class="sourceLineNo">135</span>   */<a name="line.135"></a>
+<span class="sourceLineNo">136</span>  @Override<a name="line.136"></a>
+<span class="sourceLineNo">137</span>  @Deprecated<a name="line.137"></a>
+<span class="sourceLineNo">138</span>  int hashCode();<a name="line.138"></a>
+<span class="sourceLineNo">139</span>}<a name="line.139"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>
