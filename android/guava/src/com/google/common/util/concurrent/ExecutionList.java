@@ -49,7 +49,7 @@ public final class ExecutionList {
    * RunnableExecutorPair#next} field.
    */
   @GuardedBy("this")
-  private RunnableExecutorPair runnables;
+  @NullableDecl private RunnableExecutorPair runnables;
 
   @GuardedBy("this")
   private boolean executed;

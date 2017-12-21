@@ -24,6 +24,7 @@ import com.google.j2objc.annotations.Weak;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A synchronization abstraction supporting waiting on arbitrary boolean conditions.
@@ -318,7 +319,7 @@ public final class Monitor {
 
     /** The next active guard */
     @GuardedBy("monitor.lock")
-    Guard next;
+    @NullableDecl Guard next;
 
     protected Guard(Monitor monitor) {
       this.monitor = checkNotNull(monitor, "monitor");

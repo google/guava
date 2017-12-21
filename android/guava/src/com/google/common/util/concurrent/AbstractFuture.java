@@ -343,13 +343,13 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
    *       argument.
    * </ul>
    */
-  private volatile Object value;
+  @NullableDecl private volatile Object value;
 
   /** All listeners. */
-  private volatile Listener listeners;
+  @NullableDecl private volatile Listener listeners;
 
   /** All waiting threads. */
-  private volatile Waiter waiters;
+  @NullableDecl private volatile Waiter waiters;
 
   /** Constructor for use by subclasses. */
   protected AbstractFuture() {}

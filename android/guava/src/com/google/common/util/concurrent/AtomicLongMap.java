@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
+import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 
 /**
  * A map containing {@code long} values that can be atomically updated. While writes to a
@@ -298,7 +299,7 @@ public final class AtomicLongMap<K> implements Serializable {
     return sum;
   }
 
-  private transient Map<K, Long> asMap;
+  @MonotonicNonNullDecl private transient Map<K, Long> asMap;
 
   /** Returns a live, read-only view of the map backing this {@code AtomicLongMap}. */
   public Map<K, Long> asMap() {
