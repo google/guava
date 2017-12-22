@@ -134,7 +134,7 @@ abstract class Striped64 extends Number {
   static final int NCPU = Runtime.getRuntime().availableProcessors();
 
   /** Table of cells. When non-null, size is a power of 2. */
-  transient volatile Cell[] cells;
+  @NullableDecl transient volatile Cell[] cells;
 
   /**
    * Base value, used mainly when there is no contention, but also as a fallback during table
