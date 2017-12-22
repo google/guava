@@ -172,7 +172,7 @@ public final class Functions {
 
   private static class ForMapWithDefault<K, V> implements Function<K, V>, Serializable {
     final Map<K, ? extends V> map;
-    final V defaultValue;
+    @NullableDecl final V defaultValue;
 
     ForMapWithDefault(Map<K, ? extends V> map, @NullableDecl V defaultValue) {
       this.map = checkNotNull(map);
@@ -321,7 +321,7 @@ public final class Functions {
   }
 
   private static class ConstantFunction<E> implements Function<Object, E>, Serializable {
-    private final E value;
+    @NullableDecl private final E value;
 
     public ConstantFunction(@NullableDecl E value) {
       this.value = value;
