@@ -3660,7 +3660,7 @@ public final class Maps {
   }
 
   /** An implementation of {@link Map#equals}. */
-  static boolean equalsImpl(Map<?, ?> map, Object object) {
+  static boolean equalsImpl(Map<?, ?> map, @NullableDecl Object object) {
     if (map == object) {
       return true;
     } else if (object instanceof Map) {

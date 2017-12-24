@@ -41,7 +41,7 @@ public abstract class AbstractListeningExecutorService extends AbstractExecutorS
 
   /** @since 19.0 (present with return type {@code ListenableFutureTask} since 14.0) */
   @Override
-  protected final <T> RunnableFuture<T> newTaskFor(Runnable runnable, T value) {
+  protected final <T> RunnableFuture<T> newTaskFor(Runnable runnable, @NullableDecl T value) {
     return TrustedListenableFutureTask.create(runnable, value);
   }
 

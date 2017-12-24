@@ -188,7 +188,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
 
     // non-volatile write to the next field. Should be made visible by subsequent CAS on waiters
     // field.
-    void setNext(Waiter next) {
+    void setNext(@NullableDecl Waiter next) {
       ATOMIC_HELPER.putNext(this, next);
     }
 
@@ -252,7 +252,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
     // writes to next are made visible by subsequent CAS's on the listeners field
     @NullableDecl Listener next;
 
-    Listener(Runnable task, Executor executor) {
+    Listener(@NullableDecl Runnable task, @NullableDecl Executor executor) {
       this.task = task;
       this.executor = executor;
     }
@@ -923,7 +923,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
    * Clears the {@link #listeners} list and prepends its contents to {@code onto}, least recently
    * added first.
    */
-  private Listener clearListeners(Listener onto) {
+  private Listener clearListeners(@NullableDecl Listener onto) {
     // We need to
     // 1. atomically swap the listeners with TOMBSTONE, this is because addListener uses that to
     //    to synchronize with us
@@ -1029,7 +1029,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
     abstract void putThread(Waiter waiter, Thread newValue);
 
     /** Non volatile write of the waiter to the {@link Waiter#next} field. */
-    abstract void putNext(Waiter waiter, Waiter newValue);
+    abstract void putNext(Waiter waiter, @NullableDecl Waiter newValue);
 
     /** Performs a CAS operation on the {@link #waiters} field. */
     abstract boolean casWaiters(AbstractFuture<?> future, Waiter expect, Waiter update);
@@ -1101,25 +1101,25 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
     }
 
     @Override
-    void putNext(Waiter waiter, Waiter newValue) {
+    void putNext(Waiter waiter, @NullableDecl Waiter newValue) {
       UNSAFE.putObject(waiter, WAITER_NEXT_OFFSET, newValue);
     }
 
     /** Performs a CAS operation on the {@link #waiters} field. */
     @Override
-    boolean casWaiters(AbstractFuture<?> future, Waiter expect, Waiter update) {
+    boolean casWaiters(AbstractFuture<?> future, @NullableDecl Waiter expect, @NullableDecl Waiter update) {
       return UNSAFE.compareAndSwapObject(future, WAITERS_OFFSET, expect, update);
     }
 
     /** Performs a CAS operation on the {@link #listeners} field. */
     @Override
-    boolean casListeners(AbstractFuture<?> future, Listener expect, Listener update) {
+    boolean casListeners(AbstractFuture<?> future, @NullableDecl Listener expect, Listener update) {
       return UNSAFE.compareAndSwapObject(future, LISTENERS_OFFSET, expect, update);
     }
 
     /** Performs a CAS operation on the {@link #value} field. */
     @Override
-    boolean casValue(AbstractFuture<?> future, Object expect, Object update) {
+    boolean casValue(AbstractFuture<?> future, @NullableDecl Object expect, Object update) {
       return UNSAFE.compareAndSwapObject(future, VALUE_OFFSET, expect, update);
     }
   }
@@ -1151,7 +1151,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
     }
 
     @Override
-    void putNext(Waiter waiter, Waiter newValue) {
+    void putNext(Waiter waiter, @NullableDecl Waiter newValue) {
       waiterNextUpdater.lazySet(waiter, newValue);
     }
 
@@ -1184,7 +1184,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
     }
 
     @Override
-    void putNext(Waiter waiter, Waiter newValue) {
+    void putNext(Waiter waiter, @NullableDecl Waiter newValue) {
       waiter.next = newValue;
     }
 

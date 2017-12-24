@@ -21,6 +21,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.primitives.Primitives;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -156,7 +158,7 @@ public final class MutableClassToInstanceMap<B> extends ForwardingMap<Class<? ex
   }
 
   @CanIgnoreReturnValue
-  private static <B, T extends B> T cast(Class<T> type, B value) {
+  private static <B, T extends B> T cast(Class<T> type, @NullableDecl B value) {
     return Primitives.wrap(type).cast(value);
   }
 

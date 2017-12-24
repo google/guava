@@ -126,7 +126,7 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
     }
 
     @Override
-    void afterRanInterruptibly(V result, Throwable error) {
+    void afterRanInterruptibly(@NullableDecl V result, @NullableDecl Throwable error) {
       if (error == null) {
         TrustedListenableFutureTask.this.set(result);
       } else {
