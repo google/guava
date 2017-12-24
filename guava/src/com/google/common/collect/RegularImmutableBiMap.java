@@ -111,8 +111,8 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   }
 
   private RegularImmutableBiMap(
-      ImmutableMapEntry<K, V>[] keyTable,
-      ImmutableMapEntry<K, V>[] valueTable,
+      @NullableDecl ImmutableMapEntry<K, V>[] keyTable,
+      @NullableDecl ImmutableMapEntry<K, V>[] valueTable,
       Entry<K, V>[] entries,
       int mask,
       int hashCode) {

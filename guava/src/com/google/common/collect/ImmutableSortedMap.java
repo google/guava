@@ -569,7 +569,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   ImmutableSortedMap(
       RegularImmutableSortedSet<K> keySet,
       ImmutableList<V> valueList,
-      ImmutableSortedMap<K, V> descendingMap) {
+      @NullableDecl ImmutableSortedMap<K, V> descendingMap) {
     this.keySet = keySet;
     this.valueList = valueList;
     this.descendingMap = descendingMap;
