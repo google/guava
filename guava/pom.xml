@@ -37,10 +37,6 @@
       <artifactId>animal-sniffer-annotations</artifactId>
       <version>${animal.sniffer.version}</version>
     </dependency>
-    <dependency>
-      <groupId>tech.harmonysoft</groupId>
-      <artifactId>traute-javac</artifactId>
-    </dependency>
     <!-- TODO(cpovirk): does this comment belong on the <dependency> in <profiles>? -->
     <!-- TODO(cpovirk): want this only for dependency plugin but seems not to work there? Maven runs without failure, but the resulting Javadoc is missing the hoped-for inherited text -->
   </dependencies>

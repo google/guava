@@ -98,6 +98,13 @@
               <arg>-Xplugin:Traute</arg>
               <arg>-Atraute.failure.text.parameter=$${PARAMETER_NAME} was null</arg>
             </compilerArgs>
+            <annotationProcessorPaths>
+              <path>
+                <groupId>tech.harmonysoft</groupId>
+                <artifactId>traute-javac</artifactId>
+                <version>1.1.5</version>
+              </path>
+            </annotationProcessorPaths>
           </configuration>
         </plugin>
         <plugin>
@@ -293,13 +300,6 @@
             <artifactId>guava</artifactId>
           </exclusion>
         </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>tech.harmonysoft</groupId>
-        <artifactId>traute-javac</artifactId>
-        <version>1.1.5</version>
-        <!-- make the jar eligible for compilation only -->
-        <scope>provided</scope>
       </dependency>
     </dependencies>
   </dependencyManagement>
