@@ -525,10 +525,10 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     private int distinctElements;
     private long totalCount;
     private int height;
-    private AvlNode<E> left;
-    private AvlNode<E> right;
-    private AvlNode<E> pred;
-    private AvlNode<E> succ;
+    @NullableDecl private AvlNode<E> left;
+    @NullableDecl private AvlNode<E> right;
+    @NullableDecl private AvlNode<E> pred;
+    @NullableDecl private AvlNode<E> succ;
 
     AvlNode(@NullableDecl E elem, int elemCount) {
       checkArgument(elemCount > 0);
