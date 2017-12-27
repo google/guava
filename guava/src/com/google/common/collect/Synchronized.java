@@ -48,6 +48,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
+import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -477,8 +478,8 @@ final class Synchronized {
 
   private static class SynchronizedMultiset<E> extends SynchronizedCollection<E>
       implements Multiset<E> {
-    transient Set<E> elementSet;
-    transient Set<Entry<E>> entrySet;
+    @MonotonicNonNullDecl transient Set<E> elementSet;
+    @MonotonicNonNullDecl transient Set<Entry<E>> entrySet;
 
     SynchronizedMultiset(Multiset<E> delegate, @NullableDecl Object mutex) {
       super(delegate, mutex);
@@ -573,11 +574,11 @@ final class Synchronized {
 
   private static class SynchronizedMultimap<K, V> extends SynchronizedObject
       implements Multimap<K, V> {
-    transient Set<K> keySet;
-    transient Collection<V> valuesCollection;
-    transient Collection<Entry<K, V>> entries;
-    transient Map<K, Collection<V>> asMap;
-    transient Multiset<K> keys;
+    @MonotonicNonNullDecl transient Set<K> keySet;
+    @MonotonicNonNullDecl transient Collection<V> valuesCollection;
+    @MonotonicNonNullDecl transient Collection<Entry<K, V>> entries;
+    @MonotonicNonNullDecl transient Map<K, Collection<V>> asMap;
+    @MonotonicNonNullDecl transient Multiset<K> keys;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -810,7 +811,7 @@ final class Synchronized {
 
   private static class SynchronizedSetMultimap<K, V> extends SynchronizedMultimap<K, V>
       implements SetMultimap<K, V> {
-    transient Set<Entry<K, V>> entrySet;
+    @MonotonicNonNullDecl transient Set<Entry<K, V>> entrySet;
 
     SynchronizedSetMultimap(SetMultimap<K, V> delegate, @NullableDecl Object mutex) {
       super(delegate, mutex);
@@ -1025,9 +1026,9 @@ final class Synchronized {
   }
 
   private static class SynchronizedMap<K, V> extends SynchronizedObject implements Map<K, V> {
-    transient Set<K> keySet;
-    transient Collection<V> values;
-    transient Set<Entry<K, V>> entrySet;
+    @MonotonicNonNullDecl transient Set<K> keySet;
+    @MonotonicNonNullDecl transient Collection<V> values;
+    @MonotonicNonNullDecl transient Set<Entry<K, V>> entrySet;
 
     SynchronizedMap(Map<K, V> delegate, @NullableDecl Object mutex) {
       super(delegate, mutex);
@@ -1302,8 +1303,8 @@ final class Synchronized {
   @VisibleForTesting
   static class SynchronizedBiMap<K, V> extends SynchronizedMap<K, V>
       implements BiMap<K, V>, Serializable {
-    private transient Set<V> valueSet;
-    @RetainedWith private transient BiMap<V, K> inverse;
+    @MonotonicNonNullDecl private transient Set<V> valueSet;
+    @MonotonicNonNullDecl @RetainedWith private transient BiMap<V, K> inverse;
 
     private SynchronizedBiMap(
         BiMap<K, V> delegate, @NullableDecl Object mutex, @NullableDecl BiMap<V, K> inverse) {
@@ -1347,8 +1348,8 @@ final class Synchronized {
   }
 
   private static class SynchronizedAsMap<K, V> extends SynchronizedMap<K, Collection<V>> {
-    transient Set<Entry<K, Collection<V>>> asMapEntrySet;
-    transient Collection<Collection<V>> asMapValues;
+    @MonotonicNonNullDecl transient Set<Entry<K, Collection<V>>> asMapEntrySet;
+    @MonotonicNonNullDecl transient Collection<Collection<V>> asMapValues;
 
     SynchronizedAsMap(Map<K, Collection<V>> delegate, @NullableDecl Object mutex) {
       super(delegate, mutex);
@@ -1435,7 +1436,7 @@ final class Synchronized {
       return delegate().descendingIterator(); // manually synchronized
     }
 
-    transient NavigableSet<E> descendingSet;
+    @MonotonicNonNullDecl transient NavigableSet<E> descendingSet;
 
     @Override
     public NavigableSet<E> descendingSet() {
@@ -1575,7 +1576,7 @@ final class Synchronized {
       }
     }
 
-    transient NavigableSet<K> descendingKeySet;
+    @MonotonicNonNullDecl transient NavigableSet<K> descendingKeySet;
 
     @Override
     public NavigableSet<K> descendingKeySet() {
@@ -1587,7 +1588,7 @@ final class Synchronized {
       }
     }
 
-    transient NavigableMap<K, V> descendingMap;
+    @MonotonicNonNullDecl transient NavigableMap<K, V> descendingMap;
 
     @Override
     public NavigableMap<K, V> descendingMap() {
@@ -1667,7 +1668,7 @@ final class Synchronized {
       return navigableKeySet();
     }
 
-    transient NavigableSet<K> navigableKeySet;
+    @MonotonicNonNullDecl transient NavigableSet<K> navigableKeySet;
 
     @Override
     public NavigableSet<K> navigableKeySet() {
