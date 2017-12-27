@@ -19,6 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
@@ -48,7 +49,17 @@ abstract class AbstractListMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
 
   @Override
   List<V> createUnmodifiableEmptyCollection() {
-    return ImmutableList.of();
+    return Collections.emptyList();
+  }
+
+  @Override
+  <E> Collection<E> unmodifiableCollectionSubclass(Collection<E> collection) {
+    return Collections.unmodifiableList((List<E>) collection);
+  }
+
+  @Override
+  Collection<V> wrapCollection(K key, Collection<V> collection) {
+    return wrapList(key, (List<V>) collection, null);
   }
 
   // Following Javadoc copied from ListMultimap.

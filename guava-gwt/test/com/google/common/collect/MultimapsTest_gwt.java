@@ -123,6 +123,16 @@ public void testNewMultimap() throws Exception {
   testCase.testNewMultimap();
 }
 
+public void testNewMultimapValueCollectionMatchesList() throws Exception {
+  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
+  testCase.testNewMultimapValueCollectionMatchesList();
+}
+
+public void testNewMultimapValueCollectionMatchesNavigableSet() throws Exception {
+  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
+  testCase.testNewMultimapValueCollectionMatchesNavigableSet();
+}
+
 public void testNewMultimapWithCollectionRejectingNegativeElements() throws Exception {
   com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
   testCase.testNewMultimapWithCollectionRejectingNegativeElements();

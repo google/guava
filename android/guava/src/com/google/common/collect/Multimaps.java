@@ -27,8 +27,6 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.base.Supplier;
-import com.google.common.collect.AbstractMultimap.Entries;
-import com.google.common.collect.AbstractMultimap.EntrySet;
 import com.google.common.collect.Maps.EntryTransformer;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.Weak;
@@ -46,6 +44,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
@@ -130,6 +129,36 @@ public final class Multimaps {
     @Override
     protected Collection<V> createCollection() {
       return factory.get();
+    }
+
+    @Override
+    <E> Collection<E> unmodifiableCollectionSubclass(Collection<E> collection) {
+      if (collection instanceof NavigableSet) {
+        return Sets.unmodifiableNavigableSet((NavigableSet<E>) collection);
+      } else if (collection instanceof SortedSet) {
+        return Collections.unmodifiableSortedSet((SortedSet<E>) collection);
+      } else if (collection instanceof Set) {
+        return Collections.unmodifiableSet((Set<E>) collection);
+      } else if (collection instanceof List) {
+        return Collections.unmodifiableList((List<E>) collection);
+      } else {
+        return Collections.unmodifiableCollection(collection);
+      }
+    }
+
+    @Override
+    Collection<V> wrapCollection(K key, Collection<V> collection) {
+      if (collection instanceof List) {
+        return wrapList(key, (List<V>) collection, null);
+      } else if (collection instanceof NavigableSet) {
+        return new WrappedNavigableSet(key, (NavigableSet<V>) collection, null);
+      } else if (collection instanceof SortedSet) {
+        return new WrappedSortedSet(key, (SortedSet<V>) collection, null);
+      } else if (collection instanceof Set) {
+        return new WrappedSet(key, (Set<V>) collection);
+      } else {
+        return new WrappedCollection(key, collection, null);
+      }
     }
 
     // can't use Serialization writeMultimap and populateMultimap methods since
@@ -290,6 +319,28 @@ public final class Multimaps {
     @Override
     protected Set<V> createCollection() {
       return factory.get();
+    }
+
+    @Override
+    <E> Collection<E> unmodifiableCollectionSubclass(Collection<E> collection) {
+      if (collection instanceof NavigableSet) {
+        return Sets.unmodifiableNavigableSet((NavigableSet<E>) collection);
+      } else if (collection instanceof SortedSet) {
+        return Collections.unmodifiableSortedSet((SortedSet<E>) collection);
+      } else {
+        return Collections.unmodifiableSet((Set<E>) collection);
+      }
+    }
+
+    @Override
+    Collection<V> wrapCollection(K key, Collection<V> collection) {
+      if (collection instanceof NavigableSet) {
+        return new WrappedNavigableSet(key, (NavigableSet<V>) collection, null);
+      } else if (collection instanceof SortedSet) {
+        return new WrappedSortedSet(key, (SortedSet<V>) collection, null);
+      } else {
+        return new WrappedSet(key, (Set<V>) collection);
+      }
     }
 
     /** @serialData the factory and the backing map */

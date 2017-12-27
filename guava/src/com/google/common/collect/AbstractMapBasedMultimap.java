@@ -262,18 +262,8 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     return unmodifiableCollectionSubclass(output);
   }
 
-  static <E> Collection<E> unmodifiableCollectionSubclass(Collection<E> collection) {
-    if (collection instanceof NavigableSet) {
-      return Sets.unmodifiableNavigableSet((NavigableSet<E>) collection);
-    } else if (collection instanceof SortedSet) {
-      return Collections.unmodifiableSortedSet((SortedSet<E>) collection);
-    } else if (collection instanceof Set) {
-      return Collections.unmodifiableSet((Set<E>) collection);
-    } else if (collection instanceof List) {
-      return Collections.unmodifiableList((List<E>) collection);
-    } else {
-      return Collections.unmodifiableCollection(collection);
-    }
+  <E> Collection<E> unmodifiableCollectionSubclass(Collection<E> collection) {
+    return Collections.unmodifiableCollection(collection);
   }
 
   @Override
@@ -307,20 +297,10 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
    * the provided key. Changes to the multimap may alter the returned collection, and vice versa.
    */
   Collection<V> wrapCollection(@NullableDecl K key, Collection<V> collection) {
-    if (collection instanceof NavigableSet) {
-      return new WrappedNavigableSet(key, (NavigableSet<V>) collection, null);
-    } else if (collection instanceof SortedSet) {
-      return new WrappedSortedSet(key, (SortedSet<V>) collection, null);
-    } else if (collection instanceof Set) {
-      return new WrappedSet(key, (Set<V>) collection);
-    } else if (collection instanceof List) {
-      return wrapList(key, (List<V>) collection, null);
-    } else {
-      return new WrappedCollection(key, collection, null);
-    }
+    return new WrappedCollection(key, collection, null);
   }
 
-  private List<V> wrapList(
+  final List<V> wrapList(
       @NullableDecl K key, List<V> list, @NullableDecl WrappedCollection ancestor) {
     return (list instanceof RandomAccess)
         ? new RandomAccessWrappedList(key, list, ancestor)
@@ -343,7 +323,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
    * the corresponding methods of the full wrapped collection.
    */
   @WeakOuter
-  private class WrappedCollection extends AbstractCollection<V> {
+  class WrappedCollection extends AbstractCollection<V> {
     final K key;
     Collection<V> delegate;
     final WrappedCollection ancestor;
@@ -607,7 +587,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
 
   /** Set decorator that stays in sync with the multimap values for a key. */
   @WeakOuter
-  private class WrappedSet extends WrappedCollection implements Set<V> {
+  class WrappedSet extends WrappedCollection implements Set<V> {
     WrappedSet(@NullableDecl K key, Set<V> delegate) {
       super(key, delegate, null);
     }
@@ -634,7 +614,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
 
   /** SortedSet decorator that stays in sync with the multimap values for a key. */
   @WeakOuter
-  private class WrappedSortedSet extends WrappedCollection implements SortedSet<V> {
+  class WrappedSortedSet extends WrappedCollection implements SortedSet<V> {
     WrappedSortedSet(
         @NullableDecl K key, SortedSet<V> delegate, @NullableDecl WrappedCollection ancestor) {
       super(key, delegate, ancestor);
@@ -765,7 +745,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
 
   /** List decorator that stays in sync with the multimap values for a key. */
   @WeakOuter
-  private class WrappedList extends WrappedCollection implements List<V> {
+  class WrappedList extends WrappedCollection implements List<V> {
     WrappedList(@NullableDecl K key, List<V> delegate, @NullableDecl WrappedCollection ancestor) {
       super(key, delegate, ancestor);
     }

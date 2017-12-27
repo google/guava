@@ -51,6 +51,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.NavigableSet;
 import java.util.Queue;
 import java.util.RandomAccess;
 import java.util.Set;
@@ -670,6 +671,20 @@ public class MultimapsTest extends TestCase {
 
     assertFalse(multimap.keySet() instanceof SortedSet);
     assertFalse(multimap.asMap() instanceof SortedMap);
+  }
+
+  public void testNewMultimapValueCollectionMatchesNavigableSet() {
+    Supplier<TreeSet<Integer>> factory = new SortedSetSupplier();
+    Map<Color, Collection<Integer>> map = Maps.newEnumMap(Color.class);
+    Multimap<Color, Integer> multimap = Multimaps.newMultimap(map, factory);
+    assertTrue(multimap.get(Color.BLUE) instanceof NavigableSet);
+  }
+
+  public void testNewMultimapValueCollectionMatchesList() {
+    Supplier<LinkedList<Integer>> factory = new ListSupplier();
+    Map<Color, Collection<Integer>> map = Maps.newEnumMap(Color.class);
+    Multimap<Color, Integer> multimap = Multimaps.newMultimap(map, factory);
+    assertTrue(multimap.get(Color.BLUE) instanceof List);
   }
 
   @GwtIncompatible // SerializableTester
