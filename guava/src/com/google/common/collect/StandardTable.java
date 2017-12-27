@@ -42,6 +42,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
+import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -287,7 +288,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
       this.rowKey = checkNotNull(rowKey);
     }
 
-    Map<C, V> backingRowMap;
+    @NullableDecl Map<C, V> backingRowMap;
 
     Map<C, V> backingRowMap() {
       return (backingRowMap == null || (backingRowMap.isEmpty() && backingMap.containsKey(rowKey)))
@@ -617,7 +618,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     return rowMap().keySet();
   }
 
-  private transient Set<C> columnKeySet;
+  @MonotonicNonNullDecl private transient Set<C> columnKeySet;
 
   /**
    * {@inheritDoc}
@@ -747,7 +748,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     return super.values();
   }
 
-  private transient Map<R, Map<C, V>> rowMap;
+  @MonotonicNonNullDecl private transient Map<R, Map<C, V>> rowMap;
 
   @Override
   public Map<R, Map<C, V>> rowMap() {
@@ -826,7 +827,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     }
   }
 
-  private transient ColumnMap columnMap;
+  @MonotonicNonNullDecl private transient ColumnMap columnMap;
 
   @Override
   public Map<C, Map<R, V>> columnMap() {
