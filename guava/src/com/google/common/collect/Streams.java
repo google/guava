@@ -373,7 +373,7 @@ public final class Streams {
           .onClose(stream::close);
     }
     class Splitr extends MapWithIndexSpliterator<Spliterator<T>, R, Splitr> implements Consumer<T> {
-      T holder;
+      @NullableDecl T holder;
 
       Splitr(Spliterator<T> splitr, long index) {
         super(splitr, index);
