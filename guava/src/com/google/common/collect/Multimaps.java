@@ -225,6 +225,11 @@ public final class Multimaps {
     }
 
     @Override
+    Set<K> createKeySet() {
+      return createMaybeNavigableKeySet();
+    }
+
+    @Override
     Map<K, Collection<V>> createAsMap() {
       return createMaybeNavigableAsMap();
     }
@@ -302,6 +307,11 @@ public final class Multimaps {
     }
 
     @Override
+    Set<K> createKeySet() {
+      return createMaybeNavigableKeySet();
+    }
+
+    @Override
     Map<K, Collection<V>> createAsMap() {
       return createMaybeNavigableAsMap();
     }
@@ -372,6 +382,11 @@ public final class Multimaps {
     CustomSetMultimap(Map<K, Collection<V>> map, Supplier<? extends Set<V>> factory) {
       super(map);
       this.factory = checkNotNull(factory);
+    }
+
+    @Override
+    Set<K> createKeySet() {
+      return createMaybeNavigableKeySet();
     }
 
     @Override
@@ -447,6 +462,11 @@ public final class Multimaps {
       super(map);
       this.factory = checkNotNull(factory);
       valueComparator = factory.get().comparator();
+    }
+
+    @Override
+    Set<K> createKeySet() {
+      return createMaybeNavigableKeySet();
     }
 
     @Override

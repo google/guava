@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.Collection;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 
@@ -49,5 +50,10 @@ abstract class AbstractSortedKeySortedSetMultimap<K, V> extends AbstractSortedSe
   @Override
   public SortedSet<K> keySet() {
     return (SortedSet<K>) super.keySet();
+  }
+
+  @Override
+  Set<K> createKeySet() {
+    return createMaybeNavigableKeySet();
   }
 }

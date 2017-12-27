@@ -918,6 +918,10 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
 
   @Override
   Set<K> createKeySet() {
+    return new KeySet(map);
+  }
+  
+  final Set<K> createMaybeNavigableKeySet() {
     if (map instanceof NavigableMap) {
       return new NavigableKeySet((NavigableMap<K, Collection<V>>) map);
     } else if (map instanceof SortedMap) {
