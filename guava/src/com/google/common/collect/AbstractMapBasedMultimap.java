@@ -1286,6 +1286,10 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
 
   @Override
   Map<K, Collection<V>> createAsMap() {
+    return new AsMap(map);
+  }
+  
+  final Map<K, Collection<V>> createMaybeNavigableAsMap() {
     if (map instanceof NavigableMap) {
       return new NavigableAsMap((NavigableMap<K, Collection<V>>) map);
     } else if (map instanceof SortedMap) {
