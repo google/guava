@@ -40,7 +40,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
       new RegularImmutableMultiset<>(ImmutableList.<Entry<Object>>of());
 
   private final transient Multisets.ImmutableEntry<E>[] entries;
-  private final transient Multisets.ImmutableEntry<E>[] hashTable;
+  @NullableDecl private final transient Multisets.ImmutableEntry<E>[] hashTable;
   private final transient int size;
   private final transient int hashCode;
 
