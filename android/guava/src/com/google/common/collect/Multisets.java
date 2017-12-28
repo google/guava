@@ -38,6 +38,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -100,7 +101,7 @@ public final class Multisets {
       return (Multiset<E>) delegate;
     }
 
-    transient Set<E> elementSet;
+    @MonotonicNonNullDecl transient Set<E> elementSet;
 
     Set<E> createElementSet() {
       return Collections.<E>unmodifiableSet(delegate.elementSet());
@@ -112,7 +113,7 @@ public final class Multisets {
       return (es == null) ? elementSet = createElementSet() : es;
     }
 
-    transient Set<Multiset.Entry<E>> entrySet;
+    @MonotonicNonNullDecl transient Set<Multiset.Entry<E>> entrySet;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -998,7 +999,7 @@ public final class Multisets {
   static final class MultisetIteratorImpl<E> implements Iterator<E> {
     private final Multiset<E> multiset;
     private final Iterator<Entry<E>> entryIterator;
-    private Entry<E> currentEntry;
+    @MonotonicNonNullDecl private Entry<E> currentEntry;
 
     /** Count of subsequent elements equal to current element */
     private int laterCount;
