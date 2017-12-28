@@ -2482,7 +2482,7 @@ class MapMakerInternalMap<
     }
   }
 
-  transient Set<K> keySet;
+  @MonotonicNonNullDecl transient Set<K> keySet;
 
   @Override
   public Set<K> keySet() {
@@ -2490,7 +2490,7 @@ class MapMakerInternalMap<
     return (ks != null) ? ks : (keySet = new KeySet());
   }
 
-  transient Collection<V> values;
+  @MonotonicNonNullDecl transient Collection<V> values;
 
   @Override
   public Collection<V> values() {
@@ -2498,7 +2498,7 @@ class MapMakerInternalMap<
     return (vs != null) ? vs : (values = new Values());
   }
 
-  transient Set<Entry<K, V>> entrySet;
+  @MonotonicNonNullDecl transient Set<Entry<K, V>> entrySet;
 
   @Override
   public Set<Entry<K, V>> entrySet() {
