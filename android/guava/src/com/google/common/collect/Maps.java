@@ -61,6 +61,7 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -559,8 +560,8 @@ public final class Maps {
   }
 
   static class ValueDifferenceImpl<V> implements MapDifference.ValueDifference<V> {
-    private final V left;
-    private final V right;
+    @NullableDecl private final V left;
+    @NullableDecl private final V right;
 
     static <V> ValueDifference<V> create(@NullableDecl V left, @NullableDecl V right) {
       return new ValueDifferenceImpl<V>(left, right);
@@ -1466,8 +1467,8 @@ public final class Maps {
       implements BiMap<K, V>, Serializable {
     final Map<K, V> unmodifiableMap;
     final BiMap<? extends K, ? extends V> delegate;
-    @RetainedWith BiMap<V, K> inverse;
-    transient Set<V> values;
+    @MonotonicNonNullDecl @RetainedWith BiMap<V, K> inverse;
+    @MonotonicNonNullDecl transient Set<V> values;
 
     UnmodifiableBiMap(BiMap<? extends K, ? extends V> delegate, @NullableDecl BiMap<V, K> inverse) {
       unmodifiableMap = Collections.unmodifiableMap(delegate);
@@ -3205,7 +3206,7 @@ public final class Maps {
       throw new UnsupportedOperationException();
     }
 
-    private transient UnmodifiableNavigableMap<K, V> descendingMap;
+    @MonotonicNonNullDecl private transient UnmodifiableNavigableMap<K, V> descendingMap;
 
     @Override
     public NavigableMap<K, V> descendingMap() {
