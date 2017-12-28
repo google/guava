@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 
 /**
  * A double-ended priority queue, which provides constant-time access to both its least element and
@@ -503,7 +504,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
   @WeakOuter
   private class Heap {
     final Ordering<E> ordering;
-    @Weak Heap otherHeap;
+    @MonotonicNonNullDecl @Weak Heap otherHeap;
 
     Heap(Ordering<E> ordering) {
       this.ordering = ordering;
