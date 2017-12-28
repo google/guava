@@ -14,21 +14,19 @@
 
 package com.google.common.io;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.io.ByteStreams.createBuffer;
-import static com.google.common.io.ByteStreams.skipUpTo;
-
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.Optional;
+import com.google.common.buffer.Buffers;
+import com.google.common.buffer.Lease;
 import com.google.common.collect.ImmutableList;
 import com.google.common.hash.Funnels;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hasher;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -36,9 +34,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Iterator;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.io.ByteStreams.skipUpTo;
 
 /**
  * A readable source of bytes, such as a file. Unlike an {@link InputStream}, a {@code ByteSource}
@@ -335,19 +338,32 @@ public abstract class ByteSource {
   public boolean contentEquals(ByteSource other) throws IOException {
     checkNotNull(other);
 
-    byte[] buf1 = createBuffer();
-    byte[] buf2 = createBuffer();
-
     Closer closer = Closer.create();
+
     try {
+      Lease<byte[]> lease = closer.register(Buffers.lease(byte[].class, 4096));
+
+      byte[] buffer = lease.getBuffer();
+
+      int bufferLength = buffer.length;
+
+      if((bufferLength % 2) != 0){
+        --bufferLength;
+      }
+
+      int segmentLength = bufferLength / 2;
+
+      ByteBuffer segment1 = ByteBuffer.wrap(buffer, 0, segmentLength);
+      ByteBuffer segment2 = ByteBuffer.wrap(buffer, segmentLength, segmentLength);
+
       InputStream in1 = closer.register(openStream());
       InputStream in2 = closer.register(other.openStream());
       while (true) {
-        int read1 = ByteStreams.read(in1, buf1, 0, buf1.length);
-        int read2 = ByteStreams.read(in2, buf2, 0, buf2.length);
-        if (read1 != read2 || !Arrays.equals(buf1, buf2)) {
+        int read1 = ByteStreams.read(in1, buffer, 0, segmentLength);
+        int read2 = ByteStreams.read(in2, buffer, segmentLength, segmentLength);
+        if (read1 != read2 || !segment1.equals(segment2)) {
           return false;
-        } else if (read1 != buf1.length) {
+        } else if (read1 != segmentLength) {
           return true;
         }
       }
