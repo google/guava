@@ -41,7 +41,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  */
 @GwtCompatible
 public abstract class AbstractSequentialIterator<T> extends UnmodifiableIterator<T> {
-  private T nextOrNull;
+  @NullableDecl private T nextOrNull;
 
   /**
    * Creates a new iterator with the given first element, or, if {@code firstOrNull} is null,
