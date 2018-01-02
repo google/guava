@@ -35,6 +35,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -356,7 +357,8 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     return MoreObjects.firstNonNull(set, emptySet);
   }
 
-  @LazyInit @RetainedWith private transient ImmutableSetMultimap<V, K> inverse;
+  @LazyInit @MonotonicNonNullDecl @RetainedWith
+  private transient ImmutableSetMultimap<V, K> inverse;
 
   /**
    * {@inheritDoc}
@@ -408,7 +410,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     throw new UnsupportedOperationException();
   }
 
-  private transient ImmutableSet<Entry<K, V>> entries;
+  @MonotonicNonNullDecl private transient ImmutableSet<Entry<K, V>> entries;
 
   /**
    * Returns an immutable collection of all key-value pairs in the multimap. Its iterator traverses
