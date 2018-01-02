@@ -31,6 +31,7 @@ import java.io.Serializable;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Set;
+import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -143,7 +144,7 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E> implement
    */
   private class MapBasedMultisetIterator implements Iterator<E> {
     final Iterator<Entry<E>> entryIterator;
-    Entry<E> currentEntry;
+    @MonotonicNonNullDecl Entry<E> currentEntry;
     int occurrencesLeft = 0;
     boolean canRemove = false;
 
