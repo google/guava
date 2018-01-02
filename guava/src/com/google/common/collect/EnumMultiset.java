@@ -282,6 +282,11 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
     };
   }
 
+  @Override
+  public Iterator<E> iterator() {
+    return Multisets.iteratorImpl(this);
+  }
+
   @GwtIncompatible // java.io.ObjectOutputStream
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();

@@ -481,6 +481,11 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
   }
 
   @Override
+  public Iterator<E> iterator() {
+    return Multisets.iteratorImpl(this);
+  }
+
+  @Override
   public SortedMultiset<E> headMultiset(@NullableDecl E upperBound, BoundType boundType) {
     return new TreeMultiset<E>(
         rootReference,

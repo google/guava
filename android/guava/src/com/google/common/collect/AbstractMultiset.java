@@ -61,11 +61,6 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
   }
 
   @Override
-  public Iterator<E> iterator() {
-    return Multisets.iteratorImpl(this);
-  }
-
-  @Override
   public int count(@NullableDecl Object element) {
     for (Entry<E> entry : entrySet()) {
       if (Objects.equal(entry.getElement(), element)) {

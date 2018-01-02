@@ -482,6 +482,11 @@ public class ConcurrentHashMultisetBenchmark {
     }
 
     @Override
+    public Iterator<E> iterator() {
+      return Multisets.iteratorImpl(this);
+    }
+
+    @Override
     public void clear() {
       countMap.clear();
     }

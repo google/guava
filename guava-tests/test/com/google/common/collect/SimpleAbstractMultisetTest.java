@@ -138,6 +138,11 @@ public class SimpleAbstractMultisetTest extends TestCase {
     }
 
     @Override
+    public Iterator<E> iterator() {
+      return Multisets.iteratorImpl(this);
+    }
+
+    @Override
     int distinctElements() {
       return backingMap.size();
     }

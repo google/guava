@@ -540,6 +540,11 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
   }
 
   @Override
+  public Iterator<E> iterator() {
+    return Multisets.iteratorImpl(this);
+  }
+
+  @Override
   public void clear() {
     countMap.clear();
   }

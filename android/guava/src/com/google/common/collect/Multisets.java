@@ -431,6 +431,11 @@ public final class Multisets {
       }
 
       @Override
+      public Iterator<E> iterator() {
+        return Multisets.iteratorImpl(this);
+      }
+
+      @Override
       int distinctElements() {
         return elementSet().size();
       }
@@ -484,6 +489,11 @@ public final class Multisets {
             return endOfData();
           }
         };
+      }
+
+      @Override
+      public Iterator<E> iterator() {
+        return Multisets.iteratorImpl(this);
       }
 
       @Override
@@ -564,6 +574,11 @@ public final class Multisets {
       }
 
       @Override
+      public Iterator<E> iterator() {
+        return Multisets.iteratorImpl(this);
+      }
+
+      @Override
       int distinctElements() {
         return elementSet().size();
       }
@@ -613,6 +628,11 @@ public final class Multisets {
             return endOfData();
           }
         };
+      }
+
+      @Override
+      public Iterator<E> iterator() {
+        return Multisets.iteratorImpl(this);
       }
 
       @Override
