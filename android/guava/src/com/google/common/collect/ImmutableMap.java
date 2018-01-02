@@ -36,6 +36,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedMap;
+import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -202,7 +203,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * @since 2.0
    */
   public static class Builder<K, V> {
-    Comparator<? super V> valueComparator;
+    @MonotonicNonNullDecl Comparator<? super V> valueComparator;
     Object[] alternatingKeysAndValues;
     int size;
     boolean entriesUsed;
