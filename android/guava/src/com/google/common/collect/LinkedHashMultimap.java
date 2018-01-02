@@ -153,11 +153,11 @@ public final class LinkedHashMultimap<K, V>
 
     @NullableDecl ValueEntry<K, V> nextInValueBucket;
 
-    ValueSetLink<K, V> predecessorInValueSet;
-    ValueSetLink<K, V> successorInValueSet;
+    @NullableDecl ValueSetLink<K, V> predecessorInValueSet;
+    @NullableDecl ValueSetLink<K, V> successorInValueSet;
 
-    ValueEntry<K, V> predecessorInMultimap;
-    ValueEntry<K, V> successorInMultimap;
+    @NullableDecl ValueEntry<K, V> predecessorInMultimap;
+    @NullableDecl ValueEntry<K, V> successorInMultimap;
 
     ValueEntry(
         @NullableDecl K key,
