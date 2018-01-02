@@ -33,6 +33,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -95,9 +96,9 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
   /** Maps an "entry" to the "entry" that follows it in its bucket. */
   private transient int[] nextInBucketVToK;
   /** The "entry" of the first element in insertion order. */
-  private transient int firstInInsertionOrder;
+  @NullableDecl private transient int firstInInsertionOrder;
   /** The "entry" of the last element in insertion order. */
-  private transient int lastInInsertionOrder;
+  @NullableDecl private transient int lastInInsertionOrder;
   /** Maps an "entry" to the "entry" that precedes it in insertion order. */
   private transient int[] prevInInsertionOrder;
   /** Maps an "entry" to the "entry" that follows it in insertion order. */
@@ -870,7 +871,7 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
     }
   }
 
-  @RetainedWith private transient BiMap<V, K> inverse;
+  @MonotonicNonNullDecl @RetainedWith private transient BiMap<V, K> inverse;
 
   @Override
   public BiMap<V, K> inverse() {

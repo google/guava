@@ -39,6 +39,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -104,8 +105,8 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
 
   private transient BiEntry<K, V>[] hashTableKToV;
   private transient BiEntry<K, V>[] hashTableVToK;
-  private transient BiEntry<K, V> firstInKeyInsertionOrder;
-  private transient BiEntry<K, V> lastInKeyInsertionOrder;
+  @NullableDecl private transient BiEntry<K, V> firstInKeyInsertionOrder;
+  @NullableDecl private transient BiEntry<K, V> lastInKeyInsertionOrder;
   private transient int size;
   private transient int mask;
   private transient int modCount;
@@ -549,7 +550,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     }
   }
 
-  @RetainedWith private transient BiMap<V, K> inverse;
+  @MonotonicNonNullDecl @RetainedWith private transient BiMap<V, K> inverse;
 
   @Override
   public BiMap<V, K> inverse() {
