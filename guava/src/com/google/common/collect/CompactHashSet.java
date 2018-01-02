@@ -38,6 +38,7 @@ import java.util.NoSuchElementException;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
+import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -133,7 +134,7 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
    *
    * <p>Its size must be a power of two.
    */
-  private transient int[] table;
+  @MonotonicNonNullDecl private transient int[] table;
 
   /**
    * Contains the logical entries, in the range of [0, size()). The high 32 bits of each long is the
@@ -141,10 +142,10 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
    * next entry in the bucket chain). The pointers in [size(), entries.length) are all "null"
    * (UNSET).
    */
-  private transient long[] entries;
+  @MonotonicNonNullDecl private transient long[] entries;
 
   /** The elements contained in the set, in the range of [0, size()). */
-  transient Object[] elements;
+  @MonotonicNonNullDecl transient Object[] elements;
 
   /** The load factor. */
   transient float loadFactor;
