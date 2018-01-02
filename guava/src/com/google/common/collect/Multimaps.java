@@ -1732,57 +1732,6 @@ public final class Multimaps {
     }
 
     @Override
-    Set<Multiset.Entry<K>> createEntrySet() {
-      return new KeysEntrySet();
-    }
-
-    @WeakOuter
-    class KeysEntrySet extends Multisets.EntrySet<K> {
-      @Override
-      Multiset<K> multiset() {
-        return Keys.this;
-      }
-
-      @Override
-      public Iterator<Multiset.Entry<K>> iterator() {
-        return entryIterator();
-      }
-
-      @Override
-      public int size() {
-        return distinctElements();
-      }
-
-      @Override
-      public boolean isEmpty() {
-        return multimap.isEmpty();
-      }
-
-      @Override
-      public boolean contains(@NullableDecl Object o) {
-        if (o instanceof Multiset.Entry) {
-          Multiset.Entry<?> entry = (Multiset.Entry<?>) o;
-          Collection<V> collection = multimap.asMap().get(entry.getElement());
-          return collection != null && collection.size() == entry.getCount();
-        }
-        return false;
-      }
-
-      @Override
-      public boolean remove(@NullableDecl Object o) {
-        if (o instanceof Multiset.Entry) {
-          Multiset.Entry<?> entry = (Multiset.Entry<?>) o;
-          Collection<V> collection = multimap.asMap().get(entry.getElement());
-          if (collection != null && collection.size() == entry.getCount()) {
-            collection.clear();
-            return true;
-          }
-        }
-        return false;
-      }
-    }
-
-    @Override
     public boolean contains(@NullableDecl Object element) {
       return multimap.containsKey(element);
     }
