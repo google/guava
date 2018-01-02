@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
+import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 
 /**
  * CompactLinkedHashSet is an implementation of a Set, which a predictable iteration order
@@ -103,13 +104,13 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
    * Pointer to the predecessor of an entry in insertion order. ENDPOINT indicates a node is the
    * first node in insertion order; all values at indices ≥ {@link #size()} are UNSET.
    */
-  private transient int[] predecessor;
+  @MonotonicNonNullDecl private transient int[] predecessor;
 
   /**
    * Pointer to the successor of an entry in insertion order. ENDPOINT indicates a node is the last
    * node in insertion order; all values at indices ≥ {@link #size()} are UNSET.
    */
-  private transient int[] successor;
+  @MonotonicNonNullDecl private transient int[] successor;
 
   private transient int firstEntry;
   private transient int lastEntry;
