@@ -18,6 +18,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.util.Arrays;
+import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 
 /**
  * CompactLinkedHashMap is an implementation of a Map with insertion or LRU iteration order,
@@ -69,7 +70,7 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
    * A node with "prev" pointer equal to {@code ENDPOINT} is the first node in the linked list,
    * and a node with "next" pointer equal to {@code ENDPOINT} is the last node.
    */
-  @VisibleForTesting transient long[] links;
+  @MonotonicNonNullDecl @VisibleForTesting transient long[] links;
 
   /**
    * Pointer to the first node in the linked list, or {@code ENDPOINT} if there are no entries.
