@@ -44,6 +44,7 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.Spliterator;
 import java.util.function.BiConsumer;
+import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -324,10 +325,10 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
    */
   @WeakOuter
   class WrappedCollection extends AbstractCollection<V> {
-    final K key;
+    @NullableDecl final K key;
     Collection<V> delegate;
-    final WrappedCollection ancestor;
-    final Collection<V> ancestorDelegate;
+    @NullableDecl final WrappedCollection ancestor;
+    @NullableDecl final Collection<V> ancestorDelegate;
 
     WrappedCollection(
         @NullableDecl K key, Collection<V> delegate, @NullableDecl WrappedCollection ancestor) {
@@ -1124,8 +1125,8 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
 
   private abstract class Itr<T> implements Iterator<T> {
     final Iterator<Entry<K, Collection<V>>> keyIterator;
-    K key;
-    Collection<V> collection;
+    @NullableDecl K key;
+    @MonotonicNonNullDecl Collection<V> collection;
     Iterator<V> valueIterator;
 
     Itr() {
@@ -1472,7 +1473,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
       return new SortedAsMap(sortedMap().tailMap(fromKey));
     }
 
-    SortedSet<K> sortedKeySet;
+    @MonotonicNonNullDecl SortedSet<K> sortedKeySet;
 
     // returns a SortedSet, even though returning a Set would be sufficient to
     // satisfy the SortedMap.keySet() interface
