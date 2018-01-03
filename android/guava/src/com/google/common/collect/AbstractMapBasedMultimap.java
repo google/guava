@@ -914,7 +914,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     public Iterator<K> iterator() {
       final Iterator<Entry<K, Collection<V>>> entryIterator = map().entrySet().iterator();
       return new Iterator<K>() {
-        Entry<K, Collection<V>> entry;
+        @NullableDecl Entry<K, Collection<V>> entry;
 
         @Override
         public boolean hasNext() {
@@ -934,6 +934,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
           entryIterator.remove();
           totalSize -= collection.size();
           collection.clear();
+          entry = null;
         }
       };
     }
@@ -1365,7 +1366,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     /** Iterator across all keys and value collections. */
     class AsMapIterator implements Iterator<Entry<K, Collection<V>>> {
       final Iterator<Entry<K, Collection<V>>> delegateIterator = submap.entrySet().iterator();
-      Collection<V> collection;
+      @NullableDecl Collection<V> collection;
 
       @Override
       public boolean hasNext() {
@@ -1381,9 +1382,11 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
 
       @Override
       public void remove() {
+        checkRemove(collection != null);
         delegateIterator.remove();
         totalSize -= collection.size();
         collection.clear();
+        collection = null;
       }
     }
   }
