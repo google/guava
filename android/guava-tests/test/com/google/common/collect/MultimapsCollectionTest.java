@@ -22,6 +22,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.ALLOW
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
 import static com.google.common.collect.testing.google.AbstractMultisetSetCountTester.getSetCountDuplicateInitializingMethods;
 import static com.google.common.collect.testing.google.MultisetCountTester.getCountDuplicateInitializingMethods;
+import static com.google.common.collect.testing.google.MultisetElementSetTester.getElementSetDuplicateInitializingMethods;
 import static com.google.common.collect.testing.google.MultisetIteratorTester.getIteratorDuplicateInitializingMethods;
 import static com.google.common.collect.testing.google.MultisetRemoveTester.getRemoveDuplicateInitializingMethods;
 import static java.lang.reflect.Proxy.newProxyInstance;
@@ -310,6 +311,7 @@ public class MultimapsCollectionTest extends TestCase {
             .suppressing(getSetCountDuplicateInitializingMethods())
             .suppressing(getIteratorDuplicateInitializingMethods())
             .suppressing(getRemoveDuplicateInitializingMethods())
+            .suppressing(getElementSetDuplicateInitializingMethods())
             .createTestSuite());
 
     // TODO: use collection testers on Multimaps.forMap.entries

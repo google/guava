@@ -66,10 +66,6 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E> implement
   }
 
   // Required Implementations
-  @Override
-  Set<E> createElementSet() {
-    return backingMap.keySet();
-  }
 
   /**
    * {@inheritDoc}

@@ -1614,6 +1614,11 @@ public final class Multimaps {
     }
 
     @Override
+    public int size() {
+      return multimap.size();
+    }
+
+    @Override
     public boolean contains(@NullableDecl Object element) {
       return multimap.containsKey(element);
     }
