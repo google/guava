@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static java.util.Arrays.asList;
 import static java.util.Comparator.comparing;
+import static java.util.Comparator.naturalOrder;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.Helpers;
@@ -97,5 +98,8 @@ public class ComparatorsTest extends TestCase {
 
     Comparator<Optional<String>> comparator = Comparators.emptiesFirst(comparing(String::length));
     Helpers.testComparator(comparator, empty, z, abc);
+
+    // No explicit type parameter required:
+    comparator = Comparators.emptiesFirst(naturalOrder());
   }
 }

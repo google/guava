@@ -171,7 +171,7 @@ public final class Comparators {
    * @since 22.0
    */
   @Beta
-  public static <T> Comparator<Optional<T>> emptiesFirst(Comparator<T> valueComparator) {
+  public static <T> Comparator<Optional<T>> emptiesFirst(Comparator<? super T> valueComparator) {
     checkNotNull(valueComparator);
     return Comparator.comparing(o -> o.orElse(null), Comparator.nullsFirst(valueComparator));
   }
@@ -184,7 +184,7 @@ public final class Comparators {
    * @since 22.0
    */
   @Beta
-  public static <T> Comparator<Optional<T>> emptiesLast(Comparator<T> valueComparator) {
+  public static <T> Comparator<Optional<T>> emptiesLast(Comparator<? super T> valueComparator) {
     checkNotNull(valueComparator);
     return Comparator.comparing(o -> o.orElse(null), Comparator.nullsLast(valueComparator));
   }
