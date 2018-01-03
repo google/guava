@@ -314,7 +314,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
   Iterator<Entry<K, V>> entrySetIterator() {
     final Iterator<Entry<K, V>> iterator = delegate.entrySet().iterator();
     return new Iterator<Entry<K, V>>() {
-      Entry<K, V> entry;
+      @NullableDecl Entry<K, V> entry;
 
       @Override
       public boolean hasNext() {
@@ -333,6 +333,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
         V value = entry.getValue();
         iterator.remove();
         removeFromInverseMap(value);
+        entry = null;
       }
     };
   }
