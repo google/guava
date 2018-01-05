@@ -233,7 +233,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
 
   private class CellIterator implements Iterator<Cell<R, C, V>> {
     final Iterator<Entry<R, Map<C, V>>> rowIterator = backingMap.entrySet().iterator();
-    Entry<R, Map<C, V>> rowEntry;
+    @NullableDecl Entry<R, Map<C, V>> rowEntry;
     Iterator<Entry<C, V>> columnIterator = Iterators.emptyModifiableIterator();
 
     @Override
@@ -256,6 +256,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
       columnIterator.remove();
       if (rowEntry.getValue().isEmpty()) {
         rowIterator.remove();
+        rowEntry = null;
       }
     }
   }
