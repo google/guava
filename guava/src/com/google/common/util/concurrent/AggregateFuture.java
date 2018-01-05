@@ -44,7 +44,7 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
    * In certain circumstances, this field might theoretically not be visible to an afterDone() call
    * triggered by cancel(). For details, see the comments on the fields of TimeoutFuture.
    */
-  private RunningState runningState;
+  @NullableDecl private RunningState runningState;
 
   @Override
   protected final void afterDone() {
