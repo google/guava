@@ -400,7 +400,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
   Iterator<Entry<E>> entryIterator() {
     return new Iterator<Entry<E>>() {
       AvlNode<E> current = firstNode();
-      Entry<E> prevEntry;
+      @NullableDecl Entry<E> prevEntry;
 
       @Override
       public boolean hasNext() {
