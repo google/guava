@@ -517,7 +517,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
         };
 
     return new ForwardingIterator<Entry<E>>() {
-      private Entry<E> last;
+      @NullableDecl private Entry<E> last;
 
       @Override
       protected Iterator<Entry<E>> delegate() {
