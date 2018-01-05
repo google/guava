@@ -3331,7 +3331,7 @@ public final class Maps {
      */
     abstract Set<Entry<K, V>> createEntrySet();
 
-    private transient Set<Entry<K, V>> entrySet;
+    @MonotonicNonNullDecl private transient Set<Entry<K, V>> entrySet;
 
     @Override
     public Set<Entry<K, V>> entrySet() {
@@ -3339,7 +3339,7 @@ public final class Maps {
       return (result == null) ? entrySet = createEntrySet() : result;
     }
 
-    private transient Set<K> keySet;
+    @MonotonicNonNullDecl private transient Set<K> keySet;
 
     @Override
     public Set<K> keySet() {
@@ -3351,7 +3351,7 @@ public final class Maps {
       return new KeySet<>(this);
     }
 
-    private transient Collection<V> values;
+    @MonotonicNonNullDecl private transient Collection<V> values;
 
     @Override
     public Collection<V> values() {
@@ -3848,7 +3848,7 @@ public final class Maps {
       return forward();
     }
 
-    private transient Comparator<? super K> comparator;
+    @MonotonicNonNullDecl private transient Comparator<? super K> comparator;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -3944,7 +3944,7 @@ public final class Maps {
       return forward();
     }
 
-    private transient Set<Entry<K, V>> entrySet;
+    @MonotonicNonNullDecl private transient Set<Entry<K, V>> entrySet;
 
     @Override
     public Set<Entry<K, V>> entrySet() {
@@ -3975,7 +3975,7 @@ public final class Maps {
       return navigableKeySet();
     }
 
-    private transient NavigableSet<K> navigableKeySet;
+    @MonotonicNonNullDecl private transient NavigableSet<K> navigableKeySet;
 
     @Override
     public NavigableSet<K> navigableKeySet() {
