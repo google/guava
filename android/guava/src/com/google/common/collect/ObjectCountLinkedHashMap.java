@@ -15,16 +15,9 @@
  */
 package com.google.common.collect;
 
-import static com.google.common.collect.CollectPreconditions.checkRemove;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.Multiset.Entry;
 import java.util.Arrays;
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Set;
 
 /**
  * ObjectCountLinkedHashMap is an implementation of {@code AbstractObjectCountMap} with insertion
@@ -84,7 +77,7 @@ class ObjectCountLinkedHashMap<K> extends ObjectCountHashMap<K> {
     super(expectedSize, loadFactor);
   }
 
-  ObjectCountLinkedHashMap(AbstractObjectCountMap<K> map) {
+  ObjectCountLinkedHashMap(ObjectCountHashMap<K> map) {
     init(map.size(), DEFAULT_LOAD_FACTOR);
     for (int i = map.firstIndex(); i != -1; i = map.nextIndex(i)) {
       put(map.getKey(i), map.getValue(i));
@@ -109,6 +102,11 @@ class ObjectCountLinkedHashMap<K> extends ObjectCountHashMap<K> {
   int nextIndex(int index) {
     int result = getSuccessor(index);
     return (result == ENDPOINT) ? -1 : result;
+  }
+
+  @Override
+  int nextIndexAfterRemove(int oldNextIndex, int removedIndex) {
+    return (oldNextIndex == size()) ? removedIndex : oldNextIndex;
   }
 
   private int getPredecessor(int entry) {
@@ -164,90 +162,6 @@ class ObjectCountLinkedHashMap<K> extends ObjectCountHashMap<K> {
   void resizeEntries(int newCapacity) {
     super.resizeEntries(newCapacity);
     links = Arrays.copyOf(links, newCapacity);
-  }
-
-  private abstract class LinkedItr<T> implements Iterator<T> {
-    private int nextEntry = firstEntry;
-    private int toRemove = UNSET;
-    private int expectedModCount = modCount;
-
-    private void checkForConcurrentModification() {
-      if (modCount != expectedModCount) {
-        throw new ConcurrentModificationException();
-      }
-    }
-
-    @Override
-    public boolean hasNext() {
-      return nextEntry != ENDPOINT;
-    }
-
-    abstract T getOutput(int entry);
-
-    @Override
-    public T next() {
-      checkForConcurrentModification();
-      if (!hasNext()) {
-        throw new NoSuchElementException();
-      }
-      T result = getOutput(nextEntry);
-      toRemove = nextEntry;
-      nextEntry = getSuccessor(nextEntry);
-      return result;
-    }
-
-    @Override
-    public void remove() {
-      checkForConcurrentModification();
-      checkRemove(toRemove != UNSET);
-      ObjectCountLinkedHashMap.this.remove(keys[toRemove]);
-      if (nextEntry >= size()) {
-        nextEntry = toRemove;
-      }
-      expectedModCount = modCount;
-      toRemove = UNSET;
-    }
-  }
-
-  @Override
-  Set<K> createKeySet() {
-    return new KeySetView() {
-      @Override
-      public Object[] toArray() {
-        return ObjectArrays.toArrayImpl(this);
-      }
-
-      @Override
-      public <T> T[] toArray(T[] a) {
-        return ObjectArrays.toArrayImpl(this, a);
-      }
-
-      @Override
-      public Iterator<K> iterator() {
-        return new LinkedItr<K>() {
-          @SuppressWarnings("unchecked") // keys only contains Ks
-          @Override
-          K getOutput(int entry) {
-            return (K) keys[entry];
-          }
-        };
-      }
-    };
-  }
-
-  @Override
-  Set<Entry<K>> createEntrySet() {
-    return new EntrySetView() {
-      @Override
-      public Iterator<Entry<K>> iterator() {
-        return new LinkedItr<Entry<K>>() {
-          @Override
-          Entry<K> getOutput(int entry) {
-            return new MapEntry(entry);
-          }
-        };
-      }
-    };
   }
 
   @Override

@@ -110,6 +110,11 @@ public class SimpleAbstractMultisetTest extends TestCase {
     }
 
     @Override
+    Iterator<E> elementIterator() {
+      return Multisets.elementIterator(entryIterator());
+    }
+
+    @Override
     Iterator<Entry<E>> entryIterator() {
       final Iterator<Map.Entry<E, Integer>> backingEntries = backingMap.entrySet().iterator();
       return new UnmodifiableIterator<Multiset.Entry<E>>() {

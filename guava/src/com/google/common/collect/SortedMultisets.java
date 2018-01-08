@@ -53,6 +53,11 @@ final class SortedMultisets {
     }
 
     @Override
+    public Iterator<E> iterator() {
+      return Multisets.elementIterator(multiset().entrySet().iterator());
+    }
+
+    @Override
     public Comparator<? super E> comparator() {
       return multiset().comparator();
     }

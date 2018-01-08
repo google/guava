@@ -74,7 +74,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
   // Modification Operations
   @CanIgnoreReturnValue
   @Override
-  public boolean add(@NullableDecl E element) {
+  public final boolean add(@NullableDecl E element) {
     add(element, 1);
     return true;
   }
@@ -87,7 +87,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
 
   @CanIgnoreReturnValue
   @Override
-  public boolean remove(@NullableDecl Object element) {
+  public final boolean remove(@NullableDecl Object element) {
     return remove(element, 1) > 0;
   }
 
@@ -119,19 +119,19 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
    */
   @CanIgnoreReturnValue
   @Override
-  public boolean addAll(Collection<? extends E> elementsToAdd) {
+  public final boolean addAll(Collection<? extends E> elementsToAdd) {
     return Multisets.addAllImpl(this, elementsToAdd);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public boolean removeAll(Collection<?> elementsToRemove) {
+  public final boolean removeAll(Collection<?> elementsToRemove) {
     return Multisets.removeAllImpl(this, elementsToRemove);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public boolean retainAll(Collection<?> elementsToRetain) {
+  public final boolean retainAll(Collection<?> elementsToRetain) {
     return Multisets.retainAllImpl(this, elementsToRetain);
   }
 
@@ -167,11 +167,14 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
     Multiset<E> multiset() {
       return AbstractMultiset.this;
     }
+
+    @Override
+    public Iterator<E> iterator() {
+      return elementIterator();
+    }
   }
 
-  abstract Iterator<Entry<E>> entryIterator();
-
-  abstract int distinctElements();
+  abstract Iterator<E> elementIterator();
 
   @MonotonicNonNullDecl private transient Set<Entry<E>> entrySet;
 
@@ -206,6 +209,10 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
     return new EntrySet();
   }
 
+  abstract Iterator<Entry<E>> entryIterator();
+
+  abstract int distinctElements();
+
   // Object methods
 
   /**
@@ -215,7 +222,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
    * and if, for each element, the two multisets have the same count.
    */
   @Override
-  public boolean equals(@NullableDecl Object object) {
+  public final boolean equals(@NullableDecl Object object) {
     return Multisets.equalsImpl(this, object);
   }
 
@@ -225,7 +232,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
    * <p>This implementation returns the hash code of {@link Multiset#entrySet()}.
    */
   @Override
-  public int hashCode() {
+  public final int hashCode() {
     return entrySet().hashCode();
   }
 
@@ -236,7 +243,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
    * Multiset#entrySet()}.
    */
   @Override
-  public String toString() {
+  public final String toString() {
     return entrySet().toString();
   }
 }

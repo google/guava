@@ -298,6 +298,11 @@ public final class Multisets {
     }
 
     @Override
+    Iterator<E> elementIterator() {
+      throw new AssertionError("should never be called");
+    }
+
+    @Override
     Set<Entry<E>> createEntrySet() {
       return Sets.filter(
           unfiltered.entrySet(),
@@ -405,6 +410,11 @@ public final class Multisets {
       }
 
       @Override
+      Iterator<E> elementIterator() {
+        throw new AssertionError("should never be called");
+      }
+
+      @Override
       Iterator<Entry<E>> entryIterator() {
         final Iterator<? extends Entry<? extends E>> iterator1 = multiset1.entrySet().iterator();
         final Iterator<? extends Entry<? extends E>> iterator2 = multiset2.entrySet().iterator();
@@ -469,6 +479,11 @@ public final class Multisets {
       @Override
       Set<E> createElementSet() {
         return Sets.intersection(multiset1.elementSet(), multiset2.elementSet());
+      }
+
+      @Override
+      Iterator<E> elementIterator() {
+        throw new AssertionError("should never be called");
       }
 
       @Override
@@ -549,6 +564,11 @@ public final class Multisets {
       }
 
       @Override
+      Iterator<E> elementIterator() {
+        throw new AssertionError("should never be called");
+      }
+
+      @Override
       Iterator<Entry<E>> entryIterator() {
         final Iterator<? extends Entry<? extends E>> iterator1 = multiset1.entrySet().iterator();
         final Iterator<? extends Entry<? extends E>> iterator2 = multiset2.entrySet().iterator();
@@ -609,6 +629,24 @@ public final class Multisets {
       public int count(@NullableDecl Object element) {
         int count1 = multiset1.count(element);
         return (count1 == 0) ? 0 : Math.max(0, count1 - multiset2.count(element));
+      }
+
+      @Override
+      Iterator<E> elementIterator() {
+        final Iterator<Entry<E>> iterator1 = multiset1.entrySet().iterator();
+        return new AbstractIterator<E>() {
+          @Override
+          protected E computeNext() {
+            while (iterator1.hasNext()) {
+              Entry<E> entry1 = iterator1.next();
+              E element = entry1.getElement();
+              if (entry1.getCount() > multiset2.count(element)) {
+                return element;
+              }
+            }
+            return endOfData();
+          }
+        };
       }
 
       @Override
@@ -923,6 +961,15 @@ public final class Multisets {
     }
   }
 
+  static <E> Iterator<E> elementIterator(Iterator<Entry<E>> entryIterator) {
+    return new TransformedIterator<Entry<E>, E>(entryIterator) {
+      @Override
+      E transform(Entry<E> entry) {
+        return entry.getElement();
+      }
+    };
+  }
+
   abstract static class ElementSet<E> extends Sets.ImprovedAbstractSet<E> {
     abstract Multiset<E> multiset();
 
@@ -947,14 +994,7 @@ public final class Multisets {
     }
 
     @Override
-    public Iterator<E> iterator() {
-      return new TransformedIterator<Entry<E>, E>(multiset().entrySet().iterator()) {
-        @Override
-        E transform(Entry<E> entry) {
-          return entry.getElement();
-        }
-      };
-    }
+    public abstract Iterator<E> iterator();
 
     @Override
     public boolean remove(Object o) {

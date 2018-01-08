@@ -249,6 +249,11 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
     Multiset<E> multiset() {
       return ForwardingMultiset.this;
     }
+
+    @Override
+    public Iterator<E> iterator() {
+      return Multisets.elementIterator(multiset().entrySet().iterator());
+    }
   }
 
   /**

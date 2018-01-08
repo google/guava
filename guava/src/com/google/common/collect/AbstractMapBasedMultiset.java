@@ -82,6 +82,34 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E> implement
   }
 
   @Override
+  Iterator<E> elementIterator() {
+    final Iterator<Map.Entry<E, Count>> backingEntries = backingMap.entrySet().iterator();
+    return new Iterator<E>() {
+      @NullableDecl Map.Entry<E, Count> toRemove;
+
+      @Override
+      public boolean hasNext() {
+        return backingEntries.hasNext();
+      }
+
+      @Override
+      public E next() {
+        final Map.Entry<E, Count> mapEntry = backingEntries.next();
+        toRemove = mapEntry;
+        return mapEntry.getKey();
+      }
+
+      @Override
+      public void remove() {
+        checkRemove(toRemove != null);
+        size -= toRemove.getValue().getAndSet(0);
+        backingEntries.remove();
+        toRemove = null;
+      }
+    };
+  }
+
+  @Override
   Iterator<Entry<E>> entryIterator() {
     final Iterator<Map.Entry<E, Count>> backingEntries = backingMap.entrySet().iterator();
     return new Iterator<Multiset.Entry<E>>() {

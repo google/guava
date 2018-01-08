@@ -1669,6 +1669,11 @@ public final class Multimaps {
     public Set<K> elementSet() {
       return multimap.keySet();
     }
+
+    @Override
+    Iterator<K> elementIterator() {
+      throw new AssertionError("should never be called");
+    }
   }
 
   /** A skeleton implementation of {@link Multimap#entries()}. */

@@ -397,6 +397,11 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
   }
 
   @Override
+  Iterator<E> elementIterator() {
+    return Multisets.elementIterator(entryIterator());
+  }
+
+  @Override
   Iterator<Entry<E>> entryIterator() {
     return new Iterator<Entry<E>>() {
       AvlNode<E> current = firstNode();

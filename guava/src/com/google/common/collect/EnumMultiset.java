@@ -30,7 +30,6 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Set;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -247,17 +246,11 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
   }
 
   @Override
-  Set<E> createElementSet() {
-    return new ElementSet() {
-
+  Iterator<E> elementIterator() {
+    return new Itr<E>() {
       @Override
-      public Iterator<E> iterator() {
-        return new Itr<E>() {
-          @Override
-          E output(int index) {
-            return enumConstants[index];
-          }
-        };
+      E output(int index) {
+        return enumConstants[index];
       }
     };
   }

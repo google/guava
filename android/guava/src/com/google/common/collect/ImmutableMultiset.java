@@ -405,7 +405,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
    * @since 2.0
    */
   public static class Builder<E> extends ImmutableCollection.Builder<E> {
-    AbstractObjectCountMap<E> contents;
+    ObjectCountHashMap<E> contents;
 
     /**
      * If build() has been called on the current contents multiset, we need to copy it on any future
@@ -561,7 +561,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
      */
     @Override
     public ImmutableMultiset<E> build() {
-      if (contents.isEmpty()) {
+      if (contents.size() == 0) {
         return of();
       }
       if (isLinkedHash) {
@@ -572,7 +572,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
       }
       buildInvoked = true;
       // contents is now ObjectCountHashMap, but still guaranteed to be in insertion order!
-      return new RegularImmutableMultiset<E>((ObjectCountHashMap<E>) contents);
+      return new RegularImmutableMultiset<E>(contents);
     }
   }
 }

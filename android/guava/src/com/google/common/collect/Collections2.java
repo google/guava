@@ -35,7 +35,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -663,14 +662,27 @@ public final class Collections2 {
 
   /** Returns {@code true} if the second list is a permutation of the first. */
   private static boolean isPermutation(List<?> first, List<?> second) {
-    return first.size() == second.size() && counts(first).equals(counts(second));
+    if (first.size() != second.size()) {
+      return false;
+    }
+    ObjectCountHashMap<?> firstCounts = counts(first);
+    ObjectCountHashMap<?> secondCounts = counts(second);
+    if (first.size() != second.size()) {
+      return false;
+    }
+    for (int i = 0; i < first.size(); i++) {
+      if (firstCounts.getValue(i) != secondCounts.get(firstCounts.getKey(i))) {
+        return false;
+      }
+    }
+    return true;
   }
 
-  private static <E> Set<Multiset.Entry<E>> counts(Collection<E> collection) {
-    AbstractObjectCountMap<E> map = new ObjectCountHashMap<>();
+  private static <E> ObjectCountHashMap<E> counts(Collection<E> collection) {
+    ObjectCountHashMap<E> map = new ObjectCountHashMap<>();
     for (E e : collection) {
       map.put(e, map.get(e) + 1);
     }
-    return map.entrySet();
+    return map;
   }
 }

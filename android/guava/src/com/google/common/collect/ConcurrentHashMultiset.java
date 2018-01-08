@@ -475,6 +475,11 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     };
   }
 
+  @Override
+  Iterator<E> elementIterator() {
+    throw new AssertionError("should never be called");
+  }
+
   /** @deprecated Internal method, use {@link #entrySet()}. */
   @Deprecated
   @Override
