@@ -24,6 +24,7 @@ import static java.util.Collections.nCopies;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests conditional {@code setCount()} operations on a multiset. Can't
@@ -32,6 +33,7 @@ import com.google.common.collect.testing.features.CollectionSize;
  * @author Chris Povirk
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MultisetSetCountConditionallyTester<E> extends AbstractMultisetSetCountTester<E> {
   @Override
   void setCountCheckReturnValue(E element, int count) {

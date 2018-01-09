@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests {@code retainAll} operations on a collection. Can't be invoked
@@ -39,6 +40,7 @@ import java.util.List;
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
 
   /** A collection of elements to retain, along with a description for use in failure messages. */

@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.Helpers;
 import java.lang.reflect.Method;
+import org.junit.Ignore;
 
 /**
  * Tests {@link java.util.List#hashCode}.
@@ -27,6 +28,7 @@ import java.lang.reflect.Method;
  * @author George van den Driessche
  */
 @GwtCompatible(emulated = true)
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class ListHashCodeTester<E> extends AbstractListTester<E> {
   public void testHashCode() {
     int expectedHashCode = 1;

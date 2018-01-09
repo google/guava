@@ -27,6 +27,7 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.ListFeature;
 import java.lang.reflect.Method;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests {@code set()} operations on a list. Can't be invoked directly;
@@ -35,6 +36,7 @@ import java.lang.reflect.Method;
  * @author George van den Driessche
  */
 @GwtCompatible(emulated = true)
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class ListSetTester<E> extends AbstractListTester<E> {
   @ListFeature.Require(SUPPORTS_SET)
   @CollectionSize.Require(absent = ZERO)

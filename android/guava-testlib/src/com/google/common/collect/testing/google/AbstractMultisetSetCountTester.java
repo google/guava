@@ -36,6 +36,7 @@ import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
+import org.junit.Ignore;
 
 /**
  * Common superclass for {@link MultisetSetCountUnconditionallyTester} and {@link
@@ -46,6 +47,7 @@ import java.util.List;
  * @author Chris Povirk
  */
 @GwtCompatible(emulated = true)
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public abstract class AbstractMultisetSetCountTester<E> extends AbstractMultisetTester<E> {
   /*
    * TODO: consider adding MultisetFeatures.SUPPORTS_SET_COUNT. Currently we

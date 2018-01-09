@@ -30,6 +30,7 @@ import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.function.Predicate;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests {@link Collection#removeIf}. Can't be invoked directly; please
@@ -39,6 +40,7 @@ import java.util.function.Predicate;
  */
 @GwtCompatible
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class CollectionRemoveIfTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
   public void testRemoveIf_alwaysFalse() {

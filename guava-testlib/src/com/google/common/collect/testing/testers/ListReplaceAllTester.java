@@ -24,6 +24,7 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.ListFeature;
 import java.util.Collections;
 import java.util.List;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests {@link List#replaceAll}. Can't be invoked directly; please see
@@ -32,6 +33,7 @@ import java.util.List;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class ListReplaceAllTester<E> extends AbstractListTester<E> {
   @ListFeature.Require(SUPPORTS_SET)
   public void testReplaceAll() {

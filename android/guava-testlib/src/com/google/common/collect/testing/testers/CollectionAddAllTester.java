@@ -34,6 +34,7 @@ import java.lang.reflect.Method;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests addAll operations on a collection. Can't be invoked directly;
@@ -44,6 +45,7 @@ import java.util.List;
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible(emulated = true)
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddAll_supportedNothing() {

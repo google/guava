@@ -26,6 +26,7 @@ import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import java.lang.reflect.Method;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests creation (typically through a constructor or static factory
@@ -35,6 +36,7 @@ import java.lang.reflect.Method;
  * @author Chris Povirk
  */
 @GwtCompatible(emulated = true)
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class CollectionCreationTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(ALLOWS_NULL_VALUES)
   @CollectionSize.Require(absent = ZERO)

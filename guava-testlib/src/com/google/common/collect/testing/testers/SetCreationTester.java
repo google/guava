@@ -26,6 +26,7 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import java.util.Arrays;
 import java.util.List;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests creation (typically through a constructor or static factory
@@ -35,6 +36,7 @@ import java.util.List;
  * @author Chris Povirk
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class SetCreationTester<E> extends AbstractSetTester<E> {
   @CollectionFeature.Require(value = ALLOWS_NULL_VALUES, absent = REJECTS_DUPLICATES_AT_CREATION)
   @CollectionSize.Require(absent = {ZERO, ONE})

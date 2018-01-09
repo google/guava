@@ -31,6 +31,7 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import java.lang.reflect.Method;
 import java.util.Spliterator;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests {@code spliterator} operations on a collection. Can't be invoked
@@ -39,6 +40,7 @@ import java.util.Spliterator;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class CollectionSpliteratorTester<E> extends AbstractCollectionTester<E> {
 
   @CollectionFeature.Require(absent = KNOWN_ORDER)

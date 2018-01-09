@@ -32,6 +32,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests creation (typically through a constructor or static factory
@@ -42,6 +43,7 @@ import java.util.Map.Entry;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MapCreationTester<K, V> extends AbstractMapTester<K, V> {
   @MapFeature.Require(ALLOWS_NULL_KEYS)
   @CollectionSize.Require(absent = ZERO)

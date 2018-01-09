@@ -22,6 +22,7 @@ import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestResult;
+import org.junit.Ignore;
 
 /** @author Max Ross */
 public class FeatureSpecificTestSuiteBuilderTest extends TestCase {
@@ -34,6 +35,7 @@ public class FeatureSpecificTestSuiteBuilderTest extends TestCase {
     testWasRun = false;
   }
 
+  @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
   public static final class MyAbstractTester extends AbstractTester<Void> {
     public void testNothing() {
       testWasRun = true;

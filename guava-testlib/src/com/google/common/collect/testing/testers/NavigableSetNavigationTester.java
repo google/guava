@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NavigableSet;
 import java.util.TreeSet;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests operations on a NavigableSet. Can't be invoked directly; please
@@ -41,6 +42,7 @@ import java.util.TreeSet;
  * @author Louis Wasserman
  */
 @GwtIncompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class NavigableSetNavigationTester<E> extends AbstractSetTester<E> {
 
   private NavigableSet<E> navigableSet;

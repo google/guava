@@ -30,6 +30,7 @@ import com.google.common.collect.testing.features.MapFeature;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests {@code replaceAll()} operations on a map. Can't be invoked
@@ -38,6 +39,7 @@ import java.util.Map.Entry;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MapReplaceAllTester<K, V> extends AbstractMapTester<K, V> {
   private SampleElements<K> keys() {
     return new SampleElements<K>(k0(), k1(), k2(), k3(), k4());

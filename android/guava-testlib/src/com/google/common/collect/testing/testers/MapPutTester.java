@@ -32,6 +32,7 @@ import java.lang.reflect.Method;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests {@code put} operations on a map. Can't be invoked directly;
@@ -42,6 +43,7 @@ import java.util.Map.Entry;
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible(emulated = true)
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   private Entry<K, V> nullKeyEntry;
   private Entry<K, V> nullValueEntry;

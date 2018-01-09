@@ -27,6 +27,7 @@ import com.google.common.collect.testing.WrongType;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.util.Map;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests {@link Map#getOrDefault}. Can't be invoked directly; please see
@@ -35,6 +36,7 @@ import java.util.Map;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MapGetOrDefaultTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = ZERO)
   public void testGetOrDefault_present() {

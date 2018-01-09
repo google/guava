@@ -27,6 +27,7 @@ import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.util.Map;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests {@link Map#replace(Object, Object)}. Can't be invoked directly;
@@ -35,6 +36,7 @@ import java.util.Map;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MapReplaceTester<K, V> extends AbstractMapTester<K, V> {
 
   @MapFeature.Require(SUPPORTS_PUT)

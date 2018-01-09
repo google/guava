@@ -32,6 +32,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import org.junit.Ignore;
 
 /**
  * Tests for {@code Multiset.elementSet()} not covered by the derived {@code SetTestSuiteBuilder}.
@@ -39,6 +40,7 @@ import java.util.Set;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MultisetElementSetTester<E> extends AbstractMultisetTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testElementSetReflectsAddAbsent() {

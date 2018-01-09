@@ -33,6 +33,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.junit.Ignore;
 
 /**
  * Tests for {@code Multiset#remove}, {@code Multiset.removeAll}, and {@code Multiset.retainAll} not
@@ -41,6 +42,7 @@ import java.util.List;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MultisetRemoveTester<E> extends AbstractMultisetTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveNegative() {

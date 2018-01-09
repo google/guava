@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.junit.Ignore;
 
 /**
  * Base class for map testers.
@@ -35,6 +36,7 @@ import java.util.Map.Entry;
  * @author George van den Driessche
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public abstract class AbstractMapTester<K, V>
     extends AbstractContainerTester<Map<K, V>, Entry<K, V>> {
   protected Map<K, V> getMap() {

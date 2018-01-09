@@ -26,6 +26,7 @@ import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import java.lang.reflect.Method;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests add operations on a set. Can't be invoked directly; please see
@@ -34,6 +35,7 @@ import java.lang.reflect.Method;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class SetAddTester<E> extends AbstractSetTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   @CollectionSize.Require(absent = ZERO)

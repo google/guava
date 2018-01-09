@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.junit.Ignore;
 
 /**
  * Tests for {@code Multiset#forEachEntry}.
@@ -36,6 +37,7 @@ import java.util.List;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MultisetForEachEntryTester<E> extends AbstractMultisetTester<E> {
   public void testForEachEntry() {
     List<Entry<E>> expected = new ArrayList<>(getMultiset().entrySet());

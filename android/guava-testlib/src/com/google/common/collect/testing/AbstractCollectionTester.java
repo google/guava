@@ -18,6 +18,7 @@ package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.Collection;
+import org.junit.Ignore;
 
 /**
  * Base class for collection testers.
@@ -26,6 +27,7 @@ import java.util.Collection;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public abstract class AbstractCollectionTester<E>
     extends AbstractContainerTester<Collection<E>, E> {
 

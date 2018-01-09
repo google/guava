@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import org.junit.Ignore;
 
 /**
  * Testers for {@link SetMultimap#asMap}.
@@ -41,6 +42,7 @@ import java.util.Set;
  * @param <V> The value type of the tested multimap.
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class SetMultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, SetMultimap<K, V>> {
   public void testAsMapValuesImplementSet() {
     for (Collection<V> valueCollection : multimap().asMap().values()) {

@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import org.junit.Ignore;
 
 /**
  * Base class for testers of classes (including {@link Collection} and {@link java.util.Map Map})
@@ -33,6 +34,7 @@ import java.util.List;
  * @author George van den Driessche
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public abstract class AbstractContainerTester<C, E>
     extends AbstractTester<OneSizeTestContainerGenerator<C, E>> {
   protected SampleElements<E> samples;

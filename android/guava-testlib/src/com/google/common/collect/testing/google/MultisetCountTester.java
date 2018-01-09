@@ -30,6 +30,7 @@ import com.google.common.collect.testing.features.CollectionSize;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
+import org.junit.Ignore;
 
 /**
  * Tests for {@code Multiset#count}.
@@ -37,6 +38,7 @@ import java.util.List;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MultisetCountTester<E> extends AbstractMultisetTester<E> {
 
   public void testCount_0() {

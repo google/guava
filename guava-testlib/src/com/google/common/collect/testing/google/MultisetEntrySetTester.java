@@ -32,6 +32,7 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import java.util.Collections;
 import java.util.Iterator;
+import org.junit.Ignore;
 
 /**
  * Tests for {@code Multiset.entrySet}.
@@ -39,6 +40,7 @@ import java.util.Iterator;
  * @author Jared Levy
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)

@@ -32,6 +32,7 @@ import com.google.common.collect.testing.features.CollectionSize;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests {@code removeAll} operations on a collection. Can't be invoked
@@ -42,6 +43,7 @@ import java.util.Iterator;
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveAll_emptyCollection() {

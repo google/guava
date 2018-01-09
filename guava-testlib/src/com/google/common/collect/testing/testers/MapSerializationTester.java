@@ -22,6 +22,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.testing.SerializableTester;
+import org.junit.Ignore;
 
 /**
  * Basic serialization test for maps.
@@ -29,6 +30,7 @@ import com.google.common.testing.SerializableTester;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MapSerializationTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionFeature.Require(SERIALIZABLE)
   public void testReserializeMap() {

@@ -38,6 +38,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests {@code putAll} operations on a map. Can't be invoked directly;
@@ -48,6 +49,7 @@ import java.util.Map.Entry;
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible(emulated = true)
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
   private List<Entry<K, V>> containsNullKey;
   private List<Entry<K, V>> containsNullValue;

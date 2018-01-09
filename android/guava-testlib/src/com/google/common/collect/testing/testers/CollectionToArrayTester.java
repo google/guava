@@ -30,6 +30,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests {@code toArray()} operations on a collection. Can't be invoked
@@ -39,6 +40,7 @@ import java.util.List;
  * @author Chris Povirk
  */
 @GwtCompatible(emulated = true)
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class CollectionToArrayTester<E> extends AbstractCollectionTester<E> {
   public void testToArray_noArgs() {
     Object[] array = collection.toArray();

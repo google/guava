@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import org.junit.Ignore;
 
 /**
  * Superclass for all {@code Multimap} testers.
@@ -34,6 +35,7 @@ import java.util.Map.Entry;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
     extends AbstractContainerTester<M, Entry<K, V>> {
 

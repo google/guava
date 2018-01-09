@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests {@code listIterator} operations on a list. Can't be invoked
@@ -45,6 +46,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class ListListIteratorTester<E> extends AbstractListTester<E> {
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   @ListFeature.Require(absent = {SUPPORTS_SET, SUPPORTS_ADD_WITH_INDEX})

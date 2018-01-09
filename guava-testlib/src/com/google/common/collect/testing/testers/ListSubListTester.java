@@ -37,6 +37,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests {@code subList()} operations on a list. Can't be invoked
@@ -46,6 +47,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible(emulated = true)
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class ListSubListTester<E> extends AbstractListTester<E> {
   public void testSubList_startNegative() {
     try {

@@ -25,6 +25,7 @@ import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.WrongType;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests {@code containsKey()} operations on a map. Can't be invoked
@@ -33,6 +34,7 @@ import com.google.common.collect.testing.features.MapFeature;
  * @author George van den Driessche
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MapContainsKeyTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = ZERO)
   public void testContains_yes() {

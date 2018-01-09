@@ -21,6 +21,7 @@ import com.google.common.collect.testing.AbstractCollectionTester;
 import com.google.common.collect.testing.Helpers;
 import java.util.Collection;
 import java.util.List;
+import org.junit.Ignore;
 
 /**
  * Base class for list testers.
@@ -28,6 +29,7 @@ import java.util.List;
  * @author George van den Driessche
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class AbstractListTester<E> extends AbstractCollectionTester<E> {
   /*
    * Previously we had a field named list that was initialized to the value of

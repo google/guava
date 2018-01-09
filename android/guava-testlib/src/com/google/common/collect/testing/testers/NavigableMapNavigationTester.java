@@ -31,6 +31,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests operations on a NavigableMap. Can't be invoked directly; please
@@ -40,6 +41,7 @@ import java.util.NavigableMap;
  * @author Louis Wasserman
  */
 @GwtIncompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> {
 
   private NavigableMap<K, V> navigableMap;

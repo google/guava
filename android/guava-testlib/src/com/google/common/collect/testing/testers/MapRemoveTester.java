@@ -31,6 +31,7 @@ import com.google.common.collect.testing.features.MapFeature;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests {@code remove} operations on a map. Can't be invoked directly;
@@ -41,6 +42,7 @@ import java.util.Map.Entry;
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MapRemoveTester<K, V> extends AbstractMapTester<K, V> {
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)

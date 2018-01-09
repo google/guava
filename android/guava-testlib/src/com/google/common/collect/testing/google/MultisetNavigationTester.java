@@ -37,6 +37,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
+import org.junit.Ignore;
 
 /**
  * Tester for navigation of SortedMultisets.
@@ -44,6 +45,7 @@ import java.util.NoSuchElementException;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
   private SortedMultiset<E> sortedMultiset;
   private List<E> entries;

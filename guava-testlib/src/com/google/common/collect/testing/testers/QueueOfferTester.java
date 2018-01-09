@@ -21,6 +21,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.SUPPO
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests offer operations on a queue. Can't be invoked directly; please
@@ -30,6 +31,7 @@ import com.google.common.collect.testing.features.CollectionFeature;
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class QueueOfferTester<E> extends AbstractQueueTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testOffer_supportedNotPresent() {

@@ -25,6 +25,7 @@ import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.WrongType;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests {@code containsValue()} operations on a map. Can't be invoked
@@ -34,6 +35,7 @@ import com.google.common.collect.testing.features.MapFeature;
  * @author Chris Povirk
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MapContainsValueTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = ZERO)
   public void testContains_yes() {

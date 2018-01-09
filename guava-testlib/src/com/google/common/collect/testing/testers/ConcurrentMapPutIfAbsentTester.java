@@ -27,6 +27,7 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentMap;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests {@code putIfAbsent} operations on a concurrent map. Can't be
@@ -36,6 +37,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class ConcurrentMapPutIfAbsentTester<K, V> extends AbstractMapTester<K, V> {
   @Override
   protected ConcurrentMap<K, V> getMap() {
