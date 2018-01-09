@@ -750,6 +750,42 @@ public class AbstractFutureTest extends TestCase {
     assertTrue(prev.wasInterrupted());
   }
 
+  public void testSetFutureSelf_cancel() {
+    SettableFuture<String> orig = SettableFuture.create();
+    orig.setFuture(orig);
+    orig.cancel(true);
+    assertTrue(orig.isCancelled());
+  }
+
+  public void testSetFutureSelf_toString() {
+    SettableFuture<String> orig = SettableFuture.create();
+    orig.setFuture(orig);
+    assertThat(orig.toString()).contains("[status=PENDING, info=[setFuture=[this future]]]");
+  }
+
+  public void testSetSelf_toString() {
+    SettableFuture<Object> orig = SettableFuture.create();
+    orig.set(orig);
+    assertThat(orig.toString()).contains("[status=SUCCESS, result=[this future]]");
+  }
+
+  public void testSetIndirectSelf_toString() {
+    final SettableFuture<Object> orig = SettableFuture.create();
+    // unlike the above this indirection defeats the trivial cycle detection and causes a SOE
+    orig.set(
+        new Object() {
+          @Override
+          public String toString() {
+            return orig.toString();
+          }
+        });
+    try {
+      orig.toString();
+      fail();
+    } catch (StackOverflowError expected) {
+    }
+  }
+
   private static void awaitUnchecked(final CyclicBarrier barrier) {
     try {
       barrier.await();
@@ -853,7 +889,7 @@ public class AbstractFutureTest extends TestCase {
     }
   }
 
-  private final class PollingThread extends Thread {
+  private static final class PollingThread extends Thread {
     private final AbstractFuture<?> future;
     private final CountDownLatch completedIteration = new CountDownLatch(10);
 

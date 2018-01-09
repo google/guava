@@ -984,7 +984,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
   protected String pendingToString() {
     Object localValue = value;
     if (localValue instanceof SetFuture) {
-      return "setFuture=[" + ((SetFuture) localValue).future + "]";
+      return "setFuture=[" + userObjectToString(((SetFuture) localValue).future) + "]";
     } else if (this instanceof ScheduledFuture) {
       return "remaining delay=["
           + ((ScheduledFuture) this).getDelay(TimeUnit.MILLISECONDS)
@@ -996,7 +996,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
   private void addDoneString(StringBuilder builder) {
     try {
       V value = getDone(this);
-      builder.append("SUCCESS, result=[").append(value).append("]");
+      builder.append("SUCCESS, result=[").append(userObjectToString(value)).append("]");
     } catch (ExecutionException e) {
       builder.append("FAILURE, cause=[").append(e.getCause()).append("]");
     } catch (CancellationException e) {
@@ -1004,6 +1004,18 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
     } catch (RuntimeException e) {
       builder.append("UNKNOWN, cause=[").append(e.getClass()).append(" thrown from get()]");
     }
+  }
+
+  /** Helper for printing user supplied objects into our toString method. */
+  private String userObjectToString(Object o) {
+    // This is some basic recursion detection for when people create cycles via set/setFuture
+    // This is however only partial protection though since it only detects self loops.  We could
+    // detect arbitrary cycles using a thread local or possibly by catching StackOverflowExceptions
+    // but this should be a good enough solution (it is also what jdk collections do in these cases)
+    if (o == this) {
+      return "this future";
+    }
+    return String.valueOf(o);
   }
 
   /**
