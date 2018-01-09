@@ -138,8 +138,7 @@ public final class ImmutableIntArray implements Serializable {
   public static ImmutableIntArray of(int first, int... rest) {
     checkArgument(
         rest.length <= Integer.MAX_VALUE - 1,
-        "rest.length (%s) must be <= Integer.MAX_VALUE - 1",
-        rest.length);
+        "the total number of elements must fit in an int");
     int[] array = new int[rest.length + 1];
     array[0] = first;
     System.arraycopy(rest, 0, array, 1, rest.length);

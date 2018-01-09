@@ -133,8 +133,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E... others) {
     checkArgument(
         others.length <= Integer.MAX_VALUE - 6,
-        "others.length (%s) must be <= Integer.MAX_VALUE - 6",
-        others.length);
+        "the total number of elements must fit in an int");
     final int paramCount = 6;
     Object[] elements = new Object[paramCount + others.length];
     elements[0] = e1;
