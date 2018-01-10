@@ -45,6 +45,14 @@ public abstract class AbstractDirectedGraphTest extends AbstractGraphTest {
   }
 
   @Test
+  public void incidentEdges_oneEdge() {
+    putEdge(N1, N2);
+    EndpointPair<Integer> expectedEndpoints = EndpointPair.ordered(N1, N2);
+    assertThat(graph.incidentEdges(N1)).containsExactly(expectedEndpoints);
+    assertThat(graph.incidentEdges(N2)).containsExactly(expectedEndpoints);
+  }
+
+  @Test
   public void inDegree_oneEdge() {
     putEdge(N1, N2);
     assertThat(graph.inDegree(N2)).isEqualTo(1);

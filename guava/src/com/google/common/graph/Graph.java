@@ -147,6 +147,10 @@ public interface Graph<N> extends BaseGraph<N> {
 
   /** {@inheritDoc} */
   @Override
+  Set<EndpointPair<N>> incidentEdges(N node);
+
+  /** {@inheritDoc} */
+  @Override
   int degree(N node);
 
   /** {@inheritDoc} */

@@ -93,13 +93,20 @@ interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
   Set<N> successors(N node);
 
   /**
+   * Returns the edges in this graph whose endpoints include {@code node}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
+  Set<EndpointPair<N>> incidentEdges(N node);
+
+  /**
    * Returns the count of {@code node}'s incident edges, counting self-loops twice (equivalently,
    * the number of times an edge touches {@code node}).
    *
    * <p>For directed graphs, this is equal to {@code inDegree(node) + outDegree(node)}.
    *
-   * <p>For undirected graphs, this is equal to {@code adjacentNodes(node).size()} + (1 if {@code
-   * node} has an incident self-loop, 0 otherwise).
+   * <p>For undirected graphs, this is equal to {@code incidentEdges(node).size()} + (number of
+   * self-loops incident to {@code node}).
    *
    * <p>If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.
    *

@@ -160,6 +160,10 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
 
   /** {@inheritDoc} */
   @Override
+  Set<EndpointPair<N>> incidentEdges(N node);
+
+  /** {@inheritDoc} */
+  @Override
   int degree(N node);
 
   /** {@inheritDoc} */

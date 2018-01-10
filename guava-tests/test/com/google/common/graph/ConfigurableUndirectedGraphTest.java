@@ -55,6 +55,16 @@ public class ConfigurableUndirectedGraphTest extends ConfigurableSimpleUndirecte
   }
 
   @Test
+  public void incidentEdges_selfLoop() {
+    putEdge(N1, N1);
+    assertThat(graph.incidentEdges(N1)).containsExactly(EndpointPair.unordered(N1, N1));
+    putEdge(N1, N2);
+    assertThat(graph.incidentEdges(N1)).containsExactly(
+        EndpointPair.unordered(N1, N1),
+        EndpointPair.unordered(N1, N2));
+  }
+
+  @Test
   public void degree_selfLoop() {
     putEdge(N1, N1);
     assertThat(graph.degree(N1)).isEqualTo(2);
