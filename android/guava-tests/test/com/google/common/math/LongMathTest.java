@@ -25,6 +25,7 @@ import static com.google.common.math.MathTesting.NEGATIVE_LONG_CANDIDATES;
 import static com.google.common.math.MathTesting.NONZERO_LONG_CANDIDATES;
 import static com.google.common.math.MathTesting.POSITIVE_INTEGER_CANDIDATES;
 import static com.google.common.math.MathTesting.POSITIVE_LONG_CANDIDATES;
+import static com.google.common.truth.Truth.assert_;
 import static java.math.BigInteger.valueOf;
 import static java.math.RoundingMode.FLOOR;
 import static java.math.RoundingMode.UNNECESSARY;
@@ -604,10 +605,9 @@ public class LongMathTest extends TestCase {
     }
   }
 
-  @GwtIncompatible // TODO
   @AndroidIncompatible // slow
   public void testCheckedMultiply() {
-    boolean isAndroid = System.getProperties().getProperty("java.runtime.name").contains("Android");
+    boolean isAndroid = TestPlatform.isAndroid();
     for (long a : ALL_LONG_CANDIDATES) {
       for (long b : ALL_LONG_CANDIDATES) {
         if (isAndroid && a == -4294967296L && b == 2147483648L) {
@@ -949,8 +949,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
-  @GwtIncompatible // String.format
   private static void failFormat(String template, Object... args) {
-    fail(String.format(template, args));
+    assert_().fail(template, args);
   }
 }
