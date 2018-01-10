@@ -69,7 +69,6 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
       return;
     }
     inputFuture = null;
-    function = null;
 
     /*
      * Any of the setException() calls below can fail if the output Future is cancelled between now
@@ -118,6 +117,8 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
       // This exception is irrelevant in this thread, but useful for the client.
       setException(t);
       return;
+    } finally {
+      function = null;
     }
 
     /*
@@ -181,6 +182,8 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
     F localFunction = function;
     if (localInputFuture != null && localFunction != null) {
       return "inputFuture=[" + localInputFuture + "], function=[" + localFunction + "]";
+    } else if (localFunction != null) {
+      return "function=[" + localFunction + "]";
     }
     return null;
   }

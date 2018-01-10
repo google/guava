@@ -80,6 +80,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
@@ -836,6 +837,38 @@ public class FuturesTest extends TestCase {
 
     assertSame(value, getDone(future));
     assertTrue(spy.wasExecuted);
+  }
+
+  @GwtIncompatible // Threads
+
+  public void testTransformAsync_toString() throws Exception {
+    final CountDownLatch functionCalled = new CountDownLatch(1);
+    final CountDownLatch functionBlocking = new CountDownLatch(1);
+    AsyncFunction<Object, Object> function =
+        new AsyncFunction<Object, Object>() {
+          @Override
+          public ListenableFuture<Object> apply(Object input) throws Exception {
+            functionCalled.countDown();
+            functionBlocking.await();
+            return immediateFuture(null);
+          }
+
+          @Override
+          public String toString() {
+            return "Called my toString";
+          }
+        };
+
+    ExecutorService executor = Executors.newSingleThreadExecutor();
+    try {
+      ListenableFuture<?> output =
+          Futures.transformAsync(immediateFuture(null), function, executor);
+      functionCalled.await();
+      assertThat(output.toString()).contains("Called my toString");
+    } finally {
+      functionBlocking.countDown();
+      executor.shutdown();
+    }
   }
 
   @GwtIncompatible // lazyTransform
