@@ -33,6 +33,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMultiset;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
@@ -622,16 +623,16 @@ public final class MediaType {
   }
 
   /**
-   * <em>Replaces</em> all parameters with the given attribute with a single parameter with the
-   * given value. If multiple parameters with the same attributes are necessary use {@link
-   * #withParameters}. Prefer {@link #withCharset} for setting the {@code charset} parameter when
-   * using a {@link Charset} object.
+   * <em>Replaces</em> all parameters with the given attribute with parameters using the given
+   * values. If there are no values, any existing parameters with the given attribute are
+   * removed.
    *
-   * @throws IllegalArgumentException if either {@code attribute} or {@code value} is invalid
+   * @throws IllegalArgumentException if either {@code attribute} or {@code values} is invalid
+   * @since NEXT
    */
-  public MediaType withParameter(String attribute, String value) {
+  public MediaType withParameters(String attribute, Iterable<String> values) {
     checkNotNull(attribute);
-    checkNotNull(value);
+    checkNotNull(values);
     String normalizedAttribute = normalizeToken(attribute);
     ImmutableListMultimap.Builder<String, String> builder = ImmutableListMultimap.builder();
     for (Entry<String, String> entry : parameters.entries()) {
@@ -640,7 +641,9 @@ public final class MediaType {
         builder.put(key, entry.getValue());
       }
     }
-    builder.put(normalizedAttribute, normalizeParameterValue(normalizedAttribute, value));
+    for (String value : values) {
+      builder.put(normalizedAttribute, normalizeParameterValue(normalizedAttribute, value));
+    }
     MediaType mediaType = new MediaType(type, subtype, builder.build());
     // if the attribute isn't charset, we can just inherit the current parsedCharset
     if (!normalizedAttribute.equals(CHARSET_ATTRIBUTE)) {
@@ -648,6 +651,18 @@ public final class MediaType {
     }
     // Return one of the constants if the media type is a known type.
     return MoreObjects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);
+  }
+
+  /**
+   * <em>Replaces</em> all parameters with the given attribute with a single parameter with the
+   * given value. If multiple parameters with the same attributes are necessary use {@link
+   * #withParameters(String, Iterable)}. Prefer {@link #withCharset} for setting the {@code charset}
+   * parameter when using a {@link Charset} object.
+   *
+   * @throws IllegalArgumentException if either {@code attribute} or {@code value} is invalid
+   */
+  public MediaType withParameter(String attribute, String value) {
+    return withParameters(attribute, ImmutableSet.of(value));
   }
 
   /**

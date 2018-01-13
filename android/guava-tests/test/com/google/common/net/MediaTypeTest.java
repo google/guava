@@ -41,12 +41,14 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
+import java.util.Arrays;
 import junit.framework.TestCase;
 
 /**
@@ -243,6 +245,42 @@ public class MediaTypeTest extends TestCase {
       mediaType.withParameter("@", "2");
       fail();
     } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testWithParametersIterable() {
+    assertEquals(
+        MediaType.parse("text/plain"),
+        MediaType.parse("text/plain; a=1; a=2").withParameters("a", ImmutableSet.<String>of()));
+    assertEquals(
+        MediaType.parse("text/plain; a=1"),
+        MediaType.parse("text/plain").withParameters("a", ImmutableSet.of("1")));
+    assertEquals(
+        MediaType.parse("text/plain; a=1"),
+        MediaType.parse("text/plain; a=1; a=2").withParameters("a", ImmutableSet.of("1")));
+    assertEquals(
+        MediaType.parse("text/plain; a=1; a=3"),
+        MediaType.parse("text/plain; a=1; a=2").withParameters("a", ImmutableSet.of("1", "3")));
+    assertEquals(
+        MediaType.parse("text/plain; a=1; a=2; b=3; b=4"),
+        MediaType.parse("text/plain; a=1; a=2").withParameters("b", ImmutableSet.of("3", "4")));
+  }
+
+  public void testWithParametersIterable_invalidAttribute() {
+    MediaType mediaType = MediaType.parse("text/plain");
+    try {
+      mediaType.withParameters("@", ImmutableSet.of("2"));
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testWithParametersIterable_nullValue() {
+    MediaType mediaType = MediaType.parse("text/plain");
+    try {
+      mediaType.withParameters("a", Arrays.asList((String) null));
+      fail();
+    } catch (NullPointerException expected) {
     }
   }
 
