@@ -103,7 +103,7 @@ public final class Maps {
       public Object apply(Entry<?, ?> entry) {
         return entry.getValue();
       }
-    };
+    }
   }
 
   @SuppressWarnings("unchecked")

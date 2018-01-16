@@ -406,7 +406,7 @@ public abstract class RateLimiter {
 
     protected abstract void sleepMicrosUninterruptibly(long micros);
 
-    public static final SleepingStopwatch createFromSystemTimer() {
+    public static SleepingStopwatch createFromSystemTimer() {
       return new SleepingStopwatch() {
         final Stopwatch stopwatch = Stopwatch.createStarted();
 

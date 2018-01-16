@@ -97,7 +97,7 @@ public final class Streams {
    * <p><b>Java 9 users:</b> use {@code optional.stream()} instead.
    */
   public static <T> Stream<T> stream(java.util.Optional<T> optional) {
-    return optional.isPresent() ? Stream.of(optional.get()) : Stream.of();
+    return optional.map(Stream::of).orElseGet(Stream::of);
   }
 
   /**
@@ -825,7 +825,7 @@ public final class Streams {
   public static OptionalInt findLast(IntStream stream) {
     // findLast(Stream) does some allocation, so we might as well box some more
     java.util.Optional<Integer> boxedLast = findLast(stream.boxed());
-    return boxedLast.isPresent() ? OptionalInt.of(boxedLast.get()) : OptionalInt.empty();
+    return boxedLast.map(OptionalInt::of).orElseGet(OptionalInt::empty);
   }
 
   /**
@@ -843,7 +843,7 @@ public final class Streams {
   public static OptionalLong findLast(LongStream stream) {
     // findLast(Stream) does some allocation, so we might as well box some more
     java.util.Optional<Long> boxedLast = findLast(stream.boxed());
-    return boxedLast.isPresent() ? OptionalLong.of(boxedLast.get()) : OptionalLong.empty();
+    return boxedLast.map(OptionalLong::of).orElseGet(OptionalLong::empty);
   }
 
   /**
@@ -861,7 +861,7 @@ public final class Streams {
   public static OptionalDouble findLast(DoubleStream stream) {
     // findLast(Stream) does some allocation, so we might as well box some more
     java.util.Optional<Double> boxedLast = findLast(stream.boxed());
-    return boxedLast.isPresent() ? OptionalDouble.of(boxedLast.get()) : OptionalDouble.empty();
+    return boxedLast.map(OptionalDouble::of).orElseGet(OptionalDouble::empty);
   }
 
   private Streams() {}

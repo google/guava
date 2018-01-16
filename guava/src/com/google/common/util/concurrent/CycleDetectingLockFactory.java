@@ -228,7 +228,7 @@ public class CycleDetectingLockFactory {
     DISABLED {
       @Override
       public void handlePotentialDeadlock(PotentialDeadlockException e) {}
-    };
+    }
   }
 
   /** Creates a new factory with the specified policy. */
