@@ -25,6 +25,7 @@ import com.google.common.base.Converter;
 import com.google.common.base.Objects;
 import com.google.common.collect.ClassToInstanceMap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.MutableClassToInstanceMap;
@@ -32,6 +33,7 @@ import com.google.common.reflect.Invokable;
 import com.google.common.reflect.Parameter;
 import com.google.common.reflect.Reflection;
 import com.google.common.reflect.TypeToken;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -472,10 +474,19 @@ public final class NullPointerTester {
     return param.getType().getRawType().isPrimitive() || isNullable(param);
   }
 
+  private static final ImmutableSet<String> NULLABLE_ANNOTATIONS =
+      ImmutableSet.of(
+          "javax.annotation.CheckForNull",
+          "javax.annotation.Nullable",
+          "org.checkerframework.checker.nullness.compatqual.NullableDecl");
+
   static boolean isNullable(AnnotatedElement e) {
-    return e.isAnnotationPresent(javax.annotation.CheckForNull.class)
-        || e.isAnnotationPresent(javax.annotation.Nullable.class)
-        || e.isAnnotationPresent(NullableDecl.class);
+    for (Annotation annotation : e.getAnnotations()) {
+      if (NULLABLE_ANNOTATIONS.contains(annotation.annotationType().getName())) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private boolean isIgnored(Member member) {
