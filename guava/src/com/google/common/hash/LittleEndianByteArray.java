@@ -225,7 +225,7 @@ final class LittleEndianByteArray {
           sink[offset + i] = (byte) ((value & mask) >> (i * 8));
         }
       }
-    };
+    }
   }
 
   static {
