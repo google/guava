@@ -186,6 +186,7 @@ public class ExecutionListBenchmark {
             future.set(null);
           }
 
+          @SuppressWarnings("FutureReturnValueIgnored")
           @Override
           public Object getImpl() {
             return future;
@@ -209,6 +210,7 @@ public class ExecutionListBenchmark {
             future.set(null);
           }
 
+          @SuppressWarnings("FutureReturnValueIgnored")
           @Override
           public Object getImpl() {
             return future;

@@ -58,6 +58,7 @@ public class AbstractFutureFootprintBenchmark {
 
   // This exclusion doesn't exclude the TOMBSTONE objects we set. So 'done' NEW futures will look
   // larger than they are.
+  @SuppressWarnings("FutureReturnValueIgnored")
   @Footprint(exclude = {Runnable.class, Executor.class, Thread.class, Exception.class})
   public Object measureSize() {
     for (Thread thread : blockedThreads) {
