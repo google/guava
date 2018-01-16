@@ -83,8 +83,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
 
   static <N, V> DirectedGraphConnections<N, V> ofImmutable(
       Set<N> predecessors, Map<N, V> successorValues) {
-    Map<N, Object> adjacentNodeValues = new HashMap<>();
-    adjacentNodeValues.putAll(successorValues);
+    Map<N, Object> adjacentNodeValues = new HashMap<>(successorValues);
     for (N predecessor : predecessors) {
       Object value = adjacentNodeValues.put(predecessor, PRED);
       if (value != null) {
