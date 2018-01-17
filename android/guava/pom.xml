@@ -105,7 +105,6 @@
         <artifactId>animal-sniffer-maven-plugin</artifactId>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
           <!-- TODO(cpovirk): Move this to the parent after making jdk-sources available there. -->
