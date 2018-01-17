@@ -46,6 +46,13 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
     }
 
     @Override
+    @GwtIncompatible("not used in GWT")
+    int copyIntoArray(Object[] dst, int offset) {
+      System.arraycopy(entries, 0, dst, offset, entries.length);
+      return offset + entries.length;
+    }
+
+    @Override
     public UnmodifiableIterator<Entry<K, V>> iterator() {
       return Iterators.forArray(entries);
     }

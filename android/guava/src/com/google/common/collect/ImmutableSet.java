@@ -354,6 +354,11 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     }
 
     @Override
+    int copyIntoArray(Object[] dst, int offset) {
+      return asList().copyIntoArray(dst, offset);
+    }
+
+    @Override
     ImmutableList<E> createAsList() {
       return new ImmutableList<E>() {
         @Override

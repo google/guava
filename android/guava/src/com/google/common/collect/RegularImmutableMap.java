@@ -185,6 +185,11 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     }
 
     @Override
+    int copyIntoArray(Object[] dst, int offset) {
+      return asList().copyIntoArray(dst, offset);
+    }
+
+    @Override
     ImmutableList<Entry<K, V>> createAsList() {
       return new ImmutableList<Entry<K, V>>() {
         @Override
@@ -279,6 +284,11 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     @Override
     public UnmodifiableIterator<K> iterator() {
       return asList().iterator();
+    }
+
+    @Override
+    int copyIntoArray(Object[] dst, int offset) {
+      return asList().copyIntoArray(dst, offset);
     }
 
     @Override
