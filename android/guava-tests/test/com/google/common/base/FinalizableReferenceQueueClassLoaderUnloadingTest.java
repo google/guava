@@ -16,11 +16,17 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.StandardSystemProperty.JAVA_CLASS_PATH;
+import static com.google.common.base.StandardSystemProperty.PATH_SEPARATOR;
+
+import com.google.common.collect.ImmutableList;
 import com.google.common.testing.GcFinalization;
 import java.io.Closeable;
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.security.Permission;
@@ -75,9 +81,8 @@ public class FinalizableReferenceQueueClassLoaderUnloadingTest extends TestCase 
   }
 
   private WeakReference<ClassLoader> useFrqInSeparateLoader() throws Exception {
-    final URLClassLoader myLoader = (URLClassLoader) getClass().getClassLoader();
-    final URL[] urls = myLoader.getURLs();
-    URLClassLoader sepLoader = new URLClassLoader(urls, myLoader.getParent());
+    final ClassLoader myLoader = getClass().getClassLoader();
+    URLClassLoader sepLoader = new URLClassLoader(getClassPathUrls(), myLoader.getParent());
     // sepLoader is the loader that we will use to load the parallel FinalizableReferenceQueue (FRQ)
     // and friends, and that we will eventually expect to see garbage-collected. The assumption
     // is that the ClassLoader of this test is a URLClassLoader, and that it loads FRQ itself
@@ -201,9 +206,8 @@ public class FinalizableReferenceQueueClassLoaderUnloadingTest extends TestCase 
   // gc'd even if there is a still a FinalizableReferenceQueue in a static field. (Setting the field
   // to null would also work, but only if there are no references to the FRQ anywhere else.)
   private WeakReference<ClassLoader> doTestUnloadableInStaticFieldIfClosed() throws Exception {
-    final URLClassLoader myLoader = (URLClassLoader) getClass().getClassLoader();
-    final URL[] urls = myLoader.getURLs();
-    URLClassLoader sepLoader = new URLClassLoader(urls, myLoader.getParent());
+    final ClassLoader myLoader = getClass().getClassLoader();
+    URLClassLoader sepLoader = new URLClassLoader(getClassPathUrls(), myLoader.getParent());
 
     Class<?> frqC = FinalizableReferenceQueue.class;
     Class<?> sepFrqC = sepLoader.loadClass(frqC.getName());
@@ -235,5 +239,35 @@ public class FinalizableReferenceQueueClassLoaderUnloadingTest extends TestCase 
     frq.close();
 
     return new WeakReference<ClassLoader>(sepLoader);
+  }
+
+  private URL[] getClassPathUrls() {
+    ClassLoader classLoader = getClass().getClassLoader();
+    return classLoader instanceof URLClassLoader
+        ? ((URLClassLoader) classLoader).getURLs()
+        : parseJavaClassPath().toArray(new URL[0]);
+  }
+
+  /**
+   * Returns the URLs in the class path specified by the {@code java.class.path} {@linkplain
+   * System#getProperty system property}.
+   */
+  // TODO(b/65488446): Make this a public API.
+  private static ImmutableList<URL> parseJavaClassPath() {
+    ImmutableList.Builder<URL> urls = ImmutableList.builder();
+    for (String entry : Splitter.on(PATH_SEPARATOR.value()).split(JAVA_CLASS_PATH.value())) {
+      try {
+        try {
+          urls.add(new File(entry).toURI().toURL());
+        } catch (SecurityException e) { // File.toURI checks to see if the file is a directory
+          urls.add(new URL("file", null, new File(entry).getAbsolutePath()));
+        }
+      } catch (MalformedURLException e) {
+        AssertionError error = new AssertionError("malformed class path entry: " + entry);
+        error.initCause(e);
+        throw error;
+      }
+    }
+    return urls.build();
   }
 }
