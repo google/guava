@@ -15,17 +15,11 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Objects;
-import com.google.common.collect.Multisets.ImmutableEntry;
-import com.google.common.base.Objects;
 import com.google.common.collect.Multiset.Entry;
-import com.google.common.collect.Multisets.ImmutableEntry;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
-import java.util.Collection;
 import java.io.Serializable;
-import java.util.Collection;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -40,7 +34,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   static final RegularImmutableMultiset<Object> EMPTY =
       new RegularImmutableMultiset<>(ObjectCountHashMap.create());
 
-  private final transient ObjectCountHashMap<E> contents;
+  final transient ObjectCountHashMap<E> contents;
   private final transient int size;
 
   @LazyInit private transient ImmutableSet<E> elementSet;

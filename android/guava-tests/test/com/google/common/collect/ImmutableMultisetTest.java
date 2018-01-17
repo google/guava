@@ -312,6 +312,18 @@ public class ImmutableMultisetTest extends TestCase {
     assertEquals(1, iterable.count);
   }
 
+  public void testCopyOf_hashMultiset() {
+    Multiset<String> iterable = HashMultiset.create(asList("a", "b", "a"));
+    Multiset<String> multiset = ImmutableMultiset.copyOf(iterable);
+    assertEquals(HashMultiset.create(asList("a", "b", "a")), multiset);
+  }
+
+  public void testCopyOf_treeMultiset() {
+    Multiset<String> iterable = TreeMultiset.create(asList("a", "b", "a"));
+    Multiset<String> multiset = ImmutableMultiset.copyOf(iterable);
+    assertEquals(HashMultiset.create(asList("a", "b", "a")), multiset);
+  }
+
   public void testCopyOf_shortcut_empty() {
     Collection<String> c = ImmutableMultiset.of();
     assertSame(c, ImmutableMultiset.copyOf(c));
@@ -341,9 +353,25 @@ public class ImmutableMultisetTest extends TestCase {
     assertEquals(HashMultiset.create(asList("a", "b", "c", "d")), multiset);
   }
 
-  public void testBuilderAddAllMultiset() {
+  public void testBuilderAddAllHashMultiset() {
     Multiset<String> a = HashMultiset.create(asList("a", "b", "b"));
     Multiset<String> b = HashMultiset.create(asList("c", "b"));
+    ImmutableMultiset<String> multiset =
+        new ImmutableMultiset.Builder<String>().addAll(a).addAll(b).build();
+    assertEquals(HashMultiset.create(asList("a", "b", "b", "b", "c")), multiset);
+  }
+
+  public void testBuilderAddAllImmutableMultiset() {
+    Multiset<String> a = ImmutableMultiset.of("a", "b", "b");
+    Multiset<String> b = ImmutableMultiset.of("c", "b");
+    ImmutableMultiset<String> multiset =
+        new ImmutableMultiset.Builder<String>().addAll(a).addAll(b).build();
+    assertEquals(HashMultiset.create(asList("a", "b", "b", "b", "c")), multiset);
+  }
+
+  public void testBuilderAddAllTreeMultiset() {
+    Multiset<String> a = TreeMultiset.create(asList("a", "b", "b"));
+    Multiset<String> b = TreeMultiset.create(asList("c", "b"));
     ImmutableMultiset<String> multiset =
         new ImmutableMultiset.Builder<String>().addAll(a).addAll(b).build();
     assertEquals(HashMultiset.create(asList("a", "b", "b", "b", "c")), multiset);

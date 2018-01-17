@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.Multiset.Entry;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
@@ -28,6 +27,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Set;
 import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
@@ -151,7 +151,6 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
         return result;
       }
     }
-
     ImmutableMultiset.Builder<E> builder =
         new ImmutableMultiset.Builder<E>(Multisets.inferDistinctElements(elements));
     builder.addAll(elements);
@@ -532,13 +531,39 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     public Builder<E> addAll(Iterable<? extends E> elements) {
       if (elements instanceof Multiset) {
         Multiset<? extends E> multiset = Multisets.cast(elements);
-        for (Entry<? extends E> entry : multiset.entrySet()) {
-          addCopies(entry.getElement(), entry.getCount());
+        ObjectCountHashMap<? extends E> backingMap = tryGetMap(multiset);
+        if (backingMap != null) {
+          contents.ensureCapacity(Math.max(contents.size(), backingMap.size()));
+          for (int i = backingMap.firstIndex(); i >= 0; i = backingMap.nextIndex(i)) {
+            addCopies(backingMap.getKey(i), backingMap.getValue(i));
+          }
+        } else {
+          Set<? extends Entry<? extends E>> entries = multiset.entrySet();
+          contents.ensureCapacity(Math.max(contents.size(), entries.size())); // might overlap
+          for (Entry<? extends E> entry : multiset.entrySet()) {
+            addCopies(entry.getElement(), entry.getCount());
+          }
         }
       } else {
         super.addAll(elements);
       }
       return this;
+    }
+
+    /**
+     * If the specified collection is backed by an ObjectCountHashMap, it will be much more
+     * efficient to iterate over it by index rather than an entry iterator, which will need to
+     * allocate an object for each entry, so we check for that.
+     */
+    @NullableDecl
+    static <T> ObjectCountHashMap<T> tryGetMap(Iterable<T> multiset) {
+      if (multiset instanceof RegularImmutableMultiset) {
+        return ((RegularImmutableMultiset<T>) multiset).contents;
+      } else if (multiset instanceof AbstractMapBasedMultiset) {
+        return ((AbstractMapBasedMultiset<T>) multiset).backingMap;
+      } else {
+        return null;
+      }
     }
 
     /**

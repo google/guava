@@ -113,7 +113,7 @@ class ObjectCountHashMap<K> {
     init(DEFAULT_SIZE, DEFAULT_LOAD_FACTOR);
   }
 
-  ObjectCountHashMap(ObjectCountHashMap<K> map) {
+  ObjectCountHashMap(ObjectCountHashMap<? extends K> map) {
     init(map.size(), DEFAULT_LOAD_FACTOR);
     for (int i = map.firstIndex(); i != -1; i = map.nextIndex(i)) {
       put(map.getKey(i), map.getValue(i));
@@ -258,6 +258,16 @@ class ObjectCountHashMap<K> {
   /** Returns a new entry value by changing the "next" index of an existing entry */
   private static long swapNext(long entry, int newNext) {
     return (HASH_MASK & entry) | (NEXT_MASK & newNext);
+  }
+
+  void ensureCapacity(int minCapacity) {
+    if (minCapacity > entries.length) {
+      resizeEntries(minCapacity);
+    }
+    if (minCapacity >= threshold) {
+      int newTableSize = Math.max(2, Integer.highestOneBit(minCapacity - 1) << 1);
+      resizeTable(newTableSize);
+    }
   }
 
   @CanIgnoreReturnValue

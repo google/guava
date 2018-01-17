@@ -161,7 +161,9 @@ class ObjectCountLinkedHashMap<K> extends ObjectCountHashMap<K> {
   @Override
   void resizeEntries(int newCapacity) {
     super.resizeEntries(newCapacity);
+    int oldCapacity = links.length;
     links = Arrays.copyOf(links, newCapacity);
+    Arrays.fill(links, oldCapacity, newCapacity, UNSET);
   }
 
   @Override
