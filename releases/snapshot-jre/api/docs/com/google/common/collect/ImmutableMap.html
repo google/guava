@@ -119,7 +119,7 @@ var activeTableTab = "activeTableTab";
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable--">serializable</a>=true,
                <a href="../../../../com/google/common/annotations/GwtCompatible.html#emulated--">emulated</a>=true)
-public abstract class <a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.63">ImmutableMap</a>&lt;K,V&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.64">ImmutableMap</a>&lt;K,V&gt;
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;, <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</a></pre>
 <div class="block">A <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util"><code>Map</code></a> whose contents will never change, with many other important properties detailed at
@@ -513,7 +513,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <li class="blockList">
 <h4>toImmutableMap</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;T,K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream">Collector</a>&lt;T,?,<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.78">toImmutableMap</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends K&gt;&nbsp;keyFunction,
+public static&nbsp;&lt;T,K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream">Collector</a>&lt;T,?,<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.79">toImmutableMap</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends K&gt;&nbsp;keyFunction,
                                                                             <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends V&gt;&nbsp;valueFunction)</pre>
 <div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream"><code>Collector</code></a> that accumulates elements into an <code>ImmutableMap</code> whose keys
  and values are the result of applying the provided mapping functions to the input elements.
@@ -535,7 +535,7 @@ public static&nbsp;&lt;T,K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/
 <li class="blockList">
 <h4>toImmutableMap</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;T,K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream">Collector</a>&lt;T,?,<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.95">toImmutableMap</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends K&gt;&nbsp;keyFunction,
+public static&nbsp;&lt;T,K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream">Collector</a>&lt;T,?,<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.96">toImmutableMap</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends K&gt;&nbsp;keyFunction,
                                                                             <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super T,? extends V&gt;&nbsp;valueFunction,
                                                                             <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BinaryOperator.html?is-external=true" title="class or interface in java.util.function">BinaryOperator</a>&lt;V&gt;&nbsp;mergeFunction)</pre>
 <div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream"><code>Collector</code></a> that accumulates elements into an <code>ImmutableMap</code> whose keys
@@ -556,7 +556,7 @@ public static&nbsp;&lt;T,K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.113">of</a>()</pre>
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.114">of</a>()</pre>
 <div class="block">Returns the empty map. This map behaves and performs comparably to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#emptyMap--" title="class or interface in java.util"><code>Collections.emptyMap()</code></a>, and is preferable mainly for consistency and maintainability of your
  code.</div>
 </li>
@@ -569,7 +569,7 @@ public static&nbsp;&lt;T,K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.122">of</a>(K&nbsp;k1,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.123">of</a>(K&nbsp;k1,
                                          V&nbsp;v1)</pre>
 <div class="block">Returns an immutable map containing a single entry. This map behaves and performs comparably to
  <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#singletonMap-K-V-" title="class or interface in java.util"><code>Collections.singletonMap(K, V)</code></a> but will not accept a null key or value. It is preferable
@@ -584,7 +584,7 @@ public static&nbsp;&lt;T,K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.131">of</a>(K&nbsp;k1,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.132">of</a>(K&nbsp;k1,
                                          V&nbsp;v1,
                                          K&nbsp;k2,
                                          V&nbsp;v2)</pre>
@@ -603,7 +603,7 @@ public static&nbsp;&lt;T,K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.140">of</a>(K&nbsp;k1,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.141">of</a>(K&nbsp;k1,
                                          V&nbsp;v1,
                                          K&nbsp;k2,
                                          V&nbsp;v2,
@@ -624,7 +624,7 @@ public static&nbsp;&lt;T,K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.149">of</a>(K&nbsp;k1,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.150">of</a>(K&nbsp;k1,
                                          V&nbsp;v1,
                                          K&nbsp;k2,
                                          V&nbsp;v2,
@@ -647,7 +647,7 @@ public static&nbsp;&lt;T,K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.159">of</a>(K&nbsp;k1,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.160">of</a>(K&nbsp;k1,
                                          V&nbsp;v1,
                                          K&nbsp;k2,
                                          V&nbsp;v2,
@@ -670,7 +670,7 @@ public static&nbsp;&lt;T,K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/
 <ul class="blockList">
 <li class="blockList">
 <h4>builder</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.183">builder</a>()</pre>
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.184">builder</a>()</pre>
 <div class="block">Returns a new builder. The generated builder is equivalent to the builder created by the <a href="../../../../com/google/common/collect/ImmutableMap.Builder.html" title="class in com.google.common.collect"><code>ImmutableMap.Builder</code></a> constructor.</div>
 </li>
 </ul>
@@ -681,7 +681,7 @@ public static&nbsp;&lt;T,K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/
 <li class="blockList">
 <h4>builderWithExpectedSize</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.200">builderWithExpectedSize</a>(int&nbsp;expectedSize)</pre>
+public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.201">builderWithExpectedSize</a>(int&nbsp;expectedSize)</pre>
 <div class="block">Returns a new builder, expecting the specified number of entries to be added.
 
  <p>If <code>expectedSize</code> is exactly the number of entries added to the builder before <a href="../../../../com/google/common/collect/ImmutableMap.Builder.html#build--"><code>ImmutableMap.Builder.build()</code></a> is called, the builder is likely to perform better than an unsized <a href="../../../../com/google/common/collect/ImmutableMap.html#builder--"><code>builder()</code></a> would have.
@@ -700,7 +700,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.404">copyOf</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends K,? extends V&gt;&nbsp;map)</pre>
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.405">copyOf</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends K,? extends V&gt;&nbsp;map)</pre>
 <div class="block">Returns an immutable map containing the same entries as <code>map</code>. The returned map iterates
  over entries in the same order as the <code>entrySet</code> of the original map. If <code>map</code>
  somehow contains entries with duplicate keys (for example, if it is a <code>SortedMap</code> whose
@@ -722,7 +722,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <li class="blockList">
 <h4>copyOf</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.428">copyOf</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;? extends K,? extends V&gt;&gt;&nbsp;entries)</pre>
+public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.429">copyOf</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;? extends K,? extends V&gt;&gt;&nbsp;entries)</pre>
 <div class="block">Returns an immutable map containing the specified entries. The returned map iterates over
  entries in the same order as the original iterable.</div>
 <dl>
@@ -744,7 +744,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <h4>put</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.507">put</a>(<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;k,
+public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.508">put</a>(<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;k,
                                                       <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;v)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
@@ -775,7 +775,7 @@ public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.ht
 <h4>putIfAbsent</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.520">putIfAbsent</a>(<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
+public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.521">putIfAbsent</a>(<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
                                                               <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;value)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
@@ -805,7 +805,7 @@ public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.ht
 <li class="blockList">
 <h4>replace</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.532">replace</a>(<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.533">replace</a>(<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
                                          <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;oldValue,
                                          <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;newValue)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
@@ -833,7 +833,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <li class="blockList">
 <h4>replace</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.544">replace</a>(<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
+public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.545">replace</a>(<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
                                    <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;value)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
@@ -863,7 +863,7 @@ public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.ht
 <li class="blockList">
 <h4>computeIfAbsent</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.556">computeIfAbsent</a>(<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
+public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.557">computeIfAbsent</a>(<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
                                            <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function">Function</a>&lt;? super <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,? extends <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;mappingFunction)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
@@ -890,7 +890,7 @@ public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.ht
 <li class="blockList">
 <h4>computeIfPresent</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.568">computeIfPresent</a>(<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
+public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.569">computeIfPresent</a>(<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
                                             <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function">BiFunction</a>&lt;? super <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,? super <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,? extends <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;remappingFunction)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
@@ -916,7 +916,7 @@ public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.ht
 <li class="blockList">
 <h4>compute</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.581">compute</a>(<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
+public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.582">compute</a>(<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
                                    <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function">BiFunction</a>&lt;? super <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,? super <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,? extends <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;remappingFunction)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
@@ -942,7 +942,7 @@ public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.ht
 <li class="blockList">
 <h4>merge</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.593">merge</a>(<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
+public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.594">merge</a>(<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
                                  <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;value,
                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function">BiFunction</a>&lt;? super <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,? super <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,? extends <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;remappingFunction)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
@@ -971,7 +971,7 @@ public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.ht
 <li class="blockList">
 <h4>putAll</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.606">putAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,? extends <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;map)</pre>
+public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.607">putAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,? extends <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;map)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
 <dl>
@@ -991,7 +991,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <li class="blockList">
 <h4>replaceAll</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.618">replaceAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function">BiFunction</a>&lt;? super <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,? super <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,? extends <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;function)</pre>
+public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.619">replaceAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function">BiFunction</a>&lt;? super <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,? super <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,? extends <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;function)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
 <dl>
@@ -1011,7 +1011,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <li class="blockList">
 <h4>remove</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.630">remove</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;o)</pre>
+public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.631">remove</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;o)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
 <dl>
@@ -1034,7 +1034,7 @@ public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.ht
 <li class="blockList">
 <h4>remove</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.642">remove</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key,
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.643">remove</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key,
                                         <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
@@ -1058,7 +1058,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <li class="blockList">
 <h4>clear</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.654">clear</a>()</pre>
+public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.655">clear</a>()</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
 <dl>
@@ -1075,7 +1075,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.659">isEmpty</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.660">isEmpty</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#isEmpty--" title="class or interface in java.util">java.util.Map</a></code></span></div>
 <div class="block">Returns <tt>true</tt> if this map contains no key-value mappings.</div>
 <dl>
@@ -1092,7 +1092,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>containsKey</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.664">containsKey</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.665">containsKey</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                            <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#containsKey-java.lang.Object-" title="class or interface in java.util">java.util.Map</a></code></span></div>
 <div class="block">Returns <tt>true</tt> if this map contains a mapping for the specified
@@ -1117,7 +1117,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>containsValue</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.669">containsValue</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.670">containsValue</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                              <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#containsValue-java.lang.Object-" title="class or interface in java.util">java.util.Map</a></code></span></div>
 <div class="block">Returns <tt>true</tt> if this map maps one or more keys to the
@@ -1143,7 +1143,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.675">get</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.676">get</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#get-java.lang.Object-" title="class or interface in java.util">java.util.Map</a></code></span></div>
 <div class="block">Returns the value to which the specified key is mapped,
@@ -1177,7 +1177,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>getOrDefault</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.683">getOrDefault</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+<pre>public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.684">getOrDefault</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                             <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key,
                             <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                             <a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;defaultValue)</pre>
@@ -1206,7 +1206,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>entrySet</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.695">entrySet</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.696">entrySet</a>()</pre>
 <div class="block">Returns an immutable set of the mappings in this map. The iteration order is specified by the
  method used to create this map. Typically, this is insertion order.</div>
 <dl>
@@ -1223,7 +1223,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>keySet</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.709">keySet</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.710">keySet</a>()</pre>
 <div class="block">Returns an immutable set of the keys in this map, in the same order that they appear in <a href="../../../../com/google/common/collect/ImmutableMap.html#entrySet"><code>entrySet</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -1239,7 +1239,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>values</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.747">values</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.748">values</a>()</pre>
 <div class="block">Returns an immutable collection of the values in this map, in the same order that they appear
  in <a href="../../../../com/google/common/collect/ImmutableMap.html#entrySet"><code>entrySet</code></a>.</div>
 <dl>
@@ -1256,7 +1256,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>asMultimap</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.767">asMultimap</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,<a href="../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.768">asMultimap</a>()</pre>
 <div class="block">Returns a multimap view of the map.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -1270,7 +1270,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.848">equals</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.849">equals</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Indicates whether some other object is "equal to" this one.
@@ -1333,7 +1333,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.855">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.856">hashCode</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Returns a hash code value for the object. This method is
  supported for the benefit of hash tables such as those provided by
@@ -1383,7 +1383,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.864">toString</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.865">toString</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Returns a string representation of the object. In general, the
  <code>toString</code> method returns a string that
@@ -1479,6 +1479,6 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <!--   -->
 </a></div>
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
-<p class="legalCopy"><small>Copyright &#169; 2010&#x2013;2017. All rights reserved.</small></p>
+<p class="legalCopy"><small>Copyright &#169; 2010&#x2013;2018. All rights reserved.</small></p>
 </body>
 </html>

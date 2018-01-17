@@ -57,8 +57,8 @@ Class com.google.common.collect.<A HREF="../../docs/com/google/common/collect/Co
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.Comparators.emptiesFirst_removed(java.util.Comparator<T>)"></A>
-  <nobr><code>Comparator&lt;Optional&lt;T&gt;&gt;</code>&nbsp;<A HREF="../../../../snapshot-jre/api/docs/com/google/common/collect/Comparators.html#emptiesFirst(java.util.Comparator<T>)" target="_top"><tt>emptiesFirst</tt></A>(<code>Comparator&lt;T&gt;</code>)</nobr>
+  <A NAME="com.google.common.collect.Comparators.emptiesFirst_removed(java.util.Comparator<? super T>)"></A>
+  <nobr><code>Comparator&lt;Optional&lt;T&gt;&gt;</code>&nbsp;<A HREF="../../../../snapshot-jre/api/docs/com/google/common/collect/Comparators.html#emptiesFirst(java.util.Comparator<? super T>)" target="_top"><tt>emptiesFirst</tt></A>(<code>Comparator&lt;? super T&gt;</code>)</nobr>
   </TD>
   <TD VALIGN="TOP">Returns a comparator of <A HREF="../../docs/Optional.html"><TT>Optional</TT></A> values which treats <A HREF="../../docs/Optional.html#empty"><TT>Optional.empty</TT></A> as less
  than all other values, and orders the rest using {@code valueComparator} on the contained
@@ -66,8 +66,8 @@ Class com.google.common.collect.<A HREF="../../docs/com/google/common/collect/Co
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.Comparators.emptiesLast_removed(java.util.Comparator<T>)"></A>
-  <nobr><code>Comparator&lt;Optional&lt;T&gt;&gt;</code>&nbsp;<A HREF="../../../../snapshot-jre/api/docs/com/google/common/collect/Comparators.html#emptiesLast(java.util.Comparator<T>)" target="_top"><tt>emptiesLast</tt></A>(<code>Comparator&lt;T&gt;</code>)</nobr>
+  <A NAME="com.google.common.collect.Comparators.emptiesLast_removed(java.util.Comparator<? super T>)"></A>
+  <nobr><code>Comparator&lt;Optional&lt;T&gt;&gt;</code>&nbsp;<A HREF="../../../../snapshot-jre/api/docs/com/google/common/collect/Comparators.html#emptiesLast(java.util.Comparator<? super T>)" target="_top"><tt>emptiesLast</tt></A>(<code>Comparator&lt;? super T&gt;</code>)</nobr>
   </TD>
   <TD VALIGN="TOP">Returns a comparator of <A HREF="../../docs/Optional.html"><TT>Optional</TT></A> values which treats <A HREF="../../docs/Optional.html#empty"><TT>Optional.empty</TT></A> as greater
  than all other values, and orders the rest using {@code valueComparator} on the contained

@@ -1130,7 +1130,7 @@
 <span class="sourceLineNo">1122</span><a name="line.1122"></a>
 <span class="sourceLineNo">1123</span>    private final Iterator&lt;? extends E&gt; iterator;<a name="line.1123"></a>
 <span class="sourceLineNo">1124</span>    private boolean hasPeeked;<a name="line.1124"></a>
-<span class="sourceLineNo">1125</span>    private E peekedElement;<a name="line.1125"></a>
+<span class="sourceLineNo">1125</span>    @NullableDecl private E peekedElement;<a name="line.1125"></a>
 <span class="sourceLineNo">1126</span><a name="line.1126"></a>
 <span class="sourceLineNo">1127</span>    public PeekingImpl(Iterator&lt;? extends E&gt; iterator) {<a name="line.1127"></a>
 <span class="sourceLineNo">1128</span>      this.iterator = checkNotNull(iterator);<a name="line.1128"></a>
@@ -1299,7 +1299,7 @@
 <span class="sourceLineNo">1291</span><a name="line.1291"></a>
 <span class="sourceLineNo">1292</span>  private static class ConcatenatedIterator&lt;T&gt; implements Iterator&lt;T&gt; {<a name="line.1292"></a>
 <span class="sourceLineNo">1293</span>    /* The last iterator to return an element.  Calls to remove() go to this iterator. */<a name="line.1293"></a>
-<span class="sourceLineNo">1294</span>    private Iterator&lt;? extends T&gt; toRemove;<a name="line.1294"></a>
+<span class="sourceLineNo">1294</span>   @NullableDecl private Iterator&lt;? extends T&gt; toRemove;<a name="line.1294"></a>
 <span class="sourceLineNo">1295</span><a name="line.1295"></a>
 <span class="sourceLineNo">1296</span>    /* The iterator currently returning elements. */<a name="line.1296"></a>
 <span class="sourceLineNo">1297</span>    private Iterator&lt;? extends T&gt; iterator;<a name="line.1297"></a>

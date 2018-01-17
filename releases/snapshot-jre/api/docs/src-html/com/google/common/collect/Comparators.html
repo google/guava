@@ -179,7 +179,7 @@
 <span class="sourceLineNo">171</span>   * @since 22.0<a name="line.171"></a>
 <span class="sourceLineNo">172</span>   */<a name="line.172"></a>
 <span class="sourceLineNo">173</span>  @Beta<a name="line.173"></a>
-<span class="sourceLineNo">174</span>  public static &lt;T&gt; Comparator&lt;Optional&lt;T&gt;&gt; emptiesFirst(Comparator&lt;T&gt; valueComparator) {<a name="line.174"></a>
+<span class="sourceLineNo">174</span>  public static &lt;T&gt; Comparator&lt;Optional&lt;T&gt;&gt; emptiesFirst(Comparator&lt;? super T&gt; valueComparator) {<a name="line.174"></a>
 <span class="sourceLineNo">175</span>    checkNotNull(valueComparator);<a name="line.175"></a>
 <span class="sourceLineNo">176</span>    return Comparator.comparing(o -&gt; o.orElse(null), Comparator.nullsFirst(valueComparator));<a name="line.176"></a>
 <span class="sourceLineNo">177</span>  }<a name="line.177"></a>
@@ -192,7 +192,7 @@
 <span class="sourceLineNo">184</span>   * @since 22.0<a name="line.184"></a>
 <span class="sourceLineNo">185</span>   */<a name="line.185"></a>
 <span class="sourceLineNo">186</span>  @Beta<a name="line.186"></a>
-<span class="sourceLineNo">187</span>  public static &lt;T&gt; Comparator&lt;Optional&lt;T&gt;&gt; emptiesLast(Comparator&lt;T&gt; valueComparator) {<a name="line.187"></a>
+<span class="sourceLineNo">187</span>  public static &lt;T&gt; Comparator&lt;Optional&lt;T&gt;&gt; emptiesLast(Comparator&lt;? super T&gt; valueComparator) {<a name="line.187"></a>
 <span class="sourceLineNo">188</span>    checkNotNull(valueComparator);<a name="line.188"></a>
 <span class="sourceLineNo">189</span>    return Comparator.comparing(o -&gt; o.orElse(null), Comparator.nullsLast(valueComparator));<a name="line.189"></a>
 <span class="sourceLineNo">190</span>  }<a name="line.190"></a>

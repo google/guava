@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":6,"i1":6,"i2":6,"i3":6,"i4":6,"i5":6,"i6":6,"i7":6,"i8":6,"i9":6,"i10":6,"i11":6,"i12":6,"i13":6,"i14":6,"i15":6};
+var methods = {"i0":6,"i1":6,"i2":6,"i3":6,"i4":6,"i5":6,"i6":6,"i7":6,"i8":6,"i9":6,"i10":6,"i11":6,"i12":6,"i13":6,"i14":6,"i15":6,"i16":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -275,45 +275,51 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 </td>
 </tr>
 <tr id="i9" class="rowColor">
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/ValueGraph.html#incidentEdges-N-">incidentEdges</a></span>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</code>
+<div class="block">Returns the edges in this graph whose endpoints include <code>node</code>.</div>
+</td>
+</tr>
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/ValueGraph.html#inDegree-N-">inDegree</a></span>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</code>
 <div class="block">Returns the count of <code>node</code>'s incoming edges (equal to <code>predecessors(node).size()</code>)
  in a directed graph.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/ValueGraph.html#isDirected--">isDirected</a></span>()</code>
 <div class="block">Returns true if the edges in this graph are directed.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/ValueGraph.html#nodeOrder--">nodeOrder</a></span>()</code>
 <div class="block">Returns the order of iteration for the elements of <a href="../../../../com/google/common/graph/ValueGraph.html#nodes--"><code>nodes()</code></a>.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/ValueGraph.html#nodes--">nodes</a></span>()</code>
 <div class="block">Returns all nodes in this graph, in the order specified by <a href="../../../../com/google/common/graph/ValueGraph.html#nodeOrder--"><code>nodeOrder()</code></a>.</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/ValueGraph.html#outDegree-N-">outDegree</a></span>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</code>
 <div class="block">Returns the count of <code>node</code>'s outgoing edges (equal to <code>successors(node).size()</code>)
  in a directed graph.</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/ValueGraph.html#predecessors-N-">predecessors</a></span>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</code>
 <div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
  <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
 </td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/ValueGraph.html#successors-N-">successors</a></span>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</code>
 <div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
@@ -443,6 +449,18 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
  edges". For that functionality, see <a href="../../../../com/google/common/graph/Graphs.html#reachableNodes-com.google.common.graph.Graph-N-"><code>Graphs.reachableNodes(Graph, Object)</code></a>.</div>
 </li>
 </ul>
+<a name="incidentEdges-java.lang.Object-">
+<!--   -->
+</a><a name="incidentEdges-N-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>incidentEdges</h4>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.162">incidentEdges</a>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
+<div class="block">Returns the edges in this graph whose endpoints include <code>node</code>.</div>
+</li>
+</ul>
 <a name="degree-java.lang.Object-">
 <!--   -->
 </a><a name="degree-N-">
@@ -451,13 +469,14 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>degree</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.162">degree</a>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.166">degree</a>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
 <div class="block">Returns the count of <code>node</code>'s incident edges, counting self-loops twice (equivalently,
  the number of times an edge touches <code>node</code>).
 
  <p>For directed graphs, this is equal to <code>inDegree(node) + outDegree(node)</code>.
 
- <p>For undirected graphs, this is equal to <code>adjacentNodes(node).size()</code> + (1 if <code>node</code> has an incident self-loop, 0 otherwise).
+ <p>For undirected graphs, this is equal to <code>incidentEdges(node).size()</code> + (number of
+ self-loops incident to <code>node</code>).
 
  <p>If the count is greater than <code>Integer.MAX_VALUE</code>, returns <code>Integer.MAX_VALUE</code>.</div>
 </li>
@@ -470,7 +489,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>inDegree</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.166">inDegree</a>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.170">inDegree</a>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
 <div class="block">Returns the count of <code>node</code>'s incoming edges (equal to <code>predecessors(node).size()</code>)
  in a directed graph. In an undirected graph, returns the <a href="../../../../com/google/common/graph/ValueGraph.html#degree-N-"><code>degree(Object)</code></a>.
 
@@ -485,7 +504,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>outDegree</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.170">outDegree</a>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.174">outDegree</a>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</pre>
 <div class="block">Returns the count of <code>node</code>'s outgoing edges (equal to <code>successors(node).size()</code>)
  in a directed graph. In an undirected graph, returns the <a href="../../../../com/google/common/graph/ValueGraph.html#degree-N-"><code>degree(Object)</code></a>.
 
@@ -500,7 +519,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>hasEdgeConnecting</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.174">hasEdgeConnecting</a>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.178">hasEdgeConnecting</a>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
                           <a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeV)</pre>
 <div class="block">Returns true if there is an edge directly connecting <code>nodeU</code> to <code>nodeV</code>. This is
  equivalent to <code>nodes().contains(nodeU) &amp;&amp; successors(nodeU).contains(nodeV)</code>.
@@ -517,7 +536,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <li class="blockList">
 <h4>edgeValueOrDefault</h4>
 <pre><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
-<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">V</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.187">edgeValueOrDefault</a>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
+<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">V</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.191">edgeValueOrDefault</a>(<a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
                                    <a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeV,
                                    <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                                    <a href="../../../../com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">V</a>&nbsp;defaultValue)</pre>
@@ -539,7 +558,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.214">equals</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.218">equals</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> that has the same elements and
  the same structural relationships as those in this graph.
@@ -579,7 +598,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.224">hashCode</a>()</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line.228">hashCode</a>()</pre>
 <div class="block">Returns the hash code for this graph. The hash code of a graph is defined as the hash code of a
  map from each of its <a href="../../../../com/google/common/graph/ValueGraph.html#edges--"><code>edges</code></a> to the associated <code>edge value</code>.
 
@@ -664,6 +683,6 @@ public interface <a href="../../../../src-html/com/google/common/graph/ValueGrap
 <!--   -->
 </a></div>
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
-<p class="legalCopy"><small>Copyright &#169; 2010&#x2013;2017. All rights reserved.</small></p>
+<p class="legalCopy"><small>Copyright &#169; 2010&#x2013;2018. All rights reserved.</small></p>
 </body>
 </html>

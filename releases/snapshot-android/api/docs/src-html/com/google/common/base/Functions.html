@@ -180,7 +180,7 @@
 <span class="sourceLineNo">172</span><a name="line.172"></a>
 <span class="sourceLineNo">173</span>  private static class ForMapWithDefault&lt;K, V&gt; implements Function&lt;K, V&gt;, Serializable {<a name="line.173"></a>
 <span class="sourceLineNo">174</span>    final Map&lt;K, ? extends V&gt; map;<a name="line.174"></a>
-<span class="sourceLineNo">175</span>    final V defaultValue;<a name="line.175"></a>
+<span class="sourceLineNo">175</span>    @NullableDecl final V defaultValue;<a name="line.175"></a>
 <span class="sourceLineNo">176</span><a name="line.176"></a>
 <span class="sourceLineNo">177</span>    ForMapWithDefault(Map&lt;K, ? extends V&gt; map, @NullableDecl V defaultValue) {<a name="line.177"></a>
 <span class="sourceLineNo">178</span>      this.map = checkNotNull(map);<a name="line.178"></a>
@@ -329,7 +329,7 @@
 <span class="sourceLineNo">321</span>  }<a name="line.321"></a>
 <span class="sourceLineNo">322</span><a name="line.322"></a>
 <span class="sourceLineNo">323</span>  private static class ConstantFunction&lt;E&gt; implements Function&lt;Object, E&gt;, Serializable {<a name="line.323"></a>
-<span class="sourceLineNo">324</span>    private final E value;<a name="line.324"></a>
+<span class="sourceLineNo">324</span>    @NullableDecl private final E value;<a name="line.324"></a>
 <span class="sourceLineNo">325</span><a name="line.325"></a>
 <span class="sourceLineNo">326</span>    public ConstantFunction(@NullableDecl E value) {<a name="line.326"></a>
 <span class="sourceLineNo">327</span>      this.value = value;<a name="line.327"></a>

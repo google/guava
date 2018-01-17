@@ -31,7 +31,7 @@ com.google.common.collect
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
 &nbsp;<B>PREV PACKAGE</B>&nbsp;
-&nbsp;<A HREF="pkg_com.google.common.net.html"><B>NEXT PACKAGE</B></A>
+&nbsp;<A HREF="pkg_com.google.common.graph.html"><B>NEXT PACKAGE</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="pkg_com.google.common.collect.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
@@ -63,10 +63,34 @@ Package <A HREF="../../docs/com/google/common/collect/package-summary.html" targ
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="HashBiMap"></A>
-  <nobr><A HREF="com.google.common.collect.HashBiMap.html">HashBiMap</A></nobr>
+  <A NAME="EnumMultiset"></A>
+  <nobr><A HREF="com.google.common.collect.EnumMultiset.html">EnumMultiset</A></nobr>
   </TD>
-  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/collect/HashBiMap/BiMap.html"><TT>BiMap</TT></A> backed by two hash tables.</TD>
+  <TD VALIGN="TOP">Multiset implementation specialized for enum elements, supporting all single-element operations
+ in O(1).</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ForwardingMultiset.StandardElementSet"></A>
+  <nobr><A HREF="com.google.common.collect.ForwardingMultiset.StandardElementSet.html">ForwardingMultiset.StandardElementSet</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A sensible implementation of <A HREF="../../docs/com/google/common/collect/ForwardingMultiset/StandardElementSet/Multiset.html#elementSet"><TT>Multiset.elementSet</TT></A> in terms of the following methods:
+ <A HREF="../../docs/com/google/common/collect/ForwardingMultiset/StandardElementSet/ForwardingMultiset.html#clear"><TT>ForwardingMultiset.clear</TT></A>, <A HREF="../../docs/com/google/common/collect/ForwardingMultiset/StandardElementSet/ForwardingMultiset.html#contains"><TT>ForwardingMultiset.contains</TT></A>, <A HREF="../../docs/com/google/common/collect/ForwardingMultiset/StandardElementSet/ForwardingMultiset.html#containsAll"><TT>ForwardingMultiset.containsAll</TT></A>, <A HREF="../../docs/com/google/common/collect/ForwardingMultiset/StandardElementSet/ForwardingMultiset.html#count"><TT>ForwardingMultiset.count</TT></A>, <A HREF="../../docs/com/google/common/collect/ForwardingMultiset/StandardElementSet/ForwardingMultiset.html#isEmpty"><TT>ForwardingMultiset.isEmpty</TT></A>, the <A HREF="../../docs/com/google/common/collect/ForwardingMultiset/StandardElementSet/Set.html#size"><TT>Set.size</TT></A> and <A HREF="../../docs/com/google/common/collect/ForwardingMultiset/StandardElementSet/Set.html#iterator"><TT>Set.iterator</TT></A> methods of <A HREF="../../docs/com/google/common/collect/ForwardingMultiset/StandardElementSet/ForwardingMultiset.html#entrySet"><TT>ForwardingMultiset.entrySet</TT></A>, and <A HREF="../../docs/com/google/common/collect/ForwardingMultiset/StandardElementSet/ForwardingMultiset.html#remove(Object, int)"><TT>ForwardingMultiset.remove(Object, int)</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="HashMultiset"></A>
+  <nobr><A HREF="com.google.common.collect.HashMultiset.html">HashMultiset</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Multiset implementation that uses hashing for key and entry access.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="TreeMultiset"></A>
+  <nobr><A HREF="com.google.common.collect.TreeMultiset.html">TreeMultiset</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A multiset which maintains the ordering of its elements, according to either their natural order
+ or an explicit <A HREF="../../docs/com/google/common/collect/TreeMultiset/Comparator.html"><TT>Comparator</TT></A>.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -90,7 +114,7 @@ Package <A HREF="../../docs/com/google/common/collect/package-summary.html" targ
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
 &nbsp;<B>PREV PACKAGE</B>&nbsp;
-&nbsp;<A HREF="pkg_com.google.common.net.html"><B>NEXT PACKAGE</B></A>
+&nbsp;<A HREF="pkg_com.google.common.graph.html"><B>NEXT PACKAGE</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="pkg_com.google.common.collect.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>

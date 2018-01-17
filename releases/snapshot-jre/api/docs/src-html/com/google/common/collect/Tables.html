@@ -159,9 +159,9 @@
 <span class="sourceLineNo">151</span>  }<a name="line.151"></a>
 <span class="sourceLineNo">152</span><a name="line.152"></a>
 <span class="sourceLineNo">153</span>  static final class ImmutableCell&lt;R, C, V&gt; extends AbstractCell&lt;R, C, V&gt; implements Serializable {<a name="line.153"></a>
-<span class="sourceLineNo">154</span>    private final R rowKey;<a name="line.154"></a>
-<span class="sourceLineNo">155</span>    private final C columnKey;<a name="line.155"></a>
-<span class="sourceLineNo">156</span>    private final V value;<a name="line.156"></a>
+<span class="sourceLineNo">154</span>    @NullableDecl private final R rowKey;<a name="line.154"></a>
+<span class="sourceLineNo">155</span>    @NullableDecl private final C columnKey;<a name="line.155"></a>
+<span class="sourceLineNo">156</span>    @NullableDecl private final V value;<a name="line.156"></a>
 <span class="sourceLineNo">157</span><a name="line.157"></a>
 <span class="sourceLineNo">158</span>    ImmutableCell(@NullableDecl R rowKey, @NullableDecl C columnKey, @NullableDecl V value) {<a name="line.158"></a>
 <span class="sourceLineNo">159</span>      this.rowKey = rowKey;<a name="line.159"></a>

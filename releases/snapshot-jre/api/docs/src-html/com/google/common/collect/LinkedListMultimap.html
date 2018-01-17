@@ -115,12 +115,12 @@
 <span class="sourceLineNo">107</span>   */<a name="line.107"></a>
 <span class="sourceLineNo">108</span><a name="line.108"></a>
 <span class="sourceLineNo">109</span>  private static final class Node&lt;K, V&gt; extends AbstractMapEntry&lt;K, V&gt; {<a name="line.109"></a>
-<span class="sourceLineNo">110</span>    final K key;<a name="line.110"></a>
-<span class="sourceLineNo">111</span>    V value;<a name="line.111"></a>
-<span class="sourceLineNo">112</span>    Node&lt;K, V&gt; next; // the next node (with any key)<a name="line.112"></a>
-<span class="sourceLineNo">113</span>    Node&lt;K, V&gt; previous; // the previous node (with any key)<a name="line.113"></a>
-<span class="sourceLineNo">114</span>    Node&lt;K, V&gt; nextSibling; // the next node with the same key<a name="line.114"></a>
-<span class="sourceLineNo">115</span>    Node&lt;K, V&gt; previousSibling; // the previous node with the same key<a name="line.115"></a>
+<span class="sourceLineNo">110</span>    @NullableDecl final K key;<a name="line.110"></a>
+<span class="sourceLineNo">111</span>    @NullableDecl V value;<a name="line.111"></a>
+<span class="sourceLineNo">112</span>    @NullableDecl Node&lt;K, V&gt; next; // the next node (with any key)<a name="line.112"></a>
+<span class="sourceLineNo">113</span>    @NullableDecl Node&lt;K, V&gt; previous; // the previous node (with any key)<a name="line.113"></a>
+<span class="sourceLineNo">114</span>    @NullableDecl Node&lt;K, V&gt; nextSibling; // the next node with the same key<a name="line.114"></a>
+<span class="sourceLineNo">115</span>    @NullableDecl Node&lt;K, V&gt; previousSibling; // the previous node with the same key<a name="line.115"></a>
 <span class="sourceLineNo">116</span><a name="line.116"></a>
 <span class="sourceLineNo">117</span>    Node(@NullableDecl K key, @NullableDecl V value) {<a name="line.117"></a>
 <span class="sourceLineNo">118</span>      this.key = key;<a name="line.118"></a>
@@ -159,8 +159,8 @@
 <span class="sourceLineNo">151</span>    }<a name="line.151"></a>
 <span class="sourceLineNo">152</span>  }<a name="line.152"></a>
 <span class="sourceLineNo">153</span><a name="line.153"></a>
-<span class="sourceLineNo">154</span>  private transient Node&lt;K, V&gt; head; // the head for all keys<a name="line.154"></a>
-<span class="sourceLineNo">155</span>  private transient Node&lt;K, V&gt; tail; // the tail for all keys<a name="line.155"></a>
+<span class="sourceLineNo">154</span>  @NullableDecl private transient Node&lt;K, V&gt; head; // the head for all keys<a name="line.154"></a>
+<span class="sourceLineNo">155</span>  @NullableDecl private transient Node&lt;K, V&gt; tail; // the tail for all keys<a name="line.155"></a>
 <span class="sourceLineNo">156</span>  private transient Map&lt;K, KeyList&lt;K, V&gt;&gt; keyToKeyList;<a name="line.156"></a>
 <span class="sourceLineNo">157</span>  private transient int size;<a name="line.157"></a>
 <span class="sourceLineNo">158</span><a name="line.158"></a>
@@ -317,9 +317,9 @@
 <span class="sourceLineNo">309</span>  /** An {@code Iterator} over all nodes. */<a name="line.309"></a>
 <span class="sourceLineNo">310</span>  private class NodeIterator implements ListIterator&lt;Entry&lt;K, V&gt;&gt; {<a name="line.310"></a>
 <span class="sourceLineNo">311</span>    int nextIndex;<a name="line.311"></a>
-<span class="sourceLineNo">312</span>    Node&lt;K, V&gt; next;<a name="line.312"></a>
-<span class="sourceLineNo">313</span>    Node&lt;K, V&gt; current;<a name="line.313"></a>
-<span class="sourceLineNo">314</span>    Node&lt;K, V&gt; previous;<a name="line.314"></a>
+<span class="sourceLineNo">312</span>    @NullableDecl Node&lt;K, V&gt; next;<a name="line.312"></a>
+<span class="sourceLineNo">313</span>    @NullableDecl Node&lt;K, V&gt; current;<a name="line.313"></a>
+<span class="sourceLineNo">314</span>    @NullableDecl Node&lt;K, V&gt; previous;<a name="line.314"></a>
 <span class="sourceLineNo">315</span>    int expectedModCount = modCount;<a name="line.315"></a>
 <span class="sourceLineNo">316</span><a name="line.316"></a>
 <span class="sourceLineNo">317</span>    NodeIterator(int index) {<a name="line.317"></a>
@@ -425,7 +425,7 @@
 <span class="sourceLineNo">417</span>  private class DistinctKeyIterator implements Iterator&lt;K&gt; {<a name="line.417"></a>
 <span class="sourceLineNo">418</span>    final Set&lt;K&gt; seenKeys = Sets.&lt;K&gt;newHashSetWithExpectedSize(keySet().size());<a name="line.418"></a>
 <span class="sourceLineNo">419</span>    Node&lt;K, V&gt; next = head;<a name="line.419"></a>
-<span class="sourceLineNo">420</span>    Node&lt;K, V&gt; current;<a name="line.420"></a>
+<span class="sourceLineNo">420</span>    @NullableDecl Node&lt;K, V&gt; current;<a name="line.420"></a>
 <span class="sourceLineNo">421</span>    int expectedModCount = modCount;<a name="line.421"></a>
 <span class="sourceLineNo">422</span><a name="line.422"></a>
 <span class="sourceLineNo">423</span>    private void checkForConcurrentModification() {<a name="line.423"></a>
@@ -464,11 +464,11 @@
 <span class="sourceLineNo">456</span><a name="line.456"></a>
 <span class="sourceLineNo">457</span>  /** A {@code ListIterator} over values for a specified key. */<a name="line.457"></a>
 <span class="sourceLineNo">458</span>  private class ValueForKeyIterator implements ListIterator&lt;V&gt; {<a name="line.458"></a>
-<span class="sourceLineNo">459</span>    final Object key;<a name="line.459"></a>
+<span class="sourceLineNo">459</span>    @NullableDecl final Object key;<a name="line.459"></a>
 <span class="sourceLineNo">460</span>    int nextIndex;<a name="line.460"></a>
-<span class="sourceLineNo">461</span>    Node&lt;K, V&gt; next;<a name="line.461"></a>
-<span class="sourceLineNo">462</span>    Node&lt;K, V&gt; current;<a name="line.462"></a>
-<span class="sourceLineNo">463</span>    Node&lt;K, V&gt; previous;<a name="line.463"></a>
+<span class="sourceLineNo">461</span>    @NullableDecl Node&lt;K, V&gt; next;<a name="line.461"></a>
+<span class="sourceLineNo">462</span>    @NullableDecl Node&lt;K, V&gt; current;<a name="line.462"></a>
+<span class="sourceLineNo">463</span>    @NullableDecl Node&lt;K, V&gt; previous;<a name="line.463"></a>
 <span class="sourceLineNo">464</span><a name="line.464"></a>
 <span class="sourceLineNo">465</span>    /** Constructs a new iterator over all values for the specified key. */<a name="line.465"></a>
 <span class="sourceLineNo">466</span>    ValueForKeyIterator(@NullableDecl Object key) {<a name="line.466"></a>

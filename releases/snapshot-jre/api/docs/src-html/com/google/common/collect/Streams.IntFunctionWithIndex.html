@@ -381,7 +381,7 @@
 <span class="sourceLineNo">373</span>          .onClose(stream::close);<a name="line.373"></a>
 <span class="sourceLineNo">374</span>    }<a name="line.374"></a>
 <span class="sourceLineNo">375</span>    class Splitr extends MapWithIndexSpliterator&lt;Spliterator&lt;T&gt;, R, Splitr&gt; implements Consumer&lt;T&gt; {<a name="line.375"></a>
-<span class="sourceLineNo">376</span>      T holder;<a name="line.376"></a>
+<span class="sourceLineNo">376</span>      @NullableDecl T holder;<a name="line.376"></a>
 <span class="sourceLineNo">377</span><a name="line.377"></a>
 <span class="sourceLineNo">378</span>      Splitr(Spliterator&lt;T&gt; splitr, long index) {<a name="line.378"></a>
 <span class="sourceLineNo">379</span>        super(splitr, index);<a name="line.379"></a>

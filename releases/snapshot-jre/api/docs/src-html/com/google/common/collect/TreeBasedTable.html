@@ -251,7 +251,7 @@
 <span class="sourceLineNo">243</span>      return backingRowMap().lastKey();<a name="line.243"></a>
 <span class="sourceLineNo">244</span>    }<a name="line.244"></a>
 <span class="sourceLineNo">245</span><a name="line.245"></a>
-<span class="sourceLineNo">246</span>    transient SortedMap&lt;C, V&gt; wholeRow;<a name="line.246"></a>
+<span class="sourceLineNo">246</span>    @NullableDecl transient SortedMap&lt;C, V&gt; wholeRow;<a name="line.246"></a>
 <span class="sourceLineNo">247</span><a name="line.247"></a>
 <span class="sourceLineNo">248</span>    /*<a name="line.248"></a>
 <span class="sourceLineNo">249</span>     * If the row was previously empty, we check if there's a new row here every<a name="line.249"></a>
@@ -335,7 +335,7 @@
 <span class="sourceLineNo">327</span>            comparator);<a name="line.327"></a>
 <span class="sourceLineNo">328</span><a name="line.328"></a>
 <span class="sourceLineNo">329</span>    return new AbstractIterator&lt;C&gt;() {<a name="line.329"></a>
-<span class="sourceLineNo">330</span>      C lastValue;<a name="line.330"></a>
+<span class="sourceLineNo">330</span>      @NullableDecl C lastValue;<a name="line.330"></a>
 <span class="sourceLineNo">331</span><a name="line.331"></a>
 <span class="sourceLineNo">332</span>      @Override<a name="line.332"></a>
 <span class="sourceLineNo">333</span>      protected C computeNext() {<a name="line.333"></a>
