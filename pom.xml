@@ -144,16 +144,17 @@
         </plugin>
         <plugin>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.10.4</version>
+          <version>3.0.0</version>
           <configuration>
             <quiet>true</quiet>
             <notimestamp>true</notimestamp>
-            <additionalparam>-Xdoclint:-html</additionalparam>
             <encoding>UTF-8</encoding>
             <docencoding>UTF-8</docencoding>
             <charset>UTF-8</charset>
-            <additionalparam>-XDignore.symbol.file</additionalparam>
-            <additionalparam>-Xdoclint:-html</additionalparam>
+            <additionalOptions>
+              <additionalOption>-XDignore.symbol.file</additionalOption>
+              <additionalOption>-Xdoclint:-html</additionalOption>
+            </additionalOptions>
             <linksource>true</linksource>
           </configuration>
           <executions>
