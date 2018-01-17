@@ -57,19 +57,20 @@ readonly JDIFF_PATH="_util/lib/jdiff.jar:_util/lib/xerces-for-jdiff.jar"
 # Ensure temp files are cleaned up and we're back on the original branch on exit.
 function cleanup {
   exitcode=$?
-  if [[ "$exitcode" == "0" ]]; then
-    rm "$LOGFILE"
-  else
+  if [[ "$exitcode" != "0" ]]; then
     # Put a newline in case we're in the middle of a "Do something... Done." line
     echo ""
-    echo "Update failed: see log at '$LOGFILE' for more details." >&2
+    echo "Update failed. Output of mvn/jdiff commands follows:" >&2
+    echo >&2
+    cat "$LOGFILE" >&2
+
     # If we failed while not on the original branch/ref, switch back to it.
     local currentref="$(current_git_ref)"
     if [[ "$currentref" != "$INITIAL_REF" ]]; then
       git checkout -q "$INITIAL_REF"
     fi
   fi
-  #rm -fr "$TEMPDIR"
+  rm "$LOGFILE"
   exit "$exitcode"
 }
 trap cleanup INT TERM EXIT
