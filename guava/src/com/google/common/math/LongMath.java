@@ -544,7 +544,7 @@ public final class LongMath {
   @GwtIncompatible // TODO
   public static long checkedAdd(long a, long b) {
     long result = a + b;
-    checkNoOverflow((a ^ b) < 0 | (a ^ result) >= 0);
+    checkNoOverflow((a ^ b) < 0 | (a ^ result) >= 0, "checkedAdd", a, b);
     return result;
   }
 
@@ -556,7 +556,7 @@ public final class LongMath {
   @GwtIncompatible // TODO
   public static long checkedSubtract(long a, long b) {
     long result = a - b;
-    checkNoOverflow((a ^ b) >= 0 | (a ^ result) >= 0);
+    checkNoOverflow((a ^ b) >= 0 | (a ^ result) >= 0, "checkedSubtract", a, b);
     return result;
   }
 
@@ -585,10 +585,10 @@ public final class LongMath {
     if (leadingZeros > Long.SIZE + 1) {
       return a * b;
     }
-    checkNoOverflow(leadingZeros >= Long.SIZE);
-    checkNoOverflow(a >= 0 | b != Long.MIN_VALUE);
+    checkNoOverflow(leadingZeros >= Long.SIZE, "checkedMultiply", a, b);
+    checkNoOverflow(a >= 0 | b != Long.MIN_VALUE, "checkedMultiply", a, b);
     long result = a * b;
-    checkNoOverflow(a == 0 || result / a == b);
+    checkNoOverflow(a == 0 || result / a == b, "checkedMultiply", a, b);
     return result;
   }
 
@@ -610,10 +610,10 @@ public final class LongMath {
         case (-1):
           return ((k & 1) == 0) ? 1 : -1;
         case 2:
-          checkNoOverflow(k < Long.SIZE - 1);
+          checkNoOverflow(k < Long.SIZE - 1, "checkedPow", b, k);
           return 1L << k;
         case (-2):
-          checkNoOverflow(k < Long.SIZE);
+          checkNoOverflow(k < Long.SIZE, "checkedPow", b, k);
           return ((k & 1) == 0) ? (1L << k) : (-1L << k);
         default:
           throw new AssertionError();
@@ -632,7 +632,8 @@ public final class LongMath {
           }
           k >>= 1;
           if (k > 0) {
-            checkNoOverflow(-FLOOR_SQRT_MAX_LONG <= b && b <= FLOOR_SQRT_MAX_LONG);
+            checkNoOverflow(
+                -FLOOR_SQRT_MAX_LONG <= b && b <= FLOOR_SQRT_MAX_LONG, "checkedPow", b, k);
             b *= b;
           }
       }

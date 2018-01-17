@@ -88,9 +88,15 @@ final class MathPreconditions {
     }
   }
 
-  static void checkNoOverflow(boolean condition) {
+  static void checkNoOverflow(boolean condition, String methodName, int a, int b) {
     if (!condition) {
-      throw new ArithmeticException("overflow");
+      throw new ArithmeticException("overflow: " + methodName + "(" + a + ", " + b + ")");
+    }
+  }
+
+  static void checkNoOverflow(boolean condition, String methodName, long a, long b) {
+    if (!condition) {
+      throw new ArithmeticException("overflow: " + methodName + "(" + a + ", " + b + ")");
     }
   }
 

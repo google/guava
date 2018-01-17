@@ -453,7 +453,7 @@ public final class IntMath {
    */
   public static int checkedAdd(int a, int b) {
     long result = (long) a + b;
-    checkNoOverflow(result == (int) result);
+    checkNoOverflow(result == (int) result, "checkedAdd", a, b);
     return (int) result;
   }
 
@@ -464,7 +464,7 @@ public final class IntMath {
    */
   public static int checkedSubtract(int a, int b) {
     long result = (long) a - b;
-    checkNoOverflow(result == (int) result);
+    checkNoOverflow(result == (int) result, "checkedSubtract", a, b);
     return (int) result;
   }
 
@@ -475,7 +475,7 @@ public final class IntMath {
    */
   public static int checkedMultiply(int a, int b) {
     long result = (long) a * b;
-    checkNoOverflow(result == (int) result);
+    checkNoOverflow(result == (int) result, "checkedMultiply", a, b);
     return (int) result;
   }
 
@@ -497,10 +497,10 @@ public final class IntMath {
       case (-1):
         return ((k & 1) == 0) ? 1 : -1;
       case 2:
-        checkNoOverflow(k < Integer.SIZE - 1);
+        checkNoOverflow(k < Integer.SIZE - 1, "checkedPow", b, k);
         return 1 << k;
       case (-2):
-        checkNoOverflow(k < Integer.SIZE);
+        checkNoOverflow(k < Integer.SIZE, "checkedPow", b, k);
         return ((k & 1) == 0) ? 1 << k : -1 << k;
       default:
         // continue below to handle the general case
@@ -518,7 +518,7 @@ public final class IntMath {
           }
           k >>= 1;
           if (k > 0) {
-            checkNoOverflow(-FLOOR_SQRT_MAX_INT <= b & b <= FLOOR_SQRT_MAX_INT);
+            checkNoOverflow(-FLOOR_SQRT_MAX_INT <= b & b <= FLOOR_SQRT_MAX_INT, "checkedPow", b, k);
             b *= b;
           }
       }

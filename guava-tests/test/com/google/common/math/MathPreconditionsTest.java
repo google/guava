@@ -16,6 +16,8 @@
 
 package com.google.common.math;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.annotations.GwtCompatible;
 import java.math.BigInteger;
 import junit.framework.TestCase;
@@ -273,14 +275,15 @@ public class MathPreconditionsTest extends TestCase {
   }
 
   public void testCheckNoOverflow_success() {
-    MathPreconditions.checkNoOverflow(true);
+    MathPreconditions.checkNoOverflow(true, "testCheckNoOverflow_success", 0, 0);
   }
 
   public void testCheckNoOverflow_failure() {
     try {
-      MathPreconditions.checkNoOverflow(false);
+      MathPreconditions.checkNoOverflow(false, "testCheckNoOverflow_failure", 0, 0);
       fail();
     } catch (ArithmeticException expected) {
+      assertThat(expected).hasMessageThat().contains("testCheckNoOverflow_failure(0, 0)");
     }
   }
 }
