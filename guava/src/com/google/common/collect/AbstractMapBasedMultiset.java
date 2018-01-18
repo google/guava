@@ -58,8 +58,8 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E> implement
 
   /** Standard constructor. */
   protected AbstractMapBasedMultiset(Map<E, Count> backingMap) {
-    this.backingMap = checkNotNull(backingMap);
-    this.size = super.size();
+    checkArgument(backingMap.isEmpty());
+    this.backingMap = backingMap;
   }
 
   /** Used during deserialization only. The backing map must be empty. */

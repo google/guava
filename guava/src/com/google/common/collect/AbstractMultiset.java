@@ -19,7 +19,6 @@ package com.google.common.collect;
 import static com.google.common.collect.Multisets.setCountImpl;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Objects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.AbstractCollection;
@@ -47,11 +46,6 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
   // Query Operations
 
   @Override
-  public int size() {
-    return Multisets.sizeImpl(this);
-  }
-
-  @Override
   public boolean isEmpty() {
     return entrySet().isEmpty();
   }
@@ -59,16 +53,6 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
   @Override
   public boolean contains(@NullableDecl Object element) {
     return count(element) > 0;
-  }
-
-  @Override
-  public int count(@NullableDecl Object element) {
-    for (Entry<E> entry : entrySet()) {
-      if (Objects.equal(entry.getElement(), element)) {
-        return entry.getCount();
-      }
-    }
-    return 0;
   }
 
   // Modification Operations
@@ -136,9 +120,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
   }
 
   @Override
-  public void clear() {
-    Iterators.clear(entryIterator());
-  }
+  public abstract void clear();
 
   // Views
 
