@@ -44,7 +44,8 @@ public class HttpHeadersTest extends TestCase {
             "X_WEBKIT_CSP_REPORT_ONLY",
             "X-WebKit-CSP-Report-Only");
     ImmutableSet<String> uppercaseAcronyms =
-        ImmutableSet.of("ID", "DNT", "DNS", "IP", "MD5", "P3P", "TE", "UID", "URL", "WWW", "XSS");
+        ImmutableSet.of(
+            "ID", "DNT", "DNS", "HTTP2", "IP", "MD5", "P3P", "TE", "UID", "URL", "WWW", "XSS");
     assertConstantNameMatchesString(HttpHeaders.class, specialCases, uppercaseAcronyms);
   }
 

@@ -92,6 +92,13 @@ public final class HttpHeaders {
   public static final String FOLLOW_ONLY_WHEN_PRERENDER_SHOWN = "Follow-Only-When-Prerender-Shown";
   /** The HTTP {@code Host} header field name. */
   public static final String HOST = "Host";
+  /**
+   * The HTTP <a href="https://tools.ietf.org/html/rfc7540#section-3.2.1">{@code HTTP2-Settings}
+   * </a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String HTTP2_SETTINGS = "HTTP2-Settings";
   /** The HTTP {@code If-Match} header field name. */
   public static final String IF_MATCH = "If-Match";
   /** The HTTP {@code If-Modified-Since} header field name. */
