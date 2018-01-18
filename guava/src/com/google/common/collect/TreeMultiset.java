@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
@@ -34,6 +35,7 @@ import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.function.ObjIntConsumer;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -507,6 +509,16 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
         prevEntry = null;
       }
     };
+  }
+
+  @Override
+  public void forEachEntry(ObjIntConsumer<? super E> action) {
+    checkNotNull(action);
+    for (AvlNode<E> node = firstNode();
+        node != header && node != null && !range.tooHigh(node.getElement());
+        node = node.succ) {
+      action.accept(node.getElement(), node.getCount());
+    }
   }
 
   @Override
