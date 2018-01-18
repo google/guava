@@ -105,11 +105,11 @@ public interface Graph<N> extends BaseGraph<N> {
   // Graph-level accessors
   //
 
-  /** {@inheritDoc} */
+  /** Returns all nodes in this graph, in the order specified by {@link #nodeOrder()}. */
   @Override
   Set<N> nodes();
 
-  /** {@inheritDoc} */
+  /** Returns all edges in this graph. */
   @Override
   Set<EndpointPair<N>> edges();
 
@@ -117,15 +117,23 @@ public interface Graph<N> extends BaseGraph<N> {
   // Graph properties
   //
 
-  /** {@inheritDoc} */
+  /**
+   * Returns true if the edges in this graph are directed. Directed edges connect a {@link
+   * EndpointPair#source() source node} to a {@link EndpointPair#target() target node}, while
+   * undirected edges connect a pair of nodes to each other.
+   */
   @Override
   boolean isDirected();
 
-  /** {@inheritDoc} */
+  /**
+   * Returns true if this graph allows self-loops (edges that connect a node to itself). Attempting
+   * to add a self-loop to a graph that does not allow them will throw an {@link
+   * IllegalArgumentException}.
+   */
   @Override
   boolean allowsSelfLoops();
 
-  /** {@inheritDoc} */
+  /** Returns the order of iteration for the elements of {@link #nodes()}. */
   @Override
   ElementOrder<N> nodeOrder();
 
@@ -133,35 +141,94 @@ public interface Graph<N> extends BaseGraph<N> {
   // Element-level accessors
   //
 
-  /** {@inheritDoc} */
+  /**
+   * Returns the nodes which have an incident edge in common with {@code node} in this graph.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
   @Override
   Set<N> adjacentNodes(N node);
 
-  /** {@inheritDoc} */
+  /**
+   * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
+   * {@code node}'s incoming edges <i>against</i> the direction (if any) of the edge.
+   *
+   * <p>In an undirected graph, this is equivalent to {@link #adjacentNodes(Object)}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
   @Override
   Set<N> predecessors(N node);
 
-  /** {@inheritDoc} */
+  /**
+   * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
+   * {@code node}'s outgoing edges in the direction (if any) of the edge.
+   *
+   * <p>In an undirected graph, this is equivalent to {@link #adjacentNodes(Object)}.
+   *
+   * <p>This is <i>not</i> the same as "all nodes reachable from {@code node} by following outgoing
+   * edges". For that functionality, see {@link Graphs#reachableNodes(Graph, Object)}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
   @Override
   Set<N> successors(N node);
 
-  /** {@inheritDoc} */
+  /**
+   * Returns the edges in this graph whose endpoints include {@code node}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   * @since NEXT
+   */
   @Override
   Set<EndpointPair<N>> incidentEdges(N node);
 
-  /** {@inheritDoc} */
+  /**
+   * Returns the count of {@code node}'s incident edges, counting self-loops twice (equivalently,
+   * the number of times an edge touches {@code node}).
+   *
+   * <p>For directed graphs, this is equal to {@code inDegree(node) + outDegree(node)}.
+   *
+   * <p>For undirected graphs, this is equal to {@code incidentEdges(node).size()} + (number of
+   * self-loops incident to {@code node}).
+   *
+   * <p>If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
   @Override
   int degree(N node);
 
-  /** {@inheritDoc} */
+  /**
+   * Returns the count of {@code node}'s incoming edges (equal to {@code predecessors(node).size()})
+   * in a directed graph. In an undirected graph, returns the {@link #degree(Object)}.
+   *
+   * <p>If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
   @Override
   int inDegree(N node);
 
-  /** {@inheritDoc} */
+  /**
+   * Returns the count of {@code node}'s outgoing edges (equal to {@code successors(node).size()})
+   * in a directed graph. In an undirected graph, returns the {@link #degree(Object)}.
+   *
+   * <p>If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
   @Override
   int outDegree(N node);
 
-  /** {@inheritDoc} */
+  /**
+   * Returns true if there is an edge directly connecting {@code nodeU} to {@code nodeV}. This is
+   * equivalent to {@code nodes().contains(nodeU) && successors(nodeU).contains(nodeV)}.
+   *
+   * <p>In an undirected graph, this is equal to {@code hasEdgeConnecting(nodeV, nodeU)}.
+   *
+   * @since 23.0
+   */
   @Override
   boolean hasEdgeConnecting(N nodeU, N nodeV);
 
