@@ -234,9 +234,8 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
    */
   @NullableDecl
   String pendingToString() {
-    Object localValue = value;
-    if (localValue instanceof AbstractFuture.SetFuture) {
-      return "setFuture=[" + ((AbstractFuture.SetFuture) localValue).delegate + "]";
+    if (state == State.DELEGATED) {
+      return "setFuture=[" + delegate + "]";
     }
     return null;
   }

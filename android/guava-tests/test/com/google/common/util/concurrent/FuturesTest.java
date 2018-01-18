@@ -841,7 +841,7 @@ public class FuturesTest extends TestCase {
 
   @GwtIncompatible // Threads
 
-  public void testTransformAsync_toString() throws Exception {
+  public void testTransformAsync_functionToString() throws Exception {
     final CountDownLatch functionCalled = new CountDownLatch(1);
     final CountDownLatch functionBlocking = new CountDownLatch(1);
     AsyncFunction<Object, Object> function =
@@ -1199,6 +1199,63 @@ public class FuturesTest extends TestCase {
     // https://github.com/google/guava/issues/1989
     assertEquals(1, gotException.getCount());
     // gotException.await();
+  }
+
+  @GwtIncompatible // Threads
+
+  public void testCatchingAsync_functionToString() throws Exception {
+    final CountDownLatch functionCalled = new CountDownLatch(1);
+    final CountDownLatch functionBlocking = new CountDownLatch(1);
+    AsyncFunction<Object, Object> function =
+        new AsyncFunction<Object, Object>() {
+          @Override
+          public ListenableFuture<Object> apply(Object input) throws Exception {
+            functionCalled.countDown();
+            functionBlocking.await();
+            return immediateFuture(null);
+          }
+
+          @Override
+          public String toString() {
+            return "Called my toString";
+          }
+        };
+
+    ExecutorService executor = Executors.newSingleThreadExecutor();
+    try {
+      ListenableFuture<?> output =
+          Futures.catchingAsync(
+              immediateFailedFuture(new RuntimeException()), Throwable.class, function, executor);
+      functionCalled.await();
+      assertThat(output.toString()).contains("Called my toString");
+    } finally {
+      functionBlocking.countDown();
+      executor.shutdown();
+    }
+  }
+
+  public void testCatchingAsync_futureToString() throws Exception {
+    final SettableFuture<Object> toReturn = SettableFuture.create();
+    AsyncFunction<Object, Object> function =
+        new AsyncFunction<Object, Object>() {
+          @Override
+          public ListenableFuture<Object> apply(Object input) throws Exception {
+            return toReturn;
+          }
+
+          @Override
+          public String toString() {
+            return "Called my toString";
+          }
+        };
+
+    ListenableFuture<?> output =
+        Futures.catchingAsync(
+            immediateFailedFuture(new RuntimeException()),
+            Throwable.class,
+            function,
+            directExecutor());
+    assertThat(output.toString()).contains(toReturn.toString());
   }
 
   // catching tests cloned from the old withFallback tests:

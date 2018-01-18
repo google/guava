@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.util.concurrent.testing.MockFutureListener;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -77,6 +79,10 @@ public abstract class AbstractChainedListenableFutureTest<T> extends TestCase {
     inputFuture.set(VALID_INPUT_DATA);
 
     listener.assertSuccess(getSuccessfulResult());
+  }
+
+  public void testInputFutureToString() throws Throwable {
+    assertThat(resultFuture.toString()).contains(inputFuture.toString());
   }
 
   /**

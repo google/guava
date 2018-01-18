@@ -77,8 +77,6 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
       return;
     }
     inputFuture = null;
-    exceptionType = null;
-    fallback = null;
 
     // For an explanation of the cases here, see the comments on AbstractTransformFuture.run.
     V sourceResult = null;
@@ -110,6 +108,9 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
     } catch (Throwable t) {
       setException(t);
       return;
+    } finally {
+      exceptionType = null;
+      fallback = null;
     }
 
     setResult(fallbackResult);
@@ -120,14 +121,20 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
     ListenableFuture<? extends V> localInputFuture = inputFuture;
     Class<X> localExceptionType = exceptionType;
     F localFallback = fallback;
-    if (localInputFuture != null && localExceptionType != null && localFallback != null) {
-      return "input=["
-          + localInputFuture
-          + "], exceptionType=["
+    String superString = super.pendingToString();
+    String resultString = "";
+    if (localInputFuture != null) {
+      resultString = "inputFuture=[" + localInputFuture + "], ";
+    }
+    if (localExceptionType != null && localFallback != null) {
+      return resultString
+          + "exceptionType=["
           + localExceptionType
           + "], fallback=["
           + localFallback
           + "]";
+    } else if (superString != null) {
+      return resultString + superString;
     }
     return null;
   }

@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.Futures.transformAsync;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
@@ -99,6 +100,11 @@ public class FuturesTransformAsyncTest extends AbstractChainedListenableFutureTe
               + " if function output future is cancelled.");
     } catch (CancellationException expected) {
     }
+  }
+
+  public void testAsyncToString() throws Exception {
+    inputFuture.set(SLOW_OUTPUT_VALID_INPUT_DATA);
+    assertThat(resultFuture.toString()).contains(outputFuture.toString());
   }
 
   public void testFutureCancelBeforeInputCompletion() throws Exception {

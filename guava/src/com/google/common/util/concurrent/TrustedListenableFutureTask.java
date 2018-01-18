@@ -104,7 +104,7 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
     if (localTask != null) {
       return "task=[" + localTask + "]";
     }
-    return null;
+    return super.pendingToString();
   }
 
   @WeakOuter
@@ -135,7 +135,7 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
     }
 
     @Override
-    public String toString() {
+    String toPendingString() {
       return callable.toString();
     }
   }
@@ -172,7 +172,7 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
     }
 
     @Override
-    public String toString() {
+    String toPendingString() {
       return callable.toString();
     }
   }

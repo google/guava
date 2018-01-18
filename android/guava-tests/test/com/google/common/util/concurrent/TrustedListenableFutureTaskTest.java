@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.Callables.returning;
 import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.TestPlatform.verifyThreadWasNotInterrupted;
@@ -167,6 +168,44 @@ public class TrustedListenableFutureTaskTest extends TestCase {
       assertEquals(1, counter.get());
     }
     executor.shutdown();
+  }
+
+  @GwtIncompatible // blocking wait
+
+  public void testToString() throws Exception {
+    final CountDownLatch enterLatch = new CountDownLatch(1);
+    final CountDownLatch exitLatch = new CountDownLatch(1);
+    final TrustedListenableFutureTask<Void> task =
+        TrustedListenableFutureTask.create(
+            new Callable<Void>() {
+              @Override
+              public Void call() throws Exception {
+                enterLatch.countDown();
+                new CountDownLatch(1).await(); // wait forever
+                return null;
+              }
+            });
+    assertFalse(task.isDone());
+    Thread thread =
+        new Thread(
+            new Runnable() {
+              @Override
+              public void run() {
+                try {
+                  task.run();
+                } finally {
+                  exitLatch.countDown();
+                }
+              }
+            },
+            "Custom thread name");
+    thread.start();
+    enterLatch.await();
+    assertFalse(task.isDone());
+    String result = task.toString();
+    assertThat(result).contains("Custom thread name");
+    task.cancel(true);
+    exitLatch.await();
   }
 
   @GwtIncompatible // used only in GwtIncomaptible tests
