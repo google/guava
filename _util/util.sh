@@ -25,7 +25,7 @@ function guava_version {
   mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate \
       -Dexpression=project.version \
       -pl guava 2> /dev/null \
-      | grep -Ev '(^\[|Download\w+:)'
+      | grep -Ev '(^\[|Download.+:)'
 }
 
 # Checks that a given tag exists in the repo.
