@@ -857,17 +857,43 @@ public final class Multisets {
 
   /** An implementation of {@link Multiset#addAll}. */
   static <E> boolean addAllImpl(Multiset<E> self, Collection<? extends E> elements) {
+    checkNotNull(self);
+    checkNotNull(elements);
+    if (elements instanceof Multiset) {
+      return addAllImpl(self, cast(elements));
+    } else if (elements.isEmpty()) {
+      return false;
+    } else {
+      return Iterators.addAll(self, elements.iterator());
+    }
+  }
+
+  /** A specialization of {@code addAllImpl} for when {@code elements} is itself a Multiset. */
+  private static <E> boolean addAllImpl(Multiset<E> self, Multiset<? extends E> elements) {
+    // It'd be nice if we could specialize for ImmutableMultiset here without also retaining
+    // its code when it's not in scope...
+    if (elements instanceof AbstractMapBasedMultiset) {
+      return addAllImpl(self, (AbstractMapBasedMultiset<? extends E>) elements);
+    } else if (elements.isEmpty()) {
+      return false;
+    } else {
+      for (Multiset.Entry<? extends E> entry : elements.entrySet()) {
+        self.add(entry.getElement(), entry.getCount());
+      }
+      return true;
+    }
+  }
+
+  /**
+   * A specialization of {@code addAllImpl} for when {@code elements} is an
+   * AbstractMapBasedMultiset.
+   */
+  private static <E> boolean addAllImpl(
+      Multiset<E> self, AbstractMapBasedMultiset<? extends E> elements) {
     if (elements.isEmpty()) {
       return false;
     }
-    if (elements instanceof Multiset) {
-      Multiset<? extends E> that = cast(elements);
-      for (Entry<? extends E> entry : that.entrySet()) {
-        self.add(entry.getElement(), entry.getCount());
-      }
-    } else {
-      Iterators.addAll(self, elements.iterator());
-    }
+    elements.addTo(self);
     return true;
   }
 

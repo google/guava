@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
 import com.google.common.annotations.GwtCompatible;
@@ -218,6 +219,14 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E> implement
         return backingMap.getEntry(entryIndex);
       }
     };
+  }
+
+  /** Allocation-free implementation of {@code target.addAll(this)}. */
+  void addTo(Multiset<? super E> target) {
+    checkNotNull(target);
+    for (int i = backingMap.firstIndex(); i >= 0; i = backingMap.nextIndex(i)) {
+      target.add(backingMap.getKey(i), backingMap.getValue(i));
+    }
   }
 
   @Override
