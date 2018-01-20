@@ -142,8 +142,12 @@ import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
  * href="https://github.com/google/guava/wiki/CachesExplained">caching</a> for a higher-level
  * explanation.
  *
- * @param <K> the base key type for all caches created by this builder
- * @param <V> the base value type for all caches created by this builder
+ * @param <K> the most general key type this builder will be able to create caches for. This is
+ *     normally {@code Object} unless it is constrained by using a method like {@code
+ *     #removalListener}
+ * @param <V> the most general value type this builder will be able to create caches for. This is
+ *     normally {@code Object} unless it is constrained by using a method like {@code
+ *     #removalListener}
  * @author Charles Fry
  * @author Kevin Bourrillion
  * @since 10.0
@@ -244,6 +248,9 @@ public final class CacheBuilder<K, V> {
   /**
    * Constructs a new {@code CacheBuilder} instance with default settings, including strong keys,
    * strong values, and no automatic eviction of any kind.
+   *
+   * <p>Note that while this return type is {@code CacheBuilder<Object, Object>}, type parameters on
+   * the {@link #build} methods allow you to create a cache of any key and value type desired.
    */
   public static CacheBuilder<Object, Object> newBuilder() {
     return new CacheBuilder<>();
