@@ -278,13 +278,13 @@ extends <a href="../../../../com/google/common/graph/AbstractValueGraph.html" ti
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;N&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/ImmutableValueGraph.html#nodeOrder--">nodeOrder</a></span>()</code>
-<div class="block">Returns the order of iteration for the elements of <a href="../../../../com/google/common/graph/ImmutableValueGraph.html#nodes--"><code>nodes()</code></a>.</div>
+<div class="block">Returns the order of iteration for the elements of <a href="../../../../com/google/common/graph/ValueGraph.html#nodes--"><code>ValueGraph.nodes()</code></a>.</div>
 </td>
 </tr>
 <tr id="i16" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;N&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/ImmutableValueGraph.html#nodes--">nodes</a></span>()</code>
-<div class="block">Returns all nodes in this graph, in the order specified by <a href="../../../../com/google/common/graph/ImmutableValueGraph.html#nodeOrder--"><code>nodeOrder()</code></a>.</div>
+<div class="block">Returns all nodes in this graph, in the order specified by <a href="../../../../com/google/common/graph/ValueGraph.html#nodeOrder--"><code>ValueGraph.nodeOrder()</code></a>.</div>
 </td>
 </tr>
 <tr id="i17" class="rowColor">
@@ -418,7 +418,7 @@ public static&nbsp;&lt;N,V&gt;&nbsp;<a href="../../../../com/google/common/graph
 <h4>nodes</h4>
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ConfigurableValueGraph.html#line.83">nodes</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/ValueGraph.html#nodes--">ValueGraph</a></code></span></div>
-<div class="block">Returns all nodes in this graph, in the order specified by <a href="../../../../com/google/common/graph/ImmutableValueGraph.html#nodeOrder--"><code>nodeOrder()</code></a>.</div>
+<div class="block">Returns all nodes in this graph, in the order specified by <a href="../../../../com/google/common/graph/ValueGraph.html#nodeOrder--"><code>ValueGraph.nodeOrder()</code></a>.</div>
 </li>
 </ul>
 <a name="isDirected--">
@@ -453,7 +453,7 @@ public static&nbsp;&lt;N,V&gt;&nbsp;<a href="../../../../com/google/common/graph
 <h4>nodeOrder</h4>
 <pre>public&nbsp;<a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ConfigurableValueGraph.html#line.98">nodeOrder</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/ValueGraph.html#nodeOrder--">ValueGraph</a></code></span></div>
-<div class="block">Returns the order of iteration for the elements of <a href="../../../../com/google/common/graph/ImmutableValueGraph.html#nodes--"><code>nodes()</code></a>.</div>
+<div class="block">Returns the order of iteration for the elements of <a href="../../../../com/google/common/graph/ValueGraph.html#nodes--"><code>ValueGraph.nodes()</code></a>.</div>
 </li>
 </ul>
 <a name="adjacentNodes-java.lang.Object-">
@@ -482,7 +482,7 @@ public static&nbsp;&lt;N,V&gt;&nbsp;<a href="../../../../com/google/common/graph
 <div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
  <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.
 
- <p>In an undirected graph, this is equivalent to <a href="../../../../com/google/common/graph/ImmutableValueGraph.html#adjacentNodes-N-"><code>adjacentNodes(Object)</code></a>.</div>
+ <p>In an undirected graph, this is equivalent to <a href="../../../../com/google/common/graph/ValueGraph.html#adjacentNodes-N-"><code>ValueGraph.adjacentNodes(Object)</code></a>.</div>
 </li>
 </ul>
 <a name="successors-java.lang.Object-">
@@ -498,7 +498,7 @@ public static&nbsp;&lt;N,V&gt;&nbsp;<a href="../../../../com/google/common/graph
 <div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
  <code>node</code>'s outgoing edges in the direction (if any) of the edge.
 
- <p>In an undirected graph, this is equivalent to <a href="../../../../com/google/common/graph/ImmutableValueGraph.html#adjacentNodes-N-"><code>adjacentNodes(Object)</code></a>.
+ <p>In an undirected graph, this is equivalent to <a href="../../../../com/google/common/graph/ValueGraph.html#adjacentNodes-N-"><code>ValueGraph.adjacentNodes(Object)</code></a>.
 
  <p>This is <i>not</i> the same as "all nodes reachable from <code>node</code> by following outgoing
  edges". For that functionality, see <a href="../../../../com/google/common/graph/Graphs.html#reachableNodes-com.google.common.graph.Graph-N-"><code>Graphs.reachableNodes(Graph, Object)</code></a>.</div>

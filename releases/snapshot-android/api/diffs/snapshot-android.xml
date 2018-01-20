@@ -8029,7 +8029,10 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Constructs a new {@code CacheBuilder} instance with default settings, including strong keys,
- strong values, and no automatic eviction of any kind.]]>
+ strong values, and no automatic eviction of any kind.
+
+ <p>Note that while this return type is {@code CacheBuilder<Object, Object>}, type parameters on
+ the {@link #build} methods allow you to create a cache of any key and value type desired.]]>
       </doc>
     </method>
     <method name="from" return="com.google.common.cache.CacheBuilder&lt;java.lang.Object, java.lang.Object&gt;"
@@ -8563,8 +8566,12 @@
  href="https://github.com/google/guava/wiki/CachesExplained">caching</a> for a higher-level
  explanation.
 
- @param <K> the base key type for all caches created by this builder
- @param <V> the base value type for all caches created by this builder
+ @param <K> the most general key type this builder will be able to create caches for. This is
+     normally {@code Object} unless it is constrained by using a method like {@code
+     #removalListener}
+ @param <V> the most general value type this builder will be able to create caches for. This is
+     normally {@code Object} unless it is constrained by using a method like {@code
+     #removalListener}
  @author Charles Fry
  @author Kevin Bourrillion
  @since 10.0]]>
@@ -34394,6 +34401,11 @@
       <param name="oldCount" type="int"/>
       <param name="newCount" type="int"/>
     </method>
+    <method name="clear"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+    </method>
     <method name="iterator" return="java.util.Iterator&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -36451,7 +36463,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[{@inheritDoc}]]>
+      <![CDATA[Returns all nodes in this graph, in the order specified by {@link #nodeOrder()}.]]>
       </doc>
     </method>
     <method name="edges" return="java.util.Set&lt;com.google.common.graph.EndpointPair&lt;N&gt;&gt;"
@@ -36459,7 +36471,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[{@inheritDoc}]]>
+      <![CDATA[Returns all edges in this graph.]]>
       </doc>
     </method>
     <method name="isDirected" return="boolean"
@@ -36467,7 +36479,9 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[{@inheritDoc}]]>
+      <![CDATA[Returns true if the edges in this graph are directed. Directed edges connect a {@link
+ EndpointPair#source() source node} to a {@link EndpointPair#target() target node}, while
+ undirected edges connect a pair of nodes to each other.]]>
       </doc>
     </method>
     <method name="allowsSelfLoops" return="boolean"
@@ -36475,7 +36489,9 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[{@inheritDoc}]]>
+      <![CDATA[Returns true if this graph allows self-loops (edges that connect a node to itself). Attempting
+ to add a self-loop to a graph that does not allow them will throw an {@link
+ IllegalArgumentException}.]]>
       </doc>
     </method>
     <method name="nodeOrder" return="com.google.common.graph.ElementOrder&lt;N&gt;"
@@ -36483,7 +36499,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[{@inheritDoc}]]>
+      <![CDATA[Returns the order of iteration for the elements of {@link #nodes()}.]]>
       </doc>
     </method>
     <method name="adjacentNodes" return="java.util.Set&lt;N&gt;"
@@ -36492,7 +36508,9 @@
       deprecated="not deprecated">
       <param name="node" type="N"/>
       <doc>
-      <![CDATA[{@inheritDoc}]]>
+      <![CDATA[Returns the nodes which have an incident edge in common with {@code node} in this graph.
+
+ @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
       </doc>
     </method>
     <method name="predecessors" return="java.util.Set&lt;N&gt;"
@@ -36501,7 +36519,12 @@
       deprecated="not deprecated">
       <param name="node" type="N"/>
       <doc>
-      <![CDATA[{@inheritDoc}]]>
+      <![CDATA[Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
+ {@code node}'s incoming edges <i>against</i> the direction (if any) of the edge.
+
+ <p>In an undirected graph, this is equivalent to {@link #adjacentNodes(Object)}.
+
+ @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
       </doc>
     </method>
     <method name="successors" return="java.util.Set&lt;N&gt;"
@@ -36510,7 +36533,15 @@
       deprecated="not deprecated">
       <param name="node" type="N"/>
       <doc>
-      <![CDATA[{@inheritDoc}]]>
+      <![CDATA[Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
+ {@code node}'s outgoing edges in the direction (if any) of the edge.
+
+ <p>In an undirected graph, this is equivalent to {@link #adjacentNodes(Object)}.
+
+ <p>This is <i>not</i> the same as "all nodes reachable from {@code node} by following outgoing
+ edges". For that functionality, see {@link Graphs#reachableNodes(Graph, Object)}.
+
+ @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
       </doc>
     </method>
     <method name="incidentEdges" return="java.util.Set&lt;com.google.common.graph.EndpointPair&lt;N&gt;&gt;"
@@ -36519,7 +36550,10 @@
       deprecated="not deprecated">
       <param name="node" type="N"/>
       <doc>
-      <![CDATA[{@inheritDoc}]]>
+      <![CDATA[Returns the edges in this graph whose endpoints include {@code node}.
+
+ @throws IllegalArgumentException if {@code node} is not an element of this graph
+ @since NEXT]]>
       </doc>
     </method>
     <method name="degree" return="int"
@@ -36528,7 +36562,17 @@
       deprecated="not deprecated">
       <param name="node" type="N"/>
       <doc>
-      <![CDATA[{@inheritDoc}]]>
+      <![CDATA[Returns the count of {@code node}'s incident edges, counting self-loops twice (equivalently,
+ the number of times an edge touches {@code node}).
+
+ <p>For directed graphs, this is equal to {@code inDegree(node) + outDegree(node)}.
+
+ <p>For undirected graphs, this is equal to {@code incidentEdges(node).size()} + (number of
+ self-loops incident to {@code node}).
+
+ <p>If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.
+
+ @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
       </doc>
     </method>
     <method name="inDegree" return="int"
@@ -36537,7 +36581,12 @@
       deprecated="not deprecated">
       <param name="node" type="N"/>
       <doc>
-      <![CDATA[{@inheritDoc}]]>
+      <![CDATA[Returns the count of {@code node}'s incoming edges (equal to {@code predecessors(node).size()})
+ in a directed graph. In an undirected graph, returns the {@link #degree(Object)}.
+
+ <p>If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.
+
+ @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
       </doc>
     </method>
     <method name="outDegree" return="int"
@@ -36546,7 +36595,12 @@
       deprecated="not deprecated">
       <param name="node" type="N"/>
       <doc>
-      <![CDATA[{@inheritDoc}]]>
+      <![CDATA[Returns the count of {@code node}'s outgoing edges (equal to {@code successors(node).size()})
+ in a directed graph. In an undirected graph, returns the {@link #degree(Object)}.
+
+ <p>If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.
+
+ @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
       </doc>
     </method>
     <method name="hasEdgeConnecting" return="boolean"
@@ -36556,7 +36610,12 @@
       <param name="nodeU" type="N"/>
       <param name="nodeV" type="N"/>
       <doc>
-      <![CDATA[{@inheritDoc}]]>
+      <![CDATA[Returns true if there is an edge directly connecting {@code nodeU} to {@code nodeV}. This is
+ equivalent to {@code nodes().contains(nodeU) && successors(nodeU).contains(nodeV)}.
+
+ <p>In an undirected graph, this is equal to {@code hasEdgeConnecting(nodeV, nodeU)}.
+
+ @since 23.0]]>
       </doc>
     </method>
     <method name="equals" return="boolean"
@@ -38303,7 +38362,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[{@inheritDoc}]]>
+      <![CDATA[Returns all nodes in this graph, in the order specified by {@link #nodeOrder()}.]]>
       </doc>
     </method>
     <method name="edges" return="java.util.Set&lt;com.google.common.graph.EndpointPair&lt;N&gt;&gt;"
@@ -38311,7 +38370,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[{@inheritDoc}]]>
+      <![CDATA[Returns all edges in this graph.]]>
       </doc>
     </method>
     <method name="asGraph" return="com.google.common.graph.Graph&lt;N&gt;"
@@ -38328,7 +38387,9 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[{@inheritDoc}]]>
+      <![CDATA[Returns true if the edges in this graph are directed. Directed edges connect a {@link
+ EndpointPair#source() source node} to a {@link EndpointPair#target() target node}, while
+ undirected edges connect a pair of nodes to each other.]]>
       </doc>
     </method>
     <method name="allowsSelfLoops" return="boolean"
@@ -38336,7 +38397,9 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[{@inheritDoc}]]>
+      <![CDATA[Returns true if this graph allows self-loops (edges that connect a node to itself). Attempting
+ to add a self-loop to a graph that does not allow them will throw an {@link
+ IllegalArgumentException}.]]>
       </doc>
     </method>
     <method name="nodeOrder" return="com.google.common.graph.ElementOrder&lt;N&gt;"
@@ -38344,7 +38407,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[{@inheritDoc}]]>
+      <![CDATA[Returns the order of iteration for the elements of {@link #nodes()}.]]>
       </doc>
     </method>
     <method name="adjacentNodes" return="java.util.Set&lt;N&gt;"
@@ -38353,7 +38416,9 @@
       deprecated="not deprecated">
       <param name="node" type="N"/>
       <doc>
-      <![CDATA[{@inheritDoc}]]>
+      <![CDATA[Returns the nodes which have an incident edge in common with {@code node} in this graph.
+
+ @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
       </doc>
     </method>
     <method name="predecessors" return="java.util.Set&lt;N&gt;"
@@ -38362,7 +38427,12 @@
       deprecated="not deprecated">
       <param name="node" type="N"/>
       <doc>
-      <![CDATA[{@inheritDoc}]]>
+      <![CDATA[Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
+ {@code node}'s incoming edges <i>against</i> the direction (if any) of the edge.
+
+ <p>In an undirected graph, this is equivalent to {@link #adjacentNodes(Object)}.
+
+ @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
       </doc>
     </method>
     <method name="successors" return="java.util.Set&lt;N&gt;"
@@ -38371,7 +38441,15 @@
       deprecated="not deprecated">
       <param name="node" type="N"/>
       <doc>
-      <![CDATA[{@inheritDoc}]]>
+      <![CDATA[Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
+ {@code node}'s outgoing edges in the direction (if any) of the edge.
+
+ <p>In an undirected graph, this is equivalent to {@link #adjacentNodes(Object)}.
+
+ <p>This is <i>not</i> the same as "all nodes reachable from {@code node} by following outgoing
+ edges". For that functionality, see {@link Graphs#reachableNodes(Graph, Object)}.
+
+ @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
       </doc>
     </method>
     <method name="incidentEdges" return="java.util.Set&lt;com.google.common.graph.EndpointPair&lt;N&gt;&gt;"
@@ -38380,7 +38458,10 @@
       deprecated="not deprecated">
       <param name="node" type="N"/>
       <doc>
-      <![CDATA[{@inheritDoc}]]>
+      <![CDATA[Returns the edges in this graph whose endpoints include {@code node}.
+
+ @throws IllegalArgumentException if {@code node} is not an element of this graph
+ @since NEXT]]>
       </doc>
     </method>
     <method name="degree" return="int"
@@ -38389,7 +38470,17 @@
       deprecated="not deprecated">
       <param name="node" type="N"/>
       <doc>
-      <![CDATA[{@inheritDoc}]]>
+      <![CDATA[Returns the count of {@code node}'s incident edges, counting self-loops twice (equivalently,
+ the number of times an edge touches {@code node}).
+
+ <p>For directed graphs, this is equal to {@code inDegree(node) + outDegree(node)}.
+
+ <p>For undirected graphs, this is equal to {@code incidentEdges(node).size()} + (number of
+ self-loops incident to {@code node}).
+
+ <p>If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.
+
+ @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
       </doc>
     </method>
     <method name="inDegree" return="int"
@@ -38398,7 +38489,12 @@
       deprecated="not deprecated">
       <param name="node" type="N"/>
       <doc>
-      <![CDATA[{@inheritDoc}]]>
+      <![CDATA[Returns the count of {@code node}'s incoming edges (equal to {@code predecessors(node).size()})
+ in a directed graph. In an undirected graph, returns the {@link #degree(Object)}.
+
+ <p>If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.
+
+ @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
       </doc>
     </method>
     <method name="outDegree" return="int"
@@ -38407,7 +38503,12 @@
       deprecated="not deprecated">
       <param name="node" type="N"/>
       <doc>
-      <![CDATA[{@inheritDoc}]]>
+      <![CDATA[Returns the count of {@code node}'s outgoing edges (equal to {@code successors(node).size()})
+ in a directed graph. In an undirected graph, returns the {@link #degree(Object)}.
+
+ <p>If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.
+
+ @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
       </doc>
     </method>
     <method name="hasEdgeConnecting" return="boolean"
@@ -38417,7 +38518,12 @@
       <param name="nodeU" type="N"/>
       <param name="nodeV" type="N"/>
       <doc>
-      <![CDATA[{@inheritDoc}]]>
+      <![CDATA[Returns true if there is an edge directly connecting {@code nodeU} to {@code nodeV}. This is
+ equivalent to {@code nodes().contains(nodeU) && successors(nodeU).contains(nodeV)}.
+
+ <p>In an undirected graph, this is equal to {@code hasEdgeConnecting(nodeV, nodeU)}.
+
+ @since 23.0]]>
       </doc>
     </method>
     <method name="edgeValueOrDefault" return="V"
@@ -47437,6 +47543,17 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[The HTTP {@code Host} header field name.]]>
+      </doc>
+    </field>
+    <field name="HTTP2_SETTINGS" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc7540#section-3.2.1">{@code HTTP2-Settings}
+ </a> header field name.
+
+ @since NEXT]]>
       </doc>
     </field>
     <field name="IF_MATCH" type="java.lang.String"

@@ -461,7 +461,7 @@
 <span class="sourceLineNo">453</span>   */<a name="line.453"></a>
 <span class="sourceLineNo">454</span>  public static int checkedAdd(int a, int b) {<a name="line.454"></a>
 <span class="sourceLineNo">455</span>    long result = (long) a + b;<a name="line.455"></a>
-<span class="sourceLineNo">456</span>    checkNoOverflow(result == (int) result);<a name="line.456"></a>
+<span class="sourceLineNo">456</span>    checkNoOverflow(result == (int) result, "checkedAdd", a, b);<a name="line.456"></a>
 <span class="sourceLineNo">457</span>    return (int) result;<a name="line.457"></a>
 <span class="sourceLineNo">458</span>  }<a name="line.458"></a>
 <span class="sourceLineNo">459</span><a name="line.459"></a>
@@ -472,7 +472,7 @@
 <span class="sourceLineNo">464</span>   */<a name="line.464"></a>
 <span class="sourceLineNo">465</span>  public static int checkedSubtract(int a, int b) {<a name="line.465"></a>
 <span class="sourceLineNo">466</span>    long result = (long) a - b;<a name="line.466"></a>
-<span class="sourceLineNo">467</span>    checkNoOverflow(result == (int) result);<a name="line.467"></a>
+<span class="sourceLineNo">467</span>    checkNoOverflow(result == (int) result, "checkedSubtract", a, b);<a name="line.467"></a>
 <span class="sourceLineNo">468</span>    return (int) result;<a name="line.468"></a>
 <span class="sourceLineNo">469</span>  }<a name="line.469"></a>
 <span class="sourceLineNo">470</span><a name="line.470"></a>
@@ -483,7 +483,7 @@
 <span class="sourceLineNo">475</span>   */<a name="line.475"></a>
 <span class="sourceLineNo">476</span>  public static int checkedMultiply(int a, int b) {<a name="line.476"></a>
 <span class="sourceLineNo">477</span>    long result = (long) a * b;<a name="line.477"></a>
-<span class="sourceLineNo">478</span>    checkNoOverflow(result == (int) result);<a name="line.478"></a>
+<span class="sourceLineNo">478</span>    checkNoOverflow(result == (int) result, "checkedMultiply", a, b);<a name="line.478"></a>
 <span class="sourceLineNo">479</span>    return (int) result;<a name="line.479"></a>
 <span class="sourceLineNo">480</span>  }<a name="line.480"></a>
 <span class="sourceLineNo">481</span><a name="line.481"></a>
@@ -505,10 +505,10 @@
 <span class="sourceLineNo">497</span>      case (-1):<a name="line.497"></a>
 <span class="sourceLineNo">498</span>        return ((k &amp; 1) == 0) ? 1 : -1;<a name="line.498"></a>
 <span class="sourceLineNo">499</span>      case 2:<a name="line.499"></a>
-<span class="sourceLineNo">500</span>        checkNoOverflow(k &lt; Integer.SIZE - 1);<a name="line.500"></a>
+<span class="sourceLineNo">500</span>        checkNoOverflow(k &lt; Integer.SIZE - 1, "checkedPow", b, k);<a name="line.500"></a>
 <span class="sourceLineNo">501</span>        return 1 &lt;&lt; k;<a name="line.501"></a>
 <span class="sourceLineNo">502</span>      case (-2):<a name="line.502"></a>
-<span class="sourceLineNo">503</span>        checkNoOverflow(k &lt; Integer.SIZE);<a name="line.503"></a>
+<span class="sourceLineNo">503</span>        checkNoOverflow(k &lt; Integer.SIZE, "checkedPow", b, k);<a name="line.503"></a>
 <span class="sourceLineNo">504</span>        return ((k &amp; 1) == 0) ? 1 &lt;&lt; k : -1 &lt;&lt; k;<a name="line.504"></a>
 <span class="sourceLineNo">505</span>      default:<a name="line.505"></a>
 <span class="sourceLineNo">506</span>        // continue below to handle the general case<a name="line.506"></a>
@@ -526,7 +526,7 @@
 <span class="sourceLineNo">518</span>          }<a name="line.518"></a>
 <span class="sourceLineNo">519</span>          k &gt;&gt;= 1;<a name="line.519"></a>
 <span class="sourceLineNo">520</span>          if (k &gt; 0) {<a name="line.520"></a>
-<span class="sourceLineNo">521</span>            checkNoOverflow(-FLOOR_SQRT_MAX_INT &lt;= b &amp; b &lt;= FLOOR_SQRT_MAX_INT);<a name="line.521"></a>
+<span class="sourceLineNo">521</span>            checkNoOverflow(-FLOOR_SQRT_MAX_INT &lt;= b &amp; b &lt;= FLOOR_SQRT_MAX_INT, "checkedPow", b, k);<a name="line.521"></a>
 <span class="sourceLineNo">522</span>            b *= b;<a name="line.522"></a>
 <span class="sourceLineNo">523</span>          }<a name="line.523"></a>
 <span class="sourceLineNo">524</span>      }<a name="line.524"></a>

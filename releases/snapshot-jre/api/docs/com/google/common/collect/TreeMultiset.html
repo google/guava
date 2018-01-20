@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":9,"i8":9,"i9":9,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10,"i29":10,"i30":10,"i31":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":9,"i8":9,"i9":9,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10,"i29":10,"i30":10,"i31":10,"i32":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -119,7 +119,7 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#emulated--">emulated</a>=true)
-public final class <a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.58">TreeMultiset</a>&lt;E&gt;
+public final class <a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.60">TreeMultiset</a>&lt;E&gt;
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util">AbstractCollection</a>&lt;E&gt;
 implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</a></pre>
 <div class="block">A multiset which maintains the ordering of its elements, according to either their natural order
@@ -271,12 +271,19 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 </td>
 </tr>
 <tr id="i15" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/TreeMultiset.html#forEachEntry-java.util.function.ObjIntConsumer-">forEachEntry</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/ObjIntConsumer.html?is-external=true" title="class or interface in java.util.function">ObjIntConsumer</a>&lt;? super <a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;&nbsp;action)</code>
+<div class="block">Runs the specified action for each distinct element in this multiset, and the number of
+ occurrences of that element.</div>
+</td>
+</tr>
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/TreeMultiset.html#hashCode--">hashCode</a></span>()</code>
 <div class="block">Returns a hash code value for the object.</div>
 </td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/TreeMultiset.html#headMultiset-E-com.google.common.collect.BoundType-">headMultiset</a></span>(<a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&nbsp;upperBound,
             <a href="../../../../com/google/common/collect/BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</code>
@@ -284,68 +291,68 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
  optionally including <code>upperBound</code> itself.</div>
 </td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/TreeMultiset.html#isEmpty--">isEmpty</a></span>()</code>
 <div class="block">Returns <tt>true</tt> if this collection contains no elements.</div>
 </td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/TreeMultiset.html#iterator--">iterator</a></span>()</code>
 <div class="block">Returns an iterator over the elements contained in this collection.</div>
 </td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/TreeMultiset.html#lastEntry--">lastEntry</a></span>()</code>
 <div class="block">Returns the entry of the last element in this multiset, or <code>null</code> if this multiset is
  empty.</div>
 </td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/TreeMultiset.html#pollFirstEntry--">pollFirstEntry</a></span>()</code>
 <div class="block">Returns and removes the entry associated with the lowest element in this multiset, or returns
  <code>null</code> if this multiset is empty.</div>
 </td>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i22" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/TreeMultiset.html#pollLastEntry--">pollLastEntry</a></span>()</code>
 <div class="block">Returns and removes the entry associated with the greatest element in this multiset, or returns
  <code>null</code> if this multiset is empty.</div>
 </td>
 </tr>
-<tr id="i22" class="altColor">
+<tr id="i23" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/TreeMultiset.html#remove-java.lang.Object-">remove</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element)</code>
 <div class="block">Removes a single instance of the specified element from this
  collection, if it is present (optional operation).</div>
 </td>
 </tr>
-<tr id="i23" class="rowColor">
+<tr id="i24" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/TreeMultiset.html#remove-java.lang.Object-int-">remove</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element,
       int&nbsp;occurrences)</code>
 <div class="block">Removes a number of occurrences of the specified element from this multiset.</div>
 </td>
 </tr>
-<tr id="i24" class="altColor">
+<tr id="i25" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/TreeMultiset.html#removeAll-java.util.Collection-">removeAll</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;elementsToRemove)</code>
 <div class="block">Removes all of this collection's elements that are also contained in the
  specified collection (optional operation).</div>
 </td>
 </tr>
-<tr id="i25" class="rowColor">
+<tr id="i26" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/TreeMultiset.html#retainAll-java.util.Collection-">retainAll</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;elementsToRetain)</code>
 <div class="block">Retains only the elements in this collection that are contained in the
  specified collection (optional operation).</div>
 </td>
 </tr>
-<tr id="i26" class="altColor">
+<tr id="i27" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/TreeMultiset.html#setCount-E-int-">setCount</a></span>(<a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&nbsp;element,
         int&nbsp;count)</code>
@@ -353,7 +360,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
  desired count.</div>
 </td>
 </tr>
-<tr id="i27" class="rowColor">
+<tr id="i28" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/TreeMultiset.html#setCount-E-int-int-">setCount</a></span>(<a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&nbsp;element,
         int&nbsp;oldCount,
@@ -361,13 +368,13 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <div class="block">Conditionally sets the count of an element to a new value, as described in <a href="../../../../com/google/common/collect/Multiset.html#setCount-E-int-"><code>Multiset.setCount(Object, int)</code></a>, provided that the element has the expected current count.</div>
 </td>
 </tr>
-<tr id="i28" class="altColor">
+<tr id="i29" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/TreeMultiset.html#size--">size</a></span>()</code>
 <div class="block">Returns the number of elements in this collection.</div>
 </td>
 </tr>
-<tr id="i29" class="rowColor">
+<tr id="i30" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/TreeMultiset.html#subMultiset-E-com.google.common.collect.BoundType-E-com.google.common.collect.BoundType-">subMultiset</a></span>(E&nbsp;fromElement,
            <a href="../../../../com/google/common/collect/BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;fromBoundType,
@@ -376,7 +383,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <div class="block">Returns a view of this multiset restricted to the range between <code>lowerBound</code> and <code>upperBound</code>.</div>
 </td>
 </tr>
-<tr id="i30" class="altColor">
+<tr id="i31" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/TreeMultiset.html#tailMultiset-E-com.google.common.collect.BoundType-">tailMultiset</a></span>(<a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&nbsp;lowerBound,
             <a href="../../../../com/google/common/collect/BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</code>
@@ -384,7 +391,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
  optionally including <code>lowerBound</code> itself.</div>
 </td>
 </tr>
-<tr id="i31" class="rowColor">
+<tr id="i32" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/TreeMultiset.html#toString--">toString</a></span>()</code>
 <div class="block">Returns a string representation of this collection.</div>
@@ -417,14 +424,14 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <!--   -->
 </a>
 <h3>Methods inherited from interface&nbsp;com.google.common.collect.<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a></h3>
-<code><a href="../../../../com/google/common/collect/Multiset.html#add-E-">add</a>, <a href="../../../../com/google/common/collect/Multiset.html#contains-java.lang.Object-">contains</a>, <a href="../../../../com/google/common/collect/Multiset.html#containsAll-java.util.Collection-">containsAll</a>, <a href="../../../../com/google/common/collect/Multiset.html#equals-java.lang.Object-">equals</a>, <a href="../../../../com/google/common/collect/Multiset.html#forEach-java.util.function.Consumer-">forEach</a>, <a href="../../../../com/google/common/collect/Multiset.html#forEachEntry-java.util.function.ObjIntConsumer-">forEachEntry</a>, <a href="../../../../com/google/common/collect/Multiset.html#hashCode--">hashCode</a>, <a href="../../../../com/google/common/collect/Multiset.html#remove-java.lang.Object-">remove</a>, <a href="../../../../com/google/common/collect/Multiset.html#removeAll-java.util.Collection-">removeAll</a>, <a href="../../../../com/google/common/collect/Multiset.html#retainAll-java.util.Collection-">retainAll</a>, <a href="../../../../com/google/common/collect/Multiset.html#spliterator--">spliterator</a>, <a href="../../../../com/google/common/collect/Multiset.html#toString--">toString</a></code></li>
+<code><a href="../../../../com/google/common/collect/Multiset.html#add-E-">add</a>, <a href="../../../../com/google/common/collect/Multiset.html#contains-java.lang.Object-">contains</a>, <a href="../../../../com/google/common/collect/Multiset.html#containsAll-java.util.Collection-">containsAll</a>, <a href="../../../../com/google/common/collect/Multiset.html#equals-java.lang.Object-">equals</a>, <a href="../../../../com/google/common/collect/Multiset.html#forEach-java.util.function.Consumer-">forEach</a>, <a href="../../../../com/google/common/collect/Multiset.html#hashCode--">hashCode</a>, <a href="../../../../com/google/common/collect/Multiset.html#remove-java.lang.Object-">remove</a>, <a href="../../../../com/google/common/collect/Multiset.html#removeAll-java.util.Collection-">removeAll</a>, <a href="../../../../com/google/common/collect/Multiset.html#retainAll-java.util.Collection-">retainAll</a>, <a href="../../../../com/google/common/collect/Multiset.html#spliterator--">spliterator</a>, <a href="../../../../com/google/common/collect/Multiset.html#toString--">toString</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.util.Collection">
 <!--   -->
 </a>
 <h3>Methods inherited from interface&nbsp;java.util.<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#addAll-java.util.Collection-" title="class or interface in java.util">addAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#clear--" title="class or interface in java.util">clear</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#isEmpty--" title="class or interface in java.util">isEmpty</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#parallelStream--" title="class or interface in java.util">parallelStream</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#removeIf-java.util.function.Predicate-" title="class or interface in java.util">removeIf</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#stream--" title="class or interface in java.util">stream</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#toArray--" title="class or interface in java.util">toArray</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#toArray-T:A-" title="class or interface in java.util">toArray</a></code></li>
+<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#addAll-java.util.Collection-" title="class or interface in java.util">addAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#isEmpty--" title="class or interface in java.util">isEmpty</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#parallelStream--" title="class or interface in java.util">parallelStream</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#removeIf-java.util.function.Predicate-" title="class or interface in java.util">removeIf</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#stream--" title="class or interface in java.util">stream</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#toArray--" title="class or interface in java.util">toArray</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#toArray-T:A-" title="class or interface in java.util">toArray</a></code></li>
 </ul>
 </li>
 </ul>
@@ -446,7 +453,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="class in com.google.common.collect">TreeMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.72">create</a>()</pre>
+<pre>public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="class in com.google.common.collect">TreeMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.74">create</a>()</pre>
 <div class="block">Creates a new, empty multiset, sorted according to the elements' natural order. All elements
  inserted into the multiset must implement the <code>Comparable</code> interface. Furthermore, all
  such elements must be <i>mutually comparable</i>: <code>e1.compareTo(e2)</code> must not throw a
@@ -464,7 +471,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="class in com.google.common.collect">TreeMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.88">create</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="class in com.google.common.collect">TreeMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.90">create</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                                          <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super E&gt;&nbsp;comparator)</pre>
 <div class="block">Creates a new, empty multiset, sorted according to the specified comparator. All elements
  inserted into the multiset must be <i>mutually comparable</i> by the specified comparator:
@@ -484,7 +491,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="class in com.google.common.collect">TreeMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.103">create</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre>public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="class in com.google.common.collect">TreeMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.105">create</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Creates an empty multiset containing the given initial elements, sorted according to the
  elements' natural order.
 
@@ -500,7 +507,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.217">size</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.219">size</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#size--" title="class or interface in java.util">java.util.Collection</a></code></span></div>
 <div class="block">Returns the number of elements in this collection.  If this collection
  contains more than <tt>Integer.MAX_VALUE</tt> elements, returns
@@ -510,6 +517,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <dd><code><a href="../../../../com/google/common/collect/Multiset.html#size--">size</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#size--" title="class or interface in java.util">size</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;</code></dd>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#size--" title="class or interface in java.util">size</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util">AbstractCollection</a>&lt;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the number of elements in this collection</dd>
 </dl>
@@ -521,7 +530,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>count</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.227">count</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.229">count</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#count-java.lang.Object-">Multiset</a></code></span></div>
 <div class="block">Returns the number of occurrences of an element in this multiset (the <i>count</i> of the
@@ -551,7 +560,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <li class="blockList">
 <h4>add</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.243">add</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.245">add</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                                      <a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&nbsp;element,
                                      int&nbsp;occurrences)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#add-E-int-">Multiset</a></code></span></div>
@@ -579,7 +588,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Tre
 <li class="blockList">
 <h4>remove</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.265">remove</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.267">remove</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                                         <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element,
                                         int&nbsp;occurrences)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#remove-java.lang.Object-int-">Multiset</a></code></span></div>
@@ -607,7 +616,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Tre
 <li class="blockList">
 <h4>setCount</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.289">setCount</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.291">setCount</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                                           <a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&nbsp;element,
                                           int&nbsp;count)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#setCount-E-int-">Multiset</a></code></span></div>
@@ -634,7 +643,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Tre
 <li class="blockList">
 <h4>setCount</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.311">setCount</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.313">setCount</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                                               <a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&nbsp;element,
                                               int&nbsp;oldCount,
                                               int&nbsp;newCount)</pre>
@@ -655,13 +664,56 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 </dl>
 </li>
 </ul>
+<a name="clear--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>clear</h4>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.336">clear</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#clear--" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
+<div class="block">Removes all of the elements from this collection (optional operation).
+ The collection will be empty after this method returns.
+
+ <p>This implementation iterates over this collection, removing each
+ element using the <tt>Iterator.remove</tt> operation.  Most
+ implementations will probably choose to override this method for
+ efficiency.
+
+ <p>Note that this implementation will throw an
+ <tt>UnsupportedOperationException</tt> if the iterator returned by this
+ collection's <tt>iterator</tt> method does not implement the
+ <tt>remove</tt> method and this collection is non-empty.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#clear--" title="class or interface in java.util">clear</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;</code></dd>
+</dl>
+</li>
+</ul>
+<a name="forEachEntry-java.util.function.ObjIntConsumer-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>forEachEntry</h4>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.515">forEachEntry</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/ObjIntConsumer.html?is-external=true" title="class or interface in java.util.function">ObjIntConsumer</a>&lt;? super <a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;&nbsp;action)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#forEachEntry-java.util.function.ObjIntConsumer-">Multiset</a></code></span></div>
+<div class="block">Runs the specified action for each distinct element in this multiset, and the number of
+ occurrences of that element. For some <code>Multiset</code> implementations, this may be more
+ efficient than iterating over the <a href="../../../../com/google/common/collect/Multiset.html#entrySet--"><code>Multiset.entrySet()</code></a> either explicitly or with <code>entrySet().forEach(action)</code>.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../com/google/common/collect/Multiset.html#forEachEntry-java.util.function.ObjIntConsumer-">forEachEntry</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;</code></dd>
+</dl>
+</li>
+</ul>
 <a name="iterator--">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>iterator</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.489">iterator</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.525">iterator</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#iterator--" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
 <div class="block">Returns an iterator over the elements contained in this collection.</div>
 <dl>
@@ -688,7 +740,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>headMultiset</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.494">headMultiset</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.530">headMultiset</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                                       <a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&nbsp;upperBound,
                                       <a href="../../../../com/google/common/collect/BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/SortedMultiset.html#headMultiset-E-com.google.common.collect.BoundType-">SortedMultiset</a></code></span></div>
@@ -713,7 +765,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>tailMultiset</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.502">tailMultiset</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.538">tailMultiset</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                                       <a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&nbsp;lowerBound,
                                       <a href="../../../../com/google/common/collect/BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/SortedMultiset.html#tailMultiset-E-com.google.common.collect.BoundType-">SortedMultiset</a></code></span></div>
@@ -890,7 +942,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.55">isEmpty</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.49">isEmpty</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#isEmpty--" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
 <div class="block">Returns <tt>true</tt> if this collection contains no elements.
 
@@ -911,7 +963,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.60">contains</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.54">contains</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                         <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#contains-java.lang.Object-" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
 <div class="block">Returns <tt>true</tt> if this collection contains the specified element.
@@ -945,7 +997,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>add</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.77">add</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.61">add</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                                                E&nbsp;element)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#add-E-" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
 <div class="block">Ensures that this collection contains the specified element (optional
@@ -990,7 +1042,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <li class="blockList">
 <h4>remove</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.90">remove</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.74">remove</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                                                   <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#remove-java.lang.Object-" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
 <div class="block">Removes a single instance of the specified element from this
@@ -1030,7 +1082,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <li class="blockList">
 <h4>addAll</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.122">addAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends E&gt;&nbsp;elementsToAdd)</pre>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.106">addAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends E&gt;&nbsp;elementsToAdd)</pre>
 <div class="block">Adds all of the elements in the specified collection to this collection
  (optional operation).  The behavior of this operation is undefined if
  the specified collection is modified while the operation is in progress.
@@ -1067,7 +1119,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <li class="blockList">
 <h4>removeAll</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.128">removeAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;elementsToRemove)</pre>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.112">removeAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;elementsToRemove)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#removeAll-java.util.Collection-" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
 <div class="block">Removes all of this collection's elements that are also contained in the
  specified collection (optional operation).  After this call returns,
@@ -1109,7 +1161,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <li class="blockList">
 <h4>retainAll</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.134">retainAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;elementsToRetain)</pre>
+public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.118">retainAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;elementsToRetain)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#retainAll-java.util.Collection-" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
 <div class="block">Retains only the elements in this collection that are contained in the
  specified collection (optional operation).  In other words, removes from
@@ -1143,41 +1195,13 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 </dl>
 </li>
 </ul>
-<a name="clear--">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>clear</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.139">clear</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#clear--" title="class or interface in java.util">java.util.AbstractCollection</a></code></span></div>
-<div class="block">Removes all of the elements from this collection (optional operation).
- The collection will be empty after this method returns.
-
- <p>This implementation iterates over this collection, removing each
- element using the <tt>Iterator.remove</tt> operation.  Most
- implementations will probably choose to override this method for
- efficiency.
-
- <p>Note that this implementation will throw an
- <tt>UnsupportedOperationException</tt> if the iterator returned by this
- collection's <tt>iterator</tt> method does not implement the
- <tt>remove</tt> method and this collection is non-empty.</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#clear--" title="class or interface in java.util">clear</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;E&gt;</code></dd>
-<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#clear--" title="class or interface in java.util">clear</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util">AbstractCollection</a>&lt;E&gt;</code></dd>
-</dl>
-</li>
-</ul>
 <a name="entrySet--">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>entrySet</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.182">entrySet</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.164">entrySet</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#entrySet--">Multiset</a></code></span></div>
 <div class="block">Returns a view of the contents of this multiset, grouped into <code>Multiset.Entry</code> instances,
  each providing an element of the multiset and the count of that element. This set contains
@@ -1205,7 +1229,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.225">equals</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.207">equals</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                             <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block">Indicates whether some other object is "equal to" this one.
  <p>
@@ -1272,7 +1296,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.235">hashCode</a>()</pre>
+<pre>public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.217">hashCode</a>()</pre>
 <div class="block">Returns a hash code value for the object. This method is
  supported for the benefit of hash tables such as those provided by
  <a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util"><code>HashMap</code></a>.
@@ -1325,7 +1349,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.246">toString</a>()</pre>
+<pre>public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractMultiset.html#line.228">toString</a>()</pre>
 <div class="block">Returns a string representation of this collection.  The string
  representation consists of a list of the collection's elements in the
  order they are returned by its iterator, enclosed in square brackets
