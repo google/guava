@@ -190,9 +190,10 @@ public final class Predicates {
    * <p>The returned predicate does not allow null inputs.
    *
    * @deprecated Use the correctly-named method {@link #subtypeOf} instead. This method is scheduled
-   *     to be removed in January 2018.
+   *     to be removed in April 2018.
    * @since 10.0
    */
+  // TODO(b/72241559): Remove by 2018-04
   @GwtIncompatible // Class.isAssignableFrom
   @Beta
   @Deprecated

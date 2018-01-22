@@ -144,8 +144,9 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
    *     use, possibly specializing them to the particular exception type they use. We recommend
    *     that most people use {@code ListenableFuture} and perform any exception wrapping
-   *     themselves. This method is scheduled for removal from Guava in February 2018.
+   *     themselves. This method is scheduled for removal from Guava in April 2018.
    */
+  // TODO(b/72241575): Remove by 2018-04
   @Deprecated
   @GwtIncompatible // TODO
   public static <V, X extends Exception> CheckedFuture<V, X> makeChecked(
@@ -182,8 +183,9 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
    *     use, possibly specializing them to the particular exception type they use. We recommend
    *     that most people use {@code ListenableFuture} and perform any exception wrapping
-   *     themselves. This method is scheduled for removal from Guava in February 2018.
+   *     themselves. This method is scheduled for removal from Guava in April 2018.
    */
+  // TODO(b/72241893): Remove by 2018-04
   @Deprecated
   @GwtIncompatible // TODO
   public static <V, X extends Exception> CheckedFuture<V, X> immediateCheckedFuture(
@@ -228,8 +230,9 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
    *     use, possibly specializing them to the particular exception type they use. We recommend
    *     that most people use {@code ListenableFuture} and perform any exception wrapping
-   *     themselves. This method is scheduled for removal from Guava in February 2018.
+   *     themselves. This method is scheduled for removal from Guava in April 2018.
    */
+  // TODO(b/72241500): Remove by 2018-04
   @Deprecated
   @GwtIncompatible // TODO
   public static <V, X extends Exception> CheckedFuture<V, X> immediateFailedCheckedFuture(
@@ -766,55 +769,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
       }
     };
   }
-
-  /**
-   * Returns a new {@code ListenableFuture} whose result is the product of calling {@code get()} on
-   * the {@code Future} nested within the given {@code Future}, effectively chaining the futures one
-   * after the other. Example:
-   *
-   * <pre>{@code
-   * SettableFuture<ListenableFuture<String>> nested = SettableFuture.create();
-   * ListenableFuture<String> dereferenced = dereference(nested);
-   * }</pre>
-   *
-   * <p>Most users will not need this method. To create a {@code Future} that completes with the
-   * result of another {@code Future}, create a {@link SettableFuture}, and call {@link
-   * SettableFuture#setFuture setFuture(otherFuture)} on it.
-   *
-   * <p>{@code dereference} has the same cancellation and execution semantics as {@link
-   * #transformAsync(ListenableFuture, AsyncFunction, Executor)}, in that the returned {@code
-   * Future} attempts to keep its cancellation state in sync with both the input {@code Future} and
-   * the nested {@code Future}. The transformation is very lightweight and therefore takes place in
-   * the same thread (either the thread that called {@code dereference}, or the thread in which the
-   * dereferenced future completes).
-   *
-   * @deprecated Use {@link #submitAsync(AsyncCallable, Executor)} or {@link
-   *     SettableFuture#setFuture} instead. Or, if you're dereferencing the output of {@link
-   *     #transform} or {@link #catching}, switch to {@link #transformAsync} or {@link
-   *     #catchingAsync} (and likewise for similar APIs). If the cancellation of this method's
-   *     output future races with completion of the outer input future, cancellation may not be
-   *     propagated to the inner input future. This method is scheduled to be removed in January
-   *     2018.
-   * @param nested The nested future to transform.
-   * @return A future that holds result of the inner future.
-   * @since 13.0
-   */
-  @Deprecated
-  @SuppressWarnings({"rawtypes", "unchecked"})
-  public static <V> ListenableFuture<V> dereference(
-      ListenableFuture<? extends ListenableFuture<? extends V>> nested) {
-    return transformAsync(
-        (ListenableFuture) nested, (AsyncFunction) DEREFERENCER, directExecutor());
-  }
-
-  /** Helper {@code Function} for {@link #dereference}. */
-  private static final AsyncFunction<ListenableFuture<Object>, Object> DEREFERENCER =
-      new AsyncFunction<ListenableFuture<Object>, Object>() {
-        @Override
-        public ListenableFuture<Object> apply(ListenableFuture<Object> input) {
-          return input;
-        }
-      };
 
   /**
    * Creates a new {@code ListenableFuture} whose value is a list containing the values of all its

@@ -19,12 +19,10 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
-import com.google.common.base.Optional;
 import com.google.common.testing.NullPointerTester;
 import java.util.Arrays;
 import java.util.List;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Tests for {@code TreeTraverser}.
@@ -50,17 +48,6 @@ public class TreeTraverserTest extends TestCase {
     }
   }
 
-  private static final class BinaryTree extends Node {
-    @NullableDecl final BinaryTree left;
-    @NullableDecl final BinaryTree right;
-
-    private BinaryTree(char value, BinaryTree left, BinaryTree right) {
-      super(value);
-      this.left = left;
-      this.right = right;
-    }
-  }
-
   private static final TreeTraverser<Tree> ADAPTER =
       new TreeTraverser<Tree>() {
         @Override
@@ -78,20 +65,6 @@ public class TreeTraverserTest extends TestCase {
             }
           });
 
-  private static final BinaryTreeTraverser<BinaryTree> BIN_ADAPTER =
-      new BinaryTreeTraverser<BinaryTree>() {
-
-        @Override
-        public Optional<BinaryTree> leftChild(BinaryTree node) {
-          return Optional.fromNullable(node.left);
-        }
-
-        @Override
-        public Optional<BinaryTree> rightChild(BinaryTree node) {
-          return Optional.fromNullable(node.right);
-        }
-      };
-
   //        h
   //      / | \
   //     /  e  \
@@ -108,21 +81,6 @@ public class TreeTraverserTest extends TestCase {
   static final Tree g = new Tree('g', f);
   static final Tree h = new Tree('h', d, e, g);
 
-  //      d
-  //     / \
-  //    b   e
-  //   / \   \
-  //  a   c   f
-  //         /
-  //        g
-  static final BinaryTree ba = new BinaryTree('a', null, null);
-  static final BinaryTree bc = new BinaryTree('c', null, null);
-  static final BinaryTree bb = new BinaryTree('b', ba, bc);
-  static final BinaryTree bg = new BinaryTree('g', null, null);
-  static final BinaryTree bf = new BinaryTree('f', bg, null);
-  static final BinaryTree be = new BinaryTree('e', null, bf);
-  static final BinaryTree bd = new BinaryTree('d', bb, be);
-
   static String iterationOrder(Iterable<? extends Node> iterable) {
     StringBuilder builder = new StringBuilder();
     for (Node t : iterable) {
@@ -138,21 +96,14 @@ public class TreeTraverserTest extends TestCase {
 
   public void testPreOrder() {
     assertThat(iterationOrder(ADAPTER.preOrderTraversal(h))).isEqualTo("hdabcegf");
-    assertThat(iterationOrder(BIN_ADAPTER.preOrderTraversal(bd))).isEqualTo("dbacefg");
   }
 
   public void testPostOrder() {
     assertThat(iterationOrder(ADAPTER.postOrderTraversal(h))).isEqualTo("abcdefgh");
-    assertThat(iterationOrder(BIN_ADAPTER.postOrderTraversal(bd))).isEqualTo("acbgfed");
   }
 
   public void testBreadthOrder() {
     assertThat(iterationOrder(ADAPTER.breadthFirstTraversal(h))).isEqualTo("hdegabcf");
-    assertThat(iterationOrder(BIN_ADAPTER.breadthFirstTraversal(bd))).isEqualTo("dbeacfg");
-  }
-
-  public void testInOrder() {
-    assertThat(iterationOrder(BIN_ADAPTER.inOrderTraversal(bd))).isEqualTo("abcdegf");
   }
 
   public void testUsing() {
@@ -163,6 +114,5 @@ public class TreeTraverserTest extends TestCase {
   public void testNulls() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(ADAPTER);
-    tester.testAllPublicInstanceMethods(BIN_ADAPTER);
   }
 }
