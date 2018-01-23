@@ -5516,7 +5516,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Use the correctly-named method {@link #subtypeOf} instead. This method is scheduled
-     to be removed in January 2018.">
+     to be removed in April 2018.">
       <param name="clazz" type="java.lang.Class&lt;?&gt;"/>
       <doc>
       <![CDATA[Returns a predicate that evaluates to {@code true} if the class being tested is assignable
@@ -5535,7 +5535,7 @@
  <p>The returned predicate does not allow null inputs.
 
  @deprecated Use the correctly-named method {@link #subtypeOf} instead. This method is scheduled
-     to be removed in January 2018.
+     to be removed in April 2018.
  @since 10.0]]>
       </doc>
     </method>
@@ -10387,68 +10387,6 @@
     </doc>
   </interface>
   <!-- end interface com.google.common.collect.BiMap -->
-  <!-- start class com.google.common.collect.BinaryTreeTraverser -->
-  <class name="BinaryTreeTraverser" extends="com.google.common.collect.TreeTraverser&lt;T&gt;"
-    abstract="true"
-    static="false" final="false" visibility="public"
-    deprecated="Use {@link com.google.common.graph.Traverser} instead. All instance methods except
-     for {@link #inOrderTraversal} have their equivalent on the result of {@code
-     Traverser.forTree(tree)} where {@code tree} implements {@code SuccessorsFunction}, which has
-     a similar API as {@link #children}.
-     lEsS_tHaNp>This class is scheduled to be removed in January 2018.">
-    <constructor name="BinaryTreeTraverser"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-    </constructor>
-    <method name="leftChild" return="com.google.common.base.Optional&lt;T&gt;"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="root" type="T"/>
-      <doc>
-      <![CDATA[Returns the left child of the specified node, or {@link Optional#absent()} if the specified
- node has no left child.]]>
-      </doc>
-    </method>
-    <method name="rightChild" return="com.google.common.base.Optional&lt;T&gt;"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="root" type="T"/>
-      <doc>
-      <![CDATA[Returns the right child of the specified node, or {@link Optional#absent()} if the specified
- node has no right child.]]>
-      </doc>
-    </method>
-    <method name="children" return="java.lang.Iterable&lt;T&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="not deprecated">
-      <param name="root" type="T"/>
-      <doc>
-      <![CDATA[Returns the children of this node, in left-to-right order.]]>
-      </doc>
-    </method>
-    <method name="inOrderTraversal" return="com.google.common.collect.FluentIterable&lt;T&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="not deprecated">
-      <param name="root" type="T"/>
-    </method>
-    <doc>
-    <![CDATA[A variant of {@link TreeTraverser} for binary trees, providing additional traversals specific to
- binary trees.
-
- @author Louis Wasserman
- @since 15.0
- @deprecated Use {@link com.google.common.graph.Traverser} instead. All instance methods except
-     for {@link #inOrderTraversal} have their equivalent on the result of {@code
-     Traverser.forTree(tree)} where {@code tree} implements {@code SuccessorsFunction}, which has
-     a similar API as {@link #children}.
-     <p>This class is scheduled to be removed in January 2018.]]>
-    </doc>
-  </class>
-  <!-- end class com.google.common.collect.BinaryTreeTraverser -->
   <!-- start class com.google.common.collect.BoundType -->
   <class name="BoundType" extends="java.lang.Enum&lt;com.google.common.collect.BoundType&gt;"
     abstract="false"
@@ -34657,7 +34595,7 @@
      their equivalent on the result of {@code Traverser.forTree(tree)} where {@code tree}
      implements {@code SuccessorsFunction}, which has a similar API as {@link #children} or can be
      the same lambda function as passed into {@link #using(Function)}.
-     lEsS_tHaNp>This class is scheduled to be removed in January 2018.">
+     lEsS_tHaNp>This class is scheduled to be removed in April 2018.">
     <constructor name="TreeTraverser"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -34780,7 +34718,7 @@
      their equivalent on the result of {@code Traverser.forTree(tree)} where {@code tree}
      implements {@code SuccessorsFunction}, which has a similar API as {@link #children} or can be
      the same lambda function as passed into {@link #using(Function)}.
-     <p>This class is scheduled to be removed in January 2018.]]>
+     <p>This class is scheduled to be removed in April 2018.]]>
     </doc>
   </class>
   <!-- end class com.google.common.collect.TreeTraverser -->
@@ -36895,42 +36833,6 @@
  not be updated after modifications to {@code graph}.
 
  @throws IllegalArgumentException if {@code node} is not present in {@code graph}]]>
-      </doc>
-    </method>
-    <method name="equivalent" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="Use {@link Graph#equals(Object)} instead. This method will be removed in January
-     2018.">
-      <param name="graphA" type="com.google.common.graph.Graph&lt;?&gt;"/>
-      <param name="graphB" type="com.google.common.graph.Graph&lt;?&gt;"/>
-      <doc>
-      <![CDATA[@deprecated Use {@link Graph#equals(Object)} instead. This method will be removed in January
-     2018.]]>
-      </doc>
-    </method>
-    <method name="equivalent" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="Use {@link ValueGraph#equals(Object)} instead. This method will be removed in
-     January 2018.">
-      <param name="graphA" type="com.google.common.graph.ValueGraph&lt;?, ?&gt;"/>
-      <param name="graphB" type="com.google.common.graph.ValueGraph&lt;?, ?&gt;"/>
-      <doc>
-      <![CDATA[@deprecated Use {@link ValueGraph#equals(Object)} instead. This method will be removed in
-     January 2018.]]>
-      </doc>
-    </method>
-    <method name="equivalent" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="Use {@link Network#equals(Object)} instead. This method will be removed in January
-     2018.">
-      <param name="networkA" type="com.google.common.graph.Network&lt;?, ?&gt;"/>
-      <param name="networkB" type="com.google.common.graph.Network&lt;?, ?&gt;"/>
-      <doc>
-      <![CDATA[@deprecated Use {@link Network#equals(Object)} instead. This method will be removed in January
-     2018.]]>
       </doc>
     </method>
     <method name="transpose" return="com.google.common.graph.Graph&lt;N&gt;"
@@ -61412,7 +61314,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use {@code ListenableFuture} and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in February 2018.">
+     themselves. This method is scheduled for removal from Guava in April 2018.">
       <param name="future" type="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"/>
       <param name="mapper" type="com.google.common.base.Function&lt;? super java.lang.Exception, X&gt;"/>
       <doc>
@@ -61438,7 +61340,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use {@code ListenableFuture} and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in February 2018.]]>
+     themselves. This method is scheduled for removal from Guava in April 2018.]]>
       </doc>
     </method>
     <method name="immediateFuture" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
@@ -61462,7 +61364,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use {@code ListenableFuture} and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in February 2018.">
+     themselves. This method is scheduled for removal from Guava in April 2018.">
       <param name="value" type="V"/>
       <doc>
       <![CDATA[Returns a {@code CheckedFuture} which has its value set immediately upon construction.
@@ -61478,7 +61380,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use {@code ListenableFuture} and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in February 2018.]]>
+     themselves. This method is scheduled for removal from Guava in April 2018.]]>
       </doc>
     </method>
     <method name="immediateFailedFuture" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
@@ -61515,7 +61417,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use {@code ListenableFuture} and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in February 2018.">
+     themselves. This method is scheduled for removal from Guava in April 2018.">
       <param name="exception" type="X extends java.lang.Exception"/>
       <doc>
       <![CDATA[Returns a {@code CheckedFuture} which has an exception set immediately upon construction.
@@ -61532,7 +61434,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use {@code ListenableFuture} and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in February 2018.]]>
+     themselves. This method is scheduled for removal from Guava in April 2018.]]>
       </doc>
     </method>
     <method name="submitAsync" return="com.google.common.util.concurrent.ListenableFuture&lt;O&gt;"
@@ -62034,50 +61936,6 @@
      the returned future.
  @return A future that returns the result of the transformation.
  @since 10.0]]>
-      </doc>
-    </method>
-    <method name="dereference" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="Use {@link #submitAsync(AsyncCallable, Executor)} or {@link
-     SettableFuture#setFuture} instead. Or, if you're dereferencing the output of {@link
-     #transform} or {@link #catching}, switch to {@link #transformAsync} or {@link
-     #catchingAsync} (and likewise for similar APIs). If the cancellation of this method's
-     output future races with completion of the outer input future, cancellation may not be
-     propagated to the inner input future. This method is scheduled to be removed in January
-     2018.">
-      <param name="nested" type="com.google.common.util.concurrent.ListenableFuture&lt;? extends com.google.common.util.concurrent.ListenableFuture&lt;? extends V&gt;&gt;"/>
-      <doc>
-      <![CDATA[Returns a new {@code ListenableFuture} whose result is the product of calling {@code get()} on
- the {@code Future} nested within the given {@code Future}, effectively chaining the futures one
- after the other. Example:
-
- <pre>{@code
- SettableFuture<ListenableFuture<String>> nested = SettableFuture.create();
- ListenableFuture<String> dereferenced = dereference(nested);
- }</pre>
-
- <p>Most users will not need this method. To create a {@code Future} that completes with the
- result of another {@code Future}, create a {@link SettableFuture}, and call {@link
- SettableFuture#setFuture setFuture(otherFuture)} on it.
-
- <p>{@code dereference} has the same cancellation and execution semantics as {@link
- #transformAsync(ListenableFuture, AsyncFunction, Executor)}, in that the returned {@code
- Future} attempts to keep its cancellation state in sync with both the input {@code Future} and
- the nested {@code Future}. The transformation is very lightweight and therefore takes place in
- the same thread (either the thread that called {@code dereference}, or the thread in which the
- dereferenced future completes).
-
- @deprecated Use {@link #submitAsync(AsyncCallable, Executor)} or {@link
-     SettableFuture#setFuture} instead. Or, if you're dereferencing the output of {@link
-     #transform} or {@link #catching}, switch to {@link #transformAsync} or {@link
-     #catchingAsync} (and likewise for similar APIs). If the cancellation of this method's
-     output future races with completion of the outer input future, cancellation may not be
-     propagated to the inner input future. This method is scheduled to be removed in January
-     2018.
- @param nested The nested future to transform.
- @return A future that holds result of the inner future.
- @since 13.0]]>
       </doc>
     </method>
     <method name="allAsList" return="com.google.common.util.concurrent.ListenableFuture&lt;java.util.List&lt;V&gt;&gt;"
@@ -63833,54 +63691,6 @@
 
 
  @since 18.0]]>
-      </doc>
-    </method>
-    <method name="sequentialExecutor" return="java.util.concurrent.Executor"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="Use {@link #newSequentialExecutor}. This method is scheduled for removal in January
-     2018.">
-      <param name="delegate" type="java.util.concurrent.Executor"/>
-      <doc>
-      <![CDATA[Returns an {@link Executor} that runs each task executed sequentially, such that no two tasks
- are running concurrently. Submitted tasks have a happens-before order as defined in the Java
- Language Specification.
-
- <p>The executor uses {@code delegate} in order to {@link Executor#execute execute} each task in
- turn, and does not create any threads of its own.
-
- <p>After execution begins on a thread from the {@code delegate} {@link Executor}, tasks are
- polled and executed from a task queue until there are no more tasks. The thread will not be
- released until there are no more tasks to run.
-
- <p>If a task is submitted while a thread is executing tasks from the task queue, the thread
- will not be released until that submitted task is also complete.
-
- <p>Tasks are always started with the Thread in an uninterrupted state.
-
- <p>If the thread is {@linkplain Thread#interrupt interrupted} while a task is running or before
- the thread is taken by the Executor:
-
- <ol>
-   <li>execution will not stop until the task queue is empty.
-   <li>the interrupt will be restored to the thread after it completes so that its {@code
-       delegate} Executor may process the interrupt.
- </ol>
-
- <p>{@code RuntimeException}s thrown by tasks are simply logged and the executor keeps trucking.
- If an {@code Error} is thrown, the error will propagate and execution will stop until the next
- time a task is submitted.
-
- <p>When an {@code Error} is thrown by an executed task, previously submitted tasks may never
- run. An attempt will be made to restart execution on the next call to {@code execute}. If the
- {@code delegate} has begun to reject execution, the previously submitted tasks may never run,
- despite not throwing a RejectedExecutionException synchronously with the call to {@code
- execute}. If this behaviour is problematic, use an Executor with a single thread (e.g. {@link
- Executors#newSingleThreadExecutor}).
-
- @deprecated Use {@link #newSequentialExecutor}. This method is scheduled for removal in January
-     2018.
- @since 23.1]]>
       </doc>
     </method>
     <method name="newSequentialExecutor" return="java.util.concurrent.Executor"

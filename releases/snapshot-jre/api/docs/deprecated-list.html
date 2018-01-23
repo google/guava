@@ -130,19 +130,11 @@
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colOne"><a href="com/google/common/collect/BinaryTreeTraverser.html" title="class in com.google.common.collect">com.google.common.collect.BinaryTreeTraverser</a>
-<div class="block"><span class="deprecationComment">Use <a href="com/google/common/graph/Traverser.html" title="class in com.google.common.graph"><code>Traverser</code></a> instead. All instance methods except
-     for <a href="com/google/common/collect/BinaryTreeTraverser.html#inOrderTraversal-T-"><code>BinaryTreeTraverser.inOrderTraversal(T)</code></a> have their equivalent on the result of <code>Traverser.forTree(tree)</code> where <code>tree</code> implements <code>SuccessorsFunction</code>, which has
-     a similar API as <a href="com/google/common/collect/BinaryTreeTraverser.html#children-T-"><code>BinaryTreeTraverser.children(T)</code></a>.
-     <p>This class is scheduled to be removed in January 2018.</span></div>
-</td>
-</tr>
-<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ForwardingBlockingDeque.html" title="class in com.google.common.collect">com.google.common.collect.ForwardingBlockingDeque</a>
 <div class="block"><span class="deprecationComment">This class has moved to <code>com.google.common.util.concurrent</code>. Please use <a href="com/google/common/util/concurrent/ForwardingBlockingDeque.html" title="class in com.google.common.util.concurrent"><code>ForwardingBlockingDeque</code></a> instead.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/util/concurrent/ForwardingCheckedFuture.html" title="class in com.google.common.util.concurrent">com.google.common.util.concurrent.ForwardingCheckedFuture</a>
 <div class="block"><span class="deprecationComment"><a href="com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent"><code>CheckedFuture</code></a> cannot properly support the chained operations that are the
      primary goal of <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>. <code>CheckedFuture</code> also encourages users to
@@ -154,7 +146,7 @@
      class is scheduled for removal from Guava in February 2018.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/util/concurrent/ForwardingCheckedFuture.SimpleForwardingCheckedFuture.html" title="class in com.google.common.util.concurrent">com.google.common.util.concurrent.ForwardingCheckedFuture.SimpleForwardingCheckedFuture</a>
 <div class="block"><span class="deprecationComment"><a href="com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent"><code>CheckedFuture</code></a> cannot properly support the chained operations that are the
      primary goal of <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>. <code>CheckedFuture</code> also encourages users to
@@ -166,13 +158,13 @@
      themselves. This class is scheduled for removal from Guava in February 2018.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/TreeTraverser.html" title="class in com.google.common.collect">com.google.common.collect.TreeTraverser</a>
 <div class="block"><span class="deprecationComment">Use <a href="com/google/common/graph/Traverser.html" title="class in com.google.common.graph"><code>Traverser</code></a> instead. All instance methods have
      their equivalent on the result of <code>Traverser.forTree(tree)</code> where <code>tree</code>
      implements <code>SuccessorsFunction</code>, which has a similar API as <a href="com/google/common/collect/TreeTraverser.html#children-T-"><code>TreeTraverser.children(T)</code></a> or can be
      the same lambda function as passed into <a href="com/google/common/collect/TreeTraverser.html#using-com.google.common.base.Function-"><code>TreeTraverser.using(Function)</code></a>.
-     <p>This class is scheduled to be removed in January 2018.</span></div>
+     <p>This class is scheduled to be removed in April 2018.</span></div>
 </td>
 </tr>
 </tbody>
@@ -397,7 +389,7 @@
 <tr class="altColor">
 <td class="colOne"><a href="com/google/common/base/Predicates.html#assignableFrom-java.lang.Class-">com.google.common.base.Predicates.assignableFrom(Class&lt;?&gt;)</a>
 <div class="block"><span class="deprecationComment">Use the correctly-named method <a href="com/google/common/base/Predicates.html#subtypeOf-java.lang.Class-"><code>Predicates.subtypeOf(java.lang.Class&lt;?&gt;)</code></a> instead. This method is scheduled
-     to be removed in January 2018.</span></div>
+     to be removed in April 2018.</span></div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -537,41 +529,15 @@
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colOne"><a href="com/google/common/util/concurrent/Futures.html#dereference-com.google.common.util.concurrent.ListenableFuture-">com.google.common.util.concurrent.Futures.dereference(ListenableFuture&lt;? extends ListenableFuture&lt;? extends V&gt;&gt;)</a>
-<div class="block"><span class="deprecationComment">Use <a href="com/google/common/util/concurrent/Futures.html#submitAsync-com.google.common.util.concurrent.AsyncCallable-java.util.concurrent.Executor-"><code>Futures.submitAsync(AsyncCallable, Executor)</code></a> or <a href="com/google/common/util/concurrent/SettableFuture.html#setFuture-com.google.common.util.concurrent.ListenableFuture-"><code>SettableFuture.setFuture(com.google.common.util.concurrent.ListenableFuture&lt;? extends V&gt;)</code></a> instead. Or, if you're dereferencing the output of <a href="com/google/common/util/concurrent/Futures.html#transform-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-"><code>Futures.transform(com.google.common.util.concurrent.ListenableFuture&lt;I&gt;, com.google.common.base.Function&lt;? super I, ? extends O&gt;)</code></a> or <a href="com/google/common/util/concurrent/Futures.html#catching-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.base.Function-"><code>Futures.catching(com.google.common.util.concurrent.ListenableFuture&lt;? extends V&gt;, java.lang.Class&lt;X&gt;, com.google.common.base.Function&lt;? super X, ? extends V&gt;)</code></a>, switch to <a href="com/google/common/util/concurrent/Futures.html#transformAsync-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.AsyncFunction-"><code>Futures.transformAsync(com.google.common.util.concurrent.ListenableFuture&lt;I&gt;, com.google.common.util.concurrent.AsyncFunction&lt;? super I, ? extends O&gt;)</code></a> or <a href="com/google/common/util/concurrent/Futures.html#catchingAsync-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.util.concurrent.AsyncFunction-"><code>Futures.catchingAsync(com.google.common.util.concurrent.ListenableFuture&lt;? extends V&gt;, java.lang.Class&lt;X&gt;, com.google.common.util.concurrent.AsyncFunction&lt;? super X, ? extends V&gt;)</code></a> (and likewise for similar APIs). If the cancellation of this method's
-     output future races with completion of the outer input future, cancellation may not be
-     propagated to the inner input future. This method is scheduled to be removed in January
-     2018.</span></div>
-</td>
-</tr>
-<tr class="altColor">
 <td class="colOne"><a href="com/google/common/base/CharMatcher.html#digit--">com.google.common.base.CharMatcher.digit()</a>
 <div class="block"><span class="deprecationComment">Many digits are supplementary characters; see the class documentation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/io/MoreFiles.html#directoryTreeTraverser--">com.google.common.io.MoreFiles.directoryTreeTraverser()</a>
 <div class="block"><span class="deprecationComment">The returned <a href="com/google/common/collect/TreeTraverser.html" title="class in com.google.common.collect"><code>TreeTraverser</code></a> type is deprecated. Use the replacement method
      <a href="com/google/common/io/MoreFiles.html#fileTraverser--"><code>MoreFiles.fileTraverser()</code></a> instead with the same semantics as this method. This method is
      scheduled to be removed in April 2018.</span></div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colOne"><a href="com/google/common/graph/Graphs.html#equivalent-com.google.common.graph.Graph-com.google.common.graph.Graph-">com.google.common.graph.Graphs.equivalent(Graph&lt;?&gt;, Graph&lt;?&gt;)</a>
-<div class="block"><span class="deprecationComment">Use <a href="com/google/common/graph/Graph.html#equals-java.lang.Object-"><code>Graph.equals(Object)</code></a> instead. This method will be removed in January
-     2018.</span></div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colOne"><a href="com/google/common/graph/Graphs.html#equivalent-com.google.common.graph.Network-com.google.common.graph.Network-">com.google.common.graph.Graphs.equivalent(Network&lt;?, ?&gt;, Network&lt;?, ?&gt;)</a>
-<div class="block"><span class="deprecationComment">Use <a href="com/google/common/graph/Network.html#equals-java.lang.Object-"><code>Network.equals(Object)</code></a> instead. This method will be removed in January
-     2018.</span></div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colOne"><a href="com/google/common/graph/Graphs.html#equivalent-com.google.common.graph.ValueGraph-com.google.common.graph.ValueGraph-">com.google.common.graph.Graphs.equivalent(ValueGraph&lt;?, ?&gt;, ValueGraph&lt;?, ?&gt;)</a>
-<div class="block"><span class="deprecationComment">Use <a href="com/google/common/graph/ValueGraph.html#equals-java.lang.Object-"><code>ValueGraph.equals(Object)</code></a> instead. This method will be removed in
-     January 2018.</span></div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -616,7 +582,7 @@
      untouched. Guava users who want a <code>CheckedFuture</code> can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use <code>ListenableFuture</code> and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in February 2018.</span></div>
+     themselves. This method is scheduled for removal from Guava in April 2018.</span></div>
 </td>
 </tr>
 <tr class="altColor">
@@ -628,7 +594,7 @@
      untouched. Guava users who want a <code>CheckedFuture</code> can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use <code>ListenableFuture</code> and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in February 2018.</span></div>
+     themselves. This method is scheduled for removal from Guava in April 2018.</span></div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -678,7 +644,7 @@
      untouched. Guava users who want a <code>CheckedFuture</code> can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use <code>ListenableFuture</code> and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in February 2018.</span></div>
+     themselves. This method is scheduled for removal from Guava in April 2018.</span></div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -1067,32 +1033,26 @@
 </td>
 </tr>
 <tr class="altColor">
-<td class="colOne"><a href="com/google/common/util/concurrent/MoreExecutors.html#sequentialExecutor-java.util.concurrent.Executor-">com.google.common.util.concurrent.MoreExecutors.sequentialExecutor(Executor)</a>
-<div class="block"><span class="deprecationComment">Use <a href="com/google/common/util/concurrent/MoreExecutors.html#newSequentialExecutor-java.util.concurrent.Executor-"><code>MoreExecutors.newSequentialExecutor(java.util.concurrent.Executor)</code></a>. This method is scheduled for removal in January
-     2018.</span></div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/UnmodifiableListIterator.html#set-E-">com.google.common.collect.UnmodifiableListIterator.set(E)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableList.html#set-int-E-">com.google.common.collect.ImmutableList.set(int, E)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMultiset.html#setCount-E-int-">com.google.common.collect.ImmutableMultiset.setCount(E, int)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMultiset.html#setCount-E-int-int-">com.google.common.collect.ImmutableMultiset.setCount(E, int, int)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/hash/Hashing.html#sha1--">com.google.common.hash.Hashing.sha1()</a>
 <div class="block"><span class="deprecationComment">If you must interoperate with a system that requires SHA-1, then use this method,
      despite its deprecation. But if you can choose your hash function, avoid SHA-1, which is
@@ -1104,34 +1064,34 @@
      </ul></span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/base/CharMatcher.html#singleWidth--">com.google.common.base.CharMatcher.singleWidth()</a>
 <div class="block"><span class="deprecationComment">Many such characters are supplementary characters; see the class documentation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableList.html#sort-java.util.Comparator-">com.google.common.collect.ImmutableList.sort(Comparator&lt;? super E&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/Streams.html#stream-java.util.Collection-">com.google.common.collect.Streams.stream(Collection&lt;T&gt;)</a>
 <div class="block"><span class="deprecationComment">There is no reason to use this; just invoke <code>collection.stream()</code> directly.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/base/Equivalence.html#test-T-T-">com.google.common.base.Equivalence.test(T, T)</a>
 <div class="block"><span class="deprecationComment">Provided only to satisfy the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiPredicate.html?is-external=true" title="class or interface in java.util.function"><code>BiPredicate</code></a> interface; use <a href="com/google/common/base/Equivalence.html#equivalent-T-T-"><code>Equivalence.equivalent(T, T)</code></a>
      instead.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/io/Files.html#toString-java.io.File-java.nio.charset.Charset-">com.google.common.io.Files.toString(File, Charset)</a>
 <div class="block"><span class="deprecationComment">Prefer <code>asCharSource(file, charset).read()</code>. This method is scheduled to be
      removed in January 2019.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/util/concurrent/Futures.html#transform-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-">com.google.common.util.concurrent.Futures.transform(ListenableFuture&lt;I&gt;, Function&lt;? super I, ? extends O&gt;)</a>
 <div class="block"><span class="deprecationComment">Use <a href="com/google/common/util/concurrent/Futures.html#transform-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-java.util.concurrent.Executor-">the overload that
      requires an executor</a>. For identical behavior, pass <a href="com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>,
@@ -1139,7 +1099,7 @@
      scheduled to be removed in April 2018.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/util/concurrent/Futures.html#transformAsync-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.AsyncFunction-">com.google.common.util.concurrent.Futures.transformAsync(ListenableFuture&lt;I&gt;, AsyncFunction&lt;? super I, ? extends O&gt;)</a>
 <div class="block"><span class="deprecationComment">Use <a href="com/google/common/util/concurrent/Futures.html#transformAsync-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.AsyncFunction-java.util.concurrent.Executor-">the
      overload that requires an executor</a>. For identical behavior, pass <a href="com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>, but consider whether another executor would be safer, as
@@ -1147,61 +1107,61 @@
      documentation. This method is scheduled to be removed in April 2018.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ArrayListMultimap.html#trimToSize--">com.google.common.collect.ArrayListMultimap.trimToSize()</a>
 <div class="block"><span class="deprecationComment">For a <a href="com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect"><code>ListMultimap</code></a> that automatically trims to size, use <a href="com/google/common/collect/ImmutableListMultimap.html" title="class in com.google.common.collect"><code>ImmutableListMultimap</code></a>. If you need a mutable collection, remove the <code>trimToSize</code>
      call, or switch to a <code>HashMap&lt;K, ArrayList&lt;V&gt;&gt;</code>.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/Iterables.html#unmodifiableIterable-com.google.common.collect.ImmutableCollection-">com.google.common.collect.Iterables.unmodifiableIterable(ImmutableCollection&lt;E&gt;)</a>
 <div class="block"><span class="deprecationComment">no need to use this</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/Iterators.html#unmodifiableIterator-com.google.common.collect.UnmodifiableIterator-">com.google.common.collect.Iterators.unmodifiableIterator(UnmodifiableIterator&lt;T&gt;)</a>
 <div class="block"><span class="deprecationComment">no need to use this</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/Multimaps.html#unmodifiableListMultimap-com.google.common.collect.ImmutableListMultimap-">com.google.common.collect.Multimaps.unmodifiableListMultimap(ImmutableListMultimap&lt;K, V&gt;)</a>
 <div class="block"><span class="deprecationComment">no need to use this</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/Multimaps.html#unmodifiableMultimap-com.google.common.collect.ImmutableMultimap-">com.google.common.collect.Multimaps.unmodifiableMultimap(ImmutableMultimap&lt;K, V&gt;)</a>
 <div class="block"><span class="deprecationComment">no need to use this</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/Multisets.html#unmodifiableMultiset-com.google.common.collect.ImmutableMultiset-">com.google.common.collect.Multisets.unmodifiableMultiset(ImmutableMultiset&lt;E&gt;)</a>
 <div class="block"><span class="deprecationComment">no need to use this</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/Multimaps.html#unmodifiableSetMultimap-com.google.common.collect.ImmutableSetMultimap-">com.google.common.collect.Multimaps.unmodifiableSetMultimap(ImmutableSetMultimap&lt;K, V&gt;)</a>
 <div class="block"><span class="deprecationComment">no need to use this</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/TreeTraverser.html#using-com.google.common.base.Function-">com.google.common.collect.TreeTraverser.using(Function&lt;T, ? extends Iterable&lt;T&gt;&gt;)</a>
 <div class="block"><span class="deprecationComment">Use <a href="com/google/common/graph/Traverser.html#forTree-com.google.common.graph.SuccessorsFunction-"><code>Traverser.forTree(com.google.common.graph.SuccessorsFunction&lt;N&gt;)</code></a> instead. If you are using a
      lambda, these methods have exactly the same signature.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/io/Files.html#write-java.lang.CharSequence-java.io.File-java.nio.charset.Charset-">com.google.common.io.Files.write(CharSequence, File, Charset)</a>
 <div class="block"><span class="deprecationComment">Prefer <code>asCharSink(to, charset).write(from)</code>. This method is scheduled to be
      removed in January 2019.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/io/LittleEndianDataOutputStream.html#writeBytes-java.lang.String-">com.google.common.io.LittleEndianDataOutputStream.writeBytes(String)</a>
 <div class="block"><span class="deprecationComment">The semantics of <code>writeBytes(String s)</code> are considered dangerous. Please use
      <a href="com/google/common/io/LittleEndianDataOutputStream.html#writeUTF-java.lang.String-"><code>LittleEndianDataOutputStream.writeUTF(String s)</code></a>, <a href="com/google/common/io/LittleEndianDataOutputStream.html#writeChars-java.lang.String-"><code>LittleEndianDataOutputStream.writeChars(String s)</code></a> or another write method instead.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/io/ByteArrayDataOutput.html#writeBytes-java.lang.String-">com.google.common.io.ByteArrayDataOutput.writeBytes(String)</a>
 <div class="block"><span class="deprecationComment">This method is dangerous as it discards the high byte of every character. For
      UTF-8, use <code>write(s.getBytes(StandardCharsets.UTF_8))</code>.</span></div>
