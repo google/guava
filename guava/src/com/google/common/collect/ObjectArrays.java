@@ -220,7 +220,7 @@ public final class ObjectArrays {
   // We do this instead of Preconditions.checkNotNull to save boxing and array
   // creation cost.
   @CanIgnoreReturnValue
-  static Object checkElementNotNull(Object element, int index) {
+  static Object checkElementNotNull(@NullableDecl Object element, int index) {
     if (element == null) {
       throw new NullPointerException("at index " + index);
     }

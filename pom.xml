@@ -94,6 +94,17 @@
           <configuration>
             <source>1.8</source>
             <target>1.8</target>
+            <compilerArgs>
+              <arg>-Xplugin:Traute</arg>
+              <arg>-Atraute.failure.text.parameter=$${PARAMETER_NAME} was null</arg>
+            </compilerArgs>
+            <annotationProcessorPaths>
+              <path>
+                <groupId>tech.harmonysoft</groupId>
+                <artifactId>traute-javac</artifactId>
+                <version>1.1.5</version>
+              </path>
+            </annotationProcessorPaths>
           </configuration>
         </plugin>
         <plugin>

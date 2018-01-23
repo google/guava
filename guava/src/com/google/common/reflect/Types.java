@@ -384,7 +384,7 @@ final class Types {
     }
 
     @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    public Object invoke(Object proxy, Method method, @NullableDecl Object[] args) throws Throwable {
       String methodName = method.getName();
       Method typeVariableMethod = typeVariableMethods.get(methodName);
       if (typeVariableMethod == null) {

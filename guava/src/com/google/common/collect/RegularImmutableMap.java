@@ -97,7 +97,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     return new RegularImmutableMap<>(entries, table, mask);
   }
 
-  private RegularImmutableMap(Entry<K, V>[] entries, ImmutableMapEntry<K, V>[] table, int mask) {
+  private RegularImmutableMap(Entry<K, V>[] entries, @NullableDecl ImmutableMapEntry<K, V>[] table, int mask) {
     this.entries = entries;
     this.table = table;
     this.mask = mask;
