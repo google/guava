@@ -622,13 +622,9 @@ public class PredicatesTest extends TestCase {
   }
 
   @GwtIncompatible // Predicates.subtypeOf
-  @SuppressWarnings("deprecation")
   public void testSubtypeOf_equality() {
     new EqualsTester()
-        .addEqualityGroup(
-            Predicates.subtypeOf(Integer.class),
-            Predicates.subtypeOf(Integer.class),
-            Predicates.assignableFrom(Integer.class))
+        .addEqualityGroup(Predicates.subtypeOf(Integer.class))
         .addEqualityGroup(Predicates.subtypeOf(Number.class))
         .addEqualityGroup(Predicates.subtypeOf(Float.class))
         .testEquals();
