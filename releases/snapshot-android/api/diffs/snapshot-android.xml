@@ -17409,6 +17409,8 @@
       <doc>
       <![CDATA[Returns an immutable list containing the given elements, in order.
 
+ <p>The array {@code others} must not be longer than {@code Integer.MAX_VALUE - 12}.
+
  @throws NullPointerException if any element is null
  @since 3.0 (source-compatible since 2.0)]]>
       </doc>
@@ -20002,6 +20004,8 @@
       <![CDATA[Returns an immutable set containing the given elements, minus duplicates, in the order each was
  first specified. That is, if multiple elements are {@linkplain Object#equals equal}, all except
  the first are ignored.
+
+ <p>The array {@code others} must not be longer than {@code Integer.MAX_VALUE - 6}.
 
  @since 3.0 (source-compatible since 2.0)]]>
       </doc>
@@ -51998,7 +52002,9 @@
       <param name="first" type="double"/>
       <param name="rest" type="double[]"/>
       <doc>
-      <![CDATA[Returns an immutable array containing the given values, in order.]]>
+      <![CDATA[Returns an immutable array containing the given values, in order.
+
+ <p>The array {@code rest} must not be longer than {@code Integer.MAX_VALUE - 1}.]]>
       </doc>
     </method>
     <method name="copyOf" return="com.google.common.primitives.ImmutableDoubleArray"
@@ -52406,7 +52412,9 @@
       <param name="first" type="int"/>
       <param name="rest" type="int[]"/>
       <doc>
-      <![CDATA[Returns an immutable array containing the given values, in order.]]>
+      <![CDATA[Returns an immutable array containing the given values, in order.
+
+ <p>The array {@code rest} must not be longer than {@code Integer.MAX_VALUE - 1}.]]>
       </doc>
     </method>
     <method name="copyOf" return="com.google.common.primitives.ImmutableIntArray"
@@ -52812,7 +52820,9 @@
       <param name="first" type="long"/>
       <param name="rest" type="long[]"/>
       <doc>
-      <![CDATA[Returns an immutable array containing the given values, in order.]]>
+      <![CDATA[Returns an immutable array containing the given values, in order.
+
+ <p>The array {@code rest} must not be longer than {@code Integer.MAX_VALUE - 1}.]]>
       </doc>
     </method>
     <method name="copyOf" return="com.google.common.primitives.ImmutableLongArray"
