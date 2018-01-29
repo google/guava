@@ -17,6 +17,7 @@ package com.google.common.hash;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 
+import com.google.errorprone.annotations.Immutable;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
@@ -25,6 +26,7 @@ import java.nio.charset.Charset;
  *
  * <p>TODO(lowasser): make public
  */
+@Immutable
 abstract class AbstractHashFunction implements HashFunction {
   @Override
   public <T> HashCode hashObject(T instance, Funnel<? super T> funnel) {

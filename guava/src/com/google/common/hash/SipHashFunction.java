@@ -21,6 +21,7 @@ package com.google.common.hash;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
@@ -32,6 +33,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Jean-Philippe Aumasson
  * @author Daniel J. Bernstein
  */
+@Immutable
 final class SipHashFunction extends AbstractHashFunction implements Serializable {
   static final HashFunction SIP_HASH_24 =
       new SipHashFunction(2, 4, 0x0706050403020100L, 0x0f0e0d0c0b0a0908L);
