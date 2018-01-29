@@ -380,9 +380,10 @@ public class TypesTest extends TestCase {
   }
 
   public void testToString() {
-    assertEquals(int[].class.getName(), Types.toString(int[].class));
-    assertEquals(int[][].class.getName(), Types.toString(int[][].class));
-    assertEquals(String[].class.getName(), Types.toString(String[].class));
+    assertEquals(String.class.getName(), Types.toString(String.class));
+    assertEquals(int.class.getName() + "[]", Types.toString(int[].class));
+    assertEquals(int.class.getName() + "[][]", Types.toString(int[][].class));
+    assertEquals(String.class.getName() + "[]", Types.toString(String[].class));
     Type elementType = List.class.getTypeParameters()[0];
     assertEquals(elementType.toString(), Types.toString(elementType));
   }

@@ -169,7 +169,7 @@ final class Types {
    * <p>The format is subject to change.
    */
   static String toString(Type type) {
-    return (type instanceof Class) ? ((Class<?>) type).getName() : type.toString();
+    return type.getTypeName();
   }
 
   @NullableDecl
@@ -238,7 +238,7 @@ final class Types {
 
     @Override
     public String toString() {
-      return Types.toString(componentType) + "[]";
+      return componentType.getTypeName() + "[]";
     }
 
     @Override
@@ -641,7 +641,7 @@ final class Types {
     abstract Type usedInGenericType(Type type);
 
     String typeName(Type type) {
-      return Types.toString(type);
+      return type.getTypeName();
     }
 
     boolean jdkTypeDuplicatesOwnerName() {
