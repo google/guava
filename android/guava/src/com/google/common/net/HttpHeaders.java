@@ -96,7 +96,7 @@ public final class HttpHeaders {
    * The HTTP <a href="https://tools.ietf.org/html/rfc7540#section-3.2.1">{@code HTTP2-Settings}
    * </a> header field name.
    *
-   * @since NEXT
+   * @since 24.0
    */
   public static final String HTTP2_SETTINGS = "HTTP2-Settings";
   /** The HTTP {@code If-Match} header field name. */
