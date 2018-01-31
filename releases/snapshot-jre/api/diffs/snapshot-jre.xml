@@ -38042,7 +38042,7 @@
       <![CDATA[Returns the edges in this graph whose endpoints include {@code node}.
 
  @throws IllegalArgumentException if {@code node} is not an element of this graph
- @since NEXT]]>
+ @since 24.0]]>
       </doc>
     </method>
     <method name="degree" return="int"
@@ -39933,7 +39933,7 @@
       <![CDATA[Returns the edges in this graph whose endpoints include {@code node}.
 
  @throws IllegalArgumentException if {@code node} is not an element of this graph
- @since NEXT]]>
+ @since 24.0]]>
       </doc>
     </method>
     <method name="degree" return="int"
@@ -49548,7 +49548,7 @@
       <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc7540#section-3.2.1">{@code HTTP2-Settings}
  </a> header field name.
 
- @since NEXT]]>
+ @since 24.0]]>
       </doc>
     </field>
     <field name="IF_MATCH" type="java.lang.String"
@@ -51264,7 +51264,7 @@
  removed.
 
  @throws IllegalArgumentException if either {@code attribute} or {@code values} is invalid
- @since NEXT]]>
+ @since 24.0]]>
       </doc>
     </method>
     <method name="withParameter" return="com.google.common.net.MediaType"
