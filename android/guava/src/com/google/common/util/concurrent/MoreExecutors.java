@@ -443,7 +443,7 @@ public final class MoreExecutors {
    * execute}. If this behaviour is problematic, use an Executor with a single thread (e.g. {@link
    * Executors#newSingleThreadExecutor}).
    *
-   * @since 23.3 (since 23.1 as {@link #sequentialExecutor(Executor)})
+   * @since 23.3 (since 23.1 as {@code sequentialExecutor})
    */
   @Beta
   @GwtIncompatible
