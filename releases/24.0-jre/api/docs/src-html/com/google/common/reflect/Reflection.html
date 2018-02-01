@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2005 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.reflect;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.base.Preconditions.checkArgument;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.18"></a>
+<span class="sourceLineNo">019</span><a name="line.19"></a>
+<span class="sourceLineNo">020</span>import com.google.common.annotations.Beta;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import java.lang.reflect.InvocationHandler;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import java.lang.reflect.Proxy;<a name="line.22"></a>
+<span class="sourceLineNo">023</span><a name="line.23"></a>
+<span class="sourceLineNo">024</span>/**<a name="line.24"></a>
+<span class="sourceLineNo">025</span> * Static utilities relating to Java reflection.<a name="line.25"></a>
+<span class="sourceLineNo">026</span> *<a name="line.26"></a>
+<span class="sourceLineNo">027</span> * @since 12.0<a name="line.27"></a>
+<span class="sourceLineNo">028</span> */<a name="line.28"></a>
+<span class="sourceLineNo">029</span>@Beta<a name="line.29"></a>
+<span class="sourceLineNo">030</span>public final class Reflection {<a name="line.30"></a>
+<span class="sourceLineNo">031</span><a name="line.31"></a>
+<span class="sourceLineNo">032</span>  /**<a name="line.32"></a>
+<span class="sourceLineNo">033</span>   * Returns the package name of {@code clazz} according to the Java Language Specification (section<a name="line.33"></a>
+<span class="sourceLineNo">034</span>   * 6.7). Unlike {@link Class#getPackage}, this method only parses the class name, without<a name="line.34"></a>
+<span class="sourceLineNo">035</span>   * attempting to define the {@link Package} and hence load files.<a name="line.35"></a>
+<span class="sourceLineNo">036</span>   */<a name="line.36"></a>
+<span class="sourceLineNo">037</span>  public static String getPackageName(Class&lt;?&gt; clazz) {<a name="line.37"></a>
+<span class="sourceLineNo">038</span>    return getPackageName(clazz.getName());<a name="line.38"></a>
+<span class="sourceLineNo">039</span>  }<a name="line.39"></a>
+<span class="sourceLineNo">040</span><a name="line.40"></a>
+<span class="sourceLineNo">041</span>  /**<a name="line.41"></a>
+<span class="sourceLineNo">042</span>   * Returns the package name of {@code classFullName} according to the Java Language Specification<a name="line.42"></a>
+<span class="sourceLineNo">043</span>   * (section 6.7). Unlike {@link Class#getPackage}, this method only parses the class name, without<a name="line.43"></a>
+<span class="sourceLineNo">044</span>   * attempting to define the {@link Package} and hence load files.<a name="line.44"></a>
+<span class="sourceLineNo">045</span>   */<a name="line.45"></a>
+<span class="sourceLineNo">046</span>  public static String getPackageName(String classFullName) {<a name="line.46"></a>
+<span class="sourceLineNo">047</span>    int lastDot = classFullName.lastIndexOf('.');<a name="line.47"></a>
+<span class="sourceLineNo">048</span>    return (lastDot &lt; 0) ? "" : classFullName.substring(0, lastDot);<a name="line.48"></a>
+<span class="sourceLineNo">049</span>  }<a name="line.49"></a>
+<span class="sourceLineNo">050</span><a name="line.50"></a>
+<span class="sourceLineNo">051</span>  /**<a name="line.51"></a>
+<span class="sourceLineNo">052</span>   * Ensures that the given classes are initialized, as described in &lt;a<a name="line.52"></a>
+<span class="sourceLineNo">053</span>   * href="http://java.sun.com/docs/books/jls/third_edition/html/execution.html#12.4.2"&gt;JLS Section<a name="line.53"></a>
+<span class="sourceLineNo">054</span>   * 12.4.2&lt;/a&gt;.<a name="line.54"></a>
+<span class="sourceLineNo">055</span>   *<a name="line.55"></a>
+<span class="sourceLineNo">056</span>   * &lt;p&gt;WARNING: Normally it's a smell if a class needs to be explicitly initialized, because static<a name="line.56"></a>
+<span class="sourceLineNo">057</span>   * state hurts system maintainability and testability. In cases when you have no choice while<a name="line.57"></a>
+<span class="sourceLineNo">058</span>   * inter-operating with a legacy framework, this method helps to keep the code less ugly.<a name="line.58"></a>
+<span class="sourceLineNo">059</span>   *<a name="line.59"></a>
+<span class="sourceLineNo">060</span>   * @throws ExceptionInInitializerError if an exception is thrown during initialization of a class<a name="line.60"></a>
+<span class="sourceLineNo">061</span>   */<a name="line.61"></a>
+<span class="sourceLineNo">062</span>  public static void initialize(Class&lt;?&gt;... classes) {<a name="line.62"></a>
+<span class="sourceLineNo">063</span>    for (Class&lt;?&gt; clazz : classes) {<a name="line.63"></a>
+<span class="sourceLineNo">064</span>      try {<a name="line.64"></a>
+<span class="sourceLineNo">065</span>        Class.forName(clazz.getName(), true, clazz.getClassLoader());<a name="line.65"></a>
+<span class="sourceLineNo">066</span>      } catch (ClassNotFoundException e) {<a name="line.66"></a>
+<span class="sourceLineNo">067</span>        throw new AssertionError(e);<a name="line.67"></a>
+<span class="sourceLineNo">068</span>      }<a name="line.68"></a>
+<span class="sourceLineNo">069</span>    }<a name="line.69"></a>
+<span class="sourceLineNo">070</span>  }<a name="line.70"></a>
+<span class="sourceLineNo">071</span><a name="line.71"></a>
+<span class="sourceLineNo">072</span>  /**<a name="line.72"></a>
+<span class="sourceLineNo">073</span>   * Returns a proxy instance that implements {@code interfaceType} by dispatching method<a name="line.73"></a>
+<span class="sourceLineNo">074</span>   * invocations to {@code handler}. The class loader of {@code interfaceType} will be used to<a name="line.74"></a>
+<span class="sourceLineNo">075</span>   * define the proxy class. To implement multiple interfaces or specify a class loader, use {@link<a name="line.75"></a>
+<span class="sourceLineNo">076</span>   * Proxy#newProxyInstance}.<a name="line.76"></a>
+<span class="sourceLineNo">077</span>   *<a name="line.77"></a>
+<span class="sourceLineNo">078</span>   * @throws IllegalArgumentException if {@code interfaceType} does not specify the type of a Java<a name="line.78"></a>
+<span class="sourceLineNo">079</span>   *     interface<a name="line.79"></a>
+<span class="sourceLineNo">080</span>   */<a name="line.80"></a>
+<span class="sourceLineNo">081</span>  public static &lt;T&gt; T newProxy(Class&lt;T&gt; interfaceType, InvocationHandler handler) {<a name="line.81"></a>
+<span class="sourceLineNo">082</span>    checkNotNull(handler);<a name="line.82"></a>
+<span class="sourceLineNo">083</span>    checkArgument(interfaceType.isInterface(), "%s is not an interface", interfaceType);<a name="line.83"></a>
+<span class="sourceLineNo">084</span>    Object object =<a name="line.84"></a>
+<span class="sourceLineNo">085</span>        Proxy.newProxyInstance(<a name="line.85"></a>
+<span class="sourceLineNo">086</span>            interfaceType.getClassLoader(), new Class&lt;?&gt;[] {interfaceType}, handler);<a name="line.86"></a>
+<span class="sourceLineNo">087</span>    return interfaceType.cast(object);<a name="line.87"></a>
+<span class="sourceLineNo">088</span>  }<a name="line.88"></a>
+<span class="sourceLineNo">089</span><a name="line.89"></a>
+<span class="sourceLineNo">090</span>  private Reflection() {}<a name="line.90"></a>
+<span class="sourceLineNo">091</span>}<a name="line.91"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>
