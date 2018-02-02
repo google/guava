@@ -33,9 +33,13 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
   static final class RegularEntrySet<K, V> extends ImmutableMapEntrySet<K, V> {
     @Weak private final transient ImmutableMap<K, V> map;
-    private final transient Entry<K, V>[] entries;
+    private final transient ImmutableList<Entry<K, V>> entries;
 
     RegularEntrySet(ImmutableMap<K, V> map, Entry<K, V>[] entries) {
+      this(map, ImmutableList.<Entry<K, V>>asImmutableList(entries));
+    }
+
+    RegularEntrySet(ImmutableMap<K, V> map, ImmutableList<Entry<K, V>> entries) {
       this.map = map;
       this.entries = entries;
     }
@@ -48,18 +52,17 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
     @Override
     @GwtIncompatible("not used in GWT")
     int copyIntoArray(Object[] dst, int offset) {
-      System.arraycopy(entries, 0, dst, offset, entries.length);
-      return offset + entries.length;
+      return entries.copyIntoArray(dst, offset);
     }
 
     @Override
     public UnmodifiableIterator<Entry<K, V>> iterator() {
-      return Iterators.forArray(entries);
+      return entries.iterator();
     }
 
     @Override
     ImmutableList<Entry<K, V>> createAsList() {
-      return ImmutableList.asImmutableList(entries);
+      return entries;
     }
   }
 

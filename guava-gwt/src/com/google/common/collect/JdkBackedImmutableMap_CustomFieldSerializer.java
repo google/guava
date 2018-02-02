@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 The Guava Authors
+ * Copyright (C) 2018 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,11 +24,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * This class implements the GWT serialization of {@link RegularImmutableMap}.
+ * This class implements the GWT serialization of {@link JdkBackedImmutableMap}.
  *
- * @author Hayward Chan
+ * @author Louis Wasserman
  */
-public class RegularImmutableMap_CustomFieldSerializer {
+public class JdkBackedImmutableMap_CustomFieldSerializer {
 
   public static void deserialize(SerializationStreamReader reader, ImmutableMap<?, ?> instance) {}
 
