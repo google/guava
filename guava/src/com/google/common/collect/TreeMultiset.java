@@ -1042,14 +1042,6 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
 @Pure
 public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.contains(arg0); }
 
-@Pure
-public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
-
-public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.remove(arg0); }
-
 public boolean containsAll(Collection<?> arg0) { return super.containsAll(arg0); }
 
-public boolean removeAll(Collection<?> arg0) { return super.removeAll(arg0); }
-
-public boolean retainAll(Collection<?> arg0) { return super.retainAll(arg0); }
 }

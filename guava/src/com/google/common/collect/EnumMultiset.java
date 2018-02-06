@@ -327,18 +327,5 @@ public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Obj
 
 @Pure
 @Override
-public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
-
-@Override
-public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.remove(arg0); }
-
-@Pure
-@Override
 public boolean containsAll(Collection<?> arg0) { return super.containsAll(arg0); }
-
-@Override
-public boolean removeAll(Collection<?> arg0) { return super.removeAll(arg0); }
-
-@Override
-public boolean retainAll(Collection<?> arg0) { return super.retainAll(arg0); }
 }
