@@ -201,7 +201,7 @@ public final class Collections2 {
     }
 
     @Override
-    public boolean remove(@Nullable Object element) {
+    public boolean remove(@NullableDecl Object element) {
       return contains(element) && unfiltered.remove(element);
     }
 

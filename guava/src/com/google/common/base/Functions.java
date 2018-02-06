@@ -93,7 +93,7 @@ public final class Functions {
     INSTANCE;
 
     @Override
-    @Nullable
+    @NullableDecl
     public @org.checkerframework.checker.nullness.qual.Nullable Object apply(@NullableDecl Object o) {
       return o;
     }

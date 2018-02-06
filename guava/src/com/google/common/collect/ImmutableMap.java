@@ -653,7 +653,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    */
   @Deprecated
   @Override
-  public final V remove(@Nullable Object o) {
+  public final V remove(@NullableDecl Object o) {
     throw new UnsupportedOperationException();
   }
 

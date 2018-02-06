@@ -161,7 +161,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
   }
 
   @CanIgnoreReturnValue
-  private V removeFromBothMaps(@Nullable Object key) {
+  private V removeFromBothMaps(@NullableDecl Object key) {
     V oldValue = delegate.remove(key);
     removeFromInverseMap(oldValue);
     return oldValue;

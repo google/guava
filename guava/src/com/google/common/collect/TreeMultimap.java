@@ -158,7 +158,7 @@ public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V>
    * @deprecated Use {@code ((NavigableSet<K>) multimap.keySet()).comparator()} instead.
    */
   @Deprecated
-  public @Nullable Comparator<? super K> keyComparator() {
+  public @NullableDecl Comparator<? super K> keyComparator() {
     return keyComparator;
   }
 

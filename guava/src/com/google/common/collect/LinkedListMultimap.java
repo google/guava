@@ -869,14 +869,14 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
 
 @Pure
 @Override
-public boolean containsEntry(@Nullable Object arg0, @Nullable Object arg1) { return super.containsEntry(arg0, arg1); }
+public boolean containsEntry(@NullableDecl Object arg0, @NullableDecl Object arg1) { return super.containsEntry(arg0, arg1); }
 
 @Pure
 @Override
-public boolean equals(@Nullable Object arg0) { return super.equals(arg0); }
+public boolean equals(@NullableDecl Object arg0) { return super.equals(arg0); }
 
 @Override
-public boolean remove(@Nullable Object arg0, @org.checkerframework.checker.nullness.qual.Nullable Object arg1) { return super.remove(arg0, arg1); }
+public boolean remove(@NullableDecl Object arg0, @org.checkerframework.checker.nullness.qual.Nullable Object arg1) { return super.remove(arg0, arg1); }
 
 @Override
 public Map<K, Collection<V>> asMap() { return super.asMap(); }
